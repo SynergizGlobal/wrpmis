@@ -306,110 +306,11 @@ public class IssueDaoImpl implements IssueDao {
 					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
 					template.update(updateQry, paramSource1);
 				}
+
+				String issue_status = obj.getStatus_fk();
+				String reported_by_email_id = obj.getReported_by_email_id();
+				sendEmailWithIssueAlert(issue_id,issue_status,reported_by_email_id);
 				
-				String emailsQry = "select w.work_short_name,contract_id_fk,status_fk,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
-						+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
-						+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
-						+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "
-						+ "from issue i "
-						+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
-						+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
-						+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-						+ "LEFT OUTER JOIN user u4 on c.hod_user_id_fk = u4.user_id "
-						+ "LEFT OUTER JOIN user u5 on c.dy_hod_user_id_fk = u5.user_id "
-						+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-						+ "where issue_id = ? "; 
-				
-				
-				Object[] pValues = new Object[] {issue_id};
-				
-				Issue iObj = (Issue)jdbcTemplate.queryForObject(emailsQry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
-				if(!StringUtils.isEmpty(iObj)) {
-					String mailTo = "";
-					String mailCC = "";
-					/*String email_ids = "";
-					if(!StringUtils.isEmpty(iObj.getReported_by_email_id())) {
-						email_ids = email_ids + iObj.getReported_by_email_id()+",";
-					}
-					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-						email_ids = email_ids + iObj.getResponsible_person_email_id()+",";
-					}
-					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
-						email_ids = email_ids + iObj.getEscalated_to_email_id()+",";
-					}					
-					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id()) && !StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-						email_ids = email_ids + iObj.getContract_hod_email_id()+",";
-					}
-					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-						email_ids = email_ids + iObj.getContract_dyhod_email_id()+",";
-					}
-					if(!StringUtils.isEmpty(email_ids)) {
-						email_ids =  org.apache.commons.lang3.StringUtils.chop(email_ids);  
-					}*/
-					
-					if("Raised".equals(iObj.getStatus_fk())) {
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailTo = mailTo + iObj.getContract_dyhod_email_id();
-						}
-						if(!StringUtils.isEmpty(obj.getReported_by_email_id())) {
-							mailCC = mailCC + obj.getReported_by_email_id()+",";
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-							mailCC = mailCC + iObj.getContract_hod_email_id()+",";
-						}
-					}else if("Assigned".equals(iObj.getStatus_fk())) {
-						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-							mailTo = mailTo + iObj.getResponsible_person_email_id();
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
-						}
-					}else if("Escalated".equals(iObj.getStatus_fk())) {
-						if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
-							mailTo = mailTo + iObj.getEscalated_to_email_id();
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-							mailCC = mailCC + iObj.getContract_hod_email_id()+",";
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
-						}
-					}else if("Closed".equals(iObj.getStatus_fk())) {
-						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-							mailTo = mailTo + iObj.getContract_hod_email_id();
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
-						}
-						if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
-							mailCC = mailCC + iObj.getEscalated_to_email_id();
-						}
-						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-							mailCC = mailCC + iObj.getResponsible_person_email_id();
-						}
-					}
-					
-					if(!StringUtils.isEmpty(mailTo)) {
-						mailTo =  org.apache.commons.lang3.StringUtils.chop(mailTo);  
-					}
-					
-					if(!StringUtils.isEmpty(mailCC)) {
-						mailCC =  org.apache.commons.lang3.StringUtils.chop(mailCC);  
-					}
-					
-					String emailSubject = "PMIS Issue Alert - Issue "+iObj.getStatus_fk();
-					
-					Mail mail = new Mail();
-					mail.setMailTo(mailTo);
-					mail.setMailCc(mailCC);
-					mail.setMailSubject(emailSubject);
-					mail.setTemplateName("IssueAlert.vm");
-					
-					if(!StringUtils.isEmpty(mailTo)){		
-						EMailSender emailSender = new EMailSender();
-						emailSender.sendEmailWithIssueAlert(mail,iObj);
-					}
-				}
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 
@@ -523,109 +424,11 @@ public class IssueDaoImpl implements IssueDao {
 					template.update(updateQry, paramSource1);
 				}
 				
-				String emailsQry = "select w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
-						+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
-						+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
-						+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "
-						+ "from issue i "
-						+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
-						+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
-						+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-						+ "LEFT OUTER JOIN user u4 on c.hod_user_id_fk = u4.user_id "
-						+ "LEFT OUTER JOIN user u5 on c.dy_hod_user_id_fk = u5.user_id "
-						+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-						+ "where issue_id = ? "; 
+				String issue_id = obj.getIssue_id();
+				String issue_status = obj.getStatus_fk();
+				String reported_by_email_id = obj.getReported_by_email_id();
+				sendEmailWithIssueAlert(issue_id,issue_status,reported_by_email_id);
 				
-				
-				Object[] pValues = new Object[] {obj.getIssue_id()};
-				
-				Issue iObj = (Issue)jdbcTemplate.queryForObject(emailsQry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
-				if(!StringUtils.isEmpty(iObj)) {
-					String mailTo = "";
-					String mailCC = "";
-					/*String email_ids = "";
-					if(!StringUtils.isEmpty(iObj.getReported_by_email_id())) {
-						email_ids = email_ids + iObj.getReported_by_email_id()+",";
-					}
-					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-						email_ids = email_ids + iObj.getResponsible_person_email_id()+",";
-					}
-					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
-						email_ids = email_ids + iObj.getEscalated_to_email_id()+",";
-					}					
-					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id()) && !StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-						email_ids = email_ids + iObj.getContract_hod_email_id()+",";
-					}
-					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-						email_ids = email_ids + iObj.getContract_dyhod_email_id()+",";
-					}
-					if(!StringUtils.isEmpty(email_ids)) {
-						email_ids =  org.apache.commons.lang3.StringUtils.chop(email_ids);  
-					}*/
-					
-					if("Raised".equals(iObj.getStatus_fk())) {
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailTo = mailTo + iObj.getContract_dyhod_email_id();
-						}
-						if(!StringUtils.isEmpty(obj.getReported_by_email_id())) {
-							mailCC = mailCC + obj.getReported_by_email_id()+",";
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-							mailCC = mailCC + iObj.getContract_hod_email_id()+",";
-						}
-					}else if("Assigned".equals(iObj.getStatus_fk())) {
-						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-							mailTo = mailTo + iObj.getResponsible_person_email_id();
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
-						}
-					}else if("Escalated".equals(iObj.getStatus_fk())) {
-						if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
-							mailTo = mailTo + iObj.getEscalated_to_email_id();
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-							mailCC = mailCC + iObj.getContract_hod_email_id()+",";
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
-						}
-					}else if("Closed".equals(iObj.getStatus_fk())) {
-						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-							mailTo = mailTo + iObj.getContract_hod_email_id();
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
-						}
-						if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
-							mailCC = mailCC + iObj.getEscalated_to_email_id();
-						}
-						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-							mailCC = mailCC + iObj.getResponsible_person_email_id();
-						}
-					}
-					
-					if(!StringUtils.isEmpty(mailTo)) {
-						mailTo =  org.apache.commons.lang3.StringUtils.chop(mailTo);  
-					}
-					
-					if(!StringUtils.isEmpty(mailCC)) {
-						mailCC =  org.apache.commons.lang3.StringUtils.chop(mailCC);  
-					}
-					
-					String emailSubject = "PMIS Issue Alert - Issue "+obj.getStatus_fk();
-					
-					Mail mail = new Mail();
-					mail.setMailTo(mailTo);
-					mail.setMailCc(mailCC);
-					mail.setMailSubject(emailSubject);
-					mail.setTemplateName("IssueAlert.vm");
-					
-					if(!StringUtils.isEmpty(mailTo)){		
-						EMailSender emailSender = new EMailSender();
-						emailSender.sendEmailWithIssueAlert(mail,iObj);
-					}
-				}
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 
@@ -633,6 +436,101 @@ public class IssueDaoImpl implements IssueDao {
 			throw new Exception(e.getMessage());
 		}
 		return flag;
+	}
+	
+	
+	public void sendEmailWithIssueAlert(String issue_id,String issue_status,String reported_by_email_id) throws Exception {
+		
+		try {
+		
+			String emailsQry = "select w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
+					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
+					+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
+					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "
+					+ "from issue i "
+					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
+					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
+					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN user u4 on c.hod_user_id_fk = u4.user_id "
+					+ "LEFT OUTER JOIN user u5 on c.dy_hod_user_id_fk = u5.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "where issue_id = ? "; 
+			
+			
+			Object[] pValues = new Object[] {issue_id};
+			
+			Issue iObj = (Issue)jdbcTemplate.queryForObject(emailsQry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+			if(!StringUtils.isEmpty(iObj)) {
+				String mailTo = "";
+				String mailCC = "";
+				
+				if("Raised".equals(iObj.getStatus_fk())) {
+					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+						mailTo = mailTo + iObj.getContract_dyhod_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(reported_by_email_id)) {
+						mailCC = mailCC + reported_by_email_id+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+						mailCC = mailCC + iObj.getContract_hod_email_id()+",";
+					}
+				}else if("Assigned".equals(iObj.getStatus_fk())) {
+					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+						mailTo = mailTo + iObj.getResponsible_person_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+						mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
+					}
+				}else if("Escalated".equals(iObj.getStatus_fk())) {
+					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
+						mailTo = mailTo + iObj.getEscalated_to_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+						mailCC = mailCC + iObj.getContract_hod_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+						mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
+					}
+				}else if("Closed".equals(iObj.getStatus_fk())) {
+					if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+						mailTo = mailTo + iObj.getContract_hod_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+						mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
+						mailCC = mailCC + iObj.getEscalated_to_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+						mailCC = mailCC + iObj.getResponsible_person_email_id()+",";
+					}
+				}
+				
+				if(!StringUtils.isEmpty(mailTo)) {
+					mailTo =  org.apache.commons.lang3.StringUtils.chop(mailTo);  
+				}
+				
+				if(!StringUtils.isEmpty(mailCC)) {
+					mailCC =  org.apache.commons.lang3.StringUtils.chop(mailCC);  
+				}
+				
+				String emailSubject = "PMIS Issue Alert - Issue "+issue_status;
+				
+				Mail mail = new Mail();
+				mail.setMailTo(mailTo);
+				mail.setMailCc(mailCC);
+				mail.setMailSubject(emailSubject);
+				mail.setTemplateName("IssueAlert.vm");
+				
+				if(!StringUtils.isEmpty(mailTo)){		
+					EMailSender emailSender = new EMailSender();
+					emailSender.sendEmailWithIssueAlert(mail,iObj);
+				}
+			}
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		
 	}
 
 	@Override
@@ -1308,8 +1206,8 @@ public class IssueDaoImpl implements IssueDao {
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
 					+ "LEFT OUTER JOIN railway r ON i.zonal_railway_fk COLLATE utf8mb4_unicode_ci = r.railway_id "
-					+ "where issue_id is not null " ;
-			int arrSize = 0;
+					+ "where status_fk <> ? " ;
+			int arrSize = 1;
 			//if(!StringUtils.isEmpty(uObj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(uObj.getUser_role_code())) {
 				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
 				arrSize++;
@@ -1323,6 +1221,8 @@ public class IssueDaoImpl implements IssueDao {
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
+			pValues[i++] = "Closed";
+			
 			//if(!StringUtils.isEmpty(uObj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(uObj.getUser_role_code())) {
 				pValues[i++] = uObj.getUser_id();
 				pValues[i++] = uObj.getUser_id();

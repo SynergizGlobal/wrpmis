@@ -19,6 +19,7 @@
 	 
 	<link rel="stylesheet" href="/pmis/resources/css/issues.css">
 	
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"> -->
 	 <style>
         .no-mar .row {
             margin-bottom: 0;
@@ -135,28 +136,7 @@
                                 </div>
                             </div>
 
-                            <%-- <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                
-                                <div class="col s12 m4 input-field">
-                                	<p class="searchable_label">Department </p> 
-                                    <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${departmentList }">
-                                            <option value="${obj.department_fk }" <c:if test="${issue.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="department_fkError" class="error-msg" ></span>
-                                </div>
-                                
-                                 <div class="col s12 m4 input-field">
-                                    <input id="activity" name="activity" type="text" class="validate" value="${issue.activity }">
-                                    <label> Activity </label>
-                                    <span id="activityError" class="error-msg" ></span>
-                                </div>
-
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div> --%>
+                            
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -188,16 +168,6 @@
                             <div class="row">
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                              <!--   <div class="col s12 m4 input-field">
-                                	<p class="searchable_label">Department <span class="required">*</span></p> 
-                                    <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${departmentList }">
-                                            <option value="${obj.department_fk }" <c:if test="${issue.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="department_fkError" class="error-msg" ></span>
-                                </div> -->
                                 <div class="col s12 m8 input-field">
                                     <!-- <input id="title" name="title" type="text" class="" value="${issue.title }" readonly> -->
                                     <textarea id="title" name="title" class="materialize-textarea" data-length="1000" readonly>${issue.title }</textarea>
@@ -207,16 +177,6 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
-                            <%-- <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                     <textarea id="description" name="description" class="materialize-textarea" data-length="1000">${issue.description }</textarea>
-                                    <label for="description">Description </label>
-                                    <span id="descriptionError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div> --%>
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -297,13 +257,6 @@
 							  <div class="col s12 m4 input-field offset-m2">
                                     <input id="reported_by" name="reported_by" type="text" class="" value="${issue.reported_by }" readonly>
                                     <label for="reported_by">Reported by </label>
-                                    <!-- <p class="searchable_label">Reported by</p> 
-                                    <select class="searchable validate-dropdown" id="reported_by" name="reported_by">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${reportedByList }">
-                                            <option value="${obj.reported_by_user_id }" <c:if test="${issue.reported_by eq obj.reported_by_user_id }">selected</c:if>>${obj.reported_by_designation}</option>
-                                        </c:forEach>
-                                    </select> -->
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
 							</div>
@@ -311,37 +264,18 @@
 							<div class="row" style="margin-bottom:5px">
 							  <div class="col s12 m4 input-field offset-m2">
 					             <p class="searchable_label">Issue Status <span class="required">*</span></p> 
-					             <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value); showRemarks();">
-					                 <option value="">Select</option>						                 
+					             <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value);">
+					                 <!-- <option value="">Select</option> -->						                 
 					             </select>                                    
 					             <span id="status_fkError" class="error-msg" ></span>
 					          </div>
-					          <%-- <div class="col s12 m4 input-field" id="assignDateDiv" style="display:none">
-					             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" value="${issue.assigned_date }" >
-                                    <label for="assigned_date""> Assigned Date</label>
-                                    <button type="button" id="assigned_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                    <span id="assigned_dateError" class="error-msg" ></span>
-					         </div> --%>
 							</div>
 
-                            <div class="row">
+                            <div class="row" id="assignDateDiv" style="display:none">
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <%-- <div class="col s12 m4 input-field">
-                                    <input id="reported_by" name="reported_by" type="text" class="" value="${issue.reported_by }" readonly>
-                                    <label for="reported_by">Reported by </label>
-                                    <!-- <p class="searchable_label">Reported by</p> 
-                                    <select class="searchable validate-dropdown" id="reported_by" name="reported_by">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${reportedByList }">
-                                            <option value="${obj.reported_by_user_id }" <c:if test="${issue.reported_by eq obj.reported_by_user_id }">selected</c:if>>${obj.reported_by_designation}</option>
-                                        </c:forEach>
-                                    </select> -->
-                                    <span id="reported_byError" class="error-msg" ></span>
-                                </div> --%>
                                 
-                                <div class="col s12 m4 input-field" id="assignDateDiv" style="display:none">
+                                <div class="col s12 m4 input-field">
 						             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" value="${issue.assigned_date }" >
 	                                    <label for="assigned_date""> Assigned Date<span class="required">*</span></label>
 	                                    <button type="button" id="assigned_date_icon"><i
@@ -349,10 +283,8 @@
 	                                    <span id="assigned_dateError" class="error-msg" ></span>
 						         </div>
                                 <div class="col s12 m4 input-field">
-                                    <%-- <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${issue.responsible_person }">
-                                    <label for="responsible_person">Person Responsible In MRVC (Assigned to)</label> --%>
                                     <p class="searchable_label" style="margin-bottom:8px">Person Responsible In MRVC (Assigned to)</p> 
-                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person" onchange="getIssueStatusList(); showRemarks();">
+                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${responsiblePersonList }">
                                             <option value="${obj.responsible_person_user_id }" <c:if test="${issue.responsible_person eq obj.responsible_person_user_id }">selected</c:if>>${obj.responsible_person_designation}</option>
@@ -419,10 +351,10 @@
                                         </div>
                                     </div>
                                     
-                                    <%-- <c:if test="${not empty issue.attachment }">
+                                    <c:if test="${not empty issue.attachment }">
                                        	<a href="<%=CommonConstants2.ISSUE_FILES %>${issue.attachment }" class="filevalue" download>${issue.attachment }</a>
 										<span onclick="removeMedia(this,'issueFileWrapper')" class="attachment-remove-btn">X</span>											
-                                   	</c:if> --%>
+                                   	</c:if>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -477,20 +409,19 @@
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script> -->
 	<script>
 	
 		$(document).on('focus', '.datepicker',function(){
 			$(this).datepicker({
 	        	format:'dd-mm-yyyy',
-	   	    	onSelect: function () {
-	   	    	   $('.confirmation-btns .datepicker-done').click();
-	   	    	}
-	        });
-	       
+	        	autoClose:true,
+	        	setDefaultDate:false
+	        });	       
 	    });
-		
-		var issueStatusFk = '';
 	
+		var issueStatusFk = "";
         $(document).ready(function () {
        	  	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -501,9 +432,7 @@
            		var id = $(this).attr('id');	        
 				$('#'+id).datepicker({
 		        	format:'dd-mm-yyyy',
-		   	    	onSelect: function () {
-		   	    	   $('.confirmation-btns .datepicker-done').click();
-		   	    	}
+		        	autoClose:true
 		        });
 				
 		        $('#'+id+'_icon').click(function () {
@@ -511,6 +440,7 @@
 	                $('#'+id).click();
 	            });
            	}); */
+            
             
             $('#date_icon').click(function (event) {
                 event.stopPropagation();
@@ -540,18 +470,7 @@
             	getContractsList(work_id_fk);
             }
 	        
-	        issueStatusFk = "${issue.status_fk}";
-            if ($.trim(issueStatusFk) == 'Escalated') {
-            	$("#escalatedDiv").show();
-            }else{
-            	$("#escalated_to").val('');
-            	$("#escalation_date").val('');
-            	$("#escalatedDiv").hide();
-            }
             
-            if($.trim(issueStatusFk) == 'Escalated'){
-            	$("#escalatedRemarksDiv").show();
-            }
             
             getIssueStatusList();
             
@@ -563,9 +482,14 @@
             
             //getEscalatedDetails(status_fk);
             
+            issueStatusFk = "${issue.status_fk}";
+            
             if($.trim(issueStatusFk) == 'Escalated'){
         		$("#escalatedDiv").show();
+        		$("#escalatedRemarksDiv").show();
         		$("#resolvedDiv").hide();
+        		
+        		$("#assignDateDiv").show();
         		
         		$("#corrective_measure").attr('readonly', true);
         		$("#zonal_railway_fk").attr('disabled', true);
@@ -578,6 +502,8 @@
         	}else if($.trim(issueStatusFk) == 'Closed'){
         		$("#resolvedDiv").show();
         		$("#escalatedDiv").hide();
+        		
+        		$("#assignDateDiv").show();
         		
         		$("#corrective_measure").attr('readonly', true);
         		$("#zonal_railway_fk").attr('disabled', true);
@@ -824,15 +750,19 @@
         		$("#corrective_measure").attr('readonly', true);  
     		}
         }
-
-         function showRemarks(){
-        	var status_val = $("#status_fk").val();
-         	var responsible_person_val = $("#responsible_person").val();
-        } 
         
         function updateIssue(){
     		if(validator.form()){ // validation perform
     			$(".page-loader").show();
+    		
+    			$("#corrective_measure").attr('readonly', false);
+        		$("#zonal_railway_fk").attr('disabled', false);
+        		$("#other_organization").attr('readonly', false);
+        		$("#other_organizations").attr('disabled', false);
+        		
+        		$("#assigned_date").attr('disabled', false);
+        		$("#responsible_person").attr('disabled', false);
+        		
     			document.getElementById("issueForm").submit();			
     	 	}
     	}

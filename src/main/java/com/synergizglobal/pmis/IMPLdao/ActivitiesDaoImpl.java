@@ -44,6 +44,8 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 	DataSourceTransactionManager transactionManager;
 	
 
+	@Autowired
+	IssueDaoImpl issueDaoImpl;
 
 	@Override
 	public List<StripChart> getActivitiesProjectsList(StripChart obj) throws Exception {
@@ -560,112 +562,12 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 					}
 				}, holder);
 
-				issueId = String.valueOf(holder.getKey().longValue());		
+				issueId = String.valueOf(holder.getKey().longValue());	
 				
-				
-				String emailsQry = "select w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
-						+ "i.reported_by,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
-						+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
-						+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "
-						+ "from issue i "
-						+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
-						+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
-						+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-						+ "LEFT OUTER JOIN user u4 on c.hod_user_id_fk = u4.user_id "
-						+ "LEFT OUTER JOIN user u5 on c.dy_hod_user_id_fk = u5.user_id "
-						+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-						+ "where issue_id = ? "; 
-				
-				
-				Object[] pValues = new Object[] {issueId};
-				
-				Issue iObj = (Issue)jdbcTemplate.queryForObject(emailsQry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
-				if(!StringUtils.isEmpty(iObj)) {
-					String mailTo = "";
-					String mailCC = "";
-					/*String email_ids = "";
-					if(!StringUtils.isEmpty(iObj.getReported_by_email_id())) {
-						email_ids = email_ids + iObj.getReported_by_email_id()+",";
-					}
-					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-						email_ids = email_ids + iObj.getResponsible_person_email_id()+",";
-					}
-					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
-						email_ids = email_ids + iObj.getEscalated_to_email_id()+",";
-					}					
-					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id()) && !StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-						email_ids = email_ids + iObj.getContract_hod_email_id()+",";
-					}
-					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-						email_ids = email_ids + iObj.getContract_dyhod_email_id()+",";
-					}
-					if(!StringUtils.isEmpty(email_ids)) {
-						email_ids =  org.apache.commons.lang3.StringUtils.chop(email_ids);  
-					}*/
-					
-					if("Raised".equals(iObj.getStatus_fk())) {
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailTo = mailTo + iObj.getContract_dyhod_email_id();
-						}
-						if(!StringUtils.isEmpty(obj.getReported_by_email_id())) {
-							mailCC = mailCC + obj.getReported_by_email_id()+",";
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-							mailCC = mailCC + iObj.getContract_hod_email_id()+",";
-						}
-					}else if("Assigned".equals(iObj.getStatus_fk())) {
-						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-							mailTo = mailTo + iObj.getResponsible_person_email_id();
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
-						}
-					}else if("Escalated".equals(iObj.getStatus_fk())) {
-						if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
-							mailTo = mailTo + iObj.getEscalated_to_email_id();
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-							mailCC = mailCC + iObj.getContract_hod_email_id()+",";
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
-						}
-					}else if("Closed".equals(iObj.getStatus_fk())) {
-						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-							mailTo = mailTo + iObj.getContract_hod_email_id();
-						}
-						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
-						}
-						if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
-							mailCC = mailCC + iObj.getEscalated_to_email_id();
-						}
-						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-							mailCC = mailCC + iObj.getResponsible_person_email_id();
-						}
-					}
-					
-					if(!StringUtils.isEmpty(mailTo)) {
-						mailTo =  org.apache.commons.lang3.StringUtils.chop(mailTo);  
-					}
-					
-					if(!StringUtils.isEmpty(mailCC)) {
-						mailCC =  org.apache.commons.lang3.StringUtils.chop(mailCC);  
-					}
-					
-					String emailSubject = "PMIS Issue Alert - Issue "+CommonConstants.ISSUE_STATUS_RAISED;
-					
-					Mail mail = new Mail();
-					mail.setMailTo(mailTo);
-					mail.setMailCc(mailCC);
-					mail.setMailSubject(emailSubject);
-					mail.setTemplateName("IssueAlert.vm");
-					
-					if(!StringUtils.isEmpty(mailTo)){		
-						EMailSender emailSender = new EMailSender();
-						emailSender.sendEmailWithIssueAlert(mail,iObj);
-					}
-				}
+				String issue_id = issueId;
+				String issue_status = CommonConstants.ISSUE_STATUS_RAISED;
+				String reported_by_email_id = obj.getReported_by_email_id();
+				issueDaoImpl.sendEmailWithIssueAlert(issue_id,issue_status,reported_by_email_id);
 				
 			}else{
 				issueId = null;

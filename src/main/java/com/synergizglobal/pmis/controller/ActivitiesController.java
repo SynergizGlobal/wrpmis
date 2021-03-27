@@ -264,7 +264,7 @@ public class ActivitiesController {
 			
 			MultipartFile file = obj.getStripChartFile();
 			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH + "ACTIVITIES_PROGRESS_"+obj.getActivity_id() + File.separator;
+				String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH;
 				String fileName = file.getOriginalFilename();
 				FileUploads.singleFileSaving(file, saveDirectory, fileName);
 				obj.setAttachment_url(fileName);

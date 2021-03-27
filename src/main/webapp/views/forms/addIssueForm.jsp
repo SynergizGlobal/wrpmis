@@ -249,7 +249,7 @@
                                     <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
                                         <option value="" selected>Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
-                                            <option value="${obj.department_fk }" >${obj.department_name}</option>
+                                            <option value="${obj.department_name }" >${obj.department_name}</option>
                                         </c:forEach>
                                     </select>
                                     <span id="other_organizationsError" class="error-msg" ></span>
@@ -457,6 +457,7 @@
             $(".datepicker").each(function(){
            		var id = $(this).attr('id');
 				$('#'+id).datepicker({
+					maxDate: new Date(),
 		        	format:'dd-mm-yyyy',
 		   	    	onSelect: function () {
 		   	    	   $('.confirmation-btns .datepicker-done').click();

@@ -48,8 +48,8 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getIssuesList(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,d.department_name,activity,c.contract_short_name,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
-					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name,"
+			String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,title,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
+					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,"
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,railway_name,DATE_FORMAT(assigned_date,'%d-%m-%Y') AS assigned_date,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk "
 					+ "from issue i "
@@ -282,11 +282,11 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO issue"
-					+ "(contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person," 
+					+ "(contract_id_fk,title,date,location,latitude,longitude,reported_by,responsible_person," 
 					+"priority_fk,category_fk,status_fk,assigned_date,corrective_measure,resolved_date,escalated_to,remarks,"
 					+ "zonal_railway_fk,other_organization,escalation_date,created_by_user_id_fk,created_date) "
 					+ "VALUES "
-					+ "(:contract_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:" 
+					+ "(:contract_id_fk,:title,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:" 
 					+ "priority_fk,:category_fk,:status_fk,:assigned_date,:corrective_measure,:resolved_date,:escalated_to,:remarks,"
 					+ ":zonal_railway_fk,:other_organization,:escalation_date,:created_by_user_id_fk,CURRENT_TIMESTAMP)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);	
@@ -350,8 +350,8 @@ public class IssueDaoImpl implements IssueDao {
 	public Issue getIssue(Issue obj) throws Exception {
 		Issue iObj = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,activity,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
-					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,c.contract_short_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name,other_organization,"
+			String qry = "select issue_id,contract_id_fk,title,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
+					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,c.contract_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,other_organization,"
 					+ "DATE_FORMAT(escalation_date,'%d-%m-%Y') AS escalation_date,DATE_FORMAT(assigned_date,'%d-%m-%Y') AS assigned_date, "
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk "
@@ -448,7 +448,7 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE issue SET "
-					+ "title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,"  
+					+ "title=:title,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,"  
 					+ "priority_fk=:priority_fk,category_fk=:category_fk,status_fk=:status_fk,corrective_measure=:corrective_measure,resolved_date=:resolved_date,escalated_to=:escalated_to,"
 					+ "remarks=:remarks,zonal_railway_fk=:zonal_railway_fk,other_organization=:other_organization,"
 					+ "escalation_date=:escalation_date,assigned_date=:assigned_date "
@@ -1390,9 +1390,9 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			
 			
-			String qry = "select issue_id,contract_id_fk,d.department_name,activity,c.contract_short_name,i.title,i.description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,other_organization,c.department_fk," 
+			String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,i.title,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,other_organization,c.department_fk," 
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,"
-					+ "i.attachment,i.zonal_railway_fk,r.railway_name,c.contractor_id_fk,ctr.contractor_id,ctr.contractor_name,"
+					+ "i.zonal_railway_fk,r.railway_name,c.contractor_id_fk,ctr.contractor_id,ctr.contractor_name,"
 					+ "d.department_name,hod_user_id_fk,u.designation,u.user_name as hod_name,DATEDIFF(NOW(), date) as pending_since,DATE_FORMAT(date,'%d-%m-%Y') AS date, "
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk "

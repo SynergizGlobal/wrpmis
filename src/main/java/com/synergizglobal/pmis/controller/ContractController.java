@@ -54,7 +54,6 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.BankGuarantee;
 import com.synergizglobal.pmis.model.Contract;
-import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.ContractPaginationObject;
 import com.synergizglobal.pmis.model.Insurence;
 import com.synergizglobal.pmis.model.User;

@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -22,11 +25,11 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.ActivitiesDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
-import com.synergizglobal.pmis.common.EMailSender;
-import com.synergizglobal.pmis.common.Mail;
+import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Issue;
@@ -104,10 +107,10 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 	public List<StripChart> getActivitiesContractsList(StripChart obj) throws Exception {
 		List<StripChart> objsList = new ArrayList<StripChart>();
 		try {
-			String qry = "select a.contract_id_fk as contract_id,c.work_id_fk,c.contract_name,c.contract_short_name "
+			String qry = "select a.contract_id_fk as contract_id,c.work_id_fk,c.contract_name,c.contract_short_name,department_fk,department_name "
 					+ "from activities a "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
-					
+					+ "left outer join department d on c.department_fk = d.department "
 					+ "where a.contract_id_fk is not null and a.scope <> 'Completed' " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -542,7 +545,9 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 			String department_id = getDepartment(obj.getContract_id_fk());
 			String issueId = null;
 			if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
-				String issuesQry = "INSERT INTO issue(contract_id_fk,title,reported_by,priority_fk,category_fk,status_fk,date,location,attachment,corrective_measure)VALUES(?,?,?,?,?,?,CURDATE(),?,?,?)";				
+				String issuesQry = "INSERT INTO issue(contract_id_fk,title,reported_by,priority_fk,category_fk,status_fk,date,location,"
+						+ "corrective_measure,created_by_user_id_fk,created_date,zonal_railway_fk,other_organization)"
+						+ "VALUES(?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?)";				
 				KeyHolder holder = new GeneratedKeyHolder();
 				jdbcTemplate.update(new PreparedStatementCreator() {
 					@Override
@@ -555,14 +560,45 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 						ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_priority_id())?obj.getIssue_priority_id():null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_category_id())?obj.getIssue_category_id():null);
 						ps.setString(i++, CommonConstants.ISSUE_STATUS_RAISED);
+						ps.setString(i++, obj.getProgress_date());
 						ps.setString(i++, !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())?obj.getStrip_chart_structure_id_fk():null);
-						ps.setString(i++, !StringUtils.isEmpty(obj.getAttachment_url())?obj.getAttachment_url():null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getRemarks())?obj.getRemarks():null);
+						ps.setString(i++, obj.getCreated_by_user_id_fk());
+						ps.setString(i++, !StringUtils.isEmpty(obj.getZonal_railway_fk())?obj.getZonal_railway_fk():null);
+						ps.setString(i++, !StringUtils.isEmpty(obj.getOther_organization())?obj.getOther_organization():null);
 						return ps;
 					}
 				}, holder);
 
 				issueId = String.valueOf(holder.getKey().longValue());	
+				
+				
+				/********************************************************************************************/
+				
+				if(!StringUtils.isEmpty(obj.getIssueFiles()) && obj.getIssueFiles().size() > 0) {
+					
+					String fileQry = "INSERT INTO issue_files (file_name,issue_id_fk)VALUES(:file_name,:issue_id)";
+					NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+					
+					List<MultipartFile> issueFiles = obj.getIssueFiles();
+					for (MultipartFile multipartFile : issueFiles) {
+						if (null != multipartFile && !multipartFile.isEmpty()){
+							String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH + issueId +File.separator ;
+							String fileName = multipartFile.getOriginalFilename();
+							/*DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+							String fileName_new = "Issue-"+issue_id +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];*/
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+							
+							Issue fileObj = new Issue();
+							fileObj.setFile_name(fileName);
+							fileObj.setIssue_id(issueId);
+							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(fileObj);	
+							template.update(fileQry, paramSource);
+						}
+					}
+				}	
+
+				/********************************************************************************************/
 				
 				String issue_id = issueId;
 				String issue_status = CommonConstants.ISSUE_STATUS_RAISED;

@@ -46,6 +46,7 @@ import com.synergizglobal.pmis.Iservice.ActivitiesService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Issue;
@@ -349,6 +350,9 @@ public class IssueController {
 			if(!StringUtils.isEmpty(obj.getZonal_railway_fk()) && obj.getZonal_railway_fk().equals("MRVC")) {
 				obj.setOther_organization(obj.getZonal_railway_fk() + " - " + obj.getOther_organization());
 			}
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setStatus_fk(CommonConstants.ISSUE_STATUS_RAISED);
+			
 			boolean flag = issueService.addIssue(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Issue "+obj.getStatus_fk()+" successfully");
@@ -444,6 +448,15 @@ public class IssueController {
 			
 			List<Issue> railwayList = issueService.getRailwayList();
 			model.addObject("railwayList", railwayList);
+			
+			List<Issue> reportedByList = issueService.getReportedByList();
+			model.addObject("reportedByList", reportedByList);
+			
+			List<Issue> responsiblePersonList = issueService.getResponsiblePersonList();
+			model.addObject("responsiblePersonList", responsiblePersonList);
+			
+			List<Issue> escalatedToList = issueService.getEscalatedToList();
+			model.addObject("escalatedToList", escalatedToList);
 			
 			User uObj = (User) session.getAttribute("user");
 			obj.setUser_type(uObj.getUser_type_fk());

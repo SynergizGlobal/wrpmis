@@ -13,7 +13,7 @@ public class Contract {
 	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,milestone_id,status,released_fk,
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status,revision_status
 	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till,
-	payment_made,actual_physical_progress,actual_financial_progress;
+	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
 
@@ -1310,6 +1310,22 @@ public class Contract {
 
 	public void setPbg_valid_till(String pbg_valid_till) {
 		this.pbg_valid_till = pbg_valid_till;
+	}
+
+	public String getHod_user_id() {
+		return hod_user_id;
+	}
+
+	public void setHod_user_id(String hod_user_id) {
+		this.hod_user_id = hod_user_id;
+	}
+
+	public String getDy_hod_user_id() {
+		return dy_hod_user_id;
+	}
+
+	public void setDy_hod_user_id(String dy_hod_user_id) {
+		this.dy_hod_user_id = dy_hod_user_id;
 	}
 	
 }

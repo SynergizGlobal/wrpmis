@@ -61,7 +61,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
-			qry = qry + " GROUP BY work_id_fk ";
+			qry = qry + " GROUP BY work_id_fk ORDER BY work_id_fk ";
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -103,7 +103,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
-			qry = qry + " GROUP BY contract_id_fk";
+			qry = qry + " GROUP BY contract_id_fk ORDER BY contract_id_fk";
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
@@ -151,7 +151,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			qry = qry + " GROUP BY hod_user_id_fk";
+			qry = qry + " GROUP BY hod_user_id_fk ORDER BY u.designation";
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
@@ -166,9 +166,9 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 		try {
 			
 			
-			String qry = "select issue_id,contract_id_fk,d.department_name,activity,c.contract_short_name,i.title,i.description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,other_organization,c.department_fk," 
+			String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,i.title,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,other_organization,c.department_fk," 
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,"
-					+ "i.attachment,i.zonal_railway_fk,r.railway_name,c.contractor_id_fk,ctr.contractor_id,ctr.contractor_name,"
+					+ "i.zonal_railway_fk,r.railway_name,c.contractor_id_fk,ctr.contractor_id,ctr.contractor_name,"
 					+ "d.department_name,hod_user_id_fk,u.designation,u.user_name as hod_name,DATEDIFF(NOW(), date) as pending_since,DATE_FORMAT(date,'%d-%m-%Y') AS date, "
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk "

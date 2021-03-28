@@ -306,7 +306,7 @@
                                                 onchange="resetWorksAndProjectsDropdowns();getActivitiesStructures(); getActivitiesLines(); getActivitiesSections();">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${contractsList }">
-                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq activitiesData.contract_id }">selected</c:if>>${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if>${obj.contract_short_name}</option>
+                                                	<option name="${obj.work_id_fk }" department="${obj.department_name }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq activitiesData.contract_id }">selected</c:if>>${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if>${obj.contract_short_name}</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="contract_id_fkError" class="error-msg" ></span>
@@ -603,7 +603,7 @@
                                             <div class="col m12 s12 file-field input-field" >
                                                 <div class="btn bg-m">
                                                     <span>Attachment</span>
-                                                    <input type="file" id="stripChartFile" name="stripChartFile">
+                                                    <input type="file" id="issueFiles" name="issueFiles" multiple>
                                                 </div>
                                                 <div class="file-path-wrapper">
                                                     <input class="file-path validate" type="text">
@@ -626,6 +626,9 @@
                                     <input type="hidden" id="strip_chart_line" name="strip_chart_line" />
                                     <input type="hidden" id="strip_chart_section_name" name="strip_chart_section_name" />
                                     <input type="hidden" id="strip_chart_activity_name" name="strip_chart_activity_name" />
+                                    
+                                    <input type="hidden" id="zonal_railway_fk" name="zonal_railway_fk" value="MRVC" />
+                                    <input type="hidden" id="other_organization" name="other_organization" />
             
                                     <div class="row">
                                         <div class="col s12 m6">
@@ -832,9 +835,9 @@
                                 if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
                                 if ($.trim(id2) != '' && val.contract_id == $.trim(id2)) {
                                 	id1 = val.contract_id;
-                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
+                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" department="'+val.department_name+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
                                 } else {
-                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
+                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" department="'+val.department_name+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
                                 }
                             });
                         }
@@ -921,6 +924,10 @@
         	var contract_id_fk = $("#contract_id_fk").val();
             $("#strip_chart_structure_id_fk option:not(:first)").remove();
             if ($.trim(contract_id_fk) != "") {
+            	
+            	var department = $("#contract_id_fk").find('option:selected').attr("department");
+            	$("#other_organization").val(department); 
+            	
             	var myParams = { contract_id_fk: contract_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getActivitiesStructures",

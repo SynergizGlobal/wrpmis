@@ -51,7 +51,7 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "select issue_id,contract_id_fk,d.department_name,activity,c.contract_short_name,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name,"
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,railway_name,DATE_FORMAT(assigned_date,'%d-%m-%Y') AS assigned_date,"
-					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk "
+					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
@@ -90,7 +90,8 @@ public class IssueDaoImpl implements IssueDao {
 			
 			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ?)";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -121,6 +122,7 @@ public class IssueDaoImpl implements IssueDao {
 			
 			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -281,10 +283,12 @@ public class IssueDaoImpl implements IssueDao {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO issue"
 					+ "(contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person," 
-					+"priority_fk,category_fk,status_fk,assigned_date,corrective_measure,resolved_date,escalated_to,remarks,zonal_railway_fk,other_organization,escalation_date) "
+					+"priority_fk,category_fk,status_fk,assigned_date,corrective_measure,resolved_date,escalated_to,remarks,"
+					+ "zonal_railway_fk,other_organization,escalation_date,created_by_user_id_fk,created_date) "
 					+ "VALUES "
 					+ "(:contract_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:" 
-					+ "priority_fk,:category_fk,:status_fk,:assigned_date,:corrective_measure,:resolved_date,:escalated_to,:remarks,:zonal_railway_fk,:other_organization,:escalation_date)";		 
+					+ "priority_fk,:category_fk,:status_fk,:assigned_date,:corrective_measure,:resolved_date,:escalated_to,:remarks,"
+					+ ":zonal_railway_fk,:other_organization,:escalation_date,:created_by_user_id_fk,CURRENT_TIMESTAMP)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);	
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			int count = template.update(qry, paramSource, keyHolder);			
@@ -311,8 +315,8 @@ public class IssueDaoImpl implements IssueDao {
 					
 					String fileQry = "INSERT INTO issue_files (file_name,issue_id_fk)VALUES(:file_name,:issue_id)";
 					
-					List<MultipartFile> galleryFiles = obj.getIssueFiles();
-					for (MultipartFile multipartFile : galleryFiles) {
+					List<MultipartFile> issueFiles = obj.getIssueFiles();
+					for (MultipartFile multipartFile : issueFiles) {
 						if (null != multipartFile && !multipartFile.isEmpty()){
 							String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH + issue_id +File.separator ;
 							String fileName = multipartFile.getOriginalFilename();
@@ -477,8 +481,8 @@ public class IssueDaoImpl implements IssueDao {
 				String fileQry = "INSERT INTO issue_files (file_name,issue_id_fk)VALUES(:file_name,:issue_id)";
 				
 				if(!StringUtils.isEmpty(obj.getIssueFiles()) && obj.getIssueFiles().size() > 0) {
-					List<MultipartFile> galleryFiles = obj.getIssueFiles();
-					for (MultipartFile multipartFile : galleryFiles) {
+					List<MultipartFile> issueFiles = obj.getIssueFiles();
+					for (MultipartFile multipartFile : issueFiles) {
 						if (null != multipartFile && !multipartFile.isEmpty()){
 							String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH + obj.getIssue_id() +File.separator ;
 							String fileName = multipartFile.getOriginalFilename();
@@ -536,8 +540,10 @@ public class IssueDaoImpl implements IssueDao {
 					+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
 					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,"
 					+ "u2.user_id as responsible_person_user_id,u3.user_id as escalated_to_user_id,"
-					+ "u4.user_id as contract_hod_user_id,u5.user_id as contract_dyhod_user_id "
+					+ "u4.user_id as contract_hod_user_id,u5.user_id as contract_dyhod_user_id,"
+					+ "u1.email_id as created_by_email_id "
 					+ "from issue i "
+					+ "LEFT OUTER JOIN user u1 on i.created_by_user_id_fk = u1.user_id "
 					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
@@ -560,37 +566,93 @@ public class IssueDaoImpl implements IssueDao {
 						+ "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
 				
 				String message = "A new issue against "+iObj.getContract_id_fk()+" has been "+iObj.getStatus_fk()+" to you.";
-				String user_id = "";
+				String hod_user_id = "",dy_hod_user_id = "",responsible_person_user_id = "",escalated_to_user_id = "",created_by_user_id = "";
 				if("Raised".equals(iObj.getStatus_fk())) {
 					if(!StringUtils.isEmpty(iObj.getContract_dyhod_user_id())) {
-						user_id = iObj.getContract_dyhod_user_id();
+						hod_user_id = iObj.getContract_hod_user_id();
+						dy_hod_user_id = iObj.getContract_dyhod_user_id();
+						created_by_user_id = iObj.getCreated_by_user_id_fk();
 					}
 				}else if("Assigned".equals(iObj.getStatus_fk())) {
 					if(!StringUtils.isEmpty(iObj.getResponsible_person_user_id())) {
-						user_id = iObj.getResponsible_person_user_id();
+						responsible_person_user_id = iObj.getResponsible_person_user_id();
 					}
 				}else if("Escalated".equals(iObj.getStatus_fk())) {
 					if(!StringUtils.isEmpty(iObj.getEscalated_to_user_id())) {
-						user_id = iObj.getEscalated_to_user_id();
+						escalated_to_user_id = iObj.getEscalated_to_user_id();
+						responsible_person_user_id = iObj.getResponsible_person_user_id();
 					}
-				} /*else if("Closed".equals(iObj.getStatus_fk())) {
+				}else if("Closed".equals(iObj.getStatus_fk())) {
 					if(!StringUtils.isEmpty(iObj.getContract_hod_user_id())) {
-						user_id = iObj.getContract_hod_user_id();
+						hod_user_id = iObj.getContract_hod_user_id();
+						dy_hod_user_id = iObj.getContract_dyhod_user_id();
+						responsible_person_user_id = iObj.getResponsible_person_user_id();
+						escalated_to_user_id = iObj.getEscalated_to_user_id();
+						created_by_user_id = iObj.getCreated_by_user_id_fk();
 					}
-					}*/
+				}
 				
-				if(!StringUtils.isEmpty(user_id)) {				
+				if(!StringUtils.isEmpty(hod_user_id)) {				
 					String redirect_url = "/get-issue/"+iObj.getIssue_id();
 					String message_type = "Issue";
 					
 					Messages msgObj = new Messages();
-					msgObj.setUser_id_fk(user_id);
+					msgObj.setUser_id_fk(hod_user_id);
 					msgObj.setMessage(message);
 					msgObj.setRedirect_url(redirect_url);
 					msgObj.setMessage_type(message_type);
 					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 					template.update(issueMessageQry, paramSource);				
 				}
+				if(!StringUtils.isEmpty(dy_hod_user_id)) {				
+					String redirect_url = "/get-issue/"+iObj.getIssue_id();
+					String message_type = "Issue";
+					
+					Messages msgObj = new Messages();
+					msgObj.setUser_id_fk(dy_hod_user_id);
+					msgObj.setMessage(message);
+					msgObj.setRedirect_url(redirect_url);
+					msgObj.setMessage_type(message_type);
+					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
+					template.update(issueMessageQry, paramSource);				
+				}
+				if(!StringUtils.isEmpty(responsible_person_user_id)) {				
+					String redirect_url = "/get-issue/"+iObj.getIssue_id();
+					String message_type = "Issue";
+					
+					Messages msgObj = new Messages();
+					msgObj.setUser_id_fk(responsible_person_user_id);
+					msgObj.setMessage(message);
+					msgObj.setRedirect_url(redirect_url);
+					msgObj.setMessage_type(message_type);
+					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
+					template.update(issueMessageQry, paramSource);				
+				}
+				if(!StringUtils.isEmpty(escalated_to_user_id)) {				
+					String redirect_url = "/get-issue/"+iObj.getIssue_id();
+					String message_type = "Issue";
+					
+					Messages msgObj = new Messages();
+					msgObj.setUser_id_fk(escalated_to_user_id);
+					msgObj.setMessage(message);
+					msgObj.setRedirect_url(redirect_url);
+					msgObj.setMessage_type(message_type);
+					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
+					template.update(issueMessageQry, paramSource);				
+				}
+				if(!StringUtils.isEmpty(created_by_user_id)) {				
+					String redirect_url = "/get-issue/"+iObj.getIssue_id();
+					String message_type = "Issue";
+					
+					Messages msgObj = new Messages();
+					msgObj.setUser_id_fk(created_by_user_id);
+					msgObj.setMessage(message);
+					msgObj.setRedirect_url(redirect_url);
+					msgObj.setMessage_type(message_type);
+					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
+					template.update(issueMessageQry, paramSource);				
+				}
+				
 				
 				/*********************************************************************************************/
 				String mailTo = "";
@@ -610,19 +672,22 @@ public class IssueDaoImpl implements IssueDao {
 					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
 						mailTo = mailTo + iObj.getResponsible_person_email_id()+",";
 					}
-					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+					/*if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
 						mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
-					}
+					}*/
 				}else if("Escalated".equals(iObj.getStatus_fk())) {
 					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
 						mailTo = mailTo + iObj.getEscalated_to_email_id()+",";
 					}
-					if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+						mailCC = mailCC + iObj.getResponsible_person_email_id()+",";
+					}
+					/*if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
 						mailCC = mailCC + iObj.getContract_hod_email_id()+",";
 					}
 					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
 						mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
-					}
+					}*/
 				}else if("Closed".equals(iObj.getStatus_fk())) {
 					if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
 						mailTo = mailTo + iObj.getContract_hod_email_id()+",";
@@ -635,6 +700,9 @@ public class IssueDaoImpl implements IssueDao {
 					}
 					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
 						mailCC = mailCC + iObj.getResponsible_person_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getCreated_by_email_id())) {
+						mailCC = mailCC + iObj.getCreated_by_email_id()+",";
 					}
 				}
 				

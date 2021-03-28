@@ -360,14 +360,10 @@ public class DocxTableCreation {
 			tableHeader.add("HOD");
 			tableHeader.add("Name of\ncontractor");
 			tableHeader.add("Location\n/Station\n/KM");
-			/*tableHeader.add("Issue Discription");*/
 			tableHeader.add("Reported\nBy");
 			tableHeader.add("Pending\nWith");
-			/*tableHeader.add("Pending Since(Days)");*/
 			tableHeader.add("Pending\nSince\nDate");
-			/*tableHeader.add("Action Taken");*/
 			tableHeader.add("Issue / Action Taken / Remarks"); 
-			/*tableHeader.add("Current Status");*/
 			tableHeader.add("Person\nResponsible\nin MRVC\n(Assigned to)");  
 			
 			for (String headerValue : tableHeader) {
@@ -393,21 +389,15 @@ public class DocxTableCreation {
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getContractor_name(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getLocation(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	*/		
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getReported_by(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getOther_organization(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
-				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getPending_since(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getDate(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getResponsible_person_designation(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				

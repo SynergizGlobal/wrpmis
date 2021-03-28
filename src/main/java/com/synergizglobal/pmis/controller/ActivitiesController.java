@@ -1,6 +1,5 @@
 package com.synergizglobal.pmis.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,15 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ActivitiesService;
 import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.common.DateParser;
-import com.synergizglobal.pmis.common.FileUploads;
-import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.StripChart;
@@ -260,20 +256,16 @@ public class ActivitiesController {
 				obj.setReported_by_email_id(uObj.getEmail_id());
 			}
 			
-			obj.setProgress_date(DateParser.parse(obj.getProgress_date())); 
-			
-			MultipartFile file = obj.getStripChartFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				obj.setAttachment_url(fileName);
-			}
+			obj.setProgress_date(DateParser.parse(obj.getProgress_date()));
 			
 			obj.setCreated_by_user_id_fk(user_Id);
 			
 			if(!StringUtils.isEmpty(uObj)) {
-				obj.setReported_by(uObj.getDesignation());
+				obj.setReported_by(userName);
+			}
+			
+			if(!StringUtils.isEmpty(obj.getZonal_railway_fk()) && obj.getZonal_railway_fk().equals("MRVC")) {
+				obj.setOther_organization(obj.getZonal_railway_fk() + " - " + obj.getOther_organization());
 			}
 			
 			boolean flag = activitiesService.updateActivities(obj);

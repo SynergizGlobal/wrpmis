@@ -71,7 +71,7 @@
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Project <span class="required">*</span></p>                                    
+                                    <p class="searchable_label"> Project</p>                                    
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -82,7 +82,7 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                 <p class="searchable_label"> Work <span class="required">*</span></p> 
+                                 <p class="searchable_label"> Work</p> 
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="">Select</option>
@@ -256,139 +256,15 @@
                                 </div>
                             </div>
                             
-                            <div class="row">							 
-					            <div class="col s12 m4 input-field offset-m2">
-                                    <input id="reported_by" name="reported_by" type="text" class="validate">
+                            <div class="row">		
+                            	<div class="col m2 hide-on-small-only"></div>					 
+					            <div class="col s12 m4 input-field">
+                                    <input id="reported_by" name="reported_by" type="text" class="validate" value="${sessionScope.user.user_name }">
                                     <label for="reported_by">Reported by <span class="required">*</span></label> 
                                     <span id="reported_byError" class="error-msg" ></span>
-                                    <!-- <p class="searchable_label">Reported by</p> 
-                                    <select class="searchable validate-dropdown" id="reported_by" name="reported_by">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${reportedByList }">
-                                            <option value="${obj.reported_by_user_id }" >${obj.reported_by_designation}</option>
-                                        </c:forEach>
-                                    </select> -->
+                                    
                                 </div>
-							</div>
-                            
-                            <div class="row" style="margin-bottom:5px">							 
-					            <div class="col s12 m4 input-field offset-m2">
-                                    <p class="searchable_label">Issue Status <span class="required">*</span></p> 
-                                    <!-- <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value); showRemarks();"> -->
-                                    <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value); showRemarks();">
-                                        <!-- <option value="">Select</option> -->
-                                        <c:forEach var="obj" items="${issuesStatusList }">
-                                        	<c:if test="${obj.status eq 'Raised' }">
-                                            <option value="${obj.status }" seleted>${obj.status}</option>
-                                            </c:if>
-                                        </c:forEach>
-                                    </select>                                    
-                                    <span id="status_fkError" class="error-msg" ></span>
-                                </div>
-					          <!-- <div class="col s12 m4 input-field" id="assignDateDiv" style="display:none">
-					             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" >
-                                    <label for="assigned_date"> Assigned Date</label>
-                                    <button type="button" id="assigned_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                    <span id="assigned_dateError" class="error-msg" ></span>
-					         </div> -->
-							</div>
-							
-							
-
-                            <div class="row">
-                                <!-- row 2 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <!-- <div class="col s12 m4 input-field">
-                                    <input id="reported_by" name="reported_by" type="text" class="validate">
-                                    <label for="reported_by">Reported by <span class="required">*</span></label> 
-                                    <span id="reported_byError" class="error-msg" ></span>
-                                    <p class="searchable_label">Reported by</p> 
-                                    <select class="searchable validate-dropdown" id="reported_by" name="reported_by">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${reportedByList }">
-                                            <option value="${obj.reported_by_user_id }" >${obj.reported_by_designation}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div> -->
-                                <div class="col s12 m4 input-field" id="assignDateDiv" style="display:none">
-					             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" >
-                                    <label for="assigned_date"> Assigned Date<span class="required">*</span></label>
-                                    <button type="button" id="assigned_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                    <span id="assigned_dateError" class="error-msg" ></span>
-					         	</div>
-                                <div class="col s12 m4 input-field " id="responsibleDiv" style="display:none">
-                                   <!--  <input id="responsible_person" name="responsible_person" type="text" class="validate">
-                                    <label for="responsible_person">Person Responsible In MRVC (Assigned to) </label> -->
-                                    <p class="searchable_label"  style="margin-bottom:8px">Person Responsible In MRVC (Assigned to)</p> 
-                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person" onchange="showRemarks();">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${responsiblePersonList }">
-                                            <option value="${obj.responsible_person_user_id }" >${obj.responsible_person_designation}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="responsible_personError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
-                            
-
-                            <!-- <div class="row" id="remarksDiv"  style="display: none;" > -->
-                            <!-- <div class="row" id="remarksDiv">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
-                                    <span id="corrective_measureError" class="error-msg" ></span>
-                                </div>
-                            </div> -->
-                                                        
-                            <div id="escalatedDiv" style="display: none;">
-	                            <div class="row" >
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                    <!-- <input id="escalated_to" name="escalated_to" type="text" class="validate">
-	                                    <label for="escalated_to">Escalated To </label> -->
-	                                    <p class="searchable_label" style="margin-bottom:8px">Escalated To</p> 
-	                                    <select class="searchable validate-dropdown" id="escalated_to" name="escalated_to">
-	                                        <option value="">Select</option>
-	                                        <c:forEach var="obj" items="${escalatedToList }">
-	                                            <option value="${obj.escalated_to_user_id }" >${obj.escalated_to_designation}</option>
-	                                        </c:forEach>
-	                                    </select>
-	                                    <span id="escalated_toError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="escalation_date" name="escalation_date" type="text" class="validate datepicker">
-	                                    <label for="escalation_date"> Escalated Date<span class="required">*</span></label>
-	                                    <button type="button" id="escalation_date_icon"><i
-	                                            class="fa fa-calendar"></i></button>
-	                                    <span id="escalation_dateError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="remarks">Status After Escalation</label>
-                                    <span id="remarksError" class="error-msg" ></span>
-                                </div>
-                            </div> 
-                           </div>
-                           
-                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>                              
-                                <div class="col s12 m4 input-field" style="margin-top:15px;display:none;" id="resolvedDiv">
-                                    <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker">
-                                    <label for="resolved_date"> Resolved Date<span class="required">*</span></label>
-                                    <button type="button" id="resolved_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                    <span id="resolved_dateError" class="error-msg" ></span>
-                                </div>
-                                 <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 input-field">
                                   <div class="file-field input-field">
                                         <div class="btn bg-m t-c">
                                             <span>Attachment</span>
@@ -399,8 +275,7 @@
                                         </div>                                       
                                     </div>
                                  </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
+							</div>
                                                  
                             <div class="row no-mar">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -469,57 +344,6 @@
 	                $('#'+id).click();
 	            });
            	});
-            
-            /* $('#date_icon').click(function () {
-                event.stopPropagation();
-                $('#date').click();
-            });
-            
-            $('#date').datepicker({  
-	   	    	format:'dd-mm-yyyy',
-	   	    	//perform click event on done button
-	   	    	onSelect: function () {
-	   	    	   $('.confirmation-btns .datepicker-done').click();
-	   	    	}
-   	        });
-            
-            $('#resolved_date_icon').click(function () {
-                event.stopPropagation();
-                $('#resolved_date').click();
-            });
-            
-            $('#resolved_date').datepicker({ 
-  	    	    format:'dd-mm-yyyy',
-  	    	    //perform click event on done button
-  	    	    onSelect: function () {
-  	    	       $('.confirmation-btns .datepicker-done').click();
-  	    	    }
-  	        });
-            $('#escalation_date_icon').click(function () {
-                event.stopPropagation();
-                $('#escalation_date').click();
-            });
-            
-            $('#escalation_date').datepicker({ 
-  	    	    format:'dd-mm-yyyy',
-  	    	    //perform click event on done button
-  	    	    onSelect: function () {
-  	    	       $('.confirmation-btns .datepicker-done').click();
-  	    	    }
-  	        });
-            
-            $('#assigned_date_icon').click(function () {
-                event.stopPropagation();
-                $('#assigned_date').click();
-            });
-            
-            $('#assigned_date').datepicker({ 
-  	    	    format:'dd-mm-yyyy',
-  	    	    //perform click event on done button
-  	    	    onSelect: function () {
-  	    	       $('.confirmation-btns .datepicker-done').click();
-  	    	    }
-  	        }); */
         });
         
       //geting works list from database    
@@ -669,39 +493,7 @@
          
          
         
-        $('form').on('reset', function () {
-            $(".searchable").trigger("change");
-        });
-        
-        function getEscalatedDetails(issueStatus){
-        	$("#escalated_to").val('');
-        	$("#escalation_date").val('');
-        	if($.trim(issueStatus) == 'Escalated'){
-        		$("#escalatedDiv").show();
-        		$("#corrective_measure").attr('readonly', true);
-        	}else{
-        		$("#escalatedDiv").hide();
-        		$("#corrective_measure").attr('readonly', false);
-        	}
-        	if($.trim(issueStatus) == 'Closed'){
-        		$("#resolvedDiv").show();
-        	}else{
-        		$("#resolvedDiv").hide();
-        	}
-        	if($.trim(issueStatus) == 'Raised' || $.trim(issueStatus) == 'select' ){
-        		$("#assignDateDiv").hide();
-        		//$(".raisedDiv").hide();
-        		$('#responsibleDiv').hide();
-        		//$('#responsibleOrgDiv').hide();
-        		//$('#remarksDiv').hide();
-        	}else{
-        		$("#assignDateDiv").show();
-        		//$(".raisedDiv").show();
-        		$('#responsibleDiv').show();
-        		//$('#responsibleOrgDiv').show();
-        		//$('#remarksDiv').show();
-        	}
-        }
+       
        
         function showRemarks(){
         	var status_val = $("#status_fk").val();
@@ -731,9 +523,9 @@
     	    	ignore: ":hidden:not(.validate-dropdown)",
     			   rules: {
 	    				  "project_id_fk": {
-	   				 		required: true
+	   				 		required: false
 	   				 	  },"work_id_fk": {
-    				 		required: true
+    				 		required: false
     				 	  },"contract_id_fk": {
     				 		required: true
     				 	  },"category_fk": {
@@ -749,10 +541,6 @@
     			 	   	  },"date": {
     				 		required: true,
        				 	 	dateBeforeToday1:"#date"
-    				 	  },"assigned_date":{
-    				 		 required: true,
-        				 	 dateBeforeToday2:"#assigned_date",
-        				 	 dateBefore1:"#date"
     				 	  },"location": {
     				 		required: true
     				 	  },"latitude": {
@@ -761,25 +549,8 @@
     				 		required: false
     				 	  },"reported_by": {
     				 		required: true
-    				 	  },"responsible_person":{
-    				 		 required: false
-    				 	  },"corrective_measure": {
-    			 		    required: true,
-    			 	   	  },"resolved_date": {
-    				 		required: true,
-       				 	 	dateBeforeToday4:"#resolved_date",
-       				 	 	dateBefore3:"#escalation_date",
-    				 		statusCheck1: true
-    				 	  },"escalated_to": {
-    			 		    required: false
-    			 	   	  },"escalation_date": {
-    			 	   		required: true,
-       				 	 	dateBeforeToday3:"#escalation_date",
-       				 	 	dateBefore2:"#assigned_date"
-	   			 	   	  },"zonal_railway_fk": {
+    				 	  },"zonal_railway_fk": {
     				 		required: true
-    				 	  },"remarks":{
-    				 		 required: false
     				 	  },"other_organization":{
     				 		 required: true
     				 	  }
@@ -804,9 +575,7 @@
     			 			required: 'Required'
     			 	  	 },"date": {
     			 			required: 'Required'
-    			 	  	 },"assigned_date":{
-     			 	  		required: 'Required'
-  				 	  	  },"location": {
+    			 	  	 },"location": {
      				 		required: 'Required'
 	   				 	  },"latitude": {
 	   				 		required: 'Required'
@@ -814,21 +583,9 @@
 	   				 		required: 'Required'
 	   				 	  },"reported_by": {
 	   				 		required: 'Required'
-	   				 	  },"responsible_person":{
-	   				 		 required: 'Required'
-	   				 	  },"corrective_measure": {
-	   			 		    required: 'Required',
-	   			 	   	  },"resolved_date": {
+	   				 	  },"zonal_railway_fk": {
 	   				 		required: 'Required'
-	   				 	  },"escalated_to": {
-	   			 		    required: 'Required'
-	   			 	   	  },"escalation_date": {
-	   			 		    required: 'Required'
-	   			 	   	  },"zonal_railway_fk": {
-	   				 		required: 'Required'
-	   				 	  },"remarks":{
-    			 	  		required: 'Required'
-    				 	  },"other_organization":{
+	   				 	  },"other_organization":{
     				 		 required: 'Required'
     				 	  }
     			 				      
@@ -862,10 +619,7 @@
     			 	    }else if (element.attr("id") == "date" ){
     			 		     document.getElementById("dateError").innerHTML="";
     			 			 error.appendTo('#dateError');
-    			 	    }else if (element.attr("id") == "assigned_date" ){
-	   			 		     document.getElementById("assigned_dateError").innerHTML="";
-				 			 error.appendTo('#assigned_dateError');
-				 	    }else if (element.attr("id") == "location" ){
+    			 	    }else if (element.attr("id") == "location" ){
   			 	    	     document.getElementById("locationError").innerHTML="";
   			 			     error.appendTo('#locationError');
 	  			 	    }else if (element.attr("id") == "latitude" ){
@@ -877,28 +631,10 @@
 	  			 	    }else if (element.attr("id") == "reported_by" ){
 	  			 		     document.getElementById("reported_byError").innerHTML="";
 	  			 			 error.appendTo('#reported_byError');
-	  			 	    }else if (element.attr("id") == "responsible_person" ){
-	  			 		     document.getElementById("responsible_personError").innerHTML="";
-	  			 			 error.appendTo('#responsible_personError');
-	  			 	    }else if (element.attr("id") == "corrective_measure" ){
-	  			 		     document.getElementById("corrective_measureError").innerHTML="";
-	  			 			 error.appendTo('#corrective_measureError');
-	  			 	    }else if (element.attr("id") == "resolved_date" ){
-	  			 		     document.getElementById("resolved_dateError").innerHTML="";
-	  			 			 error.appendTo('#resolved_dateError');
-	  			 	    }else if (element.attr("name") == "escalated_to" ){
-	  			 		     document.getElementById("escalated_toError").innerHTML="";
-	  			 			 error.appendTo('#escalated_toError');
-	  			 	    }else if (element.attr("id") == "escalation_date" ){
-	  			 		     document.getElementById("escalation_dateError").innerHTML="";
-	  			 			 error.appendTo('#escalation_dateError');
 	  			 	    }else if (element.attr("id") == "zonal_railway_fk" ){
 	  			 		     document.getElementById("zonal_railway_fkError").innerHTML="";
 	  			 			 error.appendTo('#zonal_railway_fkError');
-	  			 	    }else if (element.attr("id") == "remarks" ){
-    			 		     document.getElementById("remarksError").innerHTML="";
-    			 			 error.appendTo('#remarksError');
-    			 	    }else if (element.attr("id") == "other_organization" ){
+	  			 	    }else if (element.attr("id") == "other_organization" ){
 	   			 		     document.getElementById("other_organizationError").innerHTML="";
 				 			 error.appendTo('#other_organizationError');
 				 	    }else if (element.attr("id") == "other_organizations" ){
@@ -930,74 +666,7 @@
         	);
     	    
     	    
-    	    $.validator.addMethod("dateBefore1", function(value, element) {
-	            var fromDateString = $('#date').val(); //
-	            var fromDateParts = fromDateString.split("-");
-	            // month is 0-based, that's why we need dataParts[1] - 1
-	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-	
-	            var toDateParts = value.split("-");
-	            // month is 0-based, that's why we need dataParts[1] - 1
-	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-	            	return Date.parse(fromDate) <= Date.parse(toDate);
-	            	//return Date.parse(fromDate) < Date.parse(toDate);
-	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
-	            	return false;
-	            }else{
-	            	return true;
-	            }
-	            
-	        }, "Assigned Date must be after Date of raising issue");
-    	    
-	    	$.validator.addMethod("dateBefore2", function(value, element) {
-	            var fromDateString = $('#assigned_date').val(); //
-	            var fromDateParts = fromDateString.split("-");
-	            // month is 0-based, that's why we need dataParts[1] - 1
-	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-	
-	            var toDateParts = value.split("-");
-	            // month is 0-based, that's why we need dataParts[1] - 1
-	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-	         
-	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-	            	//return Date.parse(fromDate) <= Date.parse(toDate);
-	            	return Date.parse(fromDate) <= Date.parse(toDate);
-	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
-	            	return false;
-	            }else{
-	            	return true;
-	            }
-	        }, "Escalated Date date must be after Assigned Date");
-	    	
-	    	$.validator.addMethod("dateBefore3", function(value, element) {
-	    		var fromDateString = $('#assigned_date').val(); 
-	    		/* var fromDateString = $('#escalation_date').val(); //
-	            var status = $('#status_fk').val();
-	            if($.trim(status) != '' && $.trim(status) == 'Escalated'){
-	            	fromDateString = $('#escalation_date').val();
-	            }else{
-	            	fromDateString = $('#assigned_date').val();
-	            } */
-	            var fromDateParts = fromDateString.split("-");
-	            // month is 0-based, that's why we need dataParts[1] - 1
-	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-	
-	            var toDateParts = value.split("-");
-	            // month is 0-based, that's why we need dataParts[1] - 1
-	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-	         
-	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-	            	//return Date.parse(fromDate) <= Date.parse(toDate);
-	            	return Date.parse(fromDate) <= Date.parse(toDate);
-	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
-	            	return false;
-	            }else{
-	            	return true;
-	            }
-	        }, "Resolved Date must be after Assigned Date");
-	    	
-	    	
+    	   
 	    	
 	    	$.validator.addMethod("dateBeforeToday1", function(value, element) {
 	    		var fromDateParts = value.split("-");
@@ -1011,55 +680,6 @@
 	            }
 	            
 	        }, "Date of raising issue must be On or Before Today");
-    	    
-	    	$.validator.addMethod("dateBeforeToday2", function(value, element) {
-	    		var fromDateParts = value.split("-");
-	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-	
-	            var toDate = new Date();
-	            if($.trim(value) != ''){
-	            	//return Date.parse(fromDate) <= Date.parse(toDate);
-	            	return Date.parse(fromDate) <= Date.parse(toDate);
-	            }else{
-	            	return true;
-	            }
-	        }, "Assigned Date date must be On or Before Today");
-	    	
-	    	$.validator.addMethod("dateBeforeToday3", function(value, element) {
-	    		var fromDateParts = value.split("-");
-	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-	
-	            var toDate = new Date();
-	            if($.trim(value) != ''){
-	            	//return Date.parse(fromDate) <= Date.parse(toDate);
-	            	return Date.parse(fromDate) <= Date.parse(toDate);
-	            }else{
-	            	return true;
-	            }
-	        }, "Escalated Date must be On or Before Today");
-	    	
-	    	$.validator.addMethod("dateBeforeToday4", function(value, element) {
-	    		var fromDateParts = value.split("-");
-	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-	
-	            var toDate = new Date();
-	            if($.trim(value) != ''){
-	            	//return Date.parse(fromDate) <= Date.parse(toDate);
-	            	return Date.parse(fromDate) <= Date.parse(toDate);
-	            }else{
-	            	return true;
-	            }
-	        }, "Resolved Date must be On or Before Today");
-    	    
-    	    $.validator.addMethod("statusCheck1", function(value, element) {
-    	    	var status = $("#status_fk").val();
-    	    	if(($.trim(status) == '' || status != 'Closed') && $.trim(value) != ''){
-	            	$("#resolved_date").val('').focus();
-	            	return false;
-	            }else{
-	            	return true;
-	            }	          
-	        }, "Status is not closed, So you cannot select this field");
     	    
             
             

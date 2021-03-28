@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -16,7 +18,9 @@ public class StripChart {
 	
 	private String [] actualScopes,strip_chart_ids,ids,completedScopes,totalScopes,actual_starts,actual_finishs,activity_ids;
 	
-	private String reported_by_email_id;
+	private String reported_by_email_id,zonal_railway_fk,other_organization,department_fk,department_name;
+	
+	private List<MultipartFile> issueFiles;
 	
 	public String getActivity_id_fk() {
 		return activity_id_fk;
@@ -616,6 +620,46 @@ public class StripChart {
 
 	public void setReported_by_email_id(String reported_by_email_id) {
 		this.reported_by_email_id = reported_by_email_id;
+	}
+
+	public List<MultipartFile> getIssueFiles() {
+		return issueFiles;
+	}
+
+	public void setIssueFiles(List<MultipartFile> issueFiles) {
+		this.issueFiles = issueFiles;
+	}
+
+	public String getZonal_railway_fk() {
+		return zonal_railway_fk;
+	}
+
+	public void setZonal_railway_fk(String zonal_railway_fk) {
+		this.zonal_railway_fk = zonal_railway_fk;
+	}
+
+	public String getOther_organization() {
+		return other_organization;
+	}
+
+	public void setOther_organization(String other_organization) {
+		this.other_organization = other_organization;
+	}
+
+	public String getDepartment_fk() {
+		return department_fk;
+	}
+
+	public void setDepartment_fk(String department_fk) {
+		this.department_fk = department_fk;
+	}
+
+	public String getDepartment_name() {
+		return department_name;
+	}
+
+	public void setDepartment_name(String department_name) {
+		this.department_name = department_name;
 	}
 	
 }

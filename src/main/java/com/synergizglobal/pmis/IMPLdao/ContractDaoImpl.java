@@ -1480,12 +1480,11 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractorsFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT contractor_id_fk,cr.contractor_name from contract c "+
+			String qry = "SELECT contractor_id_fk,cr.contractor_name "
+					+ "from contract c "+
 					 "LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id "+
 					 "LEFT JOIN work w on c.work_id_fk = w.work_id " + 
-					 "LEFT JOIN project p on w.project_id_fk = p.project_id " + 
-					 "left join user u on c.hod_user_id_fk = u.user_id "+
-					 "left join user us on c.dy_hod_user_id_fk = us.user_id "+
+					 "LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					 "where contractor_id_fk is not null AND contractor_id_fk <> '' ";	
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1505,11 +1504,11 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
-				qry = qry + " and u.designation = ? ";
+				qry = qry + " and c.hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
-				qry = qry + " and us.designation = ? ";
+				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
@@ -1552,12 +1551,11 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> departmentsFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT c.department_fk,d.department_name from contract c "+
+			String qry = "SELECT c.department_fk,d.department_name "
+					+ "from contract c "+
 					 "LEFT JOIN department d on c.department_fk = d.department " +
 					 "LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					 "LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					 "left join user u on c.hod_user_id_fk = u.user_id "+
-					 "left join user us on c.dy_hod_user_id_fk = us.user_id "+
 					 "where c.department_fk is not null and c.department_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1577,11 +1575,11 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
-				qry = qry + " and u.designation = ? ";
+				qry = qry + " and c.hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
-				qry = qry + " and us.designation = ? ";
+				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
@@ -1624,11 +1622,10 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> worksFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT work_id_fk,w.work_name,w.work_short_name from contract c " + 
+			String qry = "SELECT work_id_fk,w.work_name,w.work_short_name "
+					+ "from contract c " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id "+
 					"where work_id_fk is not null and work_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1648,11 +1645,11 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
-				qry = qry + " and u.designation = ? ";
+				qry = qry + " and c.hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
-				qry = qry + " and us.designation = ? ";
+				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
@@ -1695,11 +1692,10 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getProjectsFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT project_id_fk,p.project_name from contract c " + 
+			String qry = "SELECT project_id_fk,p.project_name "
+					+ "from contract c " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id "+
 					"where project_id_fk is not null and project_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1719,11 +1715,11 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
-				qry = qry + " and u.designation = ? ";
+				qry = qry + " and c.hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
-				qry = qry + " and us.designation = ? ";
+				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
@@ -1811,12 +1807,12 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getDesignationsFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT u.designation from contract c " + 
+			String qry = "SELECT c.hod_user_id_fk as hod_user_id,u.designation "
+					+ "from contract c " + 
 					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id "+
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where dy_hod_user_id_fk is not null and dy_hod_user_id_fk <> '' ";
+					"where hod_user_id_fk is not null and hod_user_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -1835,11 +1831,11 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
-				qry = qry + " and u.designation = ? ";
+				qry = qry + " and c.hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
-				qry = qry + " and us.designation = ? ";
+				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
@@ -1847,7 +1843,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			
-			qry = qry + "GROUP BY us.designation ";
+			qry = qry + "GROUP BY c.hod_user_id_fk ORDER BY u.designation  ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1883,9 +1879,9 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getDyHODDesignationsFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT us.designation as dy_hod_designation from contract c " + 
-					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id "+
+			String qry = "SELECT c.dy_hod_user_id_fk as dy_hod_user_id,u.designation as dy_hod_designation "
+					+ "from contract c " + 
+					"left join user u on c.dy_hod_user_id_fk = u.user_id "+
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where dy_hod_user_id_fk is not null and dy_hod_user_id_fk <> '' ";
@@ -1907,11 +1903,11 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
-				qry = qry + " and u.designation = ? ";
+				qry = qry + " and c.hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
-				qry = qry + " and us.designation = ? ";
+				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
@@ -1919,7 +1915,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			
-			qry = qry + "GROUP BY us.designation ";
+			qry = qry + "GROUP BY c.dy_hod_user_id_fk ORDER BY u.designation ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1957,8 +1953,6 @@ public class ContractDaoImpl implements ContractDao {
 		try {
 			String qry = "SELECT contract_status_fk "
 					+ "from contract c " + 
-					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id "+
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where contract_status_fk is not null and contract_status_fk <> '' ";
@@ -1980,11 +1974,11 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
-				qry = qry + " and u.designation = ? ";
+				qry = qry + " and c.hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
-				qry = qry + " and us.designation = ? ";
+				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
@@ -2076,9 +2070,7 @@ public class ContractDaoImpl implements ContractDao {
 			String qry ="select count(*) as total_records from contract c " + 
 					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
-					"left join project p on w.project_id_fk = p.project_id " + 
-					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id "
+					"left join project p on w.project_id_fk = p.project_id "
 					+"left join department dt on c.department_fk = dt.department "
 					+"where contract_id is not null ";
 			int arrSize = 0;
@@ -2099,11 +2091,11 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
-				qry = qry + " and u.designation = ? ";
+				qry = qry + " and c.hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
-				qry = qry + " and us.designation = ? ";
+				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
@@ -2201,11 +2193,11 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
-				qry = qry + " and u.designation = ? ";
+				qry = qry + " and c.hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
-				qry = qry + " and us.designation = ? ";
+				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {

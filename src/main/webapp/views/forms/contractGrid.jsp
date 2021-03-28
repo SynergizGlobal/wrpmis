@@ -316,35 +316,7 @@
 		        	  }
 	        	  }
 	          }
-           }
-           
-       	var table = $('#datatable-contract').DataTable({
-    		"bStateSave": true,
-    		fixedHeader: true,
-            "fnStateSave": function (oSettings, oData) {
-                localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-            },
-            "fnStateLoad": function (oSettings) {
-                return JSON.parse(localStorage.getItem('MRVCDataTables'));
-            },
-            columnDefs: [
-                {
-                    targets: [0, 1, 2],
-                    className: 'mdl-data-table__cell--non-numeric'
-                },
-                { orderable: false, 'aTargets': ['nosort'] }
-            ],
-            // "ScrollX": true,
-            "scrollCollapse": true,
-            //"sScrollY": 400,
-            "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-            initComplete: function () {
-                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-            }
-        });
-    	table.state.clear(); 
+           } 
 		
     	
     	$('.close-message').delay(3000).fadeOut('slow');
@@ -438,16 +410,11 @@
     		//alert(filtersMap[key]);
     		filters = filters + key +"="+filtersMap[key] + "^";
     		window.localStorage.setItem("contractFilters", filters);
-			});
+		});
 
-     	table = $('#datatable-contract').DataTable();
-		table.destroy();
 
-		$.fn.dataTable.moment('DD-MMM-YYYY');
-
-		var myParams = "contractor_id_fk=" + contractor_id_fk + "&work_id_fk="
-				+ work_id_fk + "&project_id_fk=" + project_id_fk
-				+ "&dy_hod_designation=" + dy_hod_designation+ "&contract_status_fk=" + contract_status_fk;
+		var myParams = "designation=" + designation + "&dy_hod_designation=" + dy_hod_designation+ "&contractor_id_fk=" + contractor_id_fk
+				+ "&contract_status_fk="+ contract_status_fk + "&work_id_fk=" + work_id_fk + "&project_id_fk=" + project_id_fk;
 
 		/***************************************************************************************************/
 
@@ -561,100 +528,6 @@
   	
  }
     
-    function getContractList1(){
-    	$(".page-loader-2").show();
-    	getDesignationFilterList('');
-    	getDyHODDesignationFilterList('');
-    	getContractorsFilterList('');
-    	getWorkFilterList('');
-    	getProjectFilterList('');
-    	getStatusFilterList('');
-    	
-    	var contractor_id_fk = $("#contractor_id_fk").val();
-    	var work_id_fk = $("#work_id_fk").val();
-    	var project_id_fk = $("#project_id_fk").val();
-    	var designation = $("#designation").val();
-    	var dy_hod_designation = $("#dy_hod_designation").val();
-    	var contract_status_fk = $("#contract_status_fk").val();
-
-    	var filters = '';
-    	Object.keys(filtersMap).forEach(function (key) {
-    		//alert(filtersMap[key]);
-    		filters = filters + key +"="+filtersMap[key] + "^";
-    		window.localStorage.setItem("contractFilters", filters);
-			});
-
-     	table = $('#datatable-contract').DataTable();
-		 
-		table.destroy();
-		
-		$.fn.dataTable.moment('DD-MMM-YYYY');
-		table = $('#datatable-contract').DataTable({
-    		"bStateSave": true,
-    		fixedHeader: true, 
-            "fnStateSave": function (oSettings, oData) {
-                localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-            },
-            "fnStateLoad": function (oSettings) {
-                return JSON.parse(localStorage.getItem('MRVCDataTables'));
-            },
-            columnDefs: [
-                {
-                    targets: [0, 1, 2],
-                    className: 'mdl-data-table__cell--non-numeric'
-                },
-                { orderable: false, 'aTargets': ['nosort'] }
-            ],
-            // "ScrollX": true,
-            //"scrollCollapse": true,
-            "sScrollX": "100%",
-            "sScrollXInner": "100%",
-            "bScrollCollapse": true,
-            initComplete: function () {
-                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-            }
-        }).rows().remove().draw();
-		
-		
-		table.state.clear();		
-	 
-	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
-		$.ajax({url : "<%=request.getContextPath()%>/ajax/getContracts",
-				type:"POST",
-				data:myParams, cache: false,async:false,
-				success : function(data){
-				if(data != null && data != '' && data.length > 0){    					
-	         		$.each(data,function(key,val){
-	         			var contract_id = "'"+val.contract_id+"'";
-	                    var actions = '<a href="javascript:void(0);"  onclick="getContract('+contract_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
-	                   	var rowArray = [];    	                 
-	                   	
-	                	var workName = '';
-                        if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                        
-	                   	rowArray.push($.trim(val.work_id_fk) + workName);
-	                   	rowArray.push($.trim(val.contract_id));
-	                   	rowArray.push($.trim(val.contract_short_name));
-	                   	rowArray.push($.trim(val.contractor_name));
-	                   	rowArray.push($.trim(val.department_name));
-	                   	rowArray.push($.trim(val.designation));
-	                   	rowArray.push($.trim(val.dy_hod_designation));
-	                   	rowArray.push($.trim(actions));   	                   	
-	                   	
-	                    table.row.add(rowArray).draw( true );
-	                    		                       
-					});
-	         		
-	         		$(".page-loader-2").hide();
-				}else{
-					$(".page-loader-2").hide();
-				}
-				
-			},error: function (jqXHR, exception) {
-				$(".page-loader-2").hide();
-	         	getErrorMessage(jqXHR, exception);
-	     }});
-    } 
 
     function getDyHODDesignationFilterList(dy_designation){
     	$(".page-loader").show();
@@ -673,12 +546,12 @@
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
-                        	var selectedFlag = (dy_designation == val.dy_hod_designation)?'selected':'';
+                        	var selectedFlag = (dy_designation == val.dy_hod_user_id)?'selected':'';
                         	if($.trim(selectedFlag) != ''){
-                        		var designation  = '${sessionScope.USER_DESIGNATION}';
-                            	var selectedFlag = (designation == val.dy_hod_designation)?'selected':'';
+                        		var user_id  = '${sessionScope.USER_ID}';
+                            	var selectedFlag = (user_id == val.dy_hod_user_id)?'selected':'';
                          	}
-                        	$("#dy_hod_designation").append('<option value="' + val.dy_hod_designation + '" '+selectedFlag+'>' + $.trim(val.dy_hod_designation) +'</option>');
+                        	$("#dy_hod_designation").append('<option value="' + val.dy_hod_user_id + '" '+selectedFlag+'>' + $.trim(val.dy_hod_designation) +'</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -710,12 +583,12 @@
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
-                        	var selectedFlag = (hod_designation == val.designation)?'selected':'';
+                        	var selectedFlag = (hod_designation == val.hod_user_id)?'selected':'';
                         	if($.trim(selectedFlag) != ''){
-                        		var designation  = '${sessionScope.USER_DESIGNATION}';
-                        		var selectedFlag = (designation == val.designation)?'selected':'';
+                        		var user_id  = '${sessionScope.USER_ID}';
+                        		var selectedFlag = (user_id == val.designation)?'selected':'';
                          	}
-                        	$("#designation").append('<option value="' + val.designation + '" '+selectedFlag+'>' + $.trim(val.designation) +'</option>');
+                        	$("#designation").append('<option value="' + val.hod_user_id + '" '+selectedFlag+'>' + $.trim(val.designation) +'</option>');
                         });
                     }
                     $('.searchable').select2();

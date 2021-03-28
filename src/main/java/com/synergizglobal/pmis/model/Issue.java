@@ -13,7 +13,7 @@ public class Issue {
 	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,assigned_date,contract_hod_email_id,contract_dyhod_email_id,
 	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name,message_id;
 	
-	private String contract_hod_user_id,contract_dyhod_user_id;
+	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
@@ -619,6 +619,30 @@ public class Issue {
 
 	public void setMessage_id(String message_id) {
 		this.message_id = message_id;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getCreated_date() {
+		return created_date;
+	}
+
+	public void setCreated_date(String created_date) {
+		this.created_date = created_date;
+	}
+
+	public String getCreated_by_email_id() {
+		return created_by_email_id;
+	}
+
+	public void setCreated_by_email_id(String created_by_email_id) {
+		this.created_by_email_id = created_by_email_id;
 	}
 	
 }

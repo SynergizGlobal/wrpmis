@@ -246,7 +246,7 @@
                                 </div>
                                  <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
                                   <p class="searchable_label">Department Responsible (Pending with)<span class="required">*</span></p> 
-                                    <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
+                                    <select class="searchable browser-default" id="other_organizations" name="other_organization">
                                         <option value="" selected>Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
                                             <option value="${obj.department_name }" >${obj.department_name}</option>

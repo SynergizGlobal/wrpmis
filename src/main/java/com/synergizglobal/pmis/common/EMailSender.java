@@ -155,6 +155,22 @@ public class EMailSender {
 				 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
 			  }	 
 			  message.setRecipients(Message.RecipientType.TO, addressTo);
+			  
+			  /*********************************************************************/
+			  
+			  ArrayList<String> bccArray = new ArrayList<String>();
+			  StringTokenizer stringTokenizerBcc = new StringTokenizer(mail.getMailBcc(), ",");
+			 
+			  while (stringTokenizerBcc.hasMoreTokens()) {
+				  bccArray.add(stringTokenizerBcc.nextToken());
+			  }
+			  int sizeBcc = bccArray.size();
+			  InternetAddress[] addressBcc = new InternetAddress[sizeBcc];
+			  for (int i = 0; i < sizeBcc; i++) {
+				  addressBcc[i] = new InternetAddress(bccArray.get(i).toString());
+			  }	 
+			  message.setRecipients(Message.RecipientType.BCC, addressBcc);
+			  
 				 
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());

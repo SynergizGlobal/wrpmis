@@ -5,8 +5,67 @@ public class Alerts {
 	hod,work_short_name,contract_short_name,hod_email,dy_hod_email,contract_id_fk,contractor_id_fk,contractor_id,contractor_name,remarks,
 	email_id,user_id,work_id,work_id_fk,contract_name,work_name,user_name,designation,user_role_name;
 
+	private String redirect_url,department_name,responsible_person,escalated_to,hod_user_id_fk,dy_hod_user_id_fk,created_by_user_id_fk,
+	user_id_fk,alert_level_fk;
 	
 	
+	
+	public String getRedirect_url() {
+		return redirect_url;
+	}
+
+	public void setRedirect_url(String redirect_url) {
+		this.redirect_url = redirect_url;
+	}
+
+	public String getDepartment_name() {
+		return department_name;
+	}
+
+	public void setDepartment_name(String department_name) {
+		this.department_name = department_name;
+	}
+
+	public String getResponsible_person() {
+		return responsible_person;
+	}
+
+	public void setResponsible_person(String responsible_person) {
+		this.responsible_person = responsible_person;
+	}
+
+	public String getEscalated_to() {
+		return escalated_to;
+	}
+
+	public void setEscalated_to(String escalated_to) {
+		this.escalated_to = escalated_to;
+	}
+
+	public String getHod_user_id_fk() {
+		return hod_user_id_fk;
+	}
+
+	public void setHod_user_id_fk(String hod_user_id_fk) {
+		this.hod_user_id_fk = hod_user_id_fk;
+	}
+
+	public String getDy_hod_user_id_fk() {
+		return dy_hod_user_id_fk;
+	}
+
+	public void setDy_hod_user_id_fk(String dy_hod_user_id_fk) {
+		this.dy_hod_user_id_fk = dy_hod_user_id_fk;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
 	public String getUser_name() {
 		return user_name;
 	}
@@ -237,6 +296,22 @@ public class Alerts {
 
 	public void setUser_role_name(String user_role_name) {
 		this.user_role_name = user_role_name;
+	}
+
+	public String getUser_id_fk() {
+		return user_id_fk;
+	}
+
+	public void setUser_id_fk(String user_id_fk) {
+		this.user_id_fk = user_id_fk;
+	}
+
+	public String getAlert_level_fk() {
+		return alert_level_fk;
+	}
+
+	public void setAlert_level_fk(String alert_level_fk) {
+		this.alert_level_fk = alert_level_fk;
 	}
 	
 }

@@ -57,7 +57,7 @@ public class AlertsController {
             //System.out.println("End "+ new Date());
 	    	logger.error("generateAlertsByCronJob : "+flag);
 			
-	    	flag = service.sendAlertsToRajivRavi();
+			flag = service.sendAlertsToRajivRavi();
 			logger.error("generateAlertsByCronJob >> Sending mails : "+ flag); 
 			
 			//Calling stored procedures

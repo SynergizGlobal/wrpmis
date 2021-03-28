@@ -341,11 +341,15 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                    	<c:if test="${issue.readonlyForm eq false }">
+                                        <c:if test="${issue.status_fk ne 'Closed' and issue.readonlyForm eq false }">
                                         	<a  onclick="updateIssue();" class="btn waves-effect waves-light bg-m" >Update </a>
                                         </c:if>
+                                        
                                         <c:if test="${issue.readonlyForm eq true }">
                                         	<a style="color:red;">Not Authorized to Edit</a>
+                                        </c:if>
+                                        <c:if test="${issue.status_fk eq 'Closed' }">
+                                        	<a style="color:red;">Issue Resolved</a>
                                         </c:if>
                                     </div>
                                 </div>
@@ -647,7 +651,7 @@
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                              	}
                             }else if($.trim(status_fk) != '' && $.trim(status_fk) == 'Assigned'){
-                            	if ((val.status == 'Assigned') && ((logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
+                            	if ((val.status == 'Assigned') && ((logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                              	}else 
                                 if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk))){

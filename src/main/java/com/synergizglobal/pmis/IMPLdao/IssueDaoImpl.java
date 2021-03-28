@@ -568,28 +568,20 @@ public class IssueDaoImpl implements IssueDao {
 				String message = "A new issue against "+iObj.getContract_id_fk()+" has been "+iObj.getStatus_fk()+" to you.";
 				String hod_user_id = "",dy_hod_user_id = "",responsible_person_user_id = "",escalated_to_user_id = "",created_by_user_id = "";
 				if("Raised".equals(iObj.getStatus_fk())) {
-					if(!StringUtils.isEmpty(iObj.getContract_dyhod_user_id())) {
-						hod_user_id = iObj.getContract_hod_user_id();
-						dy_hod_user_id = iObj.getContract_dyhod_user_id();
-						created_by_user_id = iObj.getCreated_by_user_id_fk();
-					}
+					hod_user_id = iObj.getContract_hod_user_id();
+					dy_hod_user_id = iObj.getContract_dyhod_user_id();
+					created_by_user_id = iObj.getCreated_by_user_id_fk();
 				}else if("Assigned".equals(iObj.getStatus_fk())) {
-					if(!StringUtils.isEmpty(iObj.getResponsible_person_user_id())) {
-						responsible_person_user_id = iObj.getResponsible_person_user_id();
-					}
+					responsible_person_user_id = iObj.getResponsible_person_user_id();
 				}else if("Escalated".equals(iObj.getStatus_fk())) {
-					if(!StringUtils.isEmpty(iObj.getEscalated_to_user_id())) {
-						escalated_to_user_id = iObj.getEscalated_to_user_id();
-						responsible_person_user_id = iObj.getResponsible_person_user_id();
-					}
+					escalated_to_user_id = iObj.getEscalated_to_user_id();
+					responsible_person_user_id = iObj.getResponsible_person_user_id();
 				}else if("Closed".equals(iObj.getStatus_fk())) {
-					if(!StringUtils.isEmpty(iObj.getContract_hod_user_id())) {
-						hod_user_id = iObj.getContract_hod_user_id();
-						dy_hod_user_id = iObj.getContract_dyhod_user_id();
-						responsible_person_user_id = iObj.getResponsible_person_user_id();
-						escalated_to_user_id = iObj.getEscalated_to_user_id();
-						created_by_user_id = iObj.getCreated_by_user_id_fk();
-					}
+					hod_user_id = iObj.getContract_hod_user_id();
+					dy_hod_user_id = iObj.getContract_dyhod_user_id();
+					responsible_person_user_id = iObj.getResponsible_person_user_id();
+					escalated_to_user_id = iObj.getEscalated_to_user_id();
+					created_by_user_id = iObj.getCreated_by_user_id_fk();
 				}
 				
 				if(!StringUtils.isEmpty(hod_user_id)) {				

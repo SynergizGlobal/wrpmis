@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>PMIS Contract Alerts</title>
+<title>PMIS Contract & Issue Alerts</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
@@ -15,7 +15,7 @@
                     <tr>
                         <td align="center" bgcolor="#22223B"
                             style="color: #ffffff; font-size: 20px; font-weight: bold; font-family: Arial, sans-serif;padding: 10px;">
-                            PMIS Contract Alerts
+                            PMIS Contract & Issue Alerts
                         </td>
                     </tr>
                     <tr>
@@ -71,39 +71,57 @@
                                                             <tr>
 																<td align="center" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    $x.hod
+                                                                    #if($x.hod && !$x.hod.empty) 
+                                                                    	$x.hod
+                                                                    #end
                                                                 </td>
 																<td align="center" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    $x.work_short_name
+                                                                    #if($x.work_short_name && !$x.work_short_name.empty) 
+                                                                    	$x.work_short_name
+                                                                    #end
                                                                 </td>
 																<td align="center" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    $x.contract_id
+                                                                    #if($x.contract_id && !$x.contract_id.empty) 
+                                                                    	$x.contract_id
+                                                                    #end
                                                                 </td>
 																<td align="center" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    $x.contractor_name
+                                                                    #if($x.contractor_name && !$x.contractor_name.empty) 
+                                                                    	$x.contractor_name
+                                                                    #end
                                                                 </td>
 																<td align="center" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    $x.contract_short_name
+                                                                    #if($x.contract_short_name && !$x.contract_short_name.empty) 
+                                                                    	$x.contract_short_name
+                                                                    #end
                                                                 </td>
                                                                 <td align="center"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 87px; min-width: 87px; max-width: 87px; word-wrap:break-word;">
-                                                                     $x.alert_type_fk
+                                                                    #if($x.alert_type_fk && !$x.alert_type_fk.empty) 
+                                                                    	$x.alert_type_fk
+                                                                    #end
                                                                 </td>
                                                                 <td align="center" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 87px; min-width: 87px; max-width: 87px; word-wrap:break-word;">
-                                                                    $x.alert_level
+                                                                    #if($x.alert_level && !$x.alert_level.empty) 
+                                                                    	$x.alert_level
+                                                                    #end
                                                                 </td>                                                                
                                                                 <td align="center" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    $x.alert_value
+                                                                    #if($x.alert_value && !$x.alert_value.empty) 
+                                                                    	$x.alert_value
+                                                                    #end
                                                                 </td>
                                                                 <td align="center" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    $x.remarks
+                                                                    #if($x.remarks && !$x.remarks.empty) 
+                                                                    	$x.remarks
+                                                                    #end
                                                                 </td>
                                                             </tr>
 															#end

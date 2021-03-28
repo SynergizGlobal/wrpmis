@@ -456,7 +456,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 						<ul class="notifications_group" style="margin-top: 5px;"
 							id="notificationList">
 							<!-- list of Notifications starts -->
-							<c:if
+							<%-- <c:if
 								test="${not empty issueAlerts and fn:length(issueAlerts) gt 0}">
 								<li class="head-item">Issue Alerts</li>
 								<c:forEach var="obj" items="${issueAlerts }">
@@ -474,7 +474,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 											</div>
 									</a></li>
 								</c:forEach>
-							</c:if>
+							</c:if> --%>
 							<c:forEach var="obj" items="${alerts }">
 								<li class="head-item">${obj.key}</li>
 								<c:if test="${obj.key eq '3rd Alert'}">
@@ -507,9 +507,12 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 										<c:set var="bgIcon" value="<i class='fa fa-money'></i>">
 										</c:set>
 									</c:if>
+									<c:if test="${aObj.alert_type_fk eq 'Issue'}">
+										<c:set var="bgIcon" value="<i class='fa fa-exclamation-triangle'></i>"></c:set>
+									</c:if>
 
 									<li class="item ${bgClass }"><a
-										href="<%=request.getContextPath()%>/get-contract/${aObj.contract_id }">
+										href="<%=request.getContextPath()%>${aObj.redirect_url }">
 											<span class="icon"> <!-- <i class="material-icons">access_time</i> -->
 												${bgIcon } <span class="icon-text">${aObj.alert_type_fk
                                                                             }</span>
@@ -883,7 +886,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 		<ul class="notifications_group" style="margin-top: 5px;"
 			id="notificationListMobile">
 			<!-- Mobile notification body starts here -->
-			<c:if test="${not empty issueAlerts and fn:length(issueAlerts) gt 0}">
+			<%-- <c:if test="${not empty issueAlerts and fn:length(issueAlerts) gt 0}">
 				<li class="head-item">Issue Alerts</li>
 				<c:forEach var="obj" items="${issueAlerts }">
 					<li class="item" style="background-color: #90b6c0;"><a
@@ -899,7 +902,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 							</div>
 					</a></li>
 				</c:forEach>
-			</c:if>
+			</c:if> --%>
 
 			<c:forEach var="obj" items="${alerts }">
 				<li class="head-item">${obj.key}</li>
@@ -929,9 +932,12 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 					<c:if test="${aObj.alert_type_fk eq 'Contract Value'}">
 						<c:set var="bgIcon" value="<i class='fa fa-money'></i>"></c:set>
 					</c:if>
+					<c:if test="${aObj.alert_type_fk eq 'Issue'}">
+						<c:set var="bgIcon" value="<i class='fa fa-exclamation-triangle'></i>"></c:set>
+					</c:if>
 
 					<li class="item ${bgClass }"><a
-						href="<%=request.getContextPath()%>/get-contract/${aObj.contract_id }">
+						href="<%=request.getContextPath()%>${aObj.redirect_url }">
 							<span class="icon"> <!-- <i class="material-icons">access_time</i> -->
 								${bgIcon } <span class="icon-text">${aObj.alert_type_fk }</span>
 						</span>

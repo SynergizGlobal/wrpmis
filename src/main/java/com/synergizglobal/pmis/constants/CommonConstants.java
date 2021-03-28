@@ -15,6 +15,8 @@ public class CommonConstants {
 	
 	public final static int  RANDOM_NUMERIC_NUMBER_LENGTH = 5;
 	
+	public final static String  BCC_MAIL = "support_pmis@mrvc.gov.in";
+	
 	public final static String  ROLE_CODE_DATA_ADMIN = "DA";
 	public final static String  ROLE_CODE_INPUT_USER = "IU";
 	public final static String  ROLE_CODE_IT_ADMIN = "IT";

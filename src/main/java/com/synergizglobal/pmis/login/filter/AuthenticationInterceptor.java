@@ -120,13 +120,14 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				
 				
 				Alerts aObj = new Alerts();
+				aObj.setUser_id(userDetails.getUser_id());
 				aObj.setEmail_id(userDetails.getEmail_id());
 				aObj.setUser_role_name(userDetails.getUser_role_name_fk());
 				Map<String,List<Alerts>> alerts = alertsService.getAlertsForHeaderNotifications(aObj);
 				model.addObject("alerts", alerts);
 				
-				List<Issue> issueAlerts = issueService.getIssueAlerts(userDetails);
-				model.addObject("issueAlerts", issueAlerts);
+				/*List<Issue> issueAlerts = issueService.getIssueAlerts(userDetails);
+				model.addObject("issueAlerts", issueAlerts);*/
 				
 				List<Messages> messages = service.getMessages(userDetails);
 				model.addObject("messages", messages);

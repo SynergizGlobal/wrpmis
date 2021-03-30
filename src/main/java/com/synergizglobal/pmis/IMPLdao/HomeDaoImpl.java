@@ -821,9 +821,11 @@ public class HomeDaoImpl implements HomeDao {
 	public List<Messages> getMessages(User uObj) throws Exception {
 		List<Messages> objsList = null;
 		try {
-			String qry ="select message_id,message,user_id_fk,redirect_url,DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p') as created_date,read_time,message_type "
+			String qry ="select message_id,message,user_id_fk,redirect_url,DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p') as created_date,"
+					+ "read_time,message_type "
 					+ "from messages where user_id_fk = ? "
-					+ "order by created_date DESC";
+					+ "and (read_time is null or read_time > (NOW() - INTERVAL 7 DAY)) "
+					+ "order by DATE_FORMAT(created_date,'%d-%m-%Y %H:%i:%s') DESC";
 			objsList = jdbcTemplate.query( qry,new Object[] {uObj.getUser_id()}, new BeanPropertyRowMapper<Messages>(Messages.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());

@@ -19,7 +19,7 @@ public class Schedular {
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     } 
-	public static Logger logger = Logger.getLogger(AlertsController.class);
+	public static Logger logger = Logger.getLogger(Schedular.class);
 	
 	@Autowired
 	HomeService service;

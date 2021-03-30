@@ -197,7 +197,7 @@
 											        </tr>
 											        <tr>
 											            <td>User Type</td>
-											            <td>: &nbsp; ${ userDetails.user_id }</td>
+											            <td>: &nbsp; ${ userDetails.user_type_fk }</td>
 											        </tr>
 											         <tr>
 											            <td>Email</td>

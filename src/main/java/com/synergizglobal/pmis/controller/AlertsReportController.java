@@ -102,8 +102,10 @@ public class AlertsReportController {
 			Date date = new Date();
             String currentDate = sqlDate.format(date);
             User uObj = (User) session.getAttribute("user");
+            model.addObject("user_id", uObj.getUser_id());
 	    	model.addObject("email_id", uObj.getEmail_id());
 	    	model.addObject("user_role_name", uObj.getUser_role_name_fk());
+	    	obj.setUser_id(uObj.getUser_id());
 	    	obj.setEmail_id(uObj.getEmail_id());
 	    	obj.setUser_role_name(uObj.getUser_role_name_fk());
 			boolean flag = generateAlertsReport(response,currentDate,obj);

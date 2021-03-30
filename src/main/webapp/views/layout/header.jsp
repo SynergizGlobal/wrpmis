@@ -456,25 +456,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 						<ul class="notifications_group" style="margin-top: 5px;"
 							id="notificationList">
 							<!-- list of Notifications starts -->
-							<%-- <c:if
-								test="${not empty issueAlerts and fn:length(issueAlerts) gt 0}">
-								<li class="head-item">Issue Alerts</li>
-								<c:forEach var="obj" items="${issueAlerts }">
-									<li class="item issue-alert_bg"><a
-										href="<%=request.getContextPath()%>/get-issue/${obj.issue_id }">
-											<span class="icon"> <i
-												class='fa fa-exclamation-triangle'></i> <span
-												class="icon-text">Issue</span>
-										</span>
-											<div>Work : ${obj.work_short_name }</div>
-											<div>Contract : ${obj.contract_short_name }</div>
-											<div>Contractor : ${obj.contractor_name }</div>
-											<div>
-												Issue <b>${obj.status_fk }</b>: ${obj.title }
-											</div>
-									</a></li>
-								</c:forEach>
-							</c:if> --%>
+							
 							<c:forEach var="obj" items="${alerts }">
 								<li class="head-item">${obj.key}</li>
 								<c:if test="${obj.key eq '3rd Alert'}">
@@ -886,23 +868,6 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 		<ul class="notifications_group" style="margin-top: 5px;"
 			id="notificationListMobile">
 			<!-- Mobile notification body starts here -->
-			<%-- <c:if test="${not empty issueAlerts and fn:length(issueAlerts) gt 0}">
-				<li class="head-item">Issue Alerts</li>
-				<c:forEach var="obj" items="${issueAlerts }">
-					<li class="item" style="background-color: #90b6c0;"><a
-						href="<%=request.getContextPath()%>/get-issue/${obj.issue_id }">
-							<span class="icon"> <i class='fa fa-exclamation-triangle'></i>
-								<span class="icon-text">Issue</span>
-						</span>
-							<div>Work : ${obj.work_short_name }</div>
-							<div>Contract : ${obj.contract_short_name }</div>
-							<div>Contractor : ${obj.contractor_name }</div>
-							<div>
-								Issue <b>${obj.status_fk }</b>: ${obj.title }
-							</div>
-					</a></li>
-				</c:forEach>
-			</c:if> --%>
 
 			<c:forEach var="obj" items="${alerts }">
 				<li class="head-item">${obj.key}</li>
@@ -1118,13 +1083,6 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
                        }
                    </c:forEach>
 
-
-                   if ("${not empty issueAlerts && fn:length(issueAlerts) gt 0}") {
-                       count = Number(count) + Number("${fn:length(issueAlerts)}")
-                   }
-                   if (count > 99) {
-                       count = "99+"
-                   }
                    $("#notificationCount").html(count);
                    $("#notificationCountMobile").html(count);
 
@@ -1135,8 +1093,8 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
                        <c:forEach var="mObj" items="${messages }">
                            if("${mObj.read_time}" == null || "${mObj.read_time}" == ''){
                                msgCount = Number(msgCount) + 1;
-					}
-				</c:forEach>
+							}
+						</c:forEach>
                    }
                    if (msgCount > 99) {
                        msgCount = "99+"

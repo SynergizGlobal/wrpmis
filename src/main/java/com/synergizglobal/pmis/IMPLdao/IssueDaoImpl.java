@@ -565,7 +565,7 @@ public class IssueDaoImpl implements IssueDao {
 						+ "VALUES"
 						+ "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
 				
-				String message = "A new issue against "+iObj.getContract_id_fk()+" has been "+iObj.getStatus_fk()+" to you.";
+				String message = "A new issue against "+iObj.getContract_id_fk()+" has been "+iObj.getStatus_fk();
 				String hod_user_id = "",dy_hod_user_id = "",responsible_person_user_id = "",escalated_to_user_id = "",created_by_user_id = "";
 				if("Raised".equals(iObj.getStatus_fk())) {
 					hod_user_id = iObj.getContract_hod_user_id();

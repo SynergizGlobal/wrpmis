@@ -239,6 +239,7 @@
     	var filtersMap = new Object();
 	    var email_id = '${email_id}';
 	    var user_role_name = '${user_role_name}';
+	    var user_id = '${user_id}';
     
 	    $(document).ready(function(){
 			var successMessage = '${success}';
@@ -395,7 +396,7 @@
     		
     		table.state.clear();		
     	 
-    		var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
+    		var myParams = {user_id : user_id,email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getAlerts",
     			data:myParams,cache: false,async:false,
     			type:'POST',

@@ -289,7 +289,7 @@
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
-                            	<div class="row">
+                            	<div class="row" id="escalatedRemarksDiv" style="display: none;">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m8 input-field" >
 	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${issue.remarks }</textarea>
@@ -714,6 +714,10 @@
         		$("#assigned_date").attr('disabled', true);
         		$("#responsible_person").attr('disabled', true);
         		
+    			$("#escalated_to").attr('disabled', false);
+    			$("#escalation_date").attr('disabled', false);
+    			$("#remarks").attr('readonly', false);
+        		
         	}else if($.trim(issueStatus) == 'Closed'){
         		$("#resolvedDiv").show();
         		
@@ -785,6 +789,10 @@
         		
         		$("#assigned_date").attr('disabled', false);
         		$("#responsible_person").attr('disabled', false);
+        		
+        		$("#escalated_to").attr('disabled', false);
+        		$("#escalation_date").attr('disabled', false);
+        		$("#remarks").attr('disabled', false);
         		
     			document.getElementById("issueForm").submit();			
     	 	}

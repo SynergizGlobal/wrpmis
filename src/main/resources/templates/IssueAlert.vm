@@ -17,7 +17,7 @@
 						<td align="center"
 							style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
 							#if($alert.status_fk != 'closed') 
-							A new issue against #if($alert.contract_id_fk) $alert.contract_id_fk #end has been #if($alert.status_fk) $alert.status_fk #end #if($alert.status_fk == 'Assigned' || !$alert.status_fk == 'Escalated') to you #end .
+							A new issue against #if($alert.contract_id_fk) $alert.contract_id_fk #end has been #if($alert.status_fk) $alert.status_fk #end #if($alert.status_fk == 'Assigned' || $alert.status_fk == 'Escalated') to you #end .
 							#end
 						</td>
 					</tr>

@@ -2113,7 +2113,6 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 				arrSize++;
 				arrSize++;
-				arrSize++;
 			}	
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -2140,7 +2139,6 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
-				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";

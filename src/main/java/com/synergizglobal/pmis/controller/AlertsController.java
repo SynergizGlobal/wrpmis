@@ -119,19 +119,6 @@ public class AlertsController {
 	     return model;
 	}
 	
-	@RequestMapping(value="/send-alerts-to-hod-dyhod",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView sendAlertsToHodDyHodByManual(){		
-		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
-	     try {
-	    	boolean flag = service.sendAlertsToHodDyHodByManual();
-			logger.error("sendAlertsToHodDyHodByManual >> sendMailAlerts >> Sending mails : "+ flag); 
-			
-		 } catch (Exception e) {
-			logger.error("sendAlertsToHodDyHodByManual() : "+e);
-		 }
-	     return model;
-	}
-	
 
 	
 	@RequestMapping(value="/generate-and-send-alerts-rajiv-ravi",method={RequestMethod.GET,RequestMethod.POST})
@@ -196,6 +183,7 @@ public class AlertsController {
 	    	 //String user_Id = (String) session.getAttribute("USER_ID");
 	    	 //String userName = (String) session.getAttribute("USER_NAME");
 	    	 User uObj = (User) session.getAttribute("user");
+	    	 model.addObject("user_id", uObj.getUser_id());
 	    	 model.addObject("email_id", uObj.getEmail_id());
 	    	 model.addObject("user_role_name", uObj.getUser_role_name_fk());
 		 } catch (Exception e) {
@@ -212,6 +200,7 @@ public class AlertsController {
 	    	 //String user_Id = (String) session.getAttribute("USER_ID");
 	    	 //String userName = (String) session.getAttribute("USER_NAME");
 	    	 User uObj = (User) session.getAttribute("user");
+	    	 model.addObject("user_id", uObj.getUser_id());
 	    	 model.addObject("email_id", uObj.getEmail_id());
 	    	 model.addObject("user_role_name", uObj.getUser_role_name_fk());	    	 
 	    	 model.addObject("alert_id", alert_id);

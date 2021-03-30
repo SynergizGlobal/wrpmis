@@ -469,103 +469,6 @@ public class AlertsDaoImpl implements AlertsDao{
 		return flag;
 	}
 
-
-	@Override
-	public boolean sendAlertsToHodDyHodByManual() throws Exception {
-		boolean flag = false;
-		try {
-			EMailSender emailSender = new EMailSender();
-			
-			String dyHODQry ="select group_concat(distinct dy_hod_email) from alerts where alert_status = ? and dy_hod_email is not null and dy_hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
-			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
-			String dyHODEmails = jdbcTemplate.queryForObject( dyHODQry,pValues, String.class);
-			
-			String hodQry ="select group_concat(distinct hod_email) from alerts where alert_status = ? and hod_email is not null and hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
-			pValues = new Object[] {CommonConstants.ACTIVE};
-			String hodEmails = jdbcTemplate.queryForObject( hodQry,pValues, String.class);
-						
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,IFNULL(a.remarks,'') as remarks " 
-					+ "from alerts a " 
-					+ "left outer join contract c on a.contract_id = c.contract_id " 
-					+ "left outer join work w on c.work_id_fk = w.work_id " 
-					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
-					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
-					+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
-			
-			pValues = new Object[] {CommonConstants.ACTIVE};
-			List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-			
-			/*dyfacao1@mrvc.gov.in - 1st 2nd 3rd of BG & Insurance
-			facao2@mrvc.gov.in - 2nd 3rd of BG & Insurance
-			df@mrvc.gov.in - 3rd of BG & Insurance
-			
-			dy HOD - 1st, 2nd 3rd alert of their contracts
-			HOD - 2nd, 3rd alerts of their contracts
-			cmd@mrvc.gov.in - only 3rd alerts of all contracts..*/
-			
-			/***************************************************************************/
-			if(!StringUtils.isEmpty(dyHODEmails)) {
-				
-				List<String> dyHODEmailsList = Arrays.asList(dyHODEmails.split(",", -1));
-				for (String emailId : dyHODEmailsList) {
-					List<Alerts> dyHodAlertsList = new ArrayList<Alerts>();
-					for (Alerts alerts : allAlertsList) {
-						if(!StringUtils.isEmpty(alerts.getDy_hod_email()) && alerts.getDy_hod_email().equals(emailId)) {
-							dyHodAlertsList.add(alerts);						
-						}
-					}
-					String emailSubject = "PMIS Contract & Issue Alerts";
-					
-					Mail mail = new Mail();
-					mail.setMailTo(emailId);
-					mail.setMailSubject(emailSubject);
-					mail.setTemplateName("alerts.vm");
-					
-					if(!StringUtils.isEmpty(dyHodAlertsList) && dyHodAlertsList.size() > 0){					
-						logger.error("sendAlertsToHodDyHodByManual() >> Sending mail to Dy HOD "+emailId+"> : Start ");	
-						emailSender.sendEmailWithAlerts(mail,dyHodAlertsList); 
-						logger.error("sendAlertsToHodDyHodByManual() >> Sending mail to Dy HOD "+emailId+"> : End ");	
-						flag = true;
-					}
-				}
-			}
-			/***************************************************************************/
-			
-			/***************************************************************************/
-			if(!StringUtils.isEmpty(hodEmails)) {
-				List<String> hodEmailsList = Arrays.asList(hodEmails.split(",", -1));
-				for (String emailId : hodEmailsList) {
-					List<Alerts> hodAlertsList = new ArrayList<Alerts>();
-					for (Alerts alerts : allAlertsList) {
-						if(!StringUtils.isEmpty(alerts.getHod_email()) && alerts.getHod_email().equals(emailId)) {
-							hodAlertsList.add(alerts);						
-						}
-					}
-					String emailSubject = "PMIS Contract & Issue Alerts";
-					
-					Mail mail = new Mail();
-					mail.setMailTo(emailId);
-					mail.setMailSubject(emailSubject);
-					mail.setTemplateName("alerts.vm");
-					
-					if(!StringUtils.isEmpty(hodAlertsList) && hodAlertsList.size() > 0){
-						logger.error("sendAlertsToHodDyHodByManual() >> Sending mail to HOD "+emailId+"> : Start ");	
-						emailSender.sendEmailWithAlerts(mail,hodAlertsList); 
-						logger.error("sendAlertsToHodDyHodByManual() >> Sending mail to HOD "+emailId+"> : End ");	
-						flag = true;
-					}
-				}
-			}
-			/***************************************************************************/
-			
-		}catch(Exception e){ 
-			throw new Exception(e);
-		}
-		return flag;
-	}
-	
-
 	
 	@Override
 	public boolean sendAlertsToRajivRavi() throws Exception {
@@ -1099,7 +1002,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				arrSize++;
 			}
 			
-			qry = qry + " order by u.designation,work_short_name,a.contract_id asc, alert_level desc";
+			qry = qry + " order by alert_level desc";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

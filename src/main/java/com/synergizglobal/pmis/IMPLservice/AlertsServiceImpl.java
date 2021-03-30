@@ -26,11 +26,6 @@ public class AlertsServiceImpl implements AlertsService{
 	}
 
 	@Override
-	public boolean sendAlertsToHodDyHodByManual() throws Exception {
-		return dao.sendAlertsToHodDyHodByManual();
-	}
-
-	@Override
 	public boolean sendAlertsToRajivRavi() throws Exception {
 		return dao.sendAlertsToRajivRavi();
 	}

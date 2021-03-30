@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.model.Alerts;
@@ -142,35 +143,50 @@ public class EMailSender {
 		    
 			  message.setFrom(new InternetAddress(mailId));
 			  
-			  
-			  ArrayList<String> recipientsArray = new ArrayList<String>();
-			  StringTokenizer stringTokenizer = new StringTokenizer(mail.getMailTo(), ",");
-			 
-			  while (stringTokenizer.hasMoreTokens()) {
-				 recipientsArray.add(stringTokenizer.nextToken());
+			  if(!StringUtils.isEmpty(mail.getMailTo())) {
+				  ArrayList<String> recipientsArray = new ArrayList<String>();
+				  StringTokenizer stringTokenizer = new StringTokenizer(mail.getMailTo(), ",");
+				 
+				  while (stringTokenizer.hasMoreTokens()) {
+					 recipientsArray.add(stringTokenizer.nextToken());
+				  }
+				  int sizeTo = recipientsArray.size();
+				  InternetAddress[] addressTo = new InternetAddress[sizeTo];
+				  for (int i = 0; i < sizeTo; i++) {
+					 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
+				  }	 
+				  message.setRecipients(Message.RecipientType.TO, addressTo);
 			  }
-			  int sizeTo = recipientsArray.size();
-			  InternetAddress[] addressTo = new InternetAddress[sizeTo];
-			  for (int i = 0; i < sizeTo; i++) {
-				 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
-			  }	 
-			  message.setRecipients(Message.RecipientType.TO, addressTo);
-			  
 			  /*********************************************************************/
-			  
-			  ArrayList<String> bccArray = new ArrayList<String>();
-			  StringTokenizer stringTokenizerBcc = new StringTokenizer(mail.getMailBcc(), ",");
-			 
-			  while (stringTokenizerBcc.hasMoreTokens()) {
-				  bccArray.add(stringTokenizerBcc.nextToken());
+			  if(!StringUtils.isEmpty(mail.getMailCc())) {
+				  ArrayList<String> ccArray = new ArrayList<String>();
+				  StringTokenizer stringTokenizerCc = new StringTokenizer(mail.getMailCc(), ",");
+				 
+				  while (stringTokenizerCc.hasMoreTokens()) {
+					  ccArray.add(stringTokenizerCc.nextToken());
+				  }
+				  int sizeCc = ccArray.size();
+				  InternetAddress[] addressCc = new InternetAddress[sizeCc];
+				  for (int i = 0; i < sizeCc; i++) {
+					 addressCc[i] = new InternetAddress(ccArray.get(i).toString());
+				  }	 
+				  message.setRecipients(Message.RecipientType.CC, addressCc);
 			  }
-			  int sizeBcc = bccArray.size();
-			  InternetAddress[] addressBcc = new InternetAddress[sizeBcc];
-			  for (int i = 0; i < sizeBcc; i++) {
-				  addressBcc[i] = new InternetAddress(bccArray.get(i).toString());
-			  }	 
-			  message.setRecipients(Message.RecipientType.BCC, addressBcc);
-			  
+			  /*********************************************************************/
+			  if(!StringUtils.isEmpty(mail.getMailBcc())) {
+				  ArrayList<String> bccArray = new ArrayList<String>();
+				  StringTokenizer stringTokenizerBcc = new StringTokenizer(mail.getMailBcc(), ",");
+				 
+				  while (stringTokenizerBcc.hasMoreTokens()) {
+					  bccArray.add(stringTokenizerBcc.nextToken());
+				  }
+				  int sizeBcc = bccArray.size();
+				  InternetAddress[] addressBcc = new InternetAddress[sizeBcc];
+				  for (int i = 0; i < sizeBcc; i++) {
+					  addressBcc[i] = new InternetAddress(bccArray.get(i).toString());
+				  }	 
+				  message.setRecipients(Message.RecipientType.BCC, addressBcc);
+			  }
 				 
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
@@ -258,7 +274,22 @@ public class EMailSender {
 				 addressCc[i] = new InternetAddress(ccArray.get(i).toString());
 			  }	 
 			  message.setRecipients(Message.RecipientType.CC, addressCc);
+			  /*********************************************************************/
 			  
+			  if(!StringUtils.isEmpty(mail.getMailBcc())) {
+				  ArrayList<String> bccArray = new ArrayList<String>();
+				  StringTokenizer stringTokenizerBcc = new StringTokenizer(mail.getMailBcc(), ",");
+				 
+				  while (stringTokenizerBcc.hasMoreTokens()) {
+					  bccArray.add(stringTokenizerBcc.nextToken());
+				  }
+				  int sizeBcc = bccArray.size();
+				  InternetAddress[] addressBcc = new InternetAddress[sizeBcc];
+				  for (int i = 0; i < sizeBcc; i++) {
+					  addressBcc[i] = new InternetAddress(bccArray.get(i).toString());
+				  }	 
+				  message.setRecipients(Message.RecipientType.BCC, addressBcc);
+			  }
 				 
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());

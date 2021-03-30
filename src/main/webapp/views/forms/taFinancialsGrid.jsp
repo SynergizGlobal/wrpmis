@@ -292,7 +292,7 @@
 
 			$.fn.dataTable.moment('DD-MMM-YYYY');
 
-			var myParams =  "&work_id_fk="
+			var myParams =  "work_id_fk="
 					+ work_id_fk + "&contract_id_fk="
 					+ contract_id_fk;
 

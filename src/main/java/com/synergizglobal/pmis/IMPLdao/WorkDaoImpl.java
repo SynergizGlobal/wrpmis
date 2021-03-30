@@ -575,7 +575,9 @@ public class WorkDaoImpl implements WorkDao {
 	public int getTotalRecords(Work obj, String searchParameter) throws Exception {
 		int totalRecords = 0;
 		try {
-			String qry ="select count(*) as total_records from project where project_id is not null";
+			String qry ="select count(*) as total_records from work w "
+					+ "LEFT JOIN project p ON w.project_id_fk = p.project_id "
+					+ "where work_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (project_id_fk like ? or p.project_name like ? or work_id like ?"
@@ -601,6 +603,7 @@ public class WorkDaoImpl implements WorkDao {
 			}
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return totalRecords;

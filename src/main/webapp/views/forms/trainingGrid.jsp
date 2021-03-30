@@ -45,7 +45,26 @@
         tbody tr td:last-of-type a+a{
         	margin-left:20px;
         }
-       
+       .right-btns .fa{
+         	position:relative;
+         	top:-35px;
+         }
+         .right-btns .fa+.fa{
+         	right:-10px;
+         }
+         .row.no-mar{
+         	margin-bottom:0;
+         }
+          .dataTables_filter label::after{
+         	content:'';
+         }
+         .right-btns .fa{
+         	position:relative;
+         	top:-35px;
+         }
+         .right-btns .fa+.fa{
+         	right:-10px;
+         }
     </style>
 </head>
 
@@ -392,7 +411,157 @@
         	$("#upload_template").modal();
         	$("#trainingUploadForm").submit();
         }
+        
+        
         function getTraningList(){
+        	$(".page-loader-2").show();
+        	getTrainingTypesFilterList('');
+         	getTrainingCategorysFilterList('');
+         	getStatusFilterList('');
+         	
+        	var training_type_fk = $("#training_type_fk").val();
+        	var training_category_fk = $("#training_category_fk").val();
+        	var status_fk = $("#status_fk").val();
+
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("trainingFilters", filters);
+   			});
+         	
+        	table = $('#datatable-training').DataTable();
+
+			table.destroy();
+
+			$.fn.dataTable.moment('DD-MMM-YYYY');
+
+			var myParams = "training_type_fk=" + training_type_fk + "&training_category_fk="
+					+ training_category_fk +  "&status_fk=" + status_fk;
+
+			/***************************************************************************************************/
+
+			$("#datatable-training")
+					.DataTable(
+							{
+								"bProcessing" : true,
+								"bServerSide" : true,
+								"sort" : "position",
+								//bStateSave variable you can use to save state on client cookies: set value "true" 
+								"bStateSave" : false,
+								//Default: Page display length
+								"iDisplayLength" : 10,
+								"iData" : {
+									"start" : 52
+								},
+								//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+								"iDisplayStart" : 0,
+								"fnDrawCallback" : function() {
+									//Get page numer on client. Please note: number start from 0 So
+									//for the first page you will see 0 second page 1 third page 2...
+									//Un-comment below alert to see page number
+									//alert("Current page number: "+this.fnPagingInfo().iPage);
+								},
+								//"sDom": 'l<"toolbar">frtip',
+								"initComplete" : function() {
+									$('.dataTables_filter input[type="search"]')
+											.attr('placeholder', 'Search')
+											.css({
+												'width' : '350px ',
+												'display' : 'inline-block'
+											});
+
+									var input = $('.dataTables_filter input')
+											.unbind(), self = this.api(), $searchButton = $(
+											'<i class="fa fa-search" title="Go">')
+									//.text('Go')
+									.click(function() {
+										self.search(input.val()).draw();
+									}), $clearButton = $(
+											'<i class="fa fa-close" title="Reset">')
+									//.text('X')
+									.click(function() {
+										input.val('');
+										$searchButton.click();
+									})
+									$('.dataTables_filter').append(
+											'<div class="right-btns"></div>');
+									$('.dataTables_filter div').append(
+											$searchButton, $clearButton);
+
+									/* var input = $('.dataTables_filter input').unbind(),
+									self = this.api(),
+									$searchButton = $('<i class="fa fa-search">')
+									           //.text('Go')
+									           .click(function() {			   	                    	 
+									              self.search(input.val()).draw();
+									           })			   	        
+									  $('.dataTables_filter label').append($searchButton); */
+								},
+								columnDefs : [ {
+									"targets" : 'no-sort',
+									"orderable" : false,
+								} ],
+								"sScrollX" : "100%",
+								"sScrollXInner" : "100%",
+								"bScrollCollapse" : true,
+								"language" : {
+									"info" : "_START_ - _END_ of _TOTAL_",
+									paginate : {
+										next : '<i class="fa fa-angle-right"></i>', // or '→'
+										previous : '<i class="fa fa-angle-left"></i>' // or '←' 
+									}
+								},
+								"bDestroy" : true,
+								"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-training?"+myParams,
+			        "aoColumns": [
+			            { "mData": function(data,type,row){
+	                     	if($.trim(data.training_id) == ''){ return '-'; }else{ return data.training_id; }
+            			} },   				            
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.training_type_fk) == ''){ return '-'; }else{ return data.training_type_fk; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			            	if($.trim(data.training_category_fk) == ''){ return '-'; }else{ return data.training_category_fk; }
+			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.title) == ''){ return '-'; }else{ return data.title; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			            	if($.trim(data.faculty_name) == ''){ return '-'; }else{ return data.faculty_name; }
+			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.start_time) == ''){ return '-'; }else{ return data.start_time; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			            	if($.trim(data.end_time) == ''){ return '-'; }else{ return data.end_time; }
+			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.hours) == ''){ return '-'; }else{ return data.hours; }
+			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.status_fk) == ''){ return '-'; }else{ return data.status_fk; }
+			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.nominated) == ''){ return '-'; }else{ return data.nominated; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			            	if($.trim(data.attended) == ''){ return '-'; }else{ return data.attended; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			         		var training_id = "'"+data.training_id+"'";
+		                    var actions = '<a href="javascript:void(0);"  onclick="getTraining('+training_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+			            	return actions;
+			            } }
+			            
+			        ]
+			    });
+		    
+		  $(".page-loader-2").hide();  		     
+      	
+     }
+
+        function getTraningList1(){
         	$(".page-loader-2").show();
         	getTrainingTypesFilterList('');
          	getTrainingCategorysFilterList('');

@@ -30,4 +30,8 @@ public interface BudgetDao {
 
 	public List<Budget> getWorkListForBudgetForm(Budget obj) throws Exception;
 
+	public int getTotalRecords(Budget obj, String searchParameter) throws Exception;
+
+	public List<Budget> getBudgetList(Budget obj, int startIndex, int offset, String searchParameter) throws Exception;
+
 }

@@ -30,6 +30,10 @@ public interface SourceOfFundService {
 
 	public List<SourceOfFund> getWorkListForSourceOfFundForm(SourceOfFund obj) throws Exception;
 
+	public int getTotalRecords(SourceOfFund obj, String searchParameter) throws Exception;
+
+	public List<SourceOfFund> getSourceOfFundList(SourceOfFund obj, int startIndex, int offset, String searchParameter) throws Exception;
+
 	
 
 }

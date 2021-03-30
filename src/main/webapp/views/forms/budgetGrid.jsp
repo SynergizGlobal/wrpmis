@@ -35,6 +35,16 @@
         	width:300px !important;
         	max-width:300px;
         }
+        .dataTables_filter label::after{
+         	content:'';
+         }
+         .right-btns .fa{
+         	position:relative;
+         	top:-35px;
+         }
+         .right-btns .fa+.fa{
+         	right:-10px;
+         }
     </style>
 </head>
 
@@ -310,7 +320,150 @@
       	}
     }
     
-    function getBudgetList(){
+    
+    function getBudgetList() {
+		$(".page-loader-2").show();
+
+		getWorksFilterList('');
+     	getProjectsFilterList('');
+     	getFinancialYearsFilterList('');
+     	
+    	var project_id_fk = $("#project_id_fk").val();
+    	var work_id_fk = $("#work_id_fk").val();
+    	var financial_year_fk = $("#financial_year_fk").val();
+
+    	var filters = '';
+    	Object.keys(filtersMap).forEach(function (key) {
+    		//alert(filtersMap[key]);
+    		filters = filters + key +"="+filtersMap[key] + "^";
+    		window.localStorage.setItem("budgetFilters", filters);
+			});
+    	
+    	table = $('#datatable-budget').DataTable();
+		table.destroy();
+
+		$.fn.dataTable.moment('DD-MMM-YYYY');
+
+		var myParams =  "work_id_fk="
+				+ work_id_fk + "&project_id_fk="+ project_id_fk+ "&financial_year_fk="+ financial_year_fk;
+
+		/***************************************************************************************************/
+
+		$("#datatable-budget")
+				.DataTable(
+						{
+							"bProcessing" : true,
+							"bServerSide" : true,
+							"sort" : "position",
+							//bStateSave variable you can use to save state on client cookies: set value "true" 
+							"bStateSave" : false,
+							//Default: Page display length
+							"iDisplayLength" : 10,
+							"iData" : {
+								"start" : 52
+							},
+							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+							"iDisplayStart" : 0,
+							"fnDrawCallback" : function() {
+								//Get page numer on client. Please note: number start from 0 So
+								//for the first page you will see 0 second page 1 third page 2...
+								//Un-comment below alert to see page number
+								//alert("Current page number: "+this.fnPagingInfo().iPage);
+							},
+							//"sDom": 'l<"toolbar">frtip',
+							"initComplete" : function() {
+								$('.dataTables_filter input[type="search"]')
+										.attr('placeholder', 'Search')
+										.css({
+											'width' : '350px ',
+											'display' : 'inline-block'
+										});
+
+								var input = $('.dataTables_filter input')
+										.unbind(), self = this.api(), $searchButton = $(
+										'<i class="fa fa-search" title="Go">')
+								//.text('Go')
+								.click(function() {
+									self.search(input.val()).draw();
+								}), $clearButton = $(
+										'<i class="fa fa-close" title="Reset">')
+								//.text('X')
+								.click(function() {
+									input.val('');
+									$searchButton.click();
+								})
+								$('.dataTables_filter').append(
+										'<div class="right-btns"></div>');
+								$('.dataTables_filter div').append(
+										$searchButton, $clearButton);
+
+								/* var input = $('.dataTables_filter input').unbind(),
+								self = this.api(),
+								$searchButton = $('<i class="fa fa-search">')
+								           //.text('Go')
+								           .click(function() {			   	                    	 
+								              self.search(input.val()).draw();
+								           })			   	        
+								  $('.dataTables_filter label').append($searchButton); */
+							},
+							columnDefs : [ {
+								"targets" : 'no-sort',
+								"orderable" : false,
+							} ],
+							"sScrollX" : "100%",
+							"sScrollXInner" : "100%",
+							"bScrollCollapse" : true,
+							"language" : {
+								"info" : "_START_ - _END_ of _TOTAL_",
+								paginate : {
+									next : '<i class="fa fa-angle-right"></i>', 
+									previous : '<i class="fa fa-angle-left"></i>'  
+								}
+							},
+							"bDestroy" : true,
+							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-budget?"+myParams,
+		        "aoColumns": [
+  		            { "mData": function(data,type,row){
+  		            	var work_short_name = '';
+                         if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
+                         if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
+  		            } },
+  		         	{ "mData": function(data,type,row){
+                         if($.trim(data.financial_year_fk) == ''){ return '-'; }else{ return data.financial_year_fk ; }
+  		            } },
+		            { "mData": function(data,type,row){
+		            	if($.trim(data.budget_estimate) == ''){ return '-'; }else{ return data.budget_estimate; }
+		            } },
+		         	{ "mData": function(data,type,row){
+		            	if($.trim(data.budget_grant) == ''){ return '-'; }else{ return data.budget_grant; }
+		            } },
+		            { "mData": function(data,type,row){
+		            	if($.trim(data.revised_estimate) == ''){ return '-'; }else{ return data.revised_estimate; }
+		            } },
+		            { "mData": function(data,type,row){
+		            	if($.trim(data.revised_grant) == ''){ return '-'; }else{ return data.revised_grant; }
+		            } },
+		         	{ "mData": function(data,type,row){
+		            	if($.trim(data.final_estimate) == ''){ return '-'; }else{ return data.final_estimate; }
+		            } },
+		            { "mData": function(data,type,row){
+		            	if($.trim(data.final_grant) == ''){ return '-'; }else{ return data.final_grant; }
+		            } },
+		         	{ "mData": function(data,type,row){
+		         		var budget_id = "'"+data.budget_id+"'";
+	                    var actions = '<a href="javascript:void(0);"  onclick="getBudget('+budget_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+		            	return actions;
+		            } }
+		            
+		        ]
+		    });
+	    
+	  $(".page-loader-2").hide();  		     
+  	
+ }
+
+    
+    function getBudgetList1(){
     	$(".page-loader-2").show();
     	
     	getWorksFilterList('');

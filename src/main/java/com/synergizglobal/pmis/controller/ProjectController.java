@@ -89,7 +89,7 @@ public class ProjectController {
 	}
 	
 	@RequestMapping(value = "/ajax/get-projects", method = { RequestMethod.POST, RequestMethod.GET }) 
-	public void getActivitiesList(@ModelAttribute Project obj, HttpServletRequest request,
+	public void getProjectsList(@ModelAttribute Project obj, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws IOException {
 		PrintWriter pw = null;
 		//JSONObject json = new JSONObject();
@@ -149,7 +149,7 @@ public class ProjectController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(
-					"getActivitiesList : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
+					"getProjectsList : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
 		}
 
 		pw.println(json2);

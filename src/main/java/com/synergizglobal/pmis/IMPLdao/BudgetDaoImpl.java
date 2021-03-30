@@ -625,6 +625,139 @@ public class BudgetDaoImpl implements BudgetDao {
 		}
 		return objsList;
 	}
+
+	@Override
+	public int getTotalRecords(Budget obj, String searchParameter) throws Exception {
+		int totalRecords = 0;
+		try {
+			String qry ="select count(DISTINCT work_id_fk) as total_records from budget b "
+					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
+					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
+					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()), '-',SUBSTR(YEAR(NOW())+1,3,2)) ELSE concat(YEAR(NOW())-1,'-', SUBSTR(YEAR(NOW()),3,2)) END) AS financial_year) " 
+					+ "AND budget_id is not null and status = ? ";
+			
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (b.work_id_fk like ? or w.work_short_name like ? or financial_year_fk like ?"
+						+ " or budget_estimate like ? or budget_grant like ? or revised_estimate like ? or revised_grant like ? or final_estimate like ? or final_grant like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return totalRecords;
+	}
+
+	@Override
+	public List<Budget> getBudgetList(Budget obj, int startIndex, int offset, String searchParameter) throws Exception {
+		List<Budget> objsList = null;
+		try {
+			String qry ="select budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, " 
+					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant, " 
+					+ "b.remarks from budget b "
+					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
+					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
+					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()), '-',SUBSTR(YEAR(NOW())+1,3,2)) ELSE concat(YEAR(NOW())-1,'-', SUBSTR(YEAR(NOW()),3,2)) END) AS financial_year) " 
+					+ "AND budget_id is not null and status = ? ";
+			
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (b.work_id_fk like ? or w.work_short_name like ? or financial_year_fk like ?"
+						+ " or budget_estimate like ? or budget_grant like ? or revised_estimate like ? or revised_grant like ? or final_estimate like ? or final_grant like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				qry = qry + " GROUP BY work_id_fk ORDER BY budget_id ASC limit ?,?";
+				arrSize++;
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				pValues[i++] = startIndex;
+				pValues[i++] = offset;
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Budget>(Budget.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 	
 	
 }

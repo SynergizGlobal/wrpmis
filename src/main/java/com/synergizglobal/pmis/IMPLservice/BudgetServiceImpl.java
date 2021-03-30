@@ -90,4 +90,14 @@ public class BudgetServiceImpl implements BudgetService{
 		return budgetDao.getWorkListForBudgetForm(obj);
 	}
 
+	@Override
+	public int getTotalRecords(Budget obj, String searchParameter) throws Exception {
+		return budgetDao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<Budget> getBudgetList(Budget obj, int startIndex, int offset, String searchParameter) throws Exception {
+		return budgetDao.getBudgetList(obj,startIndex,offset,searchParameter);
+	}
+
 }

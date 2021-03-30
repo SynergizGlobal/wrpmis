@@ -94,7 +94,7 @@ public class WorkController {
 	}
 	
 	@RequestMapping(value = "/ajax/get-works", method = { RequestMethod.POST, RequestMethod.GET }) 
-	public void getActivitiesList(@ModelAttribute Work obj, HttpServletRequest request,
+	public void getWorksList(@ModelAttribute Work obj, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws IOException {
 		PrintWriter pw = null;
 		//JSONObject json = new JSONObject();

@@ -76,6 +76,17 @@ public class SourceOfFundServiceImpl implements SourceOfFundService{
 		return dao.getWorkListForSourceOfFundForm(obj);
 	}
 
+	@Override
+	public int getTotalRecords(SourceOfFund obj, String searchParameter) throws Exception {
+		return dao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<SourceOfFund> getSourceOfFundList(SourceOfFund obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		return dao.getSourceOfFundList(obj,startIndex,offset,searchParameter);
+	}
+
 	
 
 }

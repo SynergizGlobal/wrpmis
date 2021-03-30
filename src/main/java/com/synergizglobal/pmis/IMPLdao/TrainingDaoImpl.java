@@ -997,4 +997,145 @@ public class TrainingDaoImpl implements TrainingDao{
 		return objsList;
 	}
 
+	@Override
+	public int getTotalRecords(Training obj, String searchParameter) throws Exception {
+		int totalRecords = 0;
+		try {
+			String qry ="select count(distinct training_id) as total_records  from training t "
+					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
+					+ "left join training_attendees ta on training_session_id = training_session_id_fk "
+					+ " where ts.training_id_fk  = training_id ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
+				qry = qry + " and training_type_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_category_fk())) {
+				qry = qry + " and training_category_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (training_id like ? or training_type_fk like ? or training_category_fk like ? or title like ?"
+						+ " or faculty_name like ? or start_time like ? or end_time like ? or status_fk like ?) ";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
+				pValues[i++] = obj.getTraining_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_category_fk())) {
+				pValues[i++] = obj.getTraining_category_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return totalRecords;
+	}
+
+	@Override
+	public List<Training> getTrainingsList(Training obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		List<Training> objsList = null;
+		try {
+			String qry ="select training_id,training_type_fk,training_category_fk,sum(ta.required_fk = ?) as nominated,sum(ta.participated_fk = ?) as attended,title,faculty_name,status_fk,t.designation, description, training_center, status_fk, t.remarks,"
+					+ "DATE_FORMAT(start_time,'%d-%m-%Y')  as date,DATE_FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,DATE_FORMAT(max(end_time),'%d-%m-%Y') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
+					+ " FROM training_session ts where ts.training_id_fk  = training_id group by training_id_fk) as hours "
+					+ "from training t "
+					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
+					+ "left join training_attendees ta on training_session_id = training_session_id_fk "
+					+ " where ts.training_id_fk  = training_id ";
+			int arrSize = 2;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
+				qry = qry + " and training_type_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_category_fk())) {
+				qry = qry + " and training_category_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (training_id like ? or training_type_fk like ? or training_category_fk like ? or title like ?"
+						+ " or faculty_name like ? or start_time like ? or end_time like ? or status_fk like ? )";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				qry = qry + "group by ts.training_id_fk order by ts.start_time desc limit ?,?";
+				arrSize++;
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.YES;
+			pValues[i++] = CommonConstants.YES;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
+				pValues[i++] = obj.getTraining_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_category_fk())) {
+				pValues[i++] = obj.getTraining_category_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				pValues[i++] = startIndex;
+				pValues[i++] = offset;
+			}
+			
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 }

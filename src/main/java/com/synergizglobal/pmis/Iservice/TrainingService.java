@@ -44,5 +44,9 @@ public interface TrainingService {
 
 	public List<Training> getAttendeesList() throws Exception;
 
+	public int getTotalRecords(Training obj, String searchParameter) throws Exception;
+
+	public List<Training> getTrainingsList(Training obj, int startIndex, int offset, String searchParameter) throws Exception;
+
 
 }

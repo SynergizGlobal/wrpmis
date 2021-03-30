@@ -2103,8 +2103,8 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or e.contract_id like ?"
-						+ " or c.contract_short_name like ? or ledger_account like ? or e.contractor_name like ? or date like ? or voucher_type like ?)";
+				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or contract_id like ?"
+						+ " or c.contract_short_name like ? or cr.contractor_name like ? or c.department_fk like ? or c.hod_user_id_fk like ? or c.dy_hod_user_id_fk like ?)";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -2150,6 +2150,7 @@ public class ContractDaoImpl implements ContractDao {
 			} 
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return totalRecords;

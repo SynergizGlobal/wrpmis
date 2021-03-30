@@ -350,5 +350,142 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		return objsList;
 	}
 
+	@Override
+	public int getTotalRecords(SourceOfFund obj, String searchParameter) throws Exception {
+		int totalRecords = 0;	
+		try {
+			String qry = "SELECT count(*) as total_records from funds f "
+					+ "LEFT JOIN work w on f.work_id_fk = w.work_id "
+					+ "LEFT JOIN project p on w.project_id_fk = p.project_id  "
+					+ "LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds "
+					+ "LEFT JOIN railway r on f.sub_category_railway_id_fk = r.railway_id where funds_id is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
+				qry = qry + " and source_of_funds_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
+				qry = qry + " and sub_category_railway_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (w.project_id_fk like ? or project_name like ? or source_of_funds_fk like ?"
+						+ " or sub_category_railway_id_fk like ? or railway_name like ? or funding_date like ? or fund_amount like ? or ledger_account like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
+				pValues[i++] = obj.getSource_of_funds_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
+				pValues[i++] = obj.getSub_category_railway_id_fk();
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
+	}catch(Exception e){ 
+		e.printStackTrace();
+		throw new Exception(e.getMessage());
+	}
+	return totalRecords;
+	}
+
+	@Override
+	public List<SourceOfFund> getSourceOfFundList(SourceOfFund obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		List<SourceOfFund> objsList = null;
+		
+		String qry = "SELECT funds_id, f.work_id_fk,w.work_name,w.work_short_name,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account, "
+				+ "bank_account,voucher_type,voucher_no,narration,f.remarks,w.project_id_fk,p.project_id,p.project_name "
+				+ "from funds f "
+				+ "LEFT JOIN work w on f.work_id_fk = w.work_id "
+				+ "LEFT JOIN project p on w.project_id_fk = p.project_id  "
+				+ "LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds "
+				+ "LEFT JOIN railway r on f.sub_category_railway_id_fk = r.railway_id where funds_id is not null ";
+		int arrSize = 0;
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+			qry = qry + " and work_id_fk = ?";
+			arrSize++;
+		}	
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
+			qry = qry + " and source_of_funds_fk = ?";
+			arrSize++;
+		}	
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
+			qry = qry + " and sub_category_railway_id_fk = ?";
+			arrSize++;
+		}	
+		if(!StringUtils.isEmpty(searchParameter)) {
+			qry = qry + " and (w.project_id_fk like ? or project_name like ? or source_of_funds_fk like ?"
+					+ " or sub_category_railway_id_fk like ? or railway_name like ? or funding_date like ? or fund_amount like ? or ledger_account like ?)";
+			arrSize++;
+			arrSize++;
+			arrSize++;
+			arrSize++;
+			arrSize++;
+			arrSize++;
+			arrSize++;
+			arrSize++;
+		}	
+		if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+			qry = qry + " ORDER BY funds_id ASC limit ?,?";
+			arrSize++;
+			arrSize++;
+		}
+		Object[] pValues = new Object[arrSize];
+		int i = 0;
+		
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+			pValues[i++] = obj.getWork_id_fk();
+		}
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
+			pValues[i++] = obj.getSource_of_funds_fk();
+		}
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
+			pValues[i++] = obj.getSub_category_railway_id_fk();
+		}
+		if(!StringUtils.isEmpty(searchParameter)) {
+			pValues[i++] = "%"+searchParameter+"%";
+			pValues[i++] = "%"+searchParameter+"%";
+			pValues[i++] = "%"+searchParameter+"%";
+			pValues[i++] = "%"+searchParameter+"%";
+			pValues[i++] = "%"+searchParameter+"%";
+			pValues[i++] = "%"+searchParameter+"%";
+			pValues[i++] = "%"+searchParameter+"%";
+			pValues[i++] = "%"+searchParameter+"%";
+		}
+		if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+			pValues[i++] = startIndex;
+			pValues[i++] = offset;
+		}
+	 objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));
+		
+		return objsList;
+	}
+
 	
 }

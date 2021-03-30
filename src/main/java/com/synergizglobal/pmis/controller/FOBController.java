@@ -101,7 +101,7 @@ public class FOBController {
 	}
 
 	@RequestMapping(value = "/ajax/getFOBList", method = { RequestMethod.POST, RequestMethod.GET })
-	public void getActivitiesList(@ModelAttribute FOB obj, HttpServletRequest request,
+	public void getFOBList(@ModelAttribute FOB obj, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws IOException {
 		PrintWriter pw = null;
 		//JSONObject json = new JSONObject();
@@ -190,13 +190,13 @@ public class FOBController {
 	 * @return
 	 */
 	public List<FOB> createPaginationData(int startIndex, int offset,FOB obj, String searchParameter) {
-		List<FOB> earthWorkList = null;
+		List<FOB> objList = null;
 		try {
-			earthWorkList = fobService.getFOBsList(obj, startIndex, offset, searchParameter);
+			objList = fobService.getFOBsList(obj, startIndex, offset, searchParameter);
 		} catch (Exception e) {
 			logger.error("createPaginationData : " + e.getMessage());
 		}
-		return earthWorkList;
+		return objList;
 	}
 	
 	

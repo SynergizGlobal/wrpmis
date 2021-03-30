@@ -104,4 +104,15 @@ public class TrainingServiceImpl implements TrainingService{
 	public List<Training> getAttendeesList() throws Exception {
 		return dao.getAttendeesList();
 	}
+
+	@Override
+	public int getTotalRecords(Training obj, String searchParameter) throws Exception {
+		return dao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<Training> getTrainingsList(Training obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		return dao.getTrainingsList(obj,startIndex,offset,searchParameter);
+	}
 }

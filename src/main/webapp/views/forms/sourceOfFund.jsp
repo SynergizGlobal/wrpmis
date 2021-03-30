@@ -28,7 +28,17 @@
     	 .fw-400{
     	 	width:400px !important;
     	 	max-width:400px;
-    	 }        
+    	 }   
+    	  .dataTables_filter label::after{
+         	content:'';
+         }
+         .right-btns .fa{
+         	position:relative;
+         	top:-35px;
+         }
+         .right-btns .fa+.fa{
+         	right:-10px;
+         }     
     </style>
 </head>
 
@@ -297,7 +307,144 @@
       	}
     }
     
-    function getFundList(){
+    
+    function getFundList() {
+		$(".page-loader-2").show();
+		getSOFFilterList('');
+    	getRailwaysFilterList('');
+    	getWorksFilterList('');
+    	
+    	var work_id_fk = $("#work_id_fk").val();
+    	var source_of_funds_fk = $("#source_of_funds_fk").val();
+    	var sub_category_railway_id_fk = $("#sub_category_railway_id_fk").val();
+    	
+    	var filters = '';
+    	Object.keys(filtersMap).forEach(function (key) {
+    		//alert(filtersMap[key]);
+    		filters = filters + key +"="+filtersMap[key] + "^";
+    		window.localStorage.setItem("sourceOfFundFilters", filters);
+			});
+    	
+    	table = $('#datatable-fund').DataTable();
+		table.destroy();
+
+		$.fn.dataTable.moment('DD-MMM-YYYY');
+
+		var myParams =  "source_of_funds_fk="+ source_of_funds_fk+ "&sub_category_railway_id_fk="+ sub_category_railway_id_fk;
+
+		/***************************************************************************************************/
+
+		$("#datatable-fund")
+				.DataTable(
+						{
+							"bProcessing" : true,
+							"bServerSide" : true,
+							"sort" : "position",
+							//bStateSave variable you can use to save state on client cookies: set value "true" 
+							"bStateSave" : false,
+							//Default: Page display length
+							"iDisplayLength" : 10,
+							"iData" : {
+								"start" : 52
+							},
+							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+							"iDisplayStart" : 0,
+							"fnDrawCallback" : function() {
+								//Get page numer on client. Please note: number start from 0 So
+								//for the first page you will see 0 second page 1 third page 2...
+								//Un-comment below alert to see page number
+								//alert("Current page number: "+this.fnPagingInfo().iPage);
+							},
+							//"sDom": 'l<"toolbar">frtip',
+							"initComplete" : function() {
+								$('.dataTables_filter input[type="search"]')
+										.attr('placeholder', 'Search')
+										.css({
+											'width' : '350px ',
+											'display' : 'inline-block'
+										});
+
+								var input = $('.dataTables_filter input')
+										.unbind(), self = this.api(), $searchButton = $(
+										'<i class="fa fa-search" title="Go">')
+								//.text('Go')
+								.click(function() {
+									self.search(input.val()).draw();
+								}), $clearButton = $(
+										'<i class="fa fa-close" title="Reset">')
+								//.text('X')
+								.click(function() {
+									input.val('');
+									$searchButton.click();
+								})
+								$('.dataTables_filter').append(
+										'<div class="right-btns"></div>');
+								$('.dataTables_filter div').append(
+										$searchButton, $clearButton);
+
+								/* var input = $('.dataTables_filter input').unbind(),
+								self = this.api(),
+								$searchButton = $('<i class="fa fa-search">')
+								           //.text('Go')
+								           .click(function() {			   	                    	 
+								              self.search(input.val()).draw();
+								           })			   	        
+								  $('.dataTables_filter label').append($searchButton); */
+							},
+							columnDefs : [ {
+								"targets" : 'no-sort',
+								"orderable" : false,
+							} ],
+							"sScrollX" : "100%",
+							"sScrollXInner" : "100%",
+							"bScrollCollapse" : true,
+							"language" : {
+								"info" : "_START_ - _END_ of _TOTAL_",
+								paginate : {
+									next : '<i class="fa fa-angle-right"></i>', 
+									previous : '<i class="fa fa-angle-left"></i>'  
+								}
+							},
+							"bDestroy" : true,
+							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-funds?"+myParams,
+		       	 "aoColumns": [
+  		            { "mData": function(data,type,row){
+  		            	 var project_name = '';
+                         if ($.trim(data.project_name) != '') { project_name = ' - ' + $.trim(data.project_name) }    	
+                         if($.trim(data.project_id) == ''){ return '-'; }else{ return data.project_id +project_name; }
+  		            } },
+  		         	{ "mData": function(data,type,row){
+		            	if($.trim(data.source_of_funds_fk) == ''){ return '-'; }else{ return data.source_of_funds_fk; }
+		            } },
+  		         	{ "mData": function(data,type,row){
+  		         	 	 var railwayName = '';
+  		         	 	 if ($.trim(data.railwayName) != '') { railwayName = ' - ' + $.trim(data.railway_name) } 
+                         if($.trim(data.sub_category_railway_id_fk) == ''){ return '-'; }else{ return data.sub_category_railway_id_fk +railwayName; }
+  		            } },
+		         	{ "mData": function(data,type,row){
+		            	if($.trim(data.funding_date) == ''){ return '-'; }else{ return data.funding_date; }
+		            } },
+		            { "mData": function(data,type,row){
+		            	if($.trim(data.fund_amount) == ''){ return '-'; }else{ return data.fund_amount; }
+		            } },
+		            { "mData": function(data,type,row){
+		            	if($.trim(data.ledger_account) == ''){ return '-'; }else{ return data.ledger_account; }
+		            } },
+		         	{ "mData": function(data,type,row){
+		         		var funds_id = "'"+data.funds_id+"'";
+	                    var actions = '<a href="javascript:void(0);"  onclick="getFunds('+funds_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+		            	return actions;
+		            } }
+		            
+		        ]
+		    });
+	    
+	  $(".page-loader-2").hide();  		     
+  	
+ }
+
+    
+    function getFundList1(){
     	$(".page-loader").show();
     	
     	getSOFFilterList('');

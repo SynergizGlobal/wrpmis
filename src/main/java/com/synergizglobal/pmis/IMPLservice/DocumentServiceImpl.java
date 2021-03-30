@@ -113,4 +113,15 @@ public class DocumentServiceImpl implements DocumentService{
 		return dao.getDocumentWorksList(id);
 	}
 
+	@Override
+	public int getTotalRecords(Document obj, String searchParameter) throws Exception {
+		return dao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<Document> getDocumentsList(Document obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		return dao.getDocumentsList(obj,startIndex,offset,searchParameter);
+	}
+
 }

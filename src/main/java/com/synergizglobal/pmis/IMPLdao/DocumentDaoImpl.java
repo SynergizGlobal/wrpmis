@@ -934,4 +934,184 @@ public class DocumentDaoImpl implements DocumentDao{
 		return sessionsList;
 	}
 
+	@Override
+	public int getTotalRecords(Document obj, String searchParameter) throws Exception {
+		int totalRecords = 0;
+		try {
+			String qry ="select count(*) as total_records from documents d "
+					+ "LEFT JOIN project p on d.project_id_fk = p.project_id "
+					+ "LEFT JOIN work w on d.work_id_fk = w.work_id "
+					+ "LEFT JOIN contract c on d.contract_id_fk = c.contract_id "
+					+ "where document_no is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and d.project_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and d.work_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_priority_fk())) {
+				qry = qry + " and project_priority_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDocument_type_fk())) {
+				qry = qry + " and document_type_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_for_approval())) {
+				qry = qry + " and responsible_for_approval = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (d.work_id_fk like ? or w.work_short_name like ? or contract_id_fk like ? or contract_short_name like ?"
+						+ " or project_priority_fk like ? or document_type_fk like ? or document_name like ? or responsible_for_approval like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+		
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_priority_fk())) {
+				pValues[i++] = obj.getProject_priority_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDocument_type_fk())) {
+				pValues[i++] = obj.getDocument_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_for_approval())) {
+				pValues[i++] = obj.getResponsible_for_approval();
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return totalRecords;
+	}
+
+	@Override
+	public List<Document> getDocumentsList(Document obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		List<Document> objsList = null;
+		try {
+			String qry ="select document_no,d.work_id_fk,w.work_name,w.work_short_name,d.project_id_fk,p.project_name,contract_id_fk,c.contract_short_name,project_priority_fk,document_type_fk,document_name,responsible_for_approval from documents d "
+					+ "LEFT JOIN project p on d.project_id_fk = p.project_id "
+					+ "LEFT JOIN work w on d.work_id_fk = w.work_id "
+					+ "LEFT JOIN contract c on d.contract_id_fk = c.contract_id "
+					+ "where document_no is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and d.project_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and d.work_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_priority_fk())) {
+				qry = qry + " and project_priority_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDocument_type_fk())) {
+				qry = qry + " and document_type_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_for_approval())) {
+				qry = qry + " and responsible_for_approval = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (d.work_id_fk like ? or w.work_short_name like ? or contract_id_fk like ? or contract_short_name like ?"
+						+ " or project_priority_fk like ? or document_type_fk like ? or document_name like ? or responsible_for_approval like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				qry = qry + " ORDER BY document_no ASC limit ?,?";
+				arrSize++;
+				arrSize++;
+			}	
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_priority_fk())) {
+				pValues[i++] = obj.getProject_priority_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDocument_type_fk())) {
+				pValues[i++] = obj.getDocument_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_for_approval())) {
+				pValues[i++] = obj.getResponsible_for_approval();
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				pValues[i++] = startIndex;
+				pValues[i++] = offset;
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Document>(Document.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 }

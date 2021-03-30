@@ -28,7 +28,16 @@
         .input-field .searchable_label {
             font-size: 0.9rem;
         }
-        
+         .dataTables_filter label::after{
+         	content:'';
+         }
+         .right-btns .fa{
+         	position:relative;
+         	top:-35px;
+         }
+         .right-btns .fa+.fa{
+         	right:-10px;
+         }
     </style>
 </head>
 <body>
@@ -94,7 +103,7 @@
 							<div class="col s12 m1 input-field">
 								<p class="searchable_label">Project</p>
 								<select name="project_id_fk" id="project_id_fk"
-									onchange="addInQueWork(this.value);getDocumentList();"
+									onchange="addInQueProject(this.value);getDocumentList();" 
 									class="searchable validate-dropdown">
 									<option value="">Select</option>
 								</select>
@@ -277,37 +286,25 @@
 	        	  }
 	          }
          }
-         
-	 	var table = $('#datatable-document').DataTable({
-			"bStateSave": true,
-			fixedHeader: true,
-	      "fnStateSave": function (oSettings, oData) {
-	          localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	      },
-	      "fnStateLoad": function (oSettings) {
-	          return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	      },
-	      columnDefs: [
-	          {
-	              targets: [0, 1, 2],
-	              className: 'mdl-data-table__cell--non-numeric'
-	          },
-	          { orderable: false, 'aTargets': ['nosort'] }
-	      ],
-	      // "ScrollX": true,
-	      "scrollCollapse": true,
-	      //"sScrollY": 400,
-	      "sScrollX": "100%",
-	          "sScrollXInner": "100%",
-	          "bScrollCollapse": true,
-	      initComplete: function () {
-	          $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	      }
-	  });
-		table.state.clear(); 
-		
-	
-		$('.close-message').delay(3000).fadeOut('slow');
+         $('.close-message').delay(3000).fadeOut('slow');
+         $('#datatable-document').DataTable({
+             columnDefs: [
+                 {
+                     targets: [0, 1, 2],
+                     className: 'mdl-data-table__cell--non-numeric',
+                     targets: 'no-sort', orderable: false,
+                 },
+                 { "width": "20px", "targets": [6] },
+             ], "scrollCollapse": true,
+             fixedHeader: true,
+             //"sScrollY": 400,
+             "sScrollX": "100%",
+             "sScrollXInner": "100%",
+             "bScrollCollapse": true,
+             initComplete: function () {
+                 $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+             }
+         });
             getDocumentList();
         });
         
@@ -377,7 +374,156 @@
 	      	}
         }
         
-        function getDocumentList(){
+        function getDocumentList() {
+			$(".page-loader-2").show();
+
+			getProjectsFilterList('');
+        	getWorksFilterList('');
+        	getContractsFilterList('');
+         	getProjectPriorityFilterList('');
+         	getDocumentTypesFilterList('');
+         	getResponsibleForApprovalFilterList('');
+         	
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var project_priority_fk = $("#project_priority_fk").val();
+        	var document_type_fk = $("#document_type_fk").val();
+        	var responsible_for_approval = $("#responsible_for_approval").val();
+        	
+
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("documentsFilters", filters);
+   			});
+        	
+        	table = $('#datatable-document').DataTable();
+    		 
+
+			table.destroy();
+
+			$.fn.dataTable.moment('DD-MMM-YYYY');
+
+			var myParams = "project_id_fk=" + project_id_fk + "&work_id_fk="
+					+ work_id_fk + "&contract_id_fk="
+					+ contract_id_fk + "&project_priority_fk=" + project_priority_fk
+					+ "&document_type_fk=" + document_type_fk
+					+ "&responsible_for_approval=" + responsible_for_approval;
+
+			/***************************************************************************************************/
+
+			$("#datatable-document")
+					.DataTable(
+							{
+								"bProcessing" : true,
+								"bServerSide" : true,
+								"sort" : "position",
+								//bStateSave variable you can use to save state on client cookies: set value "true" 
+								"bStateSave" : false,
+								//Default: Page display length
+								"iDisplayLength" : 10,
+								"iData" : {
+									"start" : 52
+								},
+								//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+								"iDisplayStart" : 0,
+								"fnDrawCallback" : function() {
+									//Get page numer on client. Please note: number start from 0 So
+									//for the first page you will see 0 second page 1 third page 2...
+									//Un-comment below alert to see page number
+									//alert("Current page number: "+this.fnPagingInfo().iPage);
+								},
+								//"sDom": 'l<"toolbar">frtip',
+								"initComplete" : function() {
+									$('.dataTables_filter input[type="search"]')
+											.attr('placeholder', 'Search')
+											.css({
+												'width' : '350px ',
+												'display' : 'inline-block'
+											});
+
+									var input = $('.dataTables_filter input')
+											.unbind(), self = this.api(), $searchButton = $(
+											'<i class="fa fa-search" title="Go">')
+									//.text('Go')
+									.click(function() {
+										self.search(input.val()).draw();
+									}), $clearButton = $(
+											'<i class="fa fa-close" title="Reset">')
+									//.text('X')
+									.click(function() {
+										input.val('');
+										$searchButton.click();
+									})
+									$('.dataTables_filter').append(
+											'<div class="right-btns"></div>');
+									$('.dataTables_filter div').append(
+											$searchButton, $clearButton);
+
+									/* var input = $('.dataTables_filter input').unbind(),
+									self = this.api(),
+									$searchButton = $('<i class="fa fa-search">')
+									           //.text('Go')
+									           .click(function() {			   	                    	 
+									              self.search(input.val()).draw();
+									           })			   	        
+									  $('.dataTables_filter label').append($searchButton); */
+								},
+								columnDefs : [ {
+									"targets" : 'no-sort',
+									"orderable" : false,
+								} ],
+								"sScrollX" : "100%",
+								"sScrollXInner" : "100%",
+								"bScrollCollapse" : true,
+								"language" : {
+									"info" : "_START_ - _END_ of _TOTAL_",
+									paginate : {
+										next : '<i class="fa fa-angle-right"></i>', // or '→'
+										previous : '<i class="fa fa-angle-left"></i>' // or '←' 
+									}
+								},
+								"bDestroy" : true,
+								"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-documents-list?"+myParams,
+			        "aoColumns": [
+	  		            { "mData": function(data,type,row){
+	  		            	var work_short_name = '';
+	                         if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
+	                         if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
+	  		            } },
+	  		         	{ "mData": function(data,type,row){
+	  		         		var contract_short_name = '';
+	                         if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) }    	
+	                         if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk +contract_short_name; }
+	  		            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.project_priority_fk) == ''){ return '-'; }else{ return data.project_priority_fk; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			            	if($.trim(data.document_type_fk) == ''){ return '-'; }else{ return data.document_type_fk; }
+			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.document_name) == ''){ return '-'; }else{ return data.document_name; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			            	if($.trim(data.responsible_for_approval) == ''){ return '-'; }else{ return data.responsible_for_approval; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			         		var design_id = "'"+data.design_id+"'";
+		                    var actions = '<a href="javascript:void(0);"  onclick="getDesign('+design_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+			            	return actions;
+			            } }
+			            
+			        ]
+			    });
+		    
+		  $(".page-loader-2").hide();  		     
+      	
+     }
+
+        function getDocumentList1(){
         	$(".page-loader-2").show();
         	
         	getProjectsFilterList('');

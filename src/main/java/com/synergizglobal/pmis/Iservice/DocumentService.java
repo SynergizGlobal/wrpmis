@@ -44,6 +44,10 @@ public interface DocumentService {
 
 	public List<Document> getRevisionsList(String id) throws Exception;
 
+	public int getTotalRecords(Document obj, String searchParameter) throws Exception;
+
+	public List<Document> getDocumentsList(Document obj, int startIndex, int offset, String searchParameter) throws Exception;
+
 
 
 }

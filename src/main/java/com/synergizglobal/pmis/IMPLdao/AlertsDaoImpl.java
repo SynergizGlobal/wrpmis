@@ -455,9 +455,9 @@ public class AlertsDaoImpl implements AlertsDao{
 					mail.setMailSubject(emailSubject);
 					mail.setTemplateName("alerts.vm");
 					
-					logger.error("sendNotificationAlertMails() >> Sending mail to df@mrvc.gov.in: Start ");	
+					logger.error("sendNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
 					emailSender.sendEmailWithAlerts(mail,allAlertsList); 
-					logger.error("sendNotificationAlertMails() >> Sending mail to df@mrvc.gov.in: End ");
+					logger.error("sendNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
 				}
 					
 				flag = true;

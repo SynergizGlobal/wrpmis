@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,7 +35,7 @@ import com.synergizglobal.pmis.model.User;
 
 @Repository
 public class IssueDaoImpl implements IssueDao {
-
+	public static Logger logger = Logger.getLogger(IssueDaoImpl.class);
 	@Autowired
 	DataSource dataSource;
 	
@@ -716,7 +717,11 @@ public class IssueDaoImpl implements IssueDao {
 				
 				if(!StringUtils.isEmpty(mailTo)){		
 					EMailSender emailSender = new EMailSender();
+					logger.error("sendEmailWithIssueAlert() >> Sending mail to "+mailTo+": Start ");
+					logger.error("sendEmailWithIssueAlert() >> Sending mail CC "+mailCC+": Start ");
 					emailSender.sendEmailWithIssueAlert(mail,iObj);
+					logger.error("sendEmailWithIssueAlert() >> Sending mail to "+mailTo+": end ");
+					logger.error("sendEmailWithIssueAlert() >> Sending mail CC "+mailCC+": end ");
 				}
 			}
 		} catch (Exception e) {

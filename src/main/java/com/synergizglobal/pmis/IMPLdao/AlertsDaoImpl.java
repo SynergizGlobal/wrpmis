@@ -431,27 +431,14 @@ public class AlertsDaoImpl implements AlertsDao{
 			List<Alerts> userIdList = jdbcTemplate.query( userIdQry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
 			for (Alerts uObj : userIdList) {
-				/*String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
-						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,au.email_id " 
+				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
+						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks " 
 						+ "from alerts a "  
 						+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
 						+ "left join contract c on a.contract_id = c.contract_id " 
 						+ "left join work w on c.work_id_fk = w.work_id " 
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id " 
-						+ "left join user u2 on au.user_id_fk = u2.user_id " 
-						+ "where alert_status = ? and au.user_id_fk = ? and count <> 0 "
-						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";*/
-				
-				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
-						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,au.email_id " 
-						+ "from alerts_user au "  
-						+ "left join alerts a on au.alerts_id_fk = a.alert_id " 
-						+ "left join contract c on a.contract_id = c.contract_id " 
-						+ "left join work w on c.work_id_fk = w.work_id " 
-						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-						+ "left join user u on c.hod_user_id_fk = u.user_id " 
-						+ "left join user u2 on au.user_id_fk = u2.user_id " 
 						+ "where alert_status = ? and au.user_id_fk = ? and count <> 0 "
 						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
 				

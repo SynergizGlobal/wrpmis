@@ -1,7 +1,12 @@
 package com.synergizglobal.pmis.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -18,11 +23,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.synergizglobal.pmis.Iservice.TAFinancialsService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Document;
+import com.synergizglobal.pmis.model.DocumentsPaginationObject;
 import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.TAFinancials;
+import com.synergizglobal.pmis.model.TAFinancialsPaginationObject;
 
 
 @Controller
@@ -49,19 +59,106 @@ public class TAFinancialsController {
 		}
 		return model;
 	}
-	
-	@RequestMapping(value = "/ajax/get-ta-financials", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<TAFinancials> getTAFinancialsList(@ModelAttribute TAFinancials obj) {
-		List<TAFinancials> taFinancialsList = null;
+
+	@RequestMapping(value = "/ajax/get-ta-financials", method = { RequestMethod.POST, RequestMethod.GET })
+	public void getActivitiesList(@ModelAttribute TAFinancials obj, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws IOException {
+		PrintWriter pw = null;
+		//JSONObject json = new JSONObject();
+		String json2 = null;
+		String userId = null;
+		String userName = null;
 		try {
-			taFinancialsList = service.taFinancialsList(obj);
-		}catch (Exception e) {
+			userId = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
+
+			pw = response.getWriter();
+			//Fetch the page number from client
+			Integer pageNumber = 0;
+			Integer pageDisplayLength = 0;
+			if (null != request.getParameter("iDisplayStart")) {
+				pageDisplayLength = Integer.valueOf(request.getParameter("iDisplayLength"));
+				pageNumber = (Integer.valueOf(request.getParameter("iDisplayStart")) / pageDisplayLength) + 1;
+			}
+			//Fetch search parameter
+			String searchParameter = request.getParameter("sSearch");
+
+			//Fetch Page display length
+			pageDisplayLength = Integer.valueOf(request.getParameter("iDisplayLength"));
+
+			List<TAFinancials> taFinancialsList = new ArrayList<TAFinancials>();
+
+			//Here is server side pagination logic. Based on the page number you could make call 
+			//to the data base create new list and send back to the client. For demo I am shuffling 
+			//the same list to show data randomly
+			int startIndex = 0;
+			int offset = pageDisplayLength;
+
+			if (pageNumber == 1) {
+				startIndex = 0;
+				offset = pageDisplayLength;
+				taFinancialsList = createPaginationData(startIndex, offset, obj, searchParameter);
+			} else {
+				startIndex = (pageNumber * offset) - offset;
+				offset = pageDisplayLength;
+				taFinancialsList = createPaginationData(startIndex, offset, obj, searchParameter);
+			}
+
+			//Search functionality: Returns filtered list based on search parameter
+			//taFinancialsList = getListBasedOnSearchParameter(searchParameter,taFinancialsList);
+
+			int totalRecords = getTotalRecords(obj, searchParameter);
+
+			TAFinancialsPaginationObject personJsonObject = new TAFinancialsPaginationObject();
+			//Set Total display record
+			personJsonObject.setiTotalDisplayRecords(totalRecords);
+			//Set Total record
+			personJsonObject.setiTotalRecords(totalRecords);
+			personJsonObject.setAaData(taFinancialsList);
+
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			json2 = gson.toJson(personJsonObject);
+		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getTAFinancialsList : " + e.getMessage());
+			logger.error(
+					"getActivitiesList : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
 		}
-		return taFinancialsList;
+
+		pw.println(json2);
 	}
+
+	/**
+	 * @param searchParameter 
+	 * @param activity 
+	 * @return
+	 */
+	public int getTotalRecords(TAFinancials obj, String searchParameter) {
+		int totalRecords = 0;
+		try {
+			totalRecords = service.getTotalRecords(obj, searchParameter);
+		} catch (Exception e) {
+			logger.error("getTotalRecords : " + e.getMessage());
+		}
+		return totalRecords;
+	}
+
+	/**
+	 * @param pageDisplayLength
+	 * @param offset 
+	 * @param activity 
+	 * @param clientId 
+	 * @return
+	 */
+	public List<TAFinancials> createPaginationData(int startIndex, int offset, TAFinancials obj, String searchParameter) {
+		List<TAFinancials> earthWorkList = null;
+		try {
+			earthWorkList = service.getTAFinancialsList(obj, startIndex, offset, searchParameter);
+		} catch (Exception e) {
+			logger.error("createPaginationData : " + e.getMessage());
+		}
+		return earthWorkList;
+	}
+	
 	
 	@RequestMapping(value = "/ajax/getWorksFilterListInTAFinancials", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

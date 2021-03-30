@@ -101,10 +101,10 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                     	 <c:if test="${action eq 'edit'}">				                
-			                	<form action="<%=request.getContextPath() %>/update-Work" id="workForm" name="workForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath() %>/update-work" id="workForm" name="workForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                          </c:if>
 			              <c:if test="${action eq 'add'}">				                
-			                	<form action="<%=request.getContextPath() %>/add-Work" id="workForm" name="workForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath() %>/add-work" id="workForm" name="workForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
                       
                             <div class="row">

@@ -217,7 +217,7 @@ public class WorkController {
 	}
 	
 	
-	@RequestMapping(value = "/add-Work-form", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/add-work-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addWorkForm(){
 		ModelAndView model = new ModelAndView();
 		try{
@@ -239,7 +239,7 @@ public class WorkController {
 	 }
 	
 	
-	@RequestMapping(value = "/update-Work", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/update-work", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView updateWork(@ModelAttribute Work work,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
@@ -269,7 +269,7 @@ public class WorkController {
 	}
 	
 	
-	@RequestMapping(value = "/add-Work", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/add-work", method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
 	public ModelAndView addWork(@ModelAttribute Work work,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();

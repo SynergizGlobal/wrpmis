@@ -511,8 +511,8 @@
 			            	if($.trim(data.responsible_for_approval) == ''){ return '-'; }else{ return data.responsible_for_approval; }
 			            } },
 			         	{ "mData": function(data,type,row){
-			         		var design_id = "'"+data.design_id+"'";
-		                    var actions = '<a href="javascript:void(0);"  onclick="getDesign('+design_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+			         		var document_no = "'"+data.document_no+"'";
+		                    var actions = '<a href="javascript:void(0);"  onclick="getDocument('+document_no+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
 			            	return actions;
 			            } }
 			            

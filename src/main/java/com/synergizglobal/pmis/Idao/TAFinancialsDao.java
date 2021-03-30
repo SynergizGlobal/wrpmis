@@ -26,4 +26,8 @@ public interface TAFinancialsDao {
 
 	public List<TAFinancials> getContractsListForFinancialsForm(TAFinancials obj) throws Exception;
 
+	public int getTotalRecords(TAFinancials obj, String searchParameter) throws Exception;
+
+	public List<TAFinancials> getTAFinancialsList(TAFinancials obj, int startIndex, int offset, String searchParameter) throws Exception;
+
 }

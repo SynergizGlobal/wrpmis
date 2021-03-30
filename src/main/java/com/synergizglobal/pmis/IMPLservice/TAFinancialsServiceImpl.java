@@ -64,4 +64,15 @@ public class TAFinancialsServiceImpl implements TAFinancialsService{
 	public List<TAFinancials> getContractsListForFinancialsForm(TAFinancials obj) throws Exception {
 		return dao.getContractsListForFinancialsForm(obj);
 	}
+
+	@Override
+	public int getTotalRecords(TAFinancials obj, String searchParameter) throws Exception {
+		return dao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<TAFinancials> getTAFinancialsList(TAFinancials obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		return dao.getTAFinancialsList(obj,startIndex,offset,searchParameter);
+	}
 }

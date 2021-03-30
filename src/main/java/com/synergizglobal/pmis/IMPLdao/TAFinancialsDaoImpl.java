@@ -432,6 +432,131 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 		}
 		return objsList;
 	}
+
+	@Override
+	public int getTotalRecords(TAFinancials obj, String searchParameter) throws Exception {
+		int totalRecords = 0;
+		try {
+			String qry ="SELECT  count(DISTINCT contract_id_fk) as total_records FROM ta_financials t " + 
+					" left join contract c on c.contract_id = t.contract_id_fk " + 
+					" left join work w on c.work_id_fk = w.work_id where DATE(month) <= DATE(NOW()) and status = ? ";
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or contract_id_fk like ? or contract_short_name like ?"
+						+ " or planned like ? or actual like ? or payment_received like ? )";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
+
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
+			}catch(Exception e){ 
+				throw new Exception(e.getMessage());
+			}
+			return totalRecords;
+	}
+
+	@Override
+	public List<TAFinancials> getTAFinancialsList(TAFinancials obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		List<TAFinancials> objsList = null;
+		try {
+			String qry ="SELECT ID as financial_id, work_id as work_id_fk ,w.work_name,c.contract_short_name,w.work_short_name,c.contract_short_name, contract_id_fk, month, sum(planned) as planned, sum(actual) as actual, sum(payment_received) as payment_received " + 
+					" FROM ta_financials t " + 
+					" left join contract c on c.contract_id = t.contract_id_fk " + 
+					" left join work w on c.work_id_fk = w.work_id where DATE(month) <= DATE(NOW()) and status = ? ";
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or contract_id_fk like ? or contract_short_name like ?"
+						+ " or planned like ? or actual like ? or payment_received like ? )";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				qry = qry + " GROUP BY contract_id_fk ORDER BY ID ASC limit ?,?";
+				arrSize++;
+				arrSize++;
+			}	
+			
+			Object[] pValues = new Object[arrSize];
+			
+
+			int i = 0;
+			
+			pValues[i++] = CommonConstants.ACTIVE;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				pValues[i++] = startIndex;
+				pValues[i++] = offset;
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));
+
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 		
 
 		

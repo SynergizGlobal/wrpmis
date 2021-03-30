@@ -465,7 +465,7 @@
 
   		         	{ "mData": function(data,type,row){
   		         		var id = "'"+data.id+"'";
-  	                    var actions = '<a href="javascript:void(0);"  onclick="getDataGathering('+id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+  	                    var actions = '<a href="javascript:void(0);"  onclick="getDeliverables('+id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
   		            	return actions;
   		            } }
   		            

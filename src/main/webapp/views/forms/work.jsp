@@ -67,7 +67,7 @@
 
 							<div class="col s12 m4">
 								<div class="m-1 c-align">
-									<a href="add-Work-form"
+									<a href="add-work-form"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add Work</strong></a>
 								</div>

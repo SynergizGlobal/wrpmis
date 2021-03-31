@@ -321,7 +321,7 @@
 	                                                        				placeholder="PB Item Number">
 																	</td>
 																	<td>
-																		<a onclick="removeActions('${index.count }');" style="font-size: 20px;"> 
+																		<a onclick="removeActions('${index.count }');" class="btn red"> 
 																			<i class="fa fa-close"></i></a>
 																	</td>
 																</tr>															
@@ -344,7 +344,7 @@
 	                                                        				placeholder="PB Item Number">
 																</td>
 																<td>
-																	<a onclick="removeActions('0');" style="font-size: 20px;" class="btn red"> <i class="fa fa-close"></i></a>
+																	<a onclick="removeActions('0');" class="btn red"> <i class="fa fa-close"></i></a>
 																</td>
 															</tr>
 														</c:otherwise>

@@ -86,6 +86,89 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 }
 </style>
 
+ <style>
+	/* style1 of notifications code starts here  */
+	.notifications_group .item div{
+		line-height:1.6;	
+		font-size:0.9rem; 		
+	}
+	.notifications_group .item .icon .icon-text{
+		font-size:1.8rem;
+	}
+	.notifications_group .item .icon i{
+		font-size:7rem;
+	}
+	.notifications_group .item .icon .fa{
+		font-size:5rem;
+	}
+	.notifications_group .item{
+		width:98%;
+		margin:3px;
+		padding:10px;
+		border-radius:1rem;
+	}
+	.message_group .item .icon .fa{
+	    font-size: 2.5rem;
+    	top: 25%;
+    	color:#bcbcbc;
+	}
+	.message_group .item .icon .icon-text{
+		font-size: 1.35rem;
+   		right: 1%;
+   		bottom:-3px;
+   		color:#dcdcdc;
+	}
+	.message_group .item {
+		padding:2px 5px;
+		margin:1px;
+		width:99%;
+	}
+	.message_group .item div{
+		line-height:1.35;
+	}
+	.message_group .date_text{
+		color: #fff;     
+		line-height: 1.5;
+	}
+	.notification_body{
+		width:430px !important;
+	}
+	/* style1 of notifications code ends here  */
+</style> 
+
+<!-- <style>
+	/* style2 of notifications code starts here  */
+	.notifications_group .item{
+		width:98%;
+		margin:3px;
+		border-radius:1rem 0;
+	}	
+	.notifications_group .item div{
+		line-height:1.75;		
+	}
+	.notifications_group .item .icon i{
+		position: relative;
+	    font-size: 2rem;
+	    color: #fff;
+	    display: inline-block;
+	    margin-right:20px;
+	    vertical-align: text-top;
+	}
+	.notifications_group .item .icon .fa{
+		font-size: 2rem;
+	    position: relative;
+	    right: auto;
+	}
+	.notifications_group .item .icon .icon-text{
+		position: relative;
+	    font-size: 1.45rem;
+	    color: #fff;
+	    display: inline-block;
+	}
+		
+	/* style2 of notifications code ends here  */	
+</style> -->
+
 <link id="theme" rel="stylesheet" type="text/css" href="" />
 
 </head>
@@ -514,7 +597,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 				</li>
 
 				<li class="blue ">
-					<!-- Notification code starts --> <a
+					<!-- messages code starts --> <a
 					class='notification dropdown-trigger' data-target='messages1'>
 						<span class="material-icons-outlined">chat_bubble_outlined</span>
 						<span class="badge red" id="messagesCount">95 </span>
@@ -525,9 +608,9 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 								class="browser-default searching empty"
 								placeholder="&#xF002; Search Messages...">
 						</div>
-						<ul class="notifications_group" style="margin-top: 5px;"
+						<ul class="notifications_group message_group" style="margin-top: 5px;"
 							id="messagesList">
-							<!-- list of Notifications starts -->
+							<!-- list of messages starts -->
 							<c:if test="${not empty messages and fn:length(messages) gt 0}">
 								<li class="head-item">Messages</li>
 								<c:forEach var="obj" items="${messages }">
@@ -544,15 +627,53 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 												class='fa fa-exclamation-triangle'></i> <span
 												class="icon-text">${obj.message_type }</span>
 										</span>
-											<div>${obj.message }</div> <span style="color: #fff;"><i
+											<div>${obj.message }</div> <span class="date_text"><i
 												class='fa fa-clock-o'></i> ${obj.created_date }</span>
 									</a></li>
 								</c:forEach>
 							</c:if>
 
+								<li class="head-item">Messages</li>
+								<li class="item read-message">
+									<a href="#">
+										<span class="icon"> 
+											<i class='fa fa-exclamation-triangle'></i> 
+											<span class="icon-text">Issue </span>
+										</span>
+										<div>A new issue against P07W01EN01 has been Assigned to you. </div> 
+										<span style="color: #fff;    line-height: 1.5;">
+											<i class='fa fa-clock-o'></i> 2021-03-28 
+										</span>
+									</a>
+								</li>
+								<li class="item read-message">
+									<a href="#">
+										<span class="icon"> 
+											<i class='fa fa-exclamation-triangle'></i> 
+											<span class="icon-text">Issue </span>
+										</span>
+										<div>A new issue against P07W01EN01 has been Escalated to you. </div> 
+										<span style="color: #fff;    line-height: 1.5;">
+											<i class='fa fa-clock-o'></i> 2021-03-28 
+										</span>
+									</a>
+								</li>
+								<li class="item read-message">
+									<a href="#">
+										<span class="icon"> 
+											<i class='fa fa-exclamation-triangle'></i> 
+											<span class="icon-text">Issue </span>
+										</span>
+										<div>A new issue against P07W01EN01 has been Closed to you. </div> 
+										<span style="color: #fff;    line-height: 1.5;">
+											<i class='fa fa-clock-o'></i> 2021-03-28 
+										</span>
+									</a>
+								</li>
+									
 						</ul>
 
-						<!-- Notification dropdown body ends -->
+						<!-- messages dropdown body ends -->
 					</div>
 				</li>
 
@@ -977,7 +1098,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 				class="browser-default searching empty"
 				placeholder="&#xF002; Search Messages...">
 		</div>
-		<ul class="notifications_group" style="margin-top: 5px;"
+		<ul class="notifications_group message_group" style="margin-top: 5px;"
 			id="messagesListMobile">
 			<c:if test="${not empty messages and fn:length(messages) gt 0}">
 				<li class="head-item">Messages</li>
@@ -995,6 +1116,9 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 								<span class="icon-text">${obj.message_type }</span>
 						</span>
 							<div>${obj.message }</div>
+							<span class="date_text">
+								<i class='fa fa-clock-o'></i> ${obj.created_date }
+							</span>
 					</a></li>
 				</c:forEach>
 			</c:if>
@@ -1244,11 +1368,22 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
     		          return false;
     		       }
     		     }
-    		  });		  
-    		  var formName=current_page_URL.split('/');	
+    		  });	
+    		  var formName=current_page_URL.split('/');	    		  
     		  var gridOrForm=(formName.length > 5)? (formName[formName.length-2].split('-')[1]) : (formName[formName.length-1].split('-')[1]);
+    		  var sn=formName[formName.length-1].split('-');  		 			  
     		  var preGridOrForm=(formName.length > 5)? (formName[formName.length-2].split('-')[0]) : (formName[formName.length-1].split('-')[0]) ;
     		  if ( (gridOrForm != '' || gridOrForm!= undefined) && (preGridOrForm=='get' || preGridOrForm=='add') ){
+    			  var urlName='';
+    			  if(sn.length>= 3){
+    				 var lengthOfSn;
+    				  (sn[sn.length-1]=='form') ? lengthOfSn=sn.length-2 :  lengthOfSn=sn.length-1 ;
+    				  for (i=1;i<=lengthOfSn;i++){    					  
+    					  if (urlName!="") {urlName=urlName+"-";}
+    					  urlName=urlName+sn[i]
+    				  }
+    			  }
+    			  gridOrForm=urlName ?urlName : gridOrForm;
     			  var classItem=$('.top-level-menu a[href="/pmis/'+gridOrForm+'"]').closest('ul').parentsUntil($( "ul.top-level-menu" ));
     			  $(classItem[classItem.length-1]).addClass('menu-active')	
     		  }

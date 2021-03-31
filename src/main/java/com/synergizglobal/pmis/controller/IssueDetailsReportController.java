@@ -78,6 +78,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.Iservice.IssueDetailsService;
 import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.IssuesReportService;
 import com.synergizglobal.pmis.common.DocxTableCreation;
@@ -96,7 +97,7 @@ public class IssueDetailsReportController {
 	public static Logger logger = Logger.getLogger(IssuesReportController.class);	
 	
 	@Autowired
-	IssueService issueService;
+	IssueDetailsService issueService;
 	
 	
 	@Value("${common.error.message}")

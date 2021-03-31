@@ -1,7 +1,10 @@
 package com.synergizglobal.pmis.common;
 
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
@@ -47,14 +50,22 @@ import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.Issue;
 
 public class DocxTableCreationForIssueDetailsReport {
-	/***************************** ALERTS REPORT ****************************************************************/
+	/***************************** Issue Details REPORT ****************************************************************/
 	
-	public static void createTableForIssuesDetailsReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart t,
+	public static void createTableForIssuesDetailsReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
 			ObjectFactory factory, Issue issueDeailsReport) {
+		
+		DateFormat df = new SimpleDateFormat("dd-MM-YYYY"); 
+		String date = df.format(new Date()); 
+		
+		
 		RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
 				true, false, false, false);
 		
 		RPr contentRpr = getRPr(factory, "Calibri", "000000", "14",
+				STHint.EAST_ASIA, false, false, false, false);
+		
+		RPr titleContentRpr = getRPr(factory, "Calibri", "000000", "16",
 				STHint.EAST_ASIA, false, false, false, false);
 		
 		RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
@@ -67,87 +78,326 @@ public class DocxTableCreationForIssueDetailsReport {
 		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
-		Tbl table = factory.createTbl();
-		addBorders(table, "2");
+		
 		
 		/****************************************************************************/
 		
 		if(!StringUtils.isEmpty(issueDeailsReport)) {
-			Tr titleRow = factory.createTr();		
-			List<String> tableHeader = new ArrayList<String>();
-			//tableHeader.add("S\nNo");
-			tableHeader.add("Project");
-			tableHeader.add("Work");
-			tableHeader.add("Contract Id");
-			tableHeader.add("Contract name");
-			tableHeader.add("Contractor Name");
-			/*tableHeader.add("Alerts Discription");*/
-			tableHeader.add("Issue Title");
-			tableHeader.add("Issue Status");
-			/*tableHeader.add("Pending Since(Days)");*/
-			tableHeader.add("HOD");
-			/*tableHeader.add("Action Taken");*/
-			tableHeader.add("Dy HOD");  
-			tableHeader.add("Department");
-			tableHeader.add("Reported By");
-			tableHeader.add("Location");
-			tableHeader.add("Category");
-			for (String headerValue : tableHeader) {
-				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
+			
+			Tbl titleTable = factory.createTbl();
+			addBorders(titleTable, "0");
+			int count = 0;
+			Tr titleTableRow = factory.createTr();		
+			addTableCell(factory, wordMLPackage, titleTableRow, "Project", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getProject_name(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			
+			addTableCell(factory, wordMLPackage, titleTableRow, "Work", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getWork_short_name(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, count, 2, 3);
+		  	mergeCellsHorizontal(titleTable, count, 4, 5);
+		  	count++;
+		  	 
+		  	/*===========================================================*/
+		  	
+		    titleTableRow = factory.createTr();		
+			addTableCell(factory, wordMLPackage, titleTableRow, "Contract Id", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getContract_id_fk(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			
+			addTableCell(factory, wordMLPackage, titleTableRow, "Department", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getDepartment_name(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+		
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, count, 2, 3);
+		  	mergeCellsHorizontal(titleTable, count, 4, 5);
+		  	count++;
+		  	/*===========================================================*/
+		  	
+		    titleTableRow = factory.createTr();		
+			addTableCell(factory, wordMLPackage, titleTableRow, "Contract name", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getContract_name(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			
+			for(int i=0; i<4;i++) {
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+			}
+			
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, count, 1, 5);
+		  	count++;
+		  	/*===========================================================*/
+		  	
+		    titleTableRow = factory.createTr();		
+			addTableCell(factory, wordMLPackage, titleTableRow, "Contractor Name", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getContractor_name(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			
+			for(int i=0; i<4;i++) {
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+			}
+			
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, count, 1, 5);
+		  	count++;
+		  	/*===========================================================*/
+		  	
+		    titleTableRow = factory.createTr();		
+			addTableCell(factory, wordMLPackage, titleTableRow, "Issue Title", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getTitle(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			
+			for(int i=0; i<4;i++) {
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+			}
+			
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, count, 1, 5);
+		  	count++;
+		  	/*===========================================================*/
+		  	
+		  	 titleTableRow = factory.createTr();		
+				addTableCell(factory, wordMLPackage, titleTableRow, "Issue Status", titleRpr,
 						JcEnumeration.LEFT, true, "ecf2ff");
-			}		
-			table.getContent().add(titleRow);
-			
-			int sNo = 1;
-				boolean hasBgColor = false;
-				String backgroundColor = null;
-				Tr contentRow = factory.createTr();	
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getStatus_fk(), titleContentRpr,
+						JcEnumeration.LEFT, false, null);
 				
-				//addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-				//		contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getProject_name(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getWork_short_name(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getContract_id_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getContract_name(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-				addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getContractor_name(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-				addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getTitle(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
-				addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getStatus_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
-				/*addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getPending_since(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
-				addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getHod_user_id_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-				addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getDy_hod_user_id_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				
-				addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getDepartment_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-				addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getReported_by_designation(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getLocation(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-				addTableCell(factory, wordMLPackage, contentRow, issueDeailsReport.getCategory_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				//String corrective_measure = issueDeailsReport.getCorrective_measure();
-				
-				String remarks = issueDeailsReport.getRemarks();
-				
-				if(!StringUtils.isEmpty(remarks)) {
-					remarks = remarks + "Action Taken: " + issueDeailsReport.getRemarks();
+				if(!"Closed".equals(issueDeailsReport.getStatus_fk())) {
+					addTableCell(factory, wordMLPackage, titleTableRow, "Issue pending since", titleRpr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+							JcEnumeration.LEFT, false, null);
+					addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getDate(), titleContentRpr,
+							JcEnumeration.LEFT, false, null);
+					addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+							JcEnumeration.LEFT, false, null);
+					
+				}else {
+					addTableCell(factory, wordMLPackage, titleTableRow, "Issue Raised on", titleRpr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+							JcEnumeration.LEFT, false, null);
+					addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getDate(), titleContentRpr,
+							JcEnumeration.LEFT, false, null);
+					addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+							JcEnumeration.LEFT, false, null);
 				}
+				
 			
-				table.getContent().add(contentRow);
-						
-			/****************************************************************************************/			
+			  	titleTable.getContent().add(titleTableRow);	
+			  	mergeCellsHorizontal(titleTable, count, 2, 3);
+			  	mergeCellsHorizontal(titleTable, count, 4, 5);
+			  	count++;
+			 /*===========================================================*/
+
+		  	 titleTableRow = factory.createTr();		
+				addTableCell(factory, wordMLPackage, titleTableRow, "HOD", titleRpr,
+						JcEnumeration.LEFT, true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getHod_designation(), titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				
+					addTableCell(factory, wordMLPackage, titleTableRow, "Dy HOD", titleRpr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+							JcEnumeration.LEFT, false, null);
+					addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getDyHod_designation(), titleContentRpr,
+							JcEnumeration.LEFT, false, null);
+					addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+							JcEnumeration.LEFT, false, null);
+					
+			  	titleTable.getContent().add(titleTableRow);	
+			  	mergeCellsHorizontal(titleTable, count, 2, 3);
+			  	mergeCellsHorizontal(titleTable, count, 4, 5);
+			  	count++;
+		     /*===========================================================*/
+
+		  	 titleTableRow = factory.createTr();		
+				addTableCell(factory, wordMLPackage, titleTableRow, "Reported By", titleRpr,
+						JcEnumeration.LEFT, true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getReported_by(), titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				
+				addTableCell(factory, wordMLPackage, titleTableRow, "Location", titleRpr,
+						JcEnumeration.LEFT, true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getLocation(), titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				
+			  	titleTable.getContent().add(titleTableRow);	
+			  	mergeCellsHorizontal(titleTable, count, 2, 3);
+			  	mergeCellsHorizontal(titleTable, count, 4, 5);
+			  	count++;
+		  /*===========================================================*/
+
+	  	 titleTableRow = factory.createTr();		
+			addTableCell(factory, wordMLPackage, titleTableRow, "Category", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getCategory_fk(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
 			
-			setTableAlign(factory, table, JcEnumeration.CENTER);
-			t.addObject(table);
+			addTableCell(factory, wordMLPackage, titleTableRow, "Priority", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getPriority_fk(), titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, count, 2, 3);
+		  	mergeCellsHorizontal(titleTable, count, 4, 5);
+		  	count++;
+	     /*===========================================================*/
+		  	if(!StringUtils.isEmpty(issueDeailsReport.getResponsible_person())) {
+		  		titleTableRow = factory.createTr();		
+				addTableCell(factory, wordMLPackage, titleTableRow, "Assigned To", titleRpr,
+						JcEnumeration.LEFT, true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getResponsible_person(), titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				
+				
+				addTableCell(factory, wordMLPackage, titleTableRow, "Assigned Date", titleRpr,
+						JcEnumeration.LEFT, true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getAssigned_date(), titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				
+			  	titleTable.getContent().add(titleTableRow);	
+			  	mergeCellsHorizontal(titleTable, count, 2, 3);
+			  	mergeCellsHorizontal(titleTable, count, 4, 5);
+			  	count++;
+		  	}
+     /*===========================================================*/
+		  	if(!"Closed".equals(issueDeailsReport.getStatus_fk())) {
+		  		titleTableRow = factory.createTr();		
+				addTableCell(factory, wordMLPackage, titleTableRow, "Pending With", titleRpr,
+						JcEnumeration.LEFT, true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getOther_organization(), titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				
+				
+				addTableCell(factory, wordMLPackage, titleTableRow, "Pending Since", titleRpr,
+						JcEnumeration.LEFT, true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getPending_since(), titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				
+			  	titleTable.getContent().add(titleTableRow);
+			  	mergeCellsHorizontal(titleTable, count, 2, 3);
+			  	mergeCellsHorizontal(titleTable, count, 4, 5);
+			  	count++;
+		  	}
+	     /*===========================================================*/
+		  	titleTableRow = factory.createTr();		
+			addTableCell(factory, wordMLPackage, titleTableRow, "Issue / Action Taken \n/ Remarks", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getCorrective_measure(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			
+			for(int i=0; i<4;i++) {
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+			}
+			
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, count, 1, 5);
+		  	count++;
+		  	
+	     /*===========================================================*/
+			if(!StringUtils.isEmpty(issueDeailsReport.getEscalated_to())) {
+		  		titleTableRow = factory.createTr();		
+				addTableCell(factory, wordMLPackage, titleTableRow, "Escalated To ", titleRpr,
+						JcEnumeration.LEFT, true, "ecf2ff");
+				
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getEscalated_to(), titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				
+				addTableCell(factory, wordMLPackage, titleTableRow, "Escalation Date", titleRpr,
+						JcEnumeration.LEFT, true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getEscalation_date(), titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				
+			  	titleTable.getContent().add(titleTableRow);
+			  	mergeCellsHorizontal(titleTable, count, 2, 3);
+			  	mergeCellsHorizontal(titleTable, count, 4, 5);
+			  	count++;
+		  	}
+     /*===========================================================*/
+		if(!StringUtils.isEmpty(issueDeailsReport.getEscalated_to())) {
+	  		titleTableRow = factory.createTr();		
+			addTableCell(factory, wordMLPackage, titleTableRow, "Status after\nEscalation", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getRemarks(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+		
+			for(int i=0; i<4;i++) {
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+			}
+			
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, count, 1, 5);	
+		  	count++;
+	  	}
+     /*===========================================================*/
+		if(!StringUtils.isEmpty(issueDeailsReport.getResolved_date())) {
+	  		titleTableRow = factory.createTr();		
+			addTableCell(factory, wordMLPackage, titleTableRow, "Resolved Date", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getResolved_date(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+		
+			for(int i=0; i<4;i++) {
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+			}
+			
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, count, 1, 5);
+		  	count++;
+	  	}
+     /*===========================================================*/
+			setTableAlign(factory, titleTable, JcEnumeration.CENTER);
+			mp.addObject(titleTable);
+			
+			/****************************************************************/
+	
 			
 		}
 	} 

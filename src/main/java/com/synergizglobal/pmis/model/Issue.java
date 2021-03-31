@@ -11,7 +11,7 @@ public class Issue {
 	other_organization,escalation_date,contractor_id_fk,contractor_id,contractor_name,hod_user_id_fk,designation,hod_name,pending_since,hod,
 	reported_by_user_id,responsible_person_user_id,escalated_to_user_id,reported_by_designation,responsible_person_designation,escalated_to_designation,
 	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,assigned_date,contract_hod_email_id,contract_dyhod_email_id,
-	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name,message_id,hod_designation, dyHod_designation;
+	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name,message_id,hod_designation, dyHod_designation,pending_Since;
 	
 	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,existing_status_fk,mail_body_header;
 
@@ -25,6 +25,14 @@ public class Issue {
 	
 	
 	
+
+	public String getPending_Since() {
+		return pending_Since;
+	}
+
+	public void setPending_Since(String pending_Since) {
+		this.pending_Since = pending_Since;
+	}
 
 	public String getHod_designation() {
 		return hod_designation;

@@ -432,7 +432,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			for (Alerts uObj : userIdList) {
 				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
-						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks " 
+						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
 						+ "from alerts a "  
 						+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
 						+ "left join contract c on a.contract_id = c.contract_id " 
@@ -478,7 +478,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from alerts where alert_status = ? and contract_id is not null and contract_id <> '' and count <> 0 ";*/
 			
 			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,"
-					+ "u.designation as hod,work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks " 
+					+ "u.designation as hod,work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
 					+ "from alerts a " 
 					+ "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
@@ -517,7 +517,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		List<Alerts> objsList = new ArrayList<Alerts>();
 		try {
 			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
-					+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name "
+					+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url "
 					+ "from alerts a "; 
 					if(!"IT Admin".equals(obj.getUser_role_name())) {
 						qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
@@ -1003,7 +1003,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				
 				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
-						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks " 
+						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
 						+ "from alerts a " ; 
 						
 						if(!"IT Admin".equals(obj.getUser_role_name())) {

@@ -1450,5 +1450,232 @@ public class AlertsDaoImpl implements AlertsDao{
 		return remarks;
 	}
 
+
+	@Override
+	public int getTotalRecords(Alerts obj, String searchParameter) throws Exception {
+		int totalRecords = 0;
+		try {
+			String qry = "select count(*) as total_records from alerts a "; 
+					if(!"IT Admin".equals(obj.getUser_role_name())) {
+						qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
+					}
+			
+			qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";
+			
+			int arrSize = 1;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				qry = qry + " and au.user_id_fk = ? ";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and a.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				qry = qry + " and a.alert_level = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (u.designation like ? or c.work_id_fk like ? or w.work_short_name like ? or c.contractor_id_fk like ?"
+						+ " or c.contract_short_name like ? or contractor_name like ? or alert_type_fk like ? or alert_level like ? or alert_value like ? or a.remarks like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			qry = qry + " order by u.designation,work_short_name,a.contract_id asc, alert_level desc";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				pValues[i++] = obj.getUser_id();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				pValues[i++] = obj.getAlert_level();
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			
+			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return totalRecords;
+	}
+
+
+	@Override
+	public List<Alerts> getAlertsList(Alerts obj, int startIndex, int offset, String searchParameter) throws Exception {
+		List<Alerts> objsList = new ArrayList<Alerts>();
+		try {
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
+					+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url "
+					+ "from alerts a "; 
+					if(!"IT Admin".equals(obj.getUser_role_name())) {
+						qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
+					}
+			
+			qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";
+			
+			int arrSize = 1;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				qry = qry + " and au.user_id_fk = ? ";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and a.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				qry = qry + " and a.alert_level = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (u.designation like ? or c.work_id_fk like ? or w.work_short_name like ? or c.contractor_id_fk like ?"
+						+ " or c.contract_short_name like ? or contractor_name like ? or alert_type_fk like ? or alert_level like ? or alert_value like ? or a.remarks like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				qry = qry + " order by u.designation,work_short_name,a.contract_id asc, alert_level desc limit ?,?";
+				arrSize++;
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				pValues[i++] = obj.getUser_id();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				pValues[i++] = obj.getAlert_level();
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				pValues[i++] = startIndex;
+				pValues[i++] = offset;
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 	
 }

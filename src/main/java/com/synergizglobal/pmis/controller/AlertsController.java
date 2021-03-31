@@ -1,8 +1,13 @@
 package com.synergizglobal.pmis.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -22,9 +27,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Alerts;
+import com.synergizglobal.pmis.model.AlertsPaginationObject;
+import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.BudgetPaginationObject;
 import com.synergizglobal.pmis.model.User;
 
 @Controller
@@ -211,18 +221,106 @@ public class AlertsController {
 	     return model;
 	}
 	
-	@RequestMapping(value = "/ajax/getAlerts", method = {RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<Alerts> getAlerts(@ModelAttribute Alerts obj) {
-		List<Alerts> objsList = null;  
+	@RequestMapping(value = "/ajax/getAlerts", method = { RequestMethod.POST, RequestMethod.GET })
+	public void getAlertssList(@ModelAttribute Alerts obj, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws IOException {
+		PrintWriter pw = null;
+		//JSONObject json = new JSONObject();
+		String json2 = null;
+		String userId = null;
+		String userName = null,user_role_name=null;
 		try {
-			objsList = service.getAlerts(obj);
-		}catch (Exception e) {
+			userId = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
+			user_role_name = (String) session.getAttribute("USER_ROLE_NAME");
+			obj.setUser_id(userId);obj.setUser_role_name(user_role_name);
+			pw = response.getWriter();
+			//Fetch the page number from client
+			Integer pageNumber = 0;
+			Integer pageDisplayLength = 0;
+			if (null != request.getParameter("iDisplayStart")) {
+				pageDisplayLength = Integer.valueOf(request.getParameter("iDisplayLength"));
+				pageNumber = (Integer.valueOf(request.getParameter("iDisplayStart")) / pageDisplayLength) + 1;
+			}
+			//Fetch search parameter
+			String searchParameter = request.getParameter("sSearch");
+
+			//Fetch Page display length
+			pageDisplayLength = Integer.valueOf(request.getParameter("iDisplayLength"));
+
+			List<Alerts> budgetList = new ArrayList<Alerts>();
+
+			//Here is server side pagination logic. Based on the page number you could make call 
+			//to the data base create new list and send back to the client. For demo I am shuffling 
+			//the same list to show data randomly
+			int startIndex = 0;
+			int offset = pageDisplayLength;
+
+			if (pageNumber == 1) {
+				startIndex = 0;
+				offset = pageDisplayLength;
+				budgetList = createPaginationData(startIndex, offset, obj, searchParameter);
+			} else {
+				startIndex = (pageNumber * offset) - offset;
+				offset = pageDisplayLength;
+				budgetList = createPaginationData(startIndex, offset, obj, searchParameter);
+			}
+
+			//Search functionality: Returns filtered list based on search parameter
+			//budgetList = getListBasedOnSearchParameter(searchParameter,budgetList);
+
+			int totalRecords = getTotalRecords(obj, searchParameter);
+
+			AlertsPaginationObject personJsonObject = new AlertsPaginationObject();
+			//Set Total display record
+			personJsonObject.setiTotalDisplayRecords(totalRecords);
+			//Set Total record
+			personJsonObject.setiTotalRecords(totalRecords);
+			personJsonObject.setAaData(budgetList);
+
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			json2 = gson.toJson(personJsonObject);
+		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getAlerts : " + e.getMessage());
+			logger.error(
+					"objList : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
 		}
-		return objsList;
+
+		pw.println(json2);
 	}
+
+	/**
+	 * @param searchParameter 
+	 * @param activity 
+	 * @return
+	 */
+	public int getTotalRecords(Alerts obj, String searchParameter) {
+		int totalRecords = 0;
+		try {
+			totalRecords = service.getTotalRecords(obj, searchParameter);
+		} catch (Exception e) {
+			logger.error("getTotalRecords : " + e.getMessage());
+		}
+		return totalRecords;
+	}
+
+	/**
+	 * @param pageDisplayLength
+	 * @param offset 
+	 * @param activity 
+	 * @param clientId 
+	 * @return
+	 */
+	public List<Alerts> createPaginationData(int startIndex, int offset, Alerts obj, String searchParameter) {
+		List<Alerts> objList = null;
+		try {
+			objList = service.getAlertsList(obj, startIndex, offset, searchParameter);
+		} catch (Exception e) {
+			logger.error("createPaginationData : " + e.getMessage());
+		}
+		return objList;
+	}
+	
 	
 	@RequestMapping(value = "/ajax/getContractorsFilterListInAlerts", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

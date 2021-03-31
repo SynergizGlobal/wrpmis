@@ -32,5 +32,9 @@ public interface AlertsDao {
 	int getAlertsCount(Alerts obj) throws Exception;
 
 	boolean callingStoredProcedures() throws Exception;
+
+	int getTotalRecords(Alerts obj, String searchParameter) throws Exception;
+
+	List<Alerts> getAlertsList(Alerts obj, int startIndex, int offset, String searchParameter) throws Exception;
 	
 }

@@ -80,4 +80,14 @@ public class AlertsServiceImpl implements AlertsService{
 		return dao.callingStoredProcedures();
 	}
 
+	@Override
+	public int getTotalRecords(Alerts obj, String searchParameter) throws Exception {
+		return dao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<Alerts> getAlertsList(Alerts obj, int startIndex, int offset, String searchParameter) throws Exception {
+		return dao.getAlertsList(obj,startIndex,offset,searchParameter);
+	}
+
 }

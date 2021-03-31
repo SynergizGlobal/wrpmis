@@ -13,7 +13,7 @@ public class Issue {
 	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,assigned_date,contract_hod_email_id,contract_dyhod_email_id,
 	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name,message_id;
 	
-	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id;
+	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,existing_status_fk,mail_body_header;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
@@ -643,6 +643,22 @@ public class Issue {
 
 	public void setCreated_by_email_id(String created_by_email_id) {
 		this.created_by_email_id = created_by_email_id;
+	}
+
+	public String getExisting_status_fk() {
+		return existing_status_fk;
+	}
+
+	public void setExisting_status_fk(String existing_status_fk) {
+		this.existing_status_fk = existing_status_fk;
+	}
+
+	public String getMail_body_header() {
+		return mail_body_header;
+	}
+
+	public void setMail_body_header(String mail_body_header) {
+		this.mail_body_header = mail_body_header;
 	}
 	
 }

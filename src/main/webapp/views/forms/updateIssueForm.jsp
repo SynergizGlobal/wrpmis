@@ -80,6 +80,7 @@
                     <!-- form start-->
                     <div class="container no-mar">
                         <form action="<%=request.getContextPath() %>/update-issue" id="issueForm" name="issueForm" method="post" enctype="multipart/form-data">
+                        	 <input id="existing_status_fk" name="existing_status_fk" type="hidden" value="${issue.existing_status_fk }"/>
                         	<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">     
@@ -150,7 +151,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="date" name="date" type="text" class="datepicker1" value="${issue.date }" readonly>
-                                    <label for="date">Date of raising issue <span class="required">*</span></label>
+                                    <label for="date">Issue pending since <span class="required">*</span></label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
@@ -233,7 +234,7 @@
 							<div class="row" style="margin-bottom:5px">
 							  <div class="col s12 m4 input-field offset-m2">
 					             <p class="searchable_label">Issue Status <span class="required">*</span></p> 
-					             <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value);">
+					             <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getDetailsByStatus(this.value);">
 					                 <!-- <option value="">Select</option> -->						                 
 					             </select>                                    
 					             <span id="status_fkError" class="error-msg" ></span>
@@ -265,8 +266,8 @@
                             </div>
                                                   
                                                    
-                            <div id="escalatedDiv" style="display: none;">
-	                            <div class="row" >
+                            <div>
+	                            <div class="row" id="escalatedDiv" style="display: none;">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
 	                                    <%-- <input id="escalated_to" name="escalated_to" type="text" class="validate" value="${issue.escalated_to }">
@@ -321,18 +322,12 @@
                                     </div>
                                     
                                     <c:forEach var="obj" items="${issue.issueFilesList }" varStatus="index">
-										<div style="clear:both"><a href="<%=CommonConstants2.ISSUE_FILES%>${obj.issue_id }/${obj.file_name } "
-											class="filevalue" download>${obj.file_name }</a>
+										<div style="clear:both">
+											<a href="<%=CommonConstants2.ISSUE_FILES%>${obj.issue_id }/${obj.file_name } " class="filevalue" download>${obj.file_name }</a>
 											<span onclick="removeFile(this,'issueFiles${index.count }','attachments')" class="attachment-remove-btn">X</span>
-										
 											<input type="hidden" id="issueFiles${index.count }" name="issueFileNames" value="${obj.file_name }">
 									     </div>
 									</c:forEach>
-                                    
-                                    <%-- <c:if test="${not empty issue.attachment }">
-                                       	<a href="<%=CommonConstants2.ISSUE_FILES %>${issue.attachment }" class="filevalue" download>${issue.attachment }</a>
-										<span onclick="removeMedia(this,'issueFileWrapper')" class="attachment-remove-btn">X</span>											
-                                   	</c:if> --%>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -473,42 +468,31 @@
 	            $("#issueForm select").prop("disabled", true);	            
             }
             
-            //getEscalatedDetails(status_fk);
+            //getDetailsByStatus(status_fk);
             
             issueStatusFk = "${issue.status_fk}";
             
-            if($.trim(issueStatusFk) == 'Escalated'){
-        		$("#escalatedDiv").show();
-        		$("#escalatedRemarksDiv").show();
-        		$("#resolvedDiv").hide();
-        		
-        		$("#assignDateDiv").show();
-        		
-        		$("#corrective_measure").attr('readonly', true);
-        		$("#zonal_railway_fk").attr('disabled', true);
-        		$("#other_organization").attr('readonly', true);
-        		$("#other_organizations").attr('disabled', true);
-        		
-        		$("#assigned_date").attr('disabled', true);
-        		$("#responsible_person").attr('disabled', true);
-        		
-        	}else if($.trim(issueStatusFk) == 'Closed'){
-        		$("#resolvedDiv").show();
-        		
+            if($.trim(issueStatusFk) == 'Closed'){
+            	$("#assignDateDiv").show();
+        		$("#resolvedDiv").show();        		
         		var escalated_to = '${issue.escalated_to}';
         		if($.trim(escalated_to) != ''){
         			$("#escalatedDiv").show();
+        			$("#escalatedRemarksDiv").show();
         			$("#escalated_to").attr('disabled', true);
         			$("#escalation_date").attr('disabled', true);
         			$("#remarks").attr('readonly', true);
         		}else{
         			$("#escalatedDiv").hide();
+        			$("#escalatedRemarksDiv").hide();
         			$("#escalated_to").attr('disabled', false);
         			$("#escalation_date").attr('disabled', false);
         			$("#remarks").attr('readonly', false);
+        			
+        			$("#escalated_to").val('');
+            		$("#escalation_date").val('');
+            		$("#remarks").val('');
         		}
-        		
-        		$("#assignDateDiv").show();
         		
         		$("#corrective_measure").attr('readonly', true);
         		$("#zonal_railway_fk").attr('disabled', true);
@@ -517,23 +501,28 @@
         		
         		$("#assigned_date").attr('disabled', true);
         		$("#responsible_person").attr('disabled', true);
-        		
-        	}else if($.trim(issueStatusFk) == 'Raised'){
-        		$("#assignDateDiv").hide();
+        	}else if($.trim(issueStatusFk) == 'Escalated'){
+        		$("#assignDateDiv").show();
+        		$("#escalatedDiv").show();
+        		$("#escalatedRemarksDiv").show();
         		$("#resolvedDiv").hide();
-        		$("#escalatedDiv").hide();
         		
-        		$("#corrective_measure").attr('readonly', false);
-        		$("#zonal_railway_fk").attr('disabled', false);
-        		$("#other_organization").attr('readonly', false);
-        		$("#other_organizations").attr('disabled', false); 
+        		$("#corrective_measure").attr('readonly', true);
+        		$("#zonal_railway_fk").attr('disabled', true);
+        		$("#other_organization").attr('readonly', true);
+        		$("#other_organizations").attr('disabled', true);
         		
-        		$("#assigned_date").attr('disabled', false);
-        		$("#responsible_person").attr('disabled', false);
+        		$("#assigned_date").attr('disabled', true);
+        		$("#responsible_person").attr('disabled', true);     
         		
-        	}else{
+        		$("#escalated_to").val('${issue.escalated_to}');
+        		$("#escalation_date").val('${issue.escalation_date}');
+        		$("#remarks").val('${issue.remarks}');
+        		
+        	}else if($.trim(issueStatusFk) == 'Assigned'){
         		$("#assignDateDiv").show();
         		$("#escalatedDiv").hide();
+        		$("#escalatedRemarksDiv").hide();
             	$("#resolvedDiv").hide();
             	
             	$("#corrective_measure").attr('readonly', false);
@@ -542,12 +531,192 @@
         		$("#other_organizations").attr('disabled', false);
         		
         		$("#assigned_date").attr('disabled', false);
-        		$("#responsible_person").attr('disabled', false);
+        		$("#responsible_person").attr('disabled', false);     
+        		
+        		$("#escalated_to").val('');
+        		$("#escalation_date").val('');
+        		$("#remarks").val('');
+        	}else if($.trim(issueStatusFk) == 'Raised'){
+        		$("#assignDateDiv").hide();
+        		$("#escalatedDiv").hide();
+        		$("#escalatedRemarksDiv").hide();
+        		$("#resolvedDiv").hide();
+        		
+        		$("#corrective_measure").attr('readonly', false);
+        		$("#zonal_railway_fk").attr('disabled', false);
+        		$("#other_organization").attr('readonly', false);
+        		$("#other_organizations").attr('disabled', false); 
+        		
+        		$("#assigned_date").attr('disabled', false);
+        		$("#responsible_person").attr('disabled', false);     
+        		
+        		$("#escalated_to").val('');
+        		$("#escalation_date").val('');
+        		$("#remarks").val('');
         	}
             
         });
         
-      //geting works list from database    
+        function getDetailsByStatus(issueStatus){
+        	if($.trim(issueStatus) == 'Closed'){
+            	$("#assignDateDiv").show();
+        		$("#resolvedDiv").show();        		
+        		var escalated_to = '${issue.escalated_to}';
+        		if($.trim(escalated_to) == '' || $.trim(escalated_to) == 'undefined'){
+        			escalated_to = $("#escalated_to").val();
+        		}
+        		if($.trim(escalated_to) != ''){
+        			$("#escalatedDiv").show();
+        			$("#escalatedRemarksDiv").show();
+        			$("#escalated_to").attr('disabled', true);
+        			$("#escalation_date").attr('disabled', true);
+        			$("#remarks").attr('readonly', false);
+        		}else{
+        			$("#escalatedDiv").hide();
+        			$("#escalatedRemarksDiv").hide();
+        			$("#escalated_to").attr('disabled', false);
+        			$("#escalation_date").attr('disabled', false);
+        			$("#remarks").attr('readonly', false);
+        			
+        			$("#escalated_to").val('');
+            		$("#escalation_date").val('');
+            		$("#remarks").val('');
+            		
+            		$("#escalated_to").select2();
+        		}
+        		
+        		$("#corrective_measure").attr('readonly', false);
+        		$("#zonal_railway_fk").attr('disabled', true);
+        		$("#other_organization").attr('readonly', true);
+        		$("#other_organizations").attr('disabled', true);
+        		
+        		$("#assigned_date").attr('disabled', true);
+        		$("#responsible_person").attr('disabled', true);   
+        		
+        		if($.trim('${issue.resolved_date}') != ''){
+        			$("#resolved_date").val('${issue.resolved_date}');
+        		}else{
+        			$('#resolved_date').datepicker({
+    					maxDate: new Date(),
+    		        	format:'dd-mm-yyyy',
+    		   	    	onSelect: function () {
+    		   	    	   $('.confirmation-btns .datepicker-done').click();
+    		   	    	}
+    		        }).datepicker("setDate", new Date());
+        		}
+        		if($.trim('${issue.assigned_date}') != ''){
+        			$("#assigned_date").val('${issue.assigned_date}');
+        		}else{
+        			$('#assigned_date').datepicker({
+    					maxDate: new Date(),
+    		        	format:'dd-mm-yyyy',
+    		   	    	onSelect: function () {
+    		   	    	   $('.confirmation-btns .datepicker-done').click();
+    		   	    	}
+    		        }).datepicker("setDate", new Date());
+        		}
+        		
+        	}else if($.trim(issueStatus) == 'Escalated'){
+        		$("#assignDateDiv").show();
+        		$("#escalatedDiv").show();
+        		$("#escalatedRemarksDiv").hide();
+        		$("#resolvedDiv").hide();
+        		
+        		$("#escalated_to").attr('disabled', false);
+    			$("#escalation_date").attr('disabled', false);
+    			$("#remarks").attr('readonly', false);
+        		
+        		$("#corrective_measure").attr('readonly', false);
+        		$("#zonal_railway_fk").attr('disabled', true);
+        		$("#other_organization").attr('readonly', true);
+        		$("#other_organizations").attr('disabled', true);
+        		
+        		$("#assigned_date").attr('disabled', true);
+        		$("#responsible_person").attr('disabled', true);     
+        		
+        		$("#escalated_to").val('${issue.escalated_to}');
+        		$("#escalation_date").val('${issue.escalation_date}');
+        		$("#remarks").val('${issue.remarks}');
+        		
+        		if($.trim('${issue.escalation_date}') != ''){
+        			$("#escalation_date").val('${issue.escalation_date}');
+        		}else{
+        			$('#escalation_date').datepicker({
+    					maxDate: new Date(),
+    		        	format:'dd-mm-yyyy',
+    		   	    	onSelect: function () {
+    		   	    	   $('.confirmation-btns .datepicker-done').click();
+    		   	    	}
+    		        }).datepicker("setDate", new Date());
+        		}
+        		
+        		$("#resolved_date").val('');
+        		
+        		$("#escalated_to").select2();
+        		
+        	}else if($.trim(issueStatus) == 'Assigned'){
+        		$("#assignDateDiv").show();
+        		$("#escalatedDiv").hide();
+        		$("#escalatedRemarksDiv").hide();
+            	$("#resolvedDiv").hide();
+            	
+            	$("#corrective_measure").attr('readonly', false);
+        		$("#zonal_railway_fk").attr('disabled', false);
+        		$("#other_organization").attr('readonly', false);
+        		$("#other_organizations").attr('disabled', false);
+        		
+        		$("#assigned_date").attr('disabled', false);
+        		$("#responsible_person").attr('disabled', false);     
+        		
+        		$("#escalated_to").val('');
+        		$("#escalation_date").val('');
+        		$("#remarks").val('');
+        		
+        		$("#resolved_date").val('');
+        		
+        		if($.trim('${issue.assigned_date}') != ''){
+        			$("#assigned_date").val('${issue.assigned_date}');
+        		}else{
+        			$('#assigned_date').datepicker({
+    					maxDate: new Date(),
+    		        	format:'dd-mm-yyyy',
+    		   	    	onSelect: function () {
+    		   	    	   $('.confirmation-btns .datepicker-done').click();
+    		   	    	}
+    		        }).datepicker("setDate", new Date());
+        		}
+        		
+        		$("#escalated_to").select2();
+        	}else if($.trim(issueStatus) == 'Raised'){
+        		$("#assignDateDiv").hide();
+        		$("#escalatedDiv").hide();
+        		$("#escalatedRemarksDiv").hide();
+        		$("#resolvedDiv").hide();
+        		
+        		$("#corrective_measure").attr('readonly', false);
+        		$("#zonal_railway_fk").attr('disabled', false);
+        		$("#other_organization").attr('readonly', false);
+        		$("#other_organizations").attr('disabled', false); 
+        		
+        		$("#assigned_date").attr('disabled', false);
+        		$("#responsible_person").attr('disabled', false);     
+        		
+        		$("#escalated_to").val('');
+        		$("#escalation_date").val('');
+        		$("#remarks").val('');
+        		
+        		$("#resolved_date").val('');
+        		$("#assigned_date").val('');
+        		
+        		$("#escalated_to").select2();
+        	}
+        	
+        	if(issueStatusFk == 'Escalated'){
+        		$("#corrective_measure").attr('readonly', true);  
+    		}
+        }
+        
+        //geting works list from database    
         function getWorksList(projectId) {
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
@@ -699,84 +868,7 @@
             });
         }
         
-        function getEscalatedDetails(issueStatus){
-        	if($.trim(issueStatus) == 'Escalated'){
-        		$("#escalatedDiv").show();
-        		$("#resolvedDiv").hide();
-        		
-        		$("#assignDateDiv").show();
-        		
-        		$("#corrective_measure").attr('readonly', false);        		
-        		$("#zonal_railway_fk").attr('disabled', true);
-        		$("#other_organization").attr('readonly', true);
-        		$("#other_organizations").attr('disabled', true);
-        		
-        		$("#assigned_date").attr('disabled', true);
-        		$("#responsible_person").attr('disabled', true);
-        		
-    			$("#escalated_to").attr('disabled', false);
-    			$("#escalation_date").attr('disabled', false);
-    			$("#remarks").attr('readonly', false);
-        		
-        	}else if($.trim(issueStatus) == 'Closed'){
-        		$("#resolvedDiv").show();
-        		
-        		var escalated_to = '${issue.escalated_to}';
-        		if($.trim(escalated_to) == '' || $.trim(escalated_to) == 'undefined'){
-        			escalated_to = $("#escalated_to").val();
-        		}
-        		if($.trim(escalated_to) != ''){
-        			$("#escalatedDiv").show();
-        			$("#escalated_to").attr('disabled', true);
-        			$("#escalation_date").attr('disabled', true);
-        			$("#remarks").attr('readonly', true);
-        		}else{
-        			$("#escalatedDiv").hide();
-        			$("#escalated_to").attr('disabled', false);
-        			$("#escalation_date").attr('disabled', false);
-        			$("#remarks").attr('readonly', false);
-        		}        		
-        		$("#assignDateDiv").show();
-        		
-        		$("#corrective_measure").attr('readonly', true);
-        		$("#zonal_railway_fk").attr('disabled', true);
-        		$("#other_organization").attr('readonly', true);
-        		$("#other_organizations").attr('disabled', true);
-        		
-        		$("#assigned_date").attr('disabled', true);
-        		$("#responsible_person").attr('disabled', true);
-        		
-        	}else if($.trim(issueStatus) == 'Raised'){
-        		$("#assignDateDiv").hide();
-        		$("#resolvedDiv").hide();
-        		$("#escalatedDiv").hide();
-        		
-        		$("#corrective_measure").attr('readonly', false);
-        		$("#zonal_railway_fk").attr('disabled', false);
-        		$("#other_organization").attr('readonly', false);
-        		$("#other_organizations").attr('disabled', false); 
-        		
-        		$("#assigned_date").attr('disabled', false);
-        		$("#responsible_person").attr('disabled', false);
-        		
-        	}else{
-        		$("#assignDateDiv").show();
-        		$("#escalatedDiv").hide();
-            	$("#resolvedDiv").hide();
-            	
-            	$("#corrective_measure").attr('readonly', false);
-        		$("#zonal_railway_fk").attr('disabled', false);
-        		$("#other_organization").attr('readonly', false);
-        		$("#other_organizations").attr('disabled', false);
-        		
-        		$("#assigned_date").attr('disabled', false);
-        		$("#responsible_person").attr('disabled', false);
-        	}
-        	
-        	if(issueStatusFk == 'Escalated'){
-        		$("#corrective_measure").attr('readonly', true);  
-    		}
-        }
+        
         
         function updateIssue(){
     		if(validator.form()){ // validation perform
@@ -975,6 +1067,9 @@
 	  			 	    }else if (element.attr("id") == "escalation_date" ){
 	  			 		     document.getElementById("escalation_dateError").innerHTML="";
 	  			 			 error.appendTo('#escalation_dateError');
+	  			 	    }else if (element.attr("id") == "zonal_railway_fk" ){
+	  			 		     document.getElementById("zonal_railway_fkError").innerHTML="";
+	  			 			 error.appendTo('#zonal_railway_fkError');
 	  			 	    }else if (element.attr("id") == "remarks" ){
     			 		     document.getElementById("remarksError").innerHTML="";
     			 			 error.appendTo('#remarksError');
@@ -1027,7 +1122,7 @@
 	            	return true;
 	            }
 	            
-	        }, "Assigned Date must be after Date of raising issue");
+	        }, "Assigned Date must be after Issue pending since");
     	    
 	    	$.validator.addMethod("dateBefore2", function(value, element) {
 	            var fromDateString = $('#assigned_date').val(); //
@@ -1089,7 +1184,7 @@
 	            	return true;
 	            }
 	            
-	        }, "Date of raising issue must be On or Before Today");
+	        }, "Issue pending since must be On or Before Today");
     	    
 	    	$.validator.addMethod("dateBeforeToday2", function(value, element) {
 	    		var fromDateParts = value.split("-");

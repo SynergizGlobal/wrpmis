@@ -190,7 +190,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="date" name="date" type="text" class="validate datepicker">
-                                    <label for="date">Date of raising issue <span class="required">*</span></label>
+                                    <label for="date">Issue pending since <span class="required">*</span></label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
@@ -265,7 +265,7 @@
                                     
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                  <div class="file-field input-field">
+                                    <div class="file-field input-field">
                                         <div class="btn bg-m t-c">
                                             <span>Attachment</span>
                                             <input type="file" id="issueFiles" name="issueFiles" multiple>
@@ -274,6 +274,13 @@
                                             <input class="file-path validate" type="text">
                                         </div>                                       
                                     </div>
+                                    
+                                    <%-- <div style="clear:both">
+                                    	<div id="">
+											<a href="#" class="filevalue">test</a>
+											<span onclick="removeFile(this,'issueFiles${index.count }')" class="attachment-remove-btn">X</span>
+										</div>
+									</div> --%>
                                  </div>
 							</div>
                                                  
@@ -323,6 +330,13 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>	
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
+	
+		/* $("input[name=issueFiles]").change(function() {
+		    for (var i = 0; i < $(this).get(0).files.length; ++i) {
+		        var fileName = $(this).get(0).files[i].name;
+		    }
+		}); */
+	
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -337,7 +351,7 @@
 		   	    	onSelect: function () {
 		   	    	   $('.confirmation-btns .datepicker-done').click();
 		   	    	}
-		        });
+		        }).datepicker("setDate", new Date());
 				
 		        $('#'+id+'_icon').click(function () {
 	                event.stopPropagation();
@@ -679,7 +693,7 @@
 	            	return true;
 	            }
 	            
-	        }, "Date of raising issue must be On or Before Today");
+	        }, "Issue pending since must be On or Before Today");
     	    
             
             

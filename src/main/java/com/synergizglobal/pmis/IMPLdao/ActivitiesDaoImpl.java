@@ -603,7 +603,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 				String issue_id = issueId;
 				String issue_status = CommonConstants.ISSUE_STATUS_RAISED;
 				String reported_by_email_id = obj.getReported_by_email_id();
-				issueDaoImpl.sendEmailWithIssueAlert(issue_id,issue_status,reported_by_email_id);
+				issueDaoImpl.sendEmailWithIssueAlert(issue_id,issue_status,reported_by_email_id,null);
 				
 			}else{
 				issueId = null;

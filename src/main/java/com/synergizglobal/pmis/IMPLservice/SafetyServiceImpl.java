@@ -113,5 +113,15 @@ public class SafetyServiceImpl implements SafetyService {
 	public List<Safety> getHODListFilterInSafety(Safety obj) throws Exception {
 		return safetyDao.getHODListFilterInSafety(obj);
 	}
+
+	@Override
+	public int getTotalRecords(Safety obj, String searchParameter) throws Exception {
+		return safetyDao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<Safety> getSafetyList(Safety obj, int startIndex, int offset, String searchParameter) throws Exception {
+		return safetyDao.getSafetyList(obj,startIndex,offset,searchParameter);
+	}
 	
 }

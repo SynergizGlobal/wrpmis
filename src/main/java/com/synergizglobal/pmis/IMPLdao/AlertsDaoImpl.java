@@ -1498,7 +1498,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (u.designation like ? or c.work_id_fk like ? or w.work_short_name like ? or c.contractor_id_fk like ?"
+				qry = qry + " and (u.designation like ? or c.work_id_fk like ? or w.work_short_name like ? or a.contract_id like ?"
 						+ " or c.contract_short_name like ? or contractor_name like ? or alert_type_fk like ? or alert_level like ? or alert_value like ? or a.remarks like ?)";
 				arrSize++;
 				arrSize++;
@@ -1609,7 +1609,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (u.designation like ? or c.work_id_fk like ? or w.work_short_name like ? or c.contractor_id_fk like ?"
+				qry = qry + " and (u.designation like ? or c.work_id_fk like ? or w.work_short_name like ? or a.contract_id like ?"
 						+ " or c.contract_short_name like ? or contractor_name like ? or alert_type_fk like ? or alert_level like ? or alert_value like ? or a.remarks like ?)";
 				arrSize++;
 				arrSize++;

@@ -821,6 +821,197 @@ public class SafetyDaoImpl implements SafetyDao {
 		return objsList;
 	}
 
+	@Override
+	public int getTotalRecords(Safety obj, String searchParameter) throws Exception {
+		int totalRecords = 0;
+		try {
+			String qry = "SELECT count(*) as total_records from safety s "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN user u ON s.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "LEFT OUTER JOIN department d ON s.department_fk  = d.department "
+					+ "where safety_id is not null " ;
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
+				qry = qry + " and category_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and s.department_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and s.hod_user_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (c.contract_id like ? or c.contract_short_name like ? or title like ? or location like ? "
+						+ "or responsible_person like ? or department_name like ? or category_fk like ? or status_fk like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
+				pValues[i++] = obj.getCategory_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return totalRecords;
+	}
+
+	@Override
+	public List<Safety> getSafetyList(Safety obj, int startIndex, int offset, String searchParameter) throws Exception {
+		List<Safety> objsList = null;
+		try {
+			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,s.department_fk,"
+					+ "category_fk,impact_fk,root_cause_fk,status_fk,DATE_FORMAT(closure_date,'%d-%m-%Y') AS closure_date,cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
+					+ "DATE_FORMAT(investigation_completed,'%d-%m-%Y') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,status_remark_fk,cast(compensation as CHAR) as compensation,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
+					+ "from safety s "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN user u ON s.hod_user_id_fk= u.user_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "LEFT OUTER JOIN department d ON s.department_fk  = d.department "
+					+ "where safety_id is not null " ;
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
+				qry = qry + " and category_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and s.department_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and s.hod_user_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (c.contract_id like ? or c.contract_short_name like ? or title like ? or location like ? "
+						+ "or responsible_person like ? or department_name like ? or category_fk like ? or status_fk like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				qry = qry + " order by safety_id ASC limit ?,?";
+				arrSize++;
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
+				pValues[i++] = obj.getCategory_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				pValues[i++] = startIndex;
+				pValues[i++] = offset;
+			}
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 	
 
 }

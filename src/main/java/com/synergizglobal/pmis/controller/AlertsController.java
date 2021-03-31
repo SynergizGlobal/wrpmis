@@ -248,7 +248,7 @@ public class AlertsController {
 			//Fetch Page display length
 			pageDisplayLength = Integer.valueOf(request.getParameter("iDisplayLength"));
 
-			List<Alerts> budgetList = new ArrayList<Alerts>();
+			List<Alerts> alertList = new ArrayList<Alerts>();
 
 			//Here is server side pagination logic. Based on the page number you could make call 
 			//to the data base create new list and send back to the client. For demo I am shuffling 
@@ -259,15 +259,15 @@ public class AlertsController {
 			if (pageNumber == 1) {
 				startIndex = 0;
 				offset = pageDisplayLength;
-				budgetList = createPaginationData(startIndex, offset, obj, searchParameter);
+				alertList = createPaginationData(startIndex, offset, obj, searchParameter);
 			} else {
 				startIndex = (pageNumber * offset) - offset;
 				offset = pageDisplayLength;
-				budgetList = createPaginationData(startIndex, offset, obj, searchParameter);
+				alertList = createPaginationData(startIndex, offset, obj, searchParameter);
 			}
 
 			//Search functionality: Returns filtered list based on search parameter
-			//budgetList = getListBasedOnSearchParameter(searchParameter,budgetList);
+			//alertList = getListBasedOnSearchParameter(searchParameter,alertList);
 
 			int totalRecords = getTotalRecords(obj, searchParameter);
 
@@ -276,7 +276,7 @@ public class AlertsController {
 			personJsonObject.setiTotalDisplayRecords(totalRecords);
 			//Set Total record
 			personJsonObject.setiTotalRecords(totalRecords);
-			personJsonObject.setAaData(budgetList);
+			personJsonObject.setAaData(alertList);
 
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			json2 = gson.toJson(personJsonObject);

@@ -491,24 +491,37 @@ public class ContractController {
 			model.setViewName(PageConstants.updateContractForm);
 			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
 			model.addObject("projectsList", projectsList);
+			
 			List<Contract> worksList = contractService.getWorkListForContractForm(obj);
 			model.addObject("worksList", worksList);
+			
 			List<Contract> departmentList = contractService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
+			
 			List<User> hodList = contractService.setHodList();
 			model.addObject("hodList", hodList);
+			
+			List<User> dyHodList = contractService.getDyHodList();
+			model.addObject("dyHodList", dyHodList);
+			
 			List<Contract> contractor = contractService.getContractorsList();
 			model.addObject("contractor", contractor);
+			 
 			List<Contract> contract_type = contractService.getContractTypeList();
 			model.addObject("contract_type", contract_type);
+			
 			List<Contract> insurance_type = contractService.getInsurenceTypeList();
 			model.addObject("insurance_type", insurance_type);
+			
 			List<BankGuarantee> bankGuaranteeTYpe = contractService.bankGuarantee();
 			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
+			
 			List<Insurence> InsurenceType = contractService.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
+			
 			List<Contract> contract_Statustype = contractService.getContractStatusType();
 			model.addObject("contract_Statustype", contract_Statustype);
+			
 			
 			obj.setContract_id(contract_id);
 			Contract contractDeatils = contractService.getContract(obj);

@@ -45,4 +45,8 @@ public interface SafetyDao {
 	List<Safety> getHODListForSafetyForm(Safety obj) throws Exception;
 
 	List<Safety> getHODListFilterInSafety(Safety obj) throws Exception;
+
+	int getTotalRecords(Safety obj, String searchParameter) throws Exception;
+
+	List<Safety> getSafetyList(Safety obj, int startIndex, int offset, String searchParameter) throws Exception;
 }

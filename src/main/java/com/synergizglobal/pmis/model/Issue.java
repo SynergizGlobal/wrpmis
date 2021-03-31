@@ -11,10 +11,9 @@ public class Issue {
 	other_organization,escalation_date,contractor_id_fk,contractor_id,contractor_name,hod_user_id_fk,designation,hod_name,pending_since,hod,
 	reported_by_user_id,responsible_person_user_id,escalated_to_user_id,reported_by_designation,responsible_person_designation,escalated_to_designation,
 	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,assigned_date,contract_hod_email_id,contract_dyhod_email_id,
-	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name,message_id;
+	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name,message_id,hod_designation, dyHod_designation;
 	
-	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,existing_status_fk,mail_body_header,
-	existing_responsible_person,existing_escalated_to;
+	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,existing_status_fk,mail_body_header;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
@@ -26,6 +25,22 @@ public class Issue {
 	
 	
 	
+
+	public String getHod_designation() {
+		return hod_designation;
+	}
+
+	public void setHod_designation(String hod_designation) {
+		this.hod_designation = hod_designation;
+	}
+
+	public String getDyHod_designation() {
+		return dyHod_designation;
+	}
+
+	public void setDyHod_designation(String dyHod_designation) {
+		this.dyHod_designation = dyHod_designation;
+	}
 
 	public String getContract_hod_user_id() {
 		return contract_hod_user_id;
@@ -660,22 +675,6 @@ public class Issue {
 
 	public void setMail_body_header(String mail_body_header) {
 		this.mail_body_header = mail_body_header;
-	}
-
-	public String getExisting_responsible_person() {
-		return existing_responsible_person;
-	}
-
-	public void setExisting_responsible_person(String existing_responsible_person) {
-		this.existing_responsible_person = existing_responsible_person;
-	}
-
-	public String getExisting_escalated_to() {
-		return existing_escalated_to;
-	}
-
-	public void setExisting_escalated_to(String existing_escalated_to) {
-		this.existing_escalated_to = existing_escalated_to;
 	}
 	
 }

@@ -1226,7 +1226,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			/***************************** Issue alerts*******************************************************/
 			
 			String qryAlert1 = "select contract_id_fk as contract_id, '1st Alert' as alert_level,'Issue' as alert_type,"
-					+ "concat('Issue ',status_fk,': ',i.title) as alert_value,concat('/get-issue/',issue_id) as redirect_url,"
+					+ "concat('Issue ',status_fk,': ',i.title) as alert_value,"
+					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/Closed-Issues/',issue_id) ELSE concat('/InfoViz/issues/Open-Issues/',issue_id) END) as redirect_url,"
 					+ "d.department_name,responsible_person,escalated_to,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk "
 					+ "from issue i "
@@ -1242,7 +1243,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			}			
 			
 			String qryAlert2 = "select contract_id_fk as contract_id, '2nd Alert' as alert_level,'Issue' as alert_type,"
-					+ "concat('Issue ',status_fk,': ',i.title) as alert_value,concat('/get-issue/',issue_id) as redirect_url,"
+					+ "concat('Issue ',status_fk,': ',i.title) as alert_value,"
+					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/Closed-Issues/',issue_id) ELSE concat('/InfoViz/issues/Open-Issues/',issue_id) END) as redirect_url,"
 					+ "d.department_name,responsible_person,escalated_to,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk "
 					+ "from issue i "
@@ -1257,7 +1259,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			}	
 			
 			String qryAlert3 = "select contract_id_fk as contract_id, '3rd Alert' as alert_level,'Issue' as alert_type,"
-					+ "concat('Issue ',status_fk,': ',i.title) as alert_value,concat('/get-issue/',issue_id) as redirect_url,"
+					+ "concat('Issue ',status_fk,': ',i.title) as alert_value,"
+					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/Closed-Issues/',issue_id) ELSE concat('/InfoViz/issues/Open-Issues/',issue_id) END) as redirect_url,"
 					+ "d.department_name,responsible_person,escalated_to,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk "
 					+ "from issue i "

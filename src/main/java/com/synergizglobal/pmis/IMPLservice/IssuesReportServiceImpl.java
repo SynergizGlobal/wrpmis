@@ -35,4 +35,9 @@ public class IssuesReportServiceImpl implements IssuesReportService{
 		return issueDao.getPendingIssues(obj);
 	}
 
+	@Override
+	public String getEmailIdsOfHodDyHodManagement() throws Exception {
+		return issueDao.getEmailIdsOfHodDyHodManagement();
+	}
+
 }

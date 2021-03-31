@@ -13,4 +13,6 @@ public interface IssuesReportService {
 	List<Issue> getHODListInIssuesReport(Issue obj) throws Exception;
 
 	List<Issue> getPendingIssues(Issue obj) throws Exception;
+
+	String getEmailIdsOfHodDyHodManagement() throws Exception;
 }

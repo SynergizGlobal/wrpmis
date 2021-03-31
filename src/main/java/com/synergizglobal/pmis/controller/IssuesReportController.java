@@ -81,6 +81,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.IssuesReportService;
 import com.synergizglobal.pmis.common.DocxTableCreation;
+import com.synergizglobal.pmis.common.EMailSender;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Issue;
 
@@ -926,5 +928,80 @@ public class IssuesReportController {
 		footerP.setPPr(pPr);
 		ftr.getContent().add(footerP);
 		return ftr;
+	}
+
+	public boolean sendMailWithOpenIssues(Issue obj) {
+		//XWPFDocument document = new XWPFDocument(); 
+				//StringBuilder repositoryExcerpts = new StringBuilder(); 
+				byte[] byteArray;        
+		        //ObjectFactory objectFactory = new ObjectFactory();
+				boolean flag = false;
+				try{			
+					DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+					String report_created_date = df.format(new Date()); 
+					
+					obj.setStatus_fk("Closed");
+					List<Issue> pendingIssues = issueService.getPendingIssues(obj);
+					
+					boolean landscape = true;
+					WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+					
+					MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+					ObjectFactory factory = Context.getWmlObjectFactory();
+					
+					String imagePath = null;
+					
+					JcEnumeration imageAlignment = JcEnumeration.LEFT;
+					
+					int issue_count = 0;
+					if(pendingIssues != null ) {
+						issue_count = pendingIssues.size();
+					}
+					String headerTextMiddle = "PMIS Report - Pending Issues("+issue_count+")";
+					
+					String headerTextRight = "Date : " + report_created_date;
+					
+					//String headerText = "PMIS Report - Pending Issues";
+					
+					Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);
+					//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
+								 
+					createHeaderReference(wordMLPackage, mp, factory, relationship);
+					relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+					createFooterReference(wordMLPackage, mp, factory, relationship);
+					 			  
+					DocxTableCreation.createTableForPendingIssuesReport(wordMLPackage, mp, factory,pendingIssues);
+			    	  
+								
+					try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+						wordMLPackage.save(bos);
+						byteArray = bos.toByteArray();
+						String file_extention = "docx";
+						String attachment_file_name = "Issues-Report";
+						
+						String recipients = "", cc= "", bcc = CommonConstants.BCC_MAIL, 
+								subject = "PMIS Open Issues Report", body = "";
+						
+						recipients = issueService.getEmailIdsOfHodDyHodManagement();
+						
+						if(!StringUtils.isEmpty(recipients)){		
+							EMailSender emailSender = new EMailSender();
+							emailSender.sendEmailWithAttachment(recipients, cc, bcc, subject, body, attachment_file_name, file_extention, byteArray);
+						}
+						
+						flag = true;
+				    }catch (Exception e) {
+						e.printStackTrace();
+						logger.error("sendMailWithOpenIssues >> FileNotFoundException occurs.." + e.getMessage());
+						flag = false;
+				    }	
+				 	
+				} catch (Exception e) {
+					e.printStackTrace();
+					logger.error("sendMailWithOpenIssues >> " + e.getMessage());
+					flag = false;
+				}
+				
+				return flag;
 	}
 }

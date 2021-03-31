@@ -14,4 +14,6 @@ public interface IssuesReportDao {
 
 	List<Issue> getPendingIssues(Issue obj) throws Exception;
 
+	String getEmailIdsOfHodDyHodManagement() throws Exception;
+
 }

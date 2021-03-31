@@ -157,4 +157,50 @@ public class TableauDashboardController {
 	private String capitalize(final String line) {
 	   return Character.toUpperCase(line.charAt(0)) + line.substring(1);
 	}
+	
+	@RequestMapping(value="/InfoViz/issues/{param}/{issue_id}",method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView issueTableauDashboard(@PathVariable(value = "param") String param,@PathVariable(value = "issue_id") String issue_id,
+			HttpSession session,HttpServletRequest request){
+		ModelAndView view = new ModelAndView(PageConstants.tableauDashboard);
+		String user_Id = null;String userName = null;
+		String title = "";
+		try{
+			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			view.addObject("active", param);
+			view.addObject("tabActive", "dashboard");
+			
+			User user = (User)session.getAttribute("user");
+			String activityWork = null;
+			if(!StringUtils.isEmpty(param)){
+				activityWork = param.replaceAll("_", " - ").toLowerCase();
+				activityWork = activityWork.replaceAll("-", " ").toLowerCase();
+				title = title + capitalize(activityWork).toUpperCase() + " - ";
+			}
+			
+			view.addObject("title", title+"PMIS - Syntrack.");
+			
+			TableauDashboard vo = service.getTableauUrl(activityWork);
+			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
+				String[] url = {};
+				if(vo.getTableauUrl().contains(".com/")) {
+					url = vo.getTableauUrl().split(".com/");
+				}else {
+					url = vo.getTableauUrl().split(":8000/");
+				}
+				TableauTrustedTicket tObj = new TableauTrustedTicket();
+				String trustedTokenId =  tObj.getTrustedTicket();
+				CommonConstants cObj = new CommonConstants();
+				String baseUrl = cObj.BASE_URL.replace("{0}", trustedTokenId);
+				String tableauUrl = baseUrl + url[1]+"?issue_id="+issue_id+CommonConstants.TABLEAU_PARAMS;
+				vo.setTableauUrl(tableauUrl);
+			}
+			view.addObject("url", vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("issueTableauDashboard() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
+		}
+		return view;
+	}
+	
+	
 }

@@ -5,10 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -19,6 +22,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
 import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
@@ -299,6 +303,102 @@ public class EMailSender {
 			e.printStackTrace();
 			throw new Exception(e);
 		}
+	}
+	
+	public void sendEmailWithAttachment(String recipients,String cc, String bcc, String subject, 
+			String body,String attachment_file_name,String file_extention, byte[] byteArray) {
+		 
+		 try {
+			 // create a message
+			 MimeMessage message = new MimeMessage( getSession() );
+			 DataSource ds = null;
+			 message.setFrom(new InternetAddress(mailId));
+			 
+			 if(!StringUtils.isEmpty(recipients)) {
+				 ArrayList<String> recipientsArray = new ArrayList<String>();
+				 StringTokenizer stringTokenizer = new StringTokenizer(recipients, ",");
+				 
+				 while (stringTokenizer.hasMoreTokens()) {
+					 recipientsArray.add(stringTokenizer.nextToken());
+				 }
+				 int sizeTo = recipientsArray.size();
+				 InternetAddress[] addressTo = new InternetAddress[sizeTo];
+				 for (int i = 0; i < sizeTo; i++) {
+					 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
+				 }	 
+				 message.setRecipients(Message.RecipientType.TO, addressTo);
+			 }
+			 /*********************************************************************/
+			 
+			 if(!StringUtils.isEmpty(cc)) {
+				 ArrayList<String> ccRecipientsArray = new ArrayList<String>();
+				 StringTokenizer ccStringTokenizer = new StringTokenizer(cc, ",");
+				 
+				 while (ccStringTokenizer.hasMoreTokens()) {
+					 ccRecipientsArray.add(ccStringTokenizer.nextToken());
+				 }
+				 int sizeCC = ccRecipientsArray.size();
+				 InternetAddress[] addressCC = new InternetAddress[sizeCC];
+				 for (int i = 0; i < sizeCC; i++) {
+					 addressCC[i] = new InternetAddress(ccRecipientsArray.get(i).toString());
+				 }
+				 message.setRecipients(Message.RecipientType.CC, addressCC);
+			 }
+			 
+			 /*********************************************************************/
+			  
+			  if(!StringUtils.isEmpty(bcc)) {
+				  ArrayList<String> bccArray = new ArrayList<String>();
+				  StringTokenizer stringTokenizerBcc = new StringTokenizer(bcc, ",");
+				 
+				  while (stringTokenizerBcc.hasMoreTokens()) {
+					  bccArray.add(stringTokenizerBcc.nextToken());
+				  }
+				  int sizeBcc = bccArray.size();
+				  InternetAddress[] addressBcc = new InternetAddress[sizeBcc];
+				  for (int i = 0; i < sizeBcc; i++) {
+					  addressBcc[i] = new InternetAddress(bccArray.get(i).toString());
+				  }	 
+				  message.setRecipients(Message.RecipientType.BCC, addressBcc);
+			  }
+			  /*********************************************************************/
+			  
+			 message.setSubject(subject);
+			 
+			 // create and fill the first message part
+			 MimeBodyPart mimeBodyPart1 = new MimeBodyPart();
+			 mimeBodyPart1.setText(body);
+			 
+			 // create the second message part
+			 MimeBodyPart mimeBodyPart2 = new MimeBodyPart();
+			 try{
+				 ds = new ByteArrayDataSource(byteArray, "application/msword");
+			 }catch (Exception ioe ){			
+				 logger.error("sendEmailWithAttachment >> "+ioe.getMessage());
+			 }
+			 DataHandler dh = new DataHandler(ds);
+			 mimeBodyPart2.setHeader("Content-Disposition", "attachment;filename="+attachment_file_name+"."+file_extention);
+			 mimeBodyPart2.setDataHandler(dh);
+			 mimeBodyPart2.setFileName(attachment_file_name);
+			 // create the Multipart and add its parts to it
+			 Multipart multiPart = new MimeMultipart();
+			 multiPart.addBodyPart(mimeBodyPart1);
+			 multiPart.addBodyPart(mimeBodyPart2);
+			 
+			 // add the Multipart to the message
+			 message.setContent(multiPart);
+			 
+			 // set the Date: header
+			 message.setSentDate(new Date());
+			 
+			 // send the message
+			 Transport.send(message);
+			 
+		 }catch (MessagingException mex) {
+			 mex.printStackTrace();
+			 logger.error("sendEmailWithAttachment >> "+mex);
+		 }
+		
 	}
 	
 }

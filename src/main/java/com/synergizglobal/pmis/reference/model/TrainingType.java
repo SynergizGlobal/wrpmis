@@ -16,7 +16,8 @@ public class TrainingType {
 	,impact,root_cause,structure_type, user_role_code_new,user_access_table_new,user_access_type_val,short_description,short_description_new,area, item_no,
 	item_no_new,risk_area_fk,risk_area_fk_new,sub_area,sub_area_new,la_sub_category_new,la_category_fk_new,la_category_fk_old,la_sub_category_old,sub_category,
 	zonal_railway_funds,risk_minimum_new,risk_maximum_new,risk_classification_id, classification, minimum, maximum,alert_level,alert_type,as_built_status,user_type,
-	login_event_type,yesorno,type,notification_type, notification_type_icon,notification_type_icon_new,type_fk_new,notification_type_new, type_fk,web_documents_category,financial_year;
+	login_event_type,yesorno,type,notification_type, notification_type_icon,notification_type_icon_new,type_fk_new,notification_type_new, type_fk,web_documents_category,financial_year,
+	risk_work_hod_id, work_id_fk, hod_user_id_fk,designation,work_short_name,work_id_fk_new,hod_user_id_fk_new;
 
 
 	private List<TrainingType> bankGaurenteeList;
@@ -25,6 +26,62 @@ public class TrainingType {
 	private List<TrainingType> countList;
 	private List<TrainingType> dList;
 	private List<TrainingType> dList1;
+
+	public String getWork_id_fk_new() {
+		return work_id_fk_new;
+	}
+
+	public void setWork_id_fk_new(String work_id_fk_new) {
+		this.work_id_fk_new = work_id_fk_new;
+	}
+
+	public String getHod_user_id_fk_new() {
+		return hod_user_id_fk_new;
+	}
+
+	public void setHod_user_id_fk_new(String hod_user_id_fk_new) {
+		this.hod_user_id_fk_new = hod_user_id_fk_new;
+	}
+
+	public String getWork_short_name() {
+		return work_short_name;
+	}
+
+	public void setWork_short_name(String work_short_name) {
+		this.work_short_name = work_short_name;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getRisk_work_hod_id() {
+		return risk_work_hod_id;
+	}
+
+	public void setRisk_work_hod_id(String risk_work_hod_id) {
+		this.risk_work_hod_id = risk_work_hod_id;
+	}
+
+	public String getWork_id_fk() {
+		return work_id_fk;
+	}
+
+	public void setWork_id_fk(String work_id_fk) {
+		this.work_id_fk = work_id_fk;
+	}
+
+	public String getHod_user_id_fk() {
+		return hod_user_id_fk;
+	}
+
+	public void setHod_user_id_fk(String hod_user_id_fk) {
+		this.hod_user_id_fk = hod_user_id_fk;
+	}
 
 	public String getType_fk_new() {
 		return type_fk_new;

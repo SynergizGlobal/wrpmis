@@ -224,8 +224,9 @@ public class PageConstants {
 	
 	public static final String webDocumentsCategory = "referenceForms/webDocumentsCategory";
 	
-	public static final String financialYear = "referenceForms/financialYear";
+	public static final String financialYear = "referenceForms/financialYear"; 
 	
+	public static final String riskWorkHod = "referenceForms/riskWorkHod";
 }
 
 

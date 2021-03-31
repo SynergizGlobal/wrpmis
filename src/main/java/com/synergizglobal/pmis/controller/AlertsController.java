@@ -222,7 +222,7 @@ public class AlertsController {
 	}
 	
 	@RequestMapping(value = "/ajax/getAlerts", method = { RequestMethod.POST, RequestMethod.GET })
-	public void getAlertssList(@ModelAttribute Alerts obj, HttpServletRequest request,
+	public void getAlertsList(@ModelAttribute Alerts obj, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws IOException {
 		PrintWriter pw = null;
 		//JSONObject json = new JSONObject();
@@ -283,7 +283,7 @@ public class AlertsController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(
-					"objList : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
+					"getAlertsList : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
 		}
 
 		pw.println(json2);

@@ -255,7 +255,7 @@ public class SafetyController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(
-					"objList : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
+					"getSafetysList : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
 		}
 
 		pw.println(json2);

@@ -80,7 +80,9 @@
                     <!-- form start-->
                     <div class="container no-mar">
                         <form action="<%=request.getContextPath() %>/update-issue" id="issueForm" name="issueForm" method="post" enctype="multipart/form-data">
-                        	 <input id="existing_status_fk" name="existing_status_fk" type="hidden" value="${issue.existing_status_fk }"/>
+                        	<input id="existing_status_fk" name="existing_status_fk" type="hidden" value="${issue.existing_status_fk }"/>
+                        	<input id="existing_responsible_person" name="existing_responsible_person" type="hidden" value="${issue.responsible_person }"/>
+                        	<input id="existing_escalated_to" name="existing_escalated_to" type="hidden" value="${issue.escalated_to }"/>
                         	<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">     

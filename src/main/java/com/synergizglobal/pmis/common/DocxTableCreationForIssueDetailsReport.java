@@ -239,7 +239,7 @@ public class DocxTableCreationForIssueDetailsReport {
 				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getReported_by(), titleContentRpr,
 						JcEnumeration.LEFT, false, null);
 				
-				addTableCell(factory, wordMLPackage, titleTableRow, "Location", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Location/Station/KM", titleRpr,
 						JcEnumeration.LEFT, true, "ecf2ff");
 				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
 						JcEnumeration.LEFT, false, null);
@@ -278,7 +278,7 @@ public class DocxTableCreationForIssueDetailsReport {
 		  		titleTableRow = factory.createTr();		
 				addTableCell(factory, wordMLPackage, titleTableRow, "Assigned To", titleRpr,
 						JcEnumeration.LEFT, true, "ecf2ff");
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getResponsible_person(), titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getResponsible_person_designation(), titleContentRpr,
 						JcEnumeration.LEFT, false, null);
 				
 				
@@ -341,7 +341,7 @@ public class DocxTableCreationForIssueDetailsReport {
 				addTableCell(factory, wordMLPackage, titleTableRow, "Escalated To ", titleRpr,
 						JcEnumeration.LEFT, true, "ecf2ff");
 				
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getEscalated_to(), titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getEscalated_to_designation(), titleContentRpr,
 						JcEnumeration.LEFT, false, null);
 				
 				addTableCell(factory, wordMLPackage, titleTableRow, "Escalation Date", titleRpr,
@@ -393,23 +393,6 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	count++;
 	  	}
 		
-		/*===========================================================*/
-		if(!StringUtils.isEmpty(issueDeailsReport.getResolved_date())) {
-	  		titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Resolved Date", titleRpr,
-					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getResolved_date(), titleContentRpr,
-					JcEnumeration.LEFT, false, null);
-		
-			for(int i=0; i<4;i++) {
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
-						JcEnumeration.LEFT, false, null);
-			}
-			
-		  	titleTable.getContent().add(titleTableRow);	
-		  	mergeCellsHorizontal(titleTable, count, 1, 5);
-		  	count++;
-	  	}
      /*===========================================================*/
 			setTableAlign(factory, titleTable, JcEnumeration.CENTER);
 			mp.addObject(titleTable);

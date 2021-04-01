@@ -163,7 +163,7 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	/*===========================================================*/
 		  	
 		    titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Issue Title", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Short Description", titleRpr,
 					JcEnumeration.LEFT, true, "ecf2ff");
 			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getTitle(), titleContentRpr,
 					JcEnumeration.LEFT, false, null);
@@ -296,7 +296,7 @@ public class DocxTableCreationForIssueDetailsReport {
 			  	mergeCellsHorizontal(titleTable, count, 4, 5);
 			  	count++;
 		  	}
-     /*===========================================================*/
+		  /*===========================================================*/
 		  	if(!"Closed".equals(issueDeailsReport.getStatus_fk())) {
 		  		titleTableRow = factory.createTr();		
 				addTableCell(factory, wordMLPackage, titleTableRow, "Pending With", titleRpr,
@@ -376,6 +376,24 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	count++;
 	  	}
      /*===========================================================*/
+		if(!StringUtils.isEmpty(issueDeailsReport.getResolved_date())) {
+	  		titleTableRow = factory.createTr();		
+			addTableCell(factory, wordMLPackage, titleTableRow, "Resolved Date", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getResolved_date(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+		
+			for(int i=0; i<4;i++) {
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+			}
+			
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, count, 1, 5);
+		  	count++;
+	  	}
+		
+		/*===========================================================*/
 		if(!StringUtils.isEmpty(issueDeailsReport.getResolved_date())) {
 	  		titleTableRow = factory.createTr();		
 			addTableCell(factory, wordMLPackage, titleTableRow, "Resolved Date", titleRpr,

@@ -84,6 +84,9 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 #messages-demo {
 	background-color: #f56661 !important;
 }
+	.m-b-2{
+			margin-bottom:2rem;
+		}
 </style>
 
  <style>

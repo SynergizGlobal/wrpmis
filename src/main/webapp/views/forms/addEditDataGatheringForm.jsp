@@ -45,7 +45,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m m-b-5">
+                            <div class="center-align p-2 bg-m m-b-2">
                                 <h6>
                                		 <c:if test="${action eq 'edit'}">Update Data Gathering </c:if>
 		 							 <c:if test="${action eq 'add'}"> Add Data Gathering </c:if>
@@ -300,14 +300,25 @@
     
 
      <script>
-     $(document).on('focus', '.datepicker',function(){
+   /*   $(document).on('focus', '.datepicker',function(){
 	        $(this).datepicker({
 	        	format:'dd-mm-yyyy',
 	   	    	onSelect: function () {
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
 	        })
-	    });
+	    }); */
+	     let date_pickers = document.querySelectorAll('.datepicker');
+        $.each(date_pickers, function(){
+        	var dt = this.value.split(/[^0-9]/);
+        	this.value = ""; 
+        	var options = {format: 'dd-mm-yyyy',autoClose:true};
+        	if(dt.length > 1){
+        		options.setDefaultDate = true,
+        		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+        	}
+        	M.Datepicker.init(this, options);
+        });
      $(document).ready(function () {
          $('select:not(.searchable)').formSelect();
          $('.searchable').select2();

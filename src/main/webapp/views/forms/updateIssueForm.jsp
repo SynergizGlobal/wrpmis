@@ -51,9 +51,7 @@
 		.input-field>textarea+label:not(.label-icon).active{
 			margin-top: 8px;
 		}
-		.m-b-2{
-			margin-bottom:2rem;
-		}
+		
 		.mt-brdr{
 			margin-top: 20px;
 		    border-top: 1px solid #777;

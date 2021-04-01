@@ -93,7 +93,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
+                            <div class="center-align p-2 bg-m m-b-2">
                                 <h6>
 						 		 <c:if test="${action eq 'edit'}">Update Zonal Railway</c:if>
 								 <c:if test="${action eq 'add'}">Add Zonal Railway</c:if>                                
@@ -136,7 +136,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>
                                  </c:if>
                                  <c:if test="${action eq 'edit'}">	
-		                              <div class="row" id="center" style="text-align:left;">
+		                              <!-- <div class="row" id="center" style="text-align:left;"> -->
 			                              <div class="col m2 hide-on-small-only">
 			                              </div>
 			                       		  <div class="col s12 m4 input-field">
@@ -148,7 +148,7 @@
 			                                         	 	<input type="text"  value="${zonalRailwayDetails.work_id_fk} - ${zonalRailwayDetails.work_short_name}" readonly />
 			                                         	 	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${zonalRailwayDetails.work_id_fk}" readonly />
 			                              </div>
-		                              </div> 
+		                             <!--  </div>  -->
                                  </c:if>
                             </div>
                             <c:if test="${action eq 'add'}">	
@@ -237,7 +237,7 @@
 						<div class="row">
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col s12 m4 input-field">
-								<p class="searchable_label">Status</p>
+								<p class="searchable_label" style="margin-bottom:5px">Status</p>
 								<select class="searchable" id="status_fk" name="status_fk">
 									<option value="">Select</option>
 									<c:forEach var="obj" items="${statusList }">
@@ -586,15 +586,25 @@
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
     <script>
-        $(document).on('focus', '.datepicker', function () {
+    /*     $(document).on('focus', '.datepicker', function () {
             $(this).datepicker({
                 format: 'dd-mm-yyyy',
                 onSelect: function () {
                     $('.confirmation-btns .datepicker-done').click();
                 }
             })
+        });      */
+        let date_pickers = document.querySelectorAll('.datepicker');
+        $.each(date_pickers, function(){
+        	var dt = this.value.split(/[^0-9]/);
+        	this.value = ""; 
+        	var options = {format: 'dd-mm-yyyy',autoClose:true};
+        	if(dt.length > 1){
+        		options.setDefaultDate = true,
+        		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+        	}
+        	M.Datepicker.init(this, options);
         });
-     
         $(document).on('focus', '.datepicker-btn', function () {
             var dateId = $(this).attr('id').split("__")[0];
             $('#' + dateId).datepicker({

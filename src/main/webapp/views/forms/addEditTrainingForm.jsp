@@ -138,9 +138,9 @@
         .select2-container--default .select2-selection--single{
         	background-color:transparent;
         }
-        tbody thead tr:hover{
+      /*   tbody thead tr:hover{
         	    background-color: #282130 !important;
-        }
+        } */
         .modal{
         	max-height:90%;
         	width:68%;
@@ -186,7 +186,7 @@
 				<div class="card-content">
 					<div class="center-align">
 						<span class="card-title headbg">
-							<div class="center-align p-2 bg-m">
+							<div class="center-align p-2 bg-m m-b-2">
 								<h6>
 									<c:if test="${action eq 'edit'}">Update Training</c:if>
 									<c:if test="${action eq 'add'}"> Add Training</c:if>

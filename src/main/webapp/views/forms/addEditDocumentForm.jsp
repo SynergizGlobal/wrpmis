@@ -31,8 +31,10 @@
         }
 
         #revision_details .datepicker~button {
-            top: 28px;
-            top: 34px;
+            top: inherit;
+          /*   top: 34px; */
+            bottom:21px;
+            right:0;
         }
 
         .datepicker-table thead tr,
@@ -81,9 +83,6 @@
 		}
 		.my-valid-class {
    			 color:green;
-		}
-		.m-b-2{
-			margin-bottom:2rem;
 		}
     </style>
 </head>
@@ -216,9 +215,9 @@
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 input-field" >
                                     <input id="document_name" name="document_name" type="text" class="validate" value="${documentDetails.document_name }">
-                                    <label for="doc_name">Document Name</label>
+                                    <label for="doc_name" style="margin-top:5px">Document Name</label>
                                 </div>
                             </div>
                         </div>
@@ -254,17 +253,19 @@
 		                                            </c:forEach>
                                                 </select>
                                             </td>
-                                            <td>
+                                            <td><div class="input-field">
                                                 <input id="submission_dates${index.count }" name="submission_dates" type="text" class="validate datepicker" value="${dObj.submission_date }"
                                                     placeholder="Submission Date">
-                                                <button type="button" id="submission_1_icon${index.count }" class="white"><i
+                                                <button type="button" id="submission_1_icon${index.count }" class="w"><i
                                                         class="fa fa-calendar"></i></button>
+                                                </div>
                                             </td>
-                                            <td>
+                                            <td><div class="input-field">
                                                 <input id="approval_dates${index.count }" name="approval_dates" type="text" class="validate datepicker" value="${dObj.approval_date }"
                                                     placeholder="Approval Date">
-                                                <button type="button" id="approval_1_icon${index.count }" class="white"><i
+                                                <button type="button" id="approval_1_icon${index.count }" class="w"><i
                                                         class="fa fa-calendar"></i></button>
+                                                </div>
                                             </td>
                                             <td>
                                                 <textarea id="remarkss${index.count }" name="remarkss"  class="materialize-textarea" data-length="1000"
@@ -299,17 +300,19 @@
 		                                            </c:forEach>
                                                 </select>
                                             </td>
-                                            <td>
+                                            <td><div class="input-field">
                                                 <input id="submission_dates0" name="submission_dates" type="text" class="validate datepicker"
                                                     placeholder="Submission Date">
-                                                <button type="button" id="submission_1_icon0" class="white"><i
+                                                <button type="button" id="submission_1_icon0" class="w"><i
                                                         class="fa fa-calendar"></i></button>
+                                                </div>
                                             </td>
-                                            <td>
+                                            <td><div class="input-field">
                                                 <input id="approval_dates0" name="approval_dates" type="text" class="validate datepicker"
                                                     placeholder="Approval Date">
-                                                <button type="button" id="approval_1_icon0" class="white"><i
+                                                <button type="button" id="approval_1_icon0" class="w"><i
                                                         class="fa fa-calendar"></i></button>
+                                                </div>
                                             </td>
                                             <td>
                                                <textarea id="remarkss0" name="remarkss"  class="materialize-textarea" data-length="1000"
@@ -382,7 +385,7 @@
                                 </div>
                                <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                          <a href="<%=request.getContextPath()%>/documents" class="btn waves-effect waves-light bg-s white-text"
+                                          <a href="<%=request.getContextPath()%>/documents" class="btn waves-effect waves-light bg-s w-text"
                                             style="width:100%">Cancel</a>
                                     </div>
                                 </div>
@@ -422,14 +425,25 @@
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     
         <script>
-        $(document).on('focus', '.datepicker',function(){
+     /*    $(document).on('focus', '.datepicker',function(){
 	        $(this).datepicker({
 	        	format:'dd-mm-yyyy',
 	   	    	onSelect: function () {
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
 	        })
-	    });
+	    }); */
+	     let date_pickers = document.querySelectorAll('.datepicker');
+        $.each(date_pickers, function(){
+        	var dt = this.value.split(/[^0-9]/);
+        	this.value = ""; 
+        	var options = {format: 'dd-mm-yyyy',autoClose:true};
+        	if(dt.length > 1){
+        		options.setDefaultDate = true,
+        		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+        	}
+        	M.Datepicker.init(this, options);
+        });
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -604,8 +618,8 @@
                       	   +'<option value="${obj.status_fk }">${obj.status_fk}</option>'
                          </c:forEach>
                   	   +'</select></td>'
-    				   +'<td><input id="submission_dates'+rNo+'" name="submission_dates" type="text" class="validate datepicker" placeholder="Submission Date"><button type="button" id="submission_1_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
-    				   +'<td><input id="approval_dates'+rNo+'" name="approval_dates" type="text" class="validate datepicker" placeholder="Approval Date"><button type="button" id="approval_1_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
+    				   +'<td><div class="input-field"><input id="submission_dates'+rNo+'" name="submission_dates" type="text" class="validate datepicker" placeholder="Submission Date"><button type="button" id="submission_1_icon'+rNo+'" class="w"><i class="fa fa-calendar"></i></button></div></td>'
+    				   +'<td><div class="input-field"><input id="approval_dates'+rNo+'" name="approval_dates" type="text" class="validate datepicker" placeholder="Approval Date"><button type="button" id="approval_1_icon'+rNo+'" class="w"><i class="fa fa-calendar"></i></button></div></td>'
     				   +'<td><input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
     			   	   +'<td><div class=""><input type="file" name="documentsFile" id="documentsFile'+rNo+'" style="display:none" onchange="getFileName('+rNo+')"/>'
                 	   +' <label for="documentsFile'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label><span id="fileVal'+rNo+'" class="filevalue" ></span> </div>'

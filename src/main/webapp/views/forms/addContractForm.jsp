@@ -148,7 +148,7 @@
 		.input-field .searchable_label{
 			font-size:.9rem;
 		}
-	     
+	    
     </style>
 </head>
 
@@ -163,7 +163,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
+                            <div class="center-align p-2 bg-m m-b-2">
                                 <h6>Add Contract</h6>
                             </div>
                         </span>
@@ -732,7 +732,7 @@
                                                         placeholder="Remarks">
                                                 </td>
                                                  <td><label><input type="hidden" id="revision_statuss0" name="revision_statuss" value="No" />
-                                                 <input type="checkbox" id="revision_status0" /> <span></span> </label>	</td>       
+                                                 <input type="checkbox" id="revision_status0" onchange="revisionChecks(this)"/> <span></span> </label>	</td>       
                                                 
                                                 <td><a onclick="removeRev('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -1028,15 +1028,26 @@
 
 
     <script>
-	    $(document).on('focus', '.datepicker',function(){
+	   /*  $(document).on('focus', '.datepicker',function(){
 	        $(this).datepicker({
 	        	format:'dd-mm-yyyy',
 	   	    	onSelect: function () {
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
 	        })
+	    }); */
+	    let date_pickers = document.querySelectorAll('.datepicker');
+	    $.each(date_pickers, function(){
+	    	var dt = this.value.split(/[^0-9]/);
+	    	this.value = ""; 
+	    	var options = {format: 'dd-mm-yyyy'};
+	    	if(dt.length > 1){
+	    		options.setDefaultDate = true,
+	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+	    	}
+	    	M.Datepicker.init(this, options);
 	    });
-	    
+
         $(document).ready(function () {
         	 $('select:not(.searchable)').formSelect();
              $('.searchable').select2();
@@ -1623,7 +1634,7 @@
 			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
-			   +'<td><label> <input type="hidden" id="revision_status'+rNo+'" name="revision_statuss" value="No" /><input type="checkbox" id="revision_statuss'+rNo+'" /> <span></span> </label></td>'
+			   +'<td><label> <input type="hidden" id="revision_status'+rNo+'" name="revision_statuss" value="No" /><input type="checkbox" id="revision_statuss'+rNo+'" onchange="revisionChecks(this)"/> <span></span> </label></td>'
 			   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			   +'</tr>';
 		
@@ -1712,6 +1723,52 @@
 	function getFileName(rowNo){
 		var filename = $('#contractDocumentFiles'+rowNo)[0].files[0].name;
 	    $('#contractDocumentFileName'+rowNo).html(filename);
+	}
+	
+
+	function revisionChecks(a){
+		var id=$(a).attr('id');
+		var idNo=id.substring(id.length,id.length-1);
+		$('input[name=revised_amounts]').each(function(i,val){
+			//if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); }
+			/* if($.trim(this.value) != ''){ 
+			} else{
+				console.log($.trim(this.value))				
+			} 
+			console.log(i)	
+			console.log($(val).val())	*/
+		});		
+		var checkedIdNos=[];
+		$('input[name=revision_statuss]').each(function(i,val){
+			if ($(val).val()=='Yes') {
+				//checkedIdNos.push(i);
+				if($('#revised_amounts'+i).val()!="" || $('#revised_amounts'+i).val()!=undefined){
+				//$('#revised_amounts'+i).val()					
+					if ($('#revised_docs'+i).val()!=""){						
+						$('input[name=revision_statuss]').each(function(j,item){
+							$(item).val('No');
+							$('#revision_statuss'+j).prop('checked',false);
+							$('#revision_status'+j).prop('checked',false);
+							$('#revision_statuss'+j).removeAttr('checked');
+							$('#revision_status'+j).removeAttr('checked');
+							//console.log($(item))
+							$(item).removeAttr('checked');
+							$(item).prop('checked',false)
+							$(item).checked=false;							
+						});
+						
+						//$(val).val('Yes');
+						$('#revision_statuss'+i).prop('checked',true);
+					}
+				//console.log($('#revised_amounts'+idNo).val())
+				}
+			}
+		});		
+		//console.log(checkedIdNos)
+		/* $('input[name=revised_docs]').each(function(){
+			console.log($.trim(this.value))
+		});		 */	
+
 	}
 
     </script>

@@ -365,14 +365,26 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 
     <script>
-	    $(document).on('focus', '.datepicker',function(){
+	  /*   $(document).on('focus', '.datepicker',function(){
 	        $(this).datepicker({
 	        	format:'dd-mm-yyyy',
 	   	    	onSelect: function () {
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
 	        })
+	    }); */
+	    let date_pickers = document.querySelectorAll('.datepicker');
+	    $.each(date_pickers, function(){
+	    	var dt = this.value.split(/[^0-9]/);
+	    	this.value = ""; 
+	    	var options = {format: 'dd-mm-yyyy'};
+	    	if(dt.length > 1){
+	    		options.setDefaultDate = true,
+	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+	    	}
+	    	M.Datepicker.init(this, options);
 	    });
+
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();

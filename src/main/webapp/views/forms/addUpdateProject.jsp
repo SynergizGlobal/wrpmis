@@ -71,7 +71,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
+                            <div class="center-align p-2 bg-m m-b-2">
                                 <c:if test="${action eq 'add'}">	
                                			 <h6>Add Project</h6>
                                	 </c:if>

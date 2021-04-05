@@ -139,39 +139,6 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 	/* style1 of notifications code ends here  */
 </style> 
 
-<!-- <style>
-	/* style2 of notifications code starts here  */
-	.notifications_group .item{
-		width:98%;
-		margin:3px;
-		border-radius:1rem 0;
-	}	
-	.notifications_group .item div{
-		line-height:1.75;		
-	}
-	.notifications_group .item .icon i{
-		position: relative;
-	    font-size: 2rem;
-	    color: #fff;
-	    display: inline-block;
-	    margin-right:20px;
-	    vertical-align: text-top;
-	}
-	.notifications_group .item .icon .fa{
-		font-size: 2rem;
-	    position: relative;
-	    right: auto;
-	}
-	.notifications_group .item .icon .icon-text{
-		position: relative;
-	    font-size: 1.45rem;
-	    color: #fff;
-	    display: inline-block;
-	}
-		
-	/* style2 of notifications code ends here  */	
-</style> -->
-
 <link id="theme" rel="stylesheet" type="text/css" href="" />
 
 </head>
@@ -635,44 +602,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 									</a></li>
 								</c:forEach>
 							</c:if>
-
-								<li class="head-item">Messages</li>
-								<li class="item read-message">
-									<a href="#">
-										<span class="icon"> 
-											<i class='fa fa-exclamation-triangle'></i> 
-											<span class="icon-text">Issue </span>
-										</span>
-										<div>A new issue against P07W01EN01 has been Assigned to you. </div> 
-										<span style="color: #fff;    line-height: 1.5;">
-											<i class='fa fa-clock-o'></i> 2021-03-28 
-										</span>
-									</a>
-								</li>
-								<li class="item read-message">
-									<a href="#">
-										<span class="icon"> 
-											<i class='fa fa-exclamation-triangle'></i> 
-											<span class="icon-text">Issue </span>
-										</span>
-										<div>A new issue against P07W01EN01 has been Escalated to you. </div> 
-										<span style="color: #fff;    line-height: 1.5;">
-											<i class='fa fa-clock-o'></i> 2021-03-28 
-										</span>
-									</a>
-								</li>
-								<li class="item read-message">
-									<a href="#">
-										<span class="icon"> 
-											<i class='fa fa-exclamation-triangle'></i> 
-											<span class="icon-text">Issue </span>
-										</span>
-										<div>A new issue against P07W01EN01 has been Closed to you. </div> 
-										<span style="color: #fff;    line-height: 1.5;">
-											<i class='fa fa-clock-o'></i> 2021-03-28 
-										</span>
-									</a>
-								</li>
+							
 									
 						</ul>
 

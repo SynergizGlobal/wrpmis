@@ -379,7 +379,7 @@ public class EMailSender {
 			 DataHandler dh = new DataHandler(ds);
 			 mimeBodyPart2.setHeader("Content-Disposition", "attachment;filename="+attachment_file_name+"."+file_extention);
 			 mimeBodyPart2.setDataHandler(dh);
-			 mimeBodyPart2.setFileName(attachment_file_name);
+			 mimeBodyPart2.setFileName(attachment_file_name+"."+file_extention);
 			 // create the Multipart and add its parts to it
 			 Multipart multiPart = new MimeMultipart();
 			 multiPart.addBodyPart(mimeBodyPart1);

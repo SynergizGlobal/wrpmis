@@ -84,9 +84,9 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 #messages-demo {
 	background-color: #f56661 !important;
 }
-	.m-b-2{
-			margin-bottom:2rem;
-		}
+.m-b-2{
+	margin-bottom:2rem;
+}
 </style>
 
  <style>
@@ -568,7 +568,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 
 				<li class="blue ">
 					<!-- messages code starts --> <a
-					class='notification dropdown-trigger' data-target='messages1'>
+					class='notification dropdown-trigger' data-target='messages1'  >
 						<span class="material-icons-outlined">chat_bubble_outlined</span>
 						<span class="badge red" id="messagesCount">95 </span>
 				</a>
@@ -1283,6 +1283,19 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
                   themeToggle.children[0].classList.remove('fa-moon-o');
                   document.cookie = "theme=light";
               }
+          });
+          
+          $(document).click(function() {
+         	  if($('#dropdown1').css('display')=='block' &&	!$('a[data-target="dropdown1"]').hasClass('menu-active')	){
+        		  $('a[data-target="dropdown1"]').addClass('menu-active');
+        	  } else {
+        		  $('a[data-target="dropdown1"]').removeClass('menu-active');
+        	  }
+         	  if($('#messages1').css('display')=='block' &&	!$('a[data-target="messages1"]').hasClass('menu-active')	){
+        		  $('a[data-target="messages1"]').addClass('menu-active');
+        	  } else {
+        		  $('a[data-target="messages1"]').removeClass('menu-active');
+        	  }         	    
           });
 
           $(function(){

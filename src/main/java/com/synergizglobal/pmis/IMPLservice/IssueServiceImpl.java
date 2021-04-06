@@ -121,8 +121,8 @@ public class IssueServiceImpl implements IssueService {
 	}
 
 	@Override
-	public List<Issue> getResponsiblePersonList() throws Exception {
-		return issueDao.getResponsiblePersonList();
+	public List<Issue> getResponsiblePersonList(Issue obj) throws Exception {
+		return issueDao.getResponsiblePersonList(obj);
 	}
 
 	@Override

@@ -192,7 +192,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                    <p class="searchable_label"> Responsible Organization (Pending with)<span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
+                                    <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk" onchange="getResponsiblePersons('')">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${railwayList }">
                                             <option name="${obj.railway_name}" value="${obj.railway_id }" <c:if test="${obj.railway_id eq issue.zonal_railway_fk }">selected</c:if>>${obj.railway_name}</option>
@@ -207,7 +207,7 @@
                                 </div>
                                  <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
                                   <p class="searchable_label"> Department Responsible (Pending with)<span class="required">*</span></p> 
-                                    <select class="searchable browser-default" id="other_organizations" name="other_organization">
+                                    <select class="searchable browser-default" id="other_organizations" name="other_organization" onchange="getResponsiblePersons(this.value)">
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${departmentList }">          
                                          	<c:set var = "string0" value = "${issue.other_organization}" />                               	
@@ -256,9 +256,9 @@
                                     <p class="searchable_label" style="margin-bottom:8px">Person Responsible In MRVC (Assigned to)<span class="required">*</span></p> 
                                     <select class="searchable browser-default" id="responsible_person" name="responsible_person">
                                         <option value="">Select</option>
-                                        <c:forEach var="obj" items="${responsiblePersonList }">
+                                        <%-- <c:forEach var="obj" items="${responsiblePersonList }">
                                             <option value="${obj.responsible_person_user_id }" <c:if test="${issue.responsible_person eq obj.responsible_person_user_id }">selected</c:if>>${obj.responsible_person_designation}</option>
-                                        </c:forEach>
+                                        </c:forEach> --%>
                                     </select>
                                     <span id="responsible_personError" class="error-msg" ></span>
                                 </div>
@@ -555,6 +555,8 @@
         		$("#remarks").val('');
         	}
             
+			var department = $("#other_organizations").val();
+        	getResponsiblePersons(department);
         });
         
         function getDetailsByStatus(issueStatus){
@@ -860,6 +862,31 @@
                             } else {
                                 $("#status_fk").append('<option value="' + val.status + '">' + $.trim(val.status) + '</option>');
                             } */
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                }
+            });
+        }
+        
+        
+        function getResponsiblePersons(department){
+        	$(".page-loader").show();
+            $("#responsible_person option:not(:first)").remove();
+            var myParams = { department_name: department };
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getResponsiblePersonsInIssue",
+                data: myParams, cache: false,async:true,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                            var responsible_person = "${issue.responsible_person }";
+                            if ($.trim(responsible_person) != '' && val.responsible_person_user_id == $.trim(responsible_person)) {
+                            	$("#responsible_person").append('<option value="' + val.responsible_person_user_id + '" selected>' + $.trim(val.responsible_person_designation) + '</option>');
+                            } else {
+                            	$("#responsible_person").append('<option value="' + val.responsible_person_user_id + '">' + $.trim(val.responsible_person_designation) + '</option>');
+                            }
                         });
                     }
                     $('.searchable').select2();
@@ -1266,6 +1293,7 @@
                 } else if(val == 'MRVC'){          
                 	$('#other_organizations').attr('name', 'other_organization'); 
                 	$('#department_holder').show();
+                	$('#other_organizations').val('');
                 } else { 
                 	$('#other_organization').attr('name', 'other_organization');
                 	$('#other_organization').val(name);

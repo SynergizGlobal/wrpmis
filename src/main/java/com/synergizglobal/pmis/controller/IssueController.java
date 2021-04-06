@@ -265,7 +265,7 @@ public class IssueController {
 			List<Issue> reportedByList = issueService.getReportedByList();
 			model.addObject("reportedByList", reportedByList);
 			
-			List<Issue> responsiblePersonList = issueService.getResponsiblePersonList();
+			List<Issue> responsiblePersonList = issueService.getResponsiblePersonList(null);
 			model.addObject("responsiblePersonList", responsiblePersonList);
 			
 			List<Issue> escalatedToList = issueService.getEscalatedToList();
@@ -399,7 +399,7 @@ public class IssueController {
 			List<Issue> reportedByList = issueService.getReportedByList();
 			model.addObject("reportedByList", reportedByList);
 			
-			List<Issue> responsiblePersonList = issueService.getResponsiblePersonList();
+			List<Issue> responsiblePersonList = issueService.getResponsiblePersonList(null);
 			model.addObject("responsiblePersonList", responsiblePersonList);
 			
 			List<Issue> escalatedToList = issueService.getEscalatedToList();
@@ -417,6 +417,20 @@ public class IssueController {
 			logger.error("getIssue : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	
+	@RequestMapping(value = "/ajax/getResponsiblePersonsInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getResponsiblePersons(@ModelAttribute Issue obj,HttpSession session) {
+		List<Issue> objList = null;
+		try {
+			objList = issueService.getResponsiblePersonList(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getResponsiblePersonsInIssue : " + e.getMessage());
+		}
+		return objList;
 	}
 	
 	@RequestMapping(value="/get-issue/{issue_id}",method= {RequestMethod.GET,RequestMethod.POST})
@@ -452,7 +466,7 @@ public class IssueController {
 			List<Issue> reportedByList = issueService.getReportedByList();
 			model.addObject("reportedByList", reportedByList);
 			
-			List<Issue> responsiblePersonList = issueService.getResponsiblePersonList();
+			List<Issue> responsiblePersonList = issueService.getResponsiblePersonList(null);
 			model.addObject("responsiblePersonList", responsiblePersonList);
 			
 			List<Issue> escalatedToList = issueService.getEscalatedToList();

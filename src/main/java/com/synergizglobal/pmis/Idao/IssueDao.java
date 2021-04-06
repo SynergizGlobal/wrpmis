@@ -49,7 +49,7 @@ public interface IssueDao {
 	
 	List<Issue> getReportedByList() throws Exception;
 
-	List<Issue> getResponsiblePersonList() throws Exception;
+	List<Issue> getResponsiblePersonList(Issue obj) throws Exception;
 
 	List<Issue> getEscalatedToList() throws Exception;
 

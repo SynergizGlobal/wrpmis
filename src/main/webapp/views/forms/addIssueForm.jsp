@@ -268,19 +268,19 @@
                                     <div class="file-field input-field">
                                         <div class="btn bg-m t-c">
                                             <span>Attachment</span>
-                                            <input type="file" id="issueFiles" name="issueFiles" multiple>
+                                            <input type="file" class="issueFiles" name="issueFiles" multiple>
                                         </div>
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text">
                                         </div>                                       
                                     </div>
                                     
-                                    <%-- <div style="clear:both">
-                                    	<div id="">
+                                    <div id="selectedFiles">
+                                    	<%-- <div>
 											<a href="#" class="filevalue">test</a>
 											<span onclick="removeFile(this,'issueFiles${index.count }')" class="attachment-remove-btn">X</span>
-										</div>
-									</div> --%>
+										</div> --%>
+									</div>
                                  </div>
 							</div>
                                                  
@@ -330,12 +330,57 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>	
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
-	
-		/* $("input[name=issueFiles]").change(function() {
-		    for (var i = 0; i < $(this).get(0).files.length; ++i) {
-		        var fileName = $(this).get(0).files[i].name;
-		    }
+		
+		/* var id_no = 0;
+		var clone_id_no = 0;
+		$(function(){
+		    $(document).on('change', '.issueFiles', function(){
+			      var e = $(this);
+			      console.log(e.val());
+			      if(e.val()){
+			        e.clone().attr('id', 'issueFiles'+clone_id_no).insertAfter(e);
+			        clone_id_no = clone_id_no + 1;
+			      }
+			      
+			      var html = '';
+			      for (var i = 0; i < $(this).get(0).files.length; ++i) {
+			    	id_no = id_no + 1;
+			    	var id = "'issueFiles"+id_no+"'";
+			    	var index = "'"+i+"'";
+			    	html =  html + '<div style="clear:both" id='+id+'>'
+			    				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+								 + '<span onclick="removeFile('+id+','+index+')" class="attachment-remove-btn">X</span>'
+								 + '<input type="hidden" name="issueFileNames" value="'+$(this).get(0).files[i].name+'">'
+								 + '</div>';
+			      }
+			      $("#selectedFiles").append(html);
+			    
+		    });
 		}); */
+		
+		/* $("input[id=issueFiles]").change(function() {
+			var html = '';
+		    for (var i = 0; i < $(this).get(0).files.length; ++i) {
+		    	var id = "'issueFiles"+i+"'";
+		    	html =  html + '<div id='+id+'>'
+		    				 + '<input type="file" style="display:none" name="issueFiles" value="'+$(this).get(0).files[i]+'">'
+		    				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+							 + '<span onclick="removeFile('+id+')" class="attachment-remove-btn">X</span>'
+							 + '</div>';
+		    }
+		    $("#selectedFiles").append(html);
+		}); */
+		
+		function removeFile(id,index){  
+			
+			var input = document.getElementById('issueFiles')
+			// as an array, u have more freedom to transform the file list using array functions.
+			var fileListArr = Array.from(input.files)
+			fileListArr.splice(index,index) // here u remove the file
+			console.log(fileListArr)
+			
+         	$('#'+id).remove();
+        } 
 	
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();

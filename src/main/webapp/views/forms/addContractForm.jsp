@@ -731,14 +731,14 @@
                                                     <input id="revision_remarks0" name="revision_remarks" type="text" class="validate" 
                                                         placeholder="Remarks">
                                                 </td>
-                                                 <td><label><input type="hidden" id="revision_statuss0" name="revision_statuss" value="No" />
-                                                 <input type="checkbox" id="revision_status0" onchange="revisionChecks(this)"/> <span></span> </label>	</td>       
+                                                 <td><label><input type="hidden" class="hidden_check" id="revision_statuss0" name="revision_statuss" value="No" />
+                                                 <input type="checkbox" id="revision_status0" onchange="revisionChecks('0')" class="revision_status_checking"/> <span></span> </label>	</td>       
                                                 
                                                 <td><a onclick="removeRev('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
-                                            <script type="text/javascript">
+                                           <!--  <script type="text/javascript">
 	                                              
 	                                                $('#revision_status0').on('change', function(e){
 							                             if($(this).prop('checked'))
@@ -751,7 +751,7 @@
 							                            	  $("#revision_statuss0").val('No')
 							                              }
 							                   	    });
-                                                </script>
+                                                </script> -->
                                         </tbody>
                                     </table>
                                     <table class="mdl-data-table">
@@ -1634,7 +1634,7 @@
 			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
-			   +'<td><label> <input type="hidden" id="revision_status'+rNo+'" name="revision_statuss" value="No" /><input type="checkbox" id="revision_statuss'+rNo+'" onchange="revisionChecks(this)"/> <span></span> </label></td>'
+			   +'<td><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check" value="No" /><input type="checkbox" id="revision_status'+rNo+'" onchange="revisionChecks('+rNo+')" class="revision_status_checking"/> <span></span> </label></td>'
 			   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			   +'</tr>';
 		
@@ -1647,17 +1647,17 @@
 			    	     $('.confirmation-btns .datepicker-done').click();
 			    	  }
 		      });
-			 $("#revision_statuss"+rNo).on('change', function(e){
+			/*  $("#revision_status"+rNo).on('change', function(e){
                  if($(this).prop('checked'))
                  {
                 	// $(".part").prop('disabled', true);
-                     $("#revision_status"+rNo).val('Yes');
+                     $("#revision_statuss"+rNo).val('Yes');
                  } else{
                   	 
-                	  $("#revision_status"+rNo).prop('checked',false).removeAttr('checked');
-                	  $("#revision_status"+rNo).val('No')
+                	  $("#revision_status"+rNo).prop('checked',false);
+                	  $("#revision_statuss"+rNo).val('No')
                   }
-       	    });
+       	    }); */
 	} 	
 
 
@@ -1727,47 +1727,69 @@
 	
 
 	function revisionChecks(a){
-		var id=$(a).attr('id');
-		var idNo=id.substring(id.length,id.length-1);
-		$('input[name=revised_amounts]').each(function(i,val){
-			//if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); }
-			/* if($.trim(this.value) != ''){ 
-			} else{
-				console.log($.trim(this.value))				
-			} 
-			console.log(i)	
-			console.log($(val).val())	*/
-		});		
-		var checkedIdNos=[];
-		$('input[name=revision_statuss]').each(function(i,val){
-			if ($(val).val()=='Yes') {
-				//checkedIdNos.push(i);
-				if($('#revised_amounts'+i).val()!="" || $('#revised_amounts'+i).val()!=undefined){
-				//$('#revised_amounts'+i).val()					
-					if ($('#revised_docs'+i).val()!=""){						
-						$('input[name=revision_statuss]').each(function(j,item){
-							$(item).val('No');
-							$('#revision_statuss'+j).prop('checked',false);
-							$('#revision_status'+j).prop('checked',false);
-							$('#revision_statuss'+j).removeAttr('checked');
-							$('#revision_status'+j).removeAttr('checked');
-							//console.log($(item))
-							$(item).removeAttr('checked');
-							$(item).prop('checked',false)
-							$(item).checked=false;							
-						});
+		//alert('hai');
+		/* $('input[name=revision_statuss]').each(function(j,item){
+			$("#"+item.id).val('No');
+		}); */
+		$('.revision_status_checking').each(function(i,val){
+			//$(".revision_status_checking").prop('checked',false);
+				if($('#revised_amounts'+i).val()=="" && $('#revised_docs'+i).val()==""){
+					$("#revision_status"+i).prop('checked',false);
+			    }
+				
+				if(($('#revised_amounts'+a).val()=="" && $('#revised_docs'+a).val()!="") || ($('#revised_amounts'+a).val()!="" && $('#revised_docs'+a).val()=="")){
+					//$("#revision_status"+i).prop('checked',true);
+					if($("#revision_status"+i).prop('checked')){
+						if($('#revised_amounts'+i).val()!="" && $('#revised_docs'+i).val()!=""){
+							$(".revision_status_checking").prop('checked',false);
+						}
+						$(".hidden_check").val('No');
 						
-						//$(val).val('Yes');
-						$('#revision_statuss'+i).prop('checked',true);
+						$("#revision_status"+a).prop('checked',true);
+						$("#revision_statuss"+a).val('yes');
+						if(i != a){
+							if($("#revision_status"+i).prop('checked') == true 	&& $('#revised_amounts'+i).val() !="" && $('#revised_docs'+a).val()==""){
+								
+								$("#revision_status"+i).prop('checked',false);							
+												
+							}
+							if($("#revision_status"+i).prop('checked') == true 	&& $('#revised_docs'+i).val()!="" && $('#revised_amounts'+a).val()==""){
+								
+								$("#revision_status"+i).prop('checked',false);							
+												 
+							}
+						}
+						if(i == a ){
+							$("#revision_status"+i).prop('checked',true);	
+						}
 					}
-				//console.log($('#revised_amounts'+idNo).val())
+			    }
+				
+				if($('#revised_amounts'+a).val()!="" && $('#revised_docs'+a).val()!=""){
+			    	//$("#revision_status"+i).prop('checked',true);
+					if($("#revision_status"+i).prop('checked')){
+						$(".revision_status_checking").prop('checked',false);
+						$(".hidden_check").val('No');
+						$("#revision_status"+a).prop('checked',true);
+						$("#revision_statuss"+a).val('yes');
+						//$("#revision_status"+i).prop('checked',true);
+						//if($('#revised_amounts'+a).val()!="" && $('#revised_docs'+a).val()!=""){$(".revision_status_checking").prop('checked',false);$("#revision_status"+a).prop('checked',true);}
+					}
+			    	
+			    }
+				
+		});		
+		
+		/* 
+		$('.revision_status_checking').each(function(i,val){
+			if($(this).prop('checked')){
+				if($('#revised_amounts'+i).val()!="" && $('#revised_amounts'+i).val()!=undefined){	
+					console.log(i)
+					$("#revision_status"+i).prop('checked',true);
 				}
 			}
-		});		
-		//console.log(checkedIdNos)
-		/* $('input[name=revised_docs]').each(function(){
-			console.log($.trim(this.value))
-		});		 */	
+			
+		}); */
 
 	}
 

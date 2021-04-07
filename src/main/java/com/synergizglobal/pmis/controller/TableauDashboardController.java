@@ -11,15 +11,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.TableauDashboardService;
 import com.synergizglobal.pmis.common.TableauTrustedTicket;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
 
@@ -32,8 +35,12 @@ public class TableauDashboardController {
     } 
 	
 	Logger logger = Logger.getLogger(TableauDashboardController.class);
+	
 	@Autowired
 	TableauDashboardService service;
+	
+	@Autowired
+	IssueService issueService;
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -159,7 +166,7 @@ public class TableauDashboardController {
 	}
 	
 	@RequestMapping(value="/InfoViz/issues/{param}/{issue_id}",method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView issueTableauDashboard(@PathVariable(value = "param") String param,@PathVariable(value = "issue_id") String issue_id,
+	public ModelAndView issueTableauDashboard(@ModelAttribute Issue obj,@PathVariable(value = "param") String param,@PathVariable(value = "issue_id") String issue_id,
 			HttpSession session,HttpServletRequest request){
 		ModelAndView view = new ModelAndView(PageConstants.tableauDashboard);
 		String user_Id = null;String userName = null;
@@ -191,10 +198,13 @@ public class TableauDashboardController {
 				String trustedTokenId =  tObj.getTrustedTicket();
 				CommonConstants cObj = new CommonConstants();
 				String baseUrl = cObj.BASE_URL.replace("{0}", trustedTokenId);
-				String tableauUrl = baseUrl + url[1]+"?issue_id="+issue_id;
+				String tableauUrl = baseUrl + url[1]+"?issue_id="+issue_id+CommonConstants.TABLEAU_PARAMS;
 				vo.setTableauUrl(tableauUrl);
 			}
 			view.addObject("url", vo);
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMessage_id())) {
+				boolean flag = issueService.readIssueMessage(obj);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("issueTableauDashboard() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());

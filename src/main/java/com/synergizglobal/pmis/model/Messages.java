@@ -1,7 +1,7 @@
 package com.synergizglobal.pmis.model;
 
 public class Messages {
-	private String message_id,message,user_id_fk,redirect_url,created_date,read_time,message_type;
+	private String message_id,message,user_id_fk,redirect_url,created_date,read_time,message_type,created_date_24hr_format;
 
 	public String getMessage_id() {
 		return message_id;
@@ -57,6 +57,14 @@ public class Messages {
 
 	public void setMessage_type(String message_type) {
 		this.message_type = message_type;
+	}
+
+	public String getCreated_date_24hr_format() {
+		return created_date_24hr_format;
+	}
+
+	public void setCreated_date_24hr_format(String created_date_24hr_format) {
+		this.created_date_24hr_format = created_date_24hr_format;
 	}
 	
 	

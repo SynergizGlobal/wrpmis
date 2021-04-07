@@ -596,12 +596,17 @@ public class IssueDaoImpl implements IssueDao {
 					escalated_to_user_id = iObj.getEscalated_to_user_id();
 					created_by_user_id = iObj.getCreated_by_user_id_fk();
 				}
+				String redirect_url = null;
+				if("Closed".equals(iObj.getStatus_fk())) {
+					redirect_url = "/InfoViz/issues/closed-issues/"+iObj.getIssue_id();
+				}else {
+					redirect_url = "/InfoViz/issues/open-issues/"+iObj.getIssue_id();
+				}
+				String message_type = "Issue";
 				
 				if( !StringUtils.isEmpty(iObj.getStatus_fk()) && "Raised".equals(iObj.getStatus_fk()) 
 						&& !iObj.getStatus_fk().equals(existing_status_fk)) {
-					if(!StringUtils.isEmpty(dy_hod_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
+					if(!StringUtils.isEmpty(dy_hod_user_id)) {	
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message1);
@@ -610,10 +615,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(hod_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(hod_user_id)) {	
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(hod_user_id);
 						msgObj.setMessage(message2);
@@ -622,10 +624,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(created_by_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(created_by_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(created_by_user_id);
 						msgObj.setMessage(message2);
@@ -637,9 +636,7 @@ public class IssueDaoImpl implements IssueDao {
 				}
 				if( !StringUtils.isEmpty(iObj.getStatus_fk()) && "Assigned".equals(iObj.getStatus_fk()) 
 						&& !iObj.getStatus_fk().equals(existing_status_fk)) {
-					if(!StringUtils.isEmpty(dy_hod_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
+					if(!StringUtils.isEmpty(dy_hod_user_id)) {			
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message2);
@@ -648,10 +645,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(responsible_person_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(responsible_person_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(responsible_person_user_id);
 						msgObj.setMessage(message1);
@@ -663,10 +657,7 @@ public class IssueDaoImpl implements IssueDao {
 				}else if( !StringUtils.isEmpty(iObj.getStatus_fk()) && "Assigned".equals(iObj.getStatus_fk()) 
 						&& iObj.getStatus_fk().equals(existing_status_fk) 
 						&& !StringUtils.isEmpty(iObj.getResponsible_person()) && iObj.getResponsible_person().equals(existing_responsible_person) ) {
-					if(!StringUtils.isEmpty(responsible_person_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(responsible_person_user_id)) {	
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(responsible_person_user_id);
 						msgObj.setMessage(message3);
@@ -675,9 +666,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(dy_hod_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
+					if(!StringUtils.isEmpty(dy_hod_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message3);
@@ -689,10 +678,7 @@ public class IssueDaoImpl implements IssueDao {
 				}else if( !StringUtils.isEmpty(iObj.getStatus_fk()) && "Assigned".equals(iObj.getStatus_fk()) 
 						&& iObj.getStatus_fk().equals(existing_status_fk) 
 						&& !StringUtils.isEmpty(iObj.getResponsible_person()) && !iObj.getResponsible_person().equals(existing_responsible_person) ) {
-					if(!StringUtils.isEmpty(responsible_person_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(responsible_person_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(responsible_person_user_id);
 						msgObj.setMessage(message1);
@@ -701,9 +687,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(dy_hod_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
+					if(!StringUtils.isEmpty(dy_hod_user_id)) {	
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message3);
@@ -716,10 +700,7 @@ public class IssueDaoImpl implements IssueDao {
 				
 				if( !StringUtils.isEmpty(iObj.getStatus_fk()) && "Escalated".equals(iObj.getStatus_fk()) 
 						&& !iObj.getStatus_fk().equals(existing_status_fk)) {
-					if(!StringUtils.isEmpty(escalated_to_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(escalated_to_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(escalated_to_user_id);
 						msgObj.setMessage(message1);
@@ -728,10 +709,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(responsible_person_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(responsible_person_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(responsible_person_user_id);
 						msgObj.setMessage(message2);
@@ -740,9 +718,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(dy_hod_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
+					if(!StringUtils.isEmpty(dy_hod_user_id)) {	
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message2);
@@ -754,10 +730,7 @@ public class IssueDaoImpl implements IssueDao {
 				}else if( !StringUtils.isEmpty(iObj.getStatus_fk()) && "Escalated".equals(iObj.getStatus_fk()) 
 						&& iObj.getStatus_fk().equals(existing_status_fk)
 						&& !StringUtils.isEmpty(iObj.getEscalated_to()) && iObj.getEscalated_to().equals(existing_escalated_to)) {
-					if(!StringUtils.isEmpty(escalated_to_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(escalated_to_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(escalated_to_user_id);
 						msgObj.setMessage(message3);
@@ -766,10 +739,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(responsible_person_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(responsible_person_user_id)) {	
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(responsible_person_user_id);
 						msgObj.setMessage(message3);
@@ -778,9 +748,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(dy_hod_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
+					if(!StringUtils.isEmpty(dy_hod_user_id)) {	
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message3);
@@ -792,10 +760,7 @@ public class IssueDaoImpl implements IssueDao {
 				}else if( !StringUtils.isEmpty(iObj.getStatus_fk()) && "Escalated".equals(iObj.getStatus_fk()) 
 						&& iObj.getStatus_fk().equals(existing_status_fk)
 						&& !StringUtils.isEmpty(iObj.getEscalated_to()) && !iObj.getEscalated_to().equals(existing_escalated_to)) {
-					if(!StringUtils.isEmpty(escalated_to_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(escalated_to_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(escalated_to_user_id);
 						msgObj.setMessage(message1);
@@ -804,10 +769,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(responsible_person_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(responsible_person_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(responsible_person_user_id);
 						msgObj.setMessage(message3);
@@ -816,9 +778,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(dy_hod_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
+					if(!StringUtils.isEmpty(dy_hod_user_id)) {		
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message3);
@@ -831,10 +791,7 @@ public class IssueDaoImpl implements IssueDao {
 				
 				if( !StringUtils.isEmpty(iObj.getStatus_fk()) && "Closed".equals(iObj.getStatus_fk()) 
 						&& !iObj.getStatus_fk().equals(existing_status_fk)) {
-					if(!StringUtils.isEmpty(hod_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(hod_user_id)) {	
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(hod_user_id);
 						msgObj.setMessage(message3);
@@ -843,9 +800,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(dy_hod_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
+					if(!StringUtils.isEmpty(dy_hod_user_id)) {	
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message3);
@@ -854,10 +809,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(responsible_person_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(responsible_person_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(responsible_person_user_id);
 						msgObj.setMessage(message3);
@@ -866,10 +818,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(escalated_to_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(escalated_to_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(escalated_to_user_id);
 						msgObj.setMessage(message3);
@@ -878,10 +827,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
-					if(!StringUtils.isEmpty(created_by_user_id)) {				
-						String redirect_url = "/get-issue/"+iObj.getIssue_id();
-						String message_type = "Issue";
-						
+					if(!StringUtils.isEmpty(created_by_user_id)) {	
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(created_by_user_id);
 						msgObj.setMessage(message3);
@@ -1718,6 +1664,28 @@ public class IssueDaoImpl implements IssueDao {
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	@Override
+	public boolean readIssueMessage(Issue obj) throws Exception {
+		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		String issue_id = null;	
+		try {
+			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
+			String msgUpdateqry = "UPDATE messages SET read_time = CURRENT_TIMESTAMP where message_id = :message_id" ;
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = template.update(msgUpdateqry, paramSource);		
+			if(count > 0) {
+				flag = true;
+			}
+			transactionManager.commit(status);
+		}catch(Exception e){ 
+			transactionManager.rollback(status);
+			throw new Exception(e.getMessage());
+		}
+		return flag;
 	}
 	
 

@@ -331,8 +331,8 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
 		
-		/* var id_no = 0;
-		var clone_id_no = 0;
+		
+		/* var clone_id_no = 0;
 		$(function(){
 		    $(document).on('change', '.issueFiles', function(){
 			      var e = $(this);
@@ -343,13 +343,13 @@
 			      }
 			      
 			      var html = '';
+			      var id_no = (clone_id_no-1);
 			      for (var i = 0; i < $(this).get(0).files.length; ++i) {
-			    	id_no = id_no + 1;
-			    	var id = "'issueFiles"+id_no+"'";
+			    	var id = "'issueFiles"+(id_no + i)+"'";
 			    	var index = "'"+i+"'";
 			    	html =  html + '<div style="clear:both" id='+id+'>'
 			    				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
-								 + '<span onclick="removeFile('+id+','+index+')" class="attachment-remove-btn">X</span>'
+								 + '<span onclick="removeFile('+id+','+i+','+id_no+')" class="attachment-remove-btn">X</span>'
 								 + '<input type="hidden" name="issueFileNames" value="'+$(this).get(0).files[i].name+'">'
 								 + '</div>';
 			      }

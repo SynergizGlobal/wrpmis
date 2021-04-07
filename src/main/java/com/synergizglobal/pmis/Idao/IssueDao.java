@@ -55,4 +55,6 @@ public interface IssueDao {
 
 	List<Issue> getIssueAlerts(User uObj) throws Exception;
 
+	boolean readIssueMessage(Issue obj) throws Exception;
+
 }

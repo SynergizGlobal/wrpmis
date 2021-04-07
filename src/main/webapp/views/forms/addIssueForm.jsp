@@ -349,7 +349,7 @@
 			      }
 			      $("#selectedFiles").append(html);
 			      
-			      /***************************************************************/
+			      
 			      var e = $(this);
 			      console.log(e.val());
 			      if(e.val()){

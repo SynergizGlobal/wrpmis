@@ -511,7 +511,11 @@ public class IssueController {
 			
 			boolean flag = issueService.updateIssue(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Issue "+obj.getStatus_fk()+" successfully");
+				if(!StringUtils.isEmpty(obj.getStatus_fk()) && obj.getStatus_fk().equals(obj.getExisting_status_fk())) {
+					attributes.addFlashAttribute("success", "Issue has been updated successfully");
+				}else{
+					attributes.addFlashAttribute("success", "Issue "+obj.getStatus_fk()+" successfully");
+				}
 			}else {
 				attributes.addFlashAttribute("error", "Updating issue failed. Try again.");
 			}

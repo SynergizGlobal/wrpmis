@@ -353,7 +353,7 @@
 			      var e = $(this);
 			      console.log(e.val());
 			      if(e.val()){
-			        e.clone().attr('id', 'issueFiles'+clone_id_no).insertAfter(e);
+			        e.clone().attr('id', 'issueFiless'+clone_id_no).insertAfter(e);
 			        clone_id_no = clone_id_no + 1;
 			      }
 		    });
@@ -374,11 +374,11 @@
 		
 		function removeFile(id,index,clone_id_no){  
 			
-			var input = document.getElementById('issueFiles'+clone_id_no)
+			/* var input = document.getElementById('issueFiless'+clone_id_no)
 			// as an array, u have more freedom to transform the file list using array functions.
 			var fileListArr = Array.from(input.files)
 			fileListArr.splice(index,1) // here u remove the file
-			console.log(fileListArr)
+			console.log(fileListArr) */
 			
          	$('#'+id).remove();
         } 

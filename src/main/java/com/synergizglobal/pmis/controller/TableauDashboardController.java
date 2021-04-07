@@ -198,7 +198,7 @@ public class TableauDashboardController {
 				String trustedTokenId =  tObj.getTrustedTicket();
 				CommonConstants cObj = new CommonConstants();
 				String baseUrl = cObj.BASE_URL.replace("{0}", trustedTokenId);
-				String tableauUrl = baseUrl +"?issue_id="+issue_id+ url[1]+CommonConstants.TABLEAU_PARAMS;
+				String tableauUrl = baseUrl + url[1]+"&issue_id="+issue_id+CommonConstants.TABLEAU_PARAMS;
 				vo.setTableauUrl(tableauUrl);
 			}
 			view.addObject("url", vo);

@@ -335,26 +335,27 @@
 		/* var clone_id_no = 0;
 		$(function(){
 		    $(document).on('change', '.issueFiles', function(){
+			      
+			      
+			      var html = '';
+			      for (var i = 0; i < $(this).get(0).files.length; ++i) {
+			    	var id = "'issueFiles"+(clone_id_no + i)+"'";
+			    	var index = "'"+i+"'";
+			    	html =  html + '<div style="clear:both" id='+id+'>'
+			    				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+								 + '<span onclick="removeFile('+id+','+i+','+clone_id_no+')" class="attachment-remove-btn">X</span>'
+								 + '<input type="hidden" name="issueFileNames" value="'+$(this).get(0).files[i].name+'">'
+								 + '</div>';
+			      }
+			      $("#selectedFiles").append(html);
+			      
+			      /***************************************************************/
 			      var e = $(this);
 			      console.log(e.val());
 			      if(e.val()){
 			        e.clone().attr('id', 'issueFiles'+clone_id_no).insertAfter(e);
 			        clone_id_no = clone_id_no + 1;
 			      }
-			      
-			      var html = '';
-			      var id_no = (clone_id_no-1);
-			      for (var i = 0; i < $(this).get(0).files.length; ++i) {
-			    	var id = "'issueFiles"+(id_no + i)+"'";
-			    	var index = "'"+i+"'";
-			    	html =  html + '<div style="clear:both" id='+id+'>'
-			    				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
-								 + '<span onclick="removeFile('+id+','+i+','+id_no+')" class="attachment-remove-btn">X</span>'
-								 + '<input type="hidden" name="issueFileNames" value="'+$(this).get(0).files[i].name+'">'
-								 + '</div>';
-			      }
-			      $("#selectedFiles").append(html);
-			    
 		    });
 		}); */
 		
@@ -371,12 +372,12 @@
 		    $("#selectedFiles").append(html);
 		}); */
 		
-		function removeFile(id,index){  
+		function removeFile(id,index,clone_id_no){  
 			
-			var input = document.getElementById('issueFiles')
+			var input = document.getElementById('issueFiles'+clone_id_no)
 			// as an array, u have more freedom to transform the file list using array functions.
 			var fileListArr = Array.from(input.files)
-			fileListArr.splice(index,index) // here u remove the file
+			fileListArr.splice(index,1) // here u remove the file
 			console.log(fileListArr)
 			
          	$('#'+id).remove();

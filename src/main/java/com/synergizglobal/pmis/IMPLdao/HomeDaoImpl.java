@@ -821,7 +821,7 @@ public class HomeDaoImpl implements HomeDao {
 	public List<Messages> getMessages(User uObj) throws Exception {
 		List<Messages> objsList = null;
 		try {
-			String qry ="select message_id,message,user_id_fk,redirect_url,DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p') as created_date,created_date as created_date_24hr_format,"
+			String qry ="select message_id,message,user_id_fk,redirect_url,DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p') as created_date,created_date as created_date_24hr_format, "
 					+ "read_time,message_type "
 					+ "from messages where user_id_fk = ? "
 					+ "and (read_time is null or read_time > (NOW() - INTERVAL 7 DAY)) "

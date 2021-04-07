@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <title>
     	 <c:if test="${action eq 'edit'}">Update Reference Form</c:if>
 		 <c:if test="${action eq 'add'}"> Add Reference Form</c:if>

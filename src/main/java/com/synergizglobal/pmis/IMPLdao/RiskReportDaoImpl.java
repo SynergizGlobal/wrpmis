@@ -67,7 +67,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 			String qry = "select DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date "
 					+ "from risk_revision rr "
 					+ "left join risk r on risk_id_pk_fk = risk_id_pk " 
-					+ "where sub_work = ? group by date";
+					+ "where sub_work = ? group by date order by date desc";
 			Object[] pValues = new Object[] {obj.getSub_work()};
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 
@@ -143,7 +143,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 							+ "priority_fk as priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan "
 							+ "from risk_revision_view rrv " 
 							+ "left outer join risk_view rv on rrv.risk_id_pk_fk = rv.risk_id_pk " 
-							+ "where work_id = ? and sub_work = ? and date = ? and priority_fk <> 'Accepted' order by priority_fk";
+							+ "where work_id = ? and sub_work = ? and date = ? and priority_fk <> 'Accepted' ORDER BY area_item_no ASC , sub_area_item_no ASC ";
 					
 			Object[] pValues = new Object[] {obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date()};
 					
@@ -172,7 +172,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 					+ "from risk_action ra " 
 					+ "left outer join risk_revision_view rrv on ra.risk_revision_id_fk = rrv.risk_revision_id " 
 					+ "left outer join risk_view rv on rrv.risk_id_pk_fk = rv.risk_id_pk " 
-					+ "where work_id = ? and sub_work = ? and date = ? and atr_date is not null and priority_fk <> 'Accepted' order by priority_fk";
+					+ "where work_id = ? and sub_work = ? and date = ? and atr_date is not null and priority_fk <> 'Accepted' ORDER BY area_item_no ASC , sub_area_item_no ASC, atr_date DESC";
 			
 					
 			Object[] pValues = new Object[] {obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date()};

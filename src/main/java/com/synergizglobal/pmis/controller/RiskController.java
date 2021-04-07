@@ -76,8 +76,12 @@ public class RiskController {
 	public ModelAndView riskAssessment(@ModelAttribute Risk obj,HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.riskAssessmentGrid);
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_id(uObj.getUser_id()); 
 			List<Risk> worksList = riskService.getWorksList(obj);
 			model.addObject("worksList", worksList);
+			List<Risk> workHodList = riskService.getSubWorkHodFilterListInRiskAssessmnt(obj);
+			model.addObject("workHodList", workHodList);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("riskAssessment : " + e.getMessage());
@@ -385,22 +389,20 @@ public class RiskController {
 					if(!risksList.isEmpty() && StringUtils.isEmpty(risk_rows_error)){
 						int[] arr  = riskService.uploadRiskAssessments(risksList);
 						
-						if(arr[0] > 0) {
-							msg = msg + arr[0] + " Risk updated successfully. ";
-						}
-						if(arr[1] > 0) {
-							msg = msg + arr[1] + " Risk added successfully. ";
-						}
+						/*
+						 * if(arr[0] > 0) { msg = msg + arr[0] + " Risk updated successfully. "; }
+						 * if(arr[1] > 0) { msg = msg + arr[1] + " Risk added successfully. "; }
+						 */
 						
-						msg =  "<span style='color:green;'> "+msg+"</span>";
+						msg =  "<span style='color:green;'>Risk Assessment uploaded successfully.</span>";
 					}
 					
 					if(!StringUtils.isEmpty(risk_owner_error)) {
-						risk_owner_error = "<br><span style='color:red;'>Not authorized to upload! Owner of these Row no(s) " + risk_owner_error + " are not matched with Logged In user designation .</span> ";
+						risk_owner_error = "<br><span style='color:red;'>Not authorized to upload! Owner of these Row no(s) " + risk_owner_error + " does not matched with Logged In user.</span> ";
 					}
 					
 					if(!StringUtils.isEmpty(risk_rows_error)) {
-						risk_rows_error = "<br><span style='color:red;'>Your assessment is incomplete! Row no(s) " + risk_rows_error + " are not inserted (Reason : Work, Owner, Date of Assessment,Probability,Impact,Priority of Open Risks,Action By Should not empty).</span> ";
+						risk_rows_error = "<br><span style='color:red;'>Your assessment is incomplete! Row no(s) " + risk_rows_error + " is/are not inserted.</span> ";
 					}
 					
 					msg = msg + risk_owner_error + risk_rows_error;

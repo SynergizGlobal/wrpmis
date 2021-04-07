@@ -163,7 +163,7 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	/*===========================================================*/
 		  	
 		    titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Short Description", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Short Description of Issue", titleRpr,
 					JcEnumeration.LEFT, true, "ecf2ff");
 			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getTitle(), titleContentRpr,
 					JcEnumeration.LEFT, false, null);
@@ -305,7 +305,7 @@ public class DocxTableCreationForIssueDetailsReport {
 						JcEnumeration.LEFT, false, null);
 				
 				
-				addTableCell(factory, wordMLPackage, titleTableRow, "Pending Since", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Pending Since (Days)", titleRpr,
 						JcEnumeration.LEFT, true, "ecf2ff");
 				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
 						JcEnumeration.LEFT, false, null);

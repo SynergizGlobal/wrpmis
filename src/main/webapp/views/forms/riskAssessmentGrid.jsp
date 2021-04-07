@@ -153,18 +153,34 @@
 										<div class="col m5 s12 input-field">
 											<p class="mt-2 b-text">Select the Work</p>
 										</div>
-										<div class="col m5 s12 input-field">
-											<p class="searchable_label left-align">Work</p>
-											<select id="work_id_fk" name="work_id_fk"
-												class="searchable validate-dropdown">
-												<option value="">Select</option>
-												<c:forEach var="obj" items="${worksList}">
-													<option name="${obj.work_short_name }"
-														value="${obj.work_id}">${obj.work_id}-
-														${obj.work_short_name}</option>
-												</c:forEach>
-											</select> <span id="work_id_fkError" class="error-msg"></span>
-										</div>
+										<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
+											<div class="col m5 s12 input-field">
+												<p class="searchable_label left-align">Work</p>
+												<select id="work_id_fk" name="work_id_fk"
+													class="searchable validate-dropdown">
+													<option value="">Select</option>
+													<c:forEach var="obj" items="${worksList}">
+														<option name="${obj.work_short_name }"
+															value="${obj.work_id}">${obj.work_id}-
+															${obj.work_short_name}</option>
+													</c:forEach>
+												</select> <span id="work_id_fkError" class="error-msg"></span>
+											</div>
+										</c:if>
+										<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">
+											<div class="col m5 s12 input-field">
+												<p class="searchable_label left-align">Work</p>
+												<select id="work_id_fk" name="work_id_fk"
+													class="searchable validate-dropdown">
+													<option value="">Select</option>
+													<c:forEach var="obj" items="${workHodList}">
+														<option name="${obj.work_short_name }"
+															value="${obj.work_id_fk}">${obj.work_id_fk}-
+															${obj.work_short_name}</option>
+													</c:forEach>
+												</select> <span id="work_id_fkError" class="error-msg"></span>
+											</div>
+										</c:if>
 									</div>
 									<div class="row">
 										<div class="col m2 s3 input-field b-text">
@@ -370,7 +386,7 @@
 	                  $("#uploadRisk").removeClass('disabled');
 	              }
 	          });
-	          
+	          getWorkHodFilterList();
 	          getWorksFilterList();
 	          getRiskUploadsList('');
 	      });
@@ -498,6 +514,27 @@
         
         
         function getWorksFilterList() {
+        	$(".page-loader").show();
+           	$("#work_id_fk_filter option:not(:first)").remove();
+           	var myParams = {};
+           	$.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getWorksListFromRiskUploads",
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                           	$("#work_id_fk_filter").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_short_name) +'</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			      $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+               });
+        }
+        function getWorkHodFilterList() {
         	$(".page-loader").show();
            	$("#work_id_fk_filter option:not(:first)").remove();
            	var myParams = {};

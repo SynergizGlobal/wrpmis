@@ -74,5 +74,10 @@ public class RiskServiceImpl implements RiskService{
 	public boolean saveRiskAssessmentUploadFile(Risk risk) throws Exception {
 		return dao.saveRiskAssessmentUploadFile(risk);
 	}
+
+	@Override
+	public List<Risk> getSubWorkHodFilterListInRiskAssessmnt(Risk obj) throws Exception {
+		return dao.getSubWorkHodFilterListInRiskAssessmnt(obj);
+	}
 	
 }

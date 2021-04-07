@@ -59,9 +59,12 @@ public class RiskDaoImpl implements RiskDao{
 		Connection con = null;
 		PreparedStatement insertStmt1 = null;
 		ResultSet rs = null;
+		int idVal = 0;
 		int count = 0;
 		int updateCount = 0 ;
 		int insertCount = 0 ;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try{
 			con = dataSource.getConnection();
 			for (Risk obj : risksList) {
@@ -108,6 +111,10 @@ public class RiskDaoImpl implements RiskDao{
 							+ "VALUES(:risk_id_pk,:work_id_fk,:sub_work,:risk_id,:sub_area_fk)";
 					
 					risk_id_pk = getMaxRiskIdFromExisting(con);
+					idVal++;
+					String id = risk_id_pk;
+					int riskId = Integer.parseInt(id) + idVal;
+					risk_id_pk = String.valueOf(riskId);
 					obj.setRisk_id_pk(risk_id_pk);
 					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					//KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -128,7 +135,9 @@ public class RiskDaoImpl implements RiskDao{
 				}
 				
 			}
+			transactionManager.commit(status);
 		}catch(Exception e){ 
+			transactionManager.rollback(status);
 			e.printStackTrace();
 			throw new Exception(e);
 		}
@@ -205,7 +214,7 @@ public class RiskDaoImpl implements RiskDao{
 		ResultSet rs = null;
 		String risk_id_pk = null;
 		try{
-			String riskIdQry = "select IFNULL(max(risk_id_pk)+1,1) as risk_id_pk from risk";
+			String riskIdQry = "select IFNULL(max(risk_id_pk),1) as risk_id_pk from risk";
 			stmt = con.prepareStatement(riskIdQry);
 			rs = stmt.executeQuery();  
 			if(rs.next()) {
@@ -491,7 +500,7 @@ public class RiskDaoImpl implements RiskDao{
 			
 			if(!StringUtils.isEmpty(sObj)) {
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_designation())) {
-					if(obj.getUser_designation().equals(sObj.getOwner()) || obj.getUser_designation().equals(sObj.getResponsible_person()) || obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN) ){
+					if((obj.getUser_designation().equals(sObj.getOwner()) && obj.getUser_designation().equals(sObj.getResponsible_person())) || obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN) ){
 						sObj.setReadonlyForm(false);
 					}else {
 						sObj.setReadonlyForm(true);
@@ -748,6 +757,34 @@ public class RiskDaoImpl implements RiskDao{
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}
 		return area;
+	}
+
+	@Override
+	public List<Risk> getSubWorkHodFilterListInRiskAssessmnt(Risk obj) throws Exception {
+		List<Risk> objsList = null;
+		try {
+			String qry = "SELECT risk_work_hod_id, work_id_fk,w.work_short_name, hod_user_id_fk from risk_work_hod rwh "
+					+ "Left join work w on rwh.work_id_fk = w.work_id where work_id_fk is not null ";
+					int arrSize = 0;			
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
+				qry = qry + " and hod_user_id_fk = ?";
+				arrSize++;
+			} 
+			
+			qry = qry + " group by work_id_fk";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
+				pValues[i++] = obj.getUser_id();
+			} 
+			
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 	
 

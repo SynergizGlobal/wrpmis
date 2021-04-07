@@ -31,5 +31,7 @@ public interface RiskDao {
 	public List<Risk> getWorksListFromRiskUploads(Risk obj) throws Exception;
 	
 	public boolean saveRiskAssessmentUploadFile(Risk risk) throws Exception;
+
+	public List<Risk> getSubWorkHodFilterListInRiskAssessmnt(Risk obj) throws Exception;
 	
 }

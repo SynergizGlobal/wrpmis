@@ -423,6 +423,9 @@
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
  	<script type="text/javascript">
+ 	
+ 	   var USER_DESIGNATION = '${sessionScope.USER_DESIGNATION}';
+ 	   
  	   $(document).on('focus', '.datepicker',function(){
            $(this).datepicker({
          	format:'dd-mm-yyyy',
@@ -441,6 +444,7 @@
 	            //$("#riskForm :textarea").attr("disabled", true);	            
 	            $("#riskForm select").prop("disabled", true);	            
             }
+           
             
         });
         

@@ -788,6 +788,9 @@
             var contract_id_fk = $("#contract_id_fk").val();
             var responsible_person = $("#responsible_person").val();
             
+            if($.trim(responsible_person) == ''){
+            	responsible_person = "${issue.responsible_person}";
+            }
             var status_fk = "${issue.status_fk}";
             var logged_id_user_id = "${sessionScope.USER_ID}";
             var logged_id_user_role_code = "${sessionScope.USER_ROLE_CODE}";

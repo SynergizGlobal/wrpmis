@@ -575,7 +575,17 @@ public class IssueDaoImpl implements IssueDao {
 				
 				String message2 = "An issue against "+iObj.getContract_id_fk()+" has been "+iObj.getStatus_fk();
 				
-				String message3 = "An issue against "+iObj.getContract_id_fk()+" has been updated";
+				String message3 = "An issue against "+iObj.getContract_id_fk()+" has been ";
+				
+				if("Assigned".equals(iObj.getStatus_fk()) && !StringUtils.isEmpty(iObj.getResponsible_person_user_id()) 
+						 && !iObj.getResponsible_person_user_id().equals(existing_responsible_person) ) {
+					message3 = message3 + iObj.getStatus_fk();
+				}else if("Escalated".equals(iObj.getStatus_fk()) && !StringUtils.isEmpty(iObj.getResponsible_person_user_id()) 
+						 && !iObj.getEscalated_to_user_id().equals(existing_escalated_to) ) {
+					 message3 = message3 + iObj.getStatus_fk();
+				}else {
+					 message3 = message3 + "updated";
+				}
 				
 				String hod_user_id = "",dy_hod_user_id = "",responsible_person_user_id = "",escalated_to_user_id = "",created_by_user_id = "";
 				if("Raised".equals(iObj.getStatus_fk())) {
@@ -939,8 +949,16 @@ public class IssueDaoImpl implements IssueDao {
 				String emailSubject = "PMIS Issue Alert - Issue ";
 				
 				if(!StringUtils.isEmpty(iObj.getStatus_fk()) && !StringUtils.isEmpty(existing_status_fk) 
-						&& iObj.getStatus_fk().equals(existing_status_fk)) {
-					emailSubject = emailSubject + "updated";
+						&& iObj.getStatus_fk().equals(existing_status_fk)) {					
+					 if("Assigned".equals(iObj.getStatus_fk()) && !StringUtils.isEmpty(iObj.getResponsible_person_user_id()) 
+							 && !iObj.getResponsible_person_user_id().equals(existing_responsible_person) ) {
+						 emailSubject = emailSubject + iObj.getStatus_fk();
+					 }else if("Escalated".equals(iObj.getStatus_fk()) && !StringUtils.isEmpty(iObj.getResponsible_person_user_id()) 
+							 && !iObj.getEscalated_to_user_id().equals(existing_escalated_to) ) {
+						 emailSubject = emailSubject + iObj.getStatus_fk();
+					 }else {
+						 emailSubject = emailSubject + "updated";
+					 }					
 				}else{
 					emailSubject = emailSubject + issue_status;
 				}

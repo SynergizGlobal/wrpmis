@@ -353,7 +353,7 @@
 			      var e = $(this);
 			      console.log(e.val());
 			      if(e.val()){
-			        e.clone().attr('id', 'issueFiless'+clone_id_no).insertAfter(e);
+			        e.clone().attr('id', 'issueFiless'+clone_id_no).attr('name', 'issueFiles').insertAfter(e);
 			        clone_id_no = clone_id_no + 1;
 			      }
 		    });

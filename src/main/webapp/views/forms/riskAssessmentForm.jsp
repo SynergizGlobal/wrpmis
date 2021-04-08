@@ -433,7 +433,7 @@
     	    	   $('.confirmation-btns .datepicker-done').click();
     	    	}
            })
-        });
+        }); 
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();

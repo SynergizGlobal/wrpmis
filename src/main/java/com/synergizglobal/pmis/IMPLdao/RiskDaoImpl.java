@@ -492,7 +492,7 @@ public class RiskDaoImpl implements RiskDao{
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getRisk_id_pk())) {
 				String qryDetails = "select risk_action_id,risk_revision_id_fk,action_taken,DATE_FORMAT(atr_date,'%d-%m-%Y') AS atr_date " + 
 						"from risk_action "
-						+"where risk_revision_id_fk = ? ";
+						+"where risk_revision_id_fk = ? "; 
 				
 				List<Risk> objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getRisk_revision_id()}, new BeanPropertyRowMapper<Risk>(Risk.class));	
 				sObj.setRiskActions(objsList); 

@@ -87,7 +87,11 @@ public class HomeServiceImpl implements HomeService {
 		return dao.userLoginTimeout();
 	}
 	@Override
-	public List<Messages> getMessages(User uObj) throws Exception {
-		return dao.getMessages(uObj);
+	public List<Messages> getMessages(Messages mObj) throws Exception {
+		return dao.getMessages(mObj);
+	}
+	@Override
+	public List<Messages> getMessageTypes(Messages mObj) throws Exception {
+		return dao.getMessageTypes(mObj);
 	}
 }

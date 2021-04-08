@@ -408,7 +408,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 					<!-- Notification code starts --> <a
 					class='notification dropdown-trigger' data-target='dropdown1'>
 						<span class="material-icons-outlined">notifications</span> <span
-						class="badge red" id="notificationCount"> </span>
+						class="badge red" id="notificationCount">0 </span>
 				</a>
 					<div class="notification_body dropdown-content" id='dropdown1'>
 						<!-- Notification dropdown body starts -->
@@ -416,37 +416,14 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 							<input type="text" name="srch-term" id="srch-term"
 								class="browser-default searching empty"
 								placeholder="&#xF002; Search Alerts..." >
-								<select class="browser-default" >														
-									<option>Select</option>	
-									<option>option 1</option>									
+								<select class="browser-default" id="alert_type_fk_web" name="alert_type_fk" onchange="getAlertsForHeaderNotifications(this.value);">														
+									<option value="">Alert Type</option>		
+									<c:forEach var="obj" items="${alertTypes }">
+										<option value="${obj.alert_type_fk}">${obj.alert_type_fk}</option>	
+									</c:forEach>							
 								</select>
 								
 						</div>
-						<%-- <ul class="notifications_group" style="margin-top: 5px;"
-                                                            id="notificationList">
-                                                            <!-- list of Notifications starts -->
-                                                            <c:forEach var="aObj" items="${dueActivities }">
-                                                <li class="head-item">${aObj.workId} - ${aObj.workName}</li>
-                                                <c:forEach var="bObj" items="${aObj.dueActivities }">
-                                                    <li class="item <c:if test=" ${bObj.readUnreadStatus eq 'Read' }">
-                                                        read</c:if>">
-                                                        <a href="${bObj.notificationLink}">
-                                                            <span><i class="fa fa-${bObj.image }"></i> ${bObj.location }
-                                                                / ${bObj.activityType } / ${bObj.activity } /
-                                                                ${bObj.boqCompleteTotal }</span>
-                                                            <div><i class="fa fa-clock-o"></i> <span
-                                                                    class="time">${bObj.timeAgo}</span></div>
-                                                        </a>
-                                                        <a href="${bObj.notificationLink}">
-                                                            <span><i class="fa fa-edit"></i> ${bObj.description}</span>
-                                                            <div><i class="fa fa-clock-o"></i> <span
-                                                                    class="time">${bObj.timeAgo}</span></div>
-                                                        </a>
-                                                    </li>
-                                                </c:forEach>
-                                                <!-- list of Notifications ends -->
-                                                </c:forEach>
-                                                </ul> --%>
 
 						<ul class="notifications_group" style="margin-top: 5px;"
 							id="notificationList">
@@ -518,15 +495,18 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 					<!-- messages code starts --> <a
 					class='notification dropdown-trigger' data-target='messages1'  >
 						<span class="material-icons-outlined">chat_bubble_outlined</span>
-						<span class="badge red" id="messagesCount">95 </span>
+						<span class="badge red" id="messagesCount">0 </span>
 				</a>
 					<div class="notification_body dropdown-content" id='messages1'>
 						<div class="search-holder">
 							<input type="text" name="srch-term" id="messages-srch-term"
 								class="browser-default searching empty"
 								placeholder="&#xF002; Search Messages...">
-							<select class="browser-default" >														
-								<option>Select</option>									
+							<select class="browser-default" id="message_type_web" name="message_type" onchange="getMesagesForHeader(this.value);">														
+								<option value="">Message Type</option>	
+								<c:forEach var="obj" items="${messageTypes }">
+									<option value="${obj.message_type}">${obj.message_type}</option>	
+								</c:forEach>								
 							</select>
 						</div>
 						<ul class="notifications_group message_group" style="margin-top: 5px;"
@@ -831,7 +811,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 			href="<%=request.getContextPath() %>/home"
 			data-target="notification-demo" class="sidenav-trigger"> <span
 				class="material-icons-outlined">notifications</span> Notifications <span
-				class="badge" id="notificationCountMobile"></span> <!--span class="badge red" id="notificationCount"></span-->
+				class="badge" id="notificationCountMobile">0</span> <!--span class="badge red" id="notificationCount"></span-->
 		</a>
 
 		</li>
@@ -840,7 +820,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 			href="<%=request.getContextPath() %>/home"
 			data-target="messages-demo" class="sidenav-trigger"> <span
 				class="material-icons-outlined">chat_bubble</span> Messages <span
-				class="badge" id="messagesCountMobile">95</span> <!--span class="badge red" id="notificationCount"></span-->
+				class="badge" id="messagesCountMobile">0</span> <!--span class="badge red" id="notificationCount"></span-->
 		</a>
 
 		</li>
@@ -868,8 +848,11 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 			<input type="text" name="srch-term" id="srch-term-mobile"
 				class="browser-default searching empty"
 				placeholder="&#xF002; Search Alerts...">
-			<select class="browser-default" >														
-				<option>Select</option>	
+			<select class="browser-default" id="alert_type_fk_mobile" name="alert_type_fk" onchange="getAlertsForHeaderNotifications(this.value);">														
+				<option value="">Alert Type</option>		
+				<c:forEach var="obj" items="${alertTypes }">
+					<option value="${obj.alert_type_fk}">${obj.alert_type_fk}</option>	
+				</c:forEach>							
 			</select>
 		</div>
 		<ul class="notifications_group" style="margin-top: 5px;"
@@ -989,8 +972,11 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 				name="srch-term" id="messages-srch-term-mobile"
 				class="browser-default searching empty"
 				placeholder="&#xF002; Search Messages...">
-			<select class="browser-default" >														
-				<option>Select</option>									
+			<select class="browser-default" id="message_type_mobile" name="message_type" onchange="getMesagesForHeader(this.value);">														
+				<option value="">Message Type</option>	
+				<c:forEach var="obj" items="${messageTypes }">
+					<option value="${obj.message_type}">${obj.message_type}</option>	
+				</c:forEach>								
 			</select>
 		</div>
 		<ul class="notifications_group message_group" style="margin-top: 5px;"
@@ -1096,19 +1082,19 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
                    });
 
                    /******************************************************************************/
-                   var count = 0;
+                  /*  var count = 0;
                    <c:forEach var="aObj" items="${alerts }">
                        if("${aObj.value}" != null){
                            count = Number(count) + Number("${fn:length(aObj.value)}")
                        }
-                   </c:forEach>
+                   </c:forEach> 
 
                    $("#notificationCount").html(count);
-                   $("#notificationCountMobile").html(count);
+                   $("#notificationCountMobile").html(count);*/
 
 
                    /******************************************************************************/
-                   var msgCount = 0;
+                   /* var msgCount = 0;
                    if ("${not empty messages && fn:length(messages) gt 0}") {
                        <c:forEach var="mObj" items="${messages }">
                            if("${mObj.read_time}" == null || "${mObj.read_time}" == ''){
@@ -1121,7 +1107,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
                    }
 
                    $("#messagesCount").html(msgCount);
-                   $("#messagesCountMobile").html(msgCount);
+                   $("#messagesCountMobile").html(msgCount); */
                    /******************************************************************************/
 
                    //var link=window.location.href;
@@ -1131,172 +1117,285 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
                                $('li a').removeClass("menu-active");
                                $(this).closest('ul').parent().find('a').addClass("menu-active");
                     }); */
+                    
+                    getAlertsForHeaderNotifications('');
+                    getMesagesForHeader('');
+                    
                });
+               
+               /**********************************************************************************************************************/
+               function getAlertsForHeaderNotifications(alert_type_fk) {
+            	   $("#notificationList").html('');
+            	   $("#notificationListMobile").html('');
+            	   var myParams = {alert_type_fk : alert_type_fk};
+                   $.ajax({
+                       url: "<%=request.getContextPath()%>/ajax/getAlertsForHeaderNotifications",
+                       	  data: myParams,cache: false,async:true,
+		                  success: function (data) {
+		                    	  var html = "";
+		                    	  var count = 0;
+		                    	  $.each(data, function(key, value) {
+		                    		  html = html + '<li class="head-item">'+key+'</li>';
+		                    		  var bgClass = '';
+		                    		  if(key == '3rd Alert'){
+		                    			  bgClass = 'type-3';
+		                    		  }else if(key == '2nd Alert'){
+		                    			  bgClass = 'type-2';
+		                    		  }else if(key == '1st Alert'){
+		                    			  bgClass = 'type-1';
+		                    		  }
+		                    		  count = count + Number(data[key].length);
+		                    		  $.each(data[key], function (i, val) {
+		                    			  var bgIcon = '';
+			                    		  if(val.alert_type_fk == 'Bank Guarantee'){
+			                    			  bgIcon = '<i class="material-icons">account_balance</i>';
+			                    		  }else if(val.alert_type_fk == 'Insurance'){
+			                    			  bgIcon = '<i class="material-icons">security</i>';
+			                    		  }else if(val.alert_type_fk == 'Contract Period'){
+			                    			  bgIcon = '<i class="material-icons">access_time</i>';
+			                    		  }else if(val.alert_type_fk == 'Contract Value'){
+			                    			  bgIcon = '<i class="fa fa-money"></i>';
+			                    		  }else if(val.alert_type_fk == 'Issue'){
+			                    			  bgIcon = '<i class="fa fa-exclamation-triangle"></i>';
+			                    		  }else if(val.alert_type_fk == 'Risk'){
+			                    			  bgIcon = '<i class="material-icons">error</i>';
+			                    		  }else if(val.alert_type_fk == 'Safety'){
+			                    			  bgIcon = '<i class="material-icons">verified_user</i>';
+			                    		  }
+			                    		  html = html + '<li class="item '+bgClass+'">'
+			                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+'">'
+			                    		  		+ '<span class="icon"> '+bgIcon+' <span class="icon-text">'+val.alert_type_fk+'</span> </span>'
+			                    		  		+ '<div>Work : '+val.work_short_name +'</div>'
+			                    		  		+ '<div>Contract : '+val.contract_short_name +'</div>'
+			                    		  		+ '<div>Contractor : '+val.contractor_name +'</div>'
+			                    		  		+ '<div>Reason : '+val.alert_value +'</div>'
+			                    		  		+ '</a></li>';
+			                    		  
+		                    		  });
+	                    		  });
+		                    	  
+		                    	  $("#notificationList").html(html);
+		                    	  $("#notificationListMobile").html(html);
+		                    	  
+		                    	  if (count > 99) {
+		                    		  count = "99+";
+		                          }
+		                    	  
+		                    	  $("#notificationCount").html(count);
+		                          $("#notificationCountMobile").html(count);
+		                      }
+		           });
+				}
+               
+               function getMesagesForHeader(message_type) {
+            	   $("#messagesList").html('');
+            	   $("#messagesListMobile").html('');
+            	   var myParams = {message_type : message_type};
+                   $.ajax({
+                       url: "<%=request.getContextPath()%>/ajax/getMesagesForHeader",
+                       	  data: myParams,cache: false,async:true,
+		                  success: function (data) {
+		                    	  var html = "";
+		                    	  var count = 0;
+		                    	  html = html + '<li class="head-item">Messages</li>';
+		                    	  $.each(data, function(i, val) {
+		                    		  var message_color_bg = '';
+		                    		  if($.trim(val.read_time) != ''){
+		                    			  message_color_bg = 'read-message';
+		                    		  }else{
+		                    			  message_color_bg = 'unread-message';
+		                    		  }
+		                    		  count = count + 1;
+		                    		  html = html + '<li class="item '+message_color_bg+'">'
+		                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+'?message_id='+val.message_id +'">'
+		                    		  		+ '<span class="icon"> <i class="fa fa-exclamation-triangle"></i> <span class="icon-text">'+val.message_type+'</span> </span>'
+		                    		  		+ '<div>'+val.message +'</div>'
+		                    		  		+ '<span class="date_text"><i class="fa fa-clock-o"></i>'+val.created_date+'</span>'
+		                    		  		+ '</a></li>';
+			                    		 
+	                    		  });
+		                    	  
+		                    	  $("#messagesList").html(html);
+		                    	  $("#messagesListMobile").html(html);
+		                    	  
+		                    	  if (count > 99) {
+		                    		  count = "99+";
+		                          }
+		                    	  $("#messagesCount").html(count);
+		                          $("#messagesCountMobile").html(count);
+		                      }
+		           });
+				}
+               
+               /**********************************************************************************************************************/
+               
+               
                //getting project list from database
                function getProjectsListForSearch() {
                    $("#searchProjectId option:not(:first)").remove();
                    $("#mobileSearchProjectId option:not(:first)").remove();
                    $.ajax({
                        url: "<%=request.getContextPath()%>/ajax/getProjectsListForSearch",
-                  cache: false,
-                  success: function (data) {
-                      if (data.length > 0) {
-                          $.each(data, function (i, val) {
-                              var projectName = '';
-                              if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
-                              var globalProjectId = "${sessionScope.globalProjectId}";
-                              if ($.trim(globalProjectId) != '' && val.project_id == $.trim(globalProjectId)) {
-                                  $("#searchProjectId").append('<option value="' + val.project_id + '" selected>' + $.trim(val.project_id) + $.trim(projectName) + '</option>');
-                                  $("#mobileSearchProjectId").append('<option value="' + val.project_id + '" selected>' + $.trim(val.project_id) + $.trim(projectName) + '</option>');
-                              } else {
-                                  $("#searchProjectId").append('<option value="' + val.project_id + '">' + $.trim(val.project_id) + $.trim(projectName) + '</option>');
-                                  $("#mobileSearchProjectId").append('<option value="' + val.project_id + '">' + $.trim(val.project_id) + $.trim(projectName) + '</option>');
-                              }
-                          });
-                      }
-                      $("#searchProjectId").formSelect();
-                      $("#mobileSearchProjectId").formSelect();
-                  }
-              });
-          }
-          //getting work list from database
-          function getWorksListForSearch(projectId) {
-              $("#searchWorkId option:not(:first)").remove();
-              $("#mobileSearchWorkId option:not(:first)").remove();
-              if ($.trim(projectId) != "") {
-                  var myParams = { project_id_fk: projectId };
-                  $.ajax({
-                      url: "<%=request.getContextPath()%>/ajax/getWorksListForSearch",
-                      data: myParams, cache: false,
-                      success: function (data) {
-                          if (data.length > 0) {
-                              $.each(data, function (i, val) {
-                                  var workName = '';
-                                  if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-                                  var globalWorkId = "${sessionScope.globalWorkId}";
-                                  if ($.trim(globalWorkId) != '' && val.work_id == $.trim(globalWorkId)) {
-                                      $("#searchWorkId").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                      $("#mobileSearchWorkId").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                  } else {
-                                      $("#searchWorkId").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                      $("#mobileSearchWorkId").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                  }
+		                  cache: false,
+		                  success: function (data) {
+		                      if (data.length > 0) {
+		                          $.each(data, function (i, val) {
+		                              var projectName = '';
+		                              if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
+		                              var globalProjectId = "${sessionScope.globalProjectId}";
+		                              if ($.trim(globalProjectId) != '' && val.project_id == $.trim(globalProjectId)) {
+		                                  $("#searchProjectId").append('<option value="' + val.project_id + '" selected>' + $.trim(val.project_id) + $.trim(projectName) + '</option>');
+		                                  $("#mobileSearchProjectId").append('<option value="' + val.project_id + '" selected>' + $.trim(val.project_id) + $.trim(projectName) + '</option>');
+		                              } else {
+		                                  $("#searchProjectId").append('<option value="' + val.project_id + '">' + $.trim(val.project_id) + $.trim(projectName) + '</option>');
+		                                  $("#mobileSearchProjectId").append('<option value="' + val.project_id + '">' + $.trim(val.project_id) + $.trim(projectName) + '</option>');
+		                              }
+		                          });
+		                      }
+		                      $("#searchProjectId").formSelect();
+		                      $("#mobileSearchProjectId").formSelect();
+		                  }
+		              });
+		       }
+               
+	           //getting work list from database
+	           function getWorksListForSearch(projectId) {
+	              $("#searchWorkId option:not(:first)").remove();
+	              $("#mobileSearchWorkId option:not(:first)").remove();
+	              if ($.trim(projectId) != "") {
+	                  var myParams = { project_id_fk: projectId };
+	                  $.ajax({
+	                      url: "<%=request.getContextPath()%>/ajax/getWorksListForSearch",
+	                      data: myParams, cache: false,
+	                      success: function (data) {
+	                          if (data.length > 0) {
+	                              $.each(data, function (i, val) {
+	                                  var workName = '';
+	                                  if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+	                                  var globalWorkId = "${sessionScope.globalWorkId}";
+	                                  if ($.trim(globalWorkId) != '' && val.work_id == $.trim(globalWorkId)) {
+	                                      $("#searchWorkId").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                                      $("#mobileSearchWorkId").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                                  } else {
+	                                      $("#searchWorkId").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                                      $("#mobileSearchWorkId").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                                  }
+	
+	                              });
+	                          }
+	                          $("#searchWorkId").formSelect();
+	                          $("#mobileSearchWorkId").formSelect();
+	                      }
+	                  });
+	              } else {
+	                  $("#searchWorkId").formSelect();
+	                  $("#mobileSearchWorkId").formSelect();
+	              }
+	          }
+		
+	          //for setting global variables from navigation bar
+	          function setGlobalVariable(searchWorkId) {
+	              var searchProjectId = $("#searchProjectId").val();
+	              var searchWorkName = $("#searchWorkId option:selected").text();;
+	              $("#globalProjectId").val(searchProjectId);
+	              $("#globalWorkId").val(searchWorkId);
+	              $("#globalWorkName").val(searchWorkName);
+	              var url = window.location.href;
+	              $("#currentUrl").val(url);
+	              //alert(url)
+	              $("#setGlobalVariablesForm").submit();
+	          }
 
-                              });
-                          }
-                          $("#searchWorkId").formSelect();
-                          $("#mobileSearchWorkId").formSelect();
-                      }
-                  });
-              } else {
-                  $("#searchWorkId").formSelect();
-                  $("#mobileSearchWorkId").formSelect();
-              }
-          }
-
-          //for setting global variables from navigation bar
-          function setGlobalVariable(searchWorkId) {
-              var searchProjectId = $("#searchProjectId").val();
-              var searchWorkName = $("#searchWorkId option:selected").text();;
-              $("#globalProjectId").val(searchProjectId);
-              $("#globalWorkId").val(searchWorkId);
-              $("#globalWorkName").val(searchWorkName);
-              var url = window.location.href;
-              $("#currentUrl").val(url);
-              //alert(url)
-              $("#setGlobalVariablesForm").submit();
-          }
 
 
-
-          //this one is just to wait for the page to load
-          document.addEventListener('DOMContentLoaded', () => {
-              var theme = document.getElementById('theme');
-              var themeToggle = document.getElementById('theme-change');
-              themeToggle.addEventListener('click', () => {
-                  // if it's light -> go dark
-                  if (themeToggle.children[0].classList.contains("fa-moon-o")) {
-                      theme.href = '/pmis/resources/css/light-theme.css';
-                      themeToggle.style.backgroundColor = "white";
-                      themeToggle.children[0].classList.add('fa-sun-o');
-                      themeToggle.children[0].classList.remove('fa-moon-o');
-                      document.cookie = "theme=light";
-                  } else {
-                      // if it's dark -> go light
-                      theme.href = '/pmis/resources/css/dark-theme.css';
-                      themeToggle.style.backgroundColor = "black";
-                      themeToggle.children[0].classList.add('fa-moon-o');
-                      themeToggle.children[0].classList.remove('fa-sun-o');
-                      document.cookie = "theme=dark";
-                  }
-              });
-
-              //checking in the cookies which theme should load
-              var x = document.cookie;
-              if (x.includes("dark")) {
-                  theme.href = '/pmis/resources/css/dark-theme.css';
-                  themeToggle.style.backgroundColor = "black";
-                  themeToggle.children[0].classList.add('fa-moon-o');
-                  themeToggle.children[0].classList.remove('fa-sun-o');
-                  document.cookie = "theme=dark";
-              } else {
-                  theme.href = '/pmis/resources/css/light-theme.css';
-                  themeToggle.style.backgroundColor = "white";
-                  themeToggle.children[0].classList.add('fa-sun-o');
-                  themeToggle.children[0].classList.remove('fa-moon-o');
-                  document.cookie = "theme=light";
-              }
-          });
-          
-          $(document).click(function() {
-         	  if($('#dropdown1').css('display')=='block' &&	!$('a[data-target="dropdown1"]').hasClass('menu-active')	){
-        		  $('a[data-target="dropdown1"]').addClass('menu-active');
-        	  } else {
-        		  $('a[data-target="dropdown1"]').removeClass('menu-active');
-        	  }
-         	  if($('#messages1').css('display')=='block' &&	!$('a[data-target="messages1"]').hasClass('menu-active')	){
-        		  $('a[data-target="messages1"]').addClass('menu-active');
-        	  } else {
-        		  $('a[data-target="messages1"]').removeClass('menu-active');
-        	  }         	    
-          });
-
-          $(function(){
-    		  var current_page_URL = location.href; 
-    		  $( ".top-level-menu :not(.notification_body ) a" ).each(function() {
-    		     if ($(this).attr("href") !== "#") {
-    		       var target_URL = $(this).prop("href");
-    		       if (target_URL == current_page_URL) {
-    		          $('a').parents('li, ul').removeClass('menu-active');
-    					var classItem=$(this).closest('ul').parentsUntil($( "ul.top-level-menu" ));
-    					$(classItem[classItem.length-1]).addClass('menu-active');					
-    					var formName=current_page_URL.split('/');	
-    					if(formName[formName.length-1]=='home' || formName[formName.length-1]==''){
-    						$('.top-level-menu a[href="/pmis/home"]').parent().addClass('menu-active');
-    					}
-    		          return false;
-    		       }
-    		     }
-    		  });	
-    		  var formName=current_page_URL.split('/');	    		  
-    		  var gridOrForm=(formName.length > 5)? (formName[formName.length-2].split('-')[1]) : (formName[formName.length-1].split('-')[1]);
-    		  var sn=formName[formName.length-1].split('-');  		 			  
-    		  var preGridOrForm=(formName.length > 5)? (formName[formName.length-2].split('-')[0]) : (formName[formName.length-1].split('-')[0]) ;
-    		  if ( (gridOrForm != '' || gridOrForm!= undefined) && (preGridOrForm=='get' || preGridOrForm=='add') ){
-    			  var urlName='';
-    			  if(sn.length>= 3){
-    				 var lengthOfSn;
-    				  (sn[sn.length-1]=='form') ? lengthOfSn=sn.length-2 :  lengthOfSn=sn.length-1 ;
-    				  for (i=1;i<=lengthOfSn;i++){    					  
-    					  if (urlName!="") {urlName=urlName+"-";}
-    					  urlName=urlName+sn[i]
-    				  }
-    			  }
-    			  gridOrForm=urlName ?urlName : gridOrForm;
-    			  var classItem=$('.top-level-menu a[href="/pmis/'+gridOrForm+'"]').closest('ul').parentsUntil($( "ul.top-level-menu" ));
-    			  $(classItem[classItem.length-1]).addClass('menu-active')	
-    		  }
-    		});
+	          //this one is just to wait for the page to load
+	          document.addEventListener('DOMContentLoaded', () => {
+	              var theme = document.getElementById('theme');
+	              var themeToggle = document.getElementById('theme-change');
+	              themeToggle.addEventListener('click', () => {
+	                  // if it's light -> go dark
+	                  if (themeToggle.children[0].classList.contains("fa-moon-o")) {
+	                      theme.href = '/pmis/resources/css/light-theme.css';
+	                      themeToggle.style.backgroundColor = "white";
+	                      themeToggle.children[0].classList.add('fa-sun-o');
+	                      themeToggle.children[0].classList.remove('fa-moon-o');
+	                      document.cookie = "theme=light";
+	                  } else {
+	                      // if it's dark -> go light
+	                      theme.href = '/pmis/resources/css/dark-theme.css';
+	                      themeToggle.style.backgroundColor = "black";
+	                      themeToggle.children[0].classList.add('fa-moon-o');
+	                      themeToggle.children[0].classList.remove('fa-sun-o');
+	                      document.cookie = "theme=dark";
+	                  }
+	              });
+	
+	              //checking in the cookies which theme should load
+	              var x = document.cookie;
+	              if (x.includes("dark")) {
+	                  theme.href = '/pmis/resources/css/dark-theme.css';
+	                  themeToggle.style.backgroundColor = "black";
+	                  themeToggle.children[0].classList.add('fa-moon-o');
+	                  themeToggle.children[0].classList.remove('fa-sun-o');
+	                  document.cookie = "theme=dark";
+	              } else {
+	                  theme.href = '/pmis/resources/css/light-theme.css';
+	                  themeToggle.style.backgroundColor = "white";
+	                  themeToggle.children[0].classList.add('fa-sun-o');
+	                  themeToggle.children[0].classList.remove('fa-moon-o');
+	                  document.cookie = "theme=light";
+	              }
+	          });
+	          
+	          $(document).click(function() {
+	         	  if($('#dropdown1').css('display')=='block' &&	!$('a[data-target="dropdown1"]').hasClass('menu-active')	){
+	        		  $('a[data-target="dropdown1"]').addClass('menu-active');
+	        	  } else {
+	        		  $('a[data-target="dropdown1"]').removeClass('menu-active');
+	        	  }
+	         	  if($('#messages1').css('display')=='block' &&	!$('a[data-target="messages1"]').hasClass('menu-active')	){
+	        		  $('a[data-target="messages1"]').addClass('menu-active');
+	        	  } else {
+	        		  $('a[data-target="messages1"]').removeClass('menu-active');
+	        	  }         	    
+	          });
+	
+	          $(function(){
+	    		  var current_page_URL = location.href; 
+	    		  $( ".top-level-menu :not(.notification_body ) a" ).each(function() {
+	    		     if ($(this).attr("href") !== "#") {
+	    		       var target_URL = $(this).prop("href");
+	    		       if (target_URL == current_page_URL) {
+	    		          $('a').parents('li, ul').removeClass('menu-active');
+	    					var classItem=$(this).closest('ul').parentsUntil($( "ul.top-level-menu" ));
+	    					$(classItem[classItem.length-1]).addClass('menu-active');					
+	    					var formName=current_page_URL.split('/');	
+	    					if(formName[formName.length-1]=='home' || formName[formName.length-1]==''){
+	    						$('.top-level-menu a[href="/pmis/home"]').parent().addClass('menu-active');
+	    					}
+	    		          return false;
+	    		       }
+	    		     }
+	    		  });	
+	    		  var formName=current_page_URL.split('/');	    		  
+	    		  var gridOrForm=(formName.length > 5)? (formName[formName.length-2].split('-')[1]) : (formName[formName.length-1].split('-')[1]);
+	    		  var sn=formName[formName.length-1].split('-');  		 			  
+	    		  var preGridOrForm=(formName.length > 5)? (formName[formName.length-2].split('-')[0]) : (formName[formName.length-1].split('-')[0]) ;
+	    		  if ( (gridOrForm != '' || gridOrForm!= undefined) && (preGridOrForm=='get' || preGridOrForm=='add') ){
+	    			  var urlName='';
+	    			  if(sn.length>= 3){
+	    				 var lengthOfSn;
+	    				  (sn[sn.length-1]=='form') ? lengthOfSn=sn.length-2 :  lengthOfSn=sn.length-1 ;
+	    				  for (i=1;i<=lengthOfSn;i++){    					  
+	    					  if (urlName!="") {urlName=urlName+"-";}
+	    					  urlName=urlName+sn[i]
+	    				  }
+	    			  }
+	    			  gridOrForm=urlName ?urlName : gridOrForm;
+	    			  var classItem=$('.top-level-menu a[href="/pmis/'+gridOrForm+'"]').closest('ul').parentsUntil($( "ul.top-level-menu" ));
+	    			  $(classItem[classItem.length-1]).addClass('menu-active')	
+	    		  }
+	    	 });
 
  </script>
 

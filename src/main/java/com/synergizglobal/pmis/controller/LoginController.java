@@ -240,8 +240,6 @@ public class LoginController {
 			
 			boolean flag1 = loginService.addUserLogoutDateTime(userDetails);
 			
-			boolean flag2 = loginService.saveLogoutAction(userId);
-			
 			session.invalidate();
 			model.addObject("success",logOutMessage);
 		} catch (Exception e) {

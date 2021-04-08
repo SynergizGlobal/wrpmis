@@ -84,8 +84,6 @@ public class LoginDaoImpl implements LoginDao{
 					
 					String user_login_details_id = addUserLoginDetails(userDetails,con);
 					userDetails.setUser_login_details_id(user_login_details_id);
-					
-					saveUserLoginDetails(userDetails,con);
 				}else {
 					throw new NoKeyException(noKeyAssigned);
 				}
@@ -127,36 +125,6 @@ public class LoginDaoImpl implements LoginDao{
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}
 		return user_login_details_id;
-	}
-	
-	
-	public boolean saveUserLoginDetails(User uObj, Connection con) throws Exception {
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		boolean flag = false;
-		try {			
-			
-			String insertQry = "INSERT INTO user_login (user_id_fk,login_event_date,login_event_type_fk,system_ipa,public_ipa)"  
-					+ " VALUES (?,CURRENT_TIMESTAMP,?,?,?)";
-			stmt = con.prepareStatement(insertQry);
-			int p = 1;
-			stmt.setString(p++,uObj.getUser_id());
-			stmt.setString(p++,CommonConstants2.LOGIN_EVENT_TYPE_LOGIN );
-			stmt.setString(p++,uObj.getSystem_ipa());
-			stmt.setString(p++,uObj.getPublic_ipa());
-			
-			int c = stmt.executeUpdate();
-			if (c > 0) {
-				flag = true;				
-			}
-			
-		}catch(SQLException e){ 
-			throw new SQLException(e.getMessage());
-		}
-		finally {
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
-		}
-		return flag;
 	}
 	
 	/**
@@ -206,34 +174,6 @@ public class LoginDaoImpl implements LoginDao{
 		return temp;
 	}
 
-
-	@Override
-	public boolean saveLogoutAction(String userId) throws Exception {
-		Connection con = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		boolean flag = false;
-		try {			
-			con = dataSource.getConnection();
-			String insertQry = "INSERT INTO user_login (user_id_fk,login_event_date,login_event_type_fk)"  
-					+ " VALUES (?,CURRENT_TIMESTAMP,?)";
-			stmt = con.prepareStatement(insertQry);
-			stmt.setString(1,userId );
-			stmt.setString(2,CommonConstants2.LOGIN_EVENT_TYPE_LOGOUT );
-			
-			int c = stmt.executeUpdate();
-			if (c > 0) {
-				flag = true;				
-			}
-			
-		}catch(SQLException e){ 
-			throw new SQLException(e.getMessage());
-		}
-		finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
-		}
-		return flag;
-	}
 
 	@Override
 	public boolean addUserLogoutDateTime(User uObj) throws Exception {

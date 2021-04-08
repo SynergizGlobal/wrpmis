@@ -90,4 +90,9 @@ public class AlertsServiceImpl implements AlertsService{
 		return dao.getAlertsList(obj,startIndex,offset,searchParameter);
 	}
 
+	@Override
+	public List<Alerts> getAlertTypes(Alerts aObj) throws Exception {
+		return dao.getAlertTypes(aObj);
+	}
+
 }

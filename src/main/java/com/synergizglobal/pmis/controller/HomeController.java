@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,10 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Admin;
-import com.synergizglobal.pmis.model.Contractor;
+import com.synergizglobal.pmis.model.Alerts;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.Work;
@@ -32,6 +34,9 @@ public class HomeController {
 	
 	@Autowired
 	HomeService homeService;
+	
+	@Autowired
+	AlertsService alertsService;
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -89,7 +94,6 @@ public class HomeController {
 	        model.addObject("projectsInfo", projectsInfo);
 	        List<Work> workDetails = homeService.getWorkDetails(work);
 	        model.addObject("workDetails", workDetails);
-	        Admin admin = new Admin();
 	       
 		}catch(Exception e){
 			logger.error("home() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
@@ -121,6 +125,39 @@ public class HomeController {
 			logger.error("getSubLink : " + e.getMessage());
 		}
 		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getAlertsForHeaderNotifications", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Map<String,List<Alerts>> getAlertsForHeaderNotifications(@ModelAttribute Alerts aObj, HttpSession session) {
+		Map<String,List<Alerts>> alerts = null;
+		try {
+			User userDetails = (User)session.getAttribute("user");
+			aObj.setUser_id(userDetails.getUser_id());
+			aObj.setEmail_id(userDetails.getEmail_id());
+			aObj.setUser_role_name(userDetails.getUser_role_name_fk());
+			
+			alerts = alertsService.getAlertsForHeaderNotifications(aObj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getAlertsForHeaderNotifications : " + e.getMessage());
+		}
+		return alerts;
+	}
+	
+	@RequestMapping(value = "/ajax/getMesagesForHeader", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Messages> getMesagesForHeader(@ModelAttribute Messages obj, HttpSession session) {
+		List<Messages> messages = null;
+		try {
+			User userDetails = (User)session.getAttribute("user");
+			obj.setUser_id_fk(userDetails.getUser_id());
+			messages = homeService.getMessages(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getAlertsForHeaderNotifications : " + e.getMessage());
+		}
+		return messages;
 	}
 	
 	/**

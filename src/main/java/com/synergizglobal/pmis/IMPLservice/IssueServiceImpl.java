@@ -131,11 +131,6 @@ public class IssueServiceImpl implements IssueService {
 	}
 
 	@Override
-	public List<Issue> getIssueAlerts(User uObj) throws Exception {
-		return issueDao.getIssueAlerts(uObj);
-	}
-
-	@Override
 	public boolean readIssueMessage(Issue obj) throws Exception {
 		return issueDao.readIssueMessage(obj);
 	}

@@ -36,5 +36,7 @@ public interface AlertsService {
 	int getTotalRecords(Alerts obj, String searchParameter) throws Exception;
 
 	List<Alerts> getAlertsList(Alerts obj, int startIndex, int offset, String searchParameter) throws Exception;
+
+	List<Alerts> getAlertTypes(Alerts aObj) throws Exception;
 	
 }

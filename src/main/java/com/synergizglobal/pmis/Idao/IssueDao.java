@@ -53,8 +53,6 @@ public interface IssueDao {
 
 	List<Issue> getEscalatedToList() throws Exception;
 
-	List<Issue> getIssueAlerts(User uObj) throws Exception;
-
 	boolean readIssueMessage(Issue obj) throws Exception;
 
 }

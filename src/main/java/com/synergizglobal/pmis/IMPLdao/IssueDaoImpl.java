@@ -1647,59 +1647,6 @@ public class IssueDaoImpl implements IssueDao {
 	}
 
 	@Override
-	public List<Issue> getIssueAlerts(User uObj) throws Exception {
-		List<Issue> objsList = null;
-		try {
-			
-			
-			String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,i.title,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,other_organization,c.department_fk," 
-					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,"
-					+ "i.zonal_railway_fk,r.railway_name,c.contractor_id_fk,ctr.contractor_id,ctr.contractor_name,"
-					+ "d.department_name,hod_user_id_fk,u.designation,u.user_name as hod_name,DATEDIFF(NOW(), date) as pending_since,DATE_FORMAT(date,'%d-%m-%Y') AS date, "
-					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
-					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk "
-					+ "from issue i "
-					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
-					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
-					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN contractor ctr ON c.contractor_id_fk= ctr.contractor_id "
-					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
-					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
-					+ "LEFT OUTER JOIN railway r ON i.zonal_railway_fk COLLATE utf8mb4_unicode_ci = r.railway_id "
-					+ "where status_fk <> ? and date_sub(now(),interval 30 day) >= date " ;
-			int arrSize = 1;
-			//if(!StringUtils.isEmpty(uObj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(uObj.getUser_role_code())) {
-				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
-				arrSize++;
-				arrSize++;
-				arrSize++;
-				arrSize++;
-			//}
-			
-			qry = qry + " ORDER BY location,i.date ASC";
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			pValues[i++] = "Closed";
-			
-			//if(!StringUtils.isEmpty(uObj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(uObj.getUser_role_code())) {
-				pValues[i++] = uObj.getUser_id();
-				pValues[i++] = uObj.getUser_id();
-				pValues[i++] = uObj.getUser_id();
-				pValues[i++] = uObj.getUser_id();
-			//}
-			
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
 	public boolean readIssueMessage(Issue obj) throws Exception {
 		boolean flag = false;
 		TransactionDefinition def = new DefaultTransactionDefinition();

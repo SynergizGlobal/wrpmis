@@ -42,11 +42,6 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public boolean saveLogoutAction(String userId) throws Exception {
-		return loginDao.saveLogoutAction(userId);
-	}
-
-	@Override
 	public boolean addUserLogoutDateTime(User uObj) throws Exception {
 		return loginDao.addUserLogoutDateTime(uObj);
 	}

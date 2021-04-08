@@ -38,5 +38,7 @@ public interface HomeDao {
 	
 	public boolean userLoginTimeout() throws Exception;
 
-	public List<Messages> getMessages(User uObj) throws Exception;
+	public List<Messages> getMessages(Messages mObj) throws Exception;
+
+	public List<Messages> getMessageTypes(Messages mObj) throws Exception;
 }

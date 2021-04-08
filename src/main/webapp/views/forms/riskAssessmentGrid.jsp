@@ -212,8 +212,14 @@
 										<div class="col m5 s9 input-field">
 											<button type="button"
 												class="btn waves-effect waves-light bg-s t-c disabled"
-												id="uploadRisk" style="width:100%">
+												id="uploadRisk" >
 												<strong><i class="fa arrow-circle-up"></i>Submit</strong>
+											</button>
+										</div>
+											<div class="col m5 s9 input-field">
+											<button type="button"
+												class="btn waves-effect waves-light bg-s t-c" onclick="addDisabled()" >
+												<strong><i class="fa arrow-circle-up"></i>Reset</strong>
 											</button>
 										</div>
 									</div>
@@ -289,8 +295,7 @@
 	                    </span>
 	                    <div class="">
 	                        <div class="row no-mar" >
-	                            <div class="col m5 hide-on-small-only"></div>                            
-	                                    <div class="col s12 m2 input-field">
+	                                    <div class="col s12 m2 input-field offset-m4">
 	                                        <p class="searchable_label">Work</p>
 	                                        <select id="work_id_fk_filter" name="work_id_fk" class="searchable" onchange="getRiskUploadsList(this.value);">
 	                                            <option value="">Select</option>
@@ -298,7 +303,7 @@
 	                                    </div>                                 
 	                                    <div class="col s12 m3">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 12px;width: 100%;" onclick="clearFilters()">Clear
+	                                            style="margin-top: 12px;" onclick="clearFilters()">Clear
 	                                            Filters</button>
 	                                    </div>                          
 	                            <div class="col m5 hide-on-small-only"></div>
@@ -576,6 +581,12 @@
         	    }
         	    console.log(msg);
          }
+      function addDisabled(){
+    	  $('#work_id_fk').val('');
+    	  $('.searchable').select2();
+    	  $('#uploadRiskBtn ~ .file-path-wrapper > input[type="text"]').val('');
+    	  $('#uploadRiskBtn, #uploadRisk').addClass('disabled')
+      }
 
     </script>
 

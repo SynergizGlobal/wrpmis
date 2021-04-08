@@ -142,7 +142,18 @@
 		    background-color: transparent;
 		}
 	    .error-msg label{color:red!important;}   
-		
+		textarea[readonly]{
+			color:#999;
+		}
+		.center-align.m-1 button.bg-m.waves-effect, 
+		.center-align.m-1 button.bg-s.waves-effect{
+			width:inherit;
+		}
+		.mt-brdr{
+			margin-top: 20px;
+		    border-top: 1px solid #777;
+		    border-bottom: 1px solid #777;
+		}
     </style>
     
 </head>
@@ -157,7 +168,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
+                            <div class="center-align p-2 bg-m m-b-2">
                                <h6>Action Taken Report </h6>
                             </div>
                         </span>
@@ -231,7 +242,7 @@
                             	<div class="col s12 m8 input-field offset-m2"> 
 								    <%-- <p class="searchable_label"> Mitigation Plan :</p>
 									<p>${risk.mitigation_plan}</p> --%>
-									<textarea id="mitigation_plan" name="mitigation_plan" class="materialize-textarea" data-length="1000" readonly>${risk.mitigation_plan}</textarea>
+									<textarea id="mitigation_plan" name="mitigation_plan" class="materialize-textarea" data-length="1000" >${risk.mitigation_plan}</textarea>
 									<label for="mitigation_plan">Mitigation Plan :</label>
 								</div>
                             </div>
@@ -363,7 +374,7 @@
 							<input  type="hidden"   name="risk_revision_id" value="${risk.risk_revision_id }" />
 							<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                 
                                     <!-- <div class="center-align m-1">
 										<button type="button" onclick="updateRisk();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
@@ -371,18 +382,18 @@
 									
 									<div class="center-align m-1">
                                     	<c:if test="${risk.readonlyForm eq false }">
-                                        	<button type="button" onclick="updateRisk();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+                                        	<button type="button" onclick="updateRisk();" class="btn waves-effect waves-light bg-m">Update</button>
                                         </c:if>
                                         <c:if test="${risk.readonlyForm eq true }">
-                                        	<a style="color:red;">Not Authorized to Edit</a>
+                                        	<a style="color:red;line-height: 36px;">Not Authorized to Edit</a>
                                         </c:if>
                                     </div>
                                     
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath()%>/risk-atr-update" class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</a>
+                                            >Cancel</a>
                                            <!--  <a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
                                             style="width:100%">Cancel</a>  -->
                                     </div>
@@ -437,7 +448,6 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $('#mitigation_plan').characterCounter();            
             
             if('${risk.readonlyForm}' == 'true'){
 	            $("#riskForm :input").attr("disabled", true);
@@ -446,6 +456,9 @@
             }
            if(USER_DESIGNATION == '${risk.owner}'){
         	   $("#mitigation_plan").prop("readonly", false); 
+           	   $('#mitigation_plan').characterCounter();            
+           } else{
+        	   $("#mitigation_plan").prop("readonly", true); 
            }
             
         });

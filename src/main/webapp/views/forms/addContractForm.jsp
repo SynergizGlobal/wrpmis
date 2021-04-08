@@ -206,23 +206,23 @@
 	                                    <div class="row">
 	  										<div class="col s12 m6 input-field">
 	  										 	<p class="searchable_label">HOD</p>
-	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDepartmentsList(this.value);"> 
+	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDepartmentsList(); getDyHodList();"> 
 	                                     		  <option value="">Select</option> 
-	                                                 <c:forEach var="obj" items="${hodList }"> 
+	                                                  <%-- <c:forEach var="obj" items="${hodList }"> 
 			                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach> 
+			                                        </c:forEach> --%>  
 	                                            </select> 
-												<!-- <input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
-												<label for="hod_user_id_fk">HOD</label> -->
+
+												<!-- <label for="hod_user_id_fk">HOD</label>  -->
 	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
 	                                        <div class="col s12 m6 input-field">
 	                                        	<p class="searchable_label">Dy HOD</p>
-	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable">
+	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();">
 	                                                <option value="">Select</option>
-	                                                <c:forEach var="obj" items="${dyHodList }"> 
+	                                                 <%--  <c:forEach var="obj" items="${dyHodList }"> 
 			                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach> 
+			                                        </c:forEach>   --%> 
 	                                            </select>
 												<!-- <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
 	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
@@ -705,7 +705,7 @@
                                     <table id="ravTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
-                                                <th>Revision Number </th>
+                                                <th>Revision Number <span class="required">*</span></th>
                                                 <th>Revised Amount </th>
                                                 <th>Revised DOC </th>
                                                 <th>Remarks </th>
@@ -738,7 +738,7 @@
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
-                                           <!--  <script type="text/javascript">
+                                            <script type="text/javascript">
 	                                              
 	                                                $('#revision_status0').on('change', function(e){
 							                             if($(this).prop('checked'))
@@ -751,7 +751,7 @@
 							                            	  $("#revision_statuss0").val('No')
 							                              }
 							                   	    });
-                                                </script> -->
+                                                </script> 
                                         </tbody>
                                     </table>
                                     <table class="mdl-data-table">
@@ -765,6 +765,8 @@
                                 </div>
                             </div>
                             </div>
+                            <input type="hidden" id="reporting_to_id_srfk" name="reporting_to_id_srfk" />
+                            
                               <!-- new code  starts-->
                             <div class="container container-no-margin">
 	                            <div class="container">
@@ -1052,8 +1054,89 @@
         	 $('select:not(.searchable)').formSelect();
              $('.searchable').select2();
              $('#remarks').characterCounter();
+             getDyHodList();
+             getHodList();
         });
-        
+       
+        function getDyHodList() {
+        	$(".page-loader").show();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
+        	var dy_hod_user_id_fk = "";
+        	var reporting_to_id_srfk = $("#dy_hod_user_id_fk").find('option').attr("name");
+            if ($.trim(dy_hod_user_id_fk) == "") {
+            	$("#dy_hod_user_id_fk option:not(:first)").remove();
+            	var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: dy_hod_user_id_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getDyHodList",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	   var userName = '';
+	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
+      	                           if ($.trim(hod_user_id_fk) != '') {
+      	                        	  
+                                         $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" >' + $.trim(val.designation) + userName + '</option>');
+                                     } else {
+                                         $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                                     }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        function getHodList() {
+        	$(".page-loader").show();
+        	var hod_user_id_fk = "";
+        	var dy_hod_user_id_fk = $("#dy_hod_user_id_fk").val();
+        	if($.trim(dy_hod_user_id_fk) != ''){   
+            	var reporting_to_id_srfk = $("#dy_hod_user_id_fk").find('option:selected').attr("name");
+        	}
+            if ($.trim(hod_user_id_fk) == "") {
+            	$("#hod_user_id_fk option:not(:first)").attr("selected",false);
+            	var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: reporting_to_id_srfk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getHodList",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	   var userName = '';
+ 	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
+      	                           if ($.trim(dy_hod_user_id_fk) != '') {
+	      	                        	 document.querySelectorAll('#hod_user_id_fk > option').forEach((option) => {
+	                                	    // if ((option.value) == ($.trim(val.hod_user_id_fk))){
+	                                	    	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
+	                                	    	 $("#hod_user_id_fk").select2();
+	                                	    // }
+	                                	 })
+                                       //$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
+                                     } else {
+                                         $("#hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                                     }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                        getDepartmentsList();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+     
         function getWorksList(projectId) {
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
@@ -1079,12 +1162,14 @@
             }
         }
          
-        function getDepartmentsList(userId) {
+        function getDepartmentsList() {
         	$(".page-loader").show();
-        	 $("#department_fk option:not(:first)").attr("selected",false);
+        	var hod = $('#hod_user_id_fk').val();
+        	var dyHod = $('#hod_user_id_fk').val();
+        	$("#department_fk option:not(:first)").attr("selected",false);
 
-            if ($.trim(userId) != "") {
-                var myParams = { hod_user_id_fk: userId };
+            if ($.trim(hod) != "") {
+                var myParams = { hod_user_id_fk: hod, dy_hod_user_id_fk : dyHod };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDepartmentsListForContractForm",
                     data: myParams, cache: false,
@@ -1647,7 +1732,7 @@
 			    	     $('.confirmation-btns .datepicker-done').click();
 			    	  }
 		      });
-			/*  $("#revision_status"+rNo).on('change', function(e){
+			  $("#revision_status"+rNo).on('change', function(e){
                  if($(this).prop('checked'))
                  {
                 	// $(".part").prop('disabled', true);
@@ -1657,7 +1742,7 @@
                 	  $("#revision_status"+rNo).prop('checked',false);
                 	  $("#revision_statuss"+rNo).val('No')
                   }
-       	    }); */
+       	    }); 
 	} 	
 
 
@@ -1743,19 +1828,27 @@
 						if($('#revised_amounts'+i).val()!="" && $('#revised_docs'+i).val()!=""){
 							$(".revision_status_checking").prop('checked',false);
 						}
-						$(".hidden_check").val('No');
+						//$(".hidden_check").val('No');
 						
 						$("#revision_status"+a).prop('checked',true);
-						$("#revision_statuss"+a).val('yes');
+						$("#revision_statuss"+a).val('Yes');
 						if(i != a){
 							if($("#revision_status"+i).prop('checked') == true 	&& $('#revised_amounts'+i).val() !="" && $('#revised_docs'+a).val()==""){
-								
+								$("#revision_statuss"+i).val('No');
 								$("#revision_status"+i).prop('checked',false);							
 												
 							}
 							if($("#revision_status"+i).prop('checked') == true 	&& $('#revised_docs'+i).val()!="" && $('#revised_amounts'+a).val()==""){
-								
+								$("#revision_statuss"+i).val('No');
 								$("#revision_status"+i).prop('checked',false);							
+												 
+							}
+							if($("#revision_status"+i).prop('checked') == false && $('#revised_docs'+i).val()!="" && $('#revised_amounts'+a).val()!=""){
+								$("#revision_statuss"+i).val('No');
+												 
+							}
+							if($("#revision_status"+i).prop('checked') == false){
+								$("#revision_statuss"+i).val('No');
 												 
 							}
 						}
@@ -1771,7 +1864,7 @@
 						$(".revision_status_checking").prop('checked',false);
 						$(".hidden_check").val('No');
 						$("#revision_status"+a).prop('checked',true);
-						$("#revision_statuss"+a).val('yes');
+						$("#revision_statuss"+a).val('Yes');
 						//$("#revision_status"+i).prop('checked',true);
 						//if($('#revised_amounts'+a).val()!="" && $('#revised_docs'+a).val()!=""){$(".revision_status_checking").prop('checked',false);$("#revision_status"+a).prop('checked',true);}
 					}

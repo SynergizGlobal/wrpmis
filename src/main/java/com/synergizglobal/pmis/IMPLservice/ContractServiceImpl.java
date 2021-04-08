@@ -121,6 +121,14 @@ public class ContractServiceImpl implements ContractService{
 	public List<Contract> getContractsList(Contract obj, int startIndex, int offset, String searchParameter) throws Exception {
 		return contractDao.getContractsList(obj,startIndex,offset,searchParameter);
 	}
+	@Override
+	public List<Contract> getHodList(Contract obj) throws Exception {
+		return contractDao.getHodList(obj);
+	}
+	@Override
+	public List<Contract> getDyHodList(Contract obj) throws Exception {
+		return contractDao.getDyHodList(obj);
+	}
 	
 
 }

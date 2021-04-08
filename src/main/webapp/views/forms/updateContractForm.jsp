@@ -200,23 +200,23 @@
 	                                    <div class="row">
 	  										<div class="col s12 m6 input-field">
 	  										 	<p><label>HOD</label></p>
-	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDepartmentsList(this.value);"> 
+	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDepartmentsList(); getDyHodList();"> 
 	                                     		  <option value="">Select</option> 
-	                                                 <c:forEach var="obj" items="${hodList }"> 
+	                                                   <c:forEach var="obj" items="${hodList }"> 
 			                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.hod_user_id_fk eq obj.user_id}">selected</c:if>> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach> 
-	                                            </select> 
+			                                        </c:forEach>    
+	                                            </select>  
 												<!-- <input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
 												<label for="hod_user_id_fk">HOD</label> -->
 	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
 	                                        <div class="col s12 m6 input-field">
 	                                        	<p><label>Dy HOD</label></p>
-	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable">
+	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();">
 	                                                <option value="">Select</option>
-	                                                <c:forEach var="obj" items="${dyHodList }"> 
-			                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.dy_hod_user_id_fk eq obj.user_id}">selected</c:if>> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach> 
+	                                                 <c:forEach var="obj" items="${dyHodList }"> 
+			                                    	  <option name="${obj.reporting_to_id_srfk }" value="${obj.dy_hod_user_id_fk }" <c:if test="${contractDeatils.dy_hod_user_id_fk eq obj.dy_hod_user_id_fk}">selected</c:if>> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                        </c:forEach>   
 	                                            </select>
 												<!-- <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
 	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
@@ -946,7 +946,7 @@
                                     <table id="ravTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
-                                                <th>Revision Number </th>
+                                                <th>Revision Number <span class="required">*</span></th>
                                                 <th>Revised Amount </th>
                                                 <th>Revised DOC </th>
                                                 <th>Remarks </th>
@@ -976,22 +976,22 @@
                                                     <input id="revision_remarks${index.count }" name="revision_remarks" type="text" class="validate" value="${revObj.remarks }"
                                                         placeholder="Remarks">
                                                 </td>
-                                                 <td>	<label> <input type="hidden" id="revision_statuss${index.count }" name="revision_statuss" value="${revObj.revision_status}" />
-                                                <input type="checkbox" id="revision_status${index.count }" <c:if test="${revObj.revision_status == 'Yes'}">checked
+                                                 <td>	<label> <input type="hidden" class="hidden_check" id="revision_statuss${index.count }" name="revision_statuss" value="${revObj.revision_status}" />
+                                                <input type="checkbox" id="revision_status${index.count }"  onchange="revisionChecks('${index.count }')" class="revision_status_checking" <c:if test="${revObj.revision_status == 'Yes'}">checked
                                             </c:if>/> <span></span> </label>	</td> 
                                                 <td><a onclick="removeRev('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
-                                             <script type="text/javascript">
-	                                               /*  $("#revised_docs${index.count }").datepicker({
+                                           		  <script type="text/javascript">
+	                                                $("#revised_docs${index.count }").datepicker({
 	                                                	
 	                                                 	 format:'dd-mm-yyyy',
 	                                                     onSelect: function () {
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
-	                                                 }); */
-	                                                 $('#revision_status${index.count }').on('change', function(e){
+	                                                 });
+	                                                $('#revision_status${index.count }').on('change', function(e){
 							                             if($(this).prop('checked'))
 							                             {
 							                            	// $(".part").prop('disabled', true);
@@ -1023,13 +1023,13 @@
                                                     <input id="revision_remarks0" name="revision_remarks" type="text" class="validate" 
                                                         placeholder="Remarks">
                                                 </td>
-                                                 <td><label><input type="hidden" id="revision_statuss0" name="revision_statuss" value="No" />
-                                                 <input type="checkbox" id="revision_status0" /> <span></span> </label>	</td>      
+                                                 <td><label><input type="hidden" id="revision_statuss0" name="revision_statuss" class="hidden_check" value="No" />
+                                                 <input type="checkbox" class="revision_status_checking" onchange="revisionChecks('0')" id="revision_status0" /> <span></span> </label>	</td>      
                                                 <td><a onclick="removeRev('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
-                                             <script type="text/javascript">
+                                              <script type="text/javascript">
 	                                                $("#revised_docs0").datepicker({
 	                                                	
 	                                                 	 format:'dd-mm-yyyy',
@@ -1048,7 +1048,7 @@
 							                            	  $("#revision_statuss0").val('No')
 							                              }
 							                   	    });
-                                                </script>
+                                                </script> 
                                              </c:otherwise>
                                             </c:choose> 
                                         </tbody>
@@ -1417,15 +1417,97 @@
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('#remarks').characterCounter();
-           
+            //getDyHodList();
         });
-       
-        function getDepartmentsList(userId) {
+        
+        function getDyHodList() {
         	$(".page-loader").show();
-            $("#department_fk option:not(:first)").attr("selected",false);
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
+        	var dy_hod_user_id_fk = "";
+        	var reporting_to_id_srfk = $("#dy_hod_user_id_fk").find('option').attr("name");
+            if ($.trim(dy_hod_user_id_fk) == "") {
+            	$("#dy_hod_user_id_fk option:not(:first)").remove();
+            	var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: dy_hod_user_id_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getDyHodList",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	   var userName = '';
+	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
+	                        	   var user = '${contractDeatils.dy_hod_user_id_fk}';
+	                        	   if ($.trim(hod_user_id_fk) != '') {
+	      	                        	  
+                                       $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                                   } else {
+                                       $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                                   }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        function getHodList() {
+        	$(".page-loader").show();
+        	var hod_user_id_fk = "";
+        	var dy_hod_user_id_fk = $("#dy_hod_user_id_fk").val();
+        	if($.trim(dy_hod_user_id_fk) != ''){   
+            	var reporting_to_id_srfk = $("#dy_hod_user_id_fk").find('option:selected').attr("name");
+        	}
+            if ($.trim(hod_user_id_fk) == "") {
+            	$("#hod_user_id_fk option:not(:first)").attr("selected",false);
+            	var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: reporting_to_id_srfk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getHodList",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	   var userName = '';
+ 	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
+      	                           if ($.trim(dy_hod_user_id_fk) != '') {
+	      	                        	 document.querySelectorAll('#hod_user_id_fk > option').forEach((option) => {
+	                                	    // if ((option.value) == ($.trim(val.hod_user_id_fk))){
+	                                	    	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
+	                                	    	 $("#hod_user_id_fk").select2();
+	                                	    // }
+	                                	 })
+                                       //$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
+                                     } else {
+                                         $("#hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                                     }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                        getDepartmentsList();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+     
+        function getDepartmentsList() {
+        	$(".page-loader").show();
+        	var hod = $('#hod_user_id_fk').val();
+        	var dyHod = $('#hod_user_id_fk').val();
+        	$("#department_fk option:not(:first)").attr("selected",false);
 
-            if ($.trim(userId) != "") {
-                var myParams = { hod_user_id_fk: userId };
+            if ($.trim(hod) != "") {
+                var myParams = { hod_user_id_fk: hod, dy_hod_user_id_fk : dyHod };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDepartmentsListForContractForm",
                     data: myParams, cache: false,
@@ -1443,7 +1525,6 @@
                                 	     }
                                 	    	 
                                 	 })
-                                	
                                 } else {
                                     $("#department_fk").append('<option value="' + val.department_fk + '">' +  $.trim(department_name) + '</option>');
                                 }
@@ -1963,7 +2044,7 @@
 			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
-			   +'<td><label> <input type="hidden" id="revision_status'+rNo+'" name="revision_statuss" value="No" /><input type="checkbox" id="revision_statuss'+rNo+'" /> <span></span> </label></td>'
+			   +'<td><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check" value="No" /><input type="checkbox" class="revision_status_checking" onchange="revisionChecks('+rNo+')"  id="revision_status'+rNo+'" /> <span></span> </label></td>'
 
 		 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			   +'</tr>';
@@ -1978,18 +2059,18 @@
 				    	     $('.confirmation-btns .datepicker-done').click();
 				    	  }
 			      });
-			 $("#revision_statuss"+rNo).on('change', function(e){
-                 if($(this).prop('checked'))
-                 {
-                	// $(".part").prop('disabled', true);
-                     $("#revision_status"+rNo).val('Yes');
-                 } else{
-                  	 
-                	  $("#revision_status"+rNo).prop('checked',false).removeAttr('checked');
-                	  $("#revision_status"+rNo).val('No')
-                  }
-       	    });
-		
+            
+             $('#revision_status'+rNo).on('change', function(e){
+                  if($(this).prop('checked'))
+                  {
+                 	// $(".part").prop('disabled', true);
+                      $('#revision_statuss'+rNo).val('Yes');
+                  } else{
+                   	 
+                 	  $("#revision_statuss"+rNo).prop('checked',false).removeAttr('checked');
+                 	  $("#revision_statuss"+rNo).val('No')
+                   }
+        	    });
 		} 
 		
 		
@@ -2058,6 +2139,80 @@
 		    $('#contractDocumentFileName'+rowNo).html(filename);
 		}
 
+		function revisionChecks(a){
+			//alert('hai');
+			/* $('input[name=revision_statuss]').each(function(j,item){
+				$("#"+item.id).val('No');
+			}); */
+			$('.revision_status_checking').each(function(i,val){
+				//$(".revision_status_checking").prop('checked',false);
+					if($('#revised_amounts'+i).val()=="" && $('#revised_docs'+i).val()==""){
+						$("#revision_status"+i).prop('checked',false);
+				    }
+					
+					if(($('#revised_amounts'+a).val()=="" && $('#revised_docs'+a).val()!="") || ($('#revised_amounts'+a).val()!="" && $('#revised_docs'+a).val()=="")){
+						//$("#revision_status"+i).prop('checked',true);
+						if($("#revision_status"+i).prop('checked')){
+							if($('#revised_amounts'+i).val()!="" && $('#revised_docs'+i).val()!=""){
+								$(".revision_status_checking").prop('checked',false);
+							}
+							//$(".hidden_check").val('No');
+							
+							$("#revision_status"+a).prop('checked',true);
+							$("#revision_statuss"+a).val('Yes');
+							if(i != a){
+								if($("#revision_status"+i).prop('checked') == true 	&& $('#revised_amounts'+i).val() !="" && $('#revised_docs'+a).val()==""){
+									$("#revision_statuss"+i).val('No');
+									$("#revision_status"+i).prop('checked',false);							
+													
+								}
+								if($("#revision_status"+i).prop('checked') == true 	&& $('#revised_docs'+i).val()!="" && $('#revised_amounts'+a).val()==""){
+									$("#revision_statuss"+i).val('No');
+									$("#revision_status"+i).prop('checked',false);							
+													 
+								}
+								if($("#revision_status"+i).prop('checked') == false && $('#revised_docs'+i).val()!="" && $('#revised_amounts'+a).val()!=""){
+									$("#revision_statuss"+i).val('No');
+													 
+								}
+								if($("#revision_status"+i).prop('checked') == false){
+									$("#revision_statuss"+i).val('No');
+													 
+								}
+							}
+							if(i == a ){
+								$("#revision_status"+i).prop('checked',true);	
+							}
+						}
+				    }
+					
+					if($('#revised_amounts'+a).val()!="" && $('#revised_docs'+a).val()!=""){
+				    	//$("#revision_status"+i).prop('checked',true);
+						if($("#revision_status"+i).prop('checked')){
+							$(".revision_status_checking").prop('checked',false);
+							$(".hidden_check").val('No');
+							$("#revision_status"+a).prop('checked',true);
+							$("#revision_statuss"+a).val('Yes');
+							//$("#revision_status"+i).prop('checked',true);
+							//if($('#revised_amounts'+a).val()!="" && $('#revised_docs'+a).val()!=""){$(".revision_status_checking").prop('checked',false);$("#revision_status"+a).prop('checked',true);}
+						}
+				    	
+				    }
+					
+			});		
+			
+			/* 
+			$('.revision_status_checking').each(function(i,val){
+				if($(this).prop('checked')){
+					if($('#revised_amounts'+i).val()!="" && $('#revised_amounts'+i).val()!=undefined){	
+						console.log(i)
+						$("#revision_status"+i).prop('checked',true);
+					}
+				}
+				
+			}); */
+
+		}
 
 
     </script>

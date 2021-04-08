@@ -529,7 +529,7 @@ public class ContractDaoImpl implements ContractDao {
 				if(!StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 					for (int i = 0; i < arraySize; i++) {
 						int k = 1;
-						if( contract.getRevision_numbers().length > 0 && !StringUtils.isEmpty(contract.getRevision_numbers()[i])) {
+						if( contract.getRevision_numbers().length > 0 && !StringUtils.isEmpty(contract.getRevision_numbers()[i]) && contract.getRevision_statuss()[i].equalsIgnoreCase("Yes")) {
 							stmt.setString(k++,(contract.getRevision_numbers().length > 0)?contract.getRevision_numbers()[i]:null);
 							stmt.setString(k++,(contract.getRevised_amounts().length > 0)?contract.getRevised_amounts()[i]:null);
 							stmt.setString(k++,DateParser.parse((contract.getRevised_docs().length > 0)?contract.getRevised_docs()[i]:null));								
@@ -1333,7 +1333,7 @@ public class ContractDaoImpl implements ContractDao {
 					if(!StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 						for (int i = 0; i < arraySize; i++) {
 							int k = 1;
-							if( contract.getRevision_numbers().length > 0 && !StringUtils.isEmpty(contract.getRevision_numbers()[i])) {
+							if( contract.getRevision_numbers().length > 0 && !StringUtils.isEmpty(contract.getRevision_numbers()[i]) && contract.getRevision_statuss()[i].equalsIgnoreCase("yes")) {
 								stmt.setString(k++,(contract.getRevision_numbers().length > 0)?contract.getRevision_numbers()[i]:null);
 								stmt.setString(k++,(contract.getRevised_amounts().length > 0)?contract.getRevised_amounts()[i]:null);
 								stmt.setString(k++,DateParser.parse((contract.getRevised_docs().length > 0)?contract.getRevised_docs()[i]:null));								
@@ -2022,7 +2022,9 @@ public class ContractDaoImpl implements ContractDao {
 	public List<User> getDyHodList() throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry ="select user_id,user_name,designation from user where designation is not null and designation <>'' and user_type_fk = ?";
+			String qry ="SELECT u.user_id as dy_hod_user_id_fk,u.user_name,u.designation,u.department_fk,u.reporting_to_id_srfk as reporting_to_id_srfk FROM user u " + 
+					"left join user u1 on u.reporting_to_id_srfk = u1.user_id "
+					+ "where u.designation is not null and u.designation <>'' and u.user_type_fk = ?";
 
 			int arrSize = 1;
 			Object[] pValues = new Object[arrSize];
@@ -2261,6 +2263,64 @@ public class ContractDaoImpl implements ContractDao {
 				
 		}catch(Exception e){ 
 			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getHodList(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk,u.reporting_to_id_srfk FROM user u " + 
+					"left join user u1 on u.reporting_to_id_srfk = u1.user_id " + 
+					"where  u.user_type_fk = ?  ";
+			
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_user_id_fk())) {
+				qry = qry + " and u.user_id = ? ";
+				arrSize++;
+			}
+			//qry = qry + "GROUP BY u1.designation";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.USER_TYPE_HOD;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_user_id_fk())) {
+				pValues[i++] = obj.getDy_hod_user_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getDyHodList(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="SELECT u.user_id as dy_hod_user_id_fk,u.user_name,u.designation,u.department_fk,u.reporting_to_id_srfk as reporting_to_id_srfk FROM user u " + 
+					"left join user u1 on u.reporting_to_id_srfk = u1.user_id " + 
+					"where u.user_type_fk = ?  ";
+			
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and u.reporting_to_id_srfk = ? ";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.USER_TYPE_DYHOD;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+				
+		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
 		return objsList;

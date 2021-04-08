@@ -59,4 +59,8 @@ public interface ContractDao {
 
 	public List<Contract> getContractsList(Contract obj, int startIndex, int offset, String searchParameter) throws Exception;
 
+	public List<Contract> getHodList(Contract obj) throws Exception;
+
+	public List<Contract> getDyHodList(Contract obj) throws Exception;
+
 }

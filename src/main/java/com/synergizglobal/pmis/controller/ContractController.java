@@ -330,6 +330,32 @@ public class ContractController {
 		return dataList;
 	}
 	
+	@RequestMapping(value = "/ajax/getHodList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getHodList(@ModelAttribute Contract obj) {
+		List<Contract> dataList = null;  
+		try {
+			dataList = contractService.getHodList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getHodList : " + e.getMessage());
+		}
+		return dataList;
+	}
+	
+	@RequestMapping(value = "/ajax/getDyHodList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getDyHodList(@ModelAttribute Contract obj) {
+		List<Contract> dataList = null;  
+		try {
+			dataList = contractService.getDyHodList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDyHodList : " + e.getMessage());
+		}
+		return dataList;
+	}
+	
 	@RequestMapping(value = "/add-contract-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addContractForm(@ModelAttribute Contract obj){
 		ModelAndView model = new ModelAndView();

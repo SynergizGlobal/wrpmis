@@ -70,74 +70,11 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 	background-color: #9ebb9f;
 }
 
-#messagesCountMobile {
-	background-color: red;
-	color: #fff;
-	font-size: 0.85rem;
-	border-radius: 3px;
-	-webkit-box-shadow: 0 2px 2px 0 rgb(0 0 0/ 14%), 0 3px 1px -2px
-		rgb(0 0 0/ 12%), 0 1px 5px 0 rgb(0 0 0/ 20%);
-	box-shadow: 0 2px 2px 0 rgb(0 0 0/ 14%), 0 3px 1px -2px rgb(0 0 0/ 12%),
-		0 1px 5px 0 rgb(0 0 0/ 20%);
+.notification_body{
+	width:430px !important;
 }
 
-#messages-demo {
-	background-color: #f56661 !important;
-}
-.m-b-2{
-	margin-bottom:2rem;
-}
 </style>
-
- <style>
-	/* style1 of notifications code starts here  */
-	.notifications_group .item div{
-		line-height:1.6;	
-		font-size:0.9rem; 		
-	}
-	.notifications_group .item .icon .icon-text{
-		font-size:1.8rem;
-	}
-	.notifications_group .item .icon i{
-		font-size:7rem;
-	}
-	.notifications_group .item .icon .fa{
-		font-size:5rem;
-	}
-	.notifications_group .item{
-		width:98%;
-		margin:3px;
-		padding:10px;
-		border-radius:1rem;
-	}
-	.message_group .item .icon .fa{
-	    font-size: 2.5rem;
-    	top: 25%;
-    	color:#bcbcbc;
-	}
-	.message_group .item .icon .icon-text{
-		font-size: 1.35rem;
-   		right: 1%;
-   		bottom:-3px;
-   		color:#dcdcdc;
-	}
-	.message_group .item {
-		padding:2px 5px;
-		margin:1px;
-		width:99%;
-	}
-	.message_group .item div{
-		line-height:1.35;
-	}
-	.message_group .date_text{
-		color: #fff;     
-		line-height: 1.5;
-	}
-	.notification_body{
-		width:430px !important;
-	}
-	/* style1 of notifications code ends here  */
-</style> 
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />
 
@@ -475,10 +412,15 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 				</a>
 					<div class="notification_body dropdown-content" id='dropdown1'>
 						<!-- Notification dropdown body starts -->
-						<div>
+						<div class="search-holder">
 							<input type="text" name="srch-term" id="srch-term"
 								class="browser-default searching empty"
-								placeholder="&#xF002; Search Alerts...">
+								placeholder="&#xF002; Search Alerts..." >
+								<select class="browser-default" >														
+									<option>Select</option>	
+									<option>option 1</option>									
+								</select>
+								
 						</div>
 						<%-- <ul class="notifications_group" style="margin-top: 5px;"
                                                             id="notificationList">
@@ -543,9 +485,15 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 										</c:set>
 									</c:if>
 									<c:if test="${aObj.alert_type_fk eq 'Issue'}">
-										<c:set var="bgIcon" value="<i class='fa fa-exclamation-triangle'></i>"></c:set>
+										<c:set var="bgIcon" value="<i class='fa fa-exclamation-triangle'></i>"></c:set> 										
 									</c:if>
-
+									<c:if test="${aObj.alert_type_fk eq 'Risk'}">
+										<c:set var="bgIcon" value="<i class='material-icons'>error</i>"></c:set> 										
+									</c:if>
+									<c:if test="${aObj.alert_type_fk eq 'Safety'}">
+										<c:set var="bgIcon" value="<i class='material-icons-outlined'>verified_user</i>"></c:set>										
+									</c:if>								
+										 
 									<li class="item ${bgClass }"><a
 										href="<%=request.getContextPath()%>${aObj.redirect_url }">
 											<span class="icon"> <!-- <i class="material-icons">access_time</i> -->
@@ -573,10 +521,13 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 						<span class="badge red" id="messagesCount">95 </span>
 				</a>
 					<div class="notification_body dropdown-content" id='messages1'>
-						<div>
+						<div class="search-holder">
 							<input type="text" name="srch-term" id="messages-srch-term"
 								class="browser-default searching empty"
 								placeholder="&#xF002; Search Messages...">
+							<select class="browser-default" >														
+								<option>Select</option>									
+							</select>
 						</div>
 						<ul class="notifications_group message_group" style="margin-top: 5px;"
 							id="messagesList">
@@ -911,13 +862,15 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 	<!-- Mobile navigation ends here -->
 	<!-- Mobile notification starts here -->
 	<div class="sidenav" id='notification-demo'>
-		<div class="top-fix">
+		<div class="top-fix search-holder">
 			<!-- mobile notification sidenav will close after clicking back-->
-			<a class="sidenav-close white-text" href="#!"><i
-				class="fa fa-arrow-left"></i> Back</a> <input type="text"
-				name="srch-term" id="srch-term-mobile"
+			<a class="sidenav-close white-text" href="#!"><i class="fa fa-arrow-left"></i> Back</a> 
+			<input type="text" name="srch-term" id="srch-term-mobile"
 				class="browser-default searching empty"
 				placeholder="&#xF002; Search Alerts...">
+			<select class="browser-default" >														
+				<option>Select</option>	
+			</select>
 		</div>
 		<ul class="notifications_group" style="margin-top: 5px;"
 			id="notificationListMobile">
@@ -954,7 +907,12 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 					<c:if test="${aObj.alert_type_fk eq 'Issue'}">
 						<c:set var="bgIcon" value="<i class='fa fa-exclamation-triangle'></i>"></c:set>
 					</c:if>
-
+					<c:if test="${aObj.alert_type_fk eq 'Risk'}">
+						<c:set var="bgIcon" value="<i class='material-icons'>error</i>"></c:set> 										
+					</c:if>
+					<c:if test="${aObj.alert_type_fk eq 'Safety'}">
+						<c:set var="bgIcon" value="<i class='material-icons-outlined'>verified_user</i>"></c:set>										
+					</c:if>		
 					<li class="item ${bgClass }"><a
 						href="<%=request.getContextPath()%>${aObj.redirect_url }">
 							<span class="icon"> <!-- <i class="material-icons">access_time</i> -->
@@ -1023,13 +981,17 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 	<!-- Mobile notification ends here -->
 	<!-- Mobile messages starts here -->
 	<div class="sidenav" id='messages-demo'>
-		<div class="top-fix">
+		<div class="top-fix search-holder">
 			<!-- mobile notification sidenav will close after clicking back-->
 			<a class="sidenav-close white-text" href="#!"><i
-				class="fa fa-arrow-left"></i> Back</a> <input type="text"
+				class="fa fa-arrow-left"></i> Back</a> 
+			<input type="text"
 				name="srch-term" id="messages-srch-term-mobile"
 				class="browser-default searching empty"
 				placeholder="&#xF002; Search Messages...">
+			<select class="browser-default" >														
+				<option>Select</option>									
+			</select>
 		</div>
 		<ul class="notifications_group message_group" style="margin-top: 5px;"
 			id="messagesListMobile">
@@ -1073,6 +1035,7 @@ input:not ([type] ), input[type=text]:not (.browser-default ), input[type=passwo
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script>
                $(document).ready(function () {
+            	  // $('.header-select').formSelect();
                    //notification dropdown
                    $('.notification.dropdown-trigger').dropdown({
                        coverTrigger: false,

@@ -101,7 +101,7 @@
                             <h6>Risk Assessment</h6>
                         </div>
                     </span>
-					<div class="row">
+					<div class="row no-mar">
 						<div class="col m2 hide-on-small-only"></div>
 						<div class="col m8">
 							<div class="">
@@ -218,7 +218,7 @@
 										</div>
 											<div class="col m5 s9 input-field">
 											<button type="button"
-												class="btn waves-effect waves-light bg-s t-c" onclick="addDisabled()" >
+												class="btn waves-effect waves-light bg-s t-c" onclick="addDisabled()" style="min-width:85px" >
 												<strong><i class="fa arrow-circle-up"></i>Reset</strong>
 											</button>
 										</div>

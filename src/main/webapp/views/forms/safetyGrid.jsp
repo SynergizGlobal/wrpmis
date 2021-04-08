@@ -9,13 +9,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Safety Incidents</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-	 
+	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
 	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-	 
+	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	 
 	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-	<link rel="stylesheet" href="/pmis/resources/css/safety.css">
+	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	
 	 <style>
@@ -165,7 +163,7 @@
                                  </select>
                             </div>
                             <div class="col s12 m3">
-                                <button class="btn bg-m waves-effect waves-light t-c clear-filters black-text"
+                                <button class="btn bg-s waves-effect waves-light t-c clear-filters "
                                     style="margin-top: 10px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
                             </div>
                             </div>

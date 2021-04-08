@@ -17,7 +17,7 @@
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	 
-	<link rel="stylesheet" href="/pmis/resources/css/issues.css">
+	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	
 	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"> -->
 	 <style>
@@ -341,10 +341,10 @@
                                         </c:if>
                                         
                                         <c:if test="${issue.readonlyForm eq true }">
-                                        	<a style="color:red;">Not Authorized to Edit</a>
+                                        	<a style="color:red;line-height:36px">Not Authorized to Edit</a>
                                         </c:if>
                                         <c:if test="${issue.status_fk eq 'Closed' }">
-                                        	<a style="color:red;">Issue Resolved</a>
+                                        	<a style="color:red;line-height:36px">Issue Resolved</a>
                                         </c:if>
                                     </div>
                                 </div>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/safety.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
       <style>
@@ -80,17 +80,6 @@
         	width:250px;
         	max-width:250px;
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
-		
 		.error-msg label{color:red!important;}
     </style>
 </head>
@@ -146,12 +135,12 @@
 	                                <div class="row">	     
 	                                	<div class="col m3 hide-on-small-only"></div>                           	
 	                                    <div class="col s12 m3 input-field center-align">
-	                                        <button class="btn bg-m waves-effect waves-light t-c" type="button"
+	                                        <button class="btn bg-s waves-effect waves-light t-c" type="button"
 	                                            style="margin-top: 6px; font-weight: 600; min-width:160px"
 	                                            onclick="clearFilter()">Clear Filter</button>
 	                                    </div>
 	                                    <div class="col s12 m3 input-field center-align">
-	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;min-width:160px%; font-weight: 600;"
 	                                            onclick="generateReport()">Generate Report</button>
 	                                    </div>

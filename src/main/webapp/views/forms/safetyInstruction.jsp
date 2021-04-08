@@ -12,7 +12,7 @@
  	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css"> 
-    <link rel="stylesheet" href="/pmis/resources/css/safety.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
    <!--  <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	 -->	    
      <style>
@@ -39,16 +39,15 @@
             width: 45%;
             max-width: 45%;
         }
-          .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+        .mt-brdr{
+			margin-top: 20px;
+		    border-top: 1px solid #777;
+		    border-bottom: 1px solid #777;
+		}
+		.center-align.m-1 button.bg-m.waves-light, 
+		.center-align.m-1 button.bg-s.waves-light{
+			width:inherit;
+		}
     </style>
 </head>
 
@@ -124,7 +123,7 @@
                                           <table class="mdl-data-table">
                                        	 <tbody id="safetyBody">                                          
 			                                    <tr>
-			  										 <td colspan="3" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-s t-c " onclick="addSafetyRow()"> <i
+			  										 <td colspan="3" > <a type="button" class="btn waves-effect waves-light bg-s t-c " onclick="addSafetyRow()"> <i
 			                                                            class="fa fa-plus"></i></a>
 			                                    </tr>
                                         </tbody>
@@ -149,16 +148,16 @@
                         <div class="container container-no-margin">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                        <button style="width: 100%;" onclick="updateSafetyInstructions();"
-                                            class="btn waves-effect waves-light bg-m black-text">Update</button>
+                                        <button onclick="updateSafetyInstructions();"
+                                            class="btn waves-effect waves-light bg-m ">Update</button>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath() %>/safety-instructions" class="btn waves-effect waves-light bg-s black-text"
-                                       style="width:100%">Cancel</a>
+                                        <a href="<%=request.getContextPath() %>/safety-instructions" class="btn waves-effect waves-light bg-s"
+                                       >Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
      
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/safety.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">		
     
@@ -72,6 +72,15 @@
         }
 		.my-valid-class {
    			 color:green;
+		}
+		.mt-brdr{
+			margin-top: 20px;
+		    border-top: 1px solid #777;
+		    border-bottom: 1px solid #777;
+		}
+		.center-align.m-1 button.bg-m.waves-light, 
+		.center-align.m-1 button.bg-s.waves-light{
+			width:inherit;
 		}
     </style>
 </head>
@@ -329,7 +338,7 @@
                                      <table class="mdl-data-table">
                                         <tbody id="safetyBody">                                          
 			                                    <tr>
-			  										 <td colspan="9" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-s t-c " onclick="addSafetyRow()"> <i
+			  										 <td colspan="9" > <a type="button" class="btn waves-effect waves-light bg-s t-c " onclick="addSafetyRow()"> <i
 			                                                            class="fa fa-plus"></i></a>
 			                                    </tr>
                                         </tbody>
@@ -347,20 +356,19 @@
                             <div class="container container-no-margin">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                      <div class="center-align m-1">
 	                                         <c:if test="${action eq 'edit'}">
-	                                           <button type="button" onclick="updateSafetyEquipment();" style="width: 100%;" class="btn waves-effect waves-light bg-m black-text">Update</button>
+	                                           <button type="button" onclick="updateSafetyEquipment();" class="btn waves-effect waves-light bg-m ">Update</button>
 	                                         </c:if>
 											 <c:if test="${action eq 'add'}"> 
-						                       <button type="button" onclick="addSafetyEquipment();" style="width: 100%;" class="btn waves-effect waves-light bg-m black-text">Add</button>
+						                       <button type="button" onclick="addSafetyEquipment();" class="btn waves-effect waves-light bg-m ">Add</button>
 											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                          <a href="<%=request.getContextPath()%>/safety-equipment" class="btn waves-effect waves-light bg-s black-text"
-                                            style="width:100%">Cancel</a>
+                                          <a href="<%=request.getContextPath()%>/safety-equipment" class="btn waves-effect waves-light bg-s ">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

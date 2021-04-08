@@ -13,7 +13,7 @@
 	 
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	 
-	<link rel="stylesheet" href="/pmis/resources/css/safety.css">
+	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	
 	 <style>
@@ -40,6 +40,15 @@
 		/* Firefox */
 		input[type=number] {
 		  -moz-appearance: textfield;
+		}
+		.mt-brdr{
+			margin-top: 20px;
+		    border-top: 1px solid #777;
+		    border-bottom: 1px solid #777;
+		}
+		.center-align.m-1 button.bg-m.waves-light, 
+		.center-align.m-1 button.bg-s.waves-light{
+			width:inherit;
 		}
 				
     </style>
@@ -396,18 +405,17 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                        <button type="button" onclick="addSafety()" style="width: 100%;"
-                                            class="btn waves-effect waves-light bg-m black-text">Add </button>
+                                        <button type="button" onclick="addSafety()"
+                                            class="btn waves-effect waves-light bg-m" style="min-width:90px">Add </button>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <!-- <button type="reset" class="btn waves-effect waves-light bg-s black-text"
                                             style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath() %>/safety" class="btn waves-effect waves-light bg-s black-text"
-                                            style="width:100%">Cancel</a>
+                                        <a href="<%=request.getContextPath() %>/safety" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

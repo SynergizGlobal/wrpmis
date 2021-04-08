@@ -231,7 +231,7 @@
                             	<div class="col s12 m8 input-field offset-m2"> 
 								    <%-- <p class="searchable_label"> Mitigation Plan :</p>
 									<p>${risk.mitigation_plan}</p> --%>
-									<textarea id="mitigation_plan" name="mitigation_plan" class="materialize-textarea" data-length="1000">${risk.mitigation_plan}</textarea>
+									<textarea id="mitigation_plan" name="mitigation_plan" class="materialize-textarea" data-length="1000" readonly>${risk.mitigation_plan}</textarea>
 									<label for="mitigation_plan">Mitigation Plan :</label>
 								</div>
                             </div>
@@ -444,7 +444,9 @@
 	            //$("#riskForm :textarea").attr("disabled", true);	            
 	            $("#riskForm select").prop("disabled", true);	            
             }
-           
+           if(USER_DESIGNATION == '${risk.owner}'){
+        	   $("#mitigation_plan").prop("readonly", false); 
+           }
             
         });
         

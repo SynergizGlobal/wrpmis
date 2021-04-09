@@ -9,8 +9,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>
-     	 <c:if test="${action eq 'edit'}">Update TA Financial</c:if>
-		 <c:if test="${action eq 'add'}">Add TA Financial</c:if>
+     	 <c:if test="${action eq 'edit'}">Update TA Financial - Update Forms - PMIS</c:if>
+		 <c:if test="${action eq 'add'}">Add TA Financial - Update Forms - PMIS</c:if>
     </title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -87,7 +87,9 @@
 		.m-b-2{
 			margin-bottom:2rem;
 		}
-		
+		.row.no-mar{
+			margin-bottom:0
+		}
     </style>
 </head>
 
@@ -163,10 +165,10 @@
                         	  </div> 
                            </c:if>
                         </div>
-                        <div class="row">
+                        <div class="row no-mar">
                             <div class="col m2 hide-on-small-only"></div>
                             <div class="col s12 m8">
-                                <div class="row fixed-width">
+                                <div class="row fixed-width no-mar" style="margin-bottom:10px">
                                     <h5 class="center-align">TA Financial Details</h5>
                                     <div class="table-inside">
                                         <table id="financialFormTable" class="mdl-data-table">
@@ -279,21 +281,19 @@
                         <div class="container container-no-margin">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
-                                  
+                                <div class="col s12 m4 mt-brdr">                                  
                                     <div class="center-align m-1">
 	                                         <c:if test="${action eq 'edit'}">
-	                                           <button type="button" onclick="updateTAFinancial();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+	                                           <button type="button" onclick="updateTAFinancial();" class="btn waves-effect waves-light bg-m">Update</button>
 	                                         </c:if>
 											 <c:if test="${action eq 'add'}"> 
-						                       <button type="button" onclick="addTAFinancial();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+						                       <button type="button" onclick="addTAFinancial();"  class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
 											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/ta-financials" class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/ta-financials" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

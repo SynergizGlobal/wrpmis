@@ -8,11 +8,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Gathering</title>
+    <title>Data Gathering - Update Forms - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-          
+    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">          
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
@@ -22,15 +21,13 @@
             color: blue;
             text-decoration: none;
         }
-
         td,th{
         	box-sizing: content-box !important;
         }
-
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
-          .fw-350{
+        .fw-350{
     	 	width:350px !important;
     	 	max-width:350px;
     	 }

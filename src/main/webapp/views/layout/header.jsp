@@ -15,65 +15,73 @@
 	rel="stylesheet">
 <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
 <style>
-.preloader-wrapper {
-	top: 45% !important;
-	left: 47% !important;
-}
-
-/* 	textarea.materialize-textarea {
-	    line-height: normal;
-	    overflow-y: hidden;
-	    padding: .8rem 0 .8rem 0;
-	    resize: none;
-	    min-height: 3rem;
-	    -webkit-box-sizing: border-box;
-	    box-sizing: border-box;
-	    max-height:100px;
-   } */
-nav .menu-active, nav .menu-active.blue {
-	background-color: #f56661 !important;
-	box-shadow: 0 0 5px #bababa inset;
-	transition: all 1s ease-in;
-}
-
-input:not ([type] ), input[type=text]:not (.browser-default ), input[type=password]:not
-	(.browser-default ), input[type=email]:not (.browser-default ), input[type=url]:not
-	(.browser-default ), input[type=time]:not (.browser-default ), input[type=date]:not
-	(.browser-default ), input[type=datetime]:not (.browser-default ),
-	input[type=datetime-local]:not (.browser-default ), input[type=tel]:not
-	(.browser-default ), input[type=number]:not (.browser-default ), input[type=search]:not
-	(.browser-default ), textarea.materialize-textarea {
-	margin-bottom: 0;
-}
-
-.issue-alert_bg {
-	background-color: #90b6c0;
-}
-
-.notifications_group .item.issue-alert_bg:hover {
-	background-color: #9ebb9f;
-}
-
-.unread-message {
-	background-color: #90b6c0;
-}
-
-.read-message {
-	background-color: #a5a5a5;
-}
-
-.notifications_group .item.unread-message:hover {
-	background-color: #9ebb9f;
-}
-
-.notifications_group .item.read-message:hover {
-	background-color: #9ebb9f;
-}
-
-.notification_body{
-	width:430px !important;
-}
-
+	.preloader-wrapper {
+		top: 45% !important;
+		left: 47% !important;
+	}
+	
+	/* 	textarea.materialize-textarea {
+		    line-height: normal;
+		    overflow-y: hidden;
+		    padding: .8rem 0 .8rem 0;
+		    resize: none;
+		    min-height: 3rem;
+		    -webkit-box-sizing: border-box;
+		    box-sizing: border-box;
+		    max-height:100px;
+	   } */
+	nav .menu-active, nav .menu-active.blue {
+		background-color: #f56661 !important;
+		box-shadow: 0 0 5px #bababa inset;
+		transition: all 1s ease-in;
+	}
+	
+	input:not ([type] ), input[type=text]:not (.browser-default ), input[type=password]:not
+		(.browser-default ), input[type=email]:not (.browser-default ), input[type=url]:not
+		(.browser-default ), input[type=time]:not (.browser-default ), input[type=date]:not
+		(.browser-default ), input[type=datetime]:not (.browser-default ),
+		input[type=datetime-local]:not (.browser-default ), input[type=tel]:not
+		(.browser-default ), input[type=number]:not (.browser-default ), input[type=search]:not
+		(.browser-default ), textarea.materialize-textarea {
+		margin-bottom: 0;
+	}
+	
+	.issue-alert_bg {
+		background-color: #90b6c0;
+	}
+	
+	.notifications_group .item.issue-alert_bg:hover {
+		background-color: #9ebb9f;
+	}
+	
+	.unread-message {
+		background-color: #90b6c0;
+	}
+	
+	.read-message {
+		background-color: #a5a5a5;
+	}
+	
+	.notifications_group .item.unread-message:hover {
+		background-color: #9ebb9f;
+	}
+	
+	.notifications_group .item.read-message:hover {
+		background-color: #9ebb9f;
+	}
+	
+	.notification_body{
+		width:430px !important;
+	}
+	.mt-brdr{
+		margin-top: 20px;
+	    border-top: 1px solid #777;
+	    border-bottom: 1px solid #777;
+	}
+	.mt-brdr .center-align.m-1 button.bg-m, 
+	.mt-brdr .center-align.m-1 button.bg-s{
+		width:inherit;
+	}
 </style>
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />

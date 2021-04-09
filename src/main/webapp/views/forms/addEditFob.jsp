@@ -8,8 +8,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>
-		<c:if test="${action eq 'edit'}">Update FOB</c:if>
-		<c:if test="${action eq 'add'}"> Add FOB</c:if>
+		<c:if test="${action eq 'edit'}">Update FOB - Update Forms - PMIS</c:if>
+		<c:if test="${action eq 'add'}"> Add FOB - Update Forms - PMIS</c:if>
 	</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 	
@@ -20,17 +20,16 @@
         .fixed-width {
             width: 100%;
         }
-
         .fixed-width .table-inside {
             width: 100%;
             overflow: auto;
-        }
-       
+        }       
 		/*table with fixed header & height start */
 		.max-h{
 			max-height:400px;
 			height:auto;
-			overflow:auto;			
+			overflow:auto;	
+			padding:0 !important;		
 		}	
 		.max-h tr{
 			position:relative;
@@ -62,7 +61,9 @@
 		.input-field .searchable_label{
 			font-size:.85rem;
 		}
-			
+		.col .center-align.m-1 button.bg-m, .center-align.m-1 button.bg-s{
+			width:inherit;
+		}	
     </style>
 </head>
 <body>
@@ -134,14 +135,14 @@
                                 </div>
                                 <c:if test="${empty fob.fob_id }">
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="fob_id" name="fob_id" type="text" class="validate" style="margin-top: 5px;">
+	                                    <input id="fob_id" name="fob_id" type="text" class="validate">
 	                                     <label for="fob_name">FOB ID <span class="required">*</span></label>
 	                                    <span id="fob_idError" class="error-msg" ></span>
 	                                </div>
                                 </c:if>
                                 <c:if test="${not empty fob.fob_id }">
 	                                <div class="col s12 m4 input-field">
-	                                    <label style="margin-top:10px"> FOB ID <span class="required">*</span>: <input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+	                                    <label > FOB ID <span class="required">*</span>: <input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
 	                                    <span id="fob_idError" class="error-msg" ></span>
 	                                </div>
                                 </c:if>
@@ -297,7 +298,7 @@
                                     <table class="mdl-data-table">
                                         <tbody>                                          
                                             <tr>
-                                                <td colspan="3" style="text-align: right;"><a href="javascript:void(0);" onclick="addFOBDetails()"class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-plus"></i></a> </td>
+                                                <td colspan="3" style="text-align: center !important"><a href="javascript:void(0);" onclick="addFOBDetails()"class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-plus"></i></a> </td>
 											</tr>
                                         </tbody>
                                     </table>
@@ -364,19 +365,19 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <c:if test="${action eq 'edit'}">
-	                                       <button type="button" onclick="updateFOB();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+	                                       <button type="button" onclick="updateFOB();" class="btn waves-effect waves-light bg-m">Update</button>
 	                                    </c:if>
 	                                    <c:if test="${action eq 'add'}">
-	                                        <button type="button" onclick="addFOB();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+	                                        <button type="button" onclick="addFOB();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
 	                                    </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/fob" class="btn waves-effect waves-light bg-s" style="width:100%">Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/fob" class="btn waves-effect waves-light bg-s" >Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

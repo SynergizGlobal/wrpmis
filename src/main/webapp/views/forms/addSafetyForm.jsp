@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Safety Incident</title>
+    <title>Add Safety Incident - Update Forms - PMIS</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	 
@@ -41,16 +41,13 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
-		.mt-brdr{
-			margin-top: 20px;
-		    border-top: 1px solid #777;
-		    border-bottom: 1px solid #777;
-		}
 		.center-align.m-1 button.bg-m.waves-light, 
 		.center-align.m-1 button.bg-s.waves-light{
 			width:inherit;
 		}
-				
+		.input-field >textarea.materialize-textarea{
+			margin-bottom:2px;
+		}		
     </style>
 </head>
 <body>

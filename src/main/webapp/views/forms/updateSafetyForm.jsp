@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Safety Incident</title>
+    <title>Update Safety Incident - Update Forms - PMIS</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	 
@@ -39,17 +39,19 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
-		.m-b-2{
-			margin-bottom:2rem;
-		}
-		.mt-brdr{
-			margin-top: 20px;
-		    border-top: 1px solid #777;
-		    border-bottom: 1px solid #777;
-		}
+			
 		.center-align.m-1 button.bg-m.waves-light, 
 		.center-align.m-1 button.bg-s.waves-light{
 			width:inherit;
+		}
+		.col.input-field>textarea+label:not(.label-icon).active{
+			margin-top:0;
+		}		
+		.input-field .searchable_label {
+		    margin-top: -12px !important;
+		}
+		.input-field >textarea.materialize-textarea{
+			margin-bottom:2px;
 		}
     </style>
 </head>
@@ -457,7 +459,7 @@
     $.each(date_pickers, function(){
     	var dt = this.value.split(/[^0-9]/);
     	this.value = ""; 
-    	var options = {format: 'dd-mm-yyyy'};
+    	var options = {format: 'dd-mm-yyyy' ,autoClose:true	};
     	if(dt.length > 1){
     		options.setDefaultDate = true,
     		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])

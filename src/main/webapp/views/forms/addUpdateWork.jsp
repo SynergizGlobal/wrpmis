@@ -8,13 +8,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-   		 <c:if test="${action eq 'edit'}">Update WORK</c:if>
-		 <c:if test="${action eq 'add'}"> Add WORK</c:if>
+   		 <c:if test="${action eq 'edit'}">Update WORK - Update Forms - PMIS</c:if>
+		 <c:if test="${action eq 'add'}"> Add WORK - Update Forms - PMIS</c:if>
     </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-          
+    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">          
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/work.css">
@@ -59,7 +58,13 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}		
-		
+		.col.input-field>textarea+label:not(.label-icon).active{
+			margin-top:0;
+		}
+		.mt-brdr .center-align.m-1 button.bg-m, 
+		.mt-brdr .center-align.m-1 button.bg-s{
+			width:inherit;
+		}
     </style>
 </head>
 <body>
@@ -84,7 +89,7 @@
                             </div>
                         </span>
                     </div>
-            <div class="row clearfix">
+            <div class="row clearfix" style="margin-bottom:0">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 	<c:if test="${not empty success }">
 				        <div class="center-align m-1 close-message">	
@@ -329,7 +334,7 @@
                                      <span id="executed_by_id_fkError"></span>
                                 </div>
                             </div> 
-                            <div class="row fixed-width">
+                            <div class="row fixed-width" style="margin-bottom:20px">
                                 <h5 class="center-align">Revision Details</h5>
                                 <div class="table-inside">
 
@@ -478,20 +483,19 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
                                       <c:if test="${action eq 'edit'}">
-                                       <button type="button" onclick="updateWork();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+                                       <button type="button" onclick="updateWork();" class="btn waves-effect waves-light bg-m">Update</button>
                                       </c:if>
                                     <c:if test="${action eq 'add'}">
-                                        <button type="button" onclick="addWork();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+                                        <button type="button" onclick="addWork();" class="btn waves-effect waves-light bg-m">Add</button>
                                     </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a  href="<%=request.getContextPath()%>/work"  class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</a>
+                                        <a  href="<%=request.getContextPath()%>/work"  class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

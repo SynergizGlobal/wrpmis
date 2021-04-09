@@ -527,7 +527,11 @@ public class RiskDaoImpl implements RiskDao{
 			stmt = con.prepareStatement(updateQry);
 			stmt.setString(1, obj.getMitigation_plan());
 			stmt.setString(2, obj.getRisk_revision_id());
-			stmt.executeUpdate();
+			int c = stmt.executeUpdate();
+			if(c > 0) {
+				flag = true;
+			}
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
 			int	arraySize = 0;		
 			
@@ -572,7 +576,6 @@ public class RiskDaoImpl implements RiskDao{
 				  flag = true;
 			}
 		}catch(Exception e){ 
-			e.printStackTrace();
 			throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);

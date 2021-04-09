@@ -902,7 +902,7 @@
             	return true;
             }
             
-        }, "Completion Date should not greater than today");
+        }, "Actual Completion Date should not greater than today");
 	    
 	    $.validator.addMethod("dateBefore3", function(value, element) {
             var fromDateString = $('#commissioning_date').val(); //

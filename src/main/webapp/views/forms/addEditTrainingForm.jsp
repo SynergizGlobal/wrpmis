@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
           
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/training.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <style>
@@ -75,7 +75,7 @@
         }
 
         /* change radio colors  */
-        [type="radio"]:checked+span::after,
+ /*        [type="radio"]:checked+span::after,
         [type="radio"].with-gap:checked+span::after {
             background-color: #282130 !important;
         }
@@ -84,7 +84,7 @@
         [type="radio"].with-gap:checked+span::before,
         [type="radio"].with-gap:checked+span::after {
             border: 2px solid #282130 !important;
-        }
+        } */
 
         .timepicker~button {
             position: absolute;
@@ -104,7 +104,7 @@
         /* modal header styling  */
         .modal-header {
             text-align: center;
-            background-color: #282130;
+            background-color: #007a7a;
             color: #fff;
             margin: -24px -24px 20px !important;
             padding: 1rem;
@@ -131,16 +131,12 @@
             color: #777;
         }
         .modal .select2-container {
-        	/* min-width: 150px; */
         	width:110px !important;
     		max-width: 160px;
         }
         .select2-container--default .select2-selection--single{
         	background-color:transparent;
         }
-      /*   tbody thead tr:hover{
-        	    background-color: #282130 !important;
-        } */
         .modal{
         	max-height:90%;
         	width:68%;
@@ -162,14 +158,31 @@
         	width: 400px;
     		max-width: 400px;
     	}
-     .filevalue {
+     	.filevalue {
             display: block;
             margin-top: 10px;
             max-width:250px;
         }
         .error-msg label{color:red!important;}   
        
-        
+        .input-field>textarea+label:not(.label-icon).active{
+        	margin-top:0;
+        }
+        .input-field>label:not(.label-icon).active{
+        	margin-top:5px;
+        }
+        .modal-content .mdl-data-table thead tr:hover{
+        	background-color:#007a7a;
+        }
+        .mt-brdr{
+			margin-top: 20px;
+		    border-top: 1px solid #777;
+		    border-bottom: 1px solid #777;
+		}
+		.center-align.m-1 button.bg-m.waves-light, 
+		.center-align.m-1 button.bg-s.waves-light{
+			width:inherit;
+		}
     </style>
 </head>
 
@@ -513,11 +526,11 @@
 																			<table class="mdl-data-table">
 																				<tbody id="trainingUpdateBody">
 																					<tr>
-																						<td colspan="7" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
+																						<td colspan="7" ><a type="button" class="btn waves-effect waves-light bg-m t-c "
 																							onclick="addTrainingUpdateRow('${tObj.training_session_id}','${index.count }')"> <i class="fa fa-plus"></i></a>
 																					</tr>
 																					<tr>
-																						<td colspan="7" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c modal-action modal-close">Update</a>
+																						<td colspan="7" ><a type="button" class="btn waves-effect waves-light bg-m t-c modal-action modal-close">Update</a>
 																					</tr>
 																				</tbody>
 																			</table>
@@ -662,7 +675,7 @@
 																		<table class="mdl-data-table">
 																			<tbody id="trainingUpdateBody">
 																				<tr>
-																					<td colspan="7" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
+																					<td colspan="7"><a type="button" class="btn waves-effect waves-light bg-m t-c "
 																						onclick="addTrainingUpdateRow('0','0')"> <i class="fa fa-plus"></i></a>
 																				</tr>
 																			</tbody>
@@ -697,7 +710,7 @@
 								<table class="mdl-data-table">
 									<tbody id="trainingBody">
 										<tr>
-											<td colspan="7" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
+											<td colspan="7" ><a type="button" class="btn waves-effect waves-light bg-m t-c "
 												onclick="addSessionRow('${tObj.training_session_id}')"> <i class="fa fa-plus"></i></a>
 										</tr>
 									</tbody>
@@ -749,7 +762,7 @@
 								<div class="col m2 hide-on-small-only"></div>
 								<div class="col m8 s12">
 									<div class="row">
-										<div class="col s12 m6 input-field" style="margin-top: 35px;">
+										<div class="col s12 m6 input-field" style="margin-top: 33px;">
 											<p class="searchable_label">Issue Category</p>
 											<select class="searchable validate-dropdown"
 												id="issue_category_id" name="issue_category_id">
@@ -797,20 +810,20 @@
 
 						<div class="row">
 							<div class="col m2 hide-on-small-only"></div>
-							<div class="col s12 m4">
+							<div class="col s12 m4 mt-brdr">
 								<div class="center-align m-1">
 									<c:if test="${action eq 'edit'}">
-										<button type="button" onclick="updateTraining();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+										<button type="button" onclick="updateTraining();" class="btn waves-effect waves-light bg-m">Update</button>
 									</c:if>
 									<c:if test="${action eq 'add'}"> 
-										<button type="button" onclick="addTraining();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+										<button type="button" onclick="addTraining();" class="btn waves-effect waves-light bg-m">Add</button>
 									</c:if>
 								</div>
 							</div>
-							<div class="col s12 m4">
+							<div class="col s12 m4 mt-brdr">
 								<div class="center-align m-1">
 									<a href="<%=request.getContextPath()%>/training"
-										class="btn waves-effect waves-light bg-s" style="width: 100%">Cancel</a>
+										class="btn waves-effect waves-light bg-s" >Cancel</a>
 								</div>
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
@@ -1064,7 +1077,7 @@
 			                '<td><a onclick="removeTrainingAttendees('+rNo+1+');prevRow('+rNo+')" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
 							'<input type="hidden" id="trainNo"  name="trainNo" value="0" /> ' +                    
 	                  		    '<table class="mdl-data-table"><tbody id="trainingUpdateBody">'+                                          
-	                            '<tr><td colspan="7" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
+	                            '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
 	                          '</tbody></table></div></div></div></div> </td>'+
           '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
           '<td><div class=""><input type="file" name="trainingSessionFiles" id="trainingSessionFiles'+rNo+'" onchange="getFileName('+rNo+')" style="display:none" />'+

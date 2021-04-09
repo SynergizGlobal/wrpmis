@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
           
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/training.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
       <style>
@@ -157,7 +157,7 @@
 									</div>
 									<div class="col s12 m3 input-field">
 										<button
-											class="btn bg-m waves-effect waves-light t-c clear-filters"
+											class="btn bg-s waves-effect waves-light t-c clear-filters"
 											onclick="clearFilter();"
 											style="margin-top: 6px; width: 100%;">Clear Filters</button>
 									</div>
@@ -357,7 +357,7 @@
                     {
                         targets: [0, 1, 2],
                         className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
+                        targets: 'nosort', orderable: false,
                     },
                     { "width": "20px", "targets": [11] },
                 ], "scrollCollapse": true,
@@ -596,7 +596,8 @@
                 columnDefs: [
                     {
                         targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
+                        className: 'mdl-data-table__cell--non-numeric',
+                        targets: 'nosort', ordarable:false
                     },
                     { orderable: false, 'aTargets': ['nosort'] },
                     { "width": "20px", "targets": [11] },

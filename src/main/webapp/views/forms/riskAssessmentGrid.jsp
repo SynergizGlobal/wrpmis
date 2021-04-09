@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/risk.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
       <style>
@@ -84,6 +84,9 @@
 		.b-text p,.b-text{
 			font-weight:600;
 		}
+		.row.no-mar{
+			margin-bottom:0;
+		}
     </style>
 </head>
 
@@ -92,7 +95,7 @@
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
 
-    <div class="row" style="margin-bottom:0;">
+    <div class="row no-mar" >
         <div class="col s12 m12">
             <div class="card">
                 <div class="card-content">
@@ -302,7 +305,7 @@
 	                                        </select>
 	                                    </div>                                 
 	                                    <div class="col s12 m3">
-	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 12px;" onclick="clearFilters()">Clear
 	                                            Filters</button>
 	                                    </div>                          

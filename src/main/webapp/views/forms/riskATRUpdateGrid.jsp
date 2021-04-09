@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/risk.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
       <style>
@@ -108,8 +108,7 @@
 
                         <!--if  model 2 -->
                         <div class="row no-mar">
-                            <div class="col m3 hide-on-small-only"></div>
-                             <div class="col m6 s12"> 
+                             <div class="col m6 s12 offset-m3"> 
 								<div class="col s12 m4 input-field">
 	                                <p class="searchable_label">Work</p>
 	                                  <select id="sub_work" name="sub_work" onchange="addInQueSubWork(this.value);getRiskList();" class="searchable" required="required">
@@ -131,12 +130,11 @@
 	                                 </select>
 	                            </div>
 	                            <div class="col s12 m4 input-field">
-	                                <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+	                                <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                    style="margin-top: 4px;" onclick="clearFilters()">Clear
 	                                    Filters</button>
 	                            </div>
                             </div> 
-                            <div class="col m3 hide-on-small-only"></div>
 
                         </div>
 

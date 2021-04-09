@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/risk.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
       <style>
@@ -139,12 +139,12 @@
 	                                </div>
 	                                <div class="row">	                                	
 	                                    <div class="col s12 m3 input-field center-align">
-	                                        <button class="btn bg-m waves-effect waves-light t-c" type="button"
+	                                        <button class="btn bg-s waves-effect waves-light t-c" type="button"
 	                                            style="margin-top: 6px; font-weight: 600; min-width:160px"
 	                                            onclick="clearFilter()">Clear Filter</button>
 	                                    </div>
 	                                    <div class="col s12 m3 input-field center-align">
-	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;min-width:160px%; font-weight: 600;"
 	                                            onclick="generateReport()">Generate Report</button>
 	                                    </div>

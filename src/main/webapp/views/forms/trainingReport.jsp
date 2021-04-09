@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/training.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
       <style>
@@ -115,7 +115,7 @@
                     <div class="">
                         <div class="row no-mar">
                             <div class="col m3 hide-on-small-only"></div>
-                            <div class="col m6 s12">
+                            <div class="col m5 s12 offset-m1">
                             	<form action="<%=request.getContextPath() %>/generate-scheduled-training-report" id="scheduledTrainingReportForm" name="scheduledTrainingReportForm" method="post" target="_blank">
 	                                <div class="row">
 	                                    <div class="col s12 m6 input-field">
@@ -130,8 +130,8 @@
 	                                    </div>
 	
 	                                    <div class="col s12 m6 input-field">
-	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
+	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
+	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateScheduledTrainingReport()"> Scheduled Training</button>
 	                                    </div>
 	                                </div>                                
@@ -141,7 +141,7 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m3 hide-on-small-only"></div>
-                            <div class="col m6 s12">
+                            <div class="col m5 s12 offset-m1">
                             	<form action="<%=request.getContextPath() %>/generate-employee-training-report" id="employeeTrainingReportForm" name="employeeTrainingReportForm" method="post" target="_blank">
 	                                <div class="row">
 	                                    <div class="col s12 m6 input-field">
@@ -156,8 +156,8 @@
 	                                    </div>
 	
 	                                    <div class="col s12 m6 input-field">
-	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
+	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
+	                                            style="margin-top: 6px;font-weight: 600;"
 	                                            onclick="generateEmployeeTrainingReport()"> Employee Training</button>
 	                                    </div>
 	                                </div>                                
@@ -167,7 +167,7 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m3 hide-on-small-only"></div>
-                            <div class="col m6 s12">
+                            <div class="col m5 s12 offset-m1">
                             	<form action="<%=request.getContextPath() %>/generate-completed-training-report" id="completedTrainingReportForm" name="completedTrainingReportForm" method="post" target="_blank">
 	                                <div class="row">
 	                                    <div class="col s12 m6 input-field">
@@ -182,8 +182,8 @@
 	                                    </div>
 	
 	                                    <div class="col s12 m6 input-field">
-	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
+	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
+	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateCompletedTrainingReport()"> Completed Training </button>
 	                                    </div>
 	                                </div>                                

@@ -90,7 +90,7 @@ public class FOBDaoImpl implements FOBDao {
 					+ "(fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,commissioning_date,"
 					+ "estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment) "
 					+ "VALUES "
-					+ "(:fob_id,fob_name,:contract_id_fk,:date_of_approval,:target_date,:construction_start_date,:actual_completion_date,:commissioning_date,:" 
+					+ "(:fob_id,:fob_name,:contract_id_fk,:date_of_approval,:target_date,:construction_start_date,:actual_completion_date,:commissioning_date,:" 
 					+ "estimated_cost,:completion_cost,:work_status_fk,:latitude,:longitude,:remarks,:attachment)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
@@ -116,7 +116,7 @@ public class FOBDaoImpl implements FOBDao {
 		                @Override
 		                public void setValues(PreparedStatement ps, int i) throws SQLException {	
 		                	int k = 1;
-							ps.setString(1, obj.getFob_id());
+							ps.setString(k++, obj.getFob_id());
 							ps.setString(k++, fobDetailNames.length > 0 ?fobDetailNames[i]:null);
 							ps.setString(k++, fobDetailValues.length > 0 ?fobDetailValues[i]:null);
 		                }
@@ -528,6 +528,18 @@ public class FOBDaoImpl implements FOBDao {
 			throw new Exception(e.getMessage());
 		}
 		return totalRecords;
+	}
+
+	@Override
+	public List<FOB> getFobDetailsList(FOB obj) throws Exception {
+		List<FOB> objsList = null;
+		try {
+			String qry = "select fob_detail_id, fob_id_fk, detail_name, value from `fob_detail` GROUP BY detail_name ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 }

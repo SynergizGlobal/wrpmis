@@ -79,4 +79,9 @@ public class FOBServiceImpl implements FOBService {
 		return fobDao.getTotalRecords(obj,searchParameter);
 	}
 
+	@Override
+	public List<FOB> getFobDetailsList(FOB obj) throws Exception {
+		return fobDao.getFobDetailsList(obj);
+	}
+
 }

@@ -33,4 +33,6 @@ public interface FOBService {
 
 	int getTotalRecords(FOB obj, String searchParameter) throws Exception;
 
+	List<FOB> getFobDetailsList(FOB obj) throws Exception;
+
 }

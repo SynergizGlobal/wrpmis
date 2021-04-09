@@ -19,13 +19,15 @@
 	 <style>
         .fixed-width {
             width: 100%;
+            margin-left :auto !important;
+            margin-right :auto !important;
         }
         .fixed-width .table-inside {
             width: 100%;
             overflow: auto;
         }       
 		/*table with fixed header & height start */
-		.max-h{
+		/* .max-h{
 			max-height:400px;
 			height:auto;
 			overflow:auto;	
@@ -39,7 +41,7 @@
 			top:0;
 			z-index:1;
 			background-color:#003049;
-		}
+		} */
 		td .btn.red{
 			z-index:0;
 		}
@@ -194,6 +196,21 @@
                                 </div> -->
                               <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="latitude" name="latitude" type="text" class="validate" value="${fob.latitude }">
+                                    <label for="latitude">Latitude </label>
+                                    <span id="latitudeError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="longitude" name="longitude" type="text" class="validate" value="${fob.longitude }">
+                                    <label for="longitude">Longitude </label>
+                                    <span id="longitudeError" class="error-msg" ></span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -229,36 +246,47 @@
                             </div>
 
 
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="latitude" name="latitude" type="text" class="validate" value="${fob.latitude }">
-                                    <label for="latitude">Latitude </label>
-                                    <span id="latitudeError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="longitude" name="longitude" type="text" class="validate" value="${fob.longitude }">
-                                    <label for="longitude">Longitude </label>
-                                    <span id="longitudeError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
 
 
                             <div class="row fixed-width">
                                 <h5 class="center-align">FOB Details</h5>
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 max-h">
+                                <div class="col s12 m8 ">
                                     <table id="fobDetailsTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
                                                 <th>FOB Detail </th>
                                                 <th>Value </th>
-                                                <th>Action</th>
+                                                <!-- <th>Action</th> -->
                                             </tr>
                                         </thead>
                                         <tbody id="fobDetailsTableBody">
-                                        	<c:choose>
+                                         <c:if test="${action eq 'add'}">
+                                        	<c:forEach items="${fobDetailsList}" var="dObj" varStatus="index">
+	                                        	<tr>
+	                                        	  <td><input id="fob_detail_names${index.count }"  readonly name="fob_detail_names" type="text" class="validate" value="${dObj.detail_name }" 
+				                                                        placeholder="Detail name"></td>
+	                                        	  <td><input id="fob_detail_values${index.count }"  readonly name="fob_detail_values" type="text" class="validate" value="${dObj.value }"
+				                                                        placeholder="Value"></td>
+	                                        	</tr>
+                                        	</c:forEach>
+                                         </c:if>
+                                         <c:if test="${action eq 'edit'}">
+                                         		<c:forEach var="dObj" items="${fob.fobDetails }" varStatus="index">                                        	
+			                                           <tr id="fobDetailsRow${index.count }">                                            	
+			                                               <td>
+			                                                    <input id="fob_detail_names${index.count }" name="fob_detail_names" type="text" class="validate" value="${dObj.detail_name }"
+			                                                        placeholder="Detail name">
+			                                                </td>
+			                                                <td>
+			                                                    <input id="fob_detail_values${index.count }" name="fob_detail_values" type="text" class="validate" value="${dObj.value }"
+			                                                        placeholder="Value">
+			                                                </td>
+			                                            </tr>
+		                                            </c:forEach> 
+                                          </c:if>
+                                         
+                                        	<%-- <c:choose>
                                         		<c:when test="${not empty fob.fobDetails && fn:length(fob.fobDetails) gt 0 }">
                                         			<c:forEach var="dObj" items="${fob.fobDetails }" varStatus="index">                                        	
 			                                           <tr id="fobDetailsRow${index.count }">                                            	
@@ -286,7 +314,7 @@
 		                                                </td>
 	                                                </tr>
                                         		</c:otherwise>
-                                        	</c:choose>                                                                                       
+                                        	</c:choose>     --%>                                                                                   
                                             <!-- <tr>
                                                 <td></td>
                                                 <td></td>
@@ -294,22 +322,22 @@
 											</tr> -->
                                         </tbody>
                                     </table>
-                                    
+                                  <!--   
                                     <table class="mdl-data-table">
                                         <tbody>                                          
                                             <tr>
                                                 <td colspan="3" style="text-align: center !important"><a href="javascript:void(0);" onclick="addFOBDetails()"class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-plus"></i></a> </td>
 											</tr>
                                         </tbody>
-                                    </table>
-                                    <c:choose>
+                                    </table> -->
+                                   <%--  <c:choose>
                                         <c:when test="${not empty fob.fobDetails && fn:length(fob.fobDetails) gt 0 }">
                                             <input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(fob.fobDetails)}" />
                                         </c:when>
                                         <c:otherwise>
                                         	<input type="hidden" id="rowNo"  name="rowNo" value="0" />
                                         </c:otherwise>
-                                    </c:choose>  
+                                    </c:choose>   --%>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -630,13 +658,16 @@
 				 	  },"last_sanctioned_cost": {
 			 		    required: false,
 			 	   	  },"construction_start_date": {
-			 		    required: false
+			 		    required: false,
+			 		    currentDate1:"#construction_start_date"
 			 	   	  },"commissioning_date": {
 				 		required: false,
+				 		currentDate2:"#commissioning_date",
    				 		dateBefore2:"#construction_start_date"
 				 	  },"actual_completion_date": {
 			 		    required: false,
-   				 		dateBefore3:"#commissioning_date"
+			 		   currentDate3:"#commissioning_date",
+   				 		dateBefore3:"#actual_completion_date"
 			 	   	  },"completion_cost": {
 				 		required: false
 				 	  },"latitude": {
@@ -765,6 +796,11 @@
 	    
 	    
 	    $.validator.addMethod("dateBefore1", function(value, element) {
+	    	var d = new Date();
+	    	var month = d.getUTCMonth() + 1;
+	    	var dateVal = ''+d.getUTCDate()+'-'+month+'-'+d.getUTCFullYear()+'';
+	    	var newDateParts = dateVal.split("-");
+	    	var newDate = new Date(+newDateParts[2], newDateParts[1] - 1, +newDateParts[0]);
             var fromDateString = $('#construction_start_date').val();
             var fromDateParts = fromDateString.split("-");
             // month is 0-based, that's why we need dataParts[1] - 1
@@ -785,6 +821,11 @@
         }, "Target Date must be after Construction Start Date");
 	    
 	    $.validator.addMethod("dateBefore2", function(value, element) {
+	    	var d = new Date();
+	    	var month = d.getUTCMonth() + 1;
+	    	var dateVal = ''+d.getUTCDate()+'-'+month+'-'+d.getUTCFullYear()+'';
+	    	var newDateParts = dateVal.split("-");
+	    	var newDate = new Date(+newDateParts[2], newDateParts[1] - 1, +newDateParts[0]);
             var fromDateString = $('#construction_start_date').val(); //
             var fromDateParts = fromDateString.split("-");
             // month is 0-based, that's why we need dataParts[1] - 1
@@ -798,11 +839,70 @@
             	//return Date.parse(fromDate) < Date.parse(toDate);
             }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
             	return false;
+            }else if(newDate < fromDate){
+            	return false;
             }else{
             	return true;
             }
             
         }, "Commissioning Date must be after Construction Start Date");
+	    
+	    $.validator.addMethod("currentDate1", function(value, element) {
+	    	var d = new Date();
+	    	var month = d.getUTCMonth() + 1;
+	    	var dateVal = ''+d.getUTCDate()+'-'+month+'-'+d.getUTCFullYear()+'';
+	    	var newDateParts = dateVal.split("-");
+	    	var newDate = new Date(+newDateParts[2], newDateParts[1] - 1, +newDateParts[0]);
+            var fromDateString = $('#construction_start_date').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+             if(newDate < fromDate){
+            	return false;
+            }else{
+            	return true;
+            }
+            
+        }, "Construction Start Date should not greater than today");
+	    
+	    $.validator.addMethod("currentDate2", function(value, element) {
+	    	var d = new Date();
+	    	var month = d.getUTCMonth() + 1;
+	    	var dateVal = ''+d.getUTCDate()+'-'+month+'-'+d.getUTCFullYear()+'';
+	    	var newDateParts = dateVal.split("-");
+	    	var newDate = new Date(+newDateParts[2], newDateParts[1] - 1, +newDateParts[0]);
+            var fromDateString = $('#commissioning_date').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+             if(newDate < fromDate){
+            	return false;
+            }else{
+            	return true;
+            }
+            
+        }, "Commissioning Date should not greater than today");
+	    
+	    $.validator.addMethod("currentDate3", function(value, element) {
+	    	var d = new Date();
+	    	var month = d.getUTCMonth() + 1;
+	    	var dateVal = ''+d.getUTCDate()+'-'+month+'-'+d.getUTCFullYear()+'';
+	    	var newDateParts = dateVal.split("-");
+	    	var newDate = new Date(+newDateParts[2], newDateParts[1] - 1, +newDateParts[0]);
+            var fromDateString = $('#actual_completion_date').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+             if(newDate < fromDate){
+            	return false;
+            }else{
+            	return true;
+            }
+            
+        }, "Actual Completion Date should not greater than today");
 	    
 	    $.validator.addMethod("dateBefore3", function(value, element) {
             var fromDateString = $('#commissioning_date').val(); //
@@ -839,7 +939,7 @@
         
         
         
-        function addFOBDetails(){      		
+     /*    function addFOBDetails(){      		
             var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
             var html = '<tr id="fobDetailsRow'+rNo+'">'
@@ -853,7 +953,7 @@
         
 		 function removeFOBDetails(rowNo){
         	$("#fobDetailsRow"+rowNo).remove();
-         }
+         } */
 		 
 		 function readURL(input) {
 	            if (input.files && input.files[0]) {

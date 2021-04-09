@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+							<input type="hidden" id="status_fk" name="status_fk" value="Open"/>
                             <div class="row">
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>                                
@@ -111,21 +111,21 @@
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 
-                                <div class="col s12 m4 input-field">
-                                	<p class="searchable_label"> HOD <span class="required">*</span></p>
-                                    <select id="hod_user_id_fk" name="hod_user_id_fk" class="searchable validate-dropdown">
+                              
+                                 <div class="col s12 m4 input-field">
+                                <p class="searchable_label"> Category <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="setTitle(this.value);">
                                         <option value="">Select</option>
-                                        <c:forEach var="obj" items="${hodList }">
-                                      	   <option value= "${ obj.hod_user_id_fk}">${obj.designation}</option>
-                                         </c:forEach>
+                                        <c:forEach var="obj" items="${safetyCategoryList }">
+                                            <option name="${obj.short_description}" value="${obj.category }" >${obj.category}</option>
+                                        </c:forEach>
                                     </select>
-                                    <span id="hod_user_id_fkError" class="error-msg" ></span>
+                                    <span id="category_fkError" class="error-msg" ></span>
                                 </div>
-                                
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
-                            <div class="row">
+							
+                           <%--  <div class="row">
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -140,18 +140,20 @@
                                     </select>
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                <p class="searchable_label"> Category <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="setTitle(this.value);">
+                                   <div class="col s12 m4 input-field">
+                                	<p class="searchable_label"> HOD <span class="required">*</span></p>
+                                    <select id="hod_user_id_fk" name="hod_user_id_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
-                                        <c:forEach var="obj" items="${safetyCategoryList }">
-                                            <option name="${obj.short_description}" value="${obj.category }" >${obj.category}</option>
-                                        </c:forEach>
+                                        <c:forEach var="obj" items="${hodList }">
+                                      	   <option value= "${ obj.hod_user_id_fk}">${obj.designation}</option>
+                                         </c:forEach>
                                     </select>
-                                    <span id="category_fkError" class="error-msg" ></span>
+                                    <span id="hod_user_id_fkError" class="error-msg" ></span>
                                 </div>
+                                
+                               
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                            </div> --%>
                             <div class="row">
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
@@ -180,7 +182,7 @@
                             <div class="row">
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                               <%--  <div class="col s12 m4 input-field">
                                 <p class="searchable_label"> Status <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="status_fk" name="status_fk">
                                         <option value="">Select</option>
@@ -189,8 +191,8 @@
                                         </c:forEach>
                                     </select>                                    
                                     <span id="status_fkError" class="error-msg" ></span>
-                                </div>
-                                 <div class="col s12 m2 input-field mti-5">
+                                </div> --%>
+                                 <div class="col s12 m4 input-field mti-5">
 	                                 <p>
 									      <label>
 									        <input type="checkbox" id="committee_required" name="committee_required"/>
@@ -199,7 +201,7 @@
 									      <input type="hidden" id="committee_required_fk" name="committee_required_fk" value="No"/>
 								    </p>
 							    </div>
-							    <div class="col s12 m2 hidden input-field mti-5" id="committee_formed_div" >
+							    <div class="col s12 m4 hidden input-field mti-5" id="committee_formed_div" >
 	                                 <p>
 									      <label>
 									        <input type="checkbox" id="committee_formed" name="committee_formed" />
@@ -274,7 +276,7 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="reported_by" name="reported_by" type="text" class="validate">
+                                    <input id="reported_by" name="reported_by" type="text" class="validate" value="${sessionScope.USER_NAME }">
                                     <label for="reported_by">Reported By</label>
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
@@ -287,17 +289,24 @@
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field ">
+                               <!--  <div class="col s12 m4 input-field ">
                                     <input id="closure_date" name="closure_date" type="text" class="validate datepicker">
                                     <label for="closure_date">Closure Date</label>
                                     <button type="button" id="closure_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="closure_dateError" class="error-msg" ></span>
+                                </div> -->
+                                 <div class="col s12 m4 input-field ">
+                                    <input id="investigation_completed" name="investigation_completed" type="text" class="validate datepicker">
+                                    <label for="investigation_completed">Investigation Completion Date</label>
+                                    <button type="button" id="investigation_completed_icon"><i class="fa fa-calendar"></i></button>
+                                    <span id="investigation_completedError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="lti_hours" name="lti_hours" type="text" class="validate">
                                     <label for="lti_hours">Loss Time Injury (LTI) Hours</label>
                                     <span id="lti_hoursError" class="error-msg" ></span>
                                 </div>
+                                
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
@@ -319,17 +328,12 @@
                             <div class="row">
                                 <!-- //row 7 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field ">
+                                <div class="col s12 m8 input-field ">
                                     <input id="work_impact" name="work_impact" type="text" class="validate">
                                     <label for="work_impact"> Work Impact </label>
                                     <span id="work_impactError" class="error-msg" ></span>
                                 </div>
-                                 <div class="col s12 m4 input-field ">
-                                    <input id="investigation_completed" name="investigation_completed" type="text" class="validate datepicker">
-                                    <label for="investigation_completed">Investigation Completion Date</label>
-                                    <button type="button" id="investigation_completed_icon"><i class="fa fa-calendar"></i></button>
-                                    <span id="investigation_completedError" class="error-msg" ></span>
-                                </div>
+                                
                                 
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -433,7 +437,6 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
-	
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -449,7 +452,7 @@
 	   	    	onSelect: function () {
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
-   	        });
+   	        }).datepicker("setDate", new Date());
             
             $('#closure_date_icon').click(function () {
                 event.stopPropagation();

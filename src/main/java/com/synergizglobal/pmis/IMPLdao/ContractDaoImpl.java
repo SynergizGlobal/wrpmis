@@ -90,7 +90,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (dy_hod_user_id_fk = ? or dy_hod_user_id_fk )";
+				qry = qry + " and (dy_hod_user_id_fk = ? or dy_hod_user_id_fk = ? )";
 				arrSize++;
 				arrSize++;
 			}

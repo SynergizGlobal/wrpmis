@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Contract</title>
+    <title>Add Contract - Update Forms - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -978,15 +978,14 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                        <button type="button" style="width: 100%;" onclick="addContract();" class="btn waves-effect waves-light bg-m">Add</button>
+                                        <button type="button" onclick="addContract();" class="btn waves-effect waves-light bg-m" style="min-width:90px;">Add</button>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -1042,7 +1041,7 @@
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
-	    	var options = {format: 'dd-mm-yyyy'};
+	    	var options = {format: 'dd-mm-yyyy',autoClose:true};
 	    	if(dt.length > 1){
 	    		options.setDefaultDate = true,
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])

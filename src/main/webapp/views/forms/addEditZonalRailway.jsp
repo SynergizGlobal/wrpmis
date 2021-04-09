@@ -8,8 +8,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-     	 <c:if test="${action eq 'edit'}">Update Zonal Railway</c:if>
-		 <c:if test="${action eq 'add'}">Add Zonal Railway</c:if>
+     	 <c:if test="${action eq 'edit'}">Update Zonal Railway - Update Forms - PMIS</c:if>
+		 <c:if test="${action eq 'add'}">Add Zonal Railway - Update Forms - PMIS</c:if>
     </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
@@ -76,6 +76,7 @@
 	       	max-width:110px;
 	       	white-space:break-spaces;
        }
+             
     </style>
 
 </head>
@@ -140,13 +141,13 @@
 			                              <div class="col m2 hide-on-small-only">
 			                              </div>
 			                       		  <div class="col s12 m4 input-field">
-												<p class="searchable_label"> Project <span class="required">*</span></p>
-			                                         	 	<input type="text" value="${zonalRailwayDetails.project_id_fk} - ${zonalRailwayDetails.project_name}" readonly />
+			                                    <input type="text" value="${zonalRailwayDetails.project_id_fk} - ${zonalRailwayDetails.project_name}" readonly id="project_value" />
+												<label for="project_value"> Project <span class="required">*</span></label>
 										  </div> 
 										  <div class="col s12 m4 input-field"> 
-											    <p class="searchable_label"> Work <span class="required">*</span></p>
-			                                         	 	<input type="text"  value="${zonalRailwayDetails.work_id_fk} - ${zonalRailwayDetails.work_short_name}" readonly />
-			                                         	 	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${zonalRailwayDetails.work_id_fk}" readonly />
+			                                    <input type="text"  value="${zonalRailwayDetails.work_id_fk} - ${zonalRailwayDetails.work_short_name}" readonly id="work_value"/>
+											    <label for="work_value"> Work <span class="required">*</span></label>
+			                                    <input type="hidden" name="work_id_fk" id="work_id_fk" value="${zonalRailwayDetails.work_id_fk}" readonly />
 			                              </div>
 		                             <!--  </div>  -->
                                  </c:if>
@@ -156,6 +157,7 @@
                                <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                 	<textarea placeholder="Sub Work" name="sub_work" id="sub_work" class='materialize-textarea'></textarea>
+                                	<label for="sub_work">Sub Work</label>
                                 </div>	
                                <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -165,6 +167,7 @@
                                <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                 	<textarea placeholder="Sub Work" name="sub_work" id="sub_work" class='materialize-textarea'>${zonalRailwayDetails.sub_work}</textarea>
+	                                <label for="sub_work">Sub Work</label>
                                 </div>	
                                <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -192,19 +195,16 @@
                                 </c:if>	
                                  <c:if test="${action eq 'edit'}">
                                  <div class="col s12 m4 input-field"> 
-								    <p class="searchable_label">Execution Agency <span class="required">*</span></p>
-                                         	 	<input type="text"  value="${zonalRailwayDetails.execution_agency_railway_fk} - ${zonalRailwayDetails.railway_name}" readonly />
+                                    <input type="text"  value="${zonalRailwayDetails.execution_agency_railway_fk} - ${zonalRailwayDetails.railway_name}" readonly id="execution_agency"/>
+								     <label for="execution_agency">Execution Agency <span class="required">*</span>:</label>
 			                     </div>
 			                     <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Sub Work ID <span class="required">*</span>:</p>
                                     <input type="text" id="contract_id" name="contract_id"   value="${zonalRailwayDetails.contract_id }" readonly />
+                                     <label for="contract_id">Sub Work ID <span class="required">*</span>:</label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                                 </c:if>	
                                 
-                              
-                              
-                             
                             </div>
 
                             <div class="row">
@@ -326,7 +326,7 @@
                             </div>
                         </div>
 
-                        <div class="row fixed-width" style="margin-bottom: 40px;">
+                        <div class="row fixed-width" style="margin-bottom: 10px;">
                             <h5 class="center-align">Progress details</h5>
                             <div class="table-inside">
                                 <table id="zonal_railway_table" class="mdl-data-table">
@@ -512,40 +512,36 @@
                                         </div>
                                         <div class="col s6 m6">
                                             <div class="center-align m-1">
-                                                <button style="width: 100%;"
-                                                    class="btn waves-effect waves-light bg-m ">Submit</button>
+                                                <button  class="btn waves-effect waves-light bg-m ">Submit</button>
                                             </div>
                                         </div>
                                         <div class="col s6 m6">
                                             <div class="center-align m-1">
-                                                <button style="width: 100%;"
-                                                    class="btn waves-effect waves-light bg-s modal-close">Cancel</button>
+                                                <button  class="btn waves-effect waves-light bg-s modal-close">Cancel</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="container container-no-margin">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                      <div class="center-align m-1">
 	                                         <c:if test="${action eq 'edit'}">
-	                                           <button type="button" onclick="updateZonalRailway();" style="width: 100%;" class="btn waves-effect waves-light bg-m ">Update</button>
+	                                           <button type="button" onclick="updateZonalRailway();" class="btn waves-effect waves-light bg-m ">Update</button>
 	                                         </c:if>
 											 <c:if test="${action eq 'add'}"> 
-						                       <button type="button" onclick="addZonalRailway();" style="width: 100%;" class="btn waves-effect waves-light bg-m ">Add</button>
+						                       <button type="button" onclick="addZonalRailway();" class="btn waves-effect waves-light bg-m ">Add</button>
 											 </c:if>
                                     </div>
                                 </div>
                               
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                            <a href="<%=request.getContextPath()%>/zonal-railway" class="btn waves-effect waves-light bg-s "
-                                            style="width:100%">Cancel</a>
+                                            <a href="<%=request.getContextPath()%>/zonal-railway" class="btn waves-effect waves-light bg-s ">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

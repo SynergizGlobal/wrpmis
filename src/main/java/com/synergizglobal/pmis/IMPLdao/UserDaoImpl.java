@@ -148,14 +148,14 @@ public class UserDaoImpl implements UserDao{
 		try {
 			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_type_fk,u.user_image,department_name,usr.user_name as reporting_to_name,"
-					+ "(select max(DATE_FORMAT(login_event_date,'%d-%m-%Y %h:%i %p')) from user_login where login_event_type_fk = ? and user_id_fk = u.user_id) as last_login,"
-					+ "(select COUNT(*) from user_login where login_event_type_fk = ? and user_id_fk = u.user_id and DATE(login_event_date) >= DATE(NOW()) - INTERVAL 7 DAY) as last7DaysLogins,"
-					+ "(select COUNT(*) from user_login where login_event_type_fk = ? and user_id_fk = u.user_id and DATE(login_event_date) >= DATE(NOW()) - INTERVAL 30 DAY) as last30DaysLogins "
+					+ "(select DATE_FORMAT(max(login_date_time),'%d-%m-%Y %h:%i %p') from user_login_details where user_id_fk = u.user_id ) as last_login,"
+					+ "(select COUNT(*) from user_login_details where (logout_type_fk is null or logout_type_fk <> '') and user_id_fk = u.user_id and DATE(login_date_time) >= DATE(NOW()) - INTERVAL 7 DAY) as last7DaysLogins,"
+					+ "(select COUNT(*) from user_login_details where (logout_type_fk is null or logout_type_fk <> '') and user_id_fk = u.user_id and DATE(login_date_time) >= DATE(NOW()) - INTERVAL 30 DAY) as last30DaysLogins "
 					+ "from user u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
 					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
 					+ "where u.user_id is not null " ;
-			int arrSize = 3;
+			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
 				qry = qry + " and u.user_role_name_fk = ?";
 				arrSize++;
@@ -172,9 +172,9 @@ public class UserDaoImpl implements UserDao{
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
+			/*pValues[i++] = CommonConstants2.LOGIN_EVENT_TYPE_LOGIN;
 			pValues[i++] = CommonConstants2.LOGIN_EVENT_TYPE_LOGIN;
-			pValues[i++] = CommonConstants2.LOGIN_EVENT_TYPE_LOGIN;
-			pValues[i++] = CommonConstants2.LOGIN_EVENT_TYPE_LOGIN;
+			pValues[i++] = CommonConstants2.LOGIN_EVENT_TYPE_LOGIN;*/
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
 				pValues[i++] = obj.getUser_role_name_fk();
 			}

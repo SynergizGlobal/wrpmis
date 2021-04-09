@@ -499,13 +499,10 @@ public class RiskDaoImpl implements RiskDao{
 			}
 			
 			if(!StringUtils.isEmpty(sObj)) {
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_designation())) {
-					if((obj.getUser_designation().equals(sObj.getOwner()) || obj.getUser_designation().equals(sObj.getResponsible_person())) || obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN) ){
-						sObj.setReadonlyForm(false);
-					}else {
-						sObj.setReadonlyForm(true);
-					}
-					
+				if((!StringUtils.isEmpty(obj.getUser_designation()) && (obj.getUser_designation().equals(sObj.getOwner()) || obj.getUser_designation().equals(sObj.getResponsible_person()))) || CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())  ){
+					sObj.setReadonlyForm(false);
+				}else {
+					sObj.setReadonlyForm(true);
 				}
 			}
 			

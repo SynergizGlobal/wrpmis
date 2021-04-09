@@ -89,7 +89,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (dy_hod_user_id_fk = ? or dy_hod_user_id_fk )";
+				arrSize++;
+				arrSize++;
+			}
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
@@ -114,6 +118,10 @@ public class ContractDaoImpl implements ContractDao {
 				pValues[i++] = obj.getContract_status_fk();
 			}
 				
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				
 		}catch(Exception e){ 
@@ -1515,7 +1523,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+			}
 			qry = qry + " GROUP BY contractor_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1539,6 +1551,11 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
@@ -1586,7 +1603,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+			}
 			qry = qry + " GROUP BY c.department_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1610,6 +1631,11 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
@@ -1656,7 +1682,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+			}
 			qry = qry + "GROUP BY work_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1680,6 +1710,11 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
@@ -1726,7 +1761,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+			}
 			qry = qry + "GROUP BY project_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1750,6 +1789,11 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
@@ -1842,7 +1886,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+			}
 			qry = qry + "GROUP BY c.hod_user_id_fk ORDER BY u.designation  ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1867,7 +1915,11 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
-				
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			
+			}	
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -1914,7 +1966,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+			}
 			qry = qry + "GROUP BY c.dy_hod_user_id_fk ORDER BY u.designation ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1939,7 +1995,11 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
-				
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			
+			}	
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -1985,7 +2045,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+			}
 			qry = qry + "GROUP BY contract_status_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -2010,7 +2074,11 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
-				
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			
+			}	
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -2104,6 +2172,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or contract_id like ?"
 						+ " or c.contract_short_name like ? or cr.contractor_name like ? or c.department_fk like ? or c.hod_user_id_fk like ? or c.dy_hod_user_id_fk like ?)";
@@ -2139,7 +2212,11 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 			
+			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
@@ -2205,6 +2282,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or contract_id like ?"
 						+ " or c.contract_short_name like ? or cr.contractor_name like ? or c.department_fk like ? or c.hod_user_id_fk like ? or c.dy_hod_user_id_fk like ?)";
@@ -2244,6 +2326,11 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";

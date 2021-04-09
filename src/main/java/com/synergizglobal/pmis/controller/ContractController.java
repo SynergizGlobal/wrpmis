@@ -113,9 +113,13 @@ public class ContractController {
 	
 	@RequestMapping(value = "/ajax/getContracts", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getContractList(@ModelAttribute Contract obj) {
+	public List<Contract> getContractList(@ModelAttribute Contract obj,HttpSession session) {
 		List<Contract> contractList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			contractList = contractService.contractList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -161,11 +165,11 @@ public class ContractController {
 			if (pageNumber == 1) {
 				startIndex = 0;
 				offset = pageDisplayLength;
-				contractList = createPaginationData(startIndex, offset, obj, searchParameter);
+				contractList = createPaginationData(startIndex, offset, obj, searchParameter, session);
 			} else {
 				startIndex = (pageNumber * offset) - offset;
 				offset = pageDisplayLength;
-				contractList = createPaginationData(startIndex, offset, obj, searchParameter);
+				contractList = createPaginationData(startIndex, offset, obj, searchParameter, session);
 			}
 
 			//Search functionality: Returns filtered list based on search parameter
@@ -213,9 +217,13 @@ public class ContractController {
 	 * @param clientId 
 	 * @return
 	 */
-	public List<Contract> createPaginationData(int startIndex, int offset,Contract obj, String searchParameter) {
+	public List<Contract> createPaginationData(int startIndex, int offset,Contract obj, String searchParameter,HttpSession session) {
 		List<Contract> earthWorkList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			earthWorkList = contractService.getContractsList(obj, startIndex, offset, searchParameter);
 		} catch (Exception e) {
 			logger.error("createPaginationData : " + e.getMessage());
@@ -226,10 +234,14 @@ public class ContractController {
 	
 	@RequestMapping(value = "/ajax/getContractorsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getContractorsFilterList(@ModelAttribute Contract obj) {
+	public List<Contract> getContractorsFilterList(@ModelAttribute Contract obj,HttpSession session) {
 		List<Contract> contractorsFilterList = null;  
 		try {
-			 contractorsFilterList = contractService.contractorsFilterList(obj);
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			contractorsFilterList = contractService.contractorsFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getContractorsFilterList : " + e.getMessage());
@@ -239,10 +251,14 @@ public class ContractController {
 	
 	@RequestMapping(value = "/ajax/getDepartmentsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getDepartmentsFilterList(@ModelAttribute Contract obj) {
+	public List<Contract> getDepartmentsFilterList(@ModelAttribute Contract obj,HttpSession session) {
 		List<Contract> departmentFilterList = null;
 		try {
-			 departmentFilterList = contractService.departmentsFilterList(obj);
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			departmentFilterList = contractService.departmentsFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getDepartmentsFilterList : " + e.getMessage());
@@ -252,9 +268,13 @@ public class ContractController {
 
 	@RequestMapping(value = "/ajax/getWorksFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getWorksFilterList(@ModelAttribute Contract obj) {
+	public List<Contract> getWorksFilterList(@ModelAttribute Contract obj,HttpSession session) {
 		List<Contract> worksFilterList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			worksFilterList = contractService.worksFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -265,9 +285,13 @@ public class ContractController {
 	
 	@RequestMapping(value = "/ajax/getProjectsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getProjectsFilterList(@ModelAttribute Contract obj) {
+	public List<Contract> getProjectsFilterList(@ModelAttribute Contract obj,HttpSession session) {
 		List<Contract> projectsFilterList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			projectsFilterList = contractService.getProjectsFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -278,9 +302,13 @@ public class ContractController {
 	
 	@RequestMapping(value = "/ajax/getDesignationsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getDesignationsFilterList(@ModelAttribute Contract obj) {
+	public List<Contract> getDesignationsFilterList(@ModelAttribute Contract obj,HttpSession session) {
 		List<Contract> designationsFilterList = null;  
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			designationsFilterList = contractService.getDesignationsFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -291,9 +319,13 @@ public class ContractController {
 	
 	@RequestMapping(value = "/ajax/getDyHODDesignationsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getDyHODDesignationsFilterList(@ModelAttribute Contract obj) {
+	public List<Contract> getDyHODDesignationsFilterList(@ModelAttribute Contract obj,HttpSession session) {
 		List<Contract> dyHODDesignationsFilterList = null;  
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			dyHODDesignationsFilterList = contractService.getDyHODDesignationsFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -306,9 +338,13 @@ public class ContractController {
 	
 	@RequestMapping(value = "/ajax/getStatusFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getStatusFilterListInContract(@ModelAttribute Contract obj) {
+	public List<Contract> getStatusFilterListInContract(@ModelAttribute Contract obj,HttpSession session) {
 		List<Contract> dataList = null;  
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			dataList = contractService.getStatusFilterListInContract(obj);
 		}catch (Exception e) {
 			e.printStackTrace();

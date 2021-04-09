@@ -205,19 +205,19 @@
 	                                <div class="col s12 m8 ">
 	                                    <div class="row">
 	  										<div class="col s12 m6 input-field">
-	  										 	<p class="searchable_label">HOD</p>
+	  										 	<p class="searchable_label">HOD<span class="required">*</span></p>
 	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDepartmentsList(); getDyHodList();"> 
 	                                     		  <option value="">Select</option> 
-	                                                  <%-- <c:forEach var="obj" items="${hodList }"> 
-			                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach> --%>  
+	                                                 <%-- <c:forEach var="obj" items="${hodList }"> 
+			                                    	  <option value="${obj.user_id }" <c:if test="${sessionScope.USER_ID eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                        </c:forEach>  --%>  
 	                                            </select> 
 
 												<!-- <label for="hod_user_id_fk">HOD</label>  -->
 	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
 	                                        <div class="col s12 m6 input-field">
-	                                        	<p class="searchable_label">Dy HOD</p>
+	                                        	<p class="searchable_label">Dy HOD<span class="required">*</span></p>
 	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();">
 	                                                <option value="">Select</option>
 	                                                 <%--  <c:forEach var="obj" items="${dyHodList }"> 
@@ -412,7 +412,7 @@
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div> --%>
-	                            <div class="row">
+	                          <!--   <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 input-field center-align no-float-small">
                                     <p>Bank Guarantee Required</p>
@@ -428,10 +428,10 @@
                                     </p>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                            </div> -->
 							</div>
                             <!-- bg show hide div  -->
-                            <div class="row fixed-width" id="bank_guarantee_div">
+                          <%--   <div class="row fixed-width" id="bank_guarantee_div">
                                 <h5 class="center-align">Bank Guarantee Details</h5>
                                 <div class="table-inside">
                                     <table id="bankTable" class="mdl-data-table">
@@ -517,8 +517,8 @@
 									<input type="hidden" id="bankRowNo"  name="bankRowNo" value="0" />                                
 								</div>
                             </div>
- 							
- 							<div class="container container-no-margin">
+ 							 --%>
+ 							<!-- <div class="container container-no-margin">
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col m8 input-field center-align no-float-small">
@@ -536,9 +536,9 @@
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
-							</div>
+							</div> -->
                             <!-- insurance show hide div  -->
-                            <div class="row fixed-width" id="insurance_div">
+                           <%--  <div class="row fixed-width" id="insurance_div">
                                 <h5 class="center-align">Insurance Details</h5>
                                 <div class="table-inside">
                                     <table id="insurenceTable" class="mdl-data-table">
@@ -635,7 +635,7 @@
 
                                 </div>
                             </div>
-
+ --%>
  							<div class="container container-no-margin">
 	                            <div class="row fixed-width">
 	                                <h5 class="center-align">Milestone Details</h5>
@@ -698,7 +698,7 @@
 	                                    <input type="hidden" id="mileRowNo"  name="mileRowNo" value="0" />
 	                                </div>
 	                            </div>
-	                            <div class="row fixed-width">
+	                           <!--  <div class="row fixed-width">
                                 <h5 class="center-align">Revision Details</h5>
                                 <div class="table-inside">
 
@@ -765,7 +765,7 @@
                                 </div>
                             </div>
                             </div>
-                            <input type="hidden" id="reporting_to_id_srfk" name="reporting_to_id_srfk" />
+                            <input type="hidden" id="reporting_to_id_srfk" name="reporting_to_id_srfk" /> -->
                             
                               <!-- new code  starts-->
                             <div class="container container-no-margin">
@@ -883,7 +883,7 @@
 <!--                                 <div class="col m2 hide-on-small-only"></div> -->
 <!--                             </div> -->
                          <div class="container container-no-margin">    
-                         	<div class="row">
+                         	<!-- <div class="row">
                          		<h5 class="center-align">Contract Closure Details</h5>
                          	</div>
                           		<div class="row">
@@ -957,7 +957,7 @@
 	                                    <label for="pbg_release">Release of PBG</label>
 	                                    <button type="button" id="pbg_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="pbg_releaseError" class="error-msg" ></span>
-	                                </div>
+	                                </div> -->
 	                                <!-- <div class="col s12 m4 input-field">
 	                                    <input id="contract_closure" name="contract_closure" type="text" class="validate">
 	                                    <label for="contract_closure"> Contract Closure Comment</label>
@@ -972,9 +972,9 @@
 			                                      </c:forEach>
 	                                    </select>
 	                                    <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div> --%>
+	                                </div> 
 	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
+	                            </div>--%>
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -1049,13 +1049,15 @@
 	    	}
 	    	M.Datepicker.init(this, options);
 	    });
-
+		var user_hod = '${sessionScope.USER_ID}';
         $(document).ready(function () {
         	 $('select:not(.searchable)').formSelect();
              $('.searchable').select2();
              $('#remarks').characterCounter();
              getDyHodList();
              getHodList();
+             //console.log($("#dy_hod_user_id_fk").children("option").filter(":selected").text())
+          
         });
        
         function getDyHodList() {
@@ -1075,10 +1077,16 @@
                             	   var userName = '';
 	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
       	                           if ($.trim(hod_user_id_fk) != '') {
-      	                        	  
+      	                        	 	//$("#dy_hod_user_id_fk option:not(:first)").remove();
                                          $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" >' + $.trim(val.designation) + userName + '</option>');
+                                         console.log(val.dy_hod_user_id_fk)
                                      } else {
-                                         $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                                        // $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                                         if(val.dy_hod_user_id_fk == user_hod){
+                                             $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
+                                	    	 $("#dy_hod_user_id_fk").select2();
+                                	    	 getHodList();
+                                         }
                                      }
                             });
                         }
@@ -1121,6 +1129,12 @@
                                        //$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
                                      } else {
                                          $("#hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                                         if(val.hod_user_id_fk == user_hod){
+                                        	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
+                                	    	 $("#hod_user_id_fk").select2();
+                                	    	 getDyHodList();
+                                         }
+                                         
                                      }
                             });
                         }
@@ -1283,9 +1297,9 @@
 		   	 	   	  },"scope_of_contract": {
 		   	 		    required: false,
 		   	 	   	  },"hod_user_id_fk": {
-		   		 		required: false
+		   		 		required: true
 		   		 	  },"dy_hod_user_id_fk": {
-		   	 		    required: false
+		   	 		    required: true
 		   	 	   	  },"doc": {
 		   		 		required: false,
    				 		dateBefore1:"#date_of_start"

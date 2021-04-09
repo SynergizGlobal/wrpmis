@@ -76,15 +76,24 @@
                                     <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
                                 </div> -->
 							</div>
-
-							<div class="col s12 m4">
-								<div class="m-1 c-align">
-									<a href="add-contract-form"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-plus-circle"></i> Add Contract</strong></a>
-								</div>
-							</div>
-
+							<c:choose>
+							    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD'   || sessionScope.USER_TYPE eq 'DyHOD'}">
+							        <div class="col s12 m4">
+									   <div class="m-1 c-align">
+										<a href="add-contract-form"
+											class="btn waves-effect waves-light bg-s t-c"> <strong><i
+												class="fa fa-plus-circle"></i> Add Contract</strong></a>
+									   </div>
+									</div>
+							    </c:when>
+							    <c:otherwise>
+							        <div class="col s12 m4">
+										<div class="m-1 c-align">
+										
+										</div>
+									</div>
+							    </c:otherwise>
+							</c:choose>
 							<div class="col s12 m4 r-align">
 								<div class="m-1 ">
 									<a href="javascript:void(0);" onclick="exportContract();"

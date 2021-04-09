@@ -13,7 +13,7 @@ public class Contract {
 	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,milestone_id,status,released_fk,
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status,revision_status
 	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till,
-	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk;
+	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
 
@@ -38,6 +38,14 @@ public class Contract {
 	private List<Contract> contractKeyPersonnels;
 	
 	
+
+	public String getUser_role_code() {
+		return user_role_code;
+	}
+
+	public void setUser_role_code(String user_role_code) {
+		this.user_role_code = user_role_code;
+	}
 
 	public String getReporting_to_id_srfk() {
 		return reporting_to_id_srfk;

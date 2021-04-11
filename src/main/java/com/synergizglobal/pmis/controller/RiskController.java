@@ -82,6 +82,8 @@ public class RiskController {
 			model.addObject("worksList", worksList);
 			List<Risk> workHodList = riskService.getSubWorkHodFilterListInRiskAssessmnt(obj);
 			model.addObject("workHodList", workHodList);
+			
+			model.addObject("work_id", obj.getWork_id());
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("riskAssessment : " + e.getMessage());

@@ -163,10 +163,11 @@
 													class="searchable validate-dropdown">
 													<option value="">Select</option>
 													<c:forEach var="obj" items="${worksList}">
-														<option name="${obj.work_short_name }"
-															value="${obj.work_id}">${obj.work_id}-
-															${obj.work_short_name}</option>
+														<option name="${obj.work_short_name }" value="${obj.work_id}" 
+														<c:if test="${work_id eq obj.work_id }">selected</c:if>>
+														${obj.work_id} - ${obj.work_short_name}</option>
 													</c:forEach>
+													
 												</select> <span id="work_id_fkError" class="error-msg"></span>
 											</div>
 										</c:if>

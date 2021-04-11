@@ -4,10 +4,12 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,14 +18,10 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.AlertsDao;
@@ -290,46 +288,6 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url) VALUES  (?,?,?,?,?,?,?,?)";
 			
-			/*int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions, new BatchPreparedStatementSetter() { 
-								@Override
-				                public void setValues(PreparedStatement ps, int i) throws SQLException {
-									String alert_level = list.get(i).getAlert_level();
-									String alert_type = list.get(i).getAlert_type();
-									String contract_id = list.get(i).getContract_id();
-									String alert_value = list.get(i).getAlert_value();
-									
-				                    ps.setString(1, alert_level);
-				                    ps.setString(2, alert_type);
-				                    ps.setString(3, contract_id);
-				                    ps.setString(4, CommonConstants.ACTIVE);
-				                    ps.setString(5, alert_value);
-				                    ps.setString(6, "1");
-				                    ps.setString(7, list.get(i).getHod_email());
-				                    ps.setString(8, list.get(i).getDy_hod_email());
-				                    ps.setString(9, getAlertRemarks(alert_type,contract_id,alert_value));
-				                }
-				                private String getAlertRemarks(String alert_type, String contract_id,
-										String alert_value) {
-				                	String remarks = null;
-				                	try {
-				                		//String remarksQry ="select remarks from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? and DATE(created_date) = DATE((NOW() - INTERVAL 1 DAY))";
-				                		String remarksQry ="select remarks from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? "
-				                				+ "AND created_date = (select max(created_date) from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? )";
-				                		Object[] pValues = new Object[] {alert_type,contract_id,alert_value,alert_type,contract_id,alert_value};
-					        			remarks = jdbcTemplate.queryForObject( remarksQry,pValues, String.class);
-									} catch (Exception e) {
-										// TODO: handle exception
-									}
-				                	
-									return remarks;
-								}
-								@Override  
-				                public int getBatchSize() {
-				                	 return list.size();
-				                }
-			           	});*/
-			//transactionManager.commit(status);	
-			
 			String qryAlertsSendManually = "select user_id_fk,alert_type_fk,alert_level_fk from alerts_send_manually ";			
 			List<Alerts> alertsSendManually = jdbcTemplate.query( qryAlertsSendManually, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
@@ -404,9 +362,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			generateIssueAlertsByCronJob();
 			
+			generateRiskAlertsByCronJob();
+			
 			flag = true;
 		}catch(Exception e){ 
-			//transactionManager.rollback(status);
 			throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, resultSet);
@@ -414,7 +373,350 @@ public class AlertsDaoImpl implements AlertsDao{
 		return flag;
 	}
 
+	public boolean generateIssueAlertsByCronJob() throws Exception {
+		boolean flag = false;
+		List<Alerts> list = new ArrayList<Alerts>();
+		/*TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);*/
+		
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		
+		try {
+			connection = dataSource.getConnection();
+			/***************************** Issue alerts*******************************************************/
+			
+			String qryAlert1 = "select contract_id_fk as contract_id, '1st Alert' as alert_level,'Issue' as alert_type,"
+					+ "concat('Issue ',status_fk,': ',i.title) as alert_value,"
+					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
+					+ "d.department_name,responsible_person,escalated_to,"
+					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk "
+					+ "from issue i "
+					+ "LEFT JOIN contract c ON i.contract_id_fk = c.contract_id "
+					+ "LEFT JOIN department d ON c.department_fk  = d.department "
+					+ "where status_fk <> 'Closed' "
+					+ "and DATEDIFF(NOW(),date) >= 30 and DATEDIFF(NOW(),date) < 60";
+			
+		
+			List<Alerts> alert1List = jdbcTemplate.query( qryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(alert1List) && alert1List.size() > 0) {
+				list.addAll(alert1List);
+			}			
+			
+			String qryAlert2 = "select contract_id_fk as contract_id, '2nd Alert' as alert_level,'Issue' as alert_type,"
+					+ "concat('Issue ',status_fk,': ',i.title) as alert_value,"
+					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
+					+ "d.department_name,responsible_person,escalated_to,"
+					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk "
+					+ "from issue i "
+					+ "LEFT JOIN contract c ON i.contract_id_fk = c.contract_id "
+					+ "LEFT JOIN department d ON c.department_fk  = d.department "
+					+ "where status_fk <> 'Closed' "
+					+ "and DATEDIFF(NOW(),date) >= 60 and DATEDIFF(NOW(),date) < 90";
+			
+			List<Alerts> alert2List = jdbcTemplate.query( qryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(alert2List) && alert2List.size() > 0) {
+				list.addAll(alert2List);
+			}	
+			
+			String qryAlert3 = "select contract_id_fk as contract_id, '3rd Alert' as alert_level,'Issue' as alert_type,"
+					+ "concat('Issue ',status_fk,': ',i.title) as alert_value,"
+					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
+					+ "d.department_name,responsible_person,escalated_to,"
+					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk "
+					+ "from issue i "
+					+ "LEFT JOIN contract c ON i.contract_id_fk = c.contract_id "
+					+ "LEFT JOIN department d ON c.department_fk  = d.department "
+					+ "where status_fk <> 'Closed' "
+					+ "and DATEDIFF(NOW(),date) >= 90";
+			
+			List<Alerts> alert3List = jdbcTemplate.query( qryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(alert3List) && alert3List.size() > 0) {
+				list.addAll(alert3List);
+			}
+			
+			
+			/*************************Alerts insertion********************************************/
+			
+			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url) VALUES  (?,?,?,?,?,?,?,?)";		
+			
+			for (Alerts obj : list) {
+				stmt = connection.prepareStatement(qryInsert,Statement.RETURN_GENERATED_KEYS);
+				String alert_level = obj.getAlert_level();
+				String alert_type = obj.getAlert_type();
+				String contract_id = obj.getContract_id();
+				String alert_value = obj.getAlert_value();
+				String redirect_url = obj.getRedirect_url();
+				
+				int p = 1;
+                stmt.setString(p++, alert_level);
+                stmt.setString(p++, alert_type);
+                stmt.setString(p++, contract_id);
+                stmt.setString(p++, CommonConstants.ACTIVE);
+                stmt.setString(p++, alert_value);
+                stmt.setString(p++, "1");
+                stmt.setString(p++, getAlertRemarks(alert_type,contract_id,alert_value,connection));
+                stmt.setString(p++, redirect_url);
+                int c = stmt.executeUpdate();
+                resultSet = stmt.getGeneratedKeys();
+                if(c > 0) {
+                	String alert_id = null;
+                	if(resultSet.next()) {
+                		alert_id = String.valueOf(resultSet.getLong(1));
+                	}
+                	DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+                	
+                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk)VALUES(?,?)";
+    				stmt = connection.prepareStatement(qry);
+    				
+    				if(!StringUtils.isEmpty(obj.getAlert_level()) && obj.getAlert_level().equals("2nd Alert")) {
+    					if(!StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+			                p = 1;
+		    				stmt.setString(p++, alert_id);
+			                stmt.setString(p++, obj.getHod_user_id_fk());
+			                stmt.addBatch();
+    					}
+    				}
+    				
+    				if(!StringUtils.isEmpty(obj.getAlert_level()) && obj.getAlert_level().equals("3rd Alert")) {
+    					p = 1;
+	    				stmt.setString(p++, alert_id);
+		                stmt.setString(p++, "PMIS_SU_001");
+		                stmt.addBatch();
+			                
+		                if(!StringUtils.isEmpty(obj.getDepartment_name()) && obj.getDepartment_name().equals("Engineering")) {
+		                	p = 1;
+		    				stmt.setString(p++, alert_id);
+			                stmt.setString(p++, "PMIS_SU_002");
+			                stmt.addBatch();
+		                }
+		                if(!StringUtils.isEmpty(obj.getDepartment_name()) && (obj.getDepartment_name().equals("Signalling & Telecom") 
+		                		|| obj.getDepartment_name().equals("Electrical"))) {
+		                	p = 1;
+		    				stmt.setString(p++, alert_id);
+			                stmt.setString(p++, "PMIS_SU_003");
+			                stmt.addBatch();
+		                }
+		                
+		                if(!StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+			                p = 1;
+		    				stmt.setString(p++, alert_id);
+			                stmt.setString(p++, obj.getHod_user_id_fk());
+			                stmt.addBatch();
+    					}
+		                
+    				}
+    				
+    				if(!StringUtils.isEmpty(obj.getResponsible_person())) {
+		                p = 1;
+	    				stmt.setString(p++, alert_id);
+		                stmt.setString(p++, obj.getResponsible_person());
+		                stmt.addBatch();
+					}
+    				
+    				if(!StringUtils.isEmpty(obj.getDy_hod_user_id_fk())) {
+		                p = 1;
+	    				stmt.setString(p++, alert_id);
+		                stmt.setString(p++, obj.getDy_hod_user_id_fk());
+		                stmt.addBatch();
+    				}
+    				
+    				if(!StringUtils.isEmpty(obj.getEscalated_to())) {
+		                p = 1;
+	    				stmt.setString(p++, alert_id);
+		                stmt.setString(p++, obj.getEscalated_to());
+		                stmt.addBatch();
+    				}
+    				
+	                stmt.executeBatch();
+                }
+			}
+			
+			flag = true;
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, resultSet);
+		}
+		return flag;
+	}
 	
+	private boolean generateRiskAlertsByCronJob() throws Exception {
+		boolean flag = false;
+		List<Alerts> list = new ArrayList<Alerts>();
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;		
+		try {
+			connection = dataSource.getConnection();
+			
+			List<Alerts> risk_alerts = new ArrayList<Alerts>();
+			
+			String work_ids_qry = "select group_concat(work_id_fk) as work_id,hod_user_id_fk from risk_work_hod group by hod_user_id_fk";		
+			List<Alerts> work_idsList = jdbcTemplate.query( work_ids_qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(work_idsList) && work_idsList.size() > 0) {
+				String isSuccessQuery = "SELECT `status`,work_id,work_name,work_short_name,uploaded_by_user_id_fk "
+						+ "FROM risk_upload "
+						+ "LEFT JOIN work ON work_id_fk = work_id "
+						+ "where work_id_fk = ? and uploaded_by_user_id_fk = ? and `status` = ?";
+				for (Alerts obj : work_idsList) {
+					String work_ids = obj.getWork_id();
+					String hod_user_id_fk = obj.getHod_user_id_fk();
+					if(!StringUtils.isEmpty(work_ids)) {
+						String[] workIds = work_ids.split(",");
+						List <String> workList = Arrays.asList(workIds);
+						for (String work_id : workList) {
+							Object[] pValues = new Object[] {work_id,hod_user_id_fk,"Success"};
+							List<Alerts> sObj = jdbcTemplate.query( isSuccessQuery,pValues,new BeanPropertyRowMapper<Alerts>(Alerts.class));
+							if(!StringUtils.isEmpty(sObj) && !sObj.isEmpty()) {
+								for (Alerts alerts : sObj) {
+									risk_alerts.add(alerts);
+								}
+							}else {
+								String qry = "select work_id,work_name,work_short_name from work where work_id = ?";	
+								List<Alerts> wObj = jdbcTemplate.query( qry,new Object[] {work_id},new BeanPropertyRowMapper<Alerts>( Alerts.class));
+								if(!StringUtils.isEmpty(wObj) && !wObj.isEmpty()) {
+									for (Alerts alerts : wObj) {
+										alerts.setUploaded_by_user_id_fk(hod_user_id_fk);
+										risk_alerts.add(alerts);
+									}
+								}
+							}
+						}
+					}
+				 }	 
+			}
+			/***************************** Risk alerts*******************************************************/
+			if(!StringUtils.isEmpty(risk_alerts) && risk_alerts.size() > 0) {
+				 Date date = new Date();
+				 Calendar cal = Calendar.getInstance();
+	             cal.setTime(date); // don't forget this if date is arbitrary
+	             
+	             SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+	             String month = monthFormat.format(date).toUpperCase();
+	             //int month = cal.get(Calendar.MONTH); // 0 being January
+	             int year = cal.get(Calendar.YEAR);
+	             
+	             int day = cal.get(Calendar.DAY_OF_MONTH);                
+	             int days = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+	             //System.out.println("Days : "+days);
+	             //System.out.println("day : "+day);
+	             for (Alerts alerts : risk_alerts) {
+            		 Alerts aObj = new Alerts();
+            		 if(day == 1 || day == 2) {
+            			 aObj.setAlert_level("1st Alert");
+            			 aObj.setAlert_value("Risk assessment of "+alerts.getWork_name()+ " is Due");
+            		 }else if(day == 3 || day == 4) {
+            			 aObj.setAlert_level("2nd Alert");
+            			 aObj.setAlert_value("Risk assessment of "+alerts.getWork_name()+ " is Due");
+            		 }else if(day == 5) {
+            			 aObj.setAlert_level("3rd Alert");
+            			 aObj.setAlert_value("Risk assessment of "+alerts.getWork_name()+ " is Due");
+            		 }else if(day > 5) {
+            			 aObj.setAlert_level("3rd Alert");
+            			 aObj.setAlert_value("Urgent ! Risk assessment of "+alerts.getWork_name()+ " is OverDue");
+            		 }
+            		 aObj.setAlert_type("Risk");
+            		 aObj.setRedirect_url("/risk-assessment?work_id="+alerts.getWork_id());
+            		 aObj.setUser_id_fk(alerts.getUploaded_by_user_id_fk());;
+ 	 				 list.add(aObj);
+				 }
+			}
+			/*************************Alerts insertion********************************************/
+			
+			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url) VALUES  (?,?,?,?,?,?,?,?)";		
+			
+			for (Alerts obj : list) {
+				stmt = connection.prepareStatement(qryInsert,Statement.RETURN_GENERATED_KEYS);
+				String alert_level = obj.getAlert_level();
+				String alert_type = obj.getAlert_type();
+				String contract_id = obj.getContract_id();
+				String alert_value = obj.getAlert_value();
+				String redirect_url = obj.getRedirect_url();
+				
+				int p = 1;
+                stmt.setString(p++, alert_level);
+                stmt.setString(p++, alert_type);
+                stmt.setString(p++, contract_id);
+                stmt.setString(p++, CommonConstants.ACTIVE);
+                stmt.setString(p++, alert_value);
+                stmt.setString(p++, "1");
+                stmt.setString(p++, getAlertRemarks(alert_type,contract_id,alert_value,connection));
+                stmt.setString(p++, redirect_url);
+                int c = stmt.executeUpdate();
+                resultSet = stmt.getGeneratedKeys();
+                if(c > 0) {
+                	String alert_id = null;
+                	if(resultSet.next()) {
+                		alert_id = String.valueOf(resultSet.getLong(1));
+                	}
+                	DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+                	
+                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk)VALUES(?,?)";
+    				stmt = connection.prepareStatement(qry);
+    				
+    				p = 1;
+    				stmt.setString(p++, alert_id);
+	                stmt.setString(p++, obj.getUser_id_fk());
+	                stmt.addBatch();
+	                
+	                p = 1;
+    				stmt.setString(p++, alert_id);
+	                stmt.setString(p++, "PMIS_SU_002");
+	                stmt.addBatch();
+	                
+	                p = 1;
+    				stmt.setString(p++, alert_id);
+	                stmt.setString(p++, "PMIS_SU_003");
+	                stmt.addBatch();
+    				
+	                stmt.executeBatch();
+                }
+			}
+			
+			flag = true;
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, resultSet);
+		}
+		return flag;
+	}
+	
+
+	private String getAlertRemarks(String alert_type, String contract_id, String alert_value, Connection connection) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String remarks = null;
+		try {
+			String remarksQry ="select remarks from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? "
+    				+ "AND created_date = (select max(created_date) from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? )";
+			stmt = connection.prepareStatement(remarksQry);
+			int p = 1;
+            stmt.setString(p++, alert_type);
+            stmt.setString(p++, contract_id);
+            stmt.setString(p++, alert_value);
+            stmt.setString(p++, alert_type);
+            stmt.setString(p++, contract_id);
+            stmt.setString(p++, alert_value);
+            
+            rs = stmt.executeQuery();
+            if(rs.next()) {
+            	remarks = rs.getString("remarks");
+            }
+            
+		} catch (Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return remarks;
+	}
+
+
 	@Override
 	public boolean sendNotificationAlertMails() throws Exception {
 		boolean flag = false;
@@ -1208,251 +1510,6 @@ public class AlertsDaoImpl implements AlertsDao{
 		}
 		return flag;
 	}
-
-
-	
-	public boolean generateIssueAlertsByCronJob() throws Exception {
-		boolean flag = false;
-		List<Alerts> list = new ArrayList<Alerts>();
-		/*TransactionDefinition def = new DefaultTransactionDefinition();
-		TransactionStatus status = transactionManager.getTransaction(def);*/
-		
-		Connection connection = null;
-		PreparedStatement stmt = null;
-		ResultSet resultSet = null;
-		
-		try {
-			connection = dataSource.getConnection();
-			/***************************** Issue alerts*******************************************************/
-			
-			String qryAlert1 = "select contract_id_fk as contract_id, '1st Alert' as alert_level,'Issue' as alert_type,"
-					+ "concat('Issue ',status_fk,': ',i.title) as alert_value,"
-					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
-					+ "d.department_name,responsible_person,escalated_to,"
-					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk "
-					+ "from issue i "
-					+ "LEFT JOIN contract c ON i.contract_id_fk = c.contract_id "
-					+ "LEFT JOIN department d ON c.department_fk  = d.department "
-					+ "where status_fk <> 'Closed' "
-					+ "and DATEDIFF(NOW(),date) >= 30 and DATEDIFF(NOW(),date) < 60";
-			
-		
-			List<Alerts> alert1List = jdbcTemplate.query( qryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-			if(!StringUtils.isEmpty(alert1List) && alert1List.size() > 0) {
-				list.addAll(alert1List);
-			}			
-			
-			String qryAlert2 = "select contract_id_fk as contract_id, '2nd Alert' as alert_level,'Issue' as alert_type,"
-					+ "concat('Issue ',status_fk,': ',i.title) as alert_value,"
-					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
-					+ "d.department_name,responsible_person,escalated_to,"
-					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk "
-					+ "from issue i "
-					+ "LEFT JOIN contract c ON i.contract_id_fk = c.contract_id "
-					+ "LEFT JOIN department d ON c.department_fk  = d.department "
-					+ "where status_fk <> 'Closed' "
-					+ "and DATEDIFF(NOW(),date) >= 60 and DATEDIFF(NOW(),date) < 90";
-			
-			List<Alerts> alert2List = jdbcTemplate.query( qryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-			if(!StringUtils.isEmpty(alert2List) && alert2List.size() > 0) {
-				list.addAll(alert2List);
-			}	
-			
-			String qryAlert3 = "select contract_id_fk as contract_id, '3rd Alert' as alert_level,'Issue' as alert_type,"
-					+ "concat('Issue ',status_fk,': ',i.title) as alert_value,"
-					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
-					+ "d.department_name,responsible_person,escalated_to,"
-					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk "
-					+ "from issue i "
-					+ "LEFT JOIN contract c ON i.contract_id_fk = c.contract_id "
-					+ "LEFT JOIN department d ON c.department_fk  = d.department "
-					+ "where status_fk <> 'Closed' "
-					+ "and DATEDIFF(NOW(),date) >= 90";
-			
-			List<Alerts> alert3List = jdbcTemplate.query( qryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-			if(!StringUtils.isEmpty(alert3List) && alert3List.size() > 0) {
-				list.addAll(alert3List);
-			}
-			
-			
-			/*************************Alerts insertion********************************************/
-			
-			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url) VALUES  (?,?,?,?,?,?,?,?)";		
-			
-			/*int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions, new BatchPreparedStatementSetter() { 
-								@Override
-				                public void setValues(PreparedStatement ps, int i) throws SQLException {
-									String alert_level = list.get(i).getAlert_level();
-									String alert_type = list.get(i).getAlert_type();
-									String contract_id = list.get(i).getContract_id();
-									String alert_value = list.get(i).getAlert_value();
-									String redirect_url = list.get(i).getRedirect_url();
-									
-									int p = 1;
-				                    ps.setString(p++, alert_level);
-				                    ps.setString(p++, alert_type);
-				                    ps.setString(p++, contract_id);
-				                    ps.setString(p++, CommonConstants.ACTIVE);
-				                    ps.setString(p++, alert_value);
-				                    ps.setString(p++, "1");
-				                    ps.setString(p++, getAlertRemarks(alert_type,contract_id,alert_value));
-				                    ps.setString(p++, redirect_url);
-				                }
-				                private String getAlertRemarks(String alert_type, String contract_id,
-										String alert_value) {
-				                	String remarks = null;
-				                	try {
-				                		//String remarksQry ="select remarks from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? and DATE(created_date) = DATE((NOW() - INTERVAL 1 DAY))";
-				                		String remarksQry ="select remarks from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? "
-				                				+ "AND created_date = (select max(created_date) from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? )";
-				                		Object[] pValues = new Object[] {alert_type,contract_id,alert_value,alert_type,contract_id,alert_value};
-					        			remarks = jdbcTemplate.queryForObject( remarksQry,pValues, String.class);
-									} catch (Exception e) {
-										// TODO: handle exception
-									}
-				                	
-									return remarks;
-								}
-								@Override  
-				                public int getBatchSize() {
-				                	 return list.size();
-				                }
-			           	});*/
-			
-			
-			for (Alerts obj : list) {
-				stmt = connection.prepareStatement(qryInsert,Statement.RETURN_GENERATED_KEYS);
-				String alert_level = obj.getAlert_level();
-				String alert_type = obj.getAlert_type();
-				String contract_id = obj.getContract_id();
-				String alert_value = obj.getAlert_value();
-				String redirect_url = obj.getRedirect_url();
-				
-				int p = 1;
-                stmt.setString(p++, alert_level);
-                stmt.setString(p++, alert_type);
-                stmt.setString(p++, contract_id);
-                stmt.setString(p++, CommonConstants.ACTIVE);
-                stmt.setString(p++, alert_value);
-                stmt.setString(p++, "1");
-                stmt.setString(p++, getAlertRemarks(alert_type,contract_id,alert_value,connection));
-                stmt.setString(p++, redirect_url);
-                int c = stmt.executeUpdate();
-                resultSet = stmt.getGeneratedKeys();
-                if(c > 0) {
-                	String alert_id = null;
-                	if(resultSet.next()) {
-                		alert_id = String.valueOf(resultSet.getLong(1));
-                	}
-                	DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-                	
-                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk)VALUES(?,?)";
-    				stmt = connection.prepareStatement(qry);
-    				
-    				if(!StringUtils.isEmpty(obj.getAlert_level()) && obj.getAlert_level().equals("2nd Alert")) {
-    					if(!StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-			                p = 1;
-		    				stmt.setString(p++, alert_id);
-			                stmt.setString(p++, obj.getHod_user_id_fk());
-			                stmt.addBatch();
-    					}
-    				}
-    				
-    				if(!StringUtils.isEmpty(obj.getAlert_level()) && obj.getAlert_level().equals("3rd Alert")) {
-    					p = 1;
-	    				stmt.setString(p++, alert_id);
-		                stmt.setString(p++, "PMIS_SU_001");
-		                stmt.addBatch();
-			                
-		                if(!StringUtils.isEmpty(obj.getDepartment_name()) && obj.getDepartment_name().equals("Engineering")) {
-		                	p = 1;
-		    				stmt.setString(p++, alert_id);
-			                stmt.setString(p++, "PMIS_SU_002");
-			                stmt.addBatch();
-		                }
-		                if(!StringUtils.isEmpty(obj.getDepartment_name()) && (obj.getDepartment_name().equals("Signalling & Telecom") 
-		                		|| obj.getDepartment_name().equals("Electrical"))) {
-		                	p = 1;
-		    				stmt.setString(p++, alert_id);
-			                stmt.setString(p++, "PMIS_SU_003");
-			                stmt.addBatch();
-		                }
-		                
-		                if(!StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-			                p = 1;
-		    				stmt.setString(p++, alert_id);
-			                stmt.setString(p++, obj.getHod_user_id_fk());
-			                stmt.addBatch();
-    					}
-		                
-    				}
-    				
-    				if(!StringUtils.isEmpty(obj.getResponsible_person())) {
-		                p = 1;
-	    				stmt.setString(p++, alert_id);
-		                stmt.setString(p++, obj.getResponsible_person());
-		                stmt.addBatch();
-					}
-    				
-    				if(!StringUtils.isEmpty(obj.getDy_hod_user_id_fk())) {
-		                p = 1;
-	    				stmt.setString(p++, alert_id);
-		                stmt.setString(p++, obj.getDy_hod_user_id_fk());
-		                stmt.addBatch();
-    				}
-    				
-    				if(!StringUtils.isEmpty(obj.getEscalated_to())) {
-		                p = 1;
-	    				stmt.setString(p++, alert_id);
-		                stmt.setString(p++, obj.getEscalated_to());
-		                stmt.addBatch();
-    				}
-    				
-	                stmt.executeBatch();
-                }
-			}
-			
-			flag = true;
-			
-		}catch(Exception e){ 
-			//transactionManager.rollback(status);
-			throw new Exception(e);
-		}finally {
-			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, resultSet);
-		}
-		return flag;
-	}
-
-
-	private String getAlertRemarks(String alert_type, String contract_id, String alert_value, Connection connection) throws Exception {
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String remarks = null;
-		try {
-			String remarksQry ="select remarks from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? "
-    				+ "AND created_date = (select max(created_date) from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? )";
-			stmt = connection.prepareStatement(remarksQry);
-			int p = 1;
-            stmt.setString(p++, alert_type);
-            stmt.setString(p++, contract_id);
-            stmt.setString(p++, alert_value);
-            stmt.setString(p++, alert_type);
-            stmt.setString(p++, contract_id);
-            stmt.setString(p++, alert_value);
-            
-            rs = stmt.executeQuery();
-            if(rs.next()) {
-            	remarks = rs.getString("remarks");
-            }
-            
-		} catch (Exception e) {
-			throw new Exception(e);
-		}finally {
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
-		}
-		return remarks;
-	}
-
 
 	@Override
 	public int getTotalRecords(Alerts obj, String searchParameter) throws Exception {

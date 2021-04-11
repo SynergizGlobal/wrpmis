@@ -484,10 +484,12 @@
 											<span class="icon"> <!-- <i class="material-icons">access_time</i> -->
 												${bgIcon } <span class="icon-text">${aObj.alert_type_fk
                                                                             }</span>
-										</span>
-											<div>Work : ${aObj.work_short_name }</div>
-											<div>Contract : ${aObj.contract_short_name }</div>
-											<div>Contractor : ${aObj.contractor_name }</div>
+											</span>
+											<c:if test="${aObj.alert_type_fk ne 'Risk' }">
+												<div>Work : ${aObj.work_short_name }</div>
+												<div>Contract : ${aObj.contract_short_name }</div>
+												<div>Contractor : ${aObj.contractor_name }</div>
+											</c:if>
 											<div>Reason : ${aObj.alert_value }</div>
 									</a></li>
 
@@ -1172,11 +1174,13 @@
 			                    		  }
 			                    		  html = html + '<li class="item '+bgClass+'">'
 			                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+'">'
-			                    		  		+ '<span class="icon"> '+bgIcon+' <span class="icon-text">'+val.alert_type_fk+'</span> </span>'
-			                    		  		+ '<div>Work : '+val.work_short_name +'</div>'
-			                    		  		+ '<div>Contract : '+val.contract_short_name +'</div>'
-			                    		  		+ '<div>Contractor : '+val.contractor_name +'</div>'
-			                    		  		+ '<div>Reason : '+val.alert_value +'</div>'
+			                    		  		+ '<span class="icon"> '+bgIcon+' <span class="icon-text">'+val.alert_type_fk+'</span> </span>';
+			                    		  		if(val.alert_type_fk != 'Risk'){
+			                    		  			 html = html + '<div>Work : '+val.work_short_name +'</div>'
+								                    		  		+ '<div>Contract : '+val.contract_short_name +'</div>'
+								                    		  		+ '<div>Contractor : '+val.contractor_name +'</div>'
+			                    		  		}
+			                    		  		 html = html + '<div>Reason : '+val.alert_value +'</div>'
 			                    		  		+ '</a></li>';
 			                    		  
 		                    		  });

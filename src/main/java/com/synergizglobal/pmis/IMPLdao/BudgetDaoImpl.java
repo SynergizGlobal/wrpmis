@@ -337,7 +337,7 @@ public class BudgetDaoImpl implements BudgetDao {
 							if(arraySize < budget.getBudgetFile().length) {
 									arraySize = budget.getBudgetFile().length;
 							}
-							String saveDirectory1 = CommonConstants.DOCUMENT_FILES_SAVING_PATH ;
+							String saveDirectory1 = CommonConstants.BUDGET_FILE_SAVING_PATH ;
 							documentNames = new String[arraySize];
 							for (int k = 0; k < documentNames.length; k++) {
 								MultipartFile file = budget.getBudgetFile()[k];

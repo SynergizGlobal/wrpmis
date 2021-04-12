@@ -55,7 +55,7 @@
 	}
 	
 	.unread-message {
-		background-color: #90b6c0;
+		background-color: #4fce5d;
 	}
 	
 	.read-message {
@@ -63,7 +63,7 @@
 	}
 	
 	.notifications_group .item.unread-message:hover {
-		background-color: #90b6c0;
+		background-color: #4fce5d;
 	}
 	
 	.notifications_group .item.read-message:hover {
@@ -1241,7 +1241,9 @@
 		                    		  }else{
 		                    			  message_color_bg = 'unread-message';
 		                    		  }
-		                    		  count = count + 1;
+		                    		  if($.trim(val.read_time) == ''){
+		                    		  	count = count + 1;
+		                    		  }
 		                    		  html = html + '<li class="item '+message_color_bg+'">'
 		                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+'?message_id='+val.message_id +'">'
 		                    		  		
@@ -1252,7 +1254,7 @@
 		                    		  		+ '</div>'
 		                    		  		+ '<div class="col m10">'
 		                    		  		+ '<div>'+val.message +'</div> '
-		                    		  		+ '<div style="font-size: 10px;padding:5px 0px 0px 0px;"> <i class="fa fa-clock-o"></i> &nbsp;'+val.created_date+'</div>'
+		                    		  		+ '<div style="font-size: 10px;padding:5px 0px 0px 0px;"> <i class="fa fa-clock-o"></i> &nbsp;'+val.created_date+'<span style="float:right;font-size: 10px;">'+val.timeAgo+'</span></div>'
 		                    		  		+ '</div>'
 		                    		  		+ '</div>'
 		                    		  				

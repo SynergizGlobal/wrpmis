@@ -1803,7 +1803,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				arrSize++;
 			}
 			
-			qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
+			//qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
 			
 			qry = qry + " group by alert_type_fk order by alert_type_fk ASC";
 			

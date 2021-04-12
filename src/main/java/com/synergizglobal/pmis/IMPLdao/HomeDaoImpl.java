@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -20,6 +22,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.HomeDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.TimeAgo;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Admin;
@@ -838,6 +841,19 @@ public class HomeDaoImpl implements HomeDao {
 				pValues[i++] = mObj.getMessage_type();
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Messages>(Messages.class));	
+			if(objsList != null && !objsList.isEmpty()) {
+				for (Messages obj : objsList) {
+					if(!StringUtils.isEmpty(obj.getCreated_date_24hr_format())){
+						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				        Date date = format.parse(obj.getCreated_date_24hr_format());
+				        Date currentDate = format.parse(format.format(new Date()));
+				        long currTime = currentDate.getTime();
+				        long userTime = date.getTime();
+				        long time =  currTime - userTime ;
+				        obj.setTimeAgo(TimeAgo.toDuration(time));
+					}
+				}
+			}
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}

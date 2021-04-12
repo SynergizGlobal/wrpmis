@@ -45,6 +45,7 @@
 		td .btn.red{
 			z-index:0;
 		}
+		
 		.input-field>label.small{
 			font-size: 0.88rem !important;
 		}
@@ -273,7 +274,7 @@
                                          </c:if>
                                          <c:if test="${action eq 'edit'}">
                                           <c:choose>
-                                      	 <c:when test="${not empty fobDetails && fn:length(fobDetails) gt 0 }">
+                                      	 <c:when test="${not empty fob.fobDetails && fn:length(fob.fobDetails) gt 0 }">
                                          		<c:forEach var="dObj" items="${fob.fobDetails }" varStatus="index">                                        	
 			                                           <tr id="fobDetailsRow${index.count }">                                            	
 			                                               <td>
@@ -289,69 +290,98 @@
 		                                      </c:when>
                                        	    <c:otherwise>
                                        	   		<c:forEach items="${fobDetailsList}" var="dObj" varStatus="index">
-	                                        	<tr>
+	                                        	<tr id="fobDetailsRow0"> 
 	                                        	  <td><input id="fob_detail_names${index.count }"  readonly name="fob_detail_names" type="text" class="validate" value="${dObj.detail_name }" 
 				                                                        placeholder="Detail name"></td>
-	                                        	  <td><input id="fob_detail_values${index.count }"  name="fob_detail_values" type="text" class="validate" 
+	                                        	  <td><input id="fob_detail_values${index.count }"  name="fob_detail_values" type="text" class="validate"  
 				                                                        placeholder="Value"></td>
 	                                        	</tr>
-                                        	</c:forEach>
+                                        	</c:forEach>  
                                          </c:otherwise>
                                         </c:choose>
                                       </c:if>
-                                         
-                                        	<%-- <c:choose>
-                                        		<c:when test="${not empty fob.fobDetails && fn:length(fob.fobDetails) gt 0 }">
-                                        			<c:forEach var="dObj" items="${fob.fobDetails }" varStatus="index">                                        	
-			                                           <tr id="fobDetailsRow${index.count }">                                            	
+                                     </tbody>
+                                   </table>
+                                   <table id="fobImagesTable" class="mdl-data-table">
+                                        <tbody >
+                                        	 <c:choose>
+                                        		<c:when test="${not empty fob.fobImages && fn:length(fob.fobImages) gt 0 }">
+                                        			<c:forEach var="dObj" items="${fob.fobImages }" varStatus="index">                                        	
+			                                           <tr id="fobImagesRow${index.count }">                                            	
 			                                               <td>
-			                                                    <input id="fob_detail_names${index.count }" name="fob_detail_names" type="text" class="validate" value="${dObj.detail_name }"
-			                                                        placeholder="Detail name">
+			                                              	   <input type="hidden" name="fob_id_fks" id="fob_id_fks${index.count }" value="${dObj.id}" />
+			                                                   <div class="row">
+									                                <div class="col m2 hide-on-small-only"></div>
+										                            <div class="col m8 s12">
+										                               <div class="file-field input-field">
+										                                   <div class="btn bg-m">
+										                                       	<span>Change Image</span>
+										                                       <input type="file" id="fobFile" name="fobFile" accept="image/*" onchange="readURL(this);">
+										                                   </div>
+										                                   <div class="file-path-wrapper">
+										                                       <input class="file-path validate" type="text" name="attachment" value="${dObj.attachment}">
+										                                       <img style="height: 20%;width: 20%;<c:if test="${empty dObj.attachment }">display:none;</c:if>" id="fobImagePreview" src="<%=CommonConstants2.FOB_FILES %>${dObj.attachment }" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" alt="FOB Image" />
+<%-- 										                                       <span onclick="removeMedia(this,'fobFile')" class="attachment-remove-btn" style="<c:if test="${empty dObj.attachment }">display:none;</c:if>">X</span>
+ --%>										                                   </div>
+										                                   <input type="hidden" id="fobFileNames${index.count }" name="fobFileNames" value="${dObj.attachment }">
+	                                   
+										                               </div>
+										                            </div>
+										                            <div class="col m2 hide-on-small-only"></div>
+									                            </div>
 			                                                </td>
 			                                                <td>
-			                                                    <input id="fob_detail_values${index.count }" name="fob_detail_values" type="text" class="validate" value="${dObj.value }"
-			                                                        placeholder="Value">
-			                                                </td>
-			                                                <td>
-			                                                    <a href="javascript:void(0);" class="btn waves-effect waves-light red t-c " onclick="removeFOBDetails('${index.count }');"> <i class="fa fa-close"></i></a>
+			                                                    <a href="javascript:void(0);" class="btn waves-effect waves-light red t-c " onclick="removeFOBImages('${index.count }');"> <i class="fa fa-close"></i></a>
 			                                                </td>
 			                                            </tr>
 		                                            </c:forEach> 
                                         		</c:when>
                                         		<c:otherwise>
-	                                        		<tr id="fobDetailsRow0">   
-	                                        			<td><input id="fob_detail_names0" name="fob_detail_names" type="text" class="validate" placeholder="Detail name">
+	                                        		<tr id="fobImagesRow0">   
+	                                        			<td><input type="hidden" name="fob_id_fks" id="fob_id_fks0" />
+		                                        			  <div class="row">
+									                                <div class="col m2 hide-on-small-only"></div>
+										                            <div class="col m8 s12">
+										                               <div class="file-field input-field">
+										                                   <div class="btn bg-m">
+										                                       	<span>Attach Image</span>
+										                                       <input type="file" id="fobFile" name="fobFile" accept="image/*" onchange="readURL(this);">
+										                                   </div>
+										                                   <div class="file-path-wrapper">
+										                                       <input class="file-path validate" type="text" name="attachment" >
+										                                       <img style="height: 20%;width: 20%;  id="fobImagePreview"   />
+<%-- 										                                       <span onclick="removeMedia(this,'fobFile')" class="attachment-remove-btn" style="<c:if test="${empty fob.attachment }">display:none;</c:if>">X</span>
+ --%>										                                   </div>
+	                                   
+										                               </div>
+										                            </div>
+										                            <div class="col m2 hide-on-small-only"></div>
+									                            </div>
 		                                                </td>
-		                                                <td><input id="fob_detail_values0" name="fob_detail_values" type="text" class="validate" placeholder="Value">
-		                                                </td>
-		                                                <td><a href="javascript:void(0);" class="btn waves-effect waves-light red t-c " onclick="removeFOBDetails('0');"> <i class="fa fa-close"></i></a>
+		                                                <td><a href="javascript:void(0);" class="btn waves-effect waves-light red t-c " onclick="removeFOBImages('0');"> <i class="fa fa-close"></i></a>
 		                                                </td>
 	                                                </tr>
                                         		</c:otherwise>
-                                        	</c:choose>     --%>                                                                                   
-                                            <!-- <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td><a href="#" class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-plus"></i></a> </td>
-											</tr> -->
+                                        	</c:choose>                                                                                      
+                                           
                                         </tbody>
                                     </table>
-                                  <!--   
+                                    
                                     <table class="mdl-data-table">
                                         <tbody>                                          
                                             <tr>
-                                                <td colspan="3" style="text-align: center !important"><a href="javascript:void(0);" onclick="addFOBDetails()"class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-plus"></i></a> </td>
+                                                <td colspan="1" style="text-align: center !important"><a href="javascript:void(0);" onclick="addFOBImages()"class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-plus"></i></a></td>
 											</tr>
                                         </tbody>
-                                    </table> -->
-                                   <%--  <c:choose>
-                                        <c:when test="${not empty fob.fobDetails && fn:length(fob.fobDetails) gt 0 }">
-                                            <input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(fob.fobDetails)}" />
+                                    </table> 
+                                    <c:choose>
+                                        <c:when test="${not empty fob.fobImages && fn:length(fob.fobImages) gt 0 }">
+                                            <input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(fob.fobImages)}" />
                                         </c:when>
                                         <c:otherwise>
                                         	<input type="hidden" id="rowNo"  name="rowNo" value="0" />
                                         </c:otherwise>
-                                    </c:choose>   --%>
+                                    </c:choose>  
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -371,7 +401,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div> -->
                             
-                            <div class="row">
+                           <%--  <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
 	                            <div class="col m8 s12">
 	                               <div class="file-field input-field">
@@ -394,7 +424,7 @@
 	                            </div>
 	                            <div class="col m2 hide-on-small-only"></div>
                             </div>
-                                
+                                 --%>
                             <div class="row">
                                 <!-- row 10 -->
                                 <div class="col m2 hide-on-small-only"></div>
@@ -953,40 +983,55 @@
         
         
         
-     /*    function addFOBDetails(){      		
+         function addFOBImages(){      		
             var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
-            var html = '<tr id="fobDetailsRow'+rNo+'">'
-    		   		  +'<td><input  type="text" class="validate" id="fob_detail_names'+rNo+'" name="fob_detail_names" placeholder="Detail Name"></td>'
-    				   +'<td><input  type="text" class="validate" id="fob_detail_values'+rNo+'" name="fob_detail_values" placeholder="Value"></td>'
-    			   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeFOBDetails('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+            var html = '<tr id="fobImagesRow'+rNo+'">'
+    		   		  +'<td><input type="hidden" name= "fob_id_fks" id="fob_id_fks' + rNo + '" />'
+    		   		+'<div class="row">'
+    		   		+'<div class="col m2 hide-on-small-only"></div>'
+    		   		+'<div class="col m8 s12">'
+    		   		+'<div class="file-field input-field">'
+    		   		+'<div class="btn bg-m">'
+    		   		+'<span>Attach Image</span>'
+    		   		+'<input type="file" id="fobFile'+rNo+'" name="fobFile" accept="image/*" onchange="readURL(this,'+rNo+');">'
+    		   		+'</div>'
+    		   		+' <div class="file-path-wrapper">'
+    		   		+'<input class="file-path validate" type="text" name="attachment" >'
+    		   		+'<img style="height: 20%;width: 20%; id="fobImagePreview'+rNo+'"   />'
+    		   		+'</div>'
+    		   		+'</div>'
+    		   		+'</div>'
+    		   		+'<div class="col m2 hide-on-small-only"></div></div>'
+		            +'</td>'
+    			   	+'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeFOBImages('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
     			 
-			 $('#fobDetailsTableBody').append(html);
+			 $('#fobImagesTable').append(html);
 			 $("#rowNo").val(rNo);
         }
         
-		 function removeFOBDetails(rowNo){
-        	$("#fobDetailsRow"+rowNo).remove();
-         } */
+		 function removeFOBImages(rowNo){
+        	$("#fobImagesRow"+rowNo).remove();
+         } 
 		 
-		 function readURL(input) {
+		 function readURL(input,rowNo) {
 	            if (input.files && input.files[0]) {
 	                var reader = new FileReader();
 	                reader.onload = function (e) {
-	                    $('#fobImagePreview').attr('src', e.target.result)
+	                    $('#fobImagePreview'+rowNo).attr('src', e.target.result)
 	                        //.width(150)
 	                        //.height(200);
 	                };
 	                reader.readAsDataURL(input.files[0]);
-	                $('#fobImagePreview').show();
+	                $('#fobImagePreview'+rowNo).show();
 	            }
 	     }
-		 function removeMedia(link,id){
+		/*  function removeMedia(link,id){
 		   	  $('#'+id).val('');
 		   	 // $(link).prev().text('');
 		   	  $('#fobImagePreview').hide();
 		   	  $(link).css('display','none');
-		 }  
+		 }   */
     </script>
 	
 </body>

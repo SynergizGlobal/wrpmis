@@ -1147,7 +1147,7 @@
     	 if ($.trim(strip_chart_structure_id_fk) != "") {
  	        var myParams = { strip_chart_component_id: strip_chart_component_id, strip_chart_activity_id: strip_chart_activity_id,strip_chart_structure_id_fk : strip_chart_structure_id_fk, contract_id_fk : contract_id_fk };
  	        $.ajax({
- 	            url: "<%=request.getContextPath()%>/ajax/getStripChartfiltersList",
+ 	            url: "<%=request.getContextPath()%>/ajax/getActivitiesfiltersList",
  	            data: myParams, cache: false,
  	            success: function (data) {
  	            	

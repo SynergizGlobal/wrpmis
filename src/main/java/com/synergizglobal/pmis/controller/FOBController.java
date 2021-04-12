@@ -306,13 +306,7 @@ public class FOBController {
 			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));			
 			obj.setCommissioning_date(DateParser.parse(obj.getCommissioning_date()));			
 			obj.setActual_completion_date(DateParser.parse(obj.getActual_completion_date()));
-			MultipartFile file = obj.getFobFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants2.FOB_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				obj.setAttachment(fileName);
-			}
+		
 			boolean flag = fobService.addFOB(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "FOB added successfully");
@@ -366,15 +360,7 @@ public class FOBController {
 			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));			
 			obj.setCommissioning_date(DateParser.parse(obj.getCommissioning_date()));			
 			obj.setActual_completion_date(DateParser.parse(obj.getActual_completion_date()));
-			MultipartFile file = obj.getFobFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants2.FOB_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				obj.setAttachment(fileName);
-			} else if(!StringUtils.isEmpty(obj.getAttachment())){
-				obj.setAttachment(obj.getAttachment());
-			}
+		
 			boolean flag = fobService.updateFOB(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "FOB updated successfully");

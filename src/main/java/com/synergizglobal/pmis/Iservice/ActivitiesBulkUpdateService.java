@@ -26,7 +26,7 @@ public interface ActivitiesBulkUpdateService {
 
 	public StripChart getAcivitiesBulkUpdateDetails(StripChart obj)throws Exception;
 
-	public List<StripChart> getstripChartfilterList(StripChart obj)throws Exception;
+	public List<StripChart> getActivitiesfiltersList(StripChart obj)throws Exception;
 
 	public boolean updateAcivitiesBulk(StripChart obj)throws Exception;
 }

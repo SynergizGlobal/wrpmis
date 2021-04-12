@@ -5,10 +5,18 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FOB {
-	private String fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,
+	private String fob_id,fob_name,id,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,
 	commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment,fob_detail_id,fob_id_fk,
 	detail_name,value,work_id_fk,project_id_fk,revised_completion,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost,
 	project_id,work_id,work_name,work_short_name;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getProject_id() {
 		return project_id;
@@ -50,13 +58,46 @@ public class FOB {
 		this.contract_short_name = contract_short_name;
 	}
 
-	private MultipartFile fobFile;
+	private MultipartFile [] fobFile;
 	private List<FOB> fobDetails;
-	
+	private List<FOB> fobImages;
+	private String[] fob_id_fks,fobFileNames;
 	private String[] fob_detail_names,fob_detail_values;
 	
-	
-	
+
+
+	public String[] getFobFileNames() {
+		return fobFileNames;
+	}
+
+	public void setFobFileNames(String[] fobFileNames) {
+		this.fobFileNames = fobFileNames;
+	}
+
+	public String[] getFob_id_fks() {
+		return fob_id_fks;
+	}
+
+	public void setFob_id_fks(String[] fob_id_fks) {
+		this.fob_id_fks = fob_id_fks;
+	}
+
+	public MultipartFile[] getFobFile() {
+		return fobFile;
+	}
+
+	public void setFobFile(MultipartFile[] fobFile) {
+		this.fobFile = fobFile;
+	}
+
+	public List<FOB> getFobImages() {
+		return fobImages;
+	}
+
+	public void setFobImages(List<FOB> fobImages) {
+		this.fobImages = fobImages;
+	}
+
 	public String getRevised_completion() {
 		return revised_completion;
 	}
@@ -279,14 +320,6 @@ public class FOB {
 
 	public void setContract_name(String contract_name) {
 		this.contract_name = contract_name;
-	}
-
-	public MultipartFile getFobFile() {
-		return fobFile;
-	}
-
-	public void setFobFile(MultipartFile fobFile) {
-		this.fobFile = fobFile;
 	}
 
 	public String getLast_sanctioned_cost() {

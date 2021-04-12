@@ -170,15 +170,15 @@ public class ActivitiesBulkUpdateController {
 		return data;
 	}
 	
-	@RequestMapping(value = "/ajax/getStripChartfiltersList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getActivitiesfiltersList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChart> getStripChartfilterList(@ModelAttribute StripChart obj){
+	public List<StripChart> getActivitiesfiltersList(@ModelAttribute StripChart obj){
 		List<StripChart> fileterData = null;
 		try{
-			fileterData = activitiesBulkUpdateService.getstripChartfilterList(obj);	
+			fileterData = activitiesBulkUpdateService.getActivitiesfiltersList(obj);	
 		}catch(Exception e){
 			e.printStackTrace();
-			logger.error("getStripChartfilterList() : "+e.getMessage());
+			logger.error("getActivitiesfiltersList() : "+e.getMessage());
 		}
 		return fileterData;
 	}

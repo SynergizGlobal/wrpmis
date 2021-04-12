@@ -65,8 +65,8 @@ public class ActivitiesBulkUpdateServiceImpl implements ActivitiesBulkUpdateServ
 	}
 
 	@Override
-	public List<StripChart> getstripChartfilterList(StripChart obj) throws Exception {
-		return dao.getstripChartfilterList(obj);
+	public List<StripChart> getActivitiesfiltersList(StripChart obj) throws Exception {
+		return dao.getActivitiesfiltersList(obj);
 	}
 
 	@Override

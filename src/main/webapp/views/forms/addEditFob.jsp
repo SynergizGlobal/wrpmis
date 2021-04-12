@@ -266,16 +266,18 @@
 	                                        	<tr>
 	                                        	  <td><input id="fob_detail_names${index.count }"  readonly name="fob_detail_names" type="text" class="validate" value="${dObj.detail_name }" 
 				                                                        placeholder="Detail name"></td>
-	                                        	  <td><input id="fob_detail_values${index.count }"  readonly name="fob_detail_values" type="text" class="validate" value="${dObj.value }"
+	                                        	  <td><input id="fob_detail_values${index.count }"  name="fob_detail_values" type="text" class="validate" 
 				                                                        placeholder="Value"></td>
 	                                        	</tr>
                                         	</c:forEach>
                                          </c:if>
                                          <c:if test="${action eq 'edit'}">
+                                          <c:choose>
+                                      	 <c:when test="${not empty fobDetails && fn:length(fobDetails) gt 0 }">
                                          		<c:forEach var="dObj" items="${fob.fobDetails }" varStatus="index">                                        	
 			                                           <tr id="fobDetailsRow${index.count }">                                            	
 			                                               <td>
-			                                                    <input id="fob_detail_names${index.count }" name="fob_detail_names" type="text" class="validate" value="${dObj.detail_name }"
+			                                                    <input id="fob_detail_names${index.count }" name="fob_detail_names" type="text" readonly class="validate" value="${dObj.detail_name }"
 			                                                        placeholder="Detail name">
 			                                                </td>
 			                                                <td>
@@ -284,7 +286,19 @@
 			                                                </td>
 			                                            </tr>
 		                                            </c:forEach> 
-                                          </c:if>
+		                                      </c:when>
+                                       	    <c:otherwise>
+                                       	   		<c:forEach items="${fobDetailsList}" var="dObj" varStatus="index">
+	                                        	<tr>
+	                                        	  <td><input id="fob_detail_names${index.count }"  readonly name="fob_detail_names" type="text" class="validate" value="${dObj.detail_name }" 
+				                                                        placeholder="Detail name"></td>
+	                                        	  <td><input id="fob_detail_values${index.count }"  name="fob_detail_values" type="text" class="validate" 
+				                                                        placeholder="Value"></td>
+	                                        	</tr>
+                                        	</c:forEach>
+                                         </c:otherwise>
+                                        </c:choose>
+                                      </c:if>
                                          
                                         	<%-- <c:choose>
                                         		<c:when test="${not empty fob.fobDetails && fn:length(fob.fobDetails) gt 0 }">

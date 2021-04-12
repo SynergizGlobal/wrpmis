@@ -570,19 +570,22 @@ public class IssueDaoImpl implements IssueDao {
 						+ "VALUES"
 						+ "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
 				
+				String isuue_status = null;
+				if(!StringUtils.isEmpty(iObj.getStatus_fk())) {
+					isuue_status = iObj.getStatus_fk().toLowerCase();
+				}
+				String message1 = "A new issue against "+iObj.getContract_id_fk()+" has been "+isuue_status + " to you";
 				
-				String message1 = "A new issue against "+iObj.getContract_id_fk()+" has been "+iObj.getStatus_fk() + " to you";
-				
-				String message2 = "An issue against "+iObj.getContract_id_fk()+" has been "+iObj.getStatus_fk();
+				String message2 = "An issue against "+iObj.getContract_id_fk()+" has been "+isuue_status;
 				
 				String message3 = "An issue against "+iObj.getContract_id_fk()+" has been ";
 				
 				if("Assigned".equals(iObj.getStatus_fk()) && !StringUtils.isEmpty(iObj.getResponsible_person_user_id()) 
 						 && !iObj.getResponsible_person_user_id().equals(existing_responsible_person) ) {
-					message3 = message3 + iObj.getStatus_fk();
+					message3 = message3 + isuue_status;
 				}else if("Escalated".equals(iObj.getStatus_fk()) && !StringUtils.isEmpty(iObj.getResponsible_person_user_id()) 
 						 && !iObj.getEscalated_to_user_id().equals(existing_escalated_to) ) {
-					 message3 = message3 + iObj.getStatus_fk();
+					 message3 = message3 + isuue_status;
 				}else {
 					 message3 = message3 + "updated";
 				}
@@ -930,10 +933,10 @@ public class IssueDaoImpl implements IssueDao {
 						&& iObj.getStatus_fk().equals(existing_status_fk)) {					
 					 if("Assigned".equals(iObj.getStatus_fk()) && !StringUtils.isEmpty(iObj.getResponsible_person_user_id()) 
 							 && !iObj.getResponsible_person_user_id().equals(existing_responsible_person) ) {
-						 mailBodyHeader = mailBodyHeader + iObj.getStatus_fk();
+						 mailBodyHeader = mailBodyHeader + isuue_status;
 					 }else if("Escalated".equals(iObj.getStatus_fk()) && !StringUtils.isEmpty(iObj.getResponsible_person_user_id()) 
 							 && !iObj.getEscalated_to_user_id().equals(existing_escalated_to) ) {
-						 mailBodyHeader = mailBodyHeader + iObj.getStatus_fk();
+						 mailBodyHeader = mailBodyHeader + isuue_status;
 					 }else {
 						 mailBodyHeader = mailBodyHeader + "updated ";
 					 }

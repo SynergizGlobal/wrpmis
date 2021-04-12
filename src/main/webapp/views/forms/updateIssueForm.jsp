@@ -313,7 +313,7 @@
                                 <div class="col s12 m4 input-field">
                                     <div class="file-field input-field">
                                         <div class="btn bg-m t-c">
-                                            <span>Attachment</span>
+                                            <span>Attach Files</span>
                                             <input type="file" id="issueFiles" name="issueFiles" multiple>
                                         </div>
                                         <div class="file-path-wrapper">

@@ -8,7 +8,7 @@ public class Alerts {
 	private String redirect_url,department_name,responsible_person,escalated_to,hod_user_id_fk,dy_hod_user_id_fk,created_by_user_id_fk,
 	user_id_fk,alert_level_fk;
 	
-	private String status,uploaded_by_user_id_fk;
+	private String status,uploaded_by_user_id_fk,corrective_measure;
 	
 	public String getRedirect_url() {
 		return redirect_url;
@@ -328,6 +328,14 @@ public class Alerts {
 
 	public void setUploaded_by_user_id_fk(String uploaded_by_user_id_fk) {
 		this.uploaded_by_user_id_fk = uploaded_by_user_id_fk;
+	}
+
+	public String getCorrective_measure() {
+		return corrective_measure;
+	}
+
+	public void setCorrective_measure(String corrective_measure) {
+		this.corrective_measure = corrective_measure;
 	}
 	
 }

@@ -188,25 +188,43 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	count++;
 		  	/*===========================================================*/
 		  	
-		  	 titleTableRow = factory.createTr();		
-				addTableCell(factory, wordMLPackage, titleTableRow, "Reported By", titleRpr,
-						JcEnumeration.LEFT, true, "ecf2ff");
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getReported_by(), titleContentRpr,
-						JcEnumeration.LEFT, false, null);
+		  	titleTableRow = factory.createTr();		
+			addTableCell(factory, wordMLPackage, titleTableRow, "Reported By", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getReported_by(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			
+			addTableCell(factory, wordMLPackage, titleTableRow, "Reported On", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getCreated_date(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, count, 2, 3);
+		  	mergeCellsHorizontal(titleTable, count, 4, 5);
+		  	count++;
+		  	
+		  	/*===========================================================*/
+		  	
+		  	titleTableRow = factory.createTr();		
 				
-				addTableCell(factory, wordMLPackage, titleTableRow, "Location/Station/KM", titleRpr,
-						JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, "Location/Station/KM", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getLocation(), titleContentRpr,
+					JcEnumeration.LEFT, false, null);
+			
+			for(int i=0; i<4;i++) {
 				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
 						JcEnumeration.LEFT, false, null);
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getLocation(), titleContentRpr,
-						JcEnumeration.LEFT, false, null);
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
-						JcEnumeration.LEFT, false, null);
-				
-			  	titleTable.getContent().add(titleTableRow);	
-			  	mergeCellsHorizontal(titleTable, count, 2, 3);
-			  	mergeCellsHorizontal(titleTable, count, 4, 5);
-			  	count++;
+			}
+			
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, count, 1, 5);	
+		  	count++;
 		  /*===========================================================*/
 
 	  	 titleTableRow = factory.createTr();		

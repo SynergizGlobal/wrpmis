@@ -362,7 +362,7 @@ public class DocxTableCreation {
 			tableHeader.add("Location\n/Station\n/KM");
 			tableHeader.add("Reported\nBy");
 			tableHeader.add("Pending\nWith");
-			tableHeader.add("Pending\nSince\nDate");
+			tableHeader.add("Pending\nSince");
 			tableHeader.add("Issue / Action Taken / Remarks"); 
 			tableHeader.add("Person\nResponsible\nin MRVC\n(Assigned to)");  
 			

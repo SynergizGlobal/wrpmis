@@ -150,7 +150,7 @@ public class WebviewActivitiesBulkUpdateController {
 	public List<StripChart> getStripChartfilterList(@ModelAttribute StripChart obj){
 		List<StripChart> fileterData = null;
 		try{
-			fileterData = activitiesBulkUpdateervice.getstripChartfilterList(obj);	
+			//fileterData = activitiesBulkUpdateervice.getstripChartfilterList(obj);	
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.error("getStripChartfilterList() : "+e.getMessage());

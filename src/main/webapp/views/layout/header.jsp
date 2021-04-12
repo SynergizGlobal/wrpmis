@@ -59,15 +59,15 @@
 	}
 	
 	.read-message {
-		background-color: #a5a5a5;
+		background-color: #e7e7e7;
 	}
 	
 	.notifications_group .item.unread-message:hover {
-		background-color: #9ebb9f;
+		background-color: #90b6c0;
 	}
 	
 	.notifications_group .item.read-message:hover {
-		background-color: #9ebb9f;
+		background-color: #e7e7e7;
 	}
 	
 	.notification_body{
@@ -81,6 +81,25 @@
 	.mt-brdr .center-align.m-1 button.bg-m, 
 	.mt-brdr .center-align.m-1 button.bg-s{
 		width:inherit;
+	}
+	
+	.message_group .item {
+	    padding: 2px 5px;
+	    margin: 0px!important;
+	    width: 100%;
+	}
+	.message_group .item {
+	    position: relative;
+	    display: block;
+	    width: 100%;
+	    padding: 5px 10px 10px 10px;
+	    line-height: 23px;
+	    font-size: 0.85rem;
+	    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	    width: 100%;
+	    margin: 3px;
+	    padding: 10px;
+	    border-radius: 0px;
 	}
 </style>
 
@@ -532,15 +551,20 @@
 										<c:set var="message_color_bg" value="unread-message"></c:set>
 									</c:if>
 
-									<li class="item ${message_color_bg}"><a
-										href="<%=request.getContextPath()%>${obj.redirect_url}?message_id=${obj.message_id }">
-											<span class="icon"> <i
-												class='fa fa-exclamation-triangle'></i> <span
-												class="icon-text">${obj.message_type }</span>
-										</span>
-											<div>${obj.message }</div> <span class="date_text"><i
-												class='fa fa-clock-o'></i> ${obj.created_date }</span>
-									</a></li>
+									<li class="item ${message_color_bg}">
+										<a href="<%=request.getContextPath()%>${obj.redirect_url}?message_id=${obj.message_id }">
+											<div class="row col m12">
+												<div class="col m2">
+													<i class='fa fa-exclamation-triangle'></i> 
+														<span class="icon-text">${obj.message_type }</span>
+											    </div>
+											    <div class="col m10">
+											    	<div>${obj.message }</div> 
+											    	<span class="date_text"> <i class='fa fa-clock-o'></i> ${obj.created_date }</span>
+											    </div>
+										    </div>
+										</a>
+									</li>
 								</c:forEach>
 							</c:if>
 							
@@ -1220,9 +1244,22 @@
 		                    		  count = count + 1;
 		                    		  html = html + '<li class="item '+message_color_bg+'">'
 		                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+'?message_id='+val.message_id +'">'
-		                    		  		+ '<span class="icon"> <i class="fa fa-exclamation-triangle"></i> <span class="icon-text">'+val.message_type+'</span> </span>'
+		                    		  		
+		                    		  		+ '<div class="row col m12" style="margin-bottom:0px!important;">'
+		                    		  		+ '<div class="col m2" style="text-align: center;">'
+		                    		  		+ '<i class="fa fa-exclamation-triangle" style="font-size:2rem;margin-top: 10px;height: 1.5rem;line-height: 1.5rem;"></i>'
+		                    		  		+ '<span class="">'+val.message_type+'</span>'
+		                    		  		+ '</div>'
+		                    		  		+ '<div class="col m10">'
+		                    		  		+ '<div>'+val.message +'</div> '
+		                    		  		+ '<div style="font-size: 10px;padding:5px 0px 0px 0px;"> <i class="fa fa-clock-o"></i> &nbsp;'+val.created_date+'</div>'
+		                    		  		+ '</div>'
+		                    		  		+ '</div>'
+		                    		  				
+		                    		  		/* + '<span class="icon"> <i class="fa fa-exclamation-triangle"></i> <span class="icon-text">'+val.message_type+'</span> </span>'
 		                    		  		+ '<div>'+val.message +'</div>'
-		                    		  		+ '<span class="date_text"><i class="fa fa-clock-o"></i>'+val.created_date+'</span>'
+		                    		  		+ '<span class="date_text"><i class="fa fa-clock-o"></i>'+val.created_date+'</span>' */
+		                    		  		
 		                    		  		+ '</a></li>';
 			                    		 
 	                    		  });

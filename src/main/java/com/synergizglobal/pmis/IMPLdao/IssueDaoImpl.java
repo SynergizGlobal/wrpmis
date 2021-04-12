@@ -481,6 +481,22 @@ public class IssueDaoImpl implements IssueDao {
 				
 				String fileQry = "INSERT INTO issue_files (file_name,issue_id_fk)VALUES(:file_name,:issue_id)";
 				
+				int arraySize = 0;
+				if(!StringUtils.isEmpty(obj.getIssueFileNames()) && obj.getIssueFileNames().length > 0 ) {
+					obj.setIssueFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getIssueFileNames()));
+					if(arraySize < obj.getIssueFileNames().length) {
+						arraySize = obj.getIssueFileNames().length;
+					}
+				}
+				
+				for (int i = 0; i < arraySize; i++) {
+					fileObj = new Issue();
+					fileObj.setFile_name(obj.getIssueFileNames()[i]);
+					fileObj.setIssue_id(obj.getIssue_id());
+					paramSource = new BeanPropertySqlParameterSource(fileObj);	
+					template.update(fileQry, paramSource);
+				}
+				
 				if(!StringUtils.isEmpty(obj.getIssueFiles()) && obj.getIssueFiles().size() > 0) {
 					List<MultipartFile> issueFiles = obj.getIssueFiles();
 					for (MultipartFile multipartFile : issueFiles) {
@@ -498,24 +514,7 @@ public class IssueDaoImpl implements IssueDao {
 							template.update(fileQry, paramSource);
 						}
 					}
-				}	
-				
-				int arraySize = 0;
-				if(!StringUtils.isEmpty(obj.getIssueFileNames()) && obj.getIssueFileNames().length > 0 ) {
-					obj.setIssueFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getIssueFileNames()));
-					if(arraySize < obj.getIssueFileNames().length) {
-						arraySize = obj.getIssueFileNames().length;
-					}
 				}
-				
-				for (int i = 0; i < arraySize; i++) {
-					fileObj = new Issue();
-					fileObj.setFile_name(obj.getIssueFileNames()[i]);
-					fileObj.setIssue_id(obj.getIssue_id());
-					paramSource = new BeanPropertySqlParameterSource(fileObj);	
-					template.update(fileQry, paramSource);
-				}
-				
 				
 				String issue_id = obj.getIssue_id();
 				String issue_status = obj.getStatus_fk();

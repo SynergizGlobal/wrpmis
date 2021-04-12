@@ -55,7 +55,7 @@
 	}
 	
 	.unread-message {
-		background-color: #4fce5d;
+		background-color: #C6E0B4 ;
 	}
 	
 	.read-message {
@@ -63,7 +63,7 @@
 	}
 	
 	.notifications_group .item.unread-message:hover {
-		background-color: #4fce5d;
+		background-color: #C6E0B4 ;
 	}
 	
 	.notifications_group .item.read-message:hover {

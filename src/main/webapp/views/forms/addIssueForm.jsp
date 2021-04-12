@@ -273,23 +273,22 @@
                                         </div>                                       
                                     </div> -->
                                     
-                                    <div class="file-field input-field">
-                                        <div class="btn bg-m t-c">
-                                            <span>Attach Files</span>
-                                            <input type="file" class="issueFiles" name="issueFiles" multiple>
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>                                       
-                                    </div>
+                                    <div id="selectedFilesInput">
+                                    	<div class="file-field input-field" id="issueFilesDiv1" >
+	                                        <div class="btn bg-m t-c">
+	                                            <span>Attach Files</span>
+	                                            <input type="file" id="issueFiles1" name="issueFiles" onchange="selectFile('1')">
+	                                        </div>
+	                                        <div class="file-path-wrapper">
+	                                            <input class="file-path validate" type="text">
+	                                        </div>                                       
+	                                    </div>
+									</div>
                                     
                                     <div id="selectedFiles">
-                                    	<%-- <div>
-											<a href="#" class="filevalue">test</a>
-											<span onclick="removeFile(this,'issueFiles${index.count }')" class="attachment-remove-btn">X</span>
-										</div> --%>
+                                    	
 									</div>
-                                 </div>
+                                </div>
 							</div>
                                                  
                             <div class="row no-mar">
@@ -339,21 +338,41 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
 		
-		/* $("input[id=issueFiles]").change(function() {
-			var html = '';
-		    for (var i = 0; i < $(this).get(0).files.length; ++i) {
-		    	var id = "'issueFiles"+i+"'";
-		    	html =  html + '<div id='+id+'>'
-		    				 + '<input type="file" style="display:none" name="issueFiles" value="'+$(this).get(0).files[i]+'">'
-		    				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
-							 + '<span onclick="removeFile('+id+')" class="attachment-remove-btn">X</span>'
-							 + '</div>';
+		function selectFile(no){
+		    files = $("#issueFiles"+no)[0].files;
+		    var html = "";
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=issueFileName'+no+'>'
+				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+				 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
+				 + '</div>'
+				 + '<div style="clear:both;"></div>';
 		    }
 		    $("#selectedFiles").append(html);
-		}); */
+		    
+		    $('#issueFilesDiv'+no).hide();
+		    
+			var fileIndex = Number(no)+1;
+			moreFiles(fileIndex);
+		}
 		
-		function removeFile(id){			
-         	$('#'+id).remove();
+		function moreFiles(no){
+			var html = "";
+			html =  html + '<div class="file-field input-field" id="issueFilesDiv'+no+'" >'
+			+ '<div class="btn bg-m t-c">'
+			+ '<span>Attach Files</span>'
+			+ '<input type="file" id="issueFiles'+no+'" name="issueFiles" onchange="selectFile('+no+')">'
+			+ '</div>'
+			+ '<div class="file-path-wrapper">'
+			+ '<input class="file-path validate" type="text">'
+			+ '</div>'                          
+			+ '</div>'
+			$("#selectedFilesInput").append(html);
+		}
+		
+		function removeFile(no){			
+         	$('#issueFilesDiv'+no).remove();
+         	$('#issueFileName'+no).remove();
         } 
 	
         $(document).ready(function () {

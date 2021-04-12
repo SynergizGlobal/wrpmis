@@ -311,7 +311,7 @@
                                     <span id="resolved_dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <div class="file-field input-field">
+                                    <%-- <div class="file-field input-field">
                                         <div class="btn bg-m t-c">
                                             <span>Attach Files</span>
                                             <input type="file" id="issueFiles" name="issueFiles" multiple>
@@ -327,7 +327,35 @@
 											<span onclick="removeFile(this,'issueFiles${index.count }','attachments')" class="attachment-remove-btn">X</span>
 											<input type="hidden" id="issueFiles${index.count }" name="issueFileNames" value="${obj.file_name }">
 									     </div>
-									</c:forEach>
+									</c:forEach> --%>
+									
+									<c:set var="existingIssueFilesLength" value="${fn:length(issue.issueFilesList )}"></c:set>
+									<c:if test="${fn:length(issue.issueFilesList ) gt 0}">
+										<c:set var="existingIssueFilesLength" value="${fn:length(issue.issueFilesList )+1}"></c:set>
+									</c:if>
+									<div id="selectedFilesInput">
+                                    	<div class="file-field input-field" id="issueFilesDiv${existingIssueFilesLength }" >
+	                                        <div class="btn bg-m t-c">
+	                                            <span>Attach Files</span>
+	                                            <input type="file" id="issueFiles${existingIssueFilesLength }" name="issueFiles" onchange="selectFile('${existingIssueFilesLength }')">
+	                                        </div>
+	                                        <div class="file-path-wrapper">
+	                                            <input class="file-path validate" type="text">
+	                                        </div>                                       
+	                                    </div>
+									</div>
+                                    
+                                    <div id="selectedFiles">
+                                    	<c:forEach var="obj" items="${issue.issueFilesList }" varStatus="index">
+											 <div id="issueFileName${index.count }">
+												<a href="<%=CommonConstants2.ISSUE_FILES%>${obj.issue_id }/${obj.file_name } " class="filevalue" download>${obj.file_name }</a>
+												<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
+												<input type="hidden" name="issueFileNames" value="${obj.file_name }">
+										     </div>
+										     <div style="clear:both" ></div>
+										</c:forEach>
+									</div>
+									
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -1330,7 +1358,7 @@
         	}  
         	
             
-            function removeFile(link,id,issueFileNames){         	
+           /*  function removeFile(link,id,issueFileNames){         	
 	          	 var text=$('#'+id).val('');
 	          	 var text1=$('#'+issueFileNames).val();
 	          	 text1= text1.replace($(link).prev().text(),'') ;
@@ -1339,7 +1367,49 @@
 	          	 $(link).prev().text(''); 
 	          	 $(link).css('display','none');
 	          	 $('#'+id).remove()
-             } 
+             } */ 
+            
+            
+            /**************************************************************************************************************/
+            
+            function selectFile(no){
+			    files = $("#issueFiles"+no)[0].files;
+			    var html = "";
+			    for (var i = 0; i < files.length ; i++) {
+			    	html =  html + '<div id=issueFileName'+no+'>'
+					 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+					 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
+					 + '</div>'
+					 + '<div style="clear:both;"></div>';
+			    }
+			    $("#selectedFiles").append(html);
+			    
+			    $('#issueFilesDiv'+no).hide();
+			    
+				var fileIndex = Number(no)+1;
+				moreFiles(fileIndex);
+			}
+			
+			function moreFiles(no){
+				var html = "";
+				html =  html + '<div class="file-field input-field" id="issueFilesDiv'+no+'" >'
+				+ '<div class="btn bg-m t-c">'
+				+ '<span>Attach Files</span>'
+				+ '<input type="file" id="issueFiles'+no+'" name="issueFiles" onchange="selectFile('+no+')">'
+				+ '</div>'
+				+ '<div class="file-path-wrapper">'
+				+ '<input class="file-path validate" type="text">'
+				+ '</div>'                          
+				+ '</div>'
+				$("#selectedFilesInput").append(html);
+			}
+			
+			function removeFile(no){			
+	         	$('#issueFilesDiv'+no).remove();
+	         	$('#issueFileName'+no).remove();
+	        }
+			
+			/**************************************************************************************************************/
             
     </script>
 </body>

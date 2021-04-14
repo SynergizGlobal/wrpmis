@@ -95,4 +95,9 @@ public class AlertsServiceImpl implements AlertsService{
 		return dao.getAlertTypes(aObj);
 	}
 
+	@Override
+	public boolean sendRiskNotificationAlertMails() throws Exception {
+		return dao.sendRiskNotificationAlertMails();
+	}
+
 }

@@ -66,6 +66,9 @@ public class AlertsController {
             boolean flag = service.generateAterts();
             //System.out.println("End "+ new Date());
 	    	logger.error("generateAlertsByCronJob : "+flag);
+	    	
+	    	//flag = service.sendRiskNotificationAlertMails();
+			//logger.error("sendRiskNotificationAlertMails >> Sending mails : "+ flag); 
 			
 			flag = service.sendAlertsToRajivRavi();
 			logger.error("generateAlertsByCronJob >> Sending mails : "+ flag); 

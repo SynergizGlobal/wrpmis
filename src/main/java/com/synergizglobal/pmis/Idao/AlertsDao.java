@@ -38,5 +38,7 @@ public interface AlertsDao {
 	List<Alerts> getAlertsList(Alerts obj, int startIndex, int offset, String searchParameter) throws Exception;
 
 	List<Alerts> getAlertTypes(Alerts aObj) throws Exception;
+
+	boolean sendRiskNotificationAlertMails() throws Exception;
 	
 }

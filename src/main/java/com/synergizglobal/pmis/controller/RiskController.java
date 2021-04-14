@@ -273,10 +273,10 @@ public class RiskController {
 							if(!StringUtils.isEmpty(sub_work)) { 
 								String tempSubWork = sub_work.replaceAll("\\&", "and");
 								risk.setSub_work(tempSubWork);
-							}else if(!StringUtils.isEmpty(obj.getWork_short_name())){
+							} /*else if(!StringUtils.isEmpty(obj.getWork_short_name())){
 								String tempSubWork = obj.getWork_short_name().replaceAll("\\&", "and");
 								risk.setSub_work(tempSubWork);
-							}	
+								}	*/
 							
 							//val = getCellDataType2(workbook,row.getCell(1));
 							tempVal = formatter.formatCellValue(row.getCell(1)).trim();

@@ -122,7 +122,7 @@
 	                                        <span id="report_work_idError" class="error-msg" ></span>
 	                                    </div> -->
 	                                    <div class="col s12 m3 input-field">
-	                                        <p class="searchable_label" style="text-align:left">Sub Work</p>
+	                                        <p class="searchable_label" style="text-align:left">Work</p>
 	                                        <select class="searchable validate-dropdown" id="sub_work" name="sub_work" onchange="getAssessmentDateListInRiskReport(this.value);">
 	                                            <option value="">Select </option>
 	                                        </select>

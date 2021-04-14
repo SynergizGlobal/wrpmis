@@ -64,7 +64,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 	public List<RiskReport> getAssessmentDateListInRiskReport(RiskReport obj) throws Exception {
 		List<RiskReport> objsList = null;
 		try {
-			String qry = "select DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date "
+			String qry = "select DATE_FORMAT(date,'%d-%b-%Y') AS assessment_date "
 					+ "from risk_revision rr "
 					+ "left join risk r on risk_id_pk_fk = risk_id_pk " 
 					+ "where sub_work = ? group by date order by date desc";

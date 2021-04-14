@@ -785,7 +785,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		return flag;
 	}
 	
-	//@Override
+	@Override
 	public boolean sendRiskNotificationAlertMails() throws Exception {
 		boolean flag = false;
 		try {
@@ -794,11 +794,11 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String userIdQry = "SELECT user_id_fk,u2.email_id "
 					+ "FROM alerts a " 
-					+ "left join alerts_user u on u.alerts_id_fk = a.alert_id " 
-					+ "left join user u2 on u.user_id_fk = u2.user_id " 
+					+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
+					+ "left join user u on au.user_id_fk = u.user_id " 
 					+ "where a.alert_status = 'Active' and count <> 0 "
-					+ "and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk = 'Risk' "
-					+ "group by user_id_fk";
+					+ "and u.email_id is not null and u.email_id <> '' and a.alert_type_fk = 'Risk' "
+					+ "group by au.user_id_fk";
 			
 			List<Alerts> userIdList = jdbcTemplate.query( userIdQry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			

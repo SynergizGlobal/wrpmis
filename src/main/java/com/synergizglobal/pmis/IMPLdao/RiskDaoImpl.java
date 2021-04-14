@@ -95,6 +95,10 @@ public class RiskDaoImpl implements RiskDao{
 							
 							updateCount++;
 							
+							
+							String deleteRiskActionQry = "DELETE from risk_action WHERE risk_revision_id_fk =:risk_revision_id";
+							paramSource = new BeanPropertySqlParameterSource(obj);		 
+							count = namedParamJdbcTemplate.update(deleteRiskActionQry, paramSource);							
 					 }else {
 						 String insertRevisionsQry = "INSERT into risk_revision  (risk_id_pk_fk,date , priority_fk, probability , impact, owner "
 									+ ", responsible_person , mitigation_plan) "
@@ -409,7 +413,7 @@ public class RiskDaoImpl implements RiskDao{
 				arrSize++;
 			} 
 			
-			qry = qry + " group by date";
+			qry = qry + " group by date order by date desc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {

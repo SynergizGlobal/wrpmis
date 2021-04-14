@@ -1,7 +1,10 @@
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="UTF-8"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -103,6 +106,7 @@
                             </div>
 
                             <div class="row">
+                            <input id="safety_id" name="safety_id" type="hidden" value="${safety.safety_id }" />
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                <%--  <div class="col s12 m4 input-field">
@@ -366,23 +370,38 @@
                             </div>                          
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
-                                    <div class="file-field input-field">
-                                        <div class="btn bg-m">
-                                            <span>Attachment</span>
-                                            <input type="file" id="safetyFile" name="safetyFile">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" name="attachment" value="${safety.attachment }" id="safetyFileWrappeer">
-                                        </div>
-                                    </div>
-                                    <c:if test="${not empty safety.attachment }">
-                                       	<a href="<%=CommonConstants2.SAFETY_FILES %>${safety.attachment }" class="filevalue" download>${safety.attachment }</a>
-                                       	<span onclick="removeMedia(this,'safetyFileWrappeer')" class="attachment-remove-btn">X</span>	
-                                   	</c:if>
+                            <div class="col m2 hide-on-small-only"></div>
+                            <div class="col s12 m8 input-field">
+									<c:set var="existingsafetyFilesLength" value="${fn:length(safety.safetyFilesList )}"></c:set>
+									<c:if test="${fn:length(safety.safetyFilesList ) gt 0}">
+										<c:set var="existingSafetyFilesLength" value="${fn:length(safety.safetyFilesList )+1}"></c:set>
+									</c:if>
+									<div id="selectedFilesInput">
+                                    	<div class="file-field input-field" id="safetyFilesDiv${existingSafetyFilesLength }" >
+	                                        <div class="btn bg-m t-c">
+	                                            <span>Attach Files</span>
+	                                            <input type="file" id="safetyFiles${existingSafetyFilesLength }" name="safetyFiles" onchange="selectFile('${existingSafetyFilesLength }')">
+	                                        </div>
+	                                        <div class="file-path-wrapper">
+	                                            <input class="file-path validate" type="text">
+	                                        </div>                                       
+	                                    </div>
+									</div>
+                                    
+                                    <div id="selectedFiles">
+                                    	<c:forEach var="obj" items="${safety.safetyFilesList }" varStatus="index">
+											 <div id="safetyFileName${index.count }">
+												<a href="<%=CommonConstants2.SAFETY_FILES %>${safety.attachment }" class="filevalue" download>${obj.attachment }</a>
+												<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
+												<input type="hidden" name="safetyFileNames" value="${obj.attachment }">
+										     </div>
+										     <div style="clear:both" ></div>
+										</c:forEach>
+									</div>
+									
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
+                              
                             </div>
                             <div class="row">
                                 <!-- row 10 -->
@@ -1000,6 +1019,43 @@
              	  $(link).prev().text('');
              	  $(link).css('display','none');
             }
+            
+            function selectFile(no){
+			    files = $("#safetyFiles"+no)[0].files;
+			    var html = "";
+			    for (var i = 0; i < files.length ; i++) {
+			    	html =  html + '<div id=safetyFileName'+no+'>'
+					 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+					 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
+					 + '</div>'
+					 + '<div style="clear:both;"></div>';
+			    }
+			    $("#selectedFiles").append(html);
+			    
+			    $('#safetyFilesDiv'+no).hide();
+			    
+				var fileIndex = Number(no)+1;
+				moreFiles(fileIndex);
+			}
+			
+			function moreFiles(no){
+				var html = "";
+				html =  html + '<div class="file-field input-field" id="safetyFilesDiv'+no+'" >'
+				+ '<div class="btn bg-m t-c">'
+				+ '<span>Attach Files</span>'
+				+ '<input type="file" id="safetyFiles'+no+'" name="safetyFiles" onchange="selectFile('+no+')">'
+				+ '</div>'
+				+ '<div class="file-path-wrapper">'
+				+ '<input class="file-path validate" type="text">'
+				+ '</div>'                          
+				+ '</div>'
+				$("#selectedFilesInput").append(html);
+			}
+			
+			function removeFile(no){			
+	         	$('#safetyFilesDiv'+no).remove();
+	         	$('#safetyFileName'+no).remove();
+	        }
     </script>
 </body>
 </html>

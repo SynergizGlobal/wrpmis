@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,9 +25,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.SafetyDao;
+import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Safety;
 
 @Repository
@@ -184,19 +187,28 @@ public class SafetyDaoImpl implements SafetyDao {
 				safety_id = String.valueOf(keyHolder.getKey().intValue());
 				obj.setSafety_id(safety_id);
 				flag = true;
-				
-				MultipartFile file = obj.getSafetyFile();
-				if (null != file && !file.isEmpty() && file.getSize() > 0){
-					String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH ;
-					String fileName = file.getOriginalFilename();
-					DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
-					String fileName_new = "Safety-"+obj.getSafety_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
-					FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
-					obj.setAttachment(fileName_new);
-					
-					String updateQry = "UPDATE safety set attachment= :attachment where safety_id= :safety_id ";
-					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
-					template.update(updateQry, paramSource1);
+				if(flag) {
+					if(!StringUtils.isEmpty(obj.getSafetyFiles()) && obj.getSafetyFiles().size() > 0) {
+						
+						String fileQry = "INSERT INTO safety_files (attachment,safety_id_fk)VALUES(:attachment,:safety_id)";
+						
+						List<MultipartFile> issueFiles = obj.getSafetyFiles();
+						for (MultipartFile multipartFile : issueFiles) {
+							if (null != multipartFile && !multipartFile.isEmpty()){
+								String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH;
+								String fileName = multipartFile.getOriginalFilename();
+								DateFormat df = new SimpleDateFormat("ddMMYY-HHmm");
+								String fileName_new = "Safety-"+obj.getSafety_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
+								
+								Safety fileObj = new Safety();
+								fileObj.setAttachment(fileName_new);
+								fileObj.setSafety_id(obj.getSafety_id());
+								paramSource = new BeanPropertySqlParameterSource(fileObj);	
+								template.update(fileQry, paramSource);
+							}
+						}
+					}	
 				}
 			}
 			transactionManager.commit(status);
@@ -265,6 +277,14 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getRoot_cause_fk();
 			}
 			sobj = (Safety)jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
+			
+			if(!StringUtils.isEmpty(sobj)) {				
+				String filesQry ="select id, safety_id_fk, attachment from safety_files where safety_id_fk = ? ";					
+				List<Safety> objsList = jdbcTemplate.query( filesQry,new Object[] {obj.getSafety_id()}, new BeanPropertyRowMapper<Safety>(Safety.class));					
+				if(!StringUtils.isEmpty(objsList)) {
+					sobj.setSafetyFilesList(objsList);
+				}
+			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -276,15 +296,6 @@ public class SafetyDaoImpl implements SafetyDao {
 		boolean flag = false;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
-		MultipartFile file = obj.getSafetyFile();
-		if (null != file && !file.isEmpty()){
-			String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH ;
-			String fileName = file.getOriginalFilename();
-			DateFormat df = new SimpleDateFormat("ddMMYY-HHmm");
-			String fileName_new = "Safety-"+obj.getSafety_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
-			FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
-			obj.setAttachment(fileName_new);	
-		}
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE safety SET contract_id_fk=:contract_id_fk,hod_user_id_fk=:hod_user_id_fk,title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,department_fk=:department_fk,category_fk=:category_fk,impact_fk=:impact_fk,root_cause_fk=:root_cause_fk,status_fk=:status_fk,"
@@ -295,6 +306,51 @@ public class SafetyDaoImpl implements SafetyDao {
 			int count = template.update(qry, paramSource);			
 			if(count > 0) {
 				flag = true;
+			}
+			if(flag) {
+				String deleteFilesQry = "delete from safety_files where safety_id_fk = :safety_id";
+				
+				Safety fileObj = new Safety();
+				fileObj.setSafety_id(obj.getSafety_id());
+				paramSource = new BeanPropertySqlParameterSource(obj);	
+				template.update(deleteFilesQry, paramSource);
+				
+				String fileQry = "INSERT INTO safety_files (attachment,safety_id_fk)VALUES(:attachment,:safety_id)";
+				
+				int arraySize = 0;
+				if(!StringUtils.isEmpty(obj.getSafetyFileNames()) && obj.getSafetyFileNames().length > 0 ) {
+					obj.setSafetyFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getSafetyFileNames()));
+					if(arraySize < obj.getSafetyFileNames().length) {
+						arraySize = obj.getSafetyFileNames().length;
+					}
+				}
+				
+				for (int i = 0; i < arraySize; i++) {
+					fileObj = new Safety();
+					fileObj.setAttachment(obj.getSafetyFileNames()[i]);
+					fileObj.setSafety_id(obj.getSafety_id());
+					paramSource = new BeanPropertySqlParameterSource(fileObj);	
+					template.update(fileQry, paramSource);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getSafetyFiles()) && obj.getSafetyFiles().size() > 0) {
+					List<MultipartFile> issueFiles = obj.getSafetyFiles();
+					for (MultipartFile multipartFile : issueFiles) {
+						if (null != multipartFile && !multipartFile.isEmpty()){
+							String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH;
+							String fileName = multipartFile.getOriginalFilename();
+							DateFormat df = new SimpleDateFormat("ddMMYY-HHmm");
+							String fileName_new = "Safety-"+obj.getSafety_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
+							
+							fileObj = new Safety();
+							fileObj.setAttachment(fileName_new);
+							fileObj.setSafety_id(obj.getSafety_id());
+							paramSource = new BeanPropertySqlParameterSource(fileObj);	
+							template.update(fileQry, paramSource);
+						}
+					}
+				}
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 

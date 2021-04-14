@@ -208,8 +208,8 @@ public class WorkController {
 			List<Year> yearList = workService.getYearList();
 			model.addObject("yearList", yearList);
 			workId= work.getWork_id();
-			Work workDeatils = workService.getWork(workId, work);
-			model.addObject("workDeatils", workDeatils);
+			Work workDetails = workService.getWork(workId, work);
+			model.addObject("workDetails", workDetails);
 		}catch (Exception e) {
 			logger.error("Work : " + e.getMessage());
 		}
@@ -246,13 +246,13 @@ public class WorkController {
 			model.setViewName("redirect:/work");
 			
 			work.setProjected_completion(DateParser.parse(work.getProjected_completion()));
-			MultipartFile file = work.getWorkFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				work.setAttachment(fileName);
-			}				
+			/*
+			 * MultipartFile file = work.getWorkFile(); if (null != file &&
+			 * !file.isEmpty()){ String saveDirectory =
+			 * CommonConstants.WORK_FILE_SAVING_PATH ; String fileName =
+			 * file.getOriginalFilename(); FileUploads.singleFileSaving(file, saveDirectory,
+			 * fileName); work.setAttachment(fileName); }
+			 */			
 			boolean flag =  workService.updateWork(work);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Work Updated Succesfully.");
@@ -276,13 +276,13 @@ public class WorkController {
 		try{
 			model.setViewName("redirect:/work");
 			work.setProjected_completion(DateParser.parse(work.getProjected_completion()));
-			MultipartFile file = work.getWorkFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				work.setAttachment(fileName);
-			}
+			/*MultipartFile file = work.getWorkFile();
+			
+			 * if (null != file && !file.isEmpty()){ String saveDirectory =
+			 * CommonConstants.WORK_FILE_SAVING_PATH ; String fileName =
+			 * file.getOriginalFilename(); FileUploads.singleFileSaving(file, saveDirectory,
+			 * fileName); work.setAttachment(fileName); }
+			 */
 			boolean flag =  workService.addWork(work);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Work Added Succesfully.");

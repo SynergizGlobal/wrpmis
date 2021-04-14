@@ -23,7 +23,41 @@ public class Design {
 	private MultipartFile designFile;
 	
 	private List<Design> designRevisions;
-	
+	private List<MultipartFile> designFiles;
+	private List<Design> designFilesList;
+	private String[] designFileNames;
+
+	public MultipartFile getDesignFile() {
+		return designFile;
+	}
+
+	public void setDesignFile(MultipartFile designFile) {
+		this.designFile = designFile;
+	}
+
+	public List<MultipartFile> getDesignFiles() {
+		return designFiles;
+	}
+
+	public void setDesignFiles(List<MultipartFile> designFiles) {
+		this.designFiles = designFiles;
+	}
+
+	public List<Design> getDesignFilesList() {
+		return designFilesList;
+	}
+
+	public void setDesignFilesList(List<Design> designFilesList) {
+		this.designFilesList = designFilesList;
+	}
+
+	public String[] getDesignFileNames() {
+		return designFileNames;
+	}
+
+	public void setDesignFileNames(String[] designFileNames) {
+		this.designFileNames = designFileNames;
+	}
 
 	public String getDesign_data_id() {
 		return design_data_id;
@@ -272,14 +306,6 @@ public class Design {
 
 	public void setDesignRevisions(List<Design> designRevisions) {
 		this.designRevisions = designRevisions;
-	}
-
-	public MultipartFile getDesignFile() {
-		return designFile;
-	}
-
-	public void setDesignFile(MultipartFile designFile) {
-		this.designFile = designFile;
 	}
 
 	public String getDepartment_fk() {

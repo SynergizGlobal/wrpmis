@@ -9,7 +9,7 @@ public class Work {
 	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks,project_name,railway_name,
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,latest_revised_cost,
 	year_of_revision,revision_number,wys_renarks,attachment,work_attachment,railway,executed_by,projected_completion,
-	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink;
+	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink,id;
 
 
 	public String getDashboard_id() {
@@ -24,12 +24,47 @@ public class Work {
 	year_of_revisions,revision_numbers,remarkss;
 
 	private List<Work> workRevisions;
-	private MultipartFile workFile;
+	//private MultipartFile workFile;
 
 	private List<Work> railwayAgencyList;
 	private List<Work> executedByList;
 
+	private List<MultipartFile> workFile;
+	private List<Work> workFilesList;
+	private String[] workFileNames;
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public List<MultipartFile> getWorkFile() {
+		return workFile;
+	}
+
+	public List<Work> getWorkFilesList() {
+		return workFilesList;
+	}
+
+	public void setWorkFilesList(List<Work> workFilesList) {
+		this.workFilesList = workFilesList;
+	}
+
+	public String[] getWorkFileNames() {
+		return workFileNames;
+	}
+
+	public void setWorkFileNames(String[] workFileNames) {
+		this.workFileNames = workFileNames;
+	}
+
+	public void setWorkFile(List<MultipartFile> workFile) {
+		this.workFile = workFile;
+	}
+
 	public String getSubLink() {
 		return subLink;
 	}
@@ -107,14 +142,6 @@ public class Work {
 
 	public void setExecutedByList(List<Work> executedByList) {
 		this.executedByList = executedByList;
-	}
-
-	public MultipartFile getWorkFile() {
-		return workFile;
-	}
-
-	public void setWorkFile(MultipartFile workFile) {
-		this.workFile = workFile;
 	}
 
 	public String getWys_renarks() {

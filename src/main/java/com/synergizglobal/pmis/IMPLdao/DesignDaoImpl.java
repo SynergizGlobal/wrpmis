@@ -37,6 +37,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Risk;
 
 @Repository
@@ -433,6 +434,12 @@ public class DesignDaoImpl implements DesignDao{
 				dObj.setDesignRevisions(objList);
 			}
 			
+			if(!StringUtils.isEmpty(dObj)) {
+				String qry2 ="select id, design_id_fk, attachment  from design_files where design_id_fk = ?";
+				List<Design> objList = jdbcTemplate.query( qry2,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
+				dObj.setDesignFilesList(objList);
+			}
+			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -470,20 +477,33 @@ public class DesignDaoImpl implements DesignDao{
 				 designId = String.valueOf(keyHolder.getKey().intValue());
 				 obj.setDesign_id(designId);
 				 flag = true;
-
-					MultipartFile file = obj.getDesignFile();
-					if (null != file && !file.isEmpty() && file.getSize() > 0){
-						String saveDirectory = CommonConstants2.DESIGN_FILE_SAVING_PATH ;
-						String fileName = file.getOriginalFilename();
-						DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
-						String fileName_new = "Design-"+obj.getDesign_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
-						FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
-						obj.setAttachment(fileName_new);
+				 if(!StringUtils.isEmpty(obj.getDesignFiles()) && obj.getDesignFiles().size() > 0) {
 						
-						String updateQry = "UPDATE design set attachment= :attachment where design_id= :design_id ";
-						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
-						namedParamJdbcTemplate.update(updateQry, paramSource1);
-					}
+						String file_insert_qry = "INSERT into  design_files ( design_id_fk, attachment) VALUES (:design_id,:attachment)";
+						
+						List<MultipartFile> designFiles = obj.getDesignFiles();
+						for (MultipartFile multipartFile : designFiles) {
+							if (null != multipartFile && !multipartFile.isEmpty()){
+								String saveDirectory = CommonConstants2.DESIGN_FILE_SAVING_PATH ;
+								String fileName = multipartFile.getOriginalFilename();
+								DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+								String fileName_new = "Design-"+obj.getDesign_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
+								
+								Design fileObj = new Design();
+								fileObj.setDesign_id(obj.getDesign_id());
+								fileObj.setAttachment(fileName_new);
+								//fileObj.setStatus(CommonConstants.ACTIVE);
+								
+								paramSource = new BeanPropertySqlParameterSource(fileObj);	
+								namedParamJdbcTemplate.update(file_insert_qry, paramSource);
+								
+								String updateQry = "UPDATE design set attachment= :attachment where design_id= :design_id ";
+								BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+								namedParamJdbcTemplate.update(updateQry, paramSource1);
+							}
+						}
+					}	
 			}
 			
 			if(flag) {
@@ -617,18 +637,54 @@ public class DesignDaoImpl implements DesignDao{
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
 			if(count > 0) {
 				flag = true;
-				MultipartFile file = obj.getDesignFile();
-				if (null != file && !file.isEmpty() && file.getSize() > 0){
-					String saveDirectory = CommonConstants2.DESIGN_FILE_SAVING_PATH ;
-					String fileName = file.getOriginalFilename();
-					DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
-					String fileName_new = "Design-"+obj.getDesign_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
-					FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
-					obj.setAttachment(fileName_new);
-					
-					String updateQry = "UPDATE design set attachment= :attachment where design_id= :design_id ";
-					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
-					namedParamJdbcTemplate.update(updateQry, paramSource1);
+				
+				String deleteFilesQry = "delete from design_files  where design_id_fk = :design_id";		 
+				Design fileObj = new Design();
+				fileObj.setDesign_id(obj.getDesign_id());
+				paramSource = new BeanPropertySqlParameterSource(obj);	
+				namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
+			
+				String insert_qry = "INSERT into  design_files ( design_id_fk, attachment) VALUES (:design_id,:attachment)";
+				
+				int arraySize = 0;
+				if(!StringUtils.isEmpty(obj.getDesignFileNames()) && obj.getDesignFileNames().length > 0 ) {
+					obj.setDesignFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getDesignFileNames()));
+					if(arraySize < obj.getDesignFileNames().length) {
+						arraySize = obj.getDesignFileNames().length;
+					}
+				}
+				for (int i = 0; i < arraySize; i++) {
+					fileObj = new Design();
+					fileObj.setDesign_id(obj.getDesign_id());
+					fileObj.setAttachment(obj.getDesignFileNames()[i]);
+					paramSource = new BeanPropertySqlParameterSource(fileObj);	
+					namedParamJdbcTemplate.update(insert_qry, paramSource);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getDesignFiles()) && obj.getDesignFiles().size() > 0) {
+					List<MultipartFile> fobFiles = obj.getDesignFiles();
+					for (MultipartFile multipartFile : fobFiles) {
+						if (null != multipartFile && !multipartFile.isEmpty()){
+							String saveDirectory = CommonConstants2.DESIGN_FILE_SAVING_PATH ;
+							String fileName = multipartFile.getOriginalFilename();
+							DateFormat df = new SimpleDateFormat("ddMMYY-HHmm");
+							String fileName_new = "Design-"+obj.getDesign_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
+							obj.setAttachment(fileName_new);
+						
+							fileObj = new Design();
+							fileObj.setDesign_id(obj.getDesign_id());
+							fileObj.setAttachment(fileName_new);
+							paramSource = new BeanPropertySqlParameterSource(fileObj);	
+							namedParamJdbcTemplate.update(insert_qry, paramSource);
+							
+							
+							String updateQry = "UPDATE design set attachment= :attachment where design_id= :design_id ";
+							BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+							namedParamJdbcTemplate.update(updateQry, paramSource1);
+							
+						}
+					}
 				}
 			}
 			if(flag) {

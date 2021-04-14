@@ -20,6 +20,7 @@ import com.synergizglobal.pmis.Idao.ProjectDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Project;
@@ -63,7 +64,7 @@ public class ProjectDaoImpl implements ProjectDao {
 			while(resultSet.next()) {
 				project = new Project();
 				project.setProject_id(resultSet.getString("project_id"));
-				project.setProject_name(resultSet.getString("project_name"));
+				project.setProject_name(resultSet.getString("project_name")); 
 				project.setPlan_head_number(resultSet.getString("plan_head_number"));
 				project.setRemarks(resultSet.getString("remarks"));
 				project.setProject_status(resultSet.getString("project_status"));
@@ -72,6 +73,7 @@ public class ProjectDaoImpl implements ProjectDao {
 				project.setGalleryFileNames(getGalleryFileNames(project.getProject_id(),connection));
 				project.setProjectGallery(getProjectGalleryFiles(project.getProject_id(),connection));
 				project.setProjectPinkBooks(getProjectPinkBooks(project.getProject_id(),connection));
+				project.setProjectFiles(getProjectFiles(project.getProject_id(),connection));
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -84,6 +86,33 @@ public class ProjectDaoImpl implements ProjectDao {
 	}
 	
 	
+	private List<Project> getProjectFiles(String project_id, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		List<Project> objsList = new ArrayList<Project>();
+		try{
+			String qry = "select id, project_id_fk, attachment from project_files where project_id_fk = ?";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1,project_id);
+			rs = stmt.executeQuery();  
+			while(rs.next()) {
+				Project obj = new Project();
+				obj.setId(rs.getString("id"));
+				obj.setProject_id_fk(rs.getString("project_id_fk"));
+				obj.setAttachment(rs.getString("attachment"));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 		
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return objsList;
+	}
+
+
 	private List<Project> getProjectPinkBooks(String project_id, Connection con) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -197,7 +226,7 @@ public class ProjectDaoImpl implements ProjectDao {
 				}
 				List<MultipartFile> galleryFiles = project.getProjectGalleryFiles();
 				if(galleryFiles.size() > 0 && !galleryFiles.get(0).isEmpty() && !(arraySize > 1)) {arraySize = 1; }
-				if(!StringUtils.isEmpty(galleryFiles) && arraySize > 0) {
+				if(!StringUtils.isEmpty(galleryFiles)) {
 					String deleteQry ="delete from project_gallery where project_id_fk = ? ";
 					stmt = con.prepareStatement(deleteQry); 
 					stmt.setString(1, project.getProject_id());
@@ -239,6 +268,55 @@ public class ProjectDaoImpl implements ProjectDao {
 				
 				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 				
+				 arraySize = 0;
+				if(!StringUtils.isEmpty(project.getProjectFileNames()) && project.getProjectFileNames().length > 0 ) {
+					project.setProjectFileNames(CommonMethods.replaceEmptyByNullInSringArray(project.getProjectFileNames()));
+					if(arraySize < project.getProjectFileNames().length) {
+						arraySize = project.getProjectFileNames().length;
+					}
+				}
+				List<MultipartFile> projectFiles = project.getProjectFile();
+				
+				if(!StringUtils.isEmpty(projectFiles)) {
+					String deleteQry ="delete from project_files where project_id_fk = ? ";
+					stmt = con.prepareStatement(deleteQry); 
+					stmt.setString(1, project.getProject_id());
+					stmt.executeUpdate();
+					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+					
+					String filesQry ="INSERT into project_files (attachment,project_id_fk)VALUES(?,?)";
+					stmt = con.prepareStatement(filesQry); 
+					if(arraySize > 0) {
+						for (int i = 0; i < arraySize; i++) {
+							docFileName  = (project.getProjectFileNames().length > 0)?project.getProjectFileNames()[i]:null;
+						    if(docFileName == null) {
+						    	docFileName = null;
+						    }
+						    if(docFileName != null) {
+								stmt.setString(1,docFileName); 
+								stmt.setString(2,project.getProject_id()); 
+								stmt.addBatch();
+						    }
+						}
+					}
+					if(!StringUtils.isEmpty(projectFiles) && projectFiles.size() > 0 && !projectFiles.get(0).isEmpty()) {		
+						for (MultipartFile multipartFile : projectFiles) {
+							if (null != multipartFile && !multipartFile.isEmpty()){
+								String saveDirectory = CommonConstants.PROJECT_FILE_SAVING_PATH ;
+								String fileName = multipartFile.getOriginalFilename();
+								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+								
+								stmt.setString(1,fileName); 
+								stmt.setString(2,project.getProject_id()); 
+								stmt.addBatch();
+							}
+						}
+					}
+					stmt.executeBatch();
+				}
+				
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+			
 				arraySize = 0;
 				if(!StringUtils.isEmpty(project.getFinancial_years()) && project.getFinancial_years().length > 0 ) {
 					project.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(project.getFinancial_years()));
@@ -322,6 +400,26 @@ public class ProjectDaoImpl implements ProjectDao {
 							stmt.setString(1,fileName); 
 							stmt.setString(2,projectId); 
 							stmt.setString(3,project.getCreated_by());
+							stmt.addBatch();
+						}
+					}
+					stmt.executeBatch();
+				}	
+				
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+				
+				String filesQry ="INSERT into project_files (attachment,project_id_fk)VALUES(?,?)";
+				stmt = con.prepareStatement(filesQry); 
+				if(!StringUtils.isEmpty(project.getProjectFile()) && project.getProjectFile().size() > 0) {
+					List<MultipartFile> projectFiles = project.getProjectFile();
+					for (MultipartFile multipartFile : projectFiles) {
+						if (null != multipartFile && !multipartFile.isEmpty()){
+							String saveDirectory = CommonConstants.PROJECT_FILE_SAVING_PATH;
+							String fileName = multipartFile.getOriginalFilename();
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+							
+							stmt.setString(1,fileName); 
+							stmt.setString(2,projectId); 
 							stmt.addBatch();
 						}
 					}

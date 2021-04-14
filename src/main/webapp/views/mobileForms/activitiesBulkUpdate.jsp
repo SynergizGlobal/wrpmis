@@ -378,7 +378,7 @@
                                             <p class="searchable_label">Activity</p>
                                             <select id="strip_chart_activity_id" name="strip_chart_activity_id"
                                                 class="searchable validate-dropdown"
-                                                onchange="getStripChartfilterList();">
+                                                onchange="getActivitiesfiltersList();">
                                                 <option value="">Select</option>
                                             </select>
                                             <span id="strip_chart_activity_idError" class="error-msg"></span>
@@ -903,7 +903,7 @@
                          });
                          
                          $('.searchable').select2();
-                         getStripChartfilterList();
+                         getActivitiesfiltersList();
                      }
                      $("#component_circles").html(html);
                      $("#component_circles_row").show();
@@ -970,7 +970,7 @@
                      }
                      $('.searchable').select2();
                      $(".page-loader").hide(); 
-                     getStripChartfilterList();
+                     getActivitiesfiltersList();
                  }
              });
          }else{
@@ -979,7 +979,7 @@
      }
 	 
 	 function getComponentAndActivitiesList(componentId){
-		getStripChartfilterList();
+		getActivitiesfiltersList();
      	$( ".dot" ).removeClass( "active" );
      	$( "#"+componentId ).addClass( "active" );
      	
@@ -1030,7 +1030,7 @@
      }
      
 	
-     function getStripChartfilterList(){
+     function getActivitiesfiltersList(){
     	 $(".page-loader").show();
     	 $("#table_show").show();
     	 var html = '';
@@ -1045,7 +1045,7 @@
     	 if ($.trim(strip_chart_structure_id_fk) != "") {
  	        var myParams = { strip_chart_component_id: strip_chart_component_id, strip_chart_activity_id: strip_chart_activity_id,strip_chart_structure_id_fk : strip_chart_structure_id_fk, contract_id_fk : contract_id_fk };
  	        $.ajax({
- 	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartfilterList",
+ 	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getActivitiesfiltersList",
  	            data: myParams, cache: false,
  	            success: function (data) {
  	                if (data.length > 0) {

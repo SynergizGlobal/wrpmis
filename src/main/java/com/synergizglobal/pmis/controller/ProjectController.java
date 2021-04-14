@@ -194,8 +194,8 @@ public class ProjectController {
 			model.setViewName(PageConstants.addUpdateProject);
 			model.addObject("action", "edit");
 			projectId= project.getProject_id();
-			Project projectDeatils = projectService.getProject(projectId, project);
-			model.addObject("projectDeatils", projectDeatils);
+			Project projectDetails = projectService.getProject(projectId, project);
+			model.addObject("projectDetails", projectDetails);
 			
 			List <Project> fileNames = projectService.getFileNames(projectId);
 			model.addObject("fileNames", fileNames);	
@@ -218,13 +218,13 @@ public class ProjectController {
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			project.setCreated_by(userName);
 			model.setViewName("redirect:/project");
-			MultipartFile file = project.getProjectFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants.PROJECT_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				project.setAttachment(fileName);
-			}		
+			/*
+			 * MultipartFile file = project.getProjectFile(); if (null != file &&
+			 * !file.isEmpty()){ String saveDirectory =
+			 * CommonConstants.PROJECT_FILE_SAVING_PATH ; String fileName =
+			 * file.getOriginalFilename(); FileUploads.singleFileSaving(file, saveDirectory,
+			 * fileName); project.setAttachment(fileName); }
+			 */	
 			boolean flag =  projectService.updateProject(project);
 			if(flag == true) {
 				attributes.addFlashAttribute("success", "Project Updated Succesfully.");
@@ -268,13 +268,13 @@ public class ProjectController {
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			project.setCreated_by(userName);
 			model.setViewName("redirect:/project");
-			MultipartFile file = project.getProjectFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants.PROJECT_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				project.setAttachment(fileName);
-			}		
+			/*
+			 * MultipartFile file = project.getProjectFile(); if (null != file &&
+			 * !file.isEmpty()){ String saveDirectory =
+			 * CommonConstants.PROJECT_FILE_SAVING_PATH ; String fileName =
+			 * file.getOriginalFilename(); FileUploads.singleFileSaving(file, saveDirectory,
+			 * fileName); project.setAttachment(fileName); }
+			 */	
 			boolean flag =  projectService.addProject(project);
 			if(flag == true) {
 				attributes.addFlashAttribute("success", "Project Added Succesfully.");

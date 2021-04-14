@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class Safety {
@@ -7,10 +9,47 @@ public class Safety {
 	category_fk,impact_fk,root_cause_fk,status_fk,closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,
 	investigation_completed,corrective_measure_short_term,corrective_measure_long_term,compensation,payment_date,remarks,short_description,work_short_name,
 	category,impact,root_cause,status,contract_id,contract_name,work_id_fk,work_name,project_id_fk,project_name,status_remark_fk,
-	department,department_name,attachment,contract_short_name,hod_user_id_fk,designation,hod_name,contractor_name;
+	department,department_name,attachment,contract_short_name,hod_user_id_fk,designation,hod_name,contractor_name,safety_id_fk;
 
 	private MultipartFile safetyFile;
 	
+	private List<MultipartFile> safetyFiles;
+	private String[] safetyFileNames;
+	
+	private List<Safety> safetyFilesList;
+	
+	public String getSafety_id_fk() {
+		return safety_id_fk;
+	}
+
+	public void setSafety_id_fk(String safety_id_fk) {
+		this.safety_id_fk = safety_id_fk;
+	}
+
+	public List<MultipartFile> getSafetyFiles() {
+		return safetyFiles;
+	}
+
+	public void setSafetyFiles(List<MultipartFile> safetyFiles) {
+		this.safetyFiles = safetyFiles;
+	}
+
+	public String[] getSafetyFileNames() {
+		return safetyFileNames;
+	}
+
+	public void setSafetyFileNames(String[] safetyFileNames) {
+		this.safetyFileNames = safetyFileNames;
+	}
+
+	public List<Safety> getSafetyFilesList() {
+		return safetyFilesList;
+	}
+
+	public void setSafetyFilesList(List<Safety> safetyFilesList) {
+		this.safetyFilesList = safetyFilesList;
+	}
+
 	public String getHod_user_id_fk() {
 		return hod_user_id_fk;
 	}

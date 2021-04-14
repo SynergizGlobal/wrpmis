@@ -378,20 +378,24 @@
                             </div>                          
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
-                                    <div class="file-field input-field">
-                                        <div class="btn bg-m">
-                                            <span>Attachment</span>
-                                            <input type="file" id="safetyFile" name="safetyFile">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-
+	                            <div class="col m2 hide-on-small-only"></div>
+	                            <div class="col s12 m8 input-field">
+                            		<div id="selectedFilesInput">
+                                    	<div class="file-field input-field" id="safetyFilesDiv1" >
+	                                        <div class="btn bg-m t-c">
+	                                            <span>Attach Files</span>
+	                                            <input type="file" id="safetyFiles1" name="safetyFiles" onchange="selectFile('1')">
+	                                        </div>
+	                                        <div class="file-path-wrapper">
+	                                            <input class="file-path validate" type="text">
+	                                        </div>                                       
+	                                    </div>
+									</div>
+                                    
+                                    <div id="selectedFiles">
+                                    	
+									</div>
+								</div>
                             </div>
                             <div class="row">
                                 <!-- row 10 -->
@@ -437,6 +441,43 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
+		function selectFile(no){
+		    files = $("#safetyFiles"+no)[0].files;
+		    var html = "";
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=safetyFileName'+no+'>'
+				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+				 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
+				 + '</div>'
+				 + '<div style="clear:both;"></div>';
+		    }
+		    $("#selectedFiles").append(html);
+		    
+		    $('#safetyFilesDiv'+no).hide();
+		    
+			var fileIndex = Number(no)+1;
+			moreFiles(fileIndex);
+		}
+		
+		function moreFiles(no){
+			var html = "";
+			html =  html + '<div class="file-field input-field" id="safetyFilesDiv'+no+'" >'
+			+ '<div class="btn bg-m t-c">'
+			+ '<span>Attach Files</span>'
+			+ '<input type="file" id="safetyFiles'+no+'" name="safetyFiles" onchange="selectFile('+no+')">'
+			+ '</div>'
+			+ '<div class="file-path-wrapper">'
+			+ '<input class="file-path validate" type="text">'
+			+ '</div>'                          
+			+ '</div>'
+			$("#selectedFilesInput").append(html);
+		}
+		
+		function removeFile(no){			
+	     	$('#safetyFilesDiv'+no).remove();
+	     	$('#safetyFileName'+no).remove();
+	    } 
+
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();

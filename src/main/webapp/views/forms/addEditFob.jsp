@@ -302,7 +302,7 @@
                                       </c:if>
                                      </tbody>
                                    </table>
-                                   <table id="fobImagesTable" class="mdl-data-table">
+                                   <%-- <table id="fobImagesTable" class="mdl-data-table">
                                         <tbody >
                                         	 <c:choose>
                                         		<c:when test="${not empty fob.fobImages && fn:length(fob.fobImages) gt 0 }">
@@ -321,8 +321,8 @@
 										                                   <div class="file-path-wrapper">
 										                                       <input class="file-path validate" type="text" name="attachment" value="${dObj.attachment}">
 										                                       <img style="height: 20%;width: 20%;<c:if test="${empty dObj.attachment }">display:none;</c:if>" id="fobImagePreview" src="<%=CommonConstants2.FOB_FILES %>${dObj.attachment }" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" alt="FOB Image" />
-<%-- 										                                       <span onclick="removeMedia(this,'fobFile')" class="attachment-remove-btn" style="<c:if test="${empty dObj.attachment }">display:none;</c:if>">X</span>
- --%>										                                   </div>
+										                                       <span onclick="removeMedia(this,'fobFile')" class="attachment-remove-btn" style="<c:if test="${empty dObj.attachment }">display:none;</c:if>">X</span>
+										                                   </div>
 										                                   <input type="hidden" id="fobFileNames${index.count }" name="fobFileNames" value="${dObj.attachment }">
 	                                   
 										                               </div>
@@ -350,8 +350,8 @@
 										                                   <div class="file-path-wrapper">
 										                                       <input class="file-path validate" type="text" name="attachment" >
 										                                       <img style="height: 20%;width: 20%;  id="fobImagePreview"   />
-<%-- 										                                       <span onclick="removeMedia(this,'fobFile')" class="attachment-remove-btn" style="<c:if test="${empty fob.attachment }">display:none;</c:if>">X</span>
- --%>										                                   </div>
+										                                       <span onclick="removeMedia(this,'fobFile')" class="attachment-remove-btn" style="<c:if test="${empty fob.attachment }">display:none;</c:if>">X</span>
+										                                   </div>
 	                                   
 										                               </div>
 										                            </div>
@@ -381,10 +381,58 @@
                                         <c:otherwise>
                                         	<input type="hidden" id="rowNo"  name="rowNo" value="0" />
                                         </c:otherwise>
-                                    </c:choose>  
+                                    </c:choose>   --%>
+		                             <c:if test="${action eq 'add'}">
+			                            <div id="selectedFilesInput">
+			                                    	<div class="file-field input-field" id="fobFilesDiv1" >
+				                                        <div class="btn bg-m t-c">
+				                                            <span>Attach Images</span>
+				                                            <input type="file" id="fobFiles1" name="fobFiles" accept="image/*" onchange="selectFile('1')">
+				                                        </div>
+				                                        <div class="file-path-wrapper">
+				                                            <input class="file-path validate" type="text">
+				                                        </div>                                       
+				                                    </div>
+												</div>
+			                                    
+			                                    <div id="selectedFiles">
+			                                    	
+												</div>
+									 </c:if>		
+									<c:if test="${action eq 'edit'}">
+											<c:set var="existingFOBFilesLength" value="${fn:length(fob.fobImages )}"></c:set>
+											<c:if test="${fn:length(fob.fobImages ) gt 0}">
+												<c:set var="existingFOBFilesLength" value="${fn:length(fob.fobImages )+1}"></c:set>
+											</c:if>
+											<div id="selectedFilesInput">
+		                                    	<div class="file-field input-field" id="fobFilesDiv${existingFOBFilesLength }" >
+			                                        <div class="btn bg-m t-c">
+			                                            <span>Attach Images</span>
+			                                            <input type="file" id="fobFiles${existingFOBFilesLength }" name="fobFiles"  accept="image/*" onchange="selectFile('${existingFOBFilesLength }')">
+			                                        </div>
+			                                        <div class="file-path-wrapper">
+			                                            <input class="file-path validate" type="text">
+			                                        </div>                                       
+			                                    </div>
+											</div>
+		                                    
+		                                    <div id="selectedFiles">
+		                                    	<c:forEach var="obj" items="${fob.fobImages }" varStatus="index">
+													 <div id="fobFileNames${index.count }">
+														<a href="<%=CommonConstants2.FOB_FILES%>${obj.attachment } " class="filevalue" download>${obj.attachment }</a>
+														<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
+														<input type="hidden" name="fobFileNames" value="${obj.attachment }">
+												     </div>
+												     <div style="clear:both" ></div>
+												</c:forEach>
+											</div>
+											
+		                               
+		                             </c:if>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                           
  							<!-- <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
@@ -494,6 +542,43 @@
    	    	}
         })
     }); */
+    function selectFile(no){
+	    files = $("#fobFiles"+no)[0].files;
+	    var html = "";
+	    for (var i = 0; i < files.length ; i++) {
+	    	html =  html + '<div id=fobFileNames'+no+'>'
+			 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+			 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
+			 + '</div>'
+			 + '<div style="clear:both;"></div>';
+	    }
+	    $("#selectedFiles").append(html);
+	    
+	    $('#fobFilesDiv'+no).hide();
+	    
+		var fileIndex = Number(no)+1;
+		moreFiles(fileIndex);
+	}
+	
+	function moreFiles(no){
+		var html = "";
+		html =  html + '<div class="file-field input-field" id="fobFilesDiv'+no+'" >'
+		+ '<div class="btn bg-m t-c">'
+		+ '<span>Attach Files</span>'
+		+ '<input type="file" id="fobFiles'+no+'" name="fobFiles" accept="image/*" onchange="selectFile('+no+')">'
+		+ '</div>'
+		+ '<div class="file-path-wrapper">'
+		+ '<input class="file-path validate" type="text">'
+		+ '</div>'                          
+		+ '</div>'
+		$("#selectedFilesInput").append(html);
+	}
+	
+	function removeFile(no){			
+     	$('#fobFilesDiv'+no).remove();
+     	$('#fobFileNames'+no).remove();
+    } 
+
     let date_pickers = document.querySelectorAll('.datepicker');
     $.each(date_pickers, function(){
     	var dt = this.value.split(/[^0-9]/);

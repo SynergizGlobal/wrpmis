@@ -11,11 +11,13 @@ public class Project {
 	
 	private String id,file_name,project_id_fk,created_date,created_by;
 	
-	private MultipartFile projectFile;
 	
+	private List<Project> projectFiles;
 	private List<MultipartFile> projectGalleryFiles;
 	private String[] projectGalleryFileNames;
-	
+	private List<MultipartFile> projectFile;
+	private List<Project> projectFilesList;
+	private String[] projectFileNames;
 	private String[] financial_years,pink_book_item_numbers;
 	
 	private List<Work> worksInfo;
@@ -23,6 +25,38 @@ public class Project {
 	private List<Project> projectGallery;
 
 	private List<Project> projectPinkBooks;
+
+	public List<Project> getProjectFiles() {
+		return projectFiles;
+	}
+
+	public void setProjectFiles(List<Project> projectFiles) {
+		this.projectFiles = projectFiles;
+	}
+
+	public List<MultipartFile> getProjectFile() {
+		return projectFile;
+	}
+
+	public List<Project> getProjectFilesList() {
+		return projectFilesList;
+	}
+
+	public void setProjectFilesList(List<Project> projectFilesList) {
+		this.projectFilesList = projectFilesList;
+	}
+
+	public String[] getProjectFileNames() {
+		return projectFileNames;
+	}
+
+	public void setProjectFileNames(String[] projectFileNames) {
+		this.projectFileNames = projectFileNames;
+	}
+
+	public void setProjectFile(List<MultipartFile> projectFile) {
+		this.projectFile = projectFile;
+	}
 
 	public String getFinancial_year_fk() {
 		return financial_year_fk;
@@ -134,14 +168,6 @@ public class Project {
 
 	public void setAttachment(String attachment) {
 		this.attachment = attachment;
-	}
-
-	public MultipartFile getProjectFile() {
-		return projectFile;
-	}
-
-	public void setProjectFile(MultipartFile projectFile) {
-		this.projectFile = projectFile;
 	}
 
 	public String getSanctioned_estimated_cost() {

@@ -112,18 +112,18 @@
                                 
                                 <c:if test="${action eq 'edit'}">	
                                 	<div class="col s12 m4 input-field">			                
-	                                     <input id="project_id" type="text" class="form-control" name="project_id" value="${projectDeatils.project_id }" readonly >   
+	                                     <input id="project_id" type="text" class="form-control" name="project_id" value="${projectDetails.project_id }" readonly >   
 	                               		 <label>Project ID :</label>
                                		 </div>
                                		 <div class="col s12 m4 input-field">
-	                                    <input id=project_name type="text" class="validate" value="${projectDeatils.project_name }" name="project_name">
+	                                    <input id=project_name type="text" class="validate" value="${projectDetails.project_name }" name="project_name">
 	                                    <label for="project_name">Project Name <span class="required">*</span></label>
 	                                    <span  id="project_nameError"> </span>
 	                                </div>
                                 </c:if>
                                 <c:if test="${action ne 'edit'}">
 	                                <div class="col s12 m8 input-field">
-	                                    <input id=project_name type="text" class="validate" value="${projectDeatils.project_name }" name="project_name">
+	                                    <input id=project_name type="text" class="validate" value="${projectDetails.project_name }" name="project_name">
 	                                    <label for="project_name">Project Name <span class="required">*</span></label>
 	                                    <span  id="project_nameError"> </span>
 	                                </div>
@@ -135,7 +135,7 @@
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <%-- <div class="col s12 m4 input-field">
-                                    <input id="pink_book_item_number" type="text" class="validate" value="${projectDeatils.pink_book_item_number }" name="pink_book_item_number">
+                                    <input id="pink_book_item_number" type="text" class="validate" value="${projectDetails.pink_book_item_number }" name="pink_book_item_number">
                                     <label for="pink_book_item_number">PB Item Number</label>
                                     <span  id="pink_book_item_numberError"> </span>
                                 </div> --%>
@@ -143,14 +143,14 @@
 									<!-- <p class="searchable_label">Project Status</p> -->
 									<select class="validate-dropdown" name="project_status" id="project_status">
 										<option value="">Select</option>
-										<option value="Open" <c:if test="${projectDeatils.project_status == 'Open'}">selected</c:if>>Open</option>
-										<option value="Closed" <c:if test="${projectDeatils.project_status == 'Closed'}">selected</c:if>>Closed</option>
+										<option value="Open" <c:if test="${projectDetails.project_status == 'Open'}">selected</c:if>>Open</option>
+										<option value="Closed" <c:if test="${projectDetails.project_status == 'Closed'}">selected</c:if>>Closed</option>
 									</select> 
 									<label for="project_staus">Project Status</label>
 									<span id="project_statusError"></span>
 								</div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="plan_head_number" type="text" class="validate" value="${projectDeatils.plan_head_number }" name="plan_head_number">
+                                    <input id="plan_head_number" type="text" class="validate" value="${projectDetails.plan_head_number }" name="plan_head_number">
                                     <label for="plan_head_number">Plan Head Number</label>
                                     <span  id="plan_head_numberError"> </span>
                                 </div>
@@ -174,8 +174,8 @@
 								<!-- <p class="searchable_label">Project Status</p> -->
 								<select class="validate-dropdown" name="project_status" id="project_status">
 									<option value="">Select</option>
-									<option value="Open" <c:if test="${projectDeatils.project_status == 'Open'}">selected</c:if>>Open</option>
-									<option value="Closed" <c:if test="${projectDeatils.project_status == 'Closed'}">selected</c:if>>Closed</option>
+									<option value="Open" <c:if test="${projectDetails.project_status == 'Open'}">selected</c:if>>Open</option>
+									<option value="Closed" <c:if test="${projectDetails.project_status == 'Closed'}">selected</c:if>>Closed</option>
 								</select> 
 								<label for="project_staus">Project Status</label>
 								<span id="project_statusError"></span>
@@ -188,12 +188,12 @@
 									</div>
 									<div class="file-path-wrapper">
 										<input class="file-path validate" type="text" id="project_attachment" multiple
-											name="attachment" value="${projectDeatils.attachment }">
+											name="attachment" value="${projectDetails.attachment }">
 									</div>
 								</div>
-								<c:if test="${not empty projectDeatils.attachment }">
-									<div><a href="<%=CommonConstants.PROJECT_FILES %>${projectDeatils.attachment }"
-										class="filevalue" download>${projectDeatils.attachment }</a>
+								<c:if test="${not empty projectDetails.attachment }">
+									<div><a href="<%=CommonConstants.PROJECT_FILES %>${projectDetails.attachment }"
+										class="filevalue" download>${projectDetails.attachment }</a>
 										<span onclick="removeMedia(this,'project_attachment')" class="attachment-remove-btn">X</span>
 									</div>
 								</c:if>
@@ -205,7 +205,7 @@
 						<div class="row">
                               <div class="col m2 hide-on-small-only"></div>
                               <div class="col s12 m8 input-field">
-                                  <textarea id="benefits"  name="benefits" class="materialize-textarea" data-length="1000">${projectDeatils.benefits }</textarea>
+                                  <textarea id="benefits"  name="benefits" class="materialize-textarea" data-length="1000">${projectDetails.benefits }</textarea>
                                   <label for="benefits">Benefits</label>
                                    <span id="benefitsError"></span>
                               </div>
@@ -213,20 +213,23 @@
 						<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" class="materialize-textarea" data-length="1000"  name="remarks">${projectDeatils.remarks }</textarea>
+                                    <textarea id="remarks" class="materialize-textarea" data-length="1000"  name="remarks">${projectDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                      <span id="remarksError"></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-	                            <div class="col m8 s12">
-									<div class="file-field input-field">
+	                            <div class="col m4 s12" id="selectedImagesInput">
+									<div class="file-field input-field" id="projectImagesDiv1">
 										<div class="btn bg-m t-c">
-											<span>Images</span> <input type="file" id="projectGalleryFiles"	name="projectGalleryFiles"   multiple accept="image/x-png,image/gif,image/jpeg,video/mp4,video/webm,video/avi,video/mkv" >
+											<span>Images</span> <input type="file" id="projectGalleryFiles1"	name="projectGalleryFiles" onchange="selectMoreFiles('1')"  multiple accept="image/x-png,image/gif,image/jpeg,video/mp4,video/webm,video/avi,video/mkv" >
 										</div>
 										<div class="file-path-wrapper">
-											<input class="file-path validate" type="text" id="galleryFileNames" name="galleryFileNames" value="${projectDeatils.galleryFileNames}" >
+											 <input class="file-path validate" type="text">
+											 <input class="file-path validate" type="hidden" id="galleryFileNames" name="galleryFileNames" value="${projectDetails.galleryFileNames}" >
+										</div>
+										 <div id="selectedImages">
 										</div>
 									</div>
 									<c:forEach var="obj" items="${fileNames }" varStatus="index">
@@ -242,7 +245,7 @@
 									     </div>
 									</c:forEach>
 									
-									<c:if test="${ empty projectDeatils.file_name && empty projectDeatils.galleryFileNames}">
+									<c:if test="${ empty projectDetails.file_name && empty projectDetails.galleryFileNames}">
 										<input type="hidden"  name="projectGalleryFileNames" value="" style="display:none" >
 									</c:if>
 									
@@ -260,33 +263,53 @@
 										<img src="/pmis/resources/images/mrvc.png">																
 									</div> -->
 								</div>
-								<div class="col m2 hide-on-small-only"></div>
+							<div class="col m4 s12">
+							  <c:if test="${action eq 'add'}">
+	                            <div id="selectedFilesInput">
+	                                    	<div class="file-field input-field" id="projectFilesDiv1" >
+		                                        <div class="btn bg-m t-c">
+		                                            <span>Attach Files</span>
+		                                            <input type="file" id="projectFiles1" name="projectFile"  onchange="selectFile('1')">
+		                                        </div>
+		                                        <div class="file-path-wrapper">
+		                                            <input class="file-path validate" type="text">
+		                                        </div>                                       
+		                                    </div>
+										</div>
+	                                    <div id="selectedFiles">
+										</div>
+							  </c:if>	
+							  <c:if test="${action eq 'edit'}">
+											<c:set var="existingProjectFilesLength" value="${fn:length(projectDetails.projectFiles )}"></c:set>
+											<c:if test="${fn:length(projectDetails.projectFiles ) gt 0}">
+												<c:set var="existingProjectFilesLength" value="${fn:length(projectDetails.projectFiles )+1}"></c:set>
+											</c:if>
+											<div id="selectedFilesInput">
+		                                    	<div class="file-field input-field" id="projectFilesDiv${existingProjectFilesLength }" >
+			                                        <div class="btn bg-m t-c">
+			                                            <span>Attach Files</span>
+			                                            <input type="file" id="projectFiles${existingProjectFilesLength }" name="projectFile"  onchange="selectFile('${existingProjectFilesLength }')">
+			                                        </div>
+			                                        <div class="file-path-wrapper">
+			                                            <input class="file-path validate" type="text">
+			                                        </div>                                       
+			                                    </div>
+											</div>
+		                                    
+		                                    <div id="selectedFiles">
+		                                    	<c:forEach var="obj" items="${projectDetails.projectFiles }" varStatus="index">
+													 <div id="projectFileNames${index.count }">
+														<a href="<%=CommonConstants.PROJECT_FILES%>${obj.attachment } " class="filevalue" download>${obj.attachment }</a>
+														<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
+														<input type="hidden" name="projectFileNames" value="${obj.attachment }">
+												     </div>
+												     <div style="clear:both" ></div>
+												</c:forEach>
+											</div>
+		                             </c:if>	
 							</div>
-							
-							
-						<div class="row">
 							<div class="col m2 hide-on-small-only"></div>
-							<div class="col m8 s12">
-								<div class="file-field input-field">
-									<div class="btn bg-m t-c">
-										<span>Attachment</span> <input type="file" id="projectFile"
-											name="projectFile">
-									</div>
-									<div class="file-path-wrapper">
-										<input class="file-path validate" type="text" id="project_attachment" multiple
-											name="attachment" value="${projectDeatils.attachment }">
-									</div>
-								</div>
-								<c:if test="${not empty projectDeatils.attachment }">
-									<div><a href="<%=CommonConstants.PROJECT_FILES %>${projectDeatils.attachment }"
-										class="filevalue" download>${projectDeatils.attachment }</a>
-										<span onclick="removeMedia(this,'project_attachment')" class="attachment-remove-btn">X</span>
-									</div>
-								</c:if>
-							
 							</div>
-							<div class="col m2 hide-on-small-only"></div>
-						</div>
 						
 						
 						<div class="row">
@@ -305,8 +328,8 @@
 												</thead>
 												<tbody id="pinkBookBody">
 													<c:choose>
-														<c:when	test="${not empty projectDeatils.projectPinkBooks && fn:length(projectDeatils.projectPinkBooks) gt 0 }">
-															<c:forEach var="pObj" items="${projectDeatils.projectPinkBooks }" varStatus="index">
+														<c:when	test="${not empty projectDetails.projectPinkBooks && fn:length(projectDetails.projectPinkBooks) gt 0 }">
+															<c:forEach var="pObj" items="${projectDetails.projectPinkBooks }" varStatus="index">
 																<tr id="actionRow${index.count }">
 																	<td>
 																		<div class="input-field">
@@ -367,9 +390,9 @@
 											</table>
 											<c:choose>
 												<c:when
-													test="${not empty (projectDeatils.projectPinkBooks) && fn:length(projectDeatils.projectPinkBooks) gt 0 }">
+													test="${not empty (projectDetails.projectPinkBooks) && fn:length(projectDetails.projectPinkBooks) gt 0 }">
 													<input type="hidden" id="rowNo" name="rowNo"
-														value="${fn:length(projectDeatils.projectPinkBooks) }" />
+														value="${fn:length(projectDetails.projectPinkBooks) }" />
 												</c:when>
 												<c:otherwise>
 													<input type="hidden" id="rowNo" name="rowNo" value="0" />
@@ -437,6 +460,78 @@
  
 
     <script>
+	 function selectMoreFiles(no){
+		    files = $("#projectGalleryFiles"+no)[0].files;
+		    var html = "";
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=projectGalleryFileNames'+no+'>'
+				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+				 + '<span onclick="removeImage('+no+')" class="attachment-remove-btn">X</span>'
+				 + '</div>'
+				 + '<div style="clear:both;"></div>';
+		    }
+		    $("#selectedImages").append(html);
+		    
+		    $('#projectImagesDiv1'+no).hide();
+		    
+			var fileIndex = Number(no)+1;
+			moreImages(fileIndex);
+		}
+		
+	/* function moreImages(no){
+		var html = "";
+		html =  html + '<div class="file-field input-field" id="projectImagesDiv'+no+'" >'
+		+ '<div class="btn bg-m t-c">'
+		+ '<span>Attach Files</span>'
+		+ '<input type="file" id="projectGalleryFiles'+no+'" name="projectGalleryFiles"  onchange="selectMoreFiles('+no+')">'
+		+ '</div>'
+		+ '<div class="file-path-wrapper">'
+		+ '<input class="file-path validate" type="text">'
+		+ '</div>'                          
+		+ '</div>'
+		$("#selectedImagesInput").append(html);
+	} */
+	function removeFile(no){			
+     	$('#projectImagesDiv'+no).remove();
+     	$('#projectGalleryFileNames'+no).remove();
+    }
+    function selectFile(no){
+	    files = $("#projectFiles"+no)[0].files;
+	    var html = "";
+	    for (var i = 0; i < files.length ; i++) {
+	    	html =  html + '<div id=projectFileNames'+no+'>'
+			 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+			 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
+			 + '</div>'
+			 + '<div style="clear:both;"></div>';
+	    }
+	    $("#selectedFiles").append(html);
+	    
+	    $('#projectFilesDiv'+no).hide();
+	    
+		var fileIndex = Number(no)+1;
+		moreFiles(fileIndex);
+	}
+	
+	function moreFiles(no){
+		var html = "";
+		html =  html + '<div class="file-field input-field" id="projectFilesDiv'+no+'" >'
+		+ '<div class="btn bg-m t-c">'
+		+ '<span>Attach Files</span>'
+		+ '<input type="file" id="projectFiles'+no+'" name="projectFile"  onchange="selectFile('+no+')">'
+		+ '</div>'
+		+ '<div class="file-path-wrapper">'
+		+ '<input class="file-path validate" type="text">'
+		+ '</div>'                          
+		+ '</div>'
+		$("#selectedFilesInput").append(html);
+	}
+	
+	function removeFile(no){			
+     	$('#projectFilesDiv'+no).remove();
+     	$('#projectFileNames'+no).remove();
+    } 
+
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();

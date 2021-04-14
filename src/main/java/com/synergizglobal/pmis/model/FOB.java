@@ -8,7 +8,15 @@ public class FOB {
 	private String fob_id,fob_name,id,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,
 	commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment,fob_detail_id,fob_id_fk,
 	detail_name,value,work_id_fk,project_id_fk,revised_completion,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost,
-	project_id,work_id,work_name,work_short_name;
+	project_id,work_id,work_name,work_short_name,status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public String getId() {
 		return id;
@@ -58,13 +66,22 @@ public class FOB {
 		this.contract_short_name = contract_short_name;
 	}
 
-	private MultipartFile [] fobFile;
+	private List<MultipartFile> fobFiles;
+	private List<FOB> fobFilesList;
 	private List<FOB> fobDetails;
 	private List<FOB> fobImages;
 	private String[] fob_id_fks,fobFileNames;
 	private String[] fob_detail_names,fob_detail_values;
 	
 
+
+	public List<FOB> getFobFilesList() {
+		return fobFilesList;
+	}
+
+	public void setFobFilesList(List<FOB> fobFilesList) {
+		this.fobFilesList = fobFilesList;
+	}
 
 	public String[] getFobFileNames() {
 		return fobFileNames;
@@ -82,12 +99,13 @@ public class FOB {
 		this.fob_id_fks = fob_id_fks;
 	}
 
-	public MultipartFile[] getFobFile() {
-		return fobFile;
+
+	public List<MultipartFile> getFobFiles() {
+		return fobFiles;
 	}
 
-	public void setFobFile(MultipartFile[] fobFile) {
-		this.fobFile = fobFile;
+	public void setFobFiles(List<MultipartFile> fobFiles) {
+		this.fobFiles = fobFiles;
 	}
 
 	public List<FOB> getFobImages() {

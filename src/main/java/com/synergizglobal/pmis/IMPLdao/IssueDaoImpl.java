@@ -940,7 +940,7 @@ public class IssueDaoImpl implements IssueDao {
 						 mailBodyHeader = mailBodyHeader + "updated ";
 					 }
 				}else{
-					mailBodyHeader = mailBodyHeader + iObj.getStatus_fk();
+					mailBodyHeader = mailBodyHeader + isuue_status;
 					if("Assigned".equals(iObj.getStatus_fk()) || "Escalated".equals(iObj.getStatus_fk()) ) {
 						mailBodyHeader = mailBodyHeader + " to you ";
 					}
@@ -959,7 +959,7 @@ public class IssueDaoImpl implements IssueDao {
 							 && !iObj.getEscalated_to_user_id().equals(existing_escalated_to) ) {
 						 emailSubject = emailSubject + iObj.getStatus_fk();
 					 }else {
-						 emailSubject = emailSubject + "updated";
+						 emailSubject = emailSubject + "Updated";
 					 }					
 				}else{
 					emailSubject = emailSubject + issue_status;

@@ -198,7 +198,7 @@ public class IssuesReportController {
 			if(pendingIssues != null ) {
 				issue_count = pendingIssues.size();
 			}
-			String headerTextMiddle = "PMIS Report - Pending Issues("+issue_count+")";
+			String headerTextMiddle = "PMIS Report - Pending Issues("+issue_count+" Nos)";
 			
 			String headerTextRight = "Date : " + report_created_date;
 			

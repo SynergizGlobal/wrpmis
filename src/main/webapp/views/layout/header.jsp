@@ -1192,7 +1192,7 @@
 			                    		  }else if(val.alert_type_fk == 'Issue'){
 			                    			  bgIcon = '<i class="fa fa-exclamation-triangle"></i>';
 			                    		  }else if(val.alert_type_fk == 'Risk'){
-			                    			  bgIcon = '<i class="material-icons">error</i>';
+			                    			  bgIcon = '<i class="material-icons" style="font-size:40px;right: 23px!important;top:25%">error</i>';
 			                    		  }else if(val.alert_type_fk == 'Safety'){
 			                    			  bgIcon = '<i class="material-icons">verified_user</i>';
 			                    		  }

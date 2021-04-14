@@ -599,16 +599,20 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                       <!--  <div class="col m12 s12" id="issue_yes_attachment" style="display: none;"> -->
-                                            <div class="col m12 s12 file-field input-field" >
-                                                <div class="btn bg-m">
-                                                    <span>Attachment</span>
-                                                    <input type="file" id="issueFiles" name="issueFiles" multiple>
-                                                </div>
-                                                <div class="file-path-wrapper">
-                                                    <input class="file-path validate" type="text">
-                                                </div>
+	                                       	<div id="selectedFilesInput">
+	                                            <div class="col m12 s12 file-field input-field" id="issueFilesDiv1" >
+	                                                <div class="btn bg-m">
+	                                                    <span>Update Files</span>
+	                                                    <input type="file" id="issueFiles1" name="issueFiles" onchange="selectFile('1')">
+	                                                </div>
+	                                                <div class="file-path-wrapper">
+	                                                    <input class="file-path validate" type="text">
+	                                                </div>
+	                                            </div>
                                             </div>
+                                            <div class="col m12 s12" id="selectedFiles">
+                                    	
+											</div>
                                         </div>
                                       <div class="row">
                                         <div class="col m12 s12 input-field">
@@ -712,6 +716,39 @@
     
 
     <script>
+    
+	    function selectFile(no){
+		    files = $("#issueFiles"+no)[0].files;
+		    var html = "";
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=issueFileName'+no+'>'
+				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+				 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
+				 + '</div>'
+				 + '<div style="clear:both;"></div>';
+		    }
+		    $("#selectedFiles").append(html);
+		    
+		    $('#issueFilesDiv'+no).hide();
+		    
+			var fileIndex = Number(no)+1;
+			moreFiles(fileIndex);
+		}
+		
+		function moreFiles(no){
+			var html = "";
+			html =  html + '<div class="col m12 s12 file-field input-field" id="issueFilesDiv'+no+'" >'
+			+ '<div class="btn bg-m">'
+			+ '<span>Update Files</span>'
+			+ '<input type="file" id="issueFiles'+no+'" name="issueFiles" onchange="selectFile('+no+')">'
+			+ '</div>'
+			+ '<div class="file-path-wrapper">'
+			+ '<input class="file-path validate" type="text">'
+			+ '</div>'                          
+			+ '</div>'
+			$("#selectedFilesInput").append(html);
+		}
+	
         $(document).ready(function () {
             $('#issue_category_id').formSelect();
             $('.searchable').select2();

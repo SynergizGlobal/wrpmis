@@ -748,6 +748,11 @@
 			+ '</div>'
 			$("#selectedFilesInput").append(html);
 		}
+		
+		function removeFile(no){			
+         	$('#issueFilesDiv'+no).remove();
+         	$('#issueFileName'+no).remove();
+        } 
 	
         $(document).ready(function () {
             $('#issue_category_id').formSelect();

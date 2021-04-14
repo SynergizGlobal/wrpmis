@@ -388,7 +388,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			/***************************** Issue alerts*******************************************************/
 			
 			String qryAlert1 = "select contract_id_fk as contract_id, '1st Alert' as alert_level,'Issue' as alert_type,"
-					+ "concat('Issue ',status_fk,': ',i.title,'<br>Pending Since : ',DATEDIFF(NOW(), date),' days.') as alert_value,"
+					+ "concat(i.title,'<br>Pending Since : ',DATEDIFF(NOW(), date),' days.') as alert_value,"
 					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
 					+ "d.department_name,responsible_person,escalated_to,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,i.corrective_measure,i.remarks "
@@ -405,7 +405,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}			
 			
 			String qryAlert2 = "select contract_id_fk as contract_id, '2nd Alert' as alert_level,'Issue' as alert_type,"
-					+ "concat('Issue ',status_fk,': ',i.title,'<br>Pending Since : ',DATEDIFF(NOW(), date),' days.') as alert_value,"
+					+ "concat(i.title,'<br>Pending Since : ',DATEDIFF(NOW(), date),' days.') as alert_value,"
 					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
 					+ "d.department_name,responsible_person,escalated_to,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,i.corrective_measure,i.remarks "
@@ -421,7 +421,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}	
 			
 			String qryAlert3 = "select contract_id_fk as contract_id, '3rd Alert' as alert_level,'Issue' as alert_type,"
-					+ "concat('Issue ',status_fk,': ',i.title,'<br>Pending Since : ',DATEDIFF(NOW(), date),' days.') as alert_value,"
+					+ "concat(i.title,'<br>Pending Since : ',DATEDIFF(NOW(), date),' days.') as alert_value,"
 					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
 					+ "d.department_name,responsible_person,escalated_to,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,i.corrective_measure,i.remarks "
@@ -790,8 +790,6 @@ public class AlertsDaoImpl implements AlertsDao{
 		boolean flag = false;
 		try {
 			EMailSender emailSender = new EMailSender();
-			
-			
 			String userIdQry = "SELECT user_id_fk,u2.email_id "
 					+ "FROM alerts a " 
 					+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
@@ -814,9 +812,9 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				
 				Object[] pValues = new Object[] {CommonConstants.ACTIVE,uObj.getUser_id_fk()};
-				List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+				List<Alerts> riskAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 				
-				if(allAlertsList != null && allAlertsList.size() > 0) {
+				if(riskAlertsList != null && riskAlertsList.size() > 0) {
 					String emailSubject = "PMIS Contract & Issue Alerts";
 					
 					Mail mail = new Mail();
@@ -826,7 +824,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					mail.setTemplateName("Risk_Alerts.vm");
 					
 					logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
-					emailSender.sendEmailWithAlerts(mail,allAlertsList); 
+					emailSender.sendEmailWithAlerts(mail,riskAlertsList); 
 					logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
 				}
 					

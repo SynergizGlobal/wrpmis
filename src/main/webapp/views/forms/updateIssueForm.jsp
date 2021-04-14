@@ -476,7 +476,7 @@
                 $('#escalation_date').click();
             });
                       
-            var project_id_fk = "${issue.project_id_fk}";
+            /* var project_id_fk = "${issue.project_id_fk}";
             if ($.trim(project_id_fk) != '') {
                 getWorksList(project_id_fk);
             }
@@ -484,7 +484,7 @@
             var work_id_fk = "${issue.work_id_fk}";
             if ($.trim(work_id_fk) != '') {
             	getContractsList(work_id_fk);
-            }
+            } */
 	        
             
             
@@ -819,13 +819,19 @@
             if($.trim(responsible_person) == ''){
             	responsible_person = "${issue.responsible_person}";
             }
+            
+			var escalated_to = "${issue.escalated_to}";
+            
             var status_fk = "${issue.status_fk}";
             var logged_id_user_id = "${sessionScope.USER_ID}";
             var logged_id_user_role_code = "${sessionScope.USER_ROLE_CODE}";
             var user_role_it_admin = '<%=CommonConstants.ROLE_CODE_IT_ADMIN%>';
             
-            var hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("hod");
-            var dy_hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("dyhod");
+            /* var hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("hod");
+            var dy_hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("dyhod"); */
+            
+            var hod_user_id_fk = "${issue.hod_user_id_fk}";
+            var dy_hod_user_id_fk = "${issue.dy_hod_user_id_fk}";
             
             var myParams = {};
             $.ajax({
@@ -852,7 +858,7 @@
                                 if ((val.status == 'Raised')){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                              	}
-                            }else if($.trim(status_fk) != '' && $.trim(status_fk) == 'Assigned'){
+                            }else if($.trim(status_fk) != '' && $.trim(status_fk) == 'Assigned'){                            	
                             	if ((val.status == 'Assigned') && ((logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                              	}else 
@@ -866,14 +872,14 @@
                             	if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                                 }else  
-                                if ((val.status == 'Escalated') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
+                                if ((val.status == 'Escalated') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk) || (logged_id_user_id == escalated_to))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                                 }
                             }else if($.trim(status_fk) != '' && $.trim(status_fk) == 'Closed'){
                             	if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                                 }
-                            }else{
+                            }/* else{
                             	if ((val.status == 'Assigned') && ((logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                              	}else 
@@ -886,7 +892,7 @@
                                 if ((val.status == 'Raised')){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                              	}
-                            }
+                            } */
                             
                             /* if (val.status == $.trim(status_fk)) {
                                 $("#status_fk").append('<option value="' + val.status+'" selected>' + $.trim(val.status) + '</option>');

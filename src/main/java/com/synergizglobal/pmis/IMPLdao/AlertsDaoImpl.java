@@ -563,13 +563,15 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			List<Alerts> risk_alerts = new ArrayList<Alerts>();
 			
+			List<Alerts> alert_users_list = new ArrayList<Alerts>();
+			
 			String work_ids_qry = "select group_concat(work_id_fk) as work_id,hod_user_id_fk from risk_work_hod group by hod_user_id_fk";		
 			List<Alerts> work_idsList = jdbcTemplate.query( work_ids_qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(work_idsList) && work_idsList.size() > 0) {
 				String isSuccessQuery = "SELECT `status`,work_id,work_name,work_short_name,uploaded_by_user_id_fk "
 						+ "FROM risk_upload "
 						+ "LEFT JOIN work ON work_id_fk = work_id "
-						+ "where work_id_fk = ? and uploaded_by_user_id_fk = ? and `status` = ?";
+						+ "where work_id_fk = ? and `status` = ? and DATE_FORMAT(uploaded_on,'%m-%Y') = DATE_FORMAT(NOW(),'%m-%Y')";
 				for (Alerts obj : work_idsList) {
 					String work_ids = obj.getWork_id();
 					String hod_user_id_fk = obj.getHod_user_id_fk();
@@ -577,19 +579,19 @@ public class AlertsDaoImpl implements AlertsDao{
 						String[] workIds = work_ids.split(",");
 						List <String> workList = Arrays.asList(workIds);
 						for (String work_id : workList) {
-							Object[] pValues = new Object[] {work_id,hod_user_id_fk,"Success"};
+							Object[] pValues = new Object[] {work_id,"Success"};
 							List<Alerts> sObj = jdbcTemplate.query( isSuccessQuery,pValues,new BeanPropertyRowMapper<Alerts>(Alerts.class));
 							if(!StringUtils.isEmpty(sObj) && !sObj.isEmpty()) {
 								for (Alerts alerts : sObj) {
-									risk_alerts.add(alerts);
+									alert_users_list.add(alerts);
 								}
-							}else {
+							}else{
 								String qry = "select work_id,work_name,work_short_name from work where work_id = ?";	
 								List<Alerts> wObj = jdbcTemplate.query( qry,new Object[] {work_id},new BeanPropertyRowMapper<Alerts>( Alerts.class));
 								if(!StringUtils.isEmpty(wObj) && !wObj.isEmpty()) {
 									for (Alerts alerts : wObj) {
 										alerts.setUploaded_by_user_id_fk(hod_user_id_fk);
-										risk_alerts.add(alerts);
+										alert_users_list.add(alerts);
 									}
 								}
 							}
@@ -597,6 +599,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					}
 				 }	 
 			}
+			
 			/***************************** Risk alerts*******************************************************/
 			if(!StringUtils.isEmpty(risk_alerts) && risk_alerts.size() > 0) {
 				 Date date = new Date();
@@ -733,11 +736,13 @@ public class AlertsDaoImpl implements AlertsDao{
 			EMailSender emailSender = new EMailSender();
 			
 			
-			String userIdQry = "SELECT user_id_fk,u2.email_id FROM alerts a " 
+			String userIdQry = "SELECT user_id_fk,u2.email_id "
+					+ "FROM alerts a " 
 					+ "left join alerts_user u on u.alerts_id_fk = a.alert_id " 
 					+ "left join user u2 on u.user_id_fk = u2.user_id " 
 					+ "where a.alert_status = 'Active' and count <> 0 "
-					+ "and u2.email_id is not null and u2.email_id <> '' group by user_id_fk";
+					+ "and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' "
+					+ "group by user_id_fk";
 			
 			List<Alerts> userIdList = jdbcTemplate.query( userIdQry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
@@ -750,7 +755,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "left join work w on c.work_id_fk = w.work_id " 
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id " 
-						+ "where alert_status = ? and au.user_id_fk = ? and count <> 0 "
+						+ "where alert_status = ? and au.user_id_fk = ? and count <> 0  and a.alert_type_fk <> 'Risk'"
 						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
 				
 				
@@ -769,6 +774,60 @@ public class AlertsDaoImpl implements AlertsDao{
 					logger.error("sendNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
 					emailSender.sendEmailWithAlerts(mail,allAlertsList); 
 					logger.error("sendNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
+				}
+					
+				flag = true;
+			}
+			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return flag;
+	}
+	
+	//@Override
+	public boolean sendRiskNotificationAlertMails() throws Exception {
+		boolean flag = false;
+		try {
+			EMailSender emailSender = new EMailSender();
+			
+			
+			String userIdQry = "SELECT user_id_fk,u2.email_id "
+					+ "FROM alerts a " 
+					+ "left join alerts_user u on u.alerts_id_fk = a.alert_id " 
+					+ "left join user u2 on u.user_id_fk = u2.user_id " 
+					+ "where a.alert_status = 'Active' and count <> 0 "
+					+ "and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk = 'Risk' "
+					+ "group by user_id_fk";
+			
+			List<Alerts> userIdList = jdbcTemplate.query( userIdQry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+			for (Alerts uObj : userIdList) {
+				String qry = "select alert_id,alert_level,alert_type_fk,created_date,alert_status,alert_value,count,u.designation as hod,"
+						+ "work_id,work_name,work_short_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
+						+ "from alerts a "  
+						+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
+						+ "left join work w on c.work_id_fk = w.work_id " 
+						+ "left join user u on c.hod_user_id_fk = u.user_id " 
+						+ "where alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk = 'Risk' "
+						+ "order by hod,work_short_name,alert_level desc";
+				
+				
+				Object[] pValues = new Object[] {CommonConstants.ACTIVE,uObj.getUser_id_fk()};
+				List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+				
+				if(allAlertsList != null && allAlertsList.size() > 0) {
+					String emailSubject = "PMIS Contract & Issue Alerts";
+					
+					Mail mail = new Mail();
+					mail.setMailTo(uObj.getEmail_id());
+					mail.setMailBcc(CommonConstants.BCC_MAIL);
+					mail.setMailSubject(emailSubject);
+					mail.setTemplateName("Risk_Alerts.vm");
+					
+					logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
+					emailSender.sendEmailWithAlerts(mail,allAlertsList); 
+					logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
 				}
 					
 				flag = true;

@@ -948,7 +948,7 @@ public class IssueDaoImpl implements IssueDao {
 				
 				iObj.setMail_body_header(mailBodyHeader);
 				
-				String emailSubject = "PMIS Issue Alert - Issue ";
+				String emailSubject = "PMIS Issue Notification - Issue ";
 				
 				if(!StringUtils.isEmpty(iObj.getStatus_fk()) && !StringUtils.isEmpty(existing_status_fk) 
 						&& iObj.getStatus_fk().equals(existing_status_fk)) {					

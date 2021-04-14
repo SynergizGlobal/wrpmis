@@ -67,8 +67,8 @@ public class AlertsController {
             //System.out.println("End "+ new Date());
 	    	logger.error("generateAlertsByCronJob : "+flag);
 	    	
-	    	//flag = service.sendRiskNotificationAlertMails();
-			//logger.error("sendRiskNotificationAlertMails >> Sending mails : "+ flag); 
+	    	flag = service.sendRiskNotificationAlertMails();
+			logger.error("sendRiskNotificationAlertMails >> Sending mails : "+ flag); 
 			
 			flag = service.sendAlertsToRajivRavi();
 			logger.error("generateAlertsByCronJob >> Sending mails : "+ flag); 
@@ -120,11 +120,15 @@ public class AlertsController {
 	    	//System.out.println("Start "+ new Date());
             boolean flag = service.generateAterts();
             //System.out.println("End "+ new Date());
-	    	logger.error("generateAndSendAlertsToAllByManual : "+flag);
+	    	logger.error("generateAndSendAlertsToAllByManual >> generateAterts : "+flag);
 			
 		    flag = service.sendNotificationAlertMails();
-		    logger.error("generateAndSendAlertsToAllByManual >> Sending mails : "+ flag); 
+		    logger.error("generateAndSendAlertsToAllByManual >> sendNotificationAlertMails >> Sending mails : "+ flag); 
 		    //System.out.println("Sending mails : "+ flag); 
+		    
+		    flag = service.sendRiskNotificationAlertMails();
+			logger.error("generateAndSendAlertsToAllByManual >> sendRiskNotificationAlertMails >> Sending mails : "+ flag);
+			
 		 } catch (Exception e) {
 			 e.printStackTrace();
 			logger.error("generateAndSendAlertsToAllByManual() : "+e.getMessage());
@@ -163,7 +167,7 @@ public class AlertsController {
 	    	 
 			boolean flag = service.sendAlertsToRajivRavi();
 			logger.error("sendAlertsToRajivRaviByManual >> Sending mails : "+ flag); 
-			//System.out.println("Sending mails : "+ flag); 
+			//System.out.println("Sending mails : "+ flag);
 			
 		 } catch (Exception e) {
 			 e.printStackTrace();

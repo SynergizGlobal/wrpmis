@@ -391,7 +391,7 @@
                                     <div id="selectedFiles">
                                     	<c:forEach var="obj" items="${safety.safetyFilesList }" varStatus="index">
 											 <div id="safetyFileName${index.count }">
-												<a href="<%=CommonConstants2.SAFETY_FILES %>${safety.attachment }" class="filevalue" download>${obj.attachment }</a>
+												<a href="<%=CommonConstants2.SAFETY_FILES %>${obj.attachment }" class="filevalue" download>${obj.attachment }</a>
 												<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
 												<input type="hidden" name="safetyFileNames" value="${obj.attachment }">
 										     </div>

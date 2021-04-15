@@ -981,10 +981,10 @@ public class IssuesReportController {
 						String file_extention = "docx";
 						String attachment_file_name = "Issues-Report";
 						
-						String recipients = "gkalluri@ghsltechnologies.com", cc= "", bcc = CommonConstants.BCC_MAIL, 
+						String recipients = "", cc= "", bcc = CommonConstants.BCC_MAIL, 
 								subject = "PMIS Open Issues Report", body = "";
 						
-						//recipients = issueService.getEmailIdsOfHodDyHodManagement();
+						recipients = issueService.getEmailIdsOfHodDyHodManagement();
 						
 						if(!StringUtils.isEmpty(recipients)){		
 							EMailSender emailSender = new EMailSender();

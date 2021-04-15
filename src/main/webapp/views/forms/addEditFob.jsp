@@ -564,7 +564,7 @@
 		var html = "";
 		html =  html + '<div class="file-field input-field" id="fobFilesDiv'+no+'" >'
 		+ '<div class="btn bg-m t-c">'
-		+ '<span>Attach Files</span>'
+		+ '<span>Attach Images</span>'
 		+ '<input type="file" id="fobFiles'+no+'" name="fobFiles" accept="image/*" onchange="selectFile('+no+')">'
 		+ '</div>'
 		+ '<div class="file-path-wrapper">'

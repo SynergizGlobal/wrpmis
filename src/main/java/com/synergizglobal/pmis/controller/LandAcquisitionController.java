@@ -400,13 +400,6 @@ public class LandAcquisitionController {
 			obj.setDate_of_approval_for_payment(DateParser.parse(obj.getDate_of_approval_for_payment()));
 			obj.setPrivate_payment_date(DateParser.parse(obj.getPrivate_payment_date()));
 			
-			MultipartFile file = obj.getLandAcquisitionFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants.LAND_ACQUISITION_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				obj.setAttachment(fileName);
-			}
 			boolean flag =  service.addLandAcquisition(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Land Acquisition Added Succesfully.");
@@ -484,13 +477,6 @@ public class LandAcquisitionController {
 			obj.setDate_of_approval_for_payment(DateParser.parse(obj.getDate_of_approval_for_payment()));
 			obj.setPrivate_payment_date(DateParser.parse(obj.getPrivate_payment_date()));
 			
-			MultipartFile file = obj.getLandAcquisitionFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants.LAND_ACQUISITION_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				obj.setAttachment(fileName);
-			}
 			boolean flag = service.updateLandAcquisition(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Land Acquisition Updated Succesfully.");

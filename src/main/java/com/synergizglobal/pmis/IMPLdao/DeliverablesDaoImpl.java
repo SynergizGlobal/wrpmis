@@ -1,6 +1,9 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -10,11 +13,23 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.DeliverablesDao;
+import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Deliverables;
+import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Safety;
 
 @Repository
@@ -27,6 +42,9 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
 
+	@Autowired
+	DataSourceTransactionManager transactionManager;
+	
 	@Override
 	public List<Deliverables> getDeliverablesList(Deliverables obj) throws Exception {
 		List<Deliverables> objsList = null;
@@ -328,7 +346,12 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 				pValues[i++] = obj.getId();
 			}
 			deliverables = (Deliverables)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));	
-				
+			
+			if(!StringUtils.isEmpty(deliverables)) {
+				String qry2 ="select id, deliverable_id_fk, attachment  from deliverable_files where deliverable_id_fk = ?";
+				List<Deliverables> objList = jdbcTemplate.query( qry2,new Object[] {obj.getId()}, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));
+				deliverables.setDeliverableFilesList(objList);
+			}
 		}catch(Exception e) {
 			throw new Exception(e.getMessage());
 		}
@@ -338,7 +361,10 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	@Override
 	public boolean addDeliverables(Deliverables obj) throws Exception {
 		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
+			
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO deliverables"
 					+ "( project_priority_fk, project_id_fk, work_id_fk, contract_id_fk, deliverable_type_fk, deliverable_description, target_date, start_date, finish_date, status_fk, remarks,attachment)"
@@ -346,12 +372,37 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 					+ "(:project_priority_fk, :project_id_fk, :work_id_fk, :contract_id_fk, :deliverable_type_fk, :deliverable_description, :target_date, :start_date, :finish_date, :status_fk,:remarks,:attachment)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+		    int count = namedParamJdbcTemplate.update(insertQry, paramSource, keyHolder);
+		    String deliverable_id = null;
 			if(count > 0) {
-				flag = true;
+				deliverable_id = String.valueOf(keyHolder.getKey().intValue());
+				 obj.setId(deliverable_id);
+				 flag = true;
 			}
+			if(flag){
+				if(!StringUtils.isEmpty(obj.getDeliverableFiles()) && obj.getDeliverableFiles().size() > 0) {
+					String file_insert_qry = "INSERT into  deliverable_files ( deliverable_id_fk, attachment) VALUES (:id,:attachment)";
+					List<MultipartFile> deliverableFiles = obj.getDeliverableFiles();
+					for (MultipartFile multipartFile : deliverableFiles) {
+						if (null != multipartFile && !multipartFile.isEmpty()){
+							String saveDirectory = CommonConstants.DELIVERABLES_FILE_SAVING_PATH ;
+							String fileName = multipartFile.getOriginalFilename();
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+							
+							Deliverables fileObj = new Deliverables();
+							fileObj.setId(deliverable_id);
+							fileObj.setAttachment(fileName);
+							
+							paramSource = new BeanPropertySqlParameterSource(fileObj);	
+							namedParamJdbcTemplate.update(file_insert_qry, paramSource);
+						}
+					}
+				}	
+			}
+			transactionManager.commit(status);
 		}catch(Exception e){ 
-			e.printStackTrace();
+			transactionManager.rollback(status);
 			throw new Exception(e.getMessage());
 		}
 		return flag;
@@ -360,6 +411,8 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	@Override
 	public boolean updateDeliverables(Deliverables obj) throws Exception {
 		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String updateQry = "UPDATE deliverables set "
@@ -369,8 +422,50 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
 			if(count > 0) {
 				flag = true;
+				String deleteFilesQry = "delete from deliverable_files  where deliverable_id_fk = :id";		 
+				Deliverables fileObj = new Deliverables();
+				fileObj.setId(obj.getId());
+				paramSource = new BeanPropertySqlParameterSource(obj);	
+				namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
+			
+				String insert_qry = "INSERT into  deliverable_files ( deliverable_id_fk, attachment) VALUES (:id,:attachment)";
+				
+				int arraySize = 0;
+				if(!StringUtils.isEmpty(obj.getDeliverableFileNames()) && obj.getDeliverableFileNames().length > 0 ) {
+					obj.setDeliverableFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getDeliverableFileNames()));
+					if(arraySize < obj.getDeliverableFileNames().length) {
+						arraySize = obj.getDeliverableFileNames().length;
+					}
+				}
+				for (int i = 0; i < arraySize; i++) {
+					fileObj = new Deliverables();
+					fileObj.setId(obj.getId());
+					fileObj.setAttachment(obj.getDeliverableFileNames()[i]);
+					paramSource = new BeanPropertySqlParameterSource(fileObj);	
+					namedParamJdbcTemplate.update(insert_qry, paramSource);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getDeliverableFiles()) && obj.getDeliverableFiles().size() > 0) {
+					List<MultipartFile> fobFiles = obj.getDeliverableFiles();
+					for (MultipartFile multipartFile : fobFiles) {
+						if (null != multipartFile && !multipartFile.isEmpty()){
+							String saveDirectory = CommonConstants.DELIVERABLES_FILE_SAVING_PATH ;
+							String fileName = multipartFile.getOriginalFilename();
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+							obj.setAttachment(fileName);
+						
+							fileObj = new Deliverables();
+							fileObj.setId(obj.getId());
+							fileObj.setAttachment(fileName);
+							paramSource = new BeanPropertySqlParameterSource(fileObj);	
+							namedParamJdbcTemplate.update(insert_qry, paramSource);
+						}
+					}
+				}
 			}
+			transactionManager.commit(status);
 		}catch(Exception e){ 
+			transactionManager.rollback(status);
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}

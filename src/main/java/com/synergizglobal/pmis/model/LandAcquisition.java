@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class LandAcquisition {
@@ -28,6 +30,34 @@ public class LandAcquisition {
     railway_submission_date_to_revenue_secretary_mantralaya, railway_submission_date_to_regional_office_nagpur,  railway_date_of_approval_by_Rregional_Office_agpur,  railway_valuation_by_DyCFO, railway_demanded_amount, railway_approval_for_payment, railway_payment_date, railway_payment_amount, railway_payment_status, railway_possession_date,  railway_possession_status, railway_special_feature, railway_attachment_no
     ;
 	
+	private List<MultipartFile> laFiles;
+	private List<LandAcquisition> laFilesList;
+	private String[] laFileNames;
+	
+	public List<MultipartFile> getLaFiles() {
+		return laFiles;
+	}
+
+	public void setLaFiles(List<MultipartFile> laFiles) {
+		this.laFiles = laFiles;
+	}
+
+	public List<LandAcquisition> getLaFilesList() {
+		return laFilesList;
+	}
+
+	public void setLaFilesList(List<LandAcquisition> laFilesList) {
+		this.laFilesList = laFilesList;
+	}
+
+	public String[] getLaFileNames() {
+		return laFileNames;
+	}
+
+	public void setLaFileNames(String[] laFileNames) {
+		this.laFileNames = laFileNames;
+	}
+
 	public String getGov_remarks() {
 		return gov_remarks;
 	}

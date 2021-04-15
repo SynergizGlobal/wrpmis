@@ -200,21 +200,50 @@
 						<div class="row">
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col m8 s12">
-								<div class="file-field input-field">
-									<div class="btn bg-m">
-										<span>Attachment</span> <input type="file" id="deliverablesFile"
-											name="deliverablesFile">
-									</div>
-									<div class="file-path-wrapper">
-										<input class="file-path validate" type="text" id="deliverableFileWrapper" name="attachment" value="${deliverablesDetails.attachment }">
-									</div>
-								</div>
-								 <c:if test="${not empty deliverablesDetails.attachment }">
-									<a
-										href="<%=CommonConstants.DELIVERABLES_FILES %>${deliverablesDetails.attachment }"
-										class="filevalue" download>${deliverablesDetails.attachment }</a>
-										<span onclick="removeMedia(this,'deliverableFileWrapper')" class="attachment-remove-btn">X</span>
-								</c:if>
+							
+							 <c:if test="${action eq 'add'}">
+			                            <div id="selectedFilesInput">
+			                                    	<div class="file-field input-field" id="deliverableFilesDiv1" >
+				                                        <div class="btn bg-m t-c">
+				                                            <span>Attach Files</span>
+				                                            <input type="file" id="deliverableFiles1" name="deliverableFiles"   onchange="selectFile('1')">
+				                                        </div>
+				                                        <div class="file-path-wrapper">
+				                                            <input class="file-path validate" type="text">
+				                                        </div>                                       
+				                                    </div>
+												</div>
+			                                    <div id="selectedFiles">
+												</div>
+									  </c:if>	
+									  <c:if test="${action eq 'edit'}">
+													<c:set var="existingDeliverableFilesLength" value="${fn:length(deliverablesDetails.deliverableFilesList )}"></c:set>
+													<c:if test="${fn:length(deliverablesDetails.deliverableFilesList ) gt 0}">
+														<c:set var="existingDeliverableFilesLength" value="${fn:length(deliverablesDetails.deliverableFilesList )+1}"></c:set>
+													</c:if>
+													<div id="selectedFilesInput">
+				                                    	<div class="file-field input-field" id="deliverableFilesDiv${existingDeliverableFilesLength }" >
+					                                        <div class="btn bg-m t-c">
+					                                            <span>Attach Files</span>
+					                                            <input type="file" id="deliverableFiles${existingDeliverableFilesLength }" name="deliverableFiles"  onchange="selectFile('${existingDeliverableFilesLength }')">
+					                                        </div>
+					                                        <div class="file-path-wrapper">
+					                                            <input class="file-path validate" type="text">
+					                                        </div>                                       
+					                                    </div>
+													</div>
+				                                    
+				                                    <div id="selectedFiles">
+				                                    	<c:forEach var="obj" items="${deliverablesDetails.deliverableFilesList }" varStatus="index">
+															 <div id="deliverableFileNames${index.count }">
+																<a href="<%=CommonConstants.DELIVERABLES_FILES %>${obj.attachment }" class="filevalue" download>${obj.attachment }</a>
+																<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
+																<input type="hidden" name="deliverableFileNames" value="${obj.attachment }">
+														     </div>
+														     <div style="clear:both" ></div>
+														</c:forEach>
+													</div>
+				                             </c:if>	
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
 						</div>
@@ -287,6 +316,43 @@
 	   	    	}
 	        })
 	    }); */
+	    function selectFile(no){
+		    files = $("#deliverableFiles"+no)[0].files;
+		    var html = "";
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=deliverableFileNames'+no+'>'
+				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+				 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
+				 + '</div>'
+				 + '<div style="clear:both;"></div>';
+		    }
+		    $("#selectedFiles").append(html);
+		    
+		    $('#deliverableFilesDiv'+no).hide();
+		    
+			var fileIndex = Number(no)+1;
+			moreFiles(fileIndex);
+		}
+		
+		function moreFiles(no){
+			var html = "";
+			html =  html + '<div class="file-field input-field" id="deliverableFilesDiv'+no+'" >'
+			+ '<div class="btn bg-m t-c">'
+			+ '<span>Attach Files</span>'
+			+ '<input type="file" id="deliverableFiles'+no+'" name="deliverableFiles"  onchange="selectFile('+no+')">'
+			+ '</div>'
+			+ '<div class="file-path-wrapper">'
+			+ '<input class="file-path validate" type="text">'
+			+ '</div>'                          
+			+ '</div>'
+			$("#selectedFilesInput").append(html);
+		}
+		
+		function removeFile(no){			
+	     	$('#deliverableFilesDiv'+no).remove();
+	     	$('#deliverableFileNames'+no).remove();
+	    } 
+
 	     let date_pickers = document.querySelectorAll('.datepicker');
         $.each(date_pickers, function(){
         	var dt = this.value.split(/[^0-9]/);

@@ -21,12 +21,17 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.LandAcquisitionDao;
+import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.Risk;
+import com.synergizglobal.pmis.model.SourceOfFund;
 import com.synergizglobal.pmis.model.Training;
 import com.synergizglobal.pmis.model.LandAcquisition;
 
@@ -506,7 +511,13 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				pValues[i++] = obj.getLa_id();
 			}
 			LADetails = (LandAcquisition)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
-		
+			
+			if(!StringUtils.isEmpty(LADetails)) {
+				String qry2 ="select id, la_id_fk, attachment from la_files where la_id_fk = ?";
+				List<LandAcquisition> objList = jdbcTemplate.query( qry2,new Object[] {obj.getLa_id()}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+				LADetails.setLaFilesList(objList);
+			}
+			
 	}catch(Exception e) {
 		throw new Exception(e.getMessage());
 	}
@@ -523,11 +534,11 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			String insertQry = "INSERT INTO la_land_identification"
 					+ "( la_id, work_id_fk, survey_number, village_id, la_sub_category_fk, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector,"
 					+ "area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, jm_start_date, jm_completion_date, "
-					+ "jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues, attachment)"
+					+ "jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues)"
 					+ "VALUES"
 					+ "(:la_id, :work_id_fk, :survey_number, :village_id, :id, :village, :taluka, :dy_slr, :sdo, :collector, :proposal_submission_date_to_collector, "
 					+ ":area_of_plot, :jm_fee_amount, :chainage_from, :chainage_to, :jm_fee_letter_received_date, :jm_fee_paid_date, :jm_start_date, :jm_completion_date, "
-					+ ":jm_sheet_date_to_sdo, :jm_remarks, :jm_approval, :is_there_issue, :attachment)";
+					+ ":jm_sheet_date_to_sdo, :jm_remarks, :jm_approval, :is_there_issue )";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -609,6 +620,26 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					
 				}
 				if(flag) {
+					
+					if(!StringUtils.isEmpty(obj.getLaFiles()) && obj.getLaFiles().size() > 0) {
+						String file_insert_qry = "INSERT into  la_files ( la_id_fk, attachment) VALUES (:la_id,:attachment)";
+						List<MultipartFile> laFiles = obj.getLaFiles();
+						for (MultipartFile multipartFile : laFiles) {
+							if (null != multipartFile && !multipartFile.isEmpty()){
+								String saveDirectory = CommonConstants.LAND_ACQUISITION_FILE_SAVING_PATH ;
+								String fileName = multipartFile.getOriginalFilename();
+								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+								
+								LandAcquisition fileObj = new LandAcquisition();
+								fileObj.setLa_id(obj.getLa_id());
+								fileObj.setAttachment(fileName);
+								
+								paramSource = new BeanPropertySqlParameterSource(fileObj);	
+								namedParamJdbcTemplate.update(file_insert_qry, paramSource);
+							}
+						}
+					}	
+					
 					if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
 						if(!StringUtils.isEmpty(obj.getIssue_category_id())){
 							String issuesQry = "INSERT INTO issue(title,description,reported_by,priority_fk,category_fk,status_fk,remarks,date)VALUES(?,?,?,?,?,?,?,CURDATE())";				
@@ -888,6 +919,48 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					
 				}
 				if(flag) {
+					
+					String deleteFilesQry = "delete from la_files  where la_id_fk = :la_id";		 
+					LandAcquisition fileObj = new LandAcquisition();
+					fileObj.setLa_id(obj.getLa_id());
+					paramSource = new BeanPropertySqlParameterSource(obj);	
+					namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
+				
+					String insert_qry = "INSERT into  la_files ( la_id_fk, attachment) VALUES (:la_id,:attachment)";
+					
+					int arraySize = 0;
+					if(!StringUtils.isEmpty(obj.getLaFileNames()) && obj.getLaFileNames().length > 0 ) {
+						obj.setLaFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getLaFileNames()));
+						if(arraySize < obj.getLaFileNames().length) {
+							arraySize = obj.getLaFileNames().length;
+						}
+					}
+					for (int i = 0; i < arraySize; i++) {
+						fileObj = new LandAcquisition();
+						fileObj.setLa_id(obj.getLa_id());
+						fileObj.setAttachment(obj.getLaFileNames()[i]);
+						paramSource = new BeanPropertySqlParameterSource(fileObj);	
+						namedParamJdbcTemplate.update(insert_qry, paramSource);
+					}
+					
+					if(!StringUtils.isEmpty(obj.getLaFiles()) && obj.getLaFiles().size() > 0) {
+						List<MultipartFile> fobFiles = obj.getLaFiles();
+						for (MultipartFile multipartFile : fobFiles) {
+							if (null != multipartFile && !multipartFile.isEmpty()){
+								String saveDirectory = CommonConstants.LAND_ACQUISITION_FILE_SAVING_PATH ;
+								String fileName = multipartFile.getOriginalFilename();
+								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+								obj.setAttachment(fileName);
+							
+								fileObj = new LandAcquisition();
+								fileObj.setLa_id(obj.getLa_id());
+								fileObj.setAttachment(fileName);
+								paramSource = new BeanPropertySqlParameterSource(fileObj);	
+								namedParamJdbcTemplate.update(insert_qry, paramSource);
+							}
+						}
+					}
+					
 					if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
 						if(!StringUtils.isEmpty(obj.getIssue_category_id())){
 							String issuesQry = "INSERT INTO issue(title,description,reported_by,priority_fk,category_fk,status_fk,remarks,date)VALUES(?,?,?,?,?,?,?,CURDATE())";				

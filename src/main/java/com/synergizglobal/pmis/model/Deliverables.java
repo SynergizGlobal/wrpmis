@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class Deliverables {
@@ -8,6 +10,34 @@ public class Deliverables {
 	finish_date, status_fk, remarks, attachment;
 
 	private MultipartFile deliverablesFile;
+
+	private List<MultipartFile> deliverableFiles;
+	private List<Deliverables> deliverableFilesList;
+	private String[] deliverableFileNames;
+	
+	public List<MultipartFile> getDeliverableFiles() {
+		return deliverableFiles;
+	}
+
+	public void setDeliverableFiles(List<MultipartFile> deliverableFiles) {
+		this.deliverableFiles = deliverableFiles;
+	}
+
+	public List<Deliverables> getDeliverableFilesList() {
+		return deliverableFilesList;
+	}
+
+	public void setDeliverableFilesList(List<Deliverables> deliverableFilesList) {
+		this.deliverableFilesList = deliverableFilesList;
+	}
+
+	public String[] getDeliverableFileNames() {
+		return deliverableFileNames;
+	}
+
+	public void setDeliverableFileNames(String[] deliverableFileNames) {
+		this.deliverableFileNames = deliverableFileNames;
+	}
 
 	public String getProject_name() {
 		return project_name;

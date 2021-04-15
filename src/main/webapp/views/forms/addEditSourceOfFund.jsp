@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 
@@ -103,7 +105,7 @@
 	                              </div>
 	                       		  <div class="col s12 m8 input-field">
 										 <p class="searchable_label">Project <span class="required">*</span></p>
-	                                     <input type="text" value="${fundDetails.project_id} - ${fundDetails.project_name}" readonly />
+	                                     <input type="text" value="${fundDetails.project_id_fk} - ${fundDetails.project_name}" readonly />
 								  </div> 
 								  <!-- <div class="col s12 m4 input-field"> 
 									    <p class="searchable_label">Work</p>
@@ -195,22 +197,51 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
-                                    <div class="file-field input-field">
-                                        <div class="btn bg-m">
-                                            <span>Attachment</span>
-                                            <input type="file" name="fundFile">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" name="attachment"  value="${fundDetails.attachment }"  id="source_of_fund_attachment">
-                                        </div>
-                                    </div>
-                                    
-                                    <c:if test="${not empty fundDetails.attachment }">
-                                  		<div>
-                                  			<a  class="filevalue" href="<%=CommonConstants.FUND_FILES %>${fundDetails.attachment }" download>${fundDetails.attachment }</a>
-                                  			<span onclick="removeMedia(this,'source_of_fund_attachment')" class="attachment-remove-btn">X</span>
-                                  		</div>                                  			
-                                	</c:if>
+                                
+                                 <c:if test="${action eq 'add'}">
+			                            <div id="selectedFilesInput">
+			                                    	<div class="file-field input-field" id="fundFilesDiv1" >
+				                                        <div class="btn bg-m t-c">
+				                                            <span>Attach Files</span>
+				                                            <input type="file" id="fundFiles1" name="fundFiles"   onchange="selectFile('1')">
+				                                        </div>
+				                                        <div class="file-path-wrapper">
+				                                            <input class="file-path validate" type="text">
+				                                        </div>                                       
+				                                    </div>
+												</div>
+			                                    <div id="selectedFiles">
+												</div>
+									  </c:if>	
+									  <c:if test="${action eq 'edit'}">
+													<c:set var="existingDeliverableFilesLength" value="${fn:length(fundDetails.fundFilesList )}"></c:set>
+													<c:if test="${fn:length(fundDetails.fundFilesList ) gt 0}">
+														<c:set var="existingDeliverableFilesLength" value="${fn:length(fundDetails.fundFilesList )+1}"></c:set>
+													</c:if>
+													<div id="selectedFilesInput">
+				                                    	<div class="file-field input-field" id="fundFilesDiv${existingDeliverableFilesLength }" >
+					                                        <div class="btn bg-m t-c">
+					                                            <span>Attach Files</span>
+					                                            <input type="file" id="fundFiles${existingDeliverableFilesLength }" name="fundFiles"  onchange="selectFile('${existingDeliverableFilesLength }')">
+					                                        </div>
+					                                        <div class="file-path-wrapper">
+					                                            <input class="file-path validate" type="text">
+					                                        </div>                                       
+					                                    </div>
+													</div>
+				                                    
+				                                    <div id="selectedFiles">
+				                                    	<c:forEach var="obj" items="${fundDetails.fundFilesList }" varStatus="index">
+															 <div id="fundFileNames${index.count }">
+																<a href="<%=CommonConstants.DELIVERABLES_FILES %>${obj.attachment }" class="filevalue" download>${obj.attachment }</a>
+																<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
+																<input type="hidden" name="fundFileNames" value="${obj.attachment }">
+														     </div>
+														     <div style="clear:both" ></div>
+														</c:forEach>
+													</div>
+				                             </c:if>	
+				                         
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -284,6 +315,43 @@
 	   	    	}
 	        })
 	    }); */
+	    
+	    function selectFile(no){
+		    files = $("#fundFiles"+no)[0].files;
+		    var html = "";
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=fundFileNames'+no+'>'
+				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+				 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
+				 + '</div>'
+				 + '<div style="clear:both;"></div>';
+		    }
+		    $("#selectedFiles").append(html);
+		    
+		    $('#fundFilesDiv'+no).hide();
+		    
+			var fileIndex = Number(no)+1;
+			moreFiles(fileIndex);
+		}
+		
+		function moreFiles(no){
+			var html = "";
+			html =  html + '<div class="file-field input-field" id="fundFilesDiv'+no+'" >'
+			+ '<div class="btn bg-m t-c">'
+			+ '<span>Attach Files</span>'
+			+ '<input type="file" id="fundFiles'+no+'" name="fundFiles"  onchange="selectFile('+no+')">'
+			+ '</div>'
+			+ '<div class="file-path-wrapper">'
+			+ '<input class="file-path validate" type="text">'
+			+ '</div>'                          
+			+ '</div>'
+			$("#selectedFilesInput").append(html);
+		}
+		
+		function removeFile(no){			
+	     	$('#fundFilesDiv'+no).remove();
+	     	$('#fundFileNames'+no).remove();
+	    } 
 	    let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);

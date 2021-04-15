@@ -497,10 +497,6 @@ public class DesignDaoImpl implements DesignDao{
 								
 								paramSource = new BeanPropertySqlParameterSource(fileObj);	
 								namedParamJdbcTemplate.update(file_insert_qry, paramSource);
-								
-								String updateQry = "UPDATE design set attachment= :attachment where design_id= :design_id ";
-								BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
-								namedParamJdbcTemplate.update(updateQry, paramSource1);
 							}
 						}
 					}	
@@ -677,12 +673,6 @@ public class DesignDaoImpl implements DesignDao{
 							fileObj.setAttachment(fileName_new);
 							paramSource = new BeanPropertySqlParameterSource(fileObj);	
 							namedParamJdbcTemplate.update(insert_qry, paramSource);
-							
-							
-							String updateQry = "UPDATE design set attachment= :attachment where design_id= :design_id ";
-							BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
-							namedParamJdbcTemplate.update(updateQry, paramSource1);
-							
 						}
 					}
 				}

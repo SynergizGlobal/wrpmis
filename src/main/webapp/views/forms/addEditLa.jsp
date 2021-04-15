@@ -1362,21 +1362,50 @@
                                 <div class="col m8 s12">
                                     <div class="row">
                                         <div class="col m6 s12">
-                                            <div class="file-field input-field">
-                                                <div class="btn bg-m">
-                                                    <span>Attachment</span>
-                                                    <input type="file" id="landAcquisitionFile" name="landAcquisitionFile"  >
-                                                </div>
-                                             
-			                                                <div class="file-path-wrapper">
-													<input class="file-path validate" type="text"	name="attachment" value="${LADetails.attachment }">
+                                        	<c:if test="${action eq 'add'}">
+			                            <div id="selectedFilesInput">
+			                                    	<div class="file-field input-field" id="laFilesDiv1" >
+				                                        <div class="btn bg-m t-c">
+				                                            <span>Attach Files</span>
+				                                            <input type="file" id="laFiles1" name="laFiles"   onchange="selectFile('1')">
+				                                        </div>
+				                                        <div class="file-path-wrapper">
+				                                            <input class="file-path validate" type="text">
+				                                        </div>                                       
+				                                    </div>
 												</div>
-											</div>
-											 <c:if test="${not empty LADetails.attachment }">
-												<a
-													href="<%=CommonConstants.LAND_ACQUISITION_FILES %>${LADetails.attachment }"
-													class="filevalue" download>${LADetails.attachment }</a>
-											</c:if>
+			                                    <div id="selectedFiles">
+												</div>
+									  </c:if>	
+									  <c:if test="${action eq 'edit'}">
+													<c:set var="existingDeliverableFilesLength" value="${fn:length(LADetails.laFilesList )}"></c:set>
+													<c:if test="${fn:length(LADetails.laFilesList ) gt 0}">
+														<c:set var="existingDeliverableFilesLength" value="${fn:length(LADetails.laFilesList )+1}"></c:set>
+													</c:if>
+													<div id="selectedFilesInput">
+				                                    	<div class="file-field input-field" id="laFilesDiv${existingDeliverableFilesLength }" >
+					                                        <div class="btn bg-m t-c">
+					                                            <span>Attach Files</span>
+					                                            <input type="file" id="laFiles${existingDeliverableFilesLength }" name="laFiles"  onchange="selectFile('${existingDeliverableFilesLength }')">
+					                                        </div>
+					                                        <div class="file-path-wrapper">
+					                                            <input class="file-path validate" type="text">
+					                                        </div>                                       
+					                                    </div>
+													</div>
+				                                    
+				                                    <div id="selectedFiles">
+				                                    	<c:forEach var="obj" items="${LADetails.laFilesList }" varStatus="index">
+															 <div id="laFileNames${index.count }">
+																<a href="<%=CommonConstants.LAND_ACQUISITION_FILES %>${obj.attachment }" class="filevalue" download>${obj.attachment }</a>
+																<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
+																<input type="hidden" name="laFileNames" value="${obj.attachment }">
+														     </div>
+														     <div style="clear:both" ></div>
+														</c:forEach>
+													</div>
+				                             </c:if>	
+                                            
                                             </div>
                                         <div class="col m6 s12">
                                             <div class="row">
@@ -1550,6 +1579,42 @@
                 }
             })
         }); */
+        function selectFile(no){
+		    files = $("#laFiles"+no)[0].files;
+		    var html = "";
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=laFileNames'+no+'>'
+				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+				 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
+				 + '</div>'
+				 + '<div style="clear:both;"></div>';
+		    }
+		    $("#selectedFiles").append(html);
+		    
+		    $('#laFilesDiv'+no).hide();
+		    
+			var fileIndex = Number(no)+1;
+			moreFiles(fileIndex);
+		}
+		
+		function moreFiles(no){
+			var html = "";
+			html =  html + '<div class="file-field input-field" id="laFilesDiv'+no+'" >'
+			+ '<div class="btn bg-m t-c">'
+			+ '<span>Attach Files</span>'
+			+ '<input type="file" id="laFiles'+no+'" name="laFiles"  onchange="selectFile('+no+')">'
+			+ '</div>'
+			+ '<div class="file-path-wrapper">'
+			+ '<input class="file-path validate" type="text">'
+			+ '</div>'                          
+			+ '</div>'
+			$("#selectedFilesInput").append(html);
+		}
+		
+		function removeFile(no){			
+	     	$('#laFilesDiv'+no).remove();
+	     	$('#laFileNames'+no).remove();
+	    } 
         let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);

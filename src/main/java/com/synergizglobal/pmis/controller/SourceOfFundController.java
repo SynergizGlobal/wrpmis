@@ -299,12 +299,7 @@ public class SourceOfFundController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/source-of-funds");
-			 MultipartFile file = obj.getFundFile(); 
-				if (null != file && !file.isEmpty()){
-					String saveDirectory = CommonConstants.FUND_FILE_SAVING_PATH ;
-					String fileName = file.getOriginalFilename();
-					FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				}
+			
 			obj.setFunding_date(DateParser.parse(obj.getFunding_date()));
 			boolean flag =  sofService.addFunds(obj);
 			if(flag) {
@@ -326,12 +321,7 @@ public class SourceOfFundController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/source-of-funds");
-			  MultipartFile file = obj.getFundFile(); 
-				if (null != file && !file.isEmpty()){
-					String saveDirectory = CommonConstants.FUND_FILE_SAVING_PATH ;
-					String fileName = file.getOriginalFilename();
-					FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				}
+			 
 			obj.setFunding_date(DateParser.parse(obj.getFunding_date()));
 			boolean flag =  sofService.updateFunds(obj);
 			if(flag) {

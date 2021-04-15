@@ -342,13 +342,7 @@ public class DeliverablesController {
 			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));
 			obj.setStart_date(DateParser.parse(obj.getStart_date()));
 			obj.setFinish_date(DateParser.parse(obj.getFinish_date()));
-			MultipartFile file = obj.getDeliverablesFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants.DELIVERABLES_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				obj.setAttachment(fileName);
-			}	
+			
 			boolean flag =  deliverablesService.addDeliverables(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Deliverables Added Succesfully.");

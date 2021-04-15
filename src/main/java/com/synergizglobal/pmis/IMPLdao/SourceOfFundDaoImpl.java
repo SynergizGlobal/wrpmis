@@ -10,10 +10,21 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.SourceOfFundDao;
+import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.Deliverables;
 import com.synergizglobal.pmis.model.SourceOfFund;
 
 @Repository
@@ -26,6 +37,9 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
 
+	@Autowired
+	DataSourceTransactionManager transactionManager;
+	
 	@Override
 	public List<SourceOfFund> getRailwaysList() throws Exception {
 		List<SourceOfFund> objsList = null;
@@ -42,11 +56,10 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	public List<SourceOfFund> fundsList(SourceOfFund obj) throws Exception {
 		List<SourceOfFund> objsList = null;
 		
-		String qry = "SELECT funds_id, f.work_id_fk,w.work_name,w.work_short_name,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account, "
-				+ "bank_account,voucher_type,voucher_no,narration,f.remarks,w.project_id_fk,p.project_id,p.project_name "
+		String qry = "SELECT funds_id,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account, "
+				+ "bank_account,voucher_type,voucher_no,narration,f.remarks,f.project_id_fk,p.project_name "
 				+ "from funds f "
-				+ "LEFT JOIN work w on f.work_id_fk = w.work_id "
-				+ "LEFT JOIN project p on w.project_id_fk = p.project_id  "
+				+ "LEFT JOIN project p on f.project_id_fk = p.project_id  "
 				+ "LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds "
 				+ "LEFT JOIN railway r on f.sub_category_railway_id_fk = r.railway_id where funds_id is not null ";
 		int arrSize = 0;
@@ -83,22 +96,47 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	@Override
 	public boolean addFunds(SourceOfFund obj) throws Exception {
 		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO funds"
-					+ "(work_id_fk, source_of_funds_fk, sub_category_railway_id_fk, funding_date, fund_amount, "
+					+ "(project_id_fk, source_of_funds_fk, sub_category_railway_id_fk, funding_date, fund_amount, "
 					+ "remarks, bank_account, voucher_type, voucher_no, narration, ledger_account,attachment)"
 					+ "VALUES"
-					+ "(:work_id_fk,:source_of_funds_fk,:sub_category_railway_id_fk,:funding_date,:fund_amount,"
+					+ "(:project_id_fk,:source_of_funds_fk,:sub_category_railway_id_fk,:funding_date,:fund_amount,"
 					+ ":remarks,:bank_account,:voucher_type,:voucher_no,:narration,:ledger_account,:attachment)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+		    int count = namedParamJdbcTemplate.update(insertQry, paramSource, keyHolder);		
 			if(count > 0) {
-				flag = true;
+				 String fund_id = String.valueOf(keyHolder.getKey().intValue());
+				 obj.setFunds_id(fund_id);
+				 flag = true;
+				if(!StringUtils.isEmpty(obj.getFundFiles()) && obj.getFundFiles().size() > 0) {
+					String file_insert_qry = "INSERT into  funds_files ( funds_id_fk, attachment) VALUES (:funds_id,:attachment)";
+					List<MultipartFile> fundFiles = obj.getFundFiles();
+					for (MultipartFile multipartFile : fundFiles) {
+						if (null != multipartFile && !multipartFile.isEmpty()){
+							String saveDirectory = CommonConstants.FUND_FILE_SAVING_PATH ;
+							String fileName = multipartFile.getOriginalFilename();
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+							
+							SourceOfFund fileObj = new SourceOfFund();
+							fileObj.setFunds_id(fund_id);
+							fileObj.setAttachment(fileName);
+							
+							paramSource = new BeanPropertySqlParameterSource(fileObj);	
+							namedParamJdbcTemplate.update(file_insert_qry, paramSource);
+						}
+					}
+				}	
 			}
 			
+			transactionManager.commit(status);
 		}catch(Exception e){ 
+			transactionManager.rollback(status);
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
@@ -109,11 +147,10 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	public SourceOfFund getFunds(SourceOfFund obj) throws Exception {
 		SourceOfFund funds = null;
 		try {
-			String qry = "SELECT funds_id, f.work_id_fk,w.work_name,p.project_id,w.project_id_fk,p.project_name, source_of_funds_fk, sub_category_railway_id_fk, DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date, "+
+			String qry = "SELECT funds_id,f.project_id_fk,p.project_name, source_of_funds_fk, sub_category_railway_id_fk, DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date, "+
 					"cast(fund_amount as CHAR) as fund_amount, f.remarks, bank_account, voucher_type, voucher_no,narration, ledger_account, f.attachment "
 					+ "from funds f " + 
-					"LEFT JOIN work w on f.work_id_fk = w.work_id  " + 
-					"LEFT JOIN project p on w.project_id_fk = p.project_id " + 
+					"LEFT JOIN project p on f.project_id_fk = p.project_id " + 
 					"LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds " + 
 					"LEFT JOIN railway r on f.sub_category_railway_id_fk = r.railway_id where funds_id is not null";
 			int arrSize = 0;
@@ -127,7 +164,12 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 				pValues[i++] = obj.getFunds_id();
 			}
 			funds = (SourceOfFund)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
-				
+
+			if(!StringUtils.isEmpty(funds)) {
+				String qry2 ="select id, funds_id_fk, attachment  from funds_files where funds_id_fk = ?";
+				List<SourceOfFund> objList = jdbcTemplate.query( qry2,new Object[] {obj.getFunds_id()}, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));
+				funds.setFundFilesList(objList);
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
@@ -138,6 +180,8 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	@Override
 	public boolean updateFunds(SourceOfFund obj) throws Exception {
 		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String updateQry = "UPDATE funds set "
@@ -149,8 +193,50 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
 			if(count > 0) {
 				flag = true;
+				String deleteFilesQry = "delete from funds_files  where funds_id_fk = :funds_id";		 
+				SourceOfFund fileObj = new SourceOfFund();
+				fileObj.setFunds_id(obj.getFunds_id());
+				paramSource = new BeanPropertySqlParameterSource(obj);	
+				namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
+			
+				String insert_qry = "INSERT into  funds_files ( funds_id_fk, attachment) VALUES (:funds_id,:attachment)";
+				
+				int arraySize = 0;
+				if(!StringUtils.isEmpty(obj.getFundFileNames()) && obj.getFundFileNames().length > 0 ) {
+					obj.setFundFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getFundFileNames()));
+					if(arraySize < obj.getFundFileNames().length) {
+						arraySize = obj.getFundFileNames().length;
+					}
+				}
+				for (int i = 0; i < arraySize; i++) {
+					fileObj = new SourceOfFund();
+					fileObj.setFunds_id(obj.getFunds_id());
+					fileObj.setAttachment(obj.getFundFileNames()[i]);
+					paramSource = new BeanPropertySqlParameterSource(fileObj);	
+					namedParamJdbcTemplate.update(insert_qry, paramSource);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getFundFiles()) && obj.getFundFiles().size() > 0) {
+					List<MultipartFile> fobFiles = obj.getFundFiles();
+					for (MultipartFile multipartFile : fobFiles) {
+						if (null != multipartFile && !multipartFile.isEmpty()){
+							String saveDirectory = CommonConstants.FUND_FILE_SAVING_PATH ;
+							String fileName = multipartFile.getOriginalFilename();
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+							obj.setAttachment(fileName);
+						
+							fileObj = new SourceOfFund();
+							fileObj.setFunds_id(obj.getFunds_id());
+							fileObj.setAttachment(fileName);
+							paramSource = new BeanPropertySqlParameterSource(fileObj);	
+							namedParamJdbcTemplate.update(insert_qry, paramSource);
+						}
+					}
+				}
 			}
+			transactionManager.commit(status);
 		}catch(Exception e){ 
+			transactionManager.rollback(status);
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
@@ -256,41 +342,8 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 
 	@Override
 	public List<SourceOfFund> getFundWorksList(SourceOfFund obj) throws Exception {
-		List<SourceOfFund> objsList = null;
-		try {
-			String qry = "select work_id_fk,w.work_name,w.work_short_name from funds f  "+ 
-					"LEFT JOIN work w on f.work_id_fk = w.work_id "+
-					"where work_id_fk is not null ";	
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
-				qry = qry + " and source_of_funds_fk = ?";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
-				qry = qry + " and sub_category_railway_id_fk = ? ";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
-				arrSize++;
-			}
-			qry = qry + " GROUP BY work_id_fk ";
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
-				pValues[i++] = obj.getSource_of_funds_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
-				pValues[i++] = obj.getSub_category_railway_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
-		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
+		return null;
+		
 	}
 
 	@Override
@@ -355,8 +408,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		int totalRecords = 0;	
 		try {
 			String qry = "SELECT count(*) as total_records from funds f "
-					+ "LEFT JOIN work w on f.work_id_fk = w.work_id "
-					+ "LEFT JOIN project p on w.project_id_fk = p.project_id  "
+					+ "LEFT JOIN project p on f.project_id_fk = p.project_id  "
 					+ "LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds "
 					+ "LEFT JOIN railway r on f.sub_category_railway_id_fk = r.railway_id where funds_id is not null ";
 			int arrSize = 0;
@@ -373,7 +425,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (w.project_id_fk like ? or project_name like ? or source_of_funds_fk like ?"
+				qry = qry + " and (f.project_id_fk like ? or project_name like ? or source_of_funds_fk like ?"
 						+ " or sub_category_railway_id_fk like ? or railway_name like ? or funding_date like ? or fund_amount like ? or ledger_account like ?)";
 				arrSize++;
 				arrSize++;
@@ -419,18 +471,14 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			throws Exception {
 		List<SourceOfFund> objsList = null;
 		
-		String qry = "SELECT funds_id, f.work_id_fk,w.work_name,w.work_short_name,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account, "
-				+ "bank_account,voucher_type,voucher_no,narration,f.remarks,w.project_id_fk,p.project_id,p.project_name "
+		String qry = "SELECT funds_id,f.project_id_fk,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account, "
+				+ "bank_account,voucher_type,voucher_no,narration,f.remarks,f.project_id_fk,p.project_name "
 				+ "from funds f "
-				+ "LEFT JOIN work w on f.work_id_fk = w.work_id "
-				+ "LEFT JOIN project p on w.project_id_fk = p.project_id  "
+				+ "LEFT JOIN project p on f.project_id_fk = p.project_id  "
 				+ "LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds "
 				+ "LEFT JOIN railway r on f.sub_category_railway_id_fk = r.railway_id where funds_id is not null ";
 		int arrSize = 0;
-		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-			qry = qry + " and work_id_fk = ?";
-			arrSize++;
-		}	
+		
 		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
 			qry = qry + " and source_of_funds_fk = ?";
 			arrSize++;
@@ -440,7 +488,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			arrSize++;
 		}	
 		if(!StringUtils.isEmpty(searchParameter)) {
-			qry = qry + " and (w.project_id_fk like ? or project_name like ? or source_of_funds_fk like ?"
+			qry = qry + " and (f.project_id_fk like ? or project_name like ? or source_of_funds_fk like ?"
 					+ " or sub_category_railway_id_fk like ? or railway_name like ? or funding_date like ? or fund_amount like ? or ledger_account like ?)";
 			arrSize++;
 			arrSize++;
@@ -459,9 +507,6 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		Object[] pValues = new Object[arrSize];
 		int i = 0;
 		
-		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-			pValues[i++] = obj.getWork_id_fk();
-		}
 		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
 			pValues[i++] = obj.getSource_of_funds_fk();
 		}

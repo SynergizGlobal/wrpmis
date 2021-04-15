@@ -411,7 +411,7 @@
   		            { "mData": function(data,type,row){
   		            	 var project_name = '';
                          if ($.trim(data.project_name) != '') { project_name = ' - ' + $.trim(data.project_name) }    	
-                         if($.trim(data.project_id) == ''){ return '-'; }else{ return data.project_id +project_name; }
+                         if($.trim(data.project_id_fk) == ''){ return '-'; }else{ return data.project_id_fk +project_name; }
   		            } },
   		         	{ "mData": function(data,type,row){
 		            	if($.trim(data.source_of_funds_fk) == ''){ return '-'; }else{ return data.source_of_funds_fk; }

@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class SourceOfFund {
@@ -7,6 +9,34 @@ public class SourceOfFund {
 	private String funds_id, work_id_fk,work_id,project_id,project_id_fk,work_name,project_name, source_of_funds_fk, sub_category_railway_id_fk,railway_name, funding_date,
 					fund_amount, remarks, bank_account, voucher_type, voucher_no, narration, ledger_account,railway_id,attachment,work_short_name,
 					contract_id,contract_name,contract_short_name;
+
+	private List<MultipartFile> fundFiles;
+	private List<SourceOfFund> fundFilesList;
+	private String[] fundFileNames;
+	
+	public List<MultipartFile> getFundFiles() {
+		return fundFiles;
+	}
+
+	public void setFundFiles(List<MultipartFile> fundFiles) {
+		this.fundFiles = fundFiles;
+	}
+
+	public List<SourceOfFund> getFundFilesList() {
+		return fundFilesList;
+	}
+
+	public void setFundFilesList(List<SourceOfFund> fundFilesList) {
+		this.fundFilesList = fundFilesList;
+	}
+
+	public String[] getFundFileNames() {
+		return fundFileNames;
+	}
+
+	public void setFundFileNames(String[] fundFileNames) {
+		this.fundFileNames = fundFileNames;
+	}
 
 	public String getContract_id() {
 		return contract_id;

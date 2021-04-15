@@ -587,9 +587,9 @@ public class IssueController {
 		        
 		        
 	            XSSFRow headingRow = sheet.createRow(0);
-	            String headerString = "Issue ID^Project^Work^Contract^Activity^Title^Short Description^Date^Location/Station/KM^Latitude^Longitude"
-	            		+ "^Reported By^Responsible Person^Assigned Date^Issue Category^Issue Status^Zonal Railway^Priority^Issue/Action Taken/Remarks^Resolved Date^"
-	            		+ "Escalated to^Escalation Remarks";
+	            String headerString = "Issue ID^Project^Work^Contract^Short Description^Issue Pending Since^Location/Station/KM^Latitude^Longitude"
+	            		+ "^Reported By^Raised On^Responsible Person^Assigned Date^Issue Category^Issue Status^Responsible Organization^Priority^Issue/Action Taken/Remarks^"
+	            		+ "Escalated to^Escalation Date^Status After Escalation^Resolved Date";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            
@@ -622,15 +622,7 @@ public class IssueController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getActivity());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getTitle());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getDescription());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -654,6 +646,10 @@ public class IssueController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getCreated_date());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getResponsible_person_designation());
 					
 					cell = row.createCell(c++);
@@ -670,7 +666,7 @@ public class IssueController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getRailway_name());
+					cell.setCellValue(obj.getOther_organization());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -680,17 +676,22 @@ public class IssueController {
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getCorrective_measure());
 					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getResolved_date());
-					
+
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getEscalated_to_designation());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getEscalation_date());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getRemarks());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getResolved_date());
 	                
 	                rowNo++;
 	            }

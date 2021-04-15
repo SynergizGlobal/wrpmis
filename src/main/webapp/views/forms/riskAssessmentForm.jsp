@@ -503,7 +503,6 @@
             //$("#atr_dates" + rNo).datepicker();
             
             $('#atr_dates' + rNo).datepicker({
-				maxDate: new Date(),
 	        	format:'dd-mm-yyyy',
 	   	    	onSelect: function () {
 	   	    	   $('.confirmation-btns .datepicker-done').click();

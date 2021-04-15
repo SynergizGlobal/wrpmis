@@ -437,14 +437,27 @@
  	
  	   var USER_DESIGNATION = '${sessionScope.USER_DESIGNATION}';
  	   
- 	   $(document).on('focus', '.datepicker',function(){
+ 	   /* $(document).on('focus', '.datepicker',function(){
            $(this).datepicker({
          	format:'dd-mm-yyyy',
     	    	onSelect: function () {
     	    	   $('.confirmation-btns .datepicker-done').click();
     	    	}
            })
-        }); 
+        });  */
+        
+        let date_pickers = document.querySelectorAll('.datepicker');
+	    $.each(date_pickers, function(){
+	    	var dt = this.value.split(/[^0-9]/);
+	    	this.value = ""; 
+	    	var options = {format: 'dd-mm-yyyy',autoClose:true};
+	    	if(dt.length > 1){
+	    		options.setDefaultDate = true,
+	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+	    	}
+	    	M.Datepicker.init(this, options);
+	    });
+	    
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -487,7 +500,16 @@
 			$('#riskRevisionBody').append(html);
             $("#rowNo").val(rNo);
           	
-            $("#atr_dates" + rNo).datepicker();
+            //$("#atr_dates" + rNo).datepicker();
+            
+            $('#atr_dates' + rNo).datepicker({
+				maxDate: new Date(),
+	        	format:'dd-mm-yyyy',
+	   	    	onSelect: function () {
+	   	    	   $('.confirmation-btns .datepicker-done').click();
+	   	    	}
+	        }); 
+            
             $('#atr_date_icon' + rNo).click(function () {
                 event.stopPropagation();
                 $('#atr_dates' + rNo).click();

@@ -198,7 +198,7 @@ public class IssuesReportController {
 			if(pendingIssues != null ) {
 				issue_count = pendingIssues.size();
 			}
-			String headerTextMiddle = "PMIS Report - Pending Issues("+issue_count+" Nos)";
+			String headerTextMiddle = "PMIS Report - Pending Issues ("+issue_count+" Nos)";
 			
 			String headerTextRight = "Date : " + report_created_date;
 			
@@ -537,7 +537,7 @@ public class IssuesReportController {
 		
 		
 		if(!StringUtils.isEmpty(headerTextMiddle)) {
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < 7; i++) {
 				R.Tab rtab = factory.createRTab();
 		        JAXBElement<org.docx4j.wml.R.Tab> rtabWrapped = factory.createRTab(rtab);
 		        r.getContent().add( rtabWrapped);

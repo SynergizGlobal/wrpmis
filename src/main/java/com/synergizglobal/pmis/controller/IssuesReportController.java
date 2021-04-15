@@ -957,7 +957,7 @@ public class IssuesReportController {
 					if(pendingIssues != null ) {
 						issue_count = pendingIssues.size();
 					}
-					String headerTextMiddle = "PMIS Report - Pending Issues("+issue_count+")";
+					String headerTextMiddle = "PMIS Report - Pending Issues ("+issue_count+" Nos)";
 					
 					String headerTextRight = "Date : " + report_created_date;
 					
@@ -979,10 +979,10 @@ public class IssuesReportController {
 						String file_extention = "docx";
 						String attachment_file_name = "Issues-Report";
 						
-						String recipients = "gkalluri@ghsltechnologies.com", cc= "", bcc = CommonConstants.BCC_MAIL, 
+						String recipients = "", cc= "", bcc = CommonConstants.BCC_MAIL, 
 								subject = "PMIS Open Issues Report", body = "";
 						
-						//recipients = issueService.getEmailIdsOfHodDyHodManagement();
+						recipients = issueService.getEmailIdsOfHodDyHodManagement();
 						
 						if(!StringUtils.isEmpty(recipients)){		
 							EMailSender emailSender = new EMailSender();

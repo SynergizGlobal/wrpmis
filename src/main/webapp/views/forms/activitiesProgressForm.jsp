@@ -602,7 +602,7 @@
 	                                       	<div id="selectedFilesInput">
 	                                            <div class="col m12 s12 file-field input-field" id="issueFilesDiv1" >
 	                                                <div class="btn bg-m">
-	                                                    <span>Update Files</span>
+	                                                    <span>Attach Files</span>
 	                                                    <input type="file" id="issueFiles1" name="issueFiles" onchange="selectFile('1')">
 	                                                </div>
 	                                                <div class="file-path-wrapper">
@@ -739,7 +739,7 @@
 			var html = "";
 			html =  html + '<div class="col m12 s12 file-field input-field" id="issueFilesDiv'+no+'" >'
 			+ '<div class="btn bg-m">'
-			+ '<span>Update Files</span>'
+			+ '<span>Attach Files</span>'
 			+ '<input type="file" id="issueFiles'+no+'" name="issueFiles" onchange="selectFile('+no+')">'
 			+ '</div>'
 			+ '<div class="file-path-wrapper">'

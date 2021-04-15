@@ -596,10 +596,12 @@ public class IssueDaoImpl implements IssueDao {
 					created_by_user_id = iObj.getCreated_by_user_id_fk();
 				}else if("Assigned".equals(iObj.getStatus_fk())) {
 					responsible_person_user_id = iObj.getResponsible_person_user_id();
+					hod_user_id = iObj.getContract_hod_user_id();
 					dy_hod_user_id = iObj.getContract_dyhod_user_id();
 				}else if("Escalated".equals(iObj.getStatus_fk())) {
 					escalated_to_user_id = iObj.getEscalated_to_user_id();
 					responsible_person_user_id = iObj.getResponsible_person_user_id();
+					hod_user_id = iObj.getContract_hod_user_id();
 					dy_hod_user_id = iObj.getContract_dyhod_user_id();
 				}else if("Closed".equals(iObj.getStatus_fk())) {
 					hod_user_id = iObj.getContract_hod_user_id();
@@ -648,6 +650,15 @@ public class IssueDaoImpl implements IssueDao {
 				}
 				if( !StringUtils.isEmpty(iObj.getStatus_fk()) && "Assigned".equals(iObj.getStatus_fk()) 
 						&& !iObj.getStatus_fk().equals(existing_status_fk)) {
+					if(!StringUtils.isEmpty(hod_user_id)) {	
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(hod_user_id);
+						msgObj.setMessage(message2);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage_type(message_type);
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
+						template.update(issueMessageQry, paramSource);				
+					}
 					if(!StringUtils.isEmpty(dy_hod_user_id)) {			
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
@@ -678,6 +689,15 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
+					if(!StringUtils.isEmpty(hod_user_id)) {	
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(hod_user_id);
+						msgObj.setMessage(message3);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage_type(message_type);
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
+						template.update(issueMessageQry, paramSource);				
+					}
 					if(!StringUtils.isEmpty(dy_hod_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
@@ -694,6 +714,15 @@ public class IssueDaoImpl implements IssueDao {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(responsible_person_user_id);
 						msgObj.setMessage(message1);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage_type(message_type);
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
+						template.update(issueMessageQry, paramSource);				
+					}
+					if(!StringUtils.isEmpty(hod_user_id)) {	
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(hod_user_id);
+						msgObj.setMessage(message3);
 						msgObj.setRedirect_url(redirect_url);
 						msgObj.setMessage_type(message_type);
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
@@ -730,6 +759,15 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
+					if(!StringUtils.isEmpty(hod_user_id)) {	
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(hod_user_id);
+						msgObj.setMessage(message2);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage_type(message_type);
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
+						template.update(issueMessageQry, paramSource);				
+					}
 					if(!StringUtils.isEmpty(dy_hod_user_id)) {	
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
@@ -760,6 +798,15 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
 						template.update(issueMessageQry, paramSource);				
 					}
+					if(!StringUtils.isEmpty(hod_user_id)) {	
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(hod_user_id);
+						msgObj.setMessage(message3);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage_type(message_type);
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
+						template.update(issueMessageQry, paramSource);				
+					}
 					if(!StringUtils.isEmpty(dy_hod_user_id)) {	
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
@@ -784,6 +831,15 @@ public class IssueDaoImpl implements IssueDao {
 					if(!StringUtils.isEmpty(responsible_person_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(responsible_person_user_id);
+						msgObj.setMessage(message3);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage_type(message_type);
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
+						template.update(issueMessageQry, paramSource);				
+					}
+					if(!StringUtils.isEmpty(hod_user_id)) {	
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(hod_user_id);
 						msgObj.setMessage(message3);
 						msgObj.setRedirect_url(redirect_url);
 						msgObj.setMessage_type(message_type);
@@ -871,6 +927,9 @@ public class IssueDaoImpl implements IssueDao {
 					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
 						mailTo = mailTo + iObj.getResponsible_person_email_id()+",";
 					}
+					if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+						mailCC = mailCC + iObj.getContract_hod_email_id()+",";
+					}
 					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
 						mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
 					}
@@ -881,9 +940,9 @@ public class IssueDaoImpl implements IssueDao {
 					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
 						mailCC = mailCC + iObj.getResponsible_person_email_id()+",";
 					}
-					/*if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+					if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
 						mailCC = mailCC + iObj.getContract_hod_email_id()+",";
-					}*/
+					}
 					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
 						mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
 					}

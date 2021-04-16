@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Activities Progress Report</title>
+	<title>Activities Progress Report - Reports - PMIS</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet"	href="/pmis/resources/css/materialize-v.1.0.min.css">
@@ -17,17 +17,13 @@
 		.input-field .searchable_label {
 			font-size:0.9rem;
 		}
-		.error-msg label{color:red!important;}
-		.page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
+		.error-msg label{
+			color:red!important;
+		}	
+		.input-field .center-align.m-1 button.bg-m, 
+		.input-field .center-align.m-1 button.bg-s{
+			width:inherit !important;
 		}
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
 	</style>
 </head>
 <body>
@@ -116,16 +112,15 @@
 							</div>									
 							
 							<div class="row">	
-								<div class="col s12 m6 input-field">
+								<div class="col s12 m5 input-field">
 									<div class="center-align m-1">
-										<button type="button" class="btn waves-effect waves-light bg-s t-c"	style="width: 100%" onclick="clearFilters();">Clear Filters</button>
+										<button type="button" class="btn waves-effect waves-light bg-s t-c" onclick="clearFilters();">Clear Filters</button>
 									</div>
 								</div>
-								<div class="col s12 m6 input-field">
-									<div class="center-align m-1">
+								<div class="col s12 m4 input-field">
+									<div class=" m-1">
 										<button type="submit"
-											class="btn waves-effect waves-light bg-m t-c"
-											style="width: 100%"><strong>Generate Report </strong></button>
+											class="btn waves-effect waves-light bg-m t-c"><strong>Generate Report </strong></button>
 									</div>
 								</div>
 							</div>

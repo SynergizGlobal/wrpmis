@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Design and Drawing Report</title>
+    <title>Design and Drawing Report - Reports - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -80,17 +80,7 @@
         	width:250px;
         	max-width:250px;
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
-		
+        		
 		.error-msg label{color:red!important;}
     </style>
 </head>
@@ -132,8 +122,7 @@
 	
 	                                    <div class="col s12 m4 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
-	                                            onclick="generateReport()">Generate
+	                                            style="margin-top: 6px; font-weight: 600;" onclick="generateReport()">Generate
 	                                            Report</button>
 	                                    </div>
 	                                </div>

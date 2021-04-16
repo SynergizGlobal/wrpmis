@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contract Reports</title>
+    <title>Contract Reports - Reports - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -81,17 +81,9 @@
         	width:250px;
         	max-width:250px;
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
-		
+.col.input-field p.searchable_label {
+    margin-top: -10px !important;
+}		
 		.error-msg label{color:red!important;}
 		.label-for-report{
 			text-align:left ;
@@ -171,7 +163,7 @@
                             <div class="col m8 hide-on-small-only"></div>
                             <div class="col s12 m2 input-field">
                                  <button class="btn waves-effect waves-light bg-s t-c"
-                                     style="margin-top: 6px;width: 100%; font-weight: 600;"
+                                     style="margin-top: 6px; font-weight: 600;"
                                      onclick="clearFilters();"> Clear Filters</button>
                              </div>
                             <div class="col m2 hide-on-small-only"></div>
@@ -182,22 +174,22 @@
 	                                <div class="row">	                                  	
 	                                    <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
+	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateContractReport();"> Contracts List</button>
 	                                    </div>
 	                                    <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
+	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateBGReport();"> BG Report</button>
 	                                    </div>
 	                                    <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
+	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateInsurancceReport();"> Insurance Report</button>
 	                                    </div>
 	                                    <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
+	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateContractDetailReport();"> Contract Detail Report</button>
 	                                    </div>
 	                                </div>     

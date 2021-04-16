@@ -301,7 +301,7 @@
 	                        <div class="row no-mar" >
 	                                    <div class="col s12 m2 input-field offset-m4">
 	                                        <p class="searchable_label">Work</p>
-	                                        <select id="sub_work_filter" name="sub_work" class="searchable" onchange="getRiskUploadsList(this.value);">
+	                                        <select id="sub_workfilter" name="sub_work" class="searchable" onchange="getRiskUploadsList(this.value);">
 	                                            <option value="">Select</option>
 	                                        </select>
 	                                    </div>                                 
@@ -449,7 +449,7 @@
         }
         
         
-        function getRiskUploadsList(work_id_fk){
+        function getRiskUploadsList(sub_work){
         	$(".page-loader-2").show();
         	table = $('#datatable-risk-uploads').DataTable();
     		table.destroy();
@@ -481,7 +481,7 @@
             }).rows().remove().draw();
     		
     		table.state.clear();		
-    		var myParams = {work_id_fk : work_id_fk};
+    		var myParams = {sub_work : sub_work};
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getRiskAssessmentUploadsList",type:"POST",data:myParams,success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){

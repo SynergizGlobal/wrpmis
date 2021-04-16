@@ -621,15 +621,15 @@ public class RiskDaoImpl implements RiskDao{
 					+ "LEFT JOIN user u ON r.uploaded_by_user_id_fk = u.user_id "
 					+ "where sub_work is not null";
 			int arrSize = 0;			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
 				qry = qry + " and sub_work = ?";
 				arrSize++;
 			}	
 			qry = qry + " order by risk_upload_id desc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
+				pValues[i++] = obj.getSub_work();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 

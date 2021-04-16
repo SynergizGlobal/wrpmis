@@ -619,13 +619,13 @@ public class RiskController {
 	
 	@RequestMapping(value = "/ajax/getSubWorksListFromRiskUploads", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Risk> getWorksListFromRiskUploads(@ModelAttribute Risk obj) {
+	public List<Risk> getSubWorksListFromRiskUploads(@ModelAttribute Risk obj) {
 		List<Risk> riskList = null;
 		try {
 			riskList = riskService.getSubWorksListFromRiskUploads(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getWorksListFromRiskUploads : " + e.getMessage());
+			logger.error("getSubWorksListFromRiskUploads : " + e.getMessage());
 		}
 		return riskList;
 	}

@@ -159,30 +159,30 @@
 										<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
 											<div class="col m5 s12 input-field">
 												<p class="searchable_label left-align">Work</p>
-												<select id="work_id_fk" name="work_id_fk"
+												<select id=sub_work name="sub_work"
 													class="searchable validate-dropdown">
 													<option value="">Select</option>
-													<c:forEach var="obj" items="${worksList}">
-														<option name="${obj.work_short_name }" value="${obj.work_id}" 
-														<c:if test="${work_id eq obj.work_id }">selected</c:if>>
-														${obj.work_id} - ${obj.work_short_name}</option>
+													<c:forEach var="obj" items="${subWorksList}">
+														<option name="${obj.sub_work }" value="${obj.sub_work}" 
+														<c:if test="${sub_work eq obj.sub_work }">selected</c:if>>
+														${obj.sub_work}</option>
 													</c:forEach>
 													
-												</select> <span id="work_id_fkError" class="error-msg"></span>
+												</select> <span id="sub_workError" class="error-msg"></span>
 											</div>
 										</c:if>
 										<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">
 											<div class="col m5 s12 input-field">
 												<p class="searchable_label left-align">Work</p>
-												<select id="work_id_fk" name="work_id_fk"
+												<select id="sub_work" name="sub_work"
 													class="searchable validate-dropdown">
 													<option value="">Select</option>
 													<c:forEach var="obj" items="${workHodList}">
-														<option name="${obj.work_short_name }"
-															value="${obj.work_id_fk}">${obj.work_id_fk}-
-															${obj.work_short_name}</option>
+														<option name="${obj.sub_work }" value="${obj.sub_work}" 
+														<c:if test="${sub_work eq obj.sub_work }">selected</c:if>>
+														${obj.sub_work}</option>
 													</c:forEach>
-												</select> <span id="work_id_fkError" class="error-msg"></span>
+												</select> <span id="sub_workError" class="error-msg"></span>
 											</div>
 										</c:if>
 									</div>
@@ -301,7 +301,7 @@
 	                        <div class="row no-mar" >
 	                                    <div class="col s12 m2 input-field offset-m4">
 	                                        <p class="searchable_label">Work</p>
-	                                        <select id="work_id_fk_filter" name="work_id_fk" class="searchable" onchange="getRiskUploadsList(this.value);">
+	                                        <select id="sub_work_filter" name="sub_work" class="searchable" onchange="getRiskUploadsList(this.value);">
 	                                            <option value="">Select</option>
 	                                        </select>
 	                                    </div>                                 
@@ -381,8 +381,8 @@
 	          $('.searchable').select2();
 	          $('.tabs').tabs();
 	          
-	          $("#work_id_fk").change(function () {
-	              if ($("#work_id_fk").val() == '') {
+	          $("#sub_work").change(function () {
+	              if ($("#sub_work").val() == '') {
 	                  $("#uploadRiskBtn").addClass('disabled');
 	              } else {
 	                  $("#uploadRiskBtn").removeClass('disabled');
@@ -395,16 +395,13 @@
 	                  $("#uploadRisk").removeClass('disabled');
 	              }
 	          });
-	          getWorkHodFilterList();
-	          getWorksFilterList();
+	          getSubWorksFilterList();
 	          getRiskUploadsList('');
 	      });
 	      
 	      $("#uploadRisk").on("click",function(){
 	    	  var flag = $("#riskUploadForm").valid();
 	    	  if(flag){
-	    		  var work_short_name = $("#work_id_fk").find('option:selected').attr("name");
-	    		  $("#work_short_name").val(work_short_name);
 	    		  $('#riskUploadForm').submit();
 	    	  }
 	      });
@@ -415,7 +412,7 @@
 				   	  "riskAssessmentFile":{
 				   		required: true
 				   	  },
-				   	  "work_id_fk":{
+				   	  "sub_work":{
 				   		required: true
 				   	  }
 			 	},
@@ -423,7 +420,7 @@
     				 "riskAssessmentFile":{
     					 required: 'Required'
    				   	 },
-				   	 "work_id_fk":{
+				   	 "sub_work":{
 				   		required: 'Required'
 				   	 }	      
 		       },
@@ -432,9 +429,9 @@
     				if (element.attr("id") == "riskAssessmentFile" ){
   			 		     document.getElementById("riskAssessmentFileError").innerHTML="";
   			 			 error.appendTo('#riskAssessmentFileError');
-  			 	    }else if (element.attr("id") == "work_id_fk" ){
-  			 		     document.getElementById("work_id_fkError").innerHTML="";
-  			 			 error.appendTo('#work_id_fkError');
+  			 	    }else if (element.attr("id") == "sub_work" ){
+  			 		     document.getElementById("sub_workError").innerHTML="";
+  			 			 error.appendTo('#sub_workError');
   			 	    }
 			   },submitHandler: function(form) {
 				    // do other things for a valid form
@@ -494,12 +491,9 @@
                         if($.trim(val.attachment) != ''){
                         	filePath = '<a href="<%=CommonConstants2.RISK_ASSESSMENT_UPLOADED_FILES%>'+ val.attachment +'">'+val.attachment + '</a>';
                         }
-                        var rowArray = [];    	                 
-    
-                    	var workName = '';
-                        if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                        var rowArray = []; 
                         
-                        rowArray.push($.trim(val.work_id_fk) + workName);
+                        rowArray.push($.trim(val.sub_work));
                        	rowArray.push(filePath);
                        	rowArray.push($.trim(val.status));
                        	rowArray.push($.trim(val.remarks));
@@ -522,38 +516,17 @@
        }
         
         
-        function getWorksFilterList() {
+        function getSubWorksFilterList() {
         	$(".page-loader").show();
-           	$("#work_id_fk_filter option:not(:first)").remove();
+           	$("#sub_workfilter option:not(:first)").remove();
            	var myParams = {};
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getWorksListFromRiskUploads",
+                   url: "<%=request.getContextPath()%>/ajax/getSubWorksListFromRiskUploads",
                    data: myParams, cache: false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                           	$("#work_id_fk_filter").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_short_name) +'</option>');
-                           });
-                       }
-                       $('.searchable').select2();
-                       $(".page-loader").hide();
-                   },error: function (jqXHR, exception) {
-    	   			      $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-   	   	     	  }
-               });
-        }
-        function getWorkHodFilterList() {
-        	$(".page-loader").show();
-           	$("#work_id_fk_filter option:not(:first)").remove();
-           	var myParams = {};
-           	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getWorksListFromRiskUploads",
-                   data: myParams, cache: false,
-                   success: function (data) {
-                       if (data.length > 0) {
-                           $.each(data, function (i, val) {
-                           	$("#work_id_fk_filter").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_short_name) +'</option>');
+                           	$("#sub_workfilter").append('<option value="' + val.sub_work + '">' + $.trim(val.sub_work) +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -565,7 +538,7 @@
                });
         }
         
-      //This function is used to get error message for all ajax calls
+        //This function is used to get error message for all ajax calls
         function getErrorMessage(jqXHR, exception) {
         	    var msg = '';
         	    if (jqXHR.status === 0) {
@@ -586,7 +559,7 @@
         	    console.log(msg);
          }
       function addDisabled(){
-    	  $('#work_id_fk').val('');
+    	  $('#sub_work').val('');
     	  $('.searchable').select2();
     	  $('#uploadRiskBtn ~ .file-path-wrapper > input[type="text"]').val('');
     	  $('#uploadRiskBtn, #uploadRisk').addClass('disabled')

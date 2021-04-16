@@ -563,11 +563,11 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			List<Alerts> risk_alerts = new ArrayList<Alerts>();
 			
-			String work_ids_qry = "select rwh.work_id_fk as work_id,hod_user_id_fk,work_name,work_short_name "  
+			String work_ids_qry = "select rwh.sub_work,rwh.work_id_fk as work_id,hod_user_id_fk,work_name,work_short_name "  
 					+ "from risk_work_hod rwh "
 					+ "left join work w on rwh.work_id_fk = w.work_id " 
-					+ "left join risk_upload ru on rwh.work_id_fk = ru.work_id_fk " 
-					+ "where (select count(*) from risk_upload where work_id_fk = rwh.work_id_fk and `status` = 'Success' and DATE_FORMAT(uploaded_on,'%m-%Y') = DATE_FORMAT(NOW(),'%m-%Y')) <= 0 "
+					+ "left join risk_upload ru on rwh.sub_work = ru.sub_work " 
+					+ "where (select count(*) from risk_upload where sub_work = rwh.sub_work and `status` = 'Success' and DATE_FORMAT(uploaded_on,'%m-%Y') = DATE_FORMAT(NOW(),'%m-%Y')) <= 0 "
 					+ "group by rwh.work_id_fk,hod_user_id_fk";		
 			risk_alerts = jdbcTemplate.query( work_ids_qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
@@ -590,19 +590,19 @@ public class AlertsDaoImpl implements AlertsDao{
             		 Alerts aObj = new Alerts();
             		 if(day == 1 || day == 2) {
             			 aObj.setAlert_level("1st Alert");
-            			 aObj.setAlert_value("Risk assessment of "+alerts.getWork_name()+ " is Due");
+            			 aObj.setAlert_value("Risk assessment of "+alerts.getWork_short_name()+ " is due");
             		 }else if(day == 3 || day == 4) {
             			 aObj.setAlert_level("2nd Alert");
-            			 aObj.setAlert_value("Risk assessment of "+alerts.getWork_name()+ " is Due");
+            			 aObj.setAlert_value("Risk assessment of "+alerts.getWork_short_name()+ " is due");
             		 }else if(day == 5) {
             			 aObj.setAlert_level("3rd Alert");
-            			 aObj.setAlert_value("Risk assessment of "+alerts.getWork_name()+ " is Due");
+            			 aObj.setAlert_value("Risk assessment of "+alerts.getWork_short_name()+ " is due");
             		 }else if(day > 5) {
             			 aObj.setAlert_level("3rd Alert");
-            			 aObj.setAlert_value("Urgent ! Risk assessment of "+alerts.getWork_name()+ " is OverDue");
+            			 aObj.setAlert_value("Urgent ! Risk assessment of "+alerts.getWork_short_name()+ " is overdue");
             		 }
             		 aObj.setAlert_type("Risk");
-            		 aObj.setRedirect_url("/risk-assessment?work_id="+alerts.getWork_id());
+            		 aObj.setRedirect_url("/risk-assessment?sub_work="+alerts.getSub_work());
             		 aObj.setUser_id_fk(alerts.getHod_user_id_fk());;
  	 				 list.add(aObj);
 				 }
@@ -626,7 +626,7 @@ public class AlertsDaoImpl implements AlertsDao{
                 stmt.setString(p++, CommonConstants.ACTIVE);
                 stmt.setString(p++, alert_value);
                 stmt.setString(p++, "1");
-                stmt.setString(p++, getAlertRemarks(alert_type,contract_id,alert_value,connection));
+                stmt.setString(p++, null);
                 stmt.setString(p++, redirect_url);
                 int c = stmt.executeUpdate();
                 resultSet = stmt.getGeneratedKeys();

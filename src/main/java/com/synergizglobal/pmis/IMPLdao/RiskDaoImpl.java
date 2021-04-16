@@ -30,6 +30,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Risk;
+import com.synergizglobal.pmis.model.RiskReport;
 @Repository
 public class RiskDaoImpl implements RiskDao{
 
@@ -46,10 +47,28 @@ public class RiskDaoImpl implements RiskDao{
 	public List<Risk> getWorksList(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry ="select work_id,work_name,work_short_name from work ";
+			String qry ="select work_id,work_name,work_short_name "
+					+ "from risk_work_hod rwh "
+					+ "left join work on work_id_fk = work_id "
+					+ "group by work_id_fk";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Risk>(Risk.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<Risk> getSubWorksList(Risk obj) throws Exception {
+		List<Risk> objsList = null;
+		try {
+			String qry = "select sub_work from risk_work_hod  group by sub_work";
+			
+			Object[] pValues = new Object[] {};
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
@@ -68,7 +87,7 @@ public class RiskDaoImpl implements RiskDao{
 		try{
 			con = dataSource.getConnection();
 			for (Risk obj : risksList) {
-				String risk_id_pk = getRiskIdIfExists(obj.getWork_id_fk(),obj.getSub_work(),obj.getRisk_id(),obj.getSub_area_fk(),con);
+				String risk_id_pk = getRiskIdIfExists(obj.getSub_work(),obj.getSub_area_fk(),con);
 				obj.setRisk_id_pk(risk_id_pk);
 				String area_item_no = null;
 				String sub_area_item_no = null;
@@ -111,8 +130,8 @@ public class RiskDaoImpl implements RiskDao{
 						 
 				} else {
 					NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
-					String insertQry = "insert into  risk  (risk_id_pk,work_id_fk,sub_work , risk_id, sub_area_fk) "
-							+ "VALUES(:risk_id_pk,:work_id_fk,:sub_work,:risk_id,:sub_area_fk)";
+					String insertQry = "insert into  risk  (risk_id_pk,sub_work ,sub_area_fk) "
+							+ "VALUES(:risk_id_pk,:sub_work,:sub_area_fk)";
 					
 					risk_id_pk = getMaxRiskIdFromExisting(con);
 					idVal++;
@@ -156,15 +175,14 @@ public class RiskDaoImpl implements RiskDao{
 	}
 	
 	
-	private String getRiskIdIfExists(String work_id_fk, String sub_work, String risk_id, String sub_area_fk, Connection con) throws Exception {
+	private String getRiskIdIfExists(String sub_work, String sub_area_fk, Connection con) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String risk_id_pk = null;
 		try{
-			String riskIdQry = "SELECT risk_id_pk from risk where work_id_fk = ? and sub_work = ? and sub_area_fk = ? ";
+			String riskIdQry = "SELECT risk_id_pk from risk where sub_work = ? and sub_area_fk = ? ";
 			stmt = con.prepareStatement(riskIdQry);
 			int k =1;
-			stmt.setString(k++, work_id_fk);
 			stmt.setString(k++, sub_work);
 			stmt.setString(k++, sub_area_fk);
 			rs = stmt.executeQuery();  
@@ -238,12 +256,13 @@ public class RiskDaoImpl implements RiskDao{
 	public List<Risk> getRiskAssessmentList(Risk obj) throws Exception {
 		List<Risk> objsList =null;		
 		try {
-			String qry = "SELECT risk_id_pk,risk_id,sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
-					+ "ra.area,ra.item_no as area_item_no,p.project_name,risk_id,sub_area,sub_area_fk,rsa.item_no as sub_area_item_no, "
+			String qry = "SELECT risk_id_pk,r.sub_work,w.work_id,w.work_name,w.work_short_name,project_id_fk,"
+					+ "ra.area,ra.item_no as area_item_no,p.project_name,sub_area,sub_area_fk,rsa.item_no as sub_area_item_no, "
 					+ "risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS date,"
 					+ "rr.owner,rr.responsible_person "+
 					"from risk r  "+
-					"left join work w on r.work_id_fk = w.work_id " + 
+					"left join risk_work_hod rwh on r.sub_work = rwh.sub_work " + 
+					"left join work w on rwh.work_id_fk = w.work_id " + 
 					"left join risk_sub_area rsa on r.sub_area_fk = sub_area " + 
 					"left join risk_area ra on rsa.risk_area_fk = ra.area " +
 					"left join project p on w.project_id_fk = p.project_id " +
@@ -258,7 +277,7 @@ public class RiskDaoImpl implements RiskDao{
 				qry = qry + " and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
-				qry = qry + " and sub_work = ?";
+				qry = qry + " and r.sub_work = ?";
 				arrSize++;
 			}	
 			
@@ -479,12 +498,13 @@ public class RiskDaoImpl implements RiskDao{
 			
 			Object[] pValues = new Object[] {obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk()};
 			*/
-			String qry = "SELECT risk_id_pk,sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
-					+ "ra.area,p.project_name,risk_id,sub_area_fk,"
+			String qry = "SELECT risk_id_pk,r.sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
+					+ "ra.area,p.project_name,sub_area_fk,"
 					+ "risk_revision_id,risk_id_pk_fk,DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date,priority_fk,probability,impact,owner,responsible_person,mitigation_plan "
 					+ "from risk_revision rr "
 					+ "LEFT OUTER join risk r on rr.risk_id_pk_fk = r.risk_id_pk "
-					+ "LEFT OUTER join work w on r.work_id_fk = w.work_id " 
+					+ "left join risk_work_hod rwh on r.sub_work = rwh.sub_work " 
+					+ "LEFT OUTER join work w on rwh.work_id_fk = w.work_id " 
 					+ "left join risk_sub_area rsa on r.sub_area_fk = sub_area " 
 					+ "left join risk_area ra on rsa.risk_area_fk = ra.area "
 					+ "LEFT join project p on w.project_id_fk = p.project_id "
@@ -596,14 +616,13 @@ public class RiskDaoImpl implements RiskDao{
 	public List<Risk> getRiskAssessmentUploadsList(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "SELECT risk_upload_id,work_id_fk,r.attachment,status,r.remarks,uploaded_by_user_id_fk,DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on,work_id,user_name as uploaded_by,work_name,work_short_name "
+			String qry = "SELECT risk_upload_id,sub_work,r.attachment,status,r.remarks,uploaded_by_user_id_fk,DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on,user_name as uploaded_by "
 					+ "from risk_upload r " 
-					+ "LEFT JOIN work w ON r.work_id_fk = w.work_id " 
 					+ "LEFT JOIN user u ON r.uploaded_by_user_id_fk = u.user_id "
-					+ "where work_id_fk is not null";
+					+ "where sub_work is not null";
 			int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and sub_work = ?";
 				arrSize++;
 			}	
 			qry = qry + " order by risk_upload_id desc";
@@ -621,26 +640,11 @@ public class RiskDaoImpl implements RiskDao{
 	}
 
 	@Override
-	public List<Risk> getWorksListFromRiskUploads(Risk obj) throws Exception {
+	public List<Risk> getSubWorksListFromRiskUploads(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "SELECT work_id_fk,work_id,work_name,work_short_name "
-					+ "from risk_upload r "
-					+ "LEFT JOIN work w ON r.work_id_fk = w.work_id " 
-					+ "where work_id_fk is not null";
-			int arrSize = 0;			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
-				arrSize++;
-			}	
-			qry = qry + " group by work_id_fk";
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
-		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
-
+			String qry = "SELECT sub_work from risk_upload group by sub_work";
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Risk>(Risk.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -657,9 +661,9 @@ public class RiskDaoImpl implements RiskDao{
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO risk_upload"
-					+ "(work_id_fk,attachment,status,remarks,uploaded_by_user_id_fk,uploaded_on) "
+					+ "(sub_work,attachment,status,remarks,uploaded_by_user_id_fk,uploaded_on) "
 					+ "VALUES "
-					+ "(:work_id_fk,:attachment,:status,:remarks,:uploaded_by_user_id_fk,CURRENT_TIMESTAMP)";	
+					+ "(:sub_work,:attachment,:status,:remarks,:uploaded_by_user_id_fk,CURRENT_TIMESTAMP)";	
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 		    int count = template.update(qry, paramSource, keyHolder);
@@ -767,22 +771,11 @@ public class RiskDaoImpl implements RiskDao{
 	public List<Risk> getSubWorkHodFilterListInRiskAssessmnt(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "SELECT risk_work_hod_id, work_id_fk,w.work_short_name, hod_user_id_fk from risk_work_hod rwh "
-					+ "Left join work w on rwh.work_id_fk = w.work_id where work_id_fk is not null ";
-					int arrSize = 0;			
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
-				qry = qry + " and hod_user_id_fk = ?";
-				arrSize++;
-			} 
-			
-			qry = qry + " group by work_id_fk";
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
-				pValues[i++] = obj.getUser_id();
-			} 
-			
+			String qry = "SELECT sub_work, hod_user_id_fk "
+					+ "from risk_work_hod "
+					+ "where hod_user_id_fk = ?";
+			qry = qry + " group by sub_work";
+			Object[] pValues = new Object[] {obj.getUser_id()};			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
 		}catch(Exception e){ 

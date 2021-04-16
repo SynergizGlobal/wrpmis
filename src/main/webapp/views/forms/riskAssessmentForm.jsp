@@ -178,7 +178,7 @@
 						
                         <div class="container container-no-margin">                          
                             	
-                             <div class="row">
+                            <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>                               
                                 <div class="col s12 m4 input-field">
 									<p class="searchable_label">Project :</p>

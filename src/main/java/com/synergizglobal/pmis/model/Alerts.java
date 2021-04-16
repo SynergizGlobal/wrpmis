@@ -6,7 +6,7 @@ public class Alerts {
 	email_id,user_id,work_id,work_id_fk,contract_name,work_name,user_name,designation,user_role_name;
 
 	private String redirect_url,department_name,responsible_person,escalated_to,hod_user_id_fk,dy_hod_user_id_fk,created_by_user_id_fk,
-	user_id_fk,alert_level_fk;
+	user_id_fk,alert_level_fk,sub_work;
 	
 	private String status,uploaded_by_user_id_fk,corrective_measure;
 	
@@ -336,6 +336,14 @@ public class Alerts {
 
 	public void setCorrective_measure(String corrective_measure) {
 		this.corrective_measure = corrective_measure;
+	}
+
+	public String getSub_work() {
+		return sub_work;
+	}
+
+	public void setSub_work(String sub_work) {
+		this.sub_work = sub_work;
 	}
 	
 }

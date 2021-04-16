@@ -78,12 +78,17 @@ public class RiskController {
 		try {
 			User uObj = (User) session.getAttribute("user");
 			obj.setUser_id(uObj.getUser_id()); 
-			List<Risk> worksList = riskService.getWorksList(obj);
-			model.addObject("worksList", worksList);
+			
+			/*List<Risk> worksList = riskService.getWorksList(obj);
+			model.addObject("worksList", worksList);*/
+			
+			List<Risk> subWorksList = riskService.getSubWorksList(obj);
+			model.addObject("subWorksList", subWorksList);
+			
 			List<Risk> workHodList = riskService.getSubWorkHodFilterListInRiskAssessmnt(obj);
 			model.addObject("workHodList", workHodList);
 			
-			model.addObject("work_id", obj.getWork_id());
+			model.addObject("sub_work", obj.getSub_work());
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("riskAssessment : " + e.getMessage());
@@ -261,10 +266,6 @@ public class RiskController {
 						String val = null;
 						
 						if(!StringUtils.isEmpty(row)) {	
-								
-							risk.setWork_id_fk(obj.getWork_id_fk());
-							//System.out.println(i + " = "+ val);
-							
 							String tempVal = formatter.formatCellValue(row.getCell(0)).trim();
 							int count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 							if(count != 2) {
@@ -273,11 +274,7 @@ public class RiskController {
 							if(!StringUtils.isEmpty(sub_work)) { 
 								String tempSubWork = sub_work.replaceAll("\\&", "and");
 								risk.setSub_work(tempSubWork);
-							} /*else if(!StringUtils.isEmpty(obj.getWork_short_name())){
-								String tempSubWork = obj.getWork_short_name().replaceAll("\\&", "and");
-								risk.setSub_work(tempSubWork);
-								}	*/
-							
+							}
 							//val = getCellDataType2(workbook,row.getCell(1));
 							tempVal = formatter.formatCellValue(row.getCell(1)).trim();
 							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
@@ -371,7 +368,8 @@ public class RiskController {
 							
 							risk.setDate(DateParser.parse(risk.getDate()));
 														
-							if(!StringUtils.isEmpty(risk.getSub_work()) && !StringUtils.isEmpty(risk.getOwner()) 
+							if(!StringUtils.isEmpty(obj.getSub_work()) && obj.getSub_work().equals(risk.getSub_work())
+									&& !StringUtils.isEmpty(risk.getSub_work()) && !StringUtils.isEmpty(risk.getOwner()) 
 									&& !StringUtils.isEmpty(risk.getDate()) && !StringUtils.isEmpty(risk.getProbability()) && !StringUtils.isEmpty(risk.getImpact()) 
 									&& !StringUtils.isEmpty(risk.getPriority_fk())  && !StringUtils.isEmpty(risk.getResponsible_person()) 
 									&& (risk.getProbability().equals("1") || risk.getProbability().equals("3") || risk.getProbability().equals("5")) && (risk.getImpact().equals("1") || risk.getImpact().equals("3") || risk.getImpact().equals("5"))) {
@@ -619,12 +617,12 @@ public class RiskController {
 		return riskList;
 	}
 	
-	@RequestMapping(value = "/ajax/getWorksListFromRiskUploads", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getSubWorksListFromRiskUploads", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Risk> getWorksListFromRiskUploads(@ModelAttribute Risk obj) {
 		List<Risk> riskList = null;
 		try {
-			riskList = riskService.getWorksListFromRiskUploads(obj);
+			riskList = riskService.getSubWorksListFromRiskUploads(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getWorksListFromRiskUploads : " + e.getMessage());

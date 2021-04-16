@@ -9,6 +9,7 @@ public interface RiskDao {
 
 
 	public List<Risk> getWorksList(Risk obj) throws Exception;
+	public List<Risk> getSubWorksList(Risk obj) throws Exception;
 
 	public int[] uploadRiskAssessments(List<Risk> risksList) throws Exception;
 
@@ -28,7 +29,7 @@ public interface RiskDao {
 	
 	public List<Risk> getRiskAssessmentUploadsList(Risk obj) throws Exception;
 
-	public List<Risk> getWorksListFromRiskUploads(Risk obj) throws Exception;
+	public List<Risk> getSubWorksListFromRiskUploads(Risk obj) throws Exception;
 	
 	public boolean saveRiskAssessmentUploadFile(Risk risk) throws Exception;
 

@@ -19,6 +19,10 @@ public class RiskServiceImpl implements RiskService{
 	public List<Risk> getWorksList(Risk obj) throws Exception {
 		return dao.getWorksList(obj);
 	}
+	@Override
+	public List<Risk> getSubWorksList(Risk obj) throws Exception{
+		return dao.getSubWorksList(obj);
+	}
 
 	@Override
 	public int[] uploadRiskAssessments(List<Risk> risksList) throws Exception {
@@ -66,8 +70,8 @@ public class RiskServiceImpl implements RiskService{
 	}
 
 	@Override
-	public List<Risk> getWorksListFromRiskUploads(Risk obj) throws Exception {
-		return dao.getWorksListFromRiskUploads(obj);
+	public List<Risk> getSubWorksListFromRiskUploads(Risk obj) throws Exception {
+		return dao.getSubWorksListFromRiskUploads(obj);
 	}
 
 	@Override

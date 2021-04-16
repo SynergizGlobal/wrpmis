@@ -114,13 +114,6 @@
                             <div class="col m8 s12">
                             	<form action="<%=request.getContextPath() %>/generate-risk-analysis-report" id="reportForm" name="reportForm" method="post">
 	                                <div class="row">
-	                                    <!-- <div class="col s12 m3 input-field">
-	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select class="searchable validate-dropdown" id="report_work_id" name="work_id" onchange="getSubWorksListInRiskReport(this.value);">
-	                                            <option value="">Select </option>
-	                                        </select>
-	                                        <span id="report_work_idError" class="error-msg" ></span>
-	                                    </div> -->
 	                                    <div class="col s12 m3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
 	                                        <select class="searchable validate-dropdown" id="sub_work" name="sub_work" onchange="getAssessmentDateListInRiskReport(this.value);">
@@ -213,30 +206,6 @@
         	getSubWorksListInRiskReport();
         });
         
-        function getWorksListInRiskReport() {
-        	$(".page-loader").show();
-           	$("#report_work_id option:not(:first)").remove();
-           	var myParams = {}
-           	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getWorksListInRiskReport",
-                   data: myParams, cache: false,
-                   success: function (data) {
-                       if (data.length > 0) {
-                           $.each(data, function (i, val) {
-                           	 var workShortName = '';
-                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-   	                         $("#report_work_id").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-                           });
-                       }
-                       $('.searchable').select2();
-                       $(".page-loader").hide();
-                   },error: function (jqXHR, exception) {
-    	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-   	   	     	  }
-            });
-        }
-        
         
         function getSubWorksListInRiskReport(){
         	$(".page-loader").show();
@@ -293,28 +262,21 @@
         var validator =	$('#reportForm').validate({
 			 ignore: ":hidden:not(.validate-dropdown)",
 	  		    rules: {
-	  		 		  "work_id": {
-	  			 		required: true
-	  			 	  },"sub_work": {
+	  		 		  "sub_work": {
 	  			 		required: true
 	  			 	  }	,"assessment_date": {
 	  			 		required: true
 	  			 	  }	
 	  		 	},
 	  		    messages: {
-	  		 		 "work_id": {
-	  				 	required: 'This field is required',
-	  			 	  },"sub_work": {
+	  		 		 "sub_work": {
 	  			 		required: ' This field is required'
 	  			 	  },"assessment_date": {
 	  			 		required: ' This field is required'
 	  			 	  }
 		   		},
 		   		errorPlacement:function(error, element){
-		   		 	if (element.attr("id") == "report_work_id" ){
-						 document.getElementById("report_work_idError").innerHTML="";
-				 		 error.appendTo('#report_work_idError');
-					} else if(element.attr("id") == "sub_work" ){
+		   		 	if(element.attr("id") == "sub_work" ){
 						   document.getElementById("sub_workError").innerHTML="";
 					 	   error.appendTo('#sub_workError');
 					} else if(element.attr("id") == "report_assessment_date" ){

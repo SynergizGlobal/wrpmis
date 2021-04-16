@@ -443,7 +443,7 @@
        	  
        	  
        	function clearFilters() {
-            $('#work_id_fk_filter').val('');
+            $('#sub_workfilter').val('');
             getRiskUploadsList('');
             $('.searchable').select2();
         }

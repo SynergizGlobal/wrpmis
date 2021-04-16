@@ -446,11 +446,25 @@
            })
         });  */
         
+        var year = '';
+       	var month = '';
+       	var day = '';
+       	
+        var assessment_date = '${risk.assessment_date }';
+        if($.trim(assessment_date) != '' ){
+        	var sDate = assessment_date.split("-");
+        	year = sDate[2];
+        	month = sDate[1];
+        	day = sDate[0];
+        }
+        
+        var minDate = new Date(year,month-1,day);
+        
         let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
-	    	var options = {format: 'dd-mm-yyyy',autoClose:true};
+	    	var options = {format: 'dd-mm-yyyy',autoClose:true,minDate:minDate,maxDate: new Date()};
 	    	if(dt.length > 1){
 	    		options.setDefaultDate = true,
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
@@ -503,6 +517,8 @@
             //$("#atr_dates" + rNo).datepicker();
             
             $('#atr_dates' + rNo).datepicker({
+            	minDate: minDate,
+            	maxDate: new Date(),
 	        	format:'dd-mm-yyyy',
 	   	    	onSelect: function () {
 	   	    	   $('.confirmation-btns .datepicker-done').click();

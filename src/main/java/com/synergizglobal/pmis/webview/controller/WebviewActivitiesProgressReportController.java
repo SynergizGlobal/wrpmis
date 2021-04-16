@@ -419,24 +419,24 @@ public class WebviewActivitiesProgressReportController {
                 workBook.write(fos);
                 fos.flush();*/
             	
-				/* response.setContentType("application/.csv");
-				 response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-				 response.setContentType("application/vnd.ms-excel");
-				 response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+				response.setContentType("application/.csv");
+				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				response.setContentType("application/vnd.ms-excel");
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
 				 
-				 workBook.write(response.getOutputStream()); // Write workbook to response.
-				 workBook.close();
-				 response.getOutputStream().flush();*/
+				workBook.write(response.getOutputStream()); // Write workbook to response.
+				workBook.close();
+				response.getOutputStream().flush();
             	
- 			   ByteArrayOutputStream baos = new ByteArrayOutputStream();
- 			   workBook.write(baos);
+				/*ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				workBook.write(baos);
 				byte[] bytes = baos.toByteArray();
 				
 				String saveDirectory = CommonConstants2.ACTIVITY_PROGRESS_FILE_SAVING_PATH;
 				 
 				FileUploads.bytesInFileSaving(bytes, saveDirectory, fileName);
 				
-				attributes.addFlashAttribute("progressReportPath", CommonConstants2.ACTIVITY_PROGRESS_REPORT+fileName);
+				attributes.addFlashAttribute("progressReportPath", CommonConstants2.ACTIVITY_PROGRESS_REPORT+fileName);*/
             }catch(FileNotFoundException e){
                 e.printStackTrace();
                 logger.error("generateStripChartDPRReport : " + e.getMessage());

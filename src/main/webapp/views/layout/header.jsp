@@ -1206,7 +1206,14 @@
 								                    		  		+ '<div>Contract : '+val.contract_short_name +'</div>'
 								                    		  		+ '<div>Contractor : '+val.contractor_name +'</div>'
 			                    		  		}
-			                    		  		 html = html + '<div>Reason : '+val.alert_value +'</div>'
+			                    		  		var label = "Reason : ";
+			                    		  		if(val.alert_type_fk == 'Issue'){
+			                    		  			label = 'Short Description : ';
+				                    		    }else if(val.alert_type_fk == 'Risk'){
+				                    		    	label = '';
+				                    		    }
+			                    		  		 
+			                    		  		html = html + '<div>'+ label + val.alert_value +'</div>'
 			                    		  		+ '</a></li>';
 			                    		  
 		                    		  });

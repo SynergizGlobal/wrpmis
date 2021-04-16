@@ -43,7 +43,7 @@ public class CommonConstants2 {
 	public static final String DOCX_LOGO = "E:/Development/nginx-1.9.9/html/pmis/resources/images";
 	public final static String WEB_DOCUMENTS_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/WEB_DOCUMENTS/";
 	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = "C:/Development/nginx-1.9.9/html/pmis/PROJECT_GALLERY/";
-	public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/ACTIVITY_PROGRESS_REPORTS/";
+	//public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/ACTIVITY_PROGRESS_REPORTS/";
 	public final static String ACTIVITIES_UPLOAD_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/ACTIVITIES_UPLOAD_FILES/";
 	public final static String RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";
 	

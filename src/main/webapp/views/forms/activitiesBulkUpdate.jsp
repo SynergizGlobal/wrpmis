@@ -6,12 +6,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activities Bulk Update</title>
+    <title>Activities Bulk Update - Update Forms - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-     
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-     
+    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">     
+    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
@@ -574,16 +572,14 @@
                                     </div>
                                     <input type="hidden" id="activity_id" name="activity_id" />
                                     <div class="row">
-                                        <div class="col s12 m6">
+                                        <div class="col s12 m6 mt-brdr">
                                             <div class="center-align m-1">
-                                                <button type="button" onclick="updateProgress();" id="btn" class="btn waves-effect waves-light bg-m"
-                                                    style="width: 100%;" >Update</button>
+                                                <button type="button" onclick="updateProgress();" id="btn" class="btn waves-effect waves-light bg-m" >Update</button>
                                             </div>
                                         </div>
-                                        <div class="col s12 m6">
+                                        <div class="col s12 m6 mt-brdr">
                                             <div class="center-align m-1">
-                                                <button type="reset" onClick="window.location.reload();" class="btn waves-effect waves-light bg-s"
-                                                    style="width: 100%;">Reset</button>
+                                                <button type="reset" onClick="window.location.reload();" class="btn waves-effect waves-light bg-s">Reset</button>
                                             </div>
                                         </div>
                                     </div>

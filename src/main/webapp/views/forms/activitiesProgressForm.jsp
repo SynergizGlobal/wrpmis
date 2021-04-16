@@ -8,11 +8,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activity Progress Form</title>
+    <title>Activity Progress Form - Update Forms - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-     
-     
+    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">    
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
@@ -635,16 +633,14 @@
                                     <input type="hidden" id="other_organization" name="other_organization" />
             
                                     <div class="row">
-                                        <div class="col s12 m6">
+                                        <div class="col s12 m6 mt-brdr">
                                             <div class="center-align m-1">
-                                                <button type="button" class="btn waves-effect waves-light bg-m"
-                                                    style="width: 100%;"  onclick="saveProgress();">Update</button>
+                                                <button type="button" class="btn waves-effect waves-light bg-m"  onclick="saveProgress();">Update</button>
                                             </div>
                                         </div>
-                                        <div class="col s12 m6">
+                                        <div class="col s12 m6 mt-brdr">
                                             <div class="center-align m-1">
-                                                <a class="btn waves-effect waves-light bg-s"
-                                                    style="width: 100%;" href="<%=request.getContextPath() %>/activity-progress">Cancel</a>
+                                                <a class="btn waves-effect waves-light bg-s" href="<%=request.getContextPath() %>/activity-progress">Cancel</a>
                                             </div>
                                         </div>
                                     </div>

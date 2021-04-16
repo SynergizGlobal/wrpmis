@@ -50,11 +50,31 @@
 		.bordered tr{
 			border:1px solid #ccc;
 		}
+		.files-filter{
+			box-shadow: 0 0 4px 0 #999;
+		}
+		div.folder-header{
+			margin-top:15px;
+		}
+		.w-8p{
+			width:8%;
+		}
+		.w-8p.last-column{
+			width:8%;
+		}
+		.title-text,th.title-text{
+			text-align: left!important;
+			padding-left: 10px!important;
+		}
 		@media screen and (min-width:1024px){
 			.bordered tbody td:last-child a+a{
 				margin-left:10px;
 			}
+			.w-8p.last-column{
+				width:15%;
+			}
 		}
+		
 	</style>
 	<style>
 	/* this is additional code if need less code try to replace document-template css with mobile-document-template */
@@ -128,12 +148,15 @@
 							</c:if>
 						</div>
 					
-						<div class="row files-filter">
-						   <ul class="folder-group">
+						<div class="row">
+						   <div class="folder-group">
+						    <!-- <ul class="folder-group"> -->
 							<c:choose>   
 	                          <c:when test="${not empty webDocuments and fn:length(webDocuments) gt 0}">
 		                        <c:forEach var="webDocCategory" items="${webDocuments}" varStatus="index">     
-								  <li class="files-filter">
+								  <!-- <li class="files-filter"> -->
+								  <div class="col m6 s12" class="flex-kind">
+								  <div class="files-filter">
 									<div class="folder-header" id="folder${index.count }">
 										<i class="fa fa-folder open"></i> <!-- <i class="fa fa-folder-open close"></i> --> ${webDocCategory.category }
 									</div>
@@ -146,18 +169,18 @@
 											 <div class="col s12 m12">
 											    <table class="bordered">
 											        <thead>
-											            <th style="width:8%;">S.No</th>
-											            <th style="text-align: left!important;padding-left: 10px!important">Subject</th>
+											            <th class="w-8p">S.No</th>
+											            <th class="title-text">Subject</th>
 											            <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
 											            <th>Date of Issue</th>
 											            </c:if>
-											            <th style="width:8%"> </th>
+											            <th class="w-8p last-column"> </th>
 											        </thead>
 											        <tbody>
 											        <c:forEach var="webDoc" items="${webDocCategory.webDocumentsList}" varStatus="indexx"> 
 											            <tr id="row${indexx.count }${index.count }">
 											                <td>${indexx.count }</td>
-											                <td style="text-align: left!important;padding-left: 10px!important">${webDoc.title }</td>
+											                <td class="title-text">${webDoc.title }</td>
 											                <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
 											                <td>${webDoc.date_of_issue }</td>
 											                </c:if>
@@ -206,14 +229,18 @@
                                    </c:choose>
 								</div>
 							  </div>
-							 </li>
+							 <!-- </li> -->
+							 </div>
+							 </div>
 							</c:forEach>
 	                       </c:when>
                            <c:otherwise>
-                           	<li style="text-align: center!important;">No folders available</li>
+                           	<!-- <li style="text-align: center!important;">No folders available</li> -->
+                           	<div style="text-align: center!important;">No folders available</div>
                            </c:otherwise>
                          </c:choose>
-					    </ul>
+					   <!--  </ul> -->
+					    </div>
 					  </div>
 					</div>
 				</div>

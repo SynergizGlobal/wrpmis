@@ -590,16 +590,16 @@ public class AlertsDaoImpl implements AlertsDao{
             		 Alerts aObj = new Alerts();
             		 if(day == 1 || day == 2) {
             			 aObj.setAlert_level("1st Alert");
-            			 aObj.setAlert_value("Risk assessment of "+alerts.getWork_short_name()+ " is due");
+            			 aObj.setAlert_value("Risk assessment of "+alerts.getSub_work()+ " is due");
             		 }else if(day == 3 || day == 4) {
             			 aObj.setAlert_level("2nd Alert");
-            			 aObj.setAlert_value("Risk assessment of "+alerts.getWork_short_name()+ " is due");
+            			 aObj.setAlert_value("Risk assessment of "+alerts.getSub_work()+ " is due");
             		 }else if(day == 5) {
             			 aObj.setAlert_level("3rd Alert");
-            			 aObj.setAlert_value("Risk assessment of "+alerts.getWork_short_name()+ " is due");
+            			 aObj.setAlert_value("Risk assessment of "+alerts.getSub_work()+ " is due");
             		 }else if(day > 5) {
             			 aObj.setAlert_level("3rd Alert");
-            			 aObj.setAlert_value("Urgent ! Risk assessment of "+alerts.getWork_short_name()+ " is overdue");
+            			 aObj.setAlert_value("Urgent ! Risk assessment of "+alerts.getSub_work()+ " is overdue");
             		 }
             		 aObj.setAlert_type("Risk");
             		 aObj.setRedirect_url("/risk-assessment?sub_work="+alerts.getSub_work());

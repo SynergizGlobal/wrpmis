@@ -186,9 +186,13 @@ public class RiskController {
 						}*/
 						
 						risk.setUploaded_by_user_id_fk(userId);
-						if(msg.contains("Your assessment is incomplete!")) {
+						if(msg.contains("Not authorized to upload!")) {
 							risk.setStatus("Fail");
-						}else {
+						}else if(msg.contains("Your assessment is incomplete!")) {
+							risk.setStatus("Fail");
+						}else if(msg.contains("Work selected does not match with the Work column on the assessment form")) {
+							risk.setStatus("Fail");
+						}else{
 							risk.setStatus("Success");
 						}
 						risk.setRemarks(msg);
@@ -255,6 +259,7 @@ public class RiskController {
 					String risk_owner_error = "";
 					String risk_rows_error = "";
 					int rowNo = 0;
+					String work_mismatch = null;
 					for(int j = 3; j <= risksDrawingsSheet.getLastRowNum();j++){						
 						rowNo = j+1;
 						XSSFRow row = risksDrawingsSheet.getRow(j);
@@ -274,6 +279,11 @@ public class RiskController {
 							if(!StringUtils.isEmpty(sub_work)) { 
 								String tempSubWork = sub_work.replaceAll("\\&", "and");
 								risk.setSub_work(tempSubWork);
+							}
+							
+							if(!StringUtils.isEmpty(obj.getSub_work()) && !obj.getSub_work().equals(risk.getSub_work())) {
+								work_mismatch = "Work selected does not match with the Work column on the assessment form.";
+								break;
 							}
 							//val = getCellDataType2(workbook,row.getCell(1));
 							tempVal = formatter.formatCellValue(row.getCell(1)).trim();
@@ -386,7 +396,7 @@ public class RiskController {
 						}						
 						
 					}
-					if(!risksList.isEmpty() && StringUtils.isEmpty(risk_rows_error)){
+					if(!risksList.isEmpty() && StringUtils.isEmpty(risk_rows_error) && StringUtils.isEmpty(work_mismatch)){
 						int[] arr  = riskService.uploadRiskAssessments(risksList);
 						
 						/*
@@ -403,6 +413,10 @@ public class RiskController {
 					
 					if(!StringUtils.isEmpty(risk_rows_error)) {
 						risk_rows_error = "<br><span style='color:red;'>Your assessment is incomplete! Row no(s) " + risk_rows_error + " is/are not inserted.</span> ";
+					}
+					
+					if(!StringUtils.isEmpty(work_mismatch)) {
+						risk_rows_error = "<br><span style='color:red;'>" + work_mismatch + "</span> ";
 					}
 					
 					msg = msg + risk_owner_error + risk_rows_error;

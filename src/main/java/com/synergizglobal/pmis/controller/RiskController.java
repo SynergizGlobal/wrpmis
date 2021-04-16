@@ -412,7 +412,7 @@ public class RiskController {
 					}
 					
 					if(!StringUtils.isEmpty(risk_rows_error)) {
-						risk_rows_error = "<br><span style='color:red;'>Your assessment is incomplete! Row no(s) " + risk_rows_error + " is/are not inserted.</span> ";
+						risk_rows_error = "<br><span style='color:red;'>Your assessment is incomplete! Row no(s) " + risk_rows_error + " requires attention.</span> ";
 					}
 					
 					if(!StringUtils.isEmpty(work_mismatch)) {

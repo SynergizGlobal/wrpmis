@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <title>Web Links</title>
+    <title>Web Links - Admin - PMIS</title>
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -157,16 +157,14 @@
                         <div class="container container-no-margin">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                        <button type="submit" style="width: 100%;"
-                                            class="btn waves-effect waves-light bg-m">Update</button>
+                                        <button type="submit"   class="btn waves-effect waves-light bg-m">Update</button>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath() %>/web-links" class="btn waves-effect waves-light bg-s "
-                                            style="width:100%">Reset</a>
+                                        <a href="<%=request.getContextPath() %>/web-links" class="btn waves-effect waves-light bg-s ">Reset</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

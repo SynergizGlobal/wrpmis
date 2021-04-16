@@ -1,6 +1,5 @@
 <%@ page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -10,18 +9,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <title>Reference Forms</title>
+    <title>Reference Forms - Admin - PMIS</title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/reference-form.css">
     <style>
         .hidden {
             display: none;
         }
-
         .module-holder {
             margin-top: .5rem;
         }
-
         iframe {
             box-sizing: border-box;
             /* make the border size be included in the height */
@@ -31,11 +28,6 @@
             min-height:600px;
             height:auto;
         }
-
-
-        /* iframe body {
-            height: auto;
-        } */
     </style>
 </head>
 

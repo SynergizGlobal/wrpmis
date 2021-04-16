@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <title>
-    	 <c:if test="${action eq 'edit'}">Update Reference Form</c:if>
-		 <c:if test="${action eq 'add'}"> Add Reference Form</c:if>
+    	 <c:if test="${action eq 'edit'}">Update Reference Form - Admin - PMIS</c:if>
+		 <c:if test="${action eq 'add'}"> Add Reference Form - Admin - PMIS</c:if>
     </title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -89,21 +89,20 @@
                             <!-- </div> -->
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     
                                     <div class="center-align m-1">
 	                                         <c:if test="${action eq 'edit'}">
-	                                           <button type="button" onclick="updateReferenceForm();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+	                                           <button type="button" onclick="updateReferenceForm();" class="btn waves-effect waves-light bg-m">Update</button>
 	                                         </c:if>
 											 <c:if test="${action eq 'add'}"> 
-						                       <button type="button" onclick="addReferenceForm();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+						                       <button type="button" onclick="addReferenceForm();" class="btn waves-effect waves-light bg-m">Add</button>
 											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                      <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/reference-form" class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/reference-form" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

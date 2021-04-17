@@ -10,9 +10,7 @@
 <head>
 
 <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-<link
-	href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
 <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
 <style>
 	.preloader-wrapper {
@@ -35,7 +33,9 @@
 		box-shadow: 0 0 5px #bababa inset;
 		transition: all 1s ease-in;
 	}
-	
+	li.item.row {
+	    margin-bottom: 0;
+	}
 	input:not ([type] ), input[type=text]:not (.browser-default ), input[type=password]:not
 		(.browser-default ), input[type=email]:not (.browser-default ), input[type=url]:not
 		(.browser-default ), input[type=time]:not (.browser-default ), input[type=date]:not
@@ -102,6 +102,9 @@
 	    margin: 3px;
 	    padding: 10px;
 	    border-radius: 0px;
+	}
+	.notifications_group{
+		margin-top:5px;
 	}
 </style>
 
@@ -383,7 +386,7 @@
                                                 <span class="material-icons-outlined">link</span> Quick Links</a>
                                             </li>--%>
 				<li class="blue darken-1"><a href="javascript:void(0);"
-					class='head-img'> <span class="material-icons-outlined">link</span>Quick
+					class='head-img'> <span class="material-icons-outlined">link</span> Quick
 						Links
 				</a>
 					<ul class="second-level-menu">
@@ -395,7 +398,7 @@
 					</ul></li>
 				<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
 					<li class="blue"><a href="javascript:void(0);"
-						class='head-img'> <span class="material-icons-outlined">list_alt</span>Admin
+						class='head-img'> <span class="material-icons-outlined">list_alt</span> Admin
 					</a>
 						<ul class="second-level-menu">
 							<c:forEach var="form" items="${adminForms }" varStatus="index">
@@ -454,8 +457,7 @@
 								
 						</div>
 
-						<ul class="notifications_group" style="margin-top: 5px;"
-							id="notificationList">
+						<ul class="notifications_group"	id="notificationList">
 							<!-- list of Notifications starts -->
 							
 							<c:forEach var="obj" items="${alerts }">
@@ -500,18 +502,22 @@
 										<c:set var="bgIcon" value="<i class='material-icons-outlined'>verified_user</i>"></c:set>										
 									</c:if>								
 										 
-									<li class="item ${bgClass }"><a
-										href="<%=request.getContextPath()%>${aObj.redirect_url }">
-											<span class="icon"> <!-- <i class="material-icons">access_time</i> -->
-												${bgIcon } <span class="icon-text">${aObj.alert_type_fk
-                                                                            }</span>
-											</span>
+									<li class="item ${bgClass } row">										
+										<a href="<%=request.getContextPath()%>${aObj.redirect_url }">
+											<div class="col m2">
+												<span class="bl" class="icon"> <!-- <i class="material-icons">access_time</i> -->
+													${bgIcon } <span class="bl" class="icon-text">${aObj.alert_type_fk
+	                                                                            }</span>
+												</span>										
+											</div>
+											<div class="col m10">
 											<c:if test="${aObj.alert_type_fk ne 'Risk' }">
 												<div>Work : ${aObj.work_short_name }</div>
 												<div>Contract : ${aObj.contract_short_name }</div>
 												<div>Contractor : ${aObj.contractor_name }</div>
 											</c:if>
 											<div>Reason : ${aObj.alert_value }</div>
+											</div>
 									</a></li>
 
 								</c:forEach>
@@ -540,8 +546,7 @@
 								</c:forEach>								
 							</select>
 						</div>
-						<ul class="notifications_group message_group" style="margin-top: 5px;"
-							id="messagesList">
+						<ul class="notifications_group message_group"	id="messagesList">
 							<!-- list of messages starts -->
 							<c:if test="${not empty messages and fn:length(messages) gt 0}">
 								<li class="head-item">Messages</li>
@@ -558,7 +563,7 @@
 											<div class="row col m12">
 												<div class="col m2">
 													<i class='fa fa-exclamation-triangle'></i> 
-														<span class="icon-text">${obj.message_type }</span>
+													<span class="icon-text">${obj.message_type }</span>
 											    </div>
 											    <div class="col m10">
 											    	<div>${obj.message }</div> 
@@ -569,8 +574,7 @@
 									</li>
 								</c:forEach>
 							</c:if>
-							
-									
+																							
 						</ul>
 
 						<!-- messages dropdown body ends -->
@@ -891,8 +895,7 @@
 				</c:forEach>							
 			</select>
 		</div>
-		<ul class="notifications_group" style="margin-top: 5px;"
-			id="notificationListMobile">
+		<ul class="notifications_group" id="notificationListMobile">
 			<!-- Mobile notification body starts here -->
 
 			<c:forEach var="obj" items="${alerts }">
@@ -1015,8 +1018,7 @@
 				</c:forEach>								
 			</select>
 		</div>
-		<ul class="notifications_group message_group" style="margin-top: 5px;"
-			id="messagesListMobile">
+		<ul class="notifications_group message_group" id="messagesListMobile">
 			<c:if test="${not empty messages and fn:length(messages) gt 0}">
 				<li class="head-item">Messages</li>
 				<c:forEach var="obj" items="${messages }">
@@ -1194,13 +1196,15 @@
 			                    		  }else if(val.alert_type_fk == 'Issue'){
 			                    			  bgIcon = '<i class="fa fa-exclamation-triangle"></i>';
 			                    		  }else if(val.alert_type_fk == 'Risk'){
-			                    			  bgIcon = '<i class="material-icons" style="font-size:40px;right: 23px!important;top:25%">error</i>';
+			                    			  bgIcon = '<i class="material-icons">error</i>';
 			                    		  }else if(val.alert_type_fk == 'Safety'){
 			                    			  bgIcon = '<i class="material-icons">verified_user</i>';
 			                    		  }
-			                    		  html = html + '<li class="item '+bgClass+'">'
+			                    		  html = html + '<li class="item '+bgClass+' row">'
 			                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+'">'
-			                    		  		+ '<span class="icon"> '+bgIcon+' <span class="icon-text">'+val.alert_type_fk+'</span> </span>';
+			                    		  		+'<div class="col m2 s2 icon-holder">'
+			                    		  		+ '<span class="icon"> '+bgIcon+' <span class="icon-text">'+val.alert_type_fk+'</span> </span>'
+			                    		  		+'</div> <div class="col m10 s10 text-holder">';
 			                    		  		if(val.alert_type_fk != 'Risk'){
 			                    		  			 html = html + '<div>Work : '+val.work_short_name +'</div>'
 								                    		  		+ '<div>Contract : '+val.contract_short_name +'</div>'
@@ -1213,7 +1217,7 @@
 				                    		    	label = '';
 				                    		    }
 			                    		  		 
-			                    		  		html = html + '<div>'+ label + val.alert_value +'</div>'
+			                    		  		html = html + '<div>'+ label + val.alert_value +'</div>'+'</div>'
 			                    		  		+ '</a></li>';
 			                    		  
 		                    		  });
@@ -1229,7 +1233,7 @@
 		                    	  $("#notificationCount").html(count);
 		                          $("#notificationCountMobile").html(count);
 		                      }
-		           });
+		           });                   
 				}
                
                function getMesagesForHeader(message_type) {
@@ -1253,10 +1257,10 @@
 		                    		  if($.trim(val.read_time) == ''){
 		                    		  	count = count + 1;
 		                    		  }
-		                    		  html = html + '<li class="item '+message_color_bg+'">'
+		                    		  html = html + '<li class="item '+message_color_bg+' row">'
 		                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+'?message_id='+val.message_id +'">'
 		                    		  		
-		                    		  		+ '<div class="row col m12" style="margin-bottom:0px!important;">'
+		                    		  		//+ '<div class="col m12">'
 		                    		  		+ '<div class="col m2" style="text-align: center;">'
 		                    		  		+ '<i class="fa fa-exclamation-triangle" style="font-size:2rem;margin-top: 10px;height: 1.5rem;line-height: 1.5rem;"></i>'
 		                    		  		+ '<span class="">'+val.message_type+'</span>'
@@ -1265,7 +1269,7 @@
 		                    		  		+ '<div>'+val.message +'</div> '
 		                    		  		+ '<div style="font-size: 10px;padding:5px 0px 0px 0px;"> <i class="fa fa-clock-o"></i> &nbsp;'+val.created_date+'<span style="float:right;font-size: 10px;">'+val.timeAgo+'</span></div>'
 		                    		  		+ '</div>'
-		                    		  		+ '</div>'
+		                    		  		//+ '</div>'
 		                    		  				
 		                    		  		/* + '<span class="icon"> <i class="fa fa-exclamation-triangle"></i> <span class="icon-text">'+val.message_type+'</span> </span>'
 		                    		  		+ '<div>'+val.message +'</div>'
@@ -1455,8 +1459,10 @@
 	    			  var classItem=$('.top-level-menu a[href="/pmis/'+gridOrForm+'"]').closest('ul').parentsUntil($( "ul.top-level-menu" ));
 	    			  $(classItem[classItem.length-1]).addClass('menu-active')	
 	    		  }
+	    		 
 	    	 });
 
+	         
  </script>
 
 </body>

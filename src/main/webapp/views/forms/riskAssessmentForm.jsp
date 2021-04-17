@@ -154,6 +154,7 @@
 		    border-top: 1px solid #777;
 		    border-bottom: 1px solid #777;
 		}
+		.error-msg{color:red!important;}
     </style>
     
 </head>
@@ -286,7 +287,10 @@
 																				id="atr_date_icon${index.count }">
 																				<i class="fa fa-calendar"></i>
 																			</button>
+																			<span id="atr_datesError${index.count }" class="error-msg" ></span>
 																		</div>
+																		
+																		
 																	</td>
 																	<td>
 																		<textarea
@@ -324,6 +328,7 @@
 																			id="atr_date_icon0">
 																			<i class="fa fa-calendar"></i>
 																		</button>
+																		<span id="atr_datesError0" class="error-msg" ></span>
 																	</div>
 																</td>
 																<td><textarea id="action_takens0"
@@ -460,11 +465,51 @@
         
         var minDate = new Date(year,month-1,day);
         
+        var dates_arr = [];
+       	$("input[name=atr_dates]").each(function(){
+        	dates_arr.push(this.value);
+        });
+        
         let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
-	    	var options = {format: 'dd-mm-yyyy',autoClose:true,minDate:minDate,maxDate: new Date()};
+	    	var options = {format: 'dd-mm-yyyy',
+	    			autoClose:true,
+	    			minDate:minDate,
+	    			maxDate: new Date(),
+	    			onDraw : function() {disableDates("ondraw")},
+	    			onOpen : function() {disableDates("onopen")},
+	    			disableDayFn: function(date){
+		   	    		var string = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+		   	    		var ex_dates = [];
+		   	    		for (var i = 0; i < dates_arr.length; i++) {
+			            	 var year = '';
+			                 var month = '';
+			                 var day = '';
+			                 if($.trim(dates_arr[i]) != '' ){
+			                 	var sDate = dates_arr[i].split("-");
+			                 	year = sDate[2];
+			                 	month = sDate[1]-1;
+			                 	day = sDate[0];
+			                 	var fullDisabledDate = new Date(year,month,day),
+			                    getDisabledMonth    = fullDisabledDate.getMonth(),
+			                    getDisabledDay      = fullDisabledDate.getDate(),
+			                    getDisabledYear     = fullDisabledDate.getFullYear();
+			                 	var d = fullDisabledDate.getDate() + "-" + (fullDisabledDate.getMonth() + 1) + "-" + fullDisabledDate.getFullYear();
+			                 	ex_dates.push(d);
+			                 }
+			            }
+		   	    		
+		   	    		for (var i = 0; i < ex_dates.length; i++) {
+			   	    		if(ex_dates[i] == string){
+			   	    			return true;
+			   	    		}
+		   	    		}
+		   	    		
+			   	        //return [ ex_dates.indexOf(string) == 1 ]
+			   	    }
+	    		};
 	    	if(dt.length > 1){
 	    		options.setDefaultDate = true,
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
@@ -494,7 +539,38 @@
         	 window.top.close();
         }
         
-        function addRiskRow() {        	
+        function disableDates(msg) {        	
+        	var dates_arr = [];
+        	$("input[name=atr_dates]").each(function(){
+            	dates_arr.push(this.value);
+            });
+        	
+            for (var i = 0; i < dates_arr.length; i++) {
+            	 var year = '';
+                 var month = '';
+                 var day = '';
+                 if($.trim(dates_arr[i]) != '' ){
+                 	var sDate = dates_arr[i].split("-");
+                 	year = sDate[2];
+                 	month = sDate[1]-1;
+                 	day = sDate[0];
+                 	var fullDisabledDate = new Date(year,month,day),
+                    getDisabledMonth    = fullDisabledDate.getMonth(),
+                    getDisabledDay      = fullDisabledDate.getDate(),
+                    getDisabledYear     = fullDisabledDate.getFullYear();
+                    $('.datepicker-modal.open').find('button.datepicker-day-button[data-year="'+getDisabledYear+'"][data-month="'+getDisabledMonth+'"][data-day="'+getDisabledDay+'"]').parent('td').addClass('is-disabled');
+                 }
+            }
+        }
+        
+        function addRiskRow() {   
+        	var dates_arr = [];
+        	$("input[name=atr_dates]").each(function(){
+            	dates_arr.push(this.value);
+            });
+        	//alert(dates_arr);
+        	/*******************************************************************/
+        	
             var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
             var html = '<tr id="actionRow' + rNo + '">'
@@ -506,7 +582,8 @@
 			  </c:forEach>
 			+'</select></div></td>' */
 			+'<td><div class="input-field"><input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'
-			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button></div></td>'
+			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button>'
+			+'<span id="atr_datesError' + rNo + '" class="error-msg" ></span></div></td>'
 			+'<td><textarea id="action_takens' + rNo +'"  name="action_takens" '
 			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea></td>'
 			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
@@ -520,9 +597,69 @@
             	minDate: minDate,
             	maxDate: new Date(),
 	        	format:'dd-mm-yyyy',
-	   	    	onSelect: function () {
-	   	    	   $('.confirmation-btns .datepicker-done').click();
-	   	    	}
+	        	autoClose:true,
+	   	    	onDraw : function() {disableDates("ondraw")},
+	   	        onOpen : function() {disableDates("onopen")},
+	   	        onSelect:function(date){
+	   	        	var dates_arr = [];
+	   	        	$("input[name=atr_dates]").each(function(){
+	   	            	dates_arr.push(this.value);
+	   	            });
+	   	        	//console.log(dates_arr.length)
+	   	            for (var i = 0; i < dates_arr.length; i++) {
+	   	            	 var year = '';
+	   	                 var month = '';
+	   	                 var day = '';
+	   	                 if($.trim(dates_arr[i]) != '' ){
+	   	                 	var sDate = dates_arr[i].split("-");
+	   	                 	year = sDate[2];
+	   	                 	month = sDate[1]-1;
+	   	                 	day = sDate[0];
+	   	                 	var fullDisabledDate = new Date(year,month,day),
+	   	                    getDisabledMonth    = fullDisabledDate.getMonth(),
+	   	                    getDisabledDay      = fullDisabledDate.getDate(),
+	   	                    getDisabledYear     = fullDisabledDate.getFullYear();
+	   	                 	//console.log(date.getDate() +" - "+date.getMonth()+" - "+date.getFullYear());
+	 	   	        		//console.log(fullDisabledDate.getDate() +" - "+fullDisabledDate.getMonth()+" - "+fullDisabledDate.getFullYear());
+	 	   	        	
+	   	                    if(date.getDate() == fullDisabledDate.getDate() && date.getMonth() == fullDisabledDate.getMonth() && date.getFullYear() == fullDisabledDate.getFullYear()){
+	   	                    	//$('.page-loader').show();
+	   	                    	//setTimeout(function(){$('#atr_dates' + rNo).val('');$('.page-loader').hide();}, 1000);
+	   	                    }
+	   	                 }
+	   	            }
+	   	        },
+	   	     	disableDayFn: function(date){
+	   	    		var string = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+	   	    		//alert(dates_arr.indexOf(string) == -1);
+	   	    		var ex_dates = [];
+	   	    		for (var i = 0; i < dates_arr.length; i++) {
+		            	 var year = '';
+		                 var month = '';
+		                 var day = '';
+		                 if($.trim(dates_arr[i]) != '' ){
+		                 	var sDate = dates_arr[i].split("-");
+		                 	year = sDate[2];
+		                 	month = sDate[1]-1;
+		                 	day = sDate[0];
+		                 	var fullDisabledDate = new Date(year,month,day),
+		                    getDisabledMonth    = fullDisabledDate.getMonth(),
+		                    getDisabledDay      = fullDisabledDate.getDate(),
+		                    getDisabledYear     = fullDisabledDate.getFullYear();
+		                 	var d = fullDisabledDate.getDate() + "-" + (fullDisabledDate.getMonth() + 1) + "-" + fullDisabledDate.getFullYear();
+		                 	ex_dates.push(d);
+		                 }
+		            }
+	   	    		
+	   	    		for (var i = 0; i < ex_dates.length; i++) {
+		   	    		if(ex_dates[i] == string){
+		   	    			//console.log(ex_dates[i] + " : " +string);
+		   	    			return true;
+		   	    		}
+	   	    		}
+	   	    		
+		   	        //return [ ex_dates.indexOf(string) == 1 ]
+		   	    }
 	        }); 
             
             $('#atr_date_icon' + rNo).click(function () {
@@ -545,17 +682,17 @@
    			$("#riskForm").submit();	
         }
 	            
-            $('select').change(function(){
-        	    if ($(this).val() != ""){
-        	        $(this).valid();
-        	    }
-        	});
-            
-            $('input').change(function(){
-        	    if ($(this).val() != ""){
-        	        $(this).valid();
-        	    }
-        	});
+        $('select').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
+        
+        $('input').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
 	            
     </script>
 

@@ -771,53 +771,62 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			List<Alerts> userIdList = jdbcTemplate.query( userIdQry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
-			for (Alerts uObj : userIdList) {
-				String qry = "select alert_id,alert_level,alert_type_fk,created_date,alert_status,alert_value,count,u.designation as hod,"
-						+ "IFNULL(a.remarks,'') as remarks,redirect_url " 
-						+ "from alerts a "  
-						+ "left join alerts_user au on au.alerts_id_fk = a.alert_id "
-						+ "left join user u on au.user_id_fk = u.user_id " 
-						+ "where alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk = 'Risk' "
-						+ "order by hod,alert_level desc";
-				
-				
-				Object[] pValues = new Object[] {CommonConstants.ACTIVE,uObj.getUser_id_fk()};
-				List<Alerts> riskAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-				
-				
-				if(riskAlertsList != null && riskAlertsList.size() > 0) {
+			if(userIdList != null && userIdList.size() > 0) {
+				for (Alerts uObj : userIdList) {
+					String qry = "select alert_id,alert_level,alert_type_fk,created_date,alert_status,alert_value,count,u.designation as hod,"
+							+ "IFNULL(a.remarks,'') as remarks,redirect_url " 
+							+ "from alerts a "  
+							+ "left join alerts_user au on au.alerts_id_fk = a.alert_id "
+							+ "left join user u on au.user_id_fk = u.user_id " 
+							+ "where alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk = 'Risk' "
+							+ "order by hod,alert_level desc";
 					
-					for (Alerts alerts : riskAlertsList) {
-						String work_id = "";
-						if(!StringUtils.isEmpty(alerts.getRedirect_url())) {
-							String[] url_arr = alerts.getRedirect_url().split("=");
-							work_id = url_arr[1];
-						}
-						if(!StringUtils.isEmpty(work_id)) {
-							String workQry = "select work_id,work_name,work_short_name from work where work_id = ?";	
-							Alerts wObj = jdbcTemplate.queryForObject( workQry,new Object[]{work_id},new BeanPropertyRowMapper<Alerts>(Alerts.class));
-							if(!StringUtils.isEmpty(wObj)) {
-								alerts.setWork_id(wObj.getWork_id());
-								alerts.setWork_name(wObj.getWork_name());
-								alerts.setWork_short_name(wObj.getWork_short_name());
+					
+					Object[] pValues = new Object[] {CommonConstants.ACTIVE,uObj.getUser_id_fk()};
+					List<Alerts> riskAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+					
+					
+					if(riskAlertsList != null && riskAlertsList.size() > 0) {
+						
+						for (Alerts alerts : riskAlertsList) {
+							String sub_work = "";
+							if(!StringUtils.isEmpty(alerts.getRedirect_url())) {
+								String[] url_arr = alerts.getRedirect_url().split("=");
+								sub_work = url_arr[1];
+							}
+							if(!StringUtils.isEmpty(sub_work)) {
+								String workQry = "select rwh.sub_work,rwh.work_id_fk as work_id,hod_user_id_fk,work_name,work_short_name "  
+										+ "from risk_work_hod rwh "
+										+ "left join work w on rwh.work_id_fk = w.work_id "
+										+ "where rwh.sub_work = ?";			
+								List<Alerts> wObjList = jdbcTemplate.query( workQry,new Object[]{sub_work},new BeanPropertyRowMapper<Alerts>(Alerts.class));
+								if(wObjList != null && wObjList.size() > 0) {
+									for (Alerts wObj : wObjList) {
+										if(!StringUtils.isEmpty(wObj)) {
+											alerts.setWork_id(wObj.getWork_id());
+											alerts.setWork_name(wObj.getWork_name());
+											alerts.setWork_short_name(wObj.getWork_short_name());
+										}
+									}
+								}
 							}
 						}
+						
+						String emailSubject = "PMIS Risk Assessment Due";
+						
+						Mail mail = new Mail();
+						mail.setMailTo(uObj.getEmail_id());
+						mail.setMailBcc(CommonConstants.BCC_MAIL);
+						mail.setMailSubject(emailSubject);
+						mail.setTemplateName("Risk_Alerts.vm");
+						
+						logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
+						emailSender.sendEmailWithAlerts(mail,riskAlertsList); 
+						logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
 					}
-					
-					String emailSubject = "PMIS Risk Assessment Due";
-					
-					Mail mail = new Mail();
-					mail.setMailTo(uObj.getEmail_id());
-					mail.setMailBcc(CommonConstants.BCC_MAIL);
-					mail.setMailSubject(emailSubject);
-					mail.setTemplateName("Risk_Alerts.vm");
-					
-					logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
-					emailSender.sendEmailWithAlerts(mail,riskAlertsList); 
-					logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
+						
+					flag = true;
 				}
-					
-				flag = true;
 			}
 			
 		}catch(Exception e){ 
@@ -874,65 +883,61 @@ public class AlertsDaoImpl implements AlertsDao{
 		boolean flag = false;
 		try {
 			EMailSender emailSender = new EMailSender();
-			String userIdQry = "SELECT au.user_id_fk,u.email_id "
-					+ "FROM alerts a " 
-					+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
+			
+			String qry = "select alert_id,alert_level,alert_type_fk,created_date,alert_status,alert_value,count,u.designation as hod,"
+					+ "IFNULL(a.remarks,'') as remarks,redirect_url " 
+					+ "from alerts a "  
+					+ "left join alerts_user au on au.alerts_id_fk = a.alert_id "
 					+ "left join user u on au.user_id_fk = u.user_id " 
-					+ "where a.alert_status = 'Active' and count <> 0 "
-					+ "and u.email_id is not null and u.email_id <> '' and a.alert_type_fk = 'Risk' "
-					+ "group by au.user_id_fk";
+					+ "where alert_status = ? and count <> 0 and a.alert_type_fk = 'Risk' "
+					+ "order by hod,alert_level desc";
 			
-			List<Alerts> userIdList = jdbcTemplate.query( userIdQry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
-			for (Alerts uObj : userIdList) {
-				String qry = "select alert_id,alert_level,alert_type_fk,created_date,alert_status,alert_value,count,u.designation as hod,"
-						+ "IFNULL(a.remarks,'') as remarks,redirect_url " 
-						+ "from alerts a "  
-						+ "left join alerts_user au on au.alerts_id_fk = a.alert_id "
-						+ "left join user u on au.user_id_fk = u.user_id " 
-						+ "where alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk = 'Risk' "
-						+ "order by hod,alert_level desc";
+			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
+			List<Alerts> riskAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+			
+			if(riskAlertsList != null && riskAlertsList.size() > 0) {
 				
-				
-				Object[] pValues = new Object[] {CommonConstants.ACTIVE,uObj.getUser_id_fk()};
-				List<Alerts> riskAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-				
-				
-				if(riskAlertsList != null && riskAlertsList.size() > 0) {
-					
-					for (Alerts alerts : riskAlertsList) {
-						String work_id = "";
-						if(!StringUtils.isEmpty(alerts.getRedirect_url())) {
-							String[] url_arr = alerts.getRedirect_url().split("=");
-							work_id = url_arr[1];
-						}
-						if(!StringUtils.isEmpty(work_id)) {
-							String workQry = "select work_id,work_name,work_short_name from work where work_id = ?";	
-							Alerts wObj = jdbcTemplate.queryForObject( workQry,new Object[]{work_id},new BeanPropertyRowMapper<Alerts>(Alerts.class));
-							if(!StringUtils.isEmpty(wObj)) {
-								alerts.setWork_id(wObj.getWork_id());
-								alerts.setWork_name(wObj.getWork_name());
-								alerts.setWork_short_name(wObj.getWork_short_name());
+				for (Alerts alerts : riskAlertsList) {
+					String sub_work = "";
+					if(!StringUtils.isEmpty(alerts.getRedirect_url())) {
+						String[] url_arr = alerts.getRedirect_url().split("=");
+						sub_work = url_arr[1];
+					}
+					if(!StringUtils.isEmpty(sub_work)) {
+						String workQry = "select rwh.sub_work,rwh.work_id_fk as work_id,hod_user_id_fk,work_name,work_short_name "  
+								+ "from risk_work_hod rwh "
+								+ "left join work w on rwh.work_id_fk = w.work_id "
+								+ "where rwh.sub_work = ?";		
+						
+						List<Alerts> wObjList = jdbcTemplate.query( workQry,new Object[]{sub_work},new BeanPropertyRowMapper<Alerts>(Alerts.class));
+						if(wObjList != null && wObjList.size() > 0) {
+							for (Alerts wObj : wObjList) {
+								if(!StringUtils.isEmpty(wObj)) {
+									alerts.setWork_id(wObj.getWork_id());
+									alerts.setWork_name(wObj.getWork_name());
+									alerts.setWork_short_name(wObj.getWork_short_name());
+								}
 							}
 						}
 					}
-					
-					String emailSubject = "PMIS Risk Assessment Due";
-					
-					Mail mail = new Mail();
-					mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
-					//mail.setMailBcc(CommonConstants.BCC_MAIL);
-					mail.setMailSubject(emailSubject);
-					mail.setTemplateName("Risk_Alerts.vm");
-					
-					logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
-					emailSender.sendEmailWithAlerts(mail,riskAlertsList); 
-					logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
 				}
-					
-				flag = true;
+				
+				String emailSubject = "PMIS Risk Assessment Due";
+				
+				Mail mail = new Mail();
+				mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
+				//mail.setMailBcc(CommonConstants.BCC_MAIL);
+				mail.setMailSubject(emailSubject);
+				mail.setTemplateName("Risk_Alerts.vm");
+				
+				logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >>: Start ");	
+				emailSender.sendEmailWithAlerts(mail,riskAlertsList); 
+				logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >> : End ");
 			}
-			
+				
+			flag = true;
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

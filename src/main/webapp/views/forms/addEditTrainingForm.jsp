@@ -73,26 +73,22 @@
             font-size: 0.9rem;
         }
 
-        /* change radio colors  */
- /*        [type="radio"]:checked+span::after,
-        [type="radio"].with-gap:checked+span::after {
-            background-color: #282130 !important;
-        }
-
-        [type="radio"]:checked+span::after,
-        [type="radio"].with-gap:checked+span::before,
-        [type="radio"].with-gap:checked+span::after {
-            border: 2px solid #282130 !important;
-        } */
-
         .timepicker~button {
             position: absolute;
             right: 15px;
-            top: 32px;
+            /* top: 32px; */
+            top: 12px;
             border: 0;
             opacity: 0.7;
             cursor: pointer;
             background-color: transparent;
+        }
+        
+        .attendees-column{     
+        	padding: 0.43rem .65rem !important;
+        }
+        .attendees-column >.btn{
+        	padding:0 10px;
         }
 
         .timepicker~button .fa {
@@ -181,6 +177,10 @@
 		.center-align.m-1 button.bg-m.waves-light, 
 		.center-align.m-1 button.bg-s.waves-light{
 			width:inherit;
+		}
+		
+		.pos-rel{
+			position:relative;
 		}
     </style>
 </head>
@@ -342,13 +342,13 @@
 														<td><input type="hidden" name="training_session_ids" id="training_session_ids${index.count }" value="${tObj.training_session_id}" />
 														 <input id="session_nos${index.count }" name="session_nos" type="text" class="validate" value="${tObj.session_no }"
 															placeholder="Session No"></td>
-														<td>
+														<td><div class="pos-rel">
 															<input id="start_times${index.count }"  name="start_times" type="text" class="validate timepicker" value="${tObj.start_time }"
 															placeholder="Start Time">
-															<button type="button" id="start_time_icon${index.count }"><i class="fa fa-clock-o"></i></button></td>
-														<td><input id="end_times${index.count }" name="end_times" type="text" class="validate timepicker" value="${tObj.end_time }" placeholder="End Time">
-															<button type="button" id="end_time_icon${index.count }"><i class="fa fa-clock-o"></i></button></td>
-														<td><a href="#session-update-modal${index.count }" class="btn waves-effect waves-light bg-m t-c modal-trigger"
+															<button type="button" id="start_time_icon${index.count }"><i class="fa fa-clock-o"></i></button></div></td>
+														<td><div class="pos-rel"><input id="end_times${index.count }" name="end_times" type="text" class="validate timepicker" value="${tObj.end_time }" placeholder="End Time">
+															<button type="button" id="end_time_icon${index.count }"><i class="fa fa-clock-o"></i></button></div></td>
+														<td class="attendees-column"><a href="#session-update-modal${index.count }" class="btn waves-effect waves-light bg-m t-c modal-trigger"
 															onclick="showNo(this);"> Update </a>
 															<div id="session-update-modal${index.count }" class="modal">
 																<div class="modal-content">
@@ -620,11 +620,11 @@
 												<tr id="trainingRow0">
 													<td><input type="hidden" name= "training_session_ids" id="training_session_ids0"  value="${tObj.training_session_id}"/>
 														<input id="session_nos0" name="session_nos" type="text" class="validate" placeholder="Session No"></td>
-													<td><input id="start_times0" name="start_times" type="text" class="validate timepicker" placeholder="Start Time">
-														<button type="button" id="start_time_icon0"><i class="fa fa-clock-o"></i></button></td>
-													<td><input id="end_times0" name="end_times" type="text" class="validate timepicker" placeholder="End Time">
-														<button type="button" id="end_time_icon0"><i class="fa fa-clock-o"></i></button></td>
-													<td><a href="#session-update-modal0" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a>
+													<td><div class="pos-rel"><input id="start_times0" name="start_times" type="text" class="validate timepicker" placeholder="Start Time">
+														<button type="button" id="start_time_icon0"><i class="fa fa-clock-o"></i></button></div></td>
+													<td><div class="pos-rel"><input id="end_times0" name="end_times" type="text" class="validate timepicker" placeholder="End Time">
+														<button type="button" id="end_time_icon0"><i class="fa fa-clock-o"></i></button></div></td>
+													<td class="attendees-column"><a href="#session-update-modal0" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a>
 														<div id="session-update-modal0" class="modal">
 															<div class="modal-content">
 																<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4>
@@ -1244,11 +1244,11 @@
           var html = '<tr id="trainingRow'+rNo+'">' +
           '<td><input type="hidden" name= "training_session_ids" id="training_session_ids'+rNo+'"  />'+
           ' <input id="session_nos'+ rNo +'" name="session_nos" type="text" class="validate" placeholder="Session No"> </td>' +
-          '<td><input id="start_times'+ rNo +'" name="start_times" type="text" class="validate timepicker"  placeholder="Start Time">' +
-         	  '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button> </td>' +
-          '<td><input id="end_times'+ rNo +'" name="end_times" type="text" class="validate timepicker"placeholder="End Time">' +
-          	  '<button type="button" id="end_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></td>' +
-          '<td><a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a> ' +
+          '<td><div class="pos-rel"><input id="start_times'+ rNo +'" name="start_times" type="text" class="validate timepicker"  placeholder="Start Time">' +
+         	  '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></div> </td>' +
+          '<td><div class="pos-rel"><input id="end_times'+ rNo +'" name="end_times" type="text" class="validate timepicker"placeholder="End Time">' +
+          	  '<button type="button" id="end_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></div></td>' +
+          '<td class="attendees-column"><a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a> ' +
 			  '<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
 				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4> <div class="row fixed-width"><div class="table-inside">'+
 					'<table id="training-update-table'+ rNo +'" class="mdl-data-table">'+

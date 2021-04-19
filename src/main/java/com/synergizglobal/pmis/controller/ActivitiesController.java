@@ -270,7 +270,7 @@ public class ActivitiesController {
 			
 			boolean flag = activitiesService.updateActivities(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Activities are updated successfully.");
+				attributes.addFlashAttribute("success", "Activities updated successfully.");
 			}else {
 				attributes.addFlashAttribute("error", "Something went wrong. Please try again.");
 			}

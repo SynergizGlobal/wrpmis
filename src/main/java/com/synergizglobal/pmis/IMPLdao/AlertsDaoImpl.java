@@ -759,6 +759,10 @@ public class AlertsDaoImpl implements AlertsDao{
 				logger.error("sendNotificationAlertMails() >> before - "+uObj.getEmail_id() + " : "+alerts.size());	
 				if(alerts != null && alerts.size() > 0) {
 					logger.error("sendNotificationAlertMails() >> After - "+uObj.getEmail_id() + " : "+alerts.size());	
+					
+					SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
+		            String today_date = monthFormat.format(new Date()).toUpperCase();
+		            
 					String emailSubject = "PMIS Contract & Issue Alerts";
 					
 					Mail mail = new Mail();
@@ -768,7 +772,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					mail.setTemplateName("alerts.vm");
 					
 					logger.error("sendNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
-					emailSender.sendEmailWithAlerts(mail,alerts); 
+					emailSender.sendEmailWithAlerts(mail,alerts,today_date); 
 					logger.error("sendNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
 				}
 					
@@ -920,6 +924,9 @@ public class AlertsDaoImpl implements AlertsDao{
 				alerts.put(lObj.getAlert_level(), allAlertsList);
 			}
 			
+			SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
+            String today_date = monthFormat.format(new Date()).toUpperCase();
+            
 			String emailSubject = "PMIS Contract & Issue Alerts";
 			
 			Mail mail = new Mail();
@@ -930,7 +937,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			if(alerts != null && alerts.size() > 0){
 				EMailSender emailSender = new EMailSender();
 				logger.error("sendAlertsToRajivRavi() >> Sending mail : Start ");	
-				emailSender.sendEmailWithAlerts(mail,alerts); 
+				emailSender.sendEmailWithAlerts(mail,alerts,today_date); 
 				logger.error("sendAlertsToRajivRavi() >> Sending mail : End ");
 				flag = true;
 			}

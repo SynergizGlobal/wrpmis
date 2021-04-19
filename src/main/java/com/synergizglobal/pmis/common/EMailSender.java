@@ -100,7 +100,7 @@ public class EMailSender {
 	}
 	
 	
-	public void sendEmailWithAlerts(Mail mail, Map<String, List<Alerts>> alerts) throws Exception {
+	public void sendEmailWithAlerts(Mail mail, Map<String, List<Alerts>> alerts, String today_date) throws Exception {
 		try {
 			  MimeMessage message = new MimeMessage( getSession() );
 			  Multipart multipart = new MimeMultipart( "alternative" );
@@ -128,6 +128,7 @@ public class EMailSender {
 				
 			  VelocityContext velocityContext = new VelocityContext();
 			  velocityContext.put("alerts", alerts);
+			  velocityContext.put("today_date", today_date);
 			  
 			  StringWriter stringWriter = new StringWriter();
 			  

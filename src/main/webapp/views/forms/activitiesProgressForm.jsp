@@ -535,7 +535,7 @@
                                             <p class="priokind">Any Issue ?</p>  
                                         </div>
                                         <div class="col s6 m6 input-field">
-                                            <p class="priokind"><a href="javascript:void(0);" onclick="getIssueForm();">Add Issue Here</a></p>
+                                            <p class="priokind"><button type="button" class="btn waves-effect waves-light bg-m"  onclick="getIssueForm();">Add Issue</button></p>
                                         </div>
                                         <!-- <div class="col s6 m6 input-field">
                                             <p class="radiogroup"

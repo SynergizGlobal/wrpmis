@@ -297,6 +297,7 @@
 																			id="action_takens${index.count }"
 																			name="action_takens" class="materialize-textarea"
 																			placeholder="Action Taken" style="height: 44px;">${aObj.action_taken}</textarea>
+																			<span id="action_takensError${index.count }" class="error-msg" ></span>
 																	</td>
 																	<td>
 																	<%-- <a onclick="removeActions('${index.count }');" class="btn waves-effect waves-light red t-c "> 
@@ -334,6 +335,7 @@
 																<td><textarea id="action_takens0"
 																		name="action_takens" class="materialize-textarea"
 																		placeholder="Action Taken" style="height: 44px;"></textarea>
+																		<span id="action_takensError0" class="error-msg" ></span>
 																</td>
 																<td>
 																	<!-- <a onclick="removeActions('0');"
@@ -562,7 +564,7 @@
                  }
             }
         }
-        
+        var idNo = "";
         function addRiskRow() {   
         	var dates_arr = [];
         	$("input[name=atr_dates]").each(function(){
@@ -583,14 +585,14 @@
 			+'</select></div></td>' */
 			+'<td><div class="input-field"><input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'
 			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button>'
-			+'<span id="atr_datesError' + rNo + '" class="error-msg" ></span></div></td>'
+			+'</div><span id="atr_datesError' + rNo + '" class="error-msg" ></span></td>'
 			+'<td><textarea id="action_takens' + rNo +'"  name="action_takens" '
-			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea></td>'
+			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea><span id="action_takensError' + rNo + '" class="error-msg" ></span></td>'
 			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#riskRevisionBody').append(html);
             $("#rowNo").val(rNo);
-          	
+          	idNo = $("#rowNo").val();
             //$("#atr_dates" + rNo).datepicker();
             
             $('#atr_dates' + rNo).datepicker({
@@ -677,11 +679,132 @@
       
         function updateRisk(){	       	
    			$(".page-loader").show();
-   			$('form input[name=atr_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   			$('form input[name=action_takens]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   			$("#riskForm").submit();	
+   			validate();
+   			if(validate()){
+   				$('form input[name=atr_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   		   		$('form input[name=action_takens]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   	   			$("#riskForm").submit();
+   			}
+   			$(".page-loader").hide();
+   			
         }
-	            
+        
+	        $('[name=atr_dates]').change(function(key, element){
+	        	var i = 1;
+	        	var dNo =$('input[name*="atr_dates"]').length;
+	        	while (i < dNo){
+	        		if($('#atr_dates'+i).val()== ""){
+						$('#atr_datesError'+i).text('Requried');
+						validate() == false;
+					}else{
+						$('#atr_datesError'+i).text('');
+						validate() == true;
+					}
+	        		i++
+	        	}
+				
+			 });
+			 $('[name=action_takens]').change(function(){
+				 var i = 1;
+				 var dNo = $('textarea[name*="action_takens"]').length;
+				 while (i <= dNo){
+					if($('#action_takens'+i).val()== ""){
+						$('#action_takensError'+i).text('This filed is requried');
+						validate() == false;
+						
+					}else{
+						$('#action_takensError'+i).text('');
+						validate() == false;
+					}
+					i++
+				 }
+			
+			 });
+			 
+	    function validate() {
+	    	var i = 1;
+	    	var j = 1;
+	    	var k = 1;
+			var flag = false;
+			var flag1 = false;
+			var flag2 = false;
+	    	if(idNo == ''){
+	    		idNo = 1;
+	    	}
+	    	var dNO = Number(idNo)+1;
+	    	while (i < dNO){
+	    		if($('#atr_dates'+i).val()== "" && $('#action_takens'+i).val()== ""){
+	    			return true;
+	    		}else if($('#atr_dates'+i).val()== "" || $('#action_takens'+i).val()== ""){
+	    			if($('#atr_dates'+i).val()== ""){
+	    				$('#atr_datesError'+i).html('Requried')
+	    			}
+	    			if($('#action_takens'+i).val()== ""){
+	    				$('#action_takensError'+i).text('This filed is requried')
+	    			}
+	    			 $('[name=atr_dates]').change(function(){
+	    				 var kNo =$('input[name*="atr_dates"]').length;
+	    		        	while (k <= kNo){
+	    		        		if($('#atr_dates'+k).val()== ""){
+	    							$('#atr_datesError'+k).text('Requried');
+	    							validate() == false;
+	    						}else{
+	    							$('#atr_datesError'+k).text('');
+	    							validate() == true;
+	    						}
+	    		        		k++
+	    		        	}
+	    			 });
+	    			 $('[name=action_takens]').change(function(){
+	    				 
+	    				 var aNo = $('textarea[name*="action_takens"]').length;
+	    				 while (j <= aNo){
+	    					if($('#action_takens'+j).val()== ""){
+	    						$('#action_takensError'+j).text('This filed is requried');
+	    						validate() == false;
+	    						
+	    					}else{
+	    						$('#action_takensError'+j).text('');
+	    						validate() == false;
+	    					}
+	    					j++
+	    				 }
+	    			
+	    			 });
+	    			i++
+	    		}else{
+	    			i++
+	    			}
+	    			
+	    		}
+
+			 $('[name=atr_dates]').each(function () {
+			     if ($(this).val() != "") {
+			         flag1 = true;
+			     }else{
+			    	 flag1 = false;
+			     }
+			 });
+			 $('[name=action_takens]').each(function () {
+			     if ($(this).val() != "") {
+			         flag2 = true;
+			     }else{
+			    	 flag2 = false;
+			     }
+			 });
+			 if(flag1 && flag2){
+				 flag = true;
+			 }else{
+				 flag = false;
+			 }
+			 if (!flag) {
+			     return false;
+			 } else {
+			     return true;
+			 }
+	    	}
+	    
+	    
         $('select').change(function(){
     	    if ($(this).val() != ""){
     	        $(this).valid();

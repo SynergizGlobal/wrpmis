@@ -590,10 +590,12 @@ public class RiskDaoImpl implements RiskDao{
 			insertStmt = con.prepareStatement(qry);
 			for(int i = 0; i < arraySize; i++) {	
 				int k = 1;
-				insertStmt.setString(k++,obj.getRisk_revision_id());
-				insertStmt.setString(k++,(obj.getAction_takens().length > 0)?obj.getAction_takens()[i]:null);
-				insertStmt.setString(k++,DateParser.parse((obj.getAtr_dates().length > 0)?obj.getAtr_dates()[i]:null));
-				insertStmt.addBatch();
+				if((!StringUtils.isEmpty(obj.getAtr_dates()[i])) && (!StringUtils.isEmpty(obj.getAction_takens()[i]))) {
+					insertStmt.setString(k++,obj.getRisk_revision_id());
+					insertStmt.setString(k++,(obj.getAction_takens().length > 0)?obj.getAction_takens()[i]:null);
+					insertStmt.setString(k++,DateParser.parse((obj.getAtr_dates().length > 0)?obj.getAtr_dates()[i]:null));
+					insertStmt.addBatch();
+				}
 			}
 			int[] insertCount = insertStmt.executeBatch();
 			if(insertCount.length > 0) {

@@ -305,8 +305,17 @@ public class TrainingDaoImpl implements TrainingDao{
 					objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getTraining_id(),session.getTraining_session_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
 					session.setTrainingAttendees(objsList); 
 				}
+				if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
+					for (Training session : sObj.getTrainingSessions()) {
+						List<Training> objsList = null;
+						String qry2 ="select id, training_id_fk, training_session_id_fk, attachment  from training_files where training_id_fk = ? and training_session_id_fk = ?";
+						
+						objsList = jdbcTemplate.query(qry2, new Object[] {sObj.getTraining_id(),session.getTraining_session_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
+						session.setTrainingFilesList(objsList); 
+					}
 				
-			}
+			    }
+		  }
 		}catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception(e.getMessage()); 
@@ -373,9 +382,11 @@ public class TrainingDaoImpl implements TrainingDao{
 		Connection con = null;
 		ResultSet rs = null;
 		int r = 0;
+		int y = 0;
 		PreparedStatement updateStmt = null;
 		PreparedStatement insertStmt = null;
 		PreparedStatement insertStmt1 = null;
+		PreparedStatement insertStmt2 = null;
 		try{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
@@ -389,6 +400,10 @@ public class TrainingDaoImpl implements TrainingDao{
 				flag = true;
 			}
 			if(flag) {
+				String deleteQry0 = "DELETE from training_files where training_id_fk = :training_id";		 
+				paramSource = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteQry0, paramSource);
+				
 				String deleteQry = "DELETE from training_attendees where training_id_fk = :training_id";		 
 				paramSource = new BeanPropertySqlParameterSource(obj);		 
 				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
@@ -398,8 +413,8 @@ public class TrainingDaoImpl implements TrainingDao{
 				count = namedParamJdbcTemplate.update(deleteQry1, paramSource);
 				
 				String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time,"
-						+"remarks,attachment) "
-						+"VALUES (?,?,?,?,?,?)";
+						+"remarks) "
+						+"VALUES (?,?,?,?,?)";
 				insertStmt = con.prepareStatement(insertQry1,Statement.RETURN_GENERATED_KEYS);
 				
 				int	arraySize = 0;
@@ -474,23 +489,12 @@ public class TrainingDaoImpl implements TrainingDao{
 					for (int i = 0; i < arraySize; i++) {
 						 if( obj.getSession_nos().length > 0 && !StringUtils.isEmpty(obj.getSession_nos()[i])) {
 						    int p = 1;
-						    String saveDirectory = CommonConstants.TRAINING_SESSION_FILE_SAVING_PATH ;
-						    String sessionFileName = null;
-						    MultipartFile file = obj.getTrainingSessionFiles()[i];
-							if (null != file && !file.isEmpty()){
-								String fileName = file.getOriginalFilename();
-								sessionFileName = fileName;
-								FileUploads.singleFileSaving(file, saveDirectory, sessionFileName);
-							} else {
-								sessionFileName  = (obj.getTrainingSessionFileNames().length > 0)?obj.getTrainingSessionFileNames()[i]:null;
-							} 
-							
+						  
 						    insertStmt.setString(p++,(obj.getTraining_id()));
 							insertStmt.setString(p++,(obj.getSession_nos().length > 0)?obj.getSession_nos()[i]:null);
 						    insertStmt.setString(p++,DateParser.parseDateTime((obj.getStart_times().length > 0)?obj.getStart_times()[i]:null));
 						    insertStmt.setString(p++,DateParser.parseDateTime((obj.getEnd_times().length > 0)?obj.getEnd_times()[i]:null));
 						    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
-						    insertStmt.setString(p++,sessionFileName);
 						    insertStmt.addBatch();
 						 }
 					int[] insertCount = insertStmt.executeBatch();
@@ -505,6 +509,50 @@ public class TrainingDaoImpl implements TrainingDao{
 							String sessionId = rs.getString(1);
 							obj.setTraining_session_id(sessionId);
 						}
+						if(!StringUtils.isEmpty(obj.getTrainingSessionFiles()) && obj.getTrainingSessionFiles().length > 0) {
+							
+							String file_insert_qry = "INSERT into  training_files ( training_id_fk, training_session_id_fk,attachment) VALUES (?,?,?)";
+							insertStmt2 = con.prepareStatement(file_insert_qry);
+							int len = obj.getTrainingSessionFiles().length;
+							
+							int  j = 0;
+							int trainingNamesLen = 0;
+							 String trainingFileName = null;
+								while ( j < obj.getFilecounts()[i] ) {
+									    int k = 1;
+									    int v = y++;  
+									    if(!StringUtils.isEmpty(obj.getTrainingSessionFileNames())) {
+										     trainingNamesLen = obj.getTrainingSessionFileNames().length ;
+										}
+									    if(v <= (len-1)) {
+									    	 String saveDirectory = CommonConstants.TRAINING_SESSION_FILE_SAVING_PATH ;
+											   
+											    MultipartFile fundFiles = obj.getTrainingSessionFiles()[v];
+												if (null != fundFiles && !fundFiles.isEmpty()){
+													String fileName = fundFiles.getOriginalFilename();
+													//trainingFileName = fileName;
+													FileUploads.singleFileSaving(fundFiles, saveDirectory, fileName);
+												} 
+									    } 
+									    if(v <= (trainingNamesLen-1)) {
+													if(v <= (trainingNamesLen-1)) {
+														trainingFileName  = (obj.getTrainingSessionFileNames().length > 0)?obj.getTrainingSessionFileNames()[v]:null;
+													}
+												
+												if(!StringUtils.isEmpty(trainingFileName)){
+													insertStmt2.setString(k++,(obj.getTraining_id()));
+													insertStmt2.setString(k++,(obj.getTraining_session_id()));
+													insertStmt2.setString(k++,(trainingFileName));
+													insertStmt2.addBatch();
+													 j++;
+												}
+									    }else {
+									    	j++;
+									    }
+								}
+						int[] insertCount1 = insertStmt2.executeBatch();
+				}
+						
 						if(!StringUtils.isEmpty(obj.getDepartment_fks()) && obj.getDepartment_fks().length > 0) {
 						for (int j = 0; j < obj.getRowCounts()[i]; j++) {
 							    int k = 1;
@@ -573,6 +621,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		Connection con = null;
 		ResultSet rs = null;
 		int r = 0;
+		int y = 0;
 		PreparedStatement insertStmt = null;
 		PreparedStatement insertStmt1 = null;
 		try{
@@ -602,9 +651,9 @@ public class TrainingDaoImpl implements TrainingDao{
 			
 			if(flag) {
 				if(!StringUtils.isEmpty(obj.getSession_nos()) && obj.getSession_nos().length > 0) {
-					String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time,"
-							+"attachment,remarks) "
-							+"VALUES (?,?,?,?,?,?)";
+					String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time"
+							+",remarks) "
+							+"VALUES (?,?,?,?,?)";
 					insertStmt = con.prepareStatement(insertQry1,Statement.RETURN_GENERATED_KEYS);
 					
 					int	arraySize = 0;
@@ -673,24 +722,12 @@ public class TrainingDaoImpl implements TrainingDao{
 					for (int i = 0; i < arraySize; i++) {
 						 if( obj.getSession_nos().length > 0 && !StringUtils.isEmpty(obj.getSession_nos()[i])) {
 						    int p = 1;
-						    
-						    String saveDirectory = CommonConstants.TRAINING_SESSION_FILE_SAVING_PATH ;
-						    String sessionFileName = null;
-						    MultipartFile file = obj.getTrainingSessionFiles()[i];
-							if (null != file && !file.isEmpty()){
-								String fileName = file.getOriginalFilename();
-								sessionFileName = fileName;
-								FileUploads.singleFileSaving(file, saveDirectory, sessionFileName);
-							} else {
-								sessionFileName  = (obj.getTrainingSessionFileNames().length > 0)?obj.getTrainingSessionFileNames()[i]:null;
-							} 
-							
+						   
 						    insertStmt.setString(p++,(obj.getTraining_id()));
 							insertStmt.setString(p++,(obj.getSession_nos().length > 0)?obj.getSession_nos()[i]:null);
 						    insertStmt.setString(p++,DateParser.parseDateTime((obj.getStart_times().length > 0)?obj.getStart_times()[i]:null));
 						    insertStmt.setString(p++,DateParser.parseDateTime((obj.getEnd_times().length > 0)?obj.getEnd_times()[i]:null));
 						    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
-						    insertStmt.setString(p++,sessionFileName);
 						    insertStmt.addBatch();
 						 }
 						   
@@ -726,6 +763,36 @@ public class TrainingDaoImpl implements TrainingDao{
 							}
 						}
 							int[] insertCount1 = insertStmt1.executeBatch();
+							
+							if(!StringUtils.isEmpty(obj.getTrainingSessionFiles()) && obj.getTrainingSessionFiles().length > 0) {
+								
+								String file_insert_qry = "INSERT into  training_files ( training_id_fk, training_session_id_fk,attachment) VALUES (?,?,?)";
+								PreparedStatement insertStmt2 = con.prepareStatement(file_insert_qry);
+								int len = obj.getTrainingSessionFiles().length;
+								int  j = 0;
+									while ( j < obj.getFilecounts()[i] ) {
+										    int k = 1;
+										    int v = y++;  
+										    if(v <= (len-1)) {
+												 MultipartFile fundFiles = obj.getTrainingSessionFiles()[v];
+												 if (null != fundFiles && !fundFiles.isEmpty()){
+													String saveDirectory = CommonConstants.TRAINING_SESSION_FILE_SAVING_PATH ;
+													String fileName = fundFiles.getOriginalFilename();
+													FileUploads.singleFileSaving(fundFiles, saveDirectory, fileName);
+													obj.setAttachment(fileName);
+													
+													insertStmt2.setString(k++,(obj.getTraining_id()));
+													insertStmt2.setString(k++,(obj.getTraining_session_id()));
+													insertStmt2.setString(k++,(obj.getAttachment()));
+													insertStmt2.addBatch();
+													 j++;
+												 }
+										    }else {
+										    	j++;
+										    }
+									}
+							int[] insertCount2 = insertStmt2.executeBatch();
+					}	
 							
 							if(insertCount1.length > 0) {
 								flag = true;

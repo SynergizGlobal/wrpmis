@@ -17,8 +17,43 @@ public class Budget {
 
 	private MultipartFile[] budgetFile;
 	
-	
-	
+	private  MultipartFile[] budgetFiles;
+	private List<Budget> budgetFilesList;
+	private String[] budgetFilesNames;
+	private int[] filecounts;
+
+	public MultipartFile[] getBudgetFiles() {
+		return budgetFiles;
+	}
+
+	public void setBudgetFiles(MultipartFile[] budgetFiles) {
+		this.budgetFiles = budgetFiles;
+	}
+
+	public List<Budget> getBudgetFilesList() {
+		return budgetFilesList;
+	}
+
+	public void setBudgetFilesList(List<Budget> budgetFilesList) {
+		this.budgetFilesList = budgetFilesList;
+	}
+
+	public String[] getBudgetFilesNames() {
+		return budgetFilesNames;
+	}
+
+	public void setBudgetFilesNames(String[] budgetFilesNames) {
+		this.budgetFilesNames = budgetFilesNames;
+	}
+
+	public int[] getFilecounts() {
+		return filecounts;
+	}
+
+	public void setFilecounts(int[] filecounts) {
+		this.filecounts = filecounts;
+	}
+
 	public String getContract_id() {
 		return contract_id;
 	}

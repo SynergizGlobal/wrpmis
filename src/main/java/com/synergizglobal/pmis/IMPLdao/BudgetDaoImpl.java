@@ -2,6 +2,8 @@ package com.synergizglobal.pmis.IMPLdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,8 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.SourceOfFund;
+import com.synergizglobal.pmis.model.Training;
 
 @Repository
 public class BudgetDaoImpl implements BudgetDao {
@@ -105,10 +109,20 @@ public class BudgetDaoImpl implements BudgetDao {
 				String qryDetails = "select budget_id,b.financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate, cast(revised_estimate as CHAR) as revised_estimate, cast(final_estimate as CHAR) as final_estimate,"+
 						"cast(budget_grant as CHAR) as budget_grant, cast(revised_grant as CHAR) as revised_grant, cast(final_grant as CHAR) as final_grant, b.remarks, b.attachment "
 						+ "from budget b " 
-						+"left join financial_year f on b.financial_year_fk = f.financial_year where work_id_fk = ? and status = ? ORDER BY financial_year_fk DESC";
+						+"left join financial_year f on b.financial_year_fk = f.financial_year where work_id_fk = ?  ORDER BY financial_year_fk DESC";
 				
-				objsList = jdbcTemplate.query(qryDetails, new Object[] {budget.getWork_id_fk(),CommonConstants.ACTIVE}, new BeanPropertyRowMapper<Budget>(Budget.class));	
+				objsList = jdbcTemplate.query(qryDetails, new Object[] {budget.getWork_id_fk()}, new BeanPropertyRowMapper<Budget>(Budget.class));	
 				budget.setBudget(objsList);
+				if(!StringUtils.isEmpty(objsList)) {
+					for(Budget list : budget.getBudget()) {
+						
+						String qry2 ="select id, budget_id_fk, attachment  from budget_files where budget_id_fk = ?";
+						List<Budget> objList1 = jdbcTemplate.query( qry2,new Object[] {list.getBudget_id()}, new BeanPropertyRowMapper<Budget>(Budget.class));
+
+						list.setBudgetFilesList(objList1);
+					}
+					
+				}
 			}
 		}catch(Exception e) {
 			throw new Exception(e.getMessage());
@@ -122,16 +136,20 @@ public class BudgetDaoImpl implements BudgetDao {
 		Connection con = null;
 		PreparedStatement insertStmt = null;
 		boolean flag = false;
+		ResultSet rs = null;
 		int[] insertCount = {};
+		int z = 0;
+		
 		try {
 			
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			String insert_qry = "INSERT into  budget ( work_id_fk, financial_year_fk, budget_estimate, revised_estimate, "
-					+ "final_estimate, budget_grant, revised_grant, final_grant, attachment, status) "
-					+"VALUES (?,?,?,?,?,?,?,?,?,?)";
-			insertStmt = con.prepareStatement(insert_qry); 
+					+ "final_estimate, budget_grant, revised_grant, final_grant, status) "
+					+"VALUES (?,?,?,?,?,?,?,?,?)";
+			insertStmt = con.prepareStatement(insert_qry,Statement.RETURN_GENERATED_KEYS); 
 			int arraySize = 0; 
+			int r = 0;
 			if(!StringUtils.isEmpty(budget.getFinancial_year_fks()) && budget.getFinancial_year_fks().length > 0) {
 				budget.setFinancial_year_fks(CommonMethods.replaceEmptyByNullInSringArray(budget.getFinancial_year_fks()));
 				if(arraySize < budget.getFinancial_year_fks().length) {
@@ -174,31 +192,6 @@ public class BudgetDaoImpl implements BudgetDao {
 					arraySize = budget.getFinal_grants().length;
 				}
 			}
-			String[] documentNames = new String[arraySize];
-			if(!StringUtils.isEmpty(budget.getBudgetFile()) && budget.getBudgetFile().length > 0) {
-				if(arraySize < budget.getBudgetFile().length) {
-						arraySize = budget.getBudgetFile().length;
-				}
-				String saveDirectory = CommonConstants.BUDGET_FILE_SAVING_PATH ;
-				documentNames = new String[arraySize];
-				for (int k = 0; k < documentNames.length; k++) {
-					/*if (rs.next()) {
-						String id = rs.getString(1);
-						obj.setDocument_no(id);
-					}*/
-					MultipartFile file = budget.getBudgetFile()[k];
-					if (null != file && !file.isEmpty()){
-						String fileName = file.getOriginalFilename();
-						//DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
-						//String fileName_new = "Document-"+obj.getSafety_equipment_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
-						documentNames[k] = fileName;
-						FileUploads.singleFileSaving(file, saveDirectory, fileName);
-						budget.setAttachment(fileName);
-					}else {
-						documentNames[k] = null;
-					}
-			    }
-			}
 			if(!StringUtils.isEmpty(budget.getFinancial_year_fks()) && budget.getFinancial_year_fks().length > 0) {
 				for (int i = 0; i < arraySize; i++) {
 				    int p = 1;
@@ -211,18 +204,52 @@ public class BudgetDaoImpl implements BudgetDao {
 					    insertStmt.setString(p++,(budget.getBudget_grants().length > 0)?budget.getBudget_grants()[i]:null);
 					    insertStmt.setString(p++,(budget.getRevised_grants().length > 0)?budget.getRevised_grants()[i]:null);
 					    insertStmt.setString(p++,(budget.getFinal_grants().length > 0)?budget.getFinal_grants()[i]:null);
-					    insertStmt.setString(p++,(documentNames.length > 0)?documentNames[i]:null);	
 					    insertStmt.setString(p++,CommonConstants.ACTIVE);
 					   
 					    insertStmt.addBatch();
 				    }
+				    insertCount = insertStmt.executeBatch();
+				    rs = insertStmt.getGeneratedKeys();
+				    
+				    if(insertCount.length > 0) {
+						flag = true;
+						String budgetId = null;
+						if (rs.next()) {
+							budgetId = rs.getString(1);
+							budget.setBudget_id(budgetId);
+						}
+						if(!StringUtils.isEmpty(budget.getBudgetFiles()) && budget.getBudgetFiles().length > 0) {
+							
+									String file_insert_qry = "INSERT into  budget_files ( budget_id_fk, work_id_fk,attachment) VALUES (?,?,?)";
+									PreparedStatement insertStmt1 = con.prepareStatement(file_insert_qry);
+									int len = budget.getBudgetFiles().length;
+									int  j = 0;
+										while ( j < budget.getFilecounts()[i] ) {
+											    int k = 1;
+											    int a = r++;  
+											    if(a <= (len-1)) {
+													 MultipartFile fundFiles = budget.getBudgetFiles()[a];
+													 if (null != fundFiles && !fundFiles.isEmpty()){
+														String saveDirectory = CommonConstants.BUDGET_FILE_SAVING_PATH ;
+														String fileName = fundFiles.getOriginalFilename();
+														FileUploads.singleFileSaving(fundFiles, saveDirectory, fileName);
+														budget.setAttachment(fileName);
+														
+														 insertStmt1.setString(k++,(budget.getBudget_id()));
+														 insertStmt1.setString(k++,(budget.getWork_id_fk()));
+														 insertStmt1.setString(k++,(budget.getAttachment()));
+														 insertStmt1.addBatch();
+														 j++;
+													 }
+											    }else {
+											    	j++;
+											    }
+										}
+								int[] insertCount1 = insertStmt1.executeBatch();
+						}	
+					}	
 			  }
-		      insertCount = insertStmt.executeBatch();
-		   }
-				
-		   if(insertCount.length > 0) {
-				flag = true;
-		   }
+		}
 		   con.commit();
 		}catch(Exception e){ 
 			con.rollback();
@@ -237,29 +264,36 @@ public class BudgetDaoImpl implements BudgetDao {
 	@Override
 	public boolean updateBudget(Budget budget) throws Exception {
 		Connection con = null;
-		PreparedStatement updateStmt = null;
+		PreparedStatement insertStmt = null;
+		PreparedStatement insertStmt1 = null;
 		PreparedStatement stmt = null;
 		boolean flag = false;
-		int[] updateCount = {};
+		ResultSet rs = null;
+		int[] insertCount = {};
 		try {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
-			String inactiveQry = "UPDATE budget set status = ? where work_id_fk = ?";		 
-			stmt = con.prepareStatement(inactiveQry);
-			stmt.setString(1,CommonConstants.INACTIVE);
-			stmt.setString(2,budget.getWork_id_fk());
+			con.setAutoCommit(false);
+			String deleteQry = "DELETE from budget_files  where work_id_fk = ?";		 
+			stmt = con.prepareStatement(deleteQry);
+			stmt.setString(1,budget.getWork_id_fk());
 			stmt.executeUpdate();
 			if(stmt != null){stmt.close();}
 			
-			String updateQry = "UPDATE budget set "
-					+ "financial_year_fk= ?, budget_estimate=? ,revised_estimate= ?, final_estimate= ?, budget_grant= ?,revised_grant = ?,final_grant = ?,attachment=? ,status=?"
-					+ "where budget_id= ?";
-			updateStmt = con.prepareStatement(updateQry);
+			String inactiveQry = "DELETE from budget  where work_id_fk = ?";		 
+			stmt = con.prepareStatement(inactiveQry);
+			stmt.setString(1,budget.getWork_id_fk());
+			stmt.executeUpdate();
+			if(stmt != null){stmt.close();}
+			
+			
+			
 			String insert_qry = "INSERT into  budget ( work_id_fk, financial_year_fk, budget_estimate, revised_estimate, "
-					+ "final_estimate, budget_grant, revised_grant, final_grant, attachment, status) "
-					+"VALUES (?,?,?,?,?,?,?,?,?,?)";
-			stmt = con.prepareStatement(insert_qry); 
+					+ "final_estimate, budget_grant, revised_grant, final_grant, status) "
+					+"VALUES (?,?,?,?,?,?,?,?,?)";
+			insertStmt = con.prepareStatement(insert_qry,Statement.RETURN_GENERATED_KEYS); 
 			int arraySize = 0; 
+			int r = 0;
 			if(!StringUtils.isEmpty(budget.getFinancial_year_fks()) && budget.getFinancial_year_fks().length > 0) {
 				budget.setFinancial_year_fks(CommonMethods.replaceEmptyByNullInSringArray(budget.getFinancial_year_fks()));
 				if(arraySize < budget.getFinancial_year_fks().length) {
@@ -302,91 +336,88 @@ public class BudgetDaoImpl implements BudgetDao {
 					arraySize = budget.getFinal_grants().length;
 				}
 			}
-			String saveDirectory = CommonConstants.BUDGET_FILE_SAVING_PATH ;
-			List<MultipartFile> files = new ArrayList<MultipartFile>();
+			
 			if(!StringUtils.isEmpty(budget.getFinancial_year_fks()) && budget.getFinancial_year_fks().length > 0) {
 				for (int i = 0; i < arraySize; i++) {
-					String bId = budget.getBudget_ids()[i];
-					if(!StringUtils.isEmpty(bId)) {
-						int p =1;
-						if( budget.getFinancial_year_fks().length > 0 && !StringUtils.isEmpty(budget.getFinancial_year_fks()[i])) {
-							 	String docFileName = null;
-							    MultipartFile file = budget.getBudgetFile()[i];
-								if (null != file && !file.isEmpty()){
-									String fileName = file.getOriginalFilename();
-									docFileName = fileName;
-									FileUploads.singleFileSaving(file, saveDirectory, docFileName);
-								} else {
-									docFileName  = (budget.getBudgetFileNames().length > 0)?budget.getBudgetFileNames()[i]:null;
-								} 
-								updateStmt.setString(p++,(budget.getFinancial_year_fks().length > 0)?budget.getFinancial_year_fks()[i]:null);
-								updateStmt.setString(p++,(budget.getBudget_estimates().length > 0)?budget.getBudget_estimates()[i]:null);
-								updateStmt.setString(p++,(budget.getRevised_estimates().length > 0)?budget.getRevised_estimates()[i]:null);
-								updateStmt.setString(p++,(budget.getFinal_estimates().length > 0)?budget.getFinal_estimates()[i]:null);
-								updateStmt.setString(p++,(budget.getBudget_grants().length > 0)?budget.getBudget_grants()[i]:null);
-								updateStmt.setString(p++,(budget.getRevised_grants().length > 0)?budget.getRevised_grants()[i]:null);
-								updateStmt.setString(p++,(budget.getFinal_grants().length > 0)?budget.getFinal_grants()[i]:null);
-								updateStmt.setString(p++,docFileName);	
-								updateStmt.setString(p++,CommonConstants.ACTIVE);
-								updateStmt.setString(p++,(budget.getBudget_ids()[i]));
-								updateStmt.addBatch();
-					  }
-					}else {
-						String[] documentNames = new String[arraySize];
-						if(!StringUtils.isEmpty(budget.getBudgetFile()) && budget.getBudgetFile().length > 0) {
-							if(arraySize < budget.getBudgetFile().length) {
-									arraySize = budget.getBudgetFile().length;
-							}
-							String saveDirectory1 = CommonConstants.BUDGET_FILE_SAVING_PATH ;
-							documentNames = new String[arraySize];
-							for (int k = 0; k < documentNames.length; k++) {
-								MultipartFile file = budget.getBudgetFile()[k];
-								if (null != file && !file.isEmpty()){
-									String fileName = file.getOriginalFilename();
-									documentNames[k] = fileName;
-									FileUploads.singleFileSaving(file, saveDirectory1, fileName);
-									budget.setAttachment(fileName);
-								}else {
-									documentNames[k] = null;
-								}
-						    }
+				    int p = 1;
+				    if( budget.getFinancial_year_fks().length > 0 && !StringUtils.isEmpty(budget.getFinancial_year_fks()[i])) {
+					    insertStmt.setString(p++,(budget.getWork_id_fk()));
+					    insertStmt.setString(p++,(budget.getFinancial_year_fks().length > 0)?budget.getFinancial_year_fks()[i]:null);
+					    insertStmt.setString(p++,(budget.getBudget_estimates().length > 0)?budget.getBudget_estimates()[i]:null);
+					    insertStmt.setString(p++,(budget.getRevised_estimates().length > 0)?budget.getRevised_estimates()[i]:null);
+					    insertStmt.setString(p++,(budget.getFinal_estimates().length > 0)?budget.getFinal_estimates()[i]:null);
+					    insertStmt.setString(p++,(budget.getBudget_grants().length > 0)?budget.getBudget_grants()[i]:null);
+					    insertStmt.setString(p++,(budget.getRevised_grants().length > 0)?budget.getRevised_grants()[i]:null);
+					    insertStmt.setString(p++,(budget.getFinal_grants().length > 0)?budget.getFinal_grants()[i]:null);
+					    insertStmt.setString(p++,CommonConstants.ACTIVE);
+					   
+					    insertStmt.addBatch();
+				    }
+				    insertCount = insertStmt.executeBatch();
+				    rs = insertStmt.getGeneratedKeys();
+				    
+				    if(insertCount.length > 0) {
+						flag = true;
+						String budgetId = null;
+						if (rs.next()) {
+							budgetId = rs.getString(1);
+							budget.setBudget_id(budgetId);
 						}
-					    int p = 1;
-						if( budget.getFinancial_year_fks().length > 0 && !StringUtils.isEmpty(budget.getFinancial_year_fks()[i])) {
-							    MultipartFile file = budget.getBudgetFile()[i];
-								files.add(file);
-							    stmt.setString(p++,(budget.getWork_id_fk()));
-							    stmt.setString(p++,(budget.getFinancial_year_fks().length > 0)?budget.getFinancial_year_fks()[i]:null);
-							    stmt.setString(p++,(budget.getBudget_estimates().length > 0)?budget.getBudget_estimates()[i]:null);
-							    stmt.setString(p++,(budget.getRevised_estimates().length > 0)?budget.getRevised_estimates()[i]:null);
-							    stmt.setString(p++,(budget.getFinal_estimates().length > 0)?budget.getFinal_estimates()[i]:null);
-							    stmt.setString(p++,(budget.getBudget_grants().length > 0)?budget.getBudget_grants()[i]:null);
-							    stmt.setString(p++,(budget.getRevised_grants().length > 0)?budget.getRevised_grants()[i]:null);
-							    stmt.setString(p++,(budget.getFinal_grants().length > 0)?budget.getFinal_grants()[i]:null);
-							    stmt.setString(p++,(documentNames.length > 0)?documentNames[i]:null);	
-							    stmt.setString(p++,CommonConstants.ACTIVE);
-							    stmt.addBatch();
-						}
-					}
-				}
-			}
-			updateCount = updateStmt.executeBatch();
-			
-			
-			int[] insertCount = stmt.executeBatch();
-		
-			if(updateCount.length > 0 || insertCount.length > 0) {
-				flag = true;
-			}
+						if(!StringUtils.isEmpty(budget.getBudgetFiles()) && budget.getBudgetFiles().length > 0) {
+							
+									String file_insert_qry = "INSERT into  budget_files ( budget_id_fk, work_id_fk,attachment) VALUES (?,?,?)";
+									insertStmt1 = con.prepareStatement(file_insert_qry);
+									int len = budget.getBudgetFiles().length;
+									
+									int  j = 0;
+									int budgetNamesLen = 0;
+									 String budgetFileName = null;
+										while ( j < budget.getFilecounts()[i] ) {
+											    int k = 1;
+											    int a = r++;  
+											    if(!StringUtils.isEmpty(budget.getBudgetFileNames())) {
+												     budgetNamesLen = budget.getBudgetFileNames().length ;
+												}
+											    if(a <= (len-1)) {
+											    	 String saveDirectory = CommonConstants.BUDGET_FILE_SAVING_PATH ;
+													   
+													    MultipartFile fundFiles = budget.getBudgetFiles()[a];
+														if (null != fundFiles && !fundFiles.isEmpty()){
+															String fileName = fundFiles.getOriginalFilename();
+															//budgetFileName = fileName;
+															FileUploads.singleFileSaving(fundFiles, saveDirectory, fileName);
+														} 
+											    } 
+											    if(a <= (budgetNamesLen-1)) {
+															if(a <= (budgetNamesLen-1)) {
+																budgetFileName  = (budget.getBudgetFileNames().length > 0)?budget.getBudgetFileNames()[a]:null;
+															}
+														
+														if(!StringUtils.isEmpty(budgetFileName)){
+															 insertStmt1.setString(k++,(budget.getBudget_id()));
+															 insertStmt1.setString(k++,(budget.getWork_id_fk()));
+															 insertStmt1.setString(k++,(budgetFileName));
+															 insertStmt1.addBatch();
+															 j++;
+														}
+											    }else {
+											    	j++;
+											    }
+										}
+								int[] insertCount1 = insertStmt1.executeBatch();
+						}	
+					}	
+			  }
+		}
 
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt1, null);
 			con.commit();
 		}catch(Exception e){
 			con.rollback();
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
 		}
 		return flag;
 	}

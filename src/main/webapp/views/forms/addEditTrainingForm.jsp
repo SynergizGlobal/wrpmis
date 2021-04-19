@@ -445,19 +445,19 @@
 																							</c:forEach>
 																						 </c:when>
 																	 					<c:otherwise>
-																							<tr id="attendeesRow00">
-																								<td><input type="hidden" id="rowCounts00" name="rowCounts" value="1" class="hide" />
-																								<input type="hidden" name="training_session_id_fks" id="training_session_id_fks00"
+																							<tr id="attendeesRow0${index.count }">
+																								<td><input type="hidden" id="rowCounts0${index.count }" name="rowCounts" value="1" class="hide" />
+																								<input type="hidden" name="training_session_id_fks" id="training_session_id_fks0${index.count }"
 																									 value="${tObj.training_session_id}" />
-																									 <input type="hidden" name="training_attendees_ids" id="training_attendees_ids00" />
-																									  <select class="searchable validate-dropdown" name="department_fks" id="department_fks00">
+																									 <input type="hidden" name="training_attendees_ids" id="training_attendees_ids0${index.count }" />
+																									  <select class="searchable validate-dropdown" name="department_fks" id="department_fks0${index.count }">
 																											<option value="">Select Department</option>
 																											<c:forEach var="obj" items="${departmentsList}">
 																												<option value="${obj.department_fk }">${obj.department_name }</option>
 																											</c:forEach>
 																									  </select> <span id="training_category_fkError" class="error-msg"></span></td>
 																								<td>																											
-																                                        <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks00" >
+																                                        <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks0${index.count }" >
 																                                            <option value="" >Select HOD</option>  
 																                                             <c:forEach var="obj" items="${usersList}">
 																												<option value="${obj.hod_user_id_fk }">${obj.designation }</option>
@@ -465,54 +465,54 @@
 																                                        </select>                                   
 																								</td>
 																								<td>
-																									<select class="searchable validate-dropdown" name="attendees" id="attendees00">
+																									<select class="searchable validate-dropdown" name="attendees" id="attendees0${index.count }">
 																											<option value="">Select Attendee</option>
 																											<c:forEach var="obj" items="${attendeesList}">
 																												<option value="${obj.attendee }">${obj.attendee }</option>
 																											</c:forEach>
 																								    </select>
 																								</td>	
-																								<td> <input type="text" placeholder="Designation" id="trainee_designations00" name="trainee_designations" ></td>																							
-																								<td><input id="mobile_nos00" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
+																								<td> <input type="text" placeholder="Designation" id="trainee_designations0${index.count }" name="trainee_designations" ></td>																							
+																								<td><input id="mobile_nos0${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
 																								</td>
 																								<td>
 																									<p>
-																										<label> <input type="hidden" id="required_fk00" name="required_fks" value="No" class="req" />
-																											<input type="checkbox" id="required_fks00" /> <span></span>
+																										<label> <input type="hidden" id="required_fk0${index.count }" name="required_fks" value="No" class="req" />
+																											<input type="checkbox" id="required_fks0${index.count }" /> <span></span>
 																										</label>
 																									</p>
 																								</td>
 																								<td>
 
 																									<p>
-																										<label> <input type="hidden" id="participated_fk00" name="participated_fks" value="No" class="part" /> 
-																											<input type="checkbox" id="participated_fks00"  /> <span></span>
+																										<label> <input type="hidden" id="participated_fk0${index.count }" name="participated_fks" value="No" class="part" /> 
+																											<input type="checkbox" id="participated_fks0${index.count }"  /> <span></span>
 																										</label>
 																									</p>
 																								</td>
-																								<td><a onclick="removeTrainingAttendees('00');"	class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>
+																								<td><a onclick="removeTrainingAttendees('0${index.count }');"	class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>
 																							</tr>
 																							<script>
-																									 $('#department_fks00').select2();
-																									 $('#attendees00').select2();
-																			                       	 $('#required_fks00').on('change', function(e){
+																									 $('#department_fks0${index.count }').select2();
+																									 $('#attendees0${index.count }').select2();
+																			                       	 $('#required_fks0${index.count }').on('change', function(e){
 																			                             if($(this).prop('checked'))
 																			                             {
 																			                            	 //$(".req").prop('disabled', true);
-																			                                 $('#required_fk00').val('Yes');
+																			                                 $('#required_fk0${index.count }').val('Yes');
 																			                             }else{
-																			                              	  $("#required_fk00").val('No')
-																			                            	  $("#required_fk00").prop('checked',false).removeAttr('checked');
+																			                              	  $("#required_fk0${index.count }").val('No')
+																			                            	  $("#required_fk0${index.count }").prop('checked',false).removeAttr('checked');
 																			                              }
 																			                   	    });
-																			                    	 $('#participated_fks00').on('change', function(e){
+																			                    	 $('#participated_fks0${index.count }').on('change', function(e){
 																			                             if($(this).prop('checked'))
 																			                             {
 																			                            	// $(".part").prop('disabled', true);
-																			                                 $('#participated_fk00').val('Yes');
+																			                                 $('#participated_fk0${index.count }').val('Yes');
 																			                             } else{
-																			                              	  $("#participated_fk00").val('No')
-																			                            	  $("#participated_fk00").prop('checked',false).removeAttr('checked');;
+																			                              	  $("#participated_fk0${index.count }").val('No')
+																			                            	  $("#participated_fk0${index.count }").prop('checked',false).removeAttr('checked');;
 																			                              }
 																			                   	    });
 												                            
@@ -555,13 +555,60 @@
                                                                         class="fa fa-paperclip"></i></label>
                                                                 <span id="fileVal0" class="filevalue"></span>
                                                             </div> -->
+                                                            
+                                                            
+                                                            	<c:set var="existingTrainingFilesLength" value="${fn:length(tObj.trainingFilesList )}"></c:set>
+													<c:if test="${fn:length(tObj.trainingFilesList ) gt 0}">
+														<c:set var="existingTrainingFilesLength" value="${fn:length(tObj.trainingFilesList )+1}"></c:set>
+													</c:if>
+													<div id="selectedFilesInput${index.count }">
+				                                    	<div class="file-field input-field" id="trainingSessionFilesDiv${index.count }${fn:length(tObj.trainingFilesList) }" >
+					                                        <div class="btn bg-m t-c"> <span>Attach Files</span>
+					                                        	<c:if test="${ empty tObj.trainingFilesList }">
+					                                        			<input type="hidden" id="trainingSessionFileNames${index.count }" name="trainingSessionFileNames" value="">
+												           		 </c:if>
+					                                           		<input type="hidden" id="len${index.count }"  value="${fn:length(tObj.trainingFilesList) }">
+					                                           
+					                                            <input type="file" id="trainingSessionFiles${index.count }${fn:length(tObj.trainingFilesList) }" name="trainingSessionFiles"  onchange="selectFileUpdate('${index.count }${fn:length(tObj.trainingFilesList) }','${index.count }')">
+					                                        </div>
+					                                        
+					                                        <div class="file-path-wrapper" > 
+					                                            <input class="file-path validate" type="text">
+					                                        </div>                                       
+					                                    </div>
+													</div>
+				                                    <div id="selectedFiles${index.count }">
+				                                    	<c:forEach var="obj" items="${tObj.trainingFilesList }" varStatus="indexx">
+															 <div id="trainingSessionFilesNames${index.count }${indexx.count }">
+																<a href="<%=CommonConstants.TRAINING_SESSIONS %>${obj.attachment }" class="filevalue" download>${obj.attachment }</a>
+																<span onclick="removeFileUpdate('${index.count }${indexx.count }','${index.count }')" class="attachment-remove-btn">X</span>
+																<input type="hidden" id="trainingSessionFileNames${index.count }${indexx.count }" name="trainingSessionFileNames" value="${obj.attachment }">
+														     </div>
+														     <div style="clear:both" class="hide" id="hide${index.count }${indexx.count }"><input type="hidden" id="filecounts${index.count }${indexx.count }" name="filecounts" value="${indexx.count }"></div>
+														     <script>
+														     var count = ('${index.count }${indexx.count }') - 1;
+																var lastNo = $('#selectedFiles${index.count }${indexx.count }  input').last().val('${indexx.count }');
+																var s = $('#hide'+count+' input').val();
+																if(s != null){
+																	$('#hide'+count+' input').removeAttr('name');
+																	
+																}
+															</script>
+														</c:forEach>
+														<div id="hideVal${index.count }">
+														<c:if test="${ empty tObj.trainingFilesList }">
+														<input type="hidden" id="filecounts${index.count }" name="filecounts" value="0">
+												            </c:if></div>
+													</div>
+													
+													<%-- 
                                                             <div class="">
 			                                                   	<input type="file" name="trainingSessionFiles" id="trainingSessionFiles${index.count }"  onchange="getFileName('${index.count }')"  style="display:none"  />
 			                                                   	<label for="trainingSessionFiles${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
 																<a id="fileVal${index.count }" class="filevalue" href="<%=CommonConstants.TRAINING_SESSIONS %>${tObj.attachment }" download>${tObj.attachment }</a> 
 															 </div>                                              
 													         <input type="hidden" id="trainingSessionFileNames${index.count }" name="trainingSessionFileNames" value="${tObj.attachment }">
-                                                        </td>
+                                                         --%></td>
 														<td><a onclick="removeTraining('${index.count }');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
 													</tr>
 													<script>
@@ -693,12 +740,31 @@
                                                                         class="fa fa-paperclip"></i></label>
                                                                 <span id="fileVal0" class="filevalue"></span>
                                                             </div> -->
+                                                              <div id="selectedFilesInput">
+				                                    	<div class="file-field input-field" id="trainingSessionFilesDiv1" >
+				                                    		 <div class="btn bg-m t-c">
+				                                            <span>Attach Files</span>
+					                                            <input type="file" id="trainingSessionFiles1" name="trainingSessionFiles"   onchange="selectFile('1')">
+					                                            </div> 
+					                                            <!-- <label for="trainingFiles1" class="btn bg-m"><i class="fa fa-paperclip"></i></label> -->
+					                                        <div class="file-path-wrapper">
+					                                            <input class="file-path validate" type="text">
+					                                        </div>                                       
+					                                    </div>
+													</div>
+				                                    <div id="selectedFiles">
+				                                    	<input type="hidden" id="trainingSessionFileNames0" name="trainingSessionFileNames" value="">
+				                                    	<div id="hideVal0">
+															<input type="hidden" id="filecounts0" name="filecounts" value="0">
+												        </div>
+													</div>
+													<!-- 
                                                             <div class="">
 			                                                   	<input type="file" name="trainingSessionFiles" id="trainingSessionFiles0"  onchange="getFileName('0')"  style="display:none"  />
 			                                                   	<label for="trainingSessionFiles0" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
 			                                                   	<span id="fileVal0" class="filevalue"></span>
 															 </div>         
-															 <input type="hidden" id="trainingSessionFileNames0" name="trainingSessionFileNames" > 
+															 <input type="hidden" id="trainingSessionFileNames0" name="trainingSessionFileNames" >  -->
                                                         </td>
 													<td><a onclick="removeTraining('0');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
 												</tr>
@@ -867,6 +933,145 @@
 	<script src="/pmis/resources/js/datetimepicker.js"></script>
 	
 	<script>
+	 function selectFile(no){
+		    files = $("#trainingSessionFiles"+no)[0].files;
+		    var html = "";
+			var count = no - 1;
+				
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=trainingSessionFilesNames'+no+'>'
+				 + '<a href="#" class="filevalue"> '+$(this).get(0).files[i].name+'</a>'
+				 + '<span onclick="removeFile('+no+','+count+')" class="attachment-remove-btn">X</span>'
+				 + '</div>'
+				 + '<div style="clear:both;" id="hide'+no+'"><input id="fileCounts'+no+'"  name="filecounts"  type="hidden"></div>';
+		    }
+		    $("#selectedFiles").append(html);
+		   
+		    $('#trainingSessionFilesDiv'+no).hide();
+		    
+			var fileIndex = Number(no)+1;
+			var lastfieldsid = $('#hide'+no+' input').last().val(no);
+			var s = $('#hide'+count+' input').val();
+			 $('#hideVal'+count+' input').removeAttr('name');
+			if(s != null){
+				$('#hide'+count+' input').removeAttr('name');
+				
+			}
+			
+			moreFiles(fileIndex);
+		}
+	  function selectFileUpdate(no,bNo){
+		    files = $("#trainingSessionFiles"+no)[0].files;
+		    var html = "";
+			var count = no - 1;
+		    var fileIndex = Number(no)+1;
+			var id = (fileIndex/10);
+		    var str=id.toString();
+		    var splt = str.split('.')[1];
+		    var spli1 = str.split('.')[0];
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=trainingSessionFilesNames'+fileIndex+'>'
+				 + '<a href="#" class="filevalue"> '+$(this).get(0).files[i].name+'</a>'
+				 + '<span onclick="removeFileUpdate('+fileIndex+','+bNo+')" class="attachment-remove-btn">X</span>'
+				 + '<input type="hidden" id="trainingSessionFileNames'+fileIndex+'" name="trainingSessionFileNames" value="'+$(this).get(0).files[i].name+'" >'
+				 + '</div>'
+				 + '<div style="clear:both;" class="hide" id="hide'+fileIndex+'"><input id="fileCounts'+fileIndex+'"  name="filecounts"  type="hidden"></div>';
+		    }
+		    $("#selectedFiles"+bNo).append(html);
+		   
+		    $('#trainingSessionFilesDiv'+no).hide();
+		    var num = (splt-spli1);
+		    var posNum = (num < 0) ? num * -1 : num; // if num is negative multiple by negative one ... 
+		    var s = $('#hide'+no+' input').val();
+		    if(s == null){
+		    	s = 0;
+		    }
+		    var d = $("#hide"+no+" input").attr("id");
+		    if(d != null){
+		    	 var v = $("#"+d).val();
+				 var splt2 = d.split('s')[1];
+		    }else{
+		    	v = 0;
+		    }
+		   
+		    var lastfieldsid = $('#hide'+fileIndex+' input').last().val(Number(v)+1);
+		    $('#hide'+splt2+' input').removeAttr('name');
+		    $('#hideVal'+bNo+' input').removeAttr('name');
+			
+			//$('#trainingSessionFileNames'+bNo).removeAttr('name');
+			if(s != null){
+				$('#hide'+count+' input').removeAttr('name');
+				
+			}
+			
+			moreFilesUpdate(no,bNo);
+		}
+		
+		function moreFilesUpdate(no,bNo){
+			var html = "";
+			var count = no;
+			 var fileIndex = Number(no)+1;
+			/* if(no >1 ){
+				var rNo=(no-1)
+				$("#fileCounts"+rNo).removeAttr('value');
+			} */
+			html =  html + '<div class="file-field input-field" id="trainingSessionFilesDiv'+fileIndex+'" >'
+			+ '<div class="btn bg-m t-c"> <span>Attach Files</span>'
+			+ '<input type="file" id="trainingSessionFiles'+fileIndex+'" name="trainingSessionFiles"  onchange="selectFileUpdate('+fileIndex+','+bNo+')">'
+			
+
+			+ '</div>'
+			+ '<div class="file-path-wrapper">'
+			+ '<input class="file-path validate" type="text">'
+			+ '</div>'                          
+			+ '</div>'
+			$("#selectedFilesInput"+bNo).append(html);
+		}
+		function moreFiles(no){
+			var html = "";
+			var count = no;
+			/* if(no >1 ){
+				var rNo=(no-1)
+				$("#fileCounts"+rNo).removeAttr('value');
+			} */
+			html =  html + '<div class="file-field input-field" id="trainingSessionFilesDiv'+no+'" >'
+			+ '<div class="btn bg-m t-c"> <span>Attach Files</span>'
+			+ '<input type="file" id="trainingSessionFiles'+no+'" name="trainingSessionFiles"  onchange="selectFile('+no+')">'
+			
+
+			+ '</div>'
+			+ '<div class="file-path-wrapper">'
+			+ '<input class="file-path validate" type="text">'
+			+ '</div>'                          
+			+ '</div>'
+			$("#selectedFilesInput").append(html);
+		}
+		
+		function removeFileUpdate(no,bNo){			
+	   	//$('#trainingSessionFilesDiv'+no).remove();
+	   	$('#trainingSessionFilesNames'+no).remove();
+	   	var id = Number(no)-1;
+	   	$('#hide'+id+' input').attr('name', 'filecounts');
+	   	var bId = $('#hide'+id+' input').val();
+	   	if(bId == null){
+			var html = '<input id="fileCounts'+bNo+'"  name="filecounts" value="0" type="hidden">'
+	   		$('#hideVal'+bNo).append(html);
+	   	}
+	   	$('#hide'+no+' input').removeAttr('name');
+	   	
+	  } 
+		function removeFile(no,bNo){			
+		   	$('#trainingSessionFilesDiv'+no).remove();
+		   	$('#trainingSessionFilesNames'+no).remove();
+		   	var id = Number(no)-1;
+		   	$('#hide'+id+' input').attr('name', 'filecounts');
+		   	var bId = $('#hide'+id+' input').val();
+		   	if(bId == null){
+		   		$('#hideVal'+id+' input').attr('name', 'filecounts');
+		   	}
+		   	$('#hide'+no+' input').removeAttr('name');
+		   	
+		  } 
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -1079,9 +1284,16 @@
 	                            '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
 	                          '</tbody></table></div></div></div></div> </td>'+
           '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
-          '<td><div class=""><input type="file" name="trainingSessionFiles" id="trainingSessionFiles'+rNo+'" onchange="getFileName('+rNo+')" style="display:none" />'+
-          '<label for="trainingSessionFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span id="fileVal'+rNo+'" class="filevalue"></span>'+
-          '</div> </td><td> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
+          
+          '<td>  <div id="selectedFilesInput'+rNo+'"><div class="file-field input-field" id="trainingSessionFilesDivs'+rNo+1+'" >' 
+          + '<div class="btn bg-m t-c"> <span>Attach Files</span>'
+              +'<input type="hidden"  name="trainingSessionFileNames" value=""><input type="file" id="trainingSessionFiles'+rNo+1+'" name="trainingSessionFiles"   onchange="selectFiles('+rNo+1+','+rNo+')"></div>'
+              +' <div class="file-path-wrapper">'
+          +' <input class="file-path validate" type="text">'
+          +' </div></div></div><div id="selectedFiles'+rNo+'"><div class="hide" id="hideVal'+rNo+'"> <input id="fileCounts'+rNo+'"  name="filecounts"  type="hidden" value="0"></div></div></td>'+
+         
+          
+          '<td> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
           $('#trainingTableBody').append(html);
            
           $('#session-update-modal'+rNo).modal();
@@ -1119,6 +1331,65 @@
              }
         });
     }
+        function selectFiles(no,rNo){
+		    files = $("#trainingSessionFiles"+no)[0].files;
+		    var id = (no/10);
+		    var str=id.toString();
+		    var splt = str.split('.')[1];
+		    var count = splt;
+			var fNo = no - 1
+		    var html = "";
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=trainingSessionFilesNames'+no+'>'
+				 + '<a href="#" class="filevalue" >'+$(this).get(0).files[i].name+'</a>'
+				
+				 + '<span onclick="removeFiles('+no+','+rNo+')" class="attachment-remove-btn">X</span>'
+				 + '<input type="hidden" id="trainingSessionFileNames'+no+'" name="trainingSessionFileNames" value="'+$(this).get(0).files[i].name+'" >'
+				 + '</div>'
+				 + '<div style="clear:both;" class="hide" id="hide'+no+'"><input id="fileCounts'+no+'"  name="filecounts"  type="hidden"></div>';
+		    }
+		    $("#selectedFiles"+rNo).append(html);
+		    
+		    $('#trainingSessionFilesDivs'+no).hide();
+		    
+			var fileIndex = Number(no)+1;
+			var lastfieldsid = $('#hide'+no+' input').last().val(count);
+			$('#hideVal'+rNo+' input').removeAttr('name');
+			//$('#trainingSessionFiles'+fNo).removeAttr('name');
+			var s = $('#hide'+fNo+' input').val();
+			if(s != null){
+				$('#hide'+fNo+' input').removeAttr('name');
+				
+			}
+			moreFiles1(fileIndex,rNo);
+		}
+		
+		function moreFiles1(no,rNo){
+			var html = "";
+			html =  html + '<div class="file-field input-field" id="trainingSessionFilesDivs'+no+'" >'
+			+ '<div class="btn bg-m t-c"> <span>Attach Files</span>'
+			+ '<input type="file" id="trainingSessionFiles'+no+'" name="trainingSessionFiles"  onchange="selectFiles('+no+','+rNo+')"></div>'
+			+ '<div class="file-path-wrapper">'
+			+ '<input class="file-path validate" type="text">'
+			+ '</div>'                          
+			+ '</div>'
+			$("#selectedFilesInput"+rNo).append(html);
+		}
+		
+		function removeFiles(no,rNo){			
+	   	$('#trainingSessionFilesDiv'+no).remove();
+	   	$('#trainingSessionFilesNames'+no).remove();
+		var id = Number(no)-1;
+	    $('#hide'+id+' input').attr('name', 'filecounts');
+		var bId = $('#hide'+id+' input').val();
+	   	if(bId == null){
+	   		var html = '<input id="fileCounts'+rNo+'"  name="filecounts" value="0" type="hidden">'
+	   		$('#hideVal'+rNo).append(html);
+	   	}
+		
+	   	$('#hide'+no+' input').removeAttr('name');
+	   	
+	   } 
      
      function removeTraining(rowNo){
      	//alert("#trainingRow"+rowNo);

@@ -19,11 +19,29 @@ public class Training {
 	private List<Training> trainingSessions;
 	private List<Training> trainingAttendees;
 	private MultipartFile[] trainingSessionFiles;
+	private int[] filecounts;
+	private List<Training> trainingFilesList;
 	
 	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees,trainee_designations, mobile_nos, required_fks, participated_fks,
 	training_session_ids, session_nos, start_times, end_times, remarkss,hod_user_id_fks,trainingSessionFileNames;
+ 
+    public List<Training> getTrainingFilesList() {
+		return trainingFilesList;
+	}
 
-    public String getNominated() {
+	public void setTrainingFilesList(List<Training> trainingFilesList) {
+		this.trainingFilesList = trainingFilesList;
+	}
+
+	public int[] getFilecounts() {
+		return filecounts;
+	}
+
+	public void setFilecounts(int[] filecounts) {
+		this.filecounts = filecounts;
+	}
+
+	public String getNominated() {
 		return nominated;
 	}
 

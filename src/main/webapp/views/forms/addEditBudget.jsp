@@ -1,5 +1,6 @@
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html >
@@ -110,10 +111,10 @@
                     </div>
                     <!-- form start-->
                      <c:if test="${action eq 'edit'}">				                
-		                	<form action="<%=request.getContextPath() %>/update-budget" id="budgetForm" name="budgetForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+		                	<form action="<%=request.getContextPath() %>/update-budget" id="budgetForm" name="budgetForm" method="post"   enctype="multipart/form-data">
                       </c:if>
 		              <c:if test="${action eq 'add'}">				                
-		                	<form action="<%=request.getContextPath() %>/add-budget" id="budgetForm" name="budgetForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+		                	<form action="<%=request.getContextPath() %>/add-budget" id="budgetForm" name="budgetForm" method="post"   enctype="multipart/form-data">
 					  </c:if>
                         
                     <div class="container container-no-margin">
@@ -246,13 +247,58 @@
 												</div>
 											</td>
 											<td>
-												
+												<c:set var="existingBudgetFilesLength" value="${fn:length(bObj.budgetFilesList )}"></c:set>
+													<c:if test="${fn:length(bObj.budgetFilesList ) gt 0}">
+														<c:set var="existingBudgetFilesLength" value="${fn:length(bObj.budgetFilesList )+1}"></c:set>
+													</c:if>
+													<div id="selectedFilesInput${index.count }">
+				                                    	<div class="file-field input-field" id="budgetFilesDiv${index.count }${fn:length(bObj.budgetFilesList) }" >
+					                                        <div class="btn bg-m t-c"> <span>Attach Files</span>
+					                                        	<c:if test="${ empty bObj.budgetFilesList }">
+					                                        			<input type="hidden" id="budgetFileNames${index.count }" name="budgetFileNames" value="">
+												           		 </c:if>
+					                                           		<input type="hidden" id="len${index.count }"  value="${fn:length(bObj.budgetFilesList) }">
+					                                           
+					                                            <input type="file" id="budgetFiles${index.count }${fn:length(bObj.budgetFilesList) }" name="budgetFiles"  onchange="selectFileUpdate('${index.count }${fn:length(bObj.budgetFilesList) }','${index.count }')">
+					                                        </div>
+					                                        
+					                                        <div class="file-path-wrapper">
+					                                            <input class="file-path validate" type="text">
+					                                        </div>                                       
+					                                    </div>
+													</div>
+				                                    
+				                                    <div id="selectedFiles${index.count }">
+				                                    	<c:forEach var="obj" items="${bObj.budgetFilesList }" varStatus="indexx">
+															 <div id="budgetFilesNames${index.count }${indexx.count }">
+																<a href="<%=CommonConstants.BUDGET_FILES %>${obj.attachment }" class="filevalue" download>${obj.attachment }</a>
+																<span onclick="removeFileUpdate('${index.count }${indexx.count }','${index.count }')" class="attachment-remove-btn">X</span>
+																<input type="hidden" id="budgetFileNames${index.count }${indexx.count }" name="budgetFileNames" value="${obj.attachment }">
+														     </div>
+														     <div style="clear:both" class="hide" id="hide${index.count }${indexx.count }"><input type="hidden" id="filecounts${index.count }${indexx.count }" name="filecounts" value="${indexx.count }"></div>
+														     <script>
+														     var count = ('${index.count }${indexx.count }') - 1;
+																var lastNo = $('#selectedFiles${index.count }${indexx.count }  input').last().val('${indexx.count }');
+																var s = $('#hide'+count+' input').val();
+																if(s != null){
+																	$('#hide'+count+' input').removeAttr('name');
+																	
+																}
+															</script>
+														</c:forEach>
+														<div id="hideVal${index.count }">
+														<c:if test="${ empty bObj.budgetFilesList }">
+														<input type="hidden" id="filecounts${index.count }" name="filecounts" value="0">
+												            </c:if></div>
+													</div>
+													
+												<%-- 
 												 <div class="">
-                                                   	<input type="file" name="budgetFile" id="budgetFile${index.count }"  onchange="getFileName('${index.count }')"  style="display:none"  />
+                                                   	<input type="file" name="budgetFiles" id="budgetFile${index.count }"  onchange="getFileName('${index.count }')"  style="display:none"  />
                                                    	<label for="budgetFile${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
 													<a id="fileVal${index.count }" class="filevalue" href="<%=CommonConstants.BUDGET_FILES %>${bObj.attachment }" download>${bObj.attachment }</a> 
 												 </div>                                              
-										         <input type="hidden" id="budgetFileNames${index.count }" name="budgetFileNames" value="${bObj.attachment }">
+										         <input type="hidden" id="budgetFilesNames${index.count }" name="budgetFilesNames" value="${bObj.attachment }"> --%>
 											</td>
 											<td><a onclick="removeBudget('${index.count }');"
 												class="btn waves-effect waves-light red t-c "> <i
@@ -316,24 +362,36 @@
 												</div>
 											</td>
 											<td>
-											  <div class="">
-                                                   <input type="file" name="budgetFile" id="budgetFile0"  onchange="getFileName('0')" 
-                                                            style="display:none" />
-                                                   <label for="budgetFile0" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
-                                                   <span id="fileVal0" class="filevalue" ></span>
-                                              </div>
+												  <div id="selectedFilesInput">
+				                                    	<div class="file-field input-field" id="budgetFilesDiv1" >
+				                                    		 <div class="btn bg-m t-c">
+				                                            <span>Attach Files</span>
+					                                            <input type="file" id="budgetFiles1" name="budgetFiles"   onchange="selectFile('1')">
+					                                            </div> 
+					                                            <!-- <label for="budgetFiles1" class="btn bg-m"><i class="fa fa-paperclip"></i></label> -->
+					                                        <div class="file-path-wrapper">
+					                                            <input class="file-path validate" type="text">
+					                                        </div>                                       
+					                                    </div>
+													</div>
+				                                    <div id="selectedFiles">
+				                                    	<input type="hidden" id="budgetFileNames0" name="budgetFileNames" value="">
+				                                    	<div id="hideVal0">
+															<input type="hidden" id="filecounts0" name="filecounts" value="0">
+												        </div>
+													</div>
 											</td>
 											<td><a onclick="removeBudget('0');"
 												class="btn waves-effect waves-light red t-c "> <i
 													class="fa fa-close"></i></a></td>
 										 </tr>
-										 <script>
+										 <!-- <script>
 											 $("#budgetFile0").change(function () {
 	                                             filename1 = $('#budgetFile0')[0].files[0].name;
 	                                             $('#fileVal0').html(filename1);
 	                                             console.log(filename1)
 	                                         }); 
-										 </script>
+										 </script> -->
 										</c:otherwise>
                                       </c:choose>
 									</tbody>
@@ -414,6 +472,146 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
   <script>
+	  function selectFile(no){
+		    files = $("#budgetFiles"+no)[0].files;
+		    var html = "";
+			var count = no - 1;
+				
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=budgetFilesNames'+no+'>'
+				 + '<a href="#" class="filevalue"> '+$(this).get(0).files[i].name+'</a>'
+				 + '<span onclick="removeFile('+no+','+count+')" class="attachment-remove-btn">X</span>'
+				 + '</div>'
+				 + '<div style="clear:both;" id="hide'+no+'"><input id="fileCounts'+no+'"  name="filecounts"  type="hidden"></div>';
+		    }
+		    $("#selectedFiles").append(html);
+		   
+		    $('#budgetFilesDiv'+no).hide();
+		    
+			var fileIndex = Number(no)+1;
+			var lastfieldsid = $('#hide'+no+' input').last().val(no);
+			var s = $('#hide'+count+' input').val();
+			 $('#hideVal'+count+' input').removeAttr('name');
+			if(s != null){
+				$('#hide'+count+' input').removeAttr('name');
+				
+			}
+			
+			moreFiles(fileIndex);
+		}
+	  function selectFileUpdate(no,bNo){
+		    files = $("#budgetFiles"+no)[0].files;
+		    var html = "";
+			var count = no - 1;
+		    var fileIndex = Number(no)+1;
+			var id = (fileIndex/10);
+		    var str=id.toString();
+		    var splt = str.split('.')[1];
+		    var spli1 = str.split('.')[0];
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=budgetFilesNames'+fileIndex+'>'
+				 + '<a href="#" class="filevalue"> '+$(this).get(0).files[i].name+'</a>'
+				 + '<span onclick="removeFileUpdate('+fileIndex+','+bNo+')" class="attachment-remove-btn">X</span>'
+				 + '<input type="hidden" id="budgetFileNames'+fileIndex+'" name="budgetFileNames" value="'+$(this).get(0).files[i].name+'" >'
+				 + '</div>'
+				 + '<div style="clear:both;" class="hide" id="hide'+fileIndex+'"><input id="fileCounts'+fileIndex+'"  name="filecounts"  type="hidden"></div>';
+		    }
+		    $("#selectedFiles"+bNo).append(html);
+		   
+		    $('#budgetFilesDiv'+no).hide();
+		    var num = (splt-spli1);
+		    var posNum = (num < 0) ? num * -1 : num; // if num is negative multiple by negative one ... 
+		    var s = $('#hide'+no+' input').val();
+		    if(s == null){
+		    	s = 0;
+		    }
+		    var d = $("#hide"+no+" input").attr("id");
+		    if(d != null){
+		    	 var v = $("#"+d).val();
+				 var splt2 = d.split('s')[1];
+		    }else{
+		    	v = 0;
+		    }
+		   
+		    var lastfieldsid = $('#hide'+fileIndex+' input').last().val(Number(v)+1);
+		    $('#hide'+splt2+' input').removeAttr('name');
+		    $('#hideVal'+bNo+' input').removeAttr('name');
+			
+			//$('#budgetFileNames'+bNo).removeAttr('name');
+			if(s != null){
+				$('#hide'+count+' input').removeAttr('name');
+				
+			}
+			
+			moreFilesUpdate(no,bNo);
+		}
+		
+		function moreFilesUpdate(no,bNo){
+			var html = "";
+			var count = no;
+			 var fileIndex = Number(no)+1;
+			/* if(no >1 ){
+				var rNo=(no-1)
+				$("#fileCounts"+rNo).removeAttr('value');
+			} */
+			html =  html + '<div class="file-field input-field" id="budgetFilesDiv'+fileIndex+'" >'
+			+ '<div class="btn bg-m t-c"> <span>Attach Files</span>'
+			+ '<input type="file" id="budgetFiles'+fileIndex+'" name="budgetFiles"  onchange="selectFileUpdate('+fileIndex+','+bNo+')">'
+			
+
+			+ '</div>'
+			+ '<div class="file-path-wrapper">'
+			+ '<input class="file-path validate" type="text">'
+			+ '</div>'                          
+			+ '</div>'
+			$("#selectedFilesInput"+bNo).append(html);
+		}
+		function moreFiles(no){
+			var html = "";
+			var count = no;
+			/* if(no >1 ){
+				var rNo=(no-1)
+				$("#fileCounts"+rNo).removeAttr('value');
+			} */
+			html =  html + '<div class="file-field input-field" id="budgetFilesDiv'+no+'" >'
+			+ '<div class="btn bg-m t-c"> <span>Attach Files</span>'
+			+ '<input type="file" id="budgetFiles'+no+'" name="budgetFiles"  onchange="selectFile('+no+')">'
+			
+
+			+ '</div>'
+			+ '<div class="file-path-wrapper">'
+			+ '<input class="file-path validate" type="text">'
+			+ '</div>'                          
+			+ '</div>'
+			$("#selectedFilesInput").append(html);
+		}
+		
+		function removeFileUpdate(no,bNo){			
+	   	//$('#budgetFilesDiv'+no).remove();
+	   	$('#budgetFilesNames'+no).remove();
+	   	var id = Number(no)-1;
+	   	$('#hide'+id+' input').attr('name', 'filecounts');
+	   	var bId = $('#hide'+id+' input').val();
+	   	if(bId == null){
+			var html = '<input id="fileCounts'+bNo+'"  name="filecounts" value="0" type="hidden">'
+	   		$('#hideVal'+bNo).append(html);
+	   	}
+	   	$('#hide'+no+' input').removeAttr('name');
+	   	
+	  } 
+		function removeFile(no,bNo){			
+		   	$('#budgetFilesDiv'+no).remove();
+		   	$('#budgetFilesNames'+no).remove();
+		   	var id = Number(no)-1;
+		   	$('#hide'+id+' input').attr('name', 'filecounts');
+		   	var bId = $('#hide'+id+' input').val();
+		   	if(bId == null){
+		   		$('#hideVal'+id+' input').attr('name', 'filecounts');
+		   	}
+		   	$('#hide'+no+' input').removeAttr('name');
+		   	
+		  } 
+		
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -469,7 +667,7 @@
         function addBudgetRow(){
     	    var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
-             
+            var value = rNo+1;
         	var html ='<tr id="budgetRow'+rNo+'"><td> <input type="hidden" name="budget_ids" id="budget_ids'+rNo+'" />'
 		        		+'<select  name="financial_year_fks" id="financial_year_fks'+rNo+'" class="validate-dropdown searchable" >'
 							+'<option value="">Select Financial Year</option>' 
@@ -489,20 +687,77 @@
 							+'class="validate" placeholder="Amount"></div></td>'
 			            +'<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="final_grants'+rNo+'" name="final_grants" type="number" min="0.01" step="0.01"'
 							+'class="validate" placeholder="Amount"></div></td>'
-			            +'<td> <div class=""><input type="file" name="budgetFile" id="budgetFile'+rNo+'"  onchange="getFileName('+rNo+')" style="display:none" /> <label for="budgetFile'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
-		          		+'<span id="fileVal'+rNo+'" class="filevalue" ></span></div></td>'
+			            +'<td>  <div id="selectedFilesInput'+rNo+'"><div class="file-field input-field" id="budgetFilesDivs'+rNo+1+'" >' 
+			            + '<div class="btn bg-m t-c"> <span>Attach Files</span>'
+                            +'<input type="hidden"  name="budgetFileNames" value=""><input type="file" id="budgetFiles'+rNo+1+'" name="budgetFiles"   onchange="selectFiles('+rNo+1+','+rNo+')"></div>'
+                            +' <div class="file-path-wrapper">'
+                        +' <input class="file-path validate" type="text">'
+                        +' </div></div></div><div id="selectedFiles'+rNo+'"><div class="hide" id="hideVal'+rNo+'"> <input id="fileCounts'+rNo+'"  name="filecounts"  type="hidden" value="0"></div></div></td>'
 			            +'<td><a onclick="removeBudget('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
             $('#budgetTableBody').append(html);
 			$("#rowNo").val(rNo);
             $('.searchable').select2();
         }
-        
-        function getFileName(rowNo){
-			var filename = $('#budgetFile'+rowNo)[0].files[0].name;
-		    $('#fileVal'+rowNo).html(filename);
+        function selectFiles(no,rNo){
+		    files = $("#budgetFiles"+no)[0].files;
+		    var id = (no/10);
+		    var str=id.toString();
+		    var splt = str.split('.')[1];
+		    var count = splt;
+			var fNo = no - 1
+		    var html = "";
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=budgetFilesNames'+no+'>'
+				 + '<a href="#" class="filevalue" >'+$(this).get(0).files[i].name+'</a>'
+				
+				 + '<span onclick="removeFiles('+no+','+rNo+')" class="attachment-remove-btn">X</span>'
+				 + '<input type="hidden" id="budgetFileNames'+no+'" name="budgetFileNames" value="'+$(this).get(0).files[i].name+'" >'
+				 + '</div>'
+				 + '<div style="clear:both;" class="hide" id="hide'+no+'"><input id="fileCounts'+no+'"  name="filecounts"  type="hidden"></div>';
+		    }
+		    $("#selectedFiles"+rNo).append(html);
+		    
+		    $('#budgetFilesDivs'+no).hide();
+		    
+			var fileIndex = Number(no)+1;
+			var lastfieldsid = $('#hide'+no+' input').last().val(count);
+			$('#hideVal'+rNo+' input').removeAttr('name');
+			//$('#budgetFiles'+fNo).removeAttr('name');
+			var s = $('#hide'+fNo+' input').val();
+			if(s != null){
+				$('#hide'+fNo+' input').removeAttr('name');
+				
+			}
+			moreFiles1(fileIndex,rNo);
 		}
-        
-
+		
+		function moreFiles1(no,rNo){
+			var html = "";
+			html =  html + '<div class="file-field input-field" id="budgetFilesDivs'+no+'" >'
+			+ '<div class="btn bg-m t-c"> <span>Attach Files</span>'
+			+ '<input type="file" id="budgetFiles'+no+'" name="budgetFiles"  onchange="selectFiles('+no+','+rNo+')"></div>'
+			+ '<div class="file-path-wrapper">'
+			+ '<input class="file-path validate" type="text">'
+			+ '</div>'                          
+			+ '</div>'
+			$("#selectedFilesInput"+rNo).append(html);
+		}
+		
+		function removeFiles(no,rNo){			
+	   	$('#budgetFilesDiv'+no).remove();
+	   	$('#budgetFilesNames'+no).remove();
+		var id = Number(no)-1;
+	    $('#hide'+id+' input').attr('name', 'filecounts');
+		var bId = $('#hide'+id+' input').val();
+	   	if(bId == null){
+	   		var html = '<input id="fileCounts'+rNo+'"  name="filecounts" value="0" type="hidden">'
+	   		$('#hideVal'+rNo).append(html);
+	   	}
+		
+	   	$('#hide'+no+' input').removeAttr('name');
+	   	
+	   } 
+		
 		function removeBudget(rowNo){
 			$("#budgetRow"+rowNo).remove();
 		}

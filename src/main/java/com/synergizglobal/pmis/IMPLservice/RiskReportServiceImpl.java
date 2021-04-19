@@ -45,4 +45,5 @@ public class RiskReportServiceImpl implements RiskReportService{
 		return dao.getReductionPlanRisks(obj);
 	}
 
+
 }

@@ -18,4 +18,5 @@ public interface RiskReportDao {
 
 	List<RiskReport> getReductionPlanRisks(RiskReport obj) throws Exception;
 
+
 }

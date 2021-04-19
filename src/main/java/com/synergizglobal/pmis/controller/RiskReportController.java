@@ -194,7 +194,7 @@ public class RiskReportController {
 			RiskReport reportData = riskReportService.getRiskAnalysisReportData(obj);
 			
 			List<RiskReport> prioritizationOfRisks = riskReportService.getPrioritizationOfRisks(obj);
-			
+						
 			List<RiskReport> reductionPlanRisks = riskReportService.getReductionPlanRisks(obj);
 			
 			boolean landscape = false;

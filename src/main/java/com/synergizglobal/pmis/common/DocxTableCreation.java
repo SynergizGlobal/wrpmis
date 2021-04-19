@@ -294,27 +294,56 @@ public class DocxTableCreation {
 						JcEnumeration.CENTER, true, "ecf2ff");
 			}		
 			reportTable.getContent().add(titleRow);
-			
+			Tr contentRow = factory.createTr();	
+			int fromRow = 1;
+			int toRow = 1;
+			String risk_revision_id = null;
 			for (RiskReport pObj : reductionPlanRisks) {
 				boolean hasBgColor = false;
 				String backgroundColor = null;
-				Tr contentRow = factory.createTr();	
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getPriority(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getArea_item_no()+"."+pObj.getSub_area_item_no(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getRisk_rating(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getClassification(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getMitigation_plan(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				contentRow = factory.createTr();	
+				int count = 0;
+				if(risk_revision_id == null ) {
+					fromRow = toRow;
+				}
+				else if(!pObj.getRisk_revision_id().equals(risk_revision_id) && !StringUtils.isEmpty(risk_revision_id)) {
+					toRow++;
+					fromRow = toRow;
+				}else {
+					toRow++;
+
+				}
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getPriority(),
+							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getArea_item_no()+"."+pObj.getSub_area_item_no(),
+							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					int count2 = count++;
+					int toRow2 = toRow;
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getRisk_rating(),
+							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					int count3 = count++;
+					int toRow3 = toRow;
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getClassification(),
+							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					int count4 = count++;
+					int toRow4 = toRow;
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getMitigation_plan(),
+							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					int count5 = count++;
+					int toRow5 = toRow;
+				
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getAction_taken(),
 						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getAtr_date(),
 						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				
 				reportTable.getContent().add(contentRow);
+				mergeCellsVertically(reportTable, count, fromRow, toRow);
+				mergeCellsVertically(reportTable, count2, fromRow, toRow2);
+				mergeCellsVertically(reportTable, count3, fromRow, toRow3);
+				mergeCellsVertically(reportTable, count4, fromRow, toRow4);
+				mergeCellsVertically(reportTable, count5, fromRow, toRow5);
+				risk_revision_id =  pObj.getRisk_revision_id();
 			}			
 			/****************************************************************************************/			
 			

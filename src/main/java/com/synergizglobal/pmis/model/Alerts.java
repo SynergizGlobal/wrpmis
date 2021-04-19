@@ -6,7 +6,7 @@ public class Alerts {
 	email_id,user_id,work_id,work_id_fk,contract_name,work_name,user_name,designation,user_role_name;
 
 	private String redirect_url,department_name,responsible_person,escalated_to,hod_user_id_fk,dy_hod_user_id_fk,created_by_user_id_fk,
-	user_id_fk,alert_level_fk,sub_work;
+	user_id_fk,alert_level_fk,sub_work,reporting_to_user_id,reporting_to_email_id,alert_type_image;
 	
 	private String status,uploaded_by_user_id_fk,corrective_measure;
 	
@@ -344,6 +344,30 @@ public class Alerts {
 
 	public void setSub_work(String sub_work) {
 		this.sub_work = sub_work;
+	}
+
+	public String getReporting_to_user_id() {
+		return reporting_to_user_id;
+	}
+
+	public void setReporting_to_user_id(String reporting_to_user_id) {
+		this.reporting_to_user_id = reporting_to_user_id;
+	}
+
+	public String getReporting_to_email_id() {
+		return reporting_to_email_id;
+	}
+
+	public void setReporting_to_email_id(String reporting_to_email_id) {
+		this.reporting_to_email_id = reporting_to_email_id;
+	}
+
+	public String getAlert_type_image() {
+		return alert_type_image;
+	}
+
+	public void setAlert_type_image(String alert_type_image) {
+		this.alert_type_image = alert_type_image;
 	}
 	
 }

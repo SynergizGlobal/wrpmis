@@ -38,7 +38,7 @@
                                                                     <b>HOD</b></td>
                                                                 <td
                                                                     style="padding:10px 0;color: #eeeeee; font-family: Arial, sans-serif; font-size: 13px;background-color:#4A4E69;position:sticky;top: 0;">
-                                                                    <b>Work name</b> </td>
+                                                                    <b>Work</b> </td>
                                                                 <td
                                                                     style="padding:10px 0;color: #eeeeee; font-family: Arial, sans-serif; font-size: 13px;background-color:#4A4E69;position:sticky;top: 0;">
                                                                     <b>Alert Level</b> </td>
@@ -61,8 +61,8 @@
                                                                 </td>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    #if($x.work_short_name && !$x.work_short_name.empty) 
-                                                                    	$x.work_short_name
+                                                                    #if($x.sub_work && !$x.sub_work.empty) 
+                                                                    	$x.sub_work
                                                                     #end
                                                                 </td>
                                                                 <td align="center" width="100px"

@@ -65,6 +65,38 @@ public class AlertsController {
 	     return model;
 	}
 	
+	@RequestMapping(value="/send-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView sendAlertsToAllByManual(){		
+		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
+	     try {
+	    	logger.error("sendAlertsToAllByManual : start");
+			
+		    boolean flag = service.sendNotificationAlertMails();
+		    logger.error("sendAlertsToAllByManual >> Sending mails : "+ flag); 
+			
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("sendAlertsToAllByManual() : "+e.getMessage());
+		 }
+	     return model;
+	}
+	
+	@RequestMapping(value="/send-risk-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView sendRiskAlertsToAllByManual(){		
+		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
+	     try {
+	    	logger.error("sendRiskAlertsToAllByManual : start");
+		    
+		    boolean flag = service.sendRiskNotificationAlertMails();
+			logger.error("sendRiskAlertsToAllByManual >> Sending mails : "+ flag);
+			
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("sendRiskAlertsToAllByManual() : "+e.getMessage());
+		 }
+	     return model;
+	}
+	
 	@RequestMapping(value="/generate-and-send-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateAndSendAlertsToAllByManual(){		
 		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    

@@ -732,8 +732,9 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				Object[] pValues = new Object[] {CommonConstants.ACTIVE,uObj.getUser_id_fk()};
 				List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-				logger.error("sendNotificationAlertMails() >> - "+uObj.getEmail_id() + " : "+allAlertsList.size());	
+				logger.error("sendNotificationAlertMails() >> before - "+uObj.getEmail_id() + " : "+allAlertsList.size());	
 				if(allAlertsList != null && allAlertsList.size() > 0) {
+					logger.error("sendNotificationAlertMails() >> After - "+uObj.getEmail_id() + " : "+allAlertsList.size());	
 					String emailSubject = "PMIS Contract & Issue Alerts";
 					
 					Mail mail = new Mail();

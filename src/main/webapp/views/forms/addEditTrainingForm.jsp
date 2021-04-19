@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+   
     <style>
         #session-table .datepicker~button {
             top: 26px;
@@ -30,6 +31,9 @@
         #session-table input[type="text"]::placeholder {
             /* Edge */
             color: #777;
+        }
+        #session-table tbody tr td{
+        	vertical-align:top;
         }
 
         .datepicker-table thead tr,
@@ -155,8 +159,8 @@
     	}
      	.filevalue {
             display: block;
-            margin-top: 10px;
-            max-width:250px;
+            margin-top: 5px;
+            /* max-width:250px; */
         }
         .error-msg label{color:red!important;}   
        
@@ -580,8 +584,8 @@
 				                                    <div id="selectedFiles${index.count }">
 				                                    	<c:forEach var="obj" items="${tObj.trainingFilesList }" varStatus="indexx">
 															 <div id="trainingSessionFilesNames${index.count }${indexx.count }">
-																<a href="<%=CommonConstants.TRAINING_SESSIONS %>${obj.attachment }" class="filevalue" download>${obj.attachment }</a>
-																<span onclick="removeFileUpdate('${index.count }${indexx.count }','${index.count }')" class="attachment-remove-btn">X</span>
+																<a href="<%=CommonConstants.TRAINING_SESSIONS %>${obj.attachment }" class="filevalue" download>${obj.attachment } <span onclick="removeFileUpdate('${index.count }${indexx.count }','${index.count }')" class="attachment-remove-btn">X</span></a>
+																
 																<input type="hidden" id="trainingSessionFileNames${index.count }${indexx.count }" name="trainingSessionFileNames" value="${obj.attachment }">
 														     </div>
 														     <div style="clear:both" class="hide" id="hide${index.count }${indexx.count }"><input type="hidden" id="filecounts${index.count }${indexx.count }" name="filecounts" value="${indexx.count }"></div>
@@ -933,6 +937,7 @@
 	<script src="/pmis/resources/js/datetimepicker.js"></script>
 	
 	<script>
+	
 	 function selectFile(no){
 		    files = $("#trainingSessionFiles"+no)[0].files;
 		    var html = "";
@@ -971,8 +976,8 @@
 		    var spli1 = str.split('.')[0];
 		    for (var i = 0; i < files.length ; i++) {
 		    	html =  html + '<div id=trainingSessionFilesNames'+fileIndex+'>'
-				 + '<a href="#" class="filevalue"> '+$(this).get(0).files[i].name+'</a>'
-				 + '<span onclick="removeFileUpdate('+fileIndex+','+bNo+')" class="attachment-remove-btn">X</span>'
+				 + '<a href="#" class="filevalue"> '+$(this).get(0).files[i].name+' <span onclick="removeFileUpdate('+fileIndex+','+bNo+')" class="attachment-remove-btn">X</span></a>'
+				
 				 + '<input type="hidden" id="trainingSessionFileNames'+fileIndex+'" name="trainingSessionFileNames" value="'+$(this).get(0).files[i].name+'" >'
 				 + '</div>'
 				 + '<div style="clear:both;" class="hide" id="hide'+fileIndex+'"><input id="fileCounts'+fileIndex+'"  name="filecounts"  type="hidden"></div>';
@@ -1341,9 +1346,7 @@
 		    var html = "";
 		    for (var i = 0; i < files.length ; i++) {
 		    	html =  html + '<div id=trainingSessionFilesNames'+no+'>'
-				 + '<a href="#" class="filevalue" >'+$(this).get(0).files[i].name+'</a>'
-				
-				 + '<span onclick="removeFiles('+no+','+rNo+')" class="attachment-remove-btn">X</span>'
+				 + '<a href="#" class="filevalue" >'+$(this).get(0).files[i].name+' <span onclick="removeFiles('+no+','+rNo+')" class="attachment-remove-btn">X</span></a>'		
 				 + '<input type="hidden" id="trainingSessionFileNames'+no+'" name="trainingSessionFileNames" value="'+$(this).get(0).files[i].name+'" >'
 				 + '</div>'
 				 + '<div style="clear:both;" class="hide" id="hide'+no+'"><input id="fileCounts'+no+'"  name="filecounts"  type="hidden"></div>';

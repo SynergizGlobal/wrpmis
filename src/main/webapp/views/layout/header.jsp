@@ -496,7 +496,7 @@
 										<c:set var="bgIcon" value="<i class='fa fa-exclamation-triangle'></i>"></c:set> 										
 									</c:if>
 									<c:if test="${aObj.alert_type_fk eq 'Risk'}">
-										<c:set var="bgIcon" value="<i class='material-icons'>error</i>"></c:set> 										
+										<c:set var="bgIcon" value="<i class='material-icons'>error_outline</i>"></c:set> 										
 									</c:if>
 									<c:if test="${aObj.alert_type_fk eq 'Safety'}">
 										<c:set var="bgIcon" value="<i class='material-icons-outlined'>verified_user</i>"></c:set>										
@@ -1194,9 +1194,9 @@
 			                    		  }else if(val.alert_type_fk == 'Contract Value'){
 			                    			  bgIcon = '<i class="fa fa-money"></i>';
 			                    		  }else if(val.alert_type_fk == 'Issue'){
-			                    			  bgIcon = '<i class="fa fa-exclamation-triangle"></i>';
+			                    			  bgIcon = '<i class="material-icons-outlined">warning_amber</i>';
 			                    		  }else if(val.alert_type_fk == 'Risk'){
-			                    			  bgIcon = '<i class="material-icons">error</i>';
+			                    			  bgIcon = '<i class="material-icons">error_outline</i>';
 			                    		  }else if(val.alert_type_fk == 'Safety'){
 			                    			  bgIcon = '<i class="material-icons">verified_user</i>';
 			                    		  }

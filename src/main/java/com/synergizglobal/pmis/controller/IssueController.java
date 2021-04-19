@@ -232,7 +232,7 @@ public class IssueController {
 		return issues;
 	}
 	
-	@RequestMapping(value="/add-issue-form",method=RequestMethod.GET)
+	@RequestMapping(value="/add-issue-form",method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addIssueForm(HttpSession session,@ModelAttribute Issue obj) {
 		ModelAndView model = new ModelAndView();
 		try {
@@ -270,6 +270,8 @@ public class IssueController {
 			
 			List<Issue> escalatedToList = issueService.getEscalatedToList();
 			model.addObject("escalatedToList", escalatedToList);
+			
+			model.addObject("iObj", obj);
 			
 		} catch (Exception e) {
 			logger.error("addIssueForm : " + e.getMessage());

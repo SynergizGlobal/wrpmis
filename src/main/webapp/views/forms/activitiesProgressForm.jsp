@@ -535,6 +535,9 @@
                                             <p class="priokind">Any Issue ?</p>  
                                         </div>
                                         <div class="col s6 m6 input-field">
+                                            <p class="priokind"><a href="javascript:void(0);" onclick="getIssueForm();">Add Issue Here</a></p>
+                                        </div>
+                                        <!-- <div class="col s6 m6 input-field">
                                             <p class="radiogroup"
                                                 style="padding-bottom: 10px;padding-top: 10px;">
                                                 <label>
@@ -548,10 +551,10 @@
                                                     <span>No</span>
                                                 </label>
                                             </p>
-                                        </div>                                  
+                                        </div> -->                                  
                                     </div>
                                            
-                                    <div id="issue_yes" style="display: none;">
+                                    <%-- <div id="issue_yes" style="display: none;">
                                         <div class="row">
                                             <h6 class="center-align" style="color:#2E58AD;font-weight:600">Issue Details   </h6>
                                             <!-- <div class="col s12 m6 input-field" style="margin-top: 40px;"> -->
@@ -620,7 +623,7 @@
                                              <span id="remarksError" class="error-msg" ></span>
                                         </div>
                                     </div>
-                                    </div>
+                                    </div> --%>
                                    
                                     <input type="hidden" id="activity_id" name="activity_id" value="${activitiesData.activity_id}" />
                                     
@@ -702,6 +705,13 @@
 
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
+    
+    <form action="<%=request.getContextPath()%>/add-issue-form" id="issueForm" method="post" target="_blank">
+    	<input type="hidden" id="issue_project_id_fk" name="project_id_fk"/>
+    	<input type="hidden" id="issue_work_id_fk" name="work_id_fk"/>
+    	<input type="hidden" id="issue_contract_id_fk" name="contract_id_fk"/>
+    	<input type="hidden" id="issue_location" name="location"/>
+    </form>
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
@@ -1367,7 +1377,7 @@
         
         function saveProgress(){
     		if(validator.form()){ // validation perform
-    			 $(".page-loader").show();
+    			$(".page-loader").show();
     			document.getElementById("activitiesChartForm").action = "<%=request.getContextPath() %>/update-activity-progress";
     			document.getElementById("activitiesChartForm").submit();			
     	 	}
@@ -1532,6 +1542,14 @@
         	        $(this).valid();
         	    }
         	});
+            
+            function getIssueForm() {
+            	$("#issue_project_id_fk").val($("#project_id").val());
+            	$("#issue_work_id_fk").val($("#work_id_fk").val());
+            	$("#issue_contract_id_fk").val($("#contract_id_fk").val());
+            	$("#issue_location").val($("#strip_chart_structure_id_fk").val());
+				$("#issueForm").submit();
+			}
 
     </script>
 </body>

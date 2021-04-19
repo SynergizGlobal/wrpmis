@@ -74,7 +74,7 @@
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
-                                            <option value="${obj.project_id_fk }" >${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                            <option value="${obj.project_id_fk }" <c:if test="${iObj.project_id_fk eq obj.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                         </c:forEach>
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
@@ -85,7 +85,7 @@
                                         onchange="getContractsList(this.value);">
                                         <option value="">Select</option>
                                           <c:forEach var="obj" items="${worksList }">
-	                                      	   	<option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                      	   	<option value= "${ obj.work_id_fk}" <c:if test="${iObj.work_id_fk eq obj.work_id_fk}">selected</c:if>>${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
 	                                      </c:forEach>
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
@@ -100,34 +100,14 @@
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${contractsList }">
-                                      	    <option hod="${obj.hod_user_id_fk}" dyhod="${obj.dy_hod_user_id_fk}" workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                      	    <option hod="${obj.hod_user_id_fk}" dyhod="${obj.dy_hod_user_id_fk}" workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}" 
+                                      	    <c:if test="${iObj.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                         </c:forEach>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
-                            <%-- <div class="row">
-                            	<div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                 	<p class="searchable_label">Department </p> 
-                                    <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${departmentList }">
-                                            <option value="${obj.department_fk }" >${obj.department_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="department_fkError" class="error-msg" ></span>
-                                </div>
-                                <!-- <div class="col s12 m4 input-field">
-                                    <input id="activity" name="activity" type="text" class="validate" style="margin-top:5px">
-                                    <label for="activity"> Activity </label>
-                                    <span id="activityError" class="error-msg" ></span>
-                                </div> -->
-
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div> --%>
                             <div class="row">
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
@@ -193,7 +173,7 @@
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="location" name="location" type="text" class="validate">
+                                    <input id="location" name="location" type="text" class="validate" value="${iObj.location}">
                                     <label for="location">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>

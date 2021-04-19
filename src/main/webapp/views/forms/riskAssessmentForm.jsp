@@ -293,7 +293,7 @@
 																		
 																	</td>
 																	<td>
-																		<textarea
+																		<textarea 
 																			id="action_takens${index.count }"
 																			name="action_takens" class="materialize-textarea"
 																			placeholder="Action Taken" style="height: 44px;">${aObj.action_taken}</textarea>

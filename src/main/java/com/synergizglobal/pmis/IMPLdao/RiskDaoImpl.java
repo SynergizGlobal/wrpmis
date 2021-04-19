@@ -595,7 +595,7 @@ public class RiskDaoImpl implements RiskDao{
 					insertStmt.setString(k++,(obj.getAction_takens().length > 0)?obj.getAction_takens()[i]:null);
 					insertStmt.setString(k++,DateParser.parse((obj.getAtr_dates().length > 0)?obj.getAtr_dates()[i]:null));
 					insertStmt.addBatch();
-				}
+				} 
 			}
 			int[] insertCount = insertStmt.executeBatch();
 			if(insertCount.length > 0) {

@@ -1388,7 +1388,7 @@
 			var s = $('#hide'+fNo+' input').val();
 			if(s != null){
 				$('#hide'+fNo+' input').removeAttr('name');
-				
+				 
 			}
 			moreFiles1(fileIndex,rNo);
 		}

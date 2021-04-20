@@ -80,7 +80,7 @@
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB;  word-wrap:break-word;">
                                                                     #if($x.contract_short_name &&
                                                                     !$x.contract_short_name.empty)
-                                                                    <a title="Work : $x.work_short_name , Contractor : $x.work_short_name , Contract Id : $x.contract_id "
+                                                                    <a title="Work : $x.work_short_name &#013Contractor : $x.contractor_name "
                                                                         style="cursor: pointer;">
                                                                         <img src="http://203.153.40.44/pmis/resources/images/alert_imgs/info.png" alt="info icon"
                                                                             style="width:auto;height:20px;  vertical-align: middle;">
@@ -141,7 +141,7 @@
                                 <tr>
                                     <td style=" font-family: Arial, sans-serif; font-size: 12px;" align="center">
                                         <img src="http://203.153.40.44/pmis/resources/images/mrvclogo.png" alt="Logo" style=" width: 25px;  height: 25px; vertical-align: bottom;"> 
-                                        &copy; 2021 @ mrvc.indianrailways.gov.in | Designed & Developed by <a
+                                        &copy; $current_year @ mrvc.indianrailways.gov.in | Designed & Developed by <a
                                             href="https://www.synergizglobal.com"><img
                                                 src="https://syntrack-dev.s3.ap-south-1.amazonaws.com/SynergizGlobal/img/synergiz.png"
                                                 alt="SynergizGlobal"

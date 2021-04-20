@@ -763,6 +763,9 @@ public class AlertsDaoImpl implements AlertsDao{
 					SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
 		            String today_date = monthFormat.format(new Date()).toUpperCase();
 		            
+		            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+		            String current_year = yearFormat.format(new Date()).toUpperCase();
+		            
 					String emailSubject = "PMIS Contract & Issue Alerts";
 					
 					Mail mail = new Mail();
@@ -772,7 +775,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					mail.setTemplateName("alerts.vm");
 					
 					logger.error("sendNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
-					emailSender.sendEmailWithAlerts(mail,alerts,today_date); 
+					emailSender.sendEmailWithAlerts(mail,alerts,today_date,current_year); 
 					logger.error("sendNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
 				}
 					
@@ -879,8 +882,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		try {
 			Map<String,List<Alerts>> alerts = new LinkedHashMap<String, List<Alerts>>();
 			String aLevelQry = "select alert_level " 
-					+ "from alerts a "  
-					+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
+					+ "from alerts a " 
 					+ "left join contract c on a.contract_id = c.contract_id " 
 					+ "left join work w on c.work_id_fk = w.work_id " 
 					+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
@@ -895,7 +897,6 @@ public class AlertsDaoImpl implements AlertsDao{
 				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
 						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
 						+ "from alerts a "  
-						+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
 						+ "left join contract c on a.contract_id = c.contract_id " 
 						+ "left join work w on c.work_id_fk = w.work_id " 
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
@@ -924,8 +925,11 @@ public class AlertsDaoImpl implements AlertsDao{
 				alerts.put(lObj.getAlert_level(), allAlertsList);
 			}
 			
-			SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
-            String today_date = monthFormat.format(new Date()).toUpperCase();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-YYYY");
+            String today_date = dateFormat.format(new Date()).toUpperCase();
+            
+            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+            String current_year = yearFormat.format(new Date()).toUpperCase();
             
 			String emailSubject = "PMIS Contract & Issue Alerts";
 			
@@ -937,7 +941,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			if(alerts != null && alerts.size() > 0){
 				EMailSender emailSender = new EMailSender();
 				logger.error("sendAlertsToRajivRavi() >> Sending mail : Start ");	
-				emailSender.sendEmailWithAlerts(mail,alerts,today_date); 
+				emailSender.sendEmailWithAlerts(mail,alerts,today_date,current_year); 
 				logger.error("sendAlertsToRajivRavi() >> Sending mail : End ");
 				flag = true;
 			}

@@ -532,9 +532,9 @@
 
                                     <div class="row">                
                                         <div class="col s6 m6 input-field center-align">
-                                            <p class="priokind">Any Issue ?</p>  
+                                            <p class="priokind" style="text-align: right;">Any Issue</p>  
                                         </div>
-                                        <div class="col s6 m6 input-field">
+                                        <div class="col s6 m6">
                                             <p class="priokind"><button type="button" class="btn waves-effect waves-light bg-m"  onclick="getIssueForm();">Add Issue</button></p>
                                         </div>
                                         <!-- <div class="col s6 m6 input-field">

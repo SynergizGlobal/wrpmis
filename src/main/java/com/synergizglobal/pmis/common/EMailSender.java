@@ -205,7 +205,7 @@ public class EMailSender {
 		}
 	}
 	
-	public void sendEmailWithIssueAlert(Mail mail, Issue iObj) throws Exception {
+	public void sendEmailWithIssueAlert(Mail mail, Issue iObj, String today_date, String current_year) throws Exception {
 		try {
 			  MimeMessage message = new MimeMessage( getSession() );
 			  Multipart multipart = new MimeMultipart( "alternative" );
@@ -233,6 +233,8 @@ public class EMailSender {
 				
 			  VelocityContext velocityContext = new VelocityContext();
 			  velocityContext.put("alert", iObj);
+			  velocityContext.put("today_date", today_date);
+			  velocityContext.put("current_year", current_year);
 			  
 			  StringWriter stringWriter = new StringWriter();
 			  
@@ -404,7 +406,7 @@ public class EMailSender {
 		
 	}
 
-	public void sendEmailWithRiskAlerts(Mail mail, List<Alerts> alerts) throws Exception {
+	public void sendEmailWithRiskAlerts(Mail mail, List<Alerts> alerts, String today_date, String current_year) throws Exception {
 		try {
 			  MimeMessage message = new MimeMessage( getSession() );
 			  Multipart multipart = new MimeMultipart( "alternative" );
@@ -432,6 +434,8 @@ public class EMailSender {
 				
 			  VelocityContext velocityContext = new VelocityContext();
 			  velocityContext.put("alerts", alerts);
+			  velocityContext.put("today_date", today_date);
+			  velocityContext.put("current_year", current_year);
 			  
 			  StringWriter stringWriter = new StringWriter();
 			  

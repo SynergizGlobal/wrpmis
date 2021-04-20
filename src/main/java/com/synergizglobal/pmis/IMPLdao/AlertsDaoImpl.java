@@ -849,19 +849,25 @@ public class AlertsDaoImpl implements AlertsDao{
 							}
 						}
 						
+						SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
+			            String today_date = monthFormat.format(new Date()).toUpperCase();
+			            
+			            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+			            String current_year = yearFormat.format(new Date()).toUpperCase();
+			            
 						String emailSubject = "PMIS Risk Assessment Due";
 						
 						Mail mail = new Mail();
 						mail.setMailTo(uObj.getEmail_id());
 						if(isOverdue && !StringUtils.isEmpty(uObj.getReporting_to_email_id())) {
-							mail.setMailBcc(uObj.getReporting_to_email_id());
+							mail.setMailCc(uObj.getReporting_to_email_id());
 						}						
 						mail.setMailBcc(CommonConstants.BCC_MAIL);
 						mail.setMailSubject(emailSubject);
 						mail.setTemplateName("Risk_Alerts.vm");
 						
 						logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
-						emailSender.sendEmailWithRiskAlerts(mail,riskAlertsList); 
+						emailSender.sendEmailWithRiskAlerts(mail,riskAlertsList,today_date,current_year); 
 						logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
 					}
 						
@@ -1001,6 +1007,12 @@ public class AlertsDaoImpl implements AlertsDao{
 					}
 				}
 				
+				SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
+	            String today_date = monthFormat.format(new Date()).toUpperCase();
+	            
+	            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+	            String current_year = yearFormat.format(new Date()).toUpperCase();
+				
 				String emailSubject = "PMIS Risk Assessment Due";
 				
 				Mail mail = new Mail();
@@ -1010,7 +1022,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				mail.setTemplateName("Risk_Alerts.vm");
 				
 				logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >>: Start ");	
-				emailSender.sendEmailWithRiskAlerts(mail,riskAlertsList); 
+				emailSender.sendEmailWithRiskAlerts(mail,riskAlertsList,today_date,current_year); 
 				logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >> : End ");
 			}
 				

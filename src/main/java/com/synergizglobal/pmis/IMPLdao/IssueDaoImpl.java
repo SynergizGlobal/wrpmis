@@ -1,7 +1,9 @@
 package com.synergizglobal.pmis.IMPLdao;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -1031,11 +1033,17 @@ public class IssueDaoImpl implements IssueDao {
 				mail.setMailSubject(emailSubject);
 				mail.setTemplateName("IssueAlert.vm");
 				
+				SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
+	            String today_date = monthFormat.format(new Date()).toUpperCase();
+	            
+	            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+	            String current_year = yearFormat.format(new Date()).toUpperCase();
+				
 				if(!StringUtils.isEmpty(mailTo)){		
 					EMailSender emailSender = new EMailSender();
 					logger.error("sendEmailWithIssueAlert() >> Sending mail to "+mailTo+": Start ");
 					logger.error("sendEmailWithIssueAlert() >> Sending mail CC "+mailCC+": Start ");
-					emailSender.sendEmailWithIssueAlert(mail,iObj);
+					emailSender.sendEmailWithIssueAlert(mail,iObj,today_date,current_year);
 					logger.error("sendEmailWithIssueAlert() >> Sending mail to "+mailTo+": end ");
 					logger.error("sendEmailWithIssueAlert() >> Sending mail CC "+mailCC+": end ");
 				}

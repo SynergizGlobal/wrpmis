@@ -105,12 +105,7 @@
 	}
 	.notifications_group{
 		margin-top:5px;
-	}
-	@media screen and (max-width:600px) {
-	  .alert-table-icon {
-		width:26%;
-		}
-	}
+	}	
 </style>
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />

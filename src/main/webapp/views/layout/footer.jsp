@@ -9,7 +9,7 @@
 <!-- footer goes here -->
   <div class="footer-copyright blue lighten-5 bottom">
     <div class="container">
-      <span>Copyright   &copy; <span id="currentYear"></span> @ <a href="https://mrvc.indianrailways.gov.in/" style="color:blue">mrvc.indianrailways.gov.in</a> | Designed & Developed by</span> 
+      <span> &copy; <span id="currentYear"></span> @ <a href="https://mrvc.indianrailways.gov.in/" target="_blank" style="color:blue">mrvc.indianrailways.gov.in</a> | Designed & Developed by</span> 
       		<a href="https://www.synergizglobal.com" target="_blank"> <img src="/pmis/resources/images/synergiz.png" class="footer-img" alt="footer image"></a>
         <a class="help-icon dropdown-trigger"  href='#' data-target='help-dropdown'>
         	<img src="/pmis/resources/images/help_icon.svg">

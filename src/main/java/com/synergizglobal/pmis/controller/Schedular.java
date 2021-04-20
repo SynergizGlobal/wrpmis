@@ -60,7 +60,7 @@ public class Schedular {
 	//@Scheduled(cron = "0 0/3 * * * *")	//  = every minute.
 	//@Scheduled(cron = "0 50 10 * * *")	//  = every day 2:10 am.
 	//@Scheduled(cron = "0 10 16 * * *")	//  = every day 4:10 pm.
-	@Scheduled(cron = "${cron.expression.generate.alerts}")
+	//@Scheduled(cron = "${cron.expression.generate.alerts}")
 	public void generateAlertsByCronJob(){		
 	     String message = "Method executed every day. Current time is :: "+ new Date();
 	     
@@ -89,7 +89,7 @@ public class Schedular {
 	}
 	
 	//@Scheduled(cron = "0 25 15 * * MON")
-	@Scheduled(cron = "${cron.expression.sending.alert.mails}")
+	//@Scheduled(cron = "${cron.expression.sending.alert.mails}")
 	public void sendNotificationAlertMailsToAllByCronJob(){		
 	     String message = "Method executed every Monday. Current time is :: "+ new Date();
 	     
@@ -105,7 +105,7 @@ public class Schedular {
 	}
 	
 	//@Scheduled(cron = "0 0/1 * * * *")	//  = every minute.
-	@Scheduled(cron = "${cron.expression.send.mail.with.open.issues}")
+	//@Scheduled(cron = "${cron.expression.send.mail.with.open.issues}")
 	public void sendMailWithOpenIssues(){
 	     try {
 	    	 logger.error("sendMailWithOpenIssues : Method executed at > "+new Date());

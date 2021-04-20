@@ -544,7 +544,10 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 			String activity_name = activity.substring(1, activity.length() - 2);
 			String department_id = getDepartment(obj.getContract_id_fk());
 			String issueId = null;
-			if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
+
+			boolean tempflag = false;
+			//if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
+			if(tempflag){
 				String issuesQry = "INSERT INTO issue(contract_id_fk,title,reported_by,priority_fk,category_fk,status_fk,date,location,"
 						+ "corrective_measure,created_by_user_id_fk,created_date,zonal_railway_fk,other_organization)"
 						+ "VALUES(?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?)";				

@@ -532,9 +532,23 @@
 
                                     <div class="row">                
                                         <div class="col s6 m6 input-field center-align">
-                                            <p class="priokind" style="text-align: right;">Any Issue</p>  
+                                            <p class="priokind" style="text-align: right;">Any Issue?
+                                            	<span class="radiogroup"
+	                                                style="padding-bottom: 10px;padding-top: 10px;">
+	                                                <label style="padding-right: 10px;">
+	                                                    <input class="with-gap" name="is_there_issue" type="radio"
+	                                                        value="yes" />
+	                                                    <span style="padding-left: 23px;">Yes</span>
+	                                                </label>
+	                                                <label>
+	                                                    <input class="with-gap" name="is_there_issue" type="radio"
+	                                                        value="no" Checked/>
+	                                                    <span style="padding-left: 23px;">No</span>
+	                                                </label>
+	                                            </span>
+                                            </p>  
                                         </div>
-                                        <div class="col s6 m6">
+                                        <div class="col s6 m6" id="issue_yes" style="display: none;">
                                             <p class="priokind"><button type="button" class="btn waves-effect waves-light bg-m"  onclick="getIssueForm();">Add Issue</button></p>
                                         </div>
                                         <!-- <div class="col s6 m6 input-field">
@@ -792,13 +806,22 @@
 	              var radioval = $('input[name=is_there_issue]:checked').val();
 	              if (radioval == 'yes') {											
 	                  $('#issue_yes').css("display", "block");
+	              } else if (radioval == 'no') {
+	                  $('#issue_yes').css("display", "none");
+	              }
+	        });
+  	      
+	  	    /* $('input[name=is_there_issue]').change(function () {
+	              var radioval = $('input[name=is_there_issue]:checked').val();
+	              if (radioval == 'yes') {											
+	                  $('#issue_yes').css("display", "block");
 	                  getIssuesCategoryList();
 	              } else if (radioval == 'no') {
 	                  $('#issue_yes').css("display", "none");
 	                  $("#issue_category_id option:not(:first)").remove();
 	                  $('#issue_category_id').formSelect();
 	              }
-	        });
+	        }); */
   	      
 
             var project_id = "${activitiesData.project_id}";

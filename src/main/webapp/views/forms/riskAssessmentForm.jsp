@@ -154,7 +154,7 @@
 		    border-top: 1px solid #777;
 		    border-bottom: 1px solid #777;
 		}
-		.error-msg{color:red!important;}
+		.error-msg{color:red!important;text-align: left;}
     </style>
     
 </head>
@@ -287,7 +287,7 @@
 																				id="atr_date_icon${index.count }">
 																				<i class="fa fa-calendar"></i>
 																			</button>
-																			<span id="atr_datesError${index.count }" class="error-msg" ></span>
+																			<p id="atr_dates${index.count }Error" class="error-msg" ></p>
 																		</div>
 																		
 																		
@@ -297,7 +297,7 @@
 																			id="action_takens${index.count }"
 																			name="action_takens" class="materialize-textarea"
 																			placeholder="Action Taken" style="height: 44px;">${aObj.action_taken}</textarea>
-																			<span id="action_takensError${index.count }" class="error-msg" ></span>
+																			<p id="action_takens${index.count }Error" class="error-msg" ></p>
 																	</td>
 																	<td>
 																	<%-- <a onclick="removeActions('${index.count }');" class="btn waves-effect waves-light red t-c "> 
@@ -329,13 +329,13 @@
 																			id="atr_date_icon0">
 																			<i class="fa fa-calendar"></i>
 																		</button>
-																		<span id="atr_datesError0" class="error-msg" ></span>
+																		<p id="atr_dates0Error" class="error-msg" ></p>
 																	</div>
 																</td>
 																<td><textarea id="action_takens0"
 																		name="action_takens" class="materialize-textarea"
 																		placeholder="Action Taken" style="height: 44px;"></textarea>
-																		<span id="action_takensError0" class="error-msg" ></span>
+																		<p id="action_takens0Error" class="error-msg" ></p>
 																</td>
 																<td>
 																	<!-- <a onclick="removeActions('0');"
@@ -585,9 +585,9 @@
 			+'</select></div></td>' */
 			+'<td><div class="input-field"><input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'
 			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button>'
-			+'</div><span id="atr_datesError' + rNo + '" class="error-msg" ></span></td>'
+			+'</div><p id="atr_dates' + rNo + 'Error" class="error-msg" ></p></td>'
 			+'<td><textarea id="action_takens' + rNo +'"  name="action_takens" '
-			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea><span id="action_takensError' + rNo + '" class="error-msg" ></span></td>'
+			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea><p id="action_takens' + rNo + 'Error" class="error-msg" ></p></td>'
 			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#riskRevisionBody').append(html);
@@ -679,8 +679,8 @@
       
         function updateRisk(){	       	
    			$(".page-loader").show();
-   			validate();
-   			if(validate()){
+   			var flag = validateRisk();
+   			if(flag){
    				$('form input[name=atr_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
    		   		$('form input[name=action_takens]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
    	   			$("#riskForm").submit();
@@ -689,120 +689,56 @@
    			
         }
         
-	        $('[name=atr_dates]').change(function(key, element){
-	        	var i = 1;
-	        	var dNo =$('input[name*="atr_dates"]').length;
-	        	while (i < dNo){
-	        		if($('#atr_dates'+i).val()== ""){
-						$('#atr_datesError'+i).text('Requried');
-						validate() == false;
-					}else{
-						$('#atr_datesError'+i).text('');
-						validate() == true;
-					}
-	        		i++
-	        	}
-				
-			 });
-			 $('[name=action_takens]').change(function(){
-				 var i = 1;
-				 var dNo = $('textarea[name*="action_takens"]').length;
-				 while (i <= dNo){
-					if($('#action_takens'+i).val()== ""){
-						$('#action_takensError'+i).text('Requried');
-						validate() == false;
-						
-					}else{
-						$('#action_takensError'+i).text('');
-						validate() == false;
-					}
-					i++
-				 }
-			
-			 });
-			 
-	    function validate() {
-	    	var i = 1;
-	    	var j = 1;
-	    	var k = 1;
-			var flag = false;
-			var flag1 = false;
-			var flag2 = false;
-	    	if(idNo == ''){
-	    		idNo = 1;
-	    	}
-	    	var dNO = Number(idNo)+1;
-	    	while (i < dNO){
-	    		if($('#atr_dates'+i).val()== "" && $('#action_takens'+i).val()== ""){
-	    			return true;
-	    		}else if($('#atr_dates'+i).val()== "" || $('#action_takens'+i).val()== ""){
-	    			if($('#atr_dates'+i).val()== ""){
-	    				$('#atr_datesError'+i).html('Requried')
-	    			}
-	    			if($('#action_takens'+i).val()== ""){
-	    				$('#action_takensError'+i).text('Requried')
-	    			}
-	    			 $('[name=atr_dates]').change(function(){
-	    				 var kNo =$('input[name*="atr_dates"]').length;
-	    		        	while (k <= kNo){
-	    		        		if($('#atr_dates'+k).val()== ""){
-	    							$('#atr_datesError'+k).text('Requried');
-	    							validate() == false;
-	    						}else{
-	    							$('#atr_datesError'+k).text('');
-	    							validate() == true;
-	    						}
-	    		        		k++
-	    		        	}
-	    			 });
-	    			 $('[name=action_takens]').change(function(){
-	    				 
-	    				 var aNo = $('textarea[name*="action_takens"]').length;
-	    				 while (j <= aNo){
-	    					if($('#action_takens'+j).val()== ""){
-	    						$('#action_takensError'+j).text('Requried');
-	    						validate() == false;
-	    						
-	    					}else{
-	    						$('#action_takensError'+j).text('');
-	    						validate() == false;
-	    					}
-	    					j++
-	    				 }
-	    			
-	    			 });
-	    			i++
-	    		}else{
-	    			i++
-	    			}
-	    			
-	    		}
-
-			 $('[name=atr_dates]').each(function () {
-			     if ($(this).val() != "") {
-			         flag1 = true;
-			     }else{
-			    	 flag1 = false;
-			     }
-			 });
-			 $('[name=action_takens]').each(function () {
-			     if ($(this).val() != "") {
-			         flag2 = true;
-			     }else{
-			    	 flag2 = false;
-			     }
-			 });
-			 if(flag1 && flag2){
-				 flag = true;
-			 }else{
-				 flag = false;
-			 }
-			 if (!flag) {
-			     return false;
-			 } else {
-			     return true;
-			 }
-	    	}
+        function validateRisk(){
+        	var flag = true;
+        	$("input[name=atr_dates]").each(function(){
+        		//console.log((this.id).replace('atr_dates',''));
+        		var idNo = (this.id).replace('atr_dates','');
+        		var action_taken = $("#action_takens"+idNo).val();
+        		if($.trim(this.value) == "" && $.trim(action_taken) != ""){
+					$('#'+this.id+'Error').text('Requried');
+					flag = false;
+				}else if($.trim(this.value) != "" && $.trim(action_taken) == ""){
+					$('#action_takens'+idNo+'Error').text('Requried');
+					flag = false;
+				}
+            });
+        	return flag;
+        }
+        
+	    $('input[name=atr_dates]').change(function(key, element){
+	    	$("input[name=atr_dates]").each(function(){
+        		if($.trim(this.value) == ""){
+					$('#'+this.id+'Error').text('Requried');
+				}else{
+					$('#'+this.id+'Error').text('');
+				}
+            });
+        	$("textarea[name=action_takens]").each(function(){
+        		if($.trim(this.value) == ""){
+					$('#'+this.id+'Error').text('Requried');
+				}else{
+					$('#'+this.id+'Error').text('');
+				}
+            });
+		});
+		$('textarea[name=action_takens]').change(function(){
+			$("input[name=atr_dates]").each(function(){
+        		if($.trim(this.value) == ""){
+					$('#'+this.id+'Error').text('Requried');
+				}else{
+					$('#'+this.id+'Error').text('');
+				}
+            });
+        	$("textarea[name=action_takens]").each(function(){
+        		if($.trim(this.value) == ""){
+					$('#'+this.id+'Error').text('Requried');
+				}else{
+					$('#'+this.id+'Error').text('');
+				}
+            });
+		
+		});
 	    
 	    
         $('select').change(function(){

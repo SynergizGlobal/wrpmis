@@ -709,7 +709,7 @@
 				 var dNo = $('textarea[name*="action_takens"]').length;
 				 while (i <= dNo){
 					if($('#action_takens'+i).val()== ""){
-						$('#action_takensError'+i).text('This filed is requried');
+						$('#action_takensError'+i).text('Requried');
 						validate() == false;
 						
 					}else{
@@ -740,7 +740,7 @@
 	    				$('#atr_datesError'+i).html('Requried')
 	    			}
 	    			if($('#action_takens'+i).val()== ""){
-	    				$('#action_takensError'+i).text('This filed is requried')
+	    				$('#action_takensError'+i).text('Requried')
 	    			}
 	    			 $('[name=atr_dates]').change(function(){
 	    				 var kNo =$('input[name*="atr_dates"]').length;
@@ -760,7 +760,7 @@
 	    				 var aNo = $('textarea[name*="action_takens"]').length;
 	    				 while (j <= aNo){
 	    					if($('#action_takens'+j).val()== ""){
-	    						$('#action_takensError'+j).text('This filed is requried');
+	    						$('#action_takensError'+j).text('Requried');
 	    						validate() == false;
 	    						
 	    					}else{

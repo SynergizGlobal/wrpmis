@@ -253,8 +253,9 @@
 
       <footer class="page-footer">
         <div class="container">
-            <p class="footer-text">Copyright <span id="year"></span> @ mrvc.indianrailways.gov.in | Designed & Developed by
-                <img src="/pmis/resources/images/synergiz.png" alt="synergiz logo" class="footer-logo"> 
+            <p class="footer-text">Copyright &copy; <span id="year"></span> @ 
+            	<a href="https://mrvc.indianrailways.gov.in/">mrvc.indianrailways.gov.in</a> | Designed & Developed by
+               <a href="https://www.synergizglobal.com" target="_blank"> <img src="/pmis/resources/images/synergiz.png" alt="synergiz logo" class="footer-logo"> </a>
                 <a class="help-icon dropdown-trigger"  href='#' data-target='help-dropdown'>
         			<img src="/pmis/resources/images/help_icon_white.svg">        
         		</a>

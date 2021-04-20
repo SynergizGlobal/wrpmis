@@ -9,8 +9,8 @@
 <!-- footer goes here -->
   <div class="footer-copyright blue lighten-5 bottom">
     <div class="container">
-      <span>Copyright 2020 @ mrvc.indianrailways.gov.in | Designed & Developed by</span> <img src="/pmis/resources/images/synergiz.png"
-        class="footer-img" alt="footer image">
+      <span>Copyright   &copy; <span id="currentYear"></span> @ <a href="https://mrvc.indianrailways.gov.in/" style="color:blue">mrvc.indianrailways.gov.in</a> | Designed & Developed by</span> 
+      		<a href="https://www.synergizglobal.com" target="_blank"> <img src="/pmis/resources/images/synergiz.png" class="footer-img" alt="footer image"></a>
         <a class="help-icon dropdown-trigger"  href='#' data-target='help-dropdown'>
         	<img src="/pmis/resources/images/help_icon.svg">
         </a>
@@ -26,6 +26,7 @@
   </div>
      <!-- <script src="/pmis/resources/js/theme.js"></script> -->
      <script>
+     document.getElementById("currentYear").innerHTML = new Date().getFullYear();
      $('.dropdown-trigger').dropdown({
     	 coverTrigger:false,    	 
     	 closeOnClick: false,

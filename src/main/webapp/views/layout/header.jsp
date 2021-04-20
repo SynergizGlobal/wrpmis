@@ -106,6 +106,11 @@
 	.notifications_group{
 		margin-top:5px;
 	}
+	@media screen and (max-width:600px) {
+	  .alert-table-icon {
+		width:26%;
+		}
+	}
 </style>
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />
@@ -1202,9 +1207,11 @@
 			                    		  }
 			                    		  html = html + '<li class="item '+bgClass+' row">'
 			                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+'">'
-			                    		  		+'<div class="col m2 s2 icon-holder">'
+			                    		  		/* +'<div class="col m2 s2 icon-holder">'
 			                    		  		+ '<span class="icon"> '+bgIcon+' <span class="icon-text">'+val.alert_type_fk+'</span> </span>'
-			                    		  		+'</div> <div class="col m10 s10 text-holder">';
+			                    		  		+'</div> <div class="col m10 s10 text-holder">'; */
+			                    		  		+'<table><tbody><tr class="no-border"> <td class="alert-table-icon"><span class="icon"> '+bgIcon
+			                    		  		+' <span class="icon-text">'+val.alert_type_fk+'</span> </span> </td> <td class="alert-table-content">';
 			                    		  		if(val.alert_type_fk != 'Risk'){
 			                    		  			 html = html + '<div>Work : '+val.work_short_name +'</div>'
 								                    		  		+ '<div>Contract : '+val.contract_short_name +'</div>'
@@ -1218,7 +1225,7 @@
 				                    		    }
 			                    		  		 
 			                    		  		html = html + '<div>'+ label + val.alert_value +'</div>'+'</div>'
-			                    		  		+ '</a></li>';
+			                    		  		+ '</td></tr> </tbody> </table> </a></li>';
 			                    		  
 		                    		  });
 	                    		  });

@@ -669,7 +669,7 @@ public class WorkDaoImpl implements WorkDao {
 		return objsList;
 	}
 
-
+	/**
 	@Override
 	public int getTotalRecords(Work obj, String searchParameter) throws Exception {
 		int totalRecords = 0;
@@ -760,5 +760,5 @@ public class WorkDaoImpl implements WorkDao {
 		}
 		return objsList;
 	}
-	
+	*/
 }

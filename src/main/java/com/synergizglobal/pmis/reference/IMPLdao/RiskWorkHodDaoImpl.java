@@ -27,7 +27,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 	public List<TrainingType> getRiskWorkHODDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="select risk_work_hod_id, work_id_fk, hod_user_id_fk,u.designation,w.work_short_name from risk_work_hod wh "
+			String qry ="select risk_work_hod_id, work_id_fk,sub_work, hod_user_id_fk,u.designation,w.work_short_name from risk_work_hod wh "
 					+ "left join work w on wh.work_id_fk = w.work_id "
 					+ "left join user u on wh.hod_user_id_fk = u.user_id ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
@@ -67,7 +67,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO risk_work_hod"
-					+ "( work_id_fk, hod_user_id_fk) VALUES (:work_id_fk, :hod_user_id_fk)";
+					+ "( work_id_fk,sub_work, hod_user_id_fk) VALUES (:work_id_fk,:sub_work, :hod_user_id_fk)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -87,7 +87,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "UPDATE risk_work_hod set "
-					+ "work_id_fk= :work_id_fk_new, hod_user_id_fk= :hod_user_id_fk_new where risk_work_hod_id = :risk_work_hod_id";
+					+ "work_id_fk= :work_id_fk_new, hod_user_id_fk= :hod_user_id_fk_new,sub_work= :sub_work_new where risk_work_hod_id = :risk_work_hod_id";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			

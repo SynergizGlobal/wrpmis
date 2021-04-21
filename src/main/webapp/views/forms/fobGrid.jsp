@@ -273,7 +273,7 @@
        	    	filtersMap["work_status_fk"] = work_status_fk;
         	}
         }
-        
+<%--         
         function getFOBList() {
     		$(".page-loader-2").show();
     		getWorkStatusFilterList('');
@@ -405,9 +405,9 @@
     	  $(".page-loader-2").hide();  		     
       	
      }
+         --%>
         
-        
-        function getFOBList1(){
+        function getFOBList(){
         	$(".page-loader").show();
         	
         	getWorkStatusFilterList('');

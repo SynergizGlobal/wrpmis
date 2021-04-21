@@ -51,7 +51,7 @@ public class ProjectListImpl implements ProjectService{
 		return projectDao.getYearList();
 	}
 
-
+	/**
 	@Override
 	public int getTotalRecords(Project obj, String searchParameter) throws Exception {
 		return projectDao.getTotalRecords(obj,searchParameter);
@@ -63,7 +63,7 @@ public class ProjectListImpl implements ProjectService{
 			throws Exception {
 		return projectDao.getProjectsList(obj,startIndex,offset,searchParameter);
 	}
-
+*/
 }
 
 

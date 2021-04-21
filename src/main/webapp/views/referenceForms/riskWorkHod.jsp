@@ -114,6 +114,7 @@
                                     <thead>
                                         <tr>
                                             <th>Work ID</th>
+                                            <th>Sub Work</th>
                                             <th>Hod User ID</th>
                                             <th class="no-sort">Action</th>
                                         </tr>
@@ -125,6 +126,10 @@
 											 	<input type="hidden" id="risk_work_hod_id${index.count}" name="risk_work_hod_id" value="${obj.risk_work_hod_id }" />
 												<input type="hidden" id="work${index.count}" value="${obj.work_id_fk }" />
 												${obj.work_id_fk }<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</td>
+											<td>
+											 	${obj.sub_work }
+											 	<input type="hidden" id="sub_work${index.count}" value="${obj.sub_work }" />
+											</td>
 											<td>
 												<input type="hidden" id="user${index.count}" value="${obj.hod_user_id_fk }" />
 												${obj.designation }</td>
@@ -178,6 +183,11 @@
 	                             </select>
                                  <span id="hod_user_id_fkError" class="error-msg" ></span>
                             </div>
+                            <div class="input-field col s12 m12">
+                                <input name="sub_work" id="sub_work" type="text">
+                                <label for="sub_work">Sub Work</label>
+                                 <span id="sub_workError" class="error-msg" ></span>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
@@ -230,6 +240,11 @@
 			                         </c:forEach>
 	                             </select>
                                  <span id="hod_user_id_fkUpdateError" class="error-msg" ></span>
+                            </div>
+                            <div class="input-field col s12 m12">
+                                <input name="sub_work_new" id="sub_work_new" type="text">
+                                <label for="sub_work_new">Sub Work</label>
+                                 <span id="sub_work_newError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -330,13 +345,16 @@
         function updateRow(no) {
             var work = $('#work'+no).val();
             var user = $('#user'+no).val();
+            var sub_work = $('#sub_work'+no).val();
             var risk_work_hod_id = $('#risk_work_hod_id'+no).val();
             $('#onlyUpdateModal').modal('open');
             $('#update_work_id_text').val($.trim(work))
             $('#update_hod_user_id').val($.trim(user))
+            $('#sub_work_new').val($.trim(sub_work))
             $('#risk_work_hod_id').val($.trim(risk_work_hod_id))
             $('#onlyUpdateModal #update_work_id_text').val($.trim(work)).focus();
             $('#onlyUpdateModal #update_hod_user_id').val($.trim(user)).focus();
+            $('#onlyUpdateModal #sub_work_new').val($.trim(sub_work)).focus();
             $('select[name^="work_id_fk"] option[value="'+ $.trim(work) +'"]').attr("selected","selected");
             $('select[name^="hod_user_id_fk"] option[value="'+ user +'"]').attr("selected","selected");
   	    	$('.searchable').select2();
@@ -349,7 +367,7 @@
          	}
       }
         function updateRiskWorkHOD(){
-         	 if(validator.form()){ 
+         	 if(validator1.form()){ 
      			$(".page-loader").show();
      			$("#onlyUpdateModal").modal();
      			document.getElementById("RiskWorkHODUpdateForm").submit();	
@@ -363,21 +381,22 @@
       			 		  required: true
           			 },"hod_user_id_fk":{
       					  required: true
+          			},"sub_work":{
+          				  required: true
           			}
       			},messages: {
       		 		 "work_id_fk": {
       			 		  required: 'Required'
       			 	 }, "hod_user_id_fk": {
       			 		  required: 'Required'
-      			 	  }
+      			 	 }, "sub_work": {
+      			 		  required: 'Required'
+      			 	 }
       	        },errorPlacement:function(error, element){
-      	        	 if(element.attr("id") == "update_work_id_text" ){
-      				     document.getElementById("work_id_fkUpdateError").innerHTML="";
-      			 	     error.appendTo('#work_id_fkUpdateError');
-      			   }else if(element.attr("id") == "update_hod_user_id" ){
-      			     document.getElementById("hod_user_id_fkUpdateError").innerHTML="";
-      		 	     error.appendTo('#hod_user_id_fkUpdateError');
-      		 	   }else if(element.attr("id") == "hod_user_id" ){
+      	        	 if(element.attr("id") == "sub_work" ){
+      				     document.getElementById("sub_workError").innerHTML="";
+      			 	     error.appendTo('#sub_workError');
+      			   }else if(element.attr("id") == "hod_user_id" ){
         			     document.getElementById("hod_user_id_fkError").innerHTML="";
           		 	     error.appendTo('#hod_user_id_fkError');
       		 	   }else if(element.attr("id") == "work_id_text" ){
@@ -387,20 +406,24 @@
       	        }
           });
 
-      var validato1r = $('#RiskWorkHODUpdateForm').validate({
+      var validator1 = $('#RiskWorkHODUpdateForm').validate({
           ignore: ":hidden:not(.validate-dropdown)",
         	 rules: {
         		 	"work_id_fk_new": {
     			 		  required: true
         			 },"hod_user_id_fk_new":{
     					  required: true
-        			}
+        			},"sub_work_new":{
+   					  	  required: true
+       			}
     			},messages: {
     		 		 "work_id_fk_new": {
     			 		  required: 'Required'
     			 	 }, "hod_user_id_fk_new": { 
     			 		  required: 'Required'
-    			 	  }
+    			 	 }, "sub_work_new": { 
+   			 		  required: 'Required'
+   			 	  }
     	        },errorPlacement:function(error, element){
     	        	 if(element.attr("id") == "update_work_id_text" ){
     				     document.getElementById("work_id_fkUpdateError").innerHTML="";
@@ -408,6 +431,9 @@
     			   }else if(element.attr("id") == "update_hod_user_id" ){
     			     document.getElementById("hod_user_id_fkUpdateError").innerHTML="";
     		 	     error.appendTo('#hod_user_id_fkUpdateError');
+    		 	   }else if(element.attr("id") == "sub_work_new" ){
+    			     document.getElementById("sub_work_newError").innerHTML="";
+    		 	     error.appendTo('#sub_work_newError');
     		 	   }
     	        }
         });

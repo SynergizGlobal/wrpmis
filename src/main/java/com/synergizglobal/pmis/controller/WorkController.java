@@ -92,7 +92,7 @@ public class WorkController {
 		}
 		return model;
 	}
-	
+	/**
 	@RequestMapping(value = "/ajax/get-works", method = { RequestMethod.POST, RequestMethod.GET }) 
 	public void getWorksList(@ModelAttribute Work obj, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws IOException {
@@ -159,12 +159,12 @@ public class WorkController {
 
 		pw.println(json2);
 	}
-
+*/
 	/**
 	 * @param searchParameter 
 	 * @param activity 
 	 * @return
-	 */
+	 *//**
 	public int getTotalRecords(Work obj, String searchParameter) {
 		int totalRecords = 0;
 		try {
@@ -173,7 +173,7 @@ public class WorkController {
 			logger.error("getTotalRecords : " + e.getMessage());
 		}
 		return totalRecords;
-	}
+	}*/
 
 	/**
 	 * @param pageDisplayLength
@@ -181,7 +181,7 @@ public class WorkController {
 	 * @param activity 
 	 * @param clientId 
 	 * @return
-	 */
+	 *//**
 	public List<Work> createPaginationData(int startIndex, int offset,Work obj, String searchParameter) {
 		List<Work> objList = null;
 		try {
@@ -191,7 +191,7 @@ public class WorkController {
 		}
 		return objList;
 	}
-	
+	*/
 	@RequestMapping(value = "/get-work", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getWorkDetails(@ModelAttribute Work work,Railway rail){
 		ModelAndView model = new ModelAndView();

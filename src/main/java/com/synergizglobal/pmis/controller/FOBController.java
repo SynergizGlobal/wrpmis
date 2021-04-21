@@ -99,7 +99,19 @@ public class FOBController {
 		}
 		return model;
 	}
-
+	@RequestMapping(value = "/ajax/getFOBList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FOB> getFOBList(@ModelAttribute FOB obj) {
+		List<FOB> fobs = null;
+		try {
+			fobs = fobService.getFOBList(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getFOBList : " + e.getMessage());
+		}
+		return fobs;
+	}
+	/**
 	@RequestMapping(value = "/ajax/getFOBList", method = { RequestMethod.POST, RequestMethod.GET })
 	public void getFOBList(@ModelAttribute FOB obj, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws IOException {
@@ -165,13 +177,13 @@ public class FOBController {
 		}
 
 		pw.println(json2);
-	}
+	}*/
 
 	/**
 	 * @param searchParameter 
 	 * @param activity 
 	 * @return
-	 */
+	 *//**
 	public int getTotalRecords(FOB obj, String searchParameter) {
 		int totalRecords = 0;
 		try {
@@ -180,7 +192,7 @@ public class FOBController {
 			logger.error("getTotalRecords : " + e.getMessage());
 		}
 		return totalRecords;
-	}
+	}*/
 
 	/**
 	 * @param pageDisplayLength
@@ -188,7 +200,7 @@ public class FOBController {
 	 * @param activity 
 	 * @param clientId 
 	 * @return
-	 */
+	 *//**
 	public List<FOB> createPaginationData(int startIndex, int offset,FOB obj, String searchParameter) {
 		List<FOB> objList = null;
 		try {
@@ -198,7 +210,7 @@ public class FOBController {
 		}
 		return objList;
 	}
-	
+	*/
 	
 	@RequestMapping(value = "/ajax/getWorkStatusFilterListInFOB", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

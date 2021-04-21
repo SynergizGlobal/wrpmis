@@ -17,8 +17,16 @@ public class TrainingType {
 	item_no_new,risk_area_fk,risk_area_fk_new,sub_area,sub_area_new,la_sub_category_new,la_category_fk_new,la_category_fk_old,la_sub_category_old,sub_category,
 	zonal_railway_funds,risk_minimum_new,risk_maximum_new,risk_classification_id, classification, minimum, maximum,alert_level,alert_type,as_built_status,user_type,
 	login_event_type,yesorno,type,notification_type, notification_type_icon,notification_type_icon_new,type_fk_new,notification_type_new, type_fk,web_documents_category,financial_year,
-	risk_work_hod_id, work_id_fk, hod_user_id_fk,designation,work_short_name,work_id_fk_new,hod_user_id_fk_new;
+	risk_work_hod_id, work_id_fk, hod_user_id_fk,designation,work_short_name,work_id_fk_new,hod_user_id_fk_new,sub_work,sub_work_new;
 
+
+	public String getSub_work_new() {
+		return sub_work_new;
+	}
+
+	public void setSub_work_new(String sub_work_new) {
+		this.sub_work_new = sub_work_new;
+	}
 
 	private List<TrainingType> bankGaurenteeList;
 	private List<TrainingType> bankGaurenteeList1;
@@ -26,6 +34,14 @@ public class TrainingType {
 	private List<TrainingType> countList;
 	private List<TrainingType> dList;
 	private List<TrainingType> dList1;
+
+	public String getSub_work() {
+		return sub_work;
+	}
+
+	public void setSub_work(String sub_work) {
+		this.sub_work = sub_work;
+	}
 
 	public String getWork_id_fk_new() {
 		return work_id_fk_new;

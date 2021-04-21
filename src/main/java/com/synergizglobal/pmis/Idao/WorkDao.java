@@ -23,10 +23,10 @@ public interface WorkDao {
 	public List<Year> getYearList()throws Exception;
 	
 	public List<Work> getWorkList(Work work)throws Exception;
-
+	/**
 	public int getTotalRecords(Work obj, String searchParameter) throws Exception;
 
 	public List<Work> getWorksList(Work obj, int startIndex, int offset, String searchParameter) throws Exception;
-
+*/
 
 }

@@ -486,7 +486,7 @@ public class FOBDaoImpl implements FOBDao {
 		}
 		return objsList;
 	}
-
+	/**
 	@Override
 	public List<FOB> getFOBsList(FOB obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<FOB> objsList = null;
@@ -610,7 +610,7 @@ public class FOBDaoImpl implements FOBDao {
 		}
 		return totalRecords;
 	}
-
+*/
 	@Override
 	public List<FOB> getFobDetailsList(FOB obj) throws Exception {
 		List<FOB> objsList = null;

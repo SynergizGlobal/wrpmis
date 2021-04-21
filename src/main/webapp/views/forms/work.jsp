@@ -113,7 +113,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<%-- <c:forEach var="obj" items="${workList }">
+										 <c:forEach var="obj" items="${workList }">
 											<tr>
 
 												<td>${ obj.project_id_fk}- ${obj.project_name }</td>
@@ -126,12 +126,12 @@
 												<td class="last-column"><a href="javascript:void(0);"
 													onclick="getWork('${ obj.work_id }');"
 													class="btn waves-effect waves-light bg-m t-c "><i
-														class="fa fa-pencil"></i> </a>  <a  onclick="deleteWork('${ obj.work_id }');" class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-trash"></i></a>
+														class="fa fa-pencil"></i> </a>  <%-- <a  onclick="deleteWork('${ obj.work_id }');" class="btn waves-effect waves-light bg-s t-c "><i
+                                                        class="fa fa-trash"></i></a> --%>
 												</td>
 
 											</tr>
-										</c:forEach> --%>
+										</c:forEach> 
 									</tbody>
 								</table>
 
@@ -210,10 +210,10 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
-            getWorksList();
+            //getWorksList();
         });
         
-    	function getWorksList() {
+    	<%-- function getWorksList() {
     		$(".page-loader-2").show();
 
          	table = $('#datatable-works').DataTable();
@@ -333,7 +333,7 @@
     	    
     	  $(".page-loader-2").hide();  		     
       	
-     }
+     } --%>
         function getWork(work_id){
 	    	$("#work_id").val(work_id);
 	    	//$("#executed_by_id_fk").val(executed_by_id_fk);

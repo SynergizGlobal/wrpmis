@@ -547,7 +547,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		return objsList;
 	}
 
-
+	/**
 	@Override
 	public int getTotalRecords(Project obj, String searchParameter) throws Exception {
 		int totalRecords = 0;
@@ -618,7 +618,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		}
 		return objsList;
 	}
-	
+	*/
 }
 	
 	

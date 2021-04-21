@@ -112,23 +112,23 @@
 										</tr>
 									</thead>
 									<tbody>
-										<%-- <c:forEach var="obj" items="${projectList }">
+										 <c:forEach var="obj" items="${projectList }">
 											<tr>
 												<td>&nbsp;${ obj.project_id }</td>
 												<td>&nbsp;${ obj.project_name }</td>
 												<td>&nbsp;${ obj.plan_head_number }</td>
-												<td>&nbsp;${ obj.pink_book_item_number }</td>
+												<%-- <td>&nbsp;${ obj.pink_book_item_number }</td> --%>
 												<td>&nbsp;${ obj.remarks }</td>
 												<td class="last-column"><a href="javascript:void(0);"
 													onclick="getProject('${ obj.project_id }')"
 													class="btn waves-effect waves-light bg-m t-c "><i
-														class="fa fa-pencil"></i> </a> <a
+														class="fa fa-pencil"></i> </a> <%-- <a
 													onclick="deleteProject('${ obj.project_id }');"
 													class="btn waves-effect waves-light bg-s t-c "><i
-														class="fa fa-trash"></i></a></td>
+														class="fa fa-trash"></i></a> --%></td>
 											</tr>
 										</c:forEach>
- --%>
+ 
 									</tbody>
 
 								</table>
@@ -193,10 +193,10 @@
 	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
 	                }
 	            });
-            getProjectList();
+            //getProjectList();
         });
       
- 		function getProjectList() {
+ 		<%-- function getProjectList() {
     		$(".page-loader-2").show();
 
          	table = $('#project_table').DataTable();
@@ -305,7 +305,7 @@
     	    
     	  $(".page-loader-2").hide();  		     
       	
-     }
+     } --%>
 	  function getProject(project_id){
 	    	$("#project_id").val(project_id);
 	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-project');

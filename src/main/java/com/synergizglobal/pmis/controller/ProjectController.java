@@ -88,7 +88,7 @@ public class ProjectController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/get-projects", method = { RequestMethod.POST, RequestMethod.GET }) 
+	/*@RequestMapping(value = "/ajax/get-projects", method = { RequestMethod.POST, RequestMethod.GET }) 
 	public void getProjectsList(@ModelAttribute Project obj, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws IOException {
 		PrintWriter pw = null;
@@ -160,6 +160,7 @@ public class ProjectController {
 	 * @param activity 
 	 * @return
 	 */
+	/**
 	public int getTotalRecords(Project obj, String searchParameter) {
 		int totalRecords = 0;
 		try {
@@ -168,7 +169,7 @@ public class ProjectController {
 			logger.error("getTotalRecords : " + e.getMessage());
 		}
 		return totalRecords;
-	}
+	}/**
 
 	/**
 	 * @param pageDisplayLength
@@ -177,6 +178,7 @@ public class ProjectController {
 	 * @param clientId 
 	 * @return
 	 */
+	/**
 	public List<Project> createPaginationData(int startIndex, int offset,Project obj, String searchParameter) {
 		List<Project> objList = null;
 		try {
@@ -185,7 +187,7 @@ public class ProjectController {
 			logger.error("createPaginationData : " + e.getMessage());
 		}
 		return objList;
-	}
+	}*/
 	@RequestMapping(value = "/get-project", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getProjectDetails(@ModelAttribute Project project){
 		ModelAndView model = new ModelAndView();

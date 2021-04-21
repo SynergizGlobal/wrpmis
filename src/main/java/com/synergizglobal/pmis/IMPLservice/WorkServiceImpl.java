@@ -54,7 +54,7 @@ public class WorkServiceImpl implements WorkService {
 		return workDao.getWorkList(work);
 
 	}
-
+	/**
 	@Override
 	public int getTotalRecords(Work obj, String searchParameter) throws Exception {
 		return workDao.getTotalRecords(obj,searchParameter);
@@ -64,5 +64,5 @@ public class WorkServiceImpl implements WorkService {
 	public List<Work> getWorksList(Work obj, int startIndex, int offset, String searchParameter) throws Exception {
 		return workDao.getWorksList(obj,startIndex,offset,searchParameter);
 	}
-
+*/
 }

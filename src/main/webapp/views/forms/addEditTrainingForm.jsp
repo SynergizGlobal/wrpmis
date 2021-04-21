@@ -994,6 +994,7 @@
 	  function selectFileUpdate(no,bNo){
 		    files = $("#trainingSessionFiles"+no)[0].files;
 		    var html = "";
+		    var s = null;
 			var count = no - 1;
 		    var fileIndex = Number(no)+1;
 			var id = (fileIndex/10);
@@ -1013,19 +1014,27 @@
 		    $('#trainingSessionFilesDiv'+no).hide();
 		    var num = (splt-spli1);
 		    var posNum = (num < 0) ? num * -1 : num; // if num is negative multiple by negative one ... 
-		    var s = $('#hide'+no+' input').val();
-		    if(s == null){
-		    	s = 0;
-		    }
-		    var d = $("#hide"+no+" input").attr("id");
-		    if(d != null){
-		    	 var v = $("#"+d).val();
-				 var splt2 = d.split('s')[1];
+		    var attr = $('#hide'+no+' input').attr('name');
+		    
+		    if (typeof attr == 'undefined' || attr == false) {
+		      	   s = 1;
+				    $('#hide'+fileIndex+' input').last().val(s);
+
 		    }else{
-		    	v = 0;
+		    	  s = $('#hide'+no+' input').val();
+				    if(s == null){
+				    	s = 0;
+				    }
+				    var d = $("#hide"+no+" input").attr("id");
+				    if(d != null){
+				    	 var v = $("#"+d).val();
+						 var splt2 = d.split('s')[1];
+				    }else{
+				    	v = 0;
+				    }
+				    var lastfieldsid = $('#hide'+fileIndex+' input').last().val(Number(v)+1);
+
 		    }
-		   
-		    var lastfieldsid = $('#hide'+fileIndex+' input').last().val(Number(v)+1);
 		    $('#hide'+splt2+' input').removeAttr('name');
 		    $('#hideVal'+bNo+' input').removeAttr('name');
 			

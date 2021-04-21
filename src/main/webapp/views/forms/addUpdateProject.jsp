@@ -158,17 +158,16 @@
                             </div>
                             
                             <div class="row">
-                                <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-									<input id="financial_years" type="text" class="validate" name="financial_years">
-                                    <label for="financial_years">Financial Year<span class="required">*</span></label>
-                                    <span  id="financial_yearsError"> </span>
+									<input id="financial_years0" type="text" class="validate" name="financial_years" value="${projectDetails.financial_year_fk }">
+                                    <label for="financial_years0">Financial Year</label>
+                                    <span  id="financial_years0Error"> </span>
 								</div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="pink_book_item_numbers" type="text" class="validate" name="pink_book_item_numbers">
-                                    <label for="pink_book_item_numbers">PB Item Number<span class="required">*</span></label>
-                                    <span  id="pink_book_item_numbersError"> </span>
+                                    <input id="pink_book_item_numbers0" type="text" class="validate" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }">
+                                    <label for="pink_book_item_numbers0">PB Item Number</label>
+                                    <span  id="pink_book_item_numbers0Error"> </span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>

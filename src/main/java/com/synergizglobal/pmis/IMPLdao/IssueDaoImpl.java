@@ -54,7 +54,8 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,title,DATE_FORMAT(date,'%d-%b-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%b-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,"
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,railway_name,DATE_FORMAT(assigned_date,'%d-%b-%Y') AS assigned_date,"
-					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,other_organization,DATE_FORMAT(created_date,'%d-%b-%Y') AS created_date,DATE_FORMAT(escalation_date,'%d-%b-%Y') AS escalation_date "
+					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,other_organization,DATE_FORMAT(created_date,'%d-%b-%Y') AS created_date,DATE_FORMAT(escalation_date,'%d-%b-%Y') AS escalation_date,"
+					+ "other_org_resposible_person_name,other_org_resposible_person_designation "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
@@ -287,11 +288,11 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "INSERT INTO issue"
 					+ "(contract_id_fk,title,date,location,latitude,longitude,reported_by,responsible_person," 
 					+"priority_fk,category_fk,status_fk,assigned_date,corrective_measure,resolved_date,escalated_to,remarks,"
-					+ "zonal_railway_fk,other_organization,escalation_date,created_by_user_id_fk,created_date) "
+					+ "zonal_railway_fk,other_organization,other_org_resposible_person_name,other_org_resposible_person_designation,escalation_date,created_by_user_id_fk,created_date) "
 					+ "VALUES "
 					+ "(:contract_id_fk,:title,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:" 
 					+ "priority_fk,:category_fk,:status_fk,:assigned_date,:corrective_measure,:resolved_date,:escalated_to,:remarks,"
-					+ ":zonal_railway_fk,:other_organization,:escalation_date,:created_by_user_id_fk,CURRENT_TIMESTAMP)";		 
+					+ ":zonal_railway_fk,:other_organization,:other_org_resposible_person_name,:other_org_resposible_person_designation,:escalation_date,:created_by_user_id_fk,CURRENT_TIMESTAMP)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);	
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			int count = template.update(qry, paramSource, keyHolder);			
@@ -357,7 +358,7 @@ public class IssueDaoImpl implements IssueDao {
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,c.contract_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,other_organization,"
 					+ "DATE_FORMAT(escalation_date,'%d-%m-%Y') AS escalation_date,DATE_FORMAT(assigned_date,'%d-%m-%Y') AS assigned_date, "
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
-					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,i.status_fk as existing_status_fk "
+					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,i.status_fk as existing_status_fk,other_org_resposible_person_name,other_org_resposible_person_designation "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
@@ -453,7 +454,8 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "UPDATE issue SET "
 					+ "title=:title,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,"  
 					+ "priority_fk=:priority_fk,category_fk=:category_fk,status_fk=:status_fk,corrective_measure=:corrective_measure,resolved_date=:resolved_date,escalated_to=:escalated_to,"
-					+ "remarks=:remarks,zonal_railway_fk=:zonal_railway_fk,other_organization=:other_organization,"
+					+ "remarks=:remarks,zonal_railway_fk=:zonal_railway_fk,"
+					+ "other_organization=:other_organization,other_org_resposible_person_name=:other_org_resposible_person_name,other_org_resposible_person_designation=:other_org_resposible_person_designation,"
 					+ "escalation_date=:escalation_date,assigned_date=:assigned_date "
 					+ "where issue_id = :issue_id" ;		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -547,7 +549,7 @@ public class IssueDaoImpl implements IssueDao {
 					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,"
 					+ "i.responsible_person as responsible_person_user_id,i.escalated_to as escalated_to_user_id,"
 					+ "c.hod_user_id_fk as contract_hod_user_id,c.dy_hod_user_id_fk as contract_dyhod_user_id,"
-					+ "u1.email_id as created_by_email_id,i.created_by_user_id_fk "
+					+ "u1.email_id as created_by_email_id,i.created_by_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN user u1 on i.created_by_user_id_fk = u1.user_id "
 					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "

@@ -11,7 +11,7 @@ public class Issue {
 	other_organization,escalation_date,contractor_id_fk,contractor_id,contractor_name,hod_user_id_fk,designation,hod_name,pending_since,hod,
 	reported_by_user_id,responsible_person_user_id,escalated_to_user_id,reported_by_designation,responsible_person_designation,escalated_to_designation,
 	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,assigned_date,contract_hod_email_id,contract_dyhod_email_id,
-	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name,message_id,hod_designation, dyHod_designation,pending_Since;
+	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name,message_id,hod_designation, dyHod_designation,pending_Since,other_org_resposible_person_name,other_org_resposible_person_designation;
 	
 	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,
 	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to;
@@ -700,6 +700,22 @@ public class Issue {
 
 	public void setExisting_escalated_to(String existing_escalated_to) {
 		this.existing_escalated_to = existing_escalated_to;
+	}
+
+	public String getOther_org_resposible_person_name() {
+		return other_org_resposible_person_name;
+	}
+
+	public void setOther_org_resposible_person_name(String other_org_resposible_person_name) {
+		this.other_org_resposible_person_name = other_org_resposible_person_name;
+	}
+
+	public String getOther_org_resposible_person_designation() {
+		return other_org_resposible_person_designation;
+	}
+
+	public void setOther_org_resposible_person_designation(String other_org_resposible_person_designation) {
+		this.other_org_resposible_person_designation = other_org_resposible_person_designation;
 	}
 	
 }

@@ -326,6 +326,31 @@ public class DocxTableCreationForIssueDetailsReport {
 			  	mergeCellsHorizontal(titleTable, count, 4, 5);
 			  	count++;
 		  	}
+		  	
+		  /*===========================================================*/
+		  	if("Others".equals(issueDeailsReport.getZonal_railway_fk())) {
+		  		titleTableRow = factory.createTr();		
+				addTableCell(factory, wordMLPackage, titleTableRow, "Pesponsible Person Name", titleRpr,
+						JcEnumeration.LEFT, true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getOther_org_resposible_person_name(), titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				
+				
+				addTableCell(factory, wordMLPackage, titleTableRow, "Pesponsible Person Designation", titleRpr,
+						JcEnumeration.LEFT, true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getOther_org_resposible_person_designation(), titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+						JcEnumeration.LEFT, false, null);
+				
+			  	titleTable.getContent().add(titleTableRow);
+			  	mergeCellsHorizontal(titleTable, count, 2, 3);
+			  	mergeCellsHorizontal(titleTable, count, 4, 5);
+			  	count++;
+		  	}
+		  	
 	     /*===========================================================*/
 		  	titleTableRow = factory.createTr();		
 			addTableCell(factory, wordMLPackage, titleTableRow, "Issue / Action Taken \n/ Remarks", titleRpr,

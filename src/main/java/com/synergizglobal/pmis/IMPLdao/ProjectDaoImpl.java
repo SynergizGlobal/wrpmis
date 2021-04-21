@@ -56,10 +56,15 @@ public class ProjectDaoImpl implements ProjectDao {
 		Project project = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry ="SELECT project_id,project_name,plan_head_number,remarks,project_status,attachment,benefits FROM project"
-					+ " where project_id = ?";
+			String qry ="SELECT project_id,project_name,plan_head_number,remarks,project_status,attachment,benefits,"
+					+ "(select financial_year_fk from project_pinkbook where project_id_fk = ? order by project_pinkbook_id asc limit 1) as financial_year_fk, "
+					+ "(select pb_item_no from project_pinkbook where project_id_fk = ? order by project_pinkbook_id asc limit 1) as pb_item_no "
+					+ "FROM project "
+					+ "where project_id = ?";
 			stmt = connection.prepareStatement(qry);
 			stmt.setString(1, projectId);
+			stmt.setString(2, projectId);
+			stmt.setString(3, projectId);
 			resultSet = stmt.executeQuery();
 			while(resultSet.next()) {
 				project = new Project();
@@ -70,6 +75,9 @@ public class ProjectDaoImpl implements ProjectDao {
 				project.setProject_status(resultSet.getString("project_status"));
 				project.setAttachment(resultSet.getString("attachment"));
 				project.setBenefits(resultSet.getString("benefits"));
+				project.setFinancial_year_fk(resultSet.getString("financial_year_fk"));
+				project.setPb_item_no(resultSet.getString("pb_item_no"));
+				
 				project.setGalleryFileNames(getGalleryFileNames(project.getProject_id(),connection));
 				project.setProjectGallery(getProjectGalleryFiles(project.getProject_id(),connection));
 				project.setProjectPinkBooks(getProjectPinkBooks(project.getProject_id(),connection));
@@ -118,9 +126,13 @@ public class ProjectDaoImpl implements ProjectDao {
 		ResultSet rs = null;
 		List<Project> objsList = new ArrayList<Project>();
 		try{
-			String qry = "select project_pinkbook_id,project_id_fk,financial_year_fk,pb_item_no from project_pinkbook where project_id_fk = ?";
+			String qry = "select project_pinkbook_id,project_id_fk,financial_year_fk,pb_item_no "
+					+ "from project_pinkbook "
+					+ "where project_id_fk = ? "
+					+ "and project_pinkbook_id NOT IN (select min(project_pinkbook_id) from project_pinkbook where project_id_fk = ?)";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1,project_id);
+			stmt.setString(2,project_id);
 			rs = stmt.executeQuery();  
 			while(rs.next()) {
 				Project obj = new Project();
@@ -341,10 +353,12 @@ public class ProjectDaoImpl implements ProjectDao {
 				stmt = con.prepareStatement(pinkbookQry); 
 				if(arraySize > 0) {
 					for (int i = 0; i < arraySize; i++) {
-						stmt.setString(1,project.getProject_id()); 
-						stmt.setString(2,(project.getFinancial_years().length > 0)?project.getFinancial_years()[i]:null); 
-						stmt.setString(3,(project.getPink_book_item_numbers().length > 0)?project.getPink_book_item_numbers()[i]:null);
-						stmt.addBatch();
+						if(!StringUtils.isEmpty(project.getFinancial_years()[i]) || !StringUtils.isEmpty(project.getPink_book_item_numbers()[i])) {
+							stmt.setString(1,project.getProject_id()); 
+							stmt.setString(2,(project.getFinancial_years().length > 0)?project.getFinancial_years()[i]:null); 
+							stmt.setString(3,(project.getPink_book_item_numbers().length > 0)?project.getPink_book_item_numbers()[i]:null);
+							stmt.addBatch();
+						}
 					}
 					stmt.executeBatch();
 				}
@@ -445,11 +459,13 @@ public class ProjectDaoImpl implements ProjectDao {
 				String pinkbookQry ="INSERT into project_pinkbook (project_id_fk,financial_year_fk,pb_item_no)VALUES(?,?,?)";
 				stmt = con.prepareStatement(pinkbookQry); 
 				if(arraySize > 0) {
-					for (int i = 0; i < arraySize; i++) {
-						stmt.setString(1,projectId); 
-						stmt.setString(2,(project.getFinancial_years().length > 0)?project.getFinancial_years()[i]:null); 
-						stmt.setString(3,(project.getPink_book_item_numbers().length > 0)?project.getPink_book_item_numbers()[i]:null);
-						stmt.addBatch();
+					for (int i = 0; i < arraySize; i++) {						
+						if(!StringUtils.isEmpty(project.getFinancial_years()[i]) || !StringUtils.isEmpty(project.getPink_book_item_numbers()[i])) {
+							stmt.setString(1,projectId); 
+							stmt.setString(2,(project.getFinancial_years().length > 0)?project.getFinancial_years()[i]:null); 
+							stmt.setString(3,(project.getPink_book_item_numbers().length > 0)?project.getPink_book_item_numbers()[i]:null);
+							stmt.addBatch();
+						}
 					}
 					stmt.executeBatch();
 				}

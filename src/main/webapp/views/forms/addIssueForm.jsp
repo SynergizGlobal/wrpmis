@@ -234,6 +234,22 @@
                                 </div>
                             </div>
                             
+                            <div class="row" id="other_organization_responsibles_holder" style="display:none;">
+                                <!-- row 6 -->
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="other_org_resposible_person_name" name="other_org_resposible_person_name" type="text" class="validate">
+                                    <label for="other_org_resposible_person_name">Responsible Person Name </label>
+                                    <span id="other_org_resposible_person_nameError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="other_org_resposible_person_designation" name="other_org_resposible_person_designation" type="text" class="validate">
+                                    <label for="other_org_resposible_person_designation">Responsible Person Designation</label>
+                                    <span id="other_org_resposible_person_designationError" class="error-msg" ></span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
                             <div class="row">		
                             	<div class="col m2 hide-on-small-only"></div>					 
 					            <div class="col s12 m4 input-field">
@@ -734,13 +750,22 @@
             	$('#other_organizations').removeAttr('name');
             	$('#other_organization').removeAttr('name');
             	
+            	$('#other_org_resposible_person_name').removeAttr('name');
+            	$('#other_org_resposible_person_designation').removeAttr('name');
+            	
             	$('#other_organization_holder').hide();
+            	$('#other_organization_responsibles_holder').hide();
             	$('#department_holder').hide();
             	
                 if(val == 'Others'){
                 	$('#department_holder').hide();                	
                 	$('#other_organization').attr('name', 'other_organization');
-                	$('#other_organization_holder').show();      
+                	
+                	$('#other_org_resposible_person_name').attr('name','other_org_resposible_person_name');
+                	$('#other_org_resposible_person_designation').attr('name','other_org_resposible_person_designation');
+                	
+                	$('#other_organization_holder').show();  
+                	$('#other_organization_responsibles_holder').show();
                 	$('#other_organization').val('').focus();                	
                 } else if(val == 'MRVC'){          
                 	$('#other_organizations').attr('name', 'other_organization'); 

@@ -605,32 +605,33 @@ public class HomeDaoImpl implements HomeDao {
 			
 			
 			for (Project project : objsList) {
-				Project projectInfo = (Project)jdbcTemplate.queryForObject( projectDetailsQry, new Object[] {project.getProject_id(),project.getProject_id()}, new BeanPropertyRowMapper<Project>(Project.class));
-				if(!StringUtils.isEmpty(projectInfo)) {
-					String sanctioned_estimated_cost = projectInfo.getSanctioned_estimated_cost();
-					if(!StringUtils.isEmpty(sanctioned_estimated_cost)) {
-						sanctioned_estimated_cost = numberFormatter.format(Double.parseDouble(sanctioned_estimated_cost));
+				List<Project> projectInfoList = jdbcTemplate.query( projectDetailsQry, new Object[] {project.getProject_id(),project.getProject_id()}, new BeanPropertyRowMapper<Project>(Project.class));
+				for (Project projectInfo : projectInfoList) {
+					if(!StringUtils.isEmpty(projectInfo)) {
+						String sanctioned_estimated_cost = projectInfo.getSanctioned_estimated_cost();
+						if(!StringUtils.isEmpty(sanctioned_estimated_cost)) {
+							sanctioned_estimated_cost = numberFormatter.format(Double.parseDouble(sanctioned_estimated_cost));
+						}
+						project.setSanctioned_estimated_cost(sanctioned_estimated_cost);
+						project.setSanctioned_year_fk(projectInfo.getSanctioned_year_fk());
+						
+						String completion_cost = projectInfo.getCompletion_cost();
+						if(!StringUtils.isEmpty(completion_cost)) {
+							completion_cost = numberFormatter.format(Double.parseDouble(completion_cost));
+						}
+						
+						project.setCompletion_cost(completion_cost);
+						project.setYear_of_completion(projectInfo.getYear_of_completion());
+						
+						String latest_revised_cost = projectInfo.getLatest_revised_cost();
+						if(!StringUtils.isEmpty(latest_revised_cost)) {
+							latest_revised_cost = numberFormatter.format(Double.parseDouble(latest_revised_cost));
+						}
+						
+						project.setProjected_completion_year(projectInfo.getProjected_completion_year());
+						project.setLatest_revised_cost(latest_revised_cost);
 					}
-					project.setSanctioned_estimated_cost(sanctioned_estimated_cost);
-					project.setSanctioned_year_fk(projectInfo.getSanctioned_year_fk());
-					
-					String completion_cost = projectInfo.getCompletion_cost();
-					if(!StringUtils.isEmpty(completion_cost)) {
-						completion_cost = numberFormatter.format(Double.parseDouble(completion_cost));
-					}
-					
-					project.setCompletion_cost(completion_cost);
-					project.setYear_of_completion(projectInfo.getYear_of_completion());
-					
-					String latest_revised_cost = projectInfo.getLatest_revised_cost();
-					if(!StringUtils.isEmpty(latest_revised_cost)) {
-						latest_revised_cost = numberFormatter.format(Double.parseDouble(latest_revised_cost));
-					}
-					
-					project.setProjected_completion_year(projectInfo.getProjected_completion_year());
-					project.setLatest_revised_cost(latest_revised_cost);
 				}
-				
 				List<Work> worksInfo = jdbcTemplate.query( workQry, new Object[] {project.getProject_id()}, new BeanPropertyRowMapper<Work>(Work.class));
 				
 				for (Work work : worksInfo) {

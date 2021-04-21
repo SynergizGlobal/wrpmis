@@ -146,71 +146,43 @@
 										<option value="Open" <c:if test="${projectDetails.project_status == 'Open'}">selected</c:if>>Open</option>
 										<option value="Closed" <c:if test="${projectDetails.project_status == 'Closed'}">selected</c:if>>Closed</option>
 									</select> 
-									<label for="project_staus">Project Status</label>
+									<label for="project_staus">Project Status<span class="required">*</span></label>
 									<span id="project_statusError"></span>
 								</div>
                                 <div class="col s12 m4 input-field">
                                     <input id="plan_head_number" type="text" class="validate" value="${projectDetails.plan_head_number }" name="plan_head_number">
-                                    <label for="plan_head_number">Plan Head Number</label>
+                                    <label for="plan_head_number">Plan Head Number<span class="required">*</span></label>
                                     <span  id="plan_head_numberError"> </span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                            <!-- 
+                            
                             <div class="row">
-                                //row 6
+                                <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="p_desc" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="p_desc">Project Description</label>
-                                </div>
-
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div> -->
-
-						<%-- <div class="row">
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col s12 m4 input-field">
-								<!-- <p class="searchable_label">Project Status</p> -->
-								<select class="validate-dropdown" name="project_status" id="project_status">
-									<option value="">Select</option>
-									<option value="Open" <c:if test="${projectDetails.project_status == 'Open'}">selected</c:if>>Open</option>
-									<option value="Closed" <c:if test="${projectDetails.project_status == 'Closed'}">selected</c:if>>Closed</option>
-								</select> 
-								<label for="project_staus">Project Status</label>
-								<span id="project_statusError"></span>
-							</div>
-							<div class="col m4 s12">
-								<div class="file-field input-field">
-									<div class="btn bg-m t-c">
-										<span>Attachment</span> <input type="file" id="projectFile"
-											name="projectFile">
-									</div>
-									<div class="file-path-wrapper">
-										<input class="file-path validate" type="text" id="project_attachment" multiple
-											name="attachment" value="${projectDetails.attachment }">
-									</div>
+                                <div class="col s12 m4 input-field">
+									<input id="financial_years" type="text" class="validate" name="financial_years">
+                                    <label for="financial_years">Financial Year<span class="required">*</span></label>
+                                    <span  id="financial_yearsError"> </span>
 								</div>
-								<c:if test="${not empty projectDetails.attachment }">
-									<div><a href="<%=CommonConstants.PROJECT_FILES %>${projectDetails.attachment }"
-										class="filevalue" download>${projectDetails.attachment }</a>
-										<span onclick="removeMedia(this,'project_attachment')" class="attachment-remove-btn">X</span>
-									</div>
-								</c:if>
-							
-							</div>
-							<div class="col m2 hide-on-small-only"></div>
-						</div> --%>
+                                <div class="col s12 m4 input-field">
+                                    <input id="pink_book_item_numbers" type="text" class="validate" name="pink_book_item_numbers">
+                                    <label for="pink_book_item_numbers">PB Item Number<span class="required">*</span></label>
+                                    <span  id="pink_book_item_numbersError"> </span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
 
-						<div class="row">
+							<div class="row">
                               <div class="col m2 hide-on-small-only"></div>
                               <div class="col s12 m8 input-field">
                                   <textarea id="benefits"  name="benefits" class="materialize-textarea" data-length="1000">${projectDetails.benefits }</textarea>
                                   <label for="benefits">Benefits</label>
                                    <span id="benefitsError"></span>
                               </div>
-                         </div>
-						<div class="row">
+	                        </div>
+							<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="remarks" class="materialize-textarea" data-length="1000"  name="remarks">${projectDetails.remarks }</textarea>
@@ -263,7 +235,7 @@
 										<img src="/pmis/resources/images/mrvc.png">																
 									</div> -->
 								</div>
-							<div class="col m4 s12">
+							 <div class="col m4 s12">
 							  <c:if test="${action eq 'add'}">
 	                            <div id="selectedFilesInput">
 	                                    	<div class="file-field input-field" id="projectFilesDiv1" >
@@ -280,39 +252,39 @@
 										</div>
 							  </c:if>	
 							  <c:if test="${action eq 'edit'}">
-											<c:set var="existingProjectFilesLength" value="${fn:length(projectDetails.projectFiles )}"></c:set>
-											<c:if test="${fn:length(projectDetails.projectFiles ) gt 0}">
-												<c:set var="existingProjectFilesLength" value="${fn:length(projectDetails.projectFiles )+1}"></c:set>
-											</c:if>
-											<div id="selectedFilesInput">
-		                                    	<div class="file-field input-field" id="projectFilesDiv${existingProjectFilesLength }" >
-			                                        <div class="btn bg-m t-c">
-			                                            <span>Attach Files</span>
-			                                            <input type="file" id="projectFiles${existingProjectFilesLength }" name="projectFile"  onchange="selectFile('${existingProjectFilesLength }')">
-			                                        </div>
-			                                        <div class="file-path-wrapper">
-			                                            <input class="file-path validate" type="text">
-			                                        </div>                                       
-			                                    </div>
-											</div>
-		                                    
-		                                    <div id="selectedFiles">
-		                                    	<c:forEach var="obj" items="${projectDetails.projectFiles }" varStatus="index">
-													 <div id="projectFileNames${index.count }">
-														<a href="<%=CommonConstants.PROJECT_FILES%>${obj.attachment } " class="filevalue" download>${obj.attachment }</a>
-														<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
-														<input type="hidden" name="projectFileNames" value="${obj.attachment }">
-												     </div>
-												     <div style="clear:both" ></div>
-												</c:forEach>
-											</div>
-		                             </c:if>	
+									<c:set var="existingProjectFilesLength" value="${fn:length(projectDetails.projectFiles )}"></c:set>
+									<c:if test="${fn:length(projectDetails.projectFiles ) gt 0}">
+										<c:set var="existingProjectFilesLength" value="${fn:length(projectDetails.projectFiles )+1}"></c:set>
+									</c:if>
+									<div id="selectedFilesInput">
+                                    	<div class="file-field input-field" id="projectFilesDiv${existingProjectFilesLength }" >
+	                                        <div class="btn bg-m t-c">
+	                                            <span>Attach Files</span>
+	                                            <input type="file" id="projectFiles${existingProjectFilesLength }" name="projectFile"  onchange="selectFile('${existingProjectFilesLength }')">
+	                                        </div>
+	                                        <div class="file-path-wrapper">
+	                                            <input class="file-path validate" type="text">
+	                                        </div>                                       
+	                                    </div>
+									</div>
+                                    
+                                    <div id="selectedFiles">
+                                    	<c:forEach var="obj" items="${projectDetails.projectFiles }" varStatus="index">
+											 <div id="projectFileNames${index.count }">
+												<a href="<%=CommonConstants.PROJECT_FILES%>${obj.attachment } " class="filevalue" download>${obj.attachment }</a>
+												<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
+												<input type="hidden" name="projectFileNames" value="${obj.attachment }">
+										     </div>
+										     <div style="clear:both" ></div>
+										</c:forEach>
+									</div>
+                             </c:if>	
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
 							</div>
 						
-						
-						<div class="row">
+							<c:if test="${action eq 'edit'}">
+							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
 								<div class="col m8 s12">
 									<div class="row fixed-width"
@@ -402,7 +374,7 @@
 									</div>
 								</div>
 							</div>
-							
+							</c:if>
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -599,12 +571,14 @@
         var validator =	$('#projectForm').validate({
 				 errorClass: "my-error-class",
 				   validClass: "my-valid-class",
-				 ignore: ":hidden:not(.chosen-select)",
+				 ignore: ":hidden:not(.validate-dropdown)",
 		  		    rules: {
 		  		 		  "project_name": {
 		  			 		required: true
+		  			 	  },"project_status":{
+		  			 		required: true
 		  			 	  },"plan_head_number": {
-		  			 		required: false
+		  			 		required: true
 		  			 	  },"remarks": {
 		  			 		required: false
 		  			 	  }		
@@ -612,6 +586,8 @@
 		  		    messages: {
 		  		 		 "project_name": {
 		  				 	required: 'This field is required',
+		  			 	  },"project_status":{
+		  			 		required: ' This field is required'
 		  			 	  },"plan_head_number": {
 		  			 		required: ' This field is required'
 		  			 	  },"remarks": {
@@ -622,6 +598,9 @@
 			   		 	if (element.attr("id") == "project_name" ){
 							 document.getElementById("project_nameError").innerHTML="";
 					 		 error.appendTo('#project_nameError');
+						}else if(element.attr("id") == "project_status" ){
+							   document.getElementById("project_statusError").innerHTML="";
+						 	   error.appendTo('#project_statusError');
 						}else if(element.attr("id") == "plan_head_number" ){
 							   document.getElementById("plan_head_numberError").innerHTML="";
 						 	   error.appendTo('#plan_head_numberError');

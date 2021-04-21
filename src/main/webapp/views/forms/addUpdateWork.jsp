@@ -172,7 +172,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <input id="work_short_name" type="text" class="validate" name="work_short_name" value="${workDetails.work_short_name }">
-                                    <label for="work_short_name">Work Short Name</label>
+                                    <label for="work_short_name">Work Short Name<span class="required">*</span></label>
                                      <span id="work_short_nameError"></span>
                                 </div>
 								 <div class="col m2 hide-on-small-only"></div>
@@ -322,7 +322,7 @@
                                 <div class="col s12 m4 input-field">
                                 <p class="searchable_label">Executed By</p>
                                   <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk" multiple="multiple" >
-                                   <option value="" >select</option>
+                                   <option value="">select</option>
                                    <c:forEach var="obj" items="${railwaysList}">
            					  			 <option value="${obj.railway_id }"            					  			 
            					  			 		<c:forEach var="tempobj" items="${workDetails.executedByList}">
@@ -565,62 +565,62 @@
 
 
     <script>
-  /*   $(document).on('focus', '.datepicker',function(){
-        $(this).datepicker({
-        	 format: 'dd-mm-yyyy',
-   	    	 onSelect: function () {
-   	    	   $('.confirmation-btns .datepicker-done').click();
-   	    	 }
-        })
-    }); */
-    function selectFile(no){
-	    files = $("#workFiles"+no)[0].files;
-	    var html = "";
-	    for (var i = 0; i < files.length ; i++) {
-	    	html =  html + '<div id=workFileNames'+no+'>'
-			 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
-			 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
-			 + '</div>'
-			 + '<div style="clear:both;"></div>';
-	    }
-	    $("#selectedFiles").append(html);
-	    
-	    $('#workFilesDiv'+no).hide();
-	    
-		var fileIndex = Number(no)+1;
-		moreFiles(fileIndex);
-	}
+	  /*   $(document).on('focus', '.datepicker',function(){
+	        $(this).datepicker({
+	        	 format: 'dd-mm-yyyy',
+	   	    	 onSelect: function () {
+	   	    	   $('.confirmation-btns .datepicker-done').click();
+	   	    	 }
+	        })
+	    }); */
+	    function selectFile(no){
+		    files = $("#workFiles"+no)[0].files;
+		    var html = "";
+		    for (var i = 0; i < files.length ; i++) {
+		    	html =  html + '<div id=workFileNames'+no+'>'
+				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
+				 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
+				 + '</div>'
+				 + '<div style="clear:both;"></div>';
+		    }
+		    $("#selectedFiles").append(html);
+		    
+		    $('#workFilesDiv'+no).hide();
+		    
+			var fileIndex = Number(no)+1;
+			moreFiles(fileIndex);
+		}
+		
+		function moreFiles(no){
+			var html = "";
+			html =  html + '<div class="file-field input-field" id="workFilesDiv'+no+'" >'
+			+ '<div class="btn bg-m t-c">'
+			+ '<span>Attach Files</span>'
+			+ '<input type="file" id="workFiles'+no+'" name="workFile"  onchange="selectFile('+no+')">'
+			+ '</div>'
+			+ '<div class="file-path-wrapper">'
+			+ '<input class="file-path validate" type="text">'
+			+ '</div>'                          
+			+ '</div>'
+			$("#selectedFilesInput").append(html);
+		}
+		
+		function removeFile(no){			
+	     	$('#workFilesDiv'+no).remove();
+	     	$('#workFileNames'+no).remove();
+	    } 
 	
-	function moreFiles(no){
-		var html = "";
-		html =  html + '<div class="file-field input-field" id="workFilesDiv'+no+'" >'
-		+ '<div class="btn bg-m t-c">'
-		+ '<span>Attach Files</span>'
-		+ '<input type="file" id="workFiles'+no+'" name="workFile"  onchange="selectFile('+no+')">'
-		+ '</div>'
-		+ '<div class="file-path-wrapper">'
-		+ '<input class="file-path validate" type="text">'
-		+ '</div>'                          
-		+ '</div>'
-		$("#selectedFilesInput").append(html);
-	}
-	
-	function removeFile(no){			
-     	$('#workFilesDiv'+no).remove();
-     	$('#workFileNames'+no).remove();
-    } 
-
-    let date_pickers = document.querySelectorAll('.datepicker');
-    $.each(date_pickers, function(){
-    	var dt = this.value.split(/[^0-9]/);
-    	this.value = ""; 
-    	var options = {format: 'dd-mm-yyyy'};
-    	if(dt.length > 1){
-    		options.setDefaultDate = true,
-    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
-    	}
-    	M.Datepicker.init(this, options);
-    });
+	    let date_pickers = document.querySelectorAll('.datepicker');
+	    $.each(date_pickers, function(){
+	    	var dt = this.value.split(/[^0-9]/);
+	    	this.value = ""; 
+	    	var options = {format: 'dd-mm-yyyy',autoClose:true};
+	    	if(dt.length > 1){
+	    		options.setDefaultDate = true,
+	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+	    	}
+	    	M.Datepicker.init(this, options);
+	    });
 
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
@@ -641,7 +641,11 @@
                 $('#projected_completion').click();
             });
             
-                   
+            $('#projected_completion').datepicker({
+	        	 format: 'dd-mm-yyyy',
+	        	 autoClose:true,
+	        	 minDate: new Date(),
+	        });
         });
         
   //*********************VALIDATION FOR WORK ADD/EDIT FORMS*************************************      
@@ -679,6 +683,8 @@
 		  		 			required: true
 		  			 	  },"work_name": {
 		  			 		required: true
+		  			 	  },"work_short_name":{
+		  			 		required: true
 		  			 	  },"sanctioned_estimated_cost": {
 		  			 		required: false
 		  			 	  },"completeion_period_months": {
@@ -708,7 +714,9 @@
 		  		 			required: 'This Field Required'
 		  		 	  	 },"work_name": {
 		  				 	required: 'This Field Required',
-		  			 	 },"sanctioned_estimated_cost": {
+		  			 	 },"work_short_name":{
+		  			 		required: 'This Field Required',
+		  			 	  },"sanctioned_estimated_cost": {
 		  			 		required: ' This Field Required'
 		  			 	 },"completeion_period_months": {
 		  		 			required: ' This Field Required'
@@ -733,10 +741,13 @@
 		  		 	  	 }
 			   		},
 			   		errorPlacement:function(error, element){
-			   		 	if (element.attr("id") == "work_name" ){
-		  		 		     document.getElementById("work_nameError").innerHTML="";
-		  		 		  error.appendTo('#work_nameError');
-			   			 }else if (element.attr("id") == "sanctioned_estimated_cost" ){
+			   		 	 if (element.attr("id") == "work_name" ){
+		  		 		      document.getElementById("work_nameError").innerHTML="";
+		  		 		  	  error.appendTo('#work_nameError');
+			   			 }else if (element.attr("id") == "work_short_name" ){
+		  		 		      document.getElementById("work_short_nameError").innerHTML="";
+			  		 		  error.appendTo('#work_short_nameError');
+				   		 }else if (element.attr("id") == "sanctioned_estimated_cost" ){
 		  		 		      document.getElementById("sanctioned_estimated_costError").innerHTML="";
 		  		 			  error.appendTo('#sanctioned_estimated_costError');
 	  		 	   		 }else if (element.attr("id") == "project_id_fk" ){
@@ -861,12 +872,12 @@
      function removeRevision(rowNo){
     	//alert("#revisionRow"+rowNo);
     	$("#revisionRow"+rowNo).remove();
-    }
+     }
      function removeMedia(link,id){
-   	  $('#'+id).val('');
-   	  $(link).prev().text('');
-   	  $(link).css('display','none');
-      }       
+	   	  $('#'+id).val('');
+	   	  $(link).prev().text('');
+	   	  $(link).css('display','none');
+     }       
      
     </script>
 </body>

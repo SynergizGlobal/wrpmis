@@ -50,9 +50,17 @@
             white-space: inherit;
         }
 
-        .error {
-            color: red;
-        }
+        .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		.error-msg label{color:red!important;}
 
         .searchable_label {
             margin-bottom: 0;
@@ -119,20 +127,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    	<c:forEach var="obj" items="${workHODDetails}" varStatus="index">
+                                    	<c:forEach var="obj" items="${issueCategoryTitleDetails}" varStatus="index">
 											<tr>
 											<td>
-											 	<input type="hidden" id="risk_work_hod_id${index.count}" name="risk_work_hod_id" value="${obj.risk_work_hod_id }" />
-												<input type="hidden" id="work${index.count}" value="${obj.issue_category_fk }" />
-												${obj.issue_category_fk }<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</td>
+											 	<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
+												<input type="hidden" id="issue_category_fk${index.count}" value="${obj.issue_category_fk }" />
+												${obj.issue_category_fk }</td>
 											<td>
 											 	${obj.short_description }
 											 	<input type="hidden" id="short_description${index.count}" value="${obj.short_description }" />
 											</td>
-											<td>
-												<input type="hidden" id="user${index.count}" value="${obj.hod_user_id_fk }" />
-												${obj.designation }</td>
-										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.risk_work_hod_id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
+												
+										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
 									    </c:forEach>
                                     </tbody>
                                 </table>
@@ -163,15 +169,15 @@
                                 <p class="searchable_label">Issue Category </p>
                                 <select name="issue_category_fk" id="issue_category_text" class="searchable validate-dropdown">
                                     <option value="">Select</option>
-	                                 <c:forEach var="obj" items="${workDetails }">
-			                                      <option value="${obj.issue_category_fk }">${obj.issue_category_fk }<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                 <c:forEach var="obj" items="${issueCategoryDetails }">
+			                                      <option value="${obj.issue_category_fk }">${obj.issue_category_fk }</option>
 			                         </c:forEach>
 	                             </select>
                                  <span id="issue_category_fkError" class="error-msg" ></span>
                             </div>                            
                             <div class="input-field col s12 m6">
-                                <!-- <input name="short_description" id="short_description" type="text"> -->
-                                <textarea name="short_description" id="short_description" class="materialize-textarea"></textarea>
+                                 <input name="short_description" id="short_description" type="text"> 
+                                <!-- <textarea name="short_description" id="short_description" class="materialize-textarea"></textarea> -->
                                 <label for="short_description">Short Description</label>
                                  <span id="short_descriptionError" class="error-msg" ></span>
                             </div>
@@ -179,7 +185,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" class="btn waves-effect waves-light bg-m " onclick="addRiskWorkHOD();">Add</button>
+                                    <button style="width: 100%;" class="btn waves-effect waves-light bg-m " onclick="addIssueCategoryTitle();">Add</button>
                                 </div>
                             </div>
                             <div class="col s12 m6">
@@ -197,7 +203,7 @@
     </div>
 
     <div id="onlyUpdateModal" class="modal">
-		<form action="<%=request.getContextPath() %>/update-issue-category-title" id="IssueCategoryTitleForm" name="IssueCategoryTitleForm" method="post" class="form-horizontal" role="form">
+		<form action="<%=request.getContextPath() %>/update-issue-category-title" id="updateIssueCategoryTitleForm" name="updateIssueCategoryTitleForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header">Update Issue Category Title <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -205,16 +211,16 @@
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
-                        	<input type="hidden" id="risk_work_hod_id" name="risk_work_hod_id"  />
+                        	<input type="hidden" id="id" name="id"  />
                             <div class="input-field col s12 m6">
                                 <p class="searchable_label">Issue Category </p>
-                                <select name="issue_category_new" id="update_issue_category_text"
+                                <select  id="update_issue_category_text" name="issue_category_fk_new"
                                     class="searchable validate-dropdown">
                                     <option value="">Select</option>
-	                                <c:forEach var="obj" items="${workDetails }">
-			                                      <option value="${obj.issue_category_fk }">${obj.issue_category_fk }<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                 <c:forEach var="obj" items="${issueCategoryDetails }">
+			                                      <option value="${obj.issue_category_fk }">${obj.issue_category_fk }</option>
 			                         </c:forEach>
-	                             </select>
+	                             </select> 
                                  <span id="issue_category_fkUpdateError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
@@ -226,7 +232,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" class="btn waves-effect waves-light bg-m " onclick="updateRiskWorkHOD();">Update</button>
+                                    <button style="width: 100%;" class="btn waves-effect waves-light bg-m " onclick="updateIssueCategoryTitle();">Update</button>
                                 </div>
                             </div>
                             <div class="col s12 m6">
@@ -256,7 +262,7 @@
     <!-- footer  -->
 
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="risk_work_hod_id" id="risk_work_hod" />
+    	<input type="hidden" name="id" id="idNo" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -291,52 +297,16 @@
             });
         });
 
-        function updateRow(no) {
-            var work = $('#work'+no).val();
-            var user = $('#user'+no).val();
-            var short_description = $('#short_description'+no).val();
-            var risk_work_hod_id = $('#risk_work_hod_id'+no).val();
-            $('#onlyUpdateModal').modal('open');
-            $('#update_issue_category_text').val($.trim(work))
-            $('#update_hod_user_id').val($.trim(user))
-            $('#short_description_new').val($.trim(short_description))
-            $('#risk_work_hod_id').val($.trim(risk_work_hod_id))
-            $('#onlyUpdateModal #update_issue_category_text').val($.trim(work)).focus();
-            $('#onlyUpdateModal #update_hod_user_id').val($.trim(user)).focus();
-            $('#onlyUpdateModal #short_description_new').val($.trim(short_description)).focus();
-            $('select[name^="issue_category_fk"] option[value="'+ $.trim(work) +'"]').attr("selected","selected");
-            $('select[name^="hod_user_id_fk"] option[value="'+ user +'"]').attr("selected","selected");
-  	    	$('.searchable').select2();
-        }
-        function addRiskWorkHOD(){
-         	 if(validator.form()){ 
-     			$(".page-loader").show();
-     			$("#addUpdateModal").modal();
-     			document.getElementById("IssueCategoryTitle").submit();	
-         	}
-      }
-        function updateRiskWorkHOD(){
-         	 if(validator1.form()){ 
-     			$(".page-loader").show();
-     			$("#onlyUpdateModal").modal();
-     			document.getElementById("IssueCategoryTitleForm").submit();	
-         	}
-      }
-        
-      var validator = $('#IssueCategoryTitle').validate({
+        var validator = $('#IssueCategoryTitle').validate({
             ignore: ":hidden:not(.validate-dropdown)",
           	 rules: {
           		 	"issue_category_fk": {
       			 		  required: true
-          			 },"hod_user_id_fk":{
-      					  required: true
-          			},"short_description":{
+          		 	},"short_description":{
           				  required: true
           			}
       			},messages: {
       		 		 "issue_category_fk": {
-      			 		  required: 'Required'
-      			 	 }, "hod_user_id_fk": {
       			 		  required: 'Required'
       			 	 }, "short_description": {
       			 		  required: 'Required'
@@ -345,30 +315,23 @@
       	        	 if(element.attr("id") == "short_description" ){
       				     document.getElementById("short_descriptionError").innerHTML="";
       			 	     error.appendTo('#short_descriptionError');
-      			   }else if(element.attr("id") == "hod_user_id" ){
-        			     document.getElementById("hod_user_id_fkError").innerHTML="";
-          		 	     error.appendTo('#hod_user_id_fkError');
-      		 	   }else if(element.attr("id") == "issue_category_text" ){
+      			   }else if(element.attr("id") == "issue_category_text" ){
         			     document.getElementById("issue_category_fkError").innerHTML="";
           		 	     error.appendTo('#issue_category_fkError');
           		   }
       	        }
           });
 
-      var validator1 = $('#IssueCategoryTitleForm').validate({
+      var validator1 = $('#updateIssueCategoryTitleForm').validate({
           ignore: ":hidden:not(.validate-dropdown)",
         	 rules: {
-        		 	"issue_category_new": {
+        		 	"issue_category_fk_new": {
     			 		  required: true
-        			 },"hod_user_id_fk_new":{
-    					  required: true
-        			},"short_description_new":{
+        			 },"short_description_new":{
    					  	  required: true
        			}
     			},messages: {
-    		 		 "issue_category_new": {
-    			 		  required: 'Required'
-    			 	 }, "hod_user_id_fk_new": { 
+    		 		 "issue_category_fk_new": {
     			 		  required: 'Required'
     			 	 }, "short_description_new": { 
    			 		  required: 'Required'
@@ -377,10 +340,7 @@
     	        	 if(element.attr("id") == "update_issue_category_text" ){
     				     document.getElementById("issue_category_fkUpdateError").innerHTML="";
     			 	     error.appendTo('#issue_category_fkUpdateError');
-    			   }else if(element.attr("id") == "update_hod_user_id" ){
-    			     document.getElementById("hod_user_id_fkUpdateError").innerHTML="";
-    		 	     error.appendTo('#hod_user_id_fkUpdateError');
-    		 	   }else if(element.attr("id") == "short_description_new" ){
+    			   }else if(element.attr("id") == "short_description_new" ){
     			     document.getElementById("short_description_newError").innerHTML="";
     		 	     error.appendTo('#short_description_newError');
     		 	   }
@@ -400,8 +360,38 @@
            }
        });
        
+        function updateRow(no) {
+       	    var issue_category = $('#issue_category_fk'+no).val();
+            var short_descriptions = $('#short_description'+no).val();
+            var id = $('#id'+no).val();
+            $('#onlyUpdateModal').modal('open');
+            $('#update_issue_category_text').val($.trim(issue_category))
+            $('#short_description_new').val($.trim(short_descriptions))
+            var s  = $('#id').val($.trim(id))
+            $('#onlyUpdateModal #update_issue_category_text').val($.trim(issue_category)).focus();
+            $('#onlyUpdateModal #short_description_new').val($.trim(short_descriptions)).focus();
+            $('select[name^="issue_category_fk_new"] option[value="'+ $.trim(issue_category) +'"]').attr("selected","selected");
+   	     $('.searchable').select2();
+        }
+        
+        function addIssueCategoryTitle(){
+         	 if(validator.form()){ 
+     			$(".page-loader").show();
+     			$("#addUpdateModal").modal();
+     			document.getElementById("IssueCategoryTitle").submit();	
+         	}
+      }
+        function updateIssueCategoryTitle(){
+         	 if(validator1.form()){ 
+     			$(".page-loader").show();
+     			$("#onlyUpdateModal").modal();
+     			document.getElementById("updateIssueCategoryTitleForm").submit();	
+         	}
+      }
+        
+    
        function deleteRow(id){
-   	  	  $("#risk_work_hod").val(id);
+   	  	  $("#idNo").val(id);
    	  	  showCancelMessage(); 
    	 }
    	  	

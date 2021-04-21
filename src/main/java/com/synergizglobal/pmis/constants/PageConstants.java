@@ -227,6 +227,14 @@ public class PageConstants {
 	public static final String financialYear = "referenceForms/financialYear"; 
 	
 	public static final String riskWorkHod = "referenceForms/riskWorkHod";
+	
+	public static final String issueContractCategory = "referenceForms/issueContractCategory";  
+	
+	public static final String issueCategoryTitle = "referenceForms/issueCategoryTitle";  
+
+	
+	
+	
 }
 
 

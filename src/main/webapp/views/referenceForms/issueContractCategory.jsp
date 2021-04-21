@@ -53,19 +53,33 @@
             white-space: inherit;
         }
 
-        @media only screen and (max-width: 600px) {
+        
+		 .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		.error-msg label{color:red!important;}
+		
+		 .searchable_label {
+            margin-bottom: 0;
+        }
+
+        .select2-container {
+            z-index: 1073;
+        }
+		@media only screen and (max-width: 600px) {
             .dataTables_filter input[type="search"],
             div.dataTables_wrapper div.dataTables_filter input[type="search"] {
                 width: 85% !important;
             }
         }
-		.error-msg label{color:red!important;}
-		.select2-container.select2-container--default.select2-container--open{
-			z-index:1033;
-		}
-		.select2-container--default .select2-selection--single{
-			background-color:transparent;
-		}
+		
     </style>
 </head>
 
@@ -99,13 +113,14 @@
                             </div>
                             <div class="col m4 hide-on-small"></div>
                         </div>
+                        
                         <div class="row no-mar">
                             <div class="col m12 s12">
                                 <table id="issue_contract_category_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th> Contract Category</th>
-                                         <%--    <c:forEach var="tObj" items="${revisionStatusDetails.tablesList}" >
+                                         <%--    <c:forEach var="tObj" items="${issueContractCategory.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach> --%>
                                             <th>Issue Category</th>
@@ -113,43 +128,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${revisionStatusDetails.dList1}" varStatus="indexs">
-											<tr><td>
-												<input type="hidden" id="revision_statusId${indexs.count}" value="${obj.revision_status }" />
-												${obj.revision_status }</td>
-												<c:forEach var="tObj" items="${revisionStatusDetails.tablesList}" varStatus="index">
-												<td><c:forEach var="cObj" items="${revisionStatusDetails.countList}" >
-												<c:choose> 
-													    <c:when test="${tObj.tName eq cObj.tName }"> 
-													    		<c:choose>  
-																    <c:when test="${cObj.revision_status eq obj.revision_status }"> 
-																      	 ( ${cObj.count } )   
-																    </c:when>  
-																    <c:otherwise>  
-																    </c:otherwise>   
-															</c:choose>
-														</c:when>
-														<c:otherwise> 
-													   </c:otherwise>
-												</c:choose>
-												</c:forEach></td>
-                                            </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${revisionStatusDetails.dList}" varStatus="indexx"> 
-												<c:choose>  
-												    <c:when test="${oSbj.revision_status eq obj.revision_status }"> 
-												      	<a onclick="deleteRow('${ oSbj.revision_status }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
-												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
-												      	</a>
-												    </c:when>  
-												    <c:otherwise>  
-												    
-												    </c:otherwise>   
-												</c:choose>  
-												
- 											 </c:forEach>
- 											</td></tr>												   
- 										 </c:forEach>
+										<c:forEach var="obj" items="${issueContractCategory}" varStatus="index">
+											<tr>
+											<td>
+											<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
+												<input type="hidden" id="contract_category_fk${index.count}" value="${obj.contract_category_fk }" />
+												${obj.contract_category_fk }</td>
+											<td>
+											 	${obj.issue_category_fk }
+											 	<input type="hidden" id="issue_category_fk${index.count}" value="${obj.issue_category_fk }" />
+											</td>
+										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
+									    </c:forEach>
  										
                                     </tbody>
                                 </table>
@@ -178,7 +168,7 @@
 	</div>
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/issue-contract-category" id="issueContractCategoryForm" name="issueContractCategoryForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-issue-contract-category" id="addIssueContractCategoryForm" name="addIssueContractCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header">Add Issue Contract Category <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -186,25 +176,32 @@
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
+                     
                             <div class="input-field col s12 m6">
                                 <p class="searchable_label">Contract Category</p>
-                                <select class='searchable' id="contract_category_text" name="contract_category_text">
-                                	<option>Select</option>
+                                <select  id="contract_category_fk_text" name="contract_category_fk" class="searchable validate-dropdown">
+                                	<option value="">Select</option>
+                                	 <c:forEach var="obj" items="${contractTypeDetails }">
+			                                      <option value="${obj.contract_category_fk }">${obj.contract_category_fk }</option>
+			                         </c:forEach>
                                 </select>
-                                <span id="contract_category_textError" class="error-msg" ></span>
+                                <span id="contract_category_fkError" class="error-msg" ></span>
                             </div>
-                            <div class="input-field col s12 m6">
+                            <div class="input-field col s12 m6"> 
                             	<p class="searchable_label">Issue Category</p>
-                                <select class='searchable' id="issue_category_text" name="issue_category_text">
-                                	<option>Select</option>
+                                <select  id="issue_category_fk_text" name="issue_category_fk" class="searchable validate-dropdown">
+                                	<option value="">Select</option>
+                                	 <c:forEach var="obj" items="${issueCategoryDetails }">
+			                                      <option value="${obj.issue_category_fk }">${obj.issue_category_fk }</option>
+			                         </c:forEach>
                                 </select>
-                                <span id="issue_category_textError" class="error-msg" ></span>
+                                <span id="issue_category_fkError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addRevisionStatus()"
+                                    <button style="width: 100%;" onclick="addIssueContractCategory()"
                                         class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
@@ -228,7 +225,7 @@
         </form>
     </div>
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/issue-contract-category" id=issueContractCategoryForm name="issueContractCategoryForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-issue-contract-category" id=updateIssueContractCategoryForm name="updateIssueContractCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header bg-m">Update Issue Contract Category <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -236,17 +233,24 @@
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
+                            <input type="hidden" id="id" name="id"  />
                             <div class="input-field col s12 m6">
                                 <p class="searchable_label">Contract Category</p>
-                                <select class='searchable' id="contract_category_text_update" name="contract_category_text_update">
-                                	<option>Select</option>
+                                <select class="searchable validate-dropdown" id="contract_category_text_update" name="contract_category_fk_new">
+                                	<option value="">Select</option>
+                                	<c:forEach var="obj" items="${contractTypeDetails }">
+			                                      <option value="${obj.contract_category_fk }">${obj.contract_category_fk }</option>
+			                         </c:forEach>
                                 </select>
                                 <span id="contract_category_text_updateError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
                             	<p class="searchable_label">Issue Category</p>
-                                <select class='searchable' id="issue_category_text_update" name="issue_category_text_update">
-                                	<option>Select</option>
+                                <select class="searchable validate-dropdown" id="issue_category_text_update" name="issue_category_fk_new">
+                                	<option value="">Select</option>
+                                	  <c:forEach var="obj" items="${issueCategoryDetails }">
+			                                      <option value="${obj.issue_category_fk }">${obj.issue_category_fk }</option>
+			                         </c:forEach>
                                 </select>
                                 <span id="issue_category_text_updateError" class="error-msg" ></span>
                             </div>
@@ -254,7 +258,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateRevisionStatus()"
+                                    <button style="width: 100%;" onclick="updateIssueContractCategory()"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -263,7 +267,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/revision-status"
+                                        <a href="<%=request.getContextPath()%>/issue-contract-category"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -289,15 +293,16 @@
     <!-- footer  -->
 <%--     <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
  	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="revision_status" id="revision_status" />
+    	<input type="hidden" name="id" id="idNo" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+        <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+    <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -316,7 +321,7 @@
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,
-                paging: false,
+                paging: false, 
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",
                 "bScrollCollapse": true,
@@ -326,72 +331,107 @@
             });
         });
       
-   function addRevisionStatus(){
-       	 if(validator.form()){ 
-   			$(".page-loader").show();
-   			$("#addUpdateModal").modal();
-   			document.getElementById("addRevisionStatusForm").submit();	
-        }
-    }
-    
-   function updateRevisionStatus(){
-     	 if(validator1.form()){ 
- 			$(".page-loader").show();
- 			$("#addUpdateModal").modal();
- 			document.getElementById("updateRevisionStatusForm").submit();	
-      }
-  }
+        function addIssueContractCategory(){
+          	 if(validator.form()){ 
+      			$(".page-loader").show();
+      			$("#addUpdateModal").modal();
+      			document.getElementById("addIssueContractCategoryForm").submit();	
+           }
+       }
+       
+      function updateIssueContractCategory(){
+        	 if(validator1.form()){ 
+    			$(".page-loader").show();
+    			$("#onlyUpdateModal").modal();
+    			document.getElementById("updateIssueContractCategoryForm").submit();	
+         }
+     }
+      
+      
+        var validator = $('#addIssueContractCategoryForm').validate({
+	       	 ignore: ":hidden:not(.validate-dropdown)",
+	       	 rules: {
+	       		 "contract_category_fk": {
+	   			 		  required: true
+	       		 },
+	   		    "issue_category_fk": {
+	   				      required: true
+	   			}
+   			},messages: {
+   		 		   "contract_category_fk": {
+   			 		  required: 'Required'
+   			 	  },
+   			 	  "issue_category_fk": {
+   			 		  required: 'Required'
+   			 	  }
+   	        },errorPlacement:function(error, element){
+   	        	 if(element.attr("id") == "contract_category_fk_text" ){
+   				     document.getElementById("contract_category_fkError").innerHTML="";
+   			 	     error.appendTo('#contract_category_fkError');
+   				 }else if(element.attr("id") == "issue_category_fk_text" ){
+   				     document.getElementById("issue_category_fkError").innerHTML="";
+   			 	     error.appendTo('#issue_category_fkError');
+   				 }
+   	        }
+       });
+       
+       var validator1 =  $('#updateIssueContractCategoryForm').validate({
+	       	 ignore: ":hidden:not(.validate-dropdown)",
+	      	 rules: {
+	      	   "contract_category_fk_new": {
+	   	 		  required: true
+	   			 },
+	   		   "issue_category_fk_new": {
+	   				      required: true
+	   			}
+   			},messages: {
+   				   "contract_category_fk_new": {
+   			 		  required: 'Required'
+   			 	  },
+   			 	  "issue_category_fk_new": {
+   			 		  required: 'Required'
+   			 	  }
+   	        },errorPlacement:function(error, element){
+   	        	 if(element.attr("id") == "issue_category_text_update" ){
+   				     document.getElementById("issue_category_text_updateError").innerHTML="";
+   			 	     error.appendTo('#issue_category_text_updateError');
+   				 }else if(element.attr("id") == "contract_category_text_update" ){
+   				     document.getElementById("contract_category_text_updateError").innerHTML="";
+   			 	     error.appendTo('#contract_category_text_updateError');
+   				 }
+   	        }
+      	
+      });
+       
+       $('input').change(function(){
+   	           if ($(this).val() != ""){
+   	               $(this).valid();
+   	           }
+   	     });
+       $('select').change(function(){
+           if ($(this).val() != ""){
+               $(this).valid();
+           }
+       });
    
-    var validator = $('#addRevisionStatusForm').validate({
-    	 rules: {
-    		 "revision_status": {
-			 		  required: true
-    		 }
-			},messages: {
-		 		   "revision_status": {
-			 		  required: 'Required'
-			 	  }
-	        },errorPlacement:function(error, element){
-	        	 if(element.attr("id") == "contract_category_text" ){
-				     document.getElementById("revision_statusError").innerHTML="";
-			 	     error.appendTo('#revision_statusError');
-				 }
-	        }
-    });
-    
-    var validator1 =  $('#updateRevisionStatusForm').validate({
-   	 rules: {
-   		 "value_new": {
-			 		  required: true
-   		 }
-			},messages: {
-		 		   "value_new": {
-			 		  required: 'Required'
-			 	  }
-	        },errorPlacement:function(error, element){
-	        	 if(element.attr("id") == "value_new" ){
-				     document.getElementById("value_newError").innerHTML="";
-			 	     error.appendTo('#value_newError');
-				 }
-	        }
-   	
-   });
-    
-    $('input').change(function(){
-	           if ($(this).val() != ""){
-	               $(this).valid();
-	           }
-	     });
 
     function updateRow(no) {
-	      var revision_status = $('#revision_statusId'+no).val();
-	      $('#value_old').val($.trim(revision_status))
-	      $('#onlyUpdateModal').modal('open');
-	      $('#onlyUpdateModal #value_new').val($.trim(revision_status)).focus();
-	  }
+    	 var issue_category = $('#issue_category_fk'+no).val();
+         var contract_category = $('#contract_category_fk'+no).val();
+         var id = $('#id'+no).val();
+         $('#onlyUpdateModal').modal('open');
+         $('#issue_category_text_update').val($.trim(issue_category))
+         $('#contract_category_text_update').val($.trim(contract_category))
+         var s  = $('#id').val($.trim(id))
+         $('#onlyUpdateModal #issue_category_text_update').val($.trim(issue_category)).focus();
+         $('#onlyUpdateModal #contract_category_text_update').val($.trim(contract_category)).focus();
+         $('select[name^="issue_category_fk_new"] option[value="'+ $.trim(issue_category) +'"]').attr("selected","selected");
+         $('select[name^="contract_category_fk_new"] option[value="'+ contract_category +'"]').attr("selected","selected");
+	     $('.searchable').select2();
+     }
 	  
 	  function deleteRow(val){
-	  	$("#revision_status").val(val);
+	  	$("#idNo").val(val);
 	  	showCancelMessage();
 	   }
 	  	
@@ -411,7 +451,7 @@
 		            if (isConfirm) {
 		               // swal("Deleted!", "Record has been deleted", "success");
 		                $(".page-loader").show();
-		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-revision-status');
+		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-issue-contract-category');
 		    	    	$('#getForm').submit();
 		           }else {
 		                swal("Cancelled", "Record is safe :)", "error"); 

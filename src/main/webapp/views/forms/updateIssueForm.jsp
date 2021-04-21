@@ -1342,7 +1342,7 @@
             	$('#other_organization_responsibles_holder').hide();
             	$('#department_holder').hide();
             	
-                if(val == 'Others'){
+                if($.trim(val) == 'Others'){
                 	$('#department_holder').hide();                	
                 	$('#other_organization').attr('name', 'other_organization');
                 	$('#other_org_resposible_person_name').attr('name','other_org_resposible_person_name');
@@ -1351,13 +1351,17 @@
                 	$('#other_organization_holder').show();  
                 	$('#other_organization_responsibles_holder').show();    
                 	$('#other_organization').val('').focus();                	
-                } else if(val == 'MRVC'){          
+                } else if($.trim(val) == 'MRVC'){          
                 	$('#other_organizations').attr('name', 'other_organization'); 
                 	$('#department_holder').show();
                 	$('#other_organizations').val('');
-                } else { 
+                } else if($.trim(val) != ''){ 
                 	$('#other_organization').attr('name', 'other_organization');
                 	$('#other_organization').val(name);
+                	
+                	$('#other_org_resposible_person_name').attr('name','other_org_resposible_person_name');
+                	$('#other_org_resposible_person_designation').attr('name','other_org_resposible_person_designation');
+                	$('#other_organization_responsibles_holder').show();
                 }
             });
         	
@@ -1383,9 +1387,13 @@
             	}else if(responsibleOrganization == 'MRVC'){
             		$('#other_organizations').attr('name', 'other_organization');
             		$('#department_holder').show();
-            	}else{
+            	}else if($.trim(responsibleOrganization) != ''){
             		$('#other_organization').attr('name', 'other_organization');
             		$('#other_organization').val(name);
+            		
+            		$('#other_org_resposible_person_name').attr('name','other_org_resposible_person_name');
+                	$('#other_org_resposible_person_designation').attr('name','other_org_resposible_person_designation');
+                	$('#other_organization_responsibles_holder').show();
             	}  
         	});
         	function removeMedia(link,id){

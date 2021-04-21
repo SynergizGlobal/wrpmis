@@ -328,7 +328,7 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	}
 		  	
 		  /*===========================================================*/
-		  	if("Others".equals(issueDeailsReport.getZonal_railway_fk())) {
+		  	if(!"MRVC".equals(issueDeailsReport.getZonal_railway_fk())) {
 		  		titleTableRow = factory.createTr();		
 				addTableCell(factory, wordMLPackage, titleTableRow, "Pesponsible Person Name", titleRpr,
 						JcEnumeration.LEFT, true, "ecf2ff");

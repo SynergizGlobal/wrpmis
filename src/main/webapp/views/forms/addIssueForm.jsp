@@ -770,9 +770,13 @@
                 } else if(val == 'MRVC'){          
                 	$('#other_organizations').attr('name', 'other_organization'); 
                 	$('#department_holder').show();
-                } else { 
+                } else if($.trim(val) != ''){ 
                 	$('#other_organization').attr('name', 'other_organization');
                 	$('#other_organization').val(name);
+                	
+                	$('#other_org_resposible_person_name').attr('name','other_org_resposible_person_name');
+                	$('#other_org_resposible_person_designation').attr('name','other_org_resposible_person_designation');
+                	$('#other_organization_responsibles_holder').show();
                 }
             });
            

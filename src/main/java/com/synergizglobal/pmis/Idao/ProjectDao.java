@@ -26,4 +26,6 @@ public interface ProjectDao {
 	public List<Project> getProjectsList(Project obj, int startIndex, int offset, String searchParameter) throws Exception;
 */
 
+	public List<Project> getProjectPinkBookList() throws Exception;
+
 }

@@ -669,6 +669,24 @@ public class WorkDaoImpl implements WorkDao {
 		return objsList;
 	}
 
+
+	@Override
+	public List<Work> getWorkRevisionsList() throws Exception {
+		List<Work> objsList = null;
+		try {
+			String qry ="SELECT work_yearly_sanction_id, work_id_fk, wys.financial_year, wys.pink_book_item_number, wys.latest_revised_cost, wys.year_of_revision, wys.revision_number "
+					+ "FROM work_yearly_sanction wys "  
+					+"LEFT JOIN Work w ON wys.work_id_fk = w.work_id ";
+		
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));	
+		
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		
+		return objsList;
+	}
+
 	/**
 	@Override
 	public int getTotalRecords(Work obj, String searchParameter) throws Exception {

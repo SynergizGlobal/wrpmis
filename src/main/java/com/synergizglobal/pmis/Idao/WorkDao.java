@@ -29,4 +29,6 @@ public interface WorkDao {
 	public List<Work> getWorksList(Work obj, int startIndex, int offset, String searchParameter) throws Exception;
 */
 
+	public List<Work> getWorkRevisionsList() throws Exception;
+
 }

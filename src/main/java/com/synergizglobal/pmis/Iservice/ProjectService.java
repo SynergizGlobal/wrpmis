@@ -21,6 +21,8 @@ public interface ProjectService {
 
 	public List<Year> getYearList() throws Exception;
 
+	public List<Project> getProjectPinkBookList() throws Exception;;
+
 	/**public int getTotalRecords(Project obj, String searchParameter) throws Exception;
 
 	public List<Project> getProjectsList(Project obj, int startIndex, int offset, String searchParameter) throws Exception;*/

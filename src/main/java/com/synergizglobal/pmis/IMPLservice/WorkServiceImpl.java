@@ -65,4 +65,9 @@ public class WorkServiceImpl implements WorkService {
 		return workDao.getWorksList(obj,startIndex,offset,searchParameter);
 	}
 */
+
+	@Override
+	public List<Work> getWorkRevisionsList() throws Exception {
+		return workDao.getWorkRevisionsList();
+	}
 }

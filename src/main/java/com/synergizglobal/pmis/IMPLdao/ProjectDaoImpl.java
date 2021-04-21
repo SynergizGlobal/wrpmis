@@ -39,7 +39,7 @@ public class ProjectDaoImpl implements ProjectDao {
 	public List<Project> getProjectList() throws Exception {
 		List<Project> objsList = null;
 		try {
-			String qry ="SELECT project_id, project_name, plan_head_number, remarks, project_status, attachment FROM project";
+			String qry ="SELECT project_id, project_name, plan_head_number, remarks, project_status, attachment, benefits FROM project";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -541,6 +541,20 @@ public class ProjectDaoImpl implements ProjectDao {
 			String qry = "SELECT financial_year FROM financial_year";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Year>(Year.class));
 			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public List<Project> getProjectPinkBookList() throws Exception {
+		List<Project> objsList = null;
+		try {
+			String qry ="SELECT project_pinkbook_id, project_id_fk, financial_year_fk, pb_item_no FROM project_pinkbook pb "
+					+ "LEFT JOIN project p on pb.project_id_fk = p.project_id ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

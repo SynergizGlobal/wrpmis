@@ -623,4 +623,43 @@ public class FOBDaoImpl implements FOBDao {
 		return objsList;
 	}
 
+	@Override
+	public List<FOB> getFOBDetails(FOB obj) throws Exception {
+		List<FOB> objsList = null;
+		try {
+			String qry = "select fob_detail_id, fob_id_fk, detail_name, value "
+					+ "from fob_detail fd "
+					+ "LEFT OUTER JOIN fob f ON fd.fob_id_fk = f.fob_id "
+					+ "LEFT OUTER JOIN contract c ON f.contract_id_fk = c.contract_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "					
+					+ "LEFT OUTER JOIN work_status ws ON f.work_status_fk = ws.work_status_id "
+					+ "where fob_id is not null " ;
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and f.contract_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())) {
+				qry = qry + " and work_status_fk = ?";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())) {
+				pValues[i++] = obj.getWork_status_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<FOB>(FOB.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 }

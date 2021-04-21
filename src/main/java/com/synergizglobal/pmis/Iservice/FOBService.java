@@ -35,4 +35,6 @@ public interface FOBService {
 
 	List<FOB> getFobDetailsList(FOB obj) throws Exception;
 
+	List<FOB> getFOBDetails(FOB fob) throws Exception;
+
 }

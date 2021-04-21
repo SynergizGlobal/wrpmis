@@ -9,8 +9,25 @@ public class Work {
 	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks,project_name,railway_name,
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,latest_revised_cost,
 	year_of_revision,revision_number,wys_renarks,attachment,work_attachment,railway,executed_by,projected_completion,
-	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink,id;
+	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink,id,
+	work_yearly_sanction_id,  pink_book_item_number;
 
+
+	public String getWork_yearly_sanction_id() {
+		return work_yearly_sanction_id;
+	}
+
+	public void setWork_yearly_sanction_id(String work_yearly_sanction_id) {
+		this.work_yearly_sanction_id = work_yearly_sanction_id;
+	}
+
+	public String getPink_book_item_number() {
+		return pink_book_item_number;
+	}
+
+	public void setPink_book_item_number(String pink_book_item_number) {
+		this.pink_book_item_number = pink_book_item_number;
+	}
 
 	public String getDashboard_id() {
 		return dashboard_id;

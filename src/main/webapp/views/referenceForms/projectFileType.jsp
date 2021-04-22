@@ -137,16 +137,12 @@
                                         </tr>
                                     </thead>
                                    <tbody>
-										<c:forEach var="obj" items="${issueContractCategory}" varStatus="index">
+										<c:forEach var="obj" items="${projectFileType}" varStatus="index">
 											<tr>
 											<td>
 											<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
-												<input type="hidden" id="contract_category_fk${index.count}" value="${obj.contract_category_fk }" />
-												${obj.contract_category_fk }</td>
-											<td>
-											 	${obj.issue_category_fk }
-											 	<input type="hidden" id="issue_category_fk${index.count}" value="${obj.issue_category_fk }" />
-											</td>
+												<input type="hidden" id="project_file_type${index.count}" value="${obj.project_file_type }" />
+												${obj.project_file_type }</td>
 										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
 									    </c:forEach>
  										
@@ -177,7 +173,7 @@
 	</div>
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-project-priority" id="addProjectFileTypeForm" name="addProjectFileTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-project-file-type" id="addProjectFileTypeForm" name="addProjectFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header ">Add Project File Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -186,8 +182,8 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="project_file_type_text" name="project_priority" type="text" class="validate">
-                                <label for="project_file_type_text">Project File Type</label>
+                                <input id="project_file_type" name="project_file_type" type="text" class="validate">
+                                <label for="project_file_type">Project File Type</label>
                                  <span id="project_file_typeError" class="error-msg" ></span>
                             </div>
                         </div>
@@ -203,7 +199,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/project-priority"
+                                        <a href="<%=request.getContextPath()%>/project-file-type"
 									  class="btn waves-effect waves-light bg-s modal-action modal-close " style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -217,11 +213,12 @@
         </form>
     </div>
  <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-project-priority" id=updateProjectFileTypeForm name="id=updateProjectFileTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-project-file-type" id=updateProjectFileTypeForm name="id=updateProjectFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header bg-m">Update Project File Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
+                 <input id="id" type="hidden" name="id"  >
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
@@ -244,7 +241,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/project-priority"
+                                        <a href="<%=request.getContextPath()%>/project-file-type"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -260,7 +257,7 @@
 
     <!-- footer  -->
  	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="project_priority" id="project_priority" />
+    	<input type="hidden" name="id" id="idNo" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -310,21 +307,21 @@
         function updateProjectPriority(){
          	 if(validator1.form()){ 
      			$(".page-loader").show();
-     			$("#addUpdateModal").modal();
+     			$("#onlyUpdateModal").modal();
      			document.getElementById("updateProjectFileTypeForm").submit();	
             }
         }
         var validator =  $('#addProjectFileTypeForm').validate({
         	 rules: {
-        		 "project_priority": {
- 			 		  required: true
+        		 "project_file_type": {
+ 			 		  required: true 
         		 }
  			},messages: {
- 		 		   "project_priority": {
+ 		 		   "project_file_type": {
  			 		  required: 'Required'
  			 	  }
  	        },errorPlacement:function(error, element){
- 	        	 if(element.attr("id") == "project_file_type_text" ){
+ 	        	 if(element.attr("id") == "project_file_type" ){
  				     document.getElementById("project_file_typeError").innerHTML="";
  			 	     error.appendTo('#project_file_typeError');
  				 }
@@ -356,14 +353,16 @@
      	     });
 
            function updateRow(no) {
-       	      var project_priority = $('#project_priorityId'+no).val();
-       	      $('#value_old').val($.trim(project_priority))
+       	      var project_file_type = $('#project_file_type'+no).val();
+       	  	  var id = $('#id'+no).val();
+       	      $('#id').val($.trim(id))
+       	      $('#value_old').val($.trim(project_file_type))
        	      $('#onlyUpdateModal').modal('open');
-       	      $('#onlyUpdateModal #value_new').val($.trim(project_priority)).focus();
+       	      $('#onlyUpdateModal #value_new').val($.trim(project_file_type)).focus();
        	  }
        	  
        	  function deleteRow(val){
-       	  	$("#project_priority").val(val);
+       	  	$("#idNo").val(val);
        	  	showCancelMessage();
        		    }
        	  	
@@ -383,7 +382,7 @@
        		            if (isConfirm) {
        		               // swal("Deleted!", "Record has been deleted", "success");
        		                $(".page-loader").show();
-       		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-project-priority');
+       		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-project-file-type');
        		    	    	$('#getForm').submit();
        		           }else {
        		                swal("Cancelled", "Record is safe :)", "error");

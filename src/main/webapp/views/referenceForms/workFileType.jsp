@@ -135,16 +135,12 @@
                                         </tr>
                                     </thead>
                                    <tbody>
-										<c:forEach var="obj" items="${issueContractCategory}" varStatus="index">
+										<c:forEach var="obj" items="${workFileType}" varStatus="index">
 											<tr>
 											<td>
 											<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
-												<input type="hidden" id="contract_category_fk${index.count}" value="${obj.contract_category_fk }" />
-												${obj.contract_category_fk }</td>
-											<td>
-											 	${obj.issue_category_fk }
-											 	<input type="hidden" id="issue_category_fk${index.count}" value="${obj.issue_category_fk }" />
-											</td>
+												<input type="hidden" id="work_file_type${index.count}" value="${obj.work_file_type }" />
+												${obj.work_file_type }</td>
 										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
 									    </c:forEach>
  										
@@ -175,7 +171,7 @@
 	</div>
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-project-priority" id="addProjectFileTypeForm" name="addProjectFileTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-work-file-type" id="addWorkFileTypeForm" name="addWorkFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header ">Add Work File Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -184,15 +180,15 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="work_file_type_text" name="project_priority" type="text" class="validate">
-                                <label for="work_file_type_text">Work File Type</label>
+                                <input id="work_file_type" name="work_file_type" type="text" class="validate">
+                                <label for="work_file_type">Work File Type</label>
                                  <span id="work_file_typeError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addProjectFileType();"
+                                    <button style="width: 100%;" onclick="addWorkFileType();"
                                         class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
@@ -201,7 +197,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/project-priority"
+                                        <a href="<%=request.getContextPath()%>/work-file-type"
 									  class="btn waves-effect waves-light bg-s modal-action modal-close " style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -215,11 +211,12 @@
         </form>
     </div>
  <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-work-file-type" id=updateWorkFileTypeForm name="id=updateWorkFileTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-work-file-type" id=updateWorkFileTypeForm name="updateWorkFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header bg-m">Update Work File Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
+                 <input id="id" type="hidden" name="id"  >
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
@@ -233,7 +230,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateProjectPriority()"
+                                    <button style="width: 100%;" onclick="updateWorkFileType()"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -242,7 +239,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/project-priority"
+                                        <a href="<%=request.getContextPath()%>/work-file-type"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -298,31 +295,31 @@
         });
        
         
-        function addProjectFileType(){
+        function addWorkFileType(){
          	 if(validator.form()){ 
      			$(".page-loader").show();
      			$("#addUpdateModal").modal();
-     			document.getElementById("addProjectFileTypeForm").submit();	
+     			document.getElementById("addWorkFileTypeForm").submit();	
             }
         }
-        function updateProjectPriority(){
+        function updateWorkFileType(){
          	 if(validator1.form()){ 
      			$(".page-loader").show();
-     			$("#addUpdateModal").modal();
+     			$("#onlyUpdateModal").modal();
      			document.getElementById("updateWorkFileTypeForm").submit();	
             }
         }
-        var validator =  $('#addProjectFileTypeForm').validate({
+        var validator =  $('#addWorkFileTypeForm').validate({
         	 rules: {
-        		 "project_priority": {
+        		 "work_file_type": {
  			 		  required: true
         		 }
  			},messages: {
- 		 		   "project_priority": {
+ 		 		   "work_file_type": {
  			 		  required: 'Required'
  			 	  }
  	        },errorPlacement:function(error, element){
- 	        	 if(element.attr("id") == "work_file_type_text" ){
+ 	        	 if(element.attr("id") == "work_file_type" ){
  				     document.getElementById("work_file_typeError").innerHTML="";
  			 	     error.appendTo('#work_file_typeError');
  				 }
@@ -354,14 +351,16 @@
      	     });
 
            function updateRow(no) {
-       	      var project_priority = $('#project_priorityId'+no).val();
-       	      $('#value_old').val($.trim(project_priority))
+       	      var work_file_type = $('#work_file_type'+no).val();
+       	      var id = $('#id'+no).val();
+       	      $('#value_old').val($.trim(work_file_type))
+       	      $('#id').val($.trim(id))
        	      $('#onlyUpdateModal').modal('open');
-       	      $('#onlyUpdateModal #value_new').val($.trim(project_priority)).focus();
+       	      $('#onlyUpdateModal #value_new').val($.trim(work_file_type)).focus();
        	  }
        	  
        	  function deleteRow(val){
-       	  	$("#project_priority").val(val);
+       	  	$("#idNo").val(val);
        	  	showCancelMessage();
        		    }
        	  	
@@ -381,7 +380,7 @@
        		            if (isConfirm) {
        		               // swal("Deleted!", "Record has been deleted", "success");
        		                $(".page-loader").show();
-       		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-project-priority');
+       		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-work-file-type');
        		    	    	$('#getForm').submit();
        		           }else {
        		                swal("Cancelled", "Record is safe :)", "error");

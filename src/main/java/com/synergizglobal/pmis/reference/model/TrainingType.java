@@ -18,8 +18,24 @@ public class TrainingType {
 	zonal_railway_funds,risk_minimum_new,risk_maximum_new,risk_classification_id, classification, minimum, maximum,alert_level,alert_type,as_built_status,user_type,
 	login_event_type,yesorno,type,notification_type, notification_type_icon,notification_type_icon_new,type_fk_new,notification_type_new, type_fk,web_documents_category,financial_year,
 	risk_work_hod_id, work_id_fk, hod_user_id_fk,designation,work_short_name,work_id_fk_new,hod_user_id_fk_new,sub_work,sub_work_new,
-	contract_category_fk, issue_category_fk,contract_category_fk_new,issue_category_fk_new;
+	contract_category_fk, issue_category_fk,contract_category_fk_new,issue_category_fk_new,project_file_type,work_file_type;
 
+
+	public String getProject_file_type() {
+		return project_file_type;
+	}
+
+	public void setProject_file_type(String project_file_type) {
+		this.project_file_type = project_file_type;
+	}
+
+	public String getWork_file_type() {
+		return work_file_type;
+	}
+
+	public void setWork_file_type(String work_file_type) {
+		this.work_file_type = work_file_type;
+	}
 
 	public String getContract_category_fk_new() {
 		return contract_category_fk_new;

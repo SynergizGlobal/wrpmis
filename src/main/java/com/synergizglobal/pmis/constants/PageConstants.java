@@ -231,6 +231,10 @@ public class PageConstants {
 	public static final String issueContractCategory = "referenceForms/issueContractCategory";  
 	
 	public static final String issueCategoryTitle = "referenceForms/issueCategoryTitle";  
+	
+	public static final String projectFileType = "referenceForms/projectFileType";  
+	
+	public static final String workFileType = "referenceForms/workFileType";  
 
 	
 	

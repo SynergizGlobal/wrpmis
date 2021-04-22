@@ -8,14 +8,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project File Type</title>
+    <title>Work File Type</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/project.css">
+    <link rel="stylesheet" href="/pmis/resources/css/work.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
@@ -34,7 +34,7 @@
 
         .modal-header {
             text-align: center;
-            background-color: #7C698C;
+            background-color: #662E9B;
             color: #fff;
             margin: -24px -24px 20px !important;
             padding: 1rem;
@@ -50,9 +50,7 @@
             word-break: break-all;
             white-space: inherit;
         }
- 		.mdl-data-table thead tr, .mdl-data-table tfoot tr {
-		    background-color: #7C698C !important;
-		}
+
 		.mdl-button--raised.mdl-button--colored {
 		    background-color: #7C698C !important;
 		}
@@ -105,7 +103,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Project File Type</h6>
+                            <h6> Work File Type</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -123,16 +121,16 @@
                             <div class="col m4 hide-on-small"></div>
                             <div class="col m4 s12 center-align">
                                 <a class="waves-effect waves-light btn bg-m modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Project File Type</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Work File Type</a>
                             </div>
                             <div class="col m4 hide-on-small"></div>
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="project_file_type_table" class="mdl-data-table">
+                                <table id="work_file_type_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Project File Type</th>                                           
+                                            <th>Work File Type</th>                                           
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
@@ -179,16 +177,16 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-project-priority" id="addProjectFileTypeForm" name="addProjectFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header ">Add Project File Type <span class="right modal-action modal-close"><span
+                <h5 class="modal-header ">Add Work File Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="project_file_type_text" name="project_priority" type="text" class="validate">
-                                <label for="project_file_type_text">Project File Type</label>
-                                 <span id="project_file_typeError" class="error-msg" ></span>
+                                <input id="work_file_type_text" name="project_priority" type="text" class="validate">
+                                <label for="work_file_type_text">Work File Type</label>
+                                 <span id="work_file_typeError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -217,9 +215,9 @@
         </form>
     </div>
  <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-project-priority" id=updateProjectFileTypeForm name="id=updateProjectFileTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-work-file-type" id=updateWorkFileTypeForm name="id=updateWorkFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Project File Type <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Work File Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
@@ -228,7 +226,7 @@
                          <div class="input-field col s12 m12">
                                 <input id="value_new" type="text" name="value_new" class="validate">
                                 <input id="value_old" type="hidden" name="value_old"  >
-                                <label for="value_new">Project File Type</label>
+                                <label for="value_new">Work File Type</label>
                                 <span id="value_newError" class="error-msg" ></span>
                          </div>
                         </div>
@@ -277,7 +275,7 @@
            /*  // adding table data into table start
             // adding table data into table ends */
 
-            var table = $('#project_file_type_table').DataTable({
+            var table = $('#work_file_type_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -311,7 +309,7 @@
          	 if(validator1.form()){ 
      			$(".page-loader").show();
      			$("#addUpdateModal").modal();
-     			document.getElementById("updateProjectFileTypeForm").submit();	
+     			document.getElementById("updateWorkFileTypeForm").submit();	
             }
         }
         var validator =  $('#addProjectFileTypeForm').validate({
@@ -324,15 +322,15 @@
  			 		  required: 'Required'
  			 	  }
  	        },errorPlacement:function(error, element){
- 	        	 if(element.attr("id") == "project_file_type_text" ){
- 				     document.getElementById("project_file_typeError").innerHTML="";
- 			 	     error.appendTo('#project_file_typeError');
+ 	        	 if(element.attr("id") == "work_file_type_text" ){
+ 				     document.getElementById("work_file_typeError").innerHTML="";
+ 			 	     error.appendTo('#work_file_typeError');
  				 }
  	        }
         	
         });
         
-        var validator1 =  $('#updateProjectFileTypeForm').validate({
+        var validator1 =  $('#updateWorkFileTypeForm').validate({
           	 rules: {
           		 "value_new": {
     			 		  required: true

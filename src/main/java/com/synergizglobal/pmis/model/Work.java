@@ -10,7 +10,7 @@ public class Work {
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,latest_revised_cost,
 	year_of_revision,revision_number,wys_renarks,attachment,work_attachment,railway,executed_by,projected_completion,
 	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink,id,
-	work_yearly_sanction_id,  pink_book_item_number;
+	work_yearly_sanction_id,  pink_book_item_number,projected_completion_date;
 
 
 	public String getWork_yearly_sanction_id() {
@@ -432,6 +432,14 @@ public class Work {
 
 	public void setProjected_completion_year(String projected_completion_year) {
 		this.projected_completion_year = projected_completion_year;
+	}
+
+	public String getProjected_completion_date() {
+		return projected_completion_date;
+	}
+
+	public void setProjected_completion_date(String projected_completion_date) {
+		this.projected_completion_date = projected_completion_date;
 	}
 	
 }

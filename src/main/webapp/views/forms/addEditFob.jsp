@@ -154,16 +154,18 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="fob_name" name="fob_name" type="text" class="validate" value="${fob.fob_name }" style="margin-top: 5px;">
+                                    <input id="fob_name" name="fob_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${fob.fob_name }" style="margin-top: 5px;">
                                     <label for="fob_name">FOB Name <span class="required">*</span></label>
                                     <span id="fob_nameError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                    <p class="searchable_label">Work Status <span class="required">*</span></p>
-                                    <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown">
+                                    <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown" onchange="openDates(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${generalStatusList }">
-                                            <option value="${obj }" <c:if test="${obj eq fob.work_status_fk}">selected</c:if> >${obj}</option>
+                                        	<c:if test="${obj ne 'Closed' and obj ne 'Terminated'}">
+                                            	<option value="${obj }" <c:if test="${(empty fob.work_status_fk and obj eq 'Not Started') or (obj eq fob.work_status_fk)}">selected</c:if> >${obj}</option>
+                                        	</c:if>
                                         </c:forEach>
                                     </select>
                                     <span id="work_status_fkError" class="error-msg" ></span>
@@ -173,9 +175,7 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <!-- <div class="col s12 m8">
-	                                <div class="row"> -->
-	                                	  <div class="col s12 m4 input-field">
+	                            <div class="col s12 m4 input-field">
                                     <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${fob.target_date }">
                                     <label for="target_date">Target Date </label>
                                     <button type="button" id="target_date_icon"><i class="fa fa-calendar"></i></button>
@@ -187,17 +187,19 @@
                                     <label for="estimated_cost">Estimated Cost (in Cr)</label>
                                     <span id="estimated_costError" class="error-msg" ></span>
                                 </div>
-                                <!--  <div class="col s12 m4 input-field">
-                                	<i class="material-icons prefix center-align">₹</i>   
-                                    <input id="last_sanctioned_cost" name="last_sanctioned_cost" type="number" class="validate" value="${fob.last_sanctioned_cost }">
-                                    <label for="last_sanctioned_cost" class="small">Last Sanctioned Cost (in Cr)</label>
-                                    <span id="last_sanctioned_costError" class="error-msg" ></span>
-                                </div>  -->                               
-	                               <!--  </div>
-                                </div> -->
                               <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
+                            <div class="row">
+                                <!-- row 10 -->
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field">
+                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000" maxlength="1000">${fob.remarks }</textarea>
+                                    <label for="remarks">Remarks</label>
+                                    <span id="remarksError" class="error-msg" ></span>
+                                </div>
+                            </div>
+                            <c:if test="${action eq 'edit'}">	
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -212,43 +214,19 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            </c:if>
+                            
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 input-field" id="construction_start_dateDiv" style="display: none;">
                                     <input id="construction_start_date" name="construction_start_date" type="text" class="validate datepicker" value="${fob.construction_start_date }">
                                     <label for="construction_start_date">Construction Start Date </label>
                                     <button type="button" id="construction_start_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="construction_start_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="commissioning_date" name="commissioning_date" type="text" class="validate datepicker" value="${fob.commissioning_date }">
-                                    <label for="commissioning_date">Commissioning Date </label>
-                                    <button type="button" id="commissioning_date_icon"><i class="fa fa-calendar"></i></button>
-                                    <span id="commissioning_dateError" class="error-msg" ></span>
-                                </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${fob.actual_completion_date }">
-                                    <label for="actual_completion_date">Completion Date </label>
-                                    <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
-                                    <span id="actual_completion_dateError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                	<i class="material-icons prefix center-align">₹</i>   
-                                    <input id="completion_cost" name="completion_cost" type="number" class="validate" min="0.01" step="0.01" value="${fob.completion_cost }">
-                                    <label for="completion_cost">Completion Cost (in Cr)</label>
-                                    <span id="completion_costError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
-
-
-
+							<c:if test="${action eq 'edit'}">
                             <div class="row fixed-width">
                                 <h5 class="center-align">FOB Details</h5>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -302,185 +280,94 @@
                                       </c:if>
                                      </tbody>
                                    </table>
-                                   <%-- <table id="fobImagesTable" class="mdl-data-table">
-                                        <tbody >
-                                        	 <c:choose>
-                                        		<c:when test="${not empty fob.fobImages && fn:length(fob.fobImages) gt 0 }">
-                                        			<c:forEach var="dObj" items="${fob.fobImages }" varStatus="index">                                        	
-			                                           <tr id="fobImagesRow${index.count }">                                            	
-			                                               <td>
-			                                              	   <input type="hidden" name="fob_id_fks" id="fob_id_fks${index.count }" value="${dObj.id}" />
-			                                                   <div class="row">
-									                                <div class="col m2 hide-on-small-only"></div>
-										                            <div class="col m8 s12">
-										                               <div class="file-field input-field">
-										                                   <div class="btn bg-m">
-										                                       	<span>Change Image</span>
-										                                       <input type="file" id="fobFile" name="fobFile" accept="image/*" onchange="readURL(this);">
-										                                   </div>
-										                                   <div class="file-path-wrapper">
-										                                       <input class="file-path validate" type="text" name="attachment" value="${dObj.attachment}">
-										                                       <img style="height: 20%;width: 20%;<c:if test="${empty dObj.attachment }">display:none;</c:if>" id="fobImagePreview" src="<%=CommonConstants2.FOB_FILES %>${dObj.attachment }" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" alt="FOB Image" />
-										                                       <span onclick="removeMedia(this,'fobFile')" class="attachment-remove-btn" style="<c:if test="${empty dObj.attachment }">display:none;</c:if>">X</span>
-										                                   </div>
-										                                   <input type="hidden" id="fobFileNames${index.count }" name="fobFileNames" value="${dObj.attachment }">
-	                                   
-										                               </div>
-										                            </div>
-										                            <div class="col m2 hide-on-small-only"></div>
-									                            </div>
-			                                                </td>
-			                                                <td>
-			                                                    <a href="javascript:void(0);" class="btn waves-effect waves-light red t-c " onclick="removeFOBImages('${index.count }');"> <i class="fa fa-close"></i></a>
-			                                                </td>
-			                                            </tr>
-		                                            </c:forEach> 
-                                        		</c:when>
-                                        		<c:otherwise>
-	                                        		<tr id="fobImagesRow0">   
-	                                        			<td><input type="hidden" name="fob_id_fks" id="fob_id_fks0" />
-		                                        			  <div class="row">
-									                                <div class="col m2 hide-on-small-only"></div>
-										                            <div class="col m8 s12">
-										                               <div class="file-field input-field">
-										                                   <div class="btn bg-m">
-										                                       	<span>Attach Image</span>
-										                                       <input type="file" id="fobFile" name="fobFile" accept="image/*" onchange="readURL(this);">
-										                                   </div>
-										                                   <div class="file-path-wrapper">
-										                                       <input class="file-path validate" type="text" name="attachment" >
-										                                       <img style="height: 20%;width: 20%;  id="fobImagePreview"   />
-										                                       <span onclick="removeMedia(this,'fobFile')" class="attachment-remove-btn" style="<c:if test="${empty fob.attachment }">display:none;</c:if>">X</span>
-										                                   </div>
-	                                   
-										                               </div>
-										                            </div>
-										                            <div class="col m2 hide-on-small-only"></div>
-									                            </div>
-		                                                </td>
-		                                                <td><a href="javascript:void(0);" class="btn waves-effect waves-light red t-c " onclick="removeFOBImages('0');"> <i class="fa fa-close"></i></a>
-		                                                </td>
-	                                                </tr>
-                                        		</c:otherwise>
-                                        	</c:choose>                                                                                      
-                                           
-                                        </tbody>
-                                    </table>
-                                    
-                                    <table class="mdl-data-table">
-                                        <tbody>                                          
-                                            <tr>
-                                                <td colspan="1" style="text-align: center !important"><a href="javascript:void(0);" onclick="addFOBImages()"class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-plus"></i></a></td>
-											</tr>
-                                        </tbody>
-                                    </table> 
-                                    <c:choose>
-                                        <c:when test="${not empty fob.fobImages && fn:length(fob.fobImages) gt 0 }">
-                                            <input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(fob.fobImages)}" />
-                                        </c:when>
-                                        <c:otherwise>
-                                        	<input type="hidden" id="rowNo"  name="rowNo" value="0" />
-                                        </c:otherwise>
-                                    </c:choose>   --%>
-		                             <c:if test="${action eq 'add'}">
-			                            <div id="selectedFilesInput">
-			                                    	<div class="file-field input-field" id="fobFilesDiv1" >
-				                                        <div class="btn bg-m t-c">
-				                                            <span>Attach Images</span>
-				                                            <input type="file" id="fobFiles1" name="fobFiles" accept="image/*" onchange="selectFile('1')">
-				                                        </div>
-				                                        <div class="file-path-wrapper">
-				                                            <input class="file-path validate" type="text">
-				                                        </div>                                       
-				                                    </div>
-												</div>
-			                                    
-			                                    <div id="selectedFiles">
-			                                    	
-												</div>
-									 </c:if>		
-									<c:if test="${action eq 'edit'}">
-											<c:set var="existingFOBFilesLength" value="${fn:length(fob.fobImages )}"></c:set>
-											<c:if test="${fn:length(fob.fobImages ) gt 0}">
-												<c:set var="existingFOBFilesLength" value="${fn:length(fob.fobImages )+1}"></c:set>
-											</c:if>
-											<div id="selectedFilesInput">
-		                                    	<div class="file-field input-field" id="fobFilesDiv${existingFOBFilesLength }" >
-			                                        <div class="btn bg-m t-c">
-			                                            <span>Attach Images</span>
-			                                            <input type="file" id="fobFiles${existingFOBFilesLength }" name="fobFiles"  accept="image/*" onchange="selectFile('${existingFOBFilesLength }')">
-			                                        </div>
-			                                        <div class="file-path-wrapper">
-			                                            <input class="file-path validate" type="text">
-			                                        </div>                                       
-			                                    </div>
-											</div>
-		                                    
-		                                    <div id="selectedFiles">
-		                                    	<c:forEach var="obj" items="${fob.fobImages }" varStatus="index">
-													 <div id="fobFileNames${index.count }">
-														<a href="<%=CommonConstants2.FOB_FILES%>${obj.attachment } " class="filevalue" download>${obj.attachment }</a>
-														<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
-														<input type="hidden" name="fobFileNames" value="${obj.attachment }">
-												     </div>
-												     <div style="clear:both" ></div>
-												</c:forEach>
-											</div>
-											
-		                               
-		                             </c:if>
+                                   
+		                           
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                           
- 							<!-- <div class="row">
+                            </c:if>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field" id="commissioning_dateDiv" style="display: none;">
+                                    <input id="commissioning_date" name="commissioning_date" type="text" class="validate datepicker" value="${fob.commissioning_date }">
+                                    <label for="commissioning_date">Commissioning Date </label>
+                                    <button type="button" id="commissioning_date_icon"><i class="fa fa-calendar"></i></button>
+                                    <span id="commissioning_dateError" class="error-msg" ></span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field" id="actual_completion_dateDiv" style="display: none;">
+                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${fob.actual_completion_date }">
+                                    <label for="actual_completion_date">Actual Completion Date </label>
+                                    <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
+                                    <span id="actual_completion_dateError" class="error-msg" ></span>
+                                </div>
+                                <c:if test="${action eq 'edit'}">
+                                <div class="col s12 m4 input-field">
+                                	<i class="material-icons prefix center-align">₹</i>   
+                                    <input id="completion_cost" name="completion_cost" type="number" class="validate" min="0.01" step="0.01" value="${fob.completion_cost }">
+                                    <label for="completion_cost">Actual Completion Cost (in Cr)</label>
+                                    <span id="completion_costError" class="error-msg" ></span>
+                                </div>
+                                </c:if>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
+                            <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
-                                    <div class="file-field input-field">
-                                        <div class="btn bg-m">
-                                            <span>Attach Image</span>
-                                            <input type="file" id="fobFile" name="fobFile">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div> -->
-                            
-                           <%--  <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-	                            <div class="col m8 s12">
-	                               <div class="file-field input-field">
-	                                   <div class="btn bg-m">
-	                                   	   <c:if test="${not empty fob.attachment }">
-	                                       		<span>Change Image</span>
-	                                       </c:if>
-	                                       <c:if test="${empty fob.attachment }">
-	                                       		<span>Attach Image</span>
-	                                       </c:if>
-	                                       <input type="file" id="fobFile" name="fobFile" accept="image/*" onchange="readURL(this);">
-	                                   </div>
-	                                   <div class="file-path-wrapper">
-	                                       <input class="file-path validate" type="text" name="attachment" value="${fob.attachment}">
-	                                       <img style="height: 20%;width: 20%;<c:if test="${empty fob.attachment }">display:none;</c:if>" id="fobImagePreview" src="<%=CommonConstants2.FOB_FILES %>${fob.attachment }" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" alt="FOB Image" />
-	                                       <span onclick="removeMedia(this,'fobFile')" class="attachment-remove-btn" style="<c:if test="${empty fob.attachment }">display:none;</c:if>">X</span>
-	                                   </div>
+	                            <%-- <c:if test="${action eq 'add'}">
+		                            <div id="selectedFilesInput">
+	                                   	<div class="file-field input-field" id="fobFilesDiv1" >
+	                                        <div class="btn bg-m t-c">
+	                                            <span>Attach Files</span>
+	                                            <input type="file" id="fobFiles1" name="fobFiles" onchange="selectFile('1')">
+	                                        </div>
+	                                        <div class="file-path-wrapper">
+	                                            <input class="file-path validate" type="text">
+	                                        </div>                                       
+	                                    </div>
+									</div>
 	                                   
-	                               </div>
-	                            </div>
-	                            <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                                 --%>
-                            <div class="row">
-                                <!-- row 10 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${fob.remarks }</textarea>
-                                    <label for="remarks">Remarks</label>
-                                    <span id="remarksError" class="error-msg" ></span>
-                                </div>
+	                                   <div id="selectedFiles">
+	                                   	
+									</div>
+								</c:if>		 --%>
+								<c:if test="${action eq 'edit'}">
+										<c:set var="existingFOBFilesLength" value="${fn:length(fob.fobImages )}"></c:set>
+										<c:if test="${fn:length(fob.fobImages ) gt 0}">
+											<c:set var="existingFOBFilesLength" value="${fn:length(fob.fobImages )+1}"></c:set>
+										</c:if>
+										<div id="selectedFilesInput">
+	                                    	<div class="file-field input-field" id="fobFilesDiv${existingFOBFilesLength }" >
+		                                        <div class="btn bg-m t-c">
+		                                            <span>Attach Files</span>
+		                                            <input type="file" id="fobFiles${existingFOBFilesLength }" name="fobFiles"  onchange="selectFile('${existingFOBFilesLength }')">
+		                                        </div>
+		                                        <div class="file-path-wrapper">
+		                                            <input class="file-path validate" type="text">
+		                                        </div>                                       
+		                                    </div>
+										</div>
+	                                    
+	                                    <div id="selectedFiles">
+	                                    	<c:forEach var="obj" items="${fob.fobImages }" varStatus="index">
+												 <div id="fobFileNames${index.count }">
+													<a href="<%=CommonConstants2.FOB_FILES%>${obj.attachment } " class="filevalue" download>${obj.attachment }</a>
+													<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
+													<input type="hidden" name="fobFileNames" value="${obj.attachment }">
+											     </div>
+											     <div style="clear:both" ></div>
+											</c:forEach>
+										</div>
+										
+	                               
+	                             </c:if>
+                            	</div>
+								<div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
@@ -534,7 +421,7 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
-/* 	$(document).on('focus', '.datepicker',function(){
+	/* $(document).on('focus', '.datepicker',function(){
         $(this).datepicker({
         	format:'dd-mm-yyyy',
    	    	onSelect: function () {
@@ -542,6 +429,39 @@
    	    	}
         })
     }); */
+    
+    function openDates(work_status) {
+		if($.trim(work_status) == 'In Progress'){
+			$("#construction_start_dateDiv").show();
+			$("#commissioning_dateDiv").hide();
+			$("#actual_completion_dateDiv").hide();
+			
+			
+			$("#commissioning_date").val('');
+			$("#actual_completion_date").val('');
+			
+		}else if($.trim(work_status) == 'Commissioned'){
+			$("#construction_start_dateDiv").show();
+			$("#commissioning_dateDiv").show();
+			$("#actual_completion_dateDiv").hide();
+			
+			$("#actual_completion_date").val('');
+			
+		}else if($.trim(work_status) == 'Completed'){
+			$("#construction_start_dateDiv").show();
+			$("#commissioning_dateDiv").show();
+			$("#actual_completion_dateDiv").show();
+		}else{
+			$("#construction_start_dateDiv").hide();
+			$("#commissioning_dateDiv").hide();
+			$("#actual_completion_dateDiv").hide();
+			
+			$("#construction_start_date").val('');
+			$("#commissioning_date").val('');
+			$("#actual_completion_date").val('');
+		}
+	}
+    
     function selectFile(no){
 	    files = $("#fobFiles"+no)[0].files;
 	    var html = "";
@@ -564,8 +484,8 @@
 		var html = "";
 		html =  html + '<div class="file-field input-field" id="fobFilesDiv'+no+'" >'
 		+ '<div class="btn bg-m t-c">'
-		+ '<span>Attach Images</span>'
-		+ '<input type="file" id="fobFiles'+no+'" name="fobFiles" accept="image/*" onchange="selectFile('+no+')">'
+		+ '<span>Attach Files</span>'
+		+ '<input type="file" id="fobFiles'+no+'" name="fobFiles" onchange="selectFile('+no+')">'
 		+ '</div>'
 		+ '<div class="file-path-wrapper">'
 		+ '<input class="file-path validate" type="text">'
@@ -620,6 +540,12 @@
             event.stopPropagation();
             $('#target_date').click();
         });
+        $('#target_date').datepicker({
+	       	 format: 'dd-mm-yyyy',
+	       	 autoClose:true,
+	       	 minDate: new Date(),
+        });
+        
                        
         var project_id_fk = "${fob.project_id_fk}";
         if ($.trim(project_id_fk) != '') {
@@ -629,6 +555,37 @@
         var work_id_fk = "${fob.work_id_fk}";
         if ($.trim(work_id_fk) != '') {
         	getContractsList(work_id_fk);
+        }
+        
+        var work_status = "${fob.work_status_fk}";
+        if($.trim(work_status) != ''){
+        	if($.trim(work_status) == 'In Progress'){
+    			$("#construction_start_dateDiv").show();
+    			$("#commissioning_dateDiv").hide();
+    			$("#actual_completion_dateDiv").hide();
+    			
+    			$("#commissioning_date").val('');
+    			$("#actual_completion_date").val('');
+    			
+    		}else if($.trim(work_status) == 'Commissioned'){
+    			$("#construction_start_dateDiv").show();
+    			$("#commissioning_dateDiv").show();
+    			$("#actual_completion_dateDiv").hide();
+    			
+    			$("#actual_completion_date").val('');
+    		}else if($.trim(work_status) == 'Completed'){
+    			$("#construction_start_dateDiv").show();
+    			$("#commissioning_dateDiv").show();
+    			$("#actual_completion_dateDiv").show();
+    		}else{
+    			$("#construction_start_dateDiv").hide();
+    			$("#commissioning_dateDiv").hide();
+    			$("#actual_completion_dateDiv").hide();
+    			
+    			$("#construction_start_date").val('');
+    			$("#commissioning_date").val('');
+    			$("#actual_completion_date").val('');
+    		}
         }
         
     });
@@ -781,21 +738,23 @@
 				 		required: true
 				 	  },"target_date": {
 				 		required: false,
-   				 		dateBefore1:"#construction_start_date"
+   				 		//dateBefore1:"#construction_start_date"
 				 	  },"estimated_cost": {
 				 		required: false
 				 	  },"last_sanctioned_cost": {
 			 		    required: false,
 			 	   	  },"construction_start_date": {
 			 		    required: false,
-			 		    currentDate1:"#construction_start_date"
+			 		    currentDate1:"#construction_start_date",
+			 		    dateBefore4 :"#target_date"
 			 	   	  },"commissioning_date": {
 				 		required: false,
 				 		currentDate2:"#commissioning_date",
-   				 		dateBefore2:"#construction_start_date"
+   				 		dateBefore2:"#construction_start_date",
+				 		dateBefore5:"#actual_completion_date"
 				 	  },"actual_completion_date": {
 			 		    required: false,
-			 		   currentDate3:"#commissioning_date",
+			 		    currentDate3:"#commissioning_date",
    				 		dateBefore3:"#actual_completion_date"
 			 	   	  },"completion_cost": {
 				 		required: false
@@ -995,6 +954,27 @@
             
         }, "Construction Start Date should not greater than today");
 	    
+	    $.validator.addMethod("dateBefore4", function(value, element) {
+            var fromDateString = $('#target_date').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) >= Date.parse(toDate);
+            	//return Date.parse(fromDate) < Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+            
+        }, "Construction Start Date must be before Target Date");
+	    
+	    
 	    $.validator.addMethod("currentDate2", function(value, element) {
 	    	var d = new Date();
 	    	var month = d.getUTCMonth() + 1;
@@ -1032,6 +1012,26 @@
             }
             
         }, "Actual Completion Date should not greater than today");
+	    
+	    $.validator.addMethod("dateBefore5", function(value, element) {
+            var fromDateString = $('#actual_completion_date').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) >= Date.parse(toDate);
+            	//return Date.parse(fromDate) < Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+            
+        }, "Commissioning Date must be before Actual Completion Date");
 	    
 	    $.validator.addMethod("dateBefore3", function(value, element) {
             var fromDateString = $('#commissioning_date').val(); //

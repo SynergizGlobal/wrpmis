@@ -255,6 +255,7 @@ public class WorkController {
 			model.setViewName("redirect:/work");
 			
 			work.setProjected_completion(DateParser.parse(work.getProjected_completion()));
+			work.setProjected_completion_date(DateParser.parse(work.getProjected_completion_date()));
 			/*
 			 * MultipartFile file = work.getWorkFile(); if (null != file &&
 			 * !file.isEmpty()){ String saveDirectory =
@@ -285,6 +286,7 @@ public class WorkController {
 		try{
 			model.setViewName("redirect:/work");
 			work.setProjected_completion(DateParser.parse(work.getProjected_completion()));
+			work.setProjected_completion_date(DateParser.parse(work.getProjected_completion_date()));
 			/*MultipartFile file = work.getWorkFile();
 			
 			 * if (null != file && !file.isEmpty()){ String saveDirectory =

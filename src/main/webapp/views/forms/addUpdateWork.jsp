@@ -217,13 +217,24 @@
                             
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                               
                                 <div class="col s12 m4 input-field">
                                     <input id="projected_completion" name="projected_completion" type="text" class="validate datepicker" value="${workDetails.projected_completion }">
                                     <label for="projected_completion">Target date</label>
                                     <button type="button" id="projected_completion_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="projected_completionError" class="error-msg" ></span>
                                 </div>
+                               
+                                <div class="col s12 m4 input-field">
+                                    <input id="projected_completion_date" type="text" class="validate datepicker" name="projected_completion_date" value="${workDetails.projected_completion_date }">
+                                    <label for="projected_completion_date">Projected completion date</label>
+                                    <button type="button" id="projected_completion_date_icon"><i class="fa fa-calendar"></i></button>
+                                    <span id="projected_completion_dateError"></span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
                                
                                 <div class="col s12 m4 input-field">
                                   	<i class="material-icons prefix center-align">₹</i>
@@ -234,106 +245,102 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
-                            
-
-                        	<%-- <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
-                                    <div class="row"> 
-                                        <div class="col s12 m3 input-field">
-                                    <input id="sanctioned_year" type="text" class="validate datepicker" name="sanctioned_year" value="${workDetails.sanctioned_year }">
-                                           <p class="searchable_label"> Sanctioned Year</p>
-                                            <select class="searchable" id="sanctioned_year_fk" name="sanctioned_year_fk">
-                                                <option value="">Select</option>
-                                                <c:forEach var="obj" items="${yearList}">
-	        					  				  <option  value="${obj.financial_year }"<c:if test="${workDetails.sanctioned_year_fk eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
-	                              			    </c:forEach>
-                                            </select>
-                                             <span id="sanctioned_yearError"></span>
-                                        </div>
-                                         <div class="col s12 m5 input-field">
-                                        <i class="material-icons prefix center-align">₹</i>
-                                            <input id="sanctioned_estimated_cost" type="number" class="validate" name="sanctioned_estimated_cost" value="${workDetails.sanctioned_estimated_cost }" min="1">
-                                            <label for="sanctioned_estimated_cost">Sanctioned Estimated Cost</label>
-                                             <span id="sanctioned_estimated_costError"></span>
-                                        </div>
-                                        <div class="col s12 m4 input-field">
-                                            <input id="completeion_period_months" type="text" class="validate" name="completeion_period_months" value="${workDetails.completeion_period_months }">
-                                            <label for="completeion_period_months">Completion Period </label>
-                                            <span id="completeion_period_monthsError"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                	<i class="material-icons prefix center-align">₹</i>
-                                    <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDetails.sanctioned_completion_cost }" min="1">
-                                    <label for="sanctioned_completion_cost"> Sanctioned Completion Cost </label>
-                                     <span id="sanctioned_completion_costError"></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                	<i class="material-icons prefix center-align">₹</i>
-                                    <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="1">
-                                    <label for="anticipated_cost">Anticipated cost</label>
-                                      <span id="anticipated_costError"></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div> --%>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                       				<p class="searchable_label">Year of Completion</p>
-                                    <select id="year_of_completion" name="year_of_completion" class="searchable">
-                                          <option value="">Select</option>
-                                           <c:forEach var="obj" items="${yearList}">
-        					  				  <option  value="${obj.financial_year }"<c:if test="${workDetails.year_of_completion eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
-                              			   </c:forEach>
-                                    </select>
-                                    <span id="year_of_completionError"></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                <i class="material-icons prefix center-align">₹</i>
-                                    <input id="completion_cost" type="number" class="validate" name="completion_cost" value="${workDetails.completion_cost }" min="0.01" step="0.01">
-                                    <label for="completion_cost">Completion cost (in Cr)</label>
-                                    <span id="completion_costError"></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div> 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                 <p class="searchable_label">Railway Agency</p>
-                                  <select  class="searchable validate-dropdown" name="railway_id_fk" id="railway_id_fk" multiple="multiple" >
-                                  		 <option value="" >select</option>
+                                 <select  class="searchable validate-dropdown" name="railway_id_fk" id="railway_id_fk" multiple="multiple" >
+                                  		 <option value="" disabled="disabled">Select</option>
                                           <c:forEach var="obj" items="${railwaysList}">
-									 		<option value="${obj.railway_id }" 
-										 		<c:forEach var="tempobj" items="${workDetails.railwayAgencyList}">
-										 			<c:if test="${tempobj.railway_id_fk eq obj.railway_id}">selected</c:if>
-	                                          	</c:forEach>
-									 		>${obj.railway_name}</option>
+                                          	<c:if test="${obj.railway_id ne 'Con' and obj.railway_id ne 'Others'}">
+										 		<option value="${obj.railway_id }" 
+											 		<c:forEach var="tempobj" items="${workDetails.railwayAgencyList}">
+											 			<c:if test="${tempobj.railway_id_fk eq obj.railway_id}">selected</c:if>
+		                                          	</c:forEach>
+										 		>${obj.railway_name}</option>
+									 		</c:if>
                                           </c:forEach>
                                   </select>
-                                      <span id="railway_id_fkError"></span>
+                                  <span id="railway_id_fkError"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                 <p class="searchable_label">Executed By</p>
                                   <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk" multiple="multiple" >
-                                   <option value="">select</option>
+                                   <option value="" disabled="disabled">Select</option>
                                    <c:forEach var="obj" items="${railwaysList}">
-           					  			 <option value="${obj.railway_id }"            					  			 
-           					  			 		<c:forEach var="tempobj" items="${workDetails.executedByList}">
-										 			<c:if test="${tempobj.executed_by_id_fk eq obj.railway_id}">selected</c:if>
-	                                          	</c:forEach>           					  			 
-           					  			 > ${obj.railway_name}</option>
+                                   		<c:if test="${obj.railway_id ne 'Con' and obj.railway_id ne 'Others'}">
+	           					  			 <option value="${obj.railway_id }"            					  			 
+	           					  			 		<c:forEach var="tempobj" items="${workDetails.executedByList}">
+											 			<c:if test="${tempobj.executed_by_id_fk eq obj.railway_id}">selected</c:if>
+		                                          	</c:forEach>           					  			 
+	           					  			 > ${obj.railway_name}</option>
+           					  			</c:if>
                                    </c:forEach>
                                   </select>
                                      <span id="executed_by_id_fkError"></span>
                                 </div>
                             </div> 
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col m8 s12">
+								  <c:if test="${action eq 'add'}">
+			                            <div id="selectedFilesInput">
+		                                    	<div class="file-field input-field" id="workFilesDiv1" >
+			                                        <div class="btn bg-m t-c">
+			                                            <span>Attach Files</span>
+			                                            <input type="file" id="workFiles1" name="workFile"  onchange="selectFile('1')">
+			                                        </div>
+			                                        <div class="file-path-wrapper">
+			                                            <input class="file-path validate" type="text">
+			                                        </div>                                       
+			                                    </div>
+										</div>
+	                                    <div id="selectedFiles">
+										</div>
+								  </c:if>	
+								  <c:if test="${action eq 'edit'}">
+										<c:set var="existingWorkFilesLength" value="${fn:length(workDetails.workFilesList )}"></c:set>
+										<c:if test="${fn:length(workDetails.workFilesList ) gt 0}">
+											<c:set var="existingWorkFilesLength" value="${fn:length(workDetails.workFilesList )+1}"></c:set>
+										</c:if>
+										<div id="selectedFilesInput">
+	                                    	<div class="file-field input-field" id="workFilesDiv${existingWorkFilesLength }" >
+		                                        <div class="btn bg-m t-c">
+		                                            <span>Attach Files</span>
+		                                            <input type="file" id="workFiles${existingWorkFilesLength }" name="workFile"  onchange="selectFile('${existingWorkFilesLength }')">
+		                                        </div>
+		                                        <div class="file-path-wrapper">
+		                                            <input class="file-path validate" type="text">
+		                                        </div>                                       
+		                                    </div>
+										</div>
+	                                    
+	                                    <div id="selectedFiles">
+	                                    	<c:forEach var="obj" items="${workDetails.workFilesList }" varStatus="index">
+												 <div id="workFileNames${index.count }">
+													<a href="<%=CommonConstants2.WORK_FILES %>${obj.attachment }" class="filevalue" download>${obj.attachment }</a>
+													<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
+													<input type="hidden" name="workFileNames" value="${obj.attachment }">
+											     </div>
+											     <div style="clear:both" ></div>
+											</c:forEach>
+										</div>
+	                             	</c:if>	
+								</div>
+								<div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field">
+                                    <textarea id="remarks" class="materialize-textarea" data-length="1000" name="remarks">${workDetails.remarks }</textarea>
+                                    <label for="remarks">Remarks</label>
+                                    <span id="remarksError"></span>
+                                </div>
+                            </div>
+                            
+                            <c:if test="${action eq 'edit'}">
                             <div class="row fixed-width" style="margin-bottom:20px">
                                 <h5 class="center-align">Revision Details</h5>
                                 <div class="table-inside">
@@ -450,64 +457,28 @@
                                      </c:choose>  
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
-							  <c:if test="${action eq 'add'}">
-	                            <div id="selectedFilesInput">
-	                                    	<div class="file-field input-field" id="workFilesDiv1" >
-		                                        <div class="btn bg-m t-c">
-		                                            <span>Attach Files</span>
-		                                            <input type="file" id="workFiles1" name="workFile"  onchange="selectFile('1')">
-		                                        </div>
-		                                        <div class="file-path-wrapper">
-		                                            <input class="file-path validate" type="text">
-		                                        </div>                                       
-		                                    </div>
-										</div>
-	                                    <div id="selectedFiles">
-										</div>
-							  </c:if>	
-							  <c:if test="${action eq 'edit'}">
-											<c:set var="existingWorkFilesLength" value="${fn:length(workDetails.workFilesList )}"></c:set>
-											<c:if test="${fn:length(workDetails.workFilesList ) gt 0}">
-												<c:set var="existingWorkFilesLength" value="${fn:length(workDetails.workFilesList )+1}"></c:set>
-											</c:if>
-											<div id="selectedFilesInput">
-		                                    	<div class="file-field input-field" id="workFilesDiv${existingWorkFilesLength }" >
-			                                        <div class="btn bg-m t-c">
-			                                            <span>Attach Files</span>
-			                                            <input type="file" id="workFiles${existingWorkFilesLength }" name="workFile"  onchange="selectFile('${existingWorkFilesLength }')">
-			                                        </div>
-			                                        <div class="file-path-wrapper">
-			                                            <input class="file-path validate" type="text">
-			                                        </div>                                       
-			                                    </div>
-											</div>
-		                                    
-		                                    <div id="selectedFiles">
-		                                    	<c:forEach var="obj" items="${workDetails.workFilesList }" varStatus="index">
-													 <div id="workFileNames${index.count }">
-														<a href="<%=CommonConstants2.WORK_FILES %>${obj.attachment }" class="filevalue" download>${obj.attachment }</a>
-														<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
-														<input type="hidden" name="workFileNames" value="${obj.attachment }">
-												     </div>
-												     <div style="clear:both" ></div>
-												</c:forEach>
-											</div>
-		                             </c:if>	
-							</div>
-							<div class="col m2 hide-on-small-only"></div>
-                            </div>
                             
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" class="materialize-textarea" data-length="1000" name="remarks">${workDetails.remarks }</textarea>
-                                    <label for="remarks">Remarks</label>
-                                    <span id="remarksError"></span>
+                                <div class="col s12 m4 input-field">
+                       				<p class="searchable_label">Actual Year of Completion</p>
+                                    <select id="year_of_completion" name="year_of_completion" class="searchable">
+                                          <option value="">Select</option>
+                                           <c:forEach var="obj" items="${yearList}">
+        					  				  <option  value="${obj.financial_year }"<c:if test="${workDetails.year_of_completion eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
+                              			   </c:forEach>
+                                    </select>
+                                    <span id="year_of_completionError"></span>
                                 </div>
-                            </div>
+                                <div class="col s12 m4 input-field">
+                                <i class="material-icons prefix center-align">₹</i>
+                                    <input id="completion_cost" type="number" class="validate" name="completion_cost" value="${workDetails.completion_cost }" min="0.01" step="0.01">
+                                    <label for="completion_cost">Actual Completion cost (in Cr)</label>
+                                    <span id="completion_costError"></span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div> 
+                            </c:if>
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -645,6 +616,16 @@
 	        	 format: 'dd-mm-yyyy',
 	        	 autoClose:true,
 	        	 minDate: new Date(),
+	        });
+            
+            $('#projected_completion_date_icon').click(function () {
+                event.stopPropagation();
+                $('#projected_completion_date').click();
+            });
+            
+            $('#projected_completion_date').datepicker({
+	        	 format: 'dd-mm-yyyy',
+	        	 autoClose:true
 	        });
         });
         

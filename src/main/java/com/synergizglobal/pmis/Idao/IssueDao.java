@@ -13,7 +13,7 @@ public interface IssueDao {
 
 	List<Issue> getIssuesPriorityList() throws Exception;
 
-	List<Issue> getIssuesCategoryList() throws Exception;
+	List<Issue> getIssuesCategoryList(Issue obj) throws Exception;
 
 	boolean addIssue(Issue obj) throws Exception;
 
@@ -54,5 +54,7 @@ public interface IssueDao {
 	List<Issue> getEscalatedToList() throws Exception;
 
 	boolean readIssueMessage(Issue obj) throws Exception;
+
+	List<Issue> getIssueTitlesList(Issue obj) throws Exception;
 
 }

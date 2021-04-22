@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Issue {
-	private String issue_id,contract_id_fk,activity,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,user_name,
+	private String issue_id,contract_id_fk,activity,title,short_description,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,user_name,
 	priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,priority,category,status,contract_id,contract_name,work_id_fk,work_name,work_short_name,
 	project_id_fk,project_name,activity_name,strip_chart_component_fk,department,department_name,attachments,railway_id,railway_name,zonal_railway_fk,contract_short_name,
 	other_organization,escalation_date,contractor_id_fk,contractor_id,contractor_name,hod_user_id_fk,designation,hod_name,pending_since,hod,
 	reported_by_user_id,responsible_person_user_id,escalated_to_user_id,reported_by_designation,responsible_person_designation,escalated_to_designation,
-	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,assigned_date,contract_hod_email_id,contract_dyhod_email_id,
+	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,assigned_date,contract_hod_email_id,contract_dyhod_email_id,contract_type_fk,
 	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name,message_id,hod_designation, dyHod_designation,pending_Since,other_org_resposible_person_name,other_org_resposible_person_designation;
 	
 	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,
@@ -716,6 +716,22 @@ public class Issue {
 
 	public void setOther_org_resposible_person_designation(String other_org_resposible_person_designation) {
 		this.other_org_resposible_person_designation = other_org_resposible_person_designation;
+	}
+
+	public String getContract_type_fk() {
+		return contract_type_fk;
+	}
+
+	public void setContract_type_fk(String contract_type_fk) {
+		this.contract_type_fk = contract_type_fk;
+	}
+
+	public String getShort_description() {
+		return short_description;
+	}
+
+	public void setShort_description(String short_description) {
+		this.short_description = short_description;
 	}
 	
 }

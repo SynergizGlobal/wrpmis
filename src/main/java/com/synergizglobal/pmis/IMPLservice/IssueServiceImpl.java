@@ -31,8 +31,8 @@ public class IssueServiceImpl implements IssueService {
 	}
 
 	@Override
-	public List<Issue> getIssuesCategoryList() throws Exception {
-		return issueDao.getIssuesCategoryList();
+	public List<Issue> getIssuesCategoryList(Issue obj) throws Exception {
+		return issueDao.getIssuesCategoryList(obj);
 	}
 
 	@Override
@@ -133,6 +133,11 @@ public class IssueServiceImpl implements IssueService {
 	@Override
 	public boolean readIssueMessage(Issue obj) throws Exception {
 		return issueDao.readIssueMessage(obj);
+	}
+
+	@Override
+	public List<Issue> getIssueTitlesList(Issue obj) throws Exception {
+		return issueDao.getIssueTitlesList(obj);
 	}
 	
 }

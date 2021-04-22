@@ -253,8 +253,11 @@ public class IssueController {
 			List<Issue> issuesPriorityList = issueService.getIssuesPriorityList();
 			model.addObject("issuesPriorityList", issuesPriorityList);
 			
-			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList();
+			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList(obj);
 			model.addObject("issuesCategoryList", issuesCategoryList);
+			
+			List<Issue> issueTitlesList = issueService.getIssueTitlesList(obj);
+			model.addObject("issueTitlesList", issueTitlesList);
 			
 			List<Issue> departmentList = issueService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
@@ -277,6 +280,34 @@ public class IssueController {
 			logger.error("addIssueForm : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	
+	
+	@RequestMapping(value = "/ajax/getIssueTitlesListForIssuesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getIssueTitlesListForIssuesForm(@ModelAttribute Issue obj) {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getIssueTitlesList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getIssueTitlesListForIssuesForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getIssueCategoryListForIssuesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getIssueCategoryListForIssuesForm(@ModelAttribute Issue obj) {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getIssuesCategoryList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getIssueCategoryListForIssuesForm : " + e.getMessage());
+		}
+		return objsList;
 	}
 	
 	@RequestMapping(value = "/ajax/getProjectsListForIssuesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
@@ -389,8 +420,11 @@ public class IssueController {
 			List<Issue> issuesPriorityList = issueService.getIssuesPriorityList();
 			model.addObject("issuesPriorityList", issuesPriorityList);
 			
-			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList();
+			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList(obj);
 			model.addObject("issuesCategoryList", issuesCategoryList);
+			
+			List<Issue> issueTitlesList = issueService.getIssueTitlesList(obj);
+			model.addObject("issueTitlesList", issueTitlesList);
 			
 			List<Issue> departmentList = issueService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
@@ -456,8 +490,11 @@ public class IssueController {
 			List<Issue> issuesPriorityList = issueService.getIssuesPriorityList();
 			model.addObject("issuesPriorityList", issuesPriorityList);
 			
-			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList();
+			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList(obj);
 			model.addObject("issuesCategoryList", issuesCategoryList);
+			
+			List<Issue> issueTitlesList = issueService.getIssueTitlesList(obj);
+			model.addObject("issueTitlesList", issueTitlesList);
 			
 			List<Issue> departmentList = issueService.getDepartmentList();
 			model.addObject("departmentList", departmentList);

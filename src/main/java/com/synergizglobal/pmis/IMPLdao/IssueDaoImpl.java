@@ -166,11 +166,45 @@ public class IssueDaoImpl implements IssueDao {
 	}
 
 	@Override
-	public List<Issue> getIssuesCategoryList() throws Exception {
+	public List<Issue> getIssuesCategoryList(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select category from issue_category";			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));			
+			String qry = "select issue_category_fk as category from issue_contarct_category ";		
+			int arraSize = 0;
+			if(!StringUtils.isEmpty(obj.getContract_type_fk())) {
+				qry = qry + "where contract_category_fk = ? ";
+				arraSize++;
+			}
+			qry = qry + "group by issue_category_fk order by issue_category_fk ";
+			Object[] pValues = new Object[arraSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj.getContract_type_fk())) {
+				pValues[i++] = obj.getContract_type_fk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<Issue> getIssueTitlesList(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "select short_description from issue_category_title ";		
+			int arraSize = 0;
+			if(!StringUtils.isEmpty(obj.getCategory_fk())) {
+				qry = qry + "where issue_category_fk = ? ";
+				arraSize++;
+			}
+			qry = qry + "group by short_description order by short_description ";
+			Object[] pValues = new Object[arraSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj.getCategory_fk())) {
+				pValues[i++] = obj.getCategory_fk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -251,7 +285,7 @@ public class IssueDaoImpl implements IssueDao {
 		List<Issue> objsList = null;
 		try {
 			String qry ="select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
-					+ "hod_user_id_fk,dy_hod_user_id_fk "
+					+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
 					+ "from contract "
 					+ "where contract_id is not null ";
 			
@@ -1738,6 +1772,8 @@ public class IssueDaoImpl implements IssueDao {
 		}
 		return flag;
 	}
+
+	
 	
 
 }

@@ -97,10 +97,10 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                  <p class="searchable_label"> Contract <span class="required">*</span></p> 
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();getIssueCategoryList();getIssueTitlesList();">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${contractsList }">
-                                      	    <option hod="${obj.hod_user_id_fk}" dyhod="${obj.dy_hod_user_id_fk}" workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}" 
+                                      	    <option contract_type="${obj.contract_type_fk}"  hod="${obj.hod_user_id_fk}" dyhod="${obj.dy_hod_user_id_fk}" workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}" 
                                       	    <c:if test="${iObj.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                         </c:forEach>
                                     </select>
@@ -113,7 +113,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                 	<p class="searchable_label">Issue Category <span class="required">*</span></p> 
-                                    <select class="searchable validate-dropdown" id="category_fk" name="category_fk">
+                                    <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="getIssueTitlesList();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesCategoryList }">
                                             <option value="${obj.category }" >${obj.category}</option>
@@ -130,27 +130,26 @@
                                         </c:forEach>
                                     </select>
                                     <span id="priority_fkError" class="error-msg" ></span>
-
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                             <!--    <div class="col s12 m4 input-field">
-                                	<p class="searchable_label">Department <span class="required">*</span></p> 
-                                    <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
+                                <div class="col s12 m8 input-field">
+                                    <!-- <input id="title" name="title" type="text" class="validate">
+                                    <label for="title">Short Description <span class="required">*</span></label>
+                                    <span id="titleError" class="error-msg" ></span> -->
+                                    
+                                	<p class="searchable_label">Short Description <span class="required">*</span></p> 
+                                    <select class="searchable validate-dropdown" id="title" name="title">
                                         <option value="">Select</option>
-                                        <c:forEach var="obj" items="${departmentList }">
-                                            <option value="${obj.department_fk }" >${obj.department_name}</option>
+                                        <c:forEach var="obj" items="${issueTitlesList }">
+                                            <option value="${obj.short_description }" >${obj.short_description}</option>
                                         </c:forEach>
                                     </select>
-                                    <span id="department_fkError" class="error-msg" ></span>
-                                </div> -->
-                                <div class="col s12 m8 input-field">
-                                    <input id="title" name="title" type="text" class="validate">
-                                    <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span>
+                                    
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -496,6 +495,52 @@
                  $('.searchable').select2();
              }
         		
+         }
+         
+         function getIssueCategoryList(){
+        	 
+        	  var contract_type_fk = $("#contract_id_fk").find('option:selected').attr("contract_type");
+        	 
+        	  $(".page-loader").show(); 
+      		  $("#category_fk option:not(:first)").remove();
+      		  $("#title option:not(:first)").remove();
+              var myParams = { contract_type_fk : contract_type_fk };
+              $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getIssueCategoryListForIssuesForm",
+                    data: myParams, cache: false,async:true,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                               $("#category_fk").append('<option value="' + val.category + '">' + $.trim(val.category)+ '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+              });
+              $('.searchable').select2();
+         }
+         
+         function getIssueTitlesList(){
+        	 var category_fk = $("#category_fk").val();
+        	 
+	       	 $(".page-loader").show(); 
+     		 $("#title option:not(:first)").remove();
+             var myParams = { category_fk : category_fk };
+             $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getIssueTitlesListForIssuesForm",
+                   data: myParams, cache: false,async:true,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                              $("#title").append('<option value="' + val.short_description + '">' + $.trim(val.short_description)+ '</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   }
+             });
+             $('.searchable').select2();
          }
          
          function getIssueStatusList() {

@@ -187,7 +187,7 @@ public class WebviewIssueController {
 			List<Issue> issuesPriorityList = issueService.getIssuesPriorityList();
 			model.addObject("issuesPriorityList", issuesPriorityList);
 			
-			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList();
+			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList(obj);
 			model.addObject("issuesCategoryList", issuesCategoryList);
 			
 			List<Issue> departmentList = issueService.getDepartmentList();
@@ -288,7 +288,7 @@ public class WebviewIssueController {
 			List<Issue> issuesPriorityList = issueService.getIssuesPriorityList();
 			model.addObject("issuesPriorityList", issuesPriorityList);
 			
-			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList();
+			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList(obj);
 			model.addObject("issuesCategoryList", issuesCategoryList);
 			
 			List<Issue> departmentList = issueService.getDepartmentList();
@@ -321,7 +321,7 @@ public class WebviewIssueController {
 			List<Issue> issuesPriorityList = issueService.getIssuesPriorityList();
 			model.addObject("issuesPriorityList", issuesPriorityList);
 			
-			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList();
+			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList(obj);
 			model.addObject("issuesCategoryList", issuesCategoryList);
 			
 			List<Issue> departmentList = issueService.getDepartmentList();

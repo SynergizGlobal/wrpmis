@@ -41,4 +41,12 @@ public interface AlertsDao {
 
 	boolean sendRiskNotificationAlertMails() throws Exception;
 	
+	List<Alerts> getAlertTypesForGenerateSendAlerts() throws Exception;
+
+	List<Alerts> getAlertLevelsForGenerateSendAlerts() throws Exception;
+
+	List<Alerts> getSendToListForGenerateSendAlerts() throws Exception;
+
+	boolean sendAlertsToParticulars(Alerts obj) throws Exception;
+	
 }

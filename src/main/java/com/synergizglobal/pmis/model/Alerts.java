@@ -8,7 +8,7 @@ public class Alerts {
 	private String redirect_url,department_name,responsible_person,escalated_to,hod_user_id_fk,dy_hod_user_id_fk,created_by_user_id_fk,
 	user_id_fk,alert_level_fk,sub_work,reporting_to_user_id,reporting_to_email_id,alert_type_image;
 	
-	private String status,uploaded_by_user_id_fk,corrective_measure;
+	private String status,uploaded_by_user_id_fk,corrective_measure,user_role_name_fk,user_type_fk;
 	
 	public String getRedirect_url() {
 		return redirect_url;
@@ -368,6 +368,22 @@ public class Alerts {
 
 	public void setAlert_type_image(String alert_type_image) {
 		this.alert_type_image = alert_type_image;
+	}
+
+	public String getUser_role_name_fk() {
+		return user_role_name_fk;
+	}
+
+	public void setUser_role_name_fk(String user_role_name_fk) {
+		this.user_role_name_fk = user_role_name_fk;
+	}
+
+	public String getUser_type_fk() {
+		return user_type_fk;
+	}
+
+	public void setUser_type_fk(String user_type_fk) {
+		this.user_type_fk = user_type_fk;
 	}
 	
 }

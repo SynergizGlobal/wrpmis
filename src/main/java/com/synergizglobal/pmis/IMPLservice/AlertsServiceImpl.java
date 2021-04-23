@@ -100,4 +100,24 @@ public class AlertsServiceImpl implements AlertsService{
 		return dao.sendRiskNotificationAlertMails();
 	}
 
+	@Override
+	public List<Alerts> getAlertTypesForGenerateSendAlerts() throws Exception {
+		return dao.getAlertTypesForGenerateSendAlerts();
+	}
+
+	@Override
+	public List<Alerts> getAlertLevelsForGenerateSendAlerts() throws Exception {
+		return dao.getAlertLevelsForGenerateSendAlerts();
+	}
+
+	@Override
+	public List<Alerts> getSendToListForGenerateSendAlerts() throws Exception {
+		return dao.getSendToListForGenerateSendAlerts();
+	}
+
+	@Override
+	public boolean sendAlertsToParticulars(Alerts obj) throws Exception {
+		return dao.sendAlertsToParticulars(obj);
+	}
+
 }

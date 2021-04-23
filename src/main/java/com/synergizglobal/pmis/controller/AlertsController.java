@@ -51,6 +51,46 @@ public class AlertsController {
 	@Value("${common.error.message}")
 	public String commonError;
 	
+	@RequestMapping(value="/generate-send-alerts-page",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateSendAlertsFromPage(){		
+		 ModelAndView model = new ModelAndView(PageConstants2.generateSendAlerts);	    
+	     try {
+	    	 List<Alerts> alertTypes = service.getAlertTypesForGenerateSendAlerts();
+	    	 model.addObject("alertTypes",alertTypes);
+	    	 
+	    	 List<Alerts> alertLevels = service.getAlertLevelsForGenerateSendAlerts();
+	    	 model.addObject("alertLevels",alertLevels);
+	    	 
+	    	 List<Alerts> sendToList = service.getSendToListForGenerateSendAlerts();
+	    	 model.addObject("sendToList",sendToList);
+		 } catch (Exception e) {
+			logger.error("generateSendAlertsFromPage() : "+e.getMessage());
+		 }
+	     return model;
+	}
+	
+	@RequestMapping(value="/send-alerts-to-particulars",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView sendAlertsToParticulars(@ModelAttribute Alerts obj,RedirectAttributes attributes){		
+		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
+	     try {
+	    	logger.error("sendAlertsToParticulars : start");
+			
+		    boolean flag = service.sendAlertsToParticulars(obj);
+		    logger.error("sendAlertsToParticulars >> Sending mails : "+ flag); 
+		    
+		    if(flag) {
+		    	attributes.addFlashAttribute("success", "Alerts sent successfully.");
+		    }else {
+		    	attributes.addFlashAttribute("error", "Sending alerts failed.");
+		    }
+			
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("sendAlertsToParticulars() : "+e.getMessage());
+		 }
+	     return model;
+	}
+	
 	
 	@RequestMapping(value="/run-procedures",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView runProcedures(){		
@@ -67,7 +107,7 @@ public class AlertsController {
 	
 	@RequestMapping(value="/send-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView sendAlertsToAllByManual(){		
-		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
+		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
 	    	logger.error("sendAlertsToAllByManual : start");
 			
@@ -83,7 +123,7 @@ public class AlertsController {
 	
 	@RequestMapping(value="/send-risk-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView sendRiskAlertsToAllByManual(){		
-		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
+		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
 	    	logger.error("sendRiskAlertsToAllByManual : start");
 		    
@@ -99,7 +139,7 @@ public class AlertsController {
 	
 	@RequestMapping(value="/generate-and-send-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateAndSendAlertsToAllByManual(){		
-		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
+		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
 	    	logger.error("generateAndSendAlertsToAllByManual : start");
 	    	//System.out.println("Start "+ new Date());
@@ -125,7 +165,7 @@ public class AlertsController {
 	
 	@RequestMapping(value="/generate-and-send-alerts-rajiv-ravi",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateAndSendAlertsToRajivRaviByManual(){		
-		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
+		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
 	    	logger.error("generateAndSendAlertsToRajivRaviByManual : start");
 	    	//System.out.println("Start "+ new Date());
@@ -146,7 +186,7 @@ public class AlertsController {
 	
 	@RequestMapping(value="/send-alerts-rajiv-ravi",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView sendAlertsToRajivRaviByManual(){		
-		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
+		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
 	    	logger.error("sendAlertsToRajivRaviByManual : start");
 	    	 
@@ -163,7 +203,7 @@ public class AlertsController {
 	
 	@RequestMapping(value="/generate-alerts-manually",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateAlertsManually(){		
-		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
+		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
 	    	logger.error("generateAlertsManually : start");
 	    	//System.out.println("Start "+ new Date());

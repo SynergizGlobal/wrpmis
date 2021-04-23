@@ -754,6 +754,20 @@ public class AlertsDaoImpl implements AlertsDao{
 					pValues = new Object[] {lObj.getAlert_level(),CommonConstants.ACTIVE,uObj.getUser_id_fk()};
 					List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 					
+					for (Alerts alert : allAlertsList) {
+						if("Bank Guarantee".equals(alert.getAlert_type_fk()) ) {
+							alert.setAlert_type_image("bank_guarantee.png");
+						}else if("Insurance".equals(alert.getAlert_type_fk()) ) {
+							alert.setAlert_type_image("insurance.png");
+						}else if("Contract Period".equals(alert.getAlert_type_fk()) ) {
+							alert.setAlert_type_image("contract_period.png");
+						}else if("Contract Value".equals(alert.getAlert_type_fk()) ) {
+							alert.setAlert_type_image("contract_value.png");
+						}else if("Issue".equals(alert.getAlert_type_fk()) ) {
+							alert.setAlert_type_image("issue.png");
+						}
+					}
+					
 					alerts.put(lObj.getAlert_level(), allAlertsList);
 				}
 				
@@ -2049,6 +2063,199 @@ public class AlertsDaoImpl implements AlertsDao{
 			throw new Exception(e.getMessage());
 		}
 		return alertTypes;
+	}
+
+	@Override
+	public List<Alerts> getAlertTypesForGenerateSendAlerts() throws Exception {
+		List<Alerts> alertTypes = new ArrayList<Alerts>();
+		try {	
+			String qry = "select alert_type as alert_type_fk from alert_type"; 
+			alertTypes = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return alertTypes;
+	}
+
+	@Override
+	public List<Alerts> getAlertLevelsForGenerateSendAlerts() throws Exception {
+		List<Alerts> alertLevels = new ArrayList<Alerts>();
+		try {	
+			String qry = "select alert_level from alert_level"; 
+			alertLevels = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return alertLevels;
+	}
+
+	@Override
+	public List<Alerts> getSendToListForGenerateSendAlerts() throws Exception {
+		List<Alerts> sendToList = new ArrayList<Alerts>();
+		try {	
+			String qry = "select user_id,user_name,designation,email_id,user_role_name_fk,user_type_fk from user"; 
+			sendToList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return sendToList;
+	}
+
+	@Override
+	public boolean sendAlertsToParticulars(Alerts obj) throws Exception {
+		boolean flag = false;
+		try {
+			String[] alert_types = null;
+			if(!StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				alert_types = obj.getAlert_type_fk().split(",");
+			}
+			
+			String[] alert_levels = null;
+			if(!StringUtils.isEmpty(obj.getAlert_level())) {
+				alert_levels = obj.getAlert_level().split(",");
+			}
+			
+			EMailSender emailSender = new EMailSender();
+			Map<String,List<Alerts>> alerts = new LinkedHashMap<String, List<Alerts>>();
+			String aLevelQry = "select alert_level " 
+					+ "from alerts a "
+					+ "where alert_status = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+			
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(alert_types)) {
+				aLevelQry = aLevelQry + " and a.alert_type_fk IN(";
+				String pQ = "";
+				for (int i = 0; i < alert_types.length; i++) {
+					pQ = pQ + "?,";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(pQ)) {
+					aLevelQry =  aLevelQry + org.apache.commons.lang3.StringUtils.chop(pQ);  
+				}
+				aLevelQry = aLevelQry + ")";
+			}
+			
+			if(!StringUtils.isEmpty(alert_levels)) {
+				aLevelQry = aLevelQry + " and a.alert_level IN( ";
+				String pQ = "";
+				for (int i = 0; i < alert_levels.length; i++) {
+					pQ = pQ + "?,";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(pQ)) {
+					aLevelQry =  aLevelQry + org.apache.commons.lang3.StringUtils.chop(pQ);  
+				}
+				aLevelQry = aLevelQry + ")";
+			}
+			
+			aLevelQry = aLevelQry+  " group by alert_level order by alert_level desc";
+			
+			int p = 0;
+			Object[] pValues = new Object[arrSize];
+			pValues[p++] = CommonConstants.ACTIVE;
+			if(!StringUtils.isEmpty(alert_types)) {
+				for (int i = 0; i < alert_types.length; i++) {
+					pValues[p++] = alert_types[i];
+				}
+			}
+			
+			if(!StringUtils.isEmpty(alert_levels)) {
+				for (int i = 0; i < alert_levels.length; i++) {
+					pValues[p++] = alert_levels[i];
+				}
+			}
+			
+			List<Alerts> alert_levelsList = jdbcTemplate.query( aLevelQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+			for (Alerts lObj : alert_levelsList) {
+				
+				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
+						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
+						+ "from alerts a " 
+						+ "left join contract c on a.contract_id = c.contract_id " 
+						+ "left join work w on c.work_id_fk = w.work_id " 
+						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+						+ "left join user u on c.hod_user_id_fk = u.user_id " 
+						+ "where alert_level = ? and alert_status = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+				
+				arrSize = 2;
+				if(!StringUtils.isEmpty(alert_types)) {
+					qry = qry + " and a.alert_type_fk IN(";
+					String pQ = "";
+					for (int i = 0; i < alert_types.length; i++) {
+						pQ = pQ + "?,";
+						arrSize++;
+					}
+					if(!StringUtils.isEmpty(pQ)) {
+						qry =  qry + org.apache.commons.lang3.StringUtils.chop(pQ);  
+					}
+					qry = qry + ")";
+				}
+				
+				qry = qry + " order by hod,work_short_name,a.contract_id asc, alert_level desc";
+				
+				p = 0;
+				pValues = new Object[arrSize];
+				pValues[p++] = lObj.getAlert_level();
+				pValues[p++] = CommonConstants.ACTIVE;
+				if(!StringUtils.isEmpty(alert_types)) {
+					for (int i = 0; i < alert_types.length; i++) {
+						pValues[p++] = alert_types[i];
+					}
+				}
+				List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+				
+				for (Alerts alert : allAlertsList) {
+					if("Bank Guarantee".equals(alert.getAlert_type_fk()) ) {
+						alert.setAlert_type_image("bank_guarantee.png");
+					}else if("Insurance".equals(alert.getAlert_type_fk()) ) {
+						alert.setAlert_type_image("insurance.png");
+					}else if("Contract Period".equals(alert.getAlert_type_fk()) ) {
+						alert.setAlert_type_image("contract_period.png");
+					}else if("Contract Value".equals(alert.getAlert_type_fk()) ) {
+						alert.setAlert_type_image("contract_value.png");
+					}else if("Issue".equals(alert.getAlert_type_fk()) ) {
+						alert.setAlert_type_image("issue.png");
+					}
+				}
+				
+				alerts.put(lObj.getAlert_level(), allAlertsList);
+			}
+			
+			List<String> email_ids = new ArrayList<String>();
+			if(!StringUtils.isEmpty(obj.getEmail_id())) {
+				email_ids = Arrays.asList(obj.getEmail_id().split(","));
+			}				
+			for (String email_id : email_ids) {
+				logger.error("sendAlertsToParticulars() >> before - "+email_id + " : "+alerts.size());	
+				if(alerts != null && alerts.size() > 0 && !StringUtils.isEmpty(email_id)) {
+					logger.error("sendAlertsToParticulars() >> After - "+email_id + " : "+alerts.size());	
+					
+					SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
+		            String today_date = monthFormat.format(new Date()).toUpperCase();
+		            
+		            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+		            String current_year = yearFormat.format(new Date()).toUpperCase();
+		            
+					String emailSubject = "PMIS Contract & Issue Alerts";
+					
+					Mail mail = new Mail();
+					mail.setMailTo(email_id);
+					mail.setMailBcc(CommonConstants.BCC_MAIL);
+					mail.setMailSubject(emailSubject);
+					mail.setTemplateName("alerts.vm");
+					
+					logger.error("sendAlertsToParticulars() >> Sending mail to "+email_id+": Start ");	
+					emailSender.sendEmailWithAlerts(mail,alerts,today_date,current_year); 
+					logger.error("sendAlertsToParticulars() >> Sending mail to "+email_id+": End ");
+					flag = true;
+				}
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return flag;
 	}
 
 	

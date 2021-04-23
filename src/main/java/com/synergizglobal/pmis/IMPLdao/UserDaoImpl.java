@@ -147,7 +147,7 @@ public class UserDaoImpl implements UserDao{
 		List<User> objsList = null;
 		try {
 			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
-					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_type_fk,u.user_image,department_name,usr.user_name as reporting_to_name,"
+					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_type_fk,u.user_image,department_name,usr.designation as reporting_to_name,"
 					+ "(select DATE_FORMAT(max(login_date_time),'%d-%m-%Y %h:%i %p') from user_login_details where user_id_fk = u.user_id ) as last_login,"
 					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(NOW()) - INTERVAL 7 DAY) as last7DaysLogins,"
 					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and DATE(login_date_time) >= DATE(NOW()) - INTERVAL 30 DAY) as last30DaysLogins "
@@ -168,7 +168,10 @@ public class UserDaoImpl implements UserDao{
 				qry = qry + " and u.reporting_to_id_srfk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				qry = qry + " and u.user_type_fk = ?";
+				arrSize++;
+			}
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -184,7 +187,9 @@ public class UserDaoImpl implements UserDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
 				pValues[i++] = obj.getReporting_to_id_srfk();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_type_fk();
+			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));	
 			
 			
@@ -522,7 +527,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUserRolesFilter(User obj) throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select user_role_name_fk from user "
+			String qry = "select user_role_name_fk from user u "
 					+ "where user_role_name_fk is not null and user_role_name_fk <> '' " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
@@ -535,6 +540,10 @@ public class UserDaoImpl implements UserDao{
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
 				qry = qry + " and reporting_to_id_srfk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				qry = qry + " and u.user_type_fk = ?";
 				arrSize++;
 			}
 			qry = qry + " GROUP BY user_role_name_fk";
@@ -550,7 +559,9 @@ public class UserDaoImpl implements UserDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
 				pValues[i++] = obj.getReporting_to_id_srfk();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_type_fk();
+			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -578,6 +589,9 @@ public class UserDaoImpl implements UserDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
 				qry = qry + " and u.reporting_to_id_srfk = ?";
 				arrSize++;
+			}if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				qry = qry + " and u.user_type_fk = ?";
+				arrSize++;
 			}
 			qry = qry + " GROUP BY u.department_fk";
 			Object[] pValues = new Object[arrSize];
@@ -592,7 +606,9 @@ public class UserDaoImpl implements UserDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
 				pValues[i++] = obj.getReporting_to_id_srfk();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_type_fk();
+			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -604,7 +620,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUserReportingToListFilter(User obj) throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select u.designation,u.reporting_to_id_srfk AS user_id,usr.user_name as reporting_to_name "
+			String qry = "select usr.designation,u.reporting_to_id_srfk AS user_id,usr.user_name as reporting_to_name "
 					+ "from user u "
 					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
 					+ "where u.reporting_to_id_srfk is not null and u.reporting_to_id_srfk <> '' " ;
@@ -621,6 +637,10 @@ public class UserDaoImpl implements UserDao{
 				qry = qry + " and u.reporting_to_id_srfk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				qry = qry + " and u.user_type_fk = ?";
+				arrSize++;
+			}
 			qry = qry + " GROUP BY u.reporting_to_id_srfk";
 			Object[] pValues = new Object[arrSize];
 			
@@ -634,7 +654,9 @@ public class UserDaoImpl implements UserDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
 				pValues[i++] = obj.getReporting_to_id_srfk();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_type_fk();
+			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -666,7 +688,10 @@ public class UserDaoImpl implements UserDao{
 				qry = qry + " and u.reporting_to_id_srfk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				qry = qry + " and u.user_type_fk = ?";
+				arrSize++;
+			}
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -680,7 +705,9 @@ public class UserDaoImpl implements UserDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
 				pValues[i++] = obj.getReporting_to_id_srfk();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_type_fk();
+			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));	
 			
 			
@@ -697,6 +724,54 @@ public class UserDaoImpl implements UserDao{
 			String qry = "select user_type as user_type_fk from user_type";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<User> getUserTypesFilter(User obj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "select u.user_type_fk from user u "
+					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
+					+ "where u.user_type_fk is not null and u.user_type_fk <> '' " ;
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
+				qry = qry + " and u.user_role_name_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and u.department_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
+				qry = qry + " and u.reporting_to_id_srfk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				qry = qry + " and u.user_type_fk = ?";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY u.user_type_fk";
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
+				pValues[i++] = obj.getUser_role_name_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
+				pValues[i++] = obj.getReporting_to_id_srfk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_type_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

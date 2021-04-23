@@ -47,4 +47,6 @@ public interface UserDao {
 	List<User> getUsersExportList(User obj) throws Exception;
 
 	List<User> getUserTypes() throws Exception;
+
+	List<User> getUserTypesFilter(User obj) throws Exception;
 }

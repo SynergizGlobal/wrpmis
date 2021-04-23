@@ -22,7 +22,9 @@
       	  .input-field .searchable_label{
         	font-size:0.85rem;
         } 
-
+		.row.no-mar {
+            margin-bottom: 0;
+        }
     </style>
 </head>
 <body>
@@ -88,11 +90,20 @@
 								<h6>Update User</h6>
 							</div>
 						</span>
-						<div class="row no-mar" style="margin-bottom: 0;">
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col m8 s12">
-								<div class="row" style="margin-bottom: 0;">
-									<div class="col s12 m3 input-field">
+						<div class="row no-mar" >
+							<div class="col m10 s12 offset-m1">
+								<div class="row no-mar">
+									<div class="col s12 m2 input-field offset-m1">
+										<p class="searchable_label">User Type</p>
+										<select id="user_type_fk" name="user_type_fk"
+											class="searchable" onchange="getUsersList();">
+											<option value="">Select</option>
+											<%-- <c:forEach var="obj" items="${roles }">
+                                            	<option value="${obj.user_role_name }">${obj.user_role_name }</option>
+                                            </c:forEach> --%>
+										</select>
+									</div>
+									<div class="col s12 m2 input-field">
 										<p class="searchable_label">User Role</p>
 										<select id="user_role_name_fk" name="user_role_name_fk"
 											class="searchable" onchange="getUsersList();">
@@ -102,7 +113,7 @@
                                             </c:forEach> --%>
 										</select>
 									</div>
-									<div class="col s12 m3 input-field">
+									<div class="col s12 m2 input-field">
 										<p class="searchable_label">Department</p>
 										<select id="department_fk" name="department_fk"
 											class="searchable" onchange="getUsersList();">
@@ -112,7 +123,7 @@
                                             </c:forEach> --%>
 										</select>
 									</div>
-									<div class="col s12 m3 input-field">
+									<div class="col s12 m2 input-field">
 										<p class="searchable_label">Reporting To</p>
 										<select id="reporting_to_id_srfk" name="reporting_to_id_srfk"
 											class="searchable" onchange="getUsersList();">
@@ -122,7 +133,7 @@
                                             </c:forEach> --%>
 										</select>
 									</div>
-									<div class="col s12 m3">
+									<div class="col s12 m2">
 										<button
 											class="btn bg-m waves-effect waves-light t-c clear-filters"
 											style="margin-top: 10px; width: 100%"
@@ -144,10 +155,11 @@
 											<th>Designation</th>
 											<th>Department</th>
 											<th>Reporting To</th>
+											<th>User Type</th>
 											<th>User Role</th>
 											<th>Last Login</th>
-											<th>No.of Logins In Last 7 days</th>
-											<th>No.of Logins In Last 30 days</th>
+											<th>Last 7 days</th>
+											<th>Last 30 days</th>
 											<th class="no-sort">Action</th>
 
 										</tr>
@@ -329,6 +341,7 @@
         });
         
         function clearFilter(){
+        	$("#user_type_fk").val('');
         	$("#user_role_name_fk").val('');
         	$("#department_fk").val('');
         	$("#reporting_to_id_srfk").val('');
@@ -340,10 +353,12 @@
         
         function getUsersList(){
         	$(".page-loader-2").show();
+        	var user_type_fk = $("#user_type_fk").val();
         	var user_role_name_fk = $("#user_role_name_fk").val();
           	var department_fk = $("#department_fk").val();
           	var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
           	
+          	getUserTypesFilter();
           	getUserRolesFilter();
           	getUserDepartmentsFilter();
           	getUserReportingToListFilter();
@@ -384,7 +399,7 @@
     		
     		table.state.clear();		
     	 
-    	 	var myParams = {user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
+    	 	var myParams = {user_type_fk : user_type_fk,user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getUsersList",type:"POST",data:myParams,success : function(data){    				
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
@@ -398,6 +413,7 @@
     	                   	rowArray.push($.trim(val.designation));
     	                   	rowArray.push($.trim(val.department_name));
     	                   	rowArray.push($.trim(val.reporting_to_name));
+    	                   	rowArray.push($.trim(val.user_type_fk));
     	                   	rowArray.push($.trim(val.user_role_name_fk));
     	                   	
     	                   	rowArray.push($.trim(val.last_login));
@@ -442,7 +458,40 @@
         	    console.log(msg);
          }
       	
+        function getUserTypesFilter() {
+        	var user_type_fk = $("#user_type_fk").val();
+        	var user_role_name_fk = $("#user_role_name_fk").val();
+          	var department_fk = $("#department_fk").val();
+          	var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
+ 	      
+        	$(".page-loader").show();
+
+            if ($.trim(user_type_fk) == "") {
+                $("#user_type_fk option:not(:first)").remove();
+                var myParams = {user_type_fk : user_type_fk,user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getUserTypesFilterInUser",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+ 	                           $("#user_type_fk").append('<option value="' + val.user_type_fk + '">' + $.trim(val.user_type_fk) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+      	
         function getUserRolesFilter() {
+        	var user_type_fk = $("#user_type_fk").val();
         	var user_role_name_fk = $("#user_role_name_fk").val();
           	var department_fk = $("#department_fk").val();
           	var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
@@ -451,7 +500,7 @@
 
             if ($.trim(user_role_name_fk) == "") {
                 $("#user_role_name_fk option:not(:first)").remove();
-                var myParams = {user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
+                var myParams = {user_type_fk : user_type_fk,user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getUserRolesFilterInUser",
                     data: myParams, cache: false,
@@ -472,10 +521,10 @@
             	  $(".page-loader").hide();
             }
         }
-      	
        
         
         function getUserDepartmentsFilter() {
+        	var user_type_fk = $("#user_type_fk").val();
         	var user_role_name_fk = $("#user_role_name_fk").val();
           	var department_fk = $("#department_fk").val();
           	var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
@@ -483,7 +532,7 @@
 
             if ($.trim(department_fk) == "") {
                 $("#department_fk option:not(:first)").remove();
-                var myParams = {user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
+                var myParams = {user_type_fk : user_type_fk,user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getUserDepartmentsFilterInUser",
                     data: myParams, cache: false,
@@ -506,16 +555,16 @@
         }
         
         function getUserReportingToListFilter() {
+        	var user_type_fk = $("#user_type_fk").val();
         	var user_role_name_fk = $("#user_role_name_fk").val();
           	var department_fk = $("#department_fk").val();
           	var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
-  	        var status_fk = $("#status_fk").val();
   	       
          	$(".page-loader").show();
 
             if ($.trim(reporting_to_id_srfk) == "") {
                  $("#reporting_to_id_srfk option:not(:first)").remove();
-                 var myParams = {user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
+                 var myParams = {user_type_fk : user_type_fk,user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getUserReportingToListFilterInUser",
                      data: myParams, cache: false,
@@ -523,8 +572,8 @@
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
                            	 	var designation = '';
-                            	if ($.trim(val.designation) != '') { designation = ' - ' + $.trim(val.designation) }  	                           	
-                               	$("#reporting_to_id_srfk").append('<option value="' + val.user_id + '">' + $.trim(val.reporting_to_name)  + designation +'</option>');
+                            	if ($.trim(val.designation) != '') { designation =  $.trim(val.designation) }  	                           	
+                               	$("#reporting_to_id_srfk").append('<option value="' + val.user_id + '">' + /* $.trim(val.reporting_to_name)  + */ designation +'</option>');
                              });
                          }
                          $('.searchable').select2();

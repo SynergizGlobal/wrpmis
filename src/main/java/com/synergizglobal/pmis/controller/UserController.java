@@ -98,6 +98,19 @@ public class UserController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/ajax/getUserTypesFilterInUser", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getUserTypesFilterInUser(@ModelAttribute User obj) {
+		List<User> users = null;
+		try {
+			users = userService.getUserTypesFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getUserTypesFilterInUser : " + e.getMessage());
+		}
+		return users;
+	}
+	
 	@RequestMapping(value = "/ajax/getUserRolesFilterInUser", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<User> getUserRolesFilterInUser(@ModelAttribute User obj) {

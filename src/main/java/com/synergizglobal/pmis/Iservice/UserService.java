@@ -48,5 +48,7 @@ public interface UserService {
 
 	List<User> getUserTypes() throws Exception;
 
+	List<User> getUserTypesFilter(User obj) throws Exception;
+
 	
 }

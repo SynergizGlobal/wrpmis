@@ -901,74 +901,86 @@ public class AlertsDaoImpl implements AlertsDao{
 	public boolean sendAlertsToRajivRavi() throws Exception {
 		boolean flag = false;
 		try {
-			Map<String,List<Alerts>> alerts = new LinkedHashMap<String, List<Alerts>>();
-			String aLevelQry = "select alert_level " 
+			
+			
+			String aTypeQry = "select alert_type_fk " 
 					+ "from alerts a " 
 					+ "left join contract c on a.contract_id = c.contract_id " 
 					+ "left join work w on c.work_id_fk = w.work_id " 
 					+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 					+ "left join user u on c.hod_user_id_fk = u.user_id " 
 					+ "where alert_status = ? and count <> 0 and a.alert_type_fk <> 'Risk' "
-					+ "group by alert_level order by alert_level desc";
+					+ "group by alert_type_fk order by alert_type_fk desc";
 			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
-			List<Alerts> alert_levels = jdbcTemplate.query( aLevelQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-			
-			for (Alerts lObj : alert_levels) {
-				
-				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
-						+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
-						+ "from alerts a "  
+			List<Alerts> alert_types = jdbcTemplate.query( aTypeQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			for (Alerts tObj : alert_types) {	
+				Map<String,List<Alerts>> alerts = new LinkedHashMap<String, List<Alerts>>();
+				String aLevelQry = "select alert_level " 
+						+ "from alerts a " 
 						+ "left join contract c on a.contract_id = c.contract_id " 
 						+ "left join work w on c.work_id_fk = w.work_id " 
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id " 
-						+ "where alert_level = ? and alert_status = ? and count <> 0 and a.alert_type_fk <> 'Risk' "
-						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+						+ "where alert_status = ? and count <> 0 and a.alert_type_fk = ? "
+						+ "group by alert_level order by alert_level desc";
+				pValues = new Object[] {CommonConstants.ACTIVE,tObj.getAlert_type_fk()};
+				List<Alerts> alert_levels = jdbcTemplate.query( aLevelQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 				
-				
-				pValues = new Object[] {lObj.getAlert_level(),CommonConstants.ACTIVE};
-				List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-				
-				for (Alerts alert : allAlertsList) {
-					if("Bank Guarantee".equals(alert.getAlert_type_fk()) ) {
-						alert.setAlert_type_image("bank_guarantee.png");
-					}else if("Insurance".equals(alert.getAlert_type_fk()) ) {
-						alert.setAlert_type_image("insurance.png");
-					}else if("Contract Period".equals(alert.getAlert_type_fk()) ) {
-						alert.setAlert_type_image("contract_period.png");
-					}else if("Contract Value".equals(alert.getAlert_type_fk()) ) {
-						alert.setAlert_type_image("contract_value.png");
-					}else if("Issue".equals(alert.getAlert_type_fk()) ) {
-						alert.setAlert_type_image("issue.png");
+				for (Alerts lObj : alert_levels) {	
+					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
+							+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
+							+ "from alerts a "  
+							+ "left join contract c on a.contract_id = c.contract_id " 
+							+ "left join work w on c.work_id_fk = w.work_id " 
+							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+							+ "left join user u on c.hod_user_id_fk = u.user_id " 
+							+ "where alert_level = ? and alert_status = ? and count <> 0 and a.alert_type_fk = ? "
+							+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+					
+					
+					pValues = new Object[] {lObj.getAlert_level(),CommonConstants.ACTIVE,tObj.getAlert_type_fk()};
+					List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+					
+					for (Alerts alert : allAlertsList) {
+						if("Bank Guarantee".equals(alert.getAlert_type_fk()) ) {
+							alert.setAlert_type_image("bank_guarantee.png");
+						}else if("Insurance".equals(alert.getAlert_type_fk()) ) {
+							alert.setAlert_type_image("insurance.png");
+						}else if("Contract Period".equals(alert.getAlert_type_fk()) ) {
+							alert.setAlert_type_image("contract_period.png");
+						}else if("Contract Value".equals(alert.getAlert_type_fk()) ) {
+							alert.setAlert_type_image("contract_value.png");
+						}else if("Issue".equals(alert.getAlert_type_fk()) ) {
+							alert.setAlert_type_image("issue.png");
+						}
 					}
+					
+					alerts.put(lObj.getAlert_level(), allAlertsList);
 				}
 				
-				alerts.put(lObj.getAlert_level(), allAlertsList);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-YYYY");
+	            String today_date = dateFormat.format(new Date()).toUpperCase();
+	            
+	            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+	            String current_year = yearFormat.format(new Date()).toUpperCase();
+	            
+				String emailSubject = "PMIS "+tObj.getAlert_type_fk()+" Alerts";
+				
+				Mail mail = new Mail();
+				mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
+				mail.setMailSubject(emailSubject);
+				mail.setTemplateName("alertsRajivRavi.vm");
+				
+				if(alerts != null && alerts.size() > 0){
+					EMailSender emailSender = new EMailSender();
+					logger.error("sendAlertsToRajivRavi() >> Sending mail : Start ");	
+					emailSender.sendEmailWithAlertsRajivRavi(mail,alerts,tObj.getAlert_type_fk(),today_date,current_year); 
+					logger.error("sendAlertsToRajivRavi() >> Sending mail : End ");
+					flag = true;
+				}
 			}
-			
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-YYYY");
-            String today_date = dateFormat.format(new Date()).toUpperCase();
-            
-            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
-            String current_year = yearFormat.format(new Date()).toUpperCase();
-            
-			String emailSubject = "PMIS Contract & Issue Alerts";
-			
-			Mail mail = new Mail();
-			mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
-			mail.setMailSubject(emailSubject);
-			mail.setTemplateName("alerts.vm");
-			
-			if(alerts != null && alerts.size() > 0){
-				EMailSender emailSender = new EMailSender();
-				logger.error("sendAlertsToRajivRavi() >> Sending mail : Start ");	
-				emailSender.sendEmailWithAlerts(mail,alerts,today_date,current_year); 
-				logger.error("sendAlertsToRajivRavi() >> Sending mail : End ");
-				flag = true;
-			}
-			
 			sendRiskNotificationAlertMailsToRaviRajiv();
-
+			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -2093,7 +2105,8 @@ public class AlertsDaoImpl implements AlertsDao{
 	public List<Alerts> getSendToListForGenerateSendAlerts() throws Exception {
 		List<Alerts> sendToList = new ArrayList<Alerts>();
 		try {	
-			String qry = "select user_id,user_name,designation,email_id,user_role_name_fk,user_type_fk from user"; 
+			String qry = "select user_id,user_name,designation,email_id,user_role_name_fk,user_type_fk "
+					+ "from user where email_id is not null and email_id <> ''"; 
 			sendToList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

@@ -142,12 +142,18 @@
                                     <span id="titleError" class="error-msg" ></span> -->
                                     
                                 	<p class="searchable_label">Short Description <span class="required">*</span></p> 
-                                    <select class="searchable validate-dropdown" id="title" name="title">
+                                	<input list="titles" name="title" id="title">
+									<datalist id="titles">
+									    <c:forEach var="obj" items="${issueTitlesList }">
+									        <option value="${obj.short_description }"></option>
+									    </c:forEach>
+									</datalist>
+                                   <%--  <select class="searchable validate-dropdown" id="title" name="title">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issueTitlesList }">
                                             <option value="${obj.short_description }" >${obj.short_description}</option>
                                         </c:forEach>
-                                    </select>
+                                    </select> --%>
                                     <span id="titleError" class="error-msg" ></span>
                                     
                                 </div>

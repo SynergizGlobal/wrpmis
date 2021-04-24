@@ -55,6 +55,9 @@
 		.col.input-field>textarea+label:not(.label-icon).active{
 		    margin-top:0;
 		}
+		.input-field p.searchable_label{
+			margin-top: -10px !important;
+		}
 		
 	</style>
 </head>
@@ -160,13 +163,25 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-									<input id="financial_years" type="text" class="validate" name="financial_years" value="${projectDetails.financial_year_fk }">
-                                    <label for="financial_years">Financial Year</label>
+									<!-- <input id="financial_years" type="text" class="validate" name="financial_years" value="${projectDetails.financial_year_fk }"> -->
+                                    <p class="searchable_label">Financial Year</p>
+									<select class="searchable validate-dropdown" id="financial_years" name="financial_years" >
+										<option value="${projectDetails.financial_year_fk }" selected>${projectDetails.financial_year_fk }</option>
+									</select>
                                     <span  id="financial_yearsError"> </span>
 								</div>
-                                <div class="col s12 m4 input-field">
+								 <div class="col s12 m1 input-field">
+								 	 <p class="searchable_label">Railway</p>
+									<select class="searchable validate-dropdown" id="railway" name="railway" >
+										<!-- <option value="">Select</option> -->
+										<option >select</option>	
+										<option value="CR">CR</option>
+										<option value="WR">WR</option>
+									</select>
+								 </div>
+                                <div class="col s12 m3 input-field">
                                     <input id="pink_book_item_numbers" type="text" class="validate" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }">
-                                    <label for="pink_book_item_numbers">PB Item No</label>
+                                    <label for="pink_book_item_numbers" style="margin-top:5px">PB Item No </label>                                   
                                     <span  id="pink_book_item_numbersError"> </span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -293,8 +308,8 @@
 												<thead>
 													<tr>
 														<th  style=" width: 30%;">Financial Year</th>
-														<th>Railway</th> 
-														<!-- <th>WR</th>
+														<th style="width:30%">Railway</th> 
+														<!-- <th>WR%</th>
 														<th>CR</th> -->
 														<th style=" width: 130px;">PB Item No</th>
 														<th style="width:8%">Action</th>
@@ -317,15 +332,16 @@
 																	</td>
 																	<td><div class="input-field">
 																		<select  name="wr_railway_fk"  id="wr_railway_fk${index.count }"  class="validate-dropdown searchable">
-							                                   					 <option value="" >select</option>							                                         			  
-							                    					  				 <option value="">WR</option>
-							                    					  				 <option value="">CR</option>							                                       
-							                               					  </select>
+						                                   					 <option >select</option>							                                         			  
+						                    					  			 <option value="WR">WR</option>
+						                    					  			 <option value="CR">CR</option>							                                       
+							                               				</select>
 							                               				</div>
 																	</td>
 																	<td>
-																		<input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" type="number" class="validate" maxlength="4" value="${pObj.pb_item_no }" 
+																		<input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" type="number" class="validate" maxlength="4"  
 	                                                        				placeholder="PB Item No">
+	                                                        				<input type="hidden" id="pink_book_items${index.count }" class="pink_book_numbers" value="${pObj.pb_item_no }">	
 																	</td>
 																	<td>
 																		<a onclick="removeActions('${index.count }');" class="btn red"> 
@@ -348,9 +364,9 @@
 																</td>
 																<td><div class="input-field">
 																		<select  name="wr_railway_fk"  id="wr_railway_fk${index.count }"  class="validate-dropdown searchable">
-							                                   					 <option value="" >select</option>							                                         			 
-							                    					  				 <option value="">WR</option>
-							                    					  				 <option value="">CR</option>							                                          		
+							                                   					  <option >select</option>							                                         			 
+							                    					  				 <option value="WR">WR</option>
+							                    					  				 <option value="CR">CR</option>							                                          		
 							                               					  </select>
 							                               				</div>
 																	</td>																	
@@ -526,7 +542,16 @@
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $(".datepicker").datepicker();
-            $('#remarks,#p_desc').characterCounter();
+            $('#remarks,#p_desc').characterCounter();            
+
+           	var no='${projectDetails.pb_item_no}';
+           	var pbItem=no.split('-')[0];
+           	var itemNo=no.split('-')[1];
+           	$('select[name^="railway"] option').attr('selected',false);
+            $('#railway').find('option[value="'+pbItem+'"]').attr("selected","selected");
+  	    	$('.searchable').select2();
+        	$('#pink_book_item_numbers').val(itemNo);
+        	autoSelectRailway();        	
         });
         
         function addProject(){
@@ -561,10 +586,11 @@
 	   		   +'</select></div></td>'
 	   		   +'<td><div class="input-field">'
 	   		   +'<select  name="wr_railway_fk"  id="wr_railway_fk'+rNo+'"  class="validate-dropdown searchable">'
-   					+'<option value="" >select</option>'         			
-		  				+' <option value="">WR</option>'          			 
+   					+'<option >select</option>'         			
+		  				+' <option value="WR">WR</option>'     
+		  				+' <option value="CR">CR</option>' 
 					+'  </select>	  </div>		</td>'				
-			   +'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item No" maxlength="4""></td>'
+			   +'<td><input  type="number" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item No" maxlength="4""></td>'
 			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#pinkBookBody').append(html);
@@ -661,6 +687,18 @@
      	  
         } 
         
+		function autoSelectRailway(){
+		 		$.each( $('.pink_book_numbers'), function( key, value ) {
+				  var Num=$(value).val();
+		          var arrPbItem=Num.split('-')[0];
+		          var arrItemNo=Num.split('-')[1];
+				  $('#wr_railway_fk'+(key+1)+' option').attr('selected',false);
+				  $('#wr_railway_fk'+(key+1)).find('option[value="'+arrPbItem+'"]').attr('selected',true);
+				  $('.searchable').select2();
+				  $('#pink_book_item_numbers'+(key+1)).val(parseInt(arrItemNo));
+				});
+		}
+
     </script>
 </body>
 

@@ -234,9 +234,9 @@ public class PageConstants {
 	
 	public static final String projectFileType = "referenceForms/projectFileType";  
 	
-	public static final String workFileType = "referenceForms/workFileType";  
+	public static final String workFileType = "referenceForms/workFileType";    
 
-	
+	public static final String issueOtherOrganization = "referenceForms/issueOtherOrganization"; 
 	
 	
 }

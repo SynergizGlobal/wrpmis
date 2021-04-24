@@ -142,7 +142,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${issuePriorityDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="priorityId${indexs.count}" value="${obj.priority }" />
+												<input type="hidden" id="priorityId${indexs.count}" value="${obj.priority }"  class="findLengths"/>
 												${obj.priority }</td>
 											<c:forEach var="tObj" items="${issuePriorityDetails.tablesList}" varStatus="index">
 											 
@@ -163,7 +163,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${issuePriorityDetails.dList}" varStatus="indexx"> 
 												<c:choose>  
 												    <c:when test="${oSbj.priority eq obj.priority }"> 
@@ -214,7 +214,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="Issue_Priority_text" name="priority" type="text" class="validate">
+                                <input id="Issue_Priority_text" name="priority" type="text" class="validate"  onkeyup="doValidate(this.value)">
                                 <label for="Issue_Priority_text">Issue Priority</label>
                                 <span id="priorityError" class="error-msg" ></span>
                             </div>
@@ -222,7 +222,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addIssuePriority();"
+                                    <button style="width: 100%;" id="bttn" 
                                         class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
@@ -247,14 +247,14 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-issue-priority" id=updateIssuePriorityForm name="updateIssuePriorityForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Issue Priority <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Issue Priority <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Issue Priority</label>
                                 <span id="value_newError" class="error-msg" ></span>
@@ -263,7 +263,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateIssuePriority()"
+                                    <button style="width: 100%;"  id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -342,22 +342,99 @@
                 }
             });
         });
-      
-        function addIssuePriority(){
+        var flag = false; 
+        function doValidate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#priorityError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#priorityError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#value_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#value_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+        function removeErrorMsg(){
+   		 $('#value_newError').text('');
+   		 $('#bttnUpdate').prop('disabled', false);
+   		 updateFlag = true;
+   		}
+        
+        $("#addGeneralStatusForm").submit(function (e) {
+     	   if(validator.form()){ 
+     			$(".page-loader").show();
+     			 if(flag){
+     				document.getElementById("addGeneralStatusForm").submit();	
+     			 }
+     			 $(".page-loader").hide();
+     			 return false;
+            }
+          })
+         $("#addIssuePriorityForm").submit(function (e) {
          	 if(validator.form()){ 
      			$(".page-loader").show();
      			$("#addUpdateModal").modal();
-     			document.getElementById("addIssuePriorityForm").submit();	
+     			if(flag){
+     				document.getElementById("addIssuePriorityForm").submit();	
+     			 }
+     			 $(".page-loader").hide();
+     			 return false;
             }
-        }
+        })
         
-        function updateIssuePriority(){
+         $("#updateIssuePriorityForm").submit(function (e) {
           	 if(validator1.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
-      			document.getElementById("updateIssuePriorityForm").submit();	
+      			if(updateFlag){
+     				document.getElementById("updateIssuePriorityForm").submit();	
+     			 }
+     			 $(".page-loader").hide();
+     			 return false;
              }
-         }
+         })
         
         var validator =  $('#addIssuePriorityForm').validate({
         	 rules: {

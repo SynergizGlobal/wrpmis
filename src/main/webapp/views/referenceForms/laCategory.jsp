@@ -123,7 +123,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${landAcquisitionCategoryDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="la_categoryId${indexs.count}" value="${obj.la_category }" />
+												<input type="hidden" id="la_categoryId${indexs.count}" value="${obj.la_category }"  class="findLengths"/>
 												${obj.la_category }</td>
 											<c:forEach var="tObj" items="${landAcquisitionCategoryDetails.tablesList}" varStatus="index">
 											 
@@ -144,7 +144,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${landAcquisitionCategoryDetails.dList}" varStatus="indexx"> 
 												<c:choose>  
 												    <c:when test="${oSbj.la_category eq obj.la_category }"> 
@@ -195,7 +195,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="la_category" name="la_category" type="text" class="validate">
+                                <input id="la_category" name="la_category" type="text" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="la_category">Land Acquisition Category</label>
                                 <span id="la_categoryError" class="error-msg" ></span>
                             </div>
@@ -203,7 +203,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addLaCategory()" class="btn waves-effect waves-light bg-m">Add </button>
+                                    <button style="width: 100%;" id="bttn" class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
                             <div class="col s12 m6">
@@ -225,14 +225,14 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-la-category" id=updateLaCategoryForm name="updateLaCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Land Acquisition Category <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Land Acquisition Category <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Land Acquisition Category</label>
                                 <span id="value_newError" class="error-msg" ></span>
@@ -241,7 +241,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateLaCategory()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -277,7 +277,7 @@
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 
    <form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="la_category" id="la_category" />
+    	<input type="hidden" name="la_category" id="la_categoryId" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -314,22 +314,91 @@
                 }
             });
         });
-
-        function addLaCategory(){
+        var flag = false; 
+        function doValidate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#la_categoryError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#la_categoryError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#value_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#value_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+        function removeErrorMsg(){
+   		 $('#value_newError').text('');
+   		 $('#bttnUpdate').prop('disabled', false);
+   		 updateFlag = true;
+   		}
+    
+        $("#addLaCategoryForm").submit(function (e) {
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
       			document.getElementById("addLaCategoryForm").submit();	
+      			if(flag){
+     				document.getElementById("addLaCategoryForm").submit();	
+     			 }
+     			 $(".page-loader").hide();
+     			 return false;
            }
-       }
+       })
         
-        function updateLaCategory(){
+        $("#updateLaCategoryForm").submit(function (e) {
          	 if(validator1.form()){ 
      			$(".page-loader").show();
      			$("#addUpdateModal").modal();
-     			document.getElementById("updateLaCategoryForm").submit();	
+     			document.getElementById("updateLaCategoryForm").submit();
+     			if(updateFlag){
+     				document.getElementById("updateLaCategoryForm").submit();	
+     			 }
+     			 $(".page-loader").hide();
+     			 return false;
           }
-      }
+      })
           var validator = $('#addLaCategoryForm').validate({
            	 rules: {
            		 "la_category": {
@@ -376,7 +445,7 @@
      	  }
      	  
      	  function deleteRow(val){
-     	  	$("#la_category").val(val);
+     	  	$("#la_categoryId").val(val);
      	  	showCancelMessage();
      		    }
      	  	

@@ -137,13 +137,13 @@
                                         </tr>
                                     </thead>
                                    <tbody>
-										<c:forEach var="obj" items="${projectFileType}" varStatus="index">
+										<c:forEach var="obj" items="${issueOtherOrganizationDetails}" varStatus="index">
 											<tr>
 											<td>
-											<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
-												<input type="hidden" id="other_organization${index.count}" value="${obj.other_organization }" />
-												${obj.other_organization }</td>
-										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
+												<input type="hidden" id="issue_other_organization${index.count}" value="${obj.issue_other_organization }"  class="findLengths"/>
+												${obj.issue_other_organization }</td>
+										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
+										<a onclick="deleteRow('${ obj.issue_other_organization }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
 									    </c:forEach>
  										
                                     </tbody>
@@ -173,7 +173,7 @@
 	</div>
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-other-organization" id="otherOrganizationForm" name="otherOrganizationForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-issue-other-organization" id="otherOrganizationForm" name="otherOrganizationForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header ">Add Other Organization <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -182,7 +182,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="other_organization" name="other_organization" type="text" class="validate">
+                                <input id="other_organization" name="issue_other_organization" type="text" class="validate"  onkeyup="doValidate(this.value)">
                                 <label for="other_organization">Other Organization</label>
                                  <span id="other_organizationError" class="error-msg" ></span>
                             </div>
@@ -190,7 +190,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addProjectFileType();"
+                                    <button style="width: 100%;" id="bttn"
                                         class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
@@ -213,9 +213,9 @@
         </form>
     </div>
  <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-other-organization" id=updateOtherOrganizationForm name="id=updateOtherOrganizationForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-issue-other-organization" id=updateOtherOrganizationForm name="id=updateOtherOrganizationForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Other Organization <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Other Organization <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                  <input id="id" type="hidden" name="id"  >
@@ -223,7 +223,7 @@
                     <div class="col m8 s12">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Other Organization</label>
                                 <span id="value_newError" class="error-msg" ></span>
@@ -232,7 +232,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateProjectPriority()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -241,7 +241,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/project-file-type"
+                                        <a href="<%=request.getContextPath()%>/issue-other-organization"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -257,7 +257,7 @@
 
     <!-- footer  -->
  	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="id" id="idNo" />
+    	<input type="hidden" name="issue_other_organization" id="issue_other_organization" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -296,28 +296,95 @@
             });
         });
        
+        var flag = false; 
+        function doValidate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#other_organizationError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#other_organizationError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#value_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#value_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
         
-        function addProjectFileType(){
+        function removeErrorMsg(){
+   		 $('#value_newError').text('');
+   		 $('#bttnUpdate').prop('disabled', false);
+   		 updateFlag = true;
+   		}
+          
+        $("#otherOrganizationForm").submit(function (e) {
          	 if(validator.form()){ 
      			$(".page-loader").show();
      			$("#addUpdateModal").modal();
-     			document.getElementById("otherOrganizationForm").submit();	
+     			if(flag){
+     				document.getElementById("otherOrganizationForm").submit();	
+     			 }
+     			 $(".page-loader").hide();
+     			 return false;
             }
-        }
-        function updateProjectPriority(){
+        })
+        $("#updateOtherOrganizationForm").submit(function (e) {
          	 if(validator1.form()){ 
      			$(".page-loader").show();
      			$("#onlyUpdateModal").modal();
-     			document.getElementById("updateOtherOrganizationForm").submit();	
+     			if(updateFlag){
+     				document.getElementById("updateOtherOrganizationForm").submit();	
+     			 }
+     			 $(".page-loader").hide();
+     			 return false;
             }
-        }
+        })
         var validator =  $('#otherOrganizationForm').validate({
         	 rules: {
-        		 "other_organization": {
+        		 "issue_other_organization": {
  			 		  required: true 
         		 }
  			},messages: {
- 		 		   "other_organization": {
+ 		 		   "issue_other_organization": {
  			 		  required: 'Required'
  			 	  }
  	        },errorPlacement:function(error, element){
@@ -353,16 +420,14 @@
      	     });
 
            function updateRow(no) {
-       	      var other_organization = $('#other_organization'+no).val();
-       	  	  var id = $('#id'+no).val();
-       	      $('#id').val($.trim(id))
+       	      var other_organization = $('#issue_other_organization'+no).val();
        	      $('#value_old').val($.trim(other_organization))
        	      $('#onlyUpdateModal').modal('open');
        	      $('#onlyUpdateModal #value_new').val($.trim(other_organization)).focus();
        	  }
        	  
        	  function deleteRow(val){
-       	  	$("#idNo").val(val);
+       	  	$("#issue_other_organization").val(val);
        	  	showCancelMessage();
        		    }
        	  	
@@ -382,7 +447,7 @@
        		            if (isConfirm) {
        		               // swal("Deleted!", "Record has been deleted", "success");
        		                $(".page-loader").show();
-       		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-project-file-type');
+       		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-issue-other-organization');
        		    	    	$('#getForm').submit();
        		           }else {
        		                swal("Cancelled", "Record is safe :)", "error");

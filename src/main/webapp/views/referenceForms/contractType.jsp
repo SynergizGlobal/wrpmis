@@ -128,7 +128,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${contractTypeDetails.dList1}" varStatus="indexs">
 											<tr><td>
-											<input type="hidden" id="contract_typeId${indexs.count}" value="${obj.contract_type }" />
+											<input type="hidden" id="contract_typeId${indexs.count}" value="${obj.contract_type }" class="findLengths"/>
 											${obj.contract_type }</td>
 											<c:forEach var="tObj" items="${contractTypeDetails.tablesList}" varStatus="index">
 											 
@@ -149,7 +149,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c  "> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${contractTypeDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
@@ -201,7 +201,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="contract_type_text" type="text" name="contract_type" class="validate">
+                                <input id="contract_type_text" type="text" name="contract_type" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="contract_type_text">Contract Type</label>
                                 <span id="contract_typeError" class="error-msg" ></span>
                               </div>
@@ -209,7 +209,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addContractType()"
+                                    <button style="width: 100%;" id="bttn"
                                         class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
@@ -235,14 +235,14 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-contract-type" id=updateContractTypeForm name="updateContractTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Contract Type <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Contract Type <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="contract_type_new" type="text" name="contract_type_new" class="validate">
+                                <input id="contract_type_new" type="text" name="contract_type_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="contract_type_old" type="hidden" name="contract_type_old"  >
                                 <label for="contract_type_new">Contract Type</label>
                                 <span id="contract_type_newError" class="error-msg" ></span>
@@ -251,7 +251,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateContractType()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -306,7 +306,7 @@
                         targets: 'no-sort', orderable: false,
                         /* className: "last-column", targets: [1], */
                     },
-                    { "width": "20px", "targets": [2] },
+                    { "width": "20px", "targets": [3] },
                 ],
                 "paging": false,
                 "scrollCollapse": true,
@@ -319,20 +319,90 @@
                 }
             });
         });
-       function addContractType(){
+        
+        var flag = false; 
+        function doValidate(value){
+           var print_value = value;	
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#contract_typeError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#contract_typeError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value){
+           var print_value = value;	
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#contract_type_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#contract_type_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#contract_type_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        
+        function removeErrorMsg(){
+   		 $('#contract_type_newError').text('');
+   		 $('#bttnUpdate').prop('disabled', false);
+   		 updateFlag = true;
+   		}
+        
+        
+        $("#addContractTypeForm").submit(function (e) {
          	 if(validator.form()){ 
      			$(".page-loader").show();
      			$("#addUpdateModal").modal();
-     			document.getElementById("addContractTypeForm").submit();	
+     			if(flag){
+    				document.getElementById("addContractTypeForm").submit();	
+    			 }
+    			 $(".page-loader").hide();
+    			 return false;
           }
-       }
-       function updateContractType(){
+       })
+        $("#updateContractTypeForm").submit(function (e) {
        	 if(validator1.form()){ 
    			$(".page-loader").show();
    			$("#addUpdateModal").modal();
-   			document.getElementById("updateContractTypeForm").submit();	
+   			if(updateFlag){
+ 				document.getElementById("updateContractTypeForm").submit();	
+ 			 }
+ 			 $(".page-loader").hide();
+ 			 return false;
         }
-     }
+     })
       
        var validator = $('#addContractTypeForm').validate({
       	 rules: {

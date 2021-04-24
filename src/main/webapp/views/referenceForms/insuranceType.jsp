@@ -122,7 +122,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${insuranceTypesDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="insurance_typeId${indexs.count}" value="${obj.insurance_type }" />
+												<input type="hidden" id="insurance_typeId${indexs.count}" value="${obj.insurance_type }"  class="findLengths"/>
 												${obj.insurance_type }</td>
 											<c:forEach var="tObj" items="${insuranceTypesDetails.tablesList}" varStatus="index">
 											 
@@ -143,7 +143,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${insuranceTypesDetails.dList}" varStatus="indexx"> 
 												<c:choose>  
 												    <c:when test="${oSbj.insurance_type eq obj.insurance_type }"> 
@@ -195,7 +195,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="insurance_type_text" name="insurance_type" type="text" class="validate">
+                                <input id="insurance_type_text" name="insurance_type" type="text" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="insurance_type_text">Insurance Type</label>
                                 <span id="insurance_typeError" class="error-msg" ></span>
                             </div>
@@ -203,7 +203,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addInsuranceType();"
+                                    <button style="width: 100%;"  id="bttn"
                                         class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
@@ -229,14 +229,14 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-insurance-type" id=updateInsuranceTypeForm name="updateInsuranceTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Insurance Type <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Insurance Type <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Insurance Type</label>
                                 <span id="value_newError" class="error-msg" ></span>
@@ -245,7 +245,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateInsuranceType()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -319,21 +319,89 @@
             });
         });
        
-      function addInsuranceType(){
+        var flag = false; 
+        function doValidate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#insurance_typeError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#insurance_typeError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#value_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#value_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+        function removeErrorMsg(){
+   		 $('#value_newError').text('');
+   		 $('#bttnUpdate').prop('disabled', false);
+   		 updateFlag = true;
+   		}
+     
+      $("#addInsuranceTypeForm").submit(function (e) {
        	 if(validator.form()){ 
    			$(".page-loader").show();
    			$("#addUpdateModal").modal();
-   			document.getElementById("addInsuranceTypeForm").submit();	
-          }
-      }
+	   		 if(flag){
+					document.getElementById("addInsuranceTypeForm").submit();	
+				 }
+				 $(".page-loader").hide();
+				 return false;
+	          }
+      })
       
-      function updateInsuranceType(){
+      $("#updateInsuranceTypeForm").submit(function (e) {
         	 if(validator1.form()){ 
     			$(".page-loader").show();
     			$("#addUpdateModal").modal();
-    			document.getElementById("updateInsuranceTypeForm").submit();	
+    			 if(updateFlag){
+      				document.getElementById("updateInsuranceTypeForm").submit();	
+      			 }
+      			 $(".page-loader").hide();
+      			 return false;
            }
-       }
+       })
       
       var validator =  $('#addInsuranceTypeForm').validate({
       	 rules: {

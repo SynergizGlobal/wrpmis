@@ -121,7 +121,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${deliverableTypeDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="deliverable_typeId${indexs.count}" value="${obj.deliverable_type }" />
+												<input type="hidden" id="deliverable_typeId${indexs.count}" value="${obj.deliverable_type }"  class="findLengths" />
 												${obj.deliverable_type }</td>
 											<c:forEach var="tObj" items="${deliverableTypeDetails.tablesList}" varStatus="index">
 											 
@@ -142,7 +142,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${deliverableTypeDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
@@ -194,7 +194,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="deliverable_type_text" type="text" name="deliverable_type" class="validate">
+                                <input id="deliverable_type_text" type="text" name="deliverable_type" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="deliverable_type_text">Deliverable Type</label>
                                 <span id="deliverable_typeError" class="error-msg" ></span>
                             </div>
@@ -202,7 +202,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addDeliverableType()"
+                                    <button style="width: 100%;" id="bttn"
                                         class="btn waves-effect waves-light bg-m">Add</button>
                                 </div>
                             </div>
@@ -228,14 +228,14 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-deliverable-type" id=updateDeliverableTypeForm name="updateDeliverableTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Deliverable Type <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Deliverable Type <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="deliverable_type_new" type="text" name="deliverable_type_new" class="validate">
+                                <input id="deliverable_type_new" type="text" name="deliverable_type_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="deliverable_type_old" type="hidden" name="deliverable_type_old"  >
                                 <label for="deliverable_type_new">Deliverable Type</label>
                                 <span id="deliverable_type_newError" class="error-msg" ></span>
@@ -244,7 +244,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateDeliverableType()"
+                                    <button style="width: 100%;"  id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -313,22 +313,90 @@
                 }
             });
         });
-
-        function addDeliverableType(){
+        var flag = false; 
+        function doValidate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#deliverable_typeError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#deliverable_typeError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#deliverable_type_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#deliverable_type_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#deliverable_type_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+        function removeErrorMsg(){
+   		 $('#deliverable_type_newError').text('');
+   		 $('#bttnUpdate').prop('disabled', false);
+   		 updateFlag = true;
+   		}
+     
+         $("#addDeliverableTypeForm").submit(function (e) {
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
       			document.getElementById("addDeliverableTypeForm").submit();	
+      			 if(flag){
+      				document.getElementById("addDeliverableTypeForm").submit();	
+      			 }
+      			 $(".page-loader").hide();
+      			 return false;
              }
-         }
+         })
          
-        function updateDeliverableType(){
+         $("#updateDeliverableTypeForm").submit(function (e) {
          	 if(validator1.form()){ 
      			$(".page-loader").show();
      			$("#addUpdateModal").modal();
-     			document.getElementById("updateDeliverableTypeForm").submit();	
+     			 if(updateFlag){
+       				document.getElementById("updateDeliverableTypeForm").submit();	
+       			 }
+       			 $(".page-loader").hide();
+       			 return false;
             }
-        }
+        })
         
          var validator =  $('#addDeliverableTypeForm').validate({
          	 rules: {

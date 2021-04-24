@@ -127,9 +127,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${alertTypeDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${alertTypeDetails.dList1}" varStatus="indexs" >
 											<tr><td>
-												<input type="hidden" id="alert_typeId${indexs.count}" value="${obj.alert_type }" />
+												<input type="hidden" id="alert_typeId${indexs.count}" value="${obj.alert_type }"  class="findLengths"/>
 												${obj.alert_type }</td>
 											<c:forEach var="tObj" items="${alertTypeDetails.tablesList}" varStatus="index">
 												<td><c:forEach var="cObj" items="${alertTypeDetails.countList}" >
@@ -149,7 +149,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${alertTypeDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
@@ -192,7 +192,7 @@
 
     <!-- Add Modal Training -->
     <div id="addUpdateModal" class="modal">
-		<form action="<%=request.getContextPath() %>/add-alert-type" id="alertLevelForm" name="alertLevelForm" method="post" class="form-horizontal" role="form">
+		<form action="<%=request.getContextPath() %>/add-alert-type" id="alertTypeForm" name="alertTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header">Add Alert Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -201,7 +201,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="alert_type_text" name="alert_type" type="text" class="validate">
+                                <input id="alert_type_text" name="alert_type" type="text" class="validate"  onkeyup="doValidate(this.value)">
                                 <label for="alert_type_text">Alert Type</label>
                                 <span id="alert_typeError" class="error-msg" ></span>
                             </div>
@@ -209,7 +209,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                <div class="center-align m-1">
-										<button type="button" onclick="addAlertLevel();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+										<button id="bttn" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
 								</div>
                             </div>
                             <div class="col s12 m6">
@@ -228,16 +228,16 @@
         </form>
     </div>
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-alert-type" id=updateAlertLevelForm name="updateAlertLevelForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-alert-type" id=updateAlertTypeForm name="updateAlertTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Alert Type <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Alert Type <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_new" type="text" name="value_new" class="validate"  onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Alert Type</label>
                                 <span id="value_newError" class="error-msg" ></span>
@@ -246,7 +246,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateAlertLevel()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -308,7 +308,7 @@
                         targets: 'no-sort', orderable: false,
                       /*   className: "last-column", targets: [1], */
                     },
-                    { "width": "20px", "targets": [1] },
+                    { "width": "20px", "targets": [3] },
                 ],
                 "scrollCollapse": true,
                 //paging: false,
@@ -321,22 +321,90 @@
                 }
             });
         });
-      
-        function addAlertLevel(){
-           	 if(validator.form()){ 
-       			$(".page-loader").show();
-       			$("#addUpdateModal").modal();
-       			document.getElementById("alertLevelForm").submit();	
-           	}
+        
+        var flag = false; 
+        function doValidate(value){
+           var print_value = value;
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#alert_typeError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#alert_typeError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
         }
-        function updateAlertLevel(){
+        var updateFlag = true;
+        function doValidateUpdate(value){
+           var print_value = value;
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#value_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#value_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+    
+        function removeErrorMsg(){
+    		 $('#value_newError').text('');
+    		 $('#bttnUpdate').prop('disabled', false);
+    		 updateFlag = true;
+    	}
+        
+        $("#alertTypeForm").submit(function (e) {
+       	 if(validator.form()){ 
+   			$(".page-loader").show();
+   			$("#addUpdateModal").modal();
+   			if(flag){
+				document.getElementById("alertTypeForm").submit();	
+			 }
+			 $(".page-loader").hide();
+			 return false;
+        }
+     })
+       $("#updateAlertTypeForm").submit(function (e) {
         	 if(validator1.form()){ 
      			$(".page-loader").show();
      			$("#onlyUpdateModal").modal();
-     			document.getElementById("updateAlertLevelForm").submit();	
+     			if(updateFlag){
+    				document.getElementById("updateAlertTypeForm").submit();	
+    			 }
+    			 $(".page-loader").hide();
+    			 return false;
          }
-     }
-        var validator =	$('#alertLevelForm').validate({
+     })
+        var validator =	$('#alertTypeForm').validate({
        	 rules: {
        		 "alert_type": {
 			 		  required: true
@@ -352,7 +420,7 @@
 			 }
         }
       });
-      var validator1 = $('#updateAlertLevelForm').validate({
+      var validator1 = $('#updateAlertTypeForm').validate({
           	 rules: {
           		 	"value_new": {
       			 		  required: true

@@ -124,7 +124,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${binaryValueDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="binaryId${indexs.count}" value="${obj.binary }" />
+												<input type="hidden" id="binaryId${indexs.count}" value="${obj.binary }" class="findLengths" />
 												${obj.binary }
 											</td>
 											<c:forEach var="tObj" items="${binaryValueDetails.tablesList}" varStatus="index">
@@ -146,7 +146,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c " > <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${binaryValueDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
@@ -198,7 +198,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="binary_values_text" type="text" name="binary" class="validate">
+                                <input id="binary_values_text" type="text" name="binary" class="validate" onkeyup="doValidate(this.value)" >
                                 <label for="binary_values_text">Binary Values</label>
                                 <span id="binaryError" class="error-msg" ></span>
                             </div>
@@ -206,7 +206,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addBinaryValues()"
+                                    <button style="width: 100%;" id="bttn"
                                         class="btn waves-effect waves-light bg-m">Add</button>
                                  </div>
                             </div>
@@ -232,14 +232,14 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-binary-values" id=updateBinaryValuesForm name="updateBinaryValuesForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Binary Values <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Binary Values <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="binary_new" type="text" name="binary_new" class="validate">
+                                <input id="binary_new" type="text" name="binary_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="binary_old" type="hidden" name="binary_old"  >
                                 <label for="binary_values_text">Binary Values</label>
                                 <span id="binary_newError" class="error-msg" ></span>
@@ -248,7 +248,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateBinaryValues()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -318,21 +318,89 @@
                 }
             });
         });
-       function addBinaryValues(){
+        
+        var flag = false; 
+        function doValidate(value){
+           var print_value = value;	
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#binaryError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#binaryError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value){
+           var print_value = value;	
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#binary_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#binary_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#binary_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        function removeErrorMsg(){
+     		 $('#binary_newError').text('');
+     		 $('#bttnUpdate').prop('disabled', false);
+     		 updateFlag = true;
+     	}
+        
+        $("#addBinaryValuesForm").submit(function (e) {
         	 if(validator.form()){ 
     			$(".page-loader").show();
     			$("#addUpdateModal").modal();
-    			document.getElementById("addBinaryValuesForm").submit();	
+    			if(flag){
+    				document.getElementById("addBinaryValuesForm").submit();	
+    			 }
+    			 $(".page-loader").hide();
+    			 return false;
          }
-      }
+      })
        
-       function updateBinaryValues(){
+        $("#updateBinaryValuesForm").submit(function (e) {
       	 if(validator1.form()){ 
   			$(".page-loader").show();
   			$("#addUpdateModal").modal();
-  			document.getElementById("updateBinaryValuesForm").submit();	
+  			if(updateFlag){
+ 				document.getElementById("updateBinaryValuesForm").submit();	
+ 			 }
+ 			 $(".page-loader").hide();
+ 			 return false;
        }
-    }
+    })
      
       var validator = $('#addBinaryValuesForm').validate({
      	 rules: {

@@ -1,4 +1,4 @@
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+ <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -114,7 +114,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${bankGuaranteeDetails.bankGaurenteeList1}" varStatus="indexs">
 											<tr><td>
-											 <input type="hidden" id="value${indexs.count}" value="${obj.bg_type }" />
+											 <input type="hidden" id="value${indexs.count}" value="${obj.bg_type }" class="findLengths"/>
 											${obj.bg_type }</td>
 											
 											<c:forEach var="oaobj" items="${bankGuaranteeDetails.tablesList}" varStatus="index">
@@ -137,7 +137,7 @@
 												</c:forEach></td>
                                             </c:forEach>
                                             
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c " > <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="osbj"  items="${bankGuaranteeDetails.bankGaurenteeList}" varStatus="indexx"> 
 												 
 												<c:choose>  
@@ -189,7 +189,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="bg_type_text" type="text" name="bg_type" class="validate">
+                                <input id="bg_type_text" type="text" name="bg_type" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="bg_type_text">Bank Guarantee Type</label>
                                 <span id="bg_typeError" class="error-msg" ></span>
                             </div>
@@ -197,7 +197,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addbankGuaranteeType()"
+                                    <button style="width: 100%;" id="bttn"
                                         class="btn waves-effect waves-light bg-m">Add</button>
                                 </div>
                             </div>
@@ -222,14 +222,14 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-bank-guarantee-type" id=bankGuaranteeTypeForm1 name="bankGuaranteeTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Bank Guarantee Type <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Bank Guarantee Type <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="bg_type_text1" type="text" name="bg_type_new" class="validate" >
+                                <input id="bg_type_text1" type="text" name="bg_type_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="bg_type_old_text" type="hidden" name="bg_type_old"  >
                                 <label for="bg_type_text1">Bank Guarantee Type</label>
                                 <span id="bg_type_text1Error" class="error-msg" ></span>
@@ -238,7 +238,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updatebankGuaranteeType()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -305,21 +305,89 @@
              }
          });
      });
-     function addbankGuaranteeType(){
+     var flag = false; 
+     function doValidate(value){
+       var print_value = value;
+  	   var value = value.trim();
+  	   value = value.toLowerCase();
+  	   var validate = $('.findLengths').length;
+  	   var count  = 0;
+  	   var ek = $('.findLengths').map((_,el) => el.value).get();
+  	   while(count < validate){
+  		   var findVal = ek[count];
+  		   findVal = findVal.toLowerCase();
+  		   if(findVal == value){
+  			   $('#bg_typeError').text(print_value+' alreday exists').css('color', 'red');
+  			   $('#bttn').prop('disabled', true);
+  			   flag = false;
+  			   return false;
+  		   }else{
+  			   $('#bg_typeError').text('');
+  			   $('#bttn').prop('disabled', false); 
+  			   flag = true;
+  		   }
+  		   
+  		   count++;
+  	   }
+     }
+     var updateFlag = true;
+     function doValidateUpdate(value){
+       var print_value = value;
+  	   var value = value.trim();
+  	   var validate = $('.findLengths').length;
+  	   var count  = 0;
+  	   var valueOld = $('#bg_type_old_text').val();
+  	   var ek = $('.findLengths').map((_,el) => el.value).get();
+  	   value = value.toLowerCase();
+  	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+  	   delete ek[s];
+  	   while(count < validate){
+  		   var findVal = ek[count];
+  		   if(findVal != null){ findVal = findVal.toLowerCase();}
+  		   if(findVal == value){
+  			   $('#bg_type_text1Error').text(print_value+' alreday exists').css('color', 'red');
+  			   $('#bttnUpdate').prop('disabled', true);
+  			   updateFlag = false;
+  			   return false;
+  		   }else{
+  			   $('#bg_type_text1Error').text('');
+  			   $('#bttnUpdate').prop('disabled', false);
+  			   updateFlag = true;
+  		   }
+  		   
+  		   count++;
+  	   }
+     }
+     
+     function removeErrorMsg(){
+		 $('#bg_type_text1Error').text('');
+		 $('#bttnUpdate').prop('disabled', false);
+		 updateFlag = true;
+		}
+     
+     $("#bankGuaranteeTypeForm").submit(function (e) {
        	 if(validator.form()){ 
    			$(".page-loader").show();
    			$("#addUpdateModal").modal();
-   			document.getElementById("bankGuaranteeTypeForm").submit();	
+   			if(flag){
+				document.getElementById("bankGuaranteeTypeForm").submit();	
+			 }
+			 $(".page-loader").hide();
+			 return false;
         }
-     }
+     })
      
-     function updatebankGuaranteeType(){
+     $("#bankGuaranteeTypeForm1").submit(function (e) {
        	 if(validator1.form()){ 
    			$(".page-loader").show();
    			$("#onlyUpdateModal").modal();
-   			document.getElementById("bankGuaranteeTypeForm1").submit();	
+   			if(updateFlag){
+ 				document.getElementById("bankGuaranteeTypeForm1").submit();	
+ 			 }
+ 			 $(".page-loader").hide();
+ 			 return false;
         }
-     }
+     })
     
      var validator = $('#bankGuaranteeTypeForm').validate({
     	 rules: {

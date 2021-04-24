@@ -810,9 +810,9 @@
                                 if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
                                 var contract_id_fk = "${issue.contract_id_fk }";
                                 if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
-                                	$("#contract_id_fk").append('<option hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                                	$("#contract_id_fk").append('<option contract_type="'+val.contract_type_fk+'" hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
                                 } else {
-                                	$("#contract_id_fk").append('<option hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                                	$("#contract_id_fk").append('<option contract_type="'+val.contract_type_fk+'" hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
                                 }
                             });
                         }

@@ -442,9 +442,9 @@
                                 if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
                                 var contract_id_fk = "${safetyEquipmentDetails.contract_id_fk }";
                                 if ($.trim(contract_id_fk) != '' && val.contract_id_fk == $.trim(contract_id_fk)) {
-                                	$("#contract_id_fk").append('<option hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                	$("#contract_id_fk").append('<option contract_type="'+val.contract_type_fk+'" hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
                                 } else {
-                                	$("#contract_id_fk").append('<option hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                	$("#contract_id_fk").append('<option contract_type="'+val.contract_type_fk+'" hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
                                 }
                             });
                         }

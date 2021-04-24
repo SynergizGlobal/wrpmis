@@ -106,7 +106,7 @@ public class HomeController {
 		ModelAndView model = new ModelAndView();
 		try {
 			 model.setViewName(PageConstants.login);
-			 model.addObject("message", "Someone trying to login with this user.");
+			 model.addObject("message", "Session forced to logout from other device or browser");
 		} catch (Exception e) {
 			logger.error("someoneLogin : " + e.getMessage());
 		}

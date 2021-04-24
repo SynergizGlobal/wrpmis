@@ -1773,6 +1773,18 @@ public class IssueDaoImpl implements IssueDao {
 		return flag;
 	}
 
+	@Override
+	public List<Issue> getOtherOrganizationsList() throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT issue_other_organization as other_organization from issue_other_organization";			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 	
 	
 

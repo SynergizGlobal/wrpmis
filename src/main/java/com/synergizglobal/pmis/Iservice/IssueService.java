@@ -56,5 +56,7 @@ public interface IssueService {
 	boolean readIssueMessage(Issue obj) throws Exception;
 
 	List<Issue> getIssueTitlesList(Issue obj) throws Exception;
+
+	List<Issue> getOtherOrganizationsList() throws Exception;
 	
 }

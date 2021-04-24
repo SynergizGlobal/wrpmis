@@ -57,4 +57,6 @@ public interface IssueDao {
 
 	List<Issue> getIssueTitlesList(Issue obj) throws Exception;
 
+	List<Issue> getOtherOrganizationsList() throws Exception;
+
 }

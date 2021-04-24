@@ -201,8 +201,15 @@
                                     <span id="zonal_railway_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field" id="other_organization_holder" style="display:none;">
-                                    <input id="other_organization" name="other_organization"  type="text" class="validate" value="${issue.other_organization}">
-                                    <label for="other_organization">Organization Name (Pending with)<span class="required">*</span></label>
+                                    <%-- <input id="other_organization" name="other_organization"  type="text" class="validate" value="${issue.other_organization}">
+                                    <label for="other_organization">Organization Name (Pending with)<span class="required">*</span></label> --%>
+                                    <p class="searchable_label">Organization Name (Pending with)<span class="required">*</span></p> 
+                                    <select class="searchable browser-default" id="other_organization" name="other_organization">
+                                        <option value="" selected>Select</option>
+                                        <c:forEach var="obj" items="${otherOrganizations }">
+                                            <option value="${obj.other_organization }" <c:if test="${obj.other_organization eq issue.other_organization }">selected</c:if>>${obj.other_organization}</option>
+                                        </c:forEach>
+                                    </select>
                                     <span id="other_organizationError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s12 m4 input-field" id="department_holder" style="display:none;">

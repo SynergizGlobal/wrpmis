@@ -274,6 +274,9 @@ public class IssueController {
 			List<Issue> escalatedToList = issueService.getEscalatedToList();
 			model.addObject("escalatedToList", escalatedToList);
 			
+			List<Issue> otherOrganizations = issueService.getOtherOrganizationsList();
+			model.addObject("otherOrganizations", otherOrganizations);
+			
 			model.addObject("iObj", obj);
 			
 		} catch (Exception e) {
@@ -441,6 +444,9 @@ public class IssueController {
 			List<Issue> escalatedToList = issueService.getEscalatedToList();
 			model.addObject("escalatedToList", escalatedToList);
 			
+			List<Issue> otherOrganizations = issueService.getOtherOrganizationsList();
+			model.addObject("otherOrganizations", otherOrganizations);
+			
 			User uObj = (User) session.getAttribute("user");
 			obj.setUser_type(uObj.getUser_type_fk());
 			obj.setUser_role_code(uObj.getUser_role_code());
@@ -510,6 +516,9 @@ public class IssueController {
 			
 			List<Issue> escalatedToList = issueService.getEscalatedToList();
 			model.addObject("escalatedToList", escalatedToList);
+			
+			List<Issue> otherOrganizations = issueService.getOtherOrganizationsList();
+			model.addObject("otherOrganizations", otherOrganizations);
 			
 			User uObj = (User) session.getAttribute("user");
 			obj.setUser_type(uObj.getUser_type_fk());

@@ -139,5 +139,10 @@ public class IssueServiceImpl implements IssueService {
 	public List<Issue> getIssueTitlesList(Issue obj) throws Exception {
 		return issueDao.getIssueTitlesList(obj);
 	}
+
+	@Override
+	public List<Issue> getOtherOrganizationsList() throws Exception {
+		return issueDao.getOtherOrganizationsList();
+	}
 	
 }

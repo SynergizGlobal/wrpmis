@@ -9,7 +9,7 @@ public class Project {
 	,sanctioned_estimated_cost,sanctioned_year_fk,sanctioned_completion_cost,year_of_completion,projected_completion_year,latest_revised_cost,
 	completion_cost,work_short_name,benefits,galleryFileNames,financial_year_fk,pb_item_no,project_pinkbook_id;
 	
-	private String id,file_name,project_id_fk,created_date,created_by;
+	private String id,file_name,project_id_fk,created_date,created_by,railways;
 	
 	
 	private List<Project> projectFiles;
@@ -320,6 +320,14 @@ public class Project {
 
 	public void setProject_pinkbook_id(String project_pinkbook_id) {
 		this.project_pinkbook_id = project_pinkbook_id;
+	}
+
+	public String getRailways() {
+		return railways;
+	}
+
+	public void setRailways(String railways) {
+		this.railways = railways;
 	}
 	
 }

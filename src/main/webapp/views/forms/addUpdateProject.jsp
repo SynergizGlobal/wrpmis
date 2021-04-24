@@ -165,16 +165,18 @@
                                 <div class="col s12 m4 input-field">
 									<!-- <input id="financial_years" type="text" class="validate" name="financial_years" value="${projectDetails.financial_year_fk }"> -->
                                     <p class="searchable_label">Financial Year</p>
-									<select class="searchable validate-dropdown" id="financial_years" name="financial_years" >
-										<option value="${projectDetails.financial_year_fk }" selected>${projectDetails.financial_year_fk }</option>
-									</select>
+									<select  name="financial_years"  id="financial_years"  class="validate-dropdown searchable">
+                   					 	<option value="" >select</option>
+                         			 	<c:forEach var="obj" items="${yearList}">
+    					  				 	<option value="${obj.financial_year }"<c:if test="${projectDetails.financial_year_fk eq obj.financial_year}">selected</c:if>>${obj.financial_year}</option>
+                          			  	</c:forEach>
+               					  	</select>
                                     <span  id="financial_yearsError"> </span>
 								</div>
 								 <div class="col s12 m1 input-field">
 								 	 <p class="searchable_label">Railway</p>
-									<select class="searchable validate-dropdown" id="railway" name="railway" >
-										<!-- <option value="">Select</option> -->
-										<option >select</option>	
+									<select class="searchable validate-dropdown" id="railways" name="railways" >
+										<option value="" >select</option>	
 										<option value="CR">CR</option>
 										<option value="WR">WR</option>
 									</select>

@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -288,6 +289,11 @@ public class ProjectController {
 			 * file.getOriginalFilename(); FileUploads.singleFileSaving(file, saveDirectory,
 			 * fileName); project.setAttachment(fileName); }
 			 */	
+			
+			if(!StringUtils.isEmpty(project.getRailways())) {
+				project.setPb_item_no(project.getRailways() + " - " + project.getPb_item_no());
+			}
+			
 			boolean flag =  projectService.addProject(project);
 			if(flag == true) {
 				attributes.addFlashAttribute("success", "Project Added Succesfully.");

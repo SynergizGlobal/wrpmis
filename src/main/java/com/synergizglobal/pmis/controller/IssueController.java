@@ -238,6 +238,11 @@ public class IssueController {
 		try {
 			model.setViewName(PageConstants.addIssueForm);
 			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			List<Issue> projectsList = issueService.getProjectsListForIssueForm(obj);
 			model.addObject("projectsList", projectsList);
 			
@@ -315,9 +320,13 @@ public class IssueController {
 	
 	@RequestMapping(value = "/ajax/getProjectsListForIssuesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Issue> getProjectsListForIssueForm(@ModelAttribute Issue obj) {
+	public List<Issue> getProjectsListForIssueForm(HttpSession session,@ModelAttribute Issue obj) {
 		List<Issue> objsList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objsList = issueService.getProjectsListForIssueForm(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -328,9 +337,13 @@ public class IssueController {
 	
 	@RequestMapping(value = "/ajax/getWorkListForIssuesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Issue> getWorkListForIssueForm(@ModelAttribute Issue obj) {
+	public List<Issue> getWorkListForIssueForm(HttpSession session,@ModelAttribute Issue obj) {
 		List<Issue> objsList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objsList = issueService.getWorkListForIssueForm(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -341,9 +354,14 @@ public class IssueController {
 	
 	@RequestMapping(value = "/ajax/getContractsListForIssuesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Issue> getContractsListForIssueForm(@ModelAttribute Issue obj) {
+	public List<Issue> getContractsListForIssueForm(HttpSession session,@ModelAttribute Issue obj) {
 		List<Issue> objsList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			objsList = issueService.getContractsListForIssueForm(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -408,6 +426,11 @@ public class IssueController {
 		try {
 			model.setViewName(PageConstants2.updateIssueForm);
 			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			List<Issue> projectsList = issueService.getProjectsListForIssueForm(obj);
 			model.addObject("projectsList", projectsList);
 			
@@ -447,10 +470,7 @@ public class IssueController {
 			List<Issue> otherOrganizations = issueService.getOtherOrganizationsList();
 			model.addObject("otherOrganizations", otherOrganizations);
 			
-			User uObj = (User) session.getAttribute("user");
-			obj.setUser_type(uObj.getUser_type_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());
-			obj.setUser_id(uObj.getUser_id());
+			
 			
 			Issue issue = issueService.getIssue(obj);
 			model.addObject("issue", issue);
@@ -481,6 +501,11 @@ public class IssueController {
 		try {
 			model.setViewName(PageConstants2.updateIssueForm);
 			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			List<Issue> projectsList = issueService.getProjectsListForIssueForm(obj);
 			model.addObject("projectsList", projectsList);
 			
@@ -520,12 +545,6 @@ public class IssueController {
 			List<Issue> otherOrganizations = issueService.getOtherOrganizationsList();
 			model.addObject("otherOrganizations", otherOrganizations);
 			
-			User uObj = (User) session.getAttribute("user");
-			obj.setUser_type(uObj.getUser_type_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());
-			obj.setUser_id(uObj.getUser_id());
-			
-			obj.setIssue_id(issue_id);
 			Issue issue = issueService.getIssue(obj);
 			model.addObject("issue", issue);
 		} catch (Exception e) {

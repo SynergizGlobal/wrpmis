@@ -239,10 +239,53 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getProjectsListForIssueForm(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry ="select project_id as project_id_fk,project_name from project order by project_id asc ";
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));	
+			String qry = "";
+			String qry1 = "";
+			String qry2 = "";
+			String qry3 = "";
+			if(CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) || CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				    qry = "select project_id as project_id_fk,project_name from project order by project_id asc";
+			}else{
+					qry1 = "SELECT project_id as project_id_fk,project_name "
+						+ "FROM user_access "
+						+ "left join contract on access_value = contract_id "
+						+ "left join work on work_id_fk = work_id "
+						+ "left join project on project_id_fk = project_id "
+						+ "where user_id_fk = ? and user_access_type_fk = 'Contracts'";
+					
+					qry2 = "SELECT project_id as project_id_fk,project_name "
+						+ "FROM contract "
+						+ "left join user_access on access_value = work_id_fk "
+						+ "left join work on work_id_fk = work_id "
+						+ "left join project on project_id_fk = project_id "
+						+ "where user_id_fk = ? and user_access_type_fk = 'Works'";
+					
+					qry3 = "SELECT project_id as project_id_fk,project_name "
+						+ "FROM contract "
+						+ "left join work on work_id_fk = work_id "
+						+ "left join project on project_id_fk = project_id "
+						+ "where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+			}
+			
+			Object[] pValues = new Object[0];
+				
+			if(CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) || CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues = new Object[0];
+			}else{
+				int arrSize = 4;
+				pValues = new Object[arrSize];
+				int i = 0;	
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				qry = qry1 + " union " + qry2 + " union "+qry3;  
+			}
+			
+			
+			objsList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
@@ -250,26 +293,84 @@ public class IssueDaoImpl implements IssueDao {
 	@Override
 	public List<Issue> getWorkListForIssueForm(Issue obj) throws Exception {
 		List<Issue> objsList = new ArrayList<Issue>();
-		try {
-			String qry = "select work_id as work_id_fk ,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
-					+ "where work_id is not null ";
+		try {			
+			String qry = "";
+			String qry1 = "";
+			String qry2 = "";
+			String qry3 = "";
+			if(CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) || CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				    qry = "select work_id as work_id_fk ,work_name,work_short_name,project_id_fk,project_name "
+							+ "from `work` w "
+							+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+							+ "where work_id is not null ";
+			}else{
+					qry1 = "SELECT work_id as work_id_fk ,work_name,work_short_name,project_id_fk,project_name "
+						+ "FROM user_access "
+						+ "left join contract on access_value = contract_id "
+						+ "left join work on work_id_fk = work_id "
+						+ "left join project on project_id_fk = project_id "
+						+ "where user_id_fk = ? and user_access_type_fk = 'Contracts'";
 					
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + "and project_id_fk = ?";
-				arrSize++;
+					qry2 = "SELECT work_id as work_id_fk ,work_name,work_short_name,project_id_fk,project_name "
+						+ "FROM contract "
+						+ "left join user_access on access_value = work_id_fk "
+						+ "left join work on work_id_fk = work_id "
+						+ "left join project on project_id_fk = project_id "
+						+ "where user_id_fk = ? and user_access_type_fk = 'Works'";
+					
+					qry3 = "SELECT work_id as work_id_fk ,work_name,work_short_name,project_id_fk,project_name "
+						+ "FROM contract "
+						+ "left join work on work_id_fk = work_id "
+						+ "left join project on project_id_fk = project_id "
+						+ "where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
 			}
 			
-			qry = qry + " order by work_id asc";
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				pValues[i++] = obj.getProject_id_fk();
-			}	
+			Object[] pValues = new Object[0];
+				
+			if(CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) || CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				int arrSize = 0;
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry = qry + " and project_id_fk = ?";
+					arrSize++;
+				}
+				qry = qry + " order by work_id asc";
+				pValues = new Object[arrSize];
+				int i = 0;			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					pValues[i++] = obj.getProject_id_fk();
+				}
+			}else{
+				int arrSize = 4;
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry1 = qry1 + " and project_id_fk = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry2 = qry2 + " and project_id_fk = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry3 = qry3 + " and project_id_fk = ?";
+					arrSize++;
+				}
+				pValues = new Object[arrSize];
+				int i = 0;	
+				pValues[i++] = obj.getUser_id();
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					pValues[i++] = obj.getProject_id_fk();
+				}
+				pValues[i++] = obj.getUser_id();
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					pValues[i++] = obj.getProject_id_fk();
+				}
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					pValues[i++] = obj.getProject_id_fk();
+				}
+				
+				qry = qry1 + " union " + qry2 + " union "+qry3;  
+			}
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 			
@@ -284,23 +385,74 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getContractsListForIssueForm(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry ="select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
-					+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
-					+ "from contract "
-					+ "where contract_status_fk IN('In Progress','Not Started') ";
-			
-			int arrSize = 0;			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
-				arrSize++;
+			String qry = "";
+			String qry1 = "";
+			String qry2 = "";
+			String qry3 = "";
+			if(CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) || CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+					qry = "select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
+						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
+						+ "from contract "
+						+ "where contract_status_fk IN('In Progress','Not Started') ";
+			}else{
+					qry1 = "SELECT contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
+						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
+						+ "FROM user_access left join contract on access_value = contract_id where user_id_fk = ? and user_access_type_fk = 'Contracts'";
+					
+					qry2 = "SELECT contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
+						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
+						+ "FROM contract left join user_access on access_value = work_id_fk where user_id_fk = ? and user_access_type_fk = 'Works'";
+					
+					qry3 = "SELECT contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
+						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
+						+ "FROM contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
 			}
-			qry = qry + " order by contract_id asc";
 			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
+			Object[] pValues = new Object[0];
+				
+			if(CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) || CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				int arrSize = 0;
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + " and work_id_fk = ?";
+					arrSize++;
+				}
+				qry = qry + " order by contract_id asc";
+				pValues = new Object[arrSize];
+				int i = 0;			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] = obj.getWork_id_fk();
+				}
+			}else{
+				int arrSize = 4;
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry1 = qry1 + " and work_id_fk = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry2 = qry2 + " and work_id_fk = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry3 = qry3 + " and work_id_fk = ?";
+					arrSize++;
+				}
+				pValues = new Object[arrSize];
+				int i = 0;	
+				pValues[i++] = obj.getUser_id();
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] = obj.getWork_id_fk();
+				}
+				pValues[i++] = obj.getUser_id();
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] = obj.getWork_id_fk();
+				}
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] = obj.getWork_id_fk();
+				}
+				
+				qry = qry1 + " union " + qry2 + " union "+qry3;  
 			}
 				
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));

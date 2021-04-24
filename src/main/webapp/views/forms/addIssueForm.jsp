@@ -410,7 +410,7 @@
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorkListForIssuesForm",
-                    data: myParams, cache: false,async:false,
+                    data: myParams, cache: false,async:true,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -441,7 +441,7 @@
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
                 	url: "<%=request.getContextPath()%>/ajax/getContractsListForIssuesForm",
-                    data: myParams, cache: false,async:false,
+                    data: myParams, cache: false,async:true,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {

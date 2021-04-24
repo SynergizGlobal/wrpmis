@@ -287,7 +287,7 @@ public class IssueDaoImpl implements IssueDao {
 			String qry ="select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
 					+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
 					+ "from contract "
-					+ "where contract_id is not null ";
+					+ "where contract_status_fk IN('In Progress','Not Started') ";
 			
 			int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

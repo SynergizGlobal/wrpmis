@@ -42,8 +42,23 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public boolean addUserLogoutDateTime(User uObj) throws Exception {
+	public boolean addUserLogoutDateTime(User uObj) throws SQLException {
 		return loginDao.addUserLogoutDateTime(uObj);
+	}
+
+	@Override
+	public boolean updateSingleLoginSessionId(String single_login_session_id, String user_id) throws SQLException {
+		return loginDao.updateSingleLoginSessionId(single_login_session_id,user_id);
+	}
+
+	@Override
+	public boolean logoutFromAllDevices(User obj) throws SQLException {
+		return loginDao.logoutFromAllDevices(obj);
+	}
+
+	@Override
+	public String getSingleLoginSessionId(User obj) throws SQLException {
+		return loginDao.getSingleLoginSessionId(obj);
 	}
 
 	

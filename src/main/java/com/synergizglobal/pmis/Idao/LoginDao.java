@@ -12,8 +12,13 @@ public interface LoginDao {
 	
 	public String changePassword(User user) throws Exception;
 
-	public boolean addUserLogoutDateTime(User uObj) throws Exception;
+	public boolean addUserLogoutDateTime(User uObj) throws SQLException;
+	
+	public boolean updateSingleLoginSessionId(String single_login_session_id, String user_id) throws SQLException;
 
+	public boolean logoutFromAllDevices(User obj) throws SQLException;
+
+	public String getSingleLoginSessionId(User obj) throws SQLException;
 }
 
 

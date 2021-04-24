@@ -45,7 +45,8 @@ public class LoginDaoImpl implements LoginDao{
 			con = dataSource.getConnection();
 			
 			String qry = "select user_id,user_name,password,designation,email_id,cast(mobile_number as CHAR) as mobile_number,cast(landline as CHAR) as landline,"
-					+ "cast(extension as CHAR) as extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks,user_image,user_role_code,user_type_fk "
+					+ "cast(extension as CHAR) as extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks,user_image,"
+					+ "user_role_code,user_type_fk,single_login_session_id "
 					+ "from user u "
 					+ "LEFT JOIN user_role ur ON user_role_name_fk = user_role_name "
 					+ "where password = BINARY ? and (user_id = ? OR mobile_number = ? OR email_id = ?)";
@@ -77,6 +78,7 @@ public class LoginDaoImpl implements LoginDao{
 				userDetails.setRemarks(rs.getString("remarks"));
 				userDetails.setUser_image(rs.getString("user_image"));
 				userDetails.setUser_type_fk(rs.getString("user_type_fk"));
+				userDetails.setSingle_login_session_id(rs.getString("single_login_session_id"));
 				
 				if(!StringUtils.isEmpty(rs.getString("pmis_key_fk"))) {
 					userDetails.setSystem_ipa(user.getSystem_ipa());
@@ -176,7 +178,7 @@ public class LoginDaoImpl implements LoginDao{
 
 
 	@Override
-	public boolean addUserLogoutDateTime(User uObj) throws Exception {
+	public boolean addUserLogoutDateTime(User uObj) throws SQLException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -203,6 +205,80 @@ public class LoginDaoImpl implements LoginDao{
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 		}
 		return flag;
+	}
+
+	@Override
+	public boolean updateSingleLoginSessionId(String single_login_session_id, String user_id) throws SQLException {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		boolean flag = false;
+		try{  
+			con = dataSource.getConnection();
+			
+			String updateQry = "UPDATE user set single_login_session_id = ? WHERE user_id = ?";
+			stmt = con.prepareStatement(updateQry);
+			stmt.setString(1, single_login_session_id);
+			stmt.setString(2, user_id);			
+			int c = stmt.executeUpdate(); 
+			if(c > 0) {		
+				flag = true;				
+			}
+		}catch(Exception e){ 
+			throw new SQLException(e.getMessage());
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean logoutFromAllDevices(User obj) throws SQLException {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		boolean flag = false;
+		try{  
+			con = dataSource.getConnection();
+			
+			String updateQry = "UPDATE user set single_login_session_id = ? WHERE user_id = ?";
+			stmt = con.prepareStatement(updateQry);
+			stmt.setString(1, null);
+			stmt.setString(2, obj.getUser_id());	
+			int c = stmt.executeUpdate(); 
+			if(c > 0) {		
+				flag = true;				
+			}
+		}catch(Exception e){ 
+			throw new SQLException(e.getMessage());
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return flag;
+	}
+
+	@Override
+	public String getSingleLoginSessionId(User obj) throws SQLException {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String single_login_session_id = null;
+		try{  
+			con = dataSource.getConnection();
+			
+			String updateQry = "select single_login_session_id from user WHERE user_id = ?";
+			stmt = con.prepareStatement(updateQry);
+			stmt.setString(1, obj.getUser_id());	
+			rs = stmt.executeQuery(); 
+			if(rs.next()) {		
+				single_login_session_id = rs.getString("single_login_session_id");				
+			}
+		}catch(Exception e){ 
+			throw new SQLException(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return single_login_session_id;
 	}
 
 }

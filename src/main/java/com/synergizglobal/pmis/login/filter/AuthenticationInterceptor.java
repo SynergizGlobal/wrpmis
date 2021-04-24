@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.HomeService;
@@ -39,7 +40,10 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) {
 		try {
 			// Avoid a redirect loop for some urls
-			if( !request.getRequestURI().equals("/pmis/") && !request.getRequestURI().equals("/pmis/login") && !request.getRequestURI().equals("/") && !request.getRequestURI().equals("/login")){
+			if( !request.getRequestURI().equals("/pmis/") && !request.getRequestURI().equals("/pmis/login") 
+					&& !request.getRequestURI().equals("/") && !request.getRequestURI().equals("/login") 
+					&& !request.getRequestURI().equals("/pmis/someone-login") && !request.getRequestURI().equals("/pmis/someone-login") 
+					&& !request.getRequestURI().equals("/someone-login") && !request.getRequestURI().equals("/someone-login")){
 			    User userData = (User) request.getSession().getAttribute("user");
 			    if(userData == null){
 			    	String URL = "/pmis/login";
@@ -84,7 +88,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 		String userId = null;String userName = null;
 		try {
 			User userDetails = (User)request.getSession().getAttribute("user");
-			
+			String single_login_session_id = (String)request.getSession().getAttribute("SINGLE_LOGIN_SESSION_ID");
 			if(!StringUtils.isEmpty(userDetails)) {
 				userId = userDetails.getUser_id();
 				userName = userDetails.getUser_name();
@@ -141,8 +145,13 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				
 				boolean flag = service.addUserLastActiveDateTime(userDetails);
 				
+				String single_session_id = loginService.getSingleLoginSessionId(userDetails);
+				if(!StringUtils.isEmpty(single_login_session_id) && !single_login_session_id.equals(single_session_id)){
+					request.getSession().invalidate();
+					model.setViewName("redirect:/someone-login");
+				}
+				
 			}
-			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -54,7 +54,7 @@ public class HomeController {
 		try {
 			 if (session.getAttribute("user") != null ) {
 		         model.setViewName(PageConstants.home);
-		         model.addObject("homeHeader", "yes");
+		         //model.addObject("homeHeader", "yes");
 		         
 		         Project obj = new Project();
 		         
@@ -85,7 +85,7 @@ public class HomeController {
 		String user_Id = null;String userName = null;
 		try{
 			
-			model.addObject("homeHeader", "yes");
+			//model.addObject("homeHeader", "yes");
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			model.setViewName(PageConstants.home);
 			Work work = new Work();
@@ -97,6 +97,18 @@ public class HomeController {
 	       
 		}catch(Exception e){
 			logger.error("home() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/someone-login",method=RequestMethod.GET)
+	public ModelAndView someoneLogin(HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView();
+		try {
+			 model.setViewName(PageConstants.login);
+			 model.addObject("message", "Someone trying to login with this user.");
+		} catch (Exception e) {
+			logger.error("someoneLogin : " + e.getMessage());
 		}
 		return model;
 	}

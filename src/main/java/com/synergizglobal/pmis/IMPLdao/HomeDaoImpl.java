@@ -802,6 +802,32 @@ public class HomeDaoImpl implements HomeDao {
 		boolean flag = false;
 		try {			
 			con = dataSource.getConnection();
+			con.setAutoCommit(false);
+			
+			List<User> user_ids = new ArrayList<User>();
+			String qry = "SELECT user_id_fk FROM user_login_details WHERE logout_date_time is null and last_active_date_time < (NOW() - INTERVAL 30 MINUTE)";
+			stmt = con.prepareStatement(qry);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				User obj = new User();
+				obj.setUser_id(rs.getString("user_id_fk"));
+				user_ids.add(obj);
+			}
+			
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+			
+			String updateQry = "UPDATE user set single_login_session_id = ? WHERE user_id = ?";
+			stmt = con.prepareStatement(updateQry);
+			for (User user : user_ids) {
+				stmt.setString(1, null);
+				stmt.setString(2, user.getUser_id());
+				stmt.addBatch();
+			}
+				
+			int[] count = stmt.executeBatch(); 	
+			
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+			
 			String insertQry = "UPDATE user_login_details SET logout_date_time = CURRENT_TIMESTAMP,logout_type_fk = ? "
 					+ "WHERE logout_date_time is null and last_active_date_time < (NOW() - INTERVAL 30 MINUTE)";
 			stmt = con.prepareStatement(insertQry);
@@ -809,10 +835,12 @@ public class HomeDaoImpl implements HomeDao {
 			stmt.setString(p++,CommonConstants2.LOGOUT_TYPE_TIMEOUT);			
 			int c = stmt.executeUpdate();
 			if (c > 0) {
-				flag = true;				
+				flag = true;	
 			}
 			
+			con.commit();
 		}catch(SQLException e){ 
+			con.rollback();
 			throw new SQLException(e.getMessage());
 		}
 		finally {

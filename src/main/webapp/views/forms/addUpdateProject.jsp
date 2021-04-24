@@ -136,7 +136,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <%-- <div class="col s12 m4 input-field">
                                     <input id="pink_book_item_number" type="text" class="validate" value="${projectDetails.pink_book_item_number }" name="pink_book_item_number">
-                                    <label for="pink_book_item_number">PB Item Number</label>
+                                    <label for="pink_book_item_number">PB Item No</label>
                                     <span  id="pink_book_item_numberError"> </span>
                                 </div> --%>
                                 <div class="col s12 m4 input-field">
@@ -160,14 +160,14 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-									<input id="financial_years0" type="text" class="validate" name="financial_years" value="${projectDetails.financial_year_fk }">
-                                    <label for="financial_years0">Financial Year</label>
-                                    <span  id="financial_years0Error"> </span>
+									<input id="financial_years" type="text" class="validate" name="financial_years" value="${projectDetails.financial_year_fk }">
+                                    <label for="financial_years">Financial Year</label>
+                                    <span  id="financial_yearsError"> </span>
 								</div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="pink_book_item_numbers0" type="text" class="validate" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }">
-                                    <label for="pink_book_item_numbers0">PB Item Number</label>
-                                    <span  id="pink_book_item_numbers0Error"> </span>
+                                    <input id="pink_book_item_numbers" type="text" class="validate" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }">
+                                    <label for="pink_book_item_numbers">PB Item No</label>
+                                    <span  id="pink_book_item_numbersError"> </span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -292,8 +292,11 @@
 											<table id="project-table" class="mdl-data-table update-table">
 												<thead>
 													<tr>
-														<th>Financial Year</th>
-														<th>PB Item No</th>
+														<th  style=" width: 30%;">Financial Year</th>
+														<th>Railway</th> 
+														<!-- <th>WR</th>
+														<th>CR</th> -->
+														<th style=" width: 130px;">PB Item No</th>
 														<th style="width:8%">Action</th>
 													</tr>
 												</thead>
@@ -312,9 +315,17 @@
 							                               					  </select>
 																		</div>
 																	</td>
+																	<td><div class="input-field">
+																		<select  name="wr_railway_fk"  id="wr_railway_fk${index.count }"  class="validate-dropdown searchable">
+							                                   					 <option value="" >select</option>							                                         			  
+							                    					  				 <option value="">WR</option>
+							                    					  				 <option value="">CR</option>							                                       
+							                               					  </select>
+							                               				</div>
+																	</td>
 																	<td>
-																		<input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" type="text" class="validate" value="${pObj.pb_item_no }" 
-	                                                        				placeholder="PB Item Number">
+																		<input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" type="number" class="validate" maxlength="4" value="${pObj.pb_item_no }" 
+	                                                        				placeholder="PB Item No">
 																	</td>
 																	<td>
 																		<a onclick="removeActions('${index.count }');" class="btn red"> 
@@ -335,9 +346,17 @@
 						                               					  </select>
 																	</div>
 																</td>
+																<td><div class="input-field">
+																		<select  name="wr_railway_fk"  id="wr_railway_fk${index.count }"  class="validate-dropdown searchable">
+							                                   					 <option value="" >select</option>							                                         			 
+							                    					  				 <option value="">WR</option>
+							                    					  				 <option value="">CR</option>							                                          		
+							                               					  </select>
+							                               				</div>
+																	</td>																	
 																<td>
-																	<input id="pink_book_item_numbers0" name="pink_book_item_numbers" type="text" class="validate" 
-	                                                        				placeholder="PB Item Number">
+																	<input id="pink_book_item_numbers0" name="pink_book_item_numbers" type="number" class="validate"  maxlength="4"
+	                                                        				placeholder="PB Item No">
 																</td>
 																<td>
 																	<a onclick="removeActions('0');" class="btn red"> <i class="fa fa-close"></i></a>
@@ -540,12 +559,16 @@
 	     	      +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
 			     </c:forEach>
 	   		   +'</select></div></td>'
-			   +'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
+	   		   +'<td><div class="input-field">'
+	   		   +'<select  name="wr_railway_fk"  id="wr_railway_fk'+rNo+'"  class="validate-dropdown searchable">'
+   					+'<option value="" >select</option>'         			
+		  				+' <option value="">WR</option>'          			 
+					+'  </select>	  </div>		</td>'				
+			   +'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item No" maxlength="4""></td>'
 			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#pinkBookBody').append(html);
-            $("#rowNo").val(rNo);
-          	
+            $("#rowNo").val(rNo);          	
             
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();

@@ -122,10 +122,10 @@
                                     <tbody>
 										<c:forEach var="obj" items="${railwayDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="railway_id${indexs.count}" value="${obj.railway_id }" />
+												<input type="hidden" id="railway_id${indexs.count}" value="${obj.railway_id }" /  class="findLengths">
 												${obj.railway_id }</td>
 											<td>
-												<input type="hidden" id="railway_name${indexs.count}" value="${obj.railway_name }" />
+												<input type="hidden" id="railway_name${indexs.count}" value="${obj.railway_name }" class="findLengths2" />
 												${obj.railway_name }</td>
 											<c:forEach var="tObj" items="${railwayDetails.tablesList}" varStatus="index">
 											 
@@ -145,7 +145,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${railwayDetails.dList}" varStatus="indexx"> 
 												<c:choose>  
 												    <c:when test="${oSbj.railway_id eq obj.railway_id }"> 
@@ -196,20 +196,23 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m6">
-                                <input id="railway_id" type="text" name="railway_id" class="validate">
+                                <input id="railway_id" type="text" name="railway_id" class="validate"  onkeyup="doValidate(this.value,null)">
                                 <label for="railway_id">Railway id</label>
                                 <span id="railway_idError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="railway_name" type="text" name="railway_name" class="validate">
+                                <input id="railway_name" type="text" name="railway_name" class="validate"  onkeyup="doValidate(null,this.value)">
                                 <label for="railway_name">Railway Name</label>
                                 <span id="railway_nameError" class="error-msg" ></span>
                             </div>
+                             <div  style="text-align:center">
+                        		 <span id="DivError" class="error-msg" ></span> 
+                       		</div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addRailway()" class="btn waves-effect waves-light bg-m">Add</button>
+                                    <button style="width: 100%;" id="bttn"  class="btn waves-effect waves-light bg-m">Add</button>
                                 </div>
                             </div>
                         
@@ -223,6 +226,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                     <div class="col m2 hide-on-small"></div>
                 </div>
@@ -234,28 +238,32 @@
    <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-railway" id=updateRailwayForm name="id=updateRailwayForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Railway <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Railway <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m6">
-                                <input id="value_new" type="text" name="value_new" class="validate" readonly>
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(null,null)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="railway_id">Railway id</label>
-                                <span id="railway_idError" class="error-msg" ></span>
+                                <span id="railway_idUpdateError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="railway_name_new" type="text" name="railway_name_new" class="validate">
+                                <input id="railway_name_new" type="text" name="railway_name_new" class="validate" onkeyup="doValidateUpdate(null,null)">
+                                <input id="railway_name_old" type="hidden" name="railway_name_old"  >
                                 <label for="railway_name">Railway Name</label>
 								<span id="value_newError" class="error-msg" ></span>           
 		                    </div>
+		                      <div  style="text-align:center">
+                        		 <span id="DivUpdateError" class="error-msg" ></span> 
+                       		</div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateRailway()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -269,6 +277,7 @@
                                 </div>
                             </div>
                         </div>
+                       
                     </div>
                     <div class="col m2 hide-on-small"></div>
                 </div>
@@ -325,20 +334,153 @@
                 }
             });
         });
-      function addRailway(){
+        var flag = false; 
+        function doValidate(value,value1){
+           var value = $('#railway_id').val();
+           var value1 = $('#railway_name').val();
+           value = value.trim();
+           value1 = value1.trim();
+           var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths2').map((_,el) => el.value).get();
+           var s = Object.keys(ek).find(key => ek[key] === value);
+           if(value != null){ value = value.toLowerCase();}
+           if(value1 != null){ value1 = value1.toLowerCase();}
+         
+     	   var print_value = value;	
+     	   var print_value2 = value1;	
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	  
+     	   while(count < validate){
+     		 	 var findVal = ek[count];
+     			 var findVal2 = ak[count];
+     			findVal = findVal.toLowerCase();
+     			findVal2 = findVal2.toLowerCase();
+     		   if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
+     			   $('#DivError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' alreday exists').css('color', 'red');
+   				   $('#railway_nameError').text('');
+   				   $('#railway_idError').text('');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			  if(findVal == value ){
+     				 $('#bttn').prop('disabled', true);
+     				 $('#DivError').text('');
+     				 $('#railway_idError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');
+     				 flag = false;
+      			     return false;
+     			  }else if(findVal2 == value1 ){
+     				 $('#bttn').prop('disabled', true);
+     				 $('#DivError').text('');
+     				 $('#railway_nameError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     				 flag = false;
+      			     return false;
+     			  }else{
+        			   $('#DivError').text('');
+        			   $('#railway_idError').text('');
+        			   $('#railway_nameError').text('');
+        			   $('#bttn').prop('disabled', false); 
+        			   flag = true;
+     			  }
+     		
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value,value1){
+           var value = $('#value_new').val();
+           var value1 = $('#railway_name_new').val();
+           value = value.trim();
+           value1 = value1.trim();
+     	   var print_value = value;	
+     	   var print_value2 = value1;	
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var no = $('#no').val()
+     	   var valueOld  = $('#value_old').val()
+           var valueOld2 = $('#railway_name_old').val()
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths2').map((_,el) => el.value).get();
+     	  value = value.toLowerCase();
+     	  value1 = value1.toLowerCase();
+     	    var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   var s1 = Object.keys(ak).find(key => ak[key] === valueOld2);
+     	   delete ek[s];
+     	   delete ak[s1];
+     	   while(count < validate){
+     		  var findVal = ek[count];
+  			  var findVal2 = ak[count];
+  			 if(findVal != null){ findVal = findVal.toLowerCase();}
+  			 if(findVal2 != null){ findVal2 = findVal2.toLowerCase();}
+  			  if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
+  				   $('#DivUpdateError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' alreday exists').css('color', 'red');
+  				   $('#railway_idUpdateError').text('');
+ 			   	   $('#value_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			  if(findVal == value ){
+      				 $('#bttnUpdate').prop('disabled', true);
+      				 $('#DivUpdateError').text('');
+      				 $('#railway_idUpdateError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');
+      				 updateFlag = false; 
+       			     return false;
+     			 }else if(findVal2 == value1 ){
+     				 $('#bttnUpdate').prop('disabled', true);
+     				 $('#DivUpdateError').text('');
+     				 $('#value_newError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     				 flag = false;
+      			     return false;
+     			  } else{
+       			       $('#DivUpdateError').text('');
+       			       $('#railway_idUpdateError').text('');
+       			   	   $('#value_newError').text('');
+        			   $('#bttnUpdate').prop('disabled', false);
+        			   updateFlag = true;
+        			   }
+       			    
+     			
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+        function removeErrorMsg(){
+   		 $('#DivUpdateError').text('');
+   		 $('#railway_idUpdateError').text('');
+   		 $('#value_newError').text('');
+   		 $('#bttnUpdate').prop('disabled', false);
+   		 updateFlag = true;
+   		}
+      
+       
+     $("#addRailwayForm").submit(function (e) {
          	 if(validator.form()){ 
      			$(".page-loader").show();
      			$("#addUpdateModal").modal();
-     			document.getElementById("addRailwayForm").submit();	
+     			if(flag){
+      				document.getElementById("addRailwayForm").submit();	
+      			 }
+      			 $(".page-loader").hide();
+      			 return false;
           }
-      }
-      function updateRailway(){
+      })
+     $("#updateRailwayForm").submit(function (e) {
       	 if(validator1.form()){ 
   			$(".page-loader").show();
   			$("#addUpdateModal").modal();
-  			document.getElementById("updateRailwayForm").submit();	
+  			if(updateFlag){
+  				document.getElementById("updateRailwayForm").submit();	
+  			 }
+  			 $(".page-loader").hide();
+  			 return false;
          }
-     }
+     })
       var validator = $('#railwayForm').validate({
       	 rules: {
       		 "railway_id": {
@@ -367,16 +509,23 @@
        	 rules: {
        		 "railway_name_new": {
  			 		  required: true
+       		 }, "value_new": {
+ 			 		  required: true
        		 }
  			},messages: {
  		 		   "railway_name_new": {
+ 			 		  required: 'Required'
+ 			 	  },"value_new": {
  			 		  required: 'Required'
  			 	  }
  	        },errorPlacement:function(error, element){
  	        	 if(element.attr("id") == "railway_name_new" ){
  				     document.getElementById("value_newError").innerHTML="";
  			 	     error.appendTo('#value_newError');
- 				 }
+ 				 }else  if(element.attr("id") == "value_new" ){
+  				     document.getElementById("railway_idUpdateError").innerHTML="";
+  			 	     error.appendTo('#railway_idUpdateError');
+  				 }
  	        }
        	
        });
@@ -391,6 +540,7 @@
     	      var railway_id = $('#railway_id'+no).val();
     	      var railway_name = $('#railway_name'+no).val();
     	      $('#value_old').val($.trim(railway_id))
+    	      $('#railway_name_old').val($.trim(railway_name))
     	      $('#onlyUpdateModal').modal('open');
     	      $('#onlyUpdateModal #value_new').val($.trim(railway_id)).focus();
     	      $('#onlyUpdateModal #railway_name_new').val($.trim(railway_name)).focus();

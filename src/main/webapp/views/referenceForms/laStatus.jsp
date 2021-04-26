@@ -124,7 +124,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${landAcquisitionStatusDetails.dList1}" varStatus="indexs">
 											<tr><td>
-											<input type="hidden" id="statusId${indexs.count}" value="${obj.status }" /> 
+											<input type="hidden" id="statusId${indexs.count}" value="${obj.status }" class="findLengths" /> 
 											${obj.status }</td>
 											<td>
 											<input type="hidden" id="status_ofId${indexs.count}" value="${obj.status_of }" />
@@ -137,7 +137,7 @@
 													    
 													    		<c:choose>  
 																    <c:when test="${cObj.status eq obj.status }"> 
-																      	 ( ( ${cObj.count } ) )   
+																      	  ( ${cObj.count } )  
 																    </c:when>  
 																    <c:otherwise>  
 																    </c:otherwise>   
@@ -148,7 +148,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${landAcquisitionStatusDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
@@ -199,21 +199,24 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m6">
-                                <input id="status_text" type="text" name="status" class="validate">
+                                <input id="status_text" type="text" name="status" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="status_text">Land Acquisition Status</label>
                                  <span id="statusError" class="error-msg" ></span>
                                 
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="status_of" type="text" name="status_of" class="validate">
+                                <input id="status_of" type="text" name="status_of" class="validate" >
                                 <label for="status_of">Land Acquisition Status of</label>
                                 <span id="status_ofError" class="error-msg" ></span>
                             </div>
+                             <div  style="text-align:center">
+                        		 <span id="DivError" class="error-msg" ></span> 
+                       		   </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addStatus()" class="btn waves-effect waves-light bg-m">Add </button>
+                                    <button style="width: 100%;" id="bttn" class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
                             <div class="col s12 m6">
@@ -238,29 +241,32 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-la-status" id=updateStatusForm name="updateStatusForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Land Acquisition Status <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Land Acquisition Status <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
                          <div class="input-field col s12 m6">
-                                <input id="status_new" type="text" name="status_new" class="validate">
+                                <input id="status_new" type="text" name="status_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="status_old" type="hidden" name="status_old"  >
                                 <label for="status_new">Land Acquisition Status</label>
                                 <span id="status_newError" class="error-msg" ></span>
                          </div>
                          <div class="input-field col s12 m6">
-                                <input id="status_of_new" type="text" name="status_of_new" class="validate">
+                                <input id="status_of_new" type="text" name="status_of_new" class="validate" >
                                 <input id="status_of_old" type="hidden" name="status_of_old"  >
                                 <label for="status_of">Land Acquisition Status of</label>
                                 <span id="status_of_newError" class="error-msg" ></span>
                             </div>
+                            <div  style="text-align:center">
+                        		 <span id="DivUpdateError" class="error-msg" ></span> 
+                       		</div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateStatus()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -331,22 +337,90 @@
                 }
             });
         });
-
-    function addLaStatus(){
+        var flag = false; 
+        function doValidate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#statusError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#statusError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#status_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#status_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#status_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+    	function removeErrorMsg(){
+    		 $('#status_newError').text('');
+    		 $('#bttnUpdate').prop('disabled', false);
+    		 updateFlag = true;
+    	}
+       
+   $("#addStatusForm").submit(function (e) {
        	 if(validator.form()){ 
    			$(".page-loader").show();
    			$("#addUpdateModal").modal();
    			document.getElementById("addStatusForm").submit();	
+   		 	if(flag){
+				document.getElementById("addStatusForm").submit();	
+			 }
+			 $(".page-loader").hide();
+			 return false;
         }
-    }
+    })
     
-    function updateLaStatus(){
+   $("#updateStatusForm").submit(function (e) {
       	 if(validator.form()){ 
   			$(".page-loader").show();
-  			$("#addUpdateModal").modal();
-  			document.getElementById("updateStatusForm").submit();	
+  			$("#onlyUpdateModal").modal();
+  			 if(updateFlag){
+   				document.getElementById("updateStatusForm").submit();	
+   			 }
+   			 $(".page-loader").hide();
+   			 return false;
        }
-   }
+   })
        var validator = $('#addStatusForm').validate({
         	 rules: {
         		 "status": {

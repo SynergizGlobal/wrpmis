@@ -143,7 +143,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${safetyRootCauseDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="root_causeId${indexs.count}" value="${obj.root_cause }" />
+												<input type="hidden" id="root_causeId${indexs.count}" value="${obj.root_cause }" class="findLengths"/>
 												${obj.root_cause }</td>
 											<c:forEach var="tObj" items="${safetyRootCauseDetails.tablesList}" varStatus="index">
 												<td><c:forEach var="cObj" items="${safetyRootCauseDetails.countList}" >
@@ -162,7 +162,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${safetyRootCauseDetails.dList}" varStatus="indexx"> 
 												<c:choose>  
 												    <c:when test="${oSbj.root_cause eq obj.root_cause }"> 
@@ -212,7 +212,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="safety_root_cause_text" name="root_cause" type="text" class="validate">
+                                <input id="safety_root_cause_text" name="root_cause" type="text" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="safety_root_cause_text">Safety Root Cause</label>
                                 <span id="root_causeError" class="error-msg" ></span>
                             </div>
@@ -220,7 +220,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addSafetyRoot();"
+                                    <button style="width: 100%;" id="bttn" 
                                         class="btn waves-effect waves-light bg-m black-text">Add </button>
                                 </div>
                             </div>
@@ -245,14 +245,14 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-safety-root-cause" id=updateSafetyRootForm name="updateSafetyRootForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Safety Root Cause <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Safety Root Cause <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                               <input id="value_new" type="text" name="value_new" class="validate">
+                               <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Safety Root Cause</label>
                                  <span id="value_newError" class="error-msg" ></span>
@@ -261,7 +261,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateSafetyRoot()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -336,21 +336,90 @@
             });
         });
       
-
-        function addSafetyRoot(){
+        var flag = false; 
+        function doValidate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   if(validate == 0){flag = true;}
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#root_causeError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#root_causeError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#value_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#value_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+    	function removeErrorMsg(){
+    		 $('#value_newError').text('');
+    		 $('#bttnUpdate').prop('disabled', false);
+    		 updateFlag = true;
+    	}
+   
+    
+        $("#addSafetyRootForm").submit(function (e) {
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
-      			document.getElementById("addSafetyRootForm").submit();	
+      			 if(flag){
+     				document.getElementById("addSafetyRootForm").submit();	
+     			 }
+     			 $(".page-loader").hide();
+     			 return false;
              }
-         }
-        function updateSafetyRoot(){
+         })
+        $("#updateSafetyRootForm").submit(function (e) {
          	 if(validator1.form()){ 
      			$(".page-loader").show();
      			$("#addUpdateModal").modal();
-     			document.getElementById("updateSafetyRootForm").submit();	
+     			 if(updateFlag){
+     				document.getElementById("updateSafetyRootForm").submit();	
+     			 }
+     			 $(".page-loader").hide();
+     			 return false;
             }
-        }
+        })
         
          var validator =  $('#addSafetyRootForm').validate({
          	 rules: {

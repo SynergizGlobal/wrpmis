@@ -124,7 +124,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${notificationTypeDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="notification_typeId${indexs.count}" value="${obj.notification_type }" />
+												<input type="hidden" id="notification_typeId${indexs.count}" value="${obj.notification_type }"  class="findLengths"/>
 												${obj.notification_type }</td>
 												<td>
 												<input type="hidden" id="notification_type_iconId${indexs.count}" value="${obj.notification_type_icon }" />
@@ -147,7 +147,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${notificationTypeDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
@@ -199,7 +199,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m6">
-                                <input id="notification_type" type="text" name="notification_type" class="validate">
+                                <input id="notification_type" type="text" name="notification_type" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="notification_type">Notification Type</label>
                                 <span id="notification_typeError" class="error-msg" ></span>
                             </div>
@@ -212,7 +212,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addNotificationType()" class="btn waves-effect waves-light bg-m">Add </button>
+                                    <button style="width: 100%;" id="bttn" class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
                               <div class="col s12 m6">
@@ -237,14 +237,14 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-notification-type" id="updateNotificationTypeForm" name="updateNotificationTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Update Notification Type <span class="right modal-action modal-close"><span
+                <h5 class="modal-header">Update Notification Type <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m6">
-                               <input id="value_new" type="text" name="value_new" class="validate">
+                               <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Notification Type</label>
                                 <span id="value_newError" class="error-msg" ></span>
@@ -258,7 +258,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateNotificationType()" class="btn waves-effect waves-light bg-m">Update </button>
+                                    <button style="width: 100%;" id="bttnUpdate" class="btn waves-effect waves-light bg-m">Update </button>
                                 </div>
                             </div>
                               <div class="col s12 m6">
@@ -317,21 +317,101 @@
                 }
             });
         });
-      function addNotificationType(){
+        var flag = false; 
+        function doValidate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   if(validate == 0){flag = true;}
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#notification_typeError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#notification_typeError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#value_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#value_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+    	function removeErrorMsg(){
+    		 $('#value_newError').text('');
+    		 $('#bttnUpdate').prop('disabled', false);
+    		 updateFlag = true;
+    	}
+   
+        $("#addProjectFileTypeForm").submit(function (e) {
+         	 if(validator.form()){ 
+     			$(".page-loader").show();
+     			$("#addUpdateModal").modal();
+     			 if(flag){
+        				document.getElementById("addProjectFileTypeForm").submit();	
+        			 }
+        			 $(".page-loader").hide();
+        			 return false;
+            }
+        })
+      $("#notificationTypeForm").submit(function (e) {
         	 if(validator.form()){ 
     			$(".page-loader").show();
     			$("#addUpdateModal").modal();
-    			document.getElementById("notificationTypeForm").submit();	
+    			 if(flag){
+     				document.getElementById("notificationTypeForm").submit();	
+     			 }
+     			 $(".page-loader").hide();
+     			 return false;
          }
-     }
+     })
       
-      function updateNotificationType(){
+      $("#updateNotificationTypeForm").submit(function (e) {
      	 if(validato1r.form()){ 
  			$(".page-loader").show();
  			$("#onlyUpdateModal").modal();
- 			document.getElementById("updateNotificationTypeForm").submit();	
+ 			 if(flag){
+ 				document.getElementById("updateNotificationTypeForm").submit();	
+ 			 }
+ 			 $(".page-loader").hide();
+ 			 return false;
       }
-  }
+  })
         var validator = $('#notificationTypeForm').validate({
          	 rules: {
          		 "notification_type": {

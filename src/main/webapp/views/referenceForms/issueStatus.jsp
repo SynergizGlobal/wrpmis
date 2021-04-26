@@ -350,6 +350,7 @@
      	   var value = value.trim();
      	   value = value.toLowerCase();
      	   var validate = $('.findLengths').length;
+     	   if(validate == 0){flag = true;}
      	   var count  = 0;
      	   var ek = $('.findLengths').map((_,el) => el.value).get();
      	   while(count < validate){

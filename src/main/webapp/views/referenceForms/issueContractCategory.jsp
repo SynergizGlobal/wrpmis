@@ -132,13 +132,13 @@
 											<tr>
 											<td>
 											<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
-												<input type="hidden" id="contract_category_fk${index.count}" value="${obj.contract_category_fk }" />
+												<input type="hidden" id="contract_category_fk${index.count}" value="${obj.contract_category_fk }" class="findLengths"/>
 												${obj.contract_category_fk }</td>
 											<td>
 											 	${obj.issue_category_fk }
-											 	<input type="hidden" id="issue_category_fk${index.count}" value="${obj.issue_category_fk }" />
+											 	<input type="hidden" id="issue_category_fk${index.count}" value="${obj.issue_category_fk }" class="findLengths2"/>
 											</td>
-										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
+										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
 									    </c:forEach>
  										
                                     </tbody>
@@ -179,7 +179,7 @@
                      
                             <div class="input-field col s12 m6">
                                 <p class="searchable_label">Contract Category</p>
-                                <select  id="contract_category_fk_text" name="contract_category_fk" class="searchable validate-dropdown">
+                                <select  id="contract_category_fk_text" name="contract_category_fk" class="searchable validate-dropdown" onchange="doValidate(this.value,null)"> 
                                 	<option value="">Select</option>
                                 	 <c:forEach var="obj" items="${contractTypeDetails }">
 			                                      <option value="${obj.contract_category_fk }">${obj.contract_category_fk }</option>
@@ -189,7 +189,7 @@
                             </div>
                             <div class="input-field col s12 m6"> 
                             	<p class="searchable_label">Issue Category</p>
-                                <select  id="issue_category_fk_text" name="issue_category_fk" class="searchable validate-dropdown">
+                                <select  id="issue_category_fk_text" name="issue_category_fk" class="searchable validate-dropdown" onchange="doValidate(null,this.value)">
                                 	<option value="">Select</option>
                                 	 <c:forEach var="obj" items="${issueCategoryDetails }">
 			                                      <option value="${obj.issue_category_fk }">${obj.issue_category_fk }</option>
@@ -197,11 +197,15 @@
                                 </select>
                                 <span id="issue_category_fkError" class="error-msg" ></span>
                             </div>
+                              <div  style="text-align:center">
+                        		 <span id="DivError" class="error-msg" ></span> 
+                       		   </div>
                         </div>
-                        <div class="row">
+                      
+                        <div >
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addIssueContractCategory()"
+                                    <button style="width: 100%;" id="bttn"
                                         class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
@@ -227,16 +231,19 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-issue-contract-category" id=updateIssueContractCategoryForm name="updateIssueContractCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Issue Contract Category <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Issue Contract Category <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                             <input type="hidden" id="id" name="id"  />
+                            <input type="hidden" id="no" name="no"  />
+                            
                             <div class="input-field col s12 m6">
+                                <input type="hidden" id="contract_caregory_old" name="contract" />
                                 <p class="searchable_label">Contract Category</p>
-                                <select class="searchable validate-dropdown" id="contract_category_text_update" name="contract_category_fk_new">
+                                <select class="searchable validate-dropdown" id="contract_category_text_update" name="contract_category_fk_new" onchange="doValidateUpdate(null,null)">
                                 	<option value="">Select</option>
                                 	<c:forEach var="obj" items="${contractTypeDetails }">
 			                                      <option value="${obj.contract_category_fk }">${obj.contract_category_fk }</option>
@@ -245,8 +252,9 @@
                                 <span id="contract_category_text_updateError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
+                                <input type="hidden" id="issue_caregory_old" name="issue" />
                             	<p class="searchable_label">Issue Category</p>
-                                <select class="searchable validate-dropdown" id="issue_category_text_update" name="issue_category_fk_new">
+                                <select class="searchable validate-dropdown" id="issue_category_text_update" name="issue_category_fk_new" onchange="doValidateUpdate(null,null)">
                                 	<option value="">Select</option>
                                 	  <c:forEach var="obj" items="${issueCategoryDetails }">
 			                                      <option value="${obj.issue_category_fk }">${obj.issue_category_fk }</option>
@@ -254,11 +262,14 @@
                                 </select>
                                 <span id="issue_category_text_updateError" class="error-msg" ></span>
                             </div>
+                            <div  style="text-align:center">
+                        		 <span id="DivUpdateError" class="error-msg" ></span> 
+                       		</div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateIssueContractCategory()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -272,6 +283,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                     <div class="col m2 hide-on-small"></div>
                 </div>
@@ -330,22 +342,100 @@
                 }
             });
         });
-      
-        function addIssueContractCategory(){
+       
+        var flag = false; 
+        function doValidate(value,value1){
+           var value = $('#contract_category_fk_text').val();
+           var value1 = $('#issue_category_fk_text').val();
+     	   var print_value = value;	
+     	   var print_value2 = value1;	
+     	   var validate = $('.findLengths').length;
+     	   if(validate == 0){flag = true;}
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths2').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		 	 var findVal = ek[count];
+     			 var findVal2 = ak[count];
+     		   if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
+     			   $('#DivError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#DivError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value,value1){
+           var value = $('#contract_category_text_update').val();
+           var value1 = $('#issue_category_text_update').val();
+     	   var print_value = value;	
+     	   var print_value2 = value1;	
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var no = $('#no').val()
+     	   var valueOld2 = $('#issue_category_fk'+no).val();
+           var valueOld = $('#contract_category_fk'+no).val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths2').map((_,el) => el.value).get();
+     	  /*  var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   var s1 = Object.keys(ak).find(key => ak[key] === valueOld2);
+     	   delete ek[s];
+     	   delete ak[s1]; */
+     	   while(count < validate){
+     		  var findVal = ek[count];
+  			  var findVal2 = ak[count];
+  			  if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
+  				   $('#DivUpdateError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#DivUpdateError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+        function removeErrorMsg(){
+   		 $('#DivUpdateError').text('');
+   		 $('#bttnUpdate').prop('disabled', false);
+   		 updateFlag = true;
+   		}
+        
+       
+         $("#addIssueContractCategoryForm").submit(function (e) {
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
-      			document.getElementById("addIssueContractCategoryForm").submit();	
+      			 if(flag){
+      				document.getElementById("addIssueContractCategoryForm").submit();	
+      			 }
+      			 $(".page-loader").hide();
+      			 return false;
            }
-       }
+       })
        
-      function updateIssueContractCategory(){
+         $("#updateIssueContractCategoryForm").submit(function (e) {
         	 if(validator1.form()){ 
     			$(".page-loader").show();
     			$("#onlyUpdateModal").modal();
-    			document.getElementById("updateIssueContractCategoryForm").submit();	
+    			 if(updateFlag){
+      				document.getElementById("updateIssueContractCategoryForm").submit();	
+      			 }
+      			 $(".page-loader").hide();
+      			 return false;
          }
-     }
+     })
       
       
         var validator = $('#addIssueContractCategoryForm').validate({
@@ -422,11 +512,15 @@
          $('#onlyUpdateModal').modal('open');
          $('#issue_category_text_update').val($.trim(issue_category))
          $('#contract_category_text_update').val($.trim(contract_category))
+       
+         $('#issue_category_old').val($.trim(issue_category));
+         $('#contract_category_old').val($.trim(contract_category));
          var s  = $('#id').val($.trim(id))
+         var s1  = $('#no').val($.trim(no))
          $('#onlyUpdateModal #issue_category_text_update').val($.trim(issue_category)).focus();
          $('#onlyUpdateModal #contract_category_text_update').val($.trim(contract_category)).focus();
          $('select[name^="issue_category_fk_new"] option[value="'+ $.trim(issue_category) +'"]').attr("selected","selected");
-         $('select[name^="contract_category_fk_new"] option[value="'+ contract_category +'"]').attr("selected","selected");
+         $('select[name^="contract_category_fk_new"] option[value="'+ $.trim(contract_category) +'"]').attr("selected","selected");
 	     $('.searchable').select2();
      }
 	  

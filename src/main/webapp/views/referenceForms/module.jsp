@@ -123,7 +123,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${moduleDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="module_nameId${indexs.count}" value="${obj.module_name }" />
+												<input type="hidden" id="module_nameId${indexs.count}" value="${obj.module_name }"  class="findLengths"/>
 												${obj.module_name }</td>
 											<c:forEach var="tObj" items="${moduleDetails.tablesList}" varStatus="index">
 											 
@@ -144,7 +144,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${moduleDetails.dList}" varStatus="indexx"> 
 												<c:choose>  
 												    <c:when test="${oSbj.module_name eq obj.module_name }"> 
@@ -196,7 +196,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="module_text" name="module_name" type="text" class="validate">
+                                <input id="module_text" name="module_name" type="text" class="validate"  onkeyup="doValidate(this.value)">
                                 <label for="module_text">Module</label>
                                 <span id="module_nameError" class="error-msg" ></span>
                             </div>
@@ -204,7 +204,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addModule();"
+                                    <button style="width: 100%;" id="bttn" 
                                         class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
@@ -230,14 +230,14 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-module" id=updateModuleForm name="updateModuleForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Module <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Module <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Module</label>
                                 <span id="value_newError" class="error-msg" ></span>
@@ -246,7 +246,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateModule()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -326,22 +326,88 @@
             });
         });
        
-
-
-        function addModule(){
+        var flag = false; 
+        function doValidate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#module_nameError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#module_nameError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#value_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#value_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+    	function removeErrorMsg(){
+    		 $('#value_newError').text('');
+    		 $('#bttnUpdate').prop('disabled', false);
+    		 updateFlag = true;
+    	}
+    	
+      $("#addModuleForm").submit(function (e) {
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
-      			document.getElementById("addModuleForm").submit();	
+      			 if(flag){
+       				document.getElementById("addModuleForm").submit();	
+       			 }
+       			 $(".page-loader").hide();
+       			 return false;
              }
-         }
-        function updateModule(){
+         })
+      $("#updateModuleForm").submit(function (e) {
          	 if(validator1.form()){ 
      			$(".page-loader").show();
-     			$("#addUpdateModal").modal();
-     			document.getElementById("updateModuleForm").submit();	
+     			$("#onlyUpdateModal").modal();
+     			 if(updateFlag){
+       				document.getElementById("updateModuleForm").submit();	
+       			 }
+       			 $(".page-loader").hide();
+       			 return false;
             }
-        }
+        })
          var validator =  $('#addModuleForm').validate({
          	 rules: {
          		 "module_name": {

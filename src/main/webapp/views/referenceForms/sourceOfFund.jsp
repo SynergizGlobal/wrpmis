@@ -133,7 +133,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${sourceOfFundsDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="source_of_fundsId${indexs.count}" value="${obj.source_of_funds }" />
+												<input type="hidden" id="source_of_fundsId${indexs.count}" value="${obj.source_of_funds }" class="findLengths"/>
 												${obj.source_of_funds }</td>
 											<c:forEach var="tObj" items="${sourceOfFundsDetails.tablesList}" varStatus="index">
 												<td><c:forEach var="cObj" items="${sourceOfFundsDetails.countList}" >
@@ -152,7 +152,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${sourceOfFundsDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
@@ -204,7 +204,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="source_of_fund_text" name="source_of_funds" type="text" class="validate">
+                                <input id="source_of_fund_text" name="source_of_funds" type="text" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="source_of_fund_text">Source of Fund</label>
                                 <span id="source_of_fundsError" class="error-msg" ></span>
                             </div>
@@ -212,7 +212,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addSourceOfFund()"
+                                    <button style="width: 100%;" id="bttn" 
                                         class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
@@ -234,14 +234,14 @@
         <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-source-of-fund" id=updateSourceOfFundForm name="updateSourceOfFundForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Source of Fund <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Source of Fund <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
-                                <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Source of Fund</label>
                                 <span id="value_newError" class="error-msg" ></span>
@@ -250,7 +250,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateSourceOfFund()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -332,21 +332,92 @@
                 }
             });
         });
-       
-      function addSourceOfFund(){
+        var flag = false; 
+        function doValidate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   value = value.toLowerCase();
+     	   var validate = $('.findLengths').length;
+     	   if(validate == 0){flag = true;}
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   findVal = findVal.toLowerCase();
+     		   if(findVal == value){
+     			   $('#source_of_fundsError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#source_of_fundsError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value){
+     	   var print_value = value;	
+     	   var value = value.trim();
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var valueOld = $('#value_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   delete ek[s];
+     	   while(count < validate){
+     		   var findVal = ek[count];
+     		   if(findVal != null){ findVal = findVal.toLowerCase();}
+     		   if(findVal == value){
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#value_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+    	function removeErrorMsg(){
+    		 $('#value_newError').text('');
+    		 $('#bttnUpdate').prop('disabled', false);
+    		 updateFlag = true;
+    	}
+   
+     
+     $("#addSourceOfFundForm").submit(function (e) {
           	 if(validator.form()){ 
       			$(".page-loader").show();
       			$("#addUpdateModal").modal();
       			document.getElementById("addSourceOfFundForm").submit();	
+      			 if(flag){
+     				document.getElementById("addSourceOfFundForm").submit();	
+     			 }
+     			 $(".page-loader").hide();
+     			 return false;
           	}
-       }
-      function updateSourceOfFund(){
+       })
+     $("#updateSourceOfFundForm").submit(function (e) {
        	 if(validator1.form()){ 
    			$(".page-loader").show();
    			$("#onlyUpdateModal").modal();
    			document.getElementById("updateSourceOfFundForm").submit();	
+   		 	if(updateFlag){
+					document.getElementById("updateSourceOfFundForm").submit();	
+				 }
+				 $(".page-loader").hide();
+				 return false;
        	}
-    }
+    })
       var validator = $('#addSourceOfFundForm').validate({
       	 rules: {
       		 "source_of_funds": {

@@ -156,7 +156,7 @@ public class RailwayDaoImpl implements RailwayDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE railway SET `railway_name`= :railway_name_new WHERE `railway_id`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE railway SET railway_id= :value_new   ,`railway_name`= :railway_name_new WHERE `railway_id`= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			

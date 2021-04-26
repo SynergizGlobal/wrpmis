@@ -140,9 +140,9 @@
                                     <!-- <input id="title" name="title" type="text" class="validate">
                                     <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span> -->
-                                    
                                 	<p class="searchable_label">Short Description <span class="required">*</span></p> 
-                                	<input list="titles" name="title" id="title">
+                                	<input list="titles" name="title" id="title" autocomplete="off">
+                                	<span id="titleError" class="error-msg" ></span>
 									<datalist id="titles">
 									    <c:forEach var="obj" items="${issueTitlesList }">
 									        <option value="${obj.short_description }"></option>
@@ -154,7 +154,7 @@
                                             <option value="${obj.short_description }" >${obj.short_description}</option>
                                         </c:forEach>
                                     </select> --%>
-                                    <span id="titleError" class="error-msg" ></span>
+                                    
                                     
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -536,9 +536,10 @@
          
          function getIssueTitlesList(){
         	 var category_fk = $("#category_fk").val();
-        	 
 	       	 $(".page-loader").show(); 
-     		 $("#title option:not(:first)").remove();
+     		 //$("#title option:not(:first)").remove();
+     		 $("#title").val('');
+     		 $("#titles").html('');
              var myParams = { category_fk : category_fk };
              $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getIssueTitlesListForIssuesForm",
@@ -546,7 +547,7 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                              $("#title").append('<option value="' + val.short_description + '">' + $.trim(val.short_description)+ '</option>');
+                              $("#titles").append('<option value="' + val.short_description + '">' + $.trim(val.short_description)+ '</option>');
                            });
                        }
                        $('.searchable').select2();

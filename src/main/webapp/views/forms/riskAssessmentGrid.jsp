@@ -395,6 +395,11 @@
 	                  $("#uploadRisk").removeClass('disabled');
 	              }
 	          });
+	          var sub_work_from_alert = "${sub_work}";
+	          if($.trim(sub_work_from_alert) != ''){
+	        	  $("#uploadRiskBtn").removeClass('disabled');
+	          }
+	          
 	          getSubWorksFilterList();
 	          getRiskUploadsList('');
 	      });

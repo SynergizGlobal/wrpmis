@@ -139,7 +139,7 @@
                                 <c:if test="${empty fob.fob_id }">
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="fob_id" name="fob_id" type="text" class="validate">
-	                                     <label for="fob_name">FOB ID <span class="required">*</span></label>
+	                                     <label for="fob_id">FOB ID <span class="required">*</span></label>
 	                                    <span id="fob_idError" class="error-msg" ></span>
 	                                </div>
                                 </c:if>
@@ -154,7 +154,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="fob_name" name="fob_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${fob.fob_name }" style="margin-top: 5px;">
+                                    <input id="fob_name" name="fob_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${fob.fob_name }" >
                                     <label for="fob_name">FOB Name <span class="required">*</span></label>
                                     <span id="fob_nameError" class="error-msg" ></span>
                                 </div>

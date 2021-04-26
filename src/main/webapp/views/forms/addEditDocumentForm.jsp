@@ -215,7 +215,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field" >
                                     <input id="document_name" name="document_name" type="text" class="validate" value="${documentDetails.document_name }">
-                                    <label for="doc_name" style="margin-top:5px">Document Name</label>
+                                    <label for="document_name" style="margin-top:5px">Document Name</label>
                                 </div>
                             </div>
                         </div>

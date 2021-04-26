@@ -353,7 +353,7 @@
 											<table class="mdl-data-table">
 												<tbody>
 													<tr>
-														<td colspan="6" style="text-align: right;"><a
+														<td colspan="6" ><a
 															type="button"
 															class="btn waves-effect waves-light bg-m t-c "
 															onclick="addRiskRow()"> <i

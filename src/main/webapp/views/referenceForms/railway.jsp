@@ -354,8 +354,8 @@
      	   while(count < validate){
      		 	 var findVal = ek[count];
      			 var findVal2 = ak[count];
-     			findVal = findVal.toLowerCase();
-     			findVal2 = findVal2.toLowerCase();
+     			if(findVal != null){ findVal = findVal.toLowerCase(); }
+     			if(findVal2 != null){ findVal2 = findVal2.toLowerCase(); }
      		   if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
      			   $('#DivError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' alreday exists').css('color', 'red');
    				   $('#railway_nameError').text('');

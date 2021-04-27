@@ -318,12 +318,14 @@
     	   var print_value = value;	
     	   var value = value.trim();
     	   value = value.toLowerCase();
+    	   if(validate == 0){flag = true;}
     	   var validate = $('.findLengths').length;
     	   var count  = 0;
     	   var ek = $('.findLengths').map((_,el) => el.value).get();
     	   while(count < validate){
     		   var findVal = ek[count];
-    		   findVal = findVal.toLowerCase();
+    		   if(findVal == null){ findVal = findVal.toLowerCase(); }
+    		  
     		   if(findVal == value){
     			   $('#general_statusError').text(print_value+' alreday exists').css('color', 'red');
     			   $('#bttn').prop('disabled', true);

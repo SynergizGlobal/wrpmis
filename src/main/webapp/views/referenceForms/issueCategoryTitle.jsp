@@ -131,11 +131,11 @@
 											<tr>
 											<td>
 											 	<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
-												<input type="hidden" id="issue_category_fk${index.count}" value="${obj.issue_category_fk }" />
+												<input type="hidden" id="issue_category_fk${index.count}" value="${obj.issue_category_fk }" class="findLengths"/>
 												${obj.issue_category_fk }</td>
 											<td>
 											 	${obj.short_description }
-											 	<input type="hidden" id="short_description${index.count}" value="${obj.short_description }" />
+											 	<input type="hidden" id="short_description${index.count}" value="${obj.short_description }" class="findLengths2"/>
 											</td>
 												
 										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
@@ -167,7 +167,7 @@
                                 <!-- <input id="issue_category_text" type="text" class="validate">
                                 <label for="issue_category_text">Issue Category</label> -->
                                 <p class="searchable_label">Issue Category </p>
-                                <select name="issue_category_fk" id="issue_category_text" class="searchable validate-dropdown">
+                                <select name="issue_category_fk" id="issue_category_text" class="searchable validate-dropdown" onchange="doValidate(this.value,null)">
                                     <option value="">Select</option>
 	                                 <c:forEach var="obj" items="${issueCategoryDetails }">
 			                                      <option value="${obj.issue_category_fk }">${obj.issue_category_fk }</option>
@@ -176,16 +176,19 @@
                                  <span id="issue_category_fkError" class="error-msg" ></span>
                             </div>                            
                             <div class="input-field col s12 m6">
-                                 <input name="short_description" id="short_description" type="text"> 
+                                 <input name="short_description" id="short_description" type="text" onkeyup="doValidate(null,this.value)"> 
                                 <!-- <textarea name="short_description" id="short_description" class="materialize-textarea"></textarea> -->
                                 <label for="short_description">Short Description</label>
                                  <span id="short_descriptionError" class="error-msg" ></span>
                             </div>
+                            <div  style="text-align:center">
+                        		 <span id="DivError" class="error-msg" ></span> 
+                          </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" class="btn waves-effect waves-light bg-m " onclick="addIssueCategoryTitle();">Add</button>
+                                    <button style="width: 100%;" class="btn waves-effect waves-light bg-m " id="bttn">Add</button>
                                 </div>
                             </div>
                             <div class="col s12 m6">
@@ -196,6 +199,7 @@
                                 </div>
                             </div>
                         </div>
+                          
                     </div>
                     <div class="col m2 hide-on-small"></div>
                 </div>
@@ -205,16 +209,18 @@
     <div id="onlyUpdateModal" class="modal">
 		<form action="<%=request.getContextPath() %>/update-issue-category-title" id="updateIssueCategoryTitleForm" name="updateIssueCategoryTitleForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Update Issue Category Title <span class="right modal-action modal-close"><span
+                <h5 class="modal-header">Update Issue Category Title <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
                         	<input type="hidden" id="id" name="id"  />
+                        	<input type="hidden" id="no" name="no"  />
                             <div class="input-field col s12 m6">
+                            	<input name="update_issue_category_update" id="update_issue_category_update" type="hidden">
                                 <p class="searchable_label">Issue Category </p>
-                                <select  id="update_issue_category_text" name="issue_category_fk_new"
+                                <select  id="update_issue_category_text" name="issue_category_fk_new" onchange="doValidateUpdate(null,null)"
                                     class="searchable validate-dropdown">
                                     <option value="">Select</option>
 	                                 <c:forEach var="obj" items="${issueCategoryDetails }">
@@ -224,15 +230,19 @@
                                  <span id="issue_category_fkUpdateError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input name="short_description_new" id="short_description_new" type="text">
+                                <input name="short_description_new" id="short_description_new" type="text" onkeyup="doValidateUpdate(null,null)">
+                                <input name="short_description_new_fk" id="short_description_new_fk" type="hidden">
                                 <label for="short_description_new">Short Description</label>
                                  <span id="short_description_newError" class="error-msg" ></span>
                             </div>
+                             <div  style="text-align:center">
+                        		 <span id="DivUpdateError" class="error-msg" ></span> 
+                    		 </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" class="btn waves-effect waves-light bg-m " onclick="updateIssueCategoryTitle();">Update</button>
+                                    <button style="width: 100%;" class="btn waves-effect waves-light bg-m " id="bttnUpdate">Update</button>
                                 </div>
                             </div>
                             <div class="col s12 m6">
@@ -243,6 +253,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col m2 hide-on-small"></div>
                 </div>
             </div>
@@ -296,7 +307,116 @@
                 }
             });
         });
-
+        var flag = false; 
+        function doValidate(value,value1){
+           var value = $('#issue_category_text').val();
+           var value1 = $('#short_description').val();
+           var print_value = value;	
+     	   var print_value2 = value1;	
+           var value = value.trim();
+           var value1 = value1.trim();
+           value = value.toLowerCase();
+           value1 = value1.toLowerCase();
+     	  
+     	   var validate = $('.findLengths').length;
+     	   if(validate == 0){flag = true;}
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths2').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		 	 var findVal = ek[count];
+     			 var findVal2 = ak[count];
+     			if(findVal != null){ findVal = findVal.toLowerCase(); }
+     			if(findVal2 != null){ findVal2 = findVal2.toLowerCase(); }
+     		   if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
+     			   $('#DivError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#DivError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value,value1){
+           var value = $('#update_issue_category_text').val();
+           var value1 = $('#short_description_new').val();
+           value = value.trim();
+           value1 = value1.trim();
+         
+     	   var print_value = value;	
+     	   var print_value2 = value1;	
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var no = $('#no').val()
+     	   var valueOld2 = $('#update_issue_category_update'+no).val();
+           var valueOld = $('#short_description_new_fk'+no).val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths2').map((_,el) => el.value).get();
+     	  /*  var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   var s1 = Object.keys(ak).find(key => ak[key] === valueOld2);
+     	  
+     	   delete ek[s];
+     	   delete ak[s1]; */
+     	   value = value.toLowerCase();
+           value1 = value1.toLowerCase();
+     	   while(count < validate){
+     		  var findVal = ek[count];
+  			  var findVal2 = ak[count];
+  			  if(findVal != null){ findVal = findVal.toLowerCase(); }
+ 			  if(findVal2 != null){ findVal2 = findVal2.toLowerCase(); }
+  			  if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
+  				   $('#DivUpdateError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#DivUpdateError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+        function removeErrorMsg(){
+   		 $('#DivUpdateError').text('');
+   		 $('#bttnUpdate').prop('disabled', false);
+   		 updateFlag = true;
+   		}
+      
+        $("#IssueCategoryTitle").submit(function (e) {
+         	 if(validator.form()){ 
+     			$(".page-loader").show();
+     			$("#addUpdateModal").modal();
+     			document.getElementById("IssueCategoryTitle").submit();	
+     			 if(flag){
+       				document.getElementById("IssueCategoryTitle").submit();	
+       			 }
+       			 $(".page-loader").hide();
+       			 return false;
+         	}
+      })
+        $("#updateIssueCategoryTitleForm").submit(function (e) {
+         	 if(validator1.form()){ 
+     			$(".page-loader").show();
+     			$("#onlyUpdateModal").modal();
+     			document.getElementById("updateIssueCategoryTitleForm").submit();
+     			 if(updateFlag){
+       				document.getElementById("updateIssueCategoryTitleForm").submit();	
+       			 }
+       			 $(".page-loader").hide();
+       			 return false;
+         	}
+      })
+        
+    
         var validator = $('#IssueCategoryTitle').validate({
             ignore: ":hidden:not(.validate-dropdown)",
           	 rules: {
@@ -373,23 +493,7 @@
             $('select[name^="issue_category_fk_new"] option[value="'+ $.trim(issue_category) +'"]').attr("selected","selected");
    	     $('.searchable').select2();
         }
-        
-        function addIssueCategoryTitle(){
-         	 if(validator.form()){ 
-     			$(".page-loader").show();
-     			$("#addUpdateModal").modal();
-     			document.getElementById("IssueCategoryTitle").submit();	
-         	}
-      }
-        function updateIssueCategoryTitle(){
-         	 if(validator1.form()){ 
-     			$(".page-loader").show();
-     			$("#onlyUpdateModal").modal();
-     			document.getElementById("updateIssueCategoryTitleForm").submit();	
-         	}
-      }
-        
-    
+     
        function deleteRow(id){
    	  	  $("#idNo").val(id);
    	  	  showCancelMessage(); 

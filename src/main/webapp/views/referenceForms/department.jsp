@@ -123,15 +123,15 @@
                                     <tbody>
 										<c:forEach var="obj" items="${departmentDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="departmentId${indexs.count}" value="${obj.department }" />
+												<input type="hidden" id="departmentId${indexs.count}" value="${obj.department }" class="findLengths"/>
 												${obj.department }
 											</td>
 											<td>
-												<input type="hidden" id="departmentName${indexs.count}" value="${obj.department_name }" />
+												<input type="hidden" id="departmentName${indexs.count}" value="${obj.department_name }" class="findLengths1"/>
 												${obj.department_name }
 											</td>
 											<td>
-												<input type="hidden" id="departmentCode${indexs.count}" value="${obj.contract_id_code }" />
+												<input type="hidden" id="departmentCode${indexs.count}" value="${obj.contract_id_code }" class="findLengths2"/>
 												${obj.contract_id_code }
 											</td>
 											<c:forEach var="tObj" items="${departmentDetails.tablesList}" varStatus="index">
@@ -153,7 +153,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${departmentDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
@@ -204,26 +204,32 @@
                     <div class="col m8 s12">
                         <div class="row no-mar">
                             <div class="input-field col s12 m6">
-                                <input id="department_id" type="text" name="department" class="validate">
+                                <input id="department_id" type="text" name="department" class="validate" onkeyup="doValidate(this.value,null,null)">
                                 <label for="department_id">Department id</label>
                                 <span id="departmentError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="department_name" type="text" name="department_name" class="validate">
+                                <input id="department_name" type="text" name="department_name" class="validate" onkeyup="doValidate(null,this.value,null)">
                                 <label for="department_name">Department Name</label>
                                 <span id="department_nameError" class="error-msg" ></span>
                             </div>
                             </div><div class="row">
                             <div class="input-field col s12 m6">
-                                <input id="department_code" type="text" name="contract_id_code" class="validate">
+                                <input id="department_code" type="text" name="contract_id_code" class="validate"onkeyup="doValidate(null,null,this.value)">
                                 <label for="department_code">Department code</label>
                                 <span id="contract_id_codeError" class="error-msg" ></span>
                             </div>
+                          
                         </div>
+                         <div class="row">
+                          <div  style="text-align:center">
+                        		 <span id="DivError" class="error-msg" ></span> 
+                       		</div>
+                       	</div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addDepartment();" class="btn waves-effect waves-light bg-m">Add</button>
+                                    <button style="width: 100%;" id="bttn" class="btn waves-effect waves-light bg-m">Add</button>
                                 </div>
                             </div>
                             <div class="col s12 m6">
@@ -248,20 +254,20 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-department" id=updateDepartmentForm name="updateDepartmentForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Department <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Department <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
                             <div class="input-field col s12 m6">
-                                <input id="department_new" type="text" name="department_new" class="validate">
+                                <input id="department_new" type="text" name="department_new" class="validate" onkeyup="doValidateUpdate(null,null,null)">
                                 <input id="department_old" type="hidden" name="department_old"  >
                                 <label for="department_id">Department id</label>
                                 <span id="department_newError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="department_name_new" type="text" name="department_name_new" class="validate">
+                                <input id="department_name_new" type="text" name="department_name_new" class="validate" onkeyup="doValidateUpdate(null,null,null)">
                                 <label for="department_name_new">Department Name</label>
                                 <input id="department_name_old" type="hidden" name="department_name_old"  >
                                 <span id=department_name_newError class="error-msg" ></span>
@@ -269,16 +275,22 @@
                             </div>
                             <div class="row">
                             <div class="input-field col s12 m6">
-                                <input id="department_code_new" type="text" name="department_code_new" class="validate">
+                                <input id="department_code_new" type="text" name="department_code_new" class="validate" onkeyup="doValidateUpdate(null,null,null)">
                                 <input id="department_code_old" type="hidden" name="department_code_old"  >
                                 <label for="contract_id_code_new">Department code</label>
                                 <span id="department_code_newError" class="error-msg" ></span>
                             </div>
+                            
                         </div>
+                         <div class="row">
+                         <div  style="text-align:center">
+                        		 <span id="DivUpdateError" class="error-msg" ></span> 
+                       		</div>
+                       	</div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateDepartment()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -335,7 +347,7 @@
                         className: 'mdl-data-table__cell--non-numeric',
                         targets: 'no-sort', orderable: false,
                     },
-                    { "width": "20px", "targets": [9] },
+                    { "width": "20px", "targets": [8] },
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,
@@ -347,22 +359,203 @@
                 }
             });
         });
-
-     function addDepartment(){
+        var flag = false; 
+        function doValidate(value,value1,value2){
+           var value = $('#department_id').val();
+           var value1 = $('#department_name').val();
+           var value2 = $('#department_code').val();
+           value = value.trim();
+           value1 = value1.trim();
+           value2 = value2.trim();
+           var print_value = value;	
+     	   var print_value2 = value1;
+     	   var print_value3 = value2;
+           var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths1').map((_,el) => el.value).get();
+     	   var bk = $('.findLengths2').map((_,el) => el.value).get();
+           var s = Object.keys(ek).find(key => ek[key] === value);
+           if(value != null){ value = value.toLowerCase();}
+           if(value1 != null){ value1 = value1.toLowerCase();}
+           if(value2 != null){ value2 = value2.toLowerCase();}
+         
+     	  
+     	   var validate = $('.findLengths').length;
+     	   if(validate == 0){flag = true;}
+     	   var count  = 0;
+     	  
+     	   while(count < validate){
+     		 	 var findVal = ek[count];
+     			 var findVal2 = ak[count];
+     			 var findVal3 = bk[count];
+     			if(findVal != null){ findVal = findVal.toLowerCase(); }
+     			if(findVal2 != null){ findVal2 = findVal2.toLowerCase(); }
+     			if(findVal3 != null){ findVal3 = findVal3.toLowerCase(); }
+     			
+     		   if((findVal == value && value != null) && (findVal2 == value1 && value1 != null) && (findVal3 == value2 && value2 != null)){
+     			   $('#DivError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' & '+'" '+print_value3+' "'+' alreday exists').css('color', 'red');
+   				   $('#departmentError').text('');
+   				   $('#department_nameError').text('');
+   				   $('#contract_id_codeError').text('');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			  if(findVal == value ){
+     				 $('#bttn').prop('disabled', true);
+     				 $('#DivError').text('');
+     				 $('#departmentError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal2 != value1 ){$('#department_nameError').text('');}else{ $('#department_nameError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+     				 if(findVal3 != value2 ){$('#contract_id_codeError').text('');}else{$('#contract_id_codeError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');}
+     				 flag = false;
+      			     return false;
+     			  }else if(findVal2 == value1 ){
+     				 $('#bttn').prop('disabled', true);
+     				 $('#DivError').text('');
+     				 $('#department_nameError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal != value ){$('#departmentError').text('');}else{ $('#departmentError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+     				 if(findVal3 != value2 ){$('#contract_id_codeError').text('');}else{ $('#contract_id_codeError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');}
+     				 flag = false;
+      			     return false;
+     			  }else if(findVal3 == value2 ){
+     				 $('#bttn').prop('disabled', true);
+     				 $('#DivError').text('');
+     				 $('#contract_id_codeError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal2 != value1 ){$('#department_nameError').text('');}else{ $('#department_nameError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+     				 if(findVal != value ){$('#departmentError').text('');}else{ $('#departmentError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+     				 flag = false;
+      			     return false;
+     			  }else{
+        			   $('#DivError').text('');
+        			   $('#departmentError').text('');
+        			   $('#department_nameError').text('');
+        			   $('#contract_id_codeError').text('');
+        			   $('#bttn').prop('disabled', false); 
+        			   flag = true;
+     			  }
+     		
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value,value1,value2){
+           var value = $('#department_new').val();
+           var value1 = $('#department_name_new').val();
+           var value2 = $('#department_code_new').val();
+           value = value.trim();
+           value1 = value1.trim();
+           value2 = value2.trim();
+     	   var print_value = value;	
+     	   var print_value2 = value1;	
+     	   var print_value3 = value2;	
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var no = $('#no').val()
+     	   var valueOld  = $('#department_old').val()
+           var valueOld2 = $('#department_name_old').val()
+           var valueOld3 = $('#department_code_old').val()
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths1').map((_,el) => el.value).get();
+     	   var bk = $('.findLengths2').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   value1 = value1.toLowerCase();
+     	   value2 = value2.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   var s1 = Object.keys(ak).find(key => ak[key] === valueOld2);
+     	   var s2 = Object.keys(bk).find(key => bk[key] === valueOld3);
+     	   delete ek[s];
+     	   delete ak[s1];
+     	   delete bk[s2];
+     	   while(count < validate){
+     		  var findVal = ek[count];
+  			  var findVal2 = ak[count];
+  			  var findVal3 = bk[count];
+  			 if(findVal != null){ findVal = findVal.toLowerCase();}
+  			 if(findVal2 != null){ findVal2 = findVal2.toLowerCase();}
+  			 if(findVal3 != null){ findVal3 = findVal3.toLowerCase();}
+   		     if((findVal == value && value != null) && (findVal2 == value1 && value1 != null) && (findVal3 == value2 && value2 != null)){
+  				   $('#DivUpdateError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' & '+'" '+print_value3+' "'+' alreday exists').css('color', 'red');
+  				   $('#department_newError').text('');
+ 			   	   $('#department_name_newError').text('');
+ 			   	   $('#department_code_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			  if(findVal == value ){
+      				 $('#bttnUpdate').prop('disabled', true);
+      				 $('#DivUpdateError').text('');
+      				 $('#department_newError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');
+      				 if(findVal2 != value1 ){$('#department_nameError').text('');}else{ $('#department_nameError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+     				 if(findVal3 != value2 ){$('#department_code_newError').text('');}else{ $('#department_code_newError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');}
+     				 
+      				 updateFlag = false; 
+      				 $('#bttnUpdate').prop('disabled', true);
+      				 return false;
+     			 }else if(findVal2 == value1 ){
+     				 $('#DivUpdateError').text('');
+     				 $('#department_name_newError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal != value ){$('#department_newError').text('');}else{ $('#department_newError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+     				 if(findVal3 != value2 ){$('#department_code_newError').text('');}else{ $('#department_code_newError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');}
+     				 updateFlag = false;
+     				 $('#bttnUpdate').prop('disabled', true);
+     				 return false;
+     			  }else if(findVal3 == value2 ){
+     				 $('#DivUpdateError').text('');
+     				 $('#department_code_newError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal2 != value1 ){$('#department_name_newError').text('');}else{ $('#department_name_newError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+     				 if(findVal != value ){$('#department_newError').text('');}else{ $('#department_newError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+     				 updateFlag = false;
+     				$('#bttnUpdate').prop('disabled', true);
+     				return false;
+     			  }else{
+       			       $('#DivUpdateError').text('');
+       			       $('#department_newError').text('');
+       			   	   $('#department_name_newError').text('');
+       			   	   $('#department_code_newError').text('');
+        			   $('#bttnUpdate').prop('disabled', false);
+        			   updateFlag = true;
+        			   }
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+        function removeErrorMsg(){
+   		 $('#DivUpdateError').text('');
+   		 $('#department_newError').text('');
+   		 $('#department_name_newError').text('');
+   		 $('#department_code_newError').text('');
+   		 $('#bttnUpdate').prop('disabled', false);
+   		 updateFlag = true;
+   		}
+      
+    
+    $("#addDepartmentForm").submit(function (e) {
        	 if(validator.form()){ 
    			$(".page-loader").show();
    			$("#addUpdateModal").modal();
-   			document.getElementById("addDepartmentForm").submit();	
+   			if(flag){
+  				document.getElementById("addDepartmentForm").submit();	
+  			 }
+  			 $(".page-loader").hide();
+  			 return false;
           }
-      }
+      })
       
-     function updateDepartment(){
+    $("#updateDepartmentForm").submit(function (e) {
        	 if(validator1.form()){ 
    			$(".page-loader").show();
    			$("#addUpdateModal").modal();
-   			document.getElementById("updateDepartmentForm").submit();	
+   			if(updateFlag){
+  				document.getElementById("updateDepartmentForm").submit();	
+  			 }
+  			 $(".page-loader").hide();
+  			 return false;
           }
-      }
+      })
       
      
       var validator =  $('#addDepartmentForm').validate({

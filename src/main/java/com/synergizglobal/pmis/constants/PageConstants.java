@@ -238,6 +238,8 @@ public class PageConstants {
 
 	public static final String issueOtherOrganization = "referenceForms/issueOtherOrganization"; 
 	
+	public static final String issueFileType = "referenceForms/issueFileType";    
+	
 	
 }
 

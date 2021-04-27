@@ -137,13 +137,13 @@
                                         </tr>
                                     </thead>
                                    <tbody>
-										<c:forEach var="obj" items="${projectFileType}" varStatus="index">
+										<c:forEach var="obj" items="${issueFileType}" varStatus="index">
 											<tr>
 											<td>
 											<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
 												<input type="hidden" id="issue_file_type${index.count}" value="${obj.issue_file_type }"  class="findLengths"/>
 												${obj.issue_file_type }</td>
-										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
+										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.issue_file_type }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
 									    </c:forEach>
  										
                                     </tbody>
@@ -173,7 +173,7 @@
 	</div>
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-project-file-type" id="addIssueFileTypeForm" name="addIssueFileTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-issue-file-type" id="addIssueFileTypeForm" name="addIssueFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header ">Add Issue File Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -199,7 +199,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/project-file-type"
+                                        <a href="<%=request.getContextPath()%>/issue-file-type"
 									  class="btn waves-effect waves-light bg-s modal-action modal-close " style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -213,7 +213,7 @@
         </form>
     </div>
  <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-project-file-type" id=updateIssueFileTypeForm name="id=updateIssueFileTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-issue-file-type" id=updateIssueFileTypeForm name="id=updateIssueFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header bg-m">Update Issue File Type <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
@@ -241,7 +241,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/project-file-type"
+                                        <a href="<%=request.getContextPath()%>/issue-file-type"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -257,7 +257,7 @@
 
     <!-- footer  -->
  	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="id" id="idNo" />
+    	<input type="hidden" name="issue_file_type" id="idNo" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -421,8 +421,6 @@
 
            function updateRow(no) {
        	      var issue_file_type = $('#issue_file_type'+no).val();
-       	  	  var id = $('#id'+no).val();
-       	      $('#id').val($.trim(id))
        	      $('#value_old').val($.trim(issue_file_type))
        	      $('#onlyUpdateModal').modal('open');
        	      $('#onlyUpdateModal #value_new').val($.trim(issue_file_type)).focus();
@@ -449,7 +447,7 @@
        		            if (isConfirm) {
        		               // swal("Deleted!", "Record has been deleted", "success");
        		                $(".page-loader").show();
-       		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-project-file-type');
+       		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-issue-file-type');
        		    	    	$('#getForm').submit();
        		           }else {
        		                swal("Cancelled", "Record is safe :)", "error");

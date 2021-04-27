@@ -220,12 +220,12 @@
 												<strong><i class="fa arrow-circle-up"></i>Submit</strong>
 											</button>
 										</div>
-											<div class="col m5 s9 input-field">
+										<!-- <div class="col m5 s9 input-field">
 											<button type="button"
 												class="btn waves-effect waves-light bg-s t-c" onclick="addDisabled()" style="min-width:85px" >
 												<strong><i class="fa arrow-circle-up"></i>Reset</strong>
 											</button>
-										</div>
+										</div> -->
 									</div>
 									<div class="row">
 										<div class="col m2 s3 input-field b-text">

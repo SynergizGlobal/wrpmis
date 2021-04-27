@@ -66,7 +66,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk " 
 					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk "
-					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15) and release_date is null";
+					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 60 and DATEDIFF(valid_upto ,NOW()) > 30) and release_date is null";
 			
 			List<Alerts> bgQryAlert1List = jdbcTemplate.query( bgQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert1List) && bgQryAlert1List.size() > 0) {
@@ -79,7 +79,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk " 
 					+ " from contract c " +
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk "
-					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 7) and release_date is null";
+					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 7) and release_date is null";
 			
 			List<Alerts> bgQryAlert2List = jdbcTemplate.query( bgQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert2List) && bgQryAlert2List.size() > 0) {
@@ -106,7 +106,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk "
 					+ "from contract c " + 
 					"left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
-					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15) and (bg.released_fk = 'No' or bg.released_fk is null)";
+					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 60 and DATEDIFF(valid_upto ,NOW()) > 30) and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert1List = jdbcTemplate.query( insuranceQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert1List) && insuranceQryAlert1List.size() > 0) {
@@ -119,7 +119,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk "
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
-					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 7) and (bg.released_fk = 'No' or bg.released_fk is null)";
+					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 7) and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert2List = jdbcTemplate.query( insuranceQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert2List) && insuranceQryAlert2List.size() > 0) {
@@ -149,8 +149,8 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c " 
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null " 
 					+ "where c.contract_status_fk = 'In Progress' " 
-					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 30 " 
-					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 15)";
+					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 60 " 
+					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 30)";
 			
 			List<Alerts> cpQryAlert1List = jdbcTemplate.query( cpQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cpQryAlert1List) && cpQryAlert1List.size() > 0) {
@@ -163,7 +163,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c " 
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null "
 					+ "where c.contract_status_fk = 'In Progress' " 
-					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 15 " 
+					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 30 " 
 					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 7)";
 			
 			List<Alerts> cpQryAlert2List = jdbcTemplate.query( cpQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));

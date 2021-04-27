@@ -14,7 +14,7 @@ public class Issue {
 	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name,message_id,hod_designation, dyHod_designation,pending_Since,other_org_resposible_person_name,other_org_resposible_person_designation;
 	
 	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,
-	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to,issue_file_type_fk,issue_file_type,issue_file_id;
+	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to,issue_file_type_fk,issue_file_type,issue_file_id,assigned_person_user_id_fk;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
@@ -778,6 +778,14 @@ public class Issue {
 
 	public void setIssue_file_ids(String[] issue_file_ids) {
 		this.issue_file_ids = issue_file_ids;
+	}
+
+	public String getAssigned_person_user_id_fk() {
+		return assigned_person_user_id_fk;
+	}
+
+	public void setAssigned_person_user_id_fk(String assigned_person_user_id_fk) {
+		this.assigned_person_user_id_fk = assigned_person_user_id_fk;
 	}
 	
 }

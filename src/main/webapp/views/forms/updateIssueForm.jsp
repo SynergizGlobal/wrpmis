@@ -82,6 +82,8 @@
                         	<input id="existing_responsible_person" name="existing_responsible_person" type="hidden" value="${issue.responsible_person }"/>
                         	<input id="existing_escalated_to" name="existing_escalated_to" type="hidden" value="${issue.escalated_to }"/>
                         	<input id="issue_id" name="issue_id" type="hidden" value="${issue.issue_id }" />
+                        	<input id="hod_user_id_fk" name="hod_user_id_fk" type="hidden" value="${issue.hod_user_id_fk }" />
+                        	<input id="dy_hod_user_id_fk" name="dy_hod_user_id_fk" type="hidden" value="${issue.dy_hod_user_id_fk }" />
                         	<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">     

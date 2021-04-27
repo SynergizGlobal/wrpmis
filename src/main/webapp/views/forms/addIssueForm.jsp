@@ -65,6 +65,8 @@
                     <!-- form start-->
                     <div class="container no-mar">
                         <form action="<%=request.getContextPath() %>/add-issue" id="issueForm" name="issueForm" method="post" enctype="multipart/form-data">
+                            <input id="hod_user_id_fk" name="hod_user_id_fk" type="hidden" />
+                        	<input id="dy_hod_user_id_fk" name="dy_hod_user_id_fk" type="hidden" />
                             <div class="row">
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
@@ -555,17 +557,17 @@
          	$(".page-loader").show();        	
          	var projectId = '';
          	var workId = ''
-        		var contract_id_fk = $("#contract_id_fk").val();
-        		if($.trim(contract_id_fk) != ''){  
-             	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
-             	projectId = workId.substring(0, 3);    
-        			//workId = workId.substring(3, work_id.length);
-        			$("#project_id_fk").val(projectId);
-        			$("#project_id_fk").select2();
-        		}
-        		
-        		if ($.trim(projectId) != "") {
-        			$("#work_id_fk option:not(:first)").remove();
+       		var contract_id_fk = $("#contract_id_fk").val();
+       		if($.trim(contract_id_fk) != ''){  
+            	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
+            	projectId = workId.substring(0, 3);    
+       			//workId = workId.substring(3, work_id.length);
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       		}
+            
+       		if ($.trim(projectId) != "") {
+       			$("#work_id_fk option:not(:first)").remove();
                  var myParams = { project_id_fk: projectId };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getWorkListForIssuesForm",
@@ -589,8 +591,7 @@
                      }
                  });
                  $('.searchable').select2();
-             }
-        		
+            }
          }
          
          function getIssueCategoryList(){
@@ -700,6 +701,13 @@
         function addIssue(){
     		if(validator.form()){ // validation perform
     			$(".page-loader").show();
+    		
+    			var hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("hod");
+                var dy_hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("dyhod");
+           		
+                $("#hod_user_id_fk").val(hod_user_id_fk);
+                $("#dy_hod_user_id_fk").val(dy_hod_user_id_fk);
+                
     			document.getElementById("issueForm").submit();			
     	 	}
     	}

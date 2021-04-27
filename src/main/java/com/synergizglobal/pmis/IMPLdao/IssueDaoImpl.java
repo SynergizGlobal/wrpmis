@@ -512,16 +512,43 @@ public class IssueDaoImpl implements IssueDao {
 						template.update(fileQry, paramSource);
 					}
 				}
+				
+				boolean history_flag = addIssueInHistory(obj,template);
 
 				String issue_status = obj.getStatus_fk();
 				String reported_by_email_id = obj.getReported_by_email_id();
-				sendEmailWithIssueAlert(issue_id, issue_status, reported_by_email_id, obj.getExisting_status_fk(), null,
-						null);
+				/*sendEmailWithIssueAlert(issue_id, issue_status, reported_by_email_id, obj.getExisting_status_fk(), null,
+						null);*/
 
 			}
 			transactionManager.commit(status);
 		} catch (Exception e) {
 			transactionManager.rollback(status);
+			throw new Exception(e);
+		}
+		return flag;
+	}
+
+	private boolean addIssueInHistory(Issue obj, NamedParameterJdbcTemplate template) throws Exception {
+		boolean flag = false;
+		try {
+			
+			if(!StringUtils.isEmpty(obj.getEscalated_to())) {
+				obj.setAssigned_person_user_id_fk(obj.getEscalated_to());
+			}else if(!StringUtils.isEmpty(obj.getResponsible_person())) {
+				obj.setAssigned_person_user_id_fk(obj.getResponsible_person());
+			}else{
+				obj.setAssigned_person_user_id_fk(obj.getDy_hod_user_id_fk());
+			}
+			String qry = "INSERT INTO issue_history(issue_id_fk,issue_status_fk,assigned_person_user_id_fk) "
+					+ "VALUES "
+					+ "(:issue_id,:status_fk,:assigned_person_user_id_fk)";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+			int count = template.update(qry, paramSource);
+			if (count > 0) {
+				flag = true;
+			}
+		} catch (Exception e) {
 			throw new Exception(e);
 		}
 		return flag;
@@ -711,6 +738,8 @@ public class IssueDaoImpl implements IssueDao {
 						}
 					}
 				}
+				
+				boolean history_flag = addIssueInHistory(obj,template);
 
 				String issue_id = obj.getIssue_id();
 				String issue_status = obj.getStatus_fk();
@@ -718,8 +747,8 @@ public class IssueDaoImpl implements IssueDao {
 				String reported_by_email_id = obj.getReported_by_email_id();
 				String existing_responsible_person = obj.getExisting_responsible_person();
 				String existing_escalated_to = obj.getExisting_escalated_to();
-				sendEmailWithIssueAlert(issue_id, issue_status, reported_by_email_id, existing_status_fk,
-						existing_responsible_person, existing_escalated_to);
+				/*sendEmailWithIssueAlert(issue_id, issue_status, reported_by_email_id, existing_status_fk,
+						existing_responsible_person, existing_escalated_to);*/
 
 			}
 			transactionManager.commit(status);

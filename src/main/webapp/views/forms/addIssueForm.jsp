@@ -74,7 +74,7 @@
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
-                                            <option value="${obj.project_id_fk }" <c:if test="${iObj.project_id_fk eq obj.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                            <option value="${obj.project_id_fk }" <c:if test="${iObj.project_id_fk eq obj.project_id_fk}">selected</c:if>>${obj.project_name }</option>
                                         </c:forEach>
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
@@ -85,7 +85,7 @@
                                         onchange="getContractsList(this.value);">
                                         <option value="">Select</option>
                                           <c:forEach var="obj" items="${worksList }">
-	                                      	   	<option value= "${ obj.work_id_fk}" <c:if test="${iObj.work_id_fk eq obj.work_id_fk}">selected</c:if>>${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                      	   	<option value= "${ obj.work_id_fk}" <c:if test="${iObj.work_id_fk eq obj.work_id_fk}">selected</c:if>>${obj.work_short_name }</option>
 	                                      </c:forEach>
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
@@ -101,7 +101,7 @@
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${contractsList }">
                                       	    <option contract_type="${obj.contract_type_fk}"  hod="${obj.hod_user_id_fk}" dyhod="${obj.dy_hod_user_id_fk}" workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}" 
-                                      	    <c:if test="${iObj.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                      	    <c:if test="${iObj.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_short_name }</option>
                                         </c:forEach>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
@@ -133,7 +133,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="margin-top: 20px;">
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
@@ -141,34 +141,24 @@
                                     <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span> -->
                                 	<p class="searchable_label">Short Description <span class="required">*</span></p> 
-                                	<input list="titles" name="title" id="title" autocomplete="off">
-                                	<span id="titleError" class="error-msg" ></span>
+                                	<%-- <input list="titles" name="title" id="title" autocomplete="off">                                	
 									<datalist id="titles">
 									    <c:forEach var="obj" items="${issueTitlesList }">
 									        <option value="${obj.short_description }"></option>
 									    </c:forEach>
-									</datalist>
-                                   <%--  <select class="searchable validate-dropdown" id="title" name="title">
+									</datalist> --%>
+                                    <select class="searchable validate-dropdown" id="title" name="title">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issueTitlesList }">
                                             <option value="${obj.short_description }" >${obj.short_description}</option>
                                         </c:forEach>
-                                    </select> --%>
+                                    </select>
+                                    <span id="titleError" class="error-msg" ></span>
                                     
                                     
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
-                            <!-- <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <input id="description" name="description" type="text" class="validate">
-                                    <label for="description">Description </label>
-                                    <span id="descriptionError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div> -->
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -185,8 +175,8 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
-                            <div class="row">
-                                <!-- row 6 -->
+                            <!-- <div class="row">
+                                row 6
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="latitude" name="latitude" type="text" class="validate">
@@ -199,7 +189,7 @@
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                            </div> -->
                             
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -270,17 +260,7 @@
                                     <span id="reported_byError" class="error-msg" ></span>
                                     
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                    <!-- <div class="file-field input-field">
-                                        <div class="btn bg-m t-c">
-                                            <span>Attach Files</span>
-                                            <input type="file" class="issueFiles" name="issueFiles" multiple>
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>                                       
-                                    </div> -->
-                                    
+                                <!-- <div class="col s12 m4 input-field">                                    
                                     <div id="selectedFilesInput">
                                     	<div class="file-field input-field" id="issueFilesDiv1" >
 	                                        <div class="btn bg-m t-c">
@@ -296,7 +276,70 @@
                                     <div id="selectedFiles">
                                     	
 									</div>
-                                </div>
+                                </div> -->
+							</div>
+							
+							<div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="row fixed-width"
+										style="margin-bottom: 10px; margin-top: 20px">
+										<div class="table-inside">
+											<table class="mdl-data-table update-table">
+												<thead>
+													<tr>
+														<th style="width: 30%;text-align: left;">File Type</th>
+														<th style="width: 52%;text-align: left;">Attach File</th>
+														<th style="width: 8%;text-align: left;">Action</th>
+													</tr>
+												</thead>
+												<tbody id="issueFilesBody">
+													<tr id="actionRow0">
+														<td>
+															<div class="input-field">
+																<select  name="issue_file_types"  id="issue_file_types0"  class="validate-dropdown searchable">
+				                                   					 <option value="" >Select</option>
+				                                         			  <c:forEach var="obj" items="${issueFileTypes}">
+				                    					  				 <option value="${obj.issue_file_type }">${obj.issue_file_type}</option>
+				                                          			  </c:forEach>
+				                               					  </select>
+															</div>
+														</td>
+														<td>
+															<div class="file-field input-field">
+						                                        <div class="btn bg-m t-c">
+						                                            <span>Attach Files</span>
+						                                            <input type="file" id="issueFiles0" name="issueFiles">
+						                                        </div>
+						                                        <div class="file-path-wrapper">
+						                                            <input class="file-path validate" type="text" id="issueFileNames0" name="issueFileNames">
+						                                        </div>                                       
+						                                    </div>
+                                                      	</td>
+														<td>
+															<a onclick="removeActions('0');" class="btn red"> 
+																<i class="fa fa-close"></i></a>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+											<table class="mdl-data-table">
+												<tbody>
+													<tr>
+														<td colspan="6" style="text-align: right;"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c "
+															onclick="addIssueFileRow()"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											
+											<input type="hidden" id="rowNo" name="rowNo" value="0" />
+										</div>
+									</div>
+								</div>
 							</div>
                                                  
                             <div class="row no-mar">
@@ -382,6 +425,42 @@
          	$('#issueFilesDiv'+no).remove();
          	$('#issueFileName'+no).remove();
         } 
+		
+		function addIssueFileRow(){
+			var rowNo = $("#rowNo").val();
+            var rNo = Number(rowNo)+1;
+            var html = '<tr id="actionRow' + rNo + '">'
+               +'<td> <div class="input-field">'
+               +'<select name="issue_file_types" id="issue_file_types'+rNo+'"  class="validate-dropdown searchable" >'	   			
+	   		   +'<option value="" >Select</option>'
+			     <c:forEach var="obj" items="${issueFileTypes}">
+	     	      +'<option value="${obj.issue_file_type }">${obj.issue_file_type}</option>'
+			     </c:forEach>
+	   		   +'</select></div></td>'	   		  			
+			   
+	   		   +'<td><div class="file-field input-field">'	
+			   +'<div class="btn bg-m t-c">'	
+			   +'<span>Attach Files</span>'	
+			   +'<input type="file" id="issueFiles'+rNo+'" name="issueFiles">'	
+			   +'</div>'	
+			   +'<div class="file-path-wrapper">'	
+			   +'<input class="file-path validate" type="text" id="issueFileNames'+rNo+'" name="issueFileNames">'	
+			   +'</div>'	               
+			   +'</div></td>'
+			   
+			   +'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
+			   +'</tr>';
+		
+			$('#issueFilesBody').append(html);
+            $("#rowNo").val(rNo);          	
+            
+            $('select:not(.searchable)').formSelect();
+            $('.searchable').select2();
+        }
+        
+        function removeActions(rowNo){
+        	$("#actionRow"+rowNo).remove();
+        }
 	
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
@@ -421,12 +500,13 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                if ($.trim(val.work_short_name) != '') { workName = $.trim(val.work_short_name) }
+                                if ($.trim(val.work_short_name) == '') { workName = $.trim(val.work_id_fk) }
                                 var work_id_fk = "${safetyEquipmentDetails.work_id_fk }";
                                 if ($.trim(work_id_fk) != '' && val.work_id_fk == $.trim(work_id_fk)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(workName) + '</option>');
                                 } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(workName) + '</option>');
                                 }
                             });
                         }
@@ -452,12 +532,13 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_name = '';
-                                if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
+                                if ($.trim(val.contract_short_name) != '') { contract_name = $.trim(val.contract_short_name) }
+                                if ($.trim(val.contract_short_name) == '') { contract_name = $.trim(val.contract_id_fk) }
                                 var contract_id_fk = "${safetyEquipmentDetails.contract_id_fk }";
                                 if ($.trim(contract_id_fk) != '' && val.contract_id_fk == $.trim(contract_id_fk)) {
-                                	$("#contract_id_fk").append('<option contract_type="'+val.contract_type_fk+'" hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                	$("#contract_id_fk").append('<option contract_type="'+val.contract_type_fk+'" hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" selected>' + $.trim(contract_name) + '</option>');
                                 } else {
-                                	$("#contract_id_fk").append('<option contract_type="'+val.contract_type_fk+'" hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                	$("#contract_id_fk").append('<option contract_type="'+val.contract_type_fk+'" hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(contract_name) + '</option>');
                                 }
                             });
                         }
@@ -493,11 +574,13 @@
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
                                  var workName = '';
-                                 if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                 if ($.trim(val.work_short_name) != '') { workName = $.trim(val.work_short_name) }
+                                 if ($.trim(val.work_short_name) == '') { workName = $.trim(val.work_id_fk) }
+                                 
                                  if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
-                                     $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                     $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' +$.trim(workName) + '</option>');
                                  } else {
-                                     $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                     $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(workName) + '</option>');
                                  }
                              });
                          }
@@ -537,9 +620,9 @@
          function getIssueTitlesList(){
         	 var category_fk = $("#category_fk").val();
 	       	 $(".page-loader").show(); 
-     		 //$("#title option:not(:first)").remove();
-     		 $("#title").val('');
-     		 $("#titles").html('');
+     		 $("#title option:not(:first)").remove();
+     		 //$("#title").val('');
+     		 //$("#titles").html('');
              var myParams = { category_fk : category_fk };
              $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getIssueTitlesListForIssuesForm",
@@ -547,7 +630,7 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                              $("#titles").append('<option value="' + val.short_description + '">' + $.trim(val.short_description)+ '</option>');
+                              $("#title").append('<option value="' + val.short_description + '">' + $.trim(val.short_description)+ '</option>');
                            });
                        }
                        $('.searchable').select2();

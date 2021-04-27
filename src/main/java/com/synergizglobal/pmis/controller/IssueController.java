@@ -282,6 +282,9 @@ public class IssueController {
 			List<Issue> otherOrganizations = issueService.getOtherOrganizationsList();
 			model.addObject("otherOrganizations", otherOrganizations);
 			
+			List<Issue> issueFileTypes = issueService.getIssueFileTypes();
+			model.addObject("issueFileTypes", issueFileTypes);
+			
 			model.addObject("iObj", obj);
 			
 		} catch (Exception e) {
@@ -414,6 +417,7 @@ public class IssueController {
 				attributes.addFlashAttribute("error", "Adding issue failed. Try again.");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
 			logger.error("addIssue : " + e.getMessage());
 		}
@@ -470,7 +474,8 @@ public class IssueController {
 			List<Issue> otherOrganizations = issueService.getOtherOrganizationsList();
 			model.addObject("otherOrganizations", otherOrganizations);
 			
-			
+			List<Issue> issueFileTypes = issueService.getIssueFileTypes();
+			model.addObject("issueFileTypes", issueFileTypes);
 			
 			Issue issue = issueService.getIssue(obj);
 			model.addObject("issue", issue);
@@ -544,6 +549,9 @@ public class IssueController {
 			
 			List<Issue> otherOrganizations = issueService.getOtherOrganizationsList();
 			model.addObject("otherOrganizations", otherOrganizations);
+			
+			List<Issue> issueFileTypes = issueService.getIssueFileTypes();
+			model.addObject("issueFileTypes", issueFileTypes);
 			
 			Issue issue = issueService.getIssue(obj);
 			model.addObject("issue", issue);

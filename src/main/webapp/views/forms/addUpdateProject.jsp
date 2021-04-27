@@ -78,33 +78,33 @@
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m m-b-2">
                                 <c:if test="${action eq 'add'}">	
-                               			 <h6>Add Project</h6>
+                               		<h6>Add Project</h6>
                                	 </c:if>
                                	 <c:if test="${action eq 'edit'}">	
-                               			 <h6>Edit Project</h6>
+                               		<h6>Edit Project</h6>
                                	 </c:if>
                             </div>
                         </span>
                     </div>
-             <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                	<c:if test="${not empty success }">
-				        <div class="center-align m-1 close-message">	
-						   ${success}
+		            <div class="row clearfix" style="margin-bottom:0;">
+		                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		                	<c:if test="${not empty success }">
+						        <div class="center-align m-1 close-message">	
+								   ${success}
+								</div>
+							</c:if>
+							<c:if test="${not empty error }">
+								<div class="center-align m-1 close-message">
+								   ${error}
+								</div>
+							</c:if>
 						</div>
-					</c:if>
-					<c:if test="${not empty error }">
-						<div class="center-align m-1 close-message">
-						   ${error}
-						</div>
-					</c:if>
-				</div>
-			</div>
+					</div>
                     <!-- form start-->
                     <div class="container container-no-margin">
-                        <c:if test="${action eq 'edit'}">				                
-			                	<form action="update-project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
-                                      </c:if>
+	                        <c:if test="${action eq 'edit'}">				                
+				                	<form action="update-project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+	                        </c:if>
 			              
 			                <c:if test="${action eq 'add'}">				                
 			                	<form action="add-project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
@@ -166,7 +166,7 @@
 									<!-- <input id="financial_years" type="text" class="validate" name="financial_years" value="${projectDetails.financial_year_fk }"> -->
                                     <p class="searchable_label">Financial Year</p>
 									<select  name="financial_years"  id="financial_years"  class="validate-dropdown searchable">
-                   					 	<option value="" >select</option>
+                   					 	<option value="" >Select</option>
                          			 	<c:forEach var="obj" items="${yearList}">
     					  				 	<option value="${obj.financial_year }"<c:if test="${projectDetails.financial_year_fk eq obj.financial_year}">selected</c:if>>${obj.financial_year}</option>
                           			  	</c:forEach>
@@ -176,13 +176,13 @@
 								 <div class="col s12 m1 input-field">
 								 	 <p class="searchable_label">Railway</p>
 									<select class="searchable validate-dropdown" id="railways" name="railways" >
-										<option value="" >select</option>	
-										<option value="CR">CR</option>
-										<option value="WR">WR</option>
+										<option value="" >Select</option>	
+										<option value="WR" <c:if test="${projectDetails.railway eq 'WR'}">selected</c:if>>WR</option>
+						                <option value="CR" <c:if test="${projectDetails.railway eq 'CR'}">selected</c:if>>CR</option>
 									</select>
 								 </div>
                                 <div class="col s12 m3 input-field">
-                                    <input id="pink_book_item_numbers" type="text" class="validate" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }">
+                                    <input id="pink_book_item_numbers" type="number" class="validate" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }" maxlength="4"/>
                                     <label for="pink_book_item_numbers" style="margin-top:5px">PB Item No </label>                                   
                                     <span  id="pink_book_item_numbersError"> </span>
                                 </div>
@@ -236,20 +236,6 @@
 									<c:if test="${ empty projectDetails.file_name && empty projectDetails.galleryFileNames}">
 										<input type="hidden"  name="projectGalleryFileNames" value="" style="display:none" >
 									</c:if>
-									
-									<!-- have to hide this div, if images are 0
-									<div class="images-show">
-										<img src="/pmis/resources/images/mrvc.png">
-										<img src="/pmis/resources/images/mrvc.png">
-										<img src="/pmis/resources/images/mrvc.png">
-										<img src="/pmis/resources/images/mrvc.png">
-										<img src="/pmis/resources/images/mrvc.png">
-										<img src="/pmis/resources/images/mrvc.png">
-										<img src="/pmis/resources/images/mrvc.png">
-										<img src="/pmis/resources/images/mrvc.png">
-										<img src="/pmis/resources/images/mrvc.png">
-										<img src="/pmis/resources/images/mrvc.png">																
-									</div> -->
 								</div>
 							 <div class="col m4 s12">
 							  <c:if test="${action eq 'add'}">
@@ -325,26 +311,25 @@
 																	<td>
 																		<div class="input-field">
 																			<select  name="financial_years"  id="financial_years${index.count }"  class="validate-dropdown searchable">
-							                                   					 <option value="" >select</option>
+							                                   					 <option value="" >Select</option>
 							                                         			  <c:forEach var="obj" items="${yearList}">
-							                    					  				 <option value="${obj.financial_year }"<c:if test="${pObj.financial_year_fk eq obj.financial_year}">selected</c:if>>${obj.financial_year}</option>
+							                    					  				 <option value="${obj.financial_year }" <c:if test="${pObj.financial_year_fk eq obj.financial_year}">selected</c:if>>${obj.financial_year}</option>
 							                                          			  </c:forEach>
 							                               					  </select>
 																		</div>
 																	</td>
 																	<td><div class="input-field">
-																		<select  name="wr_railway_fk"  id="wr_railway_fk${index.count }"  class="validate-dropdown searchable">
-						                                   					 <option >select</option>							                                         			  
-						                    					  			 <option value="WR">WR</option>
-						                    					  			 <option value="CR">CR</option>							                                       
+																		<select  name="railways"  id="railways${index.count }"  class="validate-dropdown searchable">
+						                                   					 <option value="" >Select</option>							                                         			  
+						                    					  			 <option value="WR" <c:if test="${pObj.railway eq 'WR'}">selected</c:if>>WR</option>
+						                    					  			 <option value="CR" <c:if test="${pObj.railway eq 'CR'}">selected</c:if>>CR</option>							                                       
 							                               				</select>
 							                               				</div>
 																	</td>
 																	<td>
 																		<input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" type="number" class="validate" maxlength="4"  
-	                                                        				placeholder="PB Item No">
-	                                                        				<input type="hidden" id="pink_book_items${index.count }" class="pink_book_numbers" value="${pObj.pb_item_no }">	
-																	</td>
+	                                                        				placeholder="PB Item No" value="${pObj.pb_item_no }" autocomplete="off">
+	                                                        		</td>
 																	<td>
 																		<a onclick="removeActions('${index.count }');" class="btn red"> 
 																			<i class="fa fa-close"></i></a>
@@ -357,7 +342,7 @@
 																<td>
 																	<div class="input-field">
 																		<select  name="financial_years" id="financial_years0" class="validate-dropdown searchable">
-						                                   					 <option value="" >select</option>
+						                                   					 <option value="" >Select</option>
 						                                         			  <c:forEach var="obj" items="${yearList}">
 						                    					  				 <option value="${obj.financial_year }">${obj.financial_year}</option>
 						                                          			  </c:forEach>
@@ -365,8 +350,8 @@
 																	</div>
 																</td>
 																<td><div class="input-field">
-																		<select  name="wr_railway_fk"  id="wr_railway_fk${index.count }"  class="validate-dropdown searchable">
-							                                   					  <option >select</option>							                                         			 
+																		<select  name="railways"  id="railways0"  class="validate-dropdown searchable">
+							                                   					  <option value="">Select</option>							                                         			 
 							                    					  				 <option value="WR">WR</option>
 							                    					  				 <option value="CR">CR</option>							                                          		
 							                               					  </select>
@@ -374,7 +359,7 @@
 																	</td>																	
 																<td>
 																	<input id="pink_book_item_numbers0" name="pink_book_item_numbers" type="number" class="validate"  maxlength="4"
-	                                                        				placeholder="PB Item No">
+	                                                        				placeholder="PB Item No" autocomplete="off">
 																</td>
 																<td>
 																	<a onclick="removeActions('0');" class="btn red"> <i class="fa fa-close"></i></a>
@@ -544,22 +529,14 @@
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $(".datepicker").datepicker();
-            $('#remarks,#p_desc').characterCounter();            
-
-           	var no='${projectDetails.pb_item_no}';
-           	var pbItem=no.split('-')[0];
-           	var itemNo=no.split('-')[1];
-           	$('select[name^="railway"] option').attr('selected',false);
-            $('#railway').find('option[value="'+pbItem+'"]').attr("selected","selected");
-  	    	$('.searchable').select2();
-        	$('#pink_book_item_numbers').val(itemNo);
-        	autoSelectRailway();        	
+            $('#remarks,#p_desc').characterCounter(); 
         });
         
         function addProject(){
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	
 	  			$('form input[name=financial_years]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=railways]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=pink_book_item_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$("#projectForm").submit();		
     	 	}
@@ -569,6 +546,7 @@
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	   
 	  			$('form input[name=financial_years]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=railways]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=pink_book_item_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
     			$("#projectForm").submit();			
     	 	}
@@ -581,14 +559,14 @@
             var html = '<tr id="actionRow' + rNo + '">'
             +'<td> <div class="input-field">'
             +'<select name="financial_years" id="financial_years'+rNo+'"  class="validate-dropdown searchable" >'	   			
-	   		   +'<option value="" >select</option>'
+	   		   +'<option value="" >Select</option>'
 			     <c:forEach var="obj" items="${yearList}">
 	     	      +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
 			     </c:forEach>
 	   		   +'</select></div></td>'
 	   		   +'<td><div class="input-field">'
-	   		   +'<select  name="wr_railway_fk"  id="wr_railway_fk'+rNo+'"  class="validate-dropdown searchable">'
-   					+'<option >select</option>'         			
+	   		   +'<select  name="railways"  id="railways'+rNo+'"  class="validate-dropdown searchable">'
+   					+'<option >Select</option>'         			
 		  				+' <option value="WR">WR</option>'     
 		  				+' <option value="CR">CR</option>' 
 					+'  </select>	  </div>		</td>'				
@@ -688,18 +666,6 @@
      	 $(link).css('display','none');
      	  
         } 
-        
-		function autoSelectRailway(){
-		 		$.each( $('.pink_book_numbers'), function( key, value ) {
-				  var Num=$(value).val();
-		          var arrPbItem=Num.split('-')[0];
-		          var arrItemNo=Num.split('-')[1];
-				  $('#wr_railway_fk'+(key+1)+' option').attr('selected',false);
-				  $('#wr_railway_fk'+(key+1)).find('option[value="'+arrPbItem+'"]').attr('selected',true);
-				  $('.searchable').select2();
-				  $('#pink_book_item_numbers'+(key+1)).val(parseInt(arrItemNo));
-				});
-		}
 
     </script>
 </body>

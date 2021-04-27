@@ -440,14 +440,17 @@
     	                   	var rowArray = [];    	                  
     	                   	
     	                   	var workName = '';
-                            if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                            if ($.trim(val.work_name) != '') { workName = $.trim(val.work_name) }
+                            if ($.trim(val.work_name) == '') { workName = $.trim(val.work_id_fk) }
+                            
                             var contract_name = '';
-                            if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
+                            if ($.trim(val.contract_short_name) != '') { contract_name = $.trim(val.contract_short_name) }
+                            if ($.trim(val.contract_short_name) == '') { contract_name = $.trim(val.contract_id_fk) }
     	                   	
     	                   	//rowArray.push($.trim(val.issue_id));
     	                   	/* rowArray.push($.trim(val.project_id_fk)); */
     	                   	/* rowArray.push($.trim(val.work_id_fk) + workName); */
-    	                   	rowArray.push($.trim(val.contract_id_fk) + contract_name);
+    	                   	rowArray.push(contract_name);
     	                   	/* rowArray.push($.trim(val.activity)); */
     	                   	rowArray.push($.trim(val.title));
     	                   	/* rowArray.push($.trim(val.date)); */
@@ -516,9 +519,10 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var work_short_name = '';
-                            	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) }                             	
+                            	if ($.trim(val.work_short_name) != '') { work_short_name = $.trim(val.work_short_name) }  
+                            	if ($.trim(val.work_short_name) == '') { work_short_name = $.trim(val.work_id_fk) }
                             	var selectedFlag = (work == val.work_id_fk)?'selected':'';
- 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '" '+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name +'</option>');
+ 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '" '+selectedFlag+'>' + work_short_name +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -592,9 +596,10 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_short_name = '';
-                            	if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) } 
+                            	if ($.trim(val.contract_short_name) != '') { contract_short_name = $.trim(val.contract_short_name) } 
+                            	if ($.trim(val.contract_short_name) == '') { contract_short_name = $.trim(val.contract_id_fk) }
                             	var selectedFlag = (contract == val.contract_id_fk)?'selected':'';
- 	                            $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '" '+selectedFlag+'>' + $.trim(val.contract_id_fk) + contract_short_name +'</option>');
+ 	                            $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '" '+selectedFlag+'>' + contract_short_name +'</option>');
                             });
                         }
                         $('.searchable').select2();

@@ -58,5 +58,7 @@ public interface IssueService {
 	List<Issue> getIssueTitlesList(Issue obj) throws Exception;
 
 	List<Issue> getOtherOrganizationsList() throws Exception;
+
+	List<Issue> getIssueFileTypes() throws Exception;
 	
 }

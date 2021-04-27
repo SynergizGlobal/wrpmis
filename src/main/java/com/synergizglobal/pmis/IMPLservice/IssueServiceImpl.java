@@ -144,5 +144,10 @@ public class IssueServiceImpl implements IssueService {
 	public List<Issue> getOtherOrganizationsList() throws Exception {
 		return issueDao.getOtherOrganizationsList();
 	}
+
+	@Override
+	public List<Issue> getIssueFileTypes() throws Exception {
+		return issueDao.getIssueFileTypes();
+	}
 	
 }

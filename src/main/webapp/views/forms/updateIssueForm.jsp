@@ -84,12 +84,12 @@
                         	<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">     
-                                    <input id="project_id_fk" name="project_id_fk" type="text" class="" value="${issue.project_id_fk }<c:if test="${not empty issue.project_name}"> - </c:if> ${issue.project_name }" readonly>
+                                    <input type="text" class="" value="${issue.project_name }" readonly>
                                     <label for="project_id_fk"> Project</label>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col s12 m4 input-field">
-                                    <input id="work_id_fk" name="work_id_fk" type="text" class="" value="${issue.work_id_fk }<c:if test="${not empty issue.work_short_name}"> - </c:if> ${issue.work_short_name }" readonly>
+                                    <input type="text" class="" value="${issue.work_short_name }" readonly>
                                     <label for="work_id_fk"> Work</label>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
@@ -163,7 +163,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
-                            <div class="row">
+                            <%-- <div class="row">
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -177,7 +177,7 @@
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                            </div> --%>
                             
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -323,7 +323,7 @@
 	                            </div> 
                             </div>
                             
-                                 <div class="row">
+                            <div class="row">
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>                              
                                 <div class="col s12 m4 input-field" style="margin-top:15px; display:none;" id="resolvedDiv">
@@ -333,25 +333,7 @@
                                             class="fa fa-calendar"></i></button>
                                     <span id="resolved_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                    <%-- <div class="file-field input-field">
-                                        <div class="btn bg-m t-c">
-                                            <span>Attach Files</span>
-                                            <input type="file" id="issueFiles" name="issueFiles" multiple>
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" id="attachments" name="attachments" value="${issue.attachments }">
-                                        </div>
-                                    </div>
-                                    
-                                    <c:forEach var="obj" items="${issue.issueFilesList }" varStatus="index">
-										<div style="clear:both">
-											<a href="<%=CommonConstants2.ISSUE_FILES%>${obj.issue_id }/${obj.file_name } " class="filevalue" download>${obj.file_name }</a>
-											<span onclick="removeFile(this,'issueFiles${index.count }','attachments')" class="attachment-remove-btn">X</span>
-											<input type="hidden" id="issueFiles${index.count }" name="issueFileNames" value="${obj.file_name }">
-									     </div>
-									</c:forEach> --%>
-									
+                                <%-- <div class="col s12 m4 input-field">
 									<c:set var="existingIssueFilesLength" value="${fn:length(issue.issueFilesList )}"></c:set>
 									<c:if test="${fn:length(issue.issueFilesList ) gt 0}">
 										<c:set var="existingIssueFilesLength" value="${fn:length(issue.issueFilesList )+1}"></c:set>
@@ -379,9 +361,121 @@
 										</c:forEach>
 									</div>
 									
-                                </div>
+                                </div> --%>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            
+                            <div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="row fixed-width"
+										style="margin-bottom: 10px; margin-top: 20px">
+										<div class="table-inside">
+											<table class="mdl-data-table update-table">
+												<thead>
+													<tr>
+														<th style="width: 30%;text-align: left;">File Type</th>
+														<th style="width: 52%;text-align: left;">Attach File</th>
+														<th></th>
+														<th style="width: 8%;text-align: left;">Action</th>
+													</tr>
+												</thead>
+												<tbody id="issueFilesBody">
+													<c:choose>
+														<c:when	test="${not empty issue.issueFilesList && fn:length(issue.issueFilesList) gt 0 }">
+															<c:forEach var="iObj" items="${issue.issueFilesList }" varStatus="index">
+																<tr id="actionRow${index.count }">
+																	<td>
+																		<div class="input-field">
+																			<select  name="issue_file_types"  id="issue_file_types${index.count }"  class="validate-dropdown searchable">
+							                                   					 <option value="" >Select</option>
+							                                         			  <c:forEach var="obj" items="${issueFileTypes}">
+							                    					  				 <option value="${obj.issue_file_type }" <c:if test="${iObj.issue_file_type_fk eq obj.issue_file_type}">selected</c:if>>${obj.issue_file_type}</option>
+							                                          			  </c:forEach>
+							                               					  </select>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="file-field input-field">
+									                                        <div class="btn bg-m t-c">
+									                                            <span>Attach File</span>
+									                                            <input type="file" id="issueFiles${index.count }" name="issueFiles">
+									                                        </div>
+									                                        <div class="file-path-wrapper">
+									                                            <input class="file-path validate" type="text" id="issueFileNames${index.count }" name="issueFileNames" value="${iObj.file_name }">
+									                                        </div>                             
+									                                    </div>
+			                                                      	</td>
+			                                                      	<td>
+			                                                      		<input type="hidden" id="issue_file_ids${index.count }" name="issue_file_ids" value="${iObj.issue_file_id }"/>
+			                                                      		<a href="<%=CommonConstants2.ISSUE_FILES%>${iObj.issue_id }/${iObj.file_name } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                      	</td>
+																	<td>
+																		<a onclick="removeActions('${index.count }');" class="btn red"> 
+																			<i class="fa fa-close"></i></a>
+																	</td>
+																</tr>															
+															</c:forEach>
+														</c:when>
+														<c:otherwise>
+															<tr id="actionRow0">
+																<td>
+																	<div class="input-field">
+																		<select  name="issue_file_types"  id="issue_file_types0"  class="validate-dropdown searchable">
+						                                   					 <option value="" >Select</option>
+						                                         			  <c:forEach var="obj" items="${issueFileTypes}">
+						                    					  				 <option value="${obj.issue_file_type }">${obj.issue_file_type}</option>
+						                                          			  </c:forEach>
+						                               					  </select>
+																	</div>
+																</td>
+																<td>
+																	<div class="file-field input-field">
+								                                        <div class="btn bg-m t-c">
+								                                            <span>Attach File</span>
+								                                            <input type="file" id="issueFiles0" name="issueFiles">
+								                                        </div>
+								                                        <div class="file-path-wrapper">
+								                                            <input class="file-path validate" type="text" id="issueFileNames0" name="issueFileNames">
+								                                        </div>                                       
+								                                    </div>
+		                                                      	</td>
+		                                                      	<td><input type="hidden" id="issue_file_ids0" name="issue_file_ids"/></td>
+																<td>
+																	<a onclick="removeActions('0');" class="btn red"> 
+																		<i class="fa fa-close"></i></a>
+																</td>
+															</tr>
+														</c:otherwise>
+													</c:choose>
+													
+												</tbody>
+											</table>
+											<table class="mdl-data-table">
+												<tbody>
+													<tr>
+														<td colspan="6" style="text-align: right;"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c "
+															onclick="addIssueFileRow()"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											
+											<c:choose>
+												<c:when test="${not empty (issue.issueFilesList) && fn:length(issue.issueFilesList) gt 0 }">
+													<input type="hidden" id="rowNo" name="rowNo" value="${fn:length(issue.issueFilesList) }" />
+												</c:when>
+												<c:otherwise>
+													<input type="hidden" id="rowNo" name="rowNo" value="0" />
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</div>
+								</div>
+							</div>
 
                             <div class="row no-mar">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -441,14 +535,14 @@
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script> -->
 	<script>
 	
-	/* 	$(document).on('focus', '.datepicker',function(){
-			$(this).datepicker({
-	        	format:'dd-mm-yyyy',
-	        	autoClose:true,
-	        	setDefaultDate:false
-	        });	       
-	    });
-	 */
+		/*$(document).on('focus', '.datepicker',function(){
+				$(this).datepicker({
+		        	format:'dd-mm-yyyy',
+		        	autoClose:true,
+		        	setDefaultDate:false
+		        });	       
+		    });
+		 */
 	    let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
@@ -783,12 +877,13 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                                if ($.trim(val.work_name) != '') { workName = $.trim(val.work_name) }
+                                if ($.trim(val.work_short_name) == '') { workName = $.trim(val.work_id_fk) }
                                 var work_id_fk = "${issue.work_id_fk }";
                                 if ($.trim(work_id_fk) != '' && val.work_id == $.trim(work_id_fk)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(workName) + '</option>');
                                 } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(workName) + '</option>');
                                 }
                             });
                         }
@@ -814,12 +909,13 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var contract_name = '';
-                                if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+                                if ($.trim(val.contract_name) != '') { contract_name = $.trim(val.contract_name) }
+                                if ($.trim(val.contract_short_name) == '') { contract_name = $.trim(val.contract_id_fk) }
                                 var contract_id_fk = "${issue.contract_id_fk }";
                                 if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
-                                	$("#contract_id_fk").append('<option contract_type="'+val.contract_type_fk+'" hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                                	$("#contract_id_fk").append('<option contract_type="'+val.contract_type_fk+'" hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(contract_name) + '</option>');
                                 } else {
-                                	$("#contract_id_fk").append('<option contract_type="'+val.contract_type_fk+'" hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                                	$("#contract_id_fk").append('<option contract_type="'+val.contract_type_fk+'" hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" value="' + val.contract_id + '">' + $.trim(contract_name) + '</option>');
                                 }
                             });
                         }
@@ -1463,6 +1559,43 @@
 			
 			/**************************************************************************************************************/
             
+			function addIssueFileRow(){
+				var rowNo = $("#rowNo").val();
+	            var rNo = Number(rowNo)+1;
+	            var html = '<tr id="actionRow' + rNo + '">'
+	               +'<td> <div class="input-field">'
+	               +'<select name="issue_file_types" id="issue_file_types'+rNo+'"  class="validate-dropdown searchable" >'	   			
+		   		   +'<option value="" >Select</option>'
+				     <c:forEach var="obj" items="${issueFileTypes}">
+		     	      +'<option value="${obj.issue_file_type }">${obj.issue_file_type}</option>'
+				     </c:forEach>
+		   		   +'</select></div></td>'	   		  			
+				   
+		   		   +'<td><div class="file-field input-field">'	
+				   +'<div class="btn bg-m t-c">'	
+				   +'<span>Attach Files</span>'	
+				   +'<input type="file" id="issueFiles'+rNo+'" name="issueFiles">'	
+				   +'</div>'	
+				   +'<div class="file-path-wrapper">'	
+				   +'<input class="file-path validate" type="text" id="issueFileNames'+rNo+'" name="issueFileNames">'	
+				   +'</div>'	               
+				   +'</div></td>'
+				   +'<td><input type="hidden" id="issue_file_ids'+rNo+'" name="issue_file_ids"/></td>'
+				   +'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
+				   +'</tr>';
+			
+				$('#issueFilesBody').append(html);
+	            $("#rowNo").val(rNo);          	
+	            
+	            $('select:not(.searchable)').formSelect();
+	            $('.searchable').select2();
+	        }
+	        
+	        function removeActions(rowNo){
+	        	$("#actionRow"+rowNo).remove();
+	        }
+        
+        /****************************************************************************************************/
     </script>
 </body>
 </html>

@@ -288,11 +288,7 @@ public class ProjectController {
 			 * CommonConstants.PROJECT_FILE_SAVING_PATH ; String fileName =
 			 * file.getOriginalFilename(); FileUploads.singleFileSaving(file, saveDirectory,
 			 * fileName); project.setAttachment(fileName); }
-			 */	
-			
-			if(!StringUtils.isEmpty(project.getRailways())) {
-				project.setPb_item_no(project.getRailways() + " - " + project.getPb_item_no());
-			}
+			*/	
 			
 			boolean flag =  projectService.addProject(project);
 			if(flag == true) {

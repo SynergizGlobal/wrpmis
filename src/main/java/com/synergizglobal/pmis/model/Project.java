@@ -9,7 +9,7 @@ public class Project {
 	,sanctioned_estimated_cost,sanctioned_year_fk,sanctioned_completion_cost,year_of_completion,projected_completion_year,latest_revised_cost,
 	completion_cost,work_short_name,benefits,galleryFileNames,financial_year_fk,pb_item_no,project_pinkbook_id;
 	
-	private String id,file_name,project_id_fk,created_date,created_by,railways;
+	private String id,file_name,project_id_fk,created_date,created_by,railway;
 	
 	
 	private List<Project> projectFiles;
@@ -18,7 +18,7 @@ public class Project {
 	private List<MultipartFile> projectFile;
 	private List<Project> projectFilesList;
 	private String[] projectFileNames;
-	private String[] financial_years,pink_book_item_numbers;
+	private String[] financial_years,pink_book_item_numbers,railways;
 	
 	private List<Work> worksInfo;
 	
@@ -322,11 +322,19 @@ public class Project {
 		this.project_pinkbook_id = project_pinkbook_id;
 	}
 
-	public String getRailways() {
+	public String getRailway() {
+		return railway;
+	}
+
+	public void setRailway(String railway) {
+		this.railway = railway;
+	}
+
+	public String[] getRailways() {
 		return railways;
 	}
 
-	public void setRailways(String railways) {
+	public void setRailways(String[] railways) {
 		this.railways = railways;
 	}
 	

@@ -14,18 +14,16 @@ public class Issue {
 	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name,message_id,hod_designation, dyHod_designation,pending_Since,other_org_resposible_person_name,other_org_resposible_person_designation;
 	
 	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,
-	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to;
+	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to,issue_file_type_fk,issue_file_type,issue_file_id;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
 	
-	private List<MultipartFile> issueFiles;
-	private String[] issueFileNames;
+	//private List<MultipartFile> issueFiles;
+	private MultipartFile[] issueFiles;
+	private String[] issueFileNames,attachemnts,issue_file_types,issue_file_ids;
 	
 	private List<Issue> issueFilesList;
-	
-	
-	
 
 	public String getPending_Since() {
 		return pending_Since;
@@ -598,14 +596,6 @@ public class Issue {
 		this.readonlyForm = readonlyForm;
 	}
 
-	public List<MultipartFile> getIssueFiles() {
-		return issueFiles;
-	}
-
-	public void setIssueFiles(List<MultipartFile> issueFiles) {
-		this.issueFiles = issueFiles;
-	}
-
 	public String[] getIssueFileNames() {
 		return issueFileNames;
 	}
@@ -732,6 +722,62 @@ public class Issue {
 
 	public void setShort_description(String short_description) {
 		this.short_description = short_description;
+	}
+
+	public String[] getAttachemnts() {
+		return attachemnts;
+	}
+
+	public void setAttachemnts(String[] attachemnts) {
+		this.attachemnts = attachemnts;
+	}
+
+	public String getIssue_file_type_fk() {
+		return issue_file_type_fk;
+	}
+
+	public void setIssue_file_type_fk(String issue_file_type_fk) {
+		this.issue_file_type_fk = issue_file_type_fk;
+	}
+
+	public String getIssue_file_type() {
+		return issue_file_type;
+	}
+
+	public void setIssue_file_type(String issue_file_type) {
+		this.issue_file_type = issue_file_type;
+	}
+
+	public String[] getIssue_file_types() {
+		return issue_file_types;
+	}
+
+	public void setIssue_file_types(String[] issue_file_types) {
+		this.issue_file_types = issue_file_types;
+	}
+
+	public MultipartFile[] getIssueFiles() {
+		return issueFiles;
+	}
+
+	public void setIssueFiles(MultipartFile[] issueFiles) {
+		this.issueFiles = issueFiles;
+	}
+
+	public String getIssue_file_id() {
+		return issue_file_id;
+	}
+
+	public void setIssue_file_id(String issue_file_id) {
+		this.issue_file_id = issue_file_id;
+	}
+
+	public String[] getIssue_file_ids() {
+		return issue_file_ids;
+	}
+
+	public void setIssue_file_ids(String[] issue_file_ids) {
+		this.issue_file_ids = issue_file_ids;
 	}
 	
 }

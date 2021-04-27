@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -22,7 +21,6 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
-import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Year;
 
@@ -77,6 +75,24 @@ public class ProjectDaoImpl implements ProjectDao {
 				project.setBenefits(resultSet.getString("benefits"));
 				project.setFinancial_year_fk(resultSet.getString("financial_year_fk"));
 				project.setPb_item_no(resultSet.getString("pb_item_no"));
+				String railway = null;
+				String pb_item_no = null;
+				if(!StringUtils.isEmpty(project.getPb_item_no())) {
+					pb_item_no = project.getPb_item_no().trim();
+					if(pb_item_no.contains("-")) {
+						String[] pb_item_no_temp = pb_item_no.split("-");
+						if(pb_item_no_temp.length > 0) {
+							railway = pb_item_no_temp[0].trim();
+						}
+						if(pb_item_no_temp.length > 1) {
+							pb_item_no = pb_item_no_temp[1].trim();
+						}
+					}else if(pb_item_no.equals("CR") || pb_item_no.equals("WR")) {
+						railway = pb_item_no;
+					}
+				}
+				project.setRailway(railway);
+				project.setPb_item_no(pb_item_no);
 				
 				project.setGalleryFileNames(getGalleryFileNames(project.getProject_id(),connection));
 				project.setProjectGallery(getProjectGalleryFiles(project.getProject_id(),connection));
@@ -140,6 +156,24 @@ public class ProjectDaoImpl implements ProjectDao {
 				obj.setProject_id_fk(rs.getString("project_id_fk"));
 				obj.setFinancial_year_fk(rs.getString("financial_year_fk"));
 				obj.setPb_item_no(rs.getString("pb_item_no"));
+				String railway = null;
+				String pb_item_no = null;
+				if(!StringUtils.isEmpty(obj.getPb_item_no())) {
+					pb_item_no = obj.getPb_item_no();
+					if(pb_item_no.contains("-")) {
+						String[] pb_item_no_temp = pb_item_no.split("-");
+						if(pb_item_no_temp.length > 0) {
+							railway = pb_item_no_temp[0].trim();
+						}
+						if(pb_item_no_temp.length > 1) {
+							pb_item_no = pb_item_no_temp[1].trim();
+						}
+					}else if(pb_item_no.equals("CR") || pb_item_no.equals("WR")) {
+						railway = pb_item_no;
+					}
+				}
+				obj.setRailway(railway);
+				obj.setPb_item_no(pb_item_no);
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 		
@@ -336,6 +370,12 @@ public class ProjectDaoImpl implements ProjectDao {
 						arraySize = project.getFinancial_years().length;
 					}
 				}
+				if(!StringUtils.isEmpty(project.getRailways()) && project.getRailways().length > 0 ) {
+					project.setRailways(CommonMethods.replaceEmptyByNullInSringArray(project.getRailways()));
+					if(arraySize < project.getRailways().length) {
+						arraySize = project.getRailways().length;
+					}
+				}
 				if(!StringUtils.isEmpty(project.getPink_book_item_numbers()) && project.getPink_book_item_numbers().length > 0 ) {
 					project.setPink_book_item_numbers(CommonMethods.replaceEmptyByNullInSringArray(project.getPink_book_item_numbers()));
 					if(arraySize < project.getPink_book_item_numbers().length) {
@@ -354,9 +394,14 @@ public class ProjectDaoImpl implements ProjectDao {
 				if(arraySize > 0) {
 					for (int i = 0; i < arraySize; i++) {
 						if(!StringUtils.isEmpty(project.getFinancial_years()[i]) || !StringUtils.isEmpty(project.getPink_book_item_numbers()[i])) {
+							String pb_item_no = project.getPink_book_item_numbers()[i];
+							if(!StringUtils.isEmpty(project.getRailways()[i])) {
+								pb_item_no = project.getRailways()[i] + "-" + project.getPink_book_item_numbers()[i];
+							}
+							
 							stmt.setString(1,project.getProject_id()); 
 							stmt.setString(2,(project.getFinancial_years().length > 0)?project.getFinancial_years()[i]:null); 
-							stmt.setString(3,(project.getPink_book_item_numbers().length > 0)?project.getPink_book_item_numbers()[i]:null);
+							stmt.setString(3,pb_item_no);
 							stmt.addBatch();
 						}
 					}
@@ -449,6 +494,14 @@ public class ProjectDaoImpl implements ProjectDao {
 						arraySize = project.getFinancial_years().length;
 					}
 				}
+				
+				if(!StringUtils.isEmpty(project.getRailways()) && project.getRailways().length > 0 ) {
+					project.setRailways(CommonMethods.replaceEmptyByNullInSringArray(project.getRailways()));
+					if(arraySize < project.getRailways().length) {
+						arraySize = project.getRailways().length;
+					}
+				}
+				
 				if(!StringUtils.isEmpty(project.getPink_book_item_numbers()) && project.getPink_book_item_numbers().length > 0 ) {
 					project.setPink_book_item_numbers(CommonMethods.replaceEmptyByNullInSringArray(project.getPink_book_item_numbers()));
 					if(arraySize < project.getPink_book_item_numbers().length) {
@@ -461,9 +514,13 @@ public class ProjectDaoImpl implements ProjectDao {
 				if(arraySize > 0) {
 					for (int i = 0; i < arraySize; i++) {						
 						if(!StringUtils.isEmpty(project.getFinancial_years()[i]) || !StringUtils.isEmpty(project.getPink_book_item_numbers()[i])) {
+							String pb_item_no = project.getPink_book_item_numbers()[i];
+							if(!StringUtils.isEmpty(project.getRailways()[i])) {
+								pb_item_no = project.getRailways()[i] + "-" + project.getPink_book_item_numbers()[i];
+							}
 							stmt.setString(1,projectId); 
 							stmt.setString(2,(project.getFinancial_years().length > 0)?project.getFinancial_years()[i]:null); 
-							stmt.setString(3,(project.getPink_book_item_numbers().length > 0)?project.getPink_book_item_numbers()[i]:null);
+							stmt.setString(3,pb_item_no);
 							stmt.addBatch();
 						}
 					}

@@ -140,10 +140,9 @@
 										<c:forEach var="obj" items="${projectFileType}" varStatus="index">
 											<tr>
 											<td>
-											<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
 												<input type="hidden" id="project_file_type${index.count}" value="${obj.project_file_type }"  class="findLengths"/>
 												${obj.project_file_type }</td>
-										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
+										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.project_file_type }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
 									    </c:forEach>
  										
                                     </tbody>
@@ -257,7 +256,7 @@
 
     <!-- footer  -->
  	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="id" id="idNo" />
+    	<input type="hidden" name="project_file_type" id="idNo" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>

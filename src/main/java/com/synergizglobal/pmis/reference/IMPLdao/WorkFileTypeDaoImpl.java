@@ -27,7 +27,7 @@ public class WorkFileTypeDaoImpl implements WorkFileTypeDao{
 	public List<TrainingType> getWorkFileType(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="select id,work_file_type from work_file_type ";
+			String qry ="select work_file_type from work_file_type ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -61,7 +61,7 @@ public class WorkFileTypeDaoImpl implements WorkFileTypeDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "UPDATE work_file_type set "
-					+ "work_file_type= :value_new  where id = :id";
+					+ "work_file_type= :value_new  where work_file_type = :value_old";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -82,7 +82,7 @@ public class WorkFileTypeDaoImpl implements WorkFileTypeDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from work_file_type WHERE `id`= :id ";
+			String deleteQry ="DELETE from work_file_type WHERE `work_file_type`= :work_file_type ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

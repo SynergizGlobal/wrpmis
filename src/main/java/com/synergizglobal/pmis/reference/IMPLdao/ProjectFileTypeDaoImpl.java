@@ -27,7 +27,7 @@ public class ProjectFileTypeDaoImpl implements ProjectFileTypeDao{
 	public List<TrainingType> getProjectFileType(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="select id,project_file_type from project_file_type ";
+			String qry ="select project_file_type from project_file_type ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -61,7 +61,7 @@ public class ProjectFileTypeDaoImpl implements ProjectFileTypeDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "UPDATE project_file_type set "
-					+ "project_file_type= :value_new  where id = :id";
+					+ "project_file_type= :value_new  where project_file_type = :value_old";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -82,7 +82,7 @@ public class ProjectFileTypeDaoImpl implements ProjectFileTypeDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from project_file_type WHERE `id`= :id ";
+			String deleteQry ="DELETE from project_file_type WHERE `project_file_type`= :project_file_type ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {

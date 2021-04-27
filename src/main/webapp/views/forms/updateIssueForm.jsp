@@ -71,7 +71,7 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m m-b-2">
-                                <h6>Update Issue</h6>
+                                <h6>Update Issue (Issue Id : ${issue.issue_id })</h6>
                             </div>
                         </span>
                     </div>
@@ -81,6 +81,7 @@
                         	<input id="existing_status_fk" name="existing_status_fk" type="hidden" value="${issue.existing_status_fk }"/>
                         	<input id="existing_responsible_person" name="existing_responsible_person" type="hidden" value="${issue.responsible_person }"/>
                         	<input id="existing_escalated_to" name="existing_escalated_to" type="hidden" value="${issue.escalated_to }"/>
+                        	<input id="issue_id" name="issue_id" type="hidden" value="${issue.issue_id }" />
                         	<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">     
@@ -98,14 +99,15 @@
 
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">           
-                                    <input id="contract_id_fk" name="contract_id_fk" type="text" class="" value="${issue.contract_id_fk }" readonly>
+                                <div class="col s12 m8 input-field">           
+                                    <input id="contract_id_fk" name="contract_id_fk" type="text" class="" value="${issue.contract_short_name }" readonly>
                                     <label for="contract_id_fk"> Contract <span class="required">*</span></label>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>                                
-                                <div class="col s12 m4 input-field">
+                                <%-- <div class="col s12 m4 input-field">
                                     <label for="">Issue ID : <input id="issue_id" name="issue_id" type="text" value="${issue.issue_id }" readonly  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
-                                </div>
+                                </div> --%>
+                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             

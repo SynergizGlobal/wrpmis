@@ -411,7 +411,7 @@ public class DocxTableCreation {
 				
 				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_id_fk()+" - "+pObj.getWork_short_name(),
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_short_name(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);

@@ -517,8 +517,8 @@ public class IssueDaoImpl implements IssueDao {
 
 				String issue_status = obj.getStatus_fk();
 				String reported_by_email_id = obj.getReported_by_email_id();
-				/*sendEmailWithIssueAlert(issue_id, issue_status, reported_by_email_id, obj.getExisting_status_fk(), null,
-						null);*/
+				sendEmailWithIssueAlert(issue_id, issue_status, reported_by_email_id, obj.getExisting_status_fk(), null,
+						null);
 
 			}
 			transactionManager.commit(status);
@@ -747,8 +747,8 @@ public class IssueDaoImpl implements IssueDao {
 				String reported_by_email_id = obj.getReported_by_email_id();
 				String existing_responsible_person = obj.getExisting_responsible_person();
 				String existing_escalated_to = obj.getExisting_escalated_to();
-				/*sendEmailWithIssueAlert(issue_id, issue_status, reported_by_email_id, existing_status_fk,
-						existing_responsible_person, existing_escalated_to);*/
+				sendEmailWithIssueAlert(issue_id, issue_status, reported_by_email_id, existing_status_fk,
+						existing_responsible_person, existing_escalated_to);
 
 			}
 			transactionManager.commit(status);

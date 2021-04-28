@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +12,10 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +36,10 @@ public class ProjectDaoImpl implements ProjectDao {
 	DataSource dataSource;
 	
 	@Autowired
-	JdbcTemplate jdbcTemplate ;
+	JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	DataSourceTransactionManager transactionManager;
 
 	@Override
 	public List<Project> getProjectList() throws Exception {
@@ -94,10 +102,9 @@ public class ProjectDaoImpl implements ProjectDao {
 				project.setRailway(railway);
 				project.setPb_item_no(pb_item_no);
 				
-				project.setGalleryFileNames(getGalleryFileNames(project.getProject_id(),connection));
-				project.setProjectGallery(getProjectGalleryFiles(project.getProject_id(),connection));
+				project.setProjectGalleryFilesList(getProjectGalleryFiles(project.getProject_id(),connection));
 				project.setProjectPinkBooks(getProjectPinkBooks(project.getProject_id(),connection));
-				project.setProjectFiles(getProjectFiles(project.getProject_id(),connection));
+				project.setProjectFilesList(getProjectFiles(project.getProject_id(),connection));
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -115,15 +122,16 @@ public class ProjectDaoImpl implements ProjectDao {
 		ResultSet rs = null;
 		List<Project> objsList = new ArrayList<Project>();
 		try{
-			String qry = "select id, project_id_fk, attachment from project_files where project_id_fk = ?";
+			String qry = "select id as project_file_id,project_id_fk,attachment,project_file_type_fk from project_files where project_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1,project_id);
 			rs = stmt.executeQuery();  
 			while(rs.next()) {
 				Project obj = new Project();
-				obj.setId(rs.getString("id"));
+				obj.setProject_file_id(rs.getString("project_file_id"));
 				obj.setProject_id_fk(rs.getString("project_id_fk"));
 				obj.setAttachment(rs.getString("attachment"));
+				obj.setProject_file_type_fk(rs.getString("project_file_type_fk"));
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 		
@@ -214,55 +222,21 @@ public class ProjectDaoImpl implements ProjectDao {
 	}
 
 
-	private String getGalleryFileNames(String project_id, Connection con) throws Exception {
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String gallery_file_names = null;;
-		try{
-			String qry = "select group_concat(file_name) as gallery_file_names from project_gallery where project_id_fk = ?";
-			stmt = con.prepareStatement(qry);
-			stmt.setString(1,project_id);
-			rs = stmt.executeQuery();  
-			if(rs.next()) {
-				gallery_file_names = rs.getString("gallery_file_names");
-			}
-		}catch(Exception e){ 		
-			e.printStackTrace();
-			throw new Exception(e);
-		}
-		finally {
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
-		}
-		return gallery_file_names;
-	}
-
-
 	@Override
 	public boolean updateProject(Project project)throws Exception{
-		Connection con = null;
-		PreparedStatement stmt = null;
 		int count = 0;
 		boolean flag = false;
 		try{
-			con = dataSource.getConnection();
-			String qry = "update project set project_name = ?,plan_head_number = ?,remarks = ?,project_status=?,attachment=?,benefits = ?" + 
-					 " where project_id =?";
-			stmt = con.prepareStatement(qry); 
-			stmt.setString(1,project.getProject_name());
-			stmt.setString(2,project.getPlan_head_number());
-			stmt.setString(3,project.getRemarks());
-			stmt.setString(4,project.getProject_status());
-			stmt.setString(5,project.getAttachment());
-			stmt.setString(6,project.getBenefits());
-			stmt.setString(7,project.getProject_id());
-			count = stmt.executeUpdate();
+			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+			
+			String qry = "update project set project_name = :project_name,plan_head_number = :plan_head_number,remarks = :remarks,project_status=:project_status,benefits = :benefits "
+					 + "where project_id = :project_id";			
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(project);
+			count = template.update(qry, paramSource);
 			if(count > 0 ){
 				flag = true;
-			}
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-			
+			}			
 			if(flag) {	
-				String docFileName = null;
 				int arraySize = 0;
 				if(!StringUtils.isEmpty(project.getProjectGalleryFileNames()) && project.getProjectGalleryFileNames().length > 0 ) {
 					project.setProjectGalleryFileNames(CommonMethods.replaceEmptyByNullInSringArray(project.getProjectGalleryFileNames()));
@@ -270,99 +244,104 @@ public class ProjectDaoImpl implements ProjectDao {
 						arraySize = project.getProjectGalleryFileNames().length;
 					}
 				}
-				List<MultipartFile> galleryFiles = project.getProjectGalleryFiles();
-				if(galleryFiles.size() > 0 && !galleryFiles.get(0).isEmpty() && !(arraySize > 1)) {arraySize = 1; }
-				if(!StringUtils.isEmpty(galleryFiles)) {
-					String deleteQry ="delete from project_gallery where project_id_fk = ? ";
-					stmt = con.prepareStatement(deleteQry); 
-					stmt.setString(1, project.getProject_id());
-					stmt.executeUpdate();
-					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-					
-					String galleryQry ="INSERT into project_gallery (file_name,project_id_fk,created_by)VALUES(?,?,?)";
-					stmt = con.prepareStatement(galleryQry); 
-					if(arraySize > 0) {
-						for (int i = 0; i < arraySize; i++) {
-							docFileName  = (project.getProjectGalleryFileNames().length > 0)?project.getProjectGalleryFileNames()[i]:null;
-						    if(docFileName == null) {
-						    	docFileName = null;
-						    }
-						    if(docFileName != null) {
-								stmt.setString(1,docFileName); 
-								stmt.setString(2,project.getProject_id()); 
-								stmt.setString(3,project.getCreated_by());
-								stmt.addBatch();
-						    }
+				
+				String deleteQry ="delete from project_gallery where project_id_fk = :project_id ";
+				Project dObj = new Project();
+				dObj.setProject_id(project.getProject_id());
+				paramSource = new BeanPropertySqlParameterSource(dObj);
+				template.update(deleteQry, paramSource);
+
+				String galleryQry ="INSERT into project_gallery (file_name,project_id_fk,created_by)VALUES(:file_name,:project_id,:created_by)";
+				for (int i = 0; i < arraySize; i++) {
+					MultipartFile multipartFile = project.getProjectGalleryFiles()[i];
+					if ((null != multipartFile && !multipartFile.isEmpty())
+							|| !StringUtils.isEmpty(project.getProjectGalleryFileNames()[i])) {
+						String saveDirectory = CommonConstants2.PROJECT_GALLERY_FILE_SAVING_PATH + project.getProject_id() + File.separator;
+						String fileName = project.getProjectGalleryFileNames()[i];
+						if (null != multipartFile && !multipartFile.isEmpty()) {
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
 						}
+						Project imgObj = new Project();
+						imgObj.setFile_name(fileName);
+						imgObj.setProject_id(project.getProject_id());
+						imgObj.setCreated_by(project.getCreated_by());
+						paramSource = new BeanPropertySqlParameterSource(imgObj);
+						template.update(galleryQry, paramSource);
 					}
-					if(!StringUtils.isEmpty(galleryFiles) && galleryFiles.size() > 0 && !galleryFiles.get(0).isEmpty()) {		
-						for (MultipartFile multipartFile : galleryFiles) {
-							if (null != multipartFile && !multipartFile.isEmpty()){
-								String saveDirectory = CommonConstants2.PROJECT_GALLERY_FILE_SAVING_PATH + project.getProject_id() + "/";
-								String fileName = multipartFile.getOriginalFilename();
-								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-								
-								stmt.setString(1,fileName); 
-								stmt.setString(2,project.getProject_id()); 
-								stmt.setString(3,project.getCreated_by());
-								stmt.addBatch();
-							}
-						}
-					}
-					stmt.executeBatch();
 				}
 				
-				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+				/************************************************************************************************************************************/
 				
-				 arraySize = 0;
-				if(!StringUtils.isEmpty(project.getProjectFileNames()) && project.getProjectFileNames().length > 0 ) {
+				
+				
+				arraySize = 0;
+				if (!StringUtils.isEmpty(project.getProjectFileNames()) && project.getProjectFileNames().length > 0) {
 					project.setProjectFileNames(CommonMethods.replaceEmptyByNullInSringArray(project.getProjectFileNames()));
-					if(arraySize < project.getProjectFileNames().length) {
+					if (arraySize < project.getProjectFileNames().length) {
 						arraySize = project.getProjectFileNames().length;
 					}
 				}
-				List<MultipartFile> projectFiles = project.getProjectFile();
-				
-				if(!StringUtils.isEmpty(projectFiles)) {
-					String deleteQry ="delete from project_files where project_id_fk = ? ";
-					stmt = con.prepareStatement(deleteQry); 
-					stmt.setString(1, project.getProject_id());
-					stmt.executeUpdate();
-					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-					
-					String filesQry ="INSERT into project_files (attachment,project_id_fk)VALUES(?,?)";
-					stmt = con.prepareStatement(filesQry); 
-					if(arraySize > 0) {
-						for (int i = 0; i < arraySize; i++) {
-							docFileName  = (project.getProjectFileNames().length > 0)?project.getProjectFileNames()[i]:null;
-						    if(docFileName == null) {
-						    	docFileName = null;
-						    }
-						    if(docFileName != null) {
-								stmt.setString(1,docFileName); 
-								stmt.setString(2,project.getProject_id()); 
-								stmt.addBatch();
-						    }
-						}
+
+				if (!StringUtils.isEmpty(project.getProject_file_types()) && project.getProject_file_types().length > 0) {
+					project.setProject_file_types(CommonMethods.replaceEmptyByNullInSringArray(project.getProject_file_types()));
+					if (arraySize < project.getProject_file_types().length) {
+						arraySize = project.getProject_file_types().length;
 					}
-					if(!StringUtils.isEmpty(projectFiles) && projectFiles.size() > 0 && !projectFiles.get(0).isEmpty()) {		
-						for (MultipartFile multipartFile : projectFiles) {
-							if (null != multipartFile && !multipartFile.isEmpty()){
-								String saveDirectory = CommonConstants.PROJECT_FILE_SAVING_PATH ;
-								String fileName = multipartFile.getOriginalFilename();
-								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-								
-								stmt.setString(1,fileName); 
-								stmt.setString(2,project.getProject_id()); 
-								stmt.addBatch();
-							}
-						}
-					}
-					stmt.executeBatch();
 				}
 				
-				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-			
+				if (!StringUtils.isEmpty(project.getProject_file_ids()) && project.getProject_file_ids().length > 0) {
+					project.setProject_file_ids(CommonMethods.replaceEmptyByNullInSringArray(project.getProject_file_ids()));
+					if (arraySize < project.getProject_file_ids().length) {
+						arraySize = project.getProject_file_ids().length;
+					}
+				}
+				
+				String file_ids = "";
+				for (int i = 0; i < arraySize; i++) {
+					if(!StringUtils.isEmpty(project.getProject_file_ids()[i])) {
+						file_ids = file_ids + project.getProject_file_ids()[i] + ",";
+					}
+				}
+				
+				if (!StringUtils.isEmpty(file_ids)) {			
+					file_ids = org.apache.commons.lang3.StringUtils.chop(file_ids);
+
+					String deleteFilesQry = "delete from project_files where id not in("+file_ids+") and project_id_fk = :project_id";
+					Project fileObj = new Project();
+					fileObj.setProject_id(project.getProject_id());
+					paramSource = new BeanPropertySqlParameterSource(fileObj);
+					template.update(deleteFilesQry, paramSource);
+				}
+
+				String insertFileQry = "INSERT INTO project_files (attachment,project_id_fk,project_file_type_fk,created_date)VALUES(:attachment,:project_id,:project_file_type_fk,CURRENT_TIMESTAMP)";
+				String updateFileQry = "UPDATE project_files set attachment=:attachment,project_id_fk=:project_id,project_file_type_fk=:project_file_type_fk WHERE id=:project_file_id";
+				
+				for (int i = 0; i < arraySize; i++) {
+					MultipartFile multipartFile = project.getProjectFiles()[i];
+					if ((null != multipartFile && !multipartFile.isEmpty())
+							|| !StringUtils.isEmpty(project.getProjectFileNames()[i])) {
+						String saveDirectory = CommonConstants.PROJECT_FILE_SAVING_PATH + project.getProject_id() + File.separator;
+						String fileName = project.getProjectFileNames()[i];
+						String file_id = project.getProject_file_ids()[i];
+						if (null != multipartFile && !multipartFile.isEmpty()) {
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+						}
+						Project fObj = new Project();
+						fObj.setAttachment(fileName);
+						fObj.setProject_file_type_fk(project.getProject_file_types()[i]);
+						fObj.setProject_file_id(file_id);
+						fObj.setProject_id(project.getProject_id());
+						paramSource = new BeanPropertySqlParameterSource(fObj);
+						if(!StringUtils.isEmpty(file_id)) {
+							template.update(updateFileQry, paramSource);
+						}else {
+							template.update(insertFileQry, paramSource);
+						}
+					}
+				}
+				
+				/********************************************************************************************************************************************/
+				
 				arraySize = 0;
 				if(!StringUtils.isEmpty(project.getFinancial_years()) && project.getFinancial_years().length > 0 ) {
 					project.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(project.getFinancial_years()));
@@ -383,14 +362,15 @@ public class ProjectDaoImpl implements ProjectDao {
 					}
 				}
 				
-				String pinkbookDeleteQry ="delete from project_pinkbook where project_id_fk = ? ";
-				stmt = con.prepareStatement(pinkbookDeleteQry); 
-				stmt.setString(1, project.getProject_id());
-				stmt.executeUpdate();
-				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+				if (arraySize > 0) {
+					String pinkbookDeleteQry ="delete from project_pinkbook where project_id_fk = :project_id ";
+					Project obj = new Project();
+					obj.setProject_id(project.getProject_id());
+					paramSource = new BeanPropertySqlParameterSource(obj);
+					template.update(pinkbookDeleteQry, paramSource);
+				}
 				
-				String pinkbookQry ="INSERT into project_pinkbook (project_id_fk,financial_year_fk,pb_item_no)VALUES(?,?,?)";
-				stmt = con.prepareStatement(pinkbookQry); 
+				String pinkbookQry ="INSERT into project_pinkbook (project_id_fk,financial_year_fk,pb_item_no)VALUES(:project_id,:financial_year_fk,:pb_item_no)";
 				if(arraySize > 0) {
 					for (int i = 0; i < arraySize; i++) {
 						if(!StringUtils.isEmpty(project.getFinancial_years()[i]) || !StringUtils.isEmpty(project.getPink_book_item_numbers()[i])) {
@@ -398,96 +378,121 @@ public class ProjectDaoImpl implements ProjectDao {
 							if(!StringUtils.isEmpty(project.getRailways()[i])) {
 								pb_item_no = project.getRailways()[i] + "-" + project.getPink_book_item_numbers()[i];
 							}
-							
-							stmt.setString(1,project.getProject_id()); 
-							stmt.setString(2,(project.getFinancial_years().length > 0)?project.getFinancial_years()[i]:null); 
-							stmt.setString(3,pb_item_no);
-							stmt.addBatch();
+							Project obj = new Project();
+							obj.setProject_id(project.getProject_id());
+							obj.setFinancial_year_fk(project.getFinancial_years()[i]);
+							obj.setPb_item_no(pb_item_no);
+							paramSource = new BeanPropertySqlParameterSource(obj);
+							template.update(pinkbookQry, paramSource);
 						}
 					}
-					stmt.executeBatch();
 				}
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);
-		}
-		finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
-		}		
+		}	
 		return flag;	
 	}
 
 	@Override
 	public boolean addProject(Project project)throws Exception{
-		Connection con = null;
-		PreparedStatement stmt = null;
 		int count = 0;
 		boolean flag = false;
 		try{
-			con = dataSource.getConnection();
-			
-			String projectId = getProjectId(con);
-			con.setAutoCommit(false);
-			String qry ="INSERT into project (project_id,project_name,plan_head_number,remarks,project_status,attachment,benefits)" + 
-					 " VALUES(?,?,?,?,?,?,?)";
-			stmt = con.prepareStatement(qry); 
-			
-			stmt.setString(1,projectId); 
-			stmt.setString(2,project.getProject_name()); 
-			stmt.setString(3,project.getPlan_head_number()); 
-			stmt.setString(4,project.getRemarks()); 
-			stmt.setString(5,project.getProject_status());
-			stmt.setString(6,project.getAttachment());
-			stmt.setString(7,project.getBenefits());
-			count = stmt.executeUpdate();
+			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+			String projectId = null;			
+			String maxIdQry = "SELECT CONCAT(SUBSTRING(project_id, 1, LENGTH(project_id)-2),LPAD(MAX(SUBSTRING(project_id, 2, LENGTH(project_id)))+1,2,'0') ) AS project_id FROM project";
+			Project pId = template.queryForObject(maxIdQry,new MapSqlParameterSource(), BeanPropertyRowMapper.newInstance(Project.class));
+			if(StringUtils.isEmpty(pId)) {
+				projectId = "P01";
+			}else {
+				projectId = pId.getProject_id();
+			}
+			project.setProject_id(projectId);
+			String qry ="INSERT into project (project_id,project_name,plan_head_number,remarks,project_status,benefits)" + 
+					 " VALUES(:project_id,:project_name,:plan_head_number,:remarks,:project_status,:benefits)";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(project);
+			count = template.update(qry, paramSource);
 			if(count > 0 ){
 				flag = true; 
 			}
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 			if(flag) {
-				String galleryQry ="INSERT into project_gallery (file_name,project_id_fk,created_by)VALUES(?,?,?)";
-				stmt = con.prepareStatement(galleryQry); 
-				if(!StringUtils.isEmpty(project.getProjectGalleryFiles()) && project.getProjectGalleryFiles().size() > 0) {
-					List<MultipartFile> galleryFiles = project.getProjectGalleryFiles();
-					for (MultipartFile multipartFile : galleryFiles) {
-						if (null != multipartFile && !multipartFile.isEmpty()){
-							String saveDirectory = CommonConstants2.PROJECT_GALLERY_FILE_SAVING_PATH + projectId + "/";
-							String fileName = multipartFile.getOriginalFilename();
-							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-							
-							stmt.setString(1,fileName); 
-							stmt.setString(2,projectId); 
-							stmt.setString(3,project.getCreated_by());
-							stmt.addBatch();
-						}
-					}
-					stmt.executeBatch();
-				}	
-				
-				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-				
-				String filesQry ="INSERT into project_files (attachment,project_id_fk)VALUES(?,?)";
-				stmt = con.prepareStatement(filesQry); 
-				if(!StringUtils.isEmpty(project.getProjectFile()) && project.getProjectFile().size() > 0) {
-					List<MultipartFile> projectFiles = project.getProjectFile();
-					for (MultipartFile multipartFile : projectFiles) {
-						if (null != multipartFile && !multipartFile.isEmpty()){
-							String saveDirectory = CommonConstants.PROJECT_FILE_SAVING_PATH;
-							String fileName = multipartFile.getOriginalFilename();
-							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-							
-							stmt.setString(1,fileName); 
-							stmt.setString(2,projectId); 
-							stmt.addBatch();
-						}
-					}
-					stmt.executeBatch();
-				}	
-				
-				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-				
 				int arraySize = 0;
+				if(!StringUtils.isEmpty(project.getProjectGalleryFileNames()) && project.getProjectGalleryFileNames().length > 0 ) {
+					project.setProjectGalleryFileNames(CommonMethods.replaceEmptyByNullInSringArray(project.getProjectGalleryFileNames()));
+					if(arraySize < project.getProjectGalleryFileNames().length) {
+						arraySize = project.getProjectGalleryFileNames().length;
+					}
+				}
+
+				String galleryQry ="INSERT into project_gallery (file_name,project_id_fk,created_by)VALUES(:file_name,:project_id,:created_by)";
+				for (int i = 0; i < arraySize; i++) {
+					MultipartFile multipartFile = project.getProjectGalleryFiles()[i];
+					if (null != multipartFile && !multipartFile.isEmpty()) {
+						String saveDirectory = CommonConstants2.PROJECT_GALLERY_FILE_SAVING_PATH + project.getProject_id() + File.separator;
+						String fileName = project.getProjectGalleryFileNames()[i];
+						if (null != multipartFile && !multipartFile.isEmpty()) {
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+						}
+						Project imgObj = new Project();
+						imgObj.setFile_name(fileName);
+						imgObj.setProject_id(project.getProject_id());
+						imgObj.setCreated_by(project.getCreated_by());
+						paramSource = new BeanPropertySqlParameterSource(imgObj);
+						template.update(galleryQry, paramSource);
+					}
+				}
+				
+				/************************************************************************************************************************************/
+				
+				
+				
+				arraySize = 0;
+				if (!StringUtils.isEmpty(project.getProjectFileNames()) && project.getProjectFileNames().length > 0) {
+					project.setProjectFileNames(CommonMethods.replaceEmptyByNullInSringArray(project.getProjectFileNames()));
+					if (arraySize < project.getProjectFileNames().length) {
+						arraySize = project.getProjectFileNames().length;
+					}
+				}
+
+				if (!StringUtils.isEmpty(project.getProject_file_types()) && project.getProject_file_types().length > 0) {
+					project.setProject_file_types(CommonMethods.replaceEmptyByNullInSringArray(project.getProject_file_types()));
+					if (arraySize < project.getProject_file_types().length) {
+						arraySize = project.getProject_file_types().length;
+					}
+				}
+				
+				if (!StringUtils.isEmpty(project.getProject_file_ids()) && project.getProject_file_ids().length > 0) {
+					project.setProject_file_ids(CommonMethods.replaceEmptyByNullInSringArray(project.getProject_file_ids()));
+					if (arraySize < project.getProject_file_ids().length) {
+						arraySize = project.getProject_file_ids().length;
+					}
+				}
+
+				String insertFileQry = "INSERT INTO project_files (attachment,project_id_fk,project_file_type_fk,created_date)VALUES(:attachment,:project_id,:project_file_type_fk,CURRENT_TIMESTAMP)";
+				
+				for (int i = 0; i < arraySize; i++) {
+					MultipartFile multipartFile = project.getProjectFiles()[i];
+					if ((null != multipartFile && !multipartFile.isEmpty())) {
+						String saveDirectory = CommonConstants.PROJECT_FILE_SAVING_PATH + projectId + File.separator;
+						String fileName = project.getProjectFileNames()[i];
+						if (null != multipartFile && !multipartFile.isEmpty()) {
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+						}
+						Project fileObj = new Project();
+						fileObj.setAttachment(fileName);
+						fileObj.setProject_file_type_fk(project.getProject_file_types()[i]);
+						fileObj.setProject_id(projectId);
+						paramSource = new BeanPropertySqlParameterSource(fileObj);
+						template.update(insertFileQry, paramSource);
+					}
+				}
+				
+				/********************************************************************************************************************************************/
+				
+				
+				arraySize = 0;
 				if(!StringUtils.isEmpty(project.getFinancial_years()) && project.getFinancial_years().length > 0 ) {
 					project.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(project.getFinancial_years()));
 					if(arraySize < project.getFinancial_years().length) {
@@ -509,33 +514,28 @@ public class ProjectDaoImpl implements ProjectDao {
 					}
 				}
 				
-				String pinkbookQry ="INSERT into project_pinkbook (project_id_fk,financial_year_fk,pb_item_no)VALUES(?,?,?)";
-				stmt = con.prepareStatement(pinkbookQry); 
+				String pinkbookQry ="INSERT into project_pinkbook (project_id_fk,financial_year_fk,pb_item_no)VALUES(:project_id,:financial_year_fk,:pb_item_no)";
 				if(arraySize > 0) {
-					for (int i = 0; i < arraySize; i++) {						
+					for (int i = 0; i < arraySize; i++) {
 						if(!StringUtils.isEmpty(project.getFinancial_years()[i]) || !StringUtils.isEmpty(project.getPink_book_item_numbers()[i])) {
 							String pb_item_no = project.getPink_book_item_numbers()[i];
 							if(!StringUtils.isEmpty(project.getRailways()[i])) {
 								pb_item_no = project.getRailways()[i] + "-" + project.getPink_book_item_numbers()[i];
 							}
-							stmt.setString(1,projectId); 
-							stmt.setString(2,(project.getFinancial_years().length > 0)?project.getFinancial_years()[i]:null); 
-							stmt.setString(3,pb_item_no);
-							stmt.addBatch();
+							Project obj = new Project();
+							obj.setProject_id(project.getProject_id());
+							obj.setFinancial_year_fk(project.getFinancial_years()[i]);
+							obj.setPb_item_no(pb_item_no);
+							paramSource = new BeanPropertySqlParameterSource(obj);
+							template.update(pinkbookQry, paramSource);
 						}
 					}
-					stmt.executeBatch();
 				}
 			}
-			con.commit();
 		}catch(Exception e){ 
 			e.printStackTrace();
-			con.rollback();
 			throw new Exception(e);
 		}
-		finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
-		}		
 		return flag;
 		
 	}
@@ -627,6 +627,19 @@ public class ProjectDaoImpl implements ProjectDao {
 		try {
 			String qry ="SELECT project_pinkbook_id, project_id_fk, financial_year_fk, pb_item_no FROM project_pinkbook pb "
 					+ "LEFT JOIN project p on pb.project_id_fk = p.project_id ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public List<Project> getProjectFileTypes() throws Exception {
+		List<Project> objsList = null;
+		try {
+			String qry ="SELECT project_file_type FROM project_file_type";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

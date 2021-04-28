@@ -211,11 +211,14 @@ public class ProjectController {
 			Project projectDetails = projectService.getProject(projectId, project);
 			model.addObject("projectDetails", projectDetails);
 			
-			List <Project> fileNames = projectService.getFileNames(projectId);
-			model.addObject("fileNames", fileNames);	
+			/*List <Project> fileNames = projectService.getFileNames(projectId);
+			model.addObject("fileNames", fileNames);*/	
 			
 			List<Year> yearList = projectService.getYearList();
 			model.addObject("yearList", yearList);
+			
+			List<Project> projectFileTypes = projectService.getProjectFileTypes();
+			model.addObject("projectFileTypes", projectFileTypes);
 			
 		}catch (Exception e) {
 			logger.error("Project : " + e.getMessage());
@@ -267,6 +270,9 @@ public class ProjectController {
 			
 			List<Year> yearList = projectService.getYearList();
 			model.addObject("yearList", yearList);
+			
+			List<Project> projectFileTypes = projectService.getProjectFileTypes();
+			model.addObject("projectFileTypes", projectFileTypes);
 			
 		}catch (Exception e) {
 				logger.error("Work : " + e.getMessage());
@@ -320,84 +326,8 @@ public class ProjectController {
 		return model;
 	
 	}
-	/**
-	@RequestMapping(value = "/export-project", method = {RequestMethod.GET,RequestMethod.POST})
-	public void exportWork(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Project project,RedirectAttributes attributes){
-		ModelAndView view = new ModelAndView(PageConstants.project);
-		List<Project> dataList = new ArrayList<Project>();
-		try {
-			view.setViewName("redirect:/project");
-			dataList = projectService.getProjectList(); 
-			if(dataList != null && dataList.size() > 0){
-				XSSFWorkbook  workBook = new XSSFWorkbook ();
-		        XSSFSheet projectSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Project"));
-		        workBook.setSheetOrder(projectSheet.getSheetName(), 0);
-		        XSSFRow headingRow = projectSheet.createRow(0);
-	            headingRow.createCell((short)0).setCellValue("Project ID");
-	            headingRow.createCell((short)1).setCellValue("Project Name");
-	         	headingRow.createCell((short)2).setCellValue("Plan Head Number");
-	            headingRow.createCell((short)3).setCellValue("Remarks");
-	            headingRow.createCell((short)4).setCellValue("Project Status");
-	            short rowNo = 1;
-	            for (Project obj : dataList) {
-	                XSSFRow row = projectSheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(obj.getProject_id());
-	                row.createCell((short)1).setCellValue(obj.getProject_name());
-	                row.createCell((short)2).setCellValue(obj.getPlan_head_number());
-	                row.createCell((short)3).setCellValue(obj.getRemarks());
-	                row.createCell((short)4).setCellValue(obj.getProject_status());
-	                rowNo++;
-	            }
-	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
-	            	//projectSheet.autoSizeColumn(columnIndex);
-	        		projectSheet.setColumnWidth(columnIndex, 25 * 200);
-				}
-	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
-                Date date = new Date();
-                String fileName = "Project_"+dateFormat.format(date);
-                
-                try{
-	                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
-	                workBook.write(fos);
-	                fos.flush();*/
-	 /*
-	               response.setContentType("application/.csv");
-	 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-	 			   response.setContentType("application/vnd.ms-excel");
-	 			   // add response header
-	 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
-	 			   
-	 			    //copies all bytes from a file to an output stream
-	 			   workBook.write(response.getOutputStream()); // Write workbook to response.
-		           workBook.close();
-	 			    //flushes output stream
-	 			    response.getOutputStream().flush();
-	            	
-	                
-	                attributes.addFlashAttribute("success",dataExportSucess);
-	            	//response.setContentType("application/vnd.ms-excel");
-	            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
-	            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
-	            	// ...
-	            	// Now populate workbook the usual way.
-	            	// ...
-	            	//workbook.write(response.getOutputStream()); // Write workbook to response.
-	            	//workbook.close();
-	            }catch(FileNotFoundException e){
-	                //e.printStackTrace();
-	                attributes.addFlashAttribute("error",dataExportInvalid);
-	            }catch(IOException e){
-	                //e.printStackTrace();
-	                attributes.addFlashAttribute("error",dataExportError);
-	            }
-			}else{
-				attributes.addFlashAttribute("error",dataExportNoData);
-			}
-		}catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-**/
+	
+	
 	@RequestMapping(value = "/export-project", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportProject(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Project project,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.project);

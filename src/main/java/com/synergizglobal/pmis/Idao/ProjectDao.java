@@ -28,4 +28,6 @@ public interface ProjectDao {
 
 	public List<Project> getProjectPinkBookList() throws Exception;
 
+	public List<Project> getProjectFileTypes() throws Exception;
+
 }

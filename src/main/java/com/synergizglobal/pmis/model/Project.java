@@ -9,33 +9,80 @@ public class Project {
 	,sanctioned_estimated_cost,sanctioned_year_fk,sanctioned_completion_cost,year_of_completion,projected_completion_year,latest_revised_cost,
 	completion_cost,work_short_name,benefits,galleryFileNames,financial_year_fk,pb_item_no,project_pinkbook_id;
 	
-	private String id,file_name,project_id_fk,created_date,created_by,railway;
+	private String id,file_name,project_id_fk,created_date,created_by,railway,project_file_type_fk,project_file_type,project_file_id;
 	
 	
-	private List<Project> projectFiles;
-	private List<MultipartFile> projectGalleryFiles;
-	private String[] projectGalleryFileNames;
-	private List<MultipartFile> projectFile;
-	private List<Project> projectFilesList;
-	private String[] projectFileNames;
+	private MultipartFile[] projectGalleryFiles,projectFiles;
+	private List<Project> projectFilesList,projectGalleryFilesList,projectPinkBooks,projectGallery;
+	private String[] projectFileNames,attachemnts,project_file_types,project_file_ids,projectGalleryFileNames;
 	private String[] financial_years,pink_book_item_numbers,railways;
 	
 	private List<Work> worksInfo;
+
 	
-	private List<Project> projectGallery;
-
-	private List<Project> projectPinkBooks;
-
-	public List<Project> getProjectFiles() {
-		return projectFiles;
+	
+	public MultipartFile[] getProjectGalleryFiles() {
+		return projectGalleryFiles;
 	}
 
-	public void setProjectFiles(List<Project> projectFiles) {
-		this.projectFiles = projectFiles;
+	public void setProjectGalleryFiles(MultipartFile[] projectGalleryFiles) {
+		this.projectGalleryFiles = projectGalleryFiles;
 	}
 
-	public List<MultipartFile> getProjectFile() {
-		return projectFile;
+	public List<Project> getProjectGalleryFilesList() {
+		return projectGalleryFilesList;
+	}
+
+	public void setProjectGalleryFilesList(List<Project> projectGalleryFilesList) {
+		this.projectGalleryFilesList = projectGalleryFilesList;
+	}
+
+	public String getProject_file_type_fk() {
+		return project_file_type_fk;
+	}
+
+	public void setProject_file_type_fk(String project_file_type_fk) {
+		this.project_file_type_fk = project_file_type_fk;
+	}
+
+	public String getProject_file_type() {
+		return project_file_type;
+	}
+
+	public void setProject_file_type(String project_file_type) {
+		this.project_file_type = project_file_type;
+	}
+
+	public String getProject_file_id() {
+		return project_file_id;
+	}
+
+	public void setProject_file_id(String project_file_id) {
+		this.project_file_id = project_file_id;
+	}
+
+	public String[] getAttachemnts() {
+		return attachemnts;
+	}
+
+	public void setAttachemnts(String[] attachemnts) {
+		this.attachemnts = attachemnts;
+	}
+
+	public String[] getProject_file_types() {
+		return project_file_types;
+	}
+
+	public void setProject_file_types(String[] project_file_types) {
+		this.project_file_types = project_file_types;
+	}
+
+	public String[] getProject_file_ids() {
+		return project_file_ids;
+	}
+
+	public void setProject_file_ids(String[] project_file_ids) {
+		this.project_file_ids = project_file_ids;
 	}
 
 	public List<Project> getProjectFilesList() {
@@ -52,10 +99,6 @@ public class Project {
 
 	public void setProjectFileNames(String[] projectFileNames) {
 		this.projectFileNames = projectFileNames;
-	}
-
-	public void setProjectFile(List<MultipartFile> projectFile) {
-		this.projectFile = projectFile;
 	}
 
 	public String getFinancial_year_fk() {
@@ -152,14 +195,6 @@ public class Project {
 
 	public void setGalleryFileNames(String galleryFileNames) {
 		this.galleryFileNames = galleryFileNames;
-	}
-
-	public List<MultipartFile> getProjectGalleryFiles() {
-		return projectGalleryFiles;
-	}
-
-	public void setProjectGalleryFiles(List<MultipartFile> projectGalleryFiles) {
-		this.projectGalleryFiles = projectGalleryFiles;
 	}
 
 	public String getAttachment() {
@@ -298,14 +333,6 @@ public class Project {
 		this.worksInfo = worksInfo;
 	}
 
-	public List<Project> getProjectGallery() {
-		return projectGallery;
-	}
-
-	public void setProjectGallery(List<Project> projectGallery) {
-		this.projectGallery = projectGallery;
-	}
-
 	public List<Project> getProjectPinkBooks() {
 		return projectPinkBooks;
 	}
@@ -336,6 +363,22 @@ public class Project {
 
 	public void setRailways(String[] railways) {
 		this.railways = railways;
+	}
+
+	public MultipartFile[] getProjectFiles() {
+		return projectFiles;
+	}
+
+	public void setProjectFiles(MultipartFile[] projectFiles) {
+		this.projectFiles = projectFiles;
+	}
+
+	public List<Project> getProjectGallery() {
+		return projectGallery;
+	}
+
+	public void setProjectGallery(List<Project> projectGallery) {
+		this.projectGallery = projectGallery;
 	}
 	
 }

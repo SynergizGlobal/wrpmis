@@ -57,6 +57,12 @@ public class ProjectListImpl implements ProjectService{
 		return projectDao.getProjectPinkBookList();
 	}
 
+
+	@Override
+	public List<Project> getProjectFileTypes() throws Exception {
+		return projectDao.getProjectFileTypes();
+	}
+
 	/**
 	@Override
 	public int getTotalRecords(Project obj, String searchParameter) throws Exception {

@@ -206,84 +206,209 @@
                                      <span id="remarksError"></span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-	                            <div class="col m4 s12" id="selectedImagesInput">
-									<div class="file-field input-field" id="projectImagesDiv1">
-										<div class="btn bg-m t-c">
-											<span>Images</span> <input type="file" id="projectGalleryFiles1"	name="projectGalleryFiles" onchange="selectMoreFiles('1')"  multiple accept="image/x-png,image/gif,image/jpeg,video/mp4,video/webm,video/avi,video/mkv" >
-										</div>
-										<div class="file-path-wrapper">
-											 <input class="file-path validate" type="text">
-											 <input class="file-path validate" type="hidden" id="galleryFileNames" name="galleryFileNames" value="${projectDetails.galleryFileNames}" >
-										</div>
-										 <div id="selectedImages">
+							
+							<div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="row fixed-width"
+										style="margin-bottom: 10px; margin-top: 20px">
+										<div class="table-inside">
+											<table class="mdl-data-table update-table">
+												<thead>
+													<tr>
+														<th style="width: 52%;text-align: left;">Attach File</th>
+														<th></th>
+														<th style="width: 8%;text-align: left;">Action</th>
+													</tr>
+												</thead>
+												<tbody id="projectImageFilesBody">
+													<c:choose>
+														<c:when	test="${not empty projectDetails.projectGalleryFilesList && fn:length(projectDetails.projectGalleryFilesList) gt 0 }">
+															<c:forEach var="iObj" items="${projectDetails.projectGalleryFilesList }" varStatus="index">
+																<tr id="imageRow${index.count }">
+																	<td>
+																		<div class="file-field input-field">
+									                                        <div class="btn bg-m t-c">
+									                                            <span>Attach Image</span>
+									                                            <input type="file" id="projectGalleryFiles${index.count }" name="projectGalleryFiles" accept="image/*">
+									                                        </div>
+									                                        <div class="file-path-wrapper">
+									                                            <input class="file-path validate" type="text" id="projectGalleryFileNames${index.count }" name="projectGalleryFileNames" value="${iObj.file_name }">
+									                                        </div>                             
+									                                    </div>
+			                                                      	</td>
+			                                                      	<td>
+			                                                      		<a href="<%=CommonConstants2.PROJECT_GALLERY%>${iObj.project_id_fk }/${iObj.file_name }" class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                      	</td>
+																	<td>
+																		<a onclick="removeImage('${index.count }');" class="btn red"> 
+																			<i class="fa fa-close"></i></a>
+																	</td>
+																</tr>															
+															</c:forEach>
+														</c:when>
+														<c:otherwise>
+															<tr id="imageRow0">
+																<td>
+																	<div class="file-field input-field">
+								                                        <div class="btn bg-m t-c">
+								                                            <span>Attach Image</span>
+								                                            <input type="file" id="projectGalleryFiles0" name="projectGalleryFiles" accept="image/*">
+								                                        </div>
+								                                        <div class="file-path-wrapper">
+								                                            <input class="file-path validate" type="text" id="projectGalleryFileNames0" name="projectGalleryFileNames">
+								                                        </div>                                       
+								                                    </div>
+		                                                      	</td>
+		                                                      	<td></td>
+																<td>
+																	<a onclick="removeImage('0');" class="btn red"> 
+																		<i class="fa fa-close"></i></a>
+																</td>
+															</tr>
+														</c:otherwise>
+													</c:choose>
+													
+												</tbody>
+											</table>
+											<table class="mdl-data-table">
+												<tbody>
+													<tr>
+														<td colspan="6" style="text-align: right;"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c "
+															onclick="addImageFileRow()"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											
+											<c:choose>
+												<c:when test="${not empty (projectDetails.projectGalleryFilesList) && fn:length(projectDetails.projectGalleryFilesList) gt 0 }">
+													<input type="hidden" id="imageRowNo" name="imageRowNo" value="${fn:length(projectDetails.projectGalleryFilesList) }" />
+												</c:when>
+												<c:otherwise>
+													<input type="hidden" id="imageRowNo" name="imageRowNo" value="0" />
+												</c:otherwise>
+											</c:choose>
 										</div>
 									</div>
-									<c:forEach var="obj" items="${fileNames }" varStatus="index">
-										<div style="clear:both"><a href="<%=CommonConstants2.PROJECT_GALLERY%>${obj.project_id_fk }/${obj.file_name } "
-											class="filevalue" download>${obj.file_name }</a>
-											<span onclick="removeImages(this,'projectGalleryFiles${index.count }','galleryFileNames')" class="attachment-remove-btn">X</span>
-										
-										 <c:choose>
-										 	 <c:when  test="${not empty obj.file_name }">
-										 	 	<input type="hidden" id="projectGalleryFiles${index.count }" name="projectGalleryFileNames" value="${obj.file_name }">
-										 	 </c:when>											
-									     </c:choose> 
-									     </div>
-									</c:forEach>
-									
-									<c:if test="${ empty projectDetails.file_name && empty projectDetails.galleryFileNames}">
-										<input type="hidden"  name="projectGalleryFileNames" value="" style="display:none" >
-									</c:if>
 								</div>
-							 <div class="col m4 s12">
-							  <c:if test="${action eq 'add'}">
-	                            <div id="selectedFilesInput">
-	                                    	<div class="file-field input-field" id="projectFilesDiv1" >
-		                                        <div class="btn bg-m t-c">
-		                                            <span>Attach Files</span>
-		                                            <input type="file" id="projectFiles1" name="projectFile"  onchange="selectFile('1')">
-		                                        </div>
-		                                        <div class="file-path-wrapper">
-		                                            <input class="file-path validate" type="text">
-		                                        </div>                                       
-		                                    </div>
-										</div>
-	                                    <div id="selectedFiles">
-										</div>
-							  </c:if>	
-							  <c:if test="${action eq 'edit'}">
-									<c:set var="existingProjectFilesLength" value="${fn:length(projectDetails.projectFiles )}"></c:set>
-									<c:if test="${fn:length(projectDetails.projectFiles ) gt 0}">
-										<c:set var="existingProjectFilesLength" value="${fn:length(projectDetails.projectFiles )+1}"></c:set>
-									</c:if>
-									<div id="selectedFilesInput">
-                                    	<div class="file-field input-field" id="projectFilesDiv${existingProjectFilesLength }" >
-	                                        <div class="btn bg-m t-c">
-	                                            <span>Attach Files</span>
-	                                            <input type="file" id="projectFiles${existingProjectFilesLength }" name="projectFile"  onchange="selectFile('${existingProjectFilesLength }')">
-	                                        </div>
-	                                        <div class="file-path-wrapper">
-	                                            <input class="file-path validate" type="text">
-	                                        </div>                                       
-	                                    </div>
-									</div>
-                                    
-                                    <div id="selectedFiles">
-                                    	<c:forEach var="obj" items="${projectDetails.projectFiles }" varStatus="index">
-											 <div id="projectFileNames${index.count }">
-												<a href="<%=CommonConstants.PROJECT_FILES%>${obj.attachment } " class="filevalue" download>${obj.attachment }</a>
-												<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
-												<input type="hidden" name="projectFileNames" value="${obj.attachment }">
-										     </div>
-										     <div style="clear:both" ></div>
-										</c:forEach>
-									</div>
-                             </c:if>	
 							</div>
-							<div class="col m2 hide-on-small-only"></div>
+							
+							<div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="row fixed-width"
+										style="margin-bottom: 10px; margin-top: 20px">
+										<div class="table-inside">
+											<table class="mdl-data-table update-table">
+												<thead>
+													<tr>
+														<th style="width: 30%;text-align: left;">File Type</th>
+														<th style="width: 52%;text-align: left;">Attach File</th>
+														<th></th>
+														<th style="width: 8%;text-align: left;">Action</th>
+													</tr>
+												</thead>
+												<tbody id="projectFilesBody">
+													<c:choose>
+														<c:when	test="${not empty projectDetails.projectFilesList && fn:length(projectDetails.projectFilesList) gt 0 }">
+															<c:forEach var="iObj" items="${projectDetails.projectFilesList }" varStatus="index">
+																<tr id="actionRow${index.count }">
+																	<td>
+																		<div class="input-field">
+																			<select  name="project_file_types"  id="project_file_types${index.count }"  class="validate-dropdown searchable">
+							                                   					 <option value="" >Select</option>
+							                                         			  <c:forEach var="obj" items="${projectFileTypes}">
+							                    					  				 <option value="${obj.project_file_type }" <c:if test="${iObj.project_file_type_fk eq obj.project_file_type}">selected</c:if>>${obj.project_file_type}</option>
+							                                          			  </c:forEach>
+							                               					  </select>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="file-field input-field">
+									                                        <div class="btn bg-m t-c">
+									                                            <span>Attach File</span>
+									                                            <input type="file" id="projectFiles${index.count }" name="projectFiles">
+									                                        </div>
+									                                        <div class="file-path-wrapper">
+									                                            <input class="file-path validate" type="text" id="projectFileNames${index.count }" name="projectFileNames" value="${iObj.attachment }">
+									                                        </div>                             
+									                                    </div>
+			                                                      	</td>
+			                                                      	<td>
+			                                                      		<input type="hidden" id="project_file_ids${index.count }" name="project_file_ids" value="${iObj.project_file_id }"/>
+			                                                      		<a href="<%=CommonConstants.PROJECT_FILES%>${iObj.project_id_fk }/${iObj.attachment }" class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                      	</td>
+																	<td>
+																		<a onclick="removeActions('${index.count }');" class="btn red"> 
+																			<i class="fa fa-close"></i></a>
+																	</td>
+																</tr>															
+															</c:forEach>
+														</c:when>
+														<c:otherwise>
+															<tr id="actionRow0">
+																<td>
+																	<div class="input-field">
+																		<select  name="project_file_types"  id="project_file_types0"  class="validate-dropdown searchable">
+						                                   					 <option value="" >Select</option>
+						                                         			  <c:forEach var="obj" items="${projectFileTypes}">
+						                    					  				 <option value="${obj.project_file_type }">${obj.project_file_type}</option>
+						                                          			  </c:forEach>
+						                               					  </select>
+																	</div>
+																</td>
+																<td>
+																	<div class="file-field input-field">
+								                                        <div class="btn bg-m t-c">
+								                                            <span>Attach File</span>
+								                                            <input type="file" id="projectFiles0" name="projectFiles">
+								                                        </div>
+								                                        <div class="file-path-wrapper">
+								                                            <input class="file-path validate" type="text" id="projectFileNames0" name="projectFileNames">
+								                                        </div>                                       
+								                                    </div>
+		                                                      	</td>
+		                                                      	<td><input type="hidden" id="project_file_ids0" name="project_file_ids"/></td>
+																<td>
+																	<a onclick="removeActions('0');" class="btn red"> 
+																		<i class="fa fa-close"></i></a>
+																</td>
+															</tr>
+														</c:otherwise>
+													</c:choose>
+													
+												</tbody>
+											</table>
+											<table class="mdl-data-table">
+												<tbody>
+													<tr>
+														<td colspan="6" style="text-align: right;"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c "
+															onclick="addFileRow()"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											
+											<c:choose>
+												<c:when test="${not empty (projectDetails.projectFilesList) && fn:length(projectDetails.projectFilesList) gt 0 }">
+													<input type="hidden" id="rowNo" name="rowNo" value="${fn:length(projectDetails.projectFilesList) }" />
+												</c:when>
+												<c:otherwise>
+													<input type="hidden" id="rowNo" name="rowNo" value="0" />
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</div>
+								</div>
 							</div>
+							
 						
 							<c:if test="${action eq 'edit'}">
 							<div class="row">
@@ -452,78 +577,74 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
  
 
-    <script>
-	 function selectMoreFiles(no){
-		    files = $("#projectGalleryFiles"+no)[0].files;
-		    var html = "";
-		    for (var i = 0; i < files.length ; i++) {
-		    	html =  html + '<div id=projectGalleryFileNames'+no+'>'
-				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
-				 + '<span onclick="removeImage('+no+')" class="attachment-remove-btn">X</span>'
-				 + '</div>'
-				 + '<div style="clear:both;"></div>';
-		    }
-		    $("#selectedImages").append(html);
-		    
-		    $('#projectImagesDiv1'+no).hide();
-		    
-			var fileIndex = Number(no)+1;
-			moreImages(fileIndex);
-		}
+    <script type="text/javascript">
+
+	/****************************************************************************************************/
+     function addImageFileRow(){
+			var rowNo = $("#imageRowNo").val();
+	        var rNo = Number(rowNo)+1;
+	        var html = '<tr id="imageRow' + rNo + '">'			   
+	   		   +'<td><div class="file-field input-field">'	
+			   +'<div class="btn bg-m t-c">'	
+			   +'<span>Attach Image</span>'	
+			   +'<input type="file" id="projectGalleryFiles'+rNo+'" name="projectGalleryFiles" accept="image/*">'	
+			   +'</div>'	
+			   +'<div class="file-path-wrapper">'	
+			   +'<input class="file-path validate" type="text" id="projectGalleryFileNames'+rNo+'" name="projectGalleryFileNames">'	
+			   +'</div>'	               
+			   +'</div></td>'
+			   +'<td></td>'
+			   +'<td><a onclick="removeImage(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
+			   +'</tr>';
 		
-	/* function moreImages(no){
-		var html = "";
-		html =  html + '<div class="file-field input-field" id="projectImagesDiv'+no+'" >'
-		+ '<div class="btn bg-m t-c">'
-		+ '<span>Attach Files</span>'
-		+ '<input type="file" id="projectGalleryFiles'+no+'" name="projectGalleryFiles"  onchange="selectMoreFiles('+no+')">'
-		+ '</div>'
-		+ '<div class="file-path-wrapper">'
-		+ '<input class="file-path validate" type="text">'
-		+ '</div>'                          
-		+ '</div>'
-		$("#selectedImagesInput").append(html);
-	} */
-	function removeFile(no){			
-     	$('#projectImagesDiv'+no).remove();
-     	$('#projectGalleryFileNames'+no).remove();
-    }
-    function selectFile(no){
-	    files = $("#projectFiles"+no)[0].files;
-	    var html = "";
-	    for (var i = 0; i < files.length ; i++) {
-	    	html =  html + '<div id=projectFileNames'+no+'>'
-			 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
-			 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
-			 + '</div>'
-			 + '<div style="clear:both;"></div>';
+			$('#projectImageFilesBody').append(html);
+	        $("#imageRowNo").val(rNo); 
 	    }
-	    $("#selectedFiles").append(html);
 	    
-	    $('#projectFilesDiv'+no).hide();
+	    function removeImage(rowNo){
+	    	$("#imageRow"+rowNo).remove();
+	    }
+    	
+    /**************************************************************************************************************/
+    
+		function addFileRow(){
+			var rowNo = $("#rowNo").val();
+	        var rNo = Number(rowNo)+1;
+	        var html = '<tr id="actionRow' + rNo + '">'
+	           +'<td> <div class="input-field">'
+	           +'<select name="project_file_types" id="project_file_types'+rNo+'"  class="validate-dropdown searchable" >'	   			
+	   		   +'<option value="" >Select</option>'
+			     <c:forEach var="obj" items="${projectFileTypes}">
+	     	      +'<option value="${obj.project_file_type }">${obj.project_file_type}</option>'
+			     </c:forEach>
+	   		   +'</select></div></td>'	   		  			
+			   
+	   		   +'<td><div class="file-field input-field">'	
+			   +'<div class="btn bg-m t-c">'	
+			   +'<span>Attach Files</span>'	
+			   +'<input type="file" id="projectFiles'+rNo+'" name="projectFiles">'	
+			   +'</div>'	
+			   +'<div class="file-path-wrapper">'	
+			   +'<input class="file-path validate" type="text" id="projectFileNames'+rNo+'" name="projectFileNames">'	
+			   +'</div>'	               
+			   +'</div></td>'
+			   +'<td><input type="hidden" id="project_file_ids'+rNo+'" name="project_file_ids"/></td>'
+			   +'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
+			   +'</tr>';
+		
+			$('#projectFilesBody').append(html);
+	        $("#rowNo").val(rNo);          	
+	        
+	        $('select:not(.searchable)').formSelect();
+	        $('.searchable').select2();
+	    }
 	    
-		var fileIndex = Number(no)+1;
-		moreFiles(fileIndex);
-	}
-	
-	function moreFiles(no){
-		var html = "";
-		html =  html + '<div class="file-field input-field" id="projectFilesDiv'+no+'" >'
-		+ '<div class="btn bg-m t-c">'
-		+ '<span>Attach Files</span>'
-		+ '<input type="file" id="projectFiles'+no+'" name="projectFile"  onchange="selectFile('+no+')">'
-		+ '</div>'
-		+ '<div class="file-path-wrapper">'
-		+ '<input class="file-path validate" type="text">'
-		+ '</div>'                          
-		+ '</div>'
-		$("#selectedFilesInput").append(html);
-	}
-	
-	function removeFile(no){			
-     	$('#projectFilesDiv'+no).remove();
-     	$('#projectFileNames'+no).remove();
-    } 
+	    function removeActions(rowNo){
+	    	$("#actionRow"+rowNo).remove();
+	    }
+
+
+	/****************************************************************************************************/
 
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
@@ -649,23 +770,7 @@
 	                 },submitHandler:function(form){
 				    	form.submit();
 				    }
-				});   
-       function removeMedia(link,id){
-    	  $('#'+id).val('');
-    	  $(link).prev().text('');
-    	  $(link).css('display','none');
-       }        
-       function removeImages(link,id,galleryFileNames){
-    	
-     	 var text=$('#'+id).val('');
-     	 var text1=$('#'+galleryFileNames).val();
-     	 text1= text1.replace($(link).prev().text(),'') ;
-     	 text1 = text1.replace(/,\s*$/, "");
-     	 $('#'+galleryFileNames).val(text1)
-     	 $(link).prev().text(''); 
-     	 $(link).css('display','none');
-     	  
-        } 
+				});  
 
     </script>
 </body>

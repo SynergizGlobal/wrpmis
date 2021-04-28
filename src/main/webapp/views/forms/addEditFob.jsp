@@ -67,6 +67,25 @@
 		.col .center-align.m-1 button.bg-m, .center-align.m-1 button.bg-s{
 			width:inherit;
 		}	
+		/* cost unit dropdown , lable and input styling starts here  */
+		.pt-10{
+			padding-top:10px !important;
+		}
+		.cost_dropdown{
+			min-width:95px !important;
+		}
+		.input-field .prefix.cost ~ input,
+		.input-field .prefix.cost ~ label,
+		.input-field .prefix.cost ~ .validate ~ label {
+		    margin-left: 2rem;
+		    width: 92%;
+		    width: calc(100% - 2rem);
+		}
+		.input-field.col .prefix.cost ~ label,
+		.input-field.col .prefix.cost ~ .validate ~ label {
+		    width: calc(100% - 2rem - 1.5rem);
+		}
+		/* cost unit dropdown , lable and input styling ends here  */
     </style>
 </head>
 <body>
@@ -181,11 +200,21 @@
                                     <button type="button" id="target_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="target_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                	<i class="material-icons prefix center-align">₹</i>   
+                                <div class="col s9 m3 input-field">
+                                	<i class="material-icons prefix cost">₹</i>   
                                     <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${fob.estimated_cost }" min="0.01" step="0.01">
-                                    <label for="estimated_cost">Estimated Cost (in Cr)</label>
+                                    <label for="estimated_cost">Estimated Cost</label>
                                     <span id="estimated_costError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s3 m1 input-field pt-10">
+                                	<p class="searchable_label">Units</p>
+                                	<select class="units" id="estimated_cost_units" name="estimated_cost_units">
+                                		<option>Select</option>
+                                		<option value="rs">Rs</option>
+                                		<option value="thousands">Thousands</option>
+                                		<option value="lacs">Lacs</option>
+                                		<option value="crores">Crores</option>
+                                	</select>
                                 </div>
                               <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -306,11 +335,21 @@
                                     <span id="actual_completion_dateError" class="error-msg" ></span>
                                 </div>
                                 <c:if test="${action eq 'edit'}">
-                                <div class="col s12 m4 input-field">
-                                	<i class="material-icons prefix center-align">₹</i>   
+                                <div class="col s9 m3 input-field">
+                                	<i class="material-icons prefix cost">₹</i>   
                                     <input id="completion_cost" name="completion_cost" type="number" class="validate" min="0.01" step="0.01" value="${fob.completion_cost }">
-                                    <label for="completion_cost">Actual Completion Cost (in Cr)</label>
+                                    <label for="completion_cost">Actual Completion Cost</label>
                                     <span id="completion_costError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s3 m1 input-field pt-10">
+                                	<p class="searchable_label">Units</p>
+                                	<select class="units" id="completion_cost_units" name="completion_cost_units">
+                                		<option>Select</option>
+                                		<option value="rs">Rs</option>
+                                		<option value="thousands">Thousands</option>
+                                		<option value="lacs">Lacs</option>
+                                		<option value="crores">Crores</option>
+                                	</select>
                                 </div>
                                 </c:if>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -658,8 +697,9 @@
     	M.Datepicker.init(this, options);
     });
 	$(document).ready(function () {
-		$('select:not(.searchable)').formSelect();
+		$('select:not(.searchable):not(.units)').formSelect();
         $('.searchable').select2();
+        $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
         $('#remarks').characterCounter();
         
         $('#date_of_approval_icon').click(function () {

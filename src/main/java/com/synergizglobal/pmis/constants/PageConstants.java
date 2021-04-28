@@ -238,7 +238,11 @@ public class PageConstants {
 
 	public static final String issueOtherOrganization = "referenceForms/issueOtherOrganization"; 
 	
-	public static final String issueFileType = "referenceForms/issueFileType";    
+	public static final String issueFileType = "referenceForms/issueFileType";  
+	
+	public static final String contractFileType = "referenceForms/contractFileType"; 
+	
+	public static final String fobFileType = "referenceForms/fobFileType"; 
 	
 	
 }

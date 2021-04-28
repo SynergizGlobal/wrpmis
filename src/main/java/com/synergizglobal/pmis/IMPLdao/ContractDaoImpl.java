@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +16,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -26,9 +29,11 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.BankGuarantee;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Insurence;
+import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.User;
 
 @Repository
@@ -596,8 +601,8 @@ public class ContractDaoImpl implements ContractDao {
 				c = stmt.executeBatch();
 				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 				
-				String documents_qry = "INSERT into contract_documents (name,attachment,contract_id_fk) "
-						  +"VALUES (?,?,?)";
+				String documents_qry = "INSERT into contract_documents (name,attachment,contract_id_fk,contract_file_type_fk,created_date) "
+						  +"VALUES (?,?,?,?,CURRENT_TIMESTAMP())";
 				stmt = con.prepareStatement(documents_qry,Statement.RETURN_GENERATED_KEYS); 
 				
 				arraySize = 0;
@@ -614,6 +619,7 @@ public class ContractDaoImpl implements ContractDao {
 					stmt.setString(k++,(contract.getContractDocumentNames().length > 0)?contract.getContractDocumentNames()[i]:null);
 					stmt.setString(k++,(documentNames.length > 0)?documentNames[i]:null);					
 					stmt.setString(k++,contract_id);
+					stmt.setString(k++,(contract.getContract_file_types().length > 0)?contract.getContract_file_types()[i]:null);
 					stmt.addBatch();
 				}
 				c = stmt.executeBatch();
@@ -805,14 +811,16 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> objsList = new ArrayList<Contract>();
 		Contract obj = null;
 		try {
-			String qry ="SELECT name,attachment from contract_documents where contract_id_fk = ?";
+			String qry ="SELECT contract_documents_id as contract_file_id, contract_id_fk, name, attachment, contract_file_type_fk from contract_documents where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
 			resultSet = stmt.executeQuery();
 			while(resultSet.next()) {
 				obj = new Contract();
+				obj.setContract_file_id(resultSet.getString("contract_file_id"));
 				obj.setName(resultSet.getString("name"));
 				obj.setAttachment(resultSet.getString("attachment"));
+				obj.setContract_file_type_fk(resultSet.getString("contract_file_type_fk"));
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 
@@ -995,7 +1003,7 @@ public class ContractDaoImpl implements ContractDao {
 		boolean flag = false;
 		try{
 			con = dataSource.getConnection();
-			con.setAutoCommit(false);
+			//con.setAutoCommit(false);
 			String contractUpdate_Qry = "UPDATE contract SET work_id_fk = ?,department_fk = ?,contract_name = ?,contract_short_name = ?,contractor_id_fk = ?,contract_type_fk = ?,"
 								+"scope_of_contract = ?,hod_user_id_fk = ?,dy_hod_user_id_fk = ?,doc = ?,awarded_cost = ?,loa_letter_number = ?,loa_date = ?,ca_no = ?,ca_date = ?"
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 
@@ -1408,16 +1416,6 @@ public class ContractDaoImpl implements ContractDao {
 					c = stmt.executeBatch();
 					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 					
-					deleteQry = "DELETE from contract_documents where contract_id_fk = ?";		 
-					stmt = con.prepareStatement(deleteQry);
-					stmt.setString(1,contract.getContract_id()); 
-					stmt.executeUpdate();
-					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-					
-					String documents_qry = "INSERT into contract_documents (name,attachment,contract_id_fk) "
-							  +"VALUES (?,?,?)";
-					stmt = con.prepareStatement(documents_qry,Statement.RETURN_GENERATED_KEYS); 
-					
 					arraySize = 0;
 					if(!StringUtils.isEmpty(contract.getContractDocumentNames()) && contract.getContractDocumentNames().length > 0) {
 						contract.setContractDocumentNames(CommonMethods.replaceEmptyByNullInSringArray(contract.getContractDocumentNames()));
@@ -1431,37 +1429,64 @@ public class ContractDaoImpl implements ContractDao {
 							arraySize = contract.getContractDocumentFileNames().length;
 						}
 					}
-										
+					
+					String placeholders = "";
+					String contract_file_ids = "";
+					for (int i = 0; i < arraySize; i++) {
+						if(!StringUtils.isEmpty(contract.getContract_file_ids()[i])) {
+							placeholders = placeholders + "?,";
+							contract_file_ids = contract_file_ids + contract.getContract_file_ids()[i] + ",";
+						}
+					}
+					
+					if (!StringUtils.isEmpty(placeholders)) {
+						placeholders = org.apache.commons.lang3.StringUtils.chop(placeholders);					
+						contract_file_ids = org.apache.commons.lang3.StringUtils.chop(contract_file_ids);
+						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+						String deleteFilesQry = "delete from contract_documents where contract_documents_id not in("+contract_file_ids+") and contract_id_fk = :contract_id";
+						Contract fileObj = new Contract();
+						fileObj.setContract_id(contract.getContract_id());
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(fileObj);
+						template.update(deleteFilesQry, paramSource);
+					}
+					
+					NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+					String insertFileQry = "INSERT INTO contract_documents (contract_id_fk, name, attachment, contract_file_type_fk, created_date)VALUES(:contract_id,:name,:attachment,:contract_file_type_fk,CURRENT_TIMESTAMP())";
+					String updateFileQry = "UPDATE contract_documents set contract_id_fk=:contract_id,name=:name,attachment=:attachment,contract_file_type_fk=:contract_file_type_fk  WHERE contract_documents_id=:contract_file_id";
+					
 					for (int i = 0; i < arraySize; i++) {
 						String docFileName = null;
-						int k = 1;
-						String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
-						MultipartFile file = contract.getContractDocumentFiles()[i];
-						if (null != file && !file.isEmpty()){
-							String fileName = file.getOriginalFilename();
+						MultipartFile multipartFile = contract.getContractDocumentFiles()[i];
+						if ((null != multipartFile && !multipartFile.isEmpty())
+								|| !StringUtils.isEmpty(contract.getContractDocumentNames()[i])) {
+							String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
+							String fileName = contract.getContractDocumentFileNames()[i];
 							DateFormat df = new SimpleDateFormat("ddMMYY-HHmm-ssSSSSSSS"); 
 							String fileName_new = "Contract-"+contract.getContract_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
 							docFileName = fileName_new;
-							FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
-						}else {
-							docFileName = (contract.getContractDocumentFileNames().length > 0)?contract.getContractDocumentFileNames()[i]:null;
+							String contract_file_id = contract.getContract_file_ids()[i];
+							if (null != multipartFile && !multipartFile.isEmpty()) {
+								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
+							}
+							Contract fileObj = new Contract();
+							fileObj.setContract_id(contract.getContract_id());
+							fileObj.setName((contract.getContractDocumentNames().length > 0)?contract.getContractDocumentNames()[i]:null);
+							fileObj.setAttachment(docFileName);
+							fileObj.setContract_file_type_fk(contract.getContract_file_types()[i]);
+							fileObj.setContract_file_id(contract_file_id);
+							
+							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(fileObj);
+							if(!StringUtils.isEmpty(contract_file_id)) {
+								template.update(updateFileQry, paramSource);
+							}else {
+								template.update(insertFileQry, paramSource);
+							}
 						}
-						
-						stmt.setString(k++,(contract.getContractDocumentNames().length > 0)?contract.getContractDocumentNames()[i]:null);
-						stmt.setString(k++,docFileName);					
-						stmt.setString(k++,contract.getContract_id());
-						stmt.addBatch();
-					}
-					c = stmt.executeBatch();
-					if(c.length > 0) {
-						flag = true;
 					}
 				}
-				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-				con.commit();
-		
+				//con.commit();
 		}catch(Exception e){ 
-			con.rollback();
+			//con.rollback();
 			e.printStackTrace();
 			throw new Exception(e);
 		}
@@ -2407,6 +2432,18 @@ public class ContractDaoImpl implements ContractDao {
 				
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getContractFileTypeList(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry = "select contract_file_type from `contract_file_type` ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

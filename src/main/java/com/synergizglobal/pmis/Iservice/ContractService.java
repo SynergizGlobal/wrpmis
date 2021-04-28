@@ -63,6 +63,8 @@ public interface ContractService {
 
 	public List<Contract> getDyHodList(Contract obj) throws Exception;
 
+	public List<Contract> getContractFileTypeList(Contract obj)throws Exception;
+
 
 
 }

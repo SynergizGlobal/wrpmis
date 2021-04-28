@@ -137,10 +137,9 @@
                                         </tr>
                                     </thead>
                                    <tbody>
-										<c:forEach var="obj" items="${issueFileType}" varStatus="index">
+										<c:forEach var="obj" items="${contractFileType}" varStatus="index">
 											<tr>
 											<td>
-											<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
 												<input type="hidden" id="contract_file_type${index.count}" value="${obj.contract_file_type }"  class="findLengths"/>
 												${obj.contract_file_type }</td>
 										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.contract_file_type }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
@@ -173,7 +172,7 @@
 	</div>
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/add-issue-file-type" id="addContractFileTypeForm" name="addContractFileTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/add-contract-file-type" id="addContractFileTypeForm" name="addContractFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header ">Add Contract File Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -199,7 +198,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/issue-file-type"
+                                        <a href="<%=request.getContextPath()%>/contract-file-type"
 									  class="btn waves-effect waves-light bg-s modal-action modal-close " style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -213,7 +212,7 @@
         </form>
     </div>
  <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-issue-file-type" id=updateContractFileTypeForm name="id=updateContractFileTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-contract-file-type" id=updateContractFileTypeForm name="id=updateContractFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header bg-m">Update Contract File Type <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
@@ -241,7 +240,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/issue-file-type"
+                                        <a href="<%=request.getContextPath()%>/contract-file-type"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -447,7 +446,7 @@
        		            if (isConfirm) {
        		               // swal("Deleted!", "Record has been deleted", "success");
        		                $(".page-loader").show();
-       		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-issue-file-type');
+       		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-contract-file-type');
        		    	    	$('#getForm').submit();
        		           }else {
        		                swal("Cancelled", "Record is safe :)", "error");

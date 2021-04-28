@@ -135,7 +135,7 @@
                                         </tr>
                                     </thead>
                                    <tbody>
-										<c:forEach var="obj" items="${workFileType}" varStatus="index">
+										<c:forEach var="obj" items="${fobFileType}" varStatus="index">
 											<tr>
 											<td>
 											<input type="hidden" id="id${index.count}" name="id" value="${obj.id }" />
@@ -197,7 +197,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/work-file-type"
+                                        <a href="<%=request.getContextPath()%>/fob-file-type"
 									  class="btn waves-effect waves-light bg-s modal-action modal-close " style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -211,7 +211,7 @@
         </form>
     </div>
  <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-work-file-type" id=updateFobFileTypeForm name="updateFobFileTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-fob-file-type" id=updateFobFileTypeForm name="updateFobFileTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header bg-m">Update Fob File Type <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
@@ -239,7 +239,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/work-file-type"
+                                        <a href="<%=request.getContextPath()%>/fob-file-type"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -450,7 +450,7 @@
        		            if (isConfirm) {
        		               // swal("Deleted!", "Record has been deleted", "success");
        		                $(".page-loader").show();
-       		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-work-file-type');
+       		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-fob-file-type');
        		    	    	$('#getForm').submit();
        		           }else {
        		                swal("Cancelled", "Record is safe :)", "error");

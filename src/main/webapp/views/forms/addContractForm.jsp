@@ -825,13 +825,25 @@
 	                                        <table class="mdl-data-table">
 	                                            <thead>
 	                                                <tr>
+	                                                	<th>File Type </th>
 	                                                    <th>Name </th>
 	                                                    <th style="text-align:center">Attachment</th>
+	                                                    <th> </th>
 	                                                    <th style="width:8%">Action</th>
 	                                                </tr>
 	                                            </thead>
 	                                            <tbody id="contractDocumentTableBody" >
 	                                                <tr id="contractDocumentRow0">
+	                                                	<td>
+																		<div class="input-field">
+																			<select  name="contract_file_types"  id="contract_file_types0"  class="validate-dropdown searchable">
+							                                   					 <option value="" >Select</option>
+							                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
+							                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
+							                                          			  </c:forEach>
+							                               					  </select>
+																		</div>
+															    </td>
 	                                                    <td> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
 	                                                            placeholder="Name">
 	                                                    </td>
@@ -843,6 +855,9 @@
 	                                                                    class="fa fa-paperclip"></i></label>
 	                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
 	                                                        </div>
+	                                                    </td>
+	                                                    <td>
+	                                                       
 	                                                    </td>
 	                                                    <td>
 	                                                        <a href="javascript:void(0);" onclick="removeContractDocument('0');" class="btn waves-effect waves-light red t-c "> <i
@@ -1797,6 +1812,13 @@
 		 var rNo = Number(rowNo)+1;
 		 var total = 0;
 		 var html = '<tr id="contractDocumentRow'+rNo+'">'
+					 +'<td><div class="input-field">'
+						+'<select  name="contract_file_types"  id="contract_file_types'+rNo+'"  class="validate-dropdown searchable">'
+							+ '<option value="" >Select</option>'
+						  <c:forEach var="obj" items="${contractFileTypeList}">
+				  				+ '<option value="${obj.contract_file_type }">${obj.contract_file_type}</option>'
+						  </c:forEach>
+					 + '</select></div></td>'
 					 +'<td> <input id="contractDocumentNames'+rNo+'" name="contractDocumentNames" type="text" class="validate" placeholder="Name"> </td>'
 					 +'<td>'
 					 +'<div class="normal-btn">'
@@ -1805,6 +1827,7 @@
 					 +'<span id="contractDocumentFileName'+rNo+'" class="filevalue"></span>'
 					 +'</div>'
 					 +'</td>'
+					 +'<td></td>'
 					 +'<td>'
 					 +'<a href="javascript:void(0);" onclick="removeContractDocument('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
 					 +'</td>'
@@ -1812,6 +1835,8 @@
 		
 			 $('#contractDocumentTableBody').append(html);
 			 $("#documentRowNo").val(rNo);
+			 $('select:not(.searchable)').formSelect();
+	         $('.searchable').select2();
 	} 
 	function removeContractDocument(rowNo){
 		$("#contractDocumentRow"+rowNo).remove();

@@ -403,6 +403,9 @@ public class ContractController {
 			List<Contract> worksList = contractService.getWorkListForContractForm(obj);
 			model.addObject("worksList", worksList);
 			
+			List<Contract> contractFileTypeList = contractService.getContractFileTypeList(obj);
+			model.addObject("contractFileTypeList", contractFileTypeList);
+			
 			List<Contract> departmentList = contractService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			
@@ -509,6 +512,9 @@ public class ContractController {
 			List<Contract> worksList = contractService.getWorkListForContractForm(obj);
 			model.addObject("worksList", worksList);
 			
+			List<Contract> contractFileTypeList = contractService.getContractFileTypeList(obj);
+			model.addObject("contractFileTypeList", contractFileTypeList);
+			
 			List<Contract> departmentList = contractService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			
@@ -556,6 +562,9 @@ public class ContractController {
 			
 			List<Contract> worksList = contractService.getWorkListForContractForm(obj);
 			model.addObject("worksList", worksList);
+			
+			List<Contract> contractFileTypeList = contractService.getContractFileTypeList(obj);
+			model.addObject("contractFileTypeList", contractFileTypeList);
 			
 			List<Contract> departmentList = contractService.getDepartmentList();
 			model.addObject("departmentList", departmentList);

@@ -129,6 +129,10 @@ public class ContractServiceImpl implements ContractService{
 	public List<Contract> getDyHodList(Contract obj) throws Exception {
 		return contractDao.getDyHodList(obj);
 	}
+	@Override
+	public List<Contract> getContractFileTypeList(Contract obj) throws Exception {
+		return contractDao.getContractFileTypeList(obj);
+	}
 	
 
 }

@@ -13,14 +13,14 @@ public class Contract {
 	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,milestone_id,status,released_fk,
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status,revision_status
 	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till,
-	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code;
+	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code,contract_file_type_fk,contract_file_type,contract_file_id;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
 
 	private String[] bg_type_fks,issuing_banks,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,bankStatus,insuranceStatus,codes, bg_dates, release_dates,released_fks,
 	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,insurance_revisions,revision_statuss,
 	 contract_milestones_ids, milestone_names, milestone_dates, actual_dates, revisions,mile_remarks,
-	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts, revised_docs,revision_remarks;
+	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts, revised_docs,revision_remarks,contract_file_type_fks,contract_file_ids,contract_file_types;
 	
 	private String contractor_id, contractor_specilization_fk, address,
 	primary_contact_name, phone_number, pan_number, gst_number, bank_name, account_number, ifsc_code;
@@ -37,7 +37,57 @@ public class Contract {
 	private List<Contract> contractDocuments;
 	private List<Contract> contractKeyPersonnels;
 	
+
 	
+	public String getContract_file_type_fk() {
+		return contract_file_type_fk;
+	}
+
+	public void setContract_file_type_fk(String contract_file_type_fk) {
+		this.contract_file_type_fk = contract_file_type_fk;
+	}
+
+	public String getContract_file_type() {
+		return contract_file_type;
+	}
+
+	public void setContract_file_type(String contract_file_type) {
+		this.contract_file_type = contract_file_type;
+	}
+
+	public String[] getContract_file_type_fks() {
+		return contract_file_type_fks;
+	}
+
+	public void setContract_file_type_fks(String[] contract_file_type_fks) {
+		this.contract_file_type_fks = contract_file_type_fks;
+	}
+
+
+	public String[] getContract_file_types() {
+		return contract_file_types;
+	}
+
+	public void setContract_file_types(String[] contract_file_types) {
+		this.contract_file_types = contract_file_types;
+	}
+
+	public String getContract_file_id() {
+		return contract_file_id;
+	}
+
+	public void setContract_file_id(String contract_file_id) {
+		this.contract_file_id = contract_file_id;
+	}
+
+
+	public String[] getContract_file_ids() {
+		return contract_file_ids;
+	}
+
+	public void setContract_file_ids(String[] contract_file_ids) {
+		this.contract_file_ids = contract_file_ids;
+	}
 
 	public String getUser_role_code() {
 		return user_role_code;

@@ -150,7 +150,7 @@ public class FOBDaoImpl implements FOBDao {
 				
 				
 					
-					String file_insert_qry = "INSERT into  fob_images ( fob_id_fk, attachment,fob_file_type_fk,created_date) VALUES (:fob_id,:attachment,:fob_file_type_fk,CURRENT_TIMESTAMP())";
+					String file_insert_qry = "INSERT into  fob_files ( fob_id_fk, attachment,fob_file_type_fk,created_date) VALUES (:fob_id,:attachment,:fob_file_type_fk,CURRENT_TIMESTAMP())";
 					
 					int arraySize = 0;
 					if (!StringUtils.isEmpty(obj.getFobFileNames()) && obj.getFobFileNames().length > 0) {
@@ -232,7 +232,7 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
 				List<FOB> objsList = null;
-				String qryFOBImages = "select id as fob_file_id, fob_id_fk, attachment, fob_file_type_fk, created_date from fob_images  where fob_id_fk = ? " ;
+				String qryFOBImages = "select id as fob_file_id, fob_id_fk, attachment, fob_file_type_fk, created_date from fob_files  where fob_id_fk = ? " ;
 				
 				objsList = jdbcTemplate.query(qryFOBImages, new Object[] {fobj.getFob_id() }, new BeanPropertyRowMapper<FOB>(FOB.class));	
 				
@@ -341,15 +341,15 @@ public class FOBDaoImpl implements FOBDao {
 					placeholders = org.apache.commons.lang3.StringUtils.chop(placeholders);					
 					fob_file_ids = org.apache.commons.lang3.StringUtils.chop(fob_file_ids);
 
-					String deleteFilesQry = "delete from fob_images where id not in("+fob_file_ids+") and fob_id_fk = :fob_id";
+					String deleteFilesQry = "delete from fob_files where id not in("+fob_file_ids+") and fob_id_fk = :fob_id";
 					FOB fileObj = new FOB();
 					fileObj.setFob_id(obj.getFob_id());
 					paramSource = new BeanPropertySqlParameterSource(fileObj);
 					namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
 				}
 			
-				String insertFileQry = "INSERT into  fob_images ( fob_id_fk, attachment,fob_file_type_fk,created_date) VALUES (:fob_id,:attachment,:fob_file_type_fk,CURRENT_TIMESTAMP())";
-				String updateFileQry = "UPDATE fob_images set fob_id_fk=:fob_id,attachment=:attachment,fob_file_type_fk=:fob_file_type_fk WHERE id=:fob_file_id";
+				String insertFileQry = "INSERT into  fob_files ( fob_id_fk, attachment,fob_file_type_fk,created_date) VALUES (:fob_id,:attachment,:fob_file_type_fk,CURRENT_TIMESTAMP())";
+				String updateFileQry = "UPDATE fob_files set fob_id_fk=:fob_id,attachment=:attachment,fob_file_type_fk=:fob_file_type_fk WHERE id=:fob_file_id";
 
 					
 					for (int i = 0; i < arraySize; i++) {

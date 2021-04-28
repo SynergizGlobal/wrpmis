@@ -34,7 +34,9 @@
         }
         .input-field .searchable_label {
         	font-size:0.85rem;
+        	margin-bottom:4px !important;
         }
+        
         #revisionsTableBody .select2-container--default .select2-selection--single {
         	background-color:transparent;
         }
@@ -65,6 +67,26 @@
 		.mt-brdr .center-align.m-1 button.bg-s{
 			width:inherit;
 		}
+		/* cost unit dropdown , lable and input styling starts here  */
+		.pt-14{
+			padding-top:14px !important;
+		}
+		.cost_dropdown{
+			min-width:90px !important;
+		}
+		.input-field .prefix.cost ~ input,
+		.input-field .prefix.cost ~ label,
+		.input-field .prefix.cost ~ .validate ~ label {
+		    margin-left: 2rem;
+		    width: 92%;
+		    width: calc(100% - 2rem);
+		}
+		.input-field.col .prefix.cost ~ label, 
+		.input-field.col .prefix.cost ~ .validate ~ label {
+		    width: calc(100% - 2rem - 1.5rem);
+		}
+		/* cost unit dropdown , lable and input styling ends here  */
+		
     </style>
 </head>
 <body>
@@ -200,17 +222,38 @@
                             
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                       				<i class="material-icons prefix center-align">₹</i>
+                                <div class="col s9 m3 input-field">
+                       				<i class="material-icons prefix cost">₹</i>
                                     <input id="sanctioned_estimated_cost" type="number" class="validate" name="sanctioned_estimated_cost" value="${workDetails.sanctioned_estimated_cost }" min="0.01" step="0.01">
-                                    <label for="sanctioned_estimated_cost">Sanctioned Estimated Cost (in Cr)</label>
+                                    <label for="sanctioned_estimated_cost">Sanctioned Estimated Cost</label>
                                     <span id="sanctioned_estimated_costError"></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                  	<i class="material-icons prefix center-align">₹</i>
+                                <div class="col s3 m1 input-field">
+                                	<p class="searchable_label">Units</p>
+                                	<select class="units" id="sanctioned_estimated_cost_units" name="sanctioned_estimated_cost_units">
+                                		<option>Select</option>
+                                		<option value="rs">Rs</option>
+                                		<option value="thousands">Thousands</option>
+                                		<option value="lacs">Lacs</option>
+                                		<option value="crores">Crores</option>
+                                	</select>
+                                	<!-- <label for="sanctioned_estimated_cost_units">Units</label> -->
+                                </div>
+                                <div class="col s9 m3 input-field">
+                                  	<i class="material-icons prefix cost">₹</i>
                                     <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDetails.sanctioned_completion_cost }" min="0.01" step="0.01">
-                                    <label for="sanctioned_completion_cost"> Sanctioned Completion Cost (in Cr)</label>
+                                    <label for="sanctioned_completion_cost"> Sanctioned Completion Cost</label>
                                     <span id="sanctioned_completion_costError"></span>
+                                </div>
+                                <div class="col s3 m1 input-field">
+                                	<p class="searchable_label">Units</p>
+                                	<select class="units" id="sanctioned_completion_cost_units" name="sanctioned_completion_cost_units">
+                                		<option>Select</option>
+                                		<option value="rs">Rs</option>
+                                		<option value="thousands">Thousands</option>
+                                		<option value="lacs">Lacs</option>
+                                		<option value="crores">Crores</option>
+                                	</select>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -236,11 +279,21 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                
-                                <div class="col s12 m4 input-field">
-                                  	<i class="material-icons prefix center-align">₹</i>
+                                <div class="col s9 m3 input-field">
+                                  	<i class="material-icons prefix cost">₹</i>
                                     <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="0.01" step="0.01">
-                                    <label for="anticipated_cost">Anticipated cost (in Cr)</label>
+                                    <label for="anticipated_cost">Anticipated cost</label>
                                     <span id="anticipated_costError"></span>
+                                </div>
+                                <div class="col s3 m1 input-field">
+                                	<p class="searchable_label">Units</p>
+                                	<select class="units" id="anticipated_cost_units" name="anticipated_cost_units">
+                                		<option>Select</option>
+                                		<option value="rs">Rs</option>
+                                		<option value="thousands">Thousands</option>
+                                		<option value="lacs">Lacs</option>
+                                		<option value="crores">Crores</option>
+                                	</select>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -375,9 +428,20 @@
 	                                                    <input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" type="text" class="validate" value="${revObj.pink_book_item_number }" 
 	                                                        placeholder="PB Item Number">
 	                                                </td> --%>
-	                                                <td>
-	                                                    <input id="latest_revised_costs${index.count }" name="latest_revised_costs" type="number" class="validate" value="${revObj.latest_revised_cost }"
+	                                                <td class="input-field row">
+	                                                	<div class="col s9">
+	                                                    	<input id="latest_revised_costs${index.count }" name="latest_revised_costs" type="number" class="validate" value="${revObj.latest_revised_cost }"
 	                                                        placeholder="Latest Revised Cost">
+	                                                    </div> 
+	                                                    <div class="col s3 pt-14">
+	                                                    	<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units${index.count}">
+						                                		<option>Select</option>
+						                                		<option value="rs">Rs</option>
+						                                		<option value="thousands">Thousands</option>
+						                                		<option value="lacs">Lacs</option>
+						                                		<option value="crores">Crores</option>
+						                                	</select>
+	                                                    </div>
 	                                                </td>
 	                                                <td>
 	                                                   <select id="year_of_revisions${index.count }"  name="year_of_revisions" class="searchable">
@@ -411,10 +475,21 @@
 	                                                <!-- <td>
 	                                                    <input id="pink_book_item_numbers0" name="pink_book_item_numbers" type="text" class="validate" 
 	                                                        placeholder="PB Item Number">
-	                                                </td> -->
-	                                                <td>
-	                                                    <input id="latest_revised_costs0" name="latest_revised_costs" type="number" class="validate" 
+	                                                </td> -->	                                                
+	                                                <td class="input-field row">
+	                                                	<div class="col s9">
+	                                                    	<input id="latest_revised_costs0" name="latest_revised_costs" type="number" class="validate" 
 	                                                        placeholder="Latest Revised Cost">
+	                                                    </div> 
+	                                                    <div class="col s3 pt-14">
+	                                                    	<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units${index.count}">
+						                                		<option>Select</option>
+						                                		<option value="rs">Rs</option>
+						                                		<option value="thousands">Thousands</option>
+						                                		<option value="lacs">Lacs</option>
+						                                		<option value="crores">Crores</option>
+						                                	</select>
+	                                                    </div>
 	                                                </td>
 	                                                <td>
 	                                                   <select id="year_of_revisions0" name ="year_of_revisions" class="searchable" >
@@ -470,11 +545,21 @@
                                     </select>
                                     <span id="year_of_completionError"></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                <i class="material-icons prefix center-align">₹</i>
+                                <div class="col s9 m3 input-field">
+                                	<i class="material-icons prefix cost">₹</i>
                                     <input id="completion_cost" type="number" class="validate" name="completion_cost" value="${workDetails.completion_cost }" min="0.01" step="0.01">
-                                    <label for="completion_cost">Actual Completion cost (in Cr)</label>
+                                    <label for="completion_cost">Actual Completion cost</label>
                                     <span id="completion_costError"></span>
+                                </div>
+                                <div class="col s3 m1 input-field">
+                                	<p class="searchable_label">Units</p>
+                                	<select class="units" id="completion_cost_units" name="completion_cost_units">
+                                		<option>Select</option>
+                                		<option value="rs">Rs</option>
+                                		<option value="thousands">Thousands</option>
+                                		<option value="lacs">Lacs</option>
+                                		<option value="crores">Crores</option>
+                                	</select>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div> 
@@ -594,8 +679,11 @@
 	    });
 
         $(document).ready(function () {
-        	$('select:not(.searchable)').formSelect();
+        	//$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
+            $('.units').select2({
+            	dropdownCssClass : 'cost_dropdown'
+            });
             $('#work_name').characterCounter();
             $('#remarks').characterCounter();
             // $(".datepicker").datepicker();          
@@ -814,7 +902,11 @@
 				     </c:forEach>
 		   		   +'</select></div></td>'
 				   //+'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
-				   +'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost" min="0.01" step="0.01"></td>'
+				   //+'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost" min="0.01" step="0.01"></td>'
+				   +'<td class="input-field row"> <div class="col s9"><input id="latest_revised_costs_units'+rNo+'" name="latest_revised_costs-units" type="number" class="validate" value=""'
+				   +'placeholder="Latest Revised Cost" min="0.01" step="0.01"> </div> <div class="col s3 pt-14"> <select class="units" id="latest_revised_costs'+rNo+'" name="latest_revised_costs'+rNo+'">'
+               	   +'<option>Select</option> <option value="rs">Rs</option>	<option value="thousands">Thousands</option> <option value="lacs">Lacs</option>	<option value="crores">Crores</option> </select>'
+	               +'</div></td>'
 				   +'<td> <div>'
 				   +'<select id="year_of_revisions'+rNo+'" name="year_of_revisions" class="validate-dropdown searchable" >'
 				   +'<option value="" selected>select</option>'
@@ -830,6 +922,7 @@
 				 $("#rowNo").val(rNo);
 				// $('select').formSelect();
 				 $('.searchable').select2();
+				 $('.units').select2({dropdownCssClass : 'cost_dropdown'});
 		 //******************* Revision table Validation***************************************
 
 		

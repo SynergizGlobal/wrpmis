@@ -153,6 +153,32 @@
 		.input-field>textarea+label:not(.label-icon).active{
 			margin-top: 8px;
 		}
+		/* cost unit dropdown , lable and input styling starts here  */
+		.pt-5{
+			padding-top:5px !important;
+		}
+		.pt-14{
+			padding-top:14px !important;
+		}
+		.cost_dropdown{
+			min-width:95px !important;
+		}
+		.input-field .prefix.cost ~ input,
+		.input-field .prefix.cost ~ label,
+		.input-field .prefix.cost ~ .validate ~ label {
+		    margin-left: 2rem;
+		    width: 92%;
+		    width: calc(100% - 2rem);
+		}
+		.input-field.col .prefix.cost ~ label,
+		.input-field.col .prefix.cost ~ .validate ~ label {
+		    width: calc(100% - 2rem - 1.5rem);
+		}
+		.input-field .prefix.cost {
+			width:2rem;
+		}	
+		
+		/* cost unit dropdown , lable and input styling ends here  */
     </style>
 </head>
 
@@ -345,12 +371,22 @@
 	                                     <span id="date_of_startError" class="error-msg" ></span>
 	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                	<i class="material-icons prefix center-align">₹</i>
+	                                <div class="col s9 m3 input-field">
+	                                	<i class="material-icons prefix cost left-align">₹</i>
 	                                    <input id="awarded_cost" name="awarded_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.awarded_cost }" />
 	                                    <label for="awarded_cost">Awarded cost</label>
 	                                    <span id="awarded_costError" class="error-msg" ></span>
 	                                </div>
+	                                <div class="col s3 m1 input-field pt-5">
+	                                	<p class="searchable_label">Units</p>
+	                                	<select class="units" id="awarded_cost_units" name="awarded_cost_units">
+	                                		<option>Select</option>
+	                                		<option value="rs">Rs</option>
+	                                		<option value="thousands">Thousands</option>
+	                                		<option value="lacs">Lacs</option>
+	                                		<option value="crores">Crores</option>
+	                                	</select>
+                                	</div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	                            <div class="row">
@@ -361,12 +397,22 @@
 	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
 	                                     <span id="docError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                    <i class="material-icons prefix center-align">₹</i>
+	                                <div class="col s9 m3 input-field">
+	                                    <i class="material-icons prefix cost left-align">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.estimated_cost }">
 	                                    <label for="estimated_cost">Estimated cost</label>
 	                                    <span id="estimated_costError" class="error-msg" ></span>
 	                                </div>
+	                                <div class="col s3 m1 input-field pt-5">
+	                                	<p class="searchable_label">Units</p>
+	                                	<select class="units" id="estimated_cost_units" name="estimated_cost_units">
+	                                		<option>Select</option>
+	                                		<option value="rs">Rs</option>
+	                                		<option value="thousands">Thousands</option>
+	                                		<option value="lacs">Lacs</option>
+	                                		<option value="crores">Crores</option>
+	                                	</select>
+                                	</div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	                           
@@ -480,9 +526,21 @@
                                                     <input id="bg_numbers${index.count }" name="bg_numbers" type="text" class="validate" value="${bankObj.bg_number}"
                                                         placeholder="BG / FDR Number">
                                                 </td>
-                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="bg_values${index.count }" name="bg_values" min="0.01" step="0.01" type="number" class="validate" value="${bankObj.bg_value }"
+                                                <td class="input-field row">
+                                                	<div class="col s9">
+                                                		<i class="material-icons prefix cost left-align">₹</i>
+                                                    	<input id="bg_values${index.count }" name="bg_values" min="0.01" step="0.01" type="number" class="validate" value="${bankObj.bg_value }"
                                                         placeholder="Amount">
+                                                    </div> 
+                                                    <div class="col s3 pt-14">
+					                                	<select class="units" id="bg_values${index.count }" name="bg_values">
+					                                		<option>Select</option>
+					                                		<option value="rs">Rs</option>
+					                                		<option value="thousands">Thousands</option>
+					                                		<option value="lacs">Lacs</option>
+					                                		<option value="crores">Crores</option>
+					                                	</select>
+                                                    </div>
                                                 </td>
                                                <td>
                                                     <input id="bg_dates${index.count }" name="bg_dates" type="text" class="validate datepicker" value="${bankObj.bg_date }"
@@ -546,9 +604,20 @@
                                                     <input id="bg_numbers0" name="bg_numbers" type="text" class="validate"
                                                         placeholder="BG / FDR Number">
                                                 </td>
-                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="bg_values0" name="bg_values" type="number" class="validate" min="0.01" step="0.01"
-                                                        placeholder="Amount">
+                                                <td class="input-field row">
+                                                	<div class="col s9">
+                                                		<i class="material-icons prefix cost left-align">₹</i>
+                                                    	<input id="bg_values0" name="bg_values" min="0.01" step="0.01" type="number" class="validate"     placeholder="Amount">
+                                                    </div> 
+                                                    <div class="col s3 pt-14">
+					                                	<select class="units" id="bg_values${index.count }" name="bg_values">
+					                                		<option>Select</option>
+					                                		<option value="rs">Rs</option>
+					                                		<option value="thousands">Thousands</option>
+					                                		<option value="lacs">Lacs</option>
+					                                		<option value="crores">Crores</option>
+					                                	</select>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <input id="bg_dates0" name="bg_dates" type="text" class="validate datepicker"
@@ -591,8 +660,11 @@
                                      <table class="mdl-data-table">
                                         <tbody id="bankTableBody">                                          
                                             <tr>
-									 <td colspan="9" style="text-align: right;"> <a   class="btn waves-effect waves-light bg-m t-c "  onclick="addBankRow()"> <i
-                                                            class="fa fa-plus"></i></a></td>
+									 			<td colspan="9" style="text-align: right;"> 
+									 				<a class="btn waves-effect waves-light bg-m t-c "  onclick="addBankRow()"> 
+									 					<i class="fa fa-plus"></i>
+									 				</a>
+									 			</td>
                                          </tr>
                                         </tbody>
                                     </table>
@@ -672,11 +744,23 @@
                                                 <td>
                                                     <input id="insurance_numbers${index.count }" name="insurance_numbers" type="text" class="validate" value="${insurenceObj.insurance_number }"
                                                         placeholder="Insurance Number">
-                                                </td>
-                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="insurance_values${index.count }" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" value="${insurenceObj.insurance_value }"
+                                                </td>                                                
+                                                <td class="input-field row">
+                                                	<div class="col s9">
+                                                		<i class="material-icons prefix cost left-align">₹</i>
+                                                    	<input id="insurance_values${index.count }" name="insurance_values" min="0.01" step="0.01" type="number" class="validate" value="${insurenceObj.insurance_value }"
                                                         placeholder="Insurance Value">
-                                                </td>
+                                                    </div> 
+                                                    <div class="col s3 pt-14">
+					                                	<select class="units" id="insurance_values${index.count }" name="insurance_values">
+					                                		<option>Select</option>
+					                                		<option value="rs">Rs</option>
+					                                		<option value="thousands">Thousands</option>
+					                                		<option value="lacs">Lacs</option>
+					                                		<option value="crores">Crores</option>
+					                                	</select>
+                                                    </div>
+                                                 </td>
                                                  <td>
                                                     <input id="insurance_revisions${index.count }" name="insurance_revisions" type="text" class="validate" value="${insurenceObj.revision }"  
                                                         placeholder="Revision">
@@ -744,10 +828,22 @@
                                                     <input id="insurance_numbers0" name="insurance_numbers" type="text" class="validate" 
                                                         placeholder="Insurance Number">
                                                 </td>
-                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="insurance_values0" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" 
+                                                <td class="input-field row">
+                                                	<div class="col s9">
+                                                		<i class="material-icons prefix cost left-align">₹</i>
+                                                    	<input id="insurance_values${index.count }" name="insurance_values" min="0.01" step="0.01" type="number" class="validate" value="${insurenceObj.insurance_value }"
                                                         placeholder="Insurance Value">
-                                                </td>
+                                                    </div> 
+                                                    <div class="col s3 pt-14">
+					                                	<select class="units" id="insurance_values${index.count }" name="insurance_values">
+					                                		<option>Select</option>
+					                                		<option value="rs">Rs</option>
+					                                		<option value="thousands">Thousands</option>
+					                                		<option value="lacs">Lacs</option>
+					                                		<option value="crores">Crores</option>
+					                                	</select>
+                                                    </div>
+                                                 </td>
                                                  <td>
                                                     <input id="insurance_revisions0" name="insurance_revisions" type="text" class="validate" 
                                                         placeholder="Revision">
@@ -963,9 +1059,21 @@
                                                 <td> <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" value="${revObj.revision_number }"
                                                         placeholder="Revision Number">
                                                 </td>
-                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="revised_amounts${index.count }" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" value="${revObj.revised_amount }"
+                                                <td class="input-field row">
+                                                	<div class="col s9">
+                                                		<i class="material-icons prefix cost left-align">₹</i>
+                                                    	<input id="revised_amounts${index.count }" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" value="${revObj.revised_amount }"
                                                         placeholder="Revised Amount">
+                                                    </div> 
+                                                    <div class="col s3 pt-14">
+					                                	<select class="units" id="revised_amounts${index.count }" name="revised_amounts">
+					                                		<option>Select</option>
+					                                		<option value="rs">Rs</option>
+					                                		<option value="thousands">Thousands</option>
+					                                		<option value="lacs">Lacs</option>
+					                                		<option value="crores">Crores</option>
+					                                	</select>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <input id="revised_docs${index.count }" name="revised_docs" type="text" class="validate datepicker" value="${revObj.revised_doc }"
@@ -1010,9 +1118,20 @@
                                                 <td> <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
                                                         placeholder="Revision Number">
                                                 </td>
-                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"
-                                                        placeholder="Revised Amount">
+                                                <td class="input-field row">
+                                                	<div class="col s9">
+                                                		<i class="material-icons prefix cost left-align">₹</i>
+                                                    	<input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount">
+                                                    </div> 
+                                                    <div class="col s3 pt-14">
+					                                	<select class="units" id="revised_amounts0" name="revised_amounts">
+					                                		<option>Select</option>
+					                                		<option value="rs">Rs</option>
+					                                		<option value="thousands">Thousands</option>
+					                                		<option value="lacs">Lacs</option>
+					                                		<option value="crores">Crores</option>
+					                                	</select>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <input id="revised_docs0" name="revised_docs" type="text" class="validate datepicker" 
@@ -1297,12 +1416,22 @@
 	                                    <span id="actual_completion_dateError" class="error-msg" ></span>
 	                                    <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                	<i class="material-icons prefix center-align">₹</i>
+	                                <div class="col s9 m3 input-field">
+	                                	<i class="material-icons prefix cost left-align">₹</i>
 	                                    <input id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.completed_cost }">
 	                                    <label for="completed_cost">Completed Cost</label>
 	                                     <span id="completed_costError" class="error-msg" ></span>
-	                                </div>                              
+	                                </div>    
+	                                <div class="col s3 m1 input-field pt-5">
+	                                	<p class="searchable_label">Units</p>
+	                                	<select class="units" id="completed_cost_units" name="completed_cost_units">
+	                                		<option>Select</option>
+	                                		<option value="rs">Rs</option>
+	                                		<option value="thousands">Thousands</option>
+	                                		<option value="lacs">Lacs</option>
+	                                		<option value="crores">Crores</option>
+	                                	</select>
+                                	</div>                          
 	                            </div> 
 	      						<div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>	                                
@@ -1432,18 +1561,30 @@
 
 
     <script>
-	    $(document).on('focus', '.datepicker',function(){
+	   /*  $(document).on('focus', '.datepicker',function(){
 	        $(this).datepicker({
 	        	format:'dd-mm-yyyy',
 	   	    	onSelect: function () {
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
 	        })
+	    }); */
+	    let date_pickers = document.querySelectorAll('.datepicker');
+	    $.each(date_pickers, function(){
+	    	var dt = this.value.split(/[^0-9]/);
+	    	this.value = ""; 
+	    	var options = {format: 'dd-mm-yyyy',autoClose:true};
+	    	if(dt.length > 1){
+	    		options.setDefaultDate = true,
+	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+	    	}
+	    	M.Datepicker.init(this, options);
 	    });
     
         $(document).ready(function () {												
-        	$('select:not(.searchable)').formSelect();
+        	$('select:not(.searchable):not(.units)').formSelect();
             $('.searchable').select2();
+            $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
             $('#remarks').characterCounter();
             //getDyHodList();
         });
@@ -1947,7 +2088,10 @@
 				   +'<td> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
 				  // +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
 				   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
-				   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="number" min="0.01" step="0.01" class="validate"  placeholder="Amount"></td>'
+				   //+'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="number" min="0.01" step="0.01" class="validate"  placeholder="Amount"></td>'
+				   +'<td class="input-field row"> <div class="col s9"> <i class="material-icons prefix cost left-align">₹</i> <input id="bg_values'+rNo+'" name="bg_values" min="0.01" step="0.01" type="number" class="validate" placeholder="Amount">'
+				   +'</div><div class="col s3 pt-14">	<p class="searchable_label">Units</p>	<select class="units" id="bg_values'+rNo+'" name="bg_values"> <option>Select</option> <option value="rs">Rs</option> <option value="thousands">Thousands</option>'
+				   +'<option value="lacs">Lacs</option>	<option value="crores">Crores</option>	</select> </div> </td>'
 				   +'<td><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button"><i class="fa fa-calendar"></i></button>'
 				   //+'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
 				   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Expiry Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
@@ -1959,7 +2103,7 @@
 				 $('#bankTableBody').append(html);
 				 $("#bankRowNo").val(rNo);
 				 $('.searchable').select2();
-				 
+				 $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
 				 $("#bg_valid_uptos"+rNo).datepicker({
 		         	 format:'dd-mm-yyyy',
 		             onSelect: function () {
@@ -1989,7 +2133,10 @@
 			   +'<td> <input id="issuing_agencys'+rNo+'" name="issuing_agencys" type="text" class="validate"  placeholder="Issuing Agency"></td>'
 			   +'<td><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
 			   +'<td><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
-			   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" placeholder="Insurance Value"></td>'
+			  // +'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" placeholder="Insurance Value"></td>'
+			   +'<td class="input-field row"> <div class="col s9"> <i class="material-icons prefix cost left-align">₹</i> <input id="insurance_values'+rNo+'" name="insurance_values" '
+			   +'min="0.01" step="0.01" type="number" class="validate" placeholder="Insurance Value"> </div> <div class="col s3 pt-14"> <select class="units" id="insurance_values'+rNo+'" name="insurance_values">'
+			   +'<option>Select</option> <option value="rs">Rs</option>	<option value="thousands">Thousands</option> <option value="lacs">Lacs</option>	<option value="crores">Crores</option>	</select> </div> </td>' 
 			   +'<td><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
@@ -1999,6 +2146,7 @@
 			 $('#insurenceTableBody').append(html);
 			 $("#insurenceRowNo").val(rNo);
 			 $('.searchable').select2();
+			 $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
 			 $("#insurence_valid_uptos"+rNo).datepicker({
 			      	 format:'dd-mm-yyyy',
 			          onSelect: function () {
@@ -2068,7 +2216,10 @@
 		    var total = 0;
 		    var html = '<tr id="revRow'+rNo+'">'
 			   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
-			   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"></td>'
+			   +'<td class="input-field row"> <div class="col s9"> <i class="material-icons prefix cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
+			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"> </div> <div class="col s3 pt-14"> <select class="units" id="revised_amounts'+rNo+'" name="revised_amounts">'
+			   +'<option>Select</option> <option value="rs">Rs</option> <option value="thousands">Thousands</option> <option value="lacs">Lacs</option> <option value="crores">Crores</option> </select> </div> </td>'
+			  // +'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"></td>'
 			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
@@ -2080,7 +2231,7 @@
 			 $('#revTableBody').append(html);
 			 $("#revRowNo").val(rNo);
 			 $('searchable').select2();
-			 
+			 $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
 			 $("#revised_docs"+rNo).datepicker({
 			      	 format:'dd-mm-yyyy',
 			          onSelect: function () {

@@ -335,7 +335,7 @@ public class FOBDaoImpl implements FOBDao {
 						placeholders = placeholders + "?,";
 						fob_file_ids = fob_file_ids + obj.getFob_file_ids()[i] + ",";
 					}
-				}
+				}  
 				
 				if (!StringUtils.isEmpty(placeholders)) {
 					placeholders = org.apache.commons.lang3.StringUtils.chop(placeholders);					

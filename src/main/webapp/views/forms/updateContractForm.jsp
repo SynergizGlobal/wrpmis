@@ -1349,11 +1349,11 @@
 		                                                                style="display:none" onchange="getFileName('0')"/>
 		                                                            <label for="contractDocumentFiles0" class="btn bg-m"><i
 		                                                                    class="fa fa-paperclip"></i></label>
-		                                                            <input type="hidden" id="contractDocumentFileNames0" name="contractDocumentFileNames">
+		                                                            <input type="hidden" id="contractDocumentFileNames0" name="contractDocumentFileNames" value=" ">
 		                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
 		                                                        </div>
 		                                                    </td>
-		                                                    <td><input type="hidden" id="contract_file_ids0" name="contract_file_ids"/>
+		                                                    <td><input type="hidden" id="contract_file_ids0" name="contract_file_ids" value= " "/>
 		                                                    </td>
 		                                                    <td>
 		                                                        <a href="javascript:void(0);" onclick="removeContractDocument('0');" class="btn waves-effect waves-light red t-c "> <i
@@ -2317,6 +2317,7 @@
 				 $("#documentRowNo").val(rNo);
 				 $('select:not(.searchable)').formSelect();
 		         $('.searchable').select2();
+		         $("#contract_file_ids0").val('');
 		} 
 		function removeContractDocument(rowNo){
 			$("#contractDocumentRow"+rowNo).remove();

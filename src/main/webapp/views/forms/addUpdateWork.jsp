@@ -334,7 +334,7 @@
                                 </div>
                             </div> 
                             
-                            <div class="row">
+                            <%-- <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
 								  <c:if test="${action eq 'add'}">
@@ -382,7 +382,119 @@
 	                             	</c:if>	
 								</div>
 								<div class="col m2 hide-on-small-only"></div>
-                            </div>
+                            </div> --%>
+                            
+                            <div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="row fixed-width"
+										style="margin-bottom: 10px; margin-top: 20px">
+										<div class="table-inside">
+											<table class="mdl-data-table update-table">
+												<thead>
+													<tr>
+														<th style="width: 30%;text-align: left;">File Type</th>
+														<th style="width: 52%;text-align: left;">Attach File</th>
+														<th></th>
+														<th style="width: 8%;text-align: left;">Action</th>
+													</tr>
+												</thead>
+												<tbody id="workFilesBody">
+													<c:choose>
+														<c:when	test="${not empty workDetails.workFilesList && fn:length(workDetails.workFilesList) gt 0 }">
+															<c:forEach var="iObj" items="${workDetails.workFilesList }" varStatus="index">
+																<tr id="actionRow${index.count }">
+																	<td>
+																		<div class="input-field">
+																			<select  name="work_file_types"  id="work_file_types${index.count }"  class="validate-dropdown searchable">
+							                                   					 <option value="" >Select</option>
+							                                         			  <c:forEach var="obj" items="${workFileTypes}">
+							                    					  				 <option value="${obj.work_file_type }" <c:if test="${iObj.work_file_type_fk eq obj.work_file_type}">selected</c:if>>${obj.work_file_type}</option>
+							                                          			  </c:forEach>
+							                               					  </select>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="file-field input-field">
+									                                        <div class="btn bg-m t-c">
+									                                            <span>Attach File</span>
+									                                            <input type="file" id="workFiles${index.count }" name="workFiles">
+									                                        </div>
+									                                        <div class="file-path-wrapper">
+									                                            <input class="file-path validate" type="text" id="workFileNames${index.count }" name="workFileNames" value="${iObj.attachment }">
+									                                        </div>                             
+									                                    </div>
+			                                                      	</td>
+			                                                      	<td>
+			                                                      		<input type="hidden" id="work_file_ids${index.count }" name="work_file_ids" value="${iObj.work_file_id }"/>
+			                                                      		<a href="<%=CommonConstants2.ISSUE_FILES%>${iObj.work_id_fk }/${iObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                      	</td>
+																	<td>
+																		<a onclick="removeActions('${index.count }');" class="btn red"> 
+																			<i class="fa fa-close"></i></a>
+																	</td>
+																</tr>															
+															</c:forEach>
+														</c:when>
+														<c:otherwise>
+															<tr id="actionRow0">
+																<td>
+																	<div class="input-field">
+																		<select  name="work_file_types"  id="work_file_types0"  class="validate-dropdown searchable">
+						                                   					 <option value="" >Select</option>
+						                                         			  <c:forEach var="obj" items="${workFileTypes}">
+						                    					  				 <option value="${obj.work_file_type }">${obj.work_file_type}</option>
+						                                          			  </c:forEach>
+						                               					  </select>
+																	</div>
+																</td>
+																<td>
+																	<div class="file-field input-field">
+								                                        <div class="btn bg-m t-c">
+								                                            <span>Attach File</span>
+								                                            <input type="file" id="workFiles0" name="workFiles">
+								                                        </div>
+								                                        <div class="file-path-wrapper">
+								                                            <input class="file-path validate" type="text" id="workFileNames0" name="workFileNames">
+								                                        </div>                                       
+								                                    </div>
+		                                                      	</td>
+		                                                      	<td><input type="hidden" id="work_file_ids0" name="work_file_ids"/></td>
+																<td>
+																	<a onclick="removeActions('0');" class="btn red"> 
+																		<i class="fa fa-close"></i></a>
+																</td>
+															</tr>
+														</c:otherwise>
+													</c:choose>
+													
+												</tbody>
+											</table>
+											<table class="mdl-data-table">
+												<tbody>
+													<tr>
+														<td colspan="6" style="text-align: right;"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c "
+															onclick="addWorkFileRow()"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											
+											<c:choose>
+												<c:when test="${not empty (workDetails.workFilesList) && fn:length(workDetails.workFilesList) gt 0 }">
+													<input type="hidden" id="rowNo" name="rowNo" value="${fn:length(workDetails.workFilesList) }" />
+												</c:when>
+												<c:otherwise>
+													<input type="hidden" id="rowNo" name="rowNo" value="0" />
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</div>
+								</div>
+							</div>
                             
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -620,15 +732,47 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
 
-    <script>
-	  /*   $(document).on('focus', '.datepicker',function(){
-	        $(this).datepicker({
-	        	 format: 'dd-mm-yyyy',
-	   	    	 onSelect: function () {
-	   	    	   $('.confirmation-btns .datepicker-done').click();
-	   	    	 }
-	        })
-	    }); */
+    <script type="text/javascript">
+    
+    /**************************************************************************************************************/
+    
+		function addWorkFileRow(){
+			var rowNo = $("#rowNo").val();
+	        var rNo = Number(rowNo)+1;
+	        var html = '<tr id="actionRow' + rNo + '">'
+	           +'<td> <div class="input-field">'
+	           +'<select name="work_file_types" id="work_file_types'+rNo+'"  class="validate-dropdown searchable" >'	   			
+	   		   +'<option value="" >Select</option>'
+			     <c:forEach var="obj" items="${workFileTypes}">
+	     	      +'<option value="${obj.work_file_type }">${obj.work_file_type}</option>'
+			     </c:forEach>
+	   		   +'</select></div></td>'	   		  			
+			   
+	   		   +'<td><div class="file-field input-field">'	
+			   +'<div class="btn bg-m t-c">'	
+			   +'<span>Attach File</span>'	
+			   +'<input type="file" id="workFiles'+rNo+'" name="workFiles">'	
+			   +'</div>'	
+			   +'<div class="file-path-wrapper">'	
+			   +'<input class="file-path validate" type="text" id="workFileNames'+rNo+'" name="workFileNames">'	
+			   +'</div>'	               
+			   +'</div></td>'
+			   +'<td><input type="hidden" id="work_file_ids'+rNo+'" name="work_file_ids"/></td>'
+			   +'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
+			   +'</tr>';
+		
+			$('#workFilesBody').append(html);
+	        $("#rowNo").val(rNo);          	
+	        
+	        $('select:not(.searchable)').formSelect();
+	        $('.searchable').select2();
+	    }
+	    
+	    function removeActions(rowNo){
+	    	$("#actionRow"+rowNo).remove();
+	    }
+	
+	/****************************************************************************************************/
 	    function selectFile(no){
 		    files = $("#workFiles"+no)[0].files;
 		    var html = "";

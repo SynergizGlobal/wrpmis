@@ -378,7 +378,7 @@
 								
                              <div class="row">
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col m12 s12">
+								<div class="col m8 s12">
 									<div class="row fixed-width"
 										style="margin-bottom: 10px; margin-top: 20px">
 										<div class="table-inside">

@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +12,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -116,7 +118,7 @@ public class WorkDaoImpl implements WorkDao {
 		List<Work> objsList = new ArrayList<Work>();
 		Work obj = null;
 		try {
-			String qry ="SELECT id, work_id_fk, attachment from work_files  "
+			String qry ="SELECT id as work_file_id, work_id_fk, attachment,work_file_type_fk from work_files  "
 					+ "where work_id_fk = ?";
 		
 			stmt = connection.prepareStatement(qry);
@@ -124,8 +126,10 @@ public class WorkDaoImpl implements WorkDao {
 			resultSet = stmt.executeQuery();
 			while(resultSet.next()) {
 				obj = new Work();
-				obj.setId(resultSet.getString("id"));
+				obj.setWork_file_id(resultSet.getString("work_file_id"));
+				obj.setWork_id_fk(resultSet.getString("work_id_fk"));
 				obj.setAttachment(resultSet.getString("attachment"));
+				obj.setWork_file_type_fk(resultSet.getString("work_file_type_fk"));
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 
@@ -314,54 +318,80 @@ public class WorkDaoImpl implements WorkDao {
 				if(stmt != null){stmt.close();}
 			}
 			
-			 int arraySize = 0;
-			if(!StringUtils.isEmpty(work.getWorkFileNames()) && work.getWorkFileNames().length > 0 ) {
+			/*****************************************************************************************************************/
+			
+			int arraySize = 0;
+			if (!StringUtils.isEmpty(work.getWorkFileNames()) && work.getWorkFileNames().length > 0) {
 				work.setWorkFileNames(CommonMethods.replaceEmptyByNullInSringArray(work.getWorkFileNames()));
-				if(arraySize < work.getWorkFileNames().length) {
+				if (arraySize < work.getWorkFileNames().length) {
 					arraySize = work.getWorkFileNames().length;
 				}
 			}
-			List<MultipartFile> workFiles = work.getWorkFile();
+
+			if (!StringUtils.isEmpty(work.getWork_file_types()) && work.getWork_file_types().length > 0) {
+				work.setWork_file_types(CommonMethods.replaceEmptyByNullInSringArray(work.getWork_file_types()));
+				if (arraySize < work.getWork_file_types().length) {
+					arraySize = work.getWork_file_types().length;
+				}
+			}
 			
-			if(!StringUtils.isEmpty(workFiles)) {
-				String deleteQry ="delete from work_files where work_id_fk = ? ";
+			if (!StringUtils.isEmpty(work.getWork_file_ids()) && work.getWork_file_ids().length > 0) {
+				work.setWork_file_ids(CommonMethods.replaceEmptyByNullInSringArray(work.getWork_file_ids()));
+				if (arraySize < work.getWork_file_ids().length) {
+					arraySize = work.getWork_file_ids().length;
+				}
+			}
+			
+			String file_ids = "";
+			for (int i = 0; i < arraySize; i++) {
+				if(!StringUtils.isEmpty(work.getWork_file_ids()[i])) {
+					file_ids = file_ids + work.getWork_file_ids()[i] + ",";
+				}
+			}
+			
+			if (!StringUtils.isEmpty(file_ids)) {			
+				file_ids = org.apache.commons.lang3.StringUtils.chop(file_ids);
+				String deleteQry ="delete from work_files where id not in("+file_ids+") and work_id_fk = ? ";
 				stmt = con.prepareStatement(deleteQry); 
 				stmt.setString(1, work.getWork_id());
 				stmt.executeUpdate();
 				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-				
-				String filesQry ="INSERT into work_files (attachment,work_id_fk)VALUES(?,?)";
-				stmt = con.prepareStatement(filesQry); 
-				if(arraySize > 0) {
-					for (int i = 0; i < arraySize; i++) {
-						docFileName  = (work.getWorkFileNames().length > 0)?work.getWorkFileNames()[i]:null;
-					    if(docFileName == null) {
-					    	docFileName = null;
-					    }
-					    if(docFileName != null) {
-							stmt.setString(1,docFileName); 
-							stmt.setString(2,work.getWork_id()); 
-							stmt.addBatch();
-					    }
+			}
+
+			String insertFileQry = "INSERT INTO work_files (attachment,work_id_fk,work_file_type_fk,created_date)VALUES(?,?,?,CURRENT_TIMESTAMP)";
+			String updateFileQry = "UPDATE work_files set attachment=?,work_id_fk=?,work_file_type_fk=? WHERE id=?";
+			
+			for (int i = 0; i < arraySize; i++) {
+				MultipartFile multipartFile = work.getWorkFiles()[i];
+				if ((null != multipartFile && !multipartFile.isEmpty())
+						|| !StringUtils.isEmpty(work.getWorkFileNames()[i])) {
+					String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH + work.getWork_id() + File.separator;
+					String fileName = work.getWorkFileNames()[i];
+					String file_id = work.getWork_file_ids()[i];
+					String file_type = work.getWork_file_types()[i];
+					if (null != multipartFile && !multipartFile.isEmpty()) {
+						FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+					}
+					if(!StringUtils.isEmpty(file_id)) {
+						stmt = con.prepareStatement(updateFileQry); 
+						stmt.setString(1,fileName); 
+						stmt.setString(2,work.getWork_id()); 
+						stmt.setString(3,file_type); 
+						stmt.setString(4,file_id); 
+						stmt.executeUpdate();
+					}else {
+						stmt = con.prepareStatement(insertFileQry); 
+						stmt.setString(1,fileName); 
+						stmt.setString(2,work.getWork_id()); 
+						stmt.setString(3,file_type); 
+						stmt.executeUpdate();
 					}
 				}
-				if(!StringUtils.isEmpty(workFiles) && workFiles.size() > 0 && !workFiles.get(0).isEmpty()) {		
-					for (MultipartFile multipartFile : workFiles) {
-						if (null != multipartFile && !multipartFile.isEmpty()){
-							String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH ;
-							String fileName = multipartFile.getOriginalFilename();
-							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-							
-							stmt.setString(1,fileName); 
-							stmt.setString(2,work.getWork_id()); 
-							stmt.addBatch();
-						}
-					}
-				}
-				stmt.executeBatch();
 			}
 			
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+			
+			/*****************************************************************************************************************************/
 			String qryDelete = "delete from work_yearly_sanction where work_id_fk = ?";
 			stmt = con.prepareStatement(qryDelete); 			
 			stmt.setString(1,work.getWork_id());
@@ -499,33 +529,56 @@ public class WorkDaoImpl implements WorkDao {
 				}				
 				if(stmt != null){stmt.close();}
 			}
-			String filesQry ="INSERT into work_files (attachment,work_id_fk)VALUES(?,?)";
-			stmt = con.prepareStatement(filesQry); 
-			if(!StringUtils.isEmpty(work.getWorkFile()) && work.getWorkFile().size() > 0) {
-				List<MultipartFile> workFiles = work.getWorkFile();
-				for (MultipartFile multipartFile : workFiles) {
-					if (null != multipartFile && !multipartFile.isEmpty()){
-						String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH;
-						String fileName = multipartFile.getOriginalFilename();
-						FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-						
-						stmt.setString(1,fileName); 
-						stmt.setString(2,workId); 
-						stmt.addBatch();
-					}
-				}
-				stmt.executeBatch();
-			}	
 			
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+/*****************************************************************************************************************/
+			
+			int arraySize = 0;
+			if (!StringUtils.isEmpty(work.getWorkFileNames()) && work.getWorkFileNames().length > 0) {
+				work.setWorkFileNames(CommonMethods.replaceEmptyByNullInSringArray(work.getWorkFileNames()));
+				if (arraySize < work.getWorkFileNames().length) {
+					arraySize = work.getWorkFileNames().length;
+				}
+			}
+
+			if (!StringUtils.isEmpty(work.getWork_file_types()) && work.getWork_file_types().length > 0) {
+				work.setWork_file_types(CommonMethods.replaceEmptyByNullInSringArray(work.getWork_file_types()));
+				if (arraySize < work.getWork_file_types().length) {
+					arraySize = work.getWork_file_types().length;
+				}
+			}
+			
+			if (!StringUtils.isEmpty(work.getWork_file_ids()) && work.getWork_file_ids().length > 0) {
+				work.setWork_file_ids(CommonMethods.replaceEmptyByNullInSringArray(work.getWork_file_ids()));
+				if (arraySize < work.getWork_file_ids().length) {
+					arraySize = work.getWork_file_ids().length;
+				}
+			}
+
+			String insertFileQry = "INSERT INTO work_files (attachment,work_id_fk,work_file_type_fk,created_date)VALUES(?,?,?,CURRENT_TIMESTAMP)";
+			for (int i = 0; i < arraySize; i++) {
+				MultipartFile multipartFile = work.getWorkFiles()[i];
+				if ((null != multipartFile && !multipartFile.isEmpty())) {
+					String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH + work.getWork_id() + File.separator;
+					String fileName = work.getWorkFileNames()[i];
+					String file_id = work.getWork_file_ids()[i];
+					String file_type = work.getWork_file_types()[i];
+					
+					FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+					
+					stmt = con.prepareStatement(insertFileQry); 
+					stmt.setString(1,fileName); 
+					stmt.setString(2,workId); 
+					stmt.setString(3,file_type); 
+					stmt.executeUpdate();
+				}
+			}
 			
 			String qry4 = "INSERT into  work_yearly_sanction (financial_year,latest_revised_cost,"
 						 +"year_of_revision,revision_number,work_id_fk) "
 						 +"VALUES (?,?,?,?,?)";
 			stmt = con.prepareStatement(qry4); 
-			if(flag) {		
-				
-				int arraySize = 0;
+			if(flag) {	
+				arraySize = 0;
 				if(!StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
 					work.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(work.getFinancial_years()));
 					if(arraySize < work.getFinancial_years().length) {
@@ -557,7 +610,7 @@ public class WorkDaoImpl implements WorkDao {
 					stmt.setString(p++,(work.getLatest_revised_costs().length > 0)?work.getLatest_revised_costs()[i]:null);
 					stmt.setString(p++,(work.getYear_of_revisions().length > 0)?work.getYear_of_revisions()[i]:null);						
 					stmt.setString(p++,(work.getRevision_numbers().length > 0)?work.getRevision_numbers()[i]:null);
-					stmt.setString(p++,work.getWork_id());
+					stmt.setString(p++,workId);
 					stmt.addBatch();
 				}
 				int[] c = stmt.executeBatch();
@@ -691,6 +744,20 @@ public class WorkDaoImpl implements WorkDao {
 			throw new Exception(e.getMessage());
 		}
 		
+		return objsList;
+	}
+
+
+	@Override
+	public List<Work> getWorkFileTypes() throws Exception {
+		List<Work> objsList = null;
+		try {
+			String qry ="SELECT work_file_type FROM work_file_type";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
 		return objsList;
 	}
 

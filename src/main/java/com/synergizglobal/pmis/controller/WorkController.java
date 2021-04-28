@@ -208,14 +208,22 @@ public class WorkController {
 		try{
 			model.setViewName(PageConstants.addEditWork);
 			model.addObject("action", "edit");
+			
 			List<Project> projectsList = homeService.getProjectsList();
 			model.addObject("projectsList", projectsList);	
+			
 			List<Railway> railwaysList = workService.getRailwayList();
 			model.addObject("railwaysList", railwaysList);
+			
 			List<Railway> excecuteList = workService.getExcecuteList();
 			model.addObject("excecuteList", excecuteList);
+			
 			List<Year> yearList = workService.getYearList();
 			model.addObject("yearList", yearList);
+			
+			List<Work> workFileTypes = workService.getWorkFileTypes();
+			model.addObject("workFileTypes", workFileTypes);
+			
 			workId= work.getWork_id();
 			Work workDetails = workService.getWork(workId, work);
 			model.addObject("workDetails", workDetails);
@@ -240,6 +248,9 @@ public class WorkController {
 			model.addObject("excecuteList", excecuteList);
 			List<Year> yearList = workService.getYearList();
 			model.addObject("yearList", yearList);
+			
+			List<Work> workFileTypes = workService.getWorkFileTypes();
+			model.addObject("workFileTypes", workFileTypes);
 
 		}catch (Exception e) {
 				logger.error("Work : " + e.getMessage());

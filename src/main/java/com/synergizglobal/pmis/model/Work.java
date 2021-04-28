@@ -10,8 +10,49 @@ public class Work {
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,latest_revised_cost,
 	year_of_revision,revision_number,wys_renarks,attachment,work_attachment,railway,executed_by,projected_completion,
 	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink,id,
-	work_yearly_sanction_id,  pink_book_item_number,projected_completion_date;
+	work_yearly_sanction_id,  pink_book_item_number,projected_completion_date,work_file_id,work_file_type,work_file_type_fk;
 
+
+
+	private String[] financial_years,latest_revised_costs,
+	year_of_revisions,revision_numbers,remarkss;
+
+	private List<Work> workRevisions;
+	//private MultipartFile workFile;
+
+	private List<Work> railwayAgencyList;
+	private List<Work> executedByList;
+
+	private List<MultipartFile> workFile;
+	private List<Work> workFilesList;
+	private String[] workFileNames,work_file_ids,work_file_types;
+	private MultipartFile[] workFiles;
+	
+	
+
+	public String getWork_file_id() {
+		return work_file_id;
+	}
+
+	public void setWork_file_id(String work_file_id) {
+		this.work_file_id = work_file_id;
+	}
+
+	public String getWork_file_type() {
+		return work_file_type;
+	}
+
+	public void setWork_file_type(String work_file_type) {
+		this.work_file_type = work_file_type;
+	}
+
+	public String getWork_file_type_fk() {
+		return work_file_type_fk;
+	}
+
+	public void setWork_file_type_fk(String work_file_type_fk) {
+		this.work_file_type_fk = work_file_type_fk;
+	}
 
 	public String getWork_yearly_sanction_id() {
 		return work_yearly_sanction_id;
@@ -36,19 +77,6 @@ public class Work {
 	public void setDashboard_id(String dashboard_id) {
 		this.dashboard_id = dashboard_id;
 	}
-
-	private String[] financial_years,latest_revised_costs,
-	year_of_revisions,revision_numbers,remarkss;
-
-	private List<Work> workRevisions;
-	//private MultipartFile workFile;
-
-	private List<Work> railwayAgencyList;
-	private List<Work> executedByList;
-
-	private List<MultipartFile> workFile;
-	private List<Work> workFilesList;
-	private String[] workFileNames;
 	
 	public String getId() {
 		return id;
@@ -440,6 +468,30 @@ public class Work {
 
 	public void setProjected_completion_date(String projected_completion_date) {
 		this.projected_completion_date = projected_completion_date;
+	}
+
+	public MultipartFile[] getWorkFiles() {
+		return workFiles;
+	}
+
+	public void setWorkFiles(MultipartFile[] workFiles) {
+		this.workFiles = workFiles;
+	}
+
+	public String[] getWork_file_ids() {
+		return work_file_ids;
+	}
+
+	public void setWork_file_ids(String[] work_file_ids) {
+		this.work_file_ids = work_file_ids;
+	}
+
+	public String[] getWork_file_types() {
+		return work_file_types;
+	}
+
+	public void setWork_file_types(String[] work_file_types) {
+		this.work_file_types = work_file_types;
 	}
 	
 }

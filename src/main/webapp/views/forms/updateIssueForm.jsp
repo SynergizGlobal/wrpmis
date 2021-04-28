@@ -1577,7 +1577,7 @@
 				   
 		   		   +'<td><div class="file-field input-field">'	
 				   +'<div class="btn bg-m t-c">'	
-				   +'<span>Attach Files</span>'	
+				   +'<span>Attach File</span>'	
 				   +'<input type="file" id="issueFiles'+rNo+'" name="issueFiles">'	
 				   +'</div>'	
 				   +'<div class="file-path-wrapper">'	

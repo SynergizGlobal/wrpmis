@@ -260,6 +260,9 @@ public class FOBController {
 			List<FOB> projectsList = fobService.getProjectsListForFOBForm(obj);
 			model.addObject("projectsList", projectsList);
 			
+			List<FOB> fobFileTypesList = fobService.getFobFileTypesList(obj);
+			model.addObject("fobFileTypesList", fobFileTypesList);
+			
 			List<FOB> worksList = fobService.getWorkListForFOBForm(obj);
 			model.addObject("worksList", worksList);
 			
@@ -354,6 +357,9 @@ public class FOBController {
 			
 			List<FOB> projectsList = fobService.getProjectsListForFOBForm(obj);
 			model.addObject("projectsList", projectsList);
+			
+			List<FOB> fobFileTypesList = fobService.getFobFileTypesList(obj);
+			model.addObject("fobFileTypesList", fobFileTypesList);
 			
 			List<String> generalStatusList = homeService.getGeneralStatusList();
 			model.addObject("generalStatusList", generalStatusList);

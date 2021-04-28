@@ -8,7 +8,57 @@ public class FOB {
 	private String fob_id,fob_name,id,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,
 	commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment,fob_detail_id,fob_id_fk,
 	detail_name,value,work_id_fk,project_id_fk,revised_completion,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost,
-	project_id,work_id,work_name,work_short_name,status;
+	project_id,work_id,work_name,work_short_name,status,fob_file_type,fob_file_type_fk,fob_file_id;
+
+
+	public String getFob_file_id() {
+		return fob_file_id;
+	}
+
+	public void setFob_file_id(String fob_file_id) {
+		this.fob_file_id = fob_file_id;
+	}
+
+	private MultipartFile[] fobFiles;
+	private List<FOB> fobFilesList;
+	private List<FOB> fobDetails;
+	private List<FOB> fobImages;
+	private String[] fob_id_fks,fobFileNames,fob_file_types;
+	private String[] fob_detail_names,fob_detail_values,fob_file_ids;
+	
+
+
+	public MultipartFile[] getFobFiles() {
+		return fobFiles;
+	}
+
+	public void setFobFiles(MultipartFile[] fobFiles) {
+		this.fobFiles = fobFiles;
+	}
+
+	public String[] getFob_file_ids() {
+		return fob_file_ids;
+	}
+
+	public void setFob_file_ids(String[] fob_file_ids) {
+		this.fob_file_ids = fob_file_ids;
+	}
+
+	public String getFob_file_type_fk() {
+		return fob_file_type_fk;
+	}
+
+	public void setFob_file_type_fk(String fob_file_type_fk) {
+		this.fob_file_type_fk = fob_file_type_fk;
+	}
+
+	public String getFob_file_type() {
+		return fob_file_type;
+	}
+
+	public void setFob_file_type(String fob_file_type) {
+		this.fob_file_type = fob_file_type;
+	}
 
 	public String getStatus() {
 		return status;
@@ -66,14 +116,16 @@ public class FOB {
 		this.contract_short_name = contract_short_name;
 	}
 
-	private List<MultipartFile> fobFiles;
-	private List<FOB> fobFilesList;
-	private List<FOB> fobDetails;
-	private List<FOB> fobImages;
-	private String[] fob_id_fks,fobFileNames;
-	private String[] fob_detail_names,fob_detail_values;
 	
 
+
+	public String[] getFob_file_types() {
+		return fob_file_types;
+	}
+
+	public void setFob_file_types(String[] fob_file_types) {
+		this.fob_file_types = fob_file_types;
+	}
 
 	public List<FOB> getFobFilesList() {
 		return fobFilesList;
@@ -100,13 +152,6 @@ public class FOB {
 	}
 
 
-	public List<MultipartFile> getFobFiles() {
-		return fobFiles;
-	}
-
-	public void setFobFiles(List<MultipartFile> fobFiles) {
-		this.fobFiles = fobFiles;
-	}
 
 	public List<FOB> getFobImages() {
 		return fobImages;

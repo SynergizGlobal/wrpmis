@@ -318,7 +318,7 @@
                             
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
+                                <div class="col m12 s12">
 	                            <%-- <c:if test="${action eq 'add'}">
 		                            <div id="selectedFilesInput">
 	                                   	<div class="file-field input-field" id="fobFilesDiv1" >
@@ -336,7 +336,119 @@
 	                                   	
 									</div>
 								</c:if>		 --%>
-								<c:if test="${action eq 'edit'}">
+								
+                             <div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m12 s12">
+									<div class="row fixed-width"
+										style="margin-bottom: 10px; margin-top: 20px">
+										<div class="table-inside">
+											<table class="mdl-data-table update-table">
+												<thead>
+													<tr>
+														<th style="width: 30%;text-align: left;">File Type</th>
+														<th style="width: 52%;text-align: left;">Attach File</th>
+														<th></th>
+														<th style="width: 8%;text-align: left;">Action</th>
+													</tr>
+												</thead>
+												<tbody id="fobFilesBody">
+													<c:choose>
+														<c:when	test="${not empty fob.fobImages && fn:length(fob.fobImages) gt 0 }">
+															<c:forEach var="fObj" items="${fob.fobImages }" varStatus="index">
+																<tr id="actionRow${index.count }">
+																	<td>
+																		<div class="input-field">
+																			<select  name="fob_file_types"  id="fob_file_types${index.count }"  class="validate-dropdown searchable">
+							                                   					 <option value="" >Select</option>
+							                                         			  <c:forEach var="obj" items="${fobFileTypesList}">
+							                    					  				 <option value="${obj.fob_file_type }" <c:if test="${fObj.fob_file_type_fk eq obj.fob_file_type}">selected</c:if>>${obj.fob_file_type}</option>
+							                                          			  </c:forEach>
+							                               					  </select>
+																		</div>
+																	</td>
+																	<td>
+																		<div class="file-field input-field">
+									                                        <div class="btn bg-m t-c">
+									                                            <span>Attach File</span>
+									                                            <input type="file" id="fobFiles${index.count }" name="fobFiles">
+									                                        </div>
+									                                        <div class="file-path-wrapper">
+									                                            <input class="file-path validate" type="text" id="fobFileNames${index.count }" name="fobFileNames" value="${fObj.attachment }">
+									                                        </div>                             
+									                                    </div>
+			                                                      	</td>
+			                                                      	<td>
+			                                                      		<input type="hidden" id="fob_file_ids${index.count }" name="fob_file_ids" value="${fObj.fob_file_id }"/>
+			                                                      		<a href="<%=CommonConstants2.FOB_FILES%>${fObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                      	</td>
+																	<td>
+																		<a onclick="removeActions('${index.count }');" class="btn red"> 
+																			<i class="fa fa-close"></i></a>
+																	</td>
+																</tr>															
+															</c:forEach>
+														</c:when>
+														<c:otherwise>
+															<tr id="actionRow0">
+																<td>
+																	<div class="input-field">
+																		<select  name="fob_file_types"  id="fob_file_types0"  class="validate-dropdown searchable">
+						                                   					 <option value="" >Select</option>
+						                                         			  <c:forEach var="obj" items="${fobFileTypesList}">
+						                    					  				 <option value="${obj.fob_file_type }">${obj.fob_file_type}</option>
+						                                          			  </c:forEach>
+						                               					  </select>
+																	</div>
+																</td>
+																<td>
+																	<div class="file-field input-field">
+								                                        <div class="btn bg-m t-c">
+								                                            <span>Attach File</span>
+								                                            <input type="file" id="fobFiles0" name="fobFiles">
+								                                        </div>
+								                                        <div class="file-path-wrapper">
+								                                            <input class="file-path validate" type="text" id="fobFileNames0" name="fobFileNames">
+								                                        </div>                                       
+								                                    </div>
+		                                                      	</td>
+		                                                      	<td><input type="hidden" id="fob_file_ids0" name="fob_file_ids"/></td>
+																<td>
+																	<a onclick="removeActions('0');" class="btn red"> 
+																		<i class="fa fa-close"></i></a>
+																</td>
+															</tr>
+														</c:otherwise>
+													</c:choose>
+													
+												</tbody>
+											</table>
+											<table class="mdl-data-table">
+												<tbody>
+													<tr>
+														<td colspan="6" style="text-align: right;"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c "
+															onclick="addFOBFileRow()"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											
+											<c:choose>
+												<c:when test="${not empty (fob.fobImages) && fn:length(fob.fobImages) gt 0 }">
+													<input type="hidden" id="rowNo" name="rowNo" value="${fn:length(fob.fobImages) }" />
+												</c:when>
+												<c:otherwise>
+													<input type="hidden" id="rowNo" name="rowNo" value="0" />
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</div>
+								</div>
+							</div>                    
+								<%-- <c:if test="${action eq 'edit'}">
 										<c:set var="existingFOBFilesLength" value="${fn:length(fob.fobImages )}"></c:set>
 										<c:if test="${fn:length(fob.fobImages ) gt 0}">
 											<c:set var="existingFOBFilesLength" value="${fn:length(fob.fobImages )+1}"></c:set>
@@ -365,7 +477,7 @@
 										</div>
 										
 	                               
-	                             </c:if>
+	                             </c:if> --%>
                             	</div>
 								<div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -498,6 +610,41 @@
      	$('#fobFilesDiv'+no).remove();
      	$('#fobFileNames'+no).remove();
     } 
+	
+	function addFOBFileRow(){
+		var rowNo = $("#rowNo").val();
+        var rNo = Number(rowNo)+1;
+        var html = '<tr id="actionRow' + rNo + '">'
+           +'<td> <div class="input-field">'
+           +'<select name="fob_file_types" id="fob_file_types'+rNo+'"  class="validate-dropdown searchable" >'	   			
+   		   +'<option value="" >Select</option>'
+		     <c:forEach var="obj" items="${fobFileTypesList}">
+     	      +'<option value="${obj.fob_file_type }">${obj.fob_file_type}</option>'
+		     </c:forEach>
+   		   +'</select></div></td>'	   		  			
+		   
+   		   +'<td><div class="file-field input-field">'	
+		   +'<div class="btn bg-m t-c">'	
+		   +'<span>Attach Files</span>'	
+		   +'<input type="file" id="fobFiles'+rNo+'" name="fobFiles">'	
+		   +'</div>'	
+		   +'<div class="file-path-wrapper">'	
+		   +'<input class="file-path validate" type="text" id="fobFileNames'+rNo+'" name="fobFileNames">'	
+		   +'</div>'	               
+		   +'</div></td>'
+		   +'<td><a ></a><input type="hidden" id="fob_file_ids'+rNo+'" name="fob_file_ids"/></td>'
+		   +'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
+		   +'</tr>';
+	
+		$('#fobFilesBody').append(html);
+        $("#rowNo").val(rNo);          	
+        
+        $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
+    }
+	 function removeActions(rowNo){
+     	$("#actionRow"+rowNo).remove();
+     }
 
     let date_pickers = document.querySelectorAll('.datepicker');
     $.each(date_pickers, function(){

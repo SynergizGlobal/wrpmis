@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.IssueDetailsDao;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.RiskReport;
 @Repository
 public class IssueDetailsDaoImpl implements IssueDetailsDao{
 	@Autowired
@@ -120,5 +121,22 @@ public class IssueDetailsDaoImpl implements IssueDetailsDao{
 			throw new Exception(e.getMessage());
 		}
 		return iObj;
+	}
+
+	@Override
+	public List<Issue> getIssueHistory(Issue obj) throws Exception {
+		List<Issue> objList = null;
+		try {
+			String qry = "select id, issue_id_fk, issue_status_fk as status_fk, u.designation,assigned_person_user_id_fk,DATE_FORMAT(created_date,'%d-%b-%Y %h:%m %p') AS created_date "
+					+ "from issue_history ih "
+					+ "LEFT OUTER JOIN user u on ih.assigned_person_user_id_fk = u.user_id "
+					+ "where issue_id_fk = ? ORDER by created_date ASC" ;
+			
+			objList = jdbcTemplate.query( qry, new Object[] {obj.getIssue_id()}, new BeanPropertyRowMapper<Issue>(Issue.class));
+	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objList;
 	}
 }

@@ -48,12 +48,15 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.RiskReport;
 
 public class DocxTableCreationForIssueDetailsReport {
-	/***************************** Issue Details REPORT ****************************************************************/
+	/***************************** Issue Details REPORT 
+	 * @param issueDeailsHistoryReport 
+	 * @throws Exception ****************************************************************/
 	
 	public static void createTableForIssuesDetailsReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, Issue issueDeailsReport) {
+			ObjectFactory factory, Issue issueDeailsReport, List<Issue> issueDeailsHistoryReport) throws Exception {
 		
 		DateFormat df = new SimpleDateFormat("dd-MM-YYYY"); 
 		String date = df.format(new Date()); 
@@ -85,7 +88,7 @@ public class DocxTableCreationForIssueDetailsReport {
 		if(!StringUtils.isEmpty(issueDeailsReport)) {
 			
 			Tbl titleTable = factory.createTbl();
-			addBorders(titleTable, "0");
+			addBorders(titleTable, "2");
 			int count = 0;
 			Tr titleTableRow = factory.createTr();		
 			addTableCell(factory, wordMLPackage, titleTableRow, "Project", titleRpr,
@@ -330,13 +333,13 @@ public class DocxTableCreationForIssueDetailsReport {
 		  /*===========================================================*/
 		  	if(!"MRVC".equals(issueDeailsReport.getZonal_railway_fk())) {
 		  		titleTableRow = factory.createTr();		
-				addTableCell(factory, wordMLPackage, titleTableRow, "Pesponsible Person Name", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Responsible Person Name", titleRpr,
 						JcEnumeration.LEFT, true, "ecf2ff");
 				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getOther_org_resposible_person_name(), titleContentRpr,
 						JcEnumeration.LEFT, false, null);
 				
 				
-				addTableCell(factory, wordMLPackage, titleTableRow, "Pesponsible Person Designation", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Responsible Person Designation", titleRpr,
 						JcEnumeration.LEFT, true, "ecf2ff");
 				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
 						JcEnumeration.LEFT, false, null);
@@ -433,8 +436,87 @@ public class DocxTableCreationForIssueDetailsReport {
 	
 			
 		}
+		
+		if(!StringUtils.isEmpty(issueDeailsHistoryReport)) {			
+			/*P p = factory.createP();
+			R r = factory.createR();		        
+			Br br = factory.createBr(); 
+			r.getContent().add( br); 
+			p.getContent().add(r);
+			
+			t.addObject(p);*/
+	        
+	       // addPageBreak(mp);
+			addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,titleRPr,"");
+			addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,titleRPr,"");
+	        addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,titleRPr,"Issue History");
+			
+			Tbl issueHistoryTable = factory.createTbl();
+			addBorders(issueHistoryTable, "2");
+			
+			
+			Tr titleRow = factory.createTr();		
+			List<String> tableHeader = new ArrayList<String>();
+			tableHeader.add("SNo.");
+			tableHeader.add("Date");
+			tableHeader.add("Issue Status");
+			tableHeader.add("Responsible Person");
+			
+			for (String headerValue : tableHeader) {
+				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
+						JcEnumeration.CENTER, true, "ecf2ff");
+			}		
+			issueHistoryTable.getContent().add(titleRow);
+			int sNo = 1;
+			for (Issue pObj : issueDeailsHistoryReport) {
+				boolean hasBgColor = false;
+				String backgroundColor = null;
+				Tr contentRow = factory.createTr();	
+				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
+						titleContentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getCreated_date(),
+						titleContentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
+						titleContentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
+						titleContentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				
+				issueHistoryTable.getContent().add(contentRow);
+			}			
+			/****************************************************************************************/			
+			
+			setTableAlign(factory, issueHistoryTable, JcEnumeration.CENTER);
+			mp.addObject(issueHistoryTable);
+			
+		}
 	} 
+	public static void addHeading(WordprocessingMLPackage wordMLPackage,
+			MainDocumentPart t, ObjectFactory factory,JcEnumeration alignment, RPr titleRPr, String contentValue) throws Exception {
+		P paragraph = factory.createP();
+		setParagraphAlign(factory, paragraph, alignment);
+		Text txt = factory.createText();
+		txt.setValue(contentValue);
+		R run = factory.createR();
+		run.getContent().add(txt);
+		run.setRPr(titleRPr);
+		paragraph.getContent().add(run);
+		t.addObject(paragraph);		
+	}
 	
+	private static void addPageBreak(MainDocumentPart documentPart) {
+		 ObjectFactory objectFactory = new ObjectFactory();
+	        //P paragraph = objectFactory.createP();
+	        //R run = objectFactory.createR();
+	        P p = objectFactory.createP();
+	        // Create object for r
+	        R r = objectFactory.createR();
+	        p.getContent().add(r);
+	        // Create object for br
+	        Br br = objectFactory.createBr();
+	        r.getContent().add(br);
+	        br.setType(org.docx4j.wml.STBrType.PAGE);
+	        documentPart.addObject(p);
+	}
 	/*****************************
 	 * 
 	 * 

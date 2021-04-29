@@ -86,6 +86,7 @@ import com.synergizglobal.pmis.common.DocxTableCreationForIssueDetailsReport;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.RiskReport;
 
 @Controller
 public class IssueDetailsReportController {
@@ -132,6 +133,8 @@ public class IssueDetailsReportController {
 			
 			Issue issueDeailsReport = issueService.getIssue(obj);
 			
+			List<Issue> issueDeailsHistoryReport = issueService.getIssueHistory(obj);
+			
 			boolean landscape = true;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
 			
@@ -157,7 +160,7 @@ public class IssueDetailsReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForIssueDetailsReport.createTableForIssuesDetailsReport(wordMLPackage, mp, factory, issueDeailsReport);
+			DocxTableCreationForIssueDetailsReport.createTableForIssuesDetailsReport(wordMLPackage, mp, factory, issueDeailsReport,issueDeailsHistoryReport);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	

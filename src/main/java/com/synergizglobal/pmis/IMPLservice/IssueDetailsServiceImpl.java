@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.IMPLservice;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +17,10 @@ public class IssueDetailsServiceImpl implements IssueDetailsService{
 	@Override
 	public Issue getIssue(Issue obj) throws Exception {
 		return dao.getIssue( obj);
+	}
+
+	@Override
+	public List<Issue> getIssueHistory(Issue obj) throws Exception {
+		return dao.getIssueHistory( obj);
 	}
 }

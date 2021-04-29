@@ -215,7 +215,7 @@
                             </div>
                             </div><div class="row">
                             <div class="input-field col s12 m6">
-                                <input id="department_code" type="text" name="contract_id_code" class="validate"onkeyup="doValidate(null,null,this.value)">
+                                <input id="department_code" type="text" name="contract_id_code" class="validate" onkeyup="doValidate(null,null,this.value)">
                                 <label for="department_code">Department code</label>
                                 <span id="contract_id_codeError" class="error-msg" ></span>
                             </div>

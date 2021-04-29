@@ -10,7 +10,7 @@ public class Risk {
 	
 	private String risk_id_pk,id, project_name,work_name,project_id_fk, work_id_fk, risk_id, sub_area_fk, date_of_identification,area,risk_revision_id, risk_id_pk_fk, date,
 	priority, probability,item_no,priority_fk,work_short_name, impact, owner, responsible_person,assessment_date, risk_action_id,mitigation_plan, action_taken, attachment,
-	sub_area, risk_area_fk,classification,atr_date,work_id,risk_rating,status,sub_work,area_item_no,sub_area_item_no,risk_revision_id_fk,user_type,user_role_code,user_id,user_designation;
+	sub_area, risk_area_fk,classification,owner_user_id,responsible_user_id,atr_date,work_id,risk_rating,status,sub_work,area_item_no,sub_area_item_no,risk_revision_id_fk,user_type,user_role_code,user_id,user_designation;
 
 	private String risk_upload_id,remarks,uploaded_by_user_id_fk,uploaded_on,uploaded_by;
 	private boolean readonlyForm = true;
@@ -25,6 +25,22 @@ public class Risk {
 	private List<Risk> risks; 
 	private List<Risk> riskActions; 
 	
+
+	public String getOwner_user_id() {
+		return owner_user_id;
+	}
+
+	public void setOwner_user_id(String owner_user_id) {
+		this.owner_user_id = owner_user_id;
+	}
+
+	public String getResponsible_user_id() {
+		return responsible_user_id;
+	}
+
+	public void setResponsible_user_id(String responsible_user_id) {
+		this.responsible_user_id = responsible_user_id;
+	}
 
 	public String getUser_type() {
 		return user_type;

@@ -142,10 +142,10 @@
 												<input type="hidden" id="id${indexs.count}" value="${obj.id }" />
 												${obj.id }</td>
 											<td>
-												<input type="hidden" id="type_fkId${indexs.count}" value="${obj.type_fk }" />
+												<input type="hidden" id="type_fkId${indexs.count}" value="${obj.type_fk }" class="findLengths"/>
 												${obj.type_fk }</td>
 											<td>
-												<input type="hidden" id="categoryId${indexs.count}" value="${obj.category }" />
+												<input type="hidden" id="categoryId${indexs.count}" value="${obj.category }" class="findLengths2"/>
 												${obj.category }</td>
 											<c:forEach var="tObj" items="${webDocumentsCategoryDetails.tablesList}" varStatus="index">
 												<td><c:forEach var="cObj" items="${webDocumentsCategoryDetails.countList}" >
@@ -165,7 +165,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${webDocumentsCategoryDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
@@ -217,7 +217,7 @@
                         <div class="row">
                         	 <div class="col s12 m6 input-field">
                                  <p class="searchable_label">Risk Area</p>
-                                 <select class="searchable validate-dropdown" name="type_fk" id="type_fk">
+                                 <select class="searchable validate-dropdown" name="type_fk" id="type_fk" onchange="doValidate(this.value,null)">
                                      <option value="">Select</option>
                                       <c:forEach var="obj" items="${documentType }">
 		                                      <option value="${obj.type_fk }">${obj.type_fk }</option>
@@ -226,15 +226,21 @@
                                  <span id="type_fkError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m12">
-                                <input id="category_text" name="category" type="text" class="validate">
+                                <input id="category_text" name="category" type="text" class="validate" onkeyup="doValidate(null,this.value)">
                                 <label for="category_text">Web Documents Category</label>
                                 <span id="categoryError" class="error-msg" ></span>
                             </div>
+                            
                         </div>
+                          <div class="row">
+	                             <div  style="text-align:center">
+	                        		 <span id="DivError" class="error-msg" ></span> 
+	                         	 </div>
+                          </div>
                         <div class="row">
                             <div class="col s12 m6">
                                <div class="center-align m-1">
-										<button type="button" onclick="addWebDocumentsCategory();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+										<button  id="bttn" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
 								</div>
                             </div>
                             <div class="col s12 m6">
@@ -255,15 +261,17 @@
      <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-web-documents-category" id=updateWebDocumentsCategoryForm name="updateWebDocumentsCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Web Documents Category <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update Web Documents Category <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
                          <div class="col s12 m6 input-field">
+                         <input type="hidden" id="no" name="no"  />
                                  <p class="searchable_label">Risk Area</p>
-                                 <select class="searchable validate-dropdown" name="type_fk_new" id="type_fk_new">
+                                 <input type="hidden" id="type_fk_old" name="type_fk_old"  />
+                                 <select class="searchable validate-dropdown" name="type_fk_new" id="type_fk_new" onchange="doValidateUpdate(null,null)">
                                      <option value="">Select</option>
                                       <c:forEach var="obj" items="${documentType }">
 		                                      <option value="${obj.type_fk }">${obj.type_fk }</option>
@@ -272,16 +280,22 @@
                                  <span id="risk_area_fkError" class="error-msg" ></span>
                          </div> 
                          <div class="input-field col s12 m12">
-                                <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(null,null)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Web Documents Category</label>
                                 <span id="value_newError" class="error-msg" ></span>
                          </div>
+	                        
                         </div>
+                         <div class="row">
+		                         <div  style="text-align:center">
+		                        		 <span id="DivUpdateError" class="error-msg" ></span> 
+		                    		 </div>
+	                        </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateWebDocumentsCategory()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -360,21 +374,112 @@
                 }
             });
         });
+        var flag = false; 
+        function doValidate(value,value1){
+           var value = $('#type_fk').val();
+           var value1 = $('#category_text').val();
+           var print_value = value;	
+     	   var print_value2 = value1;	
+           var value = value.trim();
+           var value1 = value1.trim();
+           value = value.toLowerCase();
+           value1 = value1.toLowerCase();
+     	  
+     	   var validate = $('.findLengths').length;
+     	   if(validate == 0){flag = true;}
+     	   var count  = 0;
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths2').map((_,el) => el.value).get();
+     	   while(count < validate){
+     		 	 var findVal = ek[count];
+     			 var findVal2 = ak[count];
+     			if(findVal != null){ findVal = findVal.toLowerCase(); }
+     			if(findVal2 != null){ findVal2 = findVal2.toLowerCase(); }
+     		   if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
+     			   $('#DivError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			   $('#DivError').text('');
+     			   $('#bttn').prop('disabled', false); 
+     			   flag = true;
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value,value1){
+           var value = $('#type_fk_new').val();
+           var value1 = $('#value_new').val();
+           value = value.trim();
+           value1 = value1.trim();
+         
+     	   var print_value = value;	
+     	   var print_value2 = value1;	
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var no = $('#no').val()
+     	   var valueOld = $('#type_fk_old'+no).val();
+           var valueOld2 = $('#value_old').val();
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths2').map((_,el) => el.value).get();
+     	  /*  var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   var s1 = Object.keys(ak).find(key => ak[key] === valueOld2);
+     	  
+     	   delete ek[s];
+     	   delete ak[s1]; */
+     	   value = value.toLowerCase();
+           value1 = value1.toLowerCase();
+     	   while(count < validate){
+     		  var findVal = ek[count];
+  			  var findVal2 = ak[count];
+  			  if(findVal != null){ findVal = findVal.toLowerCase(); }
+ 			  if(findVal2 != null){ findVal2 = findVal2.toLowerCase(); }
+  			  if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
+  				   $('#DivUpdateError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			   $('#DivUpdateError').text('');
+     			   $('#bttnUpdate').prop('disabled', false);
+     			   updateFlag = true;
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
+        function removeErrorMsg(){
+   		 $('#DivUpdateError').text('');
+   		 $('#bttnUpdate').prop('disabled', false);
+   		 updateFlag = true;
+   		}
       
-        function addWebDocumentsCategory(){
+        $("#webDocumentsCategoryForm").submit(function (e) {
            	 if(validator.form()){ 
        			$(".page-loader").show();
        			$("#addUpdateModal").modal();
-       			document.getElementById("webDocumentsCategoryForm").submit();	
+	       		 if(flag){
+	    				document.getElementById("webDocumentsCategoryForm").submit();	
+	    			 }
+	    			 $(".page-loader").hide();
+	    			 return false;
            	}
-        }
-        function updateWebDocumentsCategory(){
+        })
+        $("#updateWebDocumentsCategoryForm").submit(function (e) {
         	 if(validator1.form()){ 
      			$(".page-loader").show();
      			$("#onlyUpdateModal").modal();
-     			document.getElementById("updateWebDocumentsCategoryForm").submit();	
+     			 if(updateFlag){
+        				document.getElementById("updateWebDocumentsCategoryForm").submit();	
+        			 }
+        			 $(".page-loader").hide();
+        			 return false;
          }
-     }
+     })
         var validator =	$('#webDocumentsCategoryForm').validate({
          ignore: ":hidden:not(.validate-dropdown)",
        	 rules: { 
@@ -436,7 +541,9 @@
         function updateRow(no) {
             var type_fk = $('#type_fkId'+no).val();
             var category = $('#categoryId'+no).val();
+            var id = $('#id'+no).val();
             $('#value_old').val($.trim(category))
+            $('#type_fk_old').val($.trim(type_fk))
             $('#onlyUpdateModal').modal('open');
             $('#onlyUpdateModal #type_fk_new').val($.trim(type_fk)).focus();
             $('#onlyUpdateModal #value_new').val($.trim(category)).focus();

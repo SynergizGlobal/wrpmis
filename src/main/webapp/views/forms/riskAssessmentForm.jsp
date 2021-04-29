@@ -197,6 +197,7 @@
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Work :</p>
 									<p>${risk.sub_work}</p>
+									<input type="hidden"  name="sub_work" value="${risk.sub_work }" /> 
                                 </div>
                                 <div class="col s12 m4 input-field">
                                      <p class="searchable_label"> Assessment Date :</p>
@@ -224,10 +225,12 @@
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Owner :</p>
 									<p>${risk.owner }</p>
+									<input type="hidden"  name="owner_user_id" value="${risk.owner_user_id }" />
                                 </div>
                                 <div class="col s12 m4 input-field">
 									<p class="searchable_label"> Responsible Person :</p>
-									<p>${risk.responsible_person }</p>                                   	
+									<p>${risk.responsible_person }</p>       
+									<input type="hidden"  name="responsible_user_id" value="${risk.responsible_user_id }" />                            	
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -278,7 +281,7 @@
 					                                                    </select>
 					                                                </td> --%>
 																	<td>
-																		<div class="input-field">
+											 							<div class="input-field">
 																			<input id="atr_dates${index.count }"
 																				name="atr_dates" type="text"
 																				class="validate datepicker" placeholder="ATR  Date"

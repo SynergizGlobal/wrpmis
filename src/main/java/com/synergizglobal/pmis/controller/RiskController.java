@@ -186,14 +186,10 @@ public class RiskController {
 						}*/
 						
 						risk.setUploaded_by_user_id_fk(userId);
-						if(msg.contains("Not authorized to upload!")) {
-							risk.setStatus("Fail");
-						}else if(msg.contains("Your assessment is incomplete!")) {
-							risk.setStatus("Fail");
-						}else if(msg.contains("Work selected does not match with the Work column on the assessment form")) {
-							risk.setStatus("Fail");
-						}else{
+						if(msg.contains("Risk Assessment uploaded successfully.")) {
 							risk.setStatus("Success");
+						}else{
+							risk.setStatus("Fail");
 						}
 						risk.setRemarks(msg);
 						boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
@@ -282,7 +278,7 @@ public class RiskController {
 							}
 							
 							if(!StringUtils.isEmpty(obj.getSub_work()) && !obj.getSub_work().equals(risk.getSub_work())) {
-								work_mismatch = "Work selected does not match with the Work column on the assessment form.";
+								work_mismatch = "Work selected from the dropdown and on the assessment form do not match.";
 								break;
 							}
 							//val = getCellDataType2(workbook,row.getCell(1));
@@ -408,11 +404,11 @@ public class RiskController {
 					}
 					
 					if(!StringUtils.isEmpty(risk_owner_error)) {
-						risk_owner_error = "<br><span style='color:red;'>Not authorized to upload! Owner of these Row no(s) " + risk_owner_error + " does not matched with Logged In user.</span> ";
+						risk_owner_error = "<br><span style='color:red;'>PMIS user and work owner on the assessment form do not match.</span> ";
 					}
 					
 					if(!StringUtils.isEmpty(risk_rows_error)) {
-						risk_rows_error = "<br><span style='color:red;'>Your assessment is incomplete! Row no(s) " + risk_rows_error + " requires attention.</span> ";
+						risk_rows_error = "<br><span style='color:red;'>Your assessment is incomplete! Row no(s) " + risk_rows_error + " of the assessment form requires attention.</span> ";
 					}
 					
 					if(!StringUtils.isEmpty(work_mismatch)) {

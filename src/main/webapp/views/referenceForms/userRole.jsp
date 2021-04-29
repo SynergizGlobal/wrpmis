@@ -142,10 +142,10 @@
                                     <tbody>
 										<c:forEach var="obj" items="${userRoleDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="user_role_nameId${indexs.count}" value="${obj.user_role_name }" />
+												<input type="hidden" id="user_role_nameId${indexs.count}" value="${obj.user_role_name }" class="findLengths" />
 												${obj.user_role_name }</td>
 											<td>
-												<input type="hidden" id="user_role_codeId${indexs.count}" value="${obj.user_role_code }" />
+												<input type="hidden" id="user_role_codeId${indexs.count}" value="${obj.user_role_code }" class="findLengths1"/>
 												${obj.user_role_code }</td>
 											<c:forEach var="tObj" items="${userRoleDetails.tablesList}" varStatus="index">
 												<td><c:forEach var="cObj" items="${userRoleDetails.countList}" >
@@ -164,7 +164,7 @@
 												</c:choose>
 												</c:forEach></td>
                                             </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${userRoleDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
@@ -216,21 +216,24 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m6">
-                                <input id="user_role_name_text" type="text" name="user_role_name" class="validate">
+                                <input id="user_role_name_text" type="text" name="user_role_name" class="validate" onkeyup="doValidate(this.value,null)">
                                 <label for="user_role_name_text">User Role Name</label>
                                 <span id="user_role_nameError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="user_role_code_text" name="user_role_code" type="text" class="validate">
+                                <input id="user_role_code_text" name="user_role_code" type="text" class="validate" onkeyup="doValidate(null,this.value)">
                                 <label for="user_role_code_text">User Role Code</label>
                                 <span id="user_role_codeError" class="error-msg" ></span>
                             </div>
+                             <div  style="text-align:center">
+                        		 <span id="DivError" class="error-msg" ></span> 
+                       		</div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
                                     <button style="width: 100%;"
-                                     class="btn waves-effect waves-light bg-m" onclick="addUserRole();">Add</button>
+                                     class="btn waves-effect waves-light bg-m" id="bttn">Add</button>
                                 </div>
                             </div>
                            <div class="col s12 m6">
@@ -251,28 +254,32 @@
     <div id="onlyUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-user-role" id="updateUserRoleForm" name="updateUserRoleForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update User Role <span class="right modal-action modal-close"><span
+                <h5 class="modal-header bg-m">Update User Role <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                          <div class="row">
                             <div class="input-field col s12 m6">
-                                <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(null,null)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">User Role Name</label>
                                 <span id="value_newError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="user_role_code_new" name="user_role_code_new" type="text" class="validate">
+                                <input id="user_role_code_new" name="user_role_code_new" type="text" class="validate" onkeyup="doValidateUpdate(null,null)">
                                 <label for="user_role_code_new">User Role Code</label>
+                                <input id="user_role_code_old" type="hidden" name="user_role_code_old"  >
                                 <span id="user_role_code_newError" class="error-msg" ></span>
                             </div>
+                            <div  style="text-align:center">
+                        		 <span id="DivUpdateError" class="error-msg" ></span> 
+                       		</div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateUserRole()"
+                                    <button style="width: 100%;" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -346,22 +353,161 @@
                 }
             });
         });
+        var flag = false; 
+        function doValidate(value,value1){
+           var value = $('#user_role_name_text').val();
+           var value1 = $('#user_role_code_text').val();
+           value = value.trim();
+           value1 = value1.trim();
+           var print_value = value;	
+     	   var print_value2 = value1;
+           var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths1').map((_,el) => el.value).get();
+           var s = Object.keys(ek).find(key => ek[key] === value);
+           if(value != null){ value = value.toLowerCase();}
+           if(value1 != null){ value1 = value1.toLowerCase();}
+         
+     	  
+     	   var validate = $('.findLengths').length;
+     	   if(validate == 0){flag = true;}
+     	   var count  = 0;
+     	  
+     	   while(count < validate){
+     		 	 var findVal = ek[count];
+     			 var findVal2 = ak[count];
+     			if(findVal != null){ findVal = findVal.toLowerCase(); }
+     			if(findVal2 != null){ findVal2 = findVal2.toLowerCase(); }
+     			
+     		   if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
+     			   $('#DivError').text('" '+print_value+' "'+' & '+'" '+print_value2+' alreday exists').css('color', 'red');
+   				   $('#user_role_nameError').text('');
+   				   $('#user_role_codeError').text('');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			  if(findVal == value ){
+     				 $('#bttn').prop('disabled', true);
+     				 $('#DivError').text('');
+     				 $('#user_role_nameError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal2 != value1 ){$('#user_role_codeError').text('');}else{ $('#user_role_codeError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+     				 flag = false;
+      			     return false;
+     			  }else if(findVal2 == value1 ){
+     				 $('#bttn').prop('disabled', true);
+     				 $('#DivError').text('');
+     				 $('#user_role_codeError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal != value ){$('#user_role_nameError').text('');}else{ $('#user_role_nameError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+     				 flag = false;
+      			     return false;
+     			  }else{
+        			   $('#DivError').text('');
+        			   $('#user_role_nameError').text('');
+        			   $('#user_role_codeError').text('');
+        			   $('#bttn').prop('disabled', false); 
+        			   flag = true;
+     			  }
+     		
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value,value1){
+           var value = $('#value_new').val();
+           var value1 = $('#user_role_code_new').val();
+           value = value.trim();
+           value1 = value1.trim();
+     	   var print_value = value;	
+     	   var print_value2 = value1;	
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var no = $('#no').val()
+     	   var valueOld  = $('#value_old').val()
+           var valueOld2 = $('#user_role_code_old').val()
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths1').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   value = value.toLowerCase();
+     	   value1 = value1.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   var s1 = Object.keys(ak).find(key => ak[key] === valueOld2);
+     	   delete ek[s];
+     	   delete ak[s1];
+     	   while(count < validate){
+     		  var findVal = ek[count];
+  			  var findVal2 = ak[count];
+  			 if(findVal != null){ findVal = findVal.toLowerCase();}
+  			 if(findVal2 != null){ findVal2 = findVal2.toLowerCase();}
+   		     if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
+  				   $('#DivUpdateError').text('" '+print_value+' "'+' & '+'" '+print_value2+' alreday exists').css('color', 'red');
+  				   $('#value_newError').text('');
+ 			   	   $('#user_role_code_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			  if(findVal == value ){
+      				 $('#bttnUpdate').prop('disabled', true);
+      				 $('#DivUpdateError').text('');
+      				 $('#value_newError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');
+      				 if(findVal2 != value1 ){$('#user_role_code_newError').text('');}else{ $('#user_role_code_newError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+     				 
+      				 updateFlag = false; 
+      				 $('#bttnUpdate').prop('disabled', true);
+      				 return false;
+     			 }else if(findVal2 == value1 ){
+     				 $('#DivUpdateError').text('');
+     				 $('#user_role_code_newError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal != value ){$('#value_newError').text('');}else{ $('#value_newError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+     				 updateFlag = false;
+     				 $('#bttnUpdate').prop('disabled', true);
+     				 return false;
+     			  }else{
+       			       $('#DivUpdateError').text('');
+       			       $('#department_newError').text('');
+       			   	   $('#user_role_code_newError').text('');
+        			   $('#bttnUpdate').prop('disabled', false);
+        			   updateFlag = true;
+        			   }
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
         
-        function addUserRole(){
+        function removeErrorMsg(){
+   		 $('#DivUpdateError').text('');
+   		 $('#value_newError').text('');
+   		 $('#user_role_code_newError').text('');
+   		 $('#bttnUpdate').prop('disabled', false);
+   		 updateFlag = true;
+   		}
+   
+        $("#userRoleForm").submit(function (e) {
 	       	 if(validator.form()){ 
 	   			$(".page-loader").show();
 	   			$("#addUpdateModal").modal();
-	   			document.getElementById("userRoleForm").submit();	
+	   			if(flag){
+	  				document.getElementById("userRoleForm").submit();	
+	  			 }
+	  			 $(".page-loader").hide();
+	  			 return false;
 	       	}
-	    }
+	    })
         
-        function updateUserRole(){
+        $("#updateUserRoleForm").submit(function (e) {
 	       	 if(validator1.form()){ 
 	   			$(".page-loader").show();
 	   			$("#onlyUpdateModal").modal();
-	   			document.getElementById("updateUserRoleForm").submit();	
+	   			if(updateFlag){
+	  				document.getElementById("updateUserRoleForm").submit();	
+	  			 }
+	  			 $(".page-loader").hide();
+	  			 return false;
 	       	}
-	    }
+	    })
 	    
 	    var validator =	$('#userRoleForm').validate({
 	   	 rules: {
@@ -422,6 +568,7 @@
            var user_role_name = $('#user_role_nameId'+no).val();
            var user_role_code = $('#user_role_codeId'+no).val();
            $('#value_old').val($.trim(user_role_name))
+           $('#user_role_code_old').val($.trim(user_role_code))
            $('#onlyUpdateModal').modal('open');
            $('#onlyUpdateModal #value_new').val($.trim(user_role_name)).focus();
            $('#onlyUpdateModal #user_role_code_new').val($.trim(user_role_code)).focus();

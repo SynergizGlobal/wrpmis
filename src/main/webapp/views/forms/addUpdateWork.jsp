@@ -546,7 +546,7 @@
 	                                                        placeholder="Latest Revised Cost">
 	                                                    </div> 
 	                                                    <div class="col s3 pt-14">
-	                                                    	<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units${index.count}">
+	                                                    	<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units">
 						                                		<option>Select</option>
 						                                		<option value="rs">Rs</option>
 						                                		<option value="thousands">Thousands</option>
@@ -594,7 +594,7 @@
 	                                                        placeholder="Latest Revised Cost">
 	                                                    </div> 
 	                                                    <div class="col s3 pt-14">
-	                                                    	<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units${index.count}">
+	                                                    	<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units">
 						                                		<option>Select</option>
 						                                		<option value="rs">Rs</option>
 						                                		<option value="thousands">Thousands</option>
@@ -1047,7 +1047,7 @@
 		   		   +'</select></div></td>'
 				   //+'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
 				   //+'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost" min="0.01" step="0.01"></td>'
-				   +'<td class="input-field row"> <div class="col s9"><input id="latest_revised_costs_units'+rNo+'" name="latest_revised_costs-units" type="number" class="validate" value=""'
+				   +'<td class="input-field row"> <div class="col s9"><input id="latest_revised_costs_units'+rNo+'" name="latest_revised_costs_units" type="number" class="validate" value=""'
 				   +'placeholder="Latest Revised Cost" min="0.01" step="0.01"> </div> <div class="col s3 pt-14"> <select class="units" id="latest_revised_costs'+rNo+'" name="latest_revised_costs'+rNo+'">'
                	   +'<option>Select</option> <option value="rs">Rs</option>	<option value="thousands">Thousands</option> <option value="lacs">Lacs</option>	<option value="crores">Crores</option> </select>'
 	               +'</div></td>'

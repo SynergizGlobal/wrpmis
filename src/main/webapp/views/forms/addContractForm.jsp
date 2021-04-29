@@ -102,7 +102,7 @@
     		top: 1.5rem;
 		}
 		
-		    .filevalue {
+		.filevalue {
             display: block;
             margin-top: 10px;
         }
@@ -148,7 +148,25 @@
 		.input-field .searchable_label{
 			font-size:.9rem;
 		}
-	    
+	   /* cost unit dropdown , lable and input styling starts here  */
+		.pt-5{
+			padding-top:5px !important;
+		}
+		.cost_dropdown{
+			min-width:95px !important;
+		}
+		.input-field .prefix.cost ~ input,
+		.input-field .prefix.cost ~ label,
+		.input-field .prefix.cost ~ .validate ~ label {
+		    margin-left: 2rem;
+		    width: 92%;
+		    width: calc(100% - 2rem);
+		}
+		.input-field.col .prefix.cost ~ label,
+		.input-field.col .prefix.cost ~ .validate ~ label {
+		    width: calc(100% - 2rem - 1.5rem);
+		}
+		/* cost unit dropdown , lable and input styling ends here  */
     </style>
 </head>
 
@@ -349,12 +367,22 @@
 	                                     <span id="date_of_startError" class="error-msg" ></span>
 	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                	<i class="material-icons prefix center-align">₹</i>
+	                                <div class="col s9 m3 input-field">
+	                                	<i class="material-icons prefix cost">₹</i>
 	                                    <input id="awarded_cost" name="awarded_cost" type="number" min="0.01" step="0.01" class="validate">
 	                                    <label for="awarded_cost">Awarded cost</label>
 	                                    <span id="awarded_costError" class="error-msg" ></span>
 	                                </div>
+	                                <div class="col s3 m1 input-field pt-5">
+	                                	<p class="searchable_label">Units</p>
+	                                	<select class="units" id="awarded_cost_units" name="awarded_cost_units">
+	                                		<option>Select</option>
+	                                		<option value="rs">Rs</option>
+	                                		<option value="thousands">Thousands</option>
+	                                		<option value="lacs">Lacs</option>
+	                                		<option value="crores">Crores</option>
+	                                	</select>
+                                	</div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	                            <div class="row">
@@ -365,12 +393,22 @@
 	                                    <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="docError" class="error-msg" ></span>
 	                                </div>	                                
-	                                <div class="col s12 m4 input-field">
-	                                    <i class="material-icons prefix center-align">₹</i>
+	                                <div class="col s9 m3 input-field">
+	                                    <i class="material-icons prefix cost">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" type="number" min="0.01" step="0.01" class="validate">
 	                                    <label for="estimated_cost">Estimated cost</label>
-	                                     <span id="estimated_costError" class="error-msg" ></span>
+	                                    <span id="estimated_costError" class="error-msg" ></span>
 	                                </div>
+	                                <div class="col s3 m1 input-field pt-5">
+	                                	<p class="searchable_label">Units</p>
+	                                	<select class="units" id="estimated_cost_units" name="estimated_cost_units">
+	                                		<option>Select</option>
+	                                		<option value="rs">Rs</option>
+	                                		<option value="thousands">Thousands</option>
+	                                		<option value="lacs">Lacs</option>
+	                                		<option value="crores">Crores</option>
+	                                	</select>
+                                	</div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>	   
 	                            
@@ -475,7 +513,7 @@
                                                     <input id="bg_numbers0" name="bg_numbers" type="text" class="validate"
                                                         placeholder="BG / FDR Number">
                                                 </td>
-                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
+                                                <td class="input-field"><i class="material-icons prefix cost">₹</i>
                                                     <input id="bg_values0" name="bg_values" type="number" min="0.01" step="0.01" class="validate"
                                                         placeholder="Amount">
                                                 </td>
@@ -580,7 +618,7 @@
                                                     <input id="insurance_numbers0" name="insurance_numbers" type="text" class="validate" 
                                                         placeholder="Insurance Number">
                                                 </td>
-                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
+                                                <td class="input-field"><i class="material-icons prefix cost">₹</i>
                                                     <input id="insurance_values0" name="insurance_values" type="number" class="validate"  min="0.01" step="0.01" 
                                                         placeholder="Insurance Value">
                                                 </td>
@@ -719,7 +757,7 @@
                                                         placeholder="Revision Number">
                                                 </td>
                                                 <td class="input-field">
-                                                   <i class="material-icons prefix center-align">₹</i> <input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"
+                                                   <i class="material-icons prefix cost">₹</i> <input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"
                                                         placeholder="Revised Amount">
                                                 </td>
                                                 <td>
@@ -910,7 +948,7 @@
 	                                    <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                	<i class="material-icons prefix center-align">₹</i>
+	                                	<i class="material-icons prefix cost">₹</i>
 	                                    <input id="completed_cost" name="completed_cost" type="number" min="0.01" step="0.01" class="validate">
 	                                    <label for="completed_cost">Completed Cost</label>
 	                                      <span id="completed_costError" class="error-msg" ></span>
@@ -1065,8 +1103,9 @@
 	    });
 		var user_hod = '${sessionScope.USER_ID}';
         $(document).ready(function () {
-        	 $('select:not(.searchable)').formSelect();
+        	 $('select:not(.searchable):not(.units)').formSelect();
              $('.searchable').select2();
+             $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
              $('#remarks').characterCounter();
              getDyHodList();
              getHodList();
@@ -1626,7 +1665,7 @@
 		   +'<td> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
 		   //+'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
 		   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
-		   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="number" min="0.01" step="0.01" class="validate"  placeholder="Amount"></td>'
+		   +'<td class="input-field"><i class="material-icons prefix cost">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="number" min="0.01" step="0.01" class="validate"  placeholder="Amount"></td>'
 		   //+'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
 		   +'<td><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button"><i class="fa fa-calendar"></i></button>'
 		   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button"><i class="fa fa-calendar"></i></button></td>'
@@ -1667,7 +1706,7 @@
 		   +'<td> <input id="issuing_agencys'+rNo+'" name="issuing_agencys" type="text" class="validate"  placeholder="Issuing Agency"></td>'
 		   +'<td><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
 		   +'<td><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
-		   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" placeholder="Insurance Value"></td>'
+		   +'<td class="input-field"><i class="material-icons prefix cost">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" placeholder="Insurance Value"></td>'
 		   +'<td><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
 		   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" ><i class="fa fa-calendar"></i></button></td>'
 		   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
@@ -1743,7 +1782,7 @@
 		 var total = 0;
 		 var html = '<tr id="revRow'+rNo+'">'
 			   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
-			   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"></td>'
+			   +'<td class="input-field"><i class="material-icons prefix cost">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"></td>'
 			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'

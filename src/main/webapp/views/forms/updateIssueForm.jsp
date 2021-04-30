@@ -320,6 +320,7 @@
                             	<div class="row" id="escalatedRemarksDiv" style="display: none;">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m8 input-field" >
+	                                <div id="test" data-message="${issue.remarks }" style="display: none;"></div>
 	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${issue.remarks }</textarea>
 	                                    <label for="remarks">Status After Escalation</label>
 	                                    <span id="remarksError" class="error-msg" ></span>
@@ -666,7 +667,9 @@
         		
         		$("#escalated_to").val('${issue.escalated_to}');
         		$("#escalation_date").val('${issue.escalation_date}');
-        		$("#remarks").val('${issue.remarks}');
+        		
+        		var div = $('#test').data('message');
+        		$("textarea#remarks").val(div.replace("\\n","\n"));
         		
         	}else if($.trim(issueStatusFk) == 'Assigned'){
         		$("#assignDateDiv").show();
@@ -787,7 +790,8 @@
         		
         		$("#escalated_to").val('${issue.escalated_to}');
         		$("#escalation_date").val('${issue.escalation_date}');
-        		$("#remarks").val('${issue.remarks}');
+        		var div = $('#test').data('message');
+        		$("textarea#remarks").val(div.replace("\\n","\n"));
         		
         		if($.trim('${issue.escalation_date}') != ''){
         			$("#escalation_date").val('${issue.escalation_date}');

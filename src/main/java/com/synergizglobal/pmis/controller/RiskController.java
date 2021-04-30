@@ -254,6 +254,7 @@ public class RiskController {
 
 					String risk_owner_error = "";
 					String risk_rows_error = "";
+					String risk_cols_error = "";
 					int rowNo = 0;
 					String work_mismatch = null;
 					for(int j = 3; j <= risksDrawingsSheet.getLastRowNum();j++){						
@@ -373,7 +374,22 @@ public class RiskController {
 							if(!StringUtils.isEmpty(responsible_person) && !responsible_person.equals("0.0")) { risk.setResponsible_person(responsible_person);}									
 							
 							risk.setDate(DateParser.parse(risk.getDate()));
-														
+							
+							if(StringUtils.isEmpty(risk.getSub_work())) { 
+								risk_cols_error = "1";
+							}
+							if(StringUtils.isEmpty(risk.getOwner())) { 
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "2";
+							}
+							if(StringUtils.isEmpty(risk.getDate())) { 
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "3";
+							}
+							if(StringUtils.isEmpty(risk.getResponsible_person())) { 
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "8";
+							}
+							if(!StringUtils.isEmpty(risk_cols_error)) { 
+								break;
+							}
 							if(!StringUtils.isEmpty(obj.getSub_work()) && obj.getSub_work().equals(risk.getSub_work())
 									&& !StringUtils.isEmpty(risk.getSub_work()) && !StringUtils.isEmpty(risk.getOwner()) 
 									&& !StringUtils.isEmpty(risk.getDate()) && !StringUtils.isEmpty(risk.getProbability()) && !StringUtils.isEmpty(risk.getImpact()) 
@@ -383,14 +399,15 @@ public class RiskController {
 								if(risk.getOwner().equals(logged_in_user_designation)) {
 									risksList.add(risk);
 								}else {
-									risk_owner_error = risk_owner_error + (!StringUtils.isEmpty(risk_owner_error)?",":"") + rowNo;
+									risk_owner_error = "1";
+									break;
 								}
 								
-							} else {
+							}else {
 								risk_rows_error = risk_rows_error + (!StringUtils.isEmpty(risk_rows_error)?",":"") + rowNo;
 							}
+							
 						}						
-						
 					}
 					if(!risksList.isEmpty() && StringUtils.isEmpty(risk_rows_error) && StringUtils.isEmpty(work_mismatch)){
 						int[] arr  = riskService.uploadRiskAssessments(risksList);
@@ -406,7 +423,9 @@ public class RiskController {
 					if(!StringUtils.isEmpty(risk_owner_error)) {
 						risk_owner_error = "<br><span style='color:red;'>PMIS user and work owner on the assessment form do not match.</span> ";
 					}
-					
+					if(!StringUtils.isEmpty(risk_cols_error)) {
+						risk_cols_error = "<br><span style='color:red;'>Your assessment is incomplete! Column no(s) " + risk_cols_error + " of the assessment form requires attention.</span> ";
+					}
 					if(!StringUtils.isEmpty(risk_rows_error)) {
 						risk_rows_error = "<br><span style='color:red;'>Your assessment is incomplete! Row no(s) " + risk_rows_error + " of the assessment form requires attention.</span> ";
 					}
@@ -415,7 +434,7 @@ public class RiskController {
 						risk_rows_error = "<br><span style='color:red;'>" + work_mismatch + "</span> ";
 					}
 					
-					msg = msg + risk_owner_error + risk_rows_error;
+					msg = msg + risk_owner_error + risk_rows_error + risk_cols_error;
 				}
 				workbook.close();
 			}

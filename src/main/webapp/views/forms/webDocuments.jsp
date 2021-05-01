@@ -78,11 +78,11 @@
 	</style>
 	<style>
 	/* this is additional code if need less code try to replace document-template css with mobile-document-template */
-	.folder-group {
+/* 	.folder-group {
 		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px
 			rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 		background-color: #f2f2f2;		
-	}
+	} */
 	
 	.folder-header {
 		display: flex;
@@ -108,6 +108,30 @@
 		padding: 1.5rem;
 		background-color:#fafafa;
 	}
+	
+	
+	 .d-flex{
+		display: flex;
+	    align-items: baseline;
+	    justify-content: flex-start;
+	    flex-flow: row wrap;
+	    padding-bottom:10px;
+	}
+	.files-filter {
+	    box-shadow: 0 0 4px 0 #999;
+	    width: 48%;
+	    margin: 1%;
+	    float: left;
+	}
+	div.folder-header {
+	    margin-top: 0;
+	}
+	@media screen and (max-width:576px){
+		.files-filter {
+	    	width: 98%;
+		}			
+	} 
+	
 </style>
 </head>
 <body>
@@ -148,14 +172,14 @@
 							</c:if>
 						</div>
 					
-						<div class="row">
-						   <div class="folder-group">
-						    <!-- <ul class="folder-group"> -->
+						<div class="row folder-group">
+						 <!--  <div class="folder-group">
+						     <ul class="folder-group"> -->
 							<c:choose>   
 	                          <c:when test="${not empty webDocuments and fn:length(webDocuments) gt 0}">
 		                        <c:forEach var="webDocCategory" items="${webDocuments}" varStatus="index">     
 								  <!-- <li class="files-filter"> -->
-								  <div class="col m6 s12" class="flex-kind">
+								  <!-- <div class="col m6 s12" class="flex-kind"> -->
 								  <div class="files-filter">
 									<div class="folder-header" id="folder${index.count }">
 										<i class="fa fa-folder open"></i> <!-- <i class="fa fa-folder-open close"></i> --> ${webDocCategory.category }
@@ -231,7 +255,7 @@
 							  </div>
 							 <!-- </li> -->
 							 </div>
-							 </div>
+							<!--  </div> -->
 							</c:forEach>
 	                       </c:when>
                            <c:otherwise>
@@ -239,8 +263,8 @@
                            	<div style="text-align: center!important;">No folders available</div>
                            </c:otherwise>
                          </c:choose>
-					   <!--  </ul> -->
-					    </div>
+					   <!--  </ul> 
+					    </div>-->
 					  </div>
 					</div>
 				</div>

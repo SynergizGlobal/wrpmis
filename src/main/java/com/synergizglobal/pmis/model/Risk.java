@@ -12,7 +12,7 @@ public class Risk {
 	priority, probability,item_no,priority_fk,work_short_name, impact, owner, responsible_person,assessment_date, risk_action_id,mitigation_plan, action_taken, attachment,
 	sub_area, risk_area_fk,classification,owner_user_id,responsible_user_id,atr_date,work_id,risk_rating,status,sub_work,area_item_no,sub_area_item_no,risk_revision_id_fk,user_type,user_role_code,user_id,user_designation;
 
-	private String risk_upload_id,remarks,uploaded_by_user_id_fk,uploaded_on,uploaded_by;
+	private String risk_upload_id,remarks,uploaded_by_user_id_fk,uploaded_on,uploaded_by,reporting_to_user_id;
 	private boolean readonlyForm = true;
 	private MultipartFile riskFile;
 	private MultipartFile riskAssessmentFile;
@@ -593,5 +593,13 @@ public class Risk {
 
 	public void setReadonlyForm(boolean readonlyForm) {
 		this.readonlyForm = readonlyForm;
+	}
+
+	public String getReporting_to_user_id() {
+		return reporting_to_user_id;
+	}
+
+	public void setReporting_to_user_id(String reporting_to_user_id) {
+		this.reporting_to_user_id = reporting_to_user_id;
 	}
 }

@@ -227,6 +227,7 @@
                                     <p class="searchable_label"> Owner :</p>
 									<p>${risk.owner }</p>
 									<input type="hidden"  name="owner_user_id" value="${risk.owner_user_id }" />
+									<input type="hidden"  name="reporting_to_user_id" value="${risk.reporting_to_user_id }" />
                                 </div>
                                 <div class="col s12 m4 input-field">
 									<p class="searchable_label"> Responsible Person :</p>

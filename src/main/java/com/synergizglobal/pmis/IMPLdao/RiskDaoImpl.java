@@ -162,7 +162,8 @@ public class RiskDaoImpl implements RiskDao{
 						updateCount = count;
 					}
 				}
-				String qry = "SELECT u.user_id as owner_user_id,u1.user_id as responsible_user_id,owner,responsible_person from risk_revision rr "
+				String qry = "SELECT u.user_id as owner_user_id,u1.user_id as responsible_user_id,owner,responsible_person,u.reporting_to_id_srfk as reporting_to_user_id "
+						+ "from risk_revision rr "
 						+ "left join user u on rr.owner = u.designation "
 						+ "left join user u1 on rr.responsible_person = u1.designation where owner = ? and responsible_person = ? group by owner";
 				
@@ -170,27 +171,27 @@ public class RiskDaoImpl implements RiskDao{
 				sObj = (Risk)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 			}
 			if(updateCount > 0) {
-				 String ownerId = sObj.getOwner_user_id(); String responsibleId = sObj.getResponsible_user_id();
+				 String ownerId = sObj.getOwner_user_id(); 
+				 String responsibleId = sObj.getResponsible_user_id();
+				 String reporting_to_user_id = sObj.getReporting_to_user_id();
 				
 				 String messageType = "Risk";
-				  String userId[]  = { ownerId,responsibleId};
-				  int arrSize = 0;
-				  if((!StringUtils.isEmpty(ownerId))) {arrSize++;}
-				  if((!StringUtils.isEmpty(responsibleId))) {arrSize++;}
-				  String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
-				  insertStmt = con.prepareStatement(message_qry);
-				  for(int i = 0; i < arrSize; i++) {	
-						int j = 1;
-						if((!StringUtils.isEmpty(userId[i])) && (!StringUtils.isEmpty(userId[i]))) {
-							String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+subWork+"&assessment_date="+assessmentDate;
-							insertStmt.setString(j++,"Risk Analysis Report of "+subWork+" has been updated.");
-							insertStmt.setString(j++,(userId[i]));
-							insertStmt.setString(j++,redirect_url);
-							insertStmt.setString(j++,messageType);
-							insertStmt.addBatch();
-						}
+				 String userId[]  = { ownerId,responsibleId,reporting_to_user_id};
+				  
+				 String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
+				 insertStmt = con.prepareStatement(message_qry);
+				 for(int i = 0; i < userId.length; i++) {	
+					int j = 1;
+					if((!StringUtils.isEmpty(userId[i]))) {
+						String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+subWork+"&assessment_date="+assessmentDate;
+						insertStmt.setString(j++,"Risk Analysis Report of "+subWork+" has been updated.");
+						insertStmt.setString(j++,(userId[i]));
+						insertStmt.setString(j++,redirect_url);
+						insertStmt.setString(j++,messageType);
+						insertStmt.addBatch();
 					}
-				  int [] insertCount1 = insertStmt.executeBatch();
+				 }
+				 int [] insertCount1 = insertStmt.executeBatch();
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 
@@ -534,7 +535,9 @@ public class RiskDaoImpl implements RiskDao{
 			*/
 			String qry = "SELECT risk_id_pk,r.sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
 					+ "ra.area,p.project_name,sub_area_fk,"
-					+ "risk_revision_id,risk_id_pk_fk,DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date,u.user_id as owner_user_id,u1.user_id as responsible_user_id,priority_fk,probability,impact,owner,responsible_person,mitigation_plan "
+					+ "risk_revision_id,risk_id_pk_fk,DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date,"
+					+ "u.user_id as owner_user_id,u1.user_id as responsible_user_id,u.reporting_to_id_srfk as reporting_to_user_id,"
+					+ "priority_fk,probability,impact,owner,responsible_person,mitigation_plan "
 					+ "from risk_revision rr "
 					+ "LEFT OUTER join risk r on rr.risk_id_pk_fk = r.risk_id_pk "
 					+ "left join risk_work_hod rwh on r.sub_work = rwh.sub_work "
@@ -637,25 +640,22 @@ public class RiskDaoImpl implements RiskDao{
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 			if(insertCount.length > 0) {
 				  String messageType = "Risk";
-				  String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id() };
-				  int count = 0;
-				  if((!StringUtils.isEmpty(obj.getOwner_user_id()))) {count++;}
-				  if((!StringUtils.isEmpty(obj.getResponsible_user_id()))) {count++;}
+				  String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id(),obj.getReporting_to_user_id() };
 				  flag = true;
 				  String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
 				  insertStmt = con.prepareStatement(message_qry);
-				  for(int i = 0; i < count; i++) {	
-						int j = 1;
-						if((!StringUtils.isEmpty(userId[i])) && (!StringUtils.isEmpty(userId[i]))) {
-							String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+obj.getSub_work()+"&assessment_date="+obj.getAssessment_date();
-							insertStmt.setString(j++,"ATR of prioritized risk(s) for "+obj.getSub_work()+" has been updated.");
-							insertStmt.setString(j++,(userId[i]));
-							insertStmt.setString(j++,redirect_url);
-							insertStmt.setString(j++,messageType);
-							insertStmt.addBatch();
-						}
+				  for(int i = 0; i < userId.length; i++) {	
+					int j = 1;
+					if((!StringUtils.isEmpty(userId[i]))) {
+						String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+obj.getSub_work()+"&assessment_date="+obj.getAssessment_date();
+						insertStmt.setString(j++,"ATR of prioritized risk(s) for "+obj.getSub_work()+" has been updated.");
+						insertStmt.setString(j++,(userId[i]));
+						insertStmt.setString(j++,redirect_url);
+						insertStmt.setString(j++,messageType);
+						insertStmt.addBatch();
 					}
-				   insertCount = insertStmt.executeBatch();
+				 }
+			     insertCount = insertStmt.executeBatch();
 			}
 		}catch(Exception e){ 
 			throw new Exception(e);

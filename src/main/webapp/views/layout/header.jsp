@@ -106,6 +106,28 @@
 	.notifications_group{
 		margin-top:5px;
 	}	
+	.search-holder{
+	  position: sticky;
+	  top: 0;
+	  background-color: #f56661;
+	  z-index: 1;
+	}
+	.alert-table-icon{
+		text-align:center !important;
+	}
+	.notification_body {
+		overflow:hidden;
+	}
+	.notifications_group{
+		height: 100vh;
+    	overflow-y: auto;
+	}
+	.head-item{
+		position: sticky;
+    	top: 0;
+    	z-index:1;
+    	background-color:#D75A55;
+	}
 </style>
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />

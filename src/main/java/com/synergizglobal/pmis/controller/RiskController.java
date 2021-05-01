@@ -278,6 +278,22 @@ public class RiskController {
 								risk.setSub_work(tempSubWork);
 							}
 							
+							if(StringUtils.isEmpty(risk.getSub_work())) { 
+								risk_cols_error = "1";
+							}
+							if(StringUtils.isEmpty(risk.getOwner())) { 
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "2";
+							}
+							if(StringUtils.isEmpty(risk.getDate())) { 
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "3";
+							}
+							if(StringUtils.isEmpty(risk.getResponsible_person())) { 
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "8";
+							}
+							if(!StringUtils.isEmpty(risk_cols_error)) { 
+								break;
+							}
+							
 							if(!StringUtils.isEmpty(obj.getSub_work()) && !obj.getSub_work().equals(risk.getSub_work())) {
 								work_mismatch = "Work selected from the dropdown and on the assessment form do not match.";
 								break;
@@ -373,23 +389,8 @@ public class RiskController {
 							}								
 							if(!StringUtils.isEmpty(responsible_person) && !responsible_person.equals("0.0")) { risk.setResponsible_person(responsible_person);}									
 							
-							risk.setDate(DateParser.parse(risk.getDate()));
+							risk.setDate(DateParser.parse(risk.getDate()));							
 							
-							if(StringUtils.isEmpty(risk.getSub_work())) { 
-								risk_cols_error = "1";
-							}
-							if(StringUtils.isEmpty(risk.getOwner())) { 
-								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "2";
-							}
-							if(StringUtils.isEmpty(risk.getDate())) { 
-								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "3";
-							}
-							if(StringUtils.isEmpty(risk.getResponsible_person())) { 
-								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "8";
-							}
-							if(!StringUtils.isEmpty(risk_cols_error)) { 
-								break;
-							}
 							if(!StringUtils.isEmpty(obj.getSub_work()) && obj.getSub_work().equals(risk.getSub_work())
 									&& !StringUtils.isEmpty(risk.getSub_work()) && !StringUtils.isEmpty(risk.getOwner()) 
 									&& !StringUtils.isEmpty(risk.getDate()) && !StringUtils.isEmpty(risk.getProbability()) && !StringUtils.isEmpty(risk.getImpact()) 

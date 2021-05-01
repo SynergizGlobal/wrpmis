@@ -23,6 +23,7 @@ import com.synergizglobal.pmis.common.TableauTrustedTicket;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
 
@@ -205,6 +206,49 @@ public class TableauDashboardController {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMessage_id())) {
 				boolean flag = issueService.readIssueMessage(obj);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("issueTableauDashboard() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
+		}
+		return view;
+	}
+	
+	@RequestMapping(value="/InfoViz/risks/{param}",method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView riskTableauDashboard(@ModelAttribute Risk obj,@PathVariable(value = "param") String param,HttpSession session,HttpServletRequest request){
+		ModelAndView view = new ModelAndView(PageConstants.tableauDashboard);
+		String user_Id = null;String userName = null;
+		String title = "";
+		try{
+			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			view.addObject("active", param);
+			view.addObject("tabActive", "dashboard");
+			
+			User user = (User)session.getAttribute("user");
+			String activityWork = null;
+			if(!StringUtils.isEmpty(param)){
+				activityWork = param.replaceAll("_", " - ").toLowerCase();
+				activityWork = activityWork.replaceAll("-", " ").toLowerCase();
+				title = title + capitalize(activityWork).toUpperCase() + " - ";
+			}
+			
+			view.addObject("title", title+"PMIS - Syntrack.");
+			
+			TableauDashboard vo = service.getTableauUrl(activityWork);
+			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
+				String[] url = {};
+				if(vo.getTableauUrl().contains(".com/")) {
+					url = vo.getTableauUrl().split(".com/");
+				}else {
+					url = vo.getTableauUrl().split(":8000/");
+				}
+				TableauTrustedTicket tObj = new TableauTrustedTicket();
+				String trustedTokenId =  tObj.getTrustedTicket();
+				CommonConstants cObj = new CommonConstants();
+				String baseUrl = cObj.BASE_URL.replace("{0}", trustedTokenId);
+				String tableauUrl = baseUrl + url[1]+"&Work  ="+obj.getSub_work()+"&Assessment Date="+obj.getAssessment_date()+CommonConstants.TABLEAU_PARAMS;
+				vo.setTableauUrl(tableauUrl);
+			}
+			view.addObject("url", vo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("issueTableauDashboard() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());

@@ -80,6 +80,7 @@ public class RiskDaoImpl implements RiskDao{
 		PreparedStatement insertStmt = null;
 		Risk sObj = null;
 		String subWork = null;
+		String assessmentDate = null;
 		ResultSet rs = null;
 		int idVal = 0;
 		int count = 0;
@@ -94,7 +95,8 @@ public class RiskDaoImpl implements RiskDao{
 				obj.setRisk_id_pk(risk_id_pk);
 				String area_item_no = null;
 				String sub_area_item_no = null;
-				subWork =obj.getSub_work();
+				subWork = obj.getSub_work();
+				assessmentDate = obj.getDate();
 				if(!StringUtils.isEmpty(obj.getItem_no())) {
 					String[] temp = obj.getItem_no().split("\\.");
 					area_item_no = temp[0];
@@ -168,9 +170,7 @@ public class RiskDaoImpl implements RiskDao{
 				sObj = (Risk)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 			}
 			if(updateCount > 0) {
-				
-					
-				 String ownerId = sObj.getOwner_user_id(); String responsibleId =sObj.getResponsible_user_id();
+				 String ownerId = sObj.getOwner_user_id(); String responsibleId = sObj.getResponsible_user_id();
 				
 				 String messageType = "Risk";
 				  String userId[]  = { ownerId,responsibleId};
@@ -182,9 +182,10 @@ public class RiskDaoImpl implements RiskDao{
 				  for(int i = 0; i < arrSize; i++) {	
 						int j = 1;
 						if((!StringUtils.isEmpty(userId[i])) && (!StringUtils.isEmpty(userId[i]))) {
+							String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+subWork+"&assessment_date="+assessmentDate;
 							insertStmt.setString(j++,"Risk Analysis Report of "+subWork+" has been updated.");
 							insertStmt.setString(j++,(userId[i]));
-							insertStmt.setString(j++,null);
+							insertStmt.setString(j++,redirect_url);
 							insertStmt.setString(j++,messageType);
 							insertStmt.addBatch();
 						}
@@ -646,9 +647,10 @@ public class RiskDaoImpl implements RiskDao{
 				  for(int i = 0; i < count; i++) {	
 						int j = 1;
 						if((!StringUtils.isEmpty(userId[i])) && (!StringUtils.isEmpty(userId[i]))) {
+							String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+obj.getSub_work()+"&assessment_date="+obj.getAssessment_date();
 							insertStmt.setString(j++,"ATR of prioritized risk(s) for "+obj.getSub_work()+" has been updated.");
 							insertStmt.setString(j++,(userId[i]));
-							insertStmt.setString(j++,null);
+							insertStmt.setString(j++,redirect_url);
 							insertStmt.setString(j++,messageType);
 							insertStmt.addBatch();
 						}

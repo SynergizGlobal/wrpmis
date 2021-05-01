@@ -338,35 +338,6 @@
                                             class="fa fa-calendar"></i></button>
                                     <span id="resolved_dateError" class="error-msg" ></span>
                                 </div>
-                                <%-- <div class="col s12 m4 input-field">
-									<c:set var="existingIssueFilesLength" value="${fn:length(issue.issueFilesList )}"></c:set>
-									<c:if test="${fn:length(issue.issueFilesList ) gt 0}">
-										<c:set var="existingIssueFilesLength" value="${fn:length(issue.issueFilesList )+1}"></c:set>
-									</c:if>
-									<div id="selectedFilesInput">
-                                    	<div class="file-field input-field" id="issueFilesDiv${existingIssueFilesLength }" >
-	                                        <div class="btn bg-m t-c">
-	                                            <span>Attach Files</span>
-	                                            <input type="file" id="issueFiles${existingIssueFilesLength }" name="issueFiles" onchange="selectFile('${existingIssueFilesLength }')">
-	                                        </div>
-	                                        <div class="file-path-wrapper">
-	                                            <input class="file-path validate" type="text">
-	                                        </div>                                       
-	                                    </div>
-									</div>
-                                    
-                                    <div id="selectedFiles">
-                                    	<c:forEach var="obj" items="${issue.issueFilesList }" varStatus="index">
-											 <div id="issueFileName${index.count }">
-												<a href="<%=CommonConstants2.ISSUE_FILES%>${obj.issue_id }/${obj.file_name } " class="filevalue" download>${obj.file_name }</a>
-												<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
-												<input type="hidden" name="issueFileNames" value="${obj.file_name }">
-										     </div>
-										     <div style="clear:both" ></div>
-										</c:forEach>
-									</div>
-									
-                                </div> --%>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
@@ -646,7 +617,8 @@
         		
         		$("#corrective_measure").attr('readonly', true);
         		$("#zonal_railway_fk").attr('disabled', true);
-        		$("#other_organization").attr('readonly', true);
+        		$("#other_organization").attr('disabled', true);
+        		//$("#other_organization").attr('readonly', true);
         		$("#other_organizations").attr('disabled', true);
         		
         		$("#assigned_date").attr('disabled', true);
@@ -659,7 +631,8 @@
         		
         		$("#corrective_measure").attr('readonly', true);
         		$("#zonal_railway_fk").attr('disabled', true);
-        		$("#other_organization").attr('readonly', true);
+        		$("#other_organization").attr('disabled', true);
+        		//$("#other_organization").attr('readonly', true);
         		$("#other_organizations").attr('disabled', true);
         		
         		$("#assigned_date").attr('disabled', true);
@@ -679,7 +652,8 @@
             	
             	$("#corrective_measure").attr('readonly', false);
         		$("#zonal_railway_fk").attr('disabled', false);
-        		$("#other_organization").attr('readonly', false);
+        		$("#other_organization").attr('disabled', false);
+        		//$("#other_organization").attr('readonly', false);
         		$("#other_organizations").attr('disabled', false);
         		
         		$("#assigned_date").attr('disabled', false);
@@ -696,7 +670,8 @@
         		
         		$("#corrective_measure").attr('readonly', false);
         		$("#zonal_railway_fk").attr('disabled', false);
-        		$("#other_organization").attr('readonly', false);
+        		$("#other_organization").attr('disabled', false);
+        		//$("#other_organization").attr('readonly', false);
         		$("#other_organizations").attr('disabled', false); 
         		
         		$("#assigned_date").attr('disabled', false);
@@ -741,7 +716,8 @@
         		
         		$("#corrective_measure").attr('readonly', false);
         		$("#zonal_railway_fk").attr('disabled', true);
-        		$("#other_organization").attr('readonly', true);
+        		$("#other_organization").attr('disabled', true);
+        		//$("#other_organization").attr('readonly', true);
         		$("#other_organizations").attr('disabled', true);
         		
         		$("#assigned_date").attr('disabled', true);
@@ -782,7 +758,8 @@
         		
         		$("#corrective_measure").attr('readonly', false);
         		$("#zonal_railway_fk").attr('disabled', true);
-        		$("#other_organization").attr('readonly', true);
+        		$("#other_organization").attr('disabled', true);
+        		//$("#other_organization").attr('readonly', true);
         		$("#other_organizations").attr('disabled', true);
         		
         		$("#assigned_date").attr('disabled', true);
@@ -817,7 +794,8 @@
             	
             	$("#corrective_measure").attr('readonly', false);
         		$("#zonal_railway_fk").attr('disabled', false);
-        		$("#other_organization").attr('readonly', false);
+        		$("#other_organization").attr('disabled', false);
+        		//$("#other_organization").attr('readonly', false);
         		$("#other_organizations").attr('disabled', false);
         		
         		$("#assigned_date").attr('disabled', false);
@@ -850,7 +828,8 @@
         		
         		$("#corrective_measure").attr('readonly', false);
         		$("#zonal_railway_fk").attr('disabled', false);
-        		$("#other_organization").attr('readonly', false);
+        		$("#other_organization").attr('disabled', false);
+        		//$("#other_organization").attr('readonly', false);
         		$("#other_organizations").attr('disabled', false); 
         		
         		$("#assigned_date").attr('disabled', false);
@@ -1067,7 +1046,8 @@
     		
     			$("#corrective_measure").attr('readonly', false);
         		$("#zonal_railway_fk").attr('disabled', false);
-        		$("#other_organization").attr('readonly', false);
+        		$("#other_organization").attr('disabled', false);
+        		//$("#other_organization").attr('readonly', false);
         		$("#other_organizations").attr('disabled', false);
         		
         		$("#assigned_date").attr('disabled', false);

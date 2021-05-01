@@ -245,40 +245,6 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(cvQryAlert3List);
 			}
 			
-			/***************************** Physical progress alerts*******************************************************/
-			/*String ppQryAlert1 = "select contract_id,'1st Alert' as alert_level,'Physical Progress' as alert_type,"
-					+ "CONCAT('Physical planned : ',TRUNCATE(physical_planned*100, 2),'%, Physical actual : ',TRUNCATE(physical_actual*100, 2),'%' ) AS alert_value"
-					+ " from contract_view " + 
-					"where contract_status = 'In Progress' " + 
-					"and physical_planned is not null and physical_actual is not null and (((physical_planned-physical_actual)*100)/physical_planned) >= 20 and (((physical_planned-physical_actual)*100)/physical_planned) <= 30";
-			
-			List<Alerts> ppQryAlert1List = jdbcTemplate.query( ppQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-			if(!StringUtils.isEmpty(ppQryAlert1List) && ppQryAlert1List.size() > 0) {
-				list.addAll(ppQryAlert1List);
-			}
-			
-			String ppQryAlert2 = "select contract_id,'2nd Alert' as alert_level,'Physical Progress' as alert_type,"
-					+ "CONCAT('Physical planned : ',TRUNCATE(physical_planned*100, 2),'%, Physical actual : ',TRUNCATE(physical_actual*100, 2),'%' ) AS alert_value"
-					+ " from contract_view " + 
-					"where contract_status = 'In Progress' " + 
-					"and physical_planned is not null and physical_actual is not null and (((physical_planned-physical_actual)*100)/physical_planned) >= 31  and (((physical_planned-physical_actual)*100)/physical_planned) <= 39";
-			
-			List<Alerts> ppQryAlert2List = jdbcTemplate.query( ppQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-			if(!StringUtils.isEmpty(ppQryAlert2List) && ppQryAlert2List.size() > 0) {
-				list.addAll(ppQryAlert2List);
-			}
-			
-			String ppQryAlert3 = "select contract_id,'3rd Alert' as alert_level,'Physical Progress' as alert_type,"
-					+ "CONCAT('Physical planned : ',TRUNCATE(physical_planned*100, 2),'%, Physical actual : ',TRUNCATE(physical_actual*100, 2),'%' ) AS alert_value"
-					+ " from contract_view " + 
-					"where contract_status = 'In Progress' " + 
-					"and physical_planned is not null and physical_actual is not null and (((physical_planned-physical_actual)*100)/physical_planned) >= 40";
-			
-			List<Alerts> ppQryAlert3List = jdbcTemplate.query( ppQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-			if(!StringUtils.isEmpty(ppQryAlert3List) && ppQryAlert3List.size() > 0) {
-				list.addAll(ppQryAlert3List);
-			}*/
-			
 			
 			/*************************Alerts insertion********************************************/
 			String updateQry = "update alerts set alert_status = ? where count <> 0";	

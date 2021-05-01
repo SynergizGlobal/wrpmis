@@ -279,16 +279,16 @@ public class RiskController {
 							}
 							
 							if(StringUtils.isEmpty(risk.getSub_work())) { 
-								risk_cols_error = "1";
+								risk_cols_error = "A";
 							}
 							if(StringUtils.isEmpty(risk.getOwner())) { 
-								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "2";
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "B";
 							}
 							if(StringUtils.isEmpty(risk.getDate())) { 
-								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "3";
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "F";
 							}
 							if(StringUtils.isEmpty(risk.getResponsible_person())) { 
-								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "8";
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "N";
 							}
 							if(!StringUtils.isEmpty(risk_cols_error)) { 
 								break;

@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -328,7 +330,22 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			generateIssueAlertsByCronJob();
 			
-			generateRiskAlertsByCronJob();
+			
+			Date date = new Date();
+			Calendar cal = Calendar.getInstance();
+            cal.setTime(date); // don't forget this if date is arbitrary
+            
+            SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+            String month = monthFormat.format(date).toUpperCase();
+            //int month = cal.get(Calendar.MONTH); // 0 being January
+            int year = cal.get(Calendar.YEAR);
+            
+            int day = cal.get(Calendar.DAY_OF_MONTH);  
+            if(day != 2 && day != 4 ) {
+            	//generateRiskMainAlertsByCronJob();
+            }
+			
+            generateMitigationAndATRRiskAlertsByCronJob();
 			
 			flag = true;
 		}catch(Exception e){ 
@@ -518,7 +535,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		return flag;
 	}
 	
-	private boolean generateRiskAlertsByCronJob() throws Exception {
+	private boolean generateRiskMainAlertsByCronJob() throws Exception {
 		boolean flag = false;
 		List<Alerts> list = new ArrayList<Alerts>();
 		Connection connection = null;
@@ -641,6 +658,128 @@ public class AlertsDaoImpl implements AlertsDao{
 		return flag;
 	}
 	
+	private boolean generateMitigationAndATRRiskAlertsByCronJob() throws Exception {
+		boolean flag = false;
+		List<Alerts> list = new ArrayList<Alerts>();
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;		
+		try {
+			connection = dataSource.getConnection();
+			
+			String mitigation_alerts_qry = "select sub_work,owner,u.user_id as owner_user_id " 
+					+ "from risk_revision rr " 
+					+ "left join risk r on risk_id_pk_fk = risk_id_pk "
+					+ "left join user u on owner = u.designation " 
+					+ "where date = (SELECT MAX(`date`) FROM `risk_revision` LEFT JOIN `risk` ON `risk_id_pk` = `risk_id_pk_fk` WHERE `sub_work` = `r`.`sub_work`) " 
+					+ "and date_format(date,'%Y-%m') = date_format(NOW(),'%Y-%m') and priority_fk <> 'Accepted' " 
+					+ "and (mitigation_plan is null or mitigation_plan = '') " 
+					+ "group by sub_work,owner";
+			
+			List<Alerts> risk_mitigation_alerts = jdbcTemplate.query( mitigation_alerts_qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+			/***************************** Risk alerts*******************************************************/
+			if(!StringUtils.isEmpty(risk_mitigation_alerts) && risk_mitigation_alerts.size() > 0) {
+	             for (Alerts alerts : risk_mitigation_alerts) {
+            		 Alerts aObj = new Alerts();
+            		 aObj.setAlert_level("1st Alert");
+            		 aObj.setAlert_value("1st Alert!! Please update mitigation plan against prioritized risk(s) of "+alerts.getSub_work());
+            		 aObj.setAlert_type("Risk");
+            		 aObj.setRedirect_url("/risk-assessment?sub_work="+alerts.getSub_work());
+            		 aObj.setOwner_user_id(alerts.getOwner_user_id());
+ 	 				 list.add(aObj);
+				 }
+			}
+			
+			/****************************************************************************************/
+
+			String atr_alerts_qry = "select sub_work,owner,u1.user_id as owner_user_id,responsible_person,u2.user_id as responsible_person_user_id,count(risk_action_id) as racount " 
+					+ "from risk_revision rr "  
+					+ "left join risk r on risk_id_pk_fk = risk_id_pk " 
+					+ "left join risk_action ra on risk_revision_id_fk = risk_revision_id "
+					+ "left join user u1 on owner = u1.designation "
+					+ "left join user u2 on responsible_person = u2.designation " 
+					+ "where date = (SELECT MAX(`date`) FROM `risk_revision` LEFT JOIN `risk` ON `risk_id_pk` = `risk_id_pk_fk` WHERE `sub_work` = `r`.`sub_work`) " 
+					+ "and date_format(date,'%Y-%m') = date_format(NOW(),'%Y-%m') and priority_fk <> 'Accepted' " 
+					+ "group by sub_work,risk_revision_id having racount = 0 "  
+					+ "order by sub_work";
+			
+			List<Alerts> risk_atr_alerts = jdbcTemplate.query( atr_alerts_qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+			/***************************** Risk alerts*******************************************************/
+			if(!StringUtils.isEmpty(risk_atr_alerts) && risk_atr_alerts.size() > 0) {
+				 Set<Alerts> setObject = new HashSet<Alerts>();
+				 setObject.addAll(risk_atr_alerts);
+	             for (Alerts alerts : setObject) {
+            		 Alerts aObj = new Alerts();
+            		 aObj.setAlert_level("1st Alert");
+            		 aObj.setAlert_value("1st Alert!! Please update ATR against prioritized risk(s) of "+alerts.getSub_work());
+            		 aObj.setAlert_type("Risk");
+            		 aObj.setRedirect_url("/risk-assessment?sub_work="+alerts.getSub_work());
+            		 aObj.setOwner_user_id(alerts.getOwner_user_id());
+            		 aObj.setResponsible_person_user_id(alerts.getResponsible_person_user_id());
+ 	 				 list.add(aObj);
+				 }
+			}
+			
+			/*************************Alerts insertion********************************************/
+			
+			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url) VALUES  (?,?,?,?,?,?,?,?)";		
+			
+			for (Alerts obj : list) {
+				stmt = connection.prepareStatement(qryInsert,Statement.RETURN_GENERATED_KEYS);
+				String alert_level = obj.getAlert_level();
+				String alert_type = obj.getAlert_type();
+				String contract_id = obj.getContract_id();
+				String alert_value = obj.getAlert_value();
+				String redirect_url = obj.getRedirect_url();
+				
+				int p = 1;
+                stmt.setString(p++, alert_level);
+                stmt.setString(p++, alert_type);
+                stmt.setString(p++, contract_id);
+                stmt.setString(p++, CommonConstants.ACTIVE);
+                stmt.setString(p++, alert_value);
+                stmt.setString(p++, "1");
+                stmt.setString(p++, null);
+                stmt.setString(p++, redirect_url);
+                int c = stmt.executeUpdate();
+                resultSet = stmt.getGeneratedKeys();
+                if(c > 0) {
+                	String alert_id = null;
+                	if(resultSet.next()) {
+                		alert_id = String.valueOf(resultSet.getLong(1));
+                	}
+                	DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+                	
+                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk)VALUES(?,?)";
+    				stmt = connection.prepareStatement(qry);
+    				
+    				if(!StringUtils.isEmpty(obj.getOwner_user_id())) {
+    					p = 1;
+    					stmt.setString(p++, alert_id);
+    	                stmt.setString(p++, obj.getOwner_user_id());
+    	                stmt.addBatch();
+    				}
+    				if(!StringUtils.isEmpty(obj.getResponsible_person_user_id())) {
+    					p = 1;
+    					stmt.setString(p++, alert_id);
+    	                stmt.setString(p++, obj.getResponsible_person_user_id());
+    	                stmt.addBatch();
+    				}    				
+	                stmt.executeBatch();
+                }
+			}
+			
+			flag = true;
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, resultSet);
+		}
+		return flag;
+	}
 
 	private String getAlertRemarks(String alert_type, String contract_id, String alert_value, Connection connection) throws Exception {
 		PreparedStatement stmt = null;

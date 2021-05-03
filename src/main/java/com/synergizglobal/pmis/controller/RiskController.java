@@ -499,7 +499,8 @@ public class RiskController {
 	public ModelAndView riskATRUpdate(@ModelAttribute Risk obj,HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.riskATRUpdateGrid);
 		try {
-			
+			model.addObject("sub_work", obj.getSub_work());
+			model.addObject("assessment_date", obj.getAssessment_date());
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("riskATRUpdate : " + e.getMessage());

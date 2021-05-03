@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -342,7 +343,7 @@ public class AlertsDaoImpl implements AlertsDao{
             
             int day = cal.get(Calendar.DAY_OF_MONTH);  
             if(day != 2 && day != 4 ) {
-            	//generateRiskMainAlertsByCronJob();
+            	generateRiskMainAlertsByCronJob();
             }
 			
             generateMitigationAndATRRiskAlertsByCronJob();
@@ -667,7 +668,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		try {
 			connection = dataSource.getConnection();
 			
-			String mitigation_alerts_qry = "select sub_work,owner,u.user_id as owner_user_id " 
+			String mitigation_alerts_qry = "select sub_work,owner,u.user_id as owner_user_id,DATE_FORMAT(date,'%d-%b-%Y') as assessment_date " 
 					+ "from risk_revision rr " 
 					+ "left join risk r on risk_id_pk_fk = risk_id_pk "
 					+ "left join user u on owner = u.designation " 
@@ -685,7 +686,7 @@ public class AlertsDaoImpl implements AlertsDao{
             		 aObj.setAlert_level("1st Alert");
             		 aObj.setAlert_value("1st Alert!! Please update mitigation plan against prioritized risk(s) of "+alerts.getSub_work());
             		 aObj.setAlert_type("Risk");
-            		 aObj.setRedirect_url("/risk-assessment?sub_work="+alerts.getSub_work());
+            		 aObj.setRedirect_url("/risk-atr-update?sub_work="+alerts.getSub_work()+"&assessment_date="+alerts.getAssessment_date());
             		 aObj.setOwner_user_id(alerts.getOwner_user_id());
  	 				 list.add(aObj);
 				 }
@@ -693,7 +694,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/****************************************************************************************/
 
-			String atr_alerts_qry = "select sub_work,owner,u1.user_id as owner_user_id,responsible_person,u2.user_id as responsible_person_user_id,count(risk_action_id) as racount " 
+			String atr_alerts_qry = "select distinct sub_work,owner,u1.user_id as owner_user_id,responsible_person,u2.user_id as responsible_person_user_id,count(risk_action_id) as racount,DATE_FORMAT(date,'%d-%b-%Y') as assessment_date " 
 					+ "from risk_revision rr "  
 					+ "left join risk r on risk_id_pk_fk = risk_id_pk " 
 					+ "left join risk_action ra on risk_revision_id_fk = risk_revision_id "
@@ -708,14 +709,13 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/***************************** Risk alerts*******************************************************/
 			if(!StringUtils.isEmpty(risk_atr_alerts) && risk_atr_alerts.size() > 0) {
-				 Set<Alerts> setObject = new HashSet<Alerts>();
-				 setObject.addAll(risk_atr_alerts);
-	             for (Alerts alerts : setObject) {
+				
+	             for (Alerts alerts : risk_atr_alerts) {
             		 Alerts aObj = new Alerts();
             		 aObj.setAlert_level("1st Alert");
             		 aObj.setAlert_value("1st Alert!! Please update ATR against prioritized risk(s) of "+alerts.getSub_work());
             		 aObj.setAlert_type("Risk");
-            		 aObj.setRedirect_url("/risk-assessment?sub_work="+alerts.getSub_work());
+            		 aObj.setRedirect_url("/risk-atr-update?sub_work="+alerts.getSub_work()+"&assessment_date="+alerts.getAssessment_date());
             		 aObj.setOwner_user_id(alerts.getOwner_user_id());
             		 aObj.setResponsible_person_user_id(alerts.getResponsible_person_user_id());
  	 				 list.add(aObj);

@@ -275,8 +275,15 @@
         	var sub_work = $("#sub_work").val();
         	var assessment_date = $("#assessment_date").val();
         	
-        	getAssessmentDatesFilterList('');
-        	getSubWorksFilterList('');
+        	if($.trim(sub_work) == ''){
+        		sub_work = "${sub_work}";
+        	}
+        	if($.trim(assessment_date) == ''){
+        		assessment_date = "${assessment_date}";
+        	}
+        	
+        	getAssessmentDatesFilterList(assessment_date);
+        	getSubWorksFilterList(sub_work);
         	
         	var filters = '';
         	Object.keys(filtersMap).forEach(function (key) {

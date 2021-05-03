@@ -72,8 +72,8 @@ public class Schedular {
             //System.out.println("End "+ new Date());
 	    	logger.error("generateAlertsByCronJob : "+flag);
 	    	
-	    	//flag = alertService.sendRiskNotificationAlertMails();
-			//logger.error("sendRiskNotificationAlertMails >> Sending mails : "+ flag); 
+	    	flag = alertService.sendRiskNotificationAlertMails();
+			logger.error("sendRiskNotificationAlertMails >> Sending mails : "+ flag); 
 			
 			flag = alertService.sendAlertsToRajivRavi();
 			logger.error("generateAlertsByCronJob >> Sending mails : "+ flag); 

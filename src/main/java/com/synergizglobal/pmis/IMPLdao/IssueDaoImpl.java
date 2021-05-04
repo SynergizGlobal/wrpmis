@@ -9,6 +9,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -532,7 +533,12 @@ public class IssueDaoImpl implements IssueDao {
 	private boolean addIssueInHistory(Issue obj, NamedParameterJdbcTemplate template) throws Exception {
 		boolean flag = false;
 		try {
-			
+			if((StringUtils.isEmpty(obj.getComment()))) {
+				obj.setComment(obj.getCorrective_measure());
+			}
+			if((obj.getStatus_fk().equalsIgnoreCase("Escalated"))) {
+				obj.setAssigned_person_user_id_fk(obj.getEscalated_to());
+			}
 			if(!StringUtils.isEmpty(obj.getEscalated_to())) {
 				obj.setAssigned_person_user_id_fk(obj.getEscalated_to());
 			}else if(!StringUtils.isEmpty(obj.getResponsible_person())) {
@@ -540,9 +546,9 @@ public class IssueDaoImpl implements IssueDao {
 			}else{
 				obj.setAssigned_person_user_id_fk(obj.getDy_hod_user_id_fk());
 			}
-			String qry = "INSERT INTO issue_history(issue_id_fk,issue_status_fk,assigned_person_user_id_fk) "
+			String qry = "INSERT INTO issue_history(issue_id_fk,issue_status_fk,assigned_person_user_id_fk,comment,created_by) "
 					+ "VALUES "
-					+ "(:issue_id,:status_fk,:assigned_person_user_id_fk)";
+					+ "(:issue_id,:status_fk,:assigned_person_user_id_fk,:comment,:created_by_user_id_fk)";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 			int count = template.update(qry, paramSource);
 			if (count > 0) {

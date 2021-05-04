@@ -579,7 +579,7 @@ public class IssueController {
 			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));
 			obj.setEscalation_date(DateParser.parse(obj.getEscalation_date()));
 			obj.setAssigned_date(DateParser.parse(obj.getAssigned_date()));
-			
+			obj.setCreated_by_user_id_fk(user_Id);
 			if(!StringUtils.isEmpty(obj.getZonal_railway_fk()) && obj.getZonal_railway_fk().equals("MRVC")) {
 				obj.setOther_organization(obj.getZonal_railway_fk() + " - " + obj.getOther_organization());
 			}

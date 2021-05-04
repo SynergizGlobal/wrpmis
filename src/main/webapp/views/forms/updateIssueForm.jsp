@@ -151,6 +151,18 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field">
+                                    <textarea id="corrective_measure" name="corrective_measure"   class="materialize-textarea"  data-length="1000">${issue.corrective_measure }</textarea>
+                                    <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
+                                    <span id="corrective_measureError" class="error-msg" ></span>
+                                    <input type="hidden" name="comment" id="comment" />
+                                    <input type="hidden"  id="value_old"  value="${issue.corrective_measure }"/>
+                                </div>
+                            </div>    
+                            
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -182,16 +194,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div> --%>
-                            
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000">${issue.corrective_measure }</textarea>
-                                    <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
-                                    <span id="corrective_measureError" class="error-msg" ></span>
-                                </div>
-                            </div>    
-                            
+                          
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -549,8 +552,22 @@
 	                $('#'+id).click();
 	            });
            	}); */
-            
-            
+           	var txt = $("textarea#corrective_measure");
+           	txt.val( txt.val() + "\n");
+          
+           	var readOnlyLength = $('#corrective_measure').val().length;
+           	
+           	$('#corrective_measure').on('keyup, keypress', function(event) {
+           		var $field = $(this)
+           		 if ((event.which != 37 && (event.which != 39)) &&
+					    ((this.selectionStart < readOnlyLength) ||
+					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
+           			var text = $("textarea#corrective_measure").val();  
+				    return false;
+				  }
+           	})
+           	
+           	
             $('#date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#date').click();
@@ -1041,6 +1058,11 @@
         
         
         function updateIssue(){
+        	var text = $("textarea#corrective_measure").val();  
+       		var val_old = $('#value_old').val();
+       		
+       		var val_new = text.replace(val_old,'');
+       		$('#comment').val(val_new)
     		if(validator.form()){ // validation perform
     			$(".page-loader").show();
     		

@@ -161,6 +161,17 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field">
+                                    <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000"></textarea>
+                                    <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
+                                    <span id="corrective_measureError" class="error-msg" ></span>
+                                </div>
+                            </div>
+                            
+                            
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -193,15 +204,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div> -->
                             
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
-                                    <span id="corrective_measureError" class="error-msg" ></span>
-                                </div>
-                            </div>
-                            
+                         
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">

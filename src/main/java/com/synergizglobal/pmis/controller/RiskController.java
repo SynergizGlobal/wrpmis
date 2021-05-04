@@ -278,26 +278,6 @@ public class RiskController {
 								risk.setSub_work(tempSubWork);
 							}
 							
-							if(StringUtils.isEmpty(risk.getSub_work())) { 
-								risk_cols_error = "A";
-							}
-							if(StringUtils.isEmpty(risk.getOwner())) { 
-								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "B";
-							}
-							if(StringUtils.isEmpty(risk.getDate())) { 
-								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "F";
-							}
-							if(StringUtils.isEmpty(risk.getResponsible_person())) { 
-								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "N";
-							}
-							if(!StringUtils.isEmpty(risk_cols_error)) { 
-								break;
-							}
-							
-							if(!StringUtils.isEmpty(obj.getSub_work()) && !obj.getSub_work().equals(risk.getSub_work())) {
-								work_mismatch = "Work selected from the dropdown and on the assessment form do not match.";
-								break;
-							}
 							//val = getCellDataType2(workbook,row.getCell(1));
 							tempVal = formatter.formatCellValue(row.getCell(1)).trim();
 							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
@@ -389,7 +369,30 @@ public class RiskController {
 							}								
 							if(!StringUtils.isEmpty(responsible_person) && !responsible_person.equals("0.0")) { risk.setResponsible_person(responsible_person);}									
 							
-							risk.setDate(DateParser.parse(risk.getDate()));							
+							risk.setDate(DateParser.parse(risk.getDate()));	
+							
+							
+							if(StringUtils.isEmpty(risk.getSub_work())) { 
+								risk_cols_error = "A";
+							}
+							if(StringUtils.isEmpty(risk.getOwner())) { 
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "B";
+							}
+							if(StringUtils.isEmpty(risk.getDate())) { 
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "F";
+							}
+							if(StringUtils.isEmpty(risk.getResponsible_person())) { 
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "N";
+							}
+							if(!StringUtils.isEmpty(risk_cols_error)) { 
+								break;
+							}
+							
+							
+							if(!StringUtils.isEmpty(obj.getSub_work()) && !obj.getSub_work().equals(risk.getSub_work())) {
+								work_mismatch = "Work selected from the dropdown and on the assessment form do not match.";
+								break;
+							}
 							
 							if(!StringUtils.isEmpty(obj.getSub_work()) && obj.getSub_work().equals(risk.getSub_work())
 									&& !StringUtils.isEmpty(risk.getSub_work()) && !StringUtils.isEmpty(risk.getOwner()) 

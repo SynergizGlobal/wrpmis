@@ -119,8 +119,9 @@
 		overflow:hidden;
 	}
 	.notifications_group{
-		height: 100vh;
-    	overflow-y: auto;
+		height:100%;
+		overflow:scroll; 
+		padding-bottom: 4rem;
 	}
 	.head-item{
 		position: sticky;
@@ -479,7 +480,7 @@
 								
 						</div>
 
-						<ul class="notifications_group"	id="notificationList">
+						<ul class="notifications_group"	id="notificationList" > 
 							<!-- list of Notifications starts -->
 							
 							<c:forEach var="obj" items="${alerts }">
@@ -524,7 +525,7 @@
 										<c:set var="bgIcon" value="<i class='material-icons-outlined'>verified_user</i>"></c:set>										
 									</c:if>								
 										 
-									<li class="item ${bgClass } row">										
+									<li class="item ${bgClass } row" >										
 										<a href="<%=request.getContextPath()%>${aObj.redirect_url }">
 											<div class="col m2">
 												<span class="bl" class="icon"> <!-- <i class="material-icons">access_time</i> -->

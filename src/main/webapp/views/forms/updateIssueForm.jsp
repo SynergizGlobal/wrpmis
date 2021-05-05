@@ -20,6 +20,7 @@
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	
 	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"> -->
+	 <link rel="stylesheet" href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange">
 	 <style>
         .no-mar .row {
             margin-bottom: 0;
@@ -57,7 +58,10 @@
 		    border-top: 1px solid #777;
 		    border-bottom: 1px solid #777;
 		}
-		
+	.red {
+    color: red;
+}
+		}
     </style>
 </head>
 <body>
@@ -327,6 +331,8 @@
 	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${issue.remarks }</textarea>
 	                                    <label for="remarks">Status After Escalation</label>
 	                                    <span id="remarksError" class="error-msg" ></span>
+	                                    <input type="hidden"  name="remarks_new" id="remarks_new"/>
+	                                    <input type="hidden"  name="remarks_old" id="remarks_old" value="${issue.remarks}"/>
 	                                </div>
 	                            </div> 
                             </div>
@@ -343,7 +349,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                            
+                            <input type="hidden" name="existingAssignedPerson" id="existingAssignedPerson" />
                             <div class="row">
 								<div class="col m2 hide-on-small-only"></div>
 								<div class="col m8 s12">
@@ -556,8 +562,36 @@
            	txt.val( txt.val() + "\n");
           
            	var readOnlyLength = $('#corrective_measure').val().length;
+           	var val_old = $('#value_old').val();   /*  .css("color", "#00ffff"); */
+           	var  input = document.getElementById('corrective_measure');
+          /*  	var alpha = val_old;
+           	var res = "", cls = "";
+           	var t = $("#corrective_measure").text();
+
+           	for (i=0; i<t.length; i++) {
+           	        if (t == alpha) {cls = "red";}
+            	    res += "<span class='"+cls+"'>"+t[i]+"</span>";
+           	    cls="";
+           	}
+           	$("#corrective_measure").val(res); */
+           /* 	var i, l;
+           	input.focus();
+           	input.value = input.value.trim();
+            i = input.value .indexOf( val_old );
+            l = ( val_old ).length;
+            input.setSelectionRange( i, l + i ); */
+            
+            
+           /* 	if(text.indexOf(val_old) != -1){
+           		text = text.replace(/\[val_old\]/g, '[<font color="blue">'+val_old+'</font>]');
+           		$("#corrective_measure").val(text);
+           	}
            	
-           	$('#corrective_measure').on('keyup, keypress', function(event) {
+            $("#corrective_measure:contains('"+val_old+"')").each(function () {
+            	 $(this).html($(this).html().replace(""+val_old+"", "<span class='red'>"+val_old+"</span>"));
+            }); */
+            
+           	$('#corrective_measure').on('keypress, keydown', function(event) {
            		var $field = $(this)
            		 if ((event.which != 37 && (event.which != 39)) &&
 					    ((this.selectionStart < readOnlyLength) ||
@@ -596,8 +630,24 @@
             	getContractsList(work_id_fk);
             } */
 	        
+            var responsible_person = $("#responsible_person").val();
+            var dy_hod_user_id_fk = "${issue.dy_hod_user_id_fk}";
+            var hod_user_id_fk = "${issue.hod_user_id_fk}";
             
+            if($.trim(responsible_person) == ''){
+            	responsible_person = "${issue.responsible_person}";
+            }
             
+			var escalated_to = "${issue.escalated_to}";
+            var existingAssignedPerson = "";
+            if(escalated_to != ""){
+            	existingAssignedPerson = escalated_to;
+            }else if(responsible_person != ""){
+            	existingAssignedPerson = responsible_person;
+            }else{
+            	existingAssignedPerson = dy_hod_user_id_fk;
+            }
+            $('#existingAssignedPerson').val(existingAssignedPerson);
             getIssueStatusList();
             
             if('${issue.readonlyForm}' == 'true'){
@@ -660,6 +710,18 @@
         		
         		var div = $('#test').data('message');
         		$("textarea#remarks").val(div.replace("\\n","\n"));
+        		$("textarea#remarks").val( div + "\n");
+        	 	var readOnlyLength = $('#remarks').val().length;
+               	
+               	$('#remarks').on('keypress, keydown', function(event) {
+               		var $field = $(this)
+               		 if ((event.which != 37 && (event.which != 39)) &&
+    					    ((this.selectionStart < readOnlyLength) ||
+    					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
+               			var text = $("textarea#remarks").val();  
+    				    return false;
+    				  }
+               	})
         		
         	}else if($.trim(issueStatusFk) == 'Assigned'){
         		$("#assignDateDiv").show();
@@ -786,7 +848,18 @@
         		$("#escalation_date").val('${issue.escalation_date}');
         		var div = $('#test').data('message');
         		$("textarea#remarks").val(div.replace("\\n","\n"));
-        		
+        		$("textarea#remarks").val( div + "\n");
+			    var readOnlyLength = $('#remarks').val().length;
+               	
+               	$('#remarks').on('keypress, keydown', function(event) {
+               		var $field = $(this)
+               		 if ((event.which != 37 && (event.which != 39)) &&
+    					    ((this.selectionStart < readOnlyLength) ||
+    					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
+               			var text = $("textarea#remarks").val();  
+    				    return false;
+    				  }
+               	})
         		if($.trim('${issue.escalation_date}') != ''){
         			$("#escalation_date").val('${issue.escalation_date}');
         		}else{
@@ -938,13 +1011,15 @@
             
             var contract_id_fk = $("#contract_id_fk").val();
             var responsible_person = $("#responsible_person").val();
+            var dy_hod_user_id_fk = "${issue.dy_hod_user_id_fk}";
+            var hod_user_id_fk = "${issue.hod_user_id_fk}";
             
             if($.trim(responsible_person) == ''){
             	responsible_person = "${issue.responsible_person}";
             }
             
 			var escalated_to = "${issue.escalated_to}";
-            
+          
             var status_fk = "${issue.status_fk}";
             var logged_id_user_id = "${sessionScope.USER_ID}";
             var logged_id_user_role_code = "${sessionScope.USER_ROLE_CODE}";
@@ -953,8 +1028,8 @@
             /* var hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("hod");
             var dy_hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("dyhod"); */
             
-            var hod_user_id_fk = "${issue.hod_user_id_fk}";
-            var dy_hod_user_id_fk = "${issue.dy_hod_user_id_fk}";
+           
+            
             
             var myParams = {};
             $.ajax({
@@ -1060,6 +1135,12 @@
         function updateIssue(){
         	var text = $("textarea#corrective_measure").val();  
        		var val_old = $('#value_old').val();
+       		var remarks = $("textarea#remarks").val();  
+       		var remarks_old = $('#remarks_old').val();
+       		
+       		
+       		var remarks_new = remarks.replace(remarks_old,'');
+       		$('#remarks_new').val(remarks_new)
        		
        		var val_new = text.replace(val_old,'');
        		$('#comment').val(val_new)

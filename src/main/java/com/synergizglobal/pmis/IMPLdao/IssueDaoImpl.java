@@ -533,11 +533,13 @@ public class IssueDaoImpl implements IssueDao {
 	private boolean addIssueInHistory(Issue obj, NamedParameterJdbcTemplate template) throws Exception {
 		boolean flag = false;
 		try {
-			if((StringUtils.isEmpty(obj.getComment()))) {
+			
+			if(!(obj.getCorrective_measure().equals(obj.getComment())) && StringUtils.isEmpty(obj.getExisting_status_fk())) {
+			
 				obj.setComment(obj.getCorrective_measure());
 			}
-			if((obj.getStatus_fk().equalsIgnoreCase("Escalated"))) {
-				obj.setAssigned_person_user_id_fk(obj.getEscalated_to());
+			if(obj.getExisting_status_fk().equalsIgnoreCase("Escalated") && !(StringUtils.isEmpty(obj.getRemarks_new()))) {
+				obj.setComment(obj.getRemarks_new());
 			}
 			if(!StringUtils.isEmpty(obj.getEscalated_to())) {
 				obj.setAssigned_person_user_id_fk(obj.getEscalated_to());
@@ -545,6 +547,9 @@ public class IssueDaoImpl implements IssueDao {
 				obj.setAssigned_person_user_id_fk(obj.getResponsible_person());
 			}else{
 				obj.setAssigned_person_user_id_fk(obj.getDy_hod_user_id_fk());
+			}
+			if(obj.getAssigned_person_user_id_fk().equals(obj.getExistingAssignedPerson()) ) {
+				obj.setStatus_fk("Updated");
 			}
 			String qry = "INSERT INTO issue_history(issue_id_fk,issue_status_fk,assigned_person_user_id_fk,comment,created_by) "
 					+ "VALUES "

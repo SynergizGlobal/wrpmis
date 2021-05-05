@@ -461,6 +461,8 @@ public class DocxTableCreationForIssueDetailsReport {
 			tableHeader.add("Date");
 			tableHeader.add("Issue Status");
 			tableHeader.add("Responsible Person");
+			tableHeader.add("Comment");
+			tableHeader.add("Update by");
 			
 			for (String headerValue : tableHeader) {
 				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
@@ -473,13 +475,17 @@ public class DocxTableCreationForIssueDetailsReport {
 				String backgroundColor = null;
 				Tr contentRow = factory.createTr();	
 				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-						titleContentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						titleContentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getCreated_date(),
-						titleContentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						titleContentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
-						titleContentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						titleContentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
-						titleContentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						titleContentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getComment(),
+						titleContentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getCreated_by(),
+						titleContentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				
 				issueHistoryTable.getContent().add(contentRow);
 			}			

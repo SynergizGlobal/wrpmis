@@ -722,6 +722,28 @@
     				    return false;
     				  }
                	})
+               	
+               	var year = '',month = '',day = '';                   	
+                var escalation_date = '${issue.escalation_date}';                    
+                if($.trim(escalation_date) != '' ){
+                	var sDate = escalation_date.split("-");
+                	year = sDate[2];
+                	month = sDate[1];
+                	day = sDate[0];
+                }                    
+                var minDate = new Date(year,month-1,day); 
+                
+                let date_pickers = document.querySelectorAll('#escalation_date');
+        	    $.each(date_pickers, function(){
+        	    	var dt = this.value.split(/[^0-9]/);
+        	    	this.value = ""; 
+        	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true};
+        	    	if(dt.length > 1){
+        	    		options.setDefaultDate = true,
+        	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+        	    	}
+        	    	M.Datepicker.init(this, options);
+        	    });
         		
         	}else if($.trim(issueStatusFk) == 'Assigned'){
         		$("#assignDateDiv").show();
@@ -741,6 +763,29 @@
         		$("#escalated_to").val('');
         		$("#escalation_date").val('');
         		$("#remarks").val('');
+        		
+        		var year = '',month = '',day = '';                   	
+                var assigned_date = '${issue.assigned_date}';                    
+                if($.trim(assigned_date) != '' ){
+                	var sDate = assigned_date.split("-");
+                	year = sDate[2];
+                	month = sDate[1];
+                	day = sDate[0];
+                }                    
+                var minDate = new Date(year,month-1,day); 
+        		
+        		let date_pickers = document.querySelectorAll('#assigned_date');
+        	    $.each(date_pickers, function(){
+        	    	var dt = this.value.split(/[^0-9]/);
+        	    	this.value = ""; 
+        	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true};
+        	    	if(dt.length > 1){
+        	    		options.setDefaultDate = true,
+        	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+        	    	}
+        	    	M.Datepicker.init(this, options);
+        	    });
+        	    
         	}else if($.trim(issueStatusFk) == 'Raised'){
         		$("#assignDateDiv").hide();
         		$("#escalatedDiv").hide();
@@ -808,9 +853,7 @@
         			$('#resolved_date').datepicker({
     					maxDate: new Date(),
     		        	format:'dd-mm-yyyy',
-    		   	    	onSelect: function () {
-    		   	    	   $('.confirmation-btns .datepicker-done').click();
-    		   	    	}
+    		        	autoClose:true
     		        }).datepicker("setDate", new Date());
         		}
         		if($.trim('${issue.assigned_date}') != ''){
@@ -819,9 +862,7 @@
         			$('#assigned_date').datepicker({
     					maxDate: new Date(),
     		        	format:'dd-mm-yyyy',
-    		   	    	onSelect: function () {
-    		   	    	   $('.confirmation-btns .datepicker-done').click();
-    		   	    	}
+    		        	autoClose:true
     		        }).datepicker("setDate", new Date());
         		}
         		
@@ -861,14 +902,33 @@
     				  }
                	})
         		if($.trim('${issue.escalation_date}') != ''){
+        			var year = '',month = '',day = '';                   	
+                    var escalation_date = '${issue.escalation_date}';                    
+                    if($.trim(escalation_date) != '' ){
+                    	var sDate = escalation_date.split("-");
+                    	year = sDate[2];
+                    	month = sDate[1];
+                    	day = sDate[0];
+                    }                    
+                    var minDate = new Date(year,month-1,day);    
+                    let date_pickers = document.querySelectorAll('#escalation_date');
+            	    $.each(date_pickers, function(){
+            	    	var dt = this.value.split(/[^0-9]/);
+            	    	this.value = ""; 
+            	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true};
+            	    	if(dt.length > 1){
+            	    		options.setDefaultDate = true,
+            	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+            	    	}
+            	    	M.Datepicker.init(this, options);
+            	    });
+    		        
         			$("#escalation_date").val('${issue.escalation_date}');
         		}else{
         			$('#escalation_date').datepicker({
     					maxDate: new Date(),
     		        	format:'dd-mm-yyyy',
-    		   	    	onSelect: function () {
-    		   	    	   $('.confirmation-btns .datepicker-done').click();
-    		   	    	}
+    		        	autoClose:true
     		        }).datepicker("setDate", new Date());
         		}
         		
@@ -896,16 +956,36 @@
         		$("#remarks").val('');
         		
         		$("#resolved_date").val('');
+                
         		
-        		if($.trim('${issue.assigned_date}') != ''){
+        		if($.trim('${issue.assigned_date}') != ''){        			
+        			var year = '',month = '',day = '';                   	
+                    var assigned_date = '${issue.assigned_date}';                    
+                    if($.trim(assigned_date) != '' ){
+                    	var sDate = assigned_date.split("-");
+                    	year = sDate[2];
+                    	month = sDate[1];
+                    	day = sDate[0];
+                    }                    
+                    var minDate = new Date(year,month-1,day);                    
+                    let date_pickers = document.querySelectorAll('#assigned_date');
+            	    $.each(date_pickers, function(){
+            	    	var dt = this.value.split(/[^0-9]/);
+            	    	this.value = ""; 
+            	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true};
+            	    	if(dt.length > 1){
+            	    		options.setDefaultDate = true,
+            	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+            	    	}
+            	    	M.Datepicker.init(this, options);
+            	    });
+    		        
         			$("#assigned_date").val('${issue.assigned_date}');
         		}else{
         			$('#assigned_date').datepicker({
     					maxDate: new Date(),
     		        	format:'dd-mm-yyyy',
-    		   	    	onSelect: function () {
-    		   	    	   $('.confirmation-btns .datepicker-done').click();
-    		   	    	}
+    		        	autoClose:true
     		        }).datepicker("setDate", new Date());
         		}
         		

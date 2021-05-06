@@ -538,7 +538,7 @@ public class IssueDaoImpl implements IssueDao {
 			
 				obj.setComment(obj.getCorrective_measure());
 			}
-			if(obj.getExisting_status_fk().equalsIgnoreCase("Escalated") && !(StringUtils.isEmpty(obj.getRemarks_new()))) {
+			if(!(StringUtils.isEmpty(obj.getRemarks_new()) && "Escalated".equalsIgnoreCase(obj.getExisting_status_fk()))) {
 				obj.setComment(obj.getRemarks_new());
 			}
 			if(!StringUtils.isEmpty(obj.getEscalated_to())) {
@@ -548,7 +548,7 @@ public class IssueDaoImpl implements IssueDao {
 			}else{
 				obj.setAssigned_person_user_id_fk(obj.getDy_hod_user_id_fk());
 			}
-			if(obj.getAssigned_person_user_id_fk().equals(obj.getExistingAssignedPerson()) ) {
+			if(!StringUtils.isEmpty(obj.getAssigned_person_user_id_fk()) && obj.getAssigned_person_user_id_fk().equals(obj.getExistingAssignedPerson()) ) {
 				obj.setStatus_fk("Updated");
 			}
 			String qry = "INSERT INTO issue_history(issue_id_fk,issue_status_fk,assigned_person_user_id_fk,comment,created_by) "

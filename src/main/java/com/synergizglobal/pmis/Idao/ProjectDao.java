@@ -7,7 +7,7 @@ import com.synergizglobal.pmis.model.Year;
 
 public interface ProjectDao {
 
-	public List<Project> getProjectList()throws Exception;
+	public List<Project> getProjectList(Project project)throws Exception;
 
 	public Project getProject(String projectId, Project project)throws Exception;
 

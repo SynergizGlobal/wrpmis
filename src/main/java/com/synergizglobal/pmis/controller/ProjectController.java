@@ -45,6 +45,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.ProjectService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
@@ -87,10 +88,10 @@ public class ProjectController {
 	public String dataExportNoData;
 	
 	@RequestMapping(value="/project",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView Project(HttpSession session){
+	public ModelAndView Project(HttpSession session,@ModelAttribute Project project){
 		ModelAndView model = new ModelAndView(PageConstants.project);
 		try {
-			List<Project> projectList = projectService.getProjectList();
+			List<Project> projectList = projectService.getProjectList(project);
 			model.addObject("projectList", projectList);	
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -295,7 +296,6 @@ public class ProjectController {
 			 * file.getOriginalFilename(); FileUploads.singleFileSaving(file, saveDirectory,
 			 * fileName); project.setAttachment(fileName); }
 			*/	
-			
 			boolean flag =  projectService.addProject(project);
 			if(flag == true) {
 				attributes.addFlashAttribute("success", "Project Added Succesfully.");
@@ -337,7 +337,7 @@ public class ProjectController {
 		try {
 			userId = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			view.setViewName("redirect:/project");
-			dataList = projectService.getProjectList();
+			dataList = projectService.getProjectList(project);
 			pinkBookList = projectService.getProjectPinkBookList();
 			if(dataList != null && dataList.size() > 0){
 			            XSSFWorkbook  workBook = new XSSFWorkbook ();
@@ -367,7 +367,7 @@ public class ProjectController {
 				        
 				        
 			            XSSFRow headingRow = sheet.createRow(0);
-			            String headerString = "Project ID^Project Name^Plan Head Number^Project Status^Benefits^Remarks";
+			            String headerString = "Project ID^Project Name^Plan Head Number^Financial Year^Railway^PB No^Benefits^Remarks^Project Status";
 			            
 			            String[] firstHeaderStringArr = headerString.split("\\^");
 			            
@@ -405,9 +405,31 @@ public class ProjectController {
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getPlan_head_number());
 							
+							
+							
+							cell = row.createCell(c++); 
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getFinancial_year_fk());
+							
+							String railway = null;
+							String pbItemNo = null;
+							String string = obj.getPb_item_no();
+							if(!(StringUtils.isEmpty(string)) && string.contains("-")) {
+								String[] parts = string.split("-");
+								railway = parts[0]; 
+								pbItemNo = parts[1]; 
+							}else {
+								pbItemNo = string;
+							}
+							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getProject_status());
+							cell.setCellValue(railway);
+						
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(pbItemNo);
+							
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
@@ -417,6 +439,10 @@ public class ProjectController {
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getRemarks());
 			                
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getProject_status());
+							
 			                rowNo++;
 			            }
 			            short rowNo2 = 1;

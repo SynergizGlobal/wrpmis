@@ -38,6 +38,17 @@
 			height:100px;
 			margin:5px;
 		}
+		.input-field>.datepicker ~ label:not(.label-icon).active {
+		    -webkit-transform: translateY(-11px) scale(0.8);
+		    transform: translateY(-11px) scale(.8);		
+		}
+		.input-field {
+		    margin-top: .35rem;
+		    margin-bottom: .35rem;
+		}
+		.input-field>textarea+label:not(.label-icon).active{
+			margin-top: 8px;
+		}         
 		.images-show img:first-of-type{			
 			margin-left:0;
 		}
@@ -58,6 +69,7 @@
 		.input-field p.searchable_label{
 			margin-top: -10px !important;
 		}
+		
 		
 	</style>
 </head>
@@ -193,7 +205,7 @@
 							<div class="row">
                               <div class="col m2 hide-on-small-only"></div>
                               <div class="col s12 m8 input-field">
-                                  <textarea id="benefits"  name="benefits" class="materialize-textarea" data-length="1000">${projectDetails.benefits }</textarea>
+                                  <textarea id="benefits"  name="benefits" class="materialize-textarea" data-length="1000" maxlength="1000">${projectDetails.benefits }</textarea>
                                   <label for="benefits">Benefits</label>
                                    <span id="benefitsError"></span>
                               </div>
@@ -201,7 +213,7 @@
 							<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" class="materialize-textarea" data-length="1000"  name="remarks">${projectDetails.remarks }</textarea>
+                                    <textarea id="remarks" class="materialize-textarea"  maxlength="1000" data-length="1000"  name="remarks">${projectDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                      <span id="remarksError"></span>
                                 </div>
@@ -216,7 +228,8 @@
 											<table class="mdl-data-table update-table">
 												<thead>
 													<tr>
-														<th style="width: 52%;text-align: left;">Attach File</th>
+														<th style="width: 52%;text-align: left;">Date</th>
+														<th style="width: 52%;text-align: left;">Attach Images</th>
 														<th></th>
 														<th style="width: 8%;text-align: left;">Action</th>
 													</tr>
@@ -226,6 +239,15 @@
 														<c:when	test="${not empty projectDetails.projectGalleryFilesList && fn:length(projectDetails.projectGalleryFilesList) gt 0 }">
 															<c:forEach var="iObj" items="${projectDetails.projectGalleryFilesList }" varStatus="index">
 																<tr id="imageRow${index.count }">
+																
+																	<td>
+																		<div class="col m2 hide-on-small-only"></div>
+																		<div class="input-field">
+																			<input id="created_date${index.count }" name="created_dates" type="text" class="datepicker" value="${iObj.created_date }">
+										                                    <button type="button" id="created_date${index.count }_icon"><i class="fa fa-calendar"></i></button>
+										                                    <span id="dateError" class="error-msg" ></span>
+										                                </div>
+																	</td>
 																	<td>
 																		<div class="file-field input-field">
 									                                        <div class="btn bg-m t-c">
@@ -244,11 +266,28 @@
 																		<a onclick="removeImage('${index.count }');" class="btn red"> 
 																			<i class="fa fa-close"></i></a>
 																	</td>
-																</tr>															
+																</tr>	
+																	<script>
+																		var date = '${iObj.created_date }'
+																			$("#created_date${index.count }").datepicker({
+														                       	 format:'dd-mm-yyyy',
+														                           onSelect: function () {
+														                	    	     $('.confirmation-btns .datepicker-done').click();
+														                	    	  }
+														                       });
+																	</script>														
 															</c:forEach>
 														</c:when>
 														<c:otherwise>
 															<tr id="imageRow0">
+																<td>
+																	<div class="col m2 hide-on-small-only"></div>
+																	<div class="input-field">
+																		<input id="created_date0" name="created_dates" type="text" class="datepicker">
+									                                    <button type="button" id="created_date0_icon"><i class="fa fa-calendar"></i></button>
+									                                    <span id="dateError" class="error-msg" ></span>
+									                                </div>
+																</td>
 																<td>
 																	<div class="file-field input-field">
 								                                        <div class="btn bg-m t-c">
@@ -265,6 +304,9 @@
 																	<a onclick="removeImage('0');" class="btn red"> 
 																		<i class="fa fa-close"></i></a>
 																</td>
+																<script>
+																		var date = ''
+																	</script>
 															</tr>
 														</c:otherwise>
 													</c:choose>
@@ -580,10 +622,27 @@
     <script type="text/javascript">
 
 	/****************************************************************************************************/
+	 let date_pickers = document.querySelectorAll('.datepicker');
+        $.each(date_pickers, function(){
+        	var dt = this.value.split(/[^0-9]/);
+        	this.value = ""; 
+        	var options = {format: 'dd-mm-yyyy',autoClose:true};
+        	if(dt.length > 1){
+        		options.setDefaultDate = true,
+        		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+        	}
+        	M.Datepicker.init(this, options);
+        });
      function addImageFileRow(){
 			var rowNo = $("#imageRowNo").val();
 	        var rNo = Number(rowNo)+1;
-	        var html = '<tr id="imageRow' + rNo + '">'			   
+	        var html = '<tr id="imageRow' + rNo + '">'	
+	        +' <td><div class="col m2 hide-on-small-only"></div>'
+				+'<div class="input-field">'
+				+'<input id="created_date'+rNo+'" name="created_dates" type="text" class="datepicker">'
+				+'<button type="button" id="created_date'+rNo+'_icon"><i class="fa fa-calendar"></i></button>'
+	            +'<span id="dateError" class="error-msg" ></span>'
+	            +' </div></td>'
 	   		   +'<td><div class="file-field input-field">'	
 			   +'<div class="btn bg-m t-c">'	
 			   +'<span>Attach Image</span>'	
@@ -597,10 +656,26 @@
 			   +'<td><a onclick="removeImage(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
 			   +'</tr>';
 		
+			  
 			$('#projectImageFilesBody').append(html);
 	        $("#imageRowNo").val(rNo); 
+	       
+	    		var id = 'created_date'+rNo
+				$('#'+id).datepicker({
+					maxDate: new Date(),
+		        	format:'dd-mm-yyyy',
+		   	    	onSelect: function () {
+		   	    	   $('.confirmation-btns .datepicker-done').click();
+		   	    	}
+		        }).datepicker("setDate", new Date());
+				
+		        $('#'+id+'_icon').click(function () {
+	             event.stopPropagation();
+	             $('#'+id).click();
+	         });
+	    	
 	    }
-	    
+    	
 	    function removeImage(rowNo){
 	    	$("#imageRow"+rowNo).remove();
 	    }
@@ -649,8 +724,26 @@
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $(".datepicker").datepicker();
-            $('#remarks,#p_desc').characterCounter(); 
+            $('#remarks,#benefits').characterCounter(); 
+           	var dateVal=  date;
+           	if(dateVal == ''){
+           	  $(".datepicker").each(function(){
+             		var id = $(this).attr('id');
+  				$('#'+id).datepicker({
+  					maxDate: new Date(),
+  		        	format:'dd-mm-yyyy',
+  		   	    	onSelect: function () {
+  		   	    	   $('.confirmation-btns .datepicker-done').click();
+  		   	    	}
+  		        }).datepicker("setDate", new Date());
+  				
+  		        $('#'+id+'_icon').click(function () {
+  	                event.stopPropagation();
+  	                $('#'+id).click();
+  	            });
+             	});
+           	}
+          
         });
         
         function addProject(){

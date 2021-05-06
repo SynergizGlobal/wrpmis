@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.synergizglobal.pmis.Idao.ProjectDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
@@ -42,10 +43,14 @@ public class ProjectDaoImpl implements ProjectDao {
 	DataSourceTransactionManager transactionManager;
 
 	@Override
-	public List<Project> getProjectList() throws Exception {
+	public List<Project> getProjectList(Project project) throws Exception {
 		List<Project> objsList = null;
 		try {
-			String qry ="SELECT project_id, project_name, plan_head_number, remarks, project_status, attachment, benefits FROM project";
+			String qry ="SELECT project_id, project_name, plan_head_number, remarks, project_status, attachment, benefits ,"
+					+ "(select financial_year_fk from project_pinkbook where project_id_fk = project_id order by project_pinkbook_id asc limit 1) as financial_year_fk,"
+					+ "(select pb_item_no from project_pinkbook where project_id_fk = project_id order by project_pinkbook_id asc limit 1) as pb_item_no "
+					+ "FROM project";
+					
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -200,7 +205,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		ResultSet rs = null;
 		List<Project> filesObj = new ArrayList<Project>();
 		try{
-			String qry = "select id,file_name,project_id_fk,created_date,created_by from project_gallery where project_id_fk = ?";
+			String qry = "select id,file_name,project_id_fk,DATE_FORMAT(created_date,'%d-%m-%Y') AS created_date,created_by from project_gallery where project_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1,project_id);
 			rs = stmt.executeQuery();  
@@ -208,6 +213,7 @@ public class ProjectDaoImpl implements ProjectDao {
 				Project obj = new Project();
 				obj.setId(rs.getString("id"));
 				obj.setFile_name(rs.getString("file_name"));
+				obj.setCreated_date(rs.getString("created_date"));
 				obj.setProject_id_fk(rs.getString("project_id_fk"));
 				filesObj.add(obj);
 			}
@@ -251,13 +257,15 @@ public class ProjectDaoImpl implements ProjectDao {
 				paramSource = new BeanPropertySqlParameterSource(dObj);
 				template.update(deleteQry, paramSource);
 
-				String galleryQry ="INSERT into project_gallery (file_name,project_id_fk,created_by)VALUES(:file_name,:project_id,:created_by)";
+				String galleryQry ="INSERT into project_gallery (file_name,project_id_fk,created_by,created_date)VALUES(:file_name,:project_id,:created_by,:created_date)";
 				for (int i = 0; i < arraySize; i++) {
 					MultipartFile multipartFile = project.getProjectGalleryFiles()[i];
 					if ((null != multipartFile && !multipartFile.isEmpty())
 							|| !StringUtils.isEmpty(project.getProjectGalleryFileNames()[i])) {
 						String saveDirectory = CommonConstants2.PROJECT_GALLERY_FILE_SAVING_PATH + project.getProject_id() + File.separator;
 						String fileName = project.getProjectGalleryFileNames()[i];
+						String date = project.getCreated_dates()[i];
+						project.setCreated_date(DateParser.parse(date));
 						if (null != multipartFile && !multipartFile.isEmpty()) {
 							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
 						}
@@ -265,6 +273,7 @@ public class ProjectDaoImpl implements ProjectDao {
 						imgObj.setFile_name(fileName);
 						imgObj.setProject_id(project.getProject_id());
 						imgObj.setCreated_by(project.getCreated_by());
+						imgObj.setCreated_date(project.getCreated_date());
 						paramSource = new BeanPropertySqlParameterSource(imgObj);
 						template.update(galleryQry, paramSource);
 					}
@@ -425,13 +434,22 @@ public class ProjectDaoImpl implements ProjectDao {
 						arraySize = project.getProjectGalleryFileNames().length;
 					}
 				}
+				
+				if(!StringUtils.isEmpty(project.getCreated_dates()) && project.getCreated_dates().length > 0 ) {
+					project.setCreated_dates(CommonMethods.replaceEmptyByNullInSringArray(project.getCreated_dates()));
+					if(arraySize < project.getCreated_dates().length) {
+						arraySize = project.getCreated_dates().length;
+					}
+				}
 
-				String galleryQry ="INSERT into project_gallery (file_name,project_id_fk,created_by)VALUES(:file_name,:project_id,:created_by)";
+				String galleryQry ="INSERT into project_gallery (file_name,project_id_fk,created_by,created_date)VALUES(:file_name,:project_id,:created_by,:created_date)";
 				for (int i = 0; i < arraySize; i++) {
 					MultipartFile multipartFile = project.getProjectGalleryFiles()[i];
 					if (null != multipartFile && !multipartFile.isEmpty()) {
 						String saveDirectory = CommonConstants2.PROJECT_GALLERY_FILE_SAVING_PATH + project.getProject_id() + File.separator;
 						String fileName = project.getProjectGalleryFileNames()[i];
+						String date = project.getCreated_dates()[i];
+						project.setCreated_date(DateParser.parse(date));
 						if (null != multipartFile && !multipartFile.isEmpty()) {
 							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
 						}
@@ -439,6 +457,7 @@ public class ProjectDaoImpl implements ProjectDao {
 						imgObj.setFile_name(fileName);
 						imgObj.setProject_id(project.getProject_id());
 						imgObj.setCreated_by(project.getCreated_by());
+						imgObj.setCreated_date(project.getCreated_date());
 						paramSource = new BeanPropertySqlParameterSource(imgObj);
 						template.update(galleryQry, paramSource);
 					}
@@ -626,7 +645,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		List<Project> objsList = null;
 		try {
 			String qry ="SELECT project_pinkbook_id, project_id_fk, financial_year_fk, pb_item_no FROM project_pinkbook pb "
-					+ "LEFT JOIN project p on pb.project_id_fk = p.project_id ";
+					+ "LEFT JOIN project p on pb.project_id_fk = p.project_id order by project_id_fk ASC,financial_year_fk DESC,pb_item_no DESC";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

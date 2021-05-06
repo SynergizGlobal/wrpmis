@@ -17,8 +17,8 @@ public class ProjectListImpl implements ProjectService{
 	
 	
 	@Override
-	public List<Project> getProjectList()throws Exception{
-	return projectDao.getProjectList();}
+	public List<Project> getProjectList(Project project)throws Exception{
+	return projectDao.getProjectList(project);}
 	
 	
 	@Override

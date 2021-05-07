@@ -184,7 +184,7 @@ public class RiskDaoImpl implements RiskDao{
 					int j = 1;
 					if((!StringUtils.isEmpty(userId[i]))) {
 						String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+subWork+"&assessment_date="+assessmentDate;
-						insertStmt.setString(j++,"Risk Analysis Report of "+subWork+" has been updated.");
+						insertStmt.setString(j++,"Risk Analysis Report of "+subWork+" has been uploaded.");
 						insertStmt.setString(j++,(userId[i]));
 						insertStmt.setString(j++,redirect_url);
 						insertStmt.setString(j++,messageType);

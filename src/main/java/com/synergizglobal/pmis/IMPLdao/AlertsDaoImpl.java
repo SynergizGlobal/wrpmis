@@ -684,7 +684,7 @@ public class AlertsDaoImpl implements AlertsDao{
 	             for (Alerts alerts : risk_mitigation_alerts) {
             		 Alerts aObj = new Alerts();
             		 aObj.setAlert_level("1st Alert");
-            		 aObj.setAlert_value("1st Alert!! Please update mitigation plan against prioritized risk(s) of "+alerts.getSub_work());
+            		 aObj.setAlert_value("Please update mitigation plan against prioritized risk(s) of "+alerts.getSub_work());
             		 aObj.setAlert_type("Risk");
             		 aObj.setRedirect_url("/risk-atr-update?sub_work="+alerts.getSub_work()+"&assessment_date="+alerts.getAssessment_date());
             		 aObj.setOwner_user_id(alerts.getOwner_user_id());
@@ -713,7 +713,7 @@ public class AlertsDaoImpl implements AlertsDao{
 	             for (Alerts alerts : risk_atr_alerts) {
             		 Alerts aObj = new Alerts();
             		 aObj.setAlert_level("1st Alert");
-            		 aObj.setAlert_value("1st Alert!! Please update ATR against prioritized risk(s) of "+alerts.getSub_work());
+            		 aObj.setAlert_value("Please update ATR against prioritized risk(s) of "+alerts.getSub_work());
             		 aObj.setAlert_type("Risk");
             		 aObj.setRedirect_url("/risk-atr-update?sub_work="+alerts.getSub_work()+"&assessment_date="+alerts.getAssessment_date());
             		 aObj.setOwner_user_id(alerts.getOwner_user_id());

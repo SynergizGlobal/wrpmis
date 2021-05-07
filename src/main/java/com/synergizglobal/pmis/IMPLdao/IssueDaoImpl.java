@@ -534,8 +534,7 @@ public class IssueDaoImpl implements IssueDao {
 		boolean flag = false;
 		try {
 			
-			if(!(obj.getCorrective_measure().equals(obj.getComment())) && StringUtils.isEmpty(obj.getExisting_status_fk())) {
-			
+			if(!(obj.getCorrective_measure().equals(obj.getComment())) && StringUtils.isEmpty(obj.getExisting_status_fk())) {			
 				obj.setComment(obj.getCorrective_measure());
 			}
 			if(!(StringUtils.isEmpty(obj.getRemarks_new()) && "Escalated".equalsIgnoreCase(obj.getExisting_status_fk()))) {
@@ -548,8 +547,13 @@ public class IssueDaoImpl implements IssueDao {
 			}else{
 				obj.setAssigned_person_user_id_fk(obj.getDy_hod_user_id_fk());
 			}
-			if(!StringUtils.isEmpty(obj.getAssigned_person_user_id_fk()) && obj.getAssigned_person_user_id_fk().equals(obj.getExistingAssignedPerson()) ) {
+			if(!StringUtils.isEmpty(obj.getAssigned_person_user_id_fk()) 
+					&& obj.getAssigned_person_user_id_fk().equals(obj.getExistingAssignedPerson()) ) {
 				obj.setStatus_fk("Updated");
+			}
+			if("Closed".equals(obj.getStatus_fk()) ) {
+				obj.setStatus_fk(obj.getStatus_fk());
+				obj.setAssigned_person_user_id_fk(null);
 			}
 			String qry = "INSERT INTO issue_history(issue_id_fk,issue_status_fk,assigned_person_user_id_fk,comment,created_by) "
 					+ "VALUES "
@@ -1259,6 +1263,8 @@ public class IssueDaoImpl implements IssueDao {
 					} else if ("Escalated".equals(iObj.getStatus_fk())
 							&& !StringUtils.isEmpty(iObj.getResponsible_person_user_id())
 							&& !iObj.getEscalated_to_user_id().equals(existing_escalated_to)) {
+						emailSubject = emailSubject + iObj.getStatus_fk();
+					} else if ("Closed".equals(iObj.getStatus_fk())) {
 						emailSubject = emailSubject + iObj.getStatus_fk();
 					} else {
 						emailSubject = emailSubject + "Updated";

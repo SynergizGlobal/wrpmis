@@ -69,8 +69,25 @@
 		.input-field p.searchable_label{
 			margin-top: -10px !important;
 		}
-		
-		
+		.datepicker-table th,
+        .datepicker-table td {
+            padding: 0 !important;
+        }
+        .datepicker-table td:first-of-type,
+        .datepicker-table td:last-of-type {
+            padding: 0 !important;
+        }
+		 .datepicker-table thead tr,
+        .datepicker-table thead tr:hover,
+        .datepicker-table tbody tr,
+        .datepicker-table tbody tr:hover {
+            background-color: transparent;
+            border-radius: 0;
+            border-bottom-width: 0;
+        }
+        .datepicker~button {
+            top: 26px;
+        }
 	</style>
 </head>
 
@@ -270,15 +287,15 @@
 																	<script>
 																	var date = '${iObj.created_date }'
 																	   $(document).ready(function () {
-																		
-																			$("#created_date${index.count }").datepicker({
-														                       	 format:'dd-mm-yyyy',
-														                       	
-														                           onSelect: function () {
-														                	    	     $('.confirmation-btns .datepicker-done').click();
-														                	    	  }
-														                       });
+																		   $('.datepicker').datepicker({
+																				maxDate: new Date(),
+																	        	format:'dd-mm-yyyy',
+																	   	    	onSelect: function () {
+																	   	    	   $('.confirmation-btns .datepicker-done').click();
+																	   	    	}
+																	        })
 																	   });
+																	
 																	</script>														
 															</c:forEach>
 														</c:when>
@@ -308,10 +325,11 @@
 																	<a onclick="removeImage('0');" class="btn red"> 
 																		<i class="fa fa-close"></i></a>
 																</td>
-																<script>
-																		var date = ''
-																	</script>
+																
 															</tr>
+															<script>
+																		var date = ''
+															</script>
 														</c:otherwise>
 													</c:choose>
 													

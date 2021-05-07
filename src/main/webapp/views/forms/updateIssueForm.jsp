@@ -544,20 +544,8 @@
        	  	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('#corrective_measure').characterCounter();
-            $('#remarks').characterCounter();         
+            $('#remarks').characterCounter();  
             
-           /*  $(".datepicker").each(function(){
-           		var id = $(this).attr('id');	        
-				$('#'+id).datepicker({
-		        	format:'dd-mm-yyyy',
-		        	autoClose:true
-		        });
-				
-		        $('#'+id+'_icon').click(function () {
-	                event.stopPropagation();
-	                $('#'+id).click();
-	            });
-           	}); */
            	var txt = $("textarea#corrective_measure");
            	txt.val( txt.val() + "\n");
           

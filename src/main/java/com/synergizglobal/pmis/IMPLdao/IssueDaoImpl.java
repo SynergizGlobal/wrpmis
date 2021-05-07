@@ -547,12 +547,12 @@ public class IssueDaoImpl implements IssueDao {
 			}else{
 				obj.setAssigned_person_user_id_fk(obj.getDy_hod_user_id_fk());
 			}
-			if(!StringUtils.isEmpty(obj.getAssigned_person_user_id_fk()) 
+			if(!"Closed".equals(obj.getStatus_fk()) && !StringUtils.isEmpty(obj.getAssigned_person_user_id_fk()) 
 					&& obj.getAssigned_person_user_id_fk().equals(obj.getExistingAssignedPerson()) ) {
 				obj.setStatus_fk("Updated");
 			}
 			if("Closed".equals(obj.getStatus_fk()) ) {
-				obj.setStatus_fk(obj.getStatus_fk());
+				//obj.setStatus_fk(obj.getStatus_fk());
 				obj.setAssigned_person_user_id_fk(null);
 			}
 			String qry = "INSERT INTO issue_history(issue_id_fk,issue_status_fk,assigned_person_user_id_fk,comment,created_by) "

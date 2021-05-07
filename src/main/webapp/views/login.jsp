@@ -111,8 +111,7 @@
     </style>
 </head>
 
-<body style="background: black url(<%=CommonConstants.LOGIN_BACKGROUND_IMAGE_URL%>) no-repeat center center;background-size: cover;  background-color: rgba(125,0,0,0.32);
-    background-blend-mode: overlay;">
+<body style="background: black url(<%=CommonConstants.LOGIN_BACKGROUND_IMAGE_URL%>) no-repeat center center;background-size: cover;  background-color: rgba(125,0,0,0.32);">
  	       <!-- header starts -->
  	  	  <nav>
 	        <div class="nav-wrapper bg">

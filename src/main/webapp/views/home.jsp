@@ -356,6 +356,7 @@
 			  z-index: 2000;
 			  border-radius: 2px;
 			  color: #fff;
+			  font-size: 15px;
 			  min-height: 36px;
 			  line-height: 120%;
 			  border:1px solid black;
@@ -375,6 +376,7 @@
 			  white-space: pre-wrap;
 			  border-radius: 10px;
 		}
+
     </style>
 </head>
 

@@ -229,7 +229,7 @@
 												<thead>
 													<tr>
 														<th style="width: 52%;text-align: left;">Date</th>
-														<th style="width: 52%;text-align: left;">Attach Images</th>
+														<th style="width: 52%;text-align: left;">Attach Image</th>
 														<th></th>
 														<th style="width: 8%;text-align: left;">Action</th>
 													</tr>
@@ -252,7 +252,7 @@
 																		<div class="file-field input-field">
 									                                        <div class="btn bg-m t-c">
 									                                            <span>Attach Image</span>
-									                                            <input type="file" id="projectGalleryFiles${index.count }" name="projectGalleryFiles" accept="image/*">
+									                                            <input type="file" id="projectGalleryFiles${index.count }" name="projectGalleryFiles" accept="image/x-png,image/gif,image/jpeg" >
 									                                        </div>
 									                                        <div class="file-path-wrapper">
 									                                            <input class="file-path validate" type="text" id="projectGalleryFileNames${index.count }" name="projectGalleryFileNames" value="${iObj.file_name }">
@@ -268,13 +268,17 @@
 																	</td>
 																</tr>	
 																	<script>
-																		var date = '${iObj.created_date }'
+																	var date = '${iObj.created_date }'
+																	   $(document).ready(function () {
+																		
 																			$("#created_date${index.count }").datepicker({
 														                       	 format:'dd-mm-yyyy',
+														                       	
 														                           onSelect: function () {
 														                	    	     $('.confirmation-btns .datepicker-done').click();
 														                	    	  }
 														                       });
+																	   });
 																	</script>														
 															</c:forEach>
 														</c:when>
@@ -292,7 +296,7 @@
 																	<div class="file-field input-field">
 								                                        <div class="btn bg-m t-c">
 								                                            <span>Attach Image</span>
-								                                            <input type="file" id="projectGalleryFiles0" name="projectGalleryFiles" accept="image/*">
+								                                            <input type="file" id="projectGalleryFiles0" name="projectGalleryFiles" accept="image/x-png,image/gif,image/jpeg" >
 								                                        </div>
 								                                        <div class="file-path-wrapper">
 								                                            <input class="file-path validate" type="text" id="projectGalleryFileNames0" name="projectGalleryFileNames">
@@ -646,7 +650,7 @@
 	   		   +'<td><div class="file-field input-field">'	
 			   +'<div class="btn bg-m t-c">'	
 			   +'<span>Attach Image</span>'	
-			   +'<input type="file" id="projectGalleryFiles'+rNo+'" name="projectGalleryFiles" accept="image/*">'	
+			   +'<input type="file" id="projectGalleryFiles'+rNo+'" name="projectGalleryFiles" accept="image/x-png,image/gif,image/jpeg">'	
 			   +'</div>'	
 			   +'<div class="file-path-wrapper">'	
 			   +'<input class="file-path validate" type="text" id="projectGalleryFileNames'+rNo+'" name="projectGalleryFileNames">'	

@@ -27,7 +27,9 @@
         .input-field .searchable_label{
         	font-size: 0.85rem;
         }
-
+		.dotgroup-scroll{
+			display :none;
+		}
         [type="radio"]:checked+span::after,
         [type="radio"].with-gap:checked+span::after {
             background-color: #2E58AD !important;
@@ -278,9 +280,9 @@
                                             <p class="searchable_label">Project <span class="required">*</span></p>
                                             <select class="searchable validate-dropdown" id="project_id" name="project_id"
                                                 onchange="getActivitiesWorksList(this.value);">
-                                                <option value="">Select</option>
+                                                
                                                 <c:forEach var="obj" items="${projectsList }">
-                                                    <option value="${obj.project_id }" <c:if test="${obj.project_id eq activitiesData.project_id }">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                                    <option value="${obj.project_id }" <c:if test="${obj.project_id eq activitiesData.project_id }">selected</c:if>><%-- ${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> --%> ${obj.project_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="project_idError" class="error-msg" ></span>
@@ -289,9 +291,9 @@
                                            <p class="searchable_label">Work <span class="required">*</span></p>
                                             <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                                 onchange="getActivitiesContractsList(this.value);">
-                                                <option value="">Select</option>
+                                                
                                                 <c:forEach var="obj" items="${worksList }">
-                                                    <option value="${obj.work_id }" <c:if test="${obj.work_id eq activitiesData.work_id }">selected</c:if>>${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                                    <option value="${obj.work_id }" <c:if test="${obj.work_id eq activitiesData.work_id }">selected</c:if>><%-- ${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> --%> ${obj.work_short_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="work_id_fkError" class="error-msg" ></span>
@@ -302,9 +304,9 @@
                                                 onchange="getComponentIdsList('1');getActivitiesStructures(); getActivitiesLines(); getActivitiesSections();"> -->
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
                                                 onchange="resetWorksAndProjectsDropdowns();getActivitiesStructures(); getActivitiesLines(); getActivitiesSections();">
-                                                <option value="">Select</option>
+                                                
                                                 <c:forEach var="obj" items="${contractsList }">
-                                                	<option name="${obj.work_id_fk }" department="${obj.department_name }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq activitiesData.contract_id }">selected</c:if>>${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if>${obj.contract_short_name}</option>
+                                                	<option name="${obj.work_id_fk }" department="${obj.department_name }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq activitiesData.contract_id }">selected</c:if>><%-- ${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if> --%>${obj.contract_short_name}</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="contract_id_fkError" class="error-msg" ></span>
@@ -316,7 +318,7 @@
                                            <p class="searchable_label">Structure <span class="required">*</span></p>
                                             <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk"
                                                 class="searchable validate-dropdown" onchange="getComponentIdsList();">
-                                                <option value="">Select</option>
+                                                
                                             </select>
                                             <span id="strip_chart_structure_id_fkError" class="error-msg" ></span>
                                         </div>
@@ -324,14 +326,14 @@
                                            <p class="searchable_label">Line</p>
                                             <select id="strip_chart_line_id_fk" name="strip_chart_line_id_fk"
                                                 class="searchable validate-dropdown" onchange="getComponentIdsList();">
-                                                <option value="">Select</option>
+                                                
                                             </select>
                                         </div>
                                         <div class="col m4 s12 input-field" id="strip_chart_section_id_fkDiv" style="display: none;">
                                            <p class="searchable_label">Section</p>
                                             <select id="strip_chart_section_id_fk" name="strip_chart_section_id_fk"
                                                 class="searchable validate-dropdown" onchange="getComponentIdsList();">
-                                                <option value="">Select</option>
+                                                
                                             </select>
                                         </div>
                                     </div>
@@ -454,7 +456,7 @@
                                     	<div class="col m4 s12 input-field">
                                            <p class="searchable_label">Component ID <span class="required">*</span></p>
                                             <select class="searchable validate-dropdown" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getComponentAndActivitiesList(this.value);">
-                                                <option value="">Select</option>
+                                                
                                             </select>
                                             <span id="strip_chart_component_idError" class="error-msg" ></span>
                                         </div>
@@ -464,7 +466,7 @@
                                             <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 2.75rem;" readonly="readonly">
                                             <!-- <p>Component</p>
                                             <select class="searchable validate-dropdown" id="strip_chart_component" name="strip_chart_component">
-                                                <option value="">Select</option>
+                                                
                                             </select>
                                             <span id="strip_chart_componentError" class="error-msg" ></span> -->
                                         </div>
@@ -473,7 +475,7 @@
                                            <p class="searchable_label">Activity <span class="required">*</span></p>
                                             <select id="strip_chart_activity_id" name="strip_chart_activity_id"
                                                 class="searchable validate-dropdown" onchange="getActivitiesDetails(this.value);">
-                                                <option value="">Select</option>
+                                                
                                             </select>
                                             <span id="strip_chart_activity_idError" class="error-msg" ></span>
                                         </div>
@@ -773,7 +775,7 @@
          	$('#issueFilesDiv'+no).remove();
          	$('#issueFileName'+no).remove();
         } 
-	
+
         $(document).ready(function () {
             $('#issue_category_id').formSelect();
             $('.searchable').select2();
@@ -784,7 +786,8 @@
                 $('#hide-btn').toggleClass("fa-minus-circle");
 
             });
-            
+    		$('select').prepend('<option selected=""></option>').select2({placeholder: "Select"});
+
             $('#progress_date_icon').click(function () {
                 event.stopPropagation();
                 $('#progress_date').click();
@@ -859,12 +862,12 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
                                 if ($.trim(id2) != '' && val.work_id == $.trim(id2)) {
                                 	id1 = val.work_id;
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>'  + $.trim(workName) + '</option>');
                                 } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(workName) + '</option>');
                                 }
                             });
                         }
@@ -903,12 +906,12 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var contract_short_name = '';
-                                if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
+                                if ($.trim(val.contract_short_name) != '') { contract_short_name = $.trim(val.contract_short_name) }
                                 if ($.trim(id2) != '' && val.contract_id == $.trim(id2)) {
                                 	id1 = val.contract_id;
-                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" department="'+val.department_name+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
+                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" department="'+val.department_name+'" value="' + val.contract_id + '" selected>' + $.trim(contract_short_name) + '</option>');
                                 } else {
-                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" department="'+val.department_name+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
+                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" department="'+val.department_name+'" value="' + val.contract_id + '">' + $.trim(contract_short_name) + '</option>');
                                 }
                             });
                         }
@@ -951,11 +954,11 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
                                 if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>'  + $.trim(workName) + '</option>');
                                 } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(workName) + '</option>');
                                 }
                             });
                         }
@@ -1141,7 +1144,7 @@
                         }
                         $("#component_circles").html(html);
                         $("#component_circles_row").show();
-                        $('#legends').show();
+                       // $('#legends').show();
                       //dynamic width based on content
                         $.each($('.dot-container'), function (i, val) {
                         	$(val).css("width",$(val).find('a').children().width());

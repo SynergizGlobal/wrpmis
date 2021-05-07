@@ -75,4 +75,14 @@ public class WorkServiceImpl implements WorkService {
 	public List<Work> getWorkFileTypes() throws Exception {
 		return workDao.getWorkFileTypes();
 	}
+
+	@Override
+	public List<Work> getWorksList(Work obj) throws Exception {
+		return workDao.getWorksList(obj);
+	}
+
+	@Override
+	public List<Work> getWorktProjectsList(Work obj) throws Exception {
+		return workDao.getWorktProjectsList(obj);
+	}
 }

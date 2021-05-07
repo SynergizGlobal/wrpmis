@@ -17,7 +17,17 @@
         /* body {
             overflow-x: hidden;
         } */
-
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
         .hiddendiv.common {
             width: 99vw !important;
         }
@@ -294,9 +304,9 @@
                                             <p class="searchable_label">Project</p>
                                             <select class="searchable validate-dropdown" id="project_id" name="project_id"
                                                 onchange="getAcivitiesBulkUpdateWorksList(this.value);">
-                                                <option value="">Select</option>
+                                               <option selected="selected" hidden >Select</option> 
                                                 <c:forEach var="obj" items="${projectsList }">
-                                                    <option value="${obj.project_id }">${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                                    <option value="${obj.project_id }"><%-- ${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> --%> ${obj.project_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="project_idError" class="error-msg" ></span>
@@ -305,9 +315,9 @@
                                             <p class="searchable_label">Work</p>
                                             <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                                 onchange="getAcivitiesBulkUpdateContractsList(this.value);">
-                                                <option value="">Select</option>
+                                                 <option value="">Select</option> 
                                                 <c:forEach var="obj" items="${worksList }">
-                                                    <option value="${obj.work_id }">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                                    <option value="${obj.work_id }"><%-- ${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> --%> ${obj.work_short_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="work_id_fkError" class="error-msg" ></span>
@@ -316,9 +326,9 @@
                                             <p class="searchable_label">Contract <span class="required">*</span></p>
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
                                                 onchange="resetWorksAndProjectsDropdowns();getAcivitiesBulkUpdateStructures(); getAcivitiesBulkUpdateLines(); getAcivitiesBulkUpdateSections();">
-                                                <option value="">Select</option>
+                                                 <option value="">Select</option> 
                                                 <c:forEach var="obj" items="${contractsList }">
-                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" >${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if>${obj.contract_short_name}</option>
+                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" ><%-- ${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if >--%>${obj.contract_short_name}</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="contract_id_fkError" class="error-msg" ></span>
@@ -333,7 +343,7 @@
                                             </select>
                                             <span id="strip_chart_structure_id_fkError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col m4 s12 input-field" id="strip_chart_line_id_fkDiv" style="display: none;">
+                                        <!-- <div class="col m4 s12 input-field" id="strip_chart_line_id_fkDiv" style="display: none;">
                                             <p class="searchable_label">Line</p>
                                             <select id="strip_chart_line_id_fk" name="strip_chart_line_id_fk"
                                                 class="searchable validate-dropdown" onchange="getComponentIdsList();">
@@ -346,6 +356,17 @@
                                                 class="searchable validate-dropdown" onchange="getComponentIdsList();">
                                                 <option value="">Select</option>
                                             </select>
+                                        </div> -->
+                                         <div class="col m4 s12 input-field">
+                                            <p class="searchable_label">Component ID</p>
+                                             <select class="searchable validate-dropdown" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getComponentAndActivitiesList(this.value);">
+                                                <option value="">Select</option>
+                                            </select>
+                                            <span id="strip_chart_component_idError" class="error-msg" ></span>
+                                        </div>
+                                        <div class="col m4 s12 input-field">
+                                            <p class="searchable_label">Component</p>
+                                            <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 2rem;" readonly="readonly">
                                         </div>
                                     </div>
                                     
@@ -463,7 +484,7 @@
                                         </div> -->
                                     </div>
 
-                                    <div class="row">                                     
+                                    <!-- <div class="row">                                     
                                         <div class="col m4 s12 input-field">
                                             <p class="searchable_label">Component ID</p>
                                              <select class="searchable validate-dropdown" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getComponentAndActivitiesList(this.value);">
@@ -484,13 +505,12 @@
                                             </select>
                                             <span id="strip_chart_activity_idError" class="error-msg"></span>
                                         </div>
-                                    </div>
-
+                                    </div> -->
+									<br>
                                     <div class="row">
                                         <div class="col m2 hide-on-small-only"></div>
-                                        <div class="col m4 s6" style="margin-bottom: 30px;margin-top: 10px;">
-                                            <a class="btn waves-effect bg-m" id="activities" onclick="updateActual()" style="margin-top:8px">Finish Activities</a>
-                                        </div>
+                                       
+                                        <div class="col m2 hide-on-small-only"></div>
                                         <div class="col m4 s6 input-field" style="margin-bottom: 30px;margin-top: 10px;">
                                              <input id="progress_date" name="progress_date" type="text" class="validate datepicker">
                                              <label for="progress_date">Reporting Date <span class="required">*</span></label>
@@ -498,6 +518,12 @@
                                               <span id="progress_dateError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m2 hide-on-small-only"></div>
+                                         <div class="col m4 s6 input-field" style="margin-bottom: 30px;margin-top: 10px;">
+                                          <div class="center-align m-3">
+                                                <button type="button" onclick="updateProgress();" id="btn1" class="btn waves-effect waves-light bg-m" >Update</button>
+                                       	  </div>
+                                        </div> 
+                                        
                                     </div>
 									<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
 									<!-- <span id="actualScopesError" class="error-msg" style="text-align:center"></span> -->
@@ -509,24 +535,24 @@
                                             <table class="mdl-data-table" id="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>
+                                                       <!--  <th>
                                                             <p>
                                                                 <label>
                                                                   <input type="checkbox" name="select-all" id="select-all"/>
                                                                   <span></span>
                                                                 </label>
                                                               </p>
-                                                        </th>
-                                                        <th>Component <br>ID</th>
-                                                        <th>Component</th>
-                                                        <th>Activity</th>
-                                                        <th>Planned <br> Start</th>
-                                                        <th>Planned <br> Finish</th>
+                                                        </th> -->
+                                                       <!--  <th>Component <br>ID</th>
+                                                        <th>Component</th> -->
+                                                        <th style="width: 350px">Activity</th>
+                                                        <th >&nbsp;Planned <br> Start</th>
+                                                        <th>&nbsp;Planned <br> Finish</th>
                                                         <!-- <th>A S</th>
                                                         <th>A F</th> -->
                                                         <th>Scope</th>
                                                         <th>Completed</th>
-                                                        <th>Actual</th>
+                                                        <th style="width: 100px">Actual</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="filerList">
@@ -564,11 +590,11 @@
 								 <div class="col m1 hide-on-small-only"></div>
                                 <div class="col m10 s12">
                                     <div class="row">
-                                        <div class="col m12 s12 input-field">
+                                       <!--  <div class="col m12 s12 input-field">
                                             <textarea id="remarks" name="remarks" class="materialize-textarea"
                                                 data-length="500"></textarea>
                                             <label for="remarks" class="">Remarks</label>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <input type="hidden" id="activity_id" name="activity_id" />
                                     <div class="row">
@@ -661,11 +687,13 @@
 	   	    	}
 	        })
 	    }); */
+	   
         $(document).ready(function () {
             $('.searchable').select2();
             $('#btn').prop('disabled',true);
+            $('#btn1').prop('disabled',true); 
+
            // $('#progress_date').datepicker();
-                    
             $('#progress_date').datepicker({
                 maxDate: new Date(),
               //  max: new Date(),
@@ -732,12 +760,12 @@
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                        var workName = '';
-	                        if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+	                        if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
 	                        if ($.trim(id2) != '' && val.work_id == $.trim(id2)) {
 	                        	id1 = val.work_id;
-	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(workName) + '</option>');
 	                        } else {
-	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                            $("#work_id_fk").append('<option value="' + val.work_id + '">'  + $.trim(workName) + '</option>');
 	                        }
 	                    });
 	                }
@@ -776,12 +804,12 @@
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                        var contract_name = '';
-	                        if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+	                        if ($.trim(val.contract_name) != '') { contract_name =  $.trim(val.contract_name) }
 	                        if ($.trim(id2) != '' && val.contract_id == $.trim(id2)) {
 	                        	id1 = val.contract_id;
-	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '" selected>'  + $.trim(contract_name) + '</option>');
 	                        } else {
-	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(contract_name) + '</option>');
 	                        }
 	                    });
 	                }
@@ -824,11 +852,11 @@
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                        var workName = '';
-	                        if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+	                        if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
 	                        if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' +  $.trim(workName) + '</option>');
 	                        } else {
-	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' +  $.trim(workName) + '</option>');
 	                        }
 	                    });
 	                }
@@ -1028,8 +1056,13 @@
 	 
 	 function getAcivitiesBulkUpdateActivitiesList(componentId,componentName) {
      	$( ".dot" ).removeClass( "active" );
-     	$( "#"+componentName ).addClass( "active" );
-     	
+     	var incStr =componentName.indexOf('/');
+     	if(incStr >= 0){
+     		var component_name = componentName.replaceAll(/[^a-zA-Z0-9]/g," ")
+     		$( "#"+component_name ).addClass( "active" );
+     	}else{
+         	$( "#"+componentName ).addClass( "active" );
+     	}
      	/* $("#strip_chart_component option:not(:first)").remove();
      	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
      	$('.searchable').select2(); */
@@ -1134,7 +1167,7 @@
     	 var html = '';
     	 $("#filerList").html('');
     	 
-    	 $("#select-all").prop('checked', false);
+    	// $("#select-all").prop('checked', false);
     	 
     	 var strip_chart_component_id = $("#strip_chart_component_id").val();
     	 var strip_chart_activity_id = $("#strip_chart_activity_id").val();
@@ -1151,24 +1184,23 @@
  	                    $.each(data, function (i, val) {
  	                    	
  	                    	 var num = $('#table tbody tr').length;
- 	                    	 html = '<tr id="row'+num+'"><td><p><label><input type="checkbox" class="check" name="activity_check" id="check_'+num+'"/><span></span></label></p></td>'
- 	                    		+'<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></td>'
- 	            	 			+'<td>' + $.trim(val.strip_chart_component_id_name) + '</td>'
- 	            	 			+'<td>' + $.trim(val.strip_chart_component) + '</td>'
- 	            	 			+'<td>' + $.trim(val.strip_chart_activity_name) + '</td>'
+ 	                    	 html = '<tr id="row'+num+'">'
+ 	            	 			/* +'<td>' + $.trim(val.strip_chart_component_id_name) + '<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></td>'
+ 	            	 			+'<td>' + $.trim(val.strip_chart_component) + '</td>' */
+ 	            	 			+'<td><p style="text-align: left;">' + $.trim(val.strip_chart_activity_name) +' ('+$.trim(val.unit_fk)+' )<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></p></td>'
  	            	 			+'<td>' + $.trim(val.planned_start) + '</td>'
  	            	 			+'<td>' + $.trim(val.planned_finish) + '</td>'
  	            	 			+'<td><span>' + $.trim(val.scope) + '</span>'
  	            	 			+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
  	            	 			+'<td><span>' + $.trim(val.completed) + '</span>'
  	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
- 	            	 			+' <td class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" readonly ><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
+ 	            	 			+' <td class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'"  ><br><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
  	                    		$("#filerList").append(html);	  
  	                    	 	
  	                    	 	/* $(document).on('change', '#strip_chart_component_id ,#strip_chart_activity_id', function() {  $('#filerList').empty(html); });
  	                    	 	$(document).on('click', '.clearData', function() {  $('#filerList').empty(html); }); */
  	                    	 	
- 	                    	 	$("#check_"+num).change(function() {
+ 	                    	 	/* $("#check_"+num).change(function() {
  	                    	 		//alert("#actualScopes"+num)
  	                    	 		$("#actualScopes"+num).val('');
  	                    	 	})
@@ -1177,10 +1209,10 @@
  	                    	 		if($("#check_"+num).is(':unchecked')){
  	                    	 			$("#actualScopes"+num).val('');
  	                    	 		}
- 	                    	 	})
+ 	                    	 	}) */
  	                    	 //	var noOfBoxes = document.getElementsByClassName("check")
 	 	                    	   
-	 	                    	$("input[type='checkbox'].check").change(function(){
+	 	                    	/* $("input[type='checkbox'].check").change(function(){
 	                    		    var a = $("input[type='checkbox'].check");
 	                    		    if(a.length == a.filter(":checked").length){
 	                    		    	$("#select-all").prop('checked', true);
@@ -1188,15 +1220,15 @@
 	                    		    else {
 	                   		       	    $("#select-all").prop('checked', false);
 	                   		   		 }
-	                    		});
- 	                    	 	$("#activities").on('click', function(){
+	                    		}); */
+ 	                    	 	/* $("#activities").on('click', function(){
  	                    	 		var ans = $("#actualScopes"+num).val();
  	                    	 		if($("#check_"+num).is(':checked') && ans != ""){
  	                    	 			$("#actualScopes"+num).focus();
  	                    	 	        $("#actualScopesError").hide();
  	                    	 	        $('#btn').prop('disabled', this.value == "" ? true : false);     
  	                    	 		}
- 	                    	 	})
+ 	                    	 	}) */
  	                    	 	$("#select-all").on('change', function(){
  	                    	 		if( $("#select-all").prop('checked') ){
 	                    	 			 $('#actualScopes'+num).prop('readonly', false);
@@ -1204,16 +1236,17 @@
 	                    	 			 $('#actualScopes'+num).prop('readonly', true);
 	                    	 			 $('#actualScopesError'+num).html("");
 	                    	 			 $('#btn').prop('disabled',true);
+	                    	 			 $('#btn1').prop('disabled',true);
 	                    	 		}
  	                    	 	});
- 	                    	 	document.getElementById('check_'+num).onchange = function() {
+ 	                    	 	/* document.getElementById('check_'+num).onchange = function() {
  	                    	 		if($("#check_"+num).prop('checked') ){
  	                    	 			 $('#actualScopes'+num).prop('readonly', false);
  	                    	 		}else{
  	                    	 			 $('#actualScopes'+num).prop('readonly', true);
  	                    	 			 $('#btn').prop('disabled',true);
  	                    	 		}
- 	                    	 	};
+ 	                    	 	}; */
  	                    	 	$('#actualScopes'+num).on('keyup', function(){
  	                    	 		var actual = parseFloat($("#totalScopes"+num).val() - $("#completedScopes"+num).val())
  	                    	 		
@@ -1224,6 +1257,7 @@
  	                    	 			$("#actualScopes"+num).val('');
  	                    	 			$('#actualScopesError'+num).html("< or =  '"+actual+"'");
  	                    	 			$('#btn').prop('disabled',true);
+ 	                    	 			$('#btn1').prop('disabled',true);
  	                    	 		}
  	                    	 		
  	                    	 		else{
@@ -1236,7 +1270,8 @@
                     	 			}
                     	 		})
 							    $("#actualScopes"+num).keyup(function(){
-							        $('#btn').prop('disabled', this.value == "" ? true : false);     
+							        $('#btn').prop('disabled', this.value == "" ? true : false);  
+							        $('#btn1').prop('disabled', this.value == "" ? true : false);  
 							    })
  	                     });
  	                }

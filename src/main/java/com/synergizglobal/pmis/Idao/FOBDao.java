@@ -38,4 +38,6 @@ public interface FOBDao {
 
 	List<FOB> getFobFileTypesList(FOB obj) throws Exception;
 
+	List<FOB> getFobIdCheck(FOB obj) throws Exception;
+
 }

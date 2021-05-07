@@ -94,4 +94,9 @@ public class FOBServiceImpl implements FOBService {
 		return fobDao.getFobFileTypesList(obj);
 	}
 
+	@Override
+	public List<FOB> getFobIdCheck(FOB obj) throws Exception {
+		return fobDao.getFobIdCheck(obj);
+	}
+
 }

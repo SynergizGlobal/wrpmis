@@ -22,6 +22,8 @@ import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Railway;
 import com.synergizglobal.pmis.model.Work;
@@ -755,6 +757,70 @@ public class WorkDaoImpl implements WorkDao {
 			String qry ="SELECT work_file_type FROM work_file_type";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public List<Work> getWorksList(Work obj) throws Exception {
+		List<Work> objsList = null;
+		try {
+			String qry = "SELECT DISTINCT work_id,work_name,work_short_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost, " + 
+					"(SELECT GROUP_CONCAT(`work_railway`.`railway_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `railway`, " + 
+					"(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`, " + 
+					"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost "  + 
+					",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion, " + 
+					"DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date  " + 
+					"FROM work w  " + 
+					"LEFT JOIN project p ON w.project_id_fk = p.project_id  "
+					+ "where work_id is not null " ;
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ?";
+				arrSize++;
+			}	
+		
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Work>(Work.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public List<Work> getWorktProjectsList(Work obj) throws Exception {
+		List<Work> objsList = null;
+		try {
+			String qry = "SELECT w.project_id_fk,p.project_name from work w " + 
+					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
+					"where project_id_fk is not null and project_id_fk <> '' ";
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ? ";
+				arrSize++;
+			}
+			
+			qry = qry + "GROUP BY project_id_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Work>(Work.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

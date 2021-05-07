@@ -28,6 +28,10 @@ public interface WorkService {
 
 	public List<Work> getWorkFileTypes() throws Exception;
 
+	public List<Work> getWorksList(Work obj) throws Exception;
+
+	public List<Work> getWorktProjectsList(Work obj) throws Exception;
+
 	/**public int getTotalRecords(Work obj, String searchParameter) throws Exception;
 
 	public List<Work> getWorksList(Work obj, int startIndex, int offset, String searchParameter) throws Exception;

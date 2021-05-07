@@ -541,7 +541,7 @@ public class HomeDaoImpl implements HomeDao {
 		try {
 			connection = dataSource.getConnection();
 			
-			String qry = "select general_status from general_status where general_status is not null and general_status <> ''";
+			String qry = "select general_status from general_status where general_status is not null and general_status <> '' ORDER BY FIELD(general_status,'Not Started','In Progress','On Hold','Commissioned','Completed','Dropped','Terminated','Closed')";
 			statement = connection.prepareStatement(qry);
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {

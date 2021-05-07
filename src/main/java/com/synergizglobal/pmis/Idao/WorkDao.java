@@ -33,4 +33,8 @@ public interface WorkDao {
 
 	public List<Work> getWorkFileTypes() throws Exception;
 
+	public List<Work> getWorksList(Work obj) throws Exception;
+
+	public List<Work> getWorktProjectsList(Work obj) throws Exception;
+
 }

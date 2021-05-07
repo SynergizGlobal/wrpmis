@@ -39,4 +39,6 @@ public interface FOBService {
 
 	List<FOB> getFobFileTypesList(FOB obj) throws Exception;
 
+	List<FOB> getFobIdCheck(FOB obj) throws Exception;
+
 }

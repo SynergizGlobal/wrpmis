@@ -35,6 +35,7 @@
         .input-field .searchable_label {
         	font-size:0.85rem;
         	margin-bottom:4px !important;
+        	color :#9933ff;
         }
         
         #revisionsTableBody .select2-container--default .select2-selection--single {
@@ -145,7 +146,7 @@
 		                                    <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
 		                                   			<option value="">select</option>
 		                                          <c:forEach var="obj" items="${projectsList}">
-		                       						  <option value="${obj.project_id }"<c:if test="${workDetails.project_id_fk eq obj.project_id }">selected</c:if>>${obj.project_id} - ${obj.project_name}</option>
+		                       						  <option value="${obj.project_id }"<c:if test="${workDetails.project_id_fk eq obj.project_id }">selected</c:if>><%-- ${obj.project_id} - --%> ${obj.project_name}</option>
 		                                            </c:forEach>
 		                                    </select>
 		                                    <span id="project_id_fkError"></span>
@@ -153,7 +154,7 @@
 		                               </c:if>
 		                               <c:if test="${action eq 'edit'}">
 			                               <div class="col s12 m6 input-field">
-			                               		<input type="text" class="form-control" value="${workDetails.project_id_fk} - ${workDetails.project_name}" readonly >  
+			                               		<input type="text" class="form-control" value="${workDetails.project_name}" readonly >  
 			                                    <label>Project <span class="required">*</span>:</label>
 			                                    
 			                                    <input type="hidden" name ="project_id_fk" id="project_id_fk" value="${workDetails.project_id_fk}"/>
@@ -499,7 +500,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" class="materialize-textarea" data-length="1000" name="remarks">${workDetails.remarks }</textarea>
+                                    <textarea id="remarks" class="materialize-textarea" data-length="1000" maxlength="1000" name="remarks">${workDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError"></span>
                                 </div>

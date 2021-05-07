@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/work.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <style>
         .dataTables_filter label::after{
          	content:'';
@@ -27,6 +29,9 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
+          .input-field .searchable_label{
+      		font-size:0.85rem;
+        } 
      </style>
 </head>
 <body>
@@ -95,7 +100,26 @@
 								<h6>Update Work</h6>
 							</div>
 						</span>
+						<div class="row no-mar" style="margin-bottom: 0;">
+						<div class="col m3 hide-on-small-only"></div>
+							<div class="col m6 s12">
+								<div class="row" style="margin-bottom: 0;">
+								    <div class="col s8 m4 input-field">
+									</div>
+									<div class="col s6 m4 input-field">
+										<p class="searchable_label">Project</p>
+										<select class="searchable" name="project_id_fk"
+											id="project_id_fk" onchange="addInQueProject(this.value);getWorksList();">
+											<option value="">Select</option>
 
+										</select>
+									</div>
+									 <div class="col s8 m4 input-field">
+									</div>
+								</div>
+							</div>
+							<div class="col m3 hide-on-small-only"></div>
+						</div>
 						<div class="row">
 							<div class="col m12 s12">
 
@@ -112,9 +136,9 @@
 											<th class="no-sort">Action</th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody id="workTbale">
 										 <c:forEach var="obj" items="${workList }">
-											<tr>
+										<%-- 	<tr>
 
 												<td>${ obj.project_id_fk}- ${obj.project_name }</td>
 												<td>${ obj.work_id }</td>
@@ -126,11 +150,11 @@
 												<td class="last-column"><a href="javascript:void(0);"
 													onclick="getWork('${ obj.work_id }');"
 													class="btn waves-effect waves-light bg-m t-c "><i
-														class="fa fa-pencil"></i> </a>  <%-- <a  onclick="deleteWork('${ obj.work_id }');" class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-trash"></i></a> --%>
+														class="fa fa-pencil"></i> </a>  <a  onclick="deleteWork('${ obj.work_id }');" class="btn waves-effect waves-light bg-s t-c "><i
+                                                        class="fa fa-trash"></i></a>
 												</td>
 
-											</tr>
+											</tr> --%>
 										</c:forEach> 
 									</tbody>
 								</table>
@@ -178,15 +202,32 @@
     </form>
     
 	<form action="<%=request.getContextPath() %>/export-work" name="exportWorkForm" id="exportWorkForm" target="_blank" method="post">	
-        <input type="hidden" name="work_id" id="exportWork_id" />
+         <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
+        
 	</form>
     <script>
+   	    var filtersMap = new Object();
+    
         $(document).ready(function () {
-            $('.sidenav').sidenav();
-            $('select').formSelect();
+             $('.sidenav').sidenav();
+             $('select:not(.searchable)').formSelect();
+             $('.searchable').select2(); 
              $('.modal').modal();
              $('.tooltipped').tooltip();
              $(".datepicker").datepicker();
+             var filters = window.localStorage.getItem("workFilters");
+             
+             if($.trim(filters) != '' && $.trim(filters) != null){
+           	  var temp = filters.split('^'); 
+           	  for(var i=0;i< temp.length;i++){
+     	        	  if($.trim(temp[i]) != '' ){
+     	        		  var temp2 = temp[i].split('=');
+     		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
+     		        		  getProjectsFilterList(temp2[1]);
+     		        	  }
+     	        	  }
+     	          }
+               }
             // $('#textarea1').characterCounter();
             $('.notification.dropdown-trigger').dropdown({
                 coverTrigger: false,
@@ -210,9 +251,130 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
-            //getWorksList();
+            getWorksList();
         });
         
+        function addInQueProject(project_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('project_id_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(project_id_fk) != ''){
+       	    	filtersMap["project_id_fk"] = project_id_fk;
+        	}
+        }
+        function getWorksList(){
+        	$(".page-loader-2").show();
+        	
+         	getProjectsFilterList('');
+         	
+        	var project_id_fk = $("#project_id_fk").val();
+
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+        		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("workFilters", filters);
+    			});
+        	
+        	table = $('#datatable-works').DataTable();
+    		 
+    		table.destroy();
+    		
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#datatable-works').DataTable({
+        		"bStateSave": true,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
+                columnDefs: [
+                    {
+                        targets: [0, 1, 2],
+                        className: 'mdl-data-table__cell--non-numeric'
+                    },
+                    { orderable: false, 'aTargets': ['nosort'] }
+                ],
+                // "ScrollX": true,
+                "sScrollX": "100%",
+                 "sScrollXInner": "100%",
+                 "bScrollCollapse": true,
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            }).rows().remove().draw();
+    		
+    		table.state.clear();		
+    	 	var myParams = {project_id_fk : project_id_fk};
+    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-WorksList",
+    			type:"POST",
+    			data:myParams, cache: false,async:false,
+    			success : function(data){      				
+    			if(data != null && data != '' && data.length > 0){    					
+             		$.each(data,function(key,val){
+             			var work_id = "'"+val.work_id+"'";
+                        var actions = '<a href="javascript:void(0);"  onclick="getWork('+work_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
+                  	 	var rowArray = [];    	                 
+                       	
+                    	var project_name = '';
+                        if ($.trim(val.project_name) != '') { project_name =  $.trim(val.project_name) }
+                        
+                       	rowArray.push( project_name);
+                       	rowArray.push($.trim(val.work_id));
+                       	rowArray.push($.trim(val.work_short_name));
+                       	rowArray.push($.trim(val.sanctioned_year_fk));
+                       	rowArray.push($.trim(val.railway));
+                       	rowArray.push($.trim(val.executed_by));
+                       	rowArray.push($.trim(val.remarks));
+                       	rowArray.push($.trim(actions));   	                   	
+                       	
+                        table.row.add(rowArray).draw( true );
+                        		                       
+    				});
+             		
+             		$(".page-loader-2").hide();
+    			}else{
+    				$(".page-loader-2").hide();
+    			}
+    			
+    		},error: function (jqXHR, exception) {
+    			$(".page-loader-2").hide();
+             	getErrorMessage(jqXHR, exception);
+         }});
+       }
+        
+        
+        function getProjectsFilterList(project) {
+        	$(".page-loader").show();
+            var project_id_fk = $("#project_id_fk").val();
+    		if ($.trim(project_id_fk) == "") {
+            	$("#project_id_fk option:not(:first)").remove();
+            	var myParams = { project_id_fk: project_id_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInWork",
+                    data: myParams, cache: false,async: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var projectName = '';
+                                if ($.trim(val.project_name) != '') { projectName =  $.trim(val.project_name) }
+                                var selectedFlag = (project == val.project_id_fk)?'selected':'';
+    	                        $("#project_id_fk").append('<option value="' + val.project_id_fk + '"'+selectedFlag+'>'  + projectName +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
     	<%-- function getWorksList() {
     		$(".page-loader-2").show();
 
@@ -372,11 +534,12 @@
 	    }
         
         function exportWork(){
-         	 var work_id = $("#work_id").val();
+        	 var project_id_fk = $("#project_id_fk").val();
          	 
-         	 $("#exportWork_id").val(work_id);
+        	 $("#exportProject_id_fk").val(project_id_fk);
          	 $("#exportWorkForm").submit();
       	}
+    
     </script>
 
 </body>

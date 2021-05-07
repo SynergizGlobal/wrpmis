@@ -38,10 +38,7 @@
 			height:100px;
 			margin:5px;
 		}
-		.input-field>.datepicker ~ label:not(.label-icon).active {
-		    -webkit-transform: translateY(-11px) scale(0.8);
-		    transform: translateY(-11px) scale(.8);		
-		}
+		
 		.input-field {
 		    margin-top: .35rem;
 		    margin-bottom: .35rem;
@@ -68,15 +65,13 @@
 		}
 		.input-field p.searchable_label{
 			margin-top: -10px !important;
+			color :#8585ad;
 		}
 		.datepicker-table th,
         .datepicker-table td {
             padding: 0 !important;
         }
-        .datepicker-table td:first-of-type,
-        .datepicker-table td:last-of-type {
-            padding: 0 !important;
-        }
+      
 		 .datepicker-table thead tr,
         .datepicker-table thead tr:hover,
         .datepicker-table tbody tr,
@@ -260,7 +255,7 @@
 																	<td>
 																		<div class="col m2 hide-on-small-only"></div>
 																		<div class="input-field">
-																			<input id="created_date${index.count }" name="created_dates" type="text" class="datepicker" value="${iObj.created_date }">
+																			<input id="created_date${index.count }" name="created_dates" type="text" class="validate datepicker" value="${iObj.created_date }">
 										                                    <button type="button" id="created_date${index.count }_icon"><i class="fa fa-calendar"></i></button>
 										                                    <span id="dateError" class="error-msg" ></span>
 										                                </div>
@@ -286,15 +281,7 @@
 																</tr>	
 																	<script>
 																	var date = '${iObj.created_date }'
-																	   $(document).ready(function () {
-																		   $('.datepicker').datepicker({
-																				maxDate: new Date(),
-																	        	format:'dd-mm-yyyy',
-																	   	    	onSelect: function () {
-																	   	    	   $('.confirmation-btns .datepicker-done').click();
-																	   	    	}
-																	        })
-																	   });
+																	  
 																	
 																	</script>														
 															</c:forEach>
@@ -304,7 +291,7 @@
 																<td>
 																	<div class="col m2 hide-on-small-only"></div>
 																	<div class="input-field">
-																		<input id="created_date0" name="created_dates" type="text" class="datepicker">
+																		<input id="created_date0" name="created_dates" type="text" class="validate datepicker">
 									                                    <button type="button" id="created_date0_icon"><i class="fa fa-calendar"></i></button>
 									                                    <span id="dateError" class="error-msg" ></span>
 									                                </div>
@@ -644,11 +631,11 @@
     <script type="text/javascript">
 
 	/****************************************************************************************************/
-	 let date_pickers = document.querySelectorAll('.datepicker');
+    let date_pickers = document.querySelectorAll('.datepicker');
         $.each(date_pickers, function(){
         	var dt = this.value.split(/[^0-9]/);
         	this.value = ""; 
-        	var options = {format: 'dd-mm-yyyy',autoClose:true};
+        	var options = {maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true};
         	if(dt.length > 1){
         		options.setDefaultDate = true,
         		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
@@ -661,7 +648,7 @@
 	        var html = '<tr id="imageRow' + rNo + '">'	
 	        +' <td><div class="col m2 hide-on-small-only"></div>'
 				+'<div class="input-field">'
-				+'<input id="created_date'+rNo+'" name="created_dates" type="text" class="datepicker">'
+				+'<input id="created_date'+rNo+'" name="created_dates" type="text" class="validate datepicker">'
 				+'<button type="button" id="created_date'+rNo+'_icon"><i class="fa fa-calendar"></i></button>'
 	            +'<span id="dateError" class="error-msg" ></span>'
 	            +' </div></td>'

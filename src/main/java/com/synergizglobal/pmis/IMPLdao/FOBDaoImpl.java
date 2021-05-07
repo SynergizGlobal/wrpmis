@@ -717,4 +717,16 @@ public class FOBDaoImpl implements FOBDao {
 		return objsList;
 	}
 
+	@Override
+	public List<FOB> getFobIdCheck(FOB obj) throws Exception {
+		List<FOB> objsList = null;
+		try {
+			String qry = "select fob_id from fob ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 }

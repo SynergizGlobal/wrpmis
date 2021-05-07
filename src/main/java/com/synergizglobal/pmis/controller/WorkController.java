@@ -31,6 +31,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -50,6 +51,8 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.ProjectPaginationObject;
 import com.synergizglobal.pmis.model.Railway;
@@ -100,6 +103,31 @@ public class WorkController {
 			logger.error("Work : " + e.getMessage());
 		}
 		return model;
+	}
+	@RequestMapping(value = "/ajax/get-WorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Work> getWorksList(@ModelAttribute Work obj) {
+		List<Work> worksList = null;
+		try {
+			worksList = workService.getWorksList(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksList : " + e.getMessage());
+		}
+		return worksList;
+	}
+	
+	@RequestMapping(value = "/ajax/getProjectsFilterListInWork", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Work> getProjectsList(@ModelAttribute Work obj) {
+		List<Work> projectsList = null;
+		try {
+			projectsList = workService.getWorktProjectsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsList : " + e.getMessage());
+		}
+		return projectsList;
 	}
 	/**
 	@RequestMapping(value = "/ajax/get-works", method = { RequestMethod.POST, RequestMethod.GET }) 
@@ -446,7 +474,7 @@ public class WorkController {
 		try {
 			userId = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			view.setViewName("redirect:/work");
-			dataList = workService.getWorkList(work); 
+			dataList = workService.getWorksList(work); 
 			revisionList = workService.getWorkRevisionsList();
 			if(dataList != null && dataList.size() > 0){
 			            XSSFWorkbook  workBook = new XSSFWorkbook ();
@@ -477,7 +505,7 @@ public class WorkController {
 				        
 			            XSSFRow headingRow = sheet.createRow(0);
 			            String headerString = "Project ID^Project Name^Work ID^Work Short Name^Sanctioned Year^Railway Agency^Executed By^Sanctioned Estimated Cost^Sanctioned Completion Cost^Completeion Period Months^"
-			            		+ "Anticipated Cost^Year of Completion^Projected Completion^Completion Cost^Remarks";
+			            		+ "Anticipated Cost^Projected Completion Date^Completion Cost^Year of Completion^Remarks";
 			            
 			            String[] firstHeaderStringArr = headerString.split("\\^");
 			            
@@ -547,10 +575,6 @@ public class WorkController {
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getAnticipated_cost());
 						
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getYear_of_completion());
-							
 			                cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getProjected_completion());
@@ -558,6 +582,10 @@ public class WorkController {
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getCompletion_cost());
+
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getYear_of_completion());
 							
 			                cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);

@@ -62,6 +62,7 @@ import com.synergizglobal.pmis.model.FOBPaginationObject;
 import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Work;
+import com.synergizglobal.pmis.reference.model.TrainingType;
 
 @Controller
 public class FOBController {
@@ -256,6 +257,9 @@ public class FOBController {
 			model.setViewName(PageConstants2.addEditFob);
 			
 			model.addObject("action", "add");
+			
+			List<FOB> fobIdCheck = fobService.getFobIdCheck(obj);
+			model.addObject("fobIdCheck",fobIdCheck);
 			
 			List<FOB> projectsList = fobService.getProjectsListForFOBForm(obj);
 			model.addObject("projectsList", projectsList);

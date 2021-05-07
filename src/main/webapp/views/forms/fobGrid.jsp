@@ -468,14 +468,14 @@
     	                    var actions = '<a href="javascript:void(0);"  onclick="getFOB('+fob_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
     	                   	var rowArray = [];    	                  
     	                   	var workName = '';
-                            if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                            if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
                             var contract_name = '';
-                            if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
+                            if ($.trim(val.contract_short_name) != '') { contract_name = $.trim(val.contract_short_name) }
     	                   	
-    	                   	rowArray.push($.trim(val.work_id_fk) + workName);
-    	                   	rowArray.push($.trim(val.contract_id_fk) + contract_name);
+    	                   	rowArray.push( workName);
+    	                   	rowArray.push( contract_name);
     	                   	rowArray.push($.trim(val.fob_id));
-    	                   	rowArray.push($.trim(val.fob_name));
+    	                   	rowArray.push($.trim(val.fob_name)); 
     	                   	rowArray.push($.trim(val.work_status_fk));
     	                   	rowArray.push($.trim(actions));   	                   	
     	                   	

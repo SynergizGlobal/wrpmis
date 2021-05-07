@@ -123,7 +123,7 @@
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
-                                            <option value="${obj.project_id }" <c:if test="${obj.project_id eq fob.project_id_fk}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                            <option value="${obj.project_id }" <c:if test="${obj.project_id eq fob.project_id_fk}">selected</c:if>><%-- ${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> --%> ${obj.project_name }</option>
                                         </c:forEach>
                                     </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
@@ -134,7 +134,7 @@
                                         onchange="getContractsList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                      	   <option value= "${ obj.work_id}"><%-- ${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> --%> ${obj.work_short_name }</option>
                                          </c:forEach>
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
@@ -150,33 +150,12 @@
                                      	onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${contractsList }">
-                                      	   <option workId="${obj.work_id_fk }" value= "${ obj.contract_id}">${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                      	   <option workId="${obj.work_id_fk }" value= "${ obj.contract_id}"><%-- ${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if> --%> ${obj.contract_short_name }</option>
                                          </c:forEach>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <c:if test="${empty fob.fob_id }">
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="fob_id" name="fob_id" type="text" class="validate">
-	                                     <label for="fob_id">FOB ID <span class="required">*</span></label>
-	                                    <span id="fob_idError" class="error-msg" ></span>
-	                                </div>
-                                </c:if>
-                                <c:if test="${not empty fob.fob_id }">
-	                                <div class="col s12 m4 input-field">
-	                                    <label > FOB ID <span class="required">*</span>: <input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
-	                                    <span id="fob_idError" class="error-msg" ></span>
-	                                </div>
-                                </c:if>
-                            </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="fob_name" name="fob_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${fob.fob_name }" >
-                                    <label for="fob_name">FOB Name <span class="required">*</span></label>
-                                    <span id="fob_nameError" class="error-msg" ></span>
-                                </div>
+                                 
                                 <div class="col s12 m4 input-field">
                                    <p class="searchable_label">Work Status <span class="required">*</span></p>
                                     <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown" onchange="openDates(this.value);">
@@ -190,6 +169,33 @@
                                     <span id="work_status_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
+                            </div>
+							<div style="display:none">
+								<c:forEach var="obj" items="${fobIdCheck}" varStatus="index">
+										<input type="hidden" id="fob_id${index.count}" value="${obj.fob_id }"  class="findLengths"/>
+									</c:forEach>
+							</div>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="fob_name" name="fob_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${fob.fob_name }" >
+                                    <label for="fob_name">FOB Name <span class="required">*</span></label>
+                                    <span id="fob_nameError" class="error-msg" ></span>
+                                </div>
+                           
+                                 <c:if test="${empty fob.fob_id }">
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="fob_id" name="fob_id" type="text" class="validate" onkeyup="doValidate(this.value)">
+	                                     <label for="fob_id">FOB ID <span class="required">*</span></label>
+	                                    <span id="fob_idError" class="error-msg" ></span>
+	                                </div>
+                                </c:if>
+                                <c:if test="${not empty fob.fob_id }">
+	                                <div class="col s12 m4 input-field">
+	                                    <label > FOB ID <span class="required">*</span>: <input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }" readonly style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+	                                    <span id="fob_idError" class="error-msg" ></span>
+	                                </div>
+                                </c:if>
                             </div>
 
                             <div class="row">
@@ -326,15 +332,15 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
-                            <div class="row">
+                            <div class="row" id="actual_completion_dateDiv" style="display: none;">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field" id="actual_completion_dateDiv" style="display: none;">
+                                <div class="col s12 m4 input-field"  >
                                     <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${fob.actual_completion_date }">
                                     <label for="actual_completion_date">Actual Completion Date </label>
                                     <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="actual_completion_dateError" class="error-msg" ></span>
                                 </div>
-                                <c:if test="${action eq 'edit'}">
+                               <%--  <c:if test="${action eq 'edit'}"> --%>
                                 <div class="col s9 m3 input-field">
                                 	<i class="material-icons prefix cost">₹</i>   
                                     <input id="completion_cost" name="completion_cost" type="number" class="validate" min="0.01" step="0.01" value="${fob.completion_cost }">
@@ -351,7 +357,7 @@
                                 		<option value="crores">Crores</option>
                                 	</select>
                                 </div>
-                                </c:if>
+                               <%--  </c:if> --%>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
@@ -580,7 +586,32 @@
    	    	}
         })
     }); */
-    
+    var flag = false; 
+    function doValidate(value){
+ 	   var print_value = value;	
+ 	   var value = value.trim();
+ 	   value = value.toLowerCase();
+ 	   var validate = $('.findLengths').length;
+ 	   if(validate == 0){flag = true;}
+ 	   var count  = 0;
+ 	   var ek = $('.findLengths').map((_,el) => el.value).get();
+ 	   while(count < validate){
+ 		   var findVal = ek[count];
+ 		   findVal = findVal.toLowerCase();
+ 		   if(findVal == value){
+ 			   $('#fob_idError').text(print_value+' alreday exists').css('color', 'red');
+ 			   //$('#bttn').prop('disabled', true);
+ 			   flag = false;
+ 			   return false;
+ 		   }else{
+ 			   $('#fob_idError').text('');
+ 			  // $('#bttn').prop('disabled', false); 
+ 			   flag = true;
+ 		   }
+ 		   
+ 		   count++;
+ 	   }
+    }
     function openDates(work_status) {
 		if($.trim(work_status) == 'In Progress'){
 			$("#construction_start_dateDiv").show();
@@ -792,12 +823,12 @@
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
                             var workName = '';
-                            if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                            if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
                             var work_id_fk = "${fob.work_id_fk }";
                             if ($.trim(work_id_fk) != '' && val.work_id == $.trim(work_id_fk)) {
-                                $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' +  $.trim(workName) + '</option>');
                             } else {
-                                $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                $("#work_id_fk").append('<option value="' + val.work_id + '">' +  $.trim(workName) + '</option>');
                             }
                         });
                     }
@@ -823,12 +854,12 @@
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
                         	var contract_name = '';
-                            if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
+                            if ($.trim(val.contract_short_name) != '') { contract_name =  $.trim(val.contract_short_name) }
                             var contract_id_fk = "${fob.contract_id_fk }";
                             if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
-                            	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                            	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '" selected>' +  $.trim(contract_name) + '</option>');
                             } else {
-                            	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                            	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '">' +  $.trim(contract_name) + '</option>');
                             }
                         });
                     }
@@ -864,11 +895,11 @@
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
                             var workName = '';
-                            if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                            if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
                             if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-                                $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(workName) + '</option>');
                             } else {
-                                $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(workName) + '</option>');
                             }
                         });
                     }
@@ -889,9 +920,13 @@
     function addFOB(){
 		if(validator.form()){ // validation perform
 			$(".page-loader").show();
-			$('form input[name=fob_detail_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-  			$('form input[name=fob_detail_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-  			document.getElementById("fobForm").submit();			
+  			 if(flag){
+  				$('form input[name=fob_detail_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  	  			$('form input[name=fob_detail_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  	  			document.getElementById("fobForm").submit();	
+ 			 }
+ 			 $(".page-loader").hide();
+ 			 return false;
 	 	}
 	}
 	

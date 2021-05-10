@@ -948,6 +948,9 @@
       	$(".page-loader-2").show();
       	var contract_id_fk = $("#contract_id_fk").val();
       	var strip_chart_structure_id_fk = value;
+      	if(value == null || value == ""){
+          	$('#dotgroup1').hide();
+      	}
           $("#strip_chart_structure_id_fk option:not(:first)").remove();
           if ($.trim(contract_id_fk) != "") {
           	var myParams = { contract_id_fk: contract_id_fk };
@@ -988,6 +991,7 @@
 	  
 	function getAcivitiesBulkUpdateLines() {
 		var contract_id_fk = $("#contract_id_fk").val();
+		
 	    $("#strip_chart_line_id_fk option:not(:first)").remove();
 	    if ($.trim(contract_id_fk) != "") {
 	    	var myParams = { contract_id_fk: contract_id_fk};
@@ -1034,7 +1038,7 @@
 
 	 function getComponentIdsList() {   
      	$(".page-loader-3").show();
-     	
+     	$('#dotgroup1').show();
      	clearComponentCircle();
          
          var contract_id_fk = $("#contract_id_fk").val();

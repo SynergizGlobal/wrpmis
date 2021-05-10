@@ -560,6 +560,7 @@ public class HomeDaoImpl implements HomeDao {
 	public List<Project> getProjectsInformation(Project obj) throws Exception {
 		List<Project> objsList = new ArrayList<Project>();
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
+		List<Work> workDocs = null;
 		try {
 			String projectQry = "select project_id,project_name,plan_head_number,remarks,project_status,attachment,benefits "
 					+ "from `project`";
@@ -600,6 +601,10 @@ public class HomeDaoImpl implements HomeDao {
 			
 			String projectGalleryQry = "select id,file_name,project_id_fk,created_date,created_by from project_gallery where project_id_fk = ? ";
 			
+			String projectDocumentsQry = "select id, project_id_fk, attachment, project_file_type_fk,DATE_FORMAT(created_date,'%d-%m-%Y') AS created_date from project_files where project_id_fk = ? ";
+			
+			String workDocumentsQry = "select id, work_id_fk, attachment, work_file_type_fk,DATE_FORMAT(created_date,'%d-%m-%Y') AS created_date from work_files where work_id_fk = ? ";
+
 			objsList = jdbcTemplate.query( projectQry, new BeanPropertyRowMapper<Project>(Project.class));
 			
 			
@@ -634,15 +639,23 @@ public class HomeDaoImpl implements HomeDao {
 				}
 				List<Work> worksInfo = jdbcTemplate.query( workQry, new Object[] {project.getProject_id()}, new BeanPropertyRowMapper<Work>(Work.class));
 				
+
 				for (Work work : worksInfo) {
 					work.setRailwayAgency(getRailwayAgencyList(work.getWork_id()));
 					work.setExecutedBy(getExecutedByList(work.getWork_id()));
+				    workDocs = jdbcTemplate.query( workDocumentsQry, new Object[] {work.getWork_id()}, new BeanPropertyRowMapper<Work>(Work.class));
+				    work.setWorkDocs(workDocs);
+
 				}
-				
 				project.setWorksInfo(worksInfo);
 				
 				List<Project> projectGallery = jdbcTemplate.query( projectGalleryQry, new Object[] {project.getProject_id()}, new BeanPropertyRowMapper<Project>(Project.class));
+				
+				List<Project> projectDocs = jdbcTemplate.query( projectDocumentsQry, new Object[] {project.getProject_id()}, new BeanPropertyRowMapper<Project>(Project.class));
+
+
 				project.setProjectGallery(projectGallery);
+				project.setProjectDocs(projectDocs);
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

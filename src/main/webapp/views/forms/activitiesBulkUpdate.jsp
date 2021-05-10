@@ -302,9 +302,9 @@
                                     <div class="row">
                                         <div class="col m4 s12 input-field">
                                             <p class="searchable_label">Project</p>
-                                            <select class="searchable validate-dropdown" id="project_id" name="project_id"
-                                                onchange="getAcivitiesBulkUpdateWorksList(this.value);">
-                                               <option selected="selected" hidden >Select</option> 
+                                            <select class="searchable validate-dropdown" id="project_id" name="project_id" data-placeholder="Select"
+                                                onchange="addInQueProject(this.value);getAcivitiesBulkUpdateWorksList(this.value);onLoadMethod();">
+                                               <option value="" ></option> 
                                                 <c:forEach var="obj" items="${projectsList }">
                                                     <option value="${obj.project_id }"><%-- ${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> --%> ${obj.project_name }</option>
                                                 </c:forEach>
@@ -313,9 +313,9 @@
                                         </div>
                                         <div class="col m8 s12 input-field">
                                             <p class="searchable_label">Work</p>
-                                            <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                                onchange="getAcivitiesBulkUpdateContractsList(this.value);">
-                                                 <option value="">Select</option> 
+                                            <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" data-placeholder="Select"
+                                                onchange="addInQueWork(this.value);getAcivitiesBulkUpdateContractsList(this.value);onLoadMethod();">
+                                                 <option value=""></option> 
                                                 <c:forEach var="obj" items="${worksList }">
                                                     <option value="${obj.work_id }"><%-- ${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> --%> ${obj.work_short_name }</option>
                                                 </c:forEach>
@@ -324,9 +324,9 @@
                                         </div>
                                        <div class="col m12 s12 input-field">
                                             <p class="searchable_label">Contract <span class="required">*</span></p>
-                                            <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
-                                                onchange="resetWorksAndProjectsDropdowns();getAcivitiesBulkUpdateStructures(); getAcivitiesBulkUpdateLines(); getAcivitiesBulkUpdateSections();">
-                                                 <option value="">Select</option> 
+                                            <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" data-placeholder="Select"
+                                                onchange="addInQueContract(this.value);resetWorksAndProjectsDropdowns(null);onLoadMethod();getAcivitiesBulkUpdateStructures(); getAcivitiesBulkUpdateLines(); getAcivitiesBulkUpdateSections();">
+                                                 <option value=""></option> 
                                                 <c:forEach var="obj" items="${contractsList }">
                                                 	<option name="${obj.work_id_fk }" value="${obj.contract_id }" ><%-- ${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if >--%>${obj.contract_short_name}</option>
                                                 </c:forEach>
@@ -337,9 +337,9 @@
                                     <div class="row" id="toggle-selects">
                                         <div class="col m4 s12 input-field" >
                                             <p class="searchable_label">Structure <span class="required">*</span></p>
-                                           <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk"
-                                                class="searchable validate-dropdown" onchange="getComponentIdsList();">
-                                                <option value="">Select</option>
+                                           <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk" data-placeholder="Select"
+                                                class="searchable validate-dropdown" onchange="getComponentIdsList();addInQueStructure(this.value);onLoadMethod();">
+                                                <option value=""></option>
                                             </select>
                                             <span id="strip_chart_structure_id_fkError" class="error-msg" ></span>
                                         </div>
@@ -359,8 +359,8 @@
                                         </div> -->
                                          <div class="col m4 s12 input-field">
                                             <p class="searchable_label">Component ID</p>
-                                             <select class="searchable validate-dropdown" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getComponentAndActivitiesList(this.value);">
-                                                <option value="">Select</option>
+                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getComponentAndActivitiesList(this.value);">
+                                                <option value=""></option>
                                             </select>
                                             <span id="strip_chart_component_idError" class="error-msg" ></span>
                                         </div>
@@ -605,7 +605,7 @@
                                         </div>
                                         <div class="col s12 m6 mt-brdr">
                                             <div class="center-align m-1">
-                                                <button type="reset" onClick="window.location.reload();" class="btn waves-effect waves-light bg-s">Reset</button>
+                                                <button type="reset" onClick="window.location.reload(); clearFilters();" class="btn waves-effect waves-light bg-s">Reset</button>
                                             </div>
                                         </div>
                                     </div>
@@ -688,11 +688,33 @@
 	        })
 	    }); */
 	   
+	    var filtersMap = new Object();
+	    var structureVal = "";
         $(document).ready(function () {
             $('.searchable').select2();
             $('#btn').prop('disabled',true);
             $('#btn1').prop('disabled',true); 
-
+            var filters = window.localStorage.getItem("BulkFilters");
+            
+            if($.trim(filters) != '' && $.trim(filters) != null){
+          	  var temp = filters.split('^'); 
+          	  for(var i=0;i< temp.length;i++){
+    	        	  if($.trim(temp[i]) != '' ){
+    	        		  var temp2 = temp[i].split('=');
+    		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
+    		        		  getAcivitiesBulkUpdateWorksList(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+    		        		  getAcivitiesBulkUpdateContractsList(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+    		        		  resetWorksAndProjectsDropdowns(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'strip_chart_structure_id_fk'){
+    		        		  getAcivitiesBulkUpdateStructures(temp2[1]);
+    		        		  structureVal = temp2[1];
+    		        	  }
+    	        	  }
+    	          }
+              }
+            
            // $('#progress_date').datepicker();
             $('#progress_date').datepicker({
                 maxDate: new Date(),
@@ -709,32 +731,59 @@
             });
 
             $('#remarks').characterCounter();
-
+        
         });
-        // update actual function for single value with out ids
-       /*  function updateActual(){
-            $('input[name="activity_check"]').each(function(){
-                if($(this).prop('checked')){  
-                    var scope_val=parseInt($(this).parent().closest('tr').find('td:last-of-type').prev().prev().children().text());
-                    var completed_val=parseInt($(this).parent().closest('tr').find('td:last-of-type').prev().children().text());
-                    var remaining=scope_val-completed_val;
-                    var actual_val=$(this).parent().closest('tr').find('td:last-of-type').children().val(remaining);
-                }
-            })           
-        } */
-
+        function onLoadMethod(){
+	        $(".page-loader").show();
+	       
+	       
+	       	var filters = '';
+	       	Object.keys(filtersMap).forEach(function (key) {
+	       		//alert(filtersMap[key]);
+	       		filters = filters + key +"="+filtersMap[key] + "^";
+	       		window.localStorage.setItem("BulkFilters", filters);
+	   			});
+	        $(".page-loader").hide();
+       }
+        
+        function addInQueProject(project_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('project_id_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(project_id_fk) != ''){
+       	    	filtersMap["project_id_fk"] = project_id_fk;
+        	}
+        }
+        
+        function addInQueWork(work_id_fk){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('work_id_fk')) delete filtersMap[key];
+       	   	});
+          	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+          	}
+        }
+        function addInQueContract(contract_id_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('contract_id_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(contract_id_fk) != ''){
+            	filtersMap["contract_id_fk"] = contract_id_fk;
+	      	}
+        }
+        function addInQueStructure(strip_chart_structure_id_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('strip_chart_structure_id_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(strip_chart_structure_id_fk) != ''){
+            	filtersMap["strip_chart_structure_id_fk"] = strip_chart_structure_id_fk;
+	      	}
+        }
        
-	// select or deselect all checkboxes 
-	$('#select-all').change(function() {
-	    var _this = this;
-	    $('input[name="activity_check"]').each(function() { 
-		    if ($(_this).is(':checked')) {
-		        $(this).prop('checked', true);
-		    } else {
-		        $(this).prop('checked', false);
-		    }
-	    });
-	});
+        function clearFilters(){
+        	window.localStorage.setItem("BulkFilters",'');
+        }
+
 	
 	function getAcivitiesBulkUpdateWorksList(projectId) { 
 		$(".page-loader").show();
@@ -753,7 +802,7 @@
 	        var myParams = { project_id_fk: projectId };
 	        $.ajax({
 	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateWorksList",
-	            data: myParams, cache: false,
+	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	            	var id1 = "";
 	                var id2 = "";
@@ -797,7 +846,7 @@
 	        var myParams = { work_id_fk: work_id_fk };
 	        $.ajax({
 	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateContractsList",
-	            data: myParams, cache: false,
+	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	            	var id1 = "";
 	            	var id2 = "";                        
@@ -826,20 +875,29 @@
 	    }
 	}
 	
-	function resetWorksAndProjectsDropdowns(){
+	function resetWorksAndProjectsDropdowns(contract){
 		$(".page-loader").show();
 		clearComponentCircle();
 		
 		
 		var projectId = '';
 		var workId = ''
+			var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
 			var contract_id_fk = $("#contract_id_fk").val();
+			if(contract_id_fk == ""){
+				contract_id_fk = contract;
+			}
 			if($.trim(contract_id_fk) != ''){        			
 				workId = $("#contract_id_fk").find('option:selected').attr("name");
+				if(workId == null){
+					workId =  contract_id_fk.substring(0, 6); 
+				}
 				projectId = workId.substring(0, 3);    
 				//workId = workId.substring(3, work_id.length);
 				$("#project_id").val(projectId);
+				$("#contract_id_fk").val(contract_id_fk);
 				$("#project_id").select2();
+				$("#contract_id_fk").select2();
 			}
 			
 			if ($.trim(projectId) != "") {
@@ -847,7 +905,7 @@
 	        var myParams = { project_id_fk: projectId };
 	        $.ajax({
 	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateWorksList",
-	            data: myParams, cache: false,
+	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
@@ -855,6 +913,7 @@
 	                        if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
 	                        if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
 	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' +  $.trim(workName) + '</option>');
+	                            getAcivitiesBulkUpdateStructures(structureVal);
 	                        } else {
 	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' +  $.trim(workName) + '</option>');
 	                        }
@@ -885,15 +944,16 @@
          $("#table_show").hide();    	
      } 
 	
-	  function getAcivitiesBulkUpdateStructures() {
+	  function getAcivitiesBulkUpdateStructures(value) {
       	$(".page-loader-2").show();
       	var contract_id_fk = $("#contract_id_fk").val();
+      	var strip_chart_structure_id_fk = value;
           $("#strip_chart_structure_id_fk option:not(:first)").remove();
           if ($.trim(contract_id_fk) != "") {
           	var myParams = { contract_id_fk: contract_id_fk };
               $.ajax({
                   url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateStructures",
-                  data: myParams, cache: false,
+                  data: myParams, cache: false,async: false,
                   success: function (data) {
                   	var id1 = "";
                   	var id2 = "";
@@ -902,6 +962,10 @@
 	                            if ($.trim(id2) != '' && val.strip_chart_structure_id_fk == $.trim(id2)) {
 	                            	id1 = val.strip_chart_structure_id_fk;
 	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
+	                            }else if (strip_chart_structure_id_fk != null && strip_chart_structure_id_fk != "") {
+	                            	 var selectedFlag = (strip_chart_structure_id_fk != null)?'selected':'';
+	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
+	                                getComponentIdsList(strip_chart_structure_id_fk);
 	                            } else {
 	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '">' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
 	                            }
@@ -1166,9 +1230,7 @@
     	 $("#table_show").show();
     	 var html = '';
     	 $("#filerList").html('');
-    	 
-    	// $("#select-all").prop('checked', false);
-    	 
+    	
     	 var strip_chart_component_id = $("#strip_chart_component_id").val();
     	 var strip_chart_activity_id = $("#strip_chart_activity_id").val();
     	 var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();

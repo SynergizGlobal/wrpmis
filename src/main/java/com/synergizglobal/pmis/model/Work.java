@@ -8,7 +8,7 @@ public class Work {
 	private String work_id,work_name,work_short_name,project_id_fk,sanctioned_year,sanctioned_year_fk,sanctioned_estimated_cost,completeion_period_months,
 	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks,project_name,railway_name,
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,latest_revised_cost,
-	year_of_revision,revision_number,wys_renarks,attachment,work_attachment,railway,executed_by,projected_completion,
+	year_of_revision,revision_number,wys_renarks,attachment,work_attachment,railway,executed_by,projected_completion,created_date,
 	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink,id,
 	work_yearly_sanction_id,  pink_book_item_number,projected_completion_date,work_file_id,work_file_type,work_file_type_fk;
 
@@ -21,7 +21,7 @@ public class Work {
 	//private MultipartFile workFile;
 
 	private List<Work> railwayAgencyList;
-	private List<Work> executedByList;
+	private List<Work> executedByList,workDocs;
 
 	private List<MultipartFile> workFile;
 	private List<Work> workFilesList;
@@ -29,6 +29,23 @@ public class Work {
 	private MultipartFile[] workFiles;
 	
 	
+
+
+	public String getCreated_date() {
+		return created_date;
+	}
+
+	public void setCreated_date(String created_date) {
+		this.created_date = created_date;
+	}
+
+	public List<Work> getWorkDocs() {
+		return workDocs;
+	}
+
+	public void setWorkDocs(List<Work> workDocs) {
+		this.workDocs = workDocs;
+	}
 
 	public String getWork_file_id() {
 		return work_file_id;

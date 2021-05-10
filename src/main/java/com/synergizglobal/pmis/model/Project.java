@@ -13,14 +13,30 @@ public class Project {
 	
 	
 	private MultipartFile[] projectGalleryFiles,projectFiles;
-	private List<Project> projectFilesList,projectGalleryFilesList,projectPinkBooks,projectGallery;
+	private List<Project> projectFilesList,projectGalleryFilesList,projectPinkBooks,projectGallery,projectDocs;
 	private String[] projectFileNames,attachemnts,project_file_types,project_file_ids,projectGalleryFileNames,created_dates;
 	private String[] financial_years,pink_book_item_numbers,railways;
 	
-	private List<Work> worksInfo;
+	private List<Work> worksInfo,workDocs;
 
 	
 	
+	public List<Work> getWorkDocs() {
+		return workDocs;
+	}
+
+	public void setWorkDocs(List<Work> workDocs) {
+		this.workDocs = workDocs;
+	}
+
+	public List<Project> getProjectDocs() {
+		return projectDocs;
+	}
+
+	public void setProjectDocs(List<Project> projectDocs) {
+		this.projectDocs = projectDocs;
+	}
+
 	public String[] getCreated_dates() {
 		return created_dates;
 	}

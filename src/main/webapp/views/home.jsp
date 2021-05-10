@@ -477,8 +477,38 @@
                                 
 		                    </div> 
 	                        <div class="button">
-		                        <c:if test="${not empty pObj.attachment }">
-		                              <a class="btn btn-left" href="<%=CommonConstants.PROJECT_FILES %>${pObj.attachment }" download><i class="fa fa-download" ></i></a> 
+		                        <c:if test="${not empty pObj.projectDocs}">
+		                              <a class="btn btn-center modal-trigger" href="#documentsModal${index.count }"><i class="fa fa-download" ></i></a> 
+		                              <div id="documentsModal${index.count }" class="modal">
+								            <div class="modal-content">
+								                <h5 class="modal-header">${pObj.project_name } Files<span class="right modal-action modal-close"><span
+								                            class="material-icons">close</span></span></h5>
+								                <div class="row">
+								                    <div class="col m2 hide-on-small"></div>
+								                    <table border = "1">
+												         <tr>
+												            <th>Project file Type</th>
+												            <th>File Name</th>
+												            <th>Uploaded On</th>
+												            <th>Download</th>
+												         </tr>
+												          <c:forEach var="pDocs" items="${pObj.projectDocs}" >
+													         <tr>
+													            <td>${pDocs.project_file_type_fk }</td>
+													            <td>${pDocs.attachment }</td>
+													            <td>${pDocs.created_date }</td>
+													            <td style="text-align:center;">
+													             <a href="<%=CommonConstants.PROJECT_FILES%>${pDocs.project_id_fk }/${pDocs.attachment }" class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+									                            </td>
+													         </tr>
+												          </c:forEach>	  
+												      </table>
+								                    <div class="col m2 hide-on-small"></div>
+								                </div>
+								
+								            </div>
+								    </div>
+								                              
 		                        </c:if>         
 		                        <c:if test="${not empty pObj.projectGallery and fn:length(pObj.projectGallery) gt 0}">
 			                        <a class="btn btn-center modal-trigger" href="#mediamodal${index.count }">Gallery</a>   	                 
@@ -644,16 +674,42 @@
 															</p>
 			
 														</div>
-											<div class="button">
-									                    <c:choose>
-								                           <c:when test="${not empty wObj.work_attachment}">
-															  <a class="btn btn-left" href="<%=CommonConstants2.WORK_FILES %>${wObj.work_attachment }" download><i class="fa fa-download"></i></a> 
-								                           </c:when>
-								                           <c:otherwise>
-								                           	   <div></div>
-								                           </c:otherwise>
-								                        </c:choose>	
-								                    
+												<div class="button">
+														<!-- testing -->
+														 <c:if test="${not empty wObj.workDocs}">
+								                              <a class="btn btn-center modal-trigger" href="#workDocumentsModal${index.count }"><i class="fa fa-download" ></i></a> 
+								                              <div id="workDocumentsModal${index.count }" class="modal">
+														            <div class="modal-content">
+														                <h5 class="modal-header">${wObj.work_short_name } Files<span class="right modal-action modal-close"><span
+														                            class="material-icons">close</span></span></h5>
+														                <div class="row">
+														                    <div class="col m2 hide-on-small"></div>
+														                    <table border = "1">
+																		         <tr>
+																		            <th>Work file Type</th>
+																		            <th>File Name</th>
+																		            <th>Uploaded On</th>
+																		            <th>Download</th>
+																		         </tr>
+																		          <c:forEach var="wDocs" items="${wObj.workDocs}" >
+																			         <tr>
+																			            <td>${wDocs.work_file_type_fk }</td>
+																			            <td>${wDocs.attachment }</td>
+																			            <td>${wDocs.created_date }</td>
+																			            <td style="text-align:center;">
+																			             <a href="<%=CommonConstants2.WORK_FILES %>${wObj.work_id }/${wDocs.attachment }" class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+															                            </td>
+																			         </tr>
+																		          </c:forEach>	  
+																		      </table>
+														                    <div class="col m2 hide-on-small"></div>
+														                </div>
+														
+														            </div>
+														    </div>
+														                              
+								                        </c:if>         
+									                   
 								                        <c:forEach var="obj" items="${workDetails }">
 	 															<c:if test="${ obj.work_id eq wObj.work_id}">
 										                          <a class="btn btn-right" onclick="closeOther('${index.count }'); getTableauDashboard('${obj.work_id}'); ">More</a> 
@@ -675,8 +731,7 @@
             </c:forEach>
         </div>
     </div>    
-
-
+ 
   <!-- footer included -->
   <jsp:include page="./layout/footer.jsp"></jsp:include>
     		
@@ -688,6 +743,7 @@
 
    <script>
         $(document).ready(function () {
+        	$('.modal').modal({ dismissible: false });
             $('.notification.dropdown-trigger').dropdown({
                 coverTrigger: false,
                 closeOnClick: false,

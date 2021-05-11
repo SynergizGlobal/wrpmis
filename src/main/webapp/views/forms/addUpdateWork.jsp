@@ -232,7 +232,7 @@
                                 <div class="col s3 m1 input-field">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units" id="sanctioned_estimated_cost_units" name="sanctioned_estimated_cost_units">
-                                		<option>Select</option>
+                                		<option value="">Select</option>
                                 		<option value="rs">Rs</option>
                                 		<option value="thousands">Thousands</option>
                                 		<option value="lacs">Lacs</option>
@@ -249,7 +249,7 @@
                                 <div class="col s3 m1 input-field">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units" id="sanctioned_completion_cost_units" name="sanctioned_completion_cost_units">
-                                		<option>Select</option>
+                                		<option value="">Select</option>
                                 		<option value="rs">Rs</option>
                                 		<option value="thousands">Thousands</option>
                                 		<option value="lacs">Lacs</option>
@@ -289,7 +289,7 @@
                                 <div class="col s3 m1 input-field">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units" id="anticipated_cost_units" name="anticipated_cost_units">
-                                		<option>Select</option>
+                                		<option value="">Select</option>
                                 		<option value="rs">Rs</option>
                                 		<option value="thousands">Thousands</option>
                                 		<option value="lacs">Lacs</option>
@@ -548,7 +548,7 @@
 	                                                    </div> 
 	                                                    <div class="col s3 pt-14">
 	                                                    	<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units">
-						                                		<option>Select</option>
+						                                		<option value="">Select</option>
 						                                		<option value="rs">Rs</option>
 						                                		<option value="thousands">Thousands</option>
 						                                		<option value="lacs">Lacs</option>
@@ -596,7 +596,7 @@
 	                                                    </div> 
 	                                                    <div class="col s3 pt-14">
 	                                                    	<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units">
-						                                		<option>Select</option>
+						                                		<option value="">Select</option>
 						                                		<option value="rs">Rs</option>
 						                                		<option value="thousands">Thousands</option>
 						                                		<option value="lacs">Lacs</option>
@@ -667,7 +667,7 @@
                                 <div class="col s3 m1 input-field">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units" id="completion_cost_units" name="completion_cost_units">
-                                		<option>Select</option>
+                                		<option value="">Select</option>
                                 		<option value="rs">Rs</option>
                                 		<option value="thousands">Thousands</option>
                                 		<option value="lacs">Lacs</option>
@@ -765,7 +765,6 @@
 			$('#workFilesBody').append(html);
 	        $("#rowNo").val(rNo);          	
 	        
-	        $('select:not(.searchable)').formSelect();
 	        $('.searchable').select2();
 	    }
 	    
@@ -1050,7 +1049,7 @@
 				   //+'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost" min="0.01" step="0.01"></td>'
 				   +'<td class="input-field row"> <div class="col s9"><input id="latest_revised_costs_units'+rNo+'" name="latest_revised_costs_units" type="number" class="validate" value=""'
 				   +'placeholder="Latest Revised Cost" min="0.01" step="0.01"> </div> <div class="col s3 pt-14"> <select class="units" id="latest_revised_costs'+rNo+'" name="latest_revised_costs'+rNo+'">'
-               	   +'<option>Select</option> <option value="rs">Rs</option>	<option value="thousands">Thousands</option> <option value="lacs">Lacs</option>	<option value="crores">Crores</option> </select>'
+               	   +'<option value="">Select</option> <option value="rs">Rs</option>	<option value="thousands">Thousands</option> <option value="lacs">Lacs</option>	<option value="crores">Crores</option> </select>'
 	               +'</div></td>'
 				   +'<td> <div>'
 				   +'<select id="year_of_revisions'+rNo+'" name="year_of_revisions" class="validate-dropdown searchable" >'

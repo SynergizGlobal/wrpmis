@@ -215,7 +215,7 @@
                                 <div class="col s3 m1 input-field pt-10">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units" id="estimated_cost_units" name="estimated_cost_units">
-                                		<option>Select</option>
+                                		<option value="">Select</option>
                                 		<option value="rs">Rs</option>
                                 		<option value="thousands">Thousands</option>
                                 		<option value="lacs">Lacs</option>
@@ -350,7 +350,7 @@
                                 <div class="col s3 m1 input-field pt-10">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units" id="completion_cost_units" name="completion_cost_units">
-                                		<option>Select</option>
+                                		<option value="">Select</option>
                                 		<option value="rs">Rs</option>
                                 		<option value="thousands">Thousands</option>
                                 		<option value="lacs">Lacs</option>
@@ -709,7 +709,6 @@
 		$('#fobFilesBody').append(html);
         $("#rowNo").val(rNo);          	
         
-        $('select:not(.searchable)').formSelect();
         $('.searchable').select2();
     }
 	 function removeActions(rowNo){

@@ -376,7 +376,7 @@
 	                                <div class="col s3 m1 input-field pt-5">
 	                                	<p class="searchable_label">Units</p>
 	                                	<select class="units" id="awarded_cost_units" name="awarded_cost_units">
-	                                		<option>Select</option>
+	                                		<option value="">Select</option>
 	                                		<option value="rs">Rs</option>
 	                                		<option value="thousands">Thousands</option>
 	                                		<option value="lacs">Lacs</option>
@@ -402,7 +402,7 @@
 	                                <div class="col s3 m1 input-field pt-5">
 	                                	<p class="searchable_label">Units</p>
 	                                	<select class="units" id="estimated_cost_units" name="estimated_cost_units">
-	                                		<option>Select</option>
+	                                		<option value="">Select</option>
 	                                		<option value="rs">Rs</option>
 	                                		<option value="thousands">Thousands</option>
 	                                		<option value="lacs">Lacs</option>
@@ -1874,8 +1874,7 @@
 		
 			 $('#contractDocumentTableBody').append(html);
 			 $("#documentRowNo").val(rNo);
-			 $('select:not(.searchable)').formSelect();
-	         $('.searchable').select2();
+			 $('.searchable').select2();
 	} 
 	function removeContractDocument(rowNo){
 		$("#contractDocumentRow"+rowNo).remove();

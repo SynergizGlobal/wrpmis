@@ -189,7 +189,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 					+ "left outer join work w on rwh.work_id_fk = w.work_id "
 					+ "left outer join project p on w.project_id_fk = p.project_id "
 					+ "where rwh.work_id_fk = ? and rv.sub_work = ? and date = ? and atr_date is not null and priority_fk <> 'Accepted'  "
-					+ "ORDER BY area_item_no ASC , sub_area_item_no ASC, atr_date ASC";
+					+ "ORDER BY area_item_no ASC , sub_area_item_no ASC, DATE_FORMAT(atr_date,'%Y-%m-%d') ASC";
 			
 					
 			Object[] pValues = new Object[] {obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date()};

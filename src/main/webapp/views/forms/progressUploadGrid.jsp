@@ -118,16 +118,16 @@
 										
 									</c:if>
 								</div>											
-								<div class="col s12 m3 input-field">
+								<div class="col s12 m2 input-field">
 									<p class="searchable_label">Work</p>
 									<select class="searchable validate-dropdown" id="work_id_upload" name="work_id" onchange="getContracts(this.value);">
 										<option value="">Select</option>
 									</select> 
 									<span id="work_idError" class="error-msg"></span>
 								</div>	
-								<div class="col s12 m3 input-field">
+								<div class="col s12 m2 input-field">
 									<p class="searchable_label">Contract</p>
-									<select class="searchable validate-dropdown" id="contract_id_fk_upload" name="contract_id_fk">
+									<select class="searchable validate-dropdown" id="contract_id_fk_upload" name="contract_id_fk" onchange="getFOBContractsList(this.value);">
 										<option value="">Select</option>	
 									</select> 
 									<span id="contract_id_fkError" class="error-msg"></span>
@@ -138,6 +138,16 @@
 										<option value="">Select</option>
 									</select> 
 									<span id="structure_type_fkError" class="error-msg"></span>
+								</div>	
+								
+								<div class="col s12 m2 input-field">
+									<div id="hideFOBDiv" style= "display: none">
+										<p class="searchable_label">FOB</p>
+										<select class="searchable validate-dropdown" id="fob_id" name="fob_id">
+											<option value="">Select</option>
+										</select> 
+										<span id="fob_idError" class="error-msg"></span>
+									</div>
 								</div>	
 								
 								<div class="col s12 m4 file-field input-field" >
@@ -396,6 +406,8 @@
 				 		required: true
 				 	  },"structure_type_fk": {
 				 		required: true
+			 	  	  },"fob_id": {
+				 		required: true
 			 	  	  },"uploadFile":{
 			 	  		required: true
 			 	  	  }
@@ -407,6 +419,8 @@
 			 	  	 },"contract_id_fk": {
 			 			required: 'Required'
 			 	  	 },"structure_type_fk": {
+  			 			required: 'Required'
+  			 	  	 },"fob_id": {
   			 			required: 'Required'
   			 	  	 },"uploadFile":{
   			 	  		required: 'Required'
@@ -424,6 +438,9 @@
 				 	    }else if (element.attr("id") == "structure_type_fk_upload" ){
 							 document.getElementById("structure_type_fkError").innerHTML="";
 							 error.appendTo('#structure_type_fkError');
+				        }else if (element.attr("id") == "fob_id" ){
+							 document.getElementById("fob_idError").innerHTML="";
+							 error.appendTo('#fob_idError');
 				        }else if (element.attr("id") == "uploadFile" ){
 							 document.getElementById("uploadFileError").innerHTML="";
 							 error.appendTo('#uploadFileError');
@@ -443,6 +460,17 @@
 			  }
 		});
         
+        $('select').change(function(){
+            if ($(this).val() != ""){
+                $(this).valid();
+            }
+        });
+        
+        $('input').change(function(){
+            if ($(this).val() != ""){
+                $(this).valid();
+            }
+        });
         /***************************************************************************************/
         
         
@@ -615,7 +643,37 @@
             }
         }
         
-        
+        function getFOBContractsList(contract_id_fk){
+        	
+        	var fob_id = $("#fob_id").val();
+        	var myParams = {contract_id_fk : contract_id_fk} ;
+        	$(".page-loader").show();
+        	if ($.trim(contract_id_fk) != "") {
+	            $("#fob_id option:not(:first)").remove();
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getFOBContractsListFilterInActivitiesUpload",
+	                data: myParams, cache: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                        	$("#fob_id").append('<option value="' + val.fob_id + '">' + $.trim(val.fob_id) +'</option>');
+	                        });
+	                        $('#hideFOBDiv').show();
+	                    }else{
+	                    	$('#hideFOBDiv').hide();
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			  $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	  }
+	            });
+	        }else{
+	        	  $('#hideFOBDiv').hide();
+	        	  $(".page-loader").hide();
+	        }
+        }
         function getStructureTypesListFilter() {
        		var work_id_fk = $("#work_id_fk").val();
            	var contract_id_fk = $("#contract_id_fk").val();

@@ -60,4 +60,9 @@ public class ActivitiesUploadServiceImpl implements ActivitiesUploadService{
 		return dao.getActivitiesUploadFilesList(obj);
 	}
 
+	@Override
+	public List<Activity> getFOBContractsList(Activity obj) throws Exception {
+		return dao.getFOBContractsList(obj);
+	}
+
 }

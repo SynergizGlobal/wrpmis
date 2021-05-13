@@ -6,13 +6,21 @@ public class Activity {
 	private String activity_id,contract_id_fk,structure_type_fk,section,line,structure,component,component_id,order,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,
 	contract_id,contract_name,contract_short_name,struture_type,work_id,work_name,work_short_name,structure_type,
 	created_date,created_by_user_id_fk,modified_date,modified_by_user_id_fk,activity_id_fk,
-	progress_id,progress_date,completed_scope,attachment_url,work_id_fk;
+	progress_id,progress_date,completed_scope,attachment_url,work_id_fk,fob_id;
 	
 	private String activities_data_id,uploaded_file,status,uploaded_by_user_id_fk,uploaded_on;
 	
 	private MultipartFile uploadFile;
 	
 
+
+	public String getFob_id() {
+		return fob_id;
+	}
+
+	public void setFob_id(String fob_id) {
+		this.fob_id = fob_id;
+	}
 
 	public String getActivities_data_id() {
 		return activities_data_id;

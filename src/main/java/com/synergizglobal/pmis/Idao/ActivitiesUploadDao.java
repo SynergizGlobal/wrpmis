@@ -24,4 +24,6 @@ public interface ActivitiesUploadDao {
 
 	List<Activity> getActivitiesUploadFilesList(Activity obj) throws Exception;
 
+	List<Activity> getFOBContractsList(Activity obj) throws Exception;
+
 }

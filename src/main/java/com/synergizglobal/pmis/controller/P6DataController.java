@@ -170,6 +170,7 @@ public class P6DataController {
 		XSSFWorkbook workbook = null;
 		XSSFSheet uploadFilesSheet = null;
 		XSSFSheet uploadFilesSheet1 = null;
+		String fob_mismatch = null;
 		List<P6Data> wbsList = new ArrayList<P6Data>();
 		List<P6Data> activitiesList = new ArrayList<P6Data>();
 		try {
@@ -233,9 +234,17 @@ public class P6DataController {
 						}
 						
 						p6data.setP6_file_path(fileName);
-						
-						wbsList = baselineWBSUpload(p6data,workbook);
+						int i= 2;
+						wbsList = baselineWBSUpload(p6data,workbook,fob_mismatch);
 						activitiesList = baselineActivitiesUpload(p6data,workbook);
+						for(P6Data list : wbsList) {
+							
+							if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk())) {
+								fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
+								break;
+							}
+							i++;
+						}
 					}
 					
 					workbook.close();
@@ -250,10 +259,12 @@ public class P6DataController {
 			p6data.setUploaded_by_user_id_fk(userId);
 			p6data.setData_date(DateParser.parse(p6data.getData_date()));
 			p6data.setUpload_type("Baseline");
-			
-			String counts = p6dataService.uploadP6WBSActivities(wbsList,activitiesList,p6data);
-			
-			attributes.addFlashAttribute("success", "Data date updated and "+ counts + " WBS , Activities records added successfully.");	
+			if(StringUtils.isEmpty(fob_mismatch)){
+				String counts = p6dataService.uploadP6WBSActivities(wbsList,activitiesList,p6data);
+				attributes.addFlashAttribute("success", "Data date updated and "+ counts + " WBS , Activities records added successfully.");	
+			}else {
+				attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -264,7 +275,7 @@ public class P6DataController {
 	}
 
 	
-	private List<P6Data> baselineWBSUpload(P6Data obj,XSSFWorkbook workbook) throws Exception {
+	private List<P6Data> baselineWBSUpload(P6Data obj,XSSFWorkbook workbook, String fob_mismatch) throws Exception {
 		P6Data p6data = null;
 		List<P6Data> wbsList = new ArrayList<P6Data>();
 		XSSFSheet uploadFilesSheet = null;
@@ -298,6 +309,7 @@ public class P6DataController {
 					if(!StringUtils.isEmpty(p6data) && !StringUtils.isEmpty(p6data.getContract_id_fk()) && !StringUtils.isEmpty(p6data.getFob_id_fk()) && !StringUtils.isEmpty(p6data.getP6_wbs_code())) {
 						wbsList.add(p6data);
 					}
+					
 				}
 			}
 		} catch (Exception e) {
@@ -373,6 +385,7 @@ public class P6DataController {
 		ModelAndView model = new ModelAndView();
 		String userId = null;String userName = null;
 		XSSFWorkbook workbook = null;
+		String fob_mismatch = null;
 		XSSFSheet uploadFilesSheet = null;
 		List<P6Data> activitiesList = new ArrayList<P6Data>();
 		try {
@@ -418,8 +431,16 @@ public class P6DataController {
 							}	
 							
 							p6data.setP6_file_path(fileName);
-							
+							int i= 2;
 							activitiesList = updateP6Activities(p6data,workbook);
+							for(P6Data list : activitiesList) {
+								
+								if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk())) {
+									fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
+									break;
+								}
+								i++;
+							}
 						}
 						
 						workbook.close();
@@ -433,8 +454,13 @@ public class P6DataController {
 			p6data.setUploaded_by_user_id_fk(userId);
 			p6data.setData_date(DateParser.parse(p6data.getData_date()));
 			p6data.setUpload_type("Update");
-			int count  = p6dataService.updateP6Activities(activitiesList,p6data);
-			attributes.addFlashAttribute("success", "Data date updated and "+ count + " Activities updated successfully.");	
+			if(StringUtils.isEmpty(fob_mismatch)){
+				int count  = p6dataService.updateP6Activities(activitiesList,p6data);
+				attributes.addFlashAttribute("success", "Data date updated and "+ count + " Activities updated successfully.");	
+				
+			}else {
+				attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

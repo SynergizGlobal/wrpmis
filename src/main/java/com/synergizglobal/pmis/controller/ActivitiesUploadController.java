@@ -114,6 +114,20 @@ public class ActivitiesUploadController {
 		}
 		return objList;
 	}
+	
+	@RequestMapping(value = "/ajax/getFOBContractsListFilterInActivitiesUpload", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Activity> getFOBContractsList(@ModelAttribute Activity obj) {
+		List<Activity> objList = null;
+		try {
+			objList = service.getFOBContractsList(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getFOBContractsList : " + e.getMessage());
+		}
+		return objList;
+	}
 
 	@RequestMapping(value = "/ajax/getStructureTypesInActivitiesUpload", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -255,6 +269,7 @@ public class ActivitiesUploadController {
 		int[] counts = null;
 		String[] messages = new String[2];
 		String message = "";
+		String contarct_and_fob_mismatch = null;
 		String data_remarks = "";
 		try {
 			MultipartFile excelfile = obj.getUploadFile();
@@ -509,18 +524,35 @@ public class ActivitiesUploadController {
 											actual_start_gt_actual_finish = actual_start_gt_actual_finish + (!StringUtils.isEmpty(actual_start_gt_actual_finish)?",":"") + (j+1);
 										}
 										
+
+										if(!StringUtils.isEmpty(obj.getContract_id_fk()) && !obj.getContract_id_fk().equals(activityObj.getContract_id_fk())) {
+											contarct_and_fob_mismatch = "Contract selected from the dropdown and on the Activity File do not match. at Row no(s) " + (j+1);
+											break;
+										}
+										
+										if(!StringUtils.isEmpty(obj.getFob_id()) && !obj.getFob_id().equals(activityObj.getStructure())) {
+											contarct_and_fob_mismatch = " FOB selected from the dropdown and on the Activity File do not match. at Row no(s) " + (j+1);
+											break;
+										}
 										
 									}
 								}
+								
 							}
 							
-							if(!StringUtils.isEmpty(activityList) && activityList.size() > 0){
+							if(!StringUtils.isEmpty(activityList) && activityList.size() > 0  && StringUtils.isEmpty(contarct_and_fob_mismatch)){
 								counts  = service.uploadActivities(activityList);
 								if(counts[0] > 0) {
 									message = message + "<br><span style='color:green;'>" + counts[0] + " activities added successfully.</span>";
 								}
 								if(counts[1] > 0) {
 									message = message + "<br><span style='color:green;'>" + counts[1] + " activities updated successfully.</span>";
+								}
+								
+							}
+								if(!StringUtils.isEmpty(completed_scope_gt_total_scope)) {
+									message = message + "<br><span style='color:red;'> Row no(s) " + completed_scope_gt_total_scope + " are not inserted (Reason : Completed should not greater than Total Scope).</span>";
+									data_remarks = data_remarks + "Row no(s) " + completed_scope_gt_total_scope + " are not inserted (Reason : Completed should not greater than Total Scope). ";
 								}
 								
 								if(!StringUtils.isEmpty(completed_scope_gt_total_scope)) {
@@ -549,7 +581,9 @@ public class ActivitiesUploadController {
 									message = message + "<br><span style='color:red;'> Row no(s) " + actual_start_gt_actual_finish + " are not inserted (Reason : Actual Start should not after Actual Finish).</span>";
 									data_remarks = data_remarks + "Row no(s) " + actual_start_gt_actual_finish + " are not inserted (Reason : Actual Start should not after Actual Finish). ";
 								}
-								
+								if(!StringUtils.isEmpty(contarct_and_fob_mismatch)) {
+									message = "<br><span style='color:red;'>" + contarct_and_fob_mismatch + "</span> ";
+								}
 								
 								message = message + "<br>";
 								
@@ -557,7 +591,7 @@ public class ActivitiesUploadController {
 								messages[1] = data_remarks;
 							}
 							
-						}
+						
 						workbook.close();
 					}
 			}

@@ -967,7 +967,7 @@
 	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
 	                            }else if (strip_chart_structure_id_fk != null && strip_chart_structure_id_fk != "") {
 	                            	 var selectedFlag = (strip_chart_structure_id_fk != null)?'selected':'';
-	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
+	                                $("#strip_chart_structure_id_fk").append('<option value="' + strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
 	                                getComponentIdsList(strip_chart_structure_id_fk);
 	                            } else {
 	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '">' + $.trim(val.strip_chart_structure_id_fk) + '</option>');

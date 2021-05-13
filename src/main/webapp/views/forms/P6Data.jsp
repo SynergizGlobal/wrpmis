@@ -76,6 +76,15 @@
 			color:#004346;
 			background-color:transparent;
 		}
+		#head{
+		text-transform: uppercase;
+		background-color:#f0f8ff;
+		text-align:center;
+		font-size: large;
+		font-weight: bold;
+		border-bottom: 1px solid  #000;
+		padding: 5px;
+		}
     </style>
 </head>
 <body>
@@ -106,78 +115,12 @@
 						<div class="row">
 							<div class="col m3 hide-on-small-only"></div>
 							<div class="col m6 s12">								
-			                    <ul class="tabs">
+			                  <!--   <ul class="tabs">
 			                        <li class="tab col s6" style="background-color:#f0f8ff"><a class="active" href="#existing">Update Existing</a></li>
 			                        <li class="tab col s6" style="background-color:#fafafa"><a  href="#baseline">Add Baseline</a></li>
-			                    </ul>
-			                      
-				                <div class="" id="existing" style="padding:15px; background-color:#f0f8ff">
-				                    <div style="margin-top:20px">
-				                        <form action="<%=request.getContextPath() %>/update-p6-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
-				                            <div class="row">
-				                                <div class="col s12 m6 input-field">
-				                                    <p  class="searchable_label">Contract <span class="required">*</span></p>
-				                                     <select id="contract_id_fkUpdate" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpdate','fobDropDownUpdate');">
-				                                            <option value="" >Select</option>
-				                                            <c:forEach var="obj" items="${contractsList}">
-				                       						  <option value="${obj.contract_id }">${obj.contract_id }<c:if test="${not empty obj.contract_name }"> - ${obj.contract_name }</c:if></option>
-				                                             </c:forEach>				                                             
-				                                     </select>
-				                                     <span id="contract_id_fkUpdateError" class="error-msg" ></span>
-				                                </div>
-				                                <div class="col s12 m6 input-field" id="fobDropDownUpdate" style="display: none;">
-				                                   <p class="searchable_label"> FOB</p>
-				                                   <select id="fob_id_fkUpdate" name="fob_id_fk"  class="browser-default searchable">
-				                                        <option value="">Select</option>
-				                                   </select>
-				                                   <span id="fob_id_fkUpdateError" class="error-msg" ></span>
-				                                </div>
-				                            </div>
-				                            <div class="row">
-				                                <div class="col s12 m6 input-field">
-				                                    <input id="data_dateUpdate" type="text" name="data_date" class="validate datepicker">
-				                                    <label for="data_dateUpdate"> Data Date <span class="required">*</span></label>
-				                                    <button type="button" id="data_dateUpdate_icon"><i class="fa fa-calendar"></i></button>
-				                                    <span id="data_dateUpdateError" class="error-msg" ></span>
-				                                </div>
-				                                <div class="col s12 m6">
-				                                    <div class="file-field input-field">
-				                                        <div class="btn btn-outline">
-				                                            <span>Upload P6 Export File</span>
-				                                            <input type="file" name="p6dataFile">
-				                                        </div>
-				                                        <div class="file-path-wrapper">
-				                                            <input class="file-path validate" type="text">
-				                                        </div>
-				                                    </div>
-				                                </div>
-				                            </div>
-				                            <div class="row">
-				                                <div class="col s12 center-align">
-				                                    <div style="display: inline-block;">
-				                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadP6Update();">
-				                                            Update Activities
-				                                        </button>
-				                                    </div>
-				
-				                                </div>
-				                            </div>
-				                        </form>
-				                    </div>
-				                    <div class="container-no-margin">
-				                        <div class="row center-align">
-				                            <div class="col m12 text-primary">
-				                                <p style="margin-bottom: 20px;"><strong>Note :</strong> Please make sure the uploading
-				                                    P6 data file will be in
-				                                    the given format. Click <a href="/pmis/P6UpdateFile.xlsx" download>here</a> for
-				                                    the file format</p>
-				                            </div>
-				
-				                        </div>
-				                    </div>
-				                </div>
-				                
-				 				<div class="" id="baseline" style="padding:15px;background-color:#fafafa">
+			                    </ul> -->
+			                    <div class="tab col s12" id="head">Add Baseline</div>  <br>
+				                  <div class="" id="baseline" style="padding:15px;background-color:#fafafa">
 				                    <div style="margin-top:20px">
 				                        <form action="<%=request.getContextPath() %>/upload-p6-data" name="p6UploadFrom" id="p6UploadFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
@@ -192,7 +135,7 @@
 				                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
 				                                </div>
 				                                <div class="col s12 m6 input-field" id="fobDropDownUpload" style="display: none;">
-				                                    <p  class="searchable_label">FOB</p>
+				                                    <p  class="searchable_label">FOB <span class="required">*</span></p>
 				                                     <select id="fob_id_fkUpload" name="fob_id_fk"  class="browser-default searchable">
 				                                            <option value="" >Select</option>
 				                                     </select>
@@ -209,12 +152,13 @@
 				                                <div class="col s12 m6">
 				                                    <div class="file-field input-field">
 				                                        <div class="btn btn-outline">
-				                                            <span>Upload P6 Export File</span>
-				                                            <input type="file" name="p6dataFile">
+				                                            <span>Upload P6 Export File <span class="required">*</span></span>
+				                                            <input type="file" name="p6dataFile" id="p6dataFileUpload">
 				                                        </div>
 				                                        <div class="file-path-wrapper">
 				                                            <input class="file-path validate" type="text">
 				                                        </div>
+				                                         <span id="uploadFileError" class="error-msg"></span>
 				                                    </div>
 				                                </div>
 				                            </div>
@@ -243,7 +187,74 @@
 				                        </div>
 				                    </div>
 				                </div>
-			                    
+				                
+				                <div class="tab col s12" id="head">Update Existing</div>  <br>
+			                    <div class="" id="existing" style="padding:15px; background-color:#f0f8ff">
+				                    <div style="margin-top:20px">
+				                        <form action="<%=request.getContextPath() %>/update-p6-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
+				                            <div class="row">
+				                                <div class="col s12 m6 input-field">
+				                                    <p  class="searchable_label">Contract <span class="required">*</span></p>
+				                                     <select id="contract_id_fkUpdate" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpdate','fobDropDownUpdate');">
+				                                            <option value="" >Select</option>
+				                                            <c:forEach var="obj" items="${contractsList}">
+				                       						  <option value="${obj.contract_id }">${obj.contract_id }<c:if test="${not empty obj.contract_name }"> - ${obj.contract_name }</c:if></option>
+				                                             </c:forEach>				                                             
+				                                     </select>
+				                                     <span id="contract_id_fkUpdateError" class="error-msg" ></span>
+				                                </div>
+				                                <div class="col s12 m6 input-field" id="fobDropDownUpdate" style="display: none;">
+				                                   <p class="searchable_label"> FOB <span class="required">*</span></p>
+				                                   <select id="fob_id_fkUpdate" name="fob_id_fk"  class="browser-default searchable">
+				                                        <option value="">Select</option>
+				                                   </select>
+				                                   <span id="fob_id_fkUpdateError" class="error-msg" ></span>
+				                                </div>
+				                            </div>
+				                            <div class="row">
+				                                <div class="col s12 m6 input-field">
+				                                    <input id="data_dateUpdate" type="text" name="data_date" class="validate datepicker">
+				                                    <label for="data_dateUpdate"> Data Date <span class="required">*</span></label>
+				                                    <button type="button" id="data_dateUpdate_icon"><i class="fa fa-calendar"></i></button>
+				                                    <span id="data_dateUpdateError" class="error-msg" ></span>
+				                                </div>
+				                                <div class="col s12 m6">
+				                                    <div class="file-field input-field">
+				                                        <div class="btn btn-outline">
+				                                            <span>Upload P6 Export File <span class="required">*</span></span>
+				                                            <input type="file" name="p6dataFile" id="p6dataFileUpdate">
+				                                        </div>
+				                                        <div class="file-path-wrapper">
+				                                            <input class="file-path validate" type="text">
+				                                        </div>
+				                                        <span id="updateFileError" class="error-msg"></span>
+				                                    </div>
+				                                </div> 
+				                            </div>
+				                            <div class="row">
+				                                <div class="col s12 center-align">
+				                                    <div style="display: inline-block;">
+				                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadP6Update();">
+				                                            Update Activities
+				                                        </button>
+				                                    </div>
+				
+				                                </div>
+				                            </div>
+				                        </form>
+				                    </div>
+				                    <div class="container-no-margin">
+				                        <div class="row center-align">
+				                            <div class="col m12 text-primary">
+				                                <p style="margin-bottom: 20px;"><strong>Note :</strong> Please make sure the uploading
+				                                    P6 data file will be in
+				                                    the given format. Click <a href="/pmis/P6UpdateFile.xlsx" download>here</a> for
+				                                    the file format</p>
+				                            </div>
+				
+				                        </div>
+				                    </div>
+				                </div>
 							</div>
 						</div>
                 </div>
@@ -385,20 +396,28 @@
             $('.searchable').select2();
           
             $('.tabs').tabs();
-            
+            var today = new Date();
             $('#data_dateUpdate').datepicker({
   	    	    format:'dd-mm-yyyy',
+	  	    	endDate: "today",
+	            maxDate: today,
   	    	    onSelect: function () {
   	    	       $('.confirmation-btns .datepicker-done').click();
   	    	    }
-  	        });
+  	        }).on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
             
             $('#data_dateUpload').datepicker({
   	    	    format:'dd-mm-yyyy',
+  	    	    endDate: "today",
+	            maxDate: today,
   	    	    onSelect: function () {
   	    	       $('.confirmation-btns .datepicker-done').click();
   	    	    }
-  	        });
+  	        }).on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
             
             $('#data_dateUpdate_icon').click(function () {
                 event.stopPropagation();
@@ -457,6 +476,7 @@
     	   	     	}
                 });
             }else{
+            	$("#"+fobHideShowId).hide();
             	$(".page-loader").hide();
             }
         }
@@ -488,6 +508,8 @@
 	  			 		required: true
 	  			 	  },"data_date": {
 	  		 		    required: true
+	  			 	  },"p6dataFile": {
+	  		 		    required: true
 	  			 	  }	
 	  		 	},
 	  		    messages: {
@@ -496,6 +518,8 @@
 	  			 	  },"fob_id_fk": {
 	  			 		required: ' This field is required'
 	  			 	  },"data_date": {
+	  		 			required: ' This field is required'
+	  		 	  	  },"p6dataFile": {
 	  		 			required: ' This field is required'
 	  		 	  	  }
 		   		},
@@ -509,6 +533,9 @@
 					} else if(element.attr("id") == "data_dateUpload" ){
 						document.getElementById("data_dateUploadError").innerHTML="";
 					 	error.appendTo('#data_dateUploadError');
+					} else if(element.attr("id") == "p6dataFileUpload" ){
+						document.getElementById("uploadFileError").innerHTML="";
+					 	error.appendTo('#uploadFileError');
 					} else{
 		 				error.insertAfter(element);
 				    } 
@@ -528,6 +555,8 @@
 	  			 		required: true
 	  			 	  },"data_date": {
 	  		 		    required: true
+	  			 	  },"p6dataFile": {
+	  		 		    required: true
 	  			 	  }	
 	  		 	},
 	  		    messages: {
@@ -536,6 +565,8 @@
 	  			 	  },"fob_id_fk": {
 	  			 		required: ' This field is required'
 	  			 	  },"data_date": {
+	  		 			required: ' This field is required'
+	  		 	  	  },"p6dataFile": {
 	  		 			required: ' This field is required'
 	  		 	  	  }
 		   		},
@@ -549,6 +580,9 @@
 					} else if(element.attr("id") == "data_dateUpdate" ){
 						document.getElementById("data_dateUpdateError").innerHTML="";
 					 	error.appendTo('#data_dateUpdateError');
+					} else if(element.attr("id") == "p6dataFileUpdate" ){
+						document.getElementById("updateFileError").innerHTML="";
+					 	error.appendTo('#updateFileError');
 					} else{
 		 				error.insertAfter(element);
 				    } 
@@ -562,7 +596,11 @@
                $(this).valid();
            }
        });
-
+       $('.browser-default').change(function(){
+           if ($(this).val() != ""){
+               $(this).valid();
+           }
+       });
        $('input').change(function(){
            if ($(this).val() != ""){
                $(this).valid();

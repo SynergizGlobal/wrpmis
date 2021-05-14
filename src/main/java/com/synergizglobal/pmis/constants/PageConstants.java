@@ -68,8 +68,8 @@ public class PageConstants {
 	public static final String trainingGrid = "forms/trainingGrid";
 	public static final String addEditTrainingForm = "forms/addEditTrainingForm";
 	
-	public static final String riskAssessmentGrid = "forms/riskAssessmentGrid";
-	public static final String riskAssessmentForm = "forms/riskAssessmentForm";
+	public static final String riskAssessmentUpload = "forms/riskAssessmentUpload";
+	public static final String riskATRUpdateForm = "forms/riskATRUpdateForm";
 	public static final String riskATRUpdateGrid = "forms/riskATRUpdateGrid";
 	
 	public static final String riskReport = "forms/riskReport";

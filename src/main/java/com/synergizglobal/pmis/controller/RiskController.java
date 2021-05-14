@@ -74,7 +74,7 @@ public class RiskController {
 	
 	@RequestMapping(value="/risk-assessment",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView riskAssessment(@ModelAttribute Risk obj,HttpSession session){
-		ModelAndView model = new ModelAndView(PageConstants.riskAssessmentGrid);
+		ModelAndView model = new ModelAndView(PageConstants.riskAssessmentUpload);
 		try {
 			User uObj = (User) session.getAttribute("user");
 			obj.setUser_id(uObj.getUser_id()); 
@@ -516,7 +516,7 @@ public class RiskController {
 	public ModelAndView getRiskAssessment(@ModelAttribute Risk obj,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName(PageConstants.riskAssessmentForm);
+			model.setViewName(PageConstants.riskATRUpdateForm);
 			
 			/*List<Risk> assessmentDates = riskService.getRiskAssessmentDates(obj);
 			model.addObject("assessmentDates", assessmentDates);*/

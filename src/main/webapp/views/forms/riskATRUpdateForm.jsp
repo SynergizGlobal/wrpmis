@@ -250,6 +250,7 @@
 									<p>${risk.mitigation_plan}</p> --%>
 									<textarea id="mitigation_plan" name="mitigation_plan" class="materialize-textarea" data-length="1000" >${risk.mitigation_plan}</textarea>
 									<label for="mitigation_plan">Mitigation Plan :</label>
+									<input type="hidden" name="mitigation_plan_old" value="${risk.mitigation_plan }" />
 								</div>
                             </div>
                        
@@ -294,7 +295,7 @@
 																			</button>
 																			<p id="atr_dates${index.count }Error" class="error-msg" ></p>
 																		</div>
-																		
+																		<input type="hidden" id="atr_dates_old${index.count }" name="atr_dates_old" value="${aObj.atr_date }" />
 																		
 																	</td>
 																	<td>
@@ -303,6 +304,7 @@
 																			name="action_takens" class="materialize-textarea"
 																			placeholder="Action Taken" style="height: 44px;">${aObj.action_taken}</textarea>
 																			<p id="action_takens${index.count }Error" class="error-msg" ></p>
+																			<input type="hidden" id="action_takens_old${index.count }" name="action_takens_old" value="${aObj.action_taken }" />
 																	</td>
 																	<td>
 																	<%-- <a onclick="removeActions('${index.count }');" class="btn waves-effect waves-light red t-c "> 
@@ -590,9 +592,9 @@
 			+'</select></div></td>' */
 			+'<td><div class="input-field"><input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'
 			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button>'
-			+'</div><p id="atr_dates' + rNo + 'Error" class="error-msg" ></p></td>'
+			+'</div><p id="atr_dates' + rNo + 'Error" class="error-msg" ></p><input type="hidden" id="atr_dates_old' + rNo +'" name="atr_dates_old" value="" /></td>'
 			+'<td><textarea id="action_takens' + rNo +'"  name="action_takens" '
-			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea><p id="action_takens' + rNo + 'Error" class="error-msg" ></p></td>'
+			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea><p id="action_takens' + rNo + 'Error" class="error-msg" ></p><input type="hidden" id="action_takens_old' + rNo +'" name="action_takens_old" value="" /></td>'
 			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#riskRevisionBody').append(html);

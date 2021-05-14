@@ -639,23 +639,32 @@ public class RiskDaoImpl implements RiskDao{
 			int[] insertCount = insertStmt.executeBatch();
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 			if(insertCount.length > 0) {
-				  String messageType = "Risk";
-				  String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id(),obj.getReporting_to_user_id() };
-				  flag = true;
-				  String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
-				  insertStmt = con.prepareStatement(message_qry);
-				  for(int i = 0; i < userId.length; i++) {	
-					int j = 1;
-					if((!StringUtils.isEmpty(userId[i]))) {
-						String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+obj.getSub_work()+"&assessment_date="+obj.getAssessment_date();
-						insertStmt.setString(j++,"ATR of prioritized risk(s) for "+obj.getSub_work()+" has been updated.");
-						insertStmt.setString(j++,(userId[i]));
-						insertStmt.setString(j++,redirect_url);
-						insertStmt.setString(j++,messageType);
-						insertStmt.addBatch();
+				for(int j = 0; j < arraySize; j++) {	
+					if(!(obj.getAtr_dates()[j].equals(obj.getAtr_dates_old()[j])) || 
+							!(obj.getAction_takens()[j].equals(obj.getAction_takens_old()[j]))) {
+
+						  String messageType = "Risk";
+						  String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id(),obj.getReporting_to_user_id() };
+						  flag = true;
+						  String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
+						  insertStmt = con.prepareStatement(message_qry);
+						  for(int i = 0; i < userId.length; i++) {	
+							int p = 1;
+							if((!StringUtils.isEmpty(userId[i]))) {
+								String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+obj.getSub_work()+"&assessment_date="+obj.getAssessment_date();
+								insertStmt.setString(p++,"ATR of prioritized risk(s) for "+obj.getSub_work()+" has been updated.");
+								insertStmt.setString(p++,(userId[i]));
+								insertStmt.setString(p++,redirect_url);
+								insertStmt.setString(p++,messageType);
+								insertStmt.addBatch();
+							}
+						 }
+					     insertCount = insertStmt.executeBatch();
+						 break;
+
 					}
-				 }
-			     insertCount = insertStmt.executeBatch();
+				}
+				
 			}
 		}catch(Exception e){ 
 			throw new Exception(e);

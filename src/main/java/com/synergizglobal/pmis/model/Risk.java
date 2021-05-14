@@ -10,7 +10,7 @@ public class Risk {
 	
 	private String risk_id_pk,id, project_name,work_name,project_id_fk, work_id_fk, risk_id, sub_area_fk, date_of_identification,area,risk_revision_id, risk_id_pk_fk, date,
 	priority, probability,item_no,priority_fk,work_short_name, impact, owner, responsible_person,assessment_date, risk_action_id,mitigation_plan, action_taken, attachment,
-	sub_area, risk_area_fk,classification,owner_user_id,responsible_user_id,atr_date,work_id,risk_rating,status,sub_work,area_item_no,sub_area_item_no,risk_revision_id_fk,user_type,user_role_code,user_id,user_designation;
+	sub_area, risk_area_fk,classification,owner_user_id,responsible_user_id,atr_date,work_id,risk_rating,status,mitigation_plan_old,sub_work,area_item_no,sub_area_item_no,risk_revision_id_fk,user_type,user_role_code,user_id,user_designation;
 
 	private String risk_upload_id,remarks,uploaded_by_user_id_fk,uploaded_on,uploaded_by,reporting_to_user_id;
 	private boolean readonlyForm = true;
@@ -18,13 +18,37 @@ public class Risk {
 	private MultipartFile riskAssessmentFile;
 
 	private String [] risk_revision_ids, risk_id_pk_fks, dates, prioritys, probabilitys, impacts,
-	owners, responsible_persons, mitigation_plans, action_takens, attachments,atr_dates,priority_fks,risk_action_ids,assessment_dates;
+	owners, responsible_persons, mitigation_plans, action_takens, attachments,atr_dates,priority_fks,risk_action_ids,assessment_dates,atr_dates_old,action_takens_old;
 	
 	private int [] rowCounts;
 	
 	private List<Risk> risks; 
 	private List<Risk> riskActions; 
 	
+
+	public String getMitigation_plan_old() {
+		return mitigation_plan_old;
+	}
+
+	public void setMitigation_plan_old(String mitigation_plan_old) {
+		this.mitigation_plan_old = mitigation_plan_old;
+	}
+
+	public String[] getAtr_dates_old() {
+		return atr_dates_old;
+	}
+
+	public void setAtr_dates_old(String[] atr_dates_old) {
+		this.atr_dates_old = atr_dates_old;
+	}
+
+	public String[] getAction_takens_old() {
+		return action_takens_old;
+	}
+
+	public void setAction_takens_old(String[] action_takens_old) {
+		this.action_takens_old = action_takens_old;
+	}
 
 	public String getOwner_user_id() {
 		return owner_user_id;

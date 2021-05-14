@@ -66,13 +66,7 @@
 									</select> 
 									<span id="contract_idError" class="error-msg"></span>
 								</div>	
-								<div class="col s12 m3 input-field" id="fob_id_fk_div" style="display: none;">
-									<p class="searchable_label">FOB</p>
-									<select class="searchable validate-dropdown" id="fob_id_fk" name="fob_id_fk" onchange="resetFilterDropDowns();">
-										<option value="">Select</option>	
-									</select> 
-									<span id="fob_id_fkError" class="error-msg"></span>
-								</div>						
+											
 							</div>
 							<div class="row">	
 								<div class="col s12 m3 input-field">
@@ -99,8 +93,17 @@
 							</div>
 							
 							<div class="row">
+							    <div class="col s12 m3 input-field" >
+							        <div id="fob_id_fk_div" style="display: none;">
+										<p class="searchable_label">FOB</p>
+										<select class="searchable validate-dropdown" id="fob_id_fk" name="fob_id_fk" onchange="resetFilterDropDowns();">
+											<option value="">Select</option>	
+										</select> 
+										<span id="fob_id_fkError" class="error-msg"></span>
+									</div>
+								</div>			
 								<div class="col s12 m3 input-field">
-									<input id="from_date" name="from_date" type="text" class="validate datepicker"> <label for="from_date"> From Date</label>
+									<input id="from_date" name="from_date" type="text" class="validate datepicker"> <label for="from_date"> From Date <span class="required">*</span></label>
 									<button type="button" id="from_date_icon" class="white"><i class="fa fa-calendar"></i></button>
 									<span id="from_dateError" class="error-msg"></span>
 								</div>
@@ -182,11 +185,12 @@
 	   	    	}
 	        })
 	    }); */
+	  var today = new Date();
       let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
-	    	var options = {format: 'dd-mm-yyyy'};
+	    	var options = {format: 'dd-mm-yyyy',endDate: "today", maxDate: today};
 	    	if(dt.length > 1){
 	    		options.setDefaultDate = true,
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
@@ -238,6 +242,7 @@
             getContractorsList();
             getHodList();
             getDyhodList();
+            $('#to_date_holder').hide();
         }
         
         

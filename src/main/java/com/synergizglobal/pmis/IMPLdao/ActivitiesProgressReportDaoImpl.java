@@ -599,7 +599,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 				arrSize++;
 			}else {
-				contractsQry = contractsQry + " and progress_date = ?";
+				contractsQry = contractsQry + " and progress_date <=  ?";
 				arrSize++;
 			}
 			
@@ -722,7 +722,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				
 				
 				for (ActivitiesProgressReport contractProgressStructure : contractProgressStructuresList) {
-					String contractProgressDatesQry = "select progress_date,activity_id_fk,contract_id_fk,work_id,project_id,project_name "
+					String contractProgressDatesQry = "select activity_id_fk,MAX(ap.progress_date) AS progress_date,contract_id_fk,work_id,project_id,project_name "
 							+ "from activity_progress ap " 
 							+ "LEFT JOIN activities a on activity_id_fk = activity_id  " 
 							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
@@ -746,7 +746,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 						arrSize++;
 					}
 					
-					contractProgressDatesQry = contractProgressDatesQry + " group by progress_date ORDER BY progress_date ASC";
+					contractProgressDatesQry = contractProgressDatesQry + " ORDER BY progress_date DESC";
 					
 					pValues = new Object[arrSize];
 					
@@ -767,7 +767,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					List<ActivitiesProgressReport> totalContractProgresList = new ArrayList<ActivitiesProgressReport>();
 					for (ActivitiesProgressReport contractProgressDate : contractProgressDatesList) {
 						
-						String progressQry = "select ap.progress_date,ap.activity_id_fk,ap.completed_scope,a.activity_id,a.contract_id_fk,a.structure_type_fk,a.component_id," + 
+						String progressQry = "select ap.progress_date,ap.activity_id_fk,max(ap.completed_scope) as completed_scope,a.activity_id,a.contract_id_fk,a.structure_type_fk,a.component_id," + 
 								"a.component,a.activity_name,a.structure,a.scope,a.completed,c.contract_name,c.contract_short_name," + 
 								"(a.completed - IFNULL((select sum(completed_scope) " + 
 								"from activity_progress ap1 " + 
@@ -777,7 +777,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 								"from activity_progress ap " + 
 								"left outer join activities a on ap.activity_id_fk = a.activity_id " + 
 								"left outer join contract c on a.contract_id_fk = c.contract_id " + 
-								"where a.contract_id_fk = ? and ap.progress_date = ? and a.structure = ?";
+								"where a.contract_id_fk = ? and ap.progress_date = ? and a.structure = ? group by a.activity_name";
 						
 						pValues = new Object[] {cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getStructure(),cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getStructure()};
 						

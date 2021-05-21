@@ -261,7 +261,8 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-							<c:if test="${action eq 'edit'}">
+                            
+						<c:if test="${action eq 'edit'}">
                             <div class="row fixed-width">
                                 <h5 class="center-align">FOB Details</h5>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -295,8 +296,16 @@
 			                                                        placeholder="Detail name">
 			                                                </td>
 			                                                <td>
+			                                                <c:if test="${index.count>2}">
+			                                                
 			                                                    <input id="fob_detail_values${index.count }" name="fob_detail_values" type="text" class="validate" value="${dObj.value }"
 			                                                        placeholder="Value">
+			                                                 </c:if>
+			                                                 
+			                                                <c:if test="${index.count<=2}">
+			                                                
+			                                                    <select id="fob_detail_values${index.count }" name="fob_detail_values"></select>
+			                                                 </c:if>			                                                 
 			                                                </td>
 			                                            </tr>
 		                                            </c:forEach> 
@@ -368,7 +377,7 @@
 		                            <div id="selectedFilesInput">
 	                                   	<div class="file-field input-field" id="fobFilesDiv1" >
 	                                        <div class="btn bg-m t-c">
-	                                            <span>Attach Files</span>
+	                                            <span>Attach Photos</span>
 	                                            <input type="file" id="fobFiles1" name="fobFiles" onchange="selectFile('1')">
 	                                        </div>
 	                                        <div class="file-path-wrapper">
@@ -391,8 +400,8 @@
 											<table class="mdl-data-table update-table">
 												<thead>
 													<tr>
-														<th style="width: 30%;text-align: left;">File Type</th>
-														<th style="width: 52%;text-align: left;">Attach File</th>
+														<th style="width: 30%;text-align: left;display:none;">File Type</th>
+														<th style="width: 52%;text-align: left;">Attach Photo</th>
 														<th></th>
 														<th style="width: 8%;text-align: left;">Action</th>
 													</tr>
@@ -402,7 +411,7 @@
 														<c:when	test="${not empty fob.fobImages && fn:length(fob.fobImages) gt 0 }">
 															<c:forEach var="fObj" items="${fob.fobImages }" varStatus="index">
 																<tr id="actionRow${index.count }">
-																	<td>
+																	<td style='display:none;'>
 																		<div class="input-field">
 																			<select  name="fob_file_types"  id="fob_file_types${index.count }"  class="validate-dropdown searchable">
 							                                   					 <option value="" >Select</option>
@@ -415,7 +424,7 @@
 																	<td>
 																		<div class="file-field input-field">
 									                                        <div class="btn bg-m t-c">
-									                                            <span>Attach File</span>
+									                                            <span>Attach Photo</span>
 									                                            <input type="file" id="fobFiles${index.count }" name="fobFiles">
 									                                        </div>
 									                                        <div class="file-path-wrapper">
@@ -436,7 +445,7 @@
 														</c:when>
 														<c:otherwise>
 															<tr id="actionRow0">
-																<td>
+																<td style='display:none;'>
 																	<div class="input-field">
 																		<select  name="fob_file_types"  id="fob_file_types0"  class="validate-dropdown searchable">
 						                                   					 <option value="" >Select</option>
@@ -449,7 +458,7 @@
 																<td>
 																	<div class="file-field input-field">
 								                                        <div class="btn bg-m t-c">
-								                                            <span>Attach File</span>
+								                                            <span>Attach Photo</span>
 								                                            <input type="file" id="fobFiles0" name="fobFiles">
 								                                        </div>
 								                                        <div class="file-path-wrapper">
@@ -501,7 +510,7 @@
 										<div id="selectedFilesInput">
 	                                    	<div class="file-field input-field" id="fobFilesDiv${existingFOBFilesLength }" >
 		                                        <div class="btn bg-m t-c">
-		                                            <span>Attach Files</span>
+		                                            <span>Attach Photos</span>
 		                                            <input type="file" id="fobFiles${existingFOBFilesLength }" name="fobFiles"  onchange="selectFile('${existingFOBFilesLength }')">
 		                                        </div>
 		                                        <div class="file-path-wrapper">
@@ -613,7 +622,7 @@
  	   }
     }
     function openDates(work_status) {
-		if($.trim(work_status) == 'In Progress'){
+		if($.trim(work_status) == 'In Progress' || $.trim(work_status) == 'On Hold' || $.trim(work_status) == 'Dropped'){
 			$("#construction_start_dateDiv").show();
 			$("#commissioning_dateDiv").hide();
 			$("#actual_completion_dateDiv").hide();
@@ -666,7 +675,7 @@
 		var html = "";
 		html =  html + '<div class="file-field input-field" id="fobFilesDiv'+no+'" >'
 		+ '<div class="btn bg-m t-c">'
-		+ '<span>Attach Files</span>'
+		+ '<span>Attach Photos</span>'
 		+ '<input type="file" id="fobFiles'+no+'" name="fobFiles" onchange="selectFile('+no+')">'
 		+ '</div>'
 		+ '<div class="file-path-wrapper">'
@@ -685,7 +694,7 @@
 		var rowNo = $("#rowNo").val();
         var rNo = Number(rowNo)+1;
         var html = '<tr id="actionRow' + rNo + '">'
-           +'<td> <div class="input-field">'
+           +'<td style="display:none;"> <div class="input-field">'
            +'<select name="fob_file_types" id="fob_file_types'+rNo+'"  class="validate-dropdown searchable" >'	   			
    		   +'<option value="" >Select</option>'
 		     <c:forEach var="obj" items="${fobFileTypesList}">
@@ -695,7 +704,7 @@
 		   
    		   +'<td><div class="file-field input-field">'	
 		   +'<div class="btn bg-m t-c">'	
-		   +'<span>Attach Files</span>'	
+		   +'<span>Attach Photos</span>'	
 		   +'<input type="file" id="fobFiles'+rNo+'" name="fobFiles">'	
 		   +'</div>'	
 		   +'<div class="file-path-wrapper">'	

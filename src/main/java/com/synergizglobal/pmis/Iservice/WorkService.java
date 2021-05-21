@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Railway;
 import com.synergizglobal.pmis.model.Work;
 import com.synergizglobal.pmis.model.Year;
@@ -21,6 +22,9 @@ public interface WorkService {
 	public boolean deleteRow(String workId,Work work)throws Exception;
 
 	public List<Year> getYearList()throws Exception;
+
+	public List<Work> getWorkStatusList(Work obj)throws Exception;
+
 
 	public List<Work> getWorkList(Work work) throws Exception;
 

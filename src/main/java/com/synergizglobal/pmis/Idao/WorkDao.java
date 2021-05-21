@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Idao;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Railway;
 import com.synergizglobal.pmis.model.Work;
 import com.synergizglobal.pmis.model.Year;
@@ -15,6 +16,8 @@ public interface WorkDao {
 	public boolean addWork(Work work)throws Exception;
 
 	public List<Railway> getRailwayList()throws Exception;
+	public List<Work> getWorkStatusList(Work obj)throws Exception;
+
 
 	public List<Railway> getExcecuteList()throws Exception;
 

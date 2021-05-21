@@ -87,7 +87,7 @@
 		    width: calc(100% - 2rem - 1.5rem);
 		}
 		/* cost unit dropdown , lable and input styling ends here  */
-		
+	
     </style>
 </head>
 <body>
@@ -142,7 +142,7 @@
 	                                 <div class="row">
 	                                 	<c:if test="${action eq 'add'}">
 	                                 	<div class="col s12 m6 input-field">
-		                                   <p class="searchable_label">Project <span class="required">*</span></p>
+		                                   <p class="searchable_label">Project : <span class="required">*</span></p>
 		                                    <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
 		                                   			<option value="">select</option>
 		                                          <c:forEach var="obj" items="${projectsList}">
@@ -154,8 +154,8 @@
 		                               </c:if>
 		                               <c:if test="${action eq 'edit'}">
 			                               <div class="col s12 m6 input-field">
-			                               		<input type="text" class="form-control" value="${workDetails.project_name}" readonly >  
-			                                    <label>Project <span class="required">*</span>:</label>
+												<p class="searchable_label">Project<span class="required">*</span>:</p>
+												<input type="text" class="form-control" value="${workDetails.project_name}" readonly >  
 			                                    
 			                                    <input type="hidden" name ="project_id_fk" id="project_id_fk" value="${workDetails.project_id_fk}"/>
 			                               </div>
@@ -240,6 +240,7 @@
                                 	</select>
                                 	<!-- <label for="sanctioned_estimated_cost_units">Units</label> -->
                                 </div>
+                              
                                 <div class="col s9 m3 input-field">
                                   	<i class="material-icons prefix cost">₹</i>
                                     <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDetails.sanctioned_completion_cost }" min="0.01" step="0.01">
@@ -296,6 +297,15 @@
                                 		<option value="crores">Crores</option>
                                 	</select>
                                 </div>
+                                <c:if test="${action eq 'edit'}">
+                                <div class="col s12 m4 input-field">
+                                   <p class="searchable_label">Work Status <span class="required">*</span></p>
+                                    <select id="work_status_fk" name="work_status_fk"  class="select searchable validate-dropdown">
+                                        <option value="">Select</option>
+                                    </select>
+                                    <span id="work_status_fkError" class="error-msg" ></span>
+                                </div>  
+                                </c:if>                              
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
@@ -737,6 +747,31 @@
     
     /**************************************************************************************************************/
     
+    
+    
+        function getWorkStatusList(work_status_fk){
+	       	$(".page-loader").show();
+   	    	$("#work_status_fk option:not(:first)").remove();
+               $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getWorkStatusList",
+                   cache: false,async: false,
+                   success: function (data) {
+                      if(data != null && data != '' && data.length > 0){  
+                           $.each(data, function (i, val) {
+                           		var selectedFlag = (work_status_fk == val.work_status_fk)?'selected':'';
+   	                           $("#work_status_fk").append('<option value="' + val.work_status_fk + '"'+selectedFlag+'>' + $.trim(val.work_status_fk) + '</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			      $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+               });
+    	 }    
+    
+    
 		function addWorkFileRow(){
 			var rowNo = $("#rowNo").val();
 	        var rNo = Number(rowNo)+1;
@@ -859,6 +894,11 @@
 	        	 format: 'dd-mm-yyyy',
 	        	 autoClose:true
 	        });
+            var work_status_fk = '${workDetails.work_status_fk}';
+
+      		getWorkStatusList(work_status_fk);
+          
+            
         });
         
   //*********************VALIDATION FOR WORK ADD/EDIT FORMS*************************************      

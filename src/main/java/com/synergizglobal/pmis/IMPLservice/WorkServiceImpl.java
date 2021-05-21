@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.Idao.WorkDao;
 import com.synergizglobal.pmis.Iservice.WorkService;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Railway;
 import com.synergizglobal.pmis.model.Work;
 import com.synergizglobal.pmis.model.Year;
@@ -27,6 +28,10 @@ public class WorkServiceImpl implements WorkService {
 		return workDao.updateWork(work);
 	}
 	
+	@Override
+	public List<Work> getWorkStatusList(Work obj) throws Exception {
+		return workDao.getWorkStatusList(obj);
+	}
 	@Override
 	public boolean addWork(Work work)throws Exception{
 		return workDao.addWork(work);

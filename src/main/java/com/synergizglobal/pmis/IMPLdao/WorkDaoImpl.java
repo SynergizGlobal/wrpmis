@@ -60,6 +60,19 @@ public class WorkDaoImpl implements WorkDao {
 		
 		return objsList;
     }
+	
+	
+	@Override
+	public List<Work> getWorkStatusList(Work obj) throws Exception {
+		List<Work> objsList = null;
+		try {
+			String qry = "SELECT general_status as work_status_fk from general_status where general_status in('Not Started','In Progress','Completed')";
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 
 	
 	@Override
@@ -73,7 +86,7 @@ public class WorkDaoImpl implements WorkDao {
 			String qry ="SELECT work_id,work_name,work_short_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost," 
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
 					+ ",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
-					+ "DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date "
+					+ "DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk "
 					+ "FROM work w " 
 					+ "LEFT JOIN project p ON w.project_id_fk = p.project_id " 
 				    + "where work_id = ?";
@@ -98,6 +111,7 @@ public class WorkDaoImpl implements WorkDao {
 				work.setRemarks(resultSet.getString("remarks"));
 				work.setAttachment(resultSet.getString("attachment"));
 				work.setProjected_completion(resultSet.getString("projected_completion"));
+				work.setWork_status_fk(resultSet.getString("work_status_fk"));
 				work.setProjected_completion_date(resultSet.getString("projected_completion_date"));
 				work.setWorkRevisions(getWorkRevisions(work.getWork_id(),connection));	
 				work.setRailwayAgencyList(getRailwayAgencyList(work.getWork_id(),connection));
@@ -250,7 +264,7 @@ public class WorkDaoImpl implements WorkDao {
 			con.setAutoCommit(false);
 			String qry = "update work set work_name = ?,project_id_fk = ?,sanctioned_year_fk=?,sanctioned_estimated_cost = ?," + 
 						 "completeion_period_months = ?,sanctioned_completion_cost = ?,anticipated_cost = ?,year_of_completion = ?,"
-						 + "completion_cost = ?,remarks = ?,attachment = ?,projected_completion = ?,work_short_name = ?,projected_completion_date = ? "+
+						 + "completion_cost = ?,remarks = ?,attachment = ?,projected_completion = ?,work_short_name = ?,projected_completion_date = ? ,work_status_fk = ? "+
 						 "where work_id =?";
 		
 			stmt = con.prepareStatement(qry); 
@@ -269,6 +283,7 @@ public class WorkDaoImpl implements WorkDao {
 			stmt.setString(p++,work.getProjected_completion());
 			stmt.setString(p++,work.getWork_short_name());
 			stmt.setString(p++,work.getProjected_completion_date());
+			stmt.setString(p++,work.getWork_status_fk());
 			stmt.setString(p++,work.getWork_id());
 			int count = stmt.executeUpdate();
 			if(count > 0){

@@ -14,6 +14,8 @@ public class PageConstants {
 	public static final String work = "forms/work";
 	public static final String addEditWork = "forms/addUpdateWork";
 	
+	public static final String fobGallery = "forms/FOBGallery";
+	
 	public static final String project = "forms/project";
 	public static final String addUpdateProject = "forms/addUpdateProject";
 	

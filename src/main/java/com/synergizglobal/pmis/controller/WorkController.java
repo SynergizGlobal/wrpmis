@@ -117,6 +117,19 @@ public class WorkController {
 		return worksList;
 	}
 	
+	@RequestMapping(value = "/ajax/getWorkStatusList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Work> getWorkStatusList(@ModelAttribute Work obj) {
+		List<Work> workStatusList = null;
+		try {
+			workStatusList = workService.getWorkStatusList(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkStatusList : " + e.getMessage());
+		}
+		return workStatusList;
+	}
+	
 	@RequestMapping(value = "/ajax/getProjectsFilterListInWork", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Work> getProjectsList(@ModelAttribute Work obj) {

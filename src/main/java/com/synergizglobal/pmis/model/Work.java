@@ -10,7 +10,7 @@ public class Work {
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,latest_revised_cost,
 	year_of_revision,revision_number,wys_renarks,attachment,work_attachment,railway,executed_by,projected_completion,created_date,
 	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink,id,
-	work_yearly_sanction_id,  pink_book_item_number,projected_completion_date,work_file_id,work_file_type,work_file_type_fk;
+	work_yearly_sanction_id,  pink_book_item_number,projected_completion_date,work_file_id,work_file_type,work_file_type_fk,work_status_fk;
 
 
 
@@ -509,6 +509,14 @@ public class Work {
 
 	public void setWork_file_types(String[] work_file_types) {
 		this.work_file_types = work_file_types;
+	}
+
+	public String getWork_status_fk() {
+		return work_status_fk;
+	}
+
+	public void setWork_status_fk(String work_status_fk) {
+		this.work_status_fk = work_status_fk;
 	}
 	
 }

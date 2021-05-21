@@ -264,7 +264,7 @@
 																		<div class="file-field input-field">
 									                                        <div class="btn bg-m t-c">
 									                                            <span>Attach Image</span>
-									                                            <input type="file" id="projectGalleryFiles${index.count }" name="projectGalleryFiles" accept="image/x-png,image/gif,image/jpeg" >
+									                                            <input type="file" id="projectGalleryFiles${index.count }" name="projectGalleryFiles" accept="image/x-png,image/gif,image/jpeg" onchange="validateImage('${index.count }')">
 									                                        </div>
 									                                        <div class="file-path-wrapper">
 									                                            <input class="file-path validate" type="text" id="projectGalleryFileNames${index.count }" name="projectGalleryFileNames" value="${iObj.file_name }">
@@ -642,6 +642,23 @@
         	}
         	M.Datepicker.init(this, options);
         });
+        
+        function validateImage(RowNum) 
+        {
+            var formData = new FormData();
+            var file = document.getElementById("projectGalleryFiles"+RowNum).files[0];
+            formData.append("Filedata", file);
+            var t = file.type.split('/').pop().toLowerCase();
+            
+            if (t != "jpeg" && t != "jpg" && t != "png" && t != "bmp" && t != "gif") {
+                alert('Please select a valid image file');
+                document.getElementById("projectGalleryFiles"+RowNum).value = '';
+                return false;
+            }
+            return true;
+        }
+        
+        
      function addImageFileRow(){
 			var rowNo = $("#imageRowNo").val();
 	        var rNo = Number(rowNo)+1;
@@ -655,7 +672,7 @@
 	   		   +'<td><div class="file-field input-field">'	
 			   +'<div class="btn bg-m t-c">'	
 			   +'<span>Attach Image</span>'	
-			   +'<input type="file" id="projectGalleryFiles'+rNo+'" name="projectGalleryFiles" accept="image/x-png,image/gif,image/jpeg">'	
+			   +'<input type="file" id="projectGalleryFiles'+rNo+'" name="projectGalleryFiles" accept="image/x-png,image/gif,image/jpeg" onchange="validateImage('+rNo+')">'	
 			   +'</div>'	
 			   +'<div class="file-path-wrapper">'	
 			   +'<input class="file-path validate" type="text" id="projectGalleryFileNames'+rNo+'" name="projectGalleryFileNames">'	

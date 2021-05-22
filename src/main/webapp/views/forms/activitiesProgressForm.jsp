@@ -464,11 +464,7 @@
                                         <div class="col m4 s12 input-field">
                                         	<p class="searchable_label">Component</p>
                                             <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 2.75rem;" readonly="readonly">
-                                            <!-- <p>Component</p>
-                                            <select class="searchable validate-dropdown" id="strip_chart_component" name="strip_chart_component">
-                                                
-                                            </select>
-                                            <span id="strip_chart_componentError" class="error-msg" ></span> -->
+                                            <span id="strip_chart_componentError" class="error-msg" ></span> 
                                         </div>
                                         
                                         <div class="col m4 s12 input-field">

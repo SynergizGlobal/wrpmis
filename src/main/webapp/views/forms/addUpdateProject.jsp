@@ -206,7 +206,7 @@
 									</select>
 								 </div>
                                 <div class="col s12 m3 input-field">
-                                    <input id="pink_book_item_numbers" type="number" class="validate" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }" maxlength="4"/>
+                                    <input id="pink_book_item_numbers" class="validate" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }" maxlength="10"/>
                                     <label for="pink_book_item_numbers" style="margin-top:5px">PB Item No </label>                                   
                                     <span  id="pink_book_item_numbersError"> </span>
                                 </div>
@@ -503,7 +503,7 @@
 							                               				</div>
 																	</td>
 																	<td>
-																		<input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" type="number" class="validate" maxlength="4"  
+																		<input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" class="validate" maxlength="10"  
 	                                                        				placeholder="PB Item No" value="${pObj.pb_item_no }" autocomplete="off">
 	                                                        		</td>
 																	<td>
@@ -534,7 +534,7 @@
 							                               				</div>
 																	</td>																	
 																<td>
-																	<input id="pink_book_item_numbers0" name="pink_book_item_numbers" type="number" class="validate"  maxlength="4"
+																	<input id="pink_book_item_numbers0" name="pink_book_item_numbers" class="validate"  maxlength="10"
 	                                                        				placeholder="PB Item No" autocomplete="off">
 																</td>
 																<td>
@@ -810,7 +810,7 @@
 		  				+' <option value="WR">WR</option>'     
 		  				+' <option value="CR">CR</option>' 
 					+'  </select>	  </div>		</td>'				
-			   +'<td><input  type="number" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item No" maxlength="4""></td>'
+			   +'<td><input  class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item No" maxlength="10""></td>'
 			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#pinkBookBody').append(html);

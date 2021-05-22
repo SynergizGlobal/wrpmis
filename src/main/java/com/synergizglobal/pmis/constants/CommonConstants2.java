@@ -18,7 +18,7 @@ public class CommonConstants2 {
 	
 	public static final String USER_IMAGES = "/pmis/USER_IMAGES/";
 	public static final String CONTRACT_FILES = "/pmis/CONTRACT_FILES/";
-	public static final String FOB_FILES = "/pmis/FOB_FILES/";
+	public static final String FOB_GALLERY = "/pmis/FOB_GALLERY/";
 	public static final String ISSUE_FILES = "/pmis/ISSUE_FILES/";
 	public static final String SAFETY_FILES = "/pmis/SAFETY_FILES/";
 	public static final String WORK_FILES = "/pmis/WORK_FILES/";
@@ -32,20 +32,21 @@ public class CommonConstants2 {
 	public final static String RISK_ASSESSMENT_UPLOADED_FILES = "/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";
 	
 	/*********** LOCAL ****************************************************/
+	public static String DIRECTORY_PATH = "E:";
 	
 	public final static String ALERTS_EMAIL = "kallurigurappa@gmail.com,gkalluri@ghsltechnologies.com";
-	public final static String ISSUE_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"ISSUE_FILES"+File.separator;
-	public static final String SAFETY_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_FILES"+File.separator;
-	public static final String FOB_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"FOB_FILES"+File.separator;
-	public static final String USER_IMAGE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"USER_IMAGES"+File.separator;
-	public static final String DESIGN_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DESIGN_FILES"+File.separator;
-	public static final String P6_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"P6_FILES"+File.separator;
-	public static final String DOCX_LOGO = "C:/Development/nginx-1.9.9/html/pmis/resources/images";
-	public final static String WEB_DOCUMENTS_FILE_SAVING_PATH = "C:/Development/nginx-1.9.9/html/pmis/WEB_DOCUMENTS/";
-	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = "C:/Development/nginx-1.9.9/html/pmis/PROJECT_GALLERY/";
-	//public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = "C:/Development/nginx-1.9.9/html/pmis/ACTIVITY_PROGRESS_REPORTS/";
-	public final static String ACTIVITIES_UPLOAD_FILE_SAVING_PATH = "C:/Development/nginx-1.9.9/html/pmis/ACTIVITIES_UPLOAD_FILES/";
-	public final static String RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH = "C:/Development/nginx-1.9.9/html/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";
+	public final static String ISSUE_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"ISSUE_FILES"+File.separator;
+	public static final String SAFETY_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_FILES"+File.separator;
+	public static final String FOB_GALLERY_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"FOB_GALLERY"+File.separator;
+	public static final String USER_IMAGE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"USER_IMAGES"+File.separator;
+	public static final String DESIGN_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DESIGN_FILES"+File.separator;
+	public static final String P6_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"P6_FILES"+File.separator;
+	public static final String DOCX_LOGO = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/resources/images";
+	public final static String WEB_DOCUMENTS_FILE_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/WEB_DOCUMENTS/";
+	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/PROJECT_GALLERY/";
+	//public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/ACTIVITY_PROGRESS_REPORTS/";
+	public final static String ACTIVITIES_UPLOAD_FILE_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/ACTIVITIES_UPLOAD_FILES/";
+	public final static String RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";
 	
 	/*********** PRODUCTION ****************************************************/
 	

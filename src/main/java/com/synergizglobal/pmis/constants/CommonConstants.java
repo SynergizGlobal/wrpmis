@@ -54,24 +54,26 @@ public class CommonConstants {
 	
 	/*********** LOCAL ****************************************************/
 	
-	public final static String LOGIN_BACKGROUND_IMAGE = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"resources"+File.separator+"images"+File.separator;
+	public static String DIRECTORY_PATH = "E:";
+	
+	public final static String LOGIN_BACKGROUND_IMAGE = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"resources"+File.separator+"images"+File.separator;
 	public static String LOGIN_BACKGROUND_IMAGE_URL = "/pmis/resources/images/login-background.jpg";
 	public final static String CONTEXT_PATH = "http://localhost/pmis";
-	public final static String STRIPCHART_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"STRIPCHART_FILES"+File.separator;
-	public final static String WORK_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"WORK_FILES"+File.separator;
-	public final static String CONTRACT_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"CONTRACT_FILES"+File.separator;
-	public final static String DESIGN_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DESIGN_FILES"+File.separator;
-	public final static String SAFETYEQUIPMENT_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_EQUIPMENT_FILES"+File.separator;
-	public final static String BUDGET_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"BUDGET_FILES"+File.separator;
-	public final static String FUND_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"FUND_FILES"+File.separator;
-	public final static String DOCUMENT_FILES_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DOCUMENT_FILES"+File.separator;
-	public static final String SAFETY_INSTRUCTIONS_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_INSTRUCTIONS_FILES"+File.separator;
-	public final static String MANUAL_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"MANUAL_FILES"+File.separator;
-	public final static String PROJECT_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"PROJECT_FILES"+File.separator;
-	public final static String DELIVERABLES_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DELIVERABLES_FILES"+File.separator;
-	public final static String TRAINING_SESSION_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"TRAINING_SESSIONS"+File.separator;
-	public final static String LAND_ACQUISITION_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"LAND_ACQUISITION_FILES"+File.separator;
-	public final static String DESIGN_UPLOADED_FILE_SAVING_PATH = "C:/Development/nginx-1.9.9/html/pmis/DESIGN_UPLOADED_FILES/";
+	public final static String STRIPCHART_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"STRIPCHART_FILES"+File.separator;
+	public final static String WORK_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"WORK_FILES"+File.separator;
+	public final static String CONTRACT_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"CONTRACT_FILES"+File.separator;
+	public final static String DESIGN_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DESIGN_FILES"+File.separator;
+	public final static String SAFETYEQUIPMENT_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_EQUIPMENT_FILES"+File.separator;
+	public final static String BUDGET_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"BUDGET_FILES"+File.separator;
+	public final static String FUND_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"FUND_FILES"+File.separator;
+	public final static String DOCUMENT_FILES_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DOCUMENT_FILES"+File.separator;
+	public static final String SAFETY_INSTRUCTIONS_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_INSTRUCTIONS_FILES"+File.separator;
+	public final static String MANUAL_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"MANUAL_FILES"+File.separator;
+	public final static String PROJECT_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"PROJECT_FILES"+File.separator;
+	public final static String DELIVERABLES_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DELIVERABLES_FILES"+File.separator;
+	public final static String TRAINING_SESSION_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"TRAINING_SESSIONS"+File.separator;
+	public final static String LAND_ACQUISITION_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"LAND_ACQUISITION_FILES"+File.separator;
+	public final static String DESIGN_UPLOADED_FILE_SAVING_PATH = DIRECTORY_PATH+"/Development/nginx-1.9.9/html/pmis/DESIGN_UPLOADED_FILES/";
  
 	/*********** PRODUCTION ****************************************************/
 	

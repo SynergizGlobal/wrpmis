@@ -16,11 +16,11 @@ public interface FOBDao {
 
 	boolean deleteFOB(FOB obj) throws Exception;
 
-	/* List<FOB> contractListFromFOB() throws Exception; */
-
 	List<FOB> getWorkStatusList(FOB obj)throws Exception;
 
-	List<FOB> getContractsList(FOB obj)throws Exception;
+	public List<FOB> getWorksListForFilter(FOB obj) throws Exception;
+	
+	List<FOB> getContractsListForFilter(FOB obj)throws Exception;
 	
 	List<FOB> getProjectsListForFOBForm(FOB obj) throws Exception;
 
@@ -39,5 +39,11 @@ public interface FOBDao {
 	List<FOB> getFobFileTypesList(FOB obj) throws Exception;
 
 	List<FOB> getFobIdCheck(FOB obj) throws Exception;
+	
+	List<FOB> getFobDetailsLocations(FOB obj) throws Exception;
+
+	List<FOB> getFobDetailsTypes(FOB obj) throws Exception;
+
+	List<FOB> getResponsiblePeopleListForFOBForm(FOB obj) throws Exception;
 
 }

@@ -1,10 +1,11 @@
 package com.synergizglobal.pmis.IMPLdao;
 
 import java.io.File;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -25,13 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.FOBDao;
 import com.synergizglobal.pmis.common.CommonMethods;
-import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
-import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
-import com.synergizglobal.pmis.model.Contract;
-import com.synergizglobal.pmis.model.FOB;
-import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.FOB;
 
 @Repository
@@ -49,19 +46,17 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getFOBList(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "select fob_id,fob_name,f.contract_id_fk,c.contract_short_name,w.work_short_name,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,revised_completion,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
+			String qry = "select fob_id,fob_name,f.work_id_fk,w.work_short_name,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,revised_completion,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
 					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
 					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.last_sanctioned_cost as CHAR) as last_sanctioned_cost,cast(f.completion_cost as CHAR) as completion_cost,f.work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,"
-					+ "contract_name,c.work_id_fk,work_name,module_name_fk,month,status_as_on_month,w.project_id_fk,p.project_name "
+					+ "work_name,w.project_id_fk,p.project_name "
 					+ "from fob f "
-					+ "LEFT OUTER JOIN contract c ON f.contract_id_fk = c.contract_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "					
-					+ "LEFT OUTER JOIN work_status ws ON f.work_status_fk = ws.work_status_id "
+					+ "LEFT OUTER JOIN work w ON f.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "	
 					+ "where fob_id is not null " ;
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and f.contract_id_fk = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and f.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())) {
@@ -72,8 +67,8 @@ public class FOBDaoImpl implements FOBDao {
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())) {
 				pValues[i++] = obj.getWork_status_fk();
@@ -95,10 +90,10 @@ public class FOBDaoImpl implements FOBDao {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);		
 			
 			String qry = "INSERT INTO fob"
-					+ "(fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,commissioning_date,"
+					+ "(fob_id,fob_name,work_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,commissioning_date,"
 					+ "estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks) "
 					+ "VALUES "
-					+ "(:fob_id,:fob_name,:contract_id_fk,:date_of_approval,:target_date,:construction_start_date,:actual_completion_date,:commissioning_date,:" 
+					+ "(:fob_id,:fob_name,:work_id_fk,:date_of_approval,:target_date,:construction_start_date,:actual_completion_date,:commissioning_date,:" 
 					+ "estimated_cost,:completion_cost,:work_status_fk,:latitude,:longitude,:remarks)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
@@ -150,7 +145,7 @@ public class FOBDaoImpl implements FOBDao {
 				
 				
 					
-					String file_insert_qry = "INSERT into  fob_files ( fob_id_fk, attachment,fob_file_type_fk,created_date) VALUES (:fob_id,:attachment,:fob_file_type_fk,CURRENT_TIMESTAMP())";
+					String file_insert_qry = "INSERT into  fob_files ( fob_id_fk, attachment,created_date) VALUES (:fob_id,:attachment,:created_date)";
 					
 					int arraySize = 0;
 					if (!StringUtils.isEmpty(obj.getFobFileNames()) && obj.getFobFileNames().length > 0) {
@@ -159,29 +154,88 @@ public class FOBDaoImpl implements FOBDao {
 							arraySize = obj.getFobFileNames().length;
 						}
 					}
+					
+					if (!StringUtils.isEmpty(obj.getCreated_dates()) && obj.getCreated_dates().length > 0) {
+						obj.setCreated_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getCreated_dates()));
+						if (arraySize < obj.getCreated_dates().length) {
+							arraySize = obj.getCreated_dates().length;
+						}
+					}
 
-					if (!StringUtils.isEmpty(obj.getFob_file_types()) && obj.getFob_file_types().length > 0) {
+					/*if (!StringUtils.isEmpty(obj.getFob_file_types()) && obj.getFob_file_types().length > 0) {
 						obj.setFob_file_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_file_types()));
 						if (arraySize < obj.getFob_file_types().length) {
 							arraySize = obj.getFob_file_types().length;
 						}
-					}
+					}*/
 					for (int i = 0; i < arraySize; i++) {
 						MultipartFile multipartFile = obj.getFobFiles()[i];
 						if ((null != multipartFile && !multipartFile.isEmpty())) {
-							String saveDirectory = CommonConstants2.FOB_FILE_SAVING_PATH 
-									+ File.separator;
+							String saveDirectory = CommonConstants2.FOB_GALLERY_SAVING_PATH + obj.getFob_id() + File.separator;
 							String fileName = obj.getFobFileNames()[i];
 							if (null != multipartFile && !multipartFile.isEmpty()) {
 								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
 							}
 							FOB fileObj = new FOB();
 							fileObj.setAttachment(fileName);
-							fileObj.setFob_file_type_fk(obj.getFob_file_types()[i]);
+							//fileObj.setFob_file_type_fk(obj.getFob_file_types()[i]);
+							String created_date = obj.getCreated_dates()[i];
+							if(!StringUtils.isEmpty(created_date)) {
+								created_date = DateParser.parse(created_date);
+							}else {
+								SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+								created_date = sqlDate.format(new Date());
+							}
+							fileObj.setCreated_date(created_date);
 							fileObj.setFob_id(obj.getFob_id());
 							paramSource = new BeanPropertySqlParameterSource(fileObj);
 							namedParamJdbcTemplate.update(file_insert_qry, paramSource);
 						}
+					}
+					
+					
+					/********************************************************************/
+					
+					
+					if(!StringUtils.isEmpty(obj.getContract_id_fk())) {
+						String qry3 = "INSERT into fob_contract (fob_id_fk,contract_id_fk) VALUES (:fob_id_fk,:contract_id_fk)";
+						if(obj.getContract_id_fk().contains(",")) {
+							String[] ids = obj.getContract_id_fk().split(",");					
+							for (int i = 0; i < ids.length; i++) {
+								FOB fileObj = new FOB();
+								fileObj.setContract_id_fk(!StringUtils.isEmpty(ids[i])?ids[i]:null);
+								fileObj.setFob_id_fk(obj.getFob_id());
+								paramSource = new BeanPropertySqlParameterSource(fileObj);
+								namedParamJdbcTemplate.update(qry3, paramSource);
+							}			
+						}else {
+							FOB fileObj = new FOB();
+							fileObj.setContract_id_fk(obj.getContract_id_fk());
+							fileObj.setFob_id_fk(obj.getFob_id());
+							paramSource = new BeanPropertySqlParameterSource(fileObj);
+							namedParamJdbcTemplate.update(qry3, paramSource);
+						}		
+					}
+					
+
+					if(!StringUtils.isEmpty(obj.getResponsible_people_id_fk())) {
+						String qry3 = "INSERT into fob_responsible_people (fob_id_fk,responsible_people_id_fk) VALUES (:fob_id_fk,:responsible_people_id_fk)";
+						if(obj.getResponsible_people_id_fk().contains(",")) {
+							String[] ids = obj.getResponsible_people_id_fk().split(",");					
+							for (int i = 0; i < ids.length; i++) {
+								FOB fileObj = new FOB();
+								fileObj.setContract_id_fk(!StringUtils.isEmpty(ids[i])?ids[i]:null);
+								fileObj.setFob_id_fk(obj.getFob_id());
+								paramSource = new BeanPropertySqlParameterSource(fileObj);
+								namedParamJdbcTemplate.update(qry3, paramSource);
+							}			
+						} else {
+							FOB fileObj = new FOB();
+							fileObj.setResponsible_people_id_fk(obj.getResponsible_people_id_fk());
+							fileObj.setFob_id_fk(obj.getFob_id());
+							paramSource = new BeanPropertySqlParameterSource(fileObj);
+							namedParamJdbcTemplate.update(qry3, paramSource);
+						}		
 					}
 				
 			}
@@ -197,15 +251,13 @@ public class FOBDaoImpl implements FOBDao {
 	public FOB getFOB(FOB obj) throws Exception {
 		FOB fobj = null;
 		try {
-			String qry = "select fob_id,fob_name,f.contract_id_fk,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
+			String qry = "select fob_id,fob_name,f.work_id_fk,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
 					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
 					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.last_sanctioned_cost as CHAR) as last_sanctioned_cost,cast(f.completion_cost as CHAR) as completion_cost,f.work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,f.attachment,"
-					+ "contract_name,c.work_id_fk,work_name,module_name_fk,month,status_as_on_month,w.project_id_fk,p.project_name "
+					+ "work_name,w.project_id_fk,p.project_name "
 					+ "from fob f "
-					+ "LEFT OUTER JOIN contract c ON f.contract_id_fk = c.contract_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "					
-					+ "LEFT OUTER JOIN work_status ws ON f.work_status_fk = ws.work_status_id "
+					+ "LEFT OUTER JOIN work w ON f.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "
 					+ "where fob_id is not null " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id())) {
@@ -225,19 +277,43 @@ public class FOBDaoImpl implements FOBDao {
 			if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
 				List<FOB> objsList = null;
 				String qryFOBDetail = "select detail_name,value from fob_detail f where fob_id_fk = ? " ;
-				qryFOBDetail=qryFOBDetail+" and detail_name in('Type','Location of FOB','KM','FOB Length (m)','FOB Width (m)','Platforms Connecting','No. of Staircases','No. of Skywalk','Future Provision Escalators nos') order by field(detail_name,'Type','Location of FOB','KM','FOB Length (m)','FOB Width (m)','Platforms Connecting','No. of Staircases','No. of Skywalk','Future Provision Escalators nos')";
+				qryFOBDetail = qryFOBDetail + " and detail_name in('Type','Location of FOB','KM','FOB Length (m)','FOB Width (m)','Platforms Connecting','No. of Staircases','No. of Skywalk','Future Provision Escalators nos') order by field(detail_name,'Type','Location of FOB','KM','FOB Length (m)','FOB Width (m)','Platforms Connecting','No. of Staircases','No. of Skywalk','Future Provision Escalators nos')";
 				
 				objsList = jdbcTemplate.query(qryFOBDetail, new Object[] {fobj.getFob_id()}, new BeanPropertyRowMapper<FOB>(FOB.class));	
-				
+				if(StringUtils.isEmpty(objsList) || objsList.size() == 0) {
+					qryFOBDetail = "select detail_name from fob_detail f " ;
+					qryFOBDetail = qryFOBDetail + " where detail_name in('Type','Location of FOB','KM','FOB Length (m)','FOB Width (m)','Platforms Connecting','No. of Staircases','No. of Skywalk','Future Provision Escalators nos') "
+							+ "group by detail_name order by field(detail_name,'Type','Location of FOB','KM','FOB Length (m)','FOB Width (m)','Platforms Connecting','No. of Staircases','No. of Skywalk','Future Provision Escalators nos')";
+					
+					objsList = jdbcTemplate.query(qryFOBDetail, new Object[] {}, new BeanPropertyRowMapper<FOB>(FOB.class));
+				}
 				fobj.setFobDetails(objsList);
 			}
 			if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
 				List<FOB> objsList = null;
-				String qryFOBImages = "select id as fob_file_id, fob_id_fk, attachment, fob_file_type_fk, created_date from fob_files  where fob_id_fk = ? " ;
+				String qryFOBImages = "select id as fob_file_id,fob_id_fk,attachment,DATE_FORMAT(created_date,'%d-%m-%Y') as created_date from fob_files where fob_id_fk = ? " ;
 				
 				objsList = jdbcTemplate.query(qryFOBImages, new Object[] {fobj.getFob_id() }, new BeanPropertyRowMapper<FOB>(FOB.class));	
 				
 				fobj.setFobImages(objsList);
+			}
+			
+			if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
+				List<FOB> objsList = null;
+				String qryFOBResponsiblePeople = "select responsible_people_id_fk from fob_responsible_people where fob_id_fk = ? " ;
+				
+				objsList = jdbcTemplate.query(qryFOBResponsiblePeople, new Object[] {fobj.getFob_id() }, new BeanPropertyRowMapper<FOB>(FOB.class));	
+				
+				fobj.setResponsiblePeopleList(objsList);
+			}
+			
+			if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
+				List<FOB> objsList = null;
+				String qryFOBContracts = "select contract_id_fk from fob_contract where fob_id_fk = ? " ;
+				
+				objsList = jdbcTemplate.query(qryFOBContracts, new Object[] {fobj.getFob_id() }, new BeanPropertyRowMapper<FOB>(FOB.class));	
+				
+				fobj.setContractsList(objsList);
 			}
 			
 		}catch(Exception e){ 
@@ -254,7 +330,7 @@ public class FOBDaoImpl implements FOBDao {
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE fob set "
-					+ "fob_name = :fob_name,contract_id_fk = :contract_id_fk,date_of_approval = :date_of_approval,target_date = :target_date,construction_start_date = :construction_start_date,actual_completion_date = :actual_completion_date,commissioning_date = :commissioning_date,"
+					+ "fob_name = :fob_name,work_id_fk=:work_id_fk,date_of_approval = :date_of_approval,target_date = :target_date,construction_start_date = :construction_start_date,actual_completion_date = :actual_completion_date,commissioning_date = :commissioning_date,"
 					+"estimated_cost = :estimated_cost,completion_cost = :completion_cost,work_status_fk = :work_status_fk,latitude = :latitude,longitude = :longitude,remarks = :remarks "
 					+ "where fob_id = :fob_id";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -315,28 +391,30 @@ public class FOBDaoImpl implements FOBDao {
 						arraySize = obj.getFobFileNames().length;
 					}
 				}
+				if (!StringUtils.isEmpty(obj.getCreated_dates()) && obj.getCreated_dates().length > 0) {
+					obj.setCreated_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getCreated_dates()));
+					if (arraySize < obj.getCreated_dates().length) {
+						arraySize = obj.getCreated_dates().length;
+					}
+				}
 
-				if (!StringUtils.isEmpty(obj.getFob_file_types()) && obj.getFob_file_types().length > 0) {
+				/*if (!StringUtils.isEmpty(obj.getFob_file_types()) && obj.getFob_file_types().length > 0) {
 					obj.setFob_file_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_file_types()));
 					if (arraySize < obj.getFob_file_types().length) {
 						arraySize = obj.getFob_file_types().length;
 					}
-				}
+				}*/
 				
-				if (!StringUtils.isEmpty(obj.getFob_file_ids()) && obj.getFob_file_ids().length > 0) {
-					obj.setFob_file_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_file_ids()));
-					if (arraySize < obj.getFob_file_ids().length) {
-						arraySize = obj.getFob_file_ids().length;
-					}
-				}
 				String placeholders = "";
 				String fob_file_ids = "";
-				for (int i = 0; i < arraySize; i++) {
-					if(!StringUtils.isEmpty(obj.getFob_file_ids()[i])) {
-						placeholders = placeholders + "?,";
-						fob_file_ids = fob_file_ids + obj.getFob_file_ids()[i] + ",";
-					}
-				}  
+				if (!StringUtils.isEmpty(obj.getFob_file_ids()) && obj.getFob_file_ids().length > 0) {
+					for (int i = 0; i < obj.getFob_file_ids().length; i++) {
+						if(!StringUtils.isEmpty(obj.getFob_file_ids()[i])) {
+							placeholders = placeholders + "?,";
+							fob_file_ids = fob_file_ids + obj.getFob_file_ids()[i] + ",";
+						}
+					}  
+				}
 				
 				if (!StringUtils.isEmpty(placeholders)) {
 					placeholders = org.apache.commons.lang3.StringUtils.chop(placeholders);					
@@ -349,33 +427,99 @@ public class FOBDaoImpl implements FOBDao {
 					namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
 				}
 			
-				String insertFileQry = "INSERT into  fob_files ( fob_id_fk, attachment,fob_file_type_fk,created_date) VALUES (:fob_id,:attachment,:fob_file_type_fk,CURRENT_TIMESTAMP())";
-				String updateFileQry = "UPDATE fob_files set fob_id_fk=:fob_id,attachment=:attachment,fob_file_type_fk=:fob_file_type_fk WHERE id=:fob_file_id";
+				String insertFileQry = "INSERT into  fob_files ( fob_id_fk, attachment,created_date) VALUES (:fob_id,:attachment,:created_date)";
+				String updateFileQry = "UPDATE fob_files set fob_id_fk=:fob_id,attachment=:attachment,created_date=:created_date WHERE id=:fob_file_id";
 
 					
-					for (int i = 0; i < arraySize; i++) {
-						MultipartFile multipartFile = obj.getFobFiles()[i];
-						if ((null != multipartFile && !multipartFile.isEmpty())
-								|| !StringUtils.isEmpty(obj.getFobFileNames()[i])) {
-							String saveDirectory = CommonConstants2.FOB_FILE_SAVING_PATH+ File.separator;
-							String fileName = obj.getFobFileNames()[i];
-							String fob_file_id = obj.getFob_file_ids()[i];
-							if (null != multipartFile && !multipartFile.isEmpty()) {
-								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-							}
-							FOB fileObj = new FOB();
-							fileObj.setAttachment(fileName);
-							fileObj.setFob_file_type_fk(obj.getFob_file_types()[i]);
-							fileObj.setFob_file_id(fob_file_id);
-							fileObj.setFob_id(obj.getFob_id());
-							paramSource = new BeanPropertySqlParameterSource(fileObj);
-							if(!StringUtils.isEmpty(fob_file_id)) {
-								namedParamJdbcTemplate.update(updateFileQry, paramSource);
-							}else {
-								namedParamJdbcTemplate.update(insertFileQry, paramSource);
-							}
+				for (int i = 0; i < arraySize; i++) {
+					MultipartFile multipartFile = obj.getFobFiles()[i];
+					if ((null != multipartFile && !multipartFile.isEmpty())
+							|| !StringUtils.isEmpty(obj.getFobFileNames()[i])) {
+						String saveDirectory = CommonConstants2.FOB_GALLERY_SAVING_PATH + obj.getFob_id() + File.separator;
+						String fileName = obj.getFobFileNames()[i];
+						String fob_file_id = null;
+						if (!StringUtils.isEmpty(obj.getFob_file_ids()) && obj.getFob_file_ids().length > 0) {
+							fob_file_id = obj.getFob_file_ids()[i];
+						}
+						if (null != multipartFile && !multipartFile.isEmpty()) {
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+						}
+						
+						FOB fileObj = new FOB();
+						fileObj.setAttachment(fileName);
+						//fileObj.setFob_file_type_fk(obj.getFob_file_types()[i]);
+						String created_date = obj.getCreated_dates()[i];
+						if(!StringUtils.isEmpty(created_date)) {
+							created_date = DateParser.parse(created_date);
+						}else {
+							SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+							created_date = sqlDate.format(new Date());
+						}
+						fileObj.setCreated_date(created_date);
+						fileObj.setFob_file_id(fob_file_id);
+						fileObj.setFob_id(obj.getFob_id());
+						paramSource = new BeanPropertySqlParameterSource(fileObj);
+						if(!StringUtils.isEmpty(fob_file_id)) {
+							namedParamJdbcTemplate.update(updateFileQry, paramSource);
+						}else {
+							namedParamJdbcTemplate.update(insertFileQry, paramSource);
 						}
 					}
+				}
+				
+				
+				/********************************************************************/
+				
+				String deleteContractsQry = "DELETE from fob_contract where fob_id_fk = :fob_id";		 
+				paramSource = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteContractsQry, paramSource);
+				
+				
+				if(!StringUtils.isEmpty(obj.getContract_id_fk())) {
+					String qry3 = "INSERT into fob_contract (fob_id_fk,contract_id_fk) VALUES (:fob_id_fk,:contract_id_fk)";
+					if(obj.getContract_id_fk().contains(",")) {
+						String[] ids = obj.getContract_id_fk().split(",");					
+						for (int i = 0; i < ids.length; i++) {
+							FOB fileObj = new FOB();
+							fileObj.setContract_id_fk(!StringUtils.isEmpty(ids[i])?ids[i]:null);
+							fileObj.setFob_id_fk(obj.getFob_id());
+							paramSource = new BeanPropertySqlParameterSource(fileObj);
+							namedParamJdbcTemplate.update(qry3, paramSource);
+						}			
+					}else {
+						FOB fileObj = new FOB();
+						fileObj.setContract_id_fk(obj.getContract_id_fk());
+						fileObj.setFob_id_fk(obj.getFob_id());
+						paramSource = new BeanPropertySqlParameterSource(fileObj);
+						namedParamJdbcTemplate.update(qry3, paramSource);
+					}		
+				}
+				
+				String deleteResponsiblePeopleQry = "DELETE from fob_responsible_people where fob_id_fk = :fob_id";		 
+				paramSource = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteResponsiblePeopleQry, paramSource);
+
+				if(!StringUtils.isEmpty(obj.getResponsible_people_id_fk())) {
+					String qry3 = "INSERT into fob_responsible_people (fob_id_fk,responsible_people_id_fk) VALUES (:fob_id_fk,:responsible_people_id_fk)";
+					if(obj.getResponsible_people_id_fk().contains(",")) {
+						String[] ids = obj.getResponsible_people_id_fk().split(",");					
+						for (int i = 0; i < ids.length; i++) {
+							FOB fileObj = new FOB();
+							fileObj.setResponsible_people_id_fk(!StringUtils.isEmpty(ids[i])?ids[i]:null);
+							fileObj.setFob_id_fk(obj.getFob_id());
+							paramSource = new BeanPropertySqlParameterSource(fileObj);
+							namedParamJdbcTemplate.update(qry3, paramSource);
+						}			
+					} else {
+						FOB fileObj = new FOB();
+						fileObj.setResponsible_people_id_fk(obj.getResponsible_people_id_fk());
+						fileObj.setFob_id_fk(obj.getFob_id());
+						paramSource = new BeanPropertySqlParameterSource(fileObj);
+						namedParamJdbcTemplate.update(qry3, paramSource);
+					}		
+				}
+				
+				/*********************************************************************************/
 				
 			}
 			transactionManager.commit(status);
@@ -397,10 +541,11 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getWorkStatusList(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "SELECT work_status_fk from fob where work_status_fk is not null and work_status_fk <> ''  ";
+			String qry = "SELECT work_status_fk "
+					+ "from fob where work_status_fk is not null and work_status_fk <> ''  ";
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
-				qry = qry + " and contract_id_fk = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
+				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
@@ -410,8 +555,8 @@ public class FOBDaoImpl implements FOBDao {
 			qry = qry + "GROUP BY work_status_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
-				pValues[i++] = obj.getContract_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
 				pValues[i++] = obj.getWork_status_fk();
@@ -422,9 +567,43 @@ public class FOBDaoImpl implements FOBDao {
 		}
 		return objsList;
 	}
+	
+	@Override
+	public List<FOB> getWorksListForFilter(FOB obj) throws Exception {
+		List<FOB> objsList = null;
+		try {
+			String qry = "SELECT work_id_fk,work_name,work_short_name "
+					+ "from fob f " + 
+					"LEFT JOIN work w on f.work_id_fk = w.work_id "+
+					"where work_id_fk is not null ";
+			int arrSize = 0;
+		
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
+				qry = qry + " and work_status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + "GROUP BY work_id_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
+				pValues[i++] = obj.getWork_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
+				pValues[i++] = obj.getWork_id_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 
 	@Override
-	public List<FOB> getContractsList(FOB obj) throws Exception {
+	public List<FOB> getContractsListForFilter(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
 			String qry = "SELECT contract_id_fk,c.contract_name,c.contract_short_name from fob f " + 
@@ -674,14 +853,12 @@ public class FOBDaoImpl implements FOBDao {
 			String qry = "select fob_detail_id, fob_id_fk, detail_name, value "
 					+ "from fob_detail fd "
 					+ "LEFT OUTER JOIN fob f ON fd.fob_id_fk = f.fob_id "
-					+ "LEFT OUTER JOIN contract c ON f.contract_id_fk = c.contract_id "
-					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
-					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "					
-					+ "LEFT OUTER JOIN work_status ws ON f.work_status_fk = ws.work_status_id "
+					+ "LEFT OUTER JOIN work w ON f.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "
 					+ "where fob_id is not null " ;
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and f.contract_id_fk = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and f.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())) {
@@ -692,8 +869,8 @@ public class FOBDaoImpl implements FOBDao {
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())) {
 				pValues[i++] = obj.getWork_status_fk();
@@ -723,6 +900,42 @@ public class FOBDaoImpl implements FOBDao {
 		List<FOB> objsList = null;
 		try {
 			String qry = "select fob_id from fob ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<FOB> getFobDetailsLocations(FOB obj) throws Exception {
+		List<FOB> objsList = null;
+		try {
+			String qry = "select fob_details_location from fob_details_location ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<FOB> getFobDetailsTypes(FOB obj) throws Exception {
+		List<FOB> objsList = null;
+		try {
+			String qry = "select fob_details_type from fob_details_type ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<FOB> getResponsiblePeopleListForFOBForm(FOB obj) throws Exception {
+		List<FOB> objsList = null;
+		try {
+			String qry = "SELECT user_id,user_name,designation FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%'";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

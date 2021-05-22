@@ -237,15 +237,28 @@ public class FOBController {
 		return workStatusList;
 	}
 	
-	@RequestMapping(value = "/ajax/getContractsFilterListInFOB", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getWorksFilterListInFOB", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<FOB> getContractsList(@ModelAttribute FOB obj) {
-		List<FOB> contractsList = null;
+	public List<FOB> getWorksListForFilter(@ModelAttribute FOB obj) {
+		List<FOB> worksList = null;
 		try {
-			contractsList = fobService.getContractsList(obj);
+			worksList = fobService.getWorksListForFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getContractsList : " + e.getMessage());
+			logger.error("getWorksListForFilter : " + e.getMessage());
+		}
+		return worksList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsFilterListInFOB", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FOB> getContractsListForFilter(@ModelAttribute FOB obj) {
+		List<FOB> contractsList = null;
+		try {
+			contractsList = fobService.getContractsListForFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListForFilter : " + e.getMessage());
 		}
 		return contractsList;
 	}
@@ -264,8 +277,8 @@ public class FOBController {
 			List<FOB> projectsList = fobService.getProjectsListForFOBForm(obj);
 			model.addObject("projectsList", projectsList);
 			
-			List<FOB> fobFileTypesList = fobService.getFobFileTypesList(obj);
-			model.addObject("fobFileTypesList", fobFileTypesList);
+			/*List<FOB> fobFileTypesList = fobService.getFobFileTypesList(obj);
+			model.addObject("fobFileTypesList", fobFileTypesList);*/
 			
 			List<FOB> worksList = fobService.getWorkListForFOBForm(obj);
 			model.addObject("worksList", worksList);
@@ -273,8 +286,11 @@ public class FOBController {
 			List<FOB> contractsList = fobService.getContractsListForFOBForm(obj);
 			model.addObject("contractsList", contractsList);
 			
-			List<FOB> fobDetailsList = fobService.getFobDetailsList(obj);
-			model.addObject("fobDetailsList", fobDetailsList);
+			List<FOB> responsiblePeopleList = fobService.getResponsiblePeopleListForFOBForm(obj);
+			model.addObject("responsiblePeopleList", responsiblePeopleList);
+			
+			/*List<FOB> fobDetailsList = fobService.getFobDetailsList(obj);
+			model.addObject("fobDetailsList", fobDetailsList);*/
 			
 			List<String> generalStatusList = homeService.getGeneralStatusList();
 			model.addObject("generalStatusList", generalStatusList);
@@ -362,14 +378,26 @@ public class FOBController {
 			List<FOB> projectsList = fobService.getProjectsListForFOBForm(obj);
 			model.addObject("projectsList", projectsList);
 			
-			List<FOB> fobFileTypesList = fobService.getFobFileTypesList(obj);
-			model.addObject("fobFileTypesList", fobFileTypesList);
+			List<FOB> contractsList = fobService.getContractsListForFOBForm(obj);
+			model.addObject("contractsList", contractsList);
+			
+			List<FOB> responsiblePeopleList = fobService.getResponsiblePeopleListForFOBForm(obj);
+			model.addObject("responsiblePeopleList", responsiblePeopleList);
+			
+			/*List<FOB> fobFileTypesList = fobService.getFobFileTypesList(obj);
+			model.addObject("fobFileTypesList", fobFileTypesList);*/
 			
 			List<String> generalStatusList = homeService.getGeneralStatusList();
 			model.addObject("generalStatusList", generalStatusList);
 			
-			List<FOB> fobDetailsList = fobService.getFobDetailsList(obj);
-			model.addObject("fobDetailsList", fobDetailsList);
+			/*List<FOB> fobDetailsList = fobService.getFobDetailsList(obj);
+			model.addObject("fobDetailsList", fobDetailsList);*/
+			
+			List<FOB> fobDetailsLocations = fobService.getFobDetailsLocations(obj);
+			model.addObject("fobDetailsLocations", fobDetailsLocations);
+			
+			List<FOB> fobDetailsTypes = fobService.getFobDetailsTypes(obj);
+			model.addObject("fobDetailsTypes", fobDetailsTypes);
 			
 			FOB fob = fobService.getFOB(obj);
 			model.addObject("fob", fob);

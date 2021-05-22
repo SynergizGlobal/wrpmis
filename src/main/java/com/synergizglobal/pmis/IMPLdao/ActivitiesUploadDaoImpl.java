@@ -772,26 +772,29 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 	public List<Activity> getFOBContractsList(Activity obj) throws Exception {
 		List<Activity> objsList = null;
 		try {
-			String qry = "select fob_id from fob  "
+			/*String qry = "select fob_id from fob  "
 					+ "left join contract c on contract_id_fk = contract_id "
-					+ "WHERE contract_id_fk IS NOT NULL ";
+					+ "WHERE contract_id_fk IS NOT NULL ";*/
 			
-			int arrSize = 0;
+			String qry ="SELECT fob_id,fob_name FROM fob "
+					+ "where fob_id IN (select fob_id_fk from fob_contract where contract_id_fk = ?)";
+			
+			/*int arrSize = 0;
 				
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + "and contract_id_fk = ? ";
 				arrSize++;
 			}			
-		
+			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 						
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
-			}			
+			}		*/	
 			
-			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
+			objsList = jdbcTemplate.query( qry,new Object[]{obj.getContract_id_fk()}, new BeanPropertyRowMapper<Activity>(Activity.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

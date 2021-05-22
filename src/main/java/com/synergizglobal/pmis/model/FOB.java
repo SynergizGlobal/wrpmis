@@ -8,8 +8,44 @@ public class FOB {
 	private String fob_id,fob_name,id,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,
 	commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment,fob_detail_id,fob_id_fk,
 	detail_name,value,work_id_fk,project_id_fk,revised_completion,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost,
-	project_id,work_id,work_name,work_short_name,status,fob_file_type,fob_file_type_fk,fob_file_id;
+	project_id,work_id,work_name,work_short_name,status,fob_file_type,fob_file_type_fk,fob_file_id,fob_details_location,fob_details_type,
+	created_date,responsible_people_id_fk,user_id,user_name,designation;
 
+
+
+
+	private MultipartFile[] fobFiles;
+	private List<FOB> fobFilesList,contractsList,responsiblePeopleList;
+	private List<FOB> fobDetails;
+	private List<FOB> fobImages;
+	private String[] fob_id_fks,fobFileNames,fob_file_types,created_dates;
+	private String[] fob_detail_names,fob_detail_values,fob_file_ids;
+	
+	
+	
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
 
 	public String getFob_file_id() {
 		return fob_file_id;
@@ -18,13 +54,6 @@ public class FOB {
 	public void setFob_file_id(String fob_file_id) {
 		this.fob_file_id = fob_file_id;
 	}
-
-	private MultipartFile[] fobFiles;
-	private List<FOB> fobFilesList;
-	private List<FOB> fobDetails;
-	private List<FOB> fobImages;
-	private String[] fob_id_fks,fobFileNames,fob_file_types;
-	private String[] fob_detail_names,fob_detail_values,fob_file_ids;
 	
 
 
@@ -391,6 +420,62 @@ public class FOB {
 
 	public void setLast_sanctioned_cost(String last_sanctioned_cost) {
 		this.last_sanctioned_cost = last_sanctioned_cost;
+	}
+
+	public String getFob_details_location() {
+		return fob_details_location;
+	}
+
+	public void setFob_details_location(String fob_details_location) {
+		this.fob_details_location = fob_details_location;
+	}
+
+	public String getFob_details_type() {
+		return fob_details_type;
+	}
+
+	public void setFob_details_type(String fob_details_type) {
+		this.fob_details_type = fob_details_type;
+	}
+
+	public String[] getCreated_dates() {
+		return created_dates;
+	}
+
+	public void setCreated_dates(String[] created_dates) {
+		this.created_dates = created_dates;
+	}
+
+	public String getCreated_date() {
+		return created_date;
+	}
+
+	public void setCreated_date(String created_date) {
+		this.created_date = created_date;
+	}
+
+	public String getResponsible_people_id_fk() {
+		return responsible_people_id_fk;
+	}
+
+	public void setResponsible_people_id_fk(String responsible_people_id_fk) {
+		this.responsible_people_id_fk = responsible_people_id_fk;
+	}
+
+	public List<FOB> getContractsList() {
+		return contractsList;
+	}
+
+	public void setContractsList(List<FOB> contractsList) {
+		this.contractsList = contractsList;
+	}
+
+	public List<FOB> getResponsiblePeopleList() {
+		return responsiblePeopleList;
+	}
+
+	public void setResponsiblePeopleList(List<FOB> responsiblePeopleList) {
+		this.responsiblePeopleList = responsiblePeopleList;
 	}
 	
 }

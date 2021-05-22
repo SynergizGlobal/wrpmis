@@ -43,7 +43,10 @@ public class P6DataDaoImpl implements P6DataDao {
 	public List<P6Data> getFobList(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="SELECT fob_id,fob_name FROM fob where contract_id_fk = ?";
+			/*String qry ="SELECT fob_id,fob_name FROM fob where contract_id_fk = ?";*/
+			
+			String qry ="SELECT fob_id,fob_name FROM fob "
+					+ "where fob_id IN (select fob_id_fk from fob_contract where contract_id_fk = ?)";
 			
 			objsList = jdbcTemplate.query( qry,new Object[]{obj.getContract_id_fk()}, new BeanPropertyRowMapper<P6Data>(P6Data.class));	
 		}catch(Exception e){ 

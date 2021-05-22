@@ -50,8 +50,13 @@ public class FOBServiceImpl implements FOBService {
 	}
 
 	@Override
-	public List<FOB> getContractsList(FOB obj) throws Exception {
-		return fobDao.getContractsList(obj);
+	public List<FOB> getWorksListForFilter(FOB obj) throws Exception {
+		return fobDao.getWorksListForFilter(obj);
+	}
+	
+	@Override
+	public List<FOB> getContractsListForFilter(FOB obj) throws Exception {
+		return fobDao.getContractsListForFilter(obj);
 	}
 
 	@Override
@@ -97,6 +102,21 @@ public class FOBServiceImpl implements FOBService {
 	@Override
 	public List<FOB> getFobIdCheck(FOB obj) throws Exception {
 		return fobDao.getFobIdCheck(obj);
+	}
+
+	@Override
+	public List<FOB> getFobDetailsLocations(FOB obj) throws Exception {
+		return fobDao.getFobDetailsLocations(obj);
+	}
+
+	@Override
+	public List<FOB> getFobDetailsTypes(FOB obj) throws Exception {
+		return fobDao.getFobDetailsTypes(obj);
+	}
+
+	@Override
+	public List<FOB> getResponsiblePeopleListForFOBForm(FOB obj) throws Exception {
+		return fobDao.getResponsiblePeopleListForFOBForm(obj);
 	}
 
 }

@@ -87,7 +87,7 @@
 							<div class="col m3 hide-on-small-only"></div>
 							<div class="col m6 s12 ">
 								<div class="row" style="margin-bottom: 0;">
-									<div class="col s12 m4 input-field">
+									<!-- <div class="col s12 m4 input-field">
 										<p>
 											<label>Contract</label>
 										</p>
@@ -96,7 +96,19 @@
 											<option value="">Select</option>
 
 										</select>
+									</div> -->
+									
+									<div class="col s12 m4 input-field">
+										<p>
+											<label>Work</label>
+										</p>
+										<select id="work_id_fk" name="work_id_fk"
+											onchange="addInQueWork(this.value);getFOBList();" class="searchable">
+											<option value="">Select</option>
+
+										</select>
 									</div>
+									
 									<div class="col s12 m4 input-field">
 										<p>
 											<label>Work Status</label>
@@ -123,7 +135,7 @@
 									<thead>
 										<tr>
 											<th>Work</th>
-											<th class="fw-400">Contract</th>
+											<!-- <th class="fw-400">Contract</th> -->
 											<th>FOB ID</th>
 											<th>FOB Name</th>
 											<th>Work Status</th>
@@ -178,7 +190,7 @@
   
   
 	<form action="<%=request.getContextPath() %>/export-fobs" name="exportFOBForm" id="exportFOBForm" target="_blank" method="post">	
-        <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
+        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
         <input type="hidden" name="work_status_fk" id="exportWork_status_fk" />
 	</form>
 
@@ -205,42 +217,12 @@
   	        		  var temp2 = temp[i].split('=');
   		        	  if($.trim(temp2[0]) == 'work_status_fk' ){
   		        		getWorkStatusFilterList(temp2[1]);
-  		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
-  		        		getContractsFilterList(temp2[1]);
+  		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+  		        		getWorksFilterList(temp2[1]);
   		        	  }
   	        	  }
   	            }
               }
-          	
-            
-           	var table = $('#datatable-fob').DataTable({
-        		"bStateSave": true,
-        		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    },
-                    { orderable: false, 'aTargets': ['nosort'] },
-                    
-                ],
-                // "ScrollX": true,
-                //"scrollCollapse": true,
-                //"sScrollY": 400,
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
-        	table.state.clear(); 
     		
         	
         	$('.close-message').delay(3000).fadeOut('slow');
@@ -249,19 +231,19 @@
         });
         
         function clearFilter(){
-        	$("#contract_id_fk").val('');
+        	$("#work_id_fk").val('');
         	$("#work_status_fk").val('');
         	$(".searchable").select2();
         	window.localStorage.setItem("fobFilters",'');
         	getFOBList();
         }
         
-        function addInQueContract(contract_id_fk){
+        function addInQueWork(work_id_fk){
 	      	Object.keys(filtersMap).forEach(function (key) {
-		   		if(key.match('contract_id_fk')) delete filtersMap[key];
+		   		if(key.match('work_id_fk')) delete filtersMap[key];
 	   	   	});
-	      	if($.trim(contract_id_fk) != ''){
-            	filtersMap["contract_id_fk"] = contract_id_fk;
+	      	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
 	      	}
         }
         
@@ -411,9 +393,9 @@
         	$(".page-loader").show();
         	
         	getWorkStatusFilterList('');
-        	getContractsFilterList('');
+        	getWorksFilterList('');
         	
-        	var contract_id_fk = $("#contract_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
         	var work_status_fk = $("#work_status_fk").val();
         	
         	var filters = '';
@@ -443,7 +425,7 @@
                         className: 'mdl-data-table__cell--non-numeric'
                     },
                     { orderable: false, 'aTargets': ['nosort'] },
-                    { "width": "20px", "targets": [5] },
+                    { "width": "20px", "targets": [4] },
                 ],
                 // "ScrollX": true,
                 //"scrollCollapse": true,
@@ -457,7 +439,7 @@
             }).rows().remove().draw();
     		table.state.clear();		
     	 
-    	 	var myParams = {contract_id_fk : contract_id_fk, work_status_fk : work_status_fk};
+    	 	var myParams = {work_id_fk : work_id_fk, work_status_fk : work_status_fk};
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFOBList",
 	    			type:"POST",
 	    			data:myParams,cache: false,async:false,
@@ -469,11 +451,8 @@
     	                   	var rowArray = [];    	                  
     	                   	var workName = '';
                             if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
-                            var contract_name = '';
-                            if ($.trim(val.contract_short_name) != '') { contract_name = $.trim(val.contract_short_name) }
     	                   	
     	                   	rowArray.push( workName);
-    	                   	rowArray.push( contract_name);
     	                   	rowArray.push($.trim(val.fob_id));
     	                   	rowArray.push($.trim(val.fob_name)); 
     	                   	rowArray.push($.trim(val.work_status_fk));
@@ -523,7 +502,38 @@
             }
     	 }
         
-         function getContractsFilterList(contract_id){
+        function getWorksFilterList(work_id){
+    	 	$(".page-loader").show();
+    	 	var work_status_fk = $("#work_status_fk").val();
+    	 	var work_id_fk = $("#work_id_fk").val();
+    	    if ($.trim(work_id_fk) == "") {
+    	    	$("#work_id_fk option:not(:first)").remove();
+    	    	var myParams = {work_id_fk : work_id_fk,work_status_fk : work_status_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInFOB",
+                    data: myParams, cache: false,async: false,
+                    success: function (data) {
+                    	if(data != null && data != '' && data.length > 0){  
+                            $.each(data, function (i, val) {
+                            	 var work_short_name = '';
+                                 if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) }
+                                 var selectedFlag = (work_id == val.work_id_fk)?'selected':'';
+    	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+    	 }
+        
+         <%-- function getContractsFilterList(contract_id){
     	 	$(".page-loader").show();
     	 	var work_status_fk = $("#work_status_fk").val();
     	 	var contract_id_fk = $("#contract_id_fk").val();
@@ -552,7 +562,7 @@
             }else{
             	  $(".page-loader").hide();
             }
-    	 }
+    	 } --%>
         
       	//This function is used to get error message for all ajax calls
         function getErrorMessage(jqXHR, exception) {
@@ -582,10 +592,10 @@
     	}
         
         function exportFOB(){
-          	 var contract_id_fk = $("#contract_id_fk").val();
+          	 var work_id_fk = $("#work_id_fk").val();
           	 var work_status_fk = $("#work_status_fk").val();
           	 
-          	 $("#exportContract_id_fk").val(contract_id_fk);
+          	 $("#exportWork_id_fk").val(work_id_fk);
           	 $("#exportWork_status_fk").val(work_status_fk);
           	 $("#exportFOBForm").submit();
        	}

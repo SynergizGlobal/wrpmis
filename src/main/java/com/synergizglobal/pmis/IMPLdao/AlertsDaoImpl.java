@@ -946,6 +946,11 @@ public class AlertsDaoImpl implements AlertsDao{
 							if(!StringUtils.isEmpty(alerts.getRedirect_url())) {
 								String[] url_arr = alerts.getRedirect_url().split("=");
 								sub_work = url_arr[1];
+								
+								if(sub_work.contains("&assessment_date")) {
+									String[] url_arr2 = sub_work.split("&assessment_date");
+									sub_work = url_arr2[0];
+								}								
 							}
 							if(!StringUtils.isEmpty(sub_work)) {
 								String workQry = "select rwh.sub_work,rwh.work_id_fk as work_id,hod_user_id_fk,work_name,work_short_name "  
@@ -1100,7 +1105,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			String qry = "select alert_id,alert_level,alert_type_fk,created_date,alert_status,alert_value,count,u.designation as hod,"
 					+ "IFNULL(a.remarks,'') as remarks,redirect_url " 
 					+ "from alerts a "  
-					+ "left join risk_work_hod rwh on rwh.sub_work = REPLACE(a.redirect_url,'/risk-assessment?sub_work=','') "
+					+ "left join risk_work_hod rwh on ((rwh.sub_work = REPLACE(a.redirect_url,'/risk-assessment?sub_work=','')) "
+					+ "or (rwh.sub_work = substring_index(REPLACE(a.redirect_url,'/risk-atr-update?sub_work=',''), '&assessment_date=',1) )) "
 					+ "left join `user` u on rwh.hod_user_id_fk = u.user_id " 
 					+ "where alert_status = ? and count <> 0 and a.alert_type_fk = 'Risk' "
 					+ "order by hod,alert_level desc";
@@ -1117,6 +1123,11 @@ public class AlertsDaoImpl implements AlertsDao{
 					if(!StringUtils.isEmpty(alerts.getRedirect_url())) {
 						String[] url_arr = alerts.getRedirect_url().split("=");
 						sub_work = url_arr[1];
+						
+						if(sub_work.contains("&assessment_date")) {
+							String[] url_arr2 = sub_work.split("&assessment_date");
+							sub_work = url_arr2[0];
+						}	
 					}
 					if(!StringUtils.isEmpty(sub_work)) {
 						if(!StringUtils.isEmpty(sub_work)) {

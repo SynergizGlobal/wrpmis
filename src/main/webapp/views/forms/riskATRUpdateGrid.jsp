@@ -111,7 +111,7 @@
                              <div class="col m6 s12 offset-m3"> 
 								<div class="col s12 m4 input-field">
 	                                <p class="searchable_label">Work</p>
-	                                  <select id="sub_work" name="sub_work" onchange="addInQueSubWork(this.value);getRiskList();" class="searchable" required="required">
+	                                  <select id="sub_work" name="sub_work" onchange="addInQueSubWork(this.value);getAssessmentDatesFilterList(this.value);getRiskList();" class="searchable" required="required">
                                       	<option value="" >Select</option>	                                           
                                       </select>
 	                            </div>
@@ -123,7 +123,7 @@
 	                                 </select>
 	                            </div> -->
 	                            
-	                            <div class="col s12 m4 input-field">
+	                            <div class="col s12 m4 input-field" id="assessmentDatesDropdown" style="display: none;">
 	                                <p class="searchable_label">Assessment Date</p>
 	                                 <select id="assessment_date" name="assessment_date" onchange="addInQueAssessmentDate(this.value);getRiskList();" class="searchable">
 	                                            <option value="" >Select </option>	                                           
@@ -220,9 +220,16 @@
 	          
 	          //$('.close-message').delay(5000).fadeOut('slow');
 	          
+	          var sub_work = "${sub_work}";
+		      var assessment_date = "${assessment_date}";
+		          	
+	          
 	          var filters = window.localStorage.getItem("riskFilters");
 	          
-	          if($.trim(filters) != '' && $.trim(filters) != null){
+	          if($.trim(sub_work) != '' || $.trim(assessment_date) != ''){
+	        	  getSubWorksFilterList(sub_work);
+		          getAssessmentDatesFilterList(assessment_date);
+	          }else if($.trim(filters) != '' && $.trim(filters) != null){
 	        	  var temp = filters.split('^'); 
 	        	  for(var i=0;i< temp.length;i++){
 		        	  if($.trim(temp[i]) != '' ){
@@ -234,6 +241,9 @@
 			        	  }
 		        	  }
 		          }
+	          }else{
+	        	  getSubWorksFilterList(sub_work);
+		          getAssessmentDatesFilterList(assessment_date);
 	          }
 	          
 	          getRiskList();
@@ -242,12 +252,16 @@
         
         
         function clearFilters() {
+        	$("#assessmentDatesDropdown").hide();
             $('#sub_work').val('');
             $('#assessment_date').val('');
             $('.searchable').select2();
             //window.localStorage.clear();
             window.localStorage.setItem("riskFilters",'');
-            getRiskList();            
+        	
+            window.location.href = "<%=request.getContextPath()%>/risk-atr-update";
+            
+            //getRiskList();            
         }
         
         function addInQueSubWork(sub_work){
@@ -269,22 +283,11 @@
         }
         
         function getRiskList(){
-        	
         	$(".page-loader-2").show();
-
+        	
         	var sub_work = $("#sub_work").val();
-        	var assessment_date = $("#assessment_date").val();
-        	
-        	if($.trim(sub_work) == ''){
-        		sub_work = "${sub_work}";
-        	}
-        	if($.trim(assessment_date) == ''){
-        		assessment_date = "${assessment_date}";
-        	}
-        	
-        	getAssessmentDatesFilterList(assessment_date);
-        	getSubWorksFilterList(sub_work);
-        	
+	        var assessment_date = $("#assessment_date").val();
+	          	
         	var filters = '';
         	Object.keys(filtersMap).forEach(function (key) {
 	    		//alert(filtersMap[key]);
@@ -365,9 +368,9 @@
         	$(".page-loader").show();
         	var sub_work = $("#sub_work").val();
         	var assessment_date = $("#assessment_date").val();
-            if ($.trim(sub_work) == "") {
+            //if ($.trim(sub_work) == "") {
             	$("#sub_work option:not(:first)").remove();
-            	var myParams = {sub_work : sub_work,assessment_date : assessment_date};
+            	var myParams = {sub_work : sub_work};
             	$.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getSubWorksFilterListInRiskAssessmnt",
                     data: myParams, cache: false,async:false,
@@ -386,19 +389,20 @@
     	   	          	  getErrorMessage(jqXHR, exception);
     	   	     	  }
                 });
-            }else{
+            /* }else{
             	  $(".page-loader").hide();
-            }
+            } */
         }
         
         function getAssessmentDatesFilterList(date) {
+        	$("#assessment_date option:not(:first)").remove();
         	$(".page-loader").show();
         	var sub_work = $("#sub_work").val();
         	var assessment_date = $("#assessment_date").val();
         	
-        	
-            if ($.trim(assessment_date) == "") {            	
-            	$("#assessment_date option:not(:first)").remove();
+            if ($.trim(sub_work) != "") {            
+            	$("#assessmentDatesDropdown").show();
+            	/*$("#assessment_date option:not(:first)").remove();*/
         		var myParams = {sub_work : sub_work,assessment_date : assessment_date};
             	$.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getAssessmentDatesFilterListInRiskAssessment",

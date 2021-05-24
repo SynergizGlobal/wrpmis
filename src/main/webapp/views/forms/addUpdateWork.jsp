@@ -647,10 +647,10 @@
                                    
                                     <c:choose>
                                         <c:when test="${not empty workDetails.workRevisions && fn:length(workDetails.workRevisions) gt 0 }">
-                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(workDetails.workRevisions) }" />
+                                    		<input type="hidden" id="RevrowNo"  name="rowNo" value="${fn:length(workDetails.workRevisions) }" />
                                     	</c:when>
                                      	<c:otherwise>
-                                     		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                     		<input type="hidden" id="RevrowNo"  name="rowNo" value="0" />
                                      	</c:otherwise>
                                      </c:choose>  
                                 </div>
@@ -1069,7 +1069,7 @@
 
   	  function addRevisionRow(){
   		
-        var rowNo = $("#rowNo").val();
+        var rowNo = $("#RevrowNo").val();
         var rNo = Number(rowNo)+1;
         var total = 0;
        /*   $('select[name="financial_years"]').each(function(){
@@ -1103,7 +1103,7 @@
 			   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			 
 				 $('#revisionsTableBody').append(html);
-				 $("#rowNo").val(rNo);
+				 $("#RevrowNo").val(rNo);
 				// $('select').formSelect();
 				 $('.searchable').select2();
 				 $('.units').select2({dropdownCssClass : 'cost_dropdown'});

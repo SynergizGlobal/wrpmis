@@ -179,7 +179,10 @@ public class FOBDaoImpl implements FOBDao {
 							FOB fileObj = new FOB();
 							fileObj.setAttachment(fileName);
 							//fileObj.setFob_file_type_fk(obj.getFob_file_types()[i]);
-							String created_date = obj.getCreated_dates()[i];
+							String created_date = null;
+							if (!StringUtils.isEmpty(obj.getCreated_dates()) && obj.getCreated_dates().length > 0) {
+								created_date = obj.getCreated_dates()[i];
+							}
 							if(!StringUtils.isEmpty(created_date)) {
 								created_date = DateParser.parse(created_date);
 							}else {
@@ -448,7 +451,11 @@ public class FOBDaoImpl implements FOBDao {
 						FOB fileObj = new FOB();
 						fileObj.setAttachment(fileName);
 						//fileObj.setFob_file_type_fk(obj.getFob_file_types()[i]);
-						String created_date = obj.getCreated_dates()[i];
+						String created_date = null;
+						if (!StringUtils.isEmpty(obj.getCreated_dates()) && obj.getCreated_dates().length > 0) {
+							created_date = obj.getCreated_dates()[i];
+						}
+						
 						if(!StringUtils.isEmpty(created_date)) {
 							created_date = DateParser.parse(created_date);
 						}else {
@@ -935,7 +942,7 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getResponsiblePeopleListForFOBForm(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%'";
+			String qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

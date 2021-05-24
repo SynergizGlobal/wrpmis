@@ -192,8 +192,9 @@
                                   </select>
                                   <span id="railway_id_fkError"></span>
                                 </div>
+                                
                                 <div class="col s12 m4 input-field">
-                                <p class="searchable_label">Responsible People</p>
+                                <p class="searchable_label">Responsible Persons</p>
                                   <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" multiple="multiple" >
                                    <option value="" disabled="disabled">Select</option>
                                    <c:forEach var="obj" items="${responsiblePeopleList}">
@@ -1093,7 +1094,7 @@
 				 		required: false,
 				 		currentDate2:"#commissioning_date",
    				 		dateBefore2:"#construction_start_date",
-				 		dateBefore5:"#actual_completion_date"
+				 		/* dateBefore5:"#actual_completion_date" */
 				 	  },"actual_completion_date": {
 			 		    required: false,
 			 		    currentDate3:"#commissioning_date",

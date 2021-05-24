@@ -206,8 +206,8 @@
 									</select>
 								 </div>
                                 <div class="col s12 m3 input-field">
-                                    <input id="pink_book_item_numbers" class="validate" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }" maxlength="10"/>
-                                    <label for="pink_book_item_numbers" style="margin-top:5px">PB Item No </label>                                   
+                                    <input id="pink_book_item_numbers" class="validate" type="text" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }" maxlength="15"/>
+                                    <label for="pink_book_item_numbers">PB Item No </label>                                   
                                     <span  id="pink_book_item_numbersError"> </span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -486,7 +486,7 @@
 																<tr id="actionRow${index.count }">
 																	<td>
 																		<div class="input-field">
-																			<select  name="financial_years"  id="financial_years${index.count }"  class="validate-dropdown searchable">
+																			<select  name="financial_years"  id="financial_years${index.count }"  class="select searchable">
 							                                   					 <option value="" >Select</option>
 							                                         			  <c:forEach var="obj" items="${yearList}">
 							                    					  				 <option value="${obj.financial_year }" <c:if test="${pObj.financial_year_fk eq obj.financial_year}">selected</c:if>>${obj.financial_year}</option>
@@ -495,7 +495,7 @@
 																		</div>
 																	</td>
 																	<td><div class="input-field">
-																		<select  name="railways"  id="railways${index.count }"  class="validate-dropdown searchable">
+																		<select  name="railways"  id="railways${index.count }"  class="select searchable">
 						                                   					 <option value="" >Select</option>							                                         			  
 						                    					  			 <option value="WR" <c:if test="${pObj.railway eq 'WR'}">selected</c:if>>WR</option>
 						                    					  			 <option value="CR" <c:if test="${pObj.railway eq 'CR'}">selected</c:if>>CR</option>							                                       
@@ -503,7 +503,7 @@
 							                               				</div>
 																	</td>
 																	<td>
-																		<input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" class="validate" maxlength="10"  
+																		<input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" type="text" class="validate" maxlength="15"  
 	                                                        				placeholder="PB Item No" value="${pObj.pb_item_no }" autocomplete="off">
 	                                                        		</td>
 																	<td>
@@ -517,7 +517,7 @@
 															<tr id="actionRow0">
 																<td>
 																	<div class="input-field">
-																		<select  name="financial_years" id="financial_years0" class="validate-dropdown searchable">
+																		<select  name="financial_years" id="financial_years0" class="select searchable">
 						                                   					 <option value="" >Select</option>
 						                                         			  <c:forEach var="obj" items="${yearList}">
 						                    					  				 <option value="${obj.financial_year }">${obj.financial_year}</option>
@@ -526,7 +526,7 @@
 																	</div>
 																</td>
 																<td><div class="input-field">
-																		<select  name="railways"  id="railways0"  class="validate-dropdown searchable">
+																		<select  name="railways"  id="railways0"  class="select searchable">
 							                                   					  <option value="">Select</option>							                                         			 
 							                    					  				 <option value="WR">WR</option>
 							                    					  				 <option value="CR">CR</option>							                                          		
@@ -534,7 +534,7 @@
 							                               				</div>
 																	</td>																	
 																<td>
-																	<input id="pink_book_item_numbers0" name="pink_book_item_numbers" class="validate"  maxlength="10"
+																	<input id="pink_book_item_numbers0" name="pink_book_item_numbers" type="text" class="validate"  maxlength="15"
 	                                                        				placeholder="PB Item No" autocomplete="off">
 																</td>
 																<td>
@@ -560,11 +560,11 @@
 											<c:choose>
 												<c:when
 													test="${not empty (projectDetails.projectPinkBooks) && fn:length(projectDetails.projectPinkBooks) gt 0 }">
-													<input type="hidden" id="rowNo" name="rowNo"
+													<input type="hidden" id="PBRowNo" name="rowNo"
 														value="${fn:length(projectDetails.projectPinkBooks) }" />
 												</c:when>
 												<c:otherwise>
-													<input type="hidden" id="rowNo" name="rowNo" value="0" />
+													<input type="hidden" id="PBRowNo" name="rowNo" value="0" />
 												</c:otherwise>
 											</c:choose>
 										</div>
@@ -794,30 +794,32 @@
         
         
         function addPinkBookRow() {        	
-            var rowNo = $("#rowNo").val();
+            var rowNo = $("#PBRowNo").val();
             var rNo = Number(rowNo)+1;
             var html = '<tr id="actionRow' + rNo + '">'
             +'<td> <div class="input-field">'
-            +'<select name="financial_years" id="financial_years'+rNo+'"  class="validate-dropdown searchable" >'	   			
+            +'<select name="financial_years" id="financial_years'+rNo+'"  class="select searchable" >'	   			
 	   		   +'<option value="" >Select</option>'
 			     <c:forEach var="obj" items="${yearList}">
 	     	      +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
 			     </c:forEach>
 	   		   +'</select></div></td>'
 	   		   +'<td><div class="input-field">'
-	   		   +'<select  name="railways"  id="railways'+rNo+'"  class="validate-dropdown searchable">'
+	   		   +'<select  name="railways"  id="railways'+rNo+'"  class="select searchable">'
    					+'<option >Select</option>'         			
 		  				+' <option value="WR">WR</option>'     
 		  				+' <option value="CR">CR</option>' 
 					+'  </select>	  </div>		</td>'				
-			   +'<td><input  class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item No" maxlength="10""></td>'
+			   +'<td><input  class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" type="text" placeholder="PB Item No" maxlength="15""></td>'
 			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#pinkBookBody').append(html);
-            $("#rowNo").val(rNo);          	
+            $("#PBRowNo").val(rNo);          	
             
-            $('select:not(.searchable)').formSelect();
+            //$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
+
+
         }
         
         function removeActions(rowNo){

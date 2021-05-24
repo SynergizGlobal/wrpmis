@@ -86,26 +86,35 @@ public class ProjectDaoImpl implements ProjectDao {
 				project.setProject_status(resultSet.getString("project_status"));
 				project.setAttachment(resultSet.getString("attachment"));
 				project.setBenefits(resultSet.getString("benefits"));
-				project.setFinancial_year_fk(resultSet.getString("financial_year_fk"));
-				project.setPb_item_no(resultSet.getString("pb_item_no"));
-				String railway = null;
-				String pb_item_no = null;
-				if(!StringUtils.isEmpty(project.getPb_item_no())) {
-					pb_item_no = project.getPb_item_no().trim();
-					if(pb_item_no.contains("-")) {
-						String[] pb_item_no_temp = pb_item_no.split("-");
+				
+				if(!StringUtils.isEmpty(resultSet.getString("financial_year_fk"))) {
+					project.setFinancial_year_fk(resultSet.getString("financial_year_fk"));
+				}
+				String pbItemNo = resultSet.getString("pb_item_no");
+				
+				if(!StringUtils.isEmpty(pbItemNo)) {
+					String railway = null;
+					String pb_item_no = null;
+					if(pbItemNo.contains("-")) {
+						String[] pb_item_no_temp = pbItemNo.split("-");
 						if(pb_item_no_temp.length > 0) {
 							railway = pb_item_no_temp[0].trim();
 						}
 						if(pb_item_no_temp.length > 1) {
 							pb_item_no = pb_item_no_temp[1].trim();
 						}
-					}else if(pb_item_no.equals("CR") || pb_item_no.equals("WR")) {
-						railway = pb_item_no;
+					}else if(pbItemNo.equals("CR") || pbItemNo.equals("WR")) {
+						railway = pbItemNo;
+					}
+					
+					if(!StringUtils.isEmpty(railway)) {
+						project.setRailway(railway);
+					}
+					if(!StringUtils.isEmpty(pb_item_no)) {
+						project.setPb_item_no(pb_item_no);
 					}
 				}
-				project.setRailway(railway);
-				project.setPb_item_no(pb_item_no);
+				
 				
 				project.setProjectGalleryFilesList(getProjectGalleryFiles(project.getProject_id(),connection));
 				project.setProjectPinkBooks(getProjectPinkBooks(project.getProject_id(),connection));
@@ -384,9 +393,14 @@ public class ProjectDaoImpl implements ProjectDao {
 					for (int i = 0; i < arraySize; i++) {
 						if(!StringUtils.isEmpty(project.getFinancial_years()[i]) || !StringUtils.isEmpty(project.getPink_book_item_numbers()[i])) {
 							String pb_item_no = project.getPink_book_item_numbers()[i];
-							if(!StringUtils.isEmpty(project.getRailways()[i])) {
+							if(!StringUtils.isEmpty(project.getRailways()[i]) && !StringUtils.isEmpty(project.getPink_book_item_numbers()[i]) ) {
 								pb_item_no = project.getRailways()[i] + "-" + project.getPink_book_item_numbers()[i];
+							}else if(!StringUtils.isEmpty(project.getRailways()[i]) && StringUtils.isEmpty(project.getPink_book_item_numbers()[i]) ) {
+								pb_item_no = project.getRailways()[i] + "-";
+							}else if(StringUtils.isEmpty(project.getRailways()[i]) && !StringUtils.isEmpty(project.getPink_book_item_numbers()[i]) ) {
+								pb_item_no = project.getPink_book_item_numbers()[i];
 							}
+							
 							Project obj = new Project();
 							obj.setProject_id(project.getProject_id());
 							obj.setFinancial_year_fk(project.getFinancial_years()[i]);
@@ -538,8 +552,12 @@ public class ProjectDaoImpl implements ProjectDao {
 					for (int i = 0; i < arraySize; i++) {
 						if(!StringUtils.isEmpty(project.getFinancial_years()[i]) || !StringUtils.isEmpty(project.getPink_book_item_numbers()[i])) {
 							String pb_item_no = project.getPink_book_item_numbers()[i];
-							if(!StringUtils.isEmpty(project.getRailways()[i])) {
+							if(!StringUtils.isEmpty(project.getRailways()[i]) && !StringUtils.isEmpty(project.getPink_book_item_numbers()[i]) ) {
 								pb_item_no = project.getRailways()[i] + "-" + project.getPink_book_item_numbers()[i];
+							}else if(!StringUtils.isEmpty(project.getRailways()[i]) && StringUtils.isEmpty(project.getPink_book_item_numbers()[i]) ) {
+								pb_item_no = project.getRailways()[i] + "-";
+							}else if(StringUtils.isEmpty(project.getRailways()[i]) && !StringUtils.isEmpty(project.getPink_book_item_numbers()[i]) ) {
+								pb_item_no = project.getPink_book_item_numbers()[i];
 							}
 							Project obj = new Project();
 							obj.setProject_id(project.getProject_id());

@@ -482,7 +482,8 @@
 																		<a onclick="removeActions('${index.count }');" class="btn red"> 
 																			<i class="fa fa-close"></i></a>
 																	</td>
-																</tr>															
+																</tr>
+																															
 															</c:forEach>
 														</c:when>
 														<c:otherwise>
@@ -641,6 +642,114 @@
    	    	}
         })
     }); */
+    
+    
+    let date_pickers = document.querySelectorAll('.datepicker');
+    $.each(date_pickers, function(){
+    	var dt = this.value.split(/[^0-9]/);
+    	this.value = ""; 
+    	var options = {format: 'dd-mm-yyyy',autoClose:true,maxDate: new Date()};
+    	if(dt.length > 1){
+    		options.setDefaultDate = true,
+    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+    	}
+    	M.Datepicker.init(this, options);
+    });
+    
+	$(document).ready(function () {
+		$('select:not(.searchable):not(.units)').formSelect();
+        $('.searchable').select2();
+        $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
+        $('#remarks').characterCounter();
+        
+        $('#date_of_approval_icon').click(function () {
+            event.stopPropagation();
+            $('#date_of_approval').click();
+        });
+                     
+        $('#construction_start_date_icon').click(function () {
+            event.stopPropagation();
+            $('#construction_start_date').click();
+        });
+        
+              
+        $('#actual_completion_date_icon').click(function () {
+            event.stopPropagation();
+            $('#actual_completion_date').click();
+        });
+                            
+        $('#commissioning_date_icon').click(function () {
+            event.stopPropagation();
+            $('#commissioning_date').click();
+        });
+               
+        $('#target_date_icon').click(function () {
+            event.stopPropagation();
+            $('#target_date').click();
+        });
+        $('#target_date').datepicker({
+	       	 format: 'dd-mm-yyyy',
+	       	 autoClose:true,
+	       	 minDate: new Date(),
+        });
+        
+                       
+        var project_id_fk = "${fob.project_id_fk}";
+        if ($.trim(project_id_fk) != '') {
+            getWorksList(project_id_fk);
+        }
+        
+        var work_id_fk = "${fob.work_id_fk}";
+        if ($.trim(work_id_fk) != '') {
+        	getContractsList(work_id_fk);
+        }
+        
+        var work_status = "${fob.work_status_fk}";
+        if($.trim(work_status) != ''){
+        	if($.trim(work_status) == 'In Progress'){
+    			$("#construction_start_dateDiv").show();
+    			$("#commissioning_dateDiv").hide();
+    			$("#actual_completion_dateDiv").hide();
+    			
+    			$("#commissioning_date").val('');
+    			$("#actual_completion_date").val('');
+    			
+    		}else if($.trim(work_status) == 'Commissioned'){
+    			$("#construction_start_dateDiv").show();
+    			$("#commissioning_dateDiv").show();
+    			$("#actual_completion_dateDiv").hide();
+    			
+    			$("#actual_completion_date").val('');
+    		}else if($.trim(work_status) == 'Completed'){
+    			$("#construction_start_dateDiv").show();
+    			$("#commissioning_dateDiv").show();
+    			$("#actual_completion_dateDiv").show();
+    		}else{
+    			$("#construction_start_dateDiv").hide();
+    			$("#commissioning_dateDiv").hide();
+    			$("#actual_completion_dateDiv").hide();
+    			
+    			$("#construction_start_date").val('');
+    			$("#commissioning_date").val('');
+    			$("#actual_completion_date").val('');
+    		}
+        }
+        
+        var size = '${fn:length(fob.fobImages )}';
+        
+        if(size == 0){
+        	$("#created_dates0").datepicker({
+           	 	 format:'dd-mm-yyyy',
+    	       	 maxDate: new Date(),
+    	       	 onSelect: function () {
+      	    	    $('.confirmation-btns .datepicker-done').click();
+      	    	 }
+            }).datepicker("setDate", new Date());
+        }
+        
+        
+    });
+	
     var flag = false; 
     function doValidate(value){
  	   var print_value = value;	
@@ -772,105 +881,17 @@
         
         $("#created_dates"+rNo).datepicker({
         	 format:'dd-mm-yyyy',
-        	 autoClose:true,
-	       	 maxDate: new Date()
+	       	 maxDate: new Date(),
+	       	 onSelect: function () {
+   	    	    $('.confirmation-btns .datepicker-done').click();
+   	    	 }
         }).datepicker("setDate", new Date());        
     }
 	 function removeActions(rowNo){
      	$("#actionRow"+rowNo).remove();
      }
 
-    let date_pickers = document.querySelectorAll('.datepicker');
-    $.each(date_pickers, function(){
-    	var dt = this.value.split(/[^0-9]/);
-    	this.value = ""; 
-    	var options = {format: 'dd-mm-yyyy',autoClose:true,maxDate: new Date()};
-    	if(dt.length > 1){
-    		options.setDefaultDate = true,
-    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
-    	}
-    	M.Datepicker.init(this, options);
-    });
-	$(document).ready(function () {
-		$('select:not(.searchable):not(.units)').formSelect();
-        $('.searchable').select2();
-        $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
-        $('#remarks').characterCounter();
-        
-        $('#date_of_approval_icon').click(function () {
-            event.stopPropagation();
-            $('#date_of_approval').click();
-        });
-                     
-        $('#construction_start_date_icon').click(function () {
-            event.stopPropagation();
-            $('#construction_start_date').click();
-        });
-        
-              
-        $('#actual_completion_date_icon').click(function () {
-            event.stopPropagation();
-            $('#actual_completion_date').click();
-        });
-                            
-        $('#commissioning_date_icon').click(function () {
-            event.stopPropagation();
-            $('#commissioning_date').click();
-        });
-               
-        $('#target_date_icon').click(function () {
-            event.stopPropagation();
-            $('#target_date').click();
-        });
-        $('#target_date').datepicker({
-	       	 format: 'dd-mm-yyyy',
-	       	 autoClose:true,
-	       	 minDate: new Date(),
-        });
-        
-                       
-        var project_id_fk = "${fob.project_id_fk}";
-        if ($.trim(project_id_fk) != '') {
-            getWorksList(project_id_fk);
-        }
-        
-        var work_id_fk = "${fob.work_id_fk}";
-        if ($.trim(work_id_fk) != '') {
-        	getContractsList(work_id_fk);
-        }
-        
-        var work_status = "${fob.work_status_fk}";
-        if($.trim(work_status) != ''){
-        	if($.trim(work_status) == 'In Progress'){
-    			$("#construction_start_dateDiv").show();
-    			$("#commissioning_dateDiv").hide();
-    			$("#actual_completion_dateDiv").hide();
-    			
-    			$("#commissioning_date").val('');
-    			$("#actual_completion_date").val('');
-    			
-    		}else if($.trim(work_status) == 'Commissioned'){
-    			$("#construction_start_dateDiv").show();
-    			$("#commissioning_dateDiv").show();
-    			$("#actual_completion_dateDiv").hide();
-    			
-    			$("#actual_completion_date").val('');
-    		}else if($.trim(work_status) == 'Completed'){
-    			$("#construction_start_dateDiv").show();
-    			$("#commissioning_dateDiv").show();
-    			$("#actual_completion_dateDiv").show();
-    		}else{
-    			$("#construction_start_dateDiv").hide();
-    			$("#commissioning_dateDiv").hide();
-    			$("#actual_completion_dateDiv").hide();
-    			
-    			$("#construction_start_date").val('');
-    			$("#commissioning_date").val('');
-    			$("#actual_completion_date").val('');
-    		}
-        }
-        
-    });
+    
     
   //geting works list from database    
     function getWorksList(projectId) {

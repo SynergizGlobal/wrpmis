@@ -15,7 +15,8 @@ public class Issue {
 	dyHod_designation,pending_Since,other_org_resposible_person_name,other_org_resposible_person_designation,created_by;
 	
 	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,
-	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to,issue_file_type_fk,issue_file_type,issue_file_id,assigned_person_user_id_fk;
+	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to,issue_file_type_fk,issue_file_type,
+	issue_file_id,assigned_person_user_id_fk,total_issues,closed_issues,open_issues;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
@@ -25,6 +26,32 @@ public class Issue {
 	private String[] issueFileNames,attachemnts,issue_file_types,issue_file_ids;
 	private List<Issue> issueFilesList;
 	
+	
+	
+	public String getTotal_issues() {
+		return total_issues;
+	}
+
+	public void setTotal_issues(String total_issues) {
+		this.total_issues = total_issues;
+	}
+
+	public String getClosed_issues() {
+		return closed_issues;
+	}
+
+	public void setClosed_issues(String closed_issues) {
+		this.closed_issues = closed_issues;
+	}
+
+	public String getOpen_issues() {
+		return open_issues;
+	}
+
+	public void setOpen_issues(String open_issues) {
+		this.open_issues = open_issues;
+	}
+
 	public String getRemarks_old() {
 		return remarks_old;
 	}

@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.common;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBElement;
 
@@ -359,7 +360,7 @@ public class DocxTableCreation {
 	/***************************** ISSUES REPORT ****************************************************************/
 	
 	public static void createTableForPendingIssuesReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart t,
-			ObjectFactory factory, List<Issue> pendingIssues) {
+			ObjectFactory factory, Map<String,List<Issue>> pendingIssues) {
 		RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
 				true, false, false, false);
 		
@@ -384,16 +385,17 @@ public class DocxTableCreation {
 		if(!StringUtils.isEmpty(pendingIssues)) {
 			Tr titleRow = factory.createTr();		
 			List<String> tableHeader = new ArrayList<String>();
-			tableHeader.add("S\nNo");
+			tableHeader.add("S.N.");
 			tableHeader.add("Name of\nWork");
-			tableHeader.add("HOD");
+			//tableHeader.add("HOD");
 			tableHeader.add("Name of\ncontractor");
-			tableHeader.add("Location\n/Station\n/KM");
-			tableHeader.add("Reported\nBy");
+			tableHeader.add("Location");
+			//tableHeader.add("Reported\nBy");
+			tableHeader.add("Responsible\nPerson");
 			tableHeader.add("Pending\nWith");
-			tableHeader.add("Pending\nSince");
-			tableHeader.add("Issue / Action Taken / Remarks"); 
-			tableHeader.add("Person\nResponsible\nin MRVC\n(Assigned to)");  
+			tableHeader.add("Pending Since");
+			tableHeader.add("Remarks"); 
+			//tableHeader.add("Person\nResponsible\nin MRVC\n(Assigned to)");  
 			
 			for (String headerValue : tableHeader) {
 				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
@@ -401,82 +403,99 @@ public class DocxTableCreation {
 			}		
 			table.getContent().add(titleRow);
 			
-			int sNo = 1;
-			int rNo = 0;
-			for (Issue pObj : pendingIssues) {
-				rNo++;
+			int rNo = 1;
+			//for (Issue pObj : pendingIssues) {
+			for (Map.Entry<String,List<Issue>> entry : pendingIssues.entrySet()) {
 				boolean hasBgColor = false;
-				String backgroundColor = null;					
-				Tr contentRow = factory.createTr();					
+				String backgroundColor = null;			
 				
-				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_short_name(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getContractor_name(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getLocation(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getReported_by(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getOther_organization(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getDate(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getResponsible_person_designation(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				/*===========================================================*/
+				Tr hodTableRow = factory.createTr();
+				addTableCell(factory, wordMLPackage, hodTableRow, "HOD: "+entry.getKey(), boldRPr,
+						JcEnumeration.LEFT, false, null);
 				
-				table.getContent().add(contentRow);
+				for(int k = 1;k < 8;k++) {
+					addTableCell(factory, wordMLPackage, hodTableRow, "", boldRPr,
+							JcEnumeration.LEFT, false, null);
+				}				
+				table.getContent().add(hodTableRow);	
+				mergeCellsHorizontal(table, rNo++, 0, 7);
+				/*===========================================================*/
 				
-				if(!StringUtils.isEmpty(pObj.getRemarks())) {
-					Tr contentRow2 = factory.createTr();					
+				int sNo = 1;
+				for (Issue pObj : entry.getValue()) {
+					Tr contentRow = factory.createTr();					
 					
-					addTableCell(factory, wordMLPackage, contentRow2, "",
+					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
 							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow2, "",
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_short_name(),
 							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow2, "",
-							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow2, "",
+					/*addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getContractor_name(),
 							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-					addTableCell(factory, wordMLPackage, contentRow2, "",
-							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-					/*addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
-							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	*/		
-					addTableCell(factory, wordMLPackage, contentRow2, "",
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getLocation(),
 							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
-					addTableCell(factory, wordMLPackage, contentRow2, "",
-							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
-					/*addTableCell(factory, wordMLPackage, contentRow, pObj.getPending_since(),
-							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
-					addTableCell(factory, wordMLPackage, contentRow2, "",
+					/*addTableCell(factory, wordMLPackage, contentRow, pObj.getReported_by(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	*/	
+	
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getResponsible_person_designation(),
 							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow2, pObj.getRemarks(),
-							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					/*addTableCell(factory, wordMLPackage, contentRow2, pObj.getStatus_fk(),
-							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
-					addTableCell(factory, wordMLPackage, contentRow2, "",
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getOther_organization(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getDate(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure(),
 							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 					
-					table.getContent().add(contentRow2);
-					mergeCellsVertically(table, 0, (rNo), (rNo+1));
-					mergeCellsVertically(table, 1, (rNo), (rNo+1));
-					mergeCellsVertically(table, 2, (rNo), (rNo+1));
-					mergeCellsVertically(table, 3, (rNo), (rNo+1));
-					mergeCellsVertically(table, 4, (rNo), (rNo+1));
-					mergeCellsVertically(table, 5, (rNo), (rNo+1));
-					mergeCellsVertically(table, 6, (rNo), (rNo+1));
-					mergeCellsVertically(table, 7, (rNo), (rNo+1));
-					if(StringUtils.isEmpty(pObj.getCorrective_measure())) {
-						mergeCellsVertically(table, 8, (rNo), (rNo+1));
+					
+					table.getContent().add(contentRow);
+					
+					if(!StringUtils.isEmpty(pObj.getRemarks())) {
+						Tr contentRow2 = factory.createTr();					
+						
+						addTableCell(factory, wordMLPackage, contentRow2, "",
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow2, "",
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						/*addTableCell(factory, wordMLPackage, contentRow2, "",
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+						addTableCell(factory, wordMLPackage, contentRow2, "",
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+						addTableCell(factory, wordMLPackage, contentRow2, "",
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+						/*addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	*/		
+						/*addTableCell(factory, wordMLPackage, contentRow2, "",
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	*/	
+						addTableCell(factory, wordMLPackage, contentRow2, "",
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
+						/*addTableCell(factory, wordMLPackage, contentRow, pObj.getPending_since(),
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+						addTableCell(factory, wordMLPackage, contentRow2, "",
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						/*addTableCell(factory, wordMLPackage, contentRow2, pObj.getStatus_fk(),
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+						addTableCell(factory, wordMLPackage, contentRow2, "",
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow2, pObj.getRemarks(),
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						
+						table.getContent().add(contentRow2);
+						mergeCellsVertically(table, 0, (rNo), (rNo+1));
+						mergeCellsVertically(table, 1, (rNo), (rNo+1));
+						//mergeCellsVertically(table, 2, (rNo), (rNo+1));
+						mergeCellsVertically(table, 2, (rNo), (rNo+1));
+						mergeCellsVertically(table, 3, (rNo), (rNo+1));
+						//mergeCellsVertically(table, 5, (rNo), (rNo+1));
+						mergeCellsVertically(table, 4, (rNo), (rNo+1));
+						mergeCellsVertically(table, 5, (rNo), (rNo+1));
+						mergeCellsVertically(table, 6, (rNo), (rNo+1));
+						if(StringUtils.isEmpty(pObj.getCorrective_measure())) {
+							mergeCellsVertically(table, 7, (rNo), (rNo+1));
+						}
+						rNo++;
 					}
-					
-					mergeCellsVertically(table, 9, (rNo), (rNo+1));
-					
 					rNo++;
 				}
 			}			
@@ -1603,6 +1622,95 @@ public class DocxTableCreation {
             }  
         }  
     }
+
+
+	public static void createTableForIssuesSummaryReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart t,
+			ObjectFactory factory, List<Issue> issuesCounts) {
+		RPr titleRpr = getRPr(factory, "Calibri", "000000", "30", STHint.EAST_ASIA,
+				true, false, false, false);
+		
+		RPr contentRpr = getRPr(factory, "Calibri", "000000", "25",
+				STHint.EAST_ASIA, false, false, false, false);
+		
+		RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
+				STHint.EAST_ASIA, true, false, false, false);	
+		
+		RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
+				true, true, false, false);
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "25", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
+				false, false, false, false);		
+		
+		Tbl table = factory.createTbl();
+		addBorders(table, "2");
+		
+		/****************************************************************************/
+		
+		Tr titleRow = factory.createTr();		
+		List<String> tableHeader = new ArrayList<String>();
+		tableHeader.add("S.N.");
+		tableHeader.add("HOD");
+		tableHeader.add("Total Issues");
+		tableHeader.add("Closed Issues");
+		tableHeader.add("Open Issues"); 
+		
+		for (String headerValue : tableHeader) {
+			addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+		}		
+		table.getContent().add(titleRow);
+		
+		int total_issues = 0, closed_issues = 0, open_issues = 0;
+		if(!StringUtils.isEmpty(issuesCounts) && issuesCounts.size() > 0) {
+			int sNo = 1;
+			for (Issue iObj : issuesCounts) {
+				Tr contentRow = factory.createTr();					
+				boolean hasBgColor = false;
+				String backgroundColor = null;
+				
+				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, iObj.getDesignation(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, iObj.getTotal_issues(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+				addTableCell(factory, wordMLPackage, contentRow, iObj.getClosed_issues(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
+				addTableCell(factory, wordMLPackage, contentRow, iObj.getOpen_issues(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				
+				table.getContent().add(contentRow);
+				
+				total_issues += Integer.parseInt(iObj.getTotal_issues()); 
+				closed_issues += Integer.parseInt(iObj.getClosed_issues()); 
+				open_issues += Integer.parseInt(iObj.getOpen_issues()); 
+			}		
+			
+			Tr contentRow = factory.createTr();					
+			boolean hasBgColor = false;
+			String backgroundColor = null;
+			
+			addTableCell(factory, wordMLPackage, contentRow, "Total",
+					boldRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+			addTableCell(factory, wordMLPackage, contentRow, "",
+					boldRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+			addTableCell(factory, wordMLPackage, contentRow, String.valueOf(total_issues),
+					boldRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+			addTableCell(factory, wordMLPackage, contentRow, String.valueOf(closed_issues),
+					boldRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
+			addTableCell(factory, wordMLPackage, contentRow, String.valueOf(open_issues),
+					boldRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+			table.getContent().add(contentRow);
+			
+			int size = issuesCounts.size()+1;
+			mergeCellsHorizontal(table, size, 0, 1);
+		}
+		/****************************************************************************************/			
+		
+		setTableAlign(factory, table, JcEnumeration.CENTER);
+		t.addObject(table);
+	}
     
     
 

@@ -405,6 +405,118 @@ public class EMailSender {
 		 }
 		
 	}
+	
+	public void sendEmailWithIssuesReportsAttachment(String recipients,String cc, String bcc, String subject, 
+			String body,String open_issues_file_name,String issues_summary_file_name, String file_extention, byte[] open_issues_byte_array, byte[] issues_summary_byte_array) {
+		 
+		 try {
+			 // create a message
+			 MimeMessage message = new MimeMessage( getSession() );
+			 DataSource ds = null;
+			 message.setFrom(new InternetAddress(mailId));
+			 
+			 if(!StringUtils.isEmpty(recipients)) {
+				 ArrayList<String> recipientsArray = new ArrayList<String>();
+				 StringTokenizer stringTokenizer = new StringTokenizer(recipients, ",");
+				 
+				 while (stringTokenizer.hasMoreTokens()) {
+					 recipientsArray.add(stringTokenizer.nextToken());
+				 }
+				 int sizeTo = recipientsArray.size();
+				 InternetAddress[] addressTo = new InternetAddress[sizeTo];
+				 for (int i = 0; i < sizeTo; i++) {
+					 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
+				 }	 
+				 message.setRecipients(Message.RecipientType.TO, addressTo);
+			 }
+			 /*********************************************************************/
+			 
+			 if(!StringUtils.isEmpty(cc)) {
+				 ArrayList<String> ccRecipientsArray = new ArrayList<String>();
+				 StringTokenizer ccStringTokenizer = new StringTokenizer(cc, ",");
+				 
+				 while (ccStringTokenizer.hasMoreTokens()) {
+					 ccRecipientsArray.add(ccStringTokenizer.nextToken());
+				 }
+				 int sizeCC = ccRecipientsArray.size();
+				 InternetAddress[] addressCC = new InternetAddress[sizeCC];
+				 for (int i = 0; i < sizeCC; i++) {
+					 addressCC[i] = new InternetAddress(ccRecipientsArray.get(i).toString());
+				 }
+				 message.setRecipients(Message.RecipientType.CC, addressCC);
+			 }
+			 
+			 /*********************************************************************/
+			  
+			  if(!StringUtils.isEmpty(bcc)) {
+				  ArrayList<String> bccArray = new ArrayList<String>();
+				  StringTokenizer stringTokenizerBcc = new StringTokenizer(bcc, ",");
+				 
+				  while (stringTokenizerBcc.hasMoreTokens()) {
+					  bccArray.add(stringTokenizerBcc.nextToken());
+				  }
+				  int sizeBcc = bccArray.size();
+				  InternetAddress[] addressBcc = new InternetAddress[sizeBcc];
+				  for (int i = 0; i < sizeBcc; i++) {
+					  addressBcc[i] = new InternetAddress(bccArray.get(i).toString());
+				  }	 
+				  message.setRecipients(Message.RecipientType.BCC, addressBcc);
+			  }
+			  /*********************************************************************/
+			  
+			 message.setSubject(subject);
+			 
+			 // create and fill the first message part
+			 MimeBodyPart mimeBodyPart1 = new MimeBodyPart();
+			 mimeBodyPart1.setText(body);
+			 
+			 // Open issues attachment part
+			 MimeBodyPart mimeBodyPart2 = new MimeBodyPart();
+			 try{
+				 ds = new ByteArrayDataSource(open_issues_byte_array, "application/msword");
+			 }catch (Exception ioe ){			
+				 logger.error("sendEmailWithAttachment >> "+ioe.getMessage());
+			 }
+			 DataHandler dh = new DataHandler(ds);
+			 mimeBodyPart2.setHeader("Content-Disposition", "attachment;filename="+open_issues_file_name+"."+file_extention);
+			 mimeBodyPart2.setDataHandler(dh);
+			 mimeBodyPart2.setFileName(open_issues_file_name+"."+file_extention);
+			 
+			// Issues summary attachment part
+			 MimeBodyPart mimeBodyPart3 = new MimeBodyPart();
+			 try{
+				 ds = new ByteArrayDataSource(issues_summary_byte_array, "application/msword");
+			 }catch (Exception ioe ){			
+				 logger.error("sendEmailWithAttachment >> "+ioe.getMessage());
+			 }
+			 DataHandler dh2 = new DataHandler(ds);
+			 mimeBodyPart3.setHeader("Content-Disposition", "attachment;filename="+issues_summary_file_name+"."+file_extention);
+			 mimeBodyPart3.setDataHandler(dh2);
+			 mimeBodyPart3.setFileName(issues_summary_file_name+"."+file_extention);
+			 
+			 /*****************************************************************************************/
+			 
+			 // create the Multipart and add its parts to it
+			 Multipart multiPart = new MimeMultipart();
+			 multiPart.addBodyPart(mimeBodyPart1);
+			 multiPart.addBodyPart(mimeBodyPart2);
+			 multiPart.addBodyPart(mimeBodyPart3);
+			 
+			 // add the Multipart to the message
+			 message.setContent(multiPart);
+			 
+			 // set the Date: header
+			 message.setSentDate(new Date());
+			 
+			 // send the message
+			 Transport.send(message);
+			 
+		 }catch (MessagingException mex) {
+			 mex.printStackTrace();
+			 logger.error("sendEmailWithAttachment >> "+mex);
+		 }
+		
+	}
 
 	public void sendEmailWithRiskAlerts(Mail mail, List<Alerts> alerts, String today_date, String current_year) throws Exception {
 		try {

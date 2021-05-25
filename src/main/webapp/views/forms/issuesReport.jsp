@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <!--  <title>PMIS Report - Pending Issues</title> -->
-    <title>Issues Reports - Reports - PMIS</title>
+    <title>Issues Reports - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -113,7 +113,7 @@
                         <div class="row no-mar">
                             <div class="col m3 hide-on-small-only"></div>
                             <div class="col m7 s12">
-                            	<form action="<%=request.getContextPath() %>/generate-issues-report" id="reportForm" name="reportForm" method="post">
+                            	<form id="reportForm" name="reportForm" method="post">
 	                                <div class="row">
 	                                    <div class="col s12 m3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
@@ -140,17 +140,22 @@
 	                                </div>    
 	                                <div class="row">
 	                                	
-	                                    <div class="col s12 m3 input-field offset-m2">
+	                                    <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-s waves-effect waves-light t-c" type="button"
-	                                            style="margin-top: 6px; font-weight: 600; min-width:160px"
+	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="clearFilter()">Clear Filter</button>
 	                                    </div>
 	                                    <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px; font-weight: 600; min-width:160px"
-	                                            onclick="generateReport()">Generate
-	                                            Report</button>
+	                                            style="margin-top: 6px; font-weight: 600;"
+	                                            onclick="generatePendingIssuesReport()">Pending Issues</button>
 	                                    </div>
+	                                    <div class="col s12 m3 input-field">
+	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
+	                                            style="margin-top: 6px; font-weight: 600;"
+	                                            onclick="generateIssuesSummaryReport()">Issues Summary</button>
+	                                    </div>
+	                                    
 	                                </div>                            
                                 </form>
                             </div>
@@ -291,9 +296,14 @@
             });
         }
         
-        function generateReport() {
+        function generatePendingIssuesReport() {
         	//$(".page-loader").show();
-        	$("#reportForm").submit();
+        	$('#reportForm').attr('action', '<%=request.getContextPath() %>/generate-pending-issues-report').submit();
+		}
+        
+        function generateIssuesSummaryReport() {
+        	//$(".page-loader").show();
+        	$('#reportForm').attr('action', '<%=request.getContextPath() %>/generate-issues-summary-report').submit();
 		}
         
         

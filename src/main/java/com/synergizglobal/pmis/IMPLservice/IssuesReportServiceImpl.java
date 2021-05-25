@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.IMPLservice;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,13 +32,18 @@ public class IssuesReportServiceImpl implements IssuesReportService{
 	}
 
 	@Override
-	public List<Issue> getPendingIssues(Issue obj) throws Exception {
+	public Map<String,List<Issue>> getPendingIssues(Issue obj) throws Exception {
 		return issueDao.getPendingIssues(obj);
 	}
 
 	@Override
 	public String getEmailIdsOfHodDyHodManagement() throws Exception {
 		return issueDao.getEmailIdsOfHodDyHodManagement();
+	}
+
+	@Override
+	public List<Issue> getIssuesSummaryData(Issue obj) throws Exception {
+		return issueDao.getIssuesSummaryData(obj);
 	}
 
 }

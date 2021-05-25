@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -154,7 +155,7 @@ public class IssuesReportController {
 		return objsList;
 	}
 	
-	@RequestMapping(value = "/generate-issues-report", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/generate-pending-issues-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatePendingIssuesReport(@ModelAttribute Issue obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/issues-report");
 		try{            
@@ -178,11 +179,11 @@ public class IssuesReportController {
         //ObjectFactory objectFactory = new ObjectFactory();
 		boolean flag = false;
 		try{			
-			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh.mm aa"); 
 			String report_created_date = df.format(new Date()); 
 			
 			obj.setStatus_fk("Closed");
-			List<Issue> pendingIssues = issueService.getPendingIssues(obj);
+			Map<String,List<Issue>> pendingIssues = issueService.getPendingIssues(obj);
 			
 			boolean landscape = true;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
@@ -196,11 +197,13 @@ public class IssuesReportController {
 			
 			int issue_count = 0;
 			if(pendingIssues != null ) {
-				issue_count = pendingIssues.size();
+				for (List<Issue> list : pendingIssues.values()) {
+					issue_count += list.size();
+				}
 			}
 			String headerTextMiddle = "PMIS Report - Pending Issues ("+issue_count+" Nos)";
 			
-			String headerTextRight = "Date : " + report_created_date;
+			String headerTextRight = report_created_date;
 			
 			//String headerText = "PMIS Report - Pending Issues";
 			
@@ -219,7 +222,7 @@ public class IssuesReportController {
 				byteArray = bos.toByteArray();
 				InputStream targetStream = new ByteArrayInputStream(byteArray);
 				String FILE_EXTENSION = ".docx";
-				String fileName = "Issues Report - " + currentDate + FILE_EXTENSION;
+				String fileName = "Pending Issues Report - " + currentDate + FILE_EXTENSION;
 				
 				response.setContentType("application/.csv");
 				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -932,78 +935,222 @@ public class IssuesReportController {
 
 	public boolean sendMailWithOpenIssues(Issue obj) {
 		//XWPFDocument document = new XWPFDocument(); 
-				//StringBuilder repositoryExcerpts = new StringBuilder(); 
-				byte[] byteArray;        
-		        //ObjectFactory objectFactory = new ObjectFactory();
-				boolean flag = false;
-				try{			
-					DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
-					String report_created_date = df.format(new Date()); 
-					
-					obj.setStatus_fk("Closed");
-					List<Issue> pendingIssues = issueService.getPendingIssues(obj);
-					
-					boolean landscape = true;
-					WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
-					
-					MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
-					ObjectFactory factory = Context.getWmlObjectFactory();
-					
-					String imagePath = null;
-					
-					JcEnumeration imageAlignment = JcEnumeration.LEFT;
-					
-					int issue_count = 0;
-					if(pendingIssues != null ) {
-						issue_count = pendingIssues.size();
-					}
-					String headerTextMiddle = "PMIS Report - Pending Issues ("+issue_count+" Nos)";
-					
-					//String headerTextRight = "Date : " + report_created_date;
-					
-					String headerTextRight = "";
-					
-					//String headerText = "PMIS Report - Pending Issues";
-					
-					Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);
-					//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
-								 
-					createHeaderReference(wordMLPackage, mp, factory, relationship);
-					relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
-					createFooterReference(wordMLPackage, mp, factory, relationship);
-					 			  
-					DocxTableCreation.createTableForPendingIssuesReport(wordMLPackage, mp, factory,pendingIssues);
-			    	  
-								
-					try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
-						wordMLPackage.save(bos);
-						byteArray = bos.toByteArray();
-						String file_extention = "docx";
-						String attachment_file_name = "Issues-Report";
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		boolean flag = false;
+		try{			
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh.mm aa"); 
+			String report_created_date = df.format(new Date()); 
+			
+			obj.setStatus_fk("Closed");
+			Map<String,List<Issue>> pendingIssues = issueService.getPendingIssues(obj);
+			
+			boolean landscape = true;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			String imagePath = null;
+			
+			JcEnumeration imageAlignment = JcEnumeration.LEFT;
+			
+			int issue_count = 0;
+			if(pendingIssues != null ) {
+				for (List<Issue> list : pendingIssues.values()) {
+					issue_count += list.size();
+				}
+			}
+			String headerTextMiddle = "PMIS Report - Pending Issues ("+issue_count+" Nos)";
+			
+			//String headerTextRight = "Date : " + report_created_date;
+			
+			String headerTextRight = "";
+			
+			//String headerText = "PMIS Report - Pending Issues";
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
+						 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreation.createTableForPendingIssuesReport(wordMLPackage, mp, factory,pendingIssues);
+	    	  
+			byte[] issues_summary_byte_array = sendMailWithIssuesSummary(obj);
 						
-						String recipients = "", cc= "", bcc = CommonConstants.BCC_MAIL, 
-								subject = "PMIS Open Issues Report", body = "";
-						
-						recipients = issueService.getEmailIdsOfHodDyHodManagement();
-						
-						if(!StringUtils.isEmpty(recipients)){		
-							EMailSender emailSender = new EMailSender();
-							emailSender.sendEmailWithAttachment(recipients, cc, bcc, subject, body, attachment_file_name, file_extention, byteArray);
-						}
-						
-						flag = true;
-				    }catch (Exception e) {
-						e.printStackTrace();
-						logger.error("sendMailWithOpenIssues >> FileNotFoundException occurs.." + e.getMessage());
-						flag = false;
-				    }	
-				 	
-				} catch (Exception e) {
-					e.printStackTrace();
-					logger.error("sendMailWithOpenIssues >> " + e.getMessage());
-					flag = false;
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				String file_extention = "docx";
+				String pending_issues_file_name = "Pending-Issues-Report";
+				String issues_summary_file_name = "Issues-Summary-Report";
+				
+				String recipients = "", cc= "", bcc = CommonConstants.BCC_MAIL, 
+						subject = "PMIS Open Issues and Issues Summary Reports", body = "";
+				
+				recipients = issueService.getEmailIdsOfHodDyHodManagement();
+				
+				if(!StringUtils.isEmpty(recipients)){		
+					EMailSender emailSender = new EMailSender();
+					emailSender.sendEmailWithIssuesReportsAttachment(recipients, cc, bcc, subject, body, pending_issues_file_name,issues_summary_file_name, file_extention, byteArray,issues_summary_byte_array);
 				}
 				
-				return flag;
+				flag = true;
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("sendMailWithOpenIssues >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("sendMailWithOpenIssues >> " + e.getMessage());
+			flag = false;
+		}
+		
+		return flag;
+	}
+	
+	public byte[] sendMailWithIssuesSummary(Issue obj) {
+		byte[] byteArray = null;;       
+		try{			
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh.mm aa"); 
+			String report_created_date = df.format(new Date()); 
+			
+			List<Issue> issuesCounts = issueService.getIssuesSummaryData(obj);
+			
+			boolean landscape = true;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			String imagePath = null;
+			
+			JcEnumeration imageAlignment = JcEnumeration.LEFT;
+			
+			String headerTextMiddle = "PMIS Report - Issues Summary";
+			
+			String headerTextRight = report_created_date;
+			
+			//String headerText = "PMIS Report - Pending Issues";
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
+						 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreation.createTableForIssuesSummaryReport(wordMLPackage, mp, factory,issuesCounts);
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+		    }catch (Exception e) {
+				logger.error("sendMailWithIssuesSummary >> FileNotFoundException occurs.." + e.getMessage());
+		    }	
+		 	
+		} catch (Exception e) {
+			logger.error("sendMailWithIssuesSummary >> " + e.getMessage());
+		}
+		
+		return byteArray;
+	}
+	
+	/**********************************************************************************************************************/
+	
+	@RequestMapping(value = "/generate-issues-summary-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateIssuesSummaryReport(@ModelAttribute Issue obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView("redirect:/issues-report");
+		try{            
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+           
+			boolean flag = generateIssuesSummaryReport(response,currentDate,obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateIssuesSummaryReport : " + e.getMessage());
+		}
+		return model;
+     }
+
+	private boolean generateIssuesSummaryReport(HttpServletResponse response, String currentDate, Issue obj) {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		boolean flag = false;
+		try{			
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh.mm aa"); 
+			String report_created_date = df.format(new Date()); 
+			
+			List<Issue> issuesCounts = issueService.getIssuesSummaryData(obj);
+			
+			boolean landscape = true;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			String imagePath = null;
+			
+			JcEnumeration imageAlignment = JcEnumeration.LEFT;
+			
+			String headerTextMiddle = "PMIS Report - Issues Summary";
+			
+			String headerTextRight = report_created_date;
+			
+			//String headerText = "PMIS Report - Pending Issues";
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
+						 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreation.createTableForIssuesSummaryReport(wordMLPackage, mp, factory,issuesCounts);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "Issues Summary Report - " + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/.csv");
+				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				response.setContentType("application/vnd.ms-excel");
+				response.setContentType("application/pdf");
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+				
+				flag = true;
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generateIssuesSummaryReport >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateIssuesSummaryReport >> " + e.getMessage());
+			flag = false;
+		}
+		
+		return flag;
 	}
 }

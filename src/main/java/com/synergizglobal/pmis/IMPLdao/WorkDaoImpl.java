@@ -48,7 +48,7 @@ public class WorkDaoImpl implements WorkDao {
 					+ "(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`,"
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
 					+ ",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,"
-					+ "DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date "
+					+ "DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk "
 					+ "FROM work w "  
 					+"LEFT JOIN project p ON w.project_id_fk = p.project_id ";
 		
@@ -801,7 +801,7 @@ public class WorkDaoImpl implements WorkDao {
 					"(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`, " + 
 					"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost "  + 
 					",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion, " + 
-					"DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date  " + 
+					"DATE_FORMAT(w.projected_completion_date,'%d-%m-%Y') AS projected_completion_date,work_status_fk  " + 
 					"FROM work w  " + 
 					"LEFT JOIN project p ON w.project_id_fk = p.project_id  "
 					+ "where work_id is not null " ;

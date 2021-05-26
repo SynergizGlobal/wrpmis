@@ -92,10 +92,10 @@ public class FOBDaoImpl implements FOBDao {
 			
 			String qry = "INSERT INTO fob"
 					+ "(fob_id,fob_name,work_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,commissioning_date,"
-					+ "estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks) "
+					+ "estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,revised_completion) "
 					+ "VALUES "
 					+ "(:fob_id,:fob_name,:work_id_fk,:date_of_approval,:target_date,:construction_start_date,:actual_completion_date,:commissioning_date,:" 
-					+ "estimated_cost,:completion_cost,:work_status_fk,:latitude,:longitude,:remarks)";		 
+					+ "estimated_cost,:completion_cost,:work_status_fk,:latitude,:longitude,:remarks,:revised_completion)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
 			if(count > 0) {
@@ -258,8 +258,10 @@ public class FOBDaoImpl implements FOBDao {
 		FOB fobj = null;
 		try {
 			String qry = "select fob_id,fob_name,f.work_id_fk,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
-					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
-					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.last_sanctioned_cost as CHAR) as last_sanctioned_cost,cast(f.completion_cost as CHAR) as completion_cost,f.work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,f.attachment,"
+					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(revised_completion,'%d-%m-%Y') AS revised_completion,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
+					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,"
+					+ "cast(f.last_sanctioned_cost as CHAR) as last_sanctioned_cost,cast(f.completion_cost as CHAR) as completion_cost,"
+					+ "f.work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,f.attachment,"
 					+ "work_name,w.project_id_fk,p.project_name "
 					+ "from fob f "
 					+ "LEFT OUTER JOIN work w ON f.work_id_fk = w.work_id "
@@ -337,7 +339,7 @@ public class FOBDaoImpl implements FOBDao {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE fob set "
 					+ "fob_name = :fob_name,work_id_fk=:work_id_fk,date_of_approval = :date_of_approval,target_date = :target_date,construction_start_date = :construction_start_date,actual_completion_date = :actual_completion_date,commissioning_date = :commissioning_date,"
-					+"estimated_cost = :estimated_cost,completion_cost = :completion_cost,work_status_fk = :work_status_fk,latitude = :latitude,longitude = :longitude,remarks = :remarks "
+					+"estimated_cost = :estimated_cost,completion_cost = :completion_cost,work_status_fk = :work_status_fk,latitude = :latitude,longitude = :longitude,remarks = :remarks,revised_completion=:revised_completion "
 					+ "where fob_id = :fob_id";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			

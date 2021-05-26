@@ -370,6 +370,7 @@ public class FOBController {
 			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));			
 			obj.setCommissioning_date(DateParser.parse(obj.getCommissioning_date()));			
 			obj.setActual_completion_date(DateParser.parse(obj.getActual_completion_date()));
+			obj.setRevised_completion(DateParser.parse(obj.getRevised_completion()));
 		
 			boolean flag = fobService.addFOB(obj);
 			if(flag) {
@@ -446,6 +447,7 @@ public class FOBController {
 			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));			
 			obj.setCommissioning_date(DateParser.parse(obj.getCommissioning_date()));			
 			obj.setActual_completion_date(DateParser.parse(obj.getActual_completion_date()));
+			obj.setRevised_completion(DateParser.parse(obj.getRevised_completion()));
 		
 			boolean flag = fobService.updateFOB(obj);
 			if(flag) {

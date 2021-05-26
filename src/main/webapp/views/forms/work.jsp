@@ -132,13 +132,13 @@
 											<th>Sanctioned Year</th>
 											<th>Railway Agency</th>
 											<th>Executed By</th>
-											<th class="no-sort">&nbsp; Remarks &nbsp;</th>
+											<th>Status</th>
 											<th class="no-sort">Action</th>
 										</tr>
 									</thead>
 									<tbody id="workTbale">
-										 <c:forEach var="obj" items="${workList }">
-										<%-- 	<tr>
+										 <%-- <c:forEach var="obj" items="${workList }">
+											<tr>
 
 												<td>${ obj.project_id_fk}- ${obj.project_name }</td>
 												<td>${ obj.work_id }</td>
@@ -154,8 +154,8 @@
                                                         class="fa fa-trash"></i></a>
 												</td>
 
-											</tr> --%>
-										</c:forEach> 
+											</tr> 
+										</c:forEach> --%>
 									</tbody>
 								</table>
 
@@ -327,7 +327,7 @@
                        	rowArray.push($.trim(val.sanctioned_year_fk));
                        	rowArray.push($.trim(val.railway));
                        	rowArray.push($.trim(val.executed_by));
-                       	rowArray.push($.trim(val.remarks));
+                       	rowArray.push($.trim(val.work_status_fk));
                        	rowArray.push($.trim(actions));   	                   	
                        	
                         table.row.add(rowArray).draw( true );

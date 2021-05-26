@@ -314,6 +314,13 @@
                                     <button type="button" id="construction_start_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="construction_start_dateError" class="error-msg" ></span>
                                 </div>
+                                <div class="col s12 m4 input-field" id="revised_completionDiv" style="display: none;">
+                                    <input id="revised_completion" name="revised_completion" type="text" class="validate datepicker" value="${fob.revised_completion }">
+                                    <label for="revised_completion">Revised completion Date </label>
+                                    <button type="button" id="revised_completion_icon"><i class="fa fa-calendar"></i></button>
+                                    <span id="revised_completionError" class="error-msg" ></span>
+                                </div>
+                                
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
@@ -688,6 +695,12 @@
             $('#target_date').click();
         });
         
+        $('#revised_completion_icon').click(function () {
+            event.stopPropagation();
+            $('#revised_completion').click();
+        });
+        
+        
                        
         var project_id_fk = "${fob.project_id_fk}";
         if ($.trim(project_id_fk) != '') {
@@ -728,6 +741,15 @@
     			$("#commissioning_date").val('');
     			$("#actual_completion_date").val('');
     		}
+        	
+        	if($.trim(work_status) == 'Not Started'){
+        		$("#revised_completionDiv").hide();
+        		$("#revised_completion").val('');
+        	}else{
+        		$("#revised_completionDiv").show();
+        	}
+        	
+        	
         }
         
         var size = '${fn:length(fob.fobImages )}';
@@ -801,6 +823,14 @@
 			$("#commissioning_date").val('');
 			$("#actual_completion_date").val('');
 		}
+		
+		if($.trim(work_status) == 'Not Started'){
+    		$("#revised_completionDiv").hide();
+    		$("#revised_completion").val('');
+    	}else{
+    		$("#revised_completionDiv").show();
+    	}
+		
 	}
     
     function selectFile(no){

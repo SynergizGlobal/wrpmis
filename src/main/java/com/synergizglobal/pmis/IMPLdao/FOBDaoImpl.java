@@ -169,30 +169,32 @@ public class FOBDaoImpl implements FOBDao {
 						}
 					}*/
 					for (int i = 0; i < arraySize; i++) {
-						MultipartFile multipartFile = obj.getFobFiles()[i];
-						if ((null != multipartFile && !multipartFile.isEmpty())) {
-							String saveDirectory = CommonConstants2.FOB_GALLERY_SAVING_PATH + obj.getFob_id() + File.separator;
-							String fileName = obj.getFobFileNames()[i];
-							if (null != multipartFile && !multipartFile.isEmpty()) {
-								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+						if (!StringUtils.isEmpty(obj.getFobFiles()) && obj.getFobFiles().length > 0) {
+							MultipartFile multipartFile = obj.getFobFiles()[i];
+							if ((null != multipartFile && !multipartFile.isEmpty())) {
+								String saveDirectory = CommonConstants2.FOB_GALLERY_SAVING_PATH + obj.getFob_id() + File.separator;
+								String fileName = obj.getFobFileNames()[i];
+								if (null != multipartFile && !multipartFile.isEmpty()) {
+									FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+								}
+								FOB fileObj = new FOB();
+								fileObj.setAttachment(fileName);
+								//fileObj.setFob_file_type_fk(obj.getFob_file_types()[i]);
+								String created_date = null;
+								if (!StringUtils.isEmpty(obj.getCreated_dates()) && obj.getCreated_dates().length > 0) {
+									created_date = obj.getCreated_dates()[i];
+								}
+								if(!StringUtils.isEmpty(created_date)) {
+									created_date = DateParser.parse(created_date);
+								}else {
+									SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+									created_date = sqlDate.format(new Date());
+								}
+								fileObj.setCreated_date(created_date);
+								fileObj.setFob_id(obj.getFob_id());
+								paramSource = new BeanPropertySqlParameterSource(fileObj);
+								namedParamJdbcTemplate.update(file_insert_qry, paramSource);
 							}
-							FOB fileObj = new FOB();
-							fileObj.setAttachment(fileName);
-							//fileObj.setFob_file_type_fk(obj.getFob_file_types()[i]);
-							String created_date = null;
-							if (!StringUtils.isEmpty(obj.getCreated_dates()) && obj.getCreated_dates().length > 0) {
-								created_date = obj.getCreated_dates()[i];
-							}
-							if(!StringUtils.isEmpty(created_date)) {
-								created_date = DateParser.parse(created_date);
-							}else {
-								SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
-								created_date = sqlDate.format(new Date());
-							}
-							fileObj.setCreated_date(created_date);
-							fileObj.setFob_id(obj.getFob_id());
-							paramSource = new BeanPropertySqlParameterSource(fileObj);
-							namedParamJdbcTemplate.update(file_insert_qry, paramSource);
 						}
 					}
 					
@@ -435,41 +437,42 @@ public class FOBDaoImpl implements FOBDao {
 
 					
 				for (int i = 0; i < arraySize; i++) {
-					MultipartFile multipartFile = obj.getFobFiles()[i];
-					if ((null != multipartFile && !multipartFile.isEmpty())
-							|| !StringUtils.isEmpty(obj.getFobFileNames()[i])) {
-						String saveDirectory = CommonConstants2.FOB_GALLERY_SAVING_PATH + obj.getFob_id() + File.separator;
-						String fileName = obj.getFobFileNames()[i];
-						String fob_file_id = null;
-						if (!StringUtils.isEmpty(obj.getFob_file_ids()) && obj.getFob_file_ids().length > 0) {
-							fob_file_id = obj.getFob_file_ids()[i];
-						}
-						if (null != multipartFile && !multipartFile.isEmpty()) {
-							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-						}
-						
-						FOB fileObj = new FOB();
-						fileObj.setAttachment(fileName);
-						//fileObj.setFob_file_type_fk(obj.getFob_file_types()[i]);
-						String created_date = null;
-						if (!StringUtils.isEmpty(obj.getCreated_dates()) && obj.getCreated_dates().length > 0) {
-							created_date = obj.getCreated_dates()[i];
-						}
-						
-						if(!StringUtils.isEmpty(created_date)) {
-							created_date = DateParser.parse(created_date);
-						}else {
-							SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
-							created_date = sqlDate.format(new Date());
-						}
-						fileObj.setCreated_date(created_date);
-						fileObj.setFob_file_id(fob_file_id);
-						fileObj.setFob_id(obj.getFob_id());
-						paramSource = new BeanPropertySqlParameterSource(fileObj);
-						if(!StringUtils.isEmpty(fob_file_id)) {
-							namedParamJdbcTemplate.update(updateFileQry, paramSource);
-						}else {
-							namedParamJdbcTemplate.update(insertFileQry, paramSource);
+					if (!StringUtils.isEmpty(obj.getFobFiles()) && obj.getFobFiles().length > 0) {
+						MultipartFile multipartFile = obj.getFobFiles()[i];
+						if ((null != multipartFile && !multipartFile.isEmpty()) || (!StringUtils.isEmpty(obj.getFobFileNames()) && obj.getFobFileNames().length > 0)) {
+							String saveDirectory = CommonConstants2.FOB_GALLERY_SAVING_PATH + obj.getFob_id() + File.separator;
+							String fileName = obj.getFobFileNames()[i];
+							String fob_file_id = null;
+							if (!StringUtils.isEmpty(obj.getFob_file_ids()) && obj.getFob_file_ids().length > 0) {
+								fob_file_id = obj.getFob_file_ids()[i];
+							}
+							if (null != multipartFile && !multipartFile.isEmpty()) {
+								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+							}
+							
+							FOB fileObj = new FOB();
+							fileObj.setAttachment(fileName);
+							//fileObj.setFob_file_type_fk(obj.getFob_file_types()[i]);
+							String created_date = null;
+							if (!StringUtils.isEmpty(obj.getCreated_dates()) && obj.getCreated_dates().length > 0) {
+								created_date = obj.getCreated_dates()[i];
+							}
+							
+							if(!StringUtils.isEmpty(created_date)) {
+								created_date = DateParser.parse(created_date);
+							}else {
+								SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+								created_date = sqlDate.format(new Date());
+							}
+							fileObj.setCreated_date(created_date);
+							fileObj.setFob_file_id(fob_file_id);
+							fileObj.setFob_id(obj.getFob_id());
+							paramSource = new BeanPropertySqlParameterSource(fileObj);
+							if(!StringUtils.isEmpty(fob_file_id)) {
+								namedParamJdbcTemplate.update(updateFileQry, paramSource);
+							}else {
+								namedParamJdbcTemplate.update(insertFileQry, paramSource);
+							}
 						}
 					}
 				}

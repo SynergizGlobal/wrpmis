@@ -452,6 +452,11 @@
                                         </div> -->
                                     </div>
                                     <div class="row">
+                                    
+                                        <div class="col m4 s12 input-field">
+                                        	<p class="searchable_label">Component</p>
+                                            <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component" name="strip_chart_component" onchange="getComponentsIDS();"></select>
+                                        </div>                                   
                                     	
                                     	<div class="col m4 s12 input-field">
                                            <p class="searchable_label">Component ID <span class="required">*</span></p>
@@ -461,11 +466,7 @@
                                             <span id="strip_chart_component_idError" class="error-msg" ></span>
                                         </div>
                                         
-                                        <div class="col m4 s12 input-field">
-                                        	<p class="searchable_label">Component</p>
-                                            <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 2.75rem;" readonly="readonly">
-                                            <span id="strip_chart_componentError" class="error-msg" ></span> 
-                                        </div>
+
                                         
                                         <div class="col m4 s12 input-field">
                                            <p class="searchable_label">Activity <span class="required">*</span></p>
@@ -1074,12 +1075,40 @@
                 });
             }
         }
+        
+    	var componentsArray=new Array();
+    	var componentsoptionsArray=new Array();
+    	function getComponentsIDS()
+    	{
+    		$("#strip_chart_component_id option").remove();
+    		document.getElementById('strip_chart_component_id').innerHTML = "";
+
+    		var list = $("#strip_chart_component_id");
+
+    	    for(var i=0;i<componentsArray.length;i++)
+    		{
+    	    	if(componentsArray[i]["CompName"]==$("#strip_chart_component").val())
+    	    	{
+    	    		var optionExists = ($('#strip_chart_component_id option[value="' + componentsArray[i]["CompID"] + '"]').length > 0);
+    	    		if(!optionExists)
+    	    		{
+    	    			list.append(new Option(componentsArray[i]["CompID"], componentsArray[i]["CompID"]));
+    	    		}
+    	    	}
+    		}
+    	}        
 
         //geting contracts list    
-        function getComponentIdsList() {   
+        function getComponentIdsList() 
+        {
+   		 componentsoptionsArray=[];
+		 componentsoptionsArray=[];        	
+        	
         	$(".page-loader-3").show();
         	
         	clearComponentCircle();
+    	    $("#strip_chart_component option").remove();
+    		document.getElementById('strip_chart_component_id').innerHTML = "";   	
             
             var contract_id_fk = $("#contract_id_fk").val();
             var structureId = $("#strip_chart_structure_id_fk").val();
@@ -1105,6 +1134,9 @@
                                 	className = "even";
                                 }
                                 
+                               	if(componentsoptionsArray.indexOf(val.strip_chart_component)=="-1")
+                             	{
+                               		componentsoptionsArray.push(val.strip_chart_component);                                
                                 var pointerEvent = "";
                                 if(val.component_id_color == "completed"){
                                 	pointerEvent = "pointer-events: none;";
@@ -1116,7 +1148,7 @@
                                     //}
                                     html = html + '</div>';
                                 	
-                                	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" disabled>' + $.trim(val.strip_chart_component_id) + '</option>');
+                                	$("#strip_chart_component").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component) + '</option>');
                                 } else {                
                                 	
                                 	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
@@ -1129,13 +1161,21 @@
                                 	
                                 	if ($.trim(id2) != '' && val.strip_chart_component_id == $.trim(id2)) {
                                 		id1 = val.strip_chart_component_id;
-    	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" selected>' + $.trim(val.strip_chart_component_id) + '</option>');
+    	                            	$("#strip_chart_component").append('<option name="' + val.strip_chart_component_id + '" value="' + val.strip_chart_component + '" selected>' + $.trim(val.strip_chart_component) + '</option>');
     	                            } else {
-    	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id) + '</option>');
+    	                            	$("#strip_chart_component").append('<option name="' + val.strip_chart_component_id + '" value="' + val.strip_chart_component + '">' + $.trim(val.strip_chart_component) + '</option>');
     	                            }
-                                }                                
+                                } 
+                             	}
+                              	if(componentsArray.indexOf(val.strip_chart_component_id)=="-1")
+                             	{
+                             		componentsArray.push({CompName:val.strip_chart_component,CompID:val.strip_chart_component_id});
+                             	}                                
                             });
-                            
+                            if(componentsoptionsArray.length==1)
+                          	 {
+                           	 	getComponentsIDS();
+                          	 }                            
                             $('.searchable').select2();
                         }
                         $("#component_circles").html(html);
@@ -1253,9 +1293,9 @@
         	/* $("#strip_chart_component option:not(:first)").remove();
         	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
         	$('.searchable').select2(); */
-        	$("#strip_chart_component").attr("readonly", false); 
-        	$("#strip_chart_component").val(componentName);
-        	$("#strip_chart_component").attr("readonly", true);
+        	//$("#strip_chart_component").attr("readonly", false); 
+        	//$("#strip_chart_component").val(componentName);
+        	//$("#strip_chart_component").attr("readonly", true);
         	
         	$(".page-loader").show();
             $("#strip_chart_activity_id option:not(:first)").remove();

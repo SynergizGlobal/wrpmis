@@ -360,9 +360,11 @@ public class WorkDaoImpl implements WorkDao {
 			}
 			
 			String file_ids = "";
-			for (int i = 0; i < arraySize; i++) {
-				if(!StringUtils.isEmpty(work.getWork_file_ids()[i])) {
-					file_ids = file_ids + work.getWork_file_ids()[i] + ",";
+			if (!StringUtils.isEmpty(work.getWork_file_ids()) && work.getWork_file_ids().length > 0) {
+				for (int i = 0; i < arraySize; i++) {
+					if(!StringUtils.isEmpty(work.getWork_file_ids()[i])) {
+						file_ids = file_ids + work.getWork_file_ids()[i] + ",";
+					}
 				}
 			}
 			
@@ -384,8 +386,14 @@ public class WorkDaoImpl implements WorkDao {
 						|| !StringUtils.isEmpty(work.getWorkFileNames()[i])) {
 					String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH + work.getWork_id() + File.separator;
 					String fileName = work.getWorkFileNames()[i];
-					String file_id = work.getWork_file_ids()[i];
-					String file_type = work.getWork_file_types()[i];
+					String file_id = null;
+					if (!StringUtils.isEmpty(file_ids)) {	
+						file_id = work.getWork_file_ids()[i];
+					}
+					String file_type = null;
+					if(!StringUtils.isEmpty(work.getWork_file_types()) && work.getWork_file_types().length > 0) {
+						file_type = work.getWork_file_types()[i];
+					}
 					if (null != multipartFile && !multipartFile.isEmpty()) {
 						FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
 					}
@@ -450,12 +458,17 @@ public class WorkDaoImpl implements WorkDao {
 				
 				for (int i = 0; i < arraySize; i++) {
 					p = 1;
-					stmt.setString(p++,(work.getFinancial_years().length > 0)?work.getFinancial_years()[i]:null);
-					stmt.setString(p++,(work.getLatest_revised_costs().length > 0)?work.getLatest_revised_costs()[i]:null);
-					stmt.setString(p++,(work.getYear_of_revisions().length > 0)?work.getYear_of_revisions()[i]:null);						
-					stmt.setString(p++,(work.getRevision_numbers().length > 0)?work.getRevision_numbers()[i]:null);
-					stmt.setString(p++,work.getWork_id());
-					stmt.addBatch();
+					if((work.getFinancial_years().length > 0 && !StringUtils.isEmpty(work.getFinancial_years()[i])) 
+							|| (work.getLatest_revised_costs().length > 0 && !StringUtils.isEmpty(work.getLatest_revised_costs()[i])) 
+							|| (work.getYear_of_revisions().length > 0 && !StringUtils.isEmpty(work.getYear_of_revisions()[i])) 
+							|| (work.getRevision_numbers().length > 0 && !StringUtils.isEmpty(work.getRevision_numbers()[i])) ) {
+						stmt.setString(p++,(work.getFinancial_years().length > 0)?work.getFinancial_years()[i]:null);
+						stmt.setString(p++,(work.getLatest_revised_costs().length > 0)?work.getLatest_revised_costs()[i]:null);
+						stmt.setString(p++,(work.getYear_of_revisions().length > 0)?work.getYear_of_revisions()[i]:null);						
+						stmt.setString(p++,(work.getRevision_numbers().length > 0)?work.getRevision_numbers()[i]:null);
+						stmt.setString(p++,work.getWork_id());
+						stmt.addBatch();
+					}
 				}
 				int[] c = stmt.executeBatch();
 			}

@@ -28,6 +28,7 @@ import com.synergizglobal.pmis.Idao.FOBDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.FOB;
 
@@ -410,19 +411,16 @@ public class FOBDaoImpl implements FOBDao {
 					}
 				}*/
 				
-				String placeholders = "";
 				String fob_file_ids = "";
 				if (!StringUtils.isEmpty(obj.getFob_file_ids()) && obj.getFob_file_ids().length > 0) {
 					for (int i = 0; i < obj.getFob_file_ids().length; i++) {
 						if(!StringUtils.isEmpty(obj.getFob_file_ids()[i])) {
-							placeholders = placeholders + "?,";
 							fob_file_ids = fob_file_ids + obj.getFob_file_ids()[i] + ",";
 						}
 					}  
 				}
 				
-				if (!StringUtils.isEmpty(placeholders)) {
-					placeholders = org.apache.commons.lang3.StringUtils.chop(placeholders);					
+				if (!StringUtils.isEmpty(fob_file_ids)) {				
 					fob_file_ids = org.apache.commons.lang3.StringUtils.chop(fob_file_ids);
 
 					String deleteFilesQry = "delete from fob_files where id not in("+fob_file_ids+") and fob_id_fk = :fob_id";
@@ -703,6 +701,11 @@ public class FOBDaoImpl implements FOBDao {
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj.getUser_id())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+			}
 			qry = qry + " order by contract_id asc";
 			
 			Object[] pValues = new Object[arrSize];
@@ -711,11 +714,15 @@ public class FOBDaoImpl implements FOBDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
+			if(!StringUtils.isEmpty(obj.getUser_id())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			}
 				
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

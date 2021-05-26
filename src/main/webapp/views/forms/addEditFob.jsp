@@ -190,7 +190,7 @@
 									 		>${obj.contract_short_name }</option>
                                           </c:forEach>
                                   </select>
-                                  <span id="railway_id_fkError"></span>
+                                  <span id="contract_id_fkError" class="error-msg"></span>
                                 </div>
                                 
                                 <div class="col s12 m4 input-field">
@@ -205,7 +205,7 @@
            					  			 > ${obj.designation} - ${obj.user_name}</option>
                                    </c:forEach>
                                   </select>
-                                     <span id="executed_by_id_fkError"></span>
+                                     <span id="responsible_people_id_fkError" class="error-msg"></span>
                                 </div>
                             </div> 
                             <br>
@@ -686,11 +686,6 @@
         $('#target_date_icon').click(function () {
             event.stopPropagation();
             $('#target_date').click();
-        });
-        $('#target_date').datepicker({
-	       	 format: 'dd-mm-yyyy',
-	       	 autoClose:true,
-	       	 minDate: new Date(),
         });
         
                        

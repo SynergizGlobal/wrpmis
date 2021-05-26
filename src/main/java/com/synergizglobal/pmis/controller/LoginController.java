@@ -102,7 +102,6 @@ public class LoginController {
 						session.setAttribute("USER_ROLE_CODE", userDetails.getUser_role_code());
 						session.setAttribute("USER_TYPE", userDetails.getUser_type_fk());
 						session.setAttribute("USER_DESIGNATION", userDetails.getDesignation());
-						
 						session.setAttribute("USER_LOGIN_DETAILS_ID", userDetails.getUser_login_details_id());
 						
 						if(!StringUtils.isEmpty(userDetails.getPasswordExpiredTime()) && Integer.parseInt(userDetails.getPasswordExpiredTime()) <= 0){

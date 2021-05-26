@@ -74,16 +74,16 @@ public class FOBServiceImpl implements FOBService {
 		return fobDao.getContractsListForFOBForm(obj);
 	}
 	/**
-	@Override
-	public List<FOB> getFOBsList(FOB obj, int startIndex, int offset, String searchParameter) throws Exception {
-		return fobDao.getFOBsList(obj,startIndex,offset,searchParameter);
-	}
-
-	@Override
-	public int getTotalRecords(FOB obj, String searchParameter) throws Exception {
-		return fobDao.getTotalRecords(obj,searchParameter);
-	}
-*/
+		@Override
+		public List<FOB> getFOBsList(FOB obj, int startIndex, int offset, String searchParameter) throws Exception {
+			return fobDao.getFOBsList(obj,startIndex,offset,searchParameter);
+		}
+	
+		@Override
+		public int getTotalRecords(FOB obj, String searchParameter) throws Exception {
+			return fobDao.getTotalRecords(obj,searchParameter);
+		}
+	*/
 	@Override
 	public List<FOB> getFobDetailsList(FOB obj) throws Exception {
 		return fobDao.getFobDetailsList(obj);

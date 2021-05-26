@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -35,8 +36,8 @@
 <body>
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
-	
-		<div class="row">
+		<c:if test="${(sessionScope.USER_TYPE eq 'DyHOD') or (sessionScope.USER_TYPE eq 'HOD')}">
+			<div class="row">
 			<div class="col s12 m12">
 				<div class="card">
 					<div class="card-content">
@@ -46,36 +47,31 @@
 							</div>
 						</span>
 						<div class="">
-							<c:if test="${not empty success }">
-								<div class="center-align m-1 close-message">${success}</div>
-							</c:if>
-							<c:if test="${not empty error }">
-								<div class="center-align m-1 close-message">${error}</div>
-							</c:if>
 							<div class="row plr-1 center-align">
-							<c:if test="${sessionScope.USER_DESIGNATION != 'SPE'}">
-								<div class="col s12 m4"></div>
-								<div class="col s12 m4">
-									<div class="m-1 c-align">
-										<a href="<%=request.getContextPath()%>/add-fob-form"
-											class="btn waves-effect waves-light bg-s t-c"> <strong><i
-												class="fa fa-plus-circle"></i> Add FOB</strong></a>
+								
+									<div class="col s12 m4"></div>
+									<div class="col s12 m4">
+										<div class="m-1 c-align">
+											<a href="<%=request.getContextPath()%>/add-fob-form"
+												class="btn waves-effect waves-light bg-s t-c"> <strong><i
+													class="fa fa-plus-circle"></i> Add FOB</strong></a>
+										</div>
 									</div>
-								</div>
-								<div class="col s12 m4 r-align">
-									<div class="m-1 ">
-										<a href="javascript:void(0);" onclick="exportFOB();"
-											class="btn waves-effect waves-light bg-s t-c"> <strong><i
-												class="fa fa-cloud-download"></i> Export Data</strong></a>
+									<div class="col s12 m4 r-align">
+										<div class="m-1 ">
+											<a href="javascript:void(0);" onclick="exportFOB();"
+												class="btn waves-effect waves-light bg-s t-c"> <strong><i
+													class="fa fa-cloud-download"></i> Export Data</strong></a>
+										</div>
 									</div>
-								</div>
-						 </c:if>
-							
+							 	
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			</div>
+		</c:if>
 		<div class="row">
 			<div class="col s12 m12">
 				<div class="card">
@@ -85,6 +81,13 @@
 								<h6>Update FOB</h6>
 							</div>
 						</span>
+						
+						<c:if test="${not empty success }">
+							<div class="center-align m-1 close-message">${success}</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">${error}</div>
+						</c:if>
 
 						<div class="row no-mar" style="margin-bottom: 0;">
 							<div class="col m3 hide-on-small-only"></div>

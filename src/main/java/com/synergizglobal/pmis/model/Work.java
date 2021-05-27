@@ -14,8 +14,8 @@ public class Work {
 
 
 
-	private String[] financial_years,latest_revised_costs,
-	year_of_revisions,revision_numbers,remarkss;
+	private String[] financial_years,latest_revised_costs,latest_revised_costs_units,
+	year_of_revisions,revision_numbers,remarkss,workFileNames,work_file_ids,work_file_types;
 
 	private List<Work> workRevisions;
 	//private MultipartFile workFile;
@@ -25,7 +25,6 @@ public class Work {
 
 	private List<MultipartFile> workFile;
 	private List<Work> workFilesList;
-	private String[] workFileNames,work_file_ids,work_file_types;
 	private MultipartFile[] workFiles;
 	
 	
@@ -517,6 +516,14 @@ public class Work {
 
 	public void setWork_status_fk(String work_status_fk) {
 		this.work_status_fk = work_status_fk;
+	}
+
+	public String[] getLatest_revised_costs_units() {
+		return latest_revised_costs_units;
+	}
+
+	public void setLatest_revised_costs_units(String[] latest_revised_costs_units) {
+		this.latest_revised_costs_units = latest_revised_costs_units;
 	}
 	
 }

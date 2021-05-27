@@ -271,7 +271,7 @@
                                
                                 <div class="col s12 m4 input-field">
                                     <input id="projected_completion_date" type="text" class="validate datepicker" name="projected_completion_date" value="${workDetails.projected_completion_date }">
-                                    <label for="projected_completion_date">Projected completion date</label>
+                                    <label for="projected_completion_date">Revised completion date</label>
                                     <button type="button" id="projected_completion_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="projected_completion_dateError"></span>
                                 </div>
@@ -418,7 +418,7 @@
 																	<td>
 																		<div class="input-field">
 																			<select  name="work_file_types"  id="work_file_types${index.count }"  class="validate-dropdown searchable">
-							                                   					 <option value="" >Select</option>
+							                                   					  <option value="" >Select</option>
 							                                         			  <c:forEach var="obj" items="${workFileTypes}">
 							                    					  				 <option value="${obj.work_file_type }" <c:if test="${iObj.work_file_type_fk eq obj.work_file_type}">selected</c:if>>${obj.work_file_type}</option>
 							                                          			  </c:forEach>
@@ -438,7 +438,7 @@
 			                                                      	</td>
 			                                                      	<td>
 			                                                      		<input type="hidden" id="work_file_ids${index.count }" name="work_file_ids" value="${iObj.work_file_id }"/>
-			                                                      		<a href="<%=CommonConstants2.ISSUE_FILES%>${iObj.work_id_fk }/${iObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                      		<a href="<%=CommonConstants2.WORK_FILES%>${iObj.work_id_fk }/${iObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
 			                                                      	</td>
 																	<td>
 																		<a onclick="removeActions('${index.count }');" class="btn red"> 
@@ -585,7 +585,7 @@
 	                                            </tr>
                                             </c:forEach>
                                             </c:when>
-                                        		<c:otherwise>
+                                        	<c:otherwise>
                                         		<tr id="revisionRow0">                                            	
 	                                                <td> 
 	                              					 <select  name="financial_years"  id="financial_years0"  class="validate-dropdown searchable">
@@ -1087,8 +1087,8 @@
 		   		   +'</select></div></td>'
 				   //+'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
 				   //+'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost" min="0.01" step="0.01"></td>'
-				   +'<td class="input-field row"> <div class="col s9"><input id="latest_revised_costs_units'+rNo+'" name="latest_revised_costs_units" type="number" class="validate" value=""'
-				   +'placeholder="Latest Revised Cost" min="0.01" step="0.01"> </div> <div class="col s3 pt-14"> <select class="units" id="latest_revised_costs'+rNo+'" name="latest_revised_costs'+rNo+'">'
+				   +'<td class="input-field row"> <div class="col s9"><input id="latest_revised_costs'+rNo+'" name="latest_revised_costs" type="number" class="validate" value=""'
+				   +'placeholder="Latest Revised Cost" min="0.01" step="0.01"> </div> <div class="col s3 pt-14"> <select class="units" id="latest_revised_costs_units'+rNo+'" name="latest_revised_costs_units">'
                	   +'<option value="">Select</option> <option value="rs">Rs</option>	<option value="thousands">Thousands</option> <option value="lacs">Lacs</option>	<option value="crores">Crores</option> </select>'
 	               +'</div></td>'
 				   +'<td> <div>'

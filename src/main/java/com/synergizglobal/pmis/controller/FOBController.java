@@ -52,6 +52,7 @@ import com.synergizglobal.pmis.Iservice.FOBService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
@@ -267,6 +268,13 @@ public class FOBController {
 	public ModelAndView addFOBForm(@ModelAttribute FOB obj,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
+			String user_id = (String) session.getAttribute("USER_ID"),user_type = (String) session.getAttribute("USER_TYPE");
+			if(!StringUtils.isEmpty(user_type) 
+					&& (user_type.equals(CommonConstants.USER_TYPE_HOD) 
+					|| user_type.equals(CommonConstants.USER_TYPE_DYHOD)) ) {
+				obj.setUser_id(user_id);
+			}
+			
 			model.setViewName(PageConstants2.addEditFob);
 			
 			model.addObject("action", "add");
@@ -296,6 +304,7 @@ public class FOBController {
 			model.addObject("generalStatusList", generalStatusList);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("addFOBForm : " + e.getMessage());
 		}
 		return model;
@@ -329,9 +338,18 @@ public class FOBController {
 	
 	@RequestMapping(value = "/ajax/getContractsListForFOBForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<FOB> getContractsListForFOBForm(@ModelAttribute FOB obj) {
+	public List<FOB> getContractsListForFOBForm(@ModelAttribute FOB obj,HttpSession session) {
 		List<FOB> objsList = null;
 		try {
+			String user_id = (String) session.getAttribute("USER_ID"),
+					userName = (String) session.getAttribute("USER_NAME"),
+							user_type = (String) session.getAttribute("USER_TYPE");
+			if(!StringUtils.isEmpty(user_type) 
+					&& (user_type.equals(CommonConstants.USER_TYPE_HOD) 
+					|| user_type.equals(CommonConstants.USER_TYPE_DYHOD)) ) {
+				obj.setUser_id(user_id);
+			}
+			
 			objsList = fobService.getContractsListForFOBForm(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -352,6 +370,7 @@ public class FOBController {
 			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));			
 			obj.setCommissioning_date(DateParser.parse(obj.getCommissioning_date()));			
 			obj.setActual_completion_date(DateParser.parse(obj.getActual_completion_date()));
+			obj.setRevised_completion(DateParser.parse(obj.getRevised_completion()));
 		
 			boolean flag = fobService.addFOB(obj);
 			if(flag) {
@@ -371,6 +390,13 @@ public class FOBController {
 	public ModelAndView getFOB(@ModelAttribute FOB obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
+			String user_id = (String) session.getAttribute("USER_ID"),user_type = (String) session.getAttribute("USER_TYPE");
+			if(!StringUtils.isEmpty(user_type) 
+					&& (user_type.equals(CommonConstants.USER_TYPE_HOD) 
+					|| user_type.equals(CommonConstants.USER_TYPE_DYHOD)) ) {
+				obj.setUser_id(user_id);
+			}
+			
 			model.setViewName(PageConstants2.addEditFob);
 			
 			model.addObject("action", "edit");
@@ -421,6 +447,7 @@ public class FOBController {
 			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));			
 			obj.setCommissioning_date(DateParser.parse(obj.getCommissioning_date()));			
 			obj.setActual_completion_date(DateParser.parse(obj.getActual_completion_date()));
+			obj.setRevised_completion(DateParser.parse(obj.getRevised_completion()));
 		
 			boolean flag = fobService.updateFOB(obj);
 			if(flag) {

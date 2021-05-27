@@ -74,6 +74,10 @@
         }
       
 		.error-msg label{color:red!important;}
+		
+		.dt-left{text-align: left!important;}
+		.dt-center{text-align: center!important;}
+
     </style>
 </head>
 
@@ -316,7 +320,9 @@
                         className: 'mdl-data-table__cell--non-numeric'
                     },
                     { "width": "20px", "targets": [6] },
-                    { orderable: false, 'aTargets': ['nosort'] }
+                    { orderable: false, 'aTargets': ['nosort'] },
+                    { targets: [1, 2, 3, 5], className: 'dt-left'  },
+                    { targets: [0,4], className: 'dt-center'},
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",

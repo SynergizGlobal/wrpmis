@@ -229,6 +229,9 @@
 	          if($.trim(sub_work) != '' || $.trim(assessment_date) != ''){
 	        	  getSubWorksFilterList(sub_work);
 		          getAssessmentDatesFilterList(assessment_date);
+		          
+		          addInQueSubWork(sub_work);
+		          addInQueAssessmentDate(assessment_date);
 	          }else if($.trim(filters) != '' && $.trim(filters) != null){
 	        	  var temp = filters.split('^'); 
 	        	  for(var i=0;i< temp.length;i++){

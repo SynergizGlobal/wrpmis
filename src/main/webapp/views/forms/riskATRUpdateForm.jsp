@@ -312,7 +312,18 @@
 																	<a onclick="removeActions('${index.count }');" style="font-size: 20px;" class="btn red"> 
 																	<i class="fa fa-close"></i></a>
 																	</td>
-																</tr>															
+																</tr>	
+																
+																<script type="text/javascript">
+														            
+														            $('#action_takens${index.count }').keyup(function(){
+														            	if($.trim($('#action_takens${index.count }').val()) == ""){
+																			$('#action_takens${index.count }Error').text('Requried');
+																		}else{
+																			$('#action_takens${index.count }Error').text('');
+																		}
+															    	});
+																</script>														
 															</c:forEach>
 														</c:when>
 														<c:otherwise>
@@ -337,12 +348,15 @@
 																			<i class="fa fa-calendar"></i>
 																		</button>
 																		<p id="atr_dates0Error" class="error-msg" ></p>
+																		<input type="hidden" id="atr_dates_old0" name="atr_dates_old" value="" />
 																	</div>
 																</td>
 																<td><textarea id="action_takens0"
 																		name="action_takens" class="materialize-textarea"
 																		placeholder="Action Taken" style="height: 44px;"></textarea>
 																		<p id="action_takens0Error" class="error-msg" ></p>
+																		
+																		<input type="hidden" id="action_takens_old0" name="action_takens_old" value="" />
 																</td>
 																<td>
 																	<!-- <a onclick="removeActions('0');"
@@ -353,6 +367,17 @@
 																	<i class="fa fa-close"></i></a>
 																</td>
 															</tr>
+															
+															<script type="text/javascript">
+													            
+													            $('#action_takens0').keyup(function(){
+													            	if($.trim($('#action_takens0').val()) == ""){
+																		$('#action_takens0Error').text('Requried');
+																	}else{
+																		$('#action_takens0Error').text('');
+																	}
+														    	});
+															</script>
 														</c:otherwise>
 													</c:choose>
 												</tbody>
@@ -601,6 +626,22 @@
             $("#rowNo").val(rNo);
           	idNo = $("#rowNo").val();
             //$("#atr_dates" + rNo).datepicker();
+            
+            $('#atr_dates'+rNo).change(function(){
+            	if($.trim($('#atr_dates'+rNo).val()) == ""){
+					$('#atr_dates'+rNo+'Error').text('Requried');
+				}else{
+					$('#atr_dates'+rNo+'Error').text('');
+				}
+	    	});
+            
+            $('#action_takens'+rNo).keyup(function(){
+            	if($.trim($('#action_takens'+rNo).val()) == ""){
+					$('#action_takens'+rNo+'Error').text('Requried');
+				}else{
+					$('#action_takens'+rNo+'Error').text('');
+				}
+	    	});
             
             $('#atr_dates' + rNo).datepicker({
             	minDate: minDate,

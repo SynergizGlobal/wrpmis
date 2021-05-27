@@ -549,6 +549,7 @@ public class RiskController {
 				attributes.addFlashAttribute("error","Updating ATR failed.");
 			}			
 		}catch (Exception e) {
+			e.printStackTrace();
 			attributes.addFlashAttribute("error",commonError);
 			logger.error("updateRiskAssessment : " + e.getMessage());
 		}

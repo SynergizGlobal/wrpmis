@@ -585,7 +585,7 @@ public class RiskDaoImpl implements RiskDao{
 		ResultSet rs = null;		 
 		try{
 			con = dataSource.getConnection();
-			
+			con.setAutoCommit(false);
 			String updateQry = "update risk_revision set mitigation_plan = ? where risk_revision_id = ?";	
 			stmt = con.prepareStatement(updateQry);
 			stmt.setString(1, obj.getMitigation_plan());
@@ -640,8 +640,8 @@ public class RiskDaoImpl implements RiskDao{
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 			if(insertCount.length > 0) {
 				for(int j = 0; j < arraySize; j++) {	
-					if(!(obj.getAtr_dates()[j].equals(obj.getAtr_dates_old()[j])) || 
-							!(obj.getAction_takens()[j].equals(obj.getAction_takens_old()[j]))) {
+					if((!StringUtils.isEmpty(obj.getAtr_dates_old()) && obj.getAtr_dates_old().length > 0 && !(obj.getAtr_dates()[j].equals(obj.getAtr_dates_old()[j]))) || 
+							(!StringUtils.isEmpty(obj.getAction_takens_old()) && obj.getAction_takens_old().length > 0 && !(obj.getAction_takens()[j].equals(obj.getAction_takens_old()[j])))) {
 
 						  String messageType = "Risk";
 						  String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id(),obj.getReporting_to_user_id() };
@@ -666,7 +666,10 @@ public class RiskDaoImpl implements RiskDao{
 				}
 				
 			}
+			
+			con.commit();
 		}catch(Exception e){ 
+			con.rollback();
 			throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);

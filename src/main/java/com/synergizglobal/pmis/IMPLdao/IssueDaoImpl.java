@@ -1959,14 +1959,16 @@ public class IssueDaoImpl implements IssueDao {
 	}
 
 	@Override
-	public boolean readIssueMessage(Issue obj) throws Exception {
+	public boolean readIssueMessage(String message_id) throws Exception {
 		boolean flag = false;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
-		String issue_id = null;
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 			String msgUpdateqry = "UPDATE messages SET read_time = CURRENT_TIMESTAMP where message_id = :message_id";
+			
+			Issue obj = new Issue();
+			obj.setMessage_id(message_id);
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 			int count = template.update(msgUpdateqry, paramSource);
 			if (count > 0) {

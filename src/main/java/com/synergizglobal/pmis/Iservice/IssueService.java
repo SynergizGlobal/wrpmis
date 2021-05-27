@@ -53,7 +53,7 @@ public interface IssueService {
 
 	List<Issue> getEscalatedToList() throws Exception;
 
-	boolean readIssueMessage(Issue obj) throws Exception;
+	boolean readIssueMessage(String message_id) throws Exception;
 
 	List<Issue> getIssueTitlesList(Issue obj) throws Exception;
 

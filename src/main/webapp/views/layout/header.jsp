@@ -582,7 +582,7 @@
 									</c:if>
 
 									<li class="item ${message_color_bg}">
-										<a href="<%=request.getContextPath()%>${obj.redirect_url}?message_id=${obj.message_id }">
+										<a href="<%=request.getContextPath()%>${obj.redirect_url}<c:if test="${fn:contains(obj.redirect_url, '?')}">&</c:if><c:if test="${not fn:contains(obj.redirect_url, '?')}">?</c:if>message_id=${obj.message_id }">
 											<div class="row col m12">
 												<div class="col m2">
 													<i class='fa fa-exclamation-triangle'></i> 
@@ -1052,8 +1052,8 @@
 						<c:set var="message_color_bg" value="unread-message"></c:set>
 					</c:if>
 
-					<li class="item ${message_color_bg}"><a
-						href="<%=request.getContextPath()%>${obj.redirect_url}?message_id=${obj.message_id }">
+					<li class="item ${message_color_bg}">
+					<a href="<%=request.getContextPath()%>${obj.redirect_url}<c:if test="${fn:contains(obj.redirect_url, '?')}">&</c:if><c:if test="${not fn:contains(obj.redirect_url, '?')}">?</c:if>message_id=${obj.message_id }">
 							<span class="icon"> <i class='fa fa-exclamation-triangle'></i>
 								<span class="icon-text">${obj.message_type }</span>
 						</span>
@@ -1282,8 +1282,12 @@
 		                    		  if($.trim(val.read_time) == ''){
 		                    		  	count = count + 1;
 		                    		  }
+		                    		  var urlStringContains = "?"
+		                    		  if((val.redirect_url).indexOf("?") > 0){
+		                    			  urlStringContains = "&";
+		                    		  }
 		                    		  html = html + '<li class="item '+message_color_bg+' row">'
-		                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+'?message_id='+val.message_id +'">'
+		                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+urlStringContains+'message_id='+val.message_id +'">'
 		                    		  		
 		                    		  		//+ '<div class="col m12">'
 		                    		  		+ '<div class="col m2" style="text-align: center;">'

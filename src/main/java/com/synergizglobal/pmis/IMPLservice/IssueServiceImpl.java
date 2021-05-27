@@ -131,8 +131,8 @@ public class IssueServiceImpl implements IssueService {
 	}
 
 	@Override
-	public boolean readIssueMessage(Issue obj) throws Exception {
-		return issueDao.readIssueMessage(obj);
+	public boolean readIssueMessage(String message_id) throws Exception {
+		return issueDao.readIssueMessage(message_id);
 	}
 
 	@Override

@@ -204,7 +204,7 @@ public class TableauDashboardController {
 			}
 			view.addObject("url", vo);
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMessage_id())) {
-				boolean flag = issueService.readIssueMessage(obj);
+				boolean flag = issueService.readIssueMessage(obj.getMessage_id());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -249,6 +249,11 @@ public class TableauDashboardController {
 				vo.setTableauUrl(tableauUrl);
 			}
 			view.addObject("url", vo);
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMessage_id())) {
+				boolean flag = issueService.readIssueMessage(obj.getMessage_id());
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("issueTableauDashboard() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());

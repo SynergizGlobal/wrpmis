@@ -124,7 +124,7 @@
                                 <div class="col s12 m4 input-field">
                                 <p class="searchable_label"> Project</p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
-                                        onchange="getWorksList(this.value);">
+                                        onchange="getWorksList(this.value);" <c:if test="${not empty fob.project_id_fk}">disabled</c:if>>
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
                                             <option value="${obj.project_id }" <c:if test="${obj.project_id eq fob.project_id_fk}">selected</c:if>><%-- ${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> --%> ${obj.project_name }</option>
@@ -135,7 +135,7 @@
                                 <div class="col s12 m4 input-field">
                                 <p class="searchable_label"> Work</p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                        onchange="getContractsList(this.value);">
+                                        onchange="getContractsList(this.value);" <c:if test="${not empty fob.work_id_fk}">disabled</c:if>>
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${worksList }">
                                       	   <option value= "${ obj.work_id}"><%-- ${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> --%> ${obj.work_short_name }</option>
@@ -180,7 +180,8 @@
                                 <div class="col s12 m4 input-field">
                                 <p class="searchable_label">Contract</p>
                                  <select  class="searchable validate-dropdown" name="contract_id_fk" id="contract_id_fk" 
-                                 			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();">
+                                 			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();" 
+                                 			<c:if test="${fn:length(fob.contractsList) gt 0}">disabled</c:if>>
                                   		 <option value="" disabled="disabled">Select</option>
                                           <c:forEach var="obj" items="${contractsList}">
 									 		<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 
@@ -195,7 +196,8 @@
                                 
                                 <div class="col s12 m4 input-field">
                                 <p class="searchable_label">Responsible Persons</p>
-                                  <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" multiple="multiple" >
+                                  <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
+                                  multiple="multiple" <c:if test="${fn:length(fob.responsiblePeopleList) gt 0}">disabled</c:if>>
                                    <option value="" disabled="disabled">Select</option>
                                    <c:forEach var="obj" items="${responsiblePeopleList}">
            					  			 <option value="${obj.user_id }"            					  			 
@@ -223,22 +225,22 @@
 									</c:forEach>
 								</div>
                            
-                                 <c:if test="${empty fob.fob_id }">
+                                 <%-- <c:if test="${empty fob.fob_id }"> --%>
 	                                <div class="col s12 m2 input-field">
-	                                    <input id="fob_id" name="fob_id" type="text" class="validate" onkeyup="doValidate(this.value)">
+	                                    <input id="fob_id" name="fob_id" type="text" class="validate" value="${fob.fob_id }" onkeyup="doValidate(this.value)" <c:if test="${not empty fob.fob_id}">readonly</c:if>>
 	                                    <label for="fob_id">FOB ID <span class="required">*</span></label>
 	                                    <span id="fob_idError" class="error-msg" ></span>
 	                                </div>
-                                </c:if>
-                                <c:if test="${not empty fob.fob_id }">
+                                <%-- </c:if> --%>
+                                <%-- <c:if test="${not empty fob.fob_id }">
 	                                <div class="col s12 m2 input-field">
-	                                    <%-- <label > FOB ID <span class="required">*</span>: <input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }" readonly style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
-	                                    <span id="fob_idError" class="error-msg" ></span> --%>
+	                                    <label > FOB ID <span class="required">*</span>: <input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }" readonly style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+	                                    <span id="fob_idError" class="error-msg" ></span>
 	                                    <input id="fob_id" name="fob_id" type="text" class="validate" value="${fob.fob_id }" readonly>
 	                                    <label for="fob_id">FOB ID <span class="required">*</span></label>
 	                                    <span id="fob_idError" class="error-msg" ></span>
 	                                </div>
-                                </c:if>
+                                </c:if> --%>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Work Status <span class="required">*</span></p>
                                     <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown" onchange="openDates(this.value);">
@@ -256,14 +258,14 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
 	                            <div class="col s12 m4 input-field">
-                                    <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${fob.target_date }">
+                                    <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${fob.target_date }" <c:if test="${not empty fob.target_date}">disabled</c:if>>
                                     <label for="target_date">Target Date </label>
                                     <button type="button" id="target_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="target_dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s9 m3 input-field">
                                 	<i class="material-icons prefix cost">₹</i>   
-                                    <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${fob.estimated_cost }" min="0.01" step="0.01">
+                                    <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${fob.estimated_cost }" min="0.01" step="0.01" <c:if test="${not empty fob.estimated_cost}">readonly</c:if>>
                                     <label for="estimated_cost">Estimated Cost</label>
                                     <span id="estimated_costError" class="error-msg" ></span>
                                 </div>
@@ -293,12 +295,12 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="latitude" name="latitude" type="text" class="validate" value="${fob.latitude }">
+                                    <input id="latitude" name="latitude" type="text" class="validate" value="${fob.latitude }" <c:if test="${not empty fob.latitude}">readonly</c:if>>
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="longitude" name="longitude" type="text" class="validate" value="${fob.longitude }">
+                                    <input id="longitude" name="longitude" type="text" class="validate" value="${fob.longitude }" <c:if test="${not empty fob.longitude}">readonly</c:if>>
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
@@ -309,13 +311,13 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field" id="construction_start_dateDiv" style="display: none;">
-                                    <input id="construction_start_date" name="construction_start_date" type="text" class="validate datepicker" value="${fob.construction_start_date }">
+                                    <input id="construction_start_date" name="construction_start_date" type="text" class="validate datepicker" value="${fob.construction_start_date }" <c:if test="${not empty fob.construction_start_date}">disabled</c:if>>
                                     <label for="construction_start_date">Construction Start Date </label>
                                     <button type="button" id="construction_start_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="construction_start_dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field" id="revised_completionDiv" style="display: none;">
-                                    <input id="revised_completion" name="revised_completion" type="text" class="validate datepicker" value="${fob.revised_completion }">
+                                    <input id="revised_completion" name="revised_completion" type="text" class="validate datepicker" value="${fob.revised_completion }" <c:if test="${not empty fob.revised_completion}">disabled</c:if>>
                                     <label for="revised_completion">Revised completion Date </label>
                                     <button type="button" id="revised_completion_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="revised_completionError" class="error-msg" ></span>
@@ -378,7 +380,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field" id="commissioning_dateDiv" style="display: none;">
-                                    <input id="commissioning_date" name="commissioning_date" type="text" class="validate datepicker" value="${fob.commissioning_date }">
+                                    <input id="commissioning_date" name="commissioning_date" type="text" class="validate datepicker" value="${fob.commissioning_date }" <c:if test="${not empty fob.commissioning_date}">disabled</c:if>>
                                     <label for="commissioning_date">Commissioning Date </label>
                                     <button type="button" id="commissioning_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="commissioning_dateError" class="error-msg" ></span>
@@ -389,7 +391,7 @@
                             <div class="row" id="actual_completion_dateDiv" style="display: none;">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field"  >
-                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${fob.actual_completion_date }">
+                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${fob.actual_completion_date }" <c:if test="${not empty fob.actual_completion_date}">disabled</c:if>>
                                     <label for="actual_completion_date">Actual Completion Date </label>
                                     <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="actual_completion_dateError" class="error-msg" ></span>
@@ -397,7 +399,7 @@
                                <%--  <c:if test="${action eq 'edit'}"> --%>
                                 <div class="col s9 m3 input-field">
                                 	<i class="material-icons prefix cost">₹</i>   
-                                    <input id="completion_cost" name="completion_cost" type="number" class="validate" min="0.01" step="0.01" value="${fob.completion_cost }">
+                                    <input id="completion_cost" name="completion_cost" type="number" class="validate" min="0.01" step="0.01" value="${fob.completion_cost }" <c:if test="${not empty fob.completion_cost}">readonly</c:if>>
                                     <label for="completion_cost">Actual Completion Cost</label>
                                     <span id="completion_costError" class="error-msg" ></span>
                                 </div>
@@ -640,15 +642,7 @@
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-	<script>
-	/* $(document).on('focus', '.datepicker',function(){
-        $(this).datepicker({
-        	format:'dd-mm-yyyy',
-   	    	onSelect: function () {
-   	    	   $('.confirmation-btns .datepicker-done').click();
-   	    	}
-        })
-    }); */
+	<script type="text/javascript">
     
     
     let date_pickers = document.querySelectorAll('.datepicker');
@@ -764,6 +758,7 @@
             }).datepicker("setDate", new Date());
         }
         
+        /********************************************************************************/
         
     });
 	
@@ -1098,8 +1093,20 @@
 	}
 	
     function updateFOB(){
-  		if(validator.form()){ // validation perform
-  			$(".page-loader").show();	    		
+  		if(validator.form()){ 
+  			$(".page-loader").show();
+  			
+  			$("#project_id_fk").attr('disabled', false);
+  			$("#work_id_fk").attr('disabled', false);
+  			$("#contract_id_fk").attr('disabled', false);
+  			$("#responsible_people_id_fk").attr('disabled', false);
+  			$("#target_date").attr('disabled', false);
+  			$("#construction_start_date").attr('disabled', false);
+  			$("#revised_completion").attr('disabled', false);
+  			$("#commissioning_date").attr('disabled', false);
+  			$("#actual_completion_date").attr('disabled', false);
+  			
+  				    		
   			$('form input[name=fob_detail_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
   			$('form input[name=fob_detail_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
   			document.getElementById("fobForm").submit();			

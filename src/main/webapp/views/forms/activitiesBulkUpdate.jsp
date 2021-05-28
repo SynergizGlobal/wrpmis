@@ -363,7 +363,7 @@
                                         </div>                                        
                                          <div class="col m4 s12 input-field">
                                             <p class="searchable_label">Component ID</p>
-                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component_id" name="strip_chart_component_id" ></select>
+                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component_id" name="strip_chart_component_id" onChange="getComponentAndActivitiesList(this.value);"></select>
                                         </div>
                                     </div>
                                     
@@ -1040,6 +1040,7 @@
 		document.getElementById('strip_chart_component_id').innerHTML = "";
 
 		var list = $("#strip_chart_component_id");
+     	$("#strip_chart_component_id").append('<option name="" value="">Select</option>');
 
 	    for(var i=0;i<componentsArray.length;i++)
 		{
@@ -1084,6 +1085,7 @@
                      
                      if (data.length > 0) 
                      {
+                      	$("#strip_chart_component").append('<option name="" value="">Select</option>');
                          $.each(data, function (i, val) {
                          	var componentIdAndName = "'" + val.strip_chart_component_id + "','" +val.strip_chart_component+ "'";
                              var className = "odd";
@@ -1221,13 +1223,13 @@
 	 function getComponentAndActivitiesList(componentId){
 		getStripChartfiltersList();
      	$( ".dot" ).removeClass( "active" );
-     	$( "#"+componentId ).addClass( "active" );
+     	//$( "#"+componentId ).addClass( "active" );
      	
      	var $scroller = $('.dotgroup-scroll');
          var childs=$scroller.children().children().length;
-         var indexing=$(".dot-container").index($("#dd"+componentId));
-        	var scrollTo=Math.round((indexing*($scroller[0].scrollWidth/childs))-childs);           
-         $scroller.animate({'scrollLeft': scrollTo}, 1000);  
+         //var indexing=$(".dot-container").index($("#dd"+componentId));
+        	//var scrollTo=Math.round((indexing*($scroller[0].scrollWidth/childs))-childs);           
+         //$scroller.animate({'scrollLeft': scrollTo}, 1000);  
                      
      	var componentName = $("#strip_chart_component_id").find('option:selected').attr("name");
      	
@@ -1235,7 +1237,7 @@
      	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
      	$('.searchable').select2(); */
      	$("#strip_chart_component").attr("readonly", false); 
-     	$("#strip_chart_component").val(componentName);
+     	//$("#strip_chart_component").val(componentName);
      	$("#strip_chart_component").attr("readonly", true);
      	
      	$(".page-loader").show();

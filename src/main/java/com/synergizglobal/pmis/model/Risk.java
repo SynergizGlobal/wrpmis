@@ -12,7 +12,7 @@ public class Risk {
 	priority, probability,item_no,priority_fk,work_short_name, impact, owner, responsible_person,assessment_date, risk_action_id,mitigation_plan, action_taken, attachment,
 	sub_area, risk_area_fk,classification,owner_user_id,responsible_user_id,atr_date,work_id,risk_rating,status,mitigation_plan_old,sub_work,area_item_no,sub_area_item_no,risk_revision_id_fk,user_type,user_role_code,user_id,user_designation;
 
-	private String risk_upload_id,remarks,uploaded_by_user_id_fk,uploaded_on,uploaded_by,reporting_to_user_id,message_id;
+	private String risk_upload_id,remarks,uploaded_by_user_id_fk,uploaded_on,uploaded_by,reporting_to_user_id,message_id,hod_user_id_fk;
 	private boolean readonlyForm = true;
 	private MultipartFile riskFile;
 	private MultipartFile riskAssessmentFile;
@@ -633,5 +633,13 @@ public class Risk {
 
 	public void setMessage_id(String message_id) {
 		this.message_id = message_id;
+	}
+
+	public String getHod_user_id_fk() {
+		return hod_user_id_fk;
+	}
+
+	public void setHod_user_id_fk(String hod_user_id_fk) {
+		this.hod_user_id_fk = hod_user_id_fk;
 	}
 }

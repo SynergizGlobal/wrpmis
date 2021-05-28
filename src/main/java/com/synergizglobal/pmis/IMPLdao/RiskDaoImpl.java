@@ -537,7 +537,7 @@ public class RiskDaoImpl implements RiskDao{
 					+ "ra.area,p.project_name,sub_area_fk,"
 					+ "risk_revision_id,risk_id_pk_fk,DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date,"
 					+ "u.user_id as owner_user_id,u1.user_id as responsible_user_id,u.reporting_to_id_srfk as reporting_to_user_id,"
-					+ "priority_fk,probability,impact,owner,responsible_person,mitigation_plan "
+					+ "priority_fk,probability,impact,owner,responsible_person,mitigation_plan,rwh.hod_user_id_fk "
 					+ "from risk_revision rr "
 					+ "LEFT OUTER join risk r on rr.risk_id_pk_fk = r.risk_id_pk "
 					+ "left join risk_work_hod rwh on r.sub_work = rwh.sub_work "
@@ -644,14 +644,14 @@ public class RiskDaoImpl implements RiskDao{
 							(!StringUtils.isEmpty(obj.getAction_takens_old()) && obj.getAction_takens_old().length > 0 && !(obj.getAction_takens()[j].equals(obj.getAction_takens_old()[j])))) {
 
 						  String messageType = "Risk";
-						  String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id(),obj.getReporting_to_user_id() };
+						  String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id(),obj.getReporting_to_user_id(),obj.getHod_user_id_fk() };
 						  flag = true;
 						  String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
 						  insertStmt = con.prepareStatement(message_qry);
 						  for(int i = 0; i < userId.length; i++) {	
 							int p = 1;
 							if((!StringUtils.isEmpty(userId[i]))) {
-								String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+obj.getSub_work()+"&assessment_date="+obj.getAssessment_date();
+								String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+obj.getSub_work()+"&assessment_date="+DateParser.parse(obj.getAssessment_date());
 								insertStmt.setString(p++,"ATR of prioritized risk(s) for "+obj.getSub_work()+" has been updated.");
 								insertStmt.setString(p++,(userId[i]));
 								insertStmt.setString(p++,redirect_url);

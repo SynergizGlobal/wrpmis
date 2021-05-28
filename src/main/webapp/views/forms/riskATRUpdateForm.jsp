@@ -235,6 +235,8 @@
 									<input type="hidden"  name="responsible_user_id" value="${risk.responsible_user_id }" />                            	
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
+                                
+                                <input type="hidden"  name="hod_user_id_fk" value="${risk.hod_user_id_fk }" />
                             </div>
                             
                             <div class="row">

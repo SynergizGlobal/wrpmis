@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 public class DateParser {
 
 	public static Logger logger = Logger.getLogger(DateParser.class);
+	public static SimpleDateFormat indianDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	public static SimpleDateFormat mySQLDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	public static SimpleDateFormat mySQLDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	private static final Map<String, String> DATE_FORMAT_REGEXPS = new HashMap<String, String>() {        
@@ -101,6 +102,25 @@ public class DateParser {
         }
         return parseDateTime;
     }
+    
+    public static String parseToIndianDateFormat(String value) {
+    	String parsedDate = null;
+        if (value != null) {
+            String format = determineDateFormat(value);
+            if (format != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat(format);
+                try {
+                    Date date = sdf.parse(value);
+                    //System.out.println(String.format("Format : %s | Value : %s | Parsed Date : %s", value, date, format));
+                    parsedDate = indianDateFormat.format(date);
+                } catch (ParseException e) {
+                    // Failed the execution
+                }
+            }
+        }
+        return parsedDate;
+    }
+    
 	/*public static void main(String[] args) {
 	    parse("2011-09-27T07:04:21.97-05:00"); //here is your value
 	    parse("20110917");

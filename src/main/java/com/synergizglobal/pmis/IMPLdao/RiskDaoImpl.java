@@ -640,11 +640,14 @@ public class RiskDaoImpl implements RiskDao{
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 			if(insertCount.length > 0) {
 				for(int j = 0; j < arraySize; j++) {	
-					if((!StringUtils.isEmpty(obj.getAtr_dates_old()) && obj.getAtr_dates_old().length > 0 && !(obj.getAtr_dates()[j].equals(obj.getAtr_dates_old()[j]))) || 
-							(!StringUtils.isEmpty(obj.getAction_takens_old()) && obj.getAction_takens_old().length > 0 && !(obj.getAction_takens()[j].equals(obj.getAction_takens_old()[j])))) {
+					if((!StringUtils.isEmpty(obj.getAtr_dates_old()) && obj.getAtr_dates_old().length > 0 && !(obj.getAtr_dates()[j].equals(obj.getAtr_dates_old()[j]))) 
+							|| (!StringUtils.isEmpty(obj.getAction_takens_old()) && obj.getAction_takens_old().length > 0 && !(obj.getAction_takens()[j].equals(obj.getAction_takens_old()[j]))) 
+							|| (StringUtils.isEmpty(obj.getAtr_dates_old()) || (!StringUtils.isEmpty(obj.getAtr_dates_old()) && obj.getAtr_dates_old().length <= 0) 
+									&& (StringUtils.isEmpty(obj.getAction_takens_old()) || (!StringUtils.isEmpty(obj.getAction_takens_old()) && obj.getAction_takens_old().length <= 0))) 
+							) {
 
 						  String messageType = "Risk";
-						  String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id(),obj.getReporting_to_user_id(),obj.getHod_user_id_fk() };
+						  String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id(),obj.getReporting_to_user_id() };
 						  flag = true;
 						  String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
 						  insertStmt = con.prepareStatement(message_qry);
@@ -661,7 +664,6 @@ public class RiskDaoImpl implements RiskDao{
 						 }
 					     insertCount = insertStmt.executeBatch();
 						 break;
-
 					}
 				}
 				

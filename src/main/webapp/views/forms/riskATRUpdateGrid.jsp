@@ -115,7 +115,7 @@
                              <div class="col m6 s12 offset-m3"> 
 								<div class="col s12 m4 input-field">
 	                                <p class="searchable_label">Work</p>
-	                                  <select id="sub_work" name="sub_work" onchange="addInQueSubWork(this.value);getAssessmentDatesFilterList(this.value);getRiskList();" class="searchable" required="required">
+	                                  <select id="sub_work" name="sub_work" onchange="addInQueSubWork(this.value);getAssessmentDatesFilterList('');getRiskList();" class="searchable" required="required">
                                       	<option value="" >Select</option>	                                           
                                       </select>
 	                            </div>
@@ -130,7 +130,7 @@
 	                            <div class="col s12 m4 input-field" id="assessmentDatesDropdown" style="display: none;">
 	                                <p class="searchable_label">Assessment Date</p>
 	                                 <select id="assessment_date" name="assessment_date" onchange="addInQueAssessmentDate(this.value);getRiskList();" class="searchable">
-	                                            <option value="" >Select </option>	                                           
+	                                      <!-- <option value="" >Select </option> -->	                                           
 	                                 </select>
 	                            </div>
 	                            <div class="col s12 m4 input-field">
@@ -226,7 +226,6 @@
 	          
 	          var sub_work = "${sub_work}";
 		      var assessment_date = "${assessment_date}";
-		          	
 	          
 	          var filters = window.localStorage.getItem("riskFilters");
 	          
@@ -237,6 +236,7 @@
 		          addInQueSubWork(sub_work);
 		          addInQueAssessmentDate(assessment_date);
 	          }else if($.trim(filters) != '' && $.trim(filters) != null){
+	        	  
 	        	  var temp = filters.split('^'); 
 	        	  for(var i=0;i< temp.length;i++){
 		        	  if($.trim(temp[i]) != '' ){
@@ -294,7 +294,6 @@
         	
         	var sub_work = $("#sub_work").val();
 	        var assessment_date = $("#assessment_date").val();
-	          	
         	var filters = '';
         	Object.keys(filtersMap).forEach(function (key) {
 	    		//alert(filtersMap[key]);
@@ -377,6 +376,7 @@
         	$(".page-loader").show();
         	var sub_work = $("#sub_work").val();
         	var assessment_date = $("#assessment_date").val();
+        	
             //if ($.trim(sub_work) == "") {
             	$("#sub_work option:not(:first)").remove();
             	var myParams = {sub_work : sub_work};
@@ -387,7 +387,7 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var selectedFalg = '';
-                            	if(work == val.sub_work){selectedFalg = 'selected'};
+                            	if(work == val.sub_work){selectedFalg = 'selected';addInQueSubWork(val.sub_work)};
                             	$("#sub_work").append('<option value="' + val.sub_work + '" '+selectedFalg+'>' + $.trim(val.sub_work) +'</option>');
                             });
                         }
@@ -401,15 +401,22 @@
             /* }else{
             	  $(".page-loader").hide();
             } */
+            
+            var sub_work = $("#sub_work").val();
+            if($.trim(sub_work) != ''){
+            	//$("#assessmentDatesDropdown").show();
+            	getAssessmentDatesFilterList('');
+            }
+            
         }
         
         function getAssessmentDatesFilterList(date) {
-        	$("#assessment_date option:not(:first)").remove();
+        	$("#assessment_date option").remove();
         	$(".page-loader").show();
         	var sub_work = $("#sub_work").val();
         	var assessment_date = $("#assessment_date").val();
         	
-            if ($.trim(sub_work) != "") {            
+            if ($.trim(sub_work) != "") {
             	$("#assessmentDatesDropdown").show();
             	/*$("#assessment_date option:not(:first)").remove();*/
         		var myParams = {sub_work : sub_work,assessment_date : assessment_date};
@@ -419,8 +426,16 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
+                            	console.log(val.assessment_date);
                             	var selectedFalg = '';
-                            	if(date == val.assessment_date){selectedFalg = 'selected'}
+                            	if(date == val.assessment_date){
+                            		selectedFalg = 'selected';
+                            		addInQueAssessmentDate(val.assessment_date);
+                            	}else if($.trim(date) == '' && i == 0){
+                            		selectedFalg = 'selected';
+                            		addInQueAssessmentDate(val.assessment_date);
+                            	}
+                        		
     	                        $("#assessment_date").append('<option value="' + val.assessment_date + '" '+selectedFalg+'>' + $.trim(val.assessment_date)   +'</option>');
                             });
                         }

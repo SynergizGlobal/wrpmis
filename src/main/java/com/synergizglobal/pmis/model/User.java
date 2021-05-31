@@ -11,9 +11,11 @@ public class User  {
 	private String confirmPassword;
 	private String passwordExpiredTime;
 	
-	private String reporting_to_name,reporting_to_designation,department,department_name,user_access_type,user_access_table,user_id_fk,user_type_fk,
+	private String reporting_to_name,reporting_to_designation,department,department_name,user_access_type,user_access_table,user_id_fk,user_type_fk,loginCount,
 	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_name,
 	access_value_id,access_value_name,user_role_code,last7DaysLogins,last30DaysLogins,login_event_date,login_event_type,login_event_type_fk,single_login_session_id;
+	
+	private List<User> departmentList,DesignationsList,UserLoginList;
 	
 	private List<User> userPermissions;
 	
@@ -26,6 +28,47 @@ public class User  {
 	private String system_ipa,public_ipa;
 	
 	private String user_login_details_id;
+
+
+	public List<User> getDepartmentList() {
+		return departmentList;
+	}
+
+
+	public void setDepartmentList(List<User> departmentList) {
+		this.departmentList = departmentList;
+	}
+
+
+	public List<User> getDesignationsList() {
+		return DesignationsList;
+	}
+
+
+	public void setDesignationsList(List<User> designationsList) {
+		DesignationsList = designationsList;
+	}
+
+
+	public List<User> getUserLoginList() {
+		return UserLoginList;
+	}
+
+
+	public void setUserLoginList(List<User> userLoginList) {
+		UserLoginList = userLoginList;
+	}
+
+
+	public String getLoginCount() {
+		return loginCount;
+	}
+
+
+	public void setLoginCount(String loginCount) {
+		this.loginCount = loginCount;
+	}
+
 
 	public String getLogin_event_date() {
 		return login_event_date;

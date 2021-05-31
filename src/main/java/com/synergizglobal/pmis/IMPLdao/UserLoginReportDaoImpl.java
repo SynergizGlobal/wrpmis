@@ -1,0 +1,91 @@
+package com.synergizglobal.pmis.IMPLdao;
+
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
+
+import com.synergizglobal.pmis.Idao.UserLoginReportDao;
+import com.synergizglobal.pmis.model.User;
+@Repository
+public class UserLoginReportDaoImpl implements UserLoginReportDao{
+
+	@Autowired
+	DataSource dataSource;
+	
+	@Autowired
+	JdbcTemplate jdbcTemplate ;
+
+	@Override
+	public List<User> getDepartmentList(User dObj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "SELECT login_date_time,department_name,u2.designation as reporting_to_designation,u2.user_name as reporting_to_name, u.designation, u.user_name, count(*) as loginCount " + 
+					"FROM user_login_details left join user u on user_id_fk = u.user_id  " + 
+					"left join user u2 on u2.user_id = u.reporting_to_id_srfk " + 
+					"left join department on u.department_fk = department " + 
+					"where user_id_fk like 'PMIS_%' and login_date_time >= DATE(NOW()) - INTERVAL 7 DAY " + 
+					"group by department_name " + 
+					"order by department_name, u2.designation, u.designation";
+			
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public User getUserLoginDetails(User obj) throws Exception {
+		
+		return null;
+	}
+
+	@Override
+	public List<User> getDesignationList(User dObj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "SELECT login_date_time,department_name,u2.designation as reporting_to_designation,u2.user_name as reporting_to_name, u.designation, u.user_name, count(*) as loginCount " + 
+					"FROM user_login_details left join user u on user_id_fk = u.user_id  " + 
+					"left join user u2 on u2.user_id = u.reporting_to_id_srfk " + 
+					"left join department on u.department_fk = department " + 
+					"where user_id_fk like 'PMIS_%' and login_date_time >= DATE(NOW()) - INTERVAL 7 DAY and department_name = ? " + 
+					"group by u2.designation " + 
+					"order by department_name, u2.designation, u.designation";
+			
+		    objsList = jdbcTemplate.query( qry, new Object[] {dObj.getDepartment_name()}, new BeanPropertyRowMapper<User>(User.class));
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<User> getUserLoginList(User dObj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "SELECT login_date_time,department_name,u2.designation as reporting_to_designation,u2.user_name as reporting_to_name, u.designation, u.user_name, count(*) as loginCount " + 
+					"FROM user_login_details left join user u on user_id_fk = u.user_id  " + 
+					"left join user u2 on u2.user_id = u.reporting_to_id_srfk " + 
+					"left join department on u.department_fk = department " + 
+					"where user_id_fk like 'PMIS_%' and login_date_time >= DATE(NOW()) - INTERVAL 7 DAY and department_name = ? and u2.designation = ? " + 
+					"group by department_name, u2.designation, u.designation " + 
+					"order by department_name, u2.designation, u.designation";
+			
+		    objsList = jdbcTemplate.query( qry, new Object[] {dObj.getDepartment_name(),dObj.getReporting_to_designation()}, new BeanPropertyRowMapper<User>(User.class));
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	
+}

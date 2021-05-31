@@ -237,9 +237,12 @@ public class P6DataController {
 						int i= 2;
 						wbsList = baselineWBSUpload(p6data,workbook,fob_mismatch);
 						activitiesList = baselineActivitiesUpload(p6data,workbook);
+						if(wbsList.size() == 0 ){
+							fob_mismatch = "Sheet is empty.";
+						}
 						for(P6Data list : wbsList) {
 							
-							if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk())) {
+							if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk()) && !StringUtils.isEmpty(list.getP6_wbs_code())) {
 								fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
 								break;
 							}
@@ -433,9 +436,12 @@ public class P6DataController {
 							p6data.setP6_file_path(fileName);
 							int i= 2;
 							activitiesList = updateP6Activities(p6data,workbook);
+							if(activitiesList.size() == 0 ){
+								fob_mismatch = "Sheet is empty.";
+							}
 							for(P6Data list : activitiesList) {
 								
-								if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk())) {
+								if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk()) && !StringUtils.isEmpty(list.getP6_task_code())) {
 									fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
 									break;
 								}

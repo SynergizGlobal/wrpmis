@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBElement;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -174,10 +175,13 @@ public class UserLoginReportController {
 					            int hStartRowIndx = count, hEndRowIndx = count, hStartColIndx = 0,hEndColIndx = 4;
 					        	XSSFRow headerRow = sheet[sheetNum].createRow(count++);
 								cellIndex = 0;
-
+								String reportingName = "";
+								if(!StringUtils.isEmpty(obj.getReporting_to_name())) {
+									 reportingName = " - "+obj.getReporting_to_name();
+								}
 								Cell headerCell = headerRow.createCell(cellIndex++);
 								headerCell.setCellStyle(yellowStyle);
-								headerCell.setCellValue(obj.getReporting_to_designation() +" - "+obj.getReporting_to_name());
+								headerCell.setCellValue(obj.getReporting_to_designation() + reportingName);
 								
 								headerCell = headerRow.createCell(cellIndex++);
 								headerCell.setCellStyle(yellowStyle);

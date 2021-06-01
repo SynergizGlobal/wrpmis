@@ -259,7 +259,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
 	                            <div class="col s12 m4 input-field">
                                     <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${fob.target_date }" <c:if test="${not empty fob.target_date}">disabled</c:if>>
-                                    <label for="target_date">Target Date </label>
+                                    <label for="target_date">Original Target Date </label>
                                     <button type="button" id="target_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="target_dateError" class="error-msg" ></span>
                                 </div>
@@ -318,7 +318,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field" id="revised_completionDiv" style="display: none;">
                                     <input id="revised_completion" name="revised_completion" type="text" class="validate datepicker" value="${fob.revised_completion }" <c:if test="${not empty fob.revised_completion}">disabled</c:if>>
-                                    <label for="revised_completion">Revised completion Date </label>
+                                    <label for="revised_completion">Target completion Date </label>
                                     <button type="button" id="revised_completion_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="revised_completionError" class="error-msg" ></span>
                                 </div>
@@ -649,7 +649,7 @@
     $.each(date_pickers, function(){
     	var dt = this.value.split(/[^0-9]/);
     	this.value = ""; 
-    	var options = {format: 'dd-mm-yyyy',autoClose:true,maxDate: new Date()};
+    	var options = {format: 'dd-mm-yyyy',autoClose:true};
     	if(dt.length > 1){
     		options.setDefaultDate = true,
     		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
@@ -1142,7 +1142,7 @@
 			 	   	  },"construction_start_date": {
 			 		    required: false,
 			 		    currentDate1:"#construction_start_date",
-			 		    dateBefore4 :"#target_date"
+			 		    //dateBefore4 :"#target_date"
 			 	   	  },"commissioning_date": {
 				 		required: false,
 				 		currentDate2:"#commissioning_date",

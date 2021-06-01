@@ -632,12 +632,13 @@ public class AlertsDaoImpl implements AlertsDao{
 	                stmt.setString(p++, obj.getUser_id_fk());
 	                stmt.addBatch();
 	                
-					/*if(!StringUtils.isEmpty(obj.getReporting_to_user_id())) {
-						 p = 1;
+					if(!StringUtils.isEmpty(obj.getReporting_to_user_id()) 
+							&& ("3rd Alert".equals(obj.getAlert_level()) || "Overdue".equals(obj.getAlert_level())) ) {
+						p = 1;
 						stmt.setString(p++, alert_id);
 					    stmt.setString(p++, obj.getReporting_to_user_id());
 					    stmt.addBatch();
-					}*/
+					}
 	               
 	                
 					/*p = 1;
@@ -1025,9 +1026,9 @@ public class AlertsDaoImpl implements AlertsDao{
 						
 						Mail mail = new Mail();
 						mail.setMailTo(uObj.getEmail_id());
-						if(isOverdue && !StringUtils.isEmpty(uObj.getReporting_to_email_id())) {
+						/*if(isOverdue && !StringUtils.isEmpty(uObj.getReporting_to_email_id())) {
 							mail.setMailCc(uObj.getReporting_to_email_id());
-						}						
+						}*/						
 						mail.setMailBcc(CommonConstants.BCC_MAIL);
 						mail.setMailSubject(emailSubject);
 						mail.setTemplateName("Risk_Alerts.vm");

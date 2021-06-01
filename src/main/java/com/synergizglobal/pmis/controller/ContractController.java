@@ -392,6 +392,59 @@ public class ContractController {
 		return dataList;
 	}
 	
+	
+	@RequestMapping(value = "/addcontract", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView addContract(@ModelAttribute Contract obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addContract);	
+			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<Contract> worksList = contractService.getWorkListForContractForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<Contract> contractFileTypeList = contractService.getContractFileTypeList(obj);
+			model.addObject("contractFileTypeList", contractFileTypeList);
+			
+			List<Contract> departmentList = contractService.getDepartmentList();
+			model.addObject("departmentList", departmentList);
+			
+			List<User> hodList = contractService.setHodList();
+			model.addObject("hodList", hodList);
+			
+			List<User> dyHodList = contractService.getDyHodList();
+			model.addObject("dyHodList", dyHodList);
+			
+			List<Contract> contractors = contractService.getContractorsList();
+			model.addObject("contractors", contractors);
+			
+			List<Contract> contract_type = contractService.getContractTypeList();
+			model.addObject("contract_type", contract_type);
+			
+			List<Contract> insurance_type = contractService.getInsurenceTypeList();
+			model.addObject("insurance_type", insurance_type);
+			
+			List<Contract> contractList = contractService.contractList(obj);
+			model.addObject("contractList", contractList);
+			
+			List<BankGuarantee> bankGuaranteeTYpe = contractService.bankGuarantee();
+			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
+			
+			List<Insurence> InsurenceType = contractService.insurenceType();
+			model.addObject("InsurenceType", InsurenceType);
+			
+			List<Contract> contract_Statustype = contractService.getContractStatusType();
+			model.addObject("contract_Statustype", contract_Statustype);
+			
+		}catch (Exception e) {
+			logger.error("Contract : " + e.getMessage());
+		}
+		return model;
+	}	
+	
+	
+	
 	@RequestMapping(value = "/add-contract-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addContractForm(@ModelAttribute Contract obj){
 		ModelAndView model = new ModelAndView();
@@ -505,7 +558,7 @@ public class ContractController {
 	public ModelAndView getcontract(@ModelAttribute Contract obj){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName(PageConstants.updateContractForm);
+			model.setViewName(PageConstants.UpdateContract);
 			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
 			model.addObject("projectsList", projectsList);
 			

@@ -796,6 +796,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			
 			objsList = jdbcTemplate.query( qry,new Object[]{obj.getContract_id_fk()}, new BeanPropertyRowMapper<Activity>(Activity.class));
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return objsList;

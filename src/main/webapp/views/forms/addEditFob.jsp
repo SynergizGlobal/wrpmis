@@ -448,7 +448,7 @@
 												<thead>
 													<tr>
 														<th style="width: 52%;text-align: left;">Attach Photo</th>
-														<th style="width: 30%;text-align: left;">Date</th>
+														<th style="width: 30%;text-align: left;">Photo Date</th>
 														<th></th>
 														<th style="width: 8%;text-align: left;">Action</th>
 													</tr>
@@ -519,8 +519,8 @@
 								                                    </div>
 		                                                      	</td>
 		                                                      	<td>
-		                                                      		<input type="text" id="created_dates0" name="created_dates" class="validate datepicker"/>
-		                                                      		<button type="button" id="created_dates_icon0"><i class="fa fa-calendar"></i></button>
+		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" class="validate datepicker" style="width:150px;" /><i class="fa fa-calendar"></i></span>
+
 		                                                      	</td>
 		                                                      	<td><input type="hidden" id="fob_file_ids0" name="fob_file_ids"/></td>
 																<td>
@@ -657,6 +657,18 @@
     	M.Datepicker.init(this, options);
     });
     
+    let constructionstartdate = document.querySelectorAll('#construction_start_date');
+    $.each(constructionstartdate, function(){
+    	var dt = this.value.split(/[^0-9]/);
+    	this.value = ""; 
+    	var options = {format: 'dd-mm-yyyy',autoClose:true,maxDate:new Date()};
+    	if(dt.length > 1){
+    		options.setDefaultDate = true,
+    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+    	}
+    	M.Datepicker.init(this, options);
+    });
+    
 	$(document).ready(function () {
 		$('select:not(.searchable):not(.units)').formSelect();
         $('.searchable').select2();
@@ -748,7 +760,7 @@
         
         var size = '${fn:length(fob.fobImages )}';
         
-        if(size == 0){
+/*         if(size == 0){
         	$("#created_dates0").datepicker({
            	 	 format:'dd-mm-yyyy',
     	       	 maxDate: new Date(),
@@ -756,7 +768,7 @@
       	    	    $('.confirmation-btns .datepicker-done').click();
       	    	 }
             }).datepicker("setDate", new Date());
-        }
+        } */
         
         /********************************************************************************/
         

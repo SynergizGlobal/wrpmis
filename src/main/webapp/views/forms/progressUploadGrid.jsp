@@ -94,10 +94,13 @@
                 
                 <form action="<%=request.getContextPath() %>/upload-activities" id="uploadActivitiesForm" name="uploadActivitiesForm" method="post" enctype="multipart/form-data">
 						<div class="container container-no-margin">
-							<div class="row">		
+							<div class="row">
 								<div class="col s12">
-									<c:if test="${not empty success }">					        
+									<c:if test="${not empty success }">	
+											        
 										<div class="m-1 close-message">	
+										<span style="color:Green;" id="StatusMessage">Activities Uploaded Successfully...</span>	
+										
 										   ${success} 
 										   <button type="button" onclick="closeMessage();"
 											class="btn waves-effect waves-light bg-m t-c"
@@ -141,8 +144,8 @@
 								</div>	
 								
 								<div class="col s12 m2 input-field">
-									<div id="hideFOBDiv" style= "display: none">
-										<p class="searchable_label">FOB</p>
+									<div id="hideFOBDiv">
+										<p class="searchable_label">Structure</p>
 										<select class="searchable validate-dropdown" id="fob_id" name="fob_id">
 											<option value="">Select</option>
 										</select> 
@@ -295,6 +298,9 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script> 
 
     <script type="text/javascript">
     
@@ -389,12 +395,83 @@
         }
         
         
-        function uploadActivities() {
-        	if(validator.form()){
-    			$(".page-loader").show();
-    			$("#uploadActivitiesForm").submit();			
+        function uploadActivities() 
+        {
+        	if(validator.form())
+        	{
+                var fileUpload = document.getElementById("uploadFile");
+                
+                //Validate whether File is valid Excel file.
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+                if (regex.test(fileUpload.value.toLowerCase())) {
+                    if (typeof (FileReader) != "undefined") {
+                        var reader = new FileReader();
+         
+                        //For Browsers other than IE.
+                        if (reader.readAsBinaryString) {
+                            reader.onload = function (e) {
+                                GetTableFromExcel(e.target.result);
+                            };
+                            reader.readAsBinaryString(fileUpload.files[0]);
+                        } else {
+                            //For IE Browser.
+                            reader.onload = function (e) {
+                                var data = "";
+                                var bytes = new Uint8Array(e.target.result);
+                                for (var i = 0; i < bytes.byteLength; i++) {
+                                    data += String.fromCharCode(bytes[i]);
+        													alert(String.fromCharCode(bytes[i]));
+
+                                }
+                                GetTableFromExcel(data);
+                            };
+                            reader.readAsArrayBuffer(fileUpload.files[0]);
+                        }
+                    } else {
+                        alert("This browser does not support HTML5.");
+                    }
+                } else {
+                    alert("Please upload a valid Excel file.");
+                }
+        		
     	 	}
 		}
+        
+        
+        function GetTableFromExcel(data) {
+            //Read the Excel File data in binary
+            var workbook = XLSX.read(data, {
+                type: 'binary'
+            });
+     
+            //get the name of First Sheet.
+            var Sheet = workbook.SheetNames[2];
+     
+            //Read all rows from First Sheet into an JSON array.
+            var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[Sheet]);
+     
+            
+     
+            //Add the data rows from Excel file.
+            for (var i = 1; i < excelRows.length; i++) 
+    		{
+                if(excelRows.length==1)
+    			{
+    				alert("Sheet is Empty");
+    			}
+   				if(excelRows[i]["Type of Structure"]!=$("#fob_id").val())
+   				{
+   					alert("FOB selected from the dropdown and on the Activity File do not match in at Row No " + (i+1));
+   					
+   					return false;
+   					break;
+   				}
+            }
+            
+
+			$(".page-loader").show();
+			$("#uploadActivitiesForm").submit();
+        };
         
         
         var validator = $('#uploadActivitiesForm').validate({
@@ -660,7 +737,7 @@
 	                        });
 	                        $('#hideFOBDiv').show();
 	                    }else{
-	                    	$('#hideFOBDiv').hide();
+	                    	//$('#hideFOBDiv').hide();
 	                    }
 	                    $('.searchable').select2();
 	                    $(".page-loader").hide();
@@ -670,7 +747,7 @@
 		   	     	  }
 	            });
 	        }else{
-	        	  $('#hideFOBDiv').hide();
+	        	  //$('#hideFOBDiv').hide();
 	        	  $(".page-loader").hide();
 	        }
         }

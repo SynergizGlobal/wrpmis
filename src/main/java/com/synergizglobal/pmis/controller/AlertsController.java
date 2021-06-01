@@ -111,7 +111,7 @@ public class AlertsController {
 	     try {
 	    	logger.error("sendAlertsToAllByManual : start");
 			
-		    boolean flag = service.sendNotificationAlertMails();
+		    boolean flag = service.sendNotificationAlertMails(null);
 		    logger.error("sendAlertsToAllByManual >> Sending mails : "+ flag); 
 			
 		 } catch (Exception e) {
@@ -147,7 +147,7 @@ public class AlertsController {
             //System.out.println("End "+ new Date());
 	    	logger.error("generateAndSendAlertsToAllByManual >> generateAterts : "+flag);
 			
-		    flag = service.sendNotificationAlertMails();
+		    flag = service.sendNotificationAlertMails(null);
 		    logger.error("generateAndSendAlertsToAllByManual >> sendNotificationAlertMails >> Sending mails : "+ flag); 
 		    //System.out.println("Sending mails : "+ flag); 
 		    

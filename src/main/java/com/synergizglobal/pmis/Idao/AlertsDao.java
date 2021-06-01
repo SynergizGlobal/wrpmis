@@ -9,7 +9,7 @@ public interface AlertsDao {
 
 	boolean generateAterts() throws Exception;
 
-	boolean sendNotificationAlertMails() throws Exception;
+	boolean sendNotificationAlertMails(String alert_type) throws Exception;
 	
 	boolean sendAlertsToRajivRavi() throws Exception;
 

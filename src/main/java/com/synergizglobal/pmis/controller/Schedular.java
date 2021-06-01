@@ -1,5 +1,8 @@
 package com.synergizglobal.pmis.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.HomeService;
-import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class Schedular {
@@ -36,6 +41,9 @@ public class Schedular {
 	@Autowired
 	IssuesReportController issueReportController;
 	
+	@Autowired
+	UserLoginReportController userLoginReportController;
+	
 	@Value("${common.error.message}")
 	public String commonError;
 	
@@ -53,9 +61,7 @@ public class Schedular {
 			 logger.error("userLoginTimeout() : "+e.getMessage());
 		 }
 	}
-	/**********************************************************************************/
-	
-	
+	/**********************************************************************************/	
 	
 	//@Scheduled(cron = "0 0/3 * * * *")	//  = every minute.
 	//@Scheduled(cron = "0 50 10 * * *")	//  = every day 2:10 am.
@@ -88,7 +94,45 @@ public class Schedular {
 		 }
 	}
 	
-	//@Scheduled(cron = "0 25 15 * * MON")
+	//@Scheduled(cron = "0 0/2 * * * *")
+	//@Scheduled(cron = "${cron.expression.sending.alert.mails.by.alert.type}")
+	public void sendNotificationAlertMailsToAllByCronJob(){		   
+	     logger.error("sendNotificationAlertMailsToAllByCronJob : Current time is :"+ new Date());	    
+	     try {
+	    	   Date date = new Date();
+			   Calendar cal = Calendar.getInstance();
+	           cal.setTime(date); // don't forget this if date is arbitrary
+	             
+	           SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+	           SimpleDateFormat dayOfWeekTextFormat = new SimpleDateFormat("EEEE");
+	           String dayOfWeekText = dayOfWeekTextFormat.format(date).toUpperCase();
+	           //int month = cal.get(Calendar.MONTH); // 0 being January
+	           
+	           String alert_type = null;
+	           if(dayOfWeekText.equals("MONDAY")) {
+	        	   alert_type = CommonConstants2.ALERT_TYPE_BANK_GUARANTEE;
+	           }else if(dayOfWeekText.equals("TUESDAY")) {
+	        	   alert_type = CommonConstants2.ALERT_TYPE_INSURANCE;
+	           }else if(dayOfWeekText.equals("WEDNESDAY")) {
+	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT_PERIOD;
+	           }else if(dayOfWeekText.equals("THURSDAY")) {
+	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT_VALUE;
+	           }else if(dayOfWeekText.equals("FRIDAY")) {
+	        	   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
+	           }
+	           
+	           if(!StringUtils.isEmpty(alert_type)) {
+			       boolean flag = alertService.sendNotificationAlertMails(alert_type);
+				   logger.error("sendNotificationAlertMailsToAllByCronJob >> ALert type "+alert_type+". Sending mails : "+ flag);
+	           }
+			   
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("sendNotificationAlertMailsToAllByCronJob() : "+e.getMessage());
+		 }
+	}
+	
+	/*//@Scheduled(cron = "0 25 15 * * MON")
 	//@Scheduled(cron = "${cron.expression.sending.alert.mails}")
 	public void sendNotificationAlertMailsToAllByCronJob(){		
 	     String message = "Method executed every Monday. Current time is :: "+ new Date();
@@ -102,7 +146,11 @@ public class Schedular {
 			 e.printStackTrace();
 			logger.error("sendNotificationAlertMailsToAllByCronJob() : "+e.getMessage());
 		 }
-	}
+	}*/
+	
+	/******************************************************************************************/
+	
+	
 	
 	//@Scheduled(cron = "0 0/1 * * * *")	//  = every minute.
 	//@Scheduled(cron = "${cron.expression.send.mail.with.open.issues}")
@@ -115,6 +163,22 @@ public class Schedular {
 		 } catch (Exception e) {
 			 e.printStackTrace();
 			 logger.error("sendMailWithOpenIssues() : "+e.getMessage());
+		 }
+	}
+	
+	//@Scheduled(cron = "0 0/1 * * * *")	//  = every minute.
+	//@Scheduled(cron = "0 10 12 * * MON")
+	//@Scheduled(cron = "${cron.expression.sending.user.login.report.mails}")
+	public void sendUserLoginReportByCronJob(){		
+	     logger.error("sendUserLoginReportByCronJob : Current time is :"+ new Date());	    
+	     try {
+	    	 User uObj = new User();
+	    	 boolean flag = userLoginReportController.sendLast7DaysUserLoginDeatils(uObj);
+		     logger.error("sendUserLoginReportByCronJob >> Sending mails : "+ flag);
+		     //System.out.println("Sending mails : "+ flag); 
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("sendUserLoginReportByCronJob() : "+e.getMessage());
 		 }
 	}
 		
@@ -134,4 +198,5 @@ public class Schedular {
 		 }
 	     return model;
 	}
+	
 }

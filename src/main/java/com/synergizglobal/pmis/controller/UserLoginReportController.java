@@ -1,11 +1,13 @@
 package com.synergizglobal.pmis.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +48,7 @@ import org.docx4j.wml.JcEnumeration;
 import org.docx4j.wml.ObjectFactory;
 import org.docx4j.wml.P;
 import org.docx4j.wml.PPr;
+import org.docx4j.wml.PPrBase.Spacing;
 import org.docx4j.wml.R;
 import org.docx4j.wml.RFonts;
 import org.docx4j.wml.RPr;
@@ -58,14 +61,13 @@ import org.docx4j.wml.TblPr;
 import org.docx4j.wml.TblWidth;
 import org.docx4j.wml.Tc;
 import org.docx4j.wml.TcPr;
+import org.docx4j.wml.TcPrInner.HMerge;
+import org.docx4j.wml.TcPrInner.TcBorders;
+import org.docx4j.wml.TcPrInner.VMerge;
 import org.docx4j.wml.Text;
 import org.docx4j.wml.Tr;
 import org.docx4j.wml.U;
 import org.docx4j.wml.UnderlineEnumeration;
-import org.docx4j.wml.PPrBase.Spacing;
-import org.docx4j.wml.TcPrInner.HMerge;
-import org.docx4j.wml.TcPrInner.TcBorders;
-import org.docx4j.wml.TcPrInner.VMerge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -79,10 +81,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.UserLoginReportService;
-import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Alerts;
-import com.synergizglobal.pmis.model.Training;
-import com.synergizglobal.pmis.model.User;
+import com.synergizglobal.pmis.common.EMailSender;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.User;
 
 @Controller
@@ -119,163 +121,318 @@ public class UserLoginReportController {
 	public String uploadformatError;
 	
 	@RequestMapping(value = "/user-login-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public void exportTraining(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute User dObj,RedirectAttributes attributes){
-			ModelAndView view = new ModelAndView();
-			List<User> departmentList = new ArrayList<User>();
-			List<User> designationList = new ArrayList<User>();
-			List<User> userLoginList = new ArrayList<User>();
-			try {
-				    view.setViewName("redirect:/home");
-				    departmentList =   userLoginReportSrvice.getDepartmentList(dObj);
-				    //User userLoginDetails = userLoginReportSrvice.getUserLoginDetails(dObj);
-				    XSSFWorkbook  workBook = new XSSFWorkbook ();
-			        byte[] blueRGB = new byte[]{(byte)34, (byte)34, (byte)59};
-			        byte[] yellowRGB = new byte[]{(byte)74, (byte)78, (byte)105};
-			        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
-			        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
-			        byte[] whiteRGB = new byte[]{(byte)230, (byte)230, (byte)250};
-			        
-			        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 12 ;int headerFontSize = 14;String fontName = "Calibri";
-			        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,headerFontSize,fontName);
-			        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,false,isItalicText,fontSize,fontName);
-			        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-			        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-			        CellStyle whiteStyle = cellFormating1(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-			        
-			        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-			        
-			        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
-			        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,false,isItalicText,fontSize,fontName);
+	public void exportLast7DaysUserLoginDeatils(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute User dObj,RedirectAttributes attributes){
+		ModelAndView view = new ModelAndView();
+		List<User> departmentList = new ArrayList<User>();
+		List<User> designationList = new ArrayList<User>();
+		List<User> userLoginList = new ArrayList<User>();
+		try {
+			    view.setViewName("redirect:/home");
+			    departmentList =   userLoginReportSrvice.getDepartmentList(dObj);
+			    //User userLoginDetails = userLoginReportSrvice.getUserLoginDetails(dObj);
+			    XSSFWorkbook  workBook = new XSSFWorkbook ();
+		        byte[] blueRGB = new byte[]{(byte)34, (byte)34, (byte)59};
+		        byte[] yellowRGB = new byte[]{(byte)74, (byte)78, (byte)105};
+		        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+		        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+		        byte[] whiteRGB = new byte[]{(byte)230, (byte)230, (byte)250};
+		        
+		        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 12 ;int headerFontSize = 14;String fontName = "Calibri";
+		        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,headerFontSize,fontName);
+		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,false,isItalicText,fontSize,fontName);
+		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle whiteStyle = cellFormating1(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,false,isItalicText,fontSize,fontName);
 
-					if(departmentList != null && departmentList.size() > 0){
-			          
-			            int sheetNum = 0;
-			            XSSFSheet[] sheet = new XSSFSheet[departmentList.size()];
-			            		
-			        	for (User designationLists : departmentList) {
-			        		short sNO = 1;
-			        		short count = 1;
-			        		sheet[sheetNum] = workBook.createSheet(WorkbookUtil.createSafeSheetName(designationLists.getDepartment_name()));
-			            	workBook.setSheetOrder(sheet[sheetNum].getSheetName(), sheetNum);
-			        		String dept = designationLists.getDepartment_name();
-			        		dObj.setDepartment_name(dept);
-			        		designationList =   userLoginReportSrvice.getDesignationList(dObj);
-			    			int cellIndex = 0;	
-			    			 
-		            	    XSSFRow headingRow = sheet[sheetNum].createRow(count++);
-				            String headerString = "S.No.  ^Designation  ^Name ^No of Logins  ";
-				            String[] firstHeaderStringArr = headerString.split("\\^");
-				            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
-					        	Cell cell = headingRow.createCell(i);
-						        cell.setCellStyle(blueStyle);
-								cell.setCellValue(firstHeaderStringArr[i]);
-				            }
-			        		for (User obj : designationList) {
-			        		
-					            int hStartRowIndx = count, hEndRowIndx = count, hStartColIndx = 0,hEndColIndx = 4;
-					        	XSSFRow headerRow = sheet[sheetNum].createRow(count++);
-								cellIndex = 0;
-								String reportingName = "";
-								if(!StringUtils.isEmpty(obj.getReporting_to_name())) {
-									 reportingName = " - "+obj.getReporting_to_name();
-								}
-								Cell headerCell = headerRow.createCell(cellIndex++);
-								headerCell.setCellStyle(yellowStyle);
-								headerCell.setCellValue(obj.getReporting_to_designation() + reportingName);
-								
-								headerCell = headerRow.createCell(cellIndex++);
-								headerCell.setCellStyle(yellowStyle);
-								headerCell.setCellValue("");
-								
-								
-								headerCell = headerRow.createCell(cellIndex++);
-								headerCell.setCellStyle(yellowStyle);
-								headerCell.setCellValue("");
-								
-								hEndColIndx = cellIndex;
-								headerCell = headerRow.createCell(cellIndex++);
-								headerCell.setCellStyle(yellowStyle);
-								headerCell.setCellValue("");
-								
-								sheet[sheetNum].addMergedRegion(new CellRangeAddress(hStartRowIndx, hEndRowIndx, hStartColIndx,hEndColIndx));
-								
-								String reporting_to = obj.getReporting_to_designation();
-				        		dObj.setReporting_to_designation(reporting_to);
-								userLoginList =   userLoginReportSrvice.getUserLoginList(dObj);
-				                for (User user : userLoginList) {
-					                XSSFRow row = sheet[sheetNum].createRow(count++);
-					                int a = 0;
-					                
-					                Cell cell2 = row.createCell(a++);
-									cell2.setCellStyle(whiteStyle);
-									cell2.setCellValue(sNO++);
-									
-					                cell2 = row.createCell(a++);
-									cell2.setCellStyle(whiteStyle);
-									cell2.setCellValue(user.getDesignation());
-									
-					                cell2 = row.createCell(a++);
-									cell2.setCellStyle(whiteStyle);
-									cell2.setCellValue(user.getUser_name());
-									
-					                cell2 = row.createCell(a++);
-									cell2.setCellStyle(whiteStyle);
-									cell2.setCellValue(user.getLoginCount());
-									
-				                }
-			        		}
-			        		 for(int columnIndex = 0; columnIndex < departmentList.size(); columnIndex++) {
-							     //sheet[sheetNum].setColumnWidth(columnIndex, 25 * 250);
-							     sheet[sheetNum].autoSizeColumn(columnIndex);
+				if(departmentList != null && departmentList.size() > 0){
+		          
+		            int sheetNum = 0;
+		            XSSFSheet[] sheet = new XSSFSheet[departmentList.size()];
+		            		
+		        	for (User designationLists : departmentList) {
+		        		short sNO = 1;
+		        		short count = 1;
+		        		sheet[sheetNum] = workBook.createSheet(WorkbookUtil.createSafeSheetName(designationLists.getDepartment_name()));
+		            	workBook.setSheetOrder(sheet[sheetNum].getSheetName(), sheetNum);
+		        		String dept = designationLists.getDepartment_name();
+		        		dObj.setDepartment_name(dept);
+		        		designationList =   userLoginReportSrvice.getDesignationList(dObj);
+		    			int cellIndex = 0;	
+		    			 
+	            	    XSSFRow headingRow = sheet[sheetNum].createRow(count++);
+			            String headerString = "S.No.  ^Designation  ^Name ^No of Logins  ";
+			            String[] firstHeaderStringArr = headerString.split("\\^");
+			            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+				        	Cell cell = headingRow.createCell(i);
+					        cell.setCellStyle(blueStyle);
+							cell.setCellValue(firstHeaderStringArr[i]);
+			            }
+		        		for (User obj : designationList) {
+		        		
+				            int hStartRowIndx = count, hEndRowIndx = count, hStartColIndx = 0,hEndColIndx = 4;
+				        	XSSFRow headerRow = sheet[sheetNum].createRow(count++);
+							cellIndex = 0;
+							String reportingName = "";
+							if(!StringUtils.isEmpty(obj.getReporting_to_name())) {
+								 reportingName = " - "+obj.getReporting_to_name();
 							}
-		            	 sheetNum++;
-			        	}
+							Cell headerCell = headerRow.createCell(cellIndex++);
+							headerCell.setCellStyle(yellowStyle);
+							headerCell.setCellValue(obj.getReporting_to_designation() + reportingName);
+							
+							headerCell = headerRow.createCell(cellIndex++);
+							headerCell.setCellStyle(yellowStyle);
+							headerCell.setCellValue("");
+							
+							
+							headerCell = headerRow.createCell(cellIndex++);
+							headerCell.setCellStyle(yellowStyle);
+							headerCell.setCellValue("");
+							
+							hEndColIndx = cellIndex;
+							headerCell = headerRow.createCell(cellIndex++);
+							headerCell.setCellStyle(yellowStyle);
+							headerCell.setCellValue("");
+							
+							sheet[sheetNum].addMergedRegion(new CellRangeAddress(hStartRowIndx, hEndRowIndx, hStartColIndx,hEndColIndx));
+							
+							String reporting_to = obj.getReporting_to_designation();
+			        		dObj.setReporting_to_designation(reporting_to);
+							userLoginList =   userLoginReportSrvice.getUserLoginList(dObj);
+			                for (User user : userLoginList) {
+				                XSSFRow row = sheet[sheetNum].createRow(count++);
+				                int a = 0;
+				                
+				                Cell cell2 = row.createCell(a++);
+								cell2.setCellStyle(whiteStyle);
+								cell2.setCellValue(sNO++);
+								
+				                cell2 = row.createCell(a++);
+								cell2.setCellStyle(whiteStyle);
+								cell2.setCellValue(user.getDesignation());
+								
+				                cell2 = row.createCell(a++);
+								cell2.setCellStyle(whiteStyle);
+								cell2.setCellValue(user.getUser_name());
+								
+				                cell2 = row.createCell(a++);
+								cell2.setCellStyle(whiteStyle);
+								cell2.setCellValue(user.getLoginCount());
+								
+			                }
+		        		}
+		        		 for(int columnIndex = 0; columnIndex < departmentList.size(); columnIndex++) {
+						     //sheet[sheetNum].setColumnWidth(columnIndex, 25 * 250);
+						     sheet[sheetNum].autoSizeColumn(columnIndex);
+						}
+	            	 sheetNum++;
+		        	}
 
-		            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
-		            Date date = new Date();
-		            String fileName = "PMIS - User Login Report" +"( "+dateFormat.format(date)+" )" ;
-		            
-		            try{
-		                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
-		                workBook.write(fos);
-		                fos.flush();*/
-		            	
-		               response.setContentType("application/.csv");
-		 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-		 			   response.setContentType("application/vnd.ms-excel");
-		 			   // add response header
-		 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
-		 			   
-		 			    //copies all bytes from a file to an output stream
-		 			   workBook.write(response.getOutputStream()); // Write workbook to response.
-			           workBook.close();
-		 			    //flushes output stream
-		 			    response.getOutputStream().flush();
-		            	
-		                
-		                attributes.addFlashAttribute("success",dataExportSucess);
-		            	//response.setContentType("application/vnd.ms-excel");
-		            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
-		            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
-		            	// ...
-		            	// Now populate workbook the usual way.
-		            	// ...
-		            	//workbook.write(response.getOutputStream()); // Write workbook to response.
-		            	//workbook.close();
-		            }catch(FileNotFoundException e){
-		                //e.printStackTrace();
-		                attributes.addFlashAttribute("error",dataExportInvalid);
-		            }catch(IOException e){
-		                //e.printStackTrace();
-		                attributes.addFlashAttribute("error",dataExportError);
-		            }
-				}else{
-					attributes.addFlashAttribute("error",dataExportNoData);
-				}
-			}catch (Exception e) {
-				// TODO: handle exception
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+	            Date date = new Date();
+	            String fileName = "PMIS - User Login Report" +"( "+dateFormat.format(date)+" )" ;
+	            
+	            try{
+	                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+	                workBook.write(fos);
+	                fos.flush();*/
+	            	
+	               response.setContentType("application/.csv");
+	 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	 			   response.setContentType("application/vnd.ms-excel");
+	 			   // add response header
+	 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+	 			   
+	 			    //copies all bytes from a file to an output stream
+	 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+		           workBook.close();
+	 			    //flushes output stream
+	 			    response.getOutputStream().flush();
+	            	
+	                
+	                attributes.addFlashAttribute("success",dataExportSucess);
+	            	//response.setContentType("application/vnd.ms-excel");
+	            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+	            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+	            	// ...
+	            	// Now populate workbook the usual way.
+	            	// ...
+	            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+	            	//workbook.close();
+	            }catch(FileNotFoundException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportInvalid);
+	            }catch(IOException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportError);
+	            }
+			}else{
+				attributes.addFlashAttribute("error",dataExportNoData);
 			}
+		}catch (Exception e) {
+			// TODO: handle exception
 		}
+	}
+	
+	public boolean sendLast7DaysUserLoginDeatils(User dObj){
+		List<User> departmentList = new ArrayList<User>();
+		List<User> designationList = new ArrayList<User>();
+		List<User> userLoginList = new ArrayList<User>();
+		boolean flag =false;
+		try {
+			    departmentList =   userLoginReportSrvice.getDepartmentList(dObj);
+			    //User userLoginDetails = userLoginReportSrvice.getUserLoginDetails(dObj);
+			    XSSFWorkbook  workBook = new XSSFWorkbook ();
+		        byte[] blueRGB = new byte[]{(byte)34, (byte)34, (byte)59};
+		        byte[] yellowRGB = new byte[]{(byte)74, (byte)78, (byte)105};
+		        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+		        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+		        byte[] whiteRGB = new byte[]{(byte)230, (byte)230, (byte)250};
+		        
+		        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 12 ;int headerFontSize = 14;String fontName = "Calibri";
+		        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,headerFontSize,fontName);
+		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,false,isItalicText,fontSize,fontName);
+		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle whiteStyle = cellFormating1(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,false,isItalicText,fontSize,fontName);
+
+				if(departmentList != null && departmentList.size() > 0){
+		          
+		            int sheetNum = 0;
+		            XSSFSheet[] sheet = new XSSFSheet[departmentList.size()];
+		            		
+		        	for (User designationLists : departmentList) {
+		        		short sNO = 1;
+		        		short count = 1;
+		        		sheet[sheetNum] = workBook.createSheet(WorkbookUtil.createSafeSheetName(designationLists.getDepartment_name()));
+		            	workBook.setSheetOrder(sheet[sheetNum].getSheetName(), sheetNum);
+		        		String dept = designationLists.getDepartment_name();
+		        		dObj.setDepartment_name(dept);
+		        		designationList =   userLoginReportSrvice.getDesignationList(dObj);
+		    			int cellIndex = 0;	
+		    			 
+	            	    XSSFRow headingRow = sheet[sheetNum].createRow(count++);
+			            String headerString = "S.No.  ^Designation  ^Name ^No of Logins  ";
+			            String[] firstHeaderStringArr = headerString.split("\\^");
+			            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+				        	Cell cell = headingRow.createCell(i);
+					        cell.setCellStyle(blueStyle);
+							cell.setCellValue(firstHeaderStringArr[i]);
+			            }
+		        		for (User obj : designationList) {
+		        		
+				            int hStartRowIndx = count, hEndRowIndx = count, hStartColIndx = 0,hEndColIndx = 4;
+				        	XSSFRow headerRow = sheet[sheetNum].createRow(count++);
+							cellIndex = 0;
+							String reportingName = "";
+							if(!StringUtils.isEmpty(obj.getReporting_to_name())) {
+								 reportingName = " - "+obj.getReporting_to_name();
+							}
+							Cell headerCell = headerRow.createCell(cellIndex++);
+							headerCell.setCellStyle(yellowStyle);
+							headerCell.setCellValue(obj.getReporting_to_designation() + reportingName);
+							
+							headerCell = headerRow.createCell(cellIndex++);
+							headerCell.setCellStyle(yellowStyle);
+							headerCell.setCellValue("");
+							
+							
+							headerCell = headerRow.createCell(cellIndex++);
+							headerCell.setCellStyle(yellowStyle);
+							headerCell.setCellValue("");
+							
+							hEndColIndx = cellIndex;
+							headerCell = headerRow.createCell(cellIndex++);
+							headerCell.setCellStyle(yellowStyle);
+							headerCell.setCellValue("");
+							
+							sheet[sheetNum].addMergedRegion(new CellRangeAddress(hStartRowIndx, hEndRowIndx, hStartColIndx,hEndColIndx));
+							
+							String reporting_to = obj.getReporting_to_designation();
+			        		dObj.setReporting_to_designation(reporting_to);
+							userLoginList =   userLoginReportSrvice.getUserLoginList(dObj);
+			                for (User user : userLoginList) {
+				                XSSFRow row = sheet[sheetNum].createRow(count++);
+				                int a = 0;
+				                
+				                Cell cell2 = row.createCell(a++);
+								cell2.setCellStyle(whiteStyle);
+								cell2.setCellValue(sNO++);
+								
+				                cell2 = row.createCell(a++);
+								cell2.setCellStyle(whiteStyle);
+								cell2.setCellValue(user.getDesignation());
+								
+				                cell2 = row.createCell(a++);
+								cell2.setCellStyle(whiteStyle);
+								cell2.setCellValue(user.getUser_name());
+								
+				                cell2 = row.createCell(a++);
+								cell2.setCellStyle(whiteStyle);
+								cell2.setCellValue(user.getLoginCount());
+								
+			                }
+		        		}
+		        		 for(int columnIndex = 0; columnIndex < departmentList.size(); columnIndex++) {
+						     //sheet[sheetNum].setColumnWidth(columnIndex, 25 * 250);
+						     sheet[sheetNum].autoSizeColumn(columnIndex);
+						}
+	            	 sheetNum++;
+		        	}
+
+	            Date date = new Date();
+	            
+	            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		        String yesterday = dateFormat.format(getDate(-1));
+		        String dateBefore7Days = dateFormat.format(getDate(-7));
+		         
+		    	 
+		         
+	            
+	            try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){				
+					workBook.write(bos);
+					byte[] byteArray = bos.toByteArray();
+					
+					String file_extention = "xlsx";
+					String file_name = "UserLoginReport";
+					
+					String recipients = CommonConstants2.USER_LOGIN_REPORT_MAIL, cc= "", bcc = CommonConstants.BCC_MAIL, 
+							subject = "PMIS - User Login Report ( "+dateBefore7Days+" to "+yesterday+ " )", body = "";
+					
+					String attachment_type = "application/vnd.ms-excel";
+					if(!StringUtils.isEmpty(recipients)){		
+						EMailSender emailSender = new EMailSender();
+						emailSender.sendEmailWithAttachment(recipients, cc, bcc, subject, body, file_name, file_extention, byteArray,attachment_type);
+					}
+			    }catch (Exception e) {
+					e.printStackTrace();
+					logger.error("sendLast7DaysUserLoginDeatils >> FileNotFoundException occurs.." + e.getMessage());
+			    }
+	            
+	            flag = true;
+			}
+		}catch (Exception e) {
+			logger.error("sendLast7DaysUserLoginDeatils >> "+e.getMessage());
+		}
+		return flag;
+	}
+	
+	private Date getDate(int minusDays) {
+	    Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.DATE,minusDays);
+	    return cal.getTime();
+    }
+	
 	public static void addHeading(WordprocessingMLPackage wordMLPackage,
 			MainDocumentPart t, ObjectFactory factory,JcEnumeration alignment, RPr titleRPr, String contentValue) throws Exception {
 		P paragraph = factory.createP();

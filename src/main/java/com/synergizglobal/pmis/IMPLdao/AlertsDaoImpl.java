@@ -812,7 +812,7 @@ public class AlertsDaoImpl implements AlertsDao{
 
 
 	@Override
-	public boolean sendNotificationAlertMails() throws Exception {
+	public boolean sendNotificationAlertMails(String alert_type) throws Exception {
 		boolean flag = false;
 		try {
 			EMailSender emailSender = new EMailSender();
@@ -823,10 +823,23 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join alerts_user u on u.alerts_id_fk = a.alert_id " 
 					+ "left join user u2 on u.user_id_fk = u2.user_id " 
 					+ "where a.alert_status = 'Active' and count <> 0 "
-					+ "and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' "
-					+ "group by user_id_fk";
+					+ "and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' ";
 			
-			List<Alerts> userIdList = jdbcTemplate.query( userIdQry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(alert_type)) {
+				userIdQry = userIdQry + " and a.alert_type_fk = ?";
+				arrSize++;
+			}
+			userIdQry = userIdQry +  "group by user_id_fk";
+			
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(alert_type)) {
+				pValues[i++] = alert_type;
+			}
+			
+			List<Alerts> userIdList = jdbcTemplate.query( userIdQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			Map<String,List<Alerts>> alerts = new LinkedHashMap<String, List<Alerts>>();
 			for (Alerts uObj : userIdList) {
 				String aLevelQry = "select alert_level " 
@@ -836,9 +849,23 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "left join work w on c.work_id_fk = w.work_id " 
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id " 
-						+ "where alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' "
-						+ "group by alert_level order by alert_level desc";
-				Object[] pValues = new Object[] {CommonConstants.ACTIVE,uObj.getUser_id_fk()};
+						+ "where alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+				
+				arrSize = 2;
+				if(!StringUtils.isEmpty(alert_type)) {
+					aLevelQry = aLevelQry + " and a.alert_type_fk = ?";
+					arrSize++;
+				}
+				aLevelQry = aLevelQry +  " group by alert_level order by alert_level desc";
+				
+				
+				pValues = new Object[arrSize];
+				i = 0;
+				pValues[i++] = CommonConstants.ACTIVE;
+				pValues[i++] = uObj.getUser_id_fk();
+				if(!StringUtils.isEmpty(alert_type)) {
+					pValues[i++] = alert_type;
+				}
 				
 				List<Alerts> alert_levels = jdbcTemplate.query( aLevelQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 				
@@ -852,11 +879,25 @@ public class AlertsDaoImpl implements AlertsDao{
 							+ "left join work w on c.work_id_fk = w.work_id " 
 							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 							+ "left join user u on c.hod_user_id_fk = u.user_id " 
-							+ "where alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' "
-							+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+							+ "where alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+					
+					arrSize = 3;
+					if(!StringUtils.isEmpty(alert_type)) {
+						qry = qry + " and a.alert_type_fk = ?";
+						arrSize++;
+					}
+					qry = qry +  " order by hod,work_short_name,a.contract_id asc, alert_level desc";
 					
 					
-					pValues = new Object[] {lObj.getAlert_level(),CommonConstants.ACTIVE,uObj.getUser_id_fk()};
+					pValues = new Object[arrSize];
+					i = 0;
+					pValues[i++] = lObj.getAlert_level();
+					pValues[i++] = CommonConstants.ACTIVE;
+					pValues[i++] = uObj.getUser_id_fk();
+					if(!StringUtils.isEmpty(alert_type)) {
+						pValues[i++] = alert_type;
+					}
+					
 					List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 					
 					for (Alerts alert : allAlertsList) {
@@ -894,9 +935,9 @@ public class AlertsDaoImpl implements AlertsDao{
 					mail.setMailSubject(emailSubject);
 					mail.setTemplateName("alerts.vm");
 					
-					logger.error("sendNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
+					logger.error("sendNotificationAlertMails() >> Alert Type "+alert_type+ ". Sending mail to "+uObj.getEmail_id()+": Start ");	
 					emailSender.sendEmailWithAlerts(mail,alerts,today_date,current_year); 
-					logger.error("sendNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
+					logger.error("sendNotificationAlertMails() >> Alert Type "+alert_type+ ".  Sending mail to "+uObj.getEmail_id()+": End ");
 				}
 					
 				flag = true;

@@ -21,8 +21,8 @@ public class AlertsServiceImpl implements AlertsService{
 	}
 
 	@Override
-	public boolean sendNotificationAlertMails() throws Exception {
-		return dao.sendNotificationAlertMails();
+	public boolean sendNotificationAlertMails(String alert_type) throws Exception {
+		return dao.sendNotificationAlertMails(alert_type);
 	}
 
 	@Override

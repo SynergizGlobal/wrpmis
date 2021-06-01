@@ -311,7 +311,7 @@ public class EMailSender {
 	}
 	
 	public void sendEmailWithAttachment(String recipients,String cc, String bcc, String subject, 
-			String body,String attachment_file_name,String file_extention, byte[] byteArray) {
+			String body,String attachment_file_name,String file_extention, byte[] byteArray,String attachment_type) {
 		 
 		 try {
 			 // create a message
@@ -377,7 +377,7 @@ public class EMailSender {
 			 // create the second message part
 			 MimeBodyPart mimeBodyPart2 = new MimeBodyPart();
 			 try{
-				 ds = new ByteArrayDataSource(byteArray, "application/msword");
+				 ds = new ByteArrayDataSource(byteArray, attachment_type);
 			 }catch (Exception ioe ){			
 				 logger.error("sendEmailWithAttachment >> "+ioe.getMessage());
 			 }

@@ -2,8 +2,11 @@ package com.synergizglobal.pmis.controller;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
@@ -232,7 +235,7 @@ public class RiskController {
 		Writer w = null;
 		//int[] arr = null;
 		String msg = "";
-		try {	
+		try {		           
 			MultipartFile excelfile = obj.getRiskAssessmentFile();
 			// Creates a workbook object from the uploaded excelfile
 			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
@@ -257,6 +260,7 @@ public class RiskController {
 					String risk_cols_error = "";
 					int rowNo = 0;
 					String work_mismatch = null;
+					String assessment_date_error = null;
 					for(int j = 3; j <= risksDrawingsSheet.getLastRowNum();j++){						
 						rowNo = j+1;
 						XSSFRow row = risksDrawingsSheet.getRow(j);
@@ -394,6 +398,20 @@ public class RiskController {
 								break;
 							}
 							
+							if(!StringUtils.isEmpty(risk.getDate()) ) {
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+								
+								String startDate = risk.getDate();
+								String endDate = sdf.format(new Date());
+							    Date start = sdf.parse(startDate);
+					            Date end = sdf.parse(endDate);
+					            if (start.compareTo(end) > 0) {
+					            	assessment_date_error = "Assessment date should not be after today.";
+									break;
+					            }    
+								
+							}
+							
 							if(!StringUtils.isEmpty(obj.getSub_work()) && obj.getSub_work().equals(risk.getSub_work())
 									&& !StringUtils.isEmpty(risk.getSub_work()) && !StringUtils.isEmpty(risk.getOwner()) 
 									&& !StringUtils.isEmpty(risk.getDate()) && !StringUtils.isEmpty(risk.getProbability()) && !StringUtils.isEmpty(risk.getImpact()) 
@@ -413,7 +431,7 @@ public class RiskController {
 							
 						}						
 					}
-					if(!risksList.isEmpty() && StringUtils.isEmpty(risk_rows_error) && StringUtils.isEmpty(work_mismatch)){
+					if(!risksList.isEmpty() && StringUtils.isEmpty(risk_rows_error) && StringUtils.isEmpty(work_mismatch) && StringUtils.isEmpty(assessment_date_error)){
 						int[] arr  = riskService.uploadRiskAssessments(risksList);
 						
 						/*
@@ -436,6 +454,10 @@ public class RiskController {
 					
 					if(!StringUtils.isEmpty(work_mismatch)) {
 						risk_rows_error = "<br><span style='color:red;'>" + work_mismatch + "</span> ";
+					}
+					
+					if(!StringUtils.isEmpty(assessment_date_error)) {
+						risk_rows_error = "<br><span style='color:red;'>" + assessment_date_error + "</span> ";
 					}
 					
 					msg = msg + risk_owner_error + risk_rows_error + risk_cols_error;

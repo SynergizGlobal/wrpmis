@@ -674,7 +674,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join risk r on risk_id_pk_fk = risk_id_pk "
 					+ "left join user u on owner = u.designation " 
 					+ "where date = (SELECT MAX(`date`) FROM `risk_revision` LEFT JOIN `risk` ON `risk_id_pk` = `risk_id_pk_fk` WHERE `sub_work` = `r`.`sub_work`) " 
-					+ "and date_format(date,'%Y-%m') = date_format(NOW(),'%Y-%m') and priority_fk <> 'Accepted' " 
+					+ "and priority_fk <> 'Accepted' " 
 					+ "and (mitigation_plan is null or mitigation_plan = '') " 
 					+ "group by sub_work,owner";
 			
@@ -702,7 +702,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join user u1 on owner = u1.designation "
 					+ "left join user u2 on responsible_person = u2.designation " 
 					+ "where date = (SELECT MAX(`date`) FROM `risk_revision` LEFT JOIN `risk` ON `risk_id_pk` = `risk_id_pk_fk` WHERE `sub_work` = `r`.`sub_work`) " 
-					+ "and date_format(date,'%Y-%m') = date_format(NOW(),'%Y-%m') and priority_fk <> 'Accepted' " 
+					+ "and priority_fk <> 'Accepted' " 
 					+ "group by sub_work,risk_revision_id having racount = 0 "  
 					+ "order by sub_work";
 			
@@ -928,7 +928,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 		            String current_year = yearFormat.format(new Date()).toUpperCase();
 		            
-					String emailSubject = "PMIS Contract & Issue Alerts";
+					String emailSubject = "PMIS "+alert_type+" Alerts";
 					
 					Mail mail = new Mail();
 					mail.setMailTo(uObj.getEmail_id());
@@ -937,7 +937,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					mail.setTemplateName("alerts.vm");
 					
 					logger.error("sendNotificationAlertMails() >> Alert Type "+alert_type+ ". Sending mail to "+uObj.getEmail_id()+": Start ");	
-					emailSender.sendEmailWithAlerts(mail,alerts,today_date,current_year); 
+					emailSender.sendEmailWithAlerts(mail,alerts,today_date,current_year,alert_type); 
 					logger.error("sendNotificationAlertMails() >> Alert Type "+alert_type+ ".  Sending mail to "+uObj.getEmail_id()+": End ");
 				}
 					
@@ -980,9 +980,11 @@ public class AlertsDaoImpl implements AlertsDao{
 					Object[] pValues = new Object[] {CommonConstants.ACTIVE,uObj.getUser_id_fk()};
 					List<Alerts> riskAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 					
+					List<Alerts> riskMainAlertsList = new ArrayList<Alerts>();
+					List<Alerts> riskMitigationPlanAlertsList = new ArrayList<Alerts>();
+					List<Alerts> riskATRAlertsList = new ArrayList<Alerts>();
 					
 					if(riskAlertsList != null && riskAlertsList.size() > 0) {
-						boolean isOverdue = false;
 						for (Alerts alerts : riskAlertsList) {
 							String sub_work = "";
 							if(!StringUtils.isEmpty(alerts.getRedirect_url())) {
@@ -1011,9 +1013,17 @@ public class AlertsDaoImpl implements AlertsDao{
 									}
 								}
 							}
-							if("Overdue".equals(alerts.getAlert_level()) ) {
-								isOverdue = true;
+							
+							if(!StringUtils.isEmpty(alerts.getAlert_value())) {
+								if(alerts.getAlert_value().contains("Risk assessment of")) {
+									riskMainAlertsList.add(alerts);
+								}else if(alerts.getAlert_value().contains("Please update mitigation plan against")) {
+									riskMitigationPlanAlertsList.add(alerts);
+								}else if(alerts.getAlert_value().contains("Please update ATR against")) {
+									riskATRAlertsList.add(alerts);
+								}
 							}
+							
 						}
 						
 						SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
@@ -1022,20 +1032,38 @@ public class AlertsDaoImpl implements AlertsDao{
 			            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 			            String current_year = yearFormat.format(new Date()).toUpperCase();
 			            
-						String emailSubject = "PMIS Risk Assessment Due";
-						
-						Mail mail = new Mail();
+			            Mail mail = new Mail();
 						mail.setMailTo(uObj.getEmail_id());
+						mail.setMailBcc(CommonConstants.BCC_MAIL);
+						mail.setTemplateName("Risk_Alerts.vm");
 						/*if(isOverdue && !StringUtils.isEmpty(uObj.getReporting_to_email_id())) {
 							mail.setMailCc(uObj.getReporting_to_email_id());
-						}*/						
-						mail.setMailBcc(CommonConstants.BCC_MAIL);
-						mail.setMailSubject(emailSubject);
-						mail.setTemplateName("Risk_Alerts.vm");
+						}*/	
 						
-						logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
-						emailSender.sendEmailWithRiskAlerts(mail,riskAlertsList,today_date,current_year); 
-						logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
+						String emailSubject = "PMIS Risk Assessment Due";						
+						if(riskMainAlertsList.size() > 0) {
+							emailSubject = "PMIS Risk Assessment Due";
+							mail.setMailSubject(emailSubject);
+							logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
+							emailSender.sendEmailWithRiskAlerts(mail,riskMainAlertsList,today_date,current_year); 
+							logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
+						}
+						
+						if(riskMitigationPlanAlertsList.size() > 0) {
+							emailSubject = "PMIS Risk Assessment - Updation of Mitigation Plan";
+							mail.setMailSubject(emailSubject);
+							logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
+							emailSender.sendEmailWithRiskAlerts(mail,riskMitigationPlanAlertsList,today_date,current_year); 
+							logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
+						}
+						if(riskATRAlertsList.size() > 0) {
+							emailSubject = "PMIS Risk Assessment - Updation of ATR";
+							mail.setMailSubject(emailSubject);
+							logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
+							emailSender.sendEmailWithRiskAlerts(mail,riskATRAlertsList,today_date,current_year); 
+							logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
+						}						
+						
 					}
 						
 					flag = true;
@@ -2408,7 +2436,15 @@ public class AlertsDaoImpl implements AlertsDao{
 		            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 		            String current_year = yearFormat.format(new Date()).toUpperCase();
 		            
-					String emailSubject = "PMIS Contract & Issue Alerts";
+		            String alert_type = "";
+		            
+		            if(!StringUtils.isEmpty(obj.getAlert_type_fk()) && obj.getAlert_type_fk().length() > 0) {
+						alert_type = String.join(",", obj.getAlert_type_fk());
+					}else {
+						alert_type = "Contract & Issue";
+					}
+		            
+					String emailSubject = "PMIS "+alert_type+" Alerts";
 					
 					Mail mail = new Mail();
 					mail.setMailTo(email_id);
@@ -2417,7 +2453,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					mail.setTemplateName("alerts.vm");
 					
 					logger.error("sendAlertsToParticulars() >> Sending mail to "+email_id+": Start ");	
-					emailSender.sendEmailWithAlerts(mail,alerts,today_date,current_year); 
+					emailSender.sendEmailWithAlerts(mail,alerts,today_date,current_year,alert_type); 
 					logger.error("sendAlertsToParticulars() >> Sending mail to "+email_id+": End ");
 					flag = true;
 				}

@@ -128,7 +128,7 @@
 	                         <div class="row no-mar">	     
 	                             <div class="col s12 m3 input-field center-align offset-m3">
 	                                 <button class="btn bg-m waves-effect waves-light t-c"
-	                                     style="min-width:160px;" type="button" onclick="sendAlerts()">Generate Alerts</button>
+	                                     style="min-width:160px;" type="button" onclick="sendAlerts()">Send Alerts</button>
 	                             </div>
 	                             <div class="col s12 m3 input-field center-align">
 	                                 <button class="btn bg-s waves-effect waves-light t-c" type="button"
@@ -183,8 +183,11 @@
           
         function sendAlerts() {
         	//alert(validator.form());
-        	$('.page-loader').show();
-        	$("#sendAlertsForm").submit();
+        	if(validator.form()){
+        		$('.page-loader').show();
+            	$("#sendAlertsForm").submit();
+        	}
+        	
 		}       
         
         var validator =	$('#sendAlertsForm').validate({

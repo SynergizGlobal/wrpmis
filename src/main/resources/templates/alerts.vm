@@ -4,7 +4,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>PMIS Contract & Issue Alerts</title>
+    <title>PMIS $alert_type Alerts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
@@ -17,7 +17,7 @@
                     <tr>
                         <td align="center" bgcolor="#22223B"
                             style="color: #ffffff; font-size: 20px; font-weight: bold; font-family: Arial, sans-serif;padding: 10px;">
-                            <span>PMIS Contract & Issue Alerts</span>
+                            <span>PMIS $alert_type Alerts</span>
 							<span style="float:right;">$today_date</span>
                         </td>
                     </tr>
@@ -44,12 +44,7 @@
                                                                     style="padding:10px 0;color: #eeeeee; font-family: Arial, sans-serif; font-size: 13px;background-color:#4A4E69;position:sticky;top: 0;">
                                                                     <b> Contract name</b>
                                                                 </td>
-
-                                                                <td width="10%"
-                                                                    style="padding:10px 0;color: #eeeeee; font-family: Arial, sans-serif; font-size: 13px;background-color:#4A4E69;position:sticky;top: 0;">
-                                                                    <b>Alert Type</b>
-                                                                </td>
-                                                                <td width="20%"
+                                                                <td width="30%"
                                                                     style="padding:10px 0;color: #eeeeee; font-family: Arial, sans-serif; font-size: 13px;background-color:#4A4E69;position:sticky;top: 0;">
                                                                     <b>Reason for alert</b>
                                                                 </td>
@@ -63,7 +58,7 @@
                                                         <tbody>
                                                         	#foreach ($key in ${alerts.keySet()})                                                            
                                                             <tr style="position: relative;">
-                                                                <td colspan="5"
+                                                                <td colspan="4"
                                                                     style="text-align: center;border: 1px solid #A0A3BB;padding: 10px;background-color: #cfcfcf;font-weight: 600; position: sticky;top:30px;">
                                                                     $key
                                                                 </td>
@@ -87,22 +82,8 @@
                                                                     </a> $x.contract_short_name
                                                                     #end
                                                                 </td>
-                                                                <td align="center" width="10%"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB;  word-wrap:break-word;">
-                                                                    <span
-                                                                        style="display: inline-block;line-height: inherit;width:19%;vertical-align: top;"><img
-                                                                            src="http://203.153.40.44/pmis/resources/images/alert_imgs/$x.alert_type_image"
-                                                                            alt="risk img"
-                                                                            style="height: 22px;width: auto;">
-                                                                    </span>
-                                                                    <span
-                                                                        style="display: inline-block;line-height: inherit;width:79%;">
-                                                                        #if($x.alert_type_fk && !$x.alert_type_fk.empty)
-                                                                        $x.alert_type_fk
-                                                                        #end
-                                                                    </span>
-                                                                </td>
-                                                                <td align="left" width="20%"
+                                                                
+                                                                <td align="left" width="30%"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; word-wrap:break-word;">
                                                                     #if($x.alert_value && !$x.alert_value.empty)
                                                                     $x.alert_value

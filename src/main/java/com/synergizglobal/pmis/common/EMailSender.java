@@ -100,7 +100,7 @@ public class EMailSender {
 	}
 	
 	
-	public void sendEmailWithAlerts(Mail mail, Map<String, List<Alerts>> alerts, String today_date, String current_year) throws Exception {
+	public void sendEmailWithAlerts(Mail mail, Map<String, List<Alerts>> alerts, String today_date, String current_year, String alert_type) throws Exception {
 		try {
 			  MimeMessage message = new MimeMessage( getSession() );
 			  Multipart multipart = new MimeMultipart( "alternative" );
@@ -130,6 +130,7 @@ public class EMailSender {
 			  velocityContext.put("alerts", alerts);
 			  velocityContext.put("today_date", today_date);
 			  velocityContext.put("current_year", current_year);
+			  velocityContext.put("alert_type", alert_type);
 			  
 			  StringWriter stringWriter = new StringWriter();
 			  
@@ -548,6 +549,7 @@ public class EMailSender {
 			  velocityContext.put("alerts", alerts);
 			  velocityContext.put("today_date", today_date);
 			  velocityContext.put("current_year", current_year);
+			  velocityContext.put("title", mail.getMailSubject());
 			  
 			  StringWriter stringWriter = new StringWriter();
 			  

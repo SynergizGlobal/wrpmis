@@ -558,7 +558,7 @@ public class ContractController {
 	public ModelAndView getcontract(@ModelAttribute Contract obj){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName(PageConstants.UpdateContract);
+			model.setViewName(PageConstants.updateContractForm);
 			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
 			model.addObject("projectsList", projectsList);
 			

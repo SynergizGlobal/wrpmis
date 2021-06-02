@@ -406,7 +406,7 @@ public class RiskController {
 							    Date start = sdf.parse(startDate);
 					            Date end = sdf.parse(endDate);
 					            if (start.compareTo(end) > 0) {
-					            	assessment_date_error = "Assessment date should not be after today.";
+					            	assessment_date_error = "Assessment date on input form cannot be later than current date.";
 									break;
 					            }    
 								

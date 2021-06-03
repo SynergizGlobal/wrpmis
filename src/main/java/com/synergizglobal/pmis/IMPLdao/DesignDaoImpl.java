@@ -578,7 +578,7 @@ public class DesignDaoImpl implements DesignDao{
 				
 				String issueId = null;
 				if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
-					String issuesQry = "INSERT INTO issue(contract_id_fk,title,description,reported_by,priority_fk,category_fk,status_fk,date,department_fk)VALUES(?,?,?,?,?,?,?,CURDATE(),?)";				
+					String issuesQry = "INSERT INTO issue(contract_id_fk,title,reported_by,priority_fk,category_fk,status_fk,date)VALUES(?,?,?,?,?,?,CURDATE())";				
 					KeyHolder holder = new GeneratedKeyHolder();
 					jdbcTemplate.update(new PreparedStatementCreator() {
 						@Override
@@ -587,12 +587,10 @@ public class DesignDaoImpl implements DesignDao{
 							int i = 1;
 							ps.setString(i++, !StringUtils.isEmpty(obj.getContract_id_fk())?obj.getContract_id_fk():null);
 							ps.setString(i++, obj.getIssue_description());
-							ps.setString(i++, obj.getIssue_description());
 							ps.setString(i++, !StringUtils.isEmpty(obj.getCreated_by_user_id_fk())?obj.getCreated_by_user_id_fk():null);
 							ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_priority_id())?obj.getIssue_priority_id():null);
 							ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_category_id())?obj.getIssue_category_id():null);
 							ps.setString(i++, "Raised");
-							ps.setString(i++, !StringUtils.isEmpty(obj.getDepartment_id_fk())?obj.getDepartment_id_fk():null);
 							return ps;
 						}
 					}, holder);
@@ -757,7 +755,7 @@ public class DesignDaoImpl implements DesignDao{
 				
 				String issueId = null;
 				if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
-					String issuesQry = "INSERT INTO issue(contract_id_fk,title,description,reported_by,priority_fk,category_fk,status_fk,date,department_fk)VALUES(?,?,?,?,?,?,?,CURDATE(),?)";				
+					String issuesQry = "INSERT INTO issue(contract_id_fk,title,reported_by,priority_fk,category_fk,status_fk,date)VALUES(?,?,?,?,?,?,CURDATE())";				
 					KeyHolder holder = new GeneratedKeyHolder();
 					jdbcTemplate.update(new PreparedStatementCreator() {
 						@Override
@@ -766,12 +764,10 @@ public class DesignDaoImpl implements DesignDao{
 							int i = 1;
 							ps.setString(i++, !StringUtils.isEmpty(obj.getContract_id_fk())?obj.getContract_id_fk():null);
 							ps.setString(i++, obj.getIssue_description());
-							ps.setString(i++, obj.getIssue_description());
 							ps.setString(i++, !StringUtils.isEmpty(obj.getCreated_by_user_id_fk())?obj.getCreated_by_user_id_fk():null);
 							ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_priority_id())?obj.getIssue_priority_id():null);
 							ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_category_id())?obj.getIssue_category_id():null);
 							ps.setString(i++, "Raised");
-							ps.setString(i++, !StringUtils.isEmpty(obj.getDepartment_id_fk())?obj.getDepartment_id_fk():null);
 							return ps;
 						}
 					}, holder);

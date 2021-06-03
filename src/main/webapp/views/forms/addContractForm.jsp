@@ -395,17 +395,8 @@
 	                                		<option value="crores">Crores</option>
 	                                	</select>
                                 	</div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input name="doc" id="doc" type="text" class="validate datepicker">
-	                                    <label for="doc">Contractual DOC</label>
-	                                    <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="docError" class="error-msg" ></span>
-	                                </div>	                                
-	                                <div class="col s9 m3 input-field">
+                                	
+                                	<div class="col s9 m3 input-field">
 	                                    <i class="material-icons prefix cost">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" type="number" min="0.01" step="0.01" class="validate">
 	                                    <label for="estimated_cost">Estimated cost</label>
@@ -422,9 +413,31 @@
 	                                	</select>
                                 	</div>
 	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input name="doc" id="doc" type="text" class="validate datepicker">
+	                                    <label for="doc">Contractual DOC</label>
+	                                    <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
+	                                    <span id="docError" class="error-msg" ></span>
+	                                </div>	
+	                                
+	                                <div class="col s12 m4 input-field">
+	                                 <p class="searchable_label"> <label>Status of Contract</label> </p>
+	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
+	                                         <option value="" selected>Select</option>
+                                       		 <c:forEach var="obj" items="${contract_Statustype }">
+		                                    	 <option value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started' }">selected</c:if>>${obj.contract_status_fk }</option>
+		                                     </c:forEach>
+	                                    </select>
+	                                    <span id="contract_status_fkError" class="error-msg" ></span>
+	                                </div>                                
+	                                
+	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>	   
 	                            
-	                            <div class="row">
+	                            <%-- <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>	                                
 	                                <div class="col s12 m4 input-field">
 	                                 <p class="searchable_label"> <label>Status of Contract</label> </p>
@@ -437,7 +450,7 @@
 	                                    <span id="contract_status_fkError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
+	                            </div> --%>
 	                            
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -868,7 +881,7 @@
 	                                </div>
 	                            </div> -->
 	
-	                            <div class="container" style="margin-bottom:30px">
+	                            <div class="" style="margin-bottom:30px">
 	                                <div class="row fixed-width">
 	                                    <h5 class="center-align">Documents</h5>
 	                                    <div class="table-inside">
@@ -885,15 +898,15 @@
 	                                            <tbody id="contractDocumentTableBody" >
 	                                                <tr id="contractDocumentRow0">
 	                                                	<td>
-																		<div class="input-field">
-																			<select  name="contract_file_types"  id="contract_file_types0"  class="validate-dropdown searchable">
-							                                   					 <option value="" >Select</option>
-							                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
-							                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
-							                                          			  </c:forEach>
-							                               					  </select>
-																		</div>
-															    </td>
+															<div class="input-field">
+																<select  name="contract_file_types"  id="contract_file_types0"  class="validate-dropdown searchable">
+				                                   					 <option value="" >--Select--</option>
+				                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
+				                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
+				                                          			  </c:forEach>
+				                               					  </select>
+															</div>
+													    </td>
 	                                                    <td> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
 	                                                            placeholder="Name">
 	                                                    </td>
@@ -1865,7 +1878,7 @@
 		 var html = '<tr id="contractDocumentRow'+rNo+'">'
 					 +'<td><div class="input-field">'
 						+'<select  name="contract_file_types"  id="contract_file_types'+rNo+'"  class="validate-dropdown searchable">'
-							+ '<option value="" >Select</option>'
+							+ '<option value="" >--Select--</option>'
 						  <c:forEach var="obj" items="${contractFileTypeList}">
 				  				+ '<option value="${obj.contract_file_type }">${obj.contract_file_type}</option>'
 						  </c:forEach>

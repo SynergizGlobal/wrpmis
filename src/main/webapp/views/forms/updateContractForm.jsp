@@ -1302,7 +1302,7 @@
 	                                </div>
 	                            </div>
 	
-	                            <div class="container" style="margin-bottom:30px">
+	                            <div class="" style="margin-bottom:30px">
 	                                <div class="row fixed-width">
 	                                    <h5 class="center-align">Documents</h5>
 	                                    <div class="table-inside">
@@ -1324,7 +1324,7 @@
 			                                                	<td>
 																		<div class="input-field">
 																			<select  name="contract_file_types"  id="contract_file_types${index.count }"  class="validate-dropdown searchable">
-							                                   					 <option value="" >Select</option>
+							                                   					 <option value="" >--Select--</option>
 							                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
 							                    					  				 <option value="${obj.contract_file_type }" <c:if test="${docObj.contract_file_type_fk eq obj.contract_file_type}">selected</c:if>>${obj.contract_file_type}</option>
 							                                          			  </c:forEach>
@@ -1361,7 +1361,7 @@
 	                                             			<td>
 																		<div class="input-field">
 																			<select  name="contract_file_types"  id="contract_file_types0"  class="validate-dropdown searchable">
-							                                   					 <option value="" >Select</option>
+							                                   					 <option value="" >--Select--</option>
 							                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
 							                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
 							                                          			  </c:forEach>
@@ -2366,7 +2366,7 @@
 			 var html = '<tr id="contractDocumentRow'+rNo+'">'
 						 +'<td><div class="input-field">'
 								+'<select  name="contract_file_types"  id="contract_file_types'+rNo+'"  class="validate-dropdown searchable">'
-			    					+ '<option value="" >Select</option>'
+			    					+ '<option value="" >--Select--</option>'
 			          			  <c:forEach var="obj" items="${contractFileTypeList}">
 						  				+ '<option value="${obj.contract_file_type }">${obj.contract_file_type}</option>'
 			           			  </c:forEach>

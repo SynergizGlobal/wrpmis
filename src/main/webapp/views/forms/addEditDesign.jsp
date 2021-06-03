@@ -173,12 +173,14 @@
  							<c:if test="${action eq 'edit'}">	
 	                             <div class="row">
 	                                <div class="col s12 m4 input-field offset-m2">
-	                                    <input type="text" name="project_id_fk" id="project_id_fk" value="${designDetails.project_id_fk}- ${designDetails.project_name}" readonly />
+	                                    <input type="text" value="${designDetails.project_id_fk}- ${designDetails.project_name}" readonly />
 								    	<label for="project_id_fk">Project <span class="required">*</span></label>
+								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="${designDetails.project_id_fk}" readonly />
 								    </div> 
 	                                <div class="col s12 m4 input-field"> 
-	                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${designDetails.work_id_fk}- ${designDetails.work_short_name}" readonly />
+	                                    <input type="text" value="${designDetails.work_id_fk}- ${designDetails.work_short_name}" readonly />
 	                                	<label for="work_id_fk">Work <span class="required">*</span></label>
+	                                	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${designDetails.work_id_fk}" readonly />
 	                                </div>
 	                            </div>
                             </c:if>
@@ -198,11 +200,12 @@
                                 </div>
                                 </c:if>
                                 <c:if test="${action eq 'edit'}">
-                                <div class="col s12 m4 input-field"> 
-	                                    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${designDetails.contract_id_fk}- ${designDetails.contract_short_name}" readonly />
+                                	<div class="col s12 m4 input-field"> 
+	                                    <input type="text" value="${designDetails.contract_id_fk}- ${designDetails.contract_short_name}" readonly />
 									    <label for="contract_id_fk"> Contract <span class="required">*</span></label>
+									    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${designDetails.contract_id_fk}" readonly />
 	                                </div>
-                                 </c:if>
+                                </c:if>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Department <span class="required">*</span></p>
                                      <select name="department_id_fk" id="department_id_fk" class="searchable validate-dropdown">

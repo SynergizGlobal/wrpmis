@@ -688,7 +688,7 @@ public class RiskDaoImpl implements RiskDao{
 	public List<Risk> getRiskAssessmentUploadsList(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "SELECT risk_upload_id,sub_work,r.attachment,status,r.remarks,uploaded_by_user_id_fk,DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on,user_name as uploaded_by "
+			String qry = "SELECT risk_upload_id,sub_work,r.attachment,status,r.remarks,uploaded_by_user_id_fk,DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on,user_name as uploaded_by,DATE_FORMAT(assessment_date,'%d-%b-%Y') as assessment_date "
 					+ "from risk_upload r " 
 					+ "LEFT JOIN user u ON r.uploaded_by_user_id_fk = u.user_id "
 					+ "where sub_work is not null";
@@ -733,9 +733,9 @@ public class RiskDaoImpl implements RiskDao{
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO risk_upload"
-					+ "(sub_work,attachment,status,remarks,uploaded_by_user_id_fk,uploaded_on) "
+					+ "(sub_work,attachment,status,remarks,uploaded_by_user_id_fk,uploaded_on,assessment_date) "
 					+ "VALUES "
-					+ "(:sub_work,:attachment,:status,:remarks,:uploaded_by_user_id_fk,CURRENT_TIMESTAMP)";	
+					+ "(:sub_work,:attachment,:status,:remarks,:uploaded_by_user_id_fk,CURRENT_TIMESTAMP,:assessment_date)";	
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 		    int count = template.update(qry, paramSource, keyHolder);

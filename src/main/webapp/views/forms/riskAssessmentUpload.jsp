@@ -87,6 +87,9 @@
 		.row.no-mar{
 			margin-bottom:0;
 		}
+		
+		.dt-left{text-align: left!important;}
+		.dt-center{text-align: center!important;}
     </style>
 </head>
 
@@ -322,6 +325,7 @@
 												<th>Uploaded File</th>
 												<th>Status</th>
 												<th>Remarks</th>
+												<th>Assessment date</th>
 												<th>Uploaded by </th>
 												<th>Uploaded On</th>
 	                                        </tr>
@@ -470,11 +474,9 @@
                     return JSON.parse(localStorage.getItem('MRVCDataTables'));
                 },
                 columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    },
-                    { orderable: false, 'aTargets': ['nosort'] }
+                    { orderable: false, 'aTargets': ['nosort'] },
+                    { targets: [0, 1, 3, 4], className: 'dt-left'  },
+                    { targets: [2,5], className: 'dt-center'},
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",
@@ -502,6 +504,7 @@
                        	rowArray.push(filePath);
                        	rowArray.push($.trim(val.status));
                        	rowArray.push($.trim(val.remarks));
+                       	rowArray.push($.trim(val.assessment_date));
                        	rowArray.push($.trim(val.uploaded_by));
                        	rowArray.push($.trim(val.uploaded_on)); 
                        	

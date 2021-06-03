@@ -105,6 +105,7 @@ public class RiskController {
 		ModelAndView model = new ModelAndView();
 		String userId = null;String userName = null;
 		String msg = "";
+		String[] result = new String[2];
 		try {
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
@@ -150,7 +151,7 @@ public class RiskController {
 				                		msg = uploadformatError;
 										risk.setUploaded_by_user_id_fk(userId);
 										risk.setStatus("Fail");
-										risk.setRemarks(msg);
+										risk.setRemarks(result[0]);
 										boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
 										
 				                		return model;
@@ -166,14 +167,14 @@ public class RiskController {
 							msg = uploadformatError;
 							risk.setUploaded_by_user_id_fk(userId);
 							risk.setStatus("Fail");
-							risk.setRemarks(msg);
+							risk.setRemarks(result[0]);
 							boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
 							
 	                		return model;
 						}
 						
-						msg = uploadRiskAssessment(risk,userId,userName);
-						attributes.addFlashAttribute("success", msg);
+						result = uploadRiskAssessment(risk,userId,userName);
+						attributes.addFlashAttribute("success", result[0]);
 						/*if(arr[0] > 0) {
 							attributes.addFlashAttribute("updateSuccess", arr[0] + " Risk updated successfully. ");
 							msg = msg + arr[0] + " Risk updated successfully. ";
@@ -194,7 +195,8 @@ public class RiskController {
 						}else{
 							risk.setStatus("Fail");
 						}
-						risk.setRemarks(msg);
+						risk.setRemarks(result[0]);
+						risk.setAssessment_date(result[1]);
 						boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
 					}
 					workbook.close();
@@ -205,7 +207,8 @@ public class RiskController {
 				msg = "Your assessment is incomplete!";
 				risk.setUploaded_by_user_id_fk(userId);
 				risk.setStatus("Fail");
-				risk.setRemarks(msg);
+				risk.setRemarks(result[0]);
+				risk.setAssessment_date(result[1]);
 				boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
 			}
 			
@@ -217,7 +220,8 @@ public class RiskController {
 			msg = "Your assessment is incomplete!";
 			risk.setUploaded_by_user_id_fk(userId);
 			risk.setStatus("Fail");
-			risk.setRemarks(msg);
+			risk.setRemarks(result[0]);
+			risk.setAssessment_date(result[1]);
 			try {
 				boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
 			} catch (Exception e1) {
@@ -228,13 +232,14 @@ public class RiskController {
 		return model;
 	}
 
-	private String uploadRiskAssessment(Risk obj, String userId, String userName)  throws Exception{
+	private String[] uploadRiskAssessment(Risk obj, String userId, String userName)  throws Exception{
 		Risk risk = null;
 		List<Risk> risksList = new ArrayList<Risk>();
 		
 		Writer w = null;
-		//int[] arr = null;
+		String[] result = new String[2];
 		String msg = "";
+		String assessment_date = null;
 		try {		           
 			MultipartFile excelfile = obj.getRiskAssessmentFile();
 			// Creates a workbook object from the uploaded excelfile
@@ -375,6 +380,7 @@ public class RiskController {
 							
 							risk.setDate(DateParser.parse(risk.getDate()));	
 							
+							assessment_date = risk.getDate();
 							
 							if(StringUtils.isEmpty(risk.getSub_work())) { 
 								risk_cols_error = "A";
@@ -461,6 +467,9 @@ public class RiskController {
 					}
 					
 					msg = msg + risk_owner_error + risk_rows_error + risk_cols_error;
+					
+					result[0] = msg;
+					result[1] = assessment_date;
 				}
 				workbook.close();
 			}
@@ -480,7 +489,7 @@ public class RiskController {
 		    }
 		}
 		
-		return msg;
+		return result;
 	}
 	
 	private String getCellDataType2(XSSFWorkbook workbook, XSSFCell cell) {

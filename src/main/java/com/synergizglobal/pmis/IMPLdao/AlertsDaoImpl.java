@@ -552,7 +552,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join work w on rwh.work_id_fk = w.work_id " 
 					+ "left join risk_upload ru on rwh.sub_work = ru.sub_work " 
 					+ "left join user u on rwh.hod_user_id_fk = u.user_id " 
-					+ "where (select count(*) from risk_upload where sub_work = rwh.sub_work and `status` = 'Success' and DATE_FORMAT(uploaded_on,'%m-%Y') = DATE_FORMAT(NOW(),'%m-%Y')) <= 0 "
+					+ "where (select count(*) from risk_upload where sub_work = rwh.sub_work and `status` = 'Success' and DATE_FORMAT(assessment_date,'%m-%Y') = DATE_FORMAT(NOW(),'%m-%Y')) <= 0 "
 					+ "and (select count(*) from risk_upload where sub_work = rwh.sub_work and `status` = 'Success') >= 1 "
 					+ "group by rwh.work_id_fk,hod_user_id_fk";		
 			risk_alerts = jdbcTemplate.query( work_ids_qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));

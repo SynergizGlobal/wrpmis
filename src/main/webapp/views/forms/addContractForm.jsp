@@ -256,7 +256,7 @@
 	                                <!-- row 1  -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                <p class="searchable_label">Department <span class="required">*</span></p>
+	                                	<p class="searchable_label">Department <span class="required">*</span></p>
 	                                    <select name="department_fk" id="department_fk" class="searchable validate-dropdown">
 	                                        <option value="">Select</option>
 	                                           <c:forEach var="obj" items="${departmentList }">
@@ -265,6 +265,18 @@
 	                                    </select>
 	                                      <span id="department_fkError" class="error-msg" ></span>
 	                                </div>
+	                                <div class="col s12 m4 input-field">
+		                                 <p class="searchable_label">Responsible Persons</p>
+		                                 <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
+		                                  multiple="multiple">
+		                                   <option value="" disabled="disabled">Select</option>
+		                                   <c:forEach var="obj" items="${responsiblePeopleList}">
+		           					  			 <option value="${obj.user_id }"> ${obj.designation} - ${obj.user_name}</option>
+		                                   </c:forEach>
+		                                  </select>
+	                                     <span id="responsible_people_id_fkError" class="error-msg"></span>
+	                                </div>
+	                                
 	                                <!-- <div class="col s12 m4 input-field">
 	                                    <label class="primary-text-bold" style="margin-top:10px">Contract ID :</label>
 	                                </div> -->
@@ -361,12 +373,12 @@
 	                            <div class="row">
 	                                <!-- //row 7 -->
 	                                <div class="col m2 hide-on-small-only"></div>	                               
-	                                <div class="col s12 m4 input-field">
+	                                <!-- <div class="col s12 m4 input-field">
 	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate datepicker">
 	                                    <label for="date_of_start">Date of Start</label>
 	                                     <span id="date_of_startError" class="error-msg" ></span>
 	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
-	                                </div>
+	                                </div> -->
 	                                <div class="col s9 m3 input-field">
 	                                	<i class="material-icons prefix cost">₹</i>
 	                                    <input id="awarded_cost" name="awarded_cost" type="number" min="0.01" step="0.01" class="validate">
@@ -417,10 +429,10 @@
 	                                <div class="col s12 m4 input-field">
 	                                 <p class="searchable_label"> <label>Status of Contract</label> </p>
 	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
-	                                        <option value="" selected>Select</option>
-	                                       		 <c:forEach var="obj" items="${contract_Statustype }">
-			                                    	 <option value="${obj.contract_status_fk }" >${obj.contract_status_fk }</option>
-			                                      </c:forEach>
+	                                         <option value="" selected>Select</option>
+                                       		 <c:forEach var="obj" items="${contract_Statustype }">
+		                                    	 <option value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started' }">selected</c:if>>${obj.contract_status_fk }</option>
+		                                     </c:forEach>
 	                                    </select>
 	                                    <span id="contract_status_fkError" class="error-msg" ></span>
 	                                </div>
@@ -675,7 +687,7 @@
                             </div>
  --%>
  							<div class="container container-no-margin">
-	                            <div class="row fixed-width">
+	                            <!-- <div class="row fixed-width">
 	                                <h5 class="center-align">Milestone Details</h5>
 	                                <div class="table-inside">
 	                                    <table id="mileTable" class="mdl-data-table">
@@ -735,7 +747,7 @@
 	                                    </table>
 	                                    <input type="hidden" id="mileRowNo"  name="mileRowNo" value="0" />
 	                                </div>
-	                            </div>
+	                            </div> -->
 	                           <!--  <div class="row fixed-width">
                                 <h5 class="center-align">Revision Details</h5>
                                 <div class="table-inside">
@@ -807,7 +819,7 @@
                             
                               <!-- new code  starts-->
                             <div class="container container-no-margin">
-	                            <div class="container">
+	                            <!-- <div class="container">
 	                                <div class="row fixed-width">
 	                                    <h5 class="center-align">Key Personnel</h5>
 	                                    <div class="table-inside">
@@ -854,7 +866,7 @@
                                    	 
 	                                    </div>
 	                                </div>
-	                            </div>
+	                            </div> -->
 	
 	                            <div class="container" style="margin-bottom:30px">
 	                                <div class="row fixed-width">
@@ -1354,8 +1366,8 @@
 		   		 	  },"dy_hod_user_id_fk": {
 		   	 		    required: true
 		   	 	   	  },"doc": {
-		   		 		required: false,
-   				 		dateBefore1:"#date_of_start"
+		   		 		required: false
+   				 		//dateBefore1:"#date_of_start"
 		   		 	  },"awarded_cost": {
 		   		 		required: false
 		   		 	  },"date_of_start": {

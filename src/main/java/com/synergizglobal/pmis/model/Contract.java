@@ -13,7 +13,8 @@ public class Contract {
 	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,milestone_id,status,released_fk,
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status,revision_status
 	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till,
-	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code,contract_file_type_fk,contract_file_type,contract_file_id;
+	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code,contract_file_type_fk,contract_file_type,contract_file_id,
+	responsible_people_id_fk,hod_name,dy_hod_name;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
 
@@ -36,6 +37,7 @@ public class Contract {
 	private List<Contract> contract_revision;
 	private List<Contract> contractDocuments;
 	private List<Contract> contractKeyPersonnels;
+	private List<Contract> responsiblePeopleList;
 	
 
 	
@@ -1408,6 +1410,38 @@ public class Contract {
 
 	public void setDy_hod_user_id(String dy_hod_user_id) {
 		this.dy_hod_user_id = dy_hod_user_id;
+	}
+
+	public String getResponsible_people_id_fk() {
+		return responsible_people_id_fk;
+	}
+
+	public void setResponsible_people_id_fk(String responsible_people_id_fk) {
+		this.responsible_people_id_fk = responsible_people_id_fk;
+	}
+
+	public List<Contract> getResponsiblePeopleList() {
+		return responsiblePeopleList;
+	}
+
+	public void setResponsiblePeopleList(List<Contract> responsiblePeopleList) {
+		this.responsiblePeopleList = responsiblePeopleList;
+	}
+
+	public String getHod_name() {
+		return hod_name;
+	}
+
+	public void setHod_name(String hod_name) {
+		this.hod_name = hod_name;
+	}
+
+	public String getDy_hod_name() {
+		return dy_hod_name;
+	}
+
+	public void setDy_hod_name(String dy_hod_name) {
+		this.dy_hod_name = dy_hod_name;
 	}
 	
 }

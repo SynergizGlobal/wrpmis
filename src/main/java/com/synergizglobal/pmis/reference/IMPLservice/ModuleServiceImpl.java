@@ -9,6 +9,7 @@ import com.synergizglobal.pmis.reference.Idao.ModuleDao;
 import com.synergizglobal.pmis.reference.Iservice.ModuleService;
 import com.synergizglobal.pmis.reference.model.Safety;
 import com.synergizglobal.pmis.reference.model.TrainingType;
+import com.synergizglobal.pmis.reference.model.User;
 
 @Service
 public class ModuleServiceImpl implements ModuleService{
@@ -19,6 +20,11 @@ public class ModuleServiceImpl implements ModuleService{
 	@Override
 	public List<Safety> getModuleList() throws Exception {
 		return dao.getModuleList();
+	}
+	
+	@Override
+	public List<User> getModuleInchargeList() throws Exception {
+		return dao.getModuleInchargeList();
 	}
 
 	@Override

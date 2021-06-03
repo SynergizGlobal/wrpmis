@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.synergizglobal.pmis.reference.Idao.ModuleDao;
 import com.synergizglobal.pmis.reference.model.Safety;
 import com.synergizglobal.pmis.reference.model.TrainingType;
+import com.synergizglobal.pmis.reference.model.User;
 
 @Repository
 public class ModuleDaoImpl implements ModuleDao{
@@ -28,10 +29,24 @@ public class ModuleDaoImpl implements ModuleDao{
 	public List<Safety> getModuleList() throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry ="select module_name from module ";
+			String qry ="select module_name,incharge_user_id_fk,user_name as module_incharge "
+					+ "from module m "
+					+ "left join `user` u on incharge_user_id_fk = user_id";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<User> getModuleInchargeList() throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry ="select user_id,user_name,designation from `user` where user_type_fk in('HOD','DyHOD','Management')";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));	
+		}catch(Exception e){ 
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -42,7 +57,7 @@ public class ModuleDaoImpl implements ModuleDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO module"
-					+ "( module_name) VALUES (:module_name)";
+					+ "( module_name,incharge_user_id_fk) VALUES (:module_name,:incharge_user_id_fk)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -62,7 +77,9 @@ public class ModuleDaoImpl implements ModuleDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `module_name` from module ";
+			String qry ="select module_name,incharge_user_id_fk,user_name as module_incharge "
+					+ "from module m "
+					+ "left join `user` u on incharge_user_id_fk = user_id";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -158,7 +175,7 @@ public class ModuleDaoImpl implements ModuleDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE module SET `module_name`= :value_new WHERE `module_name`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE module SET `module_name`= :value_new,incharge_user_id_fk=:incharge_user_id_fk WHERE `module_name`= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			

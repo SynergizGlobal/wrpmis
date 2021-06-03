@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.reference.Iservice.ModuleService;
 import com.synergizglobal.pmis.reference.model.Safety;
 import com.synergizglobal.pmis.reference.model.TrainingType;
+import com.synergizglobal.pmis.reference.model.User;
 import com.synergizglobal.pmis.constants.PageConstants;
 
 @Controller
@@ -43,6 +44,10 @@ public class ModuleController {
 			model.addObject("module", module);
 			TrainingType moduleDetails = service.getModuleDetails(obj);
 			model.addObject("moduleDetails",moduleDetails);
+			
+			List<User> inchargeList = service.getModuleInchargeList();
+			model.addObject("inchargeList", inchargeList);
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("module : " + e.getMessage());

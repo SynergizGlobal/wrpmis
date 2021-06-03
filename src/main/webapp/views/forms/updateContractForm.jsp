@@ -202,29 +202,33 @@
 <!--                     <div class="container container-no-margin"> -->
                         <form action="<%=request.getContextPath() %>/update-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 							<div class="container container-no-margin">
+								<div class="row" style="margin-bottom: 50px;">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <label class="primary-text-bold ">Contract ID : <input id="contract_id" name="contract_id" type="text" value="${contractDeatils.contract_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+							
 	                            <div class="row">
-	
-	                                <!-- row 1  -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
 	                                	<p class="searchable_label">Project <span class="required">*</span></p>
-                                  			 <input type="text"  value="${contractDeatils.project_id_fk} - ${contractDeatils.project_name}" readonly />
-                                         	 <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
+                               			 <input type="text"  value="${contractDeatils.project_id_fk} - ${contractDeatils.project_name}" readonly />
+                                      	 <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <p class="searchable_label">Work <span class="required">*</span></p>
-	                                    	<input type="text"  value="${contractDeatils.work_id_fk} - ${contractDeatils.work_name}" readonly />
-	                                        <input type="hidden" name="work_id_fk" id="work_id_fk" value="${contractDeatils.work_id_fk}" readonly />
-	                                </div>
-	
+                                    	<input type="text"  value="${contractDeatils.work_id_fk} - ${contractDeatils.work_name}" readonly />
+                                        <input type="hidden" name="work_id_fk" id="work_id_fk" value="${contractDeatils.work_id_fk}" readonly />
+	                                </div>	
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	                             <div class="row">
-	                                <!-- //row 9 -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m8 ">
 	                                    <div class="row">
-	  										<div class="col s12 m6 input-field">
+	  										<%-- <div class="col s12 m6 input-field">
 	  										 	<p><label>HOD</label></p>
 	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDepartmentsList(); getDyHodList();"> 
 	                                     		  <option value="">Select</option> 
@@ -247,19 +251,26 @@
 												<!-- <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
 	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
 	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
-	                                        </div>
+	                                        </div> --%>
+	                                        
+	                                        <div class="col s12 m6 input-field">
+			                                	<p class="searchable_label">HOD <span class="required">*</span></p>
+		                               			 <input type="text"  value="${contractDeatils.hod_designation }<c:if test="${not empty contractDeatils.hod_name}"> - </c:if>${contractDeatils.hod_name}" readonly />
+		                                      	 <input type="hidden" name="hod_user_id_fk" id="hod_user_id_fk" value="${contractDeatils.hod_user_id_fk}" readonly />
+			                                </div>
+			                                <div class="col s12 m6 input-field">
+			                                    <p class="searchable_label">Dy HOD <span class="required">*</span></p>
+		                                    	<input type="text"  value="${contractDeatils.dy_hod_designation }<c:if test="${not empty contractDeatils.dy_hod_name}"> - </c:if>${contractDeatils.dy_hod_name}" readonly />
+		                                        <input type="hidden" name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" value="${contractDeatils.dy_hod_user_id_fk}" readonly />
+			                                </div>	
 	                                    </div>
-	                                </div>
-	
+	                                </div>	
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	                            
 	                            <div class="row">
-	
-	                                <!-- row 1  -->
-	                                <div class="col m2 hide-on-small-only"></div>
-	
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col m2 hide-on-small-only"></div>	
+	                                <%-- <div class="col s12 m4 input-field">
 	                                 <p class="searchable_label">Department <span class="required">*</span></p>
 	                                    <select name="department_fk" id="department_fk" class="searchable">
 	                                        <option value="" selected>Select</option>
@@ -268,11 +279,28 @@
 	                                          </c:forEach>
 	                                    </select>
 	                             		 <span id="department_fkError" class="error-msg" ></span>
-	                                    
-	                                </div>
+	                                </div> --%>
+	                                
 	                                <div class="col s12 m4 input-field">
-	                                    <label class="primary-text-bold ">Contract ID : <input id="contract_id" name="contract_id" type="text" value="${contractDeatils.contract_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
-	                               
+	                                    <p class="searchable_label">Department <span class="required">*</span></p>
+                                    	<input type="text"  value="${contractDeatils.department_name }" readonly />
+                                        <input type="hidden" name="department_fk" id="department_fk" value="${contractDeatils.department_fk}" readonly />
+	                                </div>
+	                                
+	                                <div class="col s12 m4 input-field">
+		                                 <p class="searchable_label">Responsible Persons</p>
+		                                 <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
+		                                  multiple="multiple">
+		                                   <option value="" disabled="disabled">Select</option>
+		                                   <c:forEach var="obj" items="${responsiblePeopleList}">
+		           					  			 <option value="${obj.user_id }"            					  			 
+		           					  			 		<c:forEach var="tempobj" items="${contractDeatils.responsiblePeopleList}">
+												 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id}">selected</c:if>
+			                                          	</c:forEach>           					  			 
+		           					  			 > ${obj.designation} - ${obj.user_name}</option>
+		                                   </c:forEach>
+		                                  </select>
+	                                     <span id="responsible_people_id_fkError" class="error-msg"></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
@@ -420,7 +448,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>	                                
 	                                <div class="col s12 m4 input-field">
 	                                   <p class="searchable_label"><label>Status of Contract</label></p>
-	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable">
+	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);">
 	                                        <option value="" selected>Select</option>
 	                                           <c:forEach var="obj" items="${contract_Statustype }">
 			                                    	<option value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
@@ -475,7 +503,7 @@
                             </div>
 							</div>
                             <!-- bg show hide div  -->
-                            <div class="row fixed-width" id="bank_guarantee_div">
+                            <div class="row fixed-width" id="bank_guarantee_div" style="display: none;">
                                 <h5 class="center-align">Bank Guarantee Details</h5>
                                 <div class="table-inside">
                                     <table id="bankTable" class="mdl-data-table">
@@ -701,7 +729,7 @@
 	                            </div>
 							</div>
                             <!-- insurance show hide div  -->
-                            <div class="row fixed-width" id="insurance_div">
+                            <div class="row fixed-width" id="insurance_div" style="display: none;">
                                 <h5 class="center-align">Insurance Details</h5>
                                 <div class="table-inside">
                                     <table id="insurenceTable" class="mdl-data-table">
@@ -1195,7 +1223,7 @@
                             <div class="container container-no-margin">
 	                            <div class="container">
 	                                <div class="row fixed-width">
-	                                    <h5 class="center-align">Key Personnel</h5>
+	                                    <h5 class="center-align">Contractor's Key Personnel</h5>
 	                                    <div class="table-inside">
 	                                        <table class="mdl-data-table">
 	                                            <thead>
@@ -1385,31 +1413,13 @@
 	                                </div>
 	                            </div>
 							</div>
-                            <!-- new code  ends-->
-                            
-<!--                             <div class="row"> -->
-<!--                                 <div class="col m2 hide-on-small-only"></div> -->
-
-<!--                                 <div class="col m8 s12"> -->
-<!--                                     <div class="file-field input-field"> -->
-<!--                                         <div class="btn bg-m"> -->
-<!--                                             <span>Attachment</span> -->
-<!--                                             <input type="file"> -->
-<!--                                         </div> -->
-<!--                                         <div class="file-path-wrapper"> -->
-<!--                                             <input class="file-path validate" type="text"> -->
-<!--                                         </div> -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                                 <div class="col m2 hide-on-small-only"></div> -->
-
-<!--                             </div> -->
- 							<div class="container container-no-margin"> 
- 							<div class="row">
-                         		<h5 class="center-align">Contract Closure Details</h5>
-                         	</div>  
- 							 <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
+							
+ 							<div class="container container-no-margin" id="contractClosureDetails" style="display: none;"> 
+ 								<div class="row">
+ 									<h5 class="center-align">Contract Closure Details</h5>
+ 								</div>
+ 							    <div class="row">
+ 							 		<div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${contractDeatils.actual_completion_date }">
 	                                    <label for="actual_completion_date">Actual Completed Date</label>
@@ -1507,21 +1517,24 @@
 	                                </div> --%>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div> 
-		
-	                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 mt-brdr">
-                                    <div class="center-align m-1">
-                                        <button type="button" onclick="updateContract();" class="btn waves-effect waves-light bg-m">Update</button>
-                                    </div>
-                                </div>
-                                <div class="col s12 m4 mt-brdr">
-                                    <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
-                                    </div>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
+	                            
+                     		 </div>
+                     		 
+                     		 <div class="container container-no-margin"> 
+                     		 	<div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 mt-brdr">
+	                                    <div class="center-align m-1">
+	                                        <button type="button" onclick="updateContract();" class="btn waves-effect waves-light bg-m">Update</button>
+	                                    </div>
+	                                </div>
+	                                <div class="col s12 m4 mt-brdr">
+	                                    <div class="center-align m-1">
+	                                        <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
+	                                    </div>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
                      		 </div>
                         </form>
                     </div>
@@ -1587,7 +1600,51 @@
             $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
             $('#remarks').characterCounter();
             //getDyHodList();
+            
+            var contract_status_fk = '${contractDeatils.contract_status_fk}';
+            getContractClosureDetails(contract_status_fk);
+            
+            var bg_required = '${contractDeatils.bg_required}';
+            if(bg_required == 'Yes'){
+	       		$("#bank_guarantee_div").show();
+	       	}else{
+	       		$("#bank_guarantee_div").hide();
+	       	}
+            
+            var insurance_required = '${contractDeatils.insurance_required}';
+            if(insurance_required == 'Yes'){
+	       		$("#insurance_div").show();
+	       	}else{
+	       		$("#insurance_div").hide();
+	       	}
+            
         });
+        
+        function getContractClosureDetails(contract_status_fk) {
+			if(contract_status_fk == 'Completed'){
+				$("#contractClosureDetails").show();
+			}else{
+				$("#contractClosureDetails").hide();
+			}
+		}
+        
+        $('input[name=bg_required]').change(function(){
+	       	var value = $( 'input[name=bg_required]:checked' ).val();
+	       	if(value == 'Yes'){
+	       		$("#bank_guarantee_div").show();
+	       	}else{
+	       		$("#bank_guarantee_div").hide();
+	       	}
+       	});
+        
+        $('input[name=insurance_required]').change(function(){
+	       	var value = $( 'input[name=insurance_required]:checked' ).val();
+	       	if(value == 'Yes'){
+	       		$("#insurance_div").show();
+	       	}else{
+	       		$("#insurance_div").hide();
+	       	}
+       	});
         
         function getDyHodList() {
         	$(".page-loader").show();
@@ -1607,7 +1664,6 @@
 	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
 	                        	   var user = '${contractDeatils.dy_hod_user_id_fk}';
 	                        	   if ($.trim(hod_user_id_fk) != '') {
-	      	                        	  
                                        $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
                                    } else {
                                        $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
@@ -1709,8 +1765,25 @@
         
         
         function updateContract(){
+        	
+        	
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	
+	  		
+	  			var bg_required = $("input[name=bg_required]:checked").val();
+	  			var insurance_required = $("input[name=insurance_required]:checked").val();
+	  			var contract_status_fk = $("#contract_status_fk").val();
+	  			
+	  			if(bg_required != 'Yes'){
+	        		$("#bank_guarantee_div").remove()
+	        	}
+	  			if(insurance_required != 'Yes'){
+	        		$("#insurance_div").remove()
+	        	}
+	        	if(contract_status_fk != 'Completed'){
+	        		$("#contractClosureDetails").remove()
+	        	}
+	        	
 	  			$('form input[name=bg_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
 	  			$('form input[name=issuing_banks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=bank_addresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	

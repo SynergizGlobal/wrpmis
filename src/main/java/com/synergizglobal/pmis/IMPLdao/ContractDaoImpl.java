@@ -32,6 +32,7 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.BankGuarantee;
 import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Insurence;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.User;
@@ -669,6 +670,30 @@ public class ContractDaoImpl implements ContractDao {
 					
 				}
 				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+				
+				/**********************************************************************************************/
+				
+				if(!StringUtils.isEmpty(contract.getResponsible_people_id_fk())) {
+					String qry3 = "INSERT into contract_responsible_people (contract_id_fk,responsible_people_id_fk) VALUES (?,?)";
+					stmt = con.prepareStatement(qry3); 
+					if(contract.getResponsible_people_id_fk().contains(",")) {
+						String[] ids = contract.getResponsible_people_id_fk().split(",");					
+						for (int i = 0; i < ids.length; i++) {
+							int p = 1;				
+							stmt.setString(p++,contract_id);
+							stmt.setString(p++,(!StringUtils.isEmpty(ids[i])?ids[i]:null));	
+							stmt.addBatch();
+						}			
+					} else {
+						int p = 1;				
+						stmt.setString(p++,contract_id);
+						stmt.setString(p++,(!StringUtils.isEmpty(contract.getResponsible_people_id_fk())?contract.getResponsible_people_id_fk():null));	
+						stmt.addBatch();
+					}	
+					stmt.executeBatch();
+				}
+				
+				/**********************************************************************************************/
 			}
 			
 			con.commit();
@@ -738,10 +763,15 @@ public class ContractDaoImpl implements ContractDao {
 		Contract contract = null;
 		try{
 			con = dataSource.getConnection();
-			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
-									",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
-									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
-									+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,insurance_required " + 
+			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,"
+									+ "c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,dt.department_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,  " 
+									+ "scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,"
+									+ "DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,"
+									+ "ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
+									+ "DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,"
+									+ "DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
+									+ "DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,"
+									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -768,8 +798,15 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setContractor_id_fk(resultSet.getString("contractor_id_fk"));
 				contract.setContractor_name(resultSet.getString("contractor_name"));
 				contract.setDepartment_fk(resultSet.getString("department_fk"));
+				contract.setDepartment_name(resultSet.getString("department_name"));
 				contract.setHod_user_id_fk(resultSet.getString("hod_user_id_fk"));
 				contract.setDy_hod_user_id_fk(resultSet.getString("dy_hod_user_id_fk"));
+				
+				contract.setHod_designation(resultSet.getString("hod_designation"));
+				contract.setDy_hod_designation(resultSet.getString("dy_hod_designation"));
+				contract.setHod_name(resultSet.getString("hod_name"));
+				contract.setDy_hod_name(resultSet.getString("dy_hod_name"));
+				
 				contract.setScope_of_contract(resultSet.getString("scope_of_contract"));
 				contract.setDoc(resultSet.getString("doc"));
 				contract.setAwarded_cost(resultSet.getString("awarded_cost"));
@@ -800,6 +837,8 @@ public class ContractDaoImpl implements ContractDao {
 				
 				contract.setContractKeyPersonnels(getContractKeyPersonnels(contract.getContract_id(),con));	
 				contract.setContractDocuments(getContractDocuments(contract.getContract_id(),con));
+				
+				contract.setResponsiblePeopleList(getResponsiblePeopleList(contract.getContract_id(),con));
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -809,6 +848,31 @@ public class ContractDaoImpl implements ContractDao {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 		}		
 		return contract;	
+	}
+
+	private List<Contract> getResponsiblePeopleList(String contract_id, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Contract> objsList = new ArrayList<Contract>();
+		Contract obj = null;
+		try {
+			String qry ="SELECT responsible_people_id_fk from contract_responsible_people where contract_id_fk = ?";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, contract_id);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Contract();
+				obj.setResponsible_people_id_fk(resultSet.getString("responsible_people_id_fk"));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return objsList;
 	}
 
 	private List<Contract> getContractDocuments(String contract_id, Connection con) throws Exception {
@@ -1513,6 +1577,38 @@ public class ContractDaoImpl implements ContractDao {
 					c = stmt.executeBatch();
 					int[] update_count = updateStmt.executeBatch();
 					DBConnectionHandler.closeJDBCResoucrs(null, updateStmt, null);
+					
+					
+					/**********************************************************************************************/
+					
+					deleteQry = "DELETE from contract_responsible_people where contract_id_fk = ?";		 
+					stmt = con.prepareStatement(deleteQry);
+					stmt.setString(1,contract.getContract_id()); 
+					stmt.executeUpdate();
+					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+					
+					if(!StringUtils.isEmpty(contract.getResponsible_people_id_fk())) {						
+						
+						String qry3 = "INSERT into contract_responsible_people (contract_id_fk,responsible_people_id_fk) VALUES (?,?)";
+						stmt = con.prepareStatement(qry3); 
+						if(contract.getResponsible_people_id_fk().contains(",")) {
+							String[] ids = contract.getResponsible_people_id_fk().split(",");					
+							for (int i = 0; i < ids.length; i++) {
+								p = 1;				
+								stmt.setString(p++,contract.getContract_id());
+								stmt.setString(p++,(!StringUtils.isEmpty(ids[i])?ids[i]:null));	
+								stmt.addBatch();
+							}			
+						} else {
+							p = 1;				
+							stmt.setString(p++,contract.getContract_id());
+							stmt.setString(p++,(!StringUtils.isEmpty(contract.getResponsible_people_id_fk())?contract.getResponsible_people_id_fk():null));	
+							stmt.addBatch();
+						}	
+						stmt.executeBatch();
+					}
+					
+					/**********************************************************************************************/
 				}
 				con.commit();
 		}catch(Exception e){ 
@@ -2473,6 +2569,18 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> objsList = null;
 		try {
 			String qry = "select contract_file_type from `contract_file_type` ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getResponsiblePeopleList(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

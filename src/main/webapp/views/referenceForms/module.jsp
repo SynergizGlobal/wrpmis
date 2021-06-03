@@ -114,6 +114,7 @@
                                     <thead>
                                         <tr>
                                             <th>Module</th>
+                                            <th>Incharge</th>
                                             <c:forEach var="tObj" items="${moduleDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach>
@@ -122,42 +123,50 @@
                                     </thead>
                                     <tbody>
 										<c:forEach var="obj" items="${moduleDetails.dList1}" varStatus="indexs">
-											<tr><td>
+											<tr>
+												<td>
 												<input type="hidden" id="module_nameId${indexs.count}" value="${obj.module_name }"  class="findLengths"/>
-												${obj.module_name }</td>
-											<c:forEach var="tObj" items="${moduleDetails.tablesList}" varStatus="index">
-											 
-												<td><c:forEach var="cObj" items="${moduleDetails.countList}" >
-												<c:choose> 
-													    <c:when test="${tObj.tName eq cObj.tName }"> 
-													    
-													    		<c:choose>  
+												${obj.module_name }
+												</td>
+												<td>
+												<input type="hidden" id="incharge_user_id_fk${indexs.count}" value="${obj.incharge_user_id_fk }"/>
+												${obj.module_incharge }
+												</td>
+												<c:forEach var="tObj" items="${moduleDetails.tablesList}" varStatus="index">
+												 
+													<td>
+														<c:forEach var="cObj" items="${moduleDetails.countList}" >
+														<c:choose> 
+														    <c:when test="${tObj.tName eq cObj.tName }"> 
+														    	<c:choose>  
 																    <c:when test="${cObj.module_name eq obj.module_name }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
 																    </c:otherwise>   
-															</c:choose>
-														</c:when>
-														<c:otherwise> 
-													   </c:otherwise>
-												</c:choose>
-												</c:forEach></td>
-                                            </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${moduleDetails.dList}" varStatus="indexx"> 
-												<c:choose>  
-												    <c:when test="${oSbj.module_name eq obj.module_name }"> 
-												      	<a onclick="deleteRow('${ oSbj.module_name }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
-												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
-												      	</a>
-												    </c:when>  
-												    <c:otherwise>  
-												    </c:otherwise>   
-												</c:choose>  
-												
- 											 </c:forEach>
- 											</td></tr>													   
+																</c:choose>
+															</c:when>
+															<c:otherwise> 
+														   </c:otherwise>
+														</c:choose>
+														</c:forEach>
+													</td>
+	                                            </c:forEach>
+												<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
+											 	<c:forEach var="oSbj"  items="${moduleDetails.dList}" varStatus="indexx"> 
+													<c:choose>  
+													    <c:when test="${oSbj.module_name eq obj.module_name }"> 
+													      	<a onclick="deleteRow('${ oSbj.module_name }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+													      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
+													      	</a>
+													    </c:when>  
+													    <c:otherwise>  
+													    </c:otherwise>   
+													</c:choose>  
+													
+	 											 </c:forEach>
+	 											</td>
+	 										</tr>													   
  										 </c:forEach>
 
                                     </tbody>
@@ -199,8 +208,21 @@
                                 <input id="module_text" name="module_name" type="text" class="validate"  onkeyup="doValidate(this.value)">
                                 <label for="module_text">Module</label>
                                 <span id="module_nameError" class="error-msg" ></span>
-                            </div>
+                            </div>                            
                         </div>
+                        <div class="row">
+                        	<div class="input-field col s12 m12">
+                        		<p class="searchable_label">Incharge</p>
+                                <select id="incharge_user_id_fk" name="incharge_user_id_fk" class="">
+                                	<option value="">--Select--</option>
+                                	<c:forEach var="obj" items="${inchargeList}" >
+                                		<option value="${obj.user_id }">${obj.designation } - ${obj.user_name }</option>
+                                	</c:forEach>
+                                </select>
+                                
+                                <span id="incharge_user_id_fkError" class="error-msg" ></span>
+                            </div>
+                        </div>   
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
@@ -243,6 +265,18 @@
                                 <span id="value_newError" class="error-msg" ></span>
                          </div>
                         </div>
+                        <div class="row no-mar">
+                        	<div class="input-field col s12 m12">
+                        		<p class="searchable_label">Incharge</p>
+                                <select id="incharge_user_id_fk_update" name="incharge_user_id_fk" class="">
+                                	<option value="">--Select--</option>
+                                	<c:forEach var="obj" items="${inchargeList}" >
+                                		<option value="${obj.user_id }">${obj.designation } - ${obj.user_name }</option>
+                                	</c:forEach>
+                                </select>
+                                <span id="incharge_user_id_fk_updateError" class="error-msg" ></span>
+                            </div>
+                        </div>   
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
@@ -292,6 +326,7 @@
 
     <script>
         $(document).ready(function () {
+        	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
 
@@ -452,15 +487,18 @@
 
         function updateRow(no) {
     	      var module_name = $('#module_nameId'+no).val();
+    	      var incharge_user_id_fk = $('#incharge_user_id_fk'+no).val();
     	      $('#value_old').val($.trim(module_name))
     	      $('#onlyUpdateModal').modal('open');
     	      $('#onlyUpdateModal #value_new').val($.trim(module_name)).focus();
+    	      $('#onlyUpdateModal #incharge_user_id_fk_update').val(incharge_user_id_fk);
+    	      $('select:not(.searchable)').formSelect();
     	  }
     	  
     	  function deleteRow(val){
     	  	$("#module_name").val(val);
     	  	showCancelMessage();
-    		    }
+    	  }
     	  	
     	  
     	  function showCancelMessage() {

@@ -65,6 +65,8 @@ public interface ContractService {
 
 	public List<Contract> getContractFileTypeList(Contract obj)throws Exception;
 
+	public List<Contract> getResponsiblePeopleList(Contract obj)throws Exception;
+
 
 
 }

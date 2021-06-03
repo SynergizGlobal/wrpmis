@@ -1044,24 +1044,23 @@ public class AlertsDaoImpl implements AlertsDao{
 						if(riskMainAlertsList.size() > 0) {
 							emailSubject = "PMIS Risk Assessment Due";
 							mail.setMailSubject(emailSubject);
-							logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
+							logger.error("sendRiskNotificationAlertMails() >>Assessment Due Sending mail to "+uObj.getEmail_id()+": Start ");	
 							emailSender.sendEmailWithRiskAlerts(mail,riskMainAlertsList,today_date,current_year); 
-							logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
+							logger.error("sendRiskNotificationAlertMails() >>Assessment Due Sending mail to "+uObj.getEmail_id()+": End ");
 						}
-						
 						if(riskMitigationPlanAlertsList.size() > 0) {
-							emailSubject = "PMIS Risk Assessment - Updation of Mitigation Plan";
+							emailSubject = "PMIS Risk Assessment- Mitigation Plan";
 							mail.setMailSubject(emailSubject);
-							logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
+							logger.error("sendRiskNotificationAlertMails() >> Mitigation Plan Sending mail to "+uObj.getEmail_id()+": Start ");	
 							emailSender.sendEmailWithRiskAlerts(mail,riskMitigationPlanAlertsList,today_date,current_year); 
-							logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
+							logger.error("sendRiskNotificationAlertMails() >> Mitigation Plan Sending mail to "+uObj.getEmail_id()+": End ");
 						}
 						if(riskATRAlertsList.size() > 0) {
-							emailSubject = "PMIS Risk Assessment - Updation of ATR";
+							emailSubject = "PMIS Risk Assessment- Action Taken Report";
 							mail.setMailSubject(emailSubject);
-							logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
+							logger.error("sendRiskNotificationAlertMails() >> ATR Sending mail to "+uObj.getEmail_id()+": Start ");	
 							emailSender.sendEmailWithRiskAlerts(mail,riskATRAlertsList,today_date,current_year); 
-							logger.error("sendRiskNotificationAlertMails() >> Sending mail to "+uObj.getEmail_id()+": End ");
+							logger.error("sendRiskNotificationAlertMails() >> ATR Sending mail to "+uObj.getEmail_id()+": End ");
 						}						
 						
 					}

@@ -55,6 +55,7 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.BankGuarantee;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.ContractPaginationObject;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Insurence;
 import com.synergizglobal.pmis.model.User;
 
@@ -489,6 +490,9 @@ public class ContractController {
 			List<Contract> contract_Statustype = contractService.getContractStatusType();
 			model.addObject("contract_Statustype", contract_Statustype);
 			
+			List<Contract> responsiblePeopleList = contractService.getResponsiblePeopleList(obj);
+			model.addObject("responsiblePeopleList", responsiblePeopleList);
+			
 		}catch (Exception e) {
 			logger.error("Contract : " + e.getMessage());
 		}
@@ -595,8 +599,12 @@ public class ContractController {
 			List<Contract> contract_Statustype = contractService.getContractStatusType();
 			model.addObject("contract_Statustype", contract_Statustype);
 			
+			List<Contract> responsiblePeopleList = contractService.getResponsiblePeopleList(obj);
+			model.addObject("responsiblePeopleList", responsiblePeopleList);
+			
 			Contract contractDeatils = contractService.getContract(obj);
 			model.addObject("contractDeatils", contractDeatils);
+			
 			
 		}catch (Exception e) {
 			e.printStackTrace();

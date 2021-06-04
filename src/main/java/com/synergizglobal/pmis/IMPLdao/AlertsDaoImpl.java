@@ -1056,7 +1056,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						mail.setMailBcc(CommonConstants.BCC_MAIL);
 						mail.setTemplateName("Risk_Alerts.vm");
 						
-						String emailSubject = "PMIS Risk Assessment Due";						
+						String emailSubject = null;						
 						if(riskMainAlertsList.size() > 0) {							
 							if(isOverdue && !StringUtils.isEmpty(uObj.getReporting_to_email_id())) {
 								mail.setMailCc(uObj.getReporting_to_email_id());
@@ -1244,7 +1244,7 @@ public class AlertsDaoImpl implements AlertsDao{
 	            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 	            String current_year = yearFormat.format(new Date()).toUpperCase();
 				
-				String emailSubject = "PMIS Risk Assessment Due";
+				String emailSubject = "PMIS Risk Alerts";
 				
 				Mail mail = new Mail();
 				mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
@@ -1255,6 +1255,27 @@ public class AlertsDaoImpl implements AlertsDao{
 				logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >>: Start ");	
 				emailSender.sendEmailWithRiskAlerts(mail,riskAlertsList,today_date,current_year); 
 				logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >> : End ");
+				
+				/******************************************************************/
+				String qryIncharge = "select module_name,incharge_user_id_fk,u.email_id "
+						+ "from module m "
+						+ "LEFT JOIN `user` u on m.incharge_user_id_fk = u.user_id "
+						+ "WHERE module_name = 'Risk'" ;				
+				
+				List<Alerts> inchargeEmailList = jdbcTemplate.query( qryIncharge, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+				for (Alerts alerts : inchargeEmailList) {
+					if(!StringUtils.isEmpty(alerts.getEmail_id())) {
+						mail = new Mail();
+						mail.setMailTo(alerts.getEmail_id());
+						mail.setMailSubject(emailSubject);
+						mail.setTemplateName("Risk_Alerts.vm");
+						
+						logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >>: Incharge email Start : "+alerts.getEmail_id());	
+						emailSender.sendEmailWithRiskAlerts(mail,riskAlertsList,today_date,current_year); 
+						logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >> : Incharge email End : "+alerts.getEmail_id());
+					}
+				}
+				/******************************************************************/
 			}
 				
 			flag = true;

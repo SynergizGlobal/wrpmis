@@ -8,7 +8,8 @@ public class Alerts {
 	private String redirect_url,department_name,responsible_person,escalated_to,hod_user_id_fk,dy_hod_user_id_fk,created_by_user_id_fk,
 	user_id_fk,alert_level_fk,sub_work,reporting_to_user_id,reporting_to_email_id,alert_type_image;
 	
-	private String status,uploaded_by_user_id_fk,corrective_measure,user_role_name_fk,user_type_fk,owner,owner_user_id,responsible_person_user_id,assessment_date;
+	private String status,uploaded_by_user_id_fk,corrective_measure,user_role_name_fk,user_type_fk,owner,owner_user_id,
+	responsible_person_user_id,assessment_date,module_name,incharge_user_id_fk;
 	
 	public String getOwner_user_id() {
 		return owner_user_id;
@@ -416,6 +417,22 @@ public class Alerts {
 
 	public void setAssessment_date(String assessment_date) {
 		this.assessment_date = assessment_date;
+	}
+
+	public String getIncharge_user_id_fk() {
+		return incharge_user_id_fk;
+	}
+
+	public void setIncharge_user_id_fk(String incharge_user_id_fk) {
+		this.incharge_user_id_fk = incharge_user_id_fk;
+	}
+
+	public String getModule_name() {
+		return module_name;
+	}
+
+	public void setModule_name(String module_name) {
+		this.module_name = module_name;
 	}
 	
 }

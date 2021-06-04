@@ -665,11 +665,18 @@ public class AlertsDaoImpl implements AlertsDao{
 		List<Alerts> list = new ArrayList<Alerts>();
 		Connection connection = null;
 		PreparedStatement stmt = null;
-		ResultSet resultSet = null;		
+		ResultSet resultSet = null;	
 		try {
 			connection = dataSource.getConnection();
 			
-			String mitigation_alerts_qry = "select sub_work,owner,u.user_id as owner_user_id,DATE_FORMAT(date,'%d-%b-%Y') as assessment_date " 
+			String mitigation_alerts_qry = "select sub_work,owner,u.user_id as owner_user_id,DATE_FORMAT(date,'%d-%b-%Y') as assessment_date,"
+					+ "(CASE "
+					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 1) THEN '1st Alert' "
+					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 2) THEN '2nd Alert' " 
+					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 3) THEN '3rd Alert' "
+					+ "ELSE 'Overdue' "
+					+ "END "
+					+ ") as alert_level " 
 					+ "from risk_revision rr " 
 					+ "left join risk r on risk_id_pk_fk = risk_id_pk "
 					+ "left join user u on owner = u.designation " 
@@ -684,7 +691,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			if(!StringUtils.isEmpty(risk_mitigation_alerts) && risk_mitigation_alerts.size() > 0) {
 	             for (Alerts alerts : risk_mitigation_alerts) {
             		 Alerts aObj = new Alerts();
-            		 aObj.setAlert_level("1st Alert");
+            		 //aObj.setAlert_level("1st Alert");
             		 aObj.setAlert_value("Please update mitigation plan against prioritized risk(s) of "+alerts.getSub_work() + ".");
             		 aObj.setAlert_type("Risk");
             		 aObj.setRedirect_url("/risk-atr-update?sub_work="+alerts.getSub_work()+"&assessment_date="+alerts.getAssessment_date());
@@ -695,7 +702,14 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/****************************************************************************************/
 
-			String atr_alerts_qry = "select distinct sub_work,owner,u1.user_id as owner_user_id,responsible_person,u2.user_id as responsible_person_user_id,count(risk_action_id) as racount,DATE_FORMAT(date,'%d-%b-%Y') as assessment_date " 
+			String atr_alerts_qry = "select distinct sub_work,owner,u1.user_id as owner_user_id,responsible_person,u2.user_id as responsible_person_user_id,count(risk_action_id) as racount,DATE_FORMAT(date,'%d-%b-%Y') as assessment_date, "
+					+ "(CASE "
+					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 1) THEN '1st Alert' "
+					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 2) THEN '2nd Alert' " 
+					+ "WHEN (rr.`date` is not null and DATEDIFF(NOW(),rr.`date`) = 3) THEN '3rd Alert' "
+					+ "ELSE 'Overdue' "
+					+ "END "
+					+ ") as alert_level "
 					+ "from risk_revision rr "  
 					+ "left join risk r on risk_id_pk_fk = risk_id_pk " 
 					+ "left join risk_action ra on risk_revision_id_fk = risk_revision_id "
@@ -713,7 +727,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 	             for (Alerts alerts : risk_atr_alerts) {
             		 Alerts aObj = new Alerts();
-            		 aObj.setAlert_level("1st Alert");
+            		 //aObj.setAlert_level("1st Alert");
             		 aObj.setAlert_value("Please update ATR against prioritized risk(s) of "+alerts.getSub_work() + ".");
             		 aObj.setAlert_type("Risk");
             		 aObj.setRedirect_url("/risk-atr-update?sub_work="+alerts.getSub_work()+"&assessment_date="+alerts.getAssessment_date());
@@ -984,6 +998,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					List<Alerts> riskMitigationPlanAlertsList = new ArrayList<Alerts>();
 					List<Alerts> riskATRAlertsList = new ArrayList<Alerts>();
 					
+					boolean isOverdue = false;
 					if(riskAlertsList != null && riskAlertsList.size() > 0) {
 						for (Alerts alerts : riskAlertsList) {
 							String sub_work = "";
@@ -1024,6 +1039,10 @@ public class AlertsDaoImpl implements AlertsDao{
 								}
 							}
 							
+							if("Overdue".equals(alerts.getAlert_level())) {
+								isOverdue = true;
+							}
+							
 						}
 						
 						SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
@@ -1036,12 +1055,12 @@ public class AlertsDaoImpl implements AlertsDao{
 						mail.setMailTo(uObj.getEmail_id());
 						mail.setMailBcc(CommonConstants.BCC_MAIL);
 						mail.setTemplateName("Risk_Alerts.vm");
-						/*if(isOverdue && !StringUtils.isEmpty(uObj.getReporting_to_email_id())) {
-							mail.setMailCc(uObj.getReporting_to_email_id());
-						}*/	
 						
 						String emailSubject = "PMIS Risk Assessment Due";						
-						if(riskMainAlertsList.size() > 0) {
+						if(riskMainAlertsList.size() > 0) {							
+							if(isOverdue && !StringUtils.isEmpty(uObj.getReporting_to_email_id())) {
+								mail.setMailCc(uObj.getReporting_to_email_id());
+							}
 							emailSubject = "PMIS Risk Assessment Due";
 							mail.setMailSubject(emailSubject);
 							logger.error("sendRiskNotificationAlertMails() >>Assessment Due Sending mail to "+uObj.getEmail_id()+": Start ");	

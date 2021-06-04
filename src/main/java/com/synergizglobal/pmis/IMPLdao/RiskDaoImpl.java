@@ -29,6 +29,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.RiskReport;
 @Repository
@@ -42,6 +43,9 @@ public class RiskDaoImpl implements RiskDao{
 
 	@Autowired
 	DataSourceTransactionManager transactionManager;
+	
+	@Autowired
+	MessagesDao messagesDao;
 
 	@Override
 	public List<Risk> getWorksList(Risk obj) throws Exception {
@@ -171,27 +175,41 @@ public class RiskDaoImpl implements RiskDao{
 				sObj = (Risk)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 			}
 			if(updateCount > 0) {
+				
 				 String ownerId = sObj.getOwner_user_id(); 
 				 String responsibleId = sObj.getResponsible_user_id();
 				 String reporting_to_user_id = sObj.getReporting_to_user_id();
 				
+				 String userIds[]  = { ownerId,responsibleId,reporting_to_user_id};				 
 				 String messageType = "Risk";
-				 String userId[]  = { ownerId,responsibleId,reporting_to_user_id};
+				 String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+subWork+"&assessment_date="+assessmentDate;
+				 String message = "Risk Analysis Report of "+subWork+" has been uploaded.";
+				 
+				 Messages msgObj = new Messages();
+				 msgObj.setUser_ids(userIds);
+				 msgObj.setMessage_type(messageType);
+				 msgObj.setRedirect_url(redirect_url);
+				 msgObj.setMessage(message);
 				  
-				 String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
-				 insertStmt = con.prepareStatement(message_qry);
-				 for(int i = 0; i < userId.length; i++) {	
-					int j = 1;
-					if((!StringUtils.isEmpty(userId[i]))) {
-						String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+subWork+"&assessment_date="+assessmentDate;
-						insertStmt.setString(j++,"Risk Analysis Report of "+subWork+" has been uploaded.");
-						insertStmt.setString(j++,(userId[i]));
-						insertStmt.setString(j++,redirect_url);
-						insertStmt.setString(j++,messageType);
-						insertStmt.addBatch();
-					}
-				 }
-				 int [] insertCount1 = insertStmt.executeBatch();
+				 NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+				 messagesDao.addMessages(msgObj,namedParamJdbcTemplate);
+				 
+				 
+				/*String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
+				insertStmt = con.prepareStatement(message_qry);
+				for(int i = 0; i < userIds.length; i++) {	
+				int j = 1;
+				if((!StringUtils.isEmpty(userIds[i]))) {
+					String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+subWork+"&assessment_date="+assessmentDate;
+					insertStmt.setString(j++,"Risk Analysis Report of "+subWork+" has been uploaded.");
+					insertStmt.setString(j++,(userIds[i]));
+					insertStmt.setString(j++,redirect_url);
+					insertStmt.setString(j++,messageType);
+					insertStmt.addBatch();
+				}
+				}
+				int [] insertCount1 = insertStmt.executeBatch();*/
+				
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 

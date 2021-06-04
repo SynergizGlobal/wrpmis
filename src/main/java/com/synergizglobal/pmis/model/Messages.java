@@ -2,6 +2,8 @@ package com.synergizglobal.pmis.model;
 
 public class Messages {
 	private String message_id,message,user_id_fk,redirect_url,created_date,read_time,message_type,created_date_24hr_format,timeAgo;
+	
+	private String[] user_ids; 
 
 	public String getMessage_id() {
 		return message_id;
@@ -73,6 +75,14 @@ public class Messages {
 
 	public void setTimeAgo(String timeAgo) {
 		this.timeAgo = timeAgo;
+	}
+
+	public String[] getUser_ids() {
+		return user_ids;
+	}
+
+	public void setUser_ids(String[] user_ids) {
+		this.user_ids = user_ids;
 	}
 	
 	

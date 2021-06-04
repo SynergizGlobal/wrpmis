@@ -691,7 +691,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			if(!StringUtils.isEmpty(risk_mitigation_alerts) && risk_mitigation_alerts.size() > 0) {
 	             for (Alerts alerts : risk_mitigation_alerts) {
             		 Alerts aObj = new Alerts();
-            		 //aObj.setAlert_level("1st Alert");
+            		 aObj.setAlert_level(alerts.getAlert_level());
             		 aObj.setAlert_value("Please update mitigation plan against prioritized risk(s) of "+alerts.getSub_work() + ".");
             		 aObj.setAlert_type("Risk");
             		 aObj.setRedirect_url("/risk-atr-update?sub_work="+alerts.getSub_work()+"&assessment_date="+alerts.getAssessment_date());
@@ -727,7 +727,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 	             for (Alerts alerts : risk_atr_alerts) {
             		 Alerts aObj = new Alerts();
-            		 //aObj.setAlert_level("1st Alert");
+            		 aObj.setAlert_level(alerts.getAlert_level());
             		 aObj.setAlert_value("Please update ATR against prioritized risk(s) of "+alerts.getSub_work() + ".");
             		 aObj.setAlert_type("Risk");
             		 aObj.setRedirect_url("/risk-atr-update?sub_work="+alerts.getSub_work()+"&assessment_date="+alerts.getAssessment_date());

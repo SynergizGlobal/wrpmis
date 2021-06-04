@@ -190,7 +190,7 @@ public class RiskController {
 						}*/
 						
 						risk.setUploaded_by_user_id_fk(userId);
-						if(msg.contains("Risk Assessment uploaded successfully.")) {
+						if(result[0].contains("Risk Assessment uploaded successfully.")) {
 							risk.setStatus("Success");
 						}else{
 							risk.setStatus("Fail");

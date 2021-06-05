@@ -632,8 +632,10 @@ public class AlertsDaoImpl implements AlertsDao{
 	                stmt.setString(p++, obj.getUser_id_fk());
 	                stmt.addBatch();
 	                
-					if(!StringUtils.isEmpty(obj.getReporting_to_user_id()) 
-							&& ("3rd Alert".equals(obj.getAlert_level()) || "Overdue".equals(obj.getAlert_level())) ) {
+					/*if(!StringUtils.isEmpty(obj.getReporting_to_user_id()) 
+							&& ("3rd Alert".equals(obj.getAlert_level()) || "Overdue".equals(obj.getAlert_level())) ) {*/
+	                if(!StringUtils.isEmpty(obj.getReporting_to_user_id()) 
+							&& ("Overdue".equals(obj.getAlert_level())) ) {
 						p = 1;
 						stmt.setString(p++, alert_id);
 					    stmt.setString(p++, obj.getReporting_to_user_id());
@@ -1032,6 +1034,9 @@ public class AlertsDaoImpl implements AlertsDao{
 							if(!StringUtils.isEmpty(alerts.getAlert_value())) {
 								if(alerts.getAlert_value().contains("Risk assessment of")) {
 									riskMainAlertsList.add(alerts);
+									if("Overdue".equals(alerts.getAlert_level())) {
+										isOverdue = true;
+									}
 								}else if(alerts.getAlert_value().contains("Please update mitigation plan against")) {
 									riskMitigationPlanAlertsList.add(alerts);
 								}else if(alerts.getAlert_value().contains("Please update ATR against")) {
@@ -1039,9 +1044,7 @@ public class AlertsDaoImpl implements AlertsDao{
 								}
 							}
 							
-							if("Overdue".equals(alerts.getAlert_level())) {
-								isOverdue = true;
-							}
+							
 							
 						}
 						
@@ -1051,13 +1054,14 @@ public class AlertsDaoImpl implements AlertsDao{
 			            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 			            String current_year = yearFormat.format(new Date()).toUpperCase();
 			            
-			            Mail mail = new Mail();
-						mail.setMailTo(uObj.getEmail_id());
-						mail.setMailBcc(CommonConstants.BCC_MAIL);
-						mail.setTemplateName("Risk_Alerts.vm");
+			            
 						
 						String emailSubject = null;						
-						if(riskMainAlertsList.size() > 0) {							
+						if(riskMainAlertsList.size() > 0) {	
+							Mail mail = new Mail();
+							mail.setMailTo(uObj.getEmail_id());
+							mail.setMailBcc(CommonConstants.BCC_MAIL);
+							mail.setTemplateName("Risk_Alerts.vm");
 							if(isOverdue && !StringUtils.isEmpty(uObj.getReporting_to_email_id())) {
 								mail.setMailCc(uObj.getReporting_to_email_id());
 							}
@@ -1068,6 +1072,10 @@ public class AlertsDaoImpl implements AlertsDao{
 							logger.error("sendRiskNotificationAlertMails() >>Assessment Due Sending mail to "+uObj.getEmail_id()+": End ");
 						}
 						if(riskMitigationPlanAlertsList.size() > 0) {
+							Mail mail = new Mail();
+							mail.setMailTo(uObj.getEmail_id());
+							mail.setMailBcc(CommonConstants.BCC_MAIL);
+							mail.setTemplateName("Risk_Alerts.vm");
 							emailSubject = "PMIS Risk Assessment- Mitigation Plan";
 							mail.setMailSubject(emailSubject);
 							logger.error("sendRiskNotificationAlertMails() >> Mitigation Plan Sending mail to "+uObj.getEmail_id()+": Start ");	
@@ -1075,6 +1083,10 @@ public class AlertsDaoImpl implements AlertsDao{
 							logger.error("sendRiskNotificationAlertMails() >> Mitigation Plan Sending mail to "+uObj.getEmail_id()+": End ");
 						}
 						if(riskATRAlertsList.size() > 0) {
+							Mail mail = new Mail();
+							mail.setMailTo(uObj.getEmail_id());
+							mail.setMailBcc(CommonConstants.BCC_MAIL);
+							mail.setTemplateName("Risk_Alerts.vm");
 							emailSubject = "PMIS Risk Assessment- Action Taken Report";
 							mail.setMailSubject(emailSubject);
 							logger.error("sendRiskNotificationAlertMails() >> ATR Sending mail to "+uObj.getEmail_id()+": Start ");	

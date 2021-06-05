@@ -194,6 +194,8 @@
                                   <span id="contract_id_fkError" class="error-msg"></span>
                                 </div>
                                 
+                                <input type="hidden" id="contract_name" name="contract_name" />
+                                
                                 <div class="col s12 m4 input-field">
                                 <p class="searchable_label">Responsible Persons</p>
                                   <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
@@ -1093,14 +1095,19 @@
     
     function addFOB(){
 		if(validator.form()){ // validation perform
+			//var contract_name = $( "#contract_id_fk option:selected" ).text();
+			var contract_name = $("#contract_id_fk option:selected").map(function() {
+			    return $(this).text();
+			}).get();
+			$("#contract_name").val(contract_name);
 			$(".page-loader").show();
-  			 if(flag){
+  			if(flag){
   				$('form input[name=fob_detail_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
   	  			$('form input[name=fob_detail_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
   	  			document.getElementById("fobForm").submit();	
- 			 }
- 			 $(".page-loader").hide();
- 			 return false;
+ 			}
+ 			$(".page-loader").hide();
+ 			return false;
 	 	}
 	}
 	

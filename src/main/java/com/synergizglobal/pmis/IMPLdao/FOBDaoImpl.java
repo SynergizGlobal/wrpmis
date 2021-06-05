@@ -31,6 +31,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.FOB;
+import com.synergizglobal.pmis.model.Messages;
 
 @Repository
 public class FOBDaoImpl implements FOBDao {
@@ -42,6 +43,9 @@ public class FOBDaoImpl implements FOBDao {
 	
 	@Autowired
 	DataSourceTransactionManager transactionManager;
+	
+	@Autowired
+	MessagesDao messagesDao;
 	
 	@Override
 	public List<FOB> getFOBList(FOB obj) throws Exception {
@@ -243,6 +247,29 @@ public class FOBDaoImpl implements FOBDao {
 							namedParamJdbcTemplate.update(qry3, paramSource);
 						}		
 					}
+					
+					
+					/********************************************************************************/
+					
+					if(!StringUtils.isEmpty(obj.getResponsible_people_id_fk())) {
+						String userIds[] = new String[0];
+						if(obj.getResponsible_people_id_fk().contains(",")) {
+							userIds = obj.getResponsible_people_id_fk().split(",");
+						}else {
+							userIds = new String[]{obj.getResponsible_people_id_fk()};
+						}
+						String messageType = "FOB";
+						String redirect_url = null;
+						String message = "New FOB "+obj.getFob_name() + " & "+ obj.getFob_id() +" is adeed under contract(s) "+obj.getContract_name()+" on PMIS ";
+						 
+						Messages msgObj = new Messages();
+						msgObj.setUser_ids(userIds);
+						msgObj.setMessage_type(messageType);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage(message);
+						messagesDao.addMessages(msgObj,namedParamJdbcTemplate);
+					}
+					/********************************************************************************/
 				
 			}
 			transactionManager.commit(status);

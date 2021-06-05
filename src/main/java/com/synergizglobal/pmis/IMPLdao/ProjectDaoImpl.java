@@ -17,6 +17,9 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +30,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Year;
 
@@ -41,6 +45,9 @@ public class ProjectDaoImpl implements ProjectDao {
 
 	@Autowired
 	DataSourceTransactionManager transactionManager;
+	
+	@Autowired
+	MessagesDao messagesDao;
 
 	@Override
 	public List<Project> getProjectList(Project project) throws Exception {
@@ -422,6 +429,8 @@ public class ProjectDaoImpl implements ProjectDao {
 	public boolean addProject(Project project)throws Exception{
 		int count = 0;
 		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try{
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 			String projectId = null;			
@@ -515,7 +524,7 @@ public class ProjectDaoImpl implements ProjectDao {
 						}
 						Project fileObj = new Project();
 						fileObj.setAttachment(fileName);
-						fileObj.setProject_file_type_fk(project.getProject_file_types()[i]);
+						fileObj.setProject_file_type_fk((project.getProject_file_types().length > 0)?project.getProject_file_types()[i]:null);
 						fileObj.setProject_id(projectId);
 						paramSource = new BeanPropertySqlParameterSource(fileObj);
 						template.update(insertFileQry, paramSource);
@@ -568,9 +577,31 @@ public class ProjectDaoImpl implements ProjectDao {
 						}
 					}
 				}
+				
+				/********************************************************************************/
+				
+				String qryUsers ="SELECT user_id FROM `user` where designation = 'CPM/II' ";
+				List<String> users = jdbcTemplate.queryForList( qryUsers, String.class);	
+				if(!StringUtils.isEmpty(users) && users.size() > 0) {
+					String userIds[]  = new String[users.size()];	
+					userIds = users.toArray(userIds);
+					String messageType = "Project";
+					String redirect_url = null;
+					String message = "New project "+project.getProject_name()+" is added on PMIS";
+					 
+					Messages msgObj = new Messages();
+					msgObj.setUser_ids(userIds);
+					msgObj.setMessage_type(messageType);
+					msgObj.setRedirect_url(redirect_url);
+					msgObj.setMessage(message);
+					messagesDao.addMessages(msgObj,template);
+				}
+				/********************************************************************************/
 			}
+			transactionManager.commit(status);
 		}catch(Exception e){ 
 			e.printStackTrace();
+			transactionManager.rollback(status);
 			throw new Exception(e);
 		}
 		return flag;

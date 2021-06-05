@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.FOB;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Railway;
 import com.synergizglobal.pmis.model.Work;
@@ -38,6 +40,8 @@ public class WorkDaoImpl implements WorkDao {
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
 	
+	@Autowired
+	MessagesDao messagesDao;
 	
 	@Override
 	public List<Work> getWorkList(Work obj) throws Exception{
@@ -521,129 +525,151 @@ public class WorkDaoImpl implements WorkDao {
 				flag = true; 
 			}
 			if(stmt != null){stmt.close();}
-			
-			if(!StringUtils.isEmpty(work.getRailway_id_fk())) {
-				String qry3 = "INSERT into  work_railway (work_id_fk,railway_id_fk) VALUES (?,?)";
-				stmt = con.prepareStatement(qry3); 
-				if(work.getRailway_id_fk().contains(",")) {
-					String[] ids = work.getRailway_id_fk().split(",");					
-					for (int i = 0; i < ids.length; i++) {
+			if(flag) {
+				if(!StringUtils.isEmpty(work.getRailway_id_fk())) {
+					String qry3 = "INSERT into  work_railway (work_id_fk,railway_id_fk) VALUES (?,?)";
+					stmt = con.prepareStatement(qry3); 
+					if(work.getRailway_id_fk().contains(",")) {
+						String[] ids = work.getRailway_id_fk().split(",");					
+						for (int i = 0; i < ids.length; i++) {
+							stmt.setString(1,workId);
+							stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
+							stmt.addBatch(); 
+						}					
+						stmt.executeBatch();
+					}else {
 						stmt.setString(1,workId);
-						stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
-						stmt.addBatch(); 
-					}					
-					stmt.executeBatch();
-				}else {
-					stmt.setString(1,workId);
-					stmt.setString(2,work.getRailway_id_fk());
-					stmt.executeUpdate(); 
-				}				
-				if(stmt != null){stmt.close();}
-			}
-
-			if(!StringUtils.isEmpty(work.getExecuted_by_id_fk())) {
-				String qry3 = "INSERT into  work_railway (work_id_fk,executed_by_id_fk) VALUES (?,?)";
-				stmt = con.prepareStatement(qry3); 
-				if(work.getExecuted_by_id_fk().contains(",")) {
-					String[] ids = work.getExecuted_by_id_fk().split(",");					
-					for (int i = 0; i < ids.length; i++) {
+						stmt.setString(2,work.getRailway_id_fk());
+						stmt.executeUpdate(); 
+					}				
+					if(stmt != null){stmt.close();}
+				}
+	
+				if(!StringUtils.isEmpty(work.getExecuted_by_id_fk())) {
+					String qry3 = "INSERT into  work_railway (work_id_fk,executed_by_id_fk) VALUES (?,?)";
+					stmt = con.prepareStatement(qry3); 
+					if(work.getExecuted_by_id_fk().contains(",")) {
+						String[] ids = work.getExecuted_by_id_fk().split(",");					
+						for (int i = 0; i < ids.length; i++) {
+							stmt.setString(1,workId);
+							stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
+							stmt.addBatch(); 
+						}					
+						stmt.executeBatch();
+					}else {
 						stmt.setString(1,workId);
-						stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
-						stmt.addBatch(); 
-					}					
-					stmt.executeBatch();
-				}else {
-					stmt.setString(1,workId);
-					stmt.setString(2,work.getExecuted_by_id_fk());
-					stmt.executeUpdate(); 
-				}				
-				if(stmt != null){stmt.close();}
-			}
-			
-/*****************************************************************************************************************/
-			
-			int arraySize = 0;
-			if (!StringUtils.isEmpty(work.getWorkFileNames()) && work.getWorkFileNames().length > 0) {
-				work.setWorkFileNames(CommonMethods.replaceEmptyByNullInSringArray(work.getWorkFileNames()));
-				if (arraySize < work.getWorkFileNames().length) {
-					arraySize = work.getWorkFileNames().length;
+						stmt.setString(2,work.getExecuted_by_id_fk());
+						stmt.executeUpdate(); 
+					}				
+					if(stmt != null){stmt.close();}
 				}
-			}
-
-			if (!StringUtils.isEmpty(work.getWork_file_types()) && work.getWork_file_types().length > 0) {
-				work.setWork_file_types(CommonMethods.replaceEmptyByNullInSringArray(work.getWork_file_types()));
-				if (arraySize < work.getWork_file_types().length) {
-					arraySize = work.getWork_file_types().length;
-				}
-			}
-			
-			if (!StringUtils.isEmpty(work.getWork_file_ids()) && work.getWork_file_ids().length > 0) {
-				work.setWork_file_ids(CommonMethods.replaceEmptyByNullInSringArray(work.getWork_file_ids()));
-				if (arraySize < work.getWork_file_ids().length) {
-					arraySize = work.getWork_file_ids().length;
-				}
-			}
-
-			String insertFileQry = "INSERT INTO work_files (attachment,work_id_fk,work_file_type_fk,created_date)VALUES(?,?,?,CURRENT_TIMESTAMP)";
-			for (int i = 0; i < arraySize; i++) {
-				MultipartFile multipartFile = work.getWorkFiles()[i];
-				if ((null != multipartFile && !multipartFile.isEmpty())) {
-					String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH + work.getWork_id() + File.separator;
-					String fileName = work.getWorkFileNames()[i];
-					String file_id = work.getWork_file_ids()[i];
-					String file_type = work.getWork_file_types()[i];
-					
-					FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-					
-					stmt = con.prepareStatement(insertFileQry); 
-					stmt.setString(1,fileName); 
-					stmt.setString(2,workId); 
-					stmt.setString(3,file_type); 
-					stmt.executeUpdate();
-				}
-			}
-			
-			String qry4 = "INSERT into  work_yearly_sanction (financial_year,latest_revised_cost,"
-						 +"year_of_revision,revision_number,work_id_fk) "
-						 +"VALUES (?,?,?,?,?)";
-			stmt = con.prepareStatement(qry4); 
-			if(flag) {	
-				arraySize = 0;
-				if(!StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
-					work.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(work.getFinancial_years()));
-					if(arraySize < work.getFinancial_years().length) {
-						arraySize = work.getFinancial_years().length;
+				
+				/*****************************************************************************************************************/
+				
+				int arraySize = 0;
+				if (!StringUtils.isEmpty(work.getWorkFileNames()) && work.getWorkFileNames().length > 0) {
+					work.setWorkFileNames(CommonMethods.replaceEmptyByNullInSringArray(work.getWorkFileNames()));
+					if (arraySize < work.getWorkFileNames().length) {
+						arraySize = work.getWorkFileNames().length;
 					}
 				}
-				if(!StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
-					work.setLatest_revised_costs(CommonMethods.replaceEmptyByNullInSringArray(work.getLatest_revised_costs()));
-					if(arraySize < work.getLatest_revised_costs().length) {
-						arraySize = work.getLatest_revised_costs().length;
-					}
-				}
-				if(!StringUtils.isEmpty(work.getYear_of_revisions()) && work.getYear_of_revisions().length > 0) {
-					work.setYear_of_revisions(CommonMethods.replaceEmptyByNullInSringArray(work.getYear_of_revisions()));
-					if(arraySize < work.getYear_of_revisions().length) {
-						arraySize = work.getYear_of_revisions().length;
-					}
-				}
-				if(!StringUtils.isEmpty(work.getRevision_numbers()) && work.getRevision_numbers().length > 0) {
-					work.setRevision_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getRevision_numbers()));
-					if(arraySize < work.getRevision_numbers().length) {
-						arraySize = work.getRevision_numbers().length;
+	
+				if (!StringUtils.isEmpty(work.getWork_file_types()) && work.getWork_file_types().length > 0) {
+					work.setWork_file_types(CommonMethods.replaceEmptyByNullInSringArray(work.getWork_file_types()));
+					if (arraySize < work.getWork_file_types().length) {
+						arraySize = work.getWork_file_types().length;
 					}
 				}
 				
-				for (int i = 0; i < arraySize; i++) {
-					p = 1;
-					stmt.setString(p++,(work.getFinancial_years().length > 0)?work.getFinancial_years()[i]:null);
-					stmt.setString(p++,(work.getLatest_revised_costs().length > 0)?work.getLatest_revised_costs()[i]:null);
-					stmt.setString(p++,(work.getYear_of_revisions().length > 0)?work.getYear_of_revisions()[i]:null);						
-					stmt.setString(p++,(work.getRevision_numbers().length > 0)?work.getRevision_numbers()[i]:null);
-					stmt.setString(p++,workId);
-					stmt.addBatch();
+				if (!StringUtils.isEmpty(work.getWork_file_ids()) && work.getWork_file_ids().length > 0) {
+					work.setWork_file_ids(CommonMethods.replaceEmptyByNullInSringArray(work.getWork_file_ids()));
+					if (arraySize < work.getWork_file_ids().length) {
+						arraySize = work.getWork_file_ids().length;
+					}
 				}
-				int[] c = stmt.executeBatch();
+	
+				String insertFileQry = "INSERT INTO work_files (attachment,work_id_fk,work_file_type_fk,created_date)VALUES(?,?,?,CURRENT_TIMESTAMP)";
+				for (int i = 0; i < arraySize; i++) {
+					MultipartFile multipartFile = work.getWorkFiles()[i];
+					if ((null != multipartFile && !multipartFile.isEmpty())) {
+						String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH + work.getWork_id() + File.separator;
+						String fileName = work.getWorkFileNames()[i];
+						String file_id = work.getWork_file_ids()[i];
+						String file_type = work.getWork_file_types()[i];
+						
+						FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+						
+						stmt = con.prepareStatement(insertFileQry); 
+						stmt.setString(1,fileName); 
+						stmt.setString(2,workId); 
+						stmt.setString(3,file_type); 
+						stmt.executeUpdate();
+					}
+				}
+				
+				String qry4 = "INSERT into  work_yearly_sanction (financial_year,latest_revised_cost,"
+							 +"year_of_revision,revision_number,work_id_fk) "
+							 +"VALUES (?,?,?,?,?)";
+				stmt = con.prepareStatement(qry4); 
+				if(flag) {	
+					arraySize = 0;
+					if(!StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
+						work.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(work.getFinancial_years()));
+						if(arraySize < work.getFinancial_years().length) {
+							arraySize = work.getFinancial_years().length;
+						}
+					}
+					if(!StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
+						work.setLatest_revised_costs(CommonMethods.replaceEmptyByNullInSringArray(work.getLatest_revised_costs()));
+						if(arraySize < work.getLatest_revised_costs().length) {
+							arraySize = work.getLatest_revised_costs().length;
+						}
+					}
+					if(!StringUtils.isEmpty(work.getYear_of_revisions()) && work.getYear_of_revisions().length > 0) {
+						work.setYear_of_revisions(CommonMethods.replaceEmptyByNullInSringArray(work.getYear_of_revisions()));
+						if(arraySize < work.getYear_of_revisions().length) {
+							arraySize = work.getYear_of_revisions().length;
+						}
+					}
+					if(!StringUtils.isEmpty(work.getRevision_numbers()) && work.getRevision_numbers().length > 0) {
+						work.setRevision_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getRevision_numbers()));
+						if(arraySize < work.getRevision_numbers().length) {
+							arraySize = work.getRevision_numbers().length;
+						}
+					}
+					
+					for (int i = 0; i < arraySize; i++) {
+						p = 1;
+						stmt.setString(p++,(work.getFinancial_years().length > 0)?work.getFinancial_years()[i]:null);
+						stmt.setString(p++,(work.getLatest_revised_costs().length > 0)?work.getLatest_revised_costs()[i]:null);
+						stmt.setString(p++,(work.getYear_of_revisions().length > 0)?work.getYear_of_revisions()[i]:null);						
+						stmt.setString(p++,(work.getRevision_numbers().length > 0)?work.getRevision_numbers()[i]:null);
+						stmt.setString(p++,workId);
+						stmt.addBatch();
+					}
+					int[] c = stmt.executeBatch();
+				}
+				
+				/********************************************************************************/
+				
+				String qryUsers ="SELECT user_id FROM `user` where designation = 'CPM/II' ";
+				List<String> users = jdbcTemplate.queryForList( qryUsers, String.class);	
+				if(!StringUtils.isEmpty(users) && users.size() > 0) {
+					NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+					String userIds[]  = new String[users.size()];	
+					userIds = users.toArray(userIds);
+					String messageType = "Work";
+					String redirect_url = null;
+					String message = "New work "+work.getWork_short_name()+" is adeed under "+work.getProject_name()+" on PMIS ";
+					 
+					Messages msgObj = new Messages();
+					msgObj.setUser_ids(userIds);
+					msgObj.setMessage_type(messageType);
+					msgObj.setRedirect_url(redirect_url);
+					msgObj.setMessage(message);
+					messagesDao.addMessages(msgObj,template);
+				}
+				/********************************************************************************/
 			}
 			con.commit();
 		}catch(Exception e){ 

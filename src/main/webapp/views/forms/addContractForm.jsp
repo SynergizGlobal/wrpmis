@@ -210,11 +210,12 @@
 	                                    	onchange="resetProjectsDropdowns(this.value);">
 	                                        <option value="">Select</option>
 	                                        <c:forEach var="obj" items="${worksList }">
-	                                      	   <option value= "${obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                      	   <option workShortName="${obj.work_short_name }" value= "${obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
 	                                         </c:forEach>
 	                                    </select>
 	                                     <span id="work_id_fkError" class="error-msg" ></span>
 	                                </div>
+	                                <input type="hidden" id="work_short_name" name="work_short_name"/>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	                            <div class="row">
@@ -1243,7 +1244,7 @@
                             $.each(data, function (i, val) {
                                 var workName = '';
                                 if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                                $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                $("#work_id_fk").append('<option workShortName="' + val.work_short_name + '" value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
                             });
                         }
                         $(".page-loader").hide();
@@ -1305,6 +1306,9 @@
         function addContract(){
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	
+	  		
+	  			var work_short_name = $("#work_id_fk").find('option:selected').attr("workShortName");
+	  			$("#work_short_name").val(work_short_name);
 	  		
 	  			$('form input[name=bg_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
 	  			$('form input[name=issuing_banks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	

@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -18,7 +19,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.ActivitiesBulkUpdateDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
-import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.StripChart;
 @Repository
 public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
@@ -32,7 +33,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	@Autowired
 	DataSourceTransactionManager transactionManager;
 
-
+	@Autowired
+	MessagesDao messagesDao;
+	
 	@Override
 	public List<StripChart> getAcivitiesBulkUpdateProjectsList(StripChart obj) throws Exception { 
 		List<StripChart> objsList = null;
@@ -664,7 +667,34 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					updateStmt.executeUpdate();
 				}
 				
-					
+				/********************************************************************************/
+				if(!StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+					String qryUsers ="SELECT dy_hod_user_id_fk "
+							+ "FROM fob_contract "
+							+ "left join contract on contract_id_fk = contract_id "
+							+ "where dy_hod_user_id_fk is not null abd fob_id_fk = ? ";
+					List<String> users = jdbcTemplate.queryForList( qryUsers,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);	
+					if(!StringUtils.isEmpty(users) && users.size() > 0) {
+						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+						String userIds[]  = new String[users.size()];	
+						userIds = users.toArray(userIds);
+						String messageType = "Activity Progress";
+						String redirect_url = null;
+						
+						String qryFOBName ="SELECT fob_name FROM fob where fob_id = ? ";
+						String fob_name = jdbcTemplate.queryForObject( qryFOBName,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);	
+						
+						String message = "Progress updated for FOB "+fob_name+" please validate the same.";
+						 
+						Messages msgObj = new Messages();
+						msgObj.setUser_ids(userIds);
+						msgObj.setMessage_type(messageType);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage(message);
+						messagesDao.addMessages(msgObj,template);
+					}
+				}
+				/********************************************************************************/	
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

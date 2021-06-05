@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Project {
 	private String project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_description,project_status,attachment
 	,sanctioned_estimated_cost,sanctioned_year_fk,sanctioned_completion_cost,year_of_completion,projected_completion_year,latest_revised_cost,
-	completion_cost,work_short_name,benefits,galleryFileNames,financial_year_fk,pb_item_no,project_pinkbook_id;
+	completion_cost,work_short_name,benefits,galleryFileNames,financial_year_fk,pb_item_no,project_pinkbook_id,user_id;
 	
 	private String id,file_name,project_id_fk,created_date,created_by,railway,project_file_type_fk,project_file_type,project_file_id;
 	
@@ -403,6 +403,14 @@ public class Project {
 
 	public void setProjectGallery(List<Project> projectGallery) {
 		this.projectGallery = projectGallery;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 	
 }

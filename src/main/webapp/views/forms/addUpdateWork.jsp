@@ -144,13 +144,14 @@
 	                                 	<div class="col s12 m6 input-field">
 		                                   <p class="searchable_label">Project : <span class="required">*</span></p>
 		                                    <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
-		                                   			<option value="">select</option>
+		                                   		  <option value="">select</option>
 		                                          <c:forEach var="obj" items="${projectsList}">
 		                       						  <option value="${obj.project_id }"<c:if test="${workDetails.project_id_fk eq obj.project_id }">selected</c:if>><%-- ${obj.project_id} - --%> ${obj.project_name}</option>
-		                                            </c:forEach>
+		                                          </c:forEach>
 		                                    </select>
 		                                    <span id="project_id_fkError"></span>
 		                               </div> 
+		                               <input type="hidden" name ="project_name" id="project_name"/>
 		                               </c:if>
 		                               <c:if test="${action eq 'edit'}">
 			                               <div class="col s12 m6 input-field">
@@ -905,7 +906,9 @@
         
         function addWork(){
 	  		if(validator.form()){ // validation perform
-	  			$(".page-loader").show();	    		
+	  			$(".page-loader").show();	    
+	  			var project_name = $( "#project_id_fk option:selected" ).text();
+	  			$("#project_name").val(project_name);
 	  			$('form input[name=financial_years]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			//$('form input[name=pink_book_item_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=latest_revised_costs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });

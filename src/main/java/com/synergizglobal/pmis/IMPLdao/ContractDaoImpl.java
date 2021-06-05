@@ -35,6 +35,7 @@ import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Insurence;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.User;
 
 @Repository
@@ -48,6 +49,9 @@ public class ContractDaoImpl implements ContractDao {
 	
 	@Autowired
 	DataSourceTransactionManager transactionManager;
+	
+	@Autowired
+	MessagesDao messagesDao;
 	
 	@Override
 	public List<Contract> contractList(Contract obj)throws Exception{
@@ -694,6 +698,24 @@ public class ContractDaoImpl implements ContractDao {
 				}
 				
 				/**********************************************************************************************/
+				
+				/********************************************************************************/
+				
+				if(!StringUtils.isEmpty(contract.getHod_user_id_fk()) && !StringUtils.isEmpty(contract.getDy_hod_user_id_fk())) {
+					NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+					String userIds[]  = {contract.getHod_user_id_fk(),contract.getDy_hod_user_id_fk()};
+					String messageType = "Contract";
+					String redirect_url = null;
+					String message = "New contract "+contract.getContract_short_name()+" is adeed under work "+contract.getWork_short_name()+" on PMIS ";
+					 
+					Messages msgObj = new Messages();
+					msgObj.setUser_ids(userIds);
+					msgObj.setMessage_type(messageType);
+					msgObj.setRedirect_url(redirect_url);
+					msgObj.setMessage(message);
+					messagesDao.addMessages(msgObj,template);
+				}
+				/********************************************************************************/
 			}
 			
 			con.commit();

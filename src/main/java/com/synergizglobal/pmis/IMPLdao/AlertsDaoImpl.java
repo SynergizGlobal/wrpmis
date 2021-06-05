@@ -560,6 +560,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			/***************************** Risk alerts*******************************************************/
 			if(!StringUtils.isEmpty(risk_alerts) && risk_alerts.size() > 0) {
 				 Date date = new Date();
+				 //Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2021-06-06"); 
 				 Calendar cal = Calendar.getInstance();
 	             cal.setTime(date); // don't forget this if date is arbitrary
 	             
@@ -590,7 +591,9 @@ public class AlertsDaoImpl implements AlertsDao{
             		 aObj.setAlert_type("Risk");
             		 aObj.setRedirect_url("/risk-assessment?sub_work="+alerts.getSub_work());
             		 aObj.setUser_id_fk(alerts.getHod_user_id_fk());
-            		 aObj.setReporting_to_user_id(alerts.getReporting_to_user_id());
+            		 if(day > 5) {
+            			 aObj.setReporting_to_user_id(alerts.getReporting_to_user_id());
+            		 }
  	 				 list.add(aObj);
 				 }
 			}
@@ -624,21 +627,23 @@ public class AlertsDaoImpl implements AlertsDao{
                 	}
                 	DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
                 	
-                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk)VALUES(?,?)";
+                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk,no_email)VALUES(?,?,?)";
     				stmt = connection.prepareStatement(qry);
     				
     				p = 1;
     				stmt.setString(p++, alert_id);
 	                stmt.setString(p++, obj.getUser_id_fk());
+	                stmt.setString(p++, null);
 	                stmt.addBatch();
 	                
 					/*if(!StringUtils.isEmpty(obj.getReporting_to_user_id()) 
 							&& ("3rd Alert".equals(obj.getAlert_level()) || "Overdue".equals(obj.getAlert_level())) ) {*/
-	                if(!StringUtils.isEmpty(obj.getReporting_to_user_id()) 
+					if(!StringUtils.isEmpty(obj.getReporting_to_user_id()) 
 							&& ("Overdue".equals(obj.getAlert_level())) ) {
 						p = 1;
 						stmt.setString(p++, alert_id);
 					    stmt.setString(p++, obj.getReporting_to_user_id());
+					    stmt.setString(p++, "Yes");
 					    stmt.addBatch();
 					}
 	               
@@ -735,13 +740,18 @@ public class AlertsDaoImpl implements AlertsDao{
             		 aObj.setRedirect_url("/risk-atr-update?sub_work="+alerts.getSub_work()+"&assessment_date="+alerts.getAssessment_date());
             		 aObj.setOwner_user_id(alerts.getOwner_user_id());
             		 aObj.setResponsible_person_user_id(alerts.getResponsible_person_user_id());
+            		 /**************************************************/
+            		 aObj.setHod_email(alerts.getOwner());
+            		 /**************************************************/
  	 				 list.add(aObj);
 				 }
 			}
 			
 			/*************************Alerts insertion********************************************/
 			
-			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url) VALUES  (?,?,?,?,?,?,?,?)";		
+			String qryInsert = "INSERT INTO alerts "
+					+ "(alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url,hod_email)"
+					+ " VALUES  (?,?,?,?,?,?,?,?,?)";		
 			
 			for (Alerts obj : list) {
 				stmt = connection.prepareStatement(qryInsert,Statement.RETURN_GENERATED_KEYS);
@@ -750,6 +760,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				String contract_id = obj.getContract_id();
 				String alert_value = obj.getAlert_value();
 				String redirect_url = obj.getRedirect_url();
+				String hod_email = obj.getHod_email();
 				
 				int p = 1;
                 stmt.setString(p++, alert_level);
@@ -760,6 +771,7 @@ public class AlertsDaoImpl implements AlertsDao{
                 stmt.setString(p++, "1");
                 stmt.setString(p++, null);
                 stmt.setString(p++, redirect_url);
+                stmt.setString(p++, hod_email);
                 int c = stmt.executeUpdate();
                 resultSet = stmt.getGeneratedKeys();
                 if(c > 0) {
@@ -977,14 +989,18 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join user u on au.user_id_fk = u.user_id "
 					+ "left join user ucc on u.reporting_to_id_srfk = ucc.user_id "
 					+ "where a.alert_status = 'Active' and count <> 0 "
-					+ "and u.email_id is not null and u.email_id <> '' and a.alert_type_fk = 'Risk' "
+					+ "and u.email_id is not null and u.email_id <> '' and a.alert_type_fk = 'Risk' and no_email is null "
 					+ "group by au.user_id_fk";
 			
 			List<Alerts> userIdList = jdbcTemplate.query( userIdQry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
 			if(userIdList != null && userIdList.size() > 0) {
 				for (Alerts uObj : userIdList) {
-					String qry = "select alert_id,alert_level,alert_type_fk,created_date,alert_status,alert_value,count,u.designation as hod,"
+					String qry = "select alert_id,alert_level,alert_type_fk,created_date,alert_status,alert_value,count,"
+							+ "(CASE "
+							+ "WHEN a.hod_email is null THEN u.designation "
+							+ "ELSE a.hod_email "
+							+ "END ) as hod,"
 							+ "IFNULL(a.remarks,'') as remarks,redirect_url " 
 							+ "from alerts a "  
 							+ "left join alerts_user au on au.alerts_id_fk = a.alert_id "

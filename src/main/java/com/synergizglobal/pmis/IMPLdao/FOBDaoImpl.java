@@ -558,6 +558,30 @@ public class FOBDaoImpl implements FOBDao {
 				
 				/*********************************************************************************/
 				
+				/********************************************************************************/
+				
+				if(!StringUtils.isEmpty(obj.getResponsible_people_id_fk())) {
+					if("Commissioned".equals(obj.getWork_status_fk()) && !"Commissioned".equals(obj.getExisting_work_status_fk())) {
+						String userIds[] = new String[0];
+						if(obj.getResponsible_people_id_fk().contains(",")) {
+							userIds = obj.getResponsible_people_id_fk().split(",");
+						}else {
+							userIds = new String[]{obj.getResponsible_people_id_fk()};
+						}
+						String messageType = "FOB";
+						String redirect_url = null;
+						String message = "FOB at "+obj.getFob_name() + " & "+ obj.getFob_id() +" commissioned";
+						 
+						Messages msgObj = new Messages();
+						msgObj.setUser_ids(userIds);
+						msgObj.setMessage_type(messageType);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage(message);
+						messagesDao.addMessages(msgObj,namedParamJdbcTemplate);
+					}
+				}
+				/********************************************************************************/
+				
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 

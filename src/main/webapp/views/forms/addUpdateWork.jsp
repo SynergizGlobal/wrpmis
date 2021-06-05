@@ -299,13 +299,14 @@
                                 	</select>
                                 </div>
                                 <c:if test="${action eq 'edit'}">
-                                <div class="col s12 m4 input-field">
-                                   <p class="searchable_label">Work Status <span class="required">*</span></p>
-                                    <select id="work_status_fk" name="work_status_fk"  class="select searchable validate-dropdown">
-                                        <option value="">Select</option>
-                                    </select>
-                                    <span id="work_status_fkError" class="error-msg" ></span>
-                                </div>  
+	                                <div class="col s12 m4 input-field">
+	                                   <p class="searchable_label">Work Status <span class="required">*</span></p>
+	                                    <select id="work_status_fk" name="work_status_fk"  class="select searchable validate-dropdown">
+	                                        <option value="">Select</option>
+	                                    </select>
+	                                    <span id="work_status_fkError" class="error-msg" ></span>
+	                                </div> 
+	                                <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${workDetails.work_status_fk }"/> 
                                 </c:if>                              
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>

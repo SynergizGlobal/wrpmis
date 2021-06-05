@@ -255,6 +255,7 @@
                                     </select>
                                     <span id="work_status_fkError" class="error-msg" ></span>
                                 </div>
+                                <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${fob.work_status_fk }"/> 
                             </div>
 
                             <div class="row">

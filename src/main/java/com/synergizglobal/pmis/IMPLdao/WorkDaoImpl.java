@@ -23,6 +23,7 @@ import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Messages;
@@ -294,140 +295,142 @@ public class WorkDaoImpl implements WorkDao {
 				flag = true; 
 			}
 			if(stmt != null){stmt.close();}
-			String docFileName = null;
-			String deleteWorkRailwayQry = "delete from work_railway where work_id_fk = ?";
-			stmt = con.prepareStatement(deleteWorkRailwayQry); 
-			stmt.setString(1,work.getWork_id());
-			count = stmt.executeUpdate();
-			if(stmt != null){stmt.close();}
 			
-			if(!StringUtils.isEmpty(work.getRailway_id_fk())) {
-				String qry3 = "INSERT into work_railway (work_id_fk,railway_id_fk) VALUES (?,?)";
-				stmt = con.prepareStatement(qry3); 
-				if(work.getRailway_id_fk().contains(",")) {
-					String[] ids = work.getRailway_id_fk().split(",");					
-					for (int i = 0; i < ids.length; i++) {
-						stmt.setString(1,work.getWork_id());
-						stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
-						stmt.addBatch(); 
-					}					
-					stmt.executeBatch();
-				}else {
-					stmt.setString(1,work.getWork_id());
-					stmt.setString(2,work.getRailway_id_fk());
-					stmt.executeUpdate(); 
-				}				
+			if(flag){
+				String docFileName = null;
+				String deleteWorkRailwayQry = "delete from work_railway where work_id_fk = ?";
+				stmt = con.prepareStatement(deleteWorkRailwayQry); 
+				stmt.setString(1,work.getWork_id());
+				count = stmt.executeUpdate();
 				if(stmt != null){stmt.close();}
-			}
-
-			if(!StringUtils.isEmpty(work.getExecuted_by_id_fk())) {
-				String qry3 = "INSERT into work_railway (work_id_fk,executed_by_id_fk) VALUES (?,?)";
-				stmt = con.prepareStatement(qry3); 
-				if(work.getExecuted_by_id_fk().contains(",")) {
-					String[] ids = work.getExecuted_by_id_fk().split(",");					
-					for (int i = 0; i < ids.length; i++) {
-						stmt.setString(1,work.getWork_id());
-						stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
-						stmt.addBatch(); 
-					}					
-					stmt.executeBatch();
-				}else {
-					stmt.setString(1,work.getWork_id());
-					stmt.setString(2,work.getExecuted_by_id_fk());
-					stmt.executeUpdate(); 
-				}				
-				if(stmt != null){stmt.close();}
-			}
-			
-			/*****************************************************************************************************************/
-			
-			int arraySize = 0;
-			if (!StringUtils.isEmpty(work.getWorkFileNames()) && work.getWorkFileNames().length > 0) {
-				work.setWorkFileNames(CommonMethods.replaceEmptyByNullInSringArray(work.getWorkFileNames()));
-				if (arraySize < work.getWorkFileNames().length) {
-					arraySize = work.getWorkFileNames().length;
-				}
-			}
-
-			if (!StringUtils.isEmpty(work.getWork_file_types()) && work.getWork_file_types().length > 0) {
-				work.setWork_file_types(CommonMethods.replaceEmptyByNullInSringArray(work.getWork_file_types()));
-				if (arraySize < work.getWork_file_types().length) {
-					arraySize = work.getWork_file_types().length;
-				}
-			}
-			
-			if (!StringUtils.isEmpty(work.getWork_file_ids()) && work.getWork_file_ids().length > 0) {
-				work.setWork_file_ids(CommonMethods.replaceEmptyByNullInSringArray(work.getWork_file_ids()));
-				if (arraySize < work.getWork_file_ids().length) {
-					arraySize = work.getWork_file_ids().length;
-				}
-			}
-			
-			String file_ids = "";
-			if (!StringUtils.isEmpty(work.getWork_file_ids()) && work.getWork_file_ids().length > 0) {
-				for (int i = 0; i < arraySize; i++) {
-					if(!StringUtils.isEmpty(work.getWork_file_ids()[i])) {
-						file_ids = file_ids + work.getWork_file_ids()[i] + ",";
-					}
-				}
-			}
-			
-			if (!StringUtils.isEmpty(file_ids)) {			
-				file_ids = org.apache.commons.lang3.StringUtils.chop(file_ids);
-				String deleteQry ="delete from work_files where id not in("+file_ids+") and work_id_fk = ? ";
-				stmt = con.prepareStatement(deleteQry); 
-				stmt.setString(1, work.getWork_id());
-				stmt.executeUpdate();
-				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-			}
-
-			String insertFileQry = "INSERT INTO work_files (attachment,work_id_fk,work_file_type_fk,created_date)VALUES(?,?,?,CURRENT_TIMESTAMP)";
-			String updateFileQry = "UPDATE work_files set attachment=?,work_id_fk=?,work_file_type_fk=? WHERE id=?";
-			
-			for (int i = 0; i < arraySize; i++) {
-				MultipartFile multipartFile = work.getWorkFiles()[i];
-				if ((null != multipartFile && !multipartFile.isEmpty())
-						|| !StringUtils.isEmpty(work.getWorkFileNames()[i])) {
-					String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH + work.getWork_id() + File.separator;
-					String fileName = work.getWorkFileNames()[i];
-					String file_id = null;
-					if (!StringUtils.isEmpty(file_ids)) {	
-						file_id = work.getWork_file_ids()[i];
-					}
-					String file_type = null;
-					if(!StringUtils.isEmpty(work.getWork_file_types()) && work.getWork_file_types().length > 0) {
-						file_type = work.getWork_file_types()[i];
-					}
-					if (null != multipartFile && !multipartFile.isEmpty()) {
-						FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-					}
-					if(!StringUtils.isEmpty(file_id)) {
-						stmt = con.prepareStatement(updateFileQry); 
-						stmt.setString(1,fileName); 
-						stmt.setString(2,work.getWork_id()); 
-						stmt.setString(3,file_type); 
-						stmt.setString(4,file_id); 
-						stmt.executeUpdate();
+				
+				if(!StringUtils.isEmpty(work.getRailway_id_fk())) {
+					String qry3 = "INSERT into work_railway (work_id_fk,railway_id_fk) VALUES (?,?)";
+					stmt = con.prepareStatement(qry3); 
+					if(work.getRailway_id_fk().contains(",")) {
+						String[] ids = work.getRailway_id_fk().split(",");					
+						for (int i = 0; i < ids.length; i++) {
+							stmt.setString(1,work.getWork_id());
+							stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
+							stmt.addBatch(); 
+						}					
+						stmt.executeBatch();
 					}else {
-						stmt = con.prepareStatement(insertFileQry); 
-						stmt.setString(1,fileName); 
-						stmt.setString(2,work.getWork_id()); 
-						stmt.setString(3,file_type); 
-						stmt.executeUpdate();
+						stmt.setString(1,work.getWork_id());
+						stmt.setString(2,work.getRailway_id_fk());
+						stmt.executeUpdate(); 
+					}				
+					if(stmt != null){stmt.close();}
+				}
+	
+				if(!StringUtils.isEmpty(work.getExecuted_by_id_fk())) {
+					String qry3 = "INSERT into work_railway (work_id_fk,executed_by_id_fk) VALUES (?,?)";
+					stmt = con.prepareStatement(qry3); 
+					if(work.getExecuted_by_id_fk().contains(",")) {
+						String[] ids = work.getExecuted_by_id_fk().split(",");					
+						for (int i = 0; i < ids.length; i++) {
+							stmt.setString(1,work.getWork_id());
+							stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
+							stmt.addBatch(); 
+						}					
+						stmt.executeBatch();
+					}else {
+						stmt.setString(1,work.getWork_id());
+						stmt.setString(2,work.getExecuted_by_id_fk());
+						stmt.executeUpdate(); 
+					}				
+					if(stmt != null){stmt.close();}
+				}
+				
+				/*****************************************************************************************************************/
+				
+				int arraySize = 0;
+				if (!StringUtils.isEmpty(work.getWorkFileNames()) && work.getWorkFileNames().length > 0) {
+					work.setWorkFileNames(CommonMethods.replaceEmptyByNullInSringArray(work.getWorkFileNames()));
+					if (arraySize < work.getWorkFileNames().length) {
+						arraySize = work.getWorkFileNames().length;
 					}
 				}
-			}
-			
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-			
-			/*****************************************************************************************************************************/
-			String qryDelete = "delete from work_yearly_sanction where work_id_fk = ?";
-			stmt = con.prepareStatement(qryDelete); 			
-			stmt.setString(1,work.getWork_id());
-			count = stmt.executeUpdate();			
-			if(stmt != null){stmt.close();}	
-			
-			if(flag) {			
+	
+				if (!StringUtils.isEmpty(work.getWork_file_types()) && work.getWork_file_types().length > 0) {
+					work.setWork_file_types(CommonMethods.replaceEmptyByNullInSringArray(work.getWork_file_types()));
+					if (arraySize < work.getWork_file_types().length) {
+						arraySize = work.getWork_file_types().length;
+					}
+				}
+				
+				if (!StringUtils.isEmpty(work.getWork_file_ids()) && work.getWork_file_ids().length > 0) {
+					work.setWork_file_ids(CommonMethods.replaceEmptyByNullInSringArray(work.getWork_file_ids()));
+					if (arraySize < work.getWork_file_ids().length) {
+						arraySize = work.getWork_file_ids().length;
+					}
+				}
+				
+				String file_ids = "";
+				if (!StringUtils.isEmpty(work.getWork_file_ids()) && work.getWork_file_ids().length > 0) {
+					for (int i = 0; i < arraySize; i++) {
+						if(!StringUtils.isEmpty(work.getWork_file_ids()[i])) {
+							file_ids = file_ids + work.getWork_file_ids()[i] + ",";
+						}
+					}
+				}
+				
+				if (!StringUtils.isEmpty(file_ids)) {			
+					file_ids = org.apache.commons.lang3.StringUtils.chop(file_ids);
+					String deleteQry ="delete from work_files where id not in("+file_ids+") and work_id_fk = ? ";
+					stmt = con.prepareStatement(deleteQry); 
+					stmt.setString(1, work.getWork_id());
+					stmt.executeUpdate();
+					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+				}
+	
+				String insertFileQry = "INSERT INTO work_files (attachment,work_id_fk,work_file_type_fk,created_date)VALUES(?,?,?,CURRENT_TIMESTAMP)";
+				String updateFileQry = "UPDATE work_files set attachment=?,work_id_fk=?,work_file_type_fk=? WHERE id=?";
+				
+				for (int i = 0; i < arraySize; i++) {
+					MultipartFile multipartFile = work.getWorkFiles()[i];
+					if ((null != multipartFile && !multipartFile.isEmpty())
+							|| !StringUtils.isEmpty(work.getWorkFileNames()[i])) {
+						String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH + work.getWork_id() + File.separator;
+						String fileName = work.getWorkFileNames()[i];
+						String file_id = null;
+						if (!StringUtils.isEmpty(file_ids)) {	
+							file_id = work.getWork_file_ids()[i];
+						}
+						String file_type = null;
+						if(!StringUtils.isEmpty(work.getWork_file_types()) && work.getWork_file_types().length > 0) {
+							file_type = work.getWork_file_types()[i];
+						}
+						if (null != multipartFile && !multipartFile.isEmpty()) {
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+						}
+						if(!StringUtils.isEmpty(file_id)) {
+							stmt = con.prepareStatement(updateFileQry); 
+							stmt.setString(1,fileName); 
+							stmt.setString(2,work.getWork_id()); 
+							stmt.setString(3,file_type); 
+							stmt.setString(4,file_id); 
+							stmt.executeUpdate();
+						}else {
+							stmt = con.prepareStatement(insertFileQry); 
+							stmt.setString(1,fileName); 
+							stmt.setString(2,work.getWork_id()); 
+							stmt.setString(3,file_type); 
+							stmt.executeUpdate();
+						}
+					}
+				}
+				
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+				
+				/*****************************************************************************************************************************/
+				String qryDelete = "delete from work_yearly_sanction where work_id_fk = ?";
+				stmt = con.prepareStatement(qryDelete); 			
+				stmt.setString(1,work.getWork_id());
+				count = stmt.executeUpdate();			
+				if(stmt != null){stmt.close();}	
+				
+				
 				String qry4 = "INSERT into  work_yearly_sanction (financial_year,latest_revised_cost,"
 						 +"year_of_revision,revision_number,work_id_fk) "
 						 +"VALUES (?,?,?,?,?)";
@@ -474,9 +477,31 @@ public class WorkDaoImpl implements WorkDao {
 						stmt.addBatch();
 					}
 				}
-				int[] c = stmt.executeBatch();
+				stmt.executeBatch();
+				
+				
+				/********************************************************************************/
+				if("Completed".equals(work.getWork_status_fk()) && !"Completed".equals(work.getExisting_work_status_fk())) {
+					String qryUsers ="SELECT user_id FROM `user` where designation = 'CPM/II' ";
+					List<String> users = jdbcTemplate.queryForList( qryUsers, String.class);	
+					if(!StringUtils.isEmpty(users) && users.size() > 0) {
+						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+						String userIds[]  = new String[users.size()];	
+						userIds = users.toArray(userIds);
+						String messageType = "Work";
+						String redirect_url = null;
+						String message = "Work "+work.getWork_short_name()+" is completed";
+						 
+						Messages msgObj = new Messages();
+						msgObj.setUser_ids(userIds);
+						msgObj.setMessage_type(messageType);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage(message);
+						messagesDao.addMessages(msgObj,template);
+					}
+				}
+				/********************************************************************************/
 			}
-			
 			con.commit();
 		}catch(Exception e){ 
 			con.rollback();

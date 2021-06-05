@@ -672,7 +672,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					String qryUsers ="SELECT dy_hod_user_id_fk "
 							+ "FROM fob_contract "
 							+ "left join contract on contract_id_fk = contract_id "
-							+ "where dy_hod_user_id_fk is not null abd fob_id_fk = ? ";
+							+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? ";
 					List<String> users = jdbcTemplate.queryForList( qryUsers,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);	
 					if(!StringUtils.isEmpty(users) && users.size() > 0) {
 						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);

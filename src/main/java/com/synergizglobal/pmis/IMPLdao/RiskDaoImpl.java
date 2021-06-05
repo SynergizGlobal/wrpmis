@@ -180,7 +180,7 @@ public class RiskDaoImpl implements RiskDao{
 				 String responsibleId = sObj.getResponsible_user_id();
 				 String reporting_to_user_id = sObj.getReporting_to_user_id();
 				
-				 String userIds[]  = { ownerId,responsibleId,reporting_to_user_id};				 
+				 String userIds[]  = { ownerId,responsibleId,reporting_to_user_id,"PMIS_SU_006","PMIS_SU_052"};				 
 				 String messageType = "Risk";
 				 String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+subWork+"&assessment_date="+assessmentDate;
 				 String message = "Risk Analysis Report of "+subWork+" has been uploaded.";
@@ -665,7 +665,7 @@ public class RiskDaoImpl implements RiskDao{
 							) {
 
 						  String messageType = "Risk";
-						  String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id(),obj.getReporting_to_user_id() };
+						  String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id(),obj.getReporting_to_user_id(),"PMIS_SU_006","PMIS_SU_052" };
 						  flag = true;
 						  String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
 						  insertStmt = con.prepareStatement(message_qry);

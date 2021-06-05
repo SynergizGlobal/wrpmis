@@ -175,10 +175,11 @@
         });
         
         function clearFilter(){
-        	$('#alert_type_fk').val('');
-    		$('#alert_level').val('');
-    		$('#email_id').val('');
-    		$('.searchable').select2();        	
+        	//$('#alert_type_fk').val('');
+    		//$('#alert_level').val('');
+    		//$('#email_id').val('');
+    		//$('.searchable').select2(); 
+    		window.location.reload();
     	}       
           
         function sendAlerts() {

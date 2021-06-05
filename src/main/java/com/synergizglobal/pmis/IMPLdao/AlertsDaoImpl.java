@@ -1096,8 +1096,8 @@ public class AlertsDaoImpl implements AlertsDao{
 							if(isOverdue) {
 								List<String> ccmails = jdbcTemplate.queryForList("select email_id from `user` where user_id in('PMIS_SU_006','PMIS_SU_052')",String.class);
 								if(!StringUtils.isEmpty(ccmails) && ccmails.size() > 0) {
-									String[] ccemails = new String[ccmails.size()];
-									mail.setMailCc(mail.getMailCc()+","+Arrays.toString(ccmails.toArray(ccemails)));
+									String ccemails = org.apache.commons.lang3.StringUtils.join(ccmails, ',');
+									mail.setMailCc(mail.getMailCc()+","+ccemails);
 								}
 								
 							}

@@ -646,7 +646,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					    stmt.setString(p++, "Yes");
 					    stmt.addBatch();
 					}
-					if("Overdue".equals(obj.getAlert_level()) ) {
+					if("Overdue".equals(obj.getAlert_level()) && "PMIS_SU_002".equals(obj.getReporting_to_user_id())) {
 						p = 1;
 						stmt.setString(p++, alert_id);
 					    stmt.setString(p++, "PMIS_SU_006");
@@ -995,7 +995,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		boolean flag = false;
 		try {
 			EMailSender emailSender = new EMailSender();
-			String userIdQry = "SELECT au.user_id_fk,u.email_id,ucc.email_id as reporting_to_email_id "
+			String userIdQry = "SELECT au.user_id_fk,u.email_id,ucc.email_id as reporting_to_email_id,u.reporting_to_id_srfk as reporting_to_user_id "
 					+ "FROM alerts a " 
 					+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
 					+ "left join user u on au.user_id_fk = u.user_id "
@@ -1093,7 +1093,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							if(isOverdue && !StringUtils.isEmpty(uObj.getReporting_to_email_id())) {
 								mail.setMailCc(uObj.getReporting_to_email_id());
 							}
-							if(isOverdue) {
+							if(isOverdue && "PMIS_SU_002".equals(uObj.getReporting_to_user_id())) {
 								List<String> ccmails = jdbcTemplate.queryForList("select email_id from `user` where user_id in('PMIS_SU_006','PMIS_SU_052')",String.class);
 								if(!StringUtils.isEmpty(ccmails) && ccmails.size() > 0) {
 									String ccemails = org.apache.commons.lang3.StringUtils.join(ccmails, ',');

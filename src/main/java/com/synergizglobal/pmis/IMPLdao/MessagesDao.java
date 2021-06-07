@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.model.Messages;
 
@@ -26,21 +27,23 @@ public class MessagesDao {
 	public boolean addMessages(Messages obj,NamedParameterJdbcTemplate template) throws Exception {
 		boolean flag = false;
 		try {
-			String[] user_ids = obj.getUser_ids();
-			int count = obj.getUser_ids().length;
-			SqlParameterSource[] source = new SqlParameterSource[count];
-			String messageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
-					+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";
-			
-			for (int i = 0; i < count; i++) {
-				Messages msgObj = new Messages();
-				msgObj.setUser_id_fk(user_ids[i]);
-				msgObj.setMessage(obj.getMessage());
-				msgObj.setRedirect_url(obj.getRedirect_url());
-				msgObj.setMessage_type(obj.getMessage_type());
-		        source[i] = new BeanPropertySqlParameterSource(msgObj);
-		    }
-			template.batchUpdate(messageQry, source);
+			if(!StringUtils.isEmpty(obj.getUser_ids())) {
+				String[] user_ids = obj.getUser_ids();
+				int count = obj.getUser_ids().length;
+				SqlParameterSource[] source = new SqlParameterSource[count];
+				String messageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
+						+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";
+				
+				for (int i = 0; i < count; i++) {
+					Messages msgObj = new Messages();
+					msgObj.setUser_id_fk(user_ids[i]);
+					msgObj.setMessage(obj.getMessage());
+					msgObj.setRedirect_url(obj.getRedirect_url());
+					msgObj.setMessage_type(obj.getMessage_type());
+			        source[i] = new BeanPropertySqlParameterSource(msgObj);
+			    }
+				template.batchUpdate(messageQry, source);
+			}
 		} catch (Exception e) {
 			throw new Exception(e);
 		}

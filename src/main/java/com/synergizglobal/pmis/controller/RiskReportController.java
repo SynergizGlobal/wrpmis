@@ -3,7 +3,6 @@ package com.synergizglobal.pmis.controller;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.text.DateFormat;
@@ -16,10 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBElement;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.util.IOUtils;
-import org.docx4j.Docx4J;
 import org.docx4j.Docx4jProperties;
 import org.docx4j.dml.wordprocessingDrawing.Inline;
 import org.docx4j.jaxb.Context;
@@ -72,6 +69,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -84,6 +82,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.RiskReportService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.DocxTableCreation;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.RiskReport;
 
@@ -207,17 +206,18 @@ public class RiskReportController {
 			String report_created_date = df.format(new Date()); 
 			
 			
-			//String imagePath = CommonConstants2.DOCX_LOGO+"/"+"mrvc.png";
+			String imagePath = CommonConstants2.DOCX_LOGO+"/"+"report_logo_mrvc.png";
 			
-			//JcEnumeration imageAlignment = JcEnumeration.LEFT;
+			JcEnumeration imageAlignment = JcEnumeration.RIGHT;
 			
-			//String headerTextMiddle = "No.	MRVC/W/Risk	Analysis/2019";
-			
+			String headerTextMiddle = "  ";
+			//String headerTextMiddle = null;
+					
 			//String headerTextRight = currentDate;
 			String headerTextRight = "Date : " + report_created_date;
 			
-			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);		
-			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerTextRight);
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);		
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerTextRight);
 			createHeaderReference(wordMLPackage, mp, factory, relationship);
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
@@ -548,7 +548,7 @@ public class RiskReportController {
 		
 		
 		if(!StringUtils.isEmpty(headerTextMiddle)) {
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 0; i++) {
 				R.Tab rtab = factory.createRTab();
 		        JAXBElement<org.docx4j.wml.R.Tab> rtabWrapped = factory.createRTab(rtab);
 		        r.getContent().add( rtabWrapped);
@@ -564,7 +564,7 @@ public class RiskReportController {
 		}
 		
 		if(!StringUtils.isEmpty(headerTextRight)) {
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 3; i++) {
 				R.Tab rtab = factory.createRTab();
 		        JAXBElement<org.docx4j.wml.R.Tab> rtabWrapped = factory.createRTab(rtab);
 		        r.getContent().add( rtabWrapped);
@@ -576,7 +576,6 @@ public class RiskReportController {
 			r.setRPr(boldRPr);
 			p.getContent().add(r);
 		}
-		
 		hdr.getContent().add(p);	
 		
 		return hdr;
@@ -642,8 +641,11 @@ public class RiskReportController {
 		if (jc == null) {
 			jc = new Jc();
 		}
-		jc.setVal(jcEnumeration);
-		pPr.setJc(jc);
+		if(!StringUtils.isEmpty(jcEnumeration)) {
+			jc.setVal(jcEnumeration);
+			pPr.setJc(jc);
+		}
+		
 		p.setPPr(pPr);
 		return p;
 	}

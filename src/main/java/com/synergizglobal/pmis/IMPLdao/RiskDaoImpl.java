@@ -179,8 +179,21 @@ public class RiskDaoImpl implements RiskDao{
 				 String ownerId = sObj.getOwner_user_id(); 
 				 String responsibleId = sObj.getResponsible_user_id();
 				 String reporting_to_user_id = sObj.getReporting_to_user_id();
-				
-				 String userIds[]  = { ownerId,responsibleId,reporting_to_user_id,"PMIS_SU_006","PMIS_SU_052"};				 
+				 String userIds[]  = null;
+				 if("PMIS_SU_002".equals(reporting_to_user_id)) {
+					 userIds  = new String[5];
+					 userIds[0]  = ownerId;
+					 userIds[1]  = responsibleId;
+					 userIds[2]  = reporting_to_user_id;
+					 userIds[3]  = "PMIS_SU_006";
+					 userIds[4]  = "PMIS_SU_052";
+				 }else {
+					 userIds  = new String[3];
+					 userIds[0]  = ownerId;
+					 userIds[1]  = responsibleId;
+					 userIds[2]  = reporting_to_user_id;
+				 }
+				  				 
 				 String messageType = "Risk";
 				 String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+subWork+"&assessment_date="+assessmentDate;
 				 String message = "Risk Analysis Report of "+subWork+" has been uploaded.";
@@ -664,23 +677,56 @@ public class RiskDaoImpl implements RiskDao{
 									&& (StringUtils.isEmpty(obj.getAction_takens_old()) || (!StringUtils.isEmpty(obj.getAction_takens_old()) && obj.getAction_takens_old().length <= 0))) 
 							) {
 
-						  String messageType = "Risk";
-						  String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id(),obj.getReporting_to_user_id(),"PMIS_SU_006","PMIS_SU_052" };
-						  flag = true;
-						  String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
-						  insertStmt = con.prepareStatement(message_qry);
-						  for(int i = 0; i < userId.length; i++) {	
-							int p = 1;
-							if((!StringUtils.isEmpty(userId[i]))) {
-								String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+obj.getSub_work()+"&assessment_date="+DateParser.parse(obj.getAssessment_date());
-								insertStmt.setString(p++,"ATR of prioritized risk(s) for "+obj.getSub_work()+" has been updated.");
-								insertStmt.setString(p++,(userId[i]));
-								insertStmt.setString(p++,redirect_url);
-								insertStmt.setString(p++,messageType);
-								insertStmt.addBatch();
-							}
+						/*String messageType = "Risk";
+						String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id(),obj.getReporting_to_user_id(),"PMIS_SU_006","PMIS_SU_052" };
+						flag = true;
+						String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
+						insertStmt = con.prepareStatement(message_qry);
+						for(int i = 0; i < userId.length; i++) {	
+						int p = 1;
+						if((!StringUtils.isEmpty(userId[i]))) {
+							String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+obj.getSub_work()+"&assessment_date="+DateParser.parse(obj.getAssessment_date());
+							insertStmt.setString(p++,"ATR of prioritized risk(s) for "+obj.getSub_work()+" has been updated.");
+							insertStmt.setString(p++,(userId[i]));
+							insertStmt.setString(p++,redirect_url);
+							insertStmt.setString(p++,messageType);
+							insertStmt.addBatch();
+						}
+						}
+						insertCount = insertStmt.executeBatch();*/
+						
+						String ownerId = obj.getOwner_user_id(); 
+						String responsibleId = obj.getResponsible_user_id();
+						String reporting_to_user_id = obj.getReporting_to_user_id();
+						 
+						String userIds[]  = null;
+						 if("PMIS_SU_002".equals(reporting_to_user_id)) {
+							 userIds  = new String[5];
+							 userIds[0]  = ownerId;
+							 userIds[1]  = responsibleId;
+							 userIds[2]  = reporting_to_user_id;
+							 userIds[3]  = "PMIS_SU_006";
+							 userIds[4]  = "PMIS_SU_052";
+						 }else {
+							 userIds  = new String[3];
+							 userIds[0]  = ownerId;
+							 userIds[1]  = responsibleId;
+							 userIds[2]  = reporting_to_user_id;
 						 }
-					     insertCount = insertStmt.executeBatch();
+						  				 
+						 String messageType = "Risk";
+						 String redirect_url = "/InfoViz/risks/risk-detail?&sub_work="+obj.getSub_work()+"&assessment_date="+DateParser.parse(obj.getAssessment_date());
+						 String message = "ATR of prioritized risk(s) for "+obj.getSub_work()+" has been updated.";
+						 
+						 Messages msgObj = new Messages();
+						 msgObj.setUser_ids(userIds);
+						 msgObj.setMessage_type(messageType);
+						 msgObj.setRedirect_url(redirect_url);
+						 msgObj.setMessage(message);
+						  
+						 NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+						 messagesDao.addMessages(msgObj,namedParamJdbcTemplate);
+						 
 						 break;
 					}
 				}

@@ -759,6 +759,25 @@
         	}
         	
         	
+        	var user_role_code = '${sessionScope.USER_ROLE_CODE}';
+        	if(user_role_code == 'IT'){
+        		$("#project_id_fk").attr('disabled', false);
+      			$("#work_id_fk").attr('disabled', false);
+      			$("#contract_id_fk").attr('disabled', false);
+      			$("#responsible_people_id_fk").attr('disabled', false);
+      			$("#target_date").attr('disabled', false);
+      			$("#construction_start_date").attr('disabled', false);
+      			$("#revised_completion").attr('disabled', false);
+      			$("#commissioning_date").attr('disabled', false);
+      			$("#actual_completion_date").attr('disabled', false);
+      			
+      			$("#fob_name").attr('readonly', false);
+      			$("#estimated_cost").attr('readonly', false);
+      			$("#latitude").attr('readonly', false);
+      			$("#longitude").attr('readonly', false);
+      			$("#completion_cost").attr('readonly', false);
+        	}
+        	
         }
         
         var size = '${fn:length(fob.fobImages )}';

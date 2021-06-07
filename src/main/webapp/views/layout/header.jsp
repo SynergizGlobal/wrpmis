@@ -1286,11 +1286,16 @@
 		                    		  if($.trim(val.redirect_url) != '' && (val.redirect_url).indexOf("?") > 0){
 		                    			  urlStringContains = "&";
 		                    		  }
-		                    		  html = html + '<li class="item '+message_color_bg+' row">'
-		                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+urlStringContains+'message_id='+val.message_id +'">'
+		                    		  html = html + '<li class="item '+message_color_bg+' row">';
+		                    		  		if($.trim(val.redirect_url) != ''){
+		                    		  			html = html + '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+urlStringContains+'message_id='+val.message_id +'">'
+		                    		  		}else{
+		                    		  			html = html + '<a href="javascript:void(0);">'
+		                    		  		}
+		                    		  		
 		                    		  		
 		                    		  		//+ '<div class="col m12">'
-		                    		  		+ '<div class="col m2" style="text-align: center;">'
+		                    		  		html = html + '<div class="col m2" style="text-align: center;">'
 		                    		  		+ '<i class="fa fa-exclamation-triangle" style="font-size:2rem;margin-top: 10px;height: 1.5rem;line-height: 1.5rem;"></i>'
 		                    		  		+ '<span class="">'+val.message_type+'</span>'
 		                    		  		+ '</div>'

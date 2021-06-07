@@ -1283,7 +1283,7 @@
 		                    		  	count = count + 1;
 		                    		  }
 		                    		  var urlStringContains = "?"
-		                    		  if((val.redirect_url).indexOf("?") > 0){
+		                    		  if($.trim(val.redirect_url) != '' && (val.redirect_url).indexOf("?") > 0){
 		                    			  urlStringContains = "&";
 		                    		  }
 		                    		  html = html + '<li class="item '+message_color_bg+' row">'

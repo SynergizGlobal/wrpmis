@@ -717,11 +717,11 @@
 	     										input.val('');
 	     										$searchButton.click();
 	     									})
-	     									$("div.right-btns").remove();
+	     									//$("div.right-btns").remove();
 	     									//$('.right-btns1').toggleClass('right-btns1').toggleClass('right-btns');
 	
 	     									$('.dataTables_filter').append(
-	     											'<div class="right-btns1"></div>');
+	     											'<div class="right-btns"></div>');
 	     									$('.dataTables_filter div').append(
 	     											$searchButton, $clearButton);
 	

@@ -1621,7 +1621,7 @@
         });
         
         function getContractClosureDetails(contract_status_fk) {
-			if(contract_status_fk == 'Completed'){
+			if(contract_status_fk == 'Completed' || contract_status_fk == 'Closed'){
 				$("#contractClosureDetails").show();
 			}else{
 				$("#contractClosureDetails").hide();
@@ -1775,13 +1775,13 @@
 	  			var contract_status_fk = $("#contract_status_fk").val();
 	  			
 	  			if(bg_required != 'Yes'){
-	        		$("#bank_guarantee_div").remove()
+	        		$("#bank_guarantee_div").remove();
 	        	}
 	  			if(insurance_required != 'Yes'){
-	        		$("#insurance_div").remove()
+	        		$("#insurance_div").remove();
 	        	}
-	        	if(contract_status_fk != 'Completed'){
-	        		$("#contractClosureDetails").remove()
+	        	if(contract_status_fk != 'Completed' && contract_status_fk != 'Closed'){
+	        		$("#contractClosureDetails").remove();
 	        	}
 	        	
 	  			$('form input[name=bg_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		

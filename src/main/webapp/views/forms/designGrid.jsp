@@ -61,6 +61,11 @@
 		.fw-38w{
 			width: 38vw !important;
 		}
+		.right-btns{ display:none;}
+
+		.right-btns:last-of-type {
+		  display:block;
+		}
     </style>
 </head>
 <body>
@@ -485,8 +490,8 @@
 	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
 	                }
 	            });
-			getDesignUploadsList();
 			getDesignList();
+			getDesignUploadsList();
 			 if(window.matchMedia("(max-width: 767px)").matches){
 	  		    	$('tbody.web').removeAttr('id');
 	  		        $('#mobView').css({'display':'block'});
@@ -505,9 +510,8 @@
 			$("#drawing_type_fk").val('');
 			$('.searchable').select2();
 			window.localStorage.setItem("designFilters",'');
-			getDesignUploadsList();
 			getDesignList();
-
+			getDesignUploadsList();
 		}
         
 		  function addInQueHOD(hod){
@@ -764,7 +768,7 @@
 	     			            } }
 	     			            
 	     			        ]
-	     			    });
+	     			    }); 
 	  		    }else{
 						table = $('#datatable-design').DataTable();
 			

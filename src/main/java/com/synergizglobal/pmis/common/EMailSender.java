@@ -20,6 +20,7 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.InternetHeaders;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -370,7 +371,6 @@ public class EMailSender {
 			  /*********************************************************************/
 			  
 			 message.setSubject(subject);
-			 
 			 // create and fill the first message part
 			 MimeBodyPart mimeBodyPart1 = new MimeBodyPart();
 			 mimeBodyPart1.setText(body);

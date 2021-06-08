@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -173,7 +175,8 @@ public class Schedular {
 	     logger.error("sendUserLoginReportByCronJob : Current time is :"+ new Date());	    
 	     try {
 	    	 User uObj = new User();
-	    	 boolean flag = userLoginReportController.sendLast7DaysUserLoginDeatils(uObj);
+	    	 boolean isDownload = false;
+	    	 boolean flag = userLoginReportController.sendLast7DaysUserLoginDeatils(uObj,null,isDownload);
 		     logger.error("sendUserLoginReportByCronJob >> Sending mails : "+ flag);
 		     //System.out.println("Sending mails : "+ flag); 
 		 } catch (Exception e) {

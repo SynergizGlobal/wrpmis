@@ -10,13 +10,15 @@
     <title>Design & Drawing - Update Forms - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">     
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">     
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+	
     <style>
-        #revTable .datepicker~button,
-        #example4 .datepicker~button {
+        #revTable .datepicker~button{
             top: 30px;
             right:2px;
         }
@@ -100,6 +102,7 @@
 	        text-align:left;
 	        margin-top:10px;
         }        
+         
         .my-error-class {
    			 color:red;
 		}
@@ -109,6 +112,103 @@
 		.input-field>.datepicker ~ label:not(.label-icon).active {
 		    transform: translateY(-11px) scale(.8);
 		}
+		
+		/* new css code starts from here */ 
+		.col.issue-mar,
+		.issue-mar{
+			margin-top:40px;
+		 }
+		 .mobile-prio,
+		 .col.mobile-prio{
+		 	margin-top:30px;
+		 }
+		.mb-md-20{
+			margin-bottom:20px !important;
+		}
+		.mt-md-0{
+			margin-top:0 !important;
+		}
+		.lh{
+			line-height:inherit;
+		}
+		@media only screen and (max-width: 768px){
+			/* table datepicker , select2 dropdown , table column and update , cancel buttons styling for mobile versions */
+			#revisionsTableBody tr .input-field .datepicker~button {
+			    position: relative;
+			    top: 0;
+			    right: 26px;
+			}			
+			.mobile_responsible_table #revisionsTableBody tr td .select2-container {
+			    width: 100% !important;
+			}
+			.mobile_responsible_table>tbody >tr:not(.datepicker-row) >td::before {
+			    vertical-align: middle;
+			}
+			.mobile_responsible_table tbody {
+			    overflow-x:hidden;
+			}
+			.mt-brdr{
+				margin-top: auto !important;
+    			border: none !important;
+			}
+			.mt-brdr .btn{
+   				width: 100% !important;
+			}
+			.mobile-prio{
+				margin-top:14px;
+				margin-bottom:14px;
+			}
+			.mobile-prio >.prio{
+				text-align:center;
+				margin-bottom:5px;
+			}
+			.col.issue-mar,
+			.issue-mar{
+				margin-top:25px;
+				text-align:center;
+			}
+			/* input fields styles for mobile version  */
+			div.input-field {
+			    margin-top: 1rem;
+			    margin-bottom: 1rem;
+			}
+			.input-field p.searchable_label {
+			    margin-top: -20px !important;
+   				margin-bottom: -4px;
+			}
+			.input-field>.datelike ~ label:not(.label-icon).active, 
+			.input-field>input[type='text']:not(.datepicker) ~ label:not(.label-icon).active,
+			.input-field>label:not(.label-icon).active {
+			    -webkit-transform: translateY(-18px) scale(0.95);
+			    transform: translateY(-18px) scale(0.95);
+			}
+			.input-field>textarea ~ label:not(.label-icon).active{		
+				-webkit-transform: translateY(-26px) scale(0.95);
+			    transform: translateY(-26px) scale(0.95);
+			}
+			.mb-md-20	{
+				margin-bottom:0 !important;
+			}				
+			.fs-sm-8rem{
+				font-size:.8rem !important;
+			}	
+			.input-field>.datepicker~button{
+				top:10px;
+				right:6px;
+			}
+			.lh{
+				line-height:1.1rem;
+			}	
+			.mt-md-0{
+				margin-top: -14px !important;
+			} 
+		}
+			.input-field>input[type='text'].datepicker ~ label:not(.label-icon).active{
+				-webkit-transform: translateY(-20px) scale(0.95);
+			    transform: translateY(-20px) scale(0.95);
+			}		
+			
+		
 		
     </style>
 </head>
@@ -144,8 +244,7 @@
 						    <div class="container container-no-margin">
 						    <c:if test="${action eq 'add'}">	
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label"> Project <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                     onchange="getWorksList(this.value);">
@@ -156,7 +255,7 @@
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
@@ -167,17 +266,16 @@
                                     </select>
                                       <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             </c:if>
  							<c:if test="${action eq 'edit'}">	
 	                             <div class="row">
-	                                <div class="col s12 m4 input-field offset-m2">
+	                                <div class="col s6 m4 input-field offset-m2">
 	                                    <input type="text" value="${designDetails.project_id_fk}- ${designDetails.project_name}" readonly />
 								    	<label for="project_id_fk">Project <span class="required">*</span></label>
 								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="${designDetails.project_id_fk}" readonly />
 								    </div> 
-	                                <div class="col s12 m4 input-field"> 
+	                                <div class="col s6 m4 input-field"> 
 	                                    <input type="text" value="${designDetails.work_id_fk}- ${designDetails.work_short_name}" readonly />
 	                                	<label for="work_id_fk">Work <span class="required">*</span></label>
 	                                	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${designDetails.work_id_fk}" readonly />
@@ -185,9 +283,8 @@
 	                            </div>
                             </c:if>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
                                 <c:if test="${action eq 'add'}">
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Contract <span class="required">*</span></p>
                                      <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" 
                                      	onchange="resetWorksAndProjectsDropdowns();">
@@ -200,13 +297,13 @@
                                 </div>
                                 </c:if>
                                 <c:if test="${action eq 'edit'}">
-                                	<div class="col s12 m4 input-field"> 
+                                	<div class="col s6 m4 input-field offset-m2"> 
 	                                    <input type="text" value="${designDetails.contract_id_fk}- ${designDetails.contract_short_name}" readonly />
 									    <label for="contract_id_fk"> Contract <span class="required">*</span></label>
 									    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${designDetails.contract_id_fk}" readonly />
 	                                </div>
                                 </c:if>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Department <span class="required">*</span></p>
                                      <select name="department_id_fk" id="department_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
@@ -216,12 +313,10 @@
                                     </select>
                                      <span id="department_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Consultant Contract </p>
                                     <select name="consultant_contract_id_fk" id="consultant_contract_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
@@ -231,7 +326,7 @@
                                     </select>
                                      <span id="consultant_contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <p class="searchable_label">Proof Consultant Contract </p>
                                     <select id="proof_consultant_contract_id_fk" name="proof_consultant_contract_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
@@ -242,28 +337,23 @@
                                     </select>
                                     <span id="proof_consultant_contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="hod" type="text" class="validate" name="hod" value="${designDetails.hod }">
                                     <label for="hod">HOD <span class="required">*</span></label>
                                     <span id="hodError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="dy_hod" type="text" class="validate" name="dy_hod" value="${designDetails.dy_hod }">
                                     <label for="dy_hod">Dy HOD <span class="required">*</span></label>
                                     <span id="dy_hodError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <!-- row 6 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Prepared By <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="prepared_by_id_fk" id="prepared_by_id_fk">
                                         <option value="" selected>Select</option>
@@ -273,7 +363,7 @@
                                     </select>
                                     <span id="prepared_by_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <p class="searchable_label">Structure <span class="required">*</span></p>
                                     <select id="structure_type_fk" name="structure_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
@@ -283,17 +373,14 @@
                                     </select>
                                     <span id="structure_type_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <!-- row 6 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="component" type="text" class="validate" name="component" value="${designDetails.component }">
                                     <label for="component">Component </label>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <p class="searchable_label" >Drawing Type <span class="required">*</span></p>
                                     <select id="drawing_type_fk" name="drawing_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
@@ -303,12 +390,10 @@
                                     </select>
                                     <span id="drawing_type_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 input-field offset-m2">
                                     <textarea id="drawing_title" name="drawing_title" class="materialize-textarea" data-length="1000">${designDetails.drawing_title }</textarea>
                                     <label for="drawing_title">Drawing Title <span class="required">*</span></label>
                                      <span id="drawing_titleError" class="error-msg" ></span>
@@ -316,27 +401,24 @@
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="planned_start" name="planned_start" type="text" class="validate datepicker" value="${designDetails.planned_start }">
                                     <label for="planned_start">Planned Start </label>
                                     <button type="button" id="planned_start_icon"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="planned_startError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="planned_finish" name="planned_finish" type="text" class="validate datepicker" value="${designDetails.planned_finish }">
                                     <label for="planned_finish">Planned Finish </label>
                                     <button type="button" id="planned_finish_icon"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="planned_finishError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                            <!--  newly added code starts here  -->
                              <div class="row" style="margin-bottom:20px" >
-                                <div class="col m2 hide-on-small-only"></div>  
-                                <div class="col s12 m4 input-field center-align">
+                                <div class="col s12 m4 input-field center-align offset-m2">
                                     <p class="priokind">Clearance to Consultant ?   
                                     	<i class="fa fa-info-circle tooltipped" data-position="bottom" data-tooltip='If GAD for the structure is approved and handedover to consultant then  write "Yes" else "No" '></i>
                                     </p>   
@@ -356,42 +438,37 @@
                                         </label>
                                     </p>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                              </div>
 							<!--  newly added code ends here  -->
                              
                              <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="contractor_drawing_no" name="contractor_drawing_no" type="text" class="validate" value="${designDetails.contractor_drawing_no }">
-                                    <label for="contractor_drawing_no">Contractor Drawing No </label>
+                                    <label for="contractor_drawing_no" class="fs-sm-8rem">Contractor Drawing No </label>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="consultant_submission" name="consultant_submission" type="text" class="validate datepicker" value="${designDetails.consultant_submission }">
-                                    <label for="consultant_submission">Consultant Submission </label>
+                                    <label for="consultant_submission" class="fs-sm-8rem">Consultant Submission </label>
                                     <button type="button" id="consultant_submission_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="consultant_submissionError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                           
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="mrvc_drawing_no" name="mrvc_drawing_no" type="text" class="validate" value="${designDetails.mrvc_drawing_no }">
                                     <label for="mrvc_drawing_no">MRVC Drawing No </label>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="mrvc_reviewed" name="mrvc_reviewed" type="text" class="validate datepicker" value="${designDetails.mrvc_reviewed }">
                                     <label for="mrvc_reviewed">MRVC Reviewed </label>
                                     <button type="button" id="mrvc_reviewed_icon"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="mrvc_reviewedError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
-                            <div class="row" style="margin-bottom:20px">
+                            <div class="row mb-md-20">
                                 <div class="col m2 hide-on-small-only"></div>  
                                 <div class="col s12 m4 input-field center-align">
                                     <p class="priokind">Divisional submission ?</p>   
@@ -416,23 +493,22 @@
                              
                               <div class="divisional_submission_fk" style="display:none;">
                               <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>      
-                                <div class="col s12 m8 ">
+                                <div class="col s12 m8 offset-m2">
                                 	<div class="row">                                
-		                                <div class="col s12 m4 input-field" >
+		                                <div class="col s6 m4 input-field" >
 		                                    <input id="division_drawing_no" name="division_drawing_no" type="text" class="validate" value="${designDetails.division_drawing_no }">
-		                                    <label for="division_drawing_no"> Divisional Drawing No</label>
+		                                    <label for="division_drawing_no" class="fs-sm-8rem"> Divisional Drawing No</label>
 		                                </div>
-		                                <div class="col s12 m4 input-field" >
+		                                <div class="col s6 m4 input-field" >
 		                                    <input id="submitted_to_division" name="submitted_to_division" type="text" class="validate datepicker" value="${designDetails.submitted_to_division }">
-		                                    <label for="submitted_to_division">Submitted to Division </label>
+		                                    <label for="submitted_to_division" class="fs-sm-8rem">Submitted to Division </label>
 		                                    <button type="button" id="submitted_to_division_icon"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="submitted_to_divisionError" class="error-msg" ></span>
 		                                </div>
-		                                <div class="col s12 m4 input-field" >
+		                                <div class="col s6 m4 input-field" >
 		                                    <input id="divisional_approval" name="divisional_approval" type="text" class="validate datepicker" value="${designDetails.divisional_approval }">
-		                                    <label for="divisional_approval">Divisional Approval </label>
+		                                    <label for="divisional_approval" class="fs-sm-8rem">Divisional Approval </label>
 		                                    <button type="button" id="divisional_approval_icon"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="divisional_approvalError" class="error-msg" ></span>
@@ -441,9 +517,8 @@
                            		</div>
                                 <div class="col m2 hide-on-small-only"></div>
                                </div>
-                               <div class="row">
-                                	<div class="col m2 hide-on-small-only"></div>                                         
-	                                <div class="col s12 m4 input-field" >
+                               <div class="row hide-on-med-and-down">
+	                                <div class="col s12 m4 input-field offset-m2" >
 	                                    <input id="query_raised_by_division" name="query_raised_by_division" type="text" class="validate datepicker" value="${designDetails.query_raised_by_division }">
 	                                    <label for="query_raised_by_division">Query Raised By Division </label>
 	                                    <button type="button" id="query_raised_by_division_icon"><i
@@ -457,13 +532,11 @@
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="query_replied_to_divisionError" class="error-msg" ></span>
 	                                </div>		                            
-                                	<div class="col m2 hide-on-small-only"></div>
                               </div>
 							</div>
 							
                              <div class="row" style="margin-bottom:20px">
-                                <div class="col m2 hide-on-small-only"></div>   
-                                <div class="col s12 m4 input-field center-align">
+                                <div class="col s12 m4 input-field center-align offset-m2">
                                     <p class="priokind">HQ submission ?</p>  
                                 </div>                               
                                 <div class="col s12 m4 input-field">                                    
@@ -481,26 +554,24 @@
                                         </label>
                                     </p>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>  
                             </div>           
                                  
                             <div class="hq_submission_fk" style="display:none;">
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>   
-                                <div class="col s12 m8 ">
+                                <div class="col s12 m8 offset-m2">
                                 	<div class="row">           
-		                                <div class="col s12 m4 input-field " >
+		                                <div class="col s6 m4 input-field " >
 		                                    <input id="hq_drawing_no" name="hq_drawing_no" type="text" class="validate" value="${designDetails.hq_drawing_no }">
 		                                    <label for="hq_drawing_no"> HQ Drawing No </label>
 		                                </div>
-		                                <div class="col s12 m4 input-field " >
+		                                <div class="col s6 m4 input-field " >
 		                                    <input id="hq_submission" name="submitted_to_hq" type="text" class="validate datepicker" value="${designDetails.submitted_to_hq }">
-		                                    <label for="hq_submission">Submitted to HQ</label>
+		                                    <label for="hq_submission" class="fs-sm-8rem">Submitted to HQ</label>
 		                                    <button type="button" id="hq_submission_icon"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="hq_submissionError" class="error-msg" ></span>
 		                                </div>
-		                                <div class="col s12 m4 input-field ">
+		                                <div class="col s6 m4 input-field ">
 		                                    <input id="hq_approval" name="hq_approval" type="text" class="validate datepicker" value="${designDetails.hq_approval }">
 		                                    <label for="hq_approval">HQ Approval </label>
 		                                    <button type="button" id="hq_approval_icon"><i
@@ -511,7 +582,7 @@
 		                        </div>
                                 <div class="col m2 hide-on-small-only"></div>
                                 </div>
-                                <div class="row">
+                                <div class="row hide-on-med-and-down">
                                 	<div class="col m2 hide-on-small-only"></div>                                         
 	                                <div class="col s12 m4 input-field" >
 	                                    <input id="query_raised_by_hq" name="query_raised_by_hq" type="text" class="validate datepicker" value="${designDetails.query_raised_by_hq }">
@@ -531,9 +602,8 @@
                               </div>
                             </div>
                             
-                            <div class="row" style="margin-bottom:20px">
-                            <div class="col m2 hide-on-small-only"></div>   
-                            <div class="col s12 m4 input-field center-align">
+                            <div class="row hide-on-med-and-down" style="margin-bottom:20px">
+                            <div class="col s12 m4 input-field center-align offset-m2 ">
                                 <p class="priokind">CRS Sanction required ?</p>  
                             </div>                               
                             <div class="col s12 m4 input-field">                                    
@@ -555,61 +625,54 @@
                         </div>
                           <div class="crs_sanction_fk" style="display:none;">
                             	<div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>                               
-		                                <div class="col s12 m4 input-field " >
+		                                <div class="col s6 m4 input-field offset-m2" >
 		                                    <input id="submitted_for_crs_sanction" name="submitted_for_crs_sanction" type="text" class="validate datepicker" value="${designDetails.submitted_for_crs_sanction }">
 		                                    <label for="submitted_for_crs_sanction">Submitted for CRS Sanction </label>
 		                                    <button type="button" id="submitted_for_crs_sanction_icon"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="submitted_for_crs_sanctionError" class="error-msg" ></span>
 		                                </div>
-		                                <div class="col s12 m4 input-field ">
+		                                <div class="col s6 m4 input-field ">
 		                                    <input id="query_raised_for_crs_sanction" name="query_raised_for_crs_sanction" type="text" class="validate datepicker" value="${designDetails.query_raised_for_crs_sanction }">
 		                                    <label for="query_raised_for_crs_sanction">Query Raised for CRS  Sanction </label>
 		                                    <button type="button" id="query_raised_for_crs_sanction_icon"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="query_raised_for_crs_sanctionError" class="error-msg" ></span>
 		                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
                                 </div>
                                 <div class="row">
-                                	<div class="col m2 hide-on-small-only"></div>                                         
-	                                <div class="col s12 m4 input-field" >
+	                                <div class="col s6 m4 input-field offset-m2" >
 	                                    <input id="query_replied_for_crs_sanction" name="query_replied_for_crs_sanction" type="text" class="validate datepicker" value="${designDetails.query_replied_for_crs_sanction }">
 	                                    <label for="query_replied_for_crs_sanction">Query Replyied for CRS Sanction </label>
 	                                    <button type="button" id="query_replied_for_crs_sanction_icon"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="query_replied_for_crs_sanctionError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s12 m4 input-field" >
+	                                <div class="col s6 m4 input-field" >
 	                                    <input id="crs_sanction_approved" name="crs_sanction_approved" type="text" class="validate datepicker" value="${designDetails.crs_sanction_approved }">
 	                                    <label for="crs_sanction_approved">CRS Sanction Approved </label>
 	                                    <button type="button" id="crs_sanction_approved_icon"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="crs_sanction_approvedError" class="error-msg" ></span>
 	                                </div>		                            
-                                	<div class="col m2 hide-on-small-only"></div>
                               </div>
                             </div>   
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="revision" name="revision" type="text" class="validate" value="${designDetails.revision }">
                                     <label for="revision">Revision</label>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="gfc_released" name="gfc_released" type="text" class="validate datepicker" value="${designDetails.gfc_released }">
                                     <label for="gfc_released">GFC Released </label>
                                     <button type="button" id="gfc_released_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="gfc_releasedError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <p> <label for="rivision_no">As Built Drawing Status</p>
+                                <div class="col s6 m4 input-field offset-m2">
+                                    <p class="searchable_label mt-md-0 lh">As Built Drawing Status</p>
                                     <select name="as_built_status" id="as_built_status" class="searchable">
                                         <option value="" selected>Select</option>
                                         	 <c:forEach var="obj" items="${asBuiltStatuses }">
@@ -617,20 +680,20 @@
 		                                    </c:forEach>
                                     </select>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="as_built_date" name="as_built_date" type="text" class="validate datepicker" style="margin-top:5px" value="${designDetails.as_built_date }">
-                                    <label for="as_built_date">As Built Drawing Date </label>
+                                    <label for="as_built_date" class="fs-sm-8rem">As Built Drawing Date </label>
                                     <button type="button" id="as_built_date_icon"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="as_built_dateError" class="error-msg" ></span>
                                 </div>
                             </div>
-</div>
+		</div>
                             <!-- insurance show hide div  -->
                             <div class="row fixed-width">
                                 <h5 class="center-align">Revision Details</h5>
                                 <div class="table-inside">
-                                    <table id="revTable" class="mdl-data-table">
+                                    <table id="revTable" class="mdl-data-table mobile_responsible_table">
                                         <thead>
                                             <tr>
                                                 <th>Revision </th>
@@ -649,35 +712,35 @@
 	                                        <c:when test="${not empty designDetails.designRevisions && fn:length(designDetails.designRevisions) gt 0 }">
 	                                        	<c:forEach var="revObj" items="${designDetails.designRevisions }" varStatus="index">  
 		                                            <tr id="revisionRow${index.count }">                                                
-		                                                <td>
+		                                                <td data-head="Revision" class="input-field">
 		                                                    <input id="revisions${index.count }" name="revisions" type="text" class="validate"
 		                                                        placeholder="Revision" value="${revObj.revision }">                                                        
 		                                                </td>
-		                                                <td>
+		                                                <td data-head="Consultant Submission" class="input-field">
 		                                                    <input id="consultant_submissions${index.count }" name="consultant_submissions" type="text" class="validate datepicker"
 		                                                        placeholder="Consultant Submission" value="${revObj.consultant_submission }">
 		                                                    <button type="button" id="consultant_icon${index.count }" class="white"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
-		                                                <td>
+		                                                <td  data-head="MRVC Reviewed" class="input-field">
 		                                                    <input id="mrvc_revieweds${index.count }" name="mrvc_revieweds" type="text" class="validate datepicker"
 		                                                        placeholder="MRVC Reviewed" value="${revObj.mrvc_reviewed }">
 		                                                    <button type="button" id="mrvc_reviewed_icon${index.count }" class="white"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
-		                                                <td>
+		                                                <td data-head="Divisional Approval" class="input-field">
 		                                                    <input id="divisional_approvals${index.count }" name="divisional_approvals" type="text"
 		                                                        class="validate datepicker" placeholder="Divisional Approval" value="${revObj.divisional_approval }">
 		                                                    <button type="button" id="divisional_approval_icon${index.count }" class="white"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
-		                                                <td>
+		                                                <td data-head="HQ approval" class="input-field">
 		                                                    <input id="hq_approvals${index.count }" name="hq_approvals" type="text" class="validate datepicker"
 		                                                        placeholder="HQ approval" value="${revObj.hq_approval }">
 		                                                    <button type="button" id="hq_approval_icon${index.count }" class="white"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
-		                                                <td>
+		                                                <td data-head="Revision Status" class="input-field">
 		                                                    <select class="searchable" id="revision_status_fks${index.count }" name="revision_status_fks">
 		                                                        <option value="" selected>Select </option>
 		                                                          <c:forEach var="obj" items="${revisionStatuses }">
@@ -685,11 +748,11 @@
 				                                  				  </c:forEach>
 		                                                    </select>
 		                                                </td>
-		                                                <td>
+		                                                <td data-head="Remarks" class="input-field">
 		                                                    <input id="remarkss${index.count }" name="remarkss" type="text" class="validate"
 		                                                        placeholder="Remarks" value="${revObj.remarks }">
 		                                                </td>
-		                                                <td>
+		                                                <td class="mobile_btn_close">
 		                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('${index.count }');"> <i
 		                                                            class="fa fa-close"></i></a>
 		                                                </td>
@@ -698,35 +761,35 @@
                                            </c:when>
 	                                       <c:otherwise>
 	                                        	<tr id="revisionRow0">                                                
-	                                                <td>
+	                                                <td data-head="Revision" class="input-field">
 	                                                    <input id="revisions0" name="revisions" type="text" class="validate"
 	                                                        placeholder="Revision">                                                        
 	                                                </td>
-	                                                <td>
+	                                                <td data-head="Consultant Submission" class="input-field">
 	                                                    <input id="consultant_submissions0" name="consultant_submissions" type="text" class="validate datepicker"
 	                                                        placeholder="Consultant Submission">
 	                                                    <button type="button" id="consultant_icon0" class="white"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
-	                                                <td>
+	                                                <td  data-head="MRVC Reviewed" class="input-field">
 	                                                    <input id="mrvc_revieweds0" name="mrvc_revieweds" type="text" class="validate datepicker"
 	                                                        placeholder="MRVC Reviewed">
 	                                                    <button type="button" id="mrvc_reviewed_icon0" class="white"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
-	                                                <td>
+	                                                <td data-head="Divisional Approval" class="input-field">
 	                                                    <input id="divisional_approvals0" name="divisional_approvals" type="text"
 	                                                        class="validate datepicker" placeholder="Divisional Approval">
 	                                                    <button type="button" id="divisional_approval_icon0" class="white"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
-	                                                <td>
+	                                                <td data-head="HQ approval" class="input-field">
 	                                                    <input id="hq_approvals0" name="hq_approvals" type="text" class="validate datepicker"
 	                                                        placeholder="HQ approval">
 	                                                    <button type="button" id="hq_approval_icon0" class="white"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
-	                                                <td>
+	                                                <td data-head="Revision Status" class="input-field">
 	                                                    <select class="searchable" id="revision_status_fks0" name="revision_status_fks">
 	                                                        <option value="" selected>Select </option>
 	                                                          <c:forEach var="obj" items="${revisionStatuses }">
@@ -734,11 +797,11 @@
 			                                  				  </c:forEach>
 	                                                    </select>
 	                                                </td>
-	                                                <td>
+	                                                <td data-head="Remarks" class="input-field">
 	                                                    <input id="remarkss0" name="remarkss" type="text" class="validate"
 	                                                        placeholder="Remarks">
 	                                                </td>
-	                                                <td>
+	                                                <td class="mobile_btn_close">
 	                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('0');"> <i
 	                                                            class="fa fa-close"></i></a>
 	                                                </td>
@@ -773,21 +836,21 @@
                                 <div class="col m8 s12">
                                     <div class="row">
                                     
-		                           <div class="col s6 m6 input-field">
+		                           <div class="col s12 m6">
 									  <c:if test="${action eq 'add'}">
 			                            <div id="selectedFilesInput">
-			                                    	<div class="file-field input-field" id="designFilesDiv1" >
-				                                        <div class="btn bg-m t-c">
-				                                            <span>Attach Files</span>
-				                                            <input type="file" id="designFiles1" name="designFiles"  onchange="selectFile('1')">
-				                                        </div>
-				                                        <div class="file-path-wrapper">
-				                                            <input class="file-path validate" type="text">
-				                                        </div>                                       
-				                                    </div>
-												</div>
-			                                    <div id="selectedFiles">
-												</div>
+	                                    	<div class="file-field input-field" id="designFilesDiv1" >
+		                                        <div class="btn bg-m t-c">
+		                                            <span>Attach Files</span>
+		                                            <input type="file" id="designFiles1" name="designFiles"  onchange="selectFile('1')">
+		                                        </div>
+		                                        <div class="file-path-wrapper">
+		                                            <input class="file-path validate" type="text">
+		                                        </div>                                       
+		                                    </div>
+										</div>
+	                                    <div id="selectedFiles">
+										</div>
 									  </c:if>	
 									  <c:if test="${action eq 'edit'}">
 													<c:set var="existingDesignFilesLength" value="${fn:length(designDetails.designFilesList )}"></c:set>
@@ -821,10 +884,10 @@
 									
                                         <div class="col m6 s12">
                                             <div class="row">
-                                                <div class="col s6 m6 input-field center-align">
-                                                    <p style="margin-top: 10px;">Any Issue ?</p>
+                                                <div class="col s4 m5 input-field center-align">
+                                                    <p style="margin-top: 10px;" class="fs-sm-8rem">Any Issue ?</p>
                                                 </div>
-                                                <div class="col s6 m6 input-field">
+                                                <div class="col s8 m7 input-field">
                                                     <p class="radiogroup"
                                                         style="padding-bottom: 10px;padding-top: 10px;">
                                                         <label>
@@ -845,12 +908,12 @@
                             </div>
 
                             <div id="issue_yes" style="display: none;">
-                                <div class="row">
+                                <div class="row" style="margin-bottom:20px">
                                     <h6 class="center-align" style="color:#2E58AD;font-weight:600">Issue Details </h6>
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col m8 s12">
                                         <div class="row">
-                                            <div class="col s12 m6 input-field" style="margin-top: 40px;">
+                                            <div class="col s12 m6 input-field issue-mar">
                                                 <p class="searchable_label">Issue Category</p>
                                                 <select id="issue_category_id" name="issue_category_id" class="searchable">
                                                     <option value="">Select</option>
@@ -859,7 +922,7 @@
                                                     </c:forEach>
                                                 </select>
                                             </div>
-                                            <div class="col s12 m6 input-field" style="padding-top: 18px;">
+                                            <div class="col s12 m6 input-field mobile-prio">
                                                 <p class="prio">Priority</p>
                                                 <p class="radiogroup">
                                                     <label>
@@ -1550,20 +1613,20 @@
       var rNo = Number(rowNo)+1;
 	//console.log("rowno= "+rowNo+" rno= "+rNo);
       var html ='<tr id="revisionRow'+rNo+'"> '
-		      +'<td> <input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
-		      +'<td><input id="consultant_submissions'+rNo+'" name="consultant_submissions" type="text" class="validate datepicker" placeholder="Consultant Submission"><button type="button" id="consultant_submissions_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button> </td>'
-		      +'<td><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_reviewed_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
-		      +'<td><input id="divisional_approvals'+rNo+'" name="divisional_approvals" type="text" class="validate datepicker" placeholder="Divisional Approval"> <button type="button" id="divisional_approval_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
-			  +'<td><input id="hq_approvals'+rNo+'" name="hq_approvals" type="text" class="validate datepicker" placeholder="HQ approval"> <button type="button" id="hq_approval_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button> </td>'
-			  +'<td>'
+		      +'<td data-head="Revision" class="input-field"> <input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
+		      +'<td data-head="Consultant Submission" class="input-field"><input id="consultant_submissions'+rNo+'" name="consultant_submissions" type="text" class="validate datepicker" placeholder="Consultant Submission"><button type="button" id="consultant_submissions_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button> </td>'
+		      +'<td data-head="MRVC Reviewed" class="input-field"><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_reviewed_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
+		      +'<td data-head="Divisional Approval" class="input-field"><input id="divisional_approvals'+rNo+'" name="divisional_approvals" type="text" class="validate datepicker" placeholder="Divisional Approval"> <button type="button" id="divisional_approval_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
+			  +'<td data-head="HQ approval" class="input-field"><input id="hq_approvals'+rNo+'" name="hq_approvals" type="text" class="validate datepicker" placeholder="HQ approval"> <button type="button" id="hq_approval_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button> </td>'
+			  +'<td data-head="Revision Status" class="input-field">'
 			  +'<select class="searchable" id="revision_status_fks'+rNo+'" name="revision_status_fks">'
 		      +'<option value="" selected>Select </option>'
 		        <c:forEach var="obj" items="${revisionStatuses }">
 			  	  +'<option value="${obj.revision_status }">${obj.revision_status }</option>'
 				</c:forEach>
 			  +'</select></td>'
-			  +'<td> <input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
-			  +'<td><a class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+			  +'<td data-head="Remarks" class="input-field"> <input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
+			  +'<td class="mobile_btn_close"><a class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 				
 			  $('#revisionsTableBody').append(html);
 			  $("#rowNo").val(rNo);

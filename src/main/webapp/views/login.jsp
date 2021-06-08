@@ -41,12 +41,17 @@
 		    font-size: 1.35rem;
 		    cursor:pointer;
 		}
-		
-		@media screen and (min-width: 480px) {
+		@media screen and (max-width: 780px) {
+		  #support {
+		    width:28%;
+		  }
+		}
+		@media screen and (max-width: 480px) {
 		  #support {
 		    width:38%;
 		  }
 		}
+		
 		.help-icon{
 		    position: absolute;
 		    display: inline-block;
@@ -107,6 +112,9 @@
 		    top: 45%!important;
 		    left:47%!important;
 		}
+		.row.homepage{
+			border-radius:10px;	
+		}
 
     </style>
 </head>
@@ -155,7 +163,7 @@
 		
   	    <a data-target="slide-out" class="sidenav-trigger setting-icon"><i class="material-icons">settings</i></a>
 
-        <div class="container">
+        <div class="container" style="margin-bottom:3.2rem">
           <!-- Modal Opens to select bg image -->
 		  <div id="modal1" class="modal">
 		    <div class="modal-content">
@@ -182,7 +190,7 @@
      			<!-- <h3 style="color: #fff;">System IP Address : <span id="systemIPA">Loading...</span></h3>
                 <h3 style="color: #fff;">Public IP Address : <span id="publicIPA">Loading...</span></h3> -->
                 
-		        <form class="col s12 m3 " action="<%=request.getContextPath()%>/login" id="loginForm" name="loginForm" method="post" >
+		        <form class="col s12 m5 l4" action="<%=request.getContextPath()%>/login" id="loginForm" name="loginForm" method="post" >
 		        	<div class="row homepage">
 			            <img src="/pmis/resources/images/mrvclogo.png" alt="mrvc logo" class="card-img">
 			            <h4 class="tite">Sign In</h4>

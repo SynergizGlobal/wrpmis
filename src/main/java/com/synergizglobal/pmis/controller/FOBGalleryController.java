@@ -45,4 +45,17 @@ public class FOBGalleryController {
 		}
 		return model;
 	}
+	@RequestMapping(value="/fobmulti-gallery/{fob_id}",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView fobMultiGallery(HttpSession session,@PathVariable("fob_id") String fob_id){
+		ModelAndView model = new ModelAndView(PageConstants.fobMultiGallery);
+		try {
+			List<FOBGallery> objsList = service.getFOBGalleryList(fob_id);
+			model.addObject("fobGalleryList", objsList);	
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("fobGallery : " + e.getMessage());
+		}
+		return model;
+	}	
+	
 }

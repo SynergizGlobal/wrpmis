@@ -16,6 +16,8 @@ public class PageConstants {
 	
 	public static final String fobGallery = "forms/FOBGallery";
 	
+	public static final String fobMultiGallery = "forms/FOBMultiGallery";
+	
 	public static final String project = "forms/project";
 	public static final String addUpdateProject = "forms/addUpdateProject";
 	
@@ -27,6 +29,8 @@ public class PageConstants {
 	public static final String addSafetyForm = "forms/addSafetyForm";
 	
 	public static final String contractGrid = "forms/contractGrid";
+	public static final String ContractList = "forms/ContractList";
+	
 	public static final String addContractForm = "forms/addContractForm";
 	public static final String addContract = "forms/addContract";
 	public static final String updateContractForm = "forms/updateContractForm";

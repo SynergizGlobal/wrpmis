@@ -47,21 +47,21 @@
 							<div class="row">
 								<div class="col s12 m3 input-field">
 									<p class="searchable_label">Project</p>
-									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="resetFilterDropDowns();">
+									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="resetprojectDropDowns();">
 										<option value="">Select</option>										<option>1</option>
 									</select> 
 									<span id="project_idError" class="error-msg"></span>
 								</div>							
 								<div class="col s12 m3 input-field">
 									<p class="searchable_label">Work</p>
-									<select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="resetFilterDropDowns();">
-										<option value="">Select</option>	<option>1</option>
+									<select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="resetWorkDropDowns();">
+										<option value="">Select</option>
 									</select> 
 									<span id="work_idError" class="error-msg"></span>
 								</div>	
 								<div class="col s12 m3 input-field">
 									<p class="searchable_label">Contract</p>
-									<select class="searchable validate-dropdown" id="contract_id" name="contract_id" onchange="resetFilterDropDowns();">
+									<select class="searchable validate-dropdown" id="contract_id" name="contract_id" onchange="resetContractsDropDowns();">
 										<option value="">Select</option>	
 									</select> 
 									<span id="contract_idError" class="error-msg"></span>
@@ -71,21 +71,21 @@
 							<div class="row">	
 								<div class="col s12 m3 input-field">
 									<p class="searchable_label">Contractor</p>
-									<select class="searchable validate-dropdown" id="contractor_id" name="contractor_id" onchange="resetFilterDropDowns();">
+									<select class="searchable validate-dropdown" id="contractor_id" name="contractor_id" onchange="resetContractorDropDowns();">
 										<option value="">Select</option>	
 									</select> 
 									<span id="contractor_idError" class="error-msg"></span>
 								</div>
 								<div class="col s12 m3 input-field">
 									<p class="searchable_label">HOD</p>
-									<select class="searchable validate-dropdown" id="hod" name="hod" onchange="resetFilterDropDowns();">
+									<select class="searchable validate-dropdown" id="hod" name="hod" onchange="resethodDropDowns();">
 										<option value="">Select</option>	
 									</select> 
 									<span id="hod_idError" class="error-msg"></span>
 								</div>
 								<div class="col s12 m3 input-field">
 									<p class="searchable_label">Dy HOD</p>
-									<select class="searchable validate-dropdown" id="dyhod" name="dyhod" onchange="resetFilterDropDowns();">
+									<select class="searchable validate-dropdown" id="dyhod" name="dyhod" onchange="resetdyhodDropDowns();">
 										<option value="">Select</option>	
 									</select> 
 									<span id="dyhod_idError" class="error-msg"></span>
@@ -96,7 +96,7 @@
 							    <div class="col s12 m3 input-field" >
 							        <div id="fob_id_fk_div" style="display: none;">
 										<p class="searchable_label">FOB</p>
-										<select class="searchable validate-dropdown" id="fob_id_fk" name="fob_id_fk" onchange="resetFilterDropDowns();">
+										<select class="searchable validate-dropdown" id="fob_id_fk" name="fob_id_fk">
 											<option value="">Select</option>	
 										</select> 
 										<span id="fob_id_fkError" class="error-msg"></span>
@@ -245,6 +245,77 @@
             $('#to_date_holder').hide();
         }
         
+       
+        function resetContractorDropDowns(){        	
+        	getProjectsList();
+        	//getWorksList();
+            //getContractsList();
+            getFobList();
+            //getContractorsList();
+            getHodList();
+            getDyhodList();
+            $('#to_date_holder').hide();
+        } 
+        
+        function resetprojectDropDowns(){        	
+        	//getProjectsList();
+        	getWorksList();
+            getContractsList();
+            getFobList();
+            getContractorsList();
+            getHodList();
+            getDyhodList();
+            $('#to_date_holder').hide();
+        } 
+        
+        function resetWorkDropDowns(){        	
+        	getProjectsList();
+        	//getWorksList();
+            getContractsList();
+            getFobList();
+            getContractorsList();
+            getHodList();
+            getDyhodList();
+            $('#to_date_holder').hide();
+        }       
+           
+        function resetContractsDropDowns(){        	
+        	getProjectsList();
+        	//getWorksList();
+            //getContractsList();
+            getFobList();
+            getContractorsList();
+            getHodList();
+            getDyhodList();
+            $('#to_date_holder').hide();
+        } 
+        
+        
+        function resethodDropDowns(){        	
+        	getProjectsList();
+        	//getWorksList();
+            //getContractsList();
+            getFobList();
+           // getContractorsList();
+            //getHodList();
+            getDyhodList();
+            $('#to_date_holder').hide();
+        }   
+        
+        function resetdyhodDropDowns()
+        {        	
+        	getProjectsList();
+        	//getWorksList();
+            //getContractsList();
+            //getFobList();
+           // getContractorsList();
+            //getHodList();
+            //getDyhodList();
+            $('#to_date_holder').hide();
+        }          
+        
+        
+        
         
         function getProjectsList() {
         	$(".page-loader").show();
@@ -280,6 +351,17 @@
         }
         
         function getWorksList(project_id) {
+        	
+        	$("#work_id").not(":first").empty();
+        	$("#work_id").val(""); 
+        	$("#contract_id").val("");
+        	$("#contractor_id").val("");
+        	$("#fob_id_fk").val("");
+        	
+        	$("#hod").val("");  
+        	$("#dyhod").val("");  
+        	
+        	
         	$(".page-loader").show();
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
@@ -288,7 +370,8 @@
         	var contractor_id = $("#contractor_id").val();
         	var hod = $("#hod").val();
         	var dyhod = $("#dyhod").val();
-            if ($.trim(work_id) == "") {
+            if ($.trim(work_id) == "") 
+            {
             	$("#work_id option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
@@ -309,13 +392,19 @@
 		   	          	getErrorMessage(jqXHR, exception);
 		   	     	}
 	            });
-            }else{
+            }
+            else
+            {
 	        	  $(".page-loader").hide();
 	        }
         }
 
         //geting contracts list    
-        function getContractsList() {
+        function getContractsList() 
+        {
+        	$("#contract_id").not(":first").empty();
+        	$("#contract_id").val("");         	
+        	
         	$(".page-loader").show();
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
@@ -391,7 +480,10 @@
             }
         }
         
-        function getContractorsList() {
+        function getContractorsList() 
+        {
+        	$("#contractor_id").not(":first").empty();
+        	$("#contractor_id").val("");
         	$(".page-loader").show();
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
@@ -408,8 +500,16 @@
 	                data: myParams, cache: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
-	                        $.each(data, function (i, val) {
-	                        	$("#contractor_id").append('<option value="' + val.contractor_id + '">' + $.trim(val.contractor_name) + '</option>');
+	                        $.each(data, function (i, val) 
+	                        {
+	                        	if(data.length==1)
+                        		{
+                        			$("#contractor_id").append('<option value="' + val.contractor_id + '" selected>' + $.trim(val.contractor_name) + '</option>');
+                        		}
+	                        	else
+                        		{
+                        			$("#contractor_id").append('<option value="' + val.contractor_id + '">' + $.trim(val.contractor_name) + '</option>');
+                        		}
 	                        });
 	                    }
 	                    $('.searchable').select2();
@@ -425,6 +525,10 @@
         }
         
         function getHodList() {
+        	
+        	$("#hod").not(":first").empty();
+        	$("#hod").val("");
+        	
         	$(".page-loader").show();
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
@@ -441,8 +545,16 @@
 	                data: myParams, cache: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
-	                        $.each(data, function (i, val) {
-	                        	$("#hod").append('<option value="' + val.user_id + '">' + $.trim(val.designation) + ' - ' + $.trim(val.user_name) + '</option>');
+	                        $.each(data, function (i, val) 
+	                        {
+	                        	if(data.length==1)
+                        		{	                        	
+	                        		$("#hod").append('<option value="' + val.user_id + '" selected>' + $.trim(val.designation) + ' - ' + $.trim(val.user_name) + '</option>');
+                        		}
+	                        	else
+                        		{
+	                        		$("#hod").append('<option value="' + val.user_id + '">' + $.trim(val.designation) + ' - ' + $.trim(val.user_name) + '</option>');
+                        		}
 	                        });
 	                    }
 	                    $('.searchable').select2();
@@ -457,7 +569,12 @@
 	        }
         }
         
-        function getDyhodList() {
+        function getDyhodList() 
+        {
+        	
+        	$("#dyhod").not(":first").empty();
+        	$("#dyhod").val("");
+        	
         	$(".page-loader").show();
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
@@ -474,8 +591,16 @@
 	                data: myParams, cache: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
-	                        $.each(data, function (i, val) {
-	                        	$("#dyhod").append('<option value="' + val.user_id + '">' + $.trim(val.designation) + ' - ' + $.trim(val.user_name) + '</option>');
+	                        $.each(data, function (i, val) 
+	                        {
+	                        	if(data.length==1)
+                        		{	                        	
+	                        		$("#dyhod").append('<option value="' + val.user_id + '" selected>' + $.trim(val.designation) + ' - ' + $.trim(val.user_name) + '</option>');
+                        		}
+	                        	else
+                        		{
+	                        		$("#dyhod").append('<option value="' + val.user_id + '">' + $.trim(val.designation) + ' - ' + $.trim(val.user_name) + '</option>');
+                        		}
 	                        });
 	                    }
 	                    $('.searchable').select2();

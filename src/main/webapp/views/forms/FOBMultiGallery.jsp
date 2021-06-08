@@ -43,23 +43,36 @@ i#prev {
     border-radius: 50px;
     border: 1px solid;
 }
+.carousel .carousel-item>img {
+     width: auto; 
+}
+/* .carousel.carousel-slider .carousel-item {
+position: inherit;
+} */
 </style>
 </head>
 <body>
 
 
 
- <div class="container no-mar" >
+ <div class="container no-mar" style="width:1180px;height:225px;">
 	<div class="row">
 		<div class="col s12 m12">
-			<div class="carousel carousel-slider">
-				<c:forEach var="fObj" items="${fobGalleryList }" varStatus="index">
+			<div class="carousel carousel-slider" style="width:1180px;height:225px;">
+			<c:set var="count" value="0" />
+
+				<c:forEach var="outer" items="${fobGalleryList}" varStatus="seq1" begin="0" end="${(fn:length(fobGalleryList)-1)/3}">
 				
 					<a class="carousel-item" href="javascript:void(0);">
-										<span>${fObj.created_date}</span><br>
+					<c:forEach var="inner" items="${fobGalleryList}" varStatus="seq2" begin="${count}" end="${count+2}">
+					<div class="col s12 m4">
+										<span>${inner.created_date}</span><br>
 					
-						<img src="<%=CommonConstants2.FOB_GALLERY%>${fObj.fob_id_fk }/${fObj.attachment}" alter="${fObj.attachment}" width="430" height="215"/>
-					</a>
+						<img src="<%=CommonConstants2.FOB_GALLERY%>${inner.fob_id_fk }/${inner.attachment}" alter="${inner.attachment}" width="393" height="225"/>
+					</div>
+					<c:set var="i" value="${i+3}" />
+					</c:forEach></a>
+					<c:set var="count" value="${count+3}" />  
 				</c:forEach>
 <div class="row slider-center"><i id="next" class="material-icons">chevron_right</i> <i id="prev" class="material-icons">chevron_left</i></div>
 			</div>
@@ -67,6 +80,8 @@ i#prev {
    	</div>
 
 </div>
+
+
 
 </body>
 <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>

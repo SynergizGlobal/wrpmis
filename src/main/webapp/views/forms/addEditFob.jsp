@@ -483,8 +483,7 @@
 									                                    </div>
 			                                                      	</td>
 			                                                      	<td>
-			                                                      		<input type="text" id="created_dates${index.count }" name="created_dates" class="validate datepicker" value="${fObj.created_date }"/>
-			                                                      		<button type="button"><i class="fa fa-calendar"></i></button>
+		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" class="validate datepicker" style="width:150px;" /><i class="fa fa-calendar"></i></span>
 			                                                      	</td>
 			                                                      	<td>
 			                                                      		<input type="hidden" id="fob_file_ids${index.count }" name="fob_file_ids" value="${fObj.fob_file_id }"/>
@@ -921,8 +920,7 @@
 		   +'</div>'	               
 		   +'</div></td>'
 		   +'<td>'
-		   +'<input type="text" id="created_dates'+rNo+'" name="created_dates" class="validate datepicker"/>'
-		   +'<button type="button"><i class="fa fa-calendar"></i></button>'
+		   +'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" class="validate datepicker" style="width:150px;" /><i class="fa fa-calendar"></i></span>'
 		   +'</td>'
 		   +'<td><a ></a><input type="hidden" id="fob_file_ids'+rNo+'" name="fob_file_ids"/></td>'
 		   +'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
@@ -939,7 +937,7 @@
 	       	 onSelect: function () {
    	    	    $('.confirmation-btns .datepicker-done').click();
    	    	 }
-        }).datepicker("setDate", new Date());        
+        });       
     }
 	 function removeActions(rowNo){
      	$("#actionRow"+rowNo).remove();

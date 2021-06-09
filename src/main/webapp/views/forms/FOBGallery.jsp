@@ -49,16 +49,16 @@ i#prev {
 
 
 
- <div class="container no-mar" >
+ <div class="container no-mar" style="width:423px;height:205px;" >
 	<div class="row">
-		<div class="col s12 m12">
+		<div class="col s12 m12" style="width:423px;height:205px;">
 			<div class="carousel carousel-slider">
 				<c:forEach var="fObj" items="${fobGalleryList }" varStatus="index">
 				
 					<a class="carousel-item" href="javascript:void(0);">
 										<span>${fObj.created_date}</span><br>
 					
-						<img src="<%=CommonConstants2.FOB_GALLERY%>${fObj.fob_id_fk }/${fObj.attachment}" alter="${fObj.attachment}" width="430" height="215"/>
+						<img src="<%=CommonConstants2.FOB_GALLERY%>${fObj.fob_id_fk }/${fObj.attachment}" alter="${fObj.attachment}" width="423" height="205"/>
 					</a>
 				</c:forEach>
 <div class="row slider-center"><i id="next" class="material-icons">chevron_right</i> <i id="prev" class="material-icons">chevron_left</i></div>

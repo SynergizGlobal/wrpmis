@@ -22,6 +22,8 @@
     position: absolute;
     top:50%;
     width:100%;
+    padding-left:0px;
+    padding-right:0px;
 }
 i#next {
       position: absolute;
@@ -55,10 +57,10 @@ position: inherit;
 
 
 
- <div class="container no-mar" style="width:1180px;height:225px;">
+ <div class="container no-mar" style="width:1222px;height:229px;">
 	<div class="row">
 		<div class="col s12 m12">
-			<div class="carousel carousel-slider" style="width:1180px;height:225px;">
+			<div class="carousel carousel-slider" style="width:1222px;height:229px;">
 			<c:set var="count" value="0" />
 
 				<c:forEach var="outer" items="${fobGalleryList}" varStatus="seq1" begin="0" end="${(fn:length(fobGalleryList)-1)/3}">
@@ -68,7 +70,7 @@ position: inherit;
 					<div class="col s12 m4">
 										<span>${inner.created_date}</span><br>
 					
-						<img src="<%=CommonConstants2.FOB_GALLERY%>${inner.fob_id_fk }/${inner.attachment}" alter="${inner.attachment}" width="393" height="225"/>
+						<img src="<%=CommonConstants2.FOB_GALLERY%>${inner.fob_id_fk }/${inner.attachment}" alter="${inner.attachment}" width="407" height="229"/>
 					</div>
 					<c:set var="i" value="${i+3}" />
 					</c:forEach></a>

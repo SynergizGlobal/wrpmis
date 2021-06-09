@@ -55,9 +55,7 @@
                             <div class="center-align p-2 bg-m m-b-2">
                             <h6>
 	                             <c:if test="${action eq 'edit'}">
-		                              <c:if test="${not empty contractorDetails.contractor_id }">
-		                              	Update Contractor ( ${contractorDetails.contractor_id})
-	                                  </c:if>	                             
+		                              	Update Contractor
 	                             </c:if>
 								 <c:if test="${action eq 'add'}"> Add Contractor</c:if>
 							 </h6>
@@ -80,46 +78,69 @@
                                     <label class="primary-text-bold" style="margin-top: 10px;">Contractor ID : <input id="contractor_id" name="contractor_id" type="text" value="${contractorDetails.contractor_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                   </c:if>
                                 </div> -->
-                                <input id="contractor_id" name="contractor_id" type="hidden" value="${contractorDetails.contractor_id }" />
                                 <c:if test="${action eq 'add'}">	
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="pan_number" name="pan_number" maxlength="10" minlength="10" type="text" class="validate" onblur="panNumberVerify()" style="text-transform:uppercase">
 	                                    <label for="pan_number">PAN Number <span class="required">*</span></label>
 	                                    <span id="pan_numberError" class="error-msg" ></span>
 	                                </div>  
+	                                <div class="col s12 m4 input-field">
+	                                    <p class="searchable_label">Specialization<span class="required">*</span></p>
+	                                    <select id="contractor_specilization_fk" name="contractor_specilization_fk" class="searchable validate-dropdown">
+	                                        <option value="" selected>Select</option>
+	                                         <c:forEach var="obj" items="${Specialization }">
+			                                      <option value="${obj.contractor_specilization_fk }"  <c:if test="${contractorDetails.contractor_specilization_fk eq obj.contractor_specilization_fk}">selected</c:if>>${obj.contractor_specilization_fk }</option>
+			                                 </c:forEach>
+	                                    </select>
+	                                      <span id="specilizationError" class="error-msg" ></span>
+	                                </div>
                                 </c:if> 
                                  <c:if test="${action eq 'edit'}">	
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="pan_number" name="pan_number"  maxlength="10" minlength="10" type="text" class="validate" style="text-transform:uppercase" value="${contractorDetails.pan_number }">
+	                                    <input id="pan_number" name="pan_number"  maxlength="10" minlength="10" type="text" class="validate" style="text-transform:uppercase" value="${contractorDetails.pan_number }" readonly="readonly">
 	                                    <label for="pan_number">PAN Number <span class="required">*</span></label>
 	                                    <span id="pan_numberError" class="error-msg" ></span>
 	                                </div>  
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="contractor_specilization_fk" name="contractor_specilization_fk" type="text" class="validate" value="${contractorDetails.contractor_specilization_fk }" readonly="readonly">
+	                                    <label for="contractor_specilization_fk">Specialization <span class="required">*</span></label>
+	                                    <span id="contractor_specilization_fkError" class="error-msg" ></span>
+	                                </div> 
                                 </c:if>                          
-                                <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Specialization</p>
-                                    <select id="specialization" name="contractor_specilization_fk" class="searchable validate-dropdown">
-                                        <option value="" selected>Select</option>
-                                         <c:forEach var="obj" items="${Specialization }">
-		                                      <option value="${obj.contractor_specilization_fk }"  <c:if test="${contractorDetails.contractor_specilization_fk eq obj.contractor_specilization_fk}">selected</c:if>>${obj.contractor_specilization_fk }</option>
-		                                 </c:forEach>
-                                    </select>
-                                      <span id="specilizationError" class="error-msg" ></span>
-                                </div>
+                                
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-
-                                <div class="col s12 m8 input-field">
-                                    <input id="contractor_name" name="contractor_name" type="text" class="validate" value="${contractorDetails.contractor_name }">
-                                    <label for="contractor_name">Contractor Name <span class="required">*</span></label>
-                                    <span id="contractor_nameError" class="error-msg" ></span>
-                                </div>
-
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
+                            <c:if test="${action eq 'add'}">
+                            	<div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m8 input-field">
+	                                    <input id="contractor_name" name="contractor_name" type="text" class="validate" value="${contractorDetails.contractor_name }">
+	                                    <label for="contractor_name">Contractor Name <span class="required">*</span></label>
+	                                    <span id="contractor_nameError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+                            </c:if>
+							<c:if test="${action eq 'edit'}">	
+								<div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <c:if test="${not empty contractorDetails.contractor_id }">
+	                                	<div class="col s12 m4 input-field">
+		                                    <label class="primary-text-bold" style="margin-top: 10px;">Contractor ID : <input id="contractor_id" name="contractor_id" type="text" value="${contractorDetails.contractor_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+		                                </div>
+	                                 </c:if>
+	
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="contractor_name" name="contractor_name" type="text" class="validate" value="${contractorDetails.contractor_name }" readonly="readonly">
+	                                    <label for="contractor_name">Contractor Name <span class="required">*</span></label>
+	                                    <span id="contractor_nameError" class="error-msg" ></span>
+	                                </div>
+	
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+							</c:if>
+                            
+							<c:if test="${action eq 'edit'}">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
@@ -133,13 +154,13 @@
                                 <!-- <div class="col s12 m8">
                                     <div class="row"> -->
                                         <div class="col s12 m4 input-field">
-                                            <input id="primary_contract" name="primary_contact_name" type="text" class="validate" value="${contractorDetails.primary_contact_name }">
-                                            <label for="primary_contract">Primary Contact</label>
-                                            <span id="primary_contractError" class="error-msg" ></span>
+                                            <input id="primary_contact_name" name="primary_contact_name" type="text" class="validate" value="${contractorDetails.primary_contact_name }">
+                                            <label for="primary_contact_name">Primary Contact<span class="required">*</span></label>
+                                            <span id="primary_contact_nameError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m4 input-field">
                                             <input id="phone_number" name="phone_number" type="number" class="validate" value="${contractorDetails.phone_number }">
-                                            <label for="phone_number">Phone Number</label>
+                                            <label for="phone_number">Phone Number<span class="required">*</span></label>
                                             <span id="phone_numberError" class="error-msg" ></span>
                                         </div>                                        
                                     <!-- </div>
@@ -155,7 +176,7 @@
                                  </div>
                                  <div class="col s12 m4 input-field">
 		                               <input id="gst_number" name="gst_number" type="text" class="validate" value="${contractorDetails.gst_number }">
-		                               <label for="gst_number">GST Number</label>
+		                               <label for="gst_number">GST Number<span class="required">*</span></label>
 		                               <span id="gst_numberError" class="error-msg" ></span>
 		                         </div>                                
                                 <div class="col m2 hide-on-small-only"></div>
@@ -191,12 +212,12 @@
                                    <span id="bank_addressError" class="error-msg" ></span>
                                </div>
                             </div>
-                                                      
+                            </c:if>                         
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${contractorDetails.remarks }</textarea>
-                                    <label for="remarks">Remarks</label>
+                                    <label for="remarks">Remarks<span class="required">*</span></label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
                             </div>
@@ -334,18 +355,36 @@
 	  		    rules: {
 	  		 		 "contractor_name": {
 	  			 		required: true
-	  			 	  },
-	  			 	 "pan_number": {
+	  			 	 },"pan_number": {
 		  			 	required: true
-		  			 }	
+		  			 },"contractor_specilization_fk":{
+		  				required: true
+		  			 },"remarks":{
+		  				required: true
+		  			 },"primary_contact_name":{
+		  				required: true
+		  			 },"phone_number":{
+		  				required: true
+		  			 },"gst_number":{
+		  				required: true
+		  			 }
 	  		 	},
 	  		    messages: {
 	  		 		  "contractor_name": {
 	  			 		required: 'Required'
-	  			 	  },
-	  			 	"pan_number": {
+	  			 	  },"pan_number": {
 	  			 		required: 'Required'
-	  			 	  }
+	  			 	  },"contractor_specilization_fk":{
+	  			 		required: 'Required'
+		  			  },"remarks":{
+		  				required: 'Required'
+		  			  },"primary_contact_name":{
+		  				required: 'Required'
+		  			  },"phone_number":{
+		  				required: 'Required'
+		  			  },"gst_number":{
+		  				required: 'Required'
+		  			  }
 		   		},
 		   		errorPlacement:function(error, element){
 		   		 	  if(element.attr("id") == "contractor_name" ){
@@ -354,6 +393,21 @@
 					 }else if(element.attr("id") == "pan_number" ){
 					     document.getElementById("pan_numberError").innerHTML="";
 				 	     error.appendTo('#pan_numberError');
+					 }else if(element.attr("id") == "contractor_specilization_fk" ){
+					     document.getElementById("specilizationError").innerHTML="";
+				 	     error.appendTo('#specilizationError');
+					 }else if(element.attr("id") == "remarks" ){
+					     document.getElementById("remarksError").innerHTML="";
+				 	     error.appendTo('#remarksError');
+					 }else if(element.attr("id") == "primary_contact_name" ){
+					     document.getElementById("primary_contact_nameError").innerHTML="";
+				 	     error.appendTo('#primary_contact_nameError');
+					 }else if(element.attr("id") == "phone_number" ){
+					     document.getElementById("phone_numberError").innerHTML="";
+				 	     error.appendTo('#phone_numberError');
+					 }else if(element.attr("id") == "gst_number" ){
+					     document.getElementById("gst_numberError").innerHTML="";
+				 	     error.appendTo('#gst_numberError');
 					 }else{
 	 					 error.insertAfter(element);
 			        } 

@@ -51,9 +51,9 @@ i#prev {
 
 
 
- <div class="container no-mar" style="width:424px;height:267px;" >
+ <div class="container no-mar" >
 	<div class="row">
-		<div class="col s12 m12" style="width:424px;height:267px;">
+		<div class="col s12 m12">
 			<div class="carousel carousel-slider">
 				<c:forEach var="fObj" items="${fobGalleryList }" varStatus="index">
 				

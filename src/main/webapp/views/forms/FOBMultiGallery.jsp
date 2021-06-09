@@ -57,10 +57,10 @@ position: inherit;
 
 
 
- <div class="container no-mar" style="width:1213px;height:236px;">
+ <div class="container no-mar">
 	<div class="row">
 		<div class="col s12 m12">
-			<div class="carousel carousel-slider" style="width:1213px;height:236px;">
+			<div class="carousel carousel-slider">
 			<c:set var="count" value="0" />
 
 				<c:forEach var="outer" items="${fobGalleryList}" varStatus="seq1" begin="0" end="${(fn:length(fobGalleryList)-1)/3}">

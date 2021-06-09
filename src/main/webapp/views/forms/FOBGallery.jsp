@@ -32,7 +32,9 @@ i#next {
     font-weight: 800;
     border-radius: 50px;
     border: 1px solid;
+    
 }
+
 i#prev {
     position: absolute;
     left: 20px;
@@ -49,16 +51,16 @@ i#prev {
 
 
 
- <div class="container no-mar" style="width:423px;height:205px;" >
+ <div class="container no-mar" style="width:424px;height:267px;" >
 	<div class="row">
-		<div class="col s12 m12" style="width:423px;height:205px;">
+		<div class="col s12 m12" style="width:424px;height:267px;">
 			<div class="carousel carousel-slider">
 				<c:forEach var="fObj" items="${fobGalleryList }" varStatus="index">
 				
 					<a class="carousel-item" href="javascript:void(0);">
 										<span>${fObj.created_date}</span><br>
 					
-						<img src="<%=CommonConstants2.FOB_GALLERY%>${fObj.fob_id_fk }/${fObj.attachment}" alter="${fObj.attachment}" width="423" height="205"/>
+						<img src="<%=CommonConstants2.FOB_GALLERY%>${fObj.fob_id_fk }/${fObj.attachment}" alter="${fObj.attachment}" width="423" height="247"/>
 					</a>
 				</c:forEach>
 <div class="row slider-center"><i id="next" class="material-icons">chevron_right</i> <i id="prev" class="material-icons">chevron_left</i></div>

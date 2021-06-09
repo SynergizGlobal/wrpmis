@@ -449,8 +449,9 @@
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFOBList",
 	    			type:"POST",
 	    			data:myParams,cache: false,async:false,
-	    			success : function(data){    				
-    				if(data != null && data != '' && data.length > 0){    					
+	    			success : function(data)
+	    			{    	
+    					if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
     	         			var fob_id = "'"+val.fob_id+"'";
     	                    var actions = '<a href="javascript:void(0);"  onclick="getFOB('+fob_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	

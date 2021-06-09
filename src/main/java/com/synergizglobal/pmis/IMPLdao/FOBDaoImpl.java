@@ -65,7 +65,7 @@ public class FOBDaoImpl implements FOBDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())) {
-				qry = qry + " and work_status_fk = ?";
+				qry = qry + " and f.work_status_fk = ?";
 				arrSize++;
 			}
 			

@@ -29,6 +29,7 @@
 			<mvc:exclude-mapping path="/changeLoginBackground" />
 			<mvc:exclude-mapping path="/generate-risk-analysis-report" />
 			<mvc:exclude-mapping path="/fob-gallery/**" />
+			<mvc:exclude-mapping path="/fobmulti-gallery/**" />
 			<bean class="com.synergizglobal.pmis.login.filter.AuthenticationInterceptor" />
 		</mvc:interceptor>
 	 </mvc:interceptors>

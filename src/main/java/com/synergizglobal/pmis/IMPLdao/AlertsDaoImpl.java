@@ -883,6 +883,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			List<Alerts> userIdList = jdbcTemplate.query( userIdQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			Map<String,List<Alerts>> alerts = new LinkedHashMap<String, List<Alerts>>();
 			for (Alerts uObj : userIdList) {
+				alerts = new LinkedHashMap<String, List<Alerts>>();
 				String aLevelQry = "select alert_level " 
 						+ "from alerts a "  
 						+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 

@@ -1306,7 +1306,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >> : End ");
 				
 				/******************************************************************/
-				String qryIncharge = "select module_name,incharge_user_id_fk,u.email_id "
+				/*String qryIncharge = "select module_name,incharge_user_id_fk,u.email_id "
 						+ "from module m "
 						+ "LEFT JOIN `user` u on m.incharge_user_id_fk = u.user_id "
 						+ "WHERE module_name = 'Risk'" ;				
@@ -1323,7 +1323,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						emailSender.sendEmailWithRiskAlerts(mail,riskAlertsList,today_date,current_year); 
 						logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >> : Incharge email End : "+alerts.getEmail_id());
 					}
-				}
+				}*/
 				/******************************************************************/
 			}
 				

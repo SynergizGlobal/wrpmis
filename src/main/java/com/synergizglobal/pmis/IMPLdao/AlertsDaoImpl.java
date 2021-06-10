@@ -66,9 +66,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			String bgQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Bank Guarantee' as alert_type,"
 					+ "(case when bg.bg_type_fk is not null then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
 					+ "else CONCAT('Bank guarantee ',bg.bg_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
-					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk " 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
 					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk "
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 60 and DATEDIFF(valid_upto ,NOW()) > 30) and release_date is null";
 			
 			List<Alerts> bgQryAlert1List = jdbcTemplate.query( bgQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -79,9 +80,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			String bgQryAlert2 = "select bg.contract_id_fk as contract_id, '2nd Alert' as alert_level,'Bank Guarantee' as alert_type,"
 					+ "(case when bg.bg_type_fk is not null then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
 					+ "else CONCAT('Bank guarantee ',bg.bg_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
-					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk " 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
 					+ " from contract c " +
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk "
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 7) and release_date is null";
 			
 			List<Alerts> bgQryAlert2List = jdbcTemplate.query( bgQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -92,9 +94,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			String bgQryAlert3 = "select bg.contract_id_fk as contract_id, '3rd Alert' as alert_level,'Bank Guarantee' as alert_type,"
 					+ "(case when bg.bg_type_fk is not null then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
 					+ "else CONCAT('Bank guarantee ',bg.bg_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
-					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk " 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
 					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 7 and release_date is null";
 			
 			List<Alerts> bgQryAlert3List = jdbcTemplate.query( bgQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -106,9 +109,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			String insuranceQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Insurance' as alert_type,"
 					+ "(case when bg.insurance_type_fk is not null then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
 					+ "else CONCAT('Insurance ',bg.insurance_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
-					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk "
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "
 					+ "from contract c " + 
 					"left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 60 and DATEDIFF(valid_upto ,NOW()) > 30) and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert1List = jdbcTemplate.query( insuranceQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -119,9 +123,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			String insuranceQryAlert2 = "select bg.contract_id_fk as contract_id, '2nd Alert' as alert_level,'Insurance' as alert_type,"
 					+ "(case when bg.insurance_type_fk is not null then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
 					+ "else CONCAT('Insurance ',bg.insurance_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
-					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk "
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 7) and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert2List = jdbcTemplate.query( insuranceQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -132,9 +137,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			String insuranceQryAlert3 = "select bg.contract_id_fk as contract_id, '3rd Alert' as alert_level,'Insurance' as alert_type,"
 					+ "(case when bg.insurance_type_fk is not null then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
 					+ "else CONCAT('Insurance ',bg.insurance_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
-					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk "
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk "
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 7 and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert3List = jdbcTemplate.query( insuranceQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -148,9 +154,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			String cpQryAlert1 = "select contract_id,'1st Alert' as alert_level,'Contract Period' as alert_type," 
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Contract revised date : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
-					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk " 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
 					+ "from contract c " 
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 60 " 
 					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 30)";
@@ -162,9 +169,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			String cpQryAlert2 = "select contract_id,'2nd Alert' as alert_level,'Contract Period' as alert_type," 
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Contract revised date : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
-					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk " 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
 					+ "from contract c " 
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null "
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 30 " 
 					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 7)";
@@ -178,9 +186,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			String cpQryAlert3 = "select contract_id,'3rd Alert' as alert_level,'Contract Period' as alert_type," 
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Contract revised date : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
-					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk " 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
 					+ "from contract c " 
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null "
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 7) ";
 			
@@ -196,9 +205,10 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : ' WHEN awarded_cost is not null THEN ', Awarded Cost : ' ELSE '' END), "  
 					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)"  
 					+ ") AS alert_value," 
-					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk "  
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "  
 					+ "from contract c "  
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_amount is not null "
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
 					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 95 "  
@@ -215,9 +225,10 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : ' WHEN awarded_cost is not null THEN ', Awarded Cost : ' ELSE '' END), "  
 					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)"  
 					+ ") AS alert_value," 
-					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk "  
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "  
 					+ "from contract c "  
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_amount is not null " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
 					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 120 "  
@@ -235,9 +246,10 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : ' WHEN awarded_cost is not null THEN ', Awarded Cost : ' ELSE '' END), "  
 					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)"  
 					+ ") AS alert_value," 
-					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk "  
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "  
 					+ "from contract c "  
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_amount is not null "
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
 					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 145 ))";
@@ -290,7 +302,7 @@ public class AlertsDaoImpl implements AlertsDao{
                 	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk)VALUES(?,?)";
     				stmt = connection.prepareStatement(qry);
     				
-    				if(!StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+    				if(!StringUtils.isEmpty(obj.getHod_user_id_fk()) && !"1st Alert".equals(alert_level)) {
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getHod_user_id_fk());
@@ -301,6 +313,13 @@ public class AlertsDaoImpl implements AlertsDao{
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getDy_hod_user_id_fk());
+		                stmt.addBatch();
+    				}
+    				
+    				if(!StringUtils.isEmpty(obj.getReporting_to_user_id()) && "3rd Alert".equals(alert_level) && ("Contract Period".equals(alert_type) || "Contract Value".equals(alert_type))) {
+		                p = 1;
+	    				stmt.setString(p++, alert_id);
+		                stmt.setString(p++, obj.getReporting_to_user_id());
 		                stmt.addBatch();
     				}
     				
@@ -318,6 +337,13 @@ public class AlertsDaoImpl implements AlertsDao{
     		                stmt.addBatch();
     					}
     					if((!StringUtils.isEmpty(aObj.getAlert_type_fk()) && aObj.getAlert_type_fk().equals(alert_type)) && (!StringUtils.isEmpty(aObj.getAlert_level_fk()) && aObj.getAlert_level_fk().equals(alert_level))) {
+    						p = 1;
+    	    				stmt.setString(p++, alert_id);
+    		                stmt.setString(p++, aObj.getUser_id_fk());
+    		                stmt.addBatch();
+    					}
+    					
+    					if(StringUtils.isEmpty(aObj.getAlert_type_fk()) && StringUtils.isEmpty(aObj.getAlert_level_fk())) {
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());

@@ -47,6 +47,10 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and c.hod_user_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				qry = qry + " and status_fk <> ?";
 				arrSize++;
@@ -60,6 +64,9 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
@@ -89,6 +96,10 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and c.hod_user_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				qry = qry + " and status_fk <> ?";
 				arrSize++;
@@ -102,6 +113,9 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
@@ -135,6 +149,10 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and c.hod_user_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				qry = qry + " and status_fk <> ?";
 				arrSize++;
@@ -149,6 +167,9 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
@@ -184,6 +205,10 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				hodQry = hodQry + " and contract_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				hodQry = hodQry + " and c.hod_user_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				hodQry = hodQry + " and status_fk <> ?";
 				arrSize++;
@@ -198,6 +223,9 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
@@ -228,7 +256,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 					workQry = workQry + " and status_fk <> ?";
 					arrSize++;
 				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hod.getHod_user_id_fk())) {
+				if(!StringUtils.isEmpty(hod) && !StringUtils.isEmpty(hod.getHod_user_id_fk())) {
 					workQry = workQry + " and hod_user_id_fk = ?";
 					arrSize++;
 				}

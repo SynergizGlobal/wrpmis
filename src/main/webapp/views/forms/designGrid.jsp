@@ -51,8 +51,11 @@
          	margin-bottom:0;
          }
          @media only screen and (max-width: 768px){
+			.btn, .btn-large, .btn-small, .btn-flat {
+			    padding: 0 10px;
+			}
 			.dataTables_filter label input {
-			    width: 95% !important;
+			    width: 100% !important;
 			}
 		}
 		#datatable-design_mob td > .btn.t-c{
@@ -74,7 +77,7 @@
          <jsp:include page="../layout/header.jsp"></jsp:include>
 
 	<div class="row">
-		<div class="col s12 m12 hide-on-med-and-down">
+		<div class="col s12 m12 ">
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title headbg">
@@ -90,7 +93,7 @@
 							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
 						<div class="row plr-1 center-align">
-							<div class="col s12 m4 l-align">
+							<div class="col s12 m4 l-align hide-on-med-and-down">
 								<div class="m-1 ">
 									<a href="javascript:void(0);"
 										onclick="openUploadDesignsModal();"
@@ -111,7 +114,7 @@
 								</div>
 							</div>
 
-							<div class="col s12 m4 r-align">
+							<div class="col s12 m4 r-align hide-on-med-and-down">
 								<div class="m-1 ">
 									<a href="javascript:void(0);" onclick="exportDesign();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i

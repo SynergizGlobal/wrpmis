@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/project.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
         .dataTables_filter label::after{
          	content:'';
@@ -29,6 +30,17 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
+       @media only screen and (max-width: 768px){
+	        div.dataTables_wrapper div.dataTables_info {
+		     white-space: normal; 
+			}
+			.btn, .btn-large, .btn-small, .btn-flat {
+			    padding: 0 10px;
+			}
+			.dataTables_filter label input {
+			    width: 100% !important;
+			}
+        }
     </style>
 </head>
 <body>
@@ -68,7 +80,7 @@
                                 </div> -->
 							</div>
 
-							<div class="col s12 m4">
+							<div class="col s12 m4 ">
 								<div class="m-1 c-align">
 									<a href="add-project-form"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
@@ -76,7 +88,7 @@
 								</div>
 							</div>
 
-							<div class="col s12 m4 r-align">
+							<div class="col s12 m4 r-align hide-on-med-and-down">
 								<div class="m-1 ">
 									<a href="javascript:void(0);" onclick="exportProject();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
@@ -98,7 +110,7 @@
 							</div>
 						</span>
 						<div class="row">
-							<div class="col m12 s12">
+							<div class="col m12 s12" id="webView" style= "display:none;">
 
 								<table id="project_table" class="mdl-data-table">
 									<thead>
@@ -134,6 +146,38 @@
 								</table>
 
 							</div>
+							<div class="col m12 s12" id="mobView" style= "display:none;">
+
+								<table id="project_table_mob" class="mdl-data-table">
+									<thead>
+										<tr >
+											<th>Project ID</th>
+											<th>Project Name</th>
+											<th class="no-sort">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										 <c:forEach var="obj" items="${projectList }">
+											<tr>
+												<td>&nbsp;${ obj.project_id }</td>
+												<td>&nbsp;${ obj.project_name }</td>
+												<%-- <td>&nbsp;${ obj.pink_book_item_number }</td> --%>
+												<td class="last-column"><a href="javascript:void(0);"
+													onclick="getProject('${ obj.project_id }')"
+													class="btn waves-effect waves-light bg-m t-c "><i
+														class="fa fa-pencil"></i> </a> <%-- <a
+													onclick="deleteProject('${ obj.project_id }');"
+													class="btn waves-effect waves-light bg-s t-c "><i
+														class="fa fa-trash"></i></a> --%></td>
+											</tr>
+										</c:forEach>
+ 
+									</tbody>
+
+								</table>
+
+							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -174,26 +218,53 @@
             });
         	$('.close-message').delay(3000).fadeOut('slow');
 
-		     $('#project_table').DataTable({
-	                columnDefs: [
-	                    {
-	                        targets: [0],
-	                        className: 'mdl-data-table__cell--non-numeric',
-	                        targets: 'nosort', orderable: false,
-	                    },
-	                    { "width": "10px", "targets": [4] },
-	                ],
-	                "sScrollX": "100%",
-	                "sScrollXInner": "100%",
-	                "bScrollCollapse": true,
-	                "bAutoWidth": true,
-	                "ordering": false, //to stop sorting option                
-	                fixedHeader: true, // to change the language of data table	          
-	                initComplete: function () {
-	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	                }
-	            });
+		
+		    
             //getProjectList();
+		     if(window.matchMedia("(max-width: 767px)").matches){
+	  		        $('#mobView').css({'display':'table-header-group'});
+	  		      $('#project_table_mob').DataTable({
+		                columnDefs: [
+		                    {
+		                        targets: [0],
+		                        className: 'mdl-data-table__cell--non-numeric',
+		                        targets: 'nosort', orderable: false,
+		                    },
+		                    { "width": "10px", "targets": [2] },
+		                ],
+		                "sScrollX": "100%",
+		                "sScrollXInner": "100%",
+		                "bScrollCollapse": true,
+		                "bAutoWidth": true,
+		                "ordering": false, //to stop sorting option                
+		                fixedHeader: true, // to change the language of data table	          
+		                initComplete: function () {
+		                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+		                }
+		            });
+	  		      	
+	  		    } else{
+	  		    	$('#webView').css({'display':'table-header-group'});
+	  			     $('#project_table').DataTable({
+	  		                columnDefs: [
+	  		                    {
+	  		                        targets: [0],
+	  		                        className: 'mdl-data-table__cell--non-numeric',
+	  		                        targets: 'nosort', orderable: false,
+	  		                    },
+	  		                    { "width": "10px", "targets": [4] },
+	  		                ],
+	  		                "sScrollX": "100%",
+	  		                "sScrollXInner": "100%",
+	  		                "bScrollCollapse": true,
+	  		                "bAutoWidth": true,
+	  		                "ordering": false, //to stop sorting option                
+	  		                fixedHeader: true, // to change the language of data table	          
+	  		                initComplete: function () {
+	  		                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	  		                }
+	  		            });
+	  		    }
         });
       
  		<%-- function getProjectList() {

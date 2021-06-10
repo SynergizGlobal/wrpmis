@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <style>
         .dataTables_filter label::after{
          	content:'';
@@ -32,6 +34,25 @@
           .input-field .searchable_label{
       		font-size:0.85rem;
         } 
+        @media only screen and (max-width: 768px){
+	        .center-small{
+	        	text-align:center;
+	        }
+	        div.dataTables_wrapper div.dataTables_info {
+		     white-space: normal; 
+			}
+			.btn, .btn-large, .btn-small, .btn-flat {
+			    padding: 0 10px;
+			}
+			.dataTables_filter label input {
+			    width: 100% !important;
+			}
+			.mdl-data-table tbody tr td:not(:last-of-type){ padding-left:10px !important; }
+			.min-85{
+				min-width:80px; 
+				max-width:80px; 
+			}
+        }
      </style>
 </head>
 <body>
@@ -78,7 +99,7 @@
 								</div>
 							</div>
 
-							<div class="col s12 m4 r-align">
+							<div class="col s12 m4 r-align hide-on-med-and-down">
 								<div class="m-1 ">
 									<a href="javascript:void(0);" onclick="exportWork();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
@@ -101,28 +122,21 @@
 							</div>
 						</span>
 						<div class="row no-mar" style="margin-bottom: 0;">
-						<div class="col m3 hide-on-small-only"></div>
-							<div class="col m6 s12">
+							<div class="col m12 s12 ">
 								<div class="row" style="margin-bottom: 0;">
-								    <div class="col s8 m4 input-field">
-									</div>
-									<div class="col s6 m4 input-field">
-										<p class="searchable_label">Project</p>
+									<div class="col s6 m2 input-field offset-m5 offset-s3">
+										<p class="searchable_label center-small">Project</p>
 										<select class="searchable" name="project_id_fk"
 											id="project_id_fk" onchange="addInQueProject(this.value);getWorksList();">
 											<option value="">Select</option>
-
 										</select>
-									</div>
-									 <div class="col s8 m4 input-field">
 									</div>
 								</div>
 							</div>
-							<div class="col m3 hide-on-small-only"></div>
 						</div>
 						<div class="row">
+						<div  style= "display:none;" id="webView">
 							<div class="col m12 s12">
-
 								<table id="datatable-works" class="mdl-data-table">
 									<thead>
 										<tr>
@@ -137,28 +151,26 @@
 										</tr>
 									</thead>
 									<tbody id="workTbale">
-										 <%-- <c:forEach var="obj" items="${workList }">
-											<tr>
-
-												<td>${ obj.project_id_fk}- ${obj.project_name }</td>
-												<td>${ obj.work_id }</td>
-												<td>${ obj.work_name }</td>
-												<td>${ obj.sanctioned_year_fk }</td>
-												<td>${ obj.railway }</td>
-												<td>${ obj.executed_by }</td>
-												<td>&nbsp;${ obj.remarks }</td>
-												<td class="last-column"><a href="javascript:void(0);"
-													onclick="getWork('${ obj.work_id }');"
-													class="btn waves-effect waves-light bg-m t-c "><i
-														class="fa fa-pencil"></i> </a>  <a  onclick="deleteWork('${ obj.work_id }');" class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-trash"></i></a>
-												</td>
-
-											</tr> 
-										</c:forEach> --%>
 									</tbody>
 								</table>
 
+							 </div>
+							</div>
+							<div  style= "display:none;" id="mobView">
+								<div class="col m12 s12">
+								<table id="datatable-works_mobile" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th class="min-85">Work ID</th>
+											<th>Work Name</th>
+											<th class="no-sort">Action</th>
+										</tr>
+									</thead>
+									<tbody id="workTbale">
+									</tbody>
+								</table>
+
+							 </div>
 							</div>
 						</div>
 					</div>
@@ -233,27 +245,52 @@
                 coverTrigger: false,
                 closeOnClick: false,
             });
-            $('#datatable-works').DataTable({
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                    },
-                    { "width": "20px", "targets": [7] },
-                ], "scrollCollapse": true,
-                fixedHeader: true,
-                //"sScrollY": 400,
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
+           
             getWorksList();
         });
-        
+        if(window.matchMedia("(max-width: 767px)").matches){
+		        $('#mobView').css({'display':'table-header-group'});
+		        $('#datatable-works_mobile').DataTable({
+	                columnDefs: [
+	                    {
+	                        targets: [0],
+	                        className: 'mdl-data-table__cell--non-numeric',
+	                        targets: 'no-sort', orderable: false,
+	                    },
+	                    { "width": "20px", "targets": [2] },
+	                ], "scrollCollapse": true,
+	                fixedHeader: true,
+	                //"sScrollY": 400,
+	                "sScrollX": "100%",
+	                "sScrollXInner": "100%",
+	                "bScrollCollapse": true,
+	                initComplete: function () {
+	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	                }
+	            });
+        }else{
+        	 $('#webView').css({'display':'block'});
+        	 $('#datatable-works').DataTable({
+                 columnDefs: [
+                     {
+                         targets: [0, 1, 2],
+                         className: 'mdl-data-table__cell--non-numeric',
+                         targets: 'no-sort', orderable: false,
+                     },
+                     { "width": "20px", "targets": [7] },
+                 ], "scrollCollapse": true,
+                 fixedHeader: true,
+                 //"sScrollY": 400,
+                 "sScrollX": "100%",
+                 "sScrollXInner": "100%",
+                 "bScrollCollapse": true,
+                 initComplete: function () {
+                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                 }
+             });
+            
+        	
+        }
         function addInQueProject(project_id_fk){
         	Object.keys(filtersMap).forEach(function (key) {
        			if(key.match('project_id_fk')) delete filtersMap[key];
@@ -275,9 +312,72 @@
         		filters = filters + key +"="+filtersMap[key] + "^";
         		window.localStorage.setItem("workFilters", filters);
     			});
-        	
+        	if(window.matchMedia("(max-width: 767px)").matches){
+	        	table = $('#datatable-works_mobile').DataTable();
+	    		 
+	    		table.destroy();
+	    		
+	    		$.fn.dataTable.moment('DD-MMM-YYYY');
+	    		table = $('#datatable-works_mobile').DataTable({
+	        		"bStateSave": true,
+	        		fixedHeader: true,
+	                "fnStateSave": function (oSettings, oData) {
+	                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	                },
+	                "fnStateLoad": function (oSettings) {
+	                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	                },
+	                columnDefs: [
+	                    {
+	                        targets: [0, 1, 2],
+	                        className: 'mdl-data-table__cell--non-numeric'
+	                    },
+	                    { orderable: false, 'aTargets': ['nosort'] }
+	                ],
+	                // "ScrollX": true,
+	                "sScrollX": "100%",
+	                 "sScrollXInner": "100%",
+	                 "bScrollCollapse": true,
+	                initComplete: function () {
+	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	                }
+	            }).rows().remove().draw();
+	    		
+	    		table.state.clear();		
+	    	 	var myParams = {project_id_fk : project_id_fk};
+	    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-WorksList",
+	    			type:"POST",
+	    			data:myParams, cache: false,async:false,
+	    			success : function(data){      				
+	    			if(data != null && data != '' && data.length > 0){    					
+	             		$.each(data,function(key,val){
+	             			var work_id = "'"+val.work_id+"'";
+	                        var actions = '<a href="javascript:void(0);"  onclick="getWork('+work_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
+	                  	 	var rowArray = [];    	                 
+	                       	
+	                    	var project_name = '';
+	                        if ($.trim(val.project_name) != '') { project_name =  $.trim(val.project_name) }
+	                        
+	                       	rowArray.push($.trim(val.work_id));
+	                       	rowArray.push($.trim(val.work_short_name));
+	                       	rowArray.push($.trim(actions));   	                   	
+	                       	
+	                        table.row.add(rowArray).draw( true );
+	                        		                       
+	    				});
+	             		
+	             		$(".page-loader-2").hide();
+	    			}else{
+	    				$(".page-loader-2").hide();
+	    			}
+	    			
+	    		},error: function (jqXHR, exception) {
+	    			$(".page-loader-2").hide();
+	             	getErrorMessage(jqXHR, exception);
+	         }});
+        }else{
         	table = $('#datatable-works').DataTable();
-    		 
+   		 
     		table.destroy();
     		
     		$.fn.dataTable.moment('DD-MMM-YYYY');
@@ -343,6 +443,7 @@
     			$(".page-loader-2").hide();
              	getErrorMessage(jqXHR, exception);
          }});
+        }
        }
         
         

@@ -12,12 +12,13 @@
      </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
-     
+    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">  
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/contractor.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
     <style>		
     	.error-msg label,#pan_numberError{
     		color:red!important;   
@@ -36,9 +37,40 @@
     		font-size:0.85rem;
     		color:#33BFDB;
     	}
-    	.m-b-2{
-			margin-bottom:2rem;
+    			
+		/* new css code starts from here */ 		
+			
+		@media only screen and (max-width: 768px){
+			/* table datepicker , select2 dropdown , table column and update , cancel buttons styling for mobile versions */				
+			
+			.mt-brdr{
+				margin-top: auto !important;
+    			border: none !important;
+			}
+			.mt-brdr .btn{
+   				width: 100% !important;
+			}
+			
+			/* input fields styles for mobile version  */
+			div.input-field {
+			    margin-top: 1rem;
+			    margin-bottom: 1rem;
+			}
+			.input-field p.searchable_label {
+			    margin-top: -20px !important;
+   				margin-bottom: -4px;
+			}
+			.input-field>.datelike ~ label:not(.label-icon).active, 
+			.input-field>input[type='text']:not(.datepicker) ~ label:not(.label-icon).active,
+			.input-field>label:not(.label-icon).active {
+			    -webkit-transform: translateY(-18px) scale(0.95);
+			    transform: translateY(-18px) scale(0.95);
+			}			
+			.col.input-field>textarea+label:not(.label-icon).active {
+			    margin-top: 0;
+			}
 		}
+			
     </style>
 </head>
 
@@ -70,21 +102,19 @@
 			              <c:if test="${action eq 'add'}">				                
 			                	<form action="<%=request.getContextPath() %>/add-contractor" id="contractorForm" name="contractorForm" method="post" class="form-horizontal" role="form" >
 						  </c:if>
-                            <div class="row">
-                            
-                                <div class="col m2 hide-on-small-only"></div>
-                                <!-- <div class="col s12 m4 input-field">
+                            <div class="row">                            
+                               <!-- <div class="col s12 m4 input-field">
                                  <c:if test="${not empty contractorDetails.contractor_id }">
                                     <label class="primary-text-bold" style="margin-top: 10px;">Contractor ID : <input id="contractor_id" name="contractor_id" type="text" value="${contractorDetails.contractor_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                   </c:if>
                                 </div> -->
                                 <c:if test="${action eq 'add'}">	
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field offset-m2">
 	                                    <input id="pan_number" name="pan_number" maxlength="10" minlength="10" type="text" class="validate" onblur="panNumberVerify()" style="text-transform:uppercase">
 	                                    <label for="pan_number">PAN Number <span class="required">*</span></label>
 	                                    <span id="pan_numberError" class="error-msg" ></span>
 	                                </div>  
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field">
 	                                    <p class="searchable_label">Specialization<span class="required">*</span></p>
 	                                    <select id="contractor_specilization_fk" name="contractor_specilization_fk" class="searchable validate-dropdown">
 	                                        <option value="" selected>Select</option>
@@ -96,12 +126,12 @@
 	                                </div>
                                 </c:if> 
                                  <c:if test="${action eq 'edit'}">	
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field offset-m2">
 	                                    <input id="pan_number" name="pan_number"  maxlength="10" minlength="10" type="text" class="validate" style="text-transform:uppercase" value="${contractorDetails.pan_number }" readonly="readonly">
 	                                    <label for="pan_number">PAN Number <span class="required">*</span></label>
 	                                    <span id="pan_numberError" class="error-msg" ></span>
 	                                </div>  
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field">
 	                                    <input id="contractor_specilization_fk" name="contractor_specilization_fk" type="text" class="validate" value="${contractorDetails.contractor_specilization_fk }" readonly="readonly">
 	                                    <label for="contractor_specilization_fk">Specialization <span class="required">*</span></label>
 	                                    <span id="contractor_specilization_fkError" class="error-msg" ></span>
@@ -112,25 +142,22 @@
                             </div>
                             <c:if test="${action eq 'add'}">
                             	<div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m8 input-field">
+	                                <div class="col s12 m8 input-field offset-m2">
 	                                    <input id="contractor_name" name="contractor_name" type="text" class="validate" value="${contractorDetails.contractor_name }">
 	                                    <label for="contractor_name">Contractor Name <span class="required">*</span></label>
 	                                    <span id="contractor_nameError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
                             </c:if>
 							<c:if test="${action eq 'edit'}">	
 								<div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
 	                                <c:if test="${not empty contractorDetails.contractor_id }">
-	                                	<div class="col s12 m4 input-field">
+	                                	<div class="col s6 m4 offset-m2">
 		                                    <label class="primary-text-bold" style="margin-top: 10px;">Contractor ID : <input id="contractor_id" name="contractor_id" type="text" value="${contractorDetails.contractor_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
 		                                </div>
 	                                 </c:if>
 	
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field">
 	                                    <input id="contractor_name" name="contractor_name" type="text" class="validate" value="${contractorDetails.contractor_name }" readonly="readonly">
 	                                    <label for="contractor_name">Contractor Name <span class="required">*</span></label>
 	                                    <span id="contractor_nameError" class="error-msg" ></span>
@@ -142,67 +169,56 @@
                             
 							<c:if test="${action eq 'edit'}">
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 input-field offset-m2">
                                     <textarea id="address" name="address" class="materialize-textarea" data-length="1000">${contractorDetails.address }</textarea>
                                     <label for="address">Address</label>
                                     <span id="addressError" class="error-msg" ></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <!-- <div class="col s12 m8">
-                                    <div class="row"> -->
-                                        <div class="col s12 m4 input-field">
-                                            <input id="primary_contact_name" name="primary_contact_name" type="text" class="validate" value="${contractorDetails.primary_contact_name }">
-                                            <label for="primary_contact_name">Primary Contact<span class="required">*</span></label>
-                                            <span id="primary_contact_nameError" class="error-msg" ></span>
-                                        </div>
-                                        <div class="col s12 m4 input-field">
-                                            <input id="phone_number" name="phone_number" type="number" class="validate" value="${contractorDetails.phone_number }">
-                                            <label for="phone_number">Phone Number<span class="required">*</span></label>
-                                            <span id="phone_numberError" class="error-msg" ></span>
-                                        </div>                                        
-                                    <!-- </div>
-                                </div> -->
-                                <div class="col m2 hide-on-small-only"></div>
+                                 <div class="col s6 m4 input-field offset-m2">
+                                     <input id="primary_contact_name" name="primary_contact_name" type="text" class="validate" value="${contractorDetails.primary_contact_name }">
+                                     <label for="primary_contact_name">Primary Contact<span class="required">*</span></label>
+                                     <span id="primary_contact_nameError" class="error-msg" ></span>
+                                 </div>
+                                 <div class="col s6 m4 input-field">
+                                     <input id="phone_number" name="phone_number" type="number" class="validate" value="${contractorDetails.phone_number }">
+                                     <label for="phone_number">Phone Number<span class="required">*</span></label>
+                                     <span id="phone_numberError" class="error-msg" ></span>
+                                 </div>   
                             </div>
 							<div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                      <input id="email" name="email_id" type="text" class="validate" value="${contractorDetails.email_id }">
                                      <label for="email">Email Id</label>
                                      <span id="emailError" class="error-msg" ></span>
                                  </div>
-                                 <div class="col s12 m4 input-field">
+                                 <div class="col s6 m4 input-field">
 		                               <input id="gst_number" name="gst_number" type="text" class="validate" value="${contractorDetails.gst_number }">
 		                               <label for="gst_number">GST Number<span class="required">*</span></label>
 		                               <span id="gst_numberError" class="error-msg" ></span>
 		                         </div>                                
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
+                                <div class="col m8 s12 offset-m2">
                                     <div class="row">
-                                        <div class="col s12 m4 input-field">
+                                        <div class="col s6 m4 input-field">
                                             <input id="bank_name" name="bank_name" type="text" class="validate" value="${contractorDetails.bank_name }">
                                             <label for="bank_name">Bank Name </label>
                                             <span id="bank_nameError" class="error-msg" ></span>
+                                        </div>
+                                        <div class="col s6 m4 input-field">
+                                            <input id="ifsc_code" name="ifsc_code" type="text" class="validate" value="${contractorDetails.ifsc_code }">
+                                            <label for="ifsc_code"> IFSC Code </label>
+                                            <span id="ifsc_codeError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m4 input-field">
                                             <input id="ac_no" name="account_number" type="number" class="validate" value="${contractorDetails.account_number }">
                                             <label for="ac_no">Account No </label>
                                             <span id="ac_noError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col s12 m4 input-field">
-                                            <input id="ifsc_code" name="ifsc_code" type="text" class="validate" value="${contractorDetails.ifsc_code }">
-                                            <label for="ifsc_code"> IFSC Code </label>
-                                            <span id="ifsc_codeError" class="error-msg" ></span>
-                                        </div>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
                                <div class="col m2 hide-on-small-only"></div>
@@ -217,7 +233,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${contractorDetails.remarks }</textarea>
-                                    <label for="remarks">Remarks<span class="required">*</span></label>
+                                    <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
                             </div>
@@ -360,7 +376,7 @@
 		  			 },"contractor_specilization_fk":{
 		  				required: true
 		  			 },"remarks":{
-		  				required: true
+		  				required: false
 		  			 },"primary_contact_name":{
 		  				required: true
 		  			 },"phone_number":{

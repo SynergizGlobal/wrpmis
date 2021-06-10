@@ -13,7 +13,7 @@ public interface IssuesReportDao {
 	
 	List<Issue> getHODListInIssuesReport(Issue obj) throws Exception;
 
-	Map<String,List<Issue>> getPendingIssues(Issue obj) throws Exception;
+	Map<String,Map<String,List<Issue>>> getPendingIssues(Issue obj) throws Exception;
 
 	String getEmailIdsOfHodDyHodManagement() throws Exception;
 

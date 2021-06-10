@@ -164,8 +164,8 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 	}
 	
 	@Override
-	public Map<String,List<Issue>> getPendingIssues(Issue obj) throws Exception {
-		Map<String,List<Issue>> objsList = new LinkedHashMap<String,List<Issue>>();
+	public Map<String,Map<String,List<Issue>>> getPendingIssues(Issue obj) throws Exception {
+		Map<String,Map<String,List<Issue>>> objsList = new LinkedHashMap<String,Map<String,List<Issue>>>();
 		try {
 			
 			String hodQry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name,hod_user_id_fk,u.designation,u.user_name as hod_name "
@@ -208,60 +208,109 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			List<Issue> hodObjsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 			
 			for (Issue hod : hodObjsList) {
-				String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,i.title,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,other_organization,c.department_fk," 
-						+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,"
-						+ "i.zonal_railway_fk,r.railway_name,c.contractor_id_fk,ctr.contractor_id,ctr.contractor_name,"
-						+ "d.department_name,hod_user_id_fk,u.designation,u.user_name as hod_name,DATEDIFF(NOW(), date) as pending_since,DATE_FORMAT(date,'%d-%m-%Y') AS date, "
-						+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
-						+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation "
+				Map<String,List<Issue>> workIssuesList = new LinkedHashMap<String,List<Issue>>();
+				String workQry = "SELECT c.work_id_fk,work_name,work_short_name "
 						+ "from issue i "
-						+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
-						+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
 						+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-						+ "LEFT OUTER JOIN contractor ctr ON c.contractor_id_fk= ctr.contractor_id "
-						+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
-						+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
-						+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
-						+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
-						+ "LEFT OUTER JOIN railway r ON i.zonal_railway_fk COLLATE utf8mb4_unicode_ci = r.railway_id "
-						+ "where issue_id is not null " ;
+						+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+						+ "where c.work_id_fk is not null and c.work_id_fk <> '' ";
+						
 				arrSize = 0;
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					qry = qry + " and work_id_fk = ?";
-					arrSize++;
-				}	
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-					qry = qry + " and contract_id_fk = ?";
+					workQry = workQry + " and work_id_fk = ?";
 					arrSize++;
 				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hod.getHod_user_id_fk())) {
-					qry = qry + " and hod_user_id_fk = ?";
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+					workQry = workQry + " and contract_id_fk = ?";
 					arrSize++;
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
-					qry = qry + " and status_fk <> ?";
+					workQry = workQry + " and status_fk <> ?";
 					arrSize++;
 				}
-				qry = qry + " ORDER BY location,i.date ASC";
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hod.getHod_user_id_fk())) {
+					workQry = workQry + " and hod_user_id_fk = ?";
+					arrSize++;
+				}
+				
+				workQry = workQry + " GROUP BY c.work_id_fk ORDER BY c.work_id_fk";
 				
 				pValues = new Object[arrSize];
 				
 				i = 0;
+
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 					pValues[i++] = obj.getWork_id_fk();
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 					pValues[i++] = obj.getContract_id_fk();
 				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hod.getHod_user_id_fk())) {
-					pValues[i++] = hod.getHod_user_id_fk();
-				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 					pValues[i++] = obj.getStatus_fk();
+				}	
+				if(!StringUtils.isEmpty(hod) && !StringUtils.isEmpty(hod.getHod_user_id_fk())) {
+					pValues[i++] = hod.getHod_user_id_fk();
 				}
 				
-				List<Issue> issuesList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
-				objsList.put(hod.getDesignation(), issuesList);
+				List<Issue> worksList = jdbcTemplate.query( workQry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
+				for (Issue work : worksList) {
+					String qry = "select issue_id,contract_id_fk,d.department_name,c.contract_short_name,i.title,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,other_organization,c.department_fk," 
+							+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,"
+							+ "i.zonal_railway_fk,r.railway_name,c.contractor_id_fk,ctr.contractor_id,ctr.contractor_name,"
+							+ "d.department_name,hod_user_id_fk,u.designation,u.user_name as hod_name,DATEDIFF(NOW(), date) as pending_since,DATE_FORMAT(date,'%d-%m-%Y') AS date, "
+							+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
+							+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation "
+							+ "from issue i "
+							+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
+							+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
+							+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+							+ "LEFT OUTER JOIN contractor ctr ON c.contractor_id_fk= ctr.contractor_id "
+							+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
+							+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+							+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+							+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
+							+ "LEFT OUTER JOIN railway r ON i.zonal_railway_fk COLLATE utf8mb4_unicode_ci = r.railway_id "
+							+ "where issue_id is not null " ;
+					arrSize = 0;
+					if(!StringUtils.isEmpty(work) && !StringUtils.isEmpty(work.getWork_id_fk())) {
+						qry = qry + " and work_id_fk = ?";
+						arrSize++;
+					}	
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+						qry = qry + " and contract_id_fk = ?";
+						arrSize++;
+					}
+					if(!StringUtils.isEmpty(hod) && !StringUtils.isEmpty(hod.getHod_user_id_fk())) {
+						qry = qry + " and hod_user_id_fk = ?";
+						arrSize++;
+					}
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+						qry = qry + " and status_fk <> ?";
+						arrSize++;
+					}
+					qry = qry + " ORDER BY location,i.date ASC";
+					
+					pValues = new Object[arrSize];
+					
+					i = 0;
+					if(!StringUtils.isEmpty(work) && !StringUtils.isEmpty(work.getWork_id_fk())) {
+						pValues[i++] = work.getWork_id_fk();
+					}
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+						pValues[i++] = obj.getContract_id_fk();
+					}
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hod.getHod_user_id_fk())) {
+						pValues[i++] = hod.getHod_user_id_fk();
+					}
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+						pValues[i++] = obj.getStatus_fk();
+					}
+					
+					List<Issue> issuesList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+					workIssuesList.put(work.getWork_short_name(), issuesList);
+					
+				}
+				objsList.put(hod.getDesignation(), workIssuesList);
 			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

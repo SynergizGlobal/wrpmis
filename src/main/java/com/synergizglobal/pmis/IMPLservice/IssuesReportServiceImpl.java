@@ -32,7 +32,7 @@ public class IssuesReportServiceImpl implements IssuesReportService{
 	}
 
 	@Override
-	public Map<String,List<Issue>> getPendingIssues(Issue obj) throws Exception {
+	public Map<String,Map<String,List<Issue>>> getPendingIssues(Issue obj) throws Exception {
 		return issueDao.getPendingIssues(obj);
 	}
 

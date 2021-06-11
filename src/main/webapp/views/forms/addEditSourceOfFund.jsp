@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/budget.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style>
         p a {
             color: blue
@@ -36,8 +38,72 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
-		.m-b-2{
-			margin-bottom:2rem;
+		
+	@media only screen and (max-width: 768px){
+			/* table datepicker , select2 dropdown , table column and update , cancel buttons styling for mobile versions */
+		
+			.mt-brdr{
+				margin-top: auto !important;
+    			border: none !important;
+			}
+			.mt-brdr .btn{
+   				width: 100% !important;
+			}
+			
+			/* input fields styles for mobile version  */
+			div.input-field {
+			    margin-top: 1rem;
+			    margin-bottom: 1rem;
+			}
+			.input-field p.searchable_label {
+			    margin-top: -20px !important;
+   				margin-bottom: -4px;
+			}
+			.input-field>.datelike ~ label:not(.label-icon).active, 
+			.input-field>input[type='text']:not(.datepicker) ~ label:not(.label-icon).active,
+			.input-field>label:not(.label-icon).active {
+			    -webkit-transform: translateY(-18px) scale(0.95) !important;
+			    transform: translateY(-18px) scale(0.95) !important;
+			}
+			.col.input-field>textarea+label:not(.label-icon).active {
+			    margin-top: 0;
+			}
+			.fs-sm-67rem{
+				font-size:.67rem !important;
+			}		
+			.fs-sm-8rem{
+				font-size:.8rem !important;
+			}	
+			
+			.input-field>.datepicker~button{
+				top:10px;
+				right:6px;
+			}
+			.input-field .prefix{
+				width: 2rem;
+			}
+			.input-field .prefix ~ input, 
+			.input-field .prefix ~ textarea, 
+			.input-field .prefix ~ label, 
+			.input-field .prefix ~ .validate ~ label, 
+			.input-field .prefix ~ .helper-text, 
+			.input-field .prefix ~ .autocomplete-content{
+				margin-left: 2rem;
+			}
+			.input-field .prefix ~ label, 
+			.input-field .prefix ~ .validate ~ label {
+				margin-left:2.5rem
+			}
+			.input-field .prefix ~ .validate ~ label.active {
+				margin-left:2rem
+			}
+			.input-field.col .prefix ~ label, .input-field.col .prefix ~ .validate ~ label {
+			    width: calc(100% - 3rem );
+			}
+			#selectedFilesInput .file-path-wrapper .file-path{
+				box-shadow:none !important;
+			}
+			
 		}
 				
     </style>
@@ -71,8 +137,7 @@
 							  </c:if>
 							 <c:if test="${action eq 'add'}">	
                               <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 input-field offset-m2">
                                     <p class="searchable_label">Project <span class="required">*</span></p>
                                      <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                  	   onchange="getWorksList(this.value);">
@@ -99,9 +164,7 @@
                            </c:if>
                             <c:if test="${action eq 'edit'}">	
                               <div class="row" id="center" >
-	                              <div class="col m2 hide-on-small-only">
-	                              </div>
-	                       		  <div class="col s12 m8 input-field">
+	                       		  <div class="col s12 m8 input-field offset-m2">
 										 <p class="searchable_label">Project <span class="required">*</span></p>
 	                                     <input type="text" value="${fundDetails.project_id_fk} - ${fundDetails.project_name}" readonly />
 								  </div> 
@@ -113,8 +176,7 @@
                              </c:if>
                              <input type="hidden" name="funds_id" value="${fundDetails.funds_id }" />
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Source of Fund <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="source_of_funds_fk" id="source_of_funds_fk">
                                         <option value="">Select</option>
@@ -124,8 +186,8 @@
                                     </select>
                                     <span id="source_of_funds_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Sub Category Railway <span class="required">*</span></p>
+                                <div class="col s6 m4 input-field">
+                                    <p class="searchable_label fs-sm-67rem">Sub Category Railway <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="sub_category_railway_id_fk" id="sub_category_railway_id_fk">
                                         <option value="">Select</option>
                                        		 <c:forEach var="obj" items="${railwaysList}">
@@ -134,39 +196,34 @@
                                     </select>
                                     <span id="sub_category_railway_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="funding_date" type="text" class="validate datepicker" name="funding_date" value="${fundDetails.funding_date }">
                                     <label for="funding_date">Funding Date</label>
                                     <button type="button" id="funding_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="funding_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="fund_amount" min="0.01" step="0.01" type="number" class="validate" name="fund_amount" value="${fundDetails.fund_amount }">
-                                    <label for="fund_amount"> Fund Amount </label>
+                                    <label for="fund_amount fs-sm-8rem"> Fund Amount </label>
                                     <span id="fund_amountError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="voucher_type" type="text" class="validate" name="voucher_type" value="${fundDetails.voucher_type }">
                                     <label for="voucher_type">Voucher Type </label>
                                     <span id="voucher_typeError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="voucher_no" type="text" class="validate" name="voucher_no" value="${fundDetails.voucher_no }">
                                     <label for="voucher_no">Voucher No </label>
                                     <span id="voucher_noError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">

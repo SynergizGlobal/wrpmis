@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/budget.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style>
         p a {
             color: blue
@@ -39,9 +41,69 @@
 		    -webkit-transform: translateY(-11px) scale(0.8);
 		    transform: translateY(-11px) scale(0.8);
 		}
-		.m-b-2{
-			margin-bottom:2rem;
-		}		
+	
+		/* new css code starts from here */ 
+		
+		@media only screen and (max-width: 768px){
+			/* table datepicker , select2 dropdown , table column and update , cancel buttons styling for mobile versions */
+		
+			.mt-brdr{
+				margin-top: auto !important;
+    			border: none !important;
+			}
+			.mt-brdr .btn{
+   				width: 100% !important;
+			}
+			
+			/* input fields styles for mobile version  */
+			div.input-field {
+			    margin-top: 1rem;
+			    margin-bottom: 1rem;
+			}
+			.input-field p.searchable_label {
+			    margin-top: -20px !important;
+   				margin-bottom: -4px;
+			}
+			.input-field>.datelike ~ label:not(.label-icon).active, 
+			.input-field>input[type='text']:not(.datepicker) ~ label:not(.label-icon).active,
+			.input-field>label:not(.label-icon).active {
+			    -webkit-transform: translateY(-18px) scale(0.95) !important;
+			    transform: translateY(-18px) scale(0.95) !important;
+			}			
+			.input-field>textarea ~ label:not(.label-icon){
+				margin-top:0 !important;
+			}					
+			.fs-sm-8rem{
+				font-size:.8rem !important;
+			}	
+			.input-field>.datepicker~button{
+				top:10px;
+				right:6px;
+			}
+			
+			.input-field .prefix{
+				width: 2rem;
+			}
+			.input-field .prefix ~ input, 
+			.input-field .prefix ~ textarea, 
+			.input-field .prefix ~ label, 
+			.input-field .prefix ~ .validate ~ label, 
+			.input-field .prefix ~ .helper-text, 
+			.input-field .prefix ~ .autocomplete-content{
+				margin-left: 2rem;
+			}
+			.input-field .prefix ~ label, 
+			.input-field .prefix ~ .validate ~ label {
+				margin-left:2.5rem
+			}
+			.input-field .prefix ~ .validate ~ label.active {
+				margin-left:2rem
+			}
+			.input-field.col .prefix ~ label, .input-field.col .prefix ~ .validate ~ label {
+			    width: calc(100% - 3rem );
+			}
+			
+		}
     </style>
 </head>
 
@@ -73,8 +135,7 @@
 							  </c:if>
 							<c:if test="${action eq 'add'}">	
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                               <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Project <span class="required">*</span></p>
                                      <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                    		 onchange="getWorksList(this.value);">
@@ -85,7 +146,7 @@
                                      </select>
                                      <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <p class="searchable_label">Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
@@ -96,11 +157,9 @@
                                     </select>
                                      <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Contract <span class="required">*</span></p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
@@ -110,35 +169,32 @@
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="contractor_name" name="contractor_name" type="text" class="validate" >
-                                    <label for="contractor_name">Contractor Name <span class="required">*</span></label>
+                                    <label for="contractor_name" class="fs-sm-8rem">Contractor Name <span class="required">*</span></label>
                                     <span id="contractor_nameError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                            </c:if>
                            <c:if test="${action eq 'edit'}">	
 	                       	 	<div class="row">
-		                       	 	  <div class="col m2 hide-on-small-only"></div>
-		                       		  <div class="col s12 m4 input-field">
+		                       		  <div class="col s6 m4 input-field offset-m2">
 		                                    <input type="text" value="${expenditureDetails.project_id_fk} - ${expenditureDetails.project_name}" readonly id="project-text"/>
 		                                    <label for="project-text">Project <span class="required">*</span></label>
 									  </div> 
-									  <div class="col s12 m4 input-field"> 
+									  <div class="col s6 m4 input-field"> 
 		                                    <input type="text" value="${expenditureDetails.work_id_fk} - ${expenditureDetails.work_name}" readonly id="work-text"/>
 		                                    <label for="work-text">Work <span class="required">*</span></label>		                                    
 		                              </div>
 	                             </div> 
 	                             <div class="row">
-		                       	 	  <div class="col m2 hide-on-small-only"></div>
-		                       		  <div class="col s12 m4 input-field">
+		                       		  <div class="col s6 m4 input-field offset-m2">
 	                              			<input type="text" value="${expenditureDetails.contract_id_fk} - ${expenditureDetails.contract_name}" readonly id="Contract-text"/>
 	                              			<label for="Contract-text">Contract <span class="required">*</span></label>	                              			
 									  </div> 
-									  <div class="col s12 m4 input-field"> 
+									  <div class="col s6 m4 input-field"> 
 		                                    <input type="text" value="${expenditureDetails.contractor_name}" readonly id="Contractor-text"/>
-		                                    <label for="Contractor-text">Contractor name <span class="required">*</span></label>		                                    
+		                                    <label for="Contractor-text" class="fs-sm-9rem">Contractor name <span class="required">*</span></label>		                                    
 		                              </div>
 		                              <div class="col m2 hide-on-small-only"></div>
 	                             </div>	                            
@@ -154,13 +210,12 @@
                             </div> --%>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
                                 <%-- <div class="col s12 m4 input-field">
                                     <input id="contractor_name" name="contractor_name" type="text" class="validate" value="${expenditureDetails.contractor_name }">
                                     <label for="contractor_name">Contractor Name</label>
                                     <span id="contractor_nameError" class="error-msg" ></span>
                                 </div> --%>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 input-field offset-m2">
                                     <textarea id="ledger_account" name="ledger_account" class="materialize-textarea">${expenditureDetails.ledger_account }</textarea>
                                     <label for="ledger_account">Ledger Account</label>
                                     <span id="ledger_accountError" class="error-msg" ></span>
@@ -171,12 +226,10 @@
                                     <span id="dateError" class="error-msg" ></span>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Voucher Type <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="voucher_type" name="voucher_type">
                                          <option value="" >Select Voucher Type</option>
@@ -187,45 +240,39 @@
                                      <span id="voucher_typeError" class="error-msg" ></span>
                                 </div>
                                 <input type="hidden" name="expenditure_id" value="${expenditureDetails.expenditure_id }" />
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="voucher_no" type="number" class="validate" name="voucher_no" value="${expenditureDetails.voucher_no }">
                                     <label for="voucher_no">Voucher No </label>
                                     <span id="voucher_noError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 input-field offset-m2">
                                     <textarea id="narration" class="materialize-textarea" name="narration">${expenditureDetails.narration }</textarea>
                                     <label for="narration">Narration</label>
                                     <span id="narrationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="net_paid" min="0.01" step="0.01" type="number" class="validate" name="net_paid" value="${expenditureDetails.net_paid }">
                                     <label for="net_paid"> Net Paid </label>
                                     <span id="net_paidError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                    <i class="material-icons prefix center-align">₹</i>
-                                    <input id="gross_work_done" min="0.01" step="0.01" type="number" class="validate" name="gross_work_done" value="${expenditureDetails.gross_work_done }"> 
-                                    <label for="gross_work_done"> Gross Work Done </label>
-                                    <span id="gross_work_doneError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field ">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="sd_payable" min="0.01" step="0.01" type="number" class="validate" name="sd_payable" value="${expenditureDetails.sd_payable }">
                                     <label for="sd_payable">SD Payable</label>
                                     <span id="sd_payableError" class="error-msg" ></span>
+                                </div>                               
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m4 input-field offset-m2">
+                                    <i class="material-icons prefix center-align">₹</i>
+                                    <input id="gross_work_done" min="0.01" step="0.01" type="number" class="validate" name="gross_work_done" value="${expenditureDetails.gross_work_done }"> 
+                                    <label for="gross_work_done"> Gross Work Done </label>
+                                    <span id="gross_work_doneError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
@@ -233,27 +280,25 @@
                                     <label for="contractor_income_tax">Contractor Income Tax</label>
                                     <span id="contractor_income_taxError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m8">
+								<div class="col s12 m8 offset-m2">
 									<div class="row">
-										<div class="col s12 m4 input-field">
+										<div class="col s6 m4 input-field">
 											<i class="material-icons prefix center-align">₹</i> <input
 												id="cgst_tds" min="0.01" step="0.01" type="number" class="validate" name="cgst_tds"
 												value="${expenditureDetails.cgst_tds }"> <label
 												for="cgst_tds">CGST TDS</label> <span id="cgst_tdsError"
 												class="error-msg"></span>
 										</div>
-										<div class="col s12 m4 input-field">
+										<div class="col s6 m4 input-field">
 											<i class="material-icons prefix center-align">₹</i> <input
 												id="sgst_tds" min="0.01" step="0.01" type="number" class="validate" name="sgst_tds"
 												value="${expenditureDetails.sgst_tds }"> <label
 												for="sgst_tds">SGST TDS</label> <span id="sgst_tdsError"
 												class="error-msg"></span>
 										</div>
-										<div class="col s12 m4 input-field">
+										<div class="col s6 m4 input-field">
 											<i class="material-icons prefix center-align">₹</i> <input
 												id="igst_tds" min="0.01" step="0.01" type="number" class="validate" name="igst_tds"
 												value="${expenditureDetails.igst_tds }"> <label
@@ -262,7 +307,6 @@
 										</div>
 									</div>
 								</div>
-							<div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -282,20 +326,18 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="vat_wct" min="0.01" step="0.01" type="number" class="validate" name="vat_wct" value="${expenditureDetails.vat_wct }">
                                     <label for="vat_wct">VAT WCT</label>
                                     <span id="vat_wctError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="amount_withheld" min="0.01" step="0.01" type="number" class="validate" name="amount_withheld" value="${expenditureDetails.amount_withheld }">
-                                    <label for="amount_withheld">Amount WithHeld</label>
+                                    <label for="amount_withheld" class="fs-sm-8rem">Amount WithHeld</label>
                                     <span id="amount_withheldError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">

@@ -391,9 +391,14 @@ public class RiskController {
 							if(StringUtils.isEmpty(risk.getDate())) { 
 								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "F";
 							}
+							if(!"Accepted".equals(priority) && StringUtils.isEmpty(mitigation_plan)) {
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "M";
+							}
 							if(StringUtils.isEmpty(risk.getResponsible_person())) { 
 								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "N";
 							}
+							
+							
 							if(!StringUtils.isEmpty(risk_cols_error)) { 
 								break;
 							}
@@ -418,6 +423,7 @@ public class RiskController {
 								
 							}
 							
+							
 							if(!StringUtils.isEmpty(obj.getSub_work()) && obj.getSub_work().equals(risk.getSub_work())
 									&& !StringUtils.isEmpty(risk.getSub_work()) && !StringUtils.isEmpty(risk.getOwner()) 
 									&& !StringUtils.isEmpty(risk.getDate()) && !StringUtils.isEmpty(risk.getProbability()) && !StringUtils.isEmpty(risk.getImpact()) 
@@ -437,7 +443,8 @@ public class RiskController {
 							
 						}						
 					}
-					if(!risksList.isEmpty() && StringUtils.isEmpty(risk_rows_error) && StringUtils.isEmpty(work_mismatch) && StringUtils.isEmpty(assessment_date_error)){
+					if(!risksList.isEmpty() && StringUtils.isEmpty(risk_rows_error) && StringUtils.isEmpty(work_mismatch)
+							&& StringUtils.isEmpty(assessment_date_error) && StringUtils.isEmpty(risk_cols_error)){
 						int[] arr  = riskService.uploadRiskAssessments(risksList);
 						
 						/*

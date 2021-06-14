@@ -59,14 +59,27 @@
         	width:120px !important;
         	max-width:120px;
         }
+        .fw-150{
+        	width:150px !important;
+        	min-width:150px;
+        }
+        .fw-170{
+        	width:170px !important;
+        	min-width:170px;
+        }
 		.fw-200{
         	width:200px;
-        	max-width:200px;
+        	min-width:200px;
         }
         .fw-250{
         	width:250px;
-        	max-width:250px;
+        	min-width:250px;
         }
+        .fw-300{
+        	width:300px;
+        	min-width:300px;
+        }
+        
         .link-btn{
         	color:blue;
         	text-decoration:underline;
@@ -323,6 +336,9 @@
                     { orderable: false, 'aTargets': ['nosort'] },
                     { targets: [1, 2, 3, 5, 6], className: 'dt-left'  },
                     { targets: [0,4], className: 'dt-center'},
+                    { targets: [0,4], className: 'fw-120'  },
+                    { targets: [1,3], className: 'fw-170'  },
+                    { targets: [5,6], className: 'fw-200'  },
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",

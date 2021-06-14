@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/budget.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
         p a {
             color: blue
@@ -38,6 +40,18 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }     
+         .row.no-mar{
+         	margin-bottom:0;
+         }
+         .mdl-data-table tr td:last-of-type, 
+         .mdl-data-table tr th:last-of-type{
+         	padding-right:5px !important;
+         }
+          @media only screen and (max-width: 768px){
+			.dataTables_filter label input {
+			    width: 100% !important;
+			}
+		}
     </style>
 </head>
 
@@ -63,7 +77,7 @@
 							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
 						<div class="row plr-1 center-align">
-							<div class="col s12 m4">
+							<div class="col s12 m4 hide-on-med-and-down">
 								<!--  <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
@@ -79,7 +93,7 @@
 								</div>
 							</div>
 
-							<div class="col s12 m4 r-align">
+							<div class="col s12 m4 r-align hide-on-med-and-down">
 								<div class="m-1 ">
 									<a href="javascript:void(0);" onclick="exportFunds();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
@@ -100,24 +114,23 @@
 								<h6>Update Source of Fund</h6>
 							</div>
 						</span>
-						<div class="row no-mar" style="margin-bottom: 0;">
-							<div class="col m3 hide-on-small-only"></div>
-							<div class="col m6 s12">
-								<div class="row" style="margin-bottom: 0;">
+						<div class="row no-mar" >
+							<div class="col m6 s12 offset-m3">
+								<div class="row" >
 									<!-- <div class="col s12 m3 input-field">
                                        <p class="searchable_label">Work</p>
                                          <select id="work_id_fk" name="work_id_fk" onchange="getFundList();" class="searchable">
                                             <option value="" >Select</option>
                                         </select>
                                     </div> -->
-									<div class="col s12 m4 input-field">
+									<div class="col s6 m4 input-field">
 										<p class="searchable_label">Source of Fund</p>
 										<select id="source_of_funds_fk" name="source_of_funds_fk"
 											onchange="addInQueSOF(this.value);getFundList();" class="searchable">
 											<option value="">Select</option>
 										</select>
 									</div>
-									<div class="col s12 m4 input-field">
+									<div class="col s6 m4 input-field">
 										<p class="searchable_label">Railway</p>
 										<select id="sub_category_railway_id_fk"
 											name="sub_category_railway_id_fk" onchange="addInQueRailway(this.value);getFundList();"
@@ -133,12 +146,11 @@
 									</div>
 								</div>
 							</div>
-							<div class="col m3 hide-on-small-only"></div>
 						</div>
 
 						<div class="row">
 							<div class="col m12 s12">
-
+							 <div  style= "display:none;" id="webView">
 								<table id="datatable-fund" class="mdl-data-table">
 									<thead>
 										<tr>
@@ -173,7 +185,24 @@
 									</tbody>
 
 								</table>
+							 </div>
+								
+							<div  style= "display:none;" id="mobView">
+								<table id="datatable-fund_mob" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th>Project</th>											
+											<th>Ledger Account</th>
+											<th class="no-sort">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+							
 
+									</tbody>
+
+								</table>
+							 </div>
 							</div>
 						</div>
 					</div>
@@ -254,7 +283,7 @@
           },
           columnDefs: [
               {
-                  targets: [0, 1, 2],
+                  targets: [0],
                   className: 'mdl-data-table__cell--non-numeric'
               },
               { orderable: false, 'aTargets': ['nosort'] }
@@ -275,6 +304,13 @@
   	$('.close-message').delay(3000).fadeOut('slow');
   	
   	getFundList();
+  	 if(window.matchMedia("(max-width: 767px)").matches){
+	    	$('tbody.web').removeAttr('id');
+	        $('#mobView').css({'display':'block'});
+	      	
+	    } else{
+	    	$('#webView').css({'display':'block'});
+	    }
   });
   
     function clearFilter(){
@@ -323,121 +359,222 @@
     		filters = filters + key +"="+filtersMap[key] + "^";
     		window.localStorage.setItem("sourceOfFundFilters", filters);
 			});
-    	
-    	table = $('#datatable-fund').DataTable();
-		table.destroy();
-
-		$.fn.dataTable.moment('DD-MMM-YYYY');
-
-		var myParams =  "source_of_funds_fk="+ source_of_funds_fk+ "&sub_category_railway_id_fk="+ sub_category_railway_id_fk;
-
-		/***************************************************************************************************/
-
-		$("#datatable-fund")
-				.DataTable(
-						{
-							"bProcessing" : true,
-							"bServerSide" : true,
-							"sort" : "position",
-							//bStateSave variable you can use to save state on client cookies: set value "true" 
-							"bStateSave" : false,
-							//Default: Page display length
-							"iDisplayLength" : 10,
-							"iData" : {
-								"start" : 52
-							},
-							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-							"iDisplayStart" : 0,
-							"fnDrawCallback" : function() {
-								//Get page numer on client. Please note: number start from 0 So
-								//for the first page you will see 0 second page 1 third page 2...
-								//Un-comment below alert to see page number
-								//alert("Current page number: "+this.fnPagingInfo().iPage);
-							},
-							//"sDom": 'l<"toolbar">frtip',
-							"initComplete" : function() {
-								$('.dataTables_filter input[type="search"]')
-										.attr('placeholder', 'Search')
-										.css({
-											'width' : '350px ',
-											'display' : 'inline-block'
-										});
-
-								var input = $('.dataTables_filter input')
-										.unbind(), self = this.api(), $searchButton = $(
-										'<i class="fa fa-search" title="Go">')
-								//.text('Go')
-								.click(function() {
-									self.search(input.val()).draw();
-								}), $clearButton = $(
-										'<i class="fa fa-close" title="Reset">')
-								//.text('X')
-								.click(function() {
-									input.val('');
-									$searchButton.click();
-								})
-								$('.dataTables_filter').append(
-										'<div class="right-btns"></div>');
-								$('.dataTables_filter div').append(
-										$searchButton, $clearButton);
-
-								/* var input = $('.dataTables_filter input').unbind(),
-								self = this.api(),
-								$searchButton = $('<i class="fa fa-search">')
-								           //.text('Go')
-								           .click(function() {			   	                    	 
-								              self.search(input.val()).draw();
-								           })			   	        
-								  $('.dataTables_filter label').append($searchButton); */
-							},
-							columnDefs : [ {
-								"targets" : 'no-sort',
-								"orderable" : false,
-							} ],
-							"sScrollX" : "100%",
-							"sScrollXInner" : "100%",
-							"bScrollCollapse" : true,
-							"language" : {
-								"info" : "_START_ - _END_ of _TOTAL_",
-								paginate : {
-									next : '<i class="fa fa-angle-right"></i>', 
-									previous : '<i class="fa fa-angle-left"></i>'  
-								}
-							},
-							"bDestroy" : true,
-							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-funds?"+myParams,
-		       	 "aoColumns": [
-  		            { "mData": function(data,type,row){
-  		            	 var project_name = '';
-                         if ($.trim(data.project_name) != '') { project_name = ' - ' + $.trim(data.project_name) }    	
-                         if($.trim(data.project_id_fk) == ''){ return '-'; }else{ return data.project_id_fk +project_name; }
-  		            } },
-  		         	{ "mData": function(data,type,row){
-		            	if($.trim(data.source_of_funds_fk) == ''){ return '-'; }else{ return data.source_of_funds_fk; }
-		            } },
-  		         	{ "mData": function(data,type,row){
-  		         	 	 var railwayName = '';
-  		         	 	 if ($.trim(data.railwayName) != '') { railwayName = ' - ' + $.trim(data.railway_name) } 
-                         if($.trim(data.sub_category_railway_id_fk) == ''){ return '-'; }else{ return data.sub_category_railway_id_fk +railwayName; }
-  		            } },
-		         	{ "mData": function(data,type,row){
-		            	if($.trim(data.funding_date) == ''){ return '-'; }else{ return data.funding_date; }
-		            } },
-		            { "mData": function(data,type,row){
-		            	if($.trim(data.fund_amount) == ''){ return '-'; }else{ return data.fund_amount; }
-		            } },
-		            { "mData": function(data,type,row){
-		            	if($.trim(data.ledger_account) == ''){ return '-'; }else{ return data.ledger_account; }
-		            } },
-		         	{ "mData": function(data,type,row){
-		         		var funds_id = "'"+data.funds_id+"'";
-	                    var actions = '<a href="javascript:void(0);"  onclick="getFunds('+funds_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
-		            	return actions;
-		            } }
-		            
-		        ]
-		    });
-	    
+    	if(window.matchMedia("(max-width: 767px)").matches){
+	    	table = $('#datatable-fund').DataTable();
+			table.destroy();
+	
+			$.fn.dataTable.moment('DD-MMM-YYYY');
+	
+			var myParams =  "source_of_funds_fk="+ source_of_funds_fk+ "&sub_category_railway_id_fk="+ sub_category_railway_id_fk;
+	
+			/***************************************************************************************************/
+	
+			$("#datatable-fund_mob")
+					.DataTable(
+							{
+								"bProcessing" : true,
+								"bServerSide" : true,
+								"sort" : "position",
+								//bStateSave variable you can use to save state on client cookies: set value "true" 
+								"bStateSave" : false,
+								//Default: Page display length
+								"iDisplayLength" : 10,
+								"iData" : {
+									"start" : 52
+								},
+								//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+								"iDisplayStart" : 0,
+								"fnDrawCallback" : function() {
+									//Get page numer on client. Please note: number start from 0 So
+									//for the first page you will see 0 second page 1 third page 2...
+									//Un-comment below alert to see page number
+									//alert("Current page number: "+this.fnPagingInfo().iPage);
+								},
+								//"sDom": 'l<"toolbar">frtip',
+								"initComplete" : function() {
+									$('.dataTables_filter input[type="search"]')
+											.attr('placeholder', 'Search')
+											.css({
+												'width' : '350px ',
+												'display' : 'inline-block'
+											});
+	
+									var input = $('.dataTables_filter input')
+											.unbind(), self = this.api(), $searchButton = $(
+											'<i class="fa fa-search" title="Go">')
+									//.text('Go')
+									.click(function() {
+										self.search(input.val()).draw();
+									}), $clearButton = $(
+											'<i class="fa fa-close" title="Reset">')
+									//.text('X')
+									.click(function() {
+										input.val('');
+										$searchButton.click();
+									})
+									$('.dataTables_filter').append(
+											'<div class="right-btns"></div>');
+									$('.dataTables_filter div').append(
+											$searchButton, $clearButton);
+	
+									/* var input = $('.dataTables_filter input').unbind(),
+									self = this.api(),
+									$searchButton = $('<i class="fa fa-search">')
+									           //.text('Go')
+									           .click(function() {			   	                    	 
+									              self.search(input.val()).draw();
+									           })			   	        
+									  $('.dataTables_filter label').append($searchButton); */
+								},
+								columnDefs : [ {
+									"targets" : 'no-sort',
+									"orderable" : false,
+								} ],
+								"sScrollX" : "100%",
+								"sScrollXInner" : "100%",
+								"bScrollCollapse" : true,
+								"language" : {
+									"info" : "_START_ - _END_ of _TOTAL_",
+									paginate : {
+										next : '<i class="fa fa-angle-right"></i>', 
+										previous : '<i class="fa fa-angle-left"></i>'  
+									}
+								},
+								"bDestroy" : true,
+								"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-funds?"+myParams,
+			       	 "aoColumns": [
+	  		            { "mData": function(data,type,row){
+	  		            	 var project_name = '';
+	                         if ($.trim(data.project_name) != '') { project_name = ' - ' + $.trim(data.project_name) }    	
+	                         if($.trim(data.project_id_fk) == ''){ return '-'; }else{ return data.project_id_fk +project_name; }
+	  		            } },
+	  		         	
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.ledger_account) == ''){ return '-'; }else{ return data.ledger_account; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			         		var funds_id = "'"+data.funds_id+"'";
+		                    var actions = '<a href="javascript:void(0);"  onclick="getFunds('+funds_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+			            	return actions;
+			            } }
+			            
+			        ]
+			    });
+    	} else {
+    		table = $('#datatable-fund').DataTable();
+			table.destroy();
+	
+			$.fn.dataTable.moment('DD-MMM-YYYY');
+	
+			var myParams =  "source_of_funds_fk="+ source_of_funds_fk+ "&sub_category_railway_id_fk="+ sub_category_railway_id_fk;
+	
+			/***************************************************************************************************/
+	
+			$("#datatable-fund")
+					.DataTable(
+							{
+								"bProcessing" : true,
+								"bServerSide" : true,
+								"sort" : "position",
+								//bStateSave variable you can use to save state on client cookies: set value "true" 
+								"bStateSave" : false,
+								//Default: Page display length
+								"iDisplayLength" : 10,
+								"iData" : {
+									"start" : 52
+								},
+								//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+								"iDisplayStart" : 0,
+								"fnDrawCallback" : function() {
+									//Get page numer on client. Please note: number start from 0 So
+									//for the first page you will see 0 second page 1 third page 2...
+									//Un-comment below alert to see page number
+									//alert("Current page number: "+this.fnPagingInfo().iPage);
+								},
+								//"sDom": 'l<"toolbar">frtip',
+								"initComplete" : function() {
+									$('.dataTables_filter input[type="search"]')
+											.attr('placeholder', 'Search')
+											.css({
+												'width' : '350px ',
+												'display' : 'inline-block'
+											});
+	
+									var input = $('.dataTables_filter input')
+											.unbind(), self = this.api(), $searchButton = $(
+											'<i class="fa fa-search" title="Go">')
+									//.text('Go')
+									.click(function() {
+										self.search(input.val()).draw();
+									}), $clearButton = $(
+											'<i class="fa fa-close" title="Reset">')
+									//.text('X')
+									.click(function() {
+										input.val('');
+										$searchButton.click();
+									})
+									$('.dataTables_filter').append(
+											'<div class="right-btns"></div>');
+									$('.dataTables_filter div').append(
+											$searchButton, $clearButton);
+	
+									/* var input = $('.dataTables_filter input').unbind(),
+									self = this.api(),
+									$searchButton = $('<i class="fa fa-search">')
+									           //.text('Go')
+									           .click(function() {			   	                    	 
+									              self.search(input.val()).draw();
+									           })			   	        
+									  $('.dataTables_filter label').append($searchButton); */
+								},
+								columnDefs : [ {
+									"targets" : 'no-sort',
+									"orderable" : false,
+								} ],
+								"sScrollX" : "100%",
+								"sScrollXInner" : "100%",
+								"bScrollCollapse" : true,
+								"language" : {
+									"info" : "_START_ - _END_ of _TOTAL_",
+									paginate : {
+										next : '<i class="fa fa-angle-right"></i>', 
+										previous : '<i class="fa fa-angle-left"></i>'  
+									}
+								},
+								"bDestroy" : true,
+								"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-funds?"+myParams,
+			       	 "aoColumns": [
+	  		            { "mData": function(data,type,row){
+	  		            	 var project_name = '';
+	                         if ($.trim(data.project_name) != '') { project_name = ' - ' + $.trim(data.project_name) }    	
+	                         if($.trim(data.project_id_fk) == ''){ return '-'; }else{ return data.project_id_fk +project_name; }
+	  		            } },
+	  		         	{ "mData": function(data,type,row){
+			            	if($.trim(data.source_of_funds_fk) == ''){ return '-'; }else{ return data.source_of_funds_fk; }
+			            } },
+	  		         	{ "mData": function(data,type,row){
+	  		         	 	 var railwayName = '';
+	  		         	 	 if ($.trim(data.railwayName) != '') { railwayName = ' - ' + $.trim(data.railway_name) } 
+	                         if($.trim(data.sub_category_railway_id_fk) == ''){ return '-'; }else{ return data.sub_category_railway_id_fk +railwayName; }
+	  		            } },
+			         	{ "mData": function(data,type,row){
+			            	if($.trim(data.funding_date) == ''){ return '-'; }else{ return data.funding_date; }
+			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.fund_amount) == ''){ return '-'; }else{ return data.fund_amount; }
+			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.ledger_account) == ''){ return '-'; }else{ return data.ledger_account; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			         		var funds_id = "'"+data.funds_id+"'";
+		                    var actions = '<a href="javascript:void(0);"  onclick="getFunds('+funds_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+			            	return actions;
+			            } }
+			            
+			        ]
+			    });
+    	}
 	  $(".page-loader-2").hide();  		     
   	
  }

@@ -48,6 +48,11 @@ i#prev {
 .carousel .carousel-item>img {
      width: auto; 
 }
+.row {
+    margin-left: auto;
+    margin-right: auto;
+     margin-bottom: 0px; 
+}
 /* .carousel.carousel-slider .carousel-item {
 position: inherit;
 } */
@@ -57,7 +62,7 @@ position: inherit;
 
 
 
- <div class="container no-mar">
+ <div class="container no-mar" style="width:1200px;height:203px;">
 	<div class="row">
 		<div class="col s12 m12">
 			<div class="carousel carousel-slider">
@@ -70,7 +75,7 @@ position: inherit;
 					<div class="col s12 m4">
 										<span>${inner.created_date}</span><br>
 					
-						<img src="<%=CommonConstants2.FOB_GALLERY%>${inner.fob_id_fk }/${inner.attachment}" alter="${inner.attachment}" width="400" height="203"/>
+						<img src="<%=CommonConstants2.FOB_GALLERY%>${inner.fob_id_fk }/${inner.attachment}" alter="${inner.attachment}" style="width:400px;height:203px;"/>
 					</div>
 					<c:set var="i" value="${i+3}" />
 					</c:forEach></a>

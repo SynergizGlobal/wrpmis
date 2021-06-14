@@ -57,7 +57,7 @@ i#prev {
 
 
 
- <div class="container no-mar" style="width:423px;height:205px;">
+ <div class="container no-mar" style="width:426px;height:270px;">
 	<div class="row">
 		<div class="col s12 m12">
 			<div class="carousel carousel-slider">
@@ -66,7 +66,7 @@ i#prev {
 					<a class="carousel-item" href="javascript:void(0);">
 										<span>${fObj.created_date}</span><br>
 					
-						<img src="<%=CommonConstants2.FOB_GALLERY%>${fObj.fob_id_fk }/${fObj.attachment}" alter="${fObj.attachment}" style="width:423px;height:205px;"/>
+						<img src="<%=CommonConstants2.FOB_GALLERY%>${fObj.fob_id_fk }/${fObj.attachment}" alter="${fObj.attachment}" style="width:426px;height:270px;"/>
 					</a>
 				</c:forEach>
 <div class="row slider-center"><i id="next" class="material-icons">chevron_right</i> <i id="prev" class="material-icons">chevron_left</i></div>

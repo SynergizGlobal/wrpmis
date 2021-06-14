@@ -154,6 +154,7 @@
                                             <th>Sub Area</th>
                                             <th>Priority</th>
                                             <th>Mitigation Plan</th>
+                                            <th>Action Taken</th>
                                             <th class="nosort">Action</th>
                                         </tr>
                                     </thead>
@@ -320,7 +321,7 @@
                     },
                     { "width": "20px", "targets": [6] },
                     { orderable: false, 'aTargets': ['nosort'] },
-                    { targets: [1, 2, 3, 5], className: 'dt-left'  },
+                    { targets: [1, 2, 3, 5, 6], className: 'dt-left'  },
                     { targets: [0,4], className: 'dt-center'},
                 ],
                 // "ScrollX": true,
@@ -354,6 +355,7 @@
                        	rowArray.push($.trim(val.sub_area));
                        	rowArray.push($.trim(val.priority_fk));
                        	rowArray.push($.trim(val.mitigation_plan));
+                       	rowArray.push($.trim(val.action_taken));
                        	rowArray.push($.trim(actions));   	                   	
                        	
                         table.row.add(rowArray).draw( true );

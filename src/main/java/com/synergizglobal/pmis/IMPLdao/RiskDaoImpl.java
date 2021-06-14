@@ -368,7 +368,14 @@ public class RiskDaoImpl implements RiskDao{
 			} 
 			
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
-			
+			for (Risk risk : objsList) {
+				String actionTakenQry = "SELECT action_taken from risk_action where risk_revision_id_fk = ? and atr_date = (select max(atr_date) from risk_action where risk_revision_id_fk = ?) ";
+				
+				List<Risk> atList = jdbcTemplate.query(actionTakenQry, new Object[]{risk.getRisk_revision_id(),risk.getRisk_revision_id()}, new BeanPropertyRowMapper<Risk>(Risk.class));
+				for (Risk action_taken : atList) {
+					risk.setAction_taken(action_taken.getAction_taken());
+				}
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception(e.getMessage());

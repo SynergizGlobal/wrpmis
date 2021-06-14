@@ -78,7 +78,7 @@ public class CommonConstants2 {
 	public final static String RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";*/
 	
 	/* public final static String USER_LOGIN_REPORT_MAIL = "dycste2@mrvc.gov.in";
-	public final static String ALERTS_EMAIL = "rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com,dycpm@mrvc.gov.in";
+	public final static String ALERTS_EMAIL = "rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com";
 	public final static String ISSUE_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"ISSUE_FILES"+File.separator;
 	public static final String SAFETY_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_FILES"+File.separator;
 	public static final String FOB_GALLERY_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"FOB_GALLERY"+File.separator;

@@ -129,6 +129,30 @@
     	z-index:1;
     	background-color:#D75A55;
 	}
+	/*  date related styling */
+	#CurrentDate{
+		position: absolute;
+	    font-size: .9rem;
+	    margin-left: 1rem;	
+	}
+	 @media only screen and (min-width: 1980px){
+		#CurrentDate{
+			right:0;
+		}
+	}
+	@media only screen and (device-width: 768px){
+		.brand-logo{
+			margin-left:80px;
+		}
+		#CurrentDate{
+			right:-120px;
+		}
+	}
+	 @media only screen and (max-width: 321px){
+		#CurrentDate{
+			margin-left: .5rem;	
+		}
+	}
 </style>
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />
@@ -146,10 +170,12 @@
 	<div class="nav-wrapper blue darken-3">
 		<div class="">
 			<a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img
-				src="/pmis/resources/images/mrvclogo.png" alt="Logo"> MRVC
-				PMIS</a> <a href="<%=request.getContextPath() %>/home"
-				data-target="mobile-demo" class="sidenav-trigger"><i
-				class="fa fa-bars"></i></a>
+				src="/pmis/resources/images/mrvclogo.png" alt="Logo"> MRVC PMIS <span id="CurrentDate"></span>
+			</a> 
+			<a href="<%=request.getContextPath() %>/home"
+				data-target="mobile-demo" class="sidenav-trigger"> 
+					<i class="fa fa-bars"></i>
+			</a>
 			<ul class="right hide-on-med-and-down top-level-menu">
 				<%-- <c:if test="${homeHeader ne 'yes'}">
                                         <li class="searchproject">
@@ -626,10 +652,17 @@
 	<!-- Mobile navigation stars here -->
 	<ul class="sidenav collapsible" id="mobile-demo">
 		<li style="background-color: #dfdfdf">
-			<!-- Mobile navigation close button -->
-			<div class="right-align head">
+			<!-- Mobile navigation close button -->			
+			<div class="head">
+				<span class="left-align">
+					<img src="<%=CommonConstants2.USER_IMAGES %>${sessionScope.user.user_image }"
+					class="profile-img"	onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';">
+					${USER_NAME }<c:if test="${empty USER_NAME }">${USER_ID}</c:if>
+				</span>
 				<!-- a class="sidenav-close" href="#!"><i class="fa fa-close sidenav-close"></i></a-->
-				<i class="fa fa-close sidenav-close"></i>
+				<span class="right" style="margin-top:.7rem">
+					<i class="fa fa-close sidenav-close right-align"></i>
+				</span>
 			</div>
 		</li>
 
@@ -1081,6 +1114,11 @@
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script>
+   			var dt=new Date();
+   			var month= dt.getMonth() >10 ? "" + dt.getMonth(): "0" + dt.getMonth();; 
+   			var todayDate=dt.getDate() +"/"+month+"/"+dt.getFullYear();   			
+   			document.getElementById("CurrentDate").innerHTML=todayDate;
+   			
                $(document).ready(function () {
             	  // $('.header-select').formSelect();
                    //notification dropdown

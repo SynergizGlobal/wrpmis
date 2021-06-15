@@ -47,10 +47,33 @@
          .mdl-data-table tr th:last-of-type{
          	padding-right:5px !important;
          }
+         @media only screen and (min-width: 768px) and (max-width: 1024px){
+			
+			.mb-md-2{
+				margin-bottom:0;
+			}
+		}
+		
           @media only screen and (max-width: 768px){
 			.dataTables_filter label input {
 			    width: 100% !important;
 			}
+			.mb-md-2{
+				margin-bottom:2rem;
+			}
+		}
+		.right-btns{
+			height:1px;
+		}
+		
+		 @media only screen and (min-width: 480px) and (max-width: 839px){
+		    .mdl-cell--6-col, .mdl-cell--6-col-tablet.mdl-cell--6-col-tablet{
+		        width:100%;
+		    }
+		    .mdl-grid .dataTables_length{
+		        width: 100%;
+		        text-align: center;
+		    }
 		}
     </style>
 </head>
@@ -61,7 +84,7 @@
 
 
 	<div class="row">
-		<div class="col s12 m12">
+		<div class="col s12 m12 hide-on-med-and-down">
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title headbg">
@@ -77,7 +100,7 @@
 							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
 						<div class="row plr-1 center-align">
-							<div class="col s12 m4 hide-on-med-and-down">
+							<div class="col s12 m4 h">
 								<!--  <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
@@ -85,7 +108,7 @@
                                 </div> -->
 							</div>
 
-							<div class="col s12 m4">
+							<div class="col s12 m4 .hide-on-med-and-up">
 								<div class="m-1 c-align">
 									<a href="<%=request.getContextPath()%>/add-fund-form"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
@@ -93,7 +116,7 @@
 								</div>
 							</div>
 
-							<div class="col s12 m4 r-align hide-on-med-and-down">
+							<div class="col s12 m4 r-align">
 								<div class="m-1 ">
 									<a href="javascript:void(0);" onclick="exportFunds();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
@@ -111,18 +134,25 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6>Update Source of Fund</h6>
+								<h6 class="hide-on-med-and-down">Update Source of Fund</h6>
+								<h6 class="hide-on-large-only">Source of Fund</h6>									
 							</div>
 						</span>
 						<div class="row no-mar" >
-							<div class="col m6 s12 offset-m3">
-								<div class="row" >
+							<div class="col s12 hide-on-large-only mb-md-2 center-align">
+								<a href="<%=request.getContextPath()%>/add-fund-form"
+								class="btn waves-effect waves-light bg-s t-c" > <strong><i
+								class="fa fa-plus-circle"></i> Add Source of Fund</strong></a>
+							</div>					
+							<div class="col l6 s12 offset-l3 m8 offset-m2">
+								<div class="row no-mar" >
 									<!-- <div class="col s12 m3 input-field">
                                        <p class="searchable_label">Work</p>
                                          <select id="work_id_fk" name="work_id_fk" onchange="getFundList();" class="searchable">
                                             <option value="" >Select</option>
                                         </select>
                                     </div> -->
+                                    	
 									<div class="col s6 m4 input-field">
 										<p class="searchable_label">Source of Fund</p>
 										<select id="source_of_funds_fk" name="source_of_funds_fk"
@@ -138,11 +168,9 @@
 											<option value="">Select</option>
 										</select>
 									</div>
-									<div class="col s12 m4 input-field">
-										<button
-											class="btn bg-m waves-effect waves-light t-c clear-filters"
-											style="margin-top: 3px; width: 100%;"
-											onclick="clearFilter();">Clear Filters</button>
+									<div class="col s12 m4 input-field center-align">
+										<button class="btn bg-m waves-effect waves-light t-c clear-filters "
+											style="margin-top: 3px;" onclick="clearFilter();">Clear Filters</button>
 									</div>
 								</div>
 							</div>
@@ -304,7 +332,7 @@
   	$('.close-message').delay(3000).fadeOut('slow');
   	
   	getFundList();
-  	 if(window.matchMedia("(max-width: 767px)").matches){
+  	 if(window.matchMedia("(max-width: 769px)").matches){
 	    	$('tbody.web').removeAttr('id');
 	        $('#mobView').css({'display':'block'});
 	      	
@@ -359,7 +387,7 @@
     		filters = filters + key +"="+filtersMap[key] + "^";
     		window.localStorage.setItem("sourceOfFundFilters", filters);
 			});
-    	if(window.matchMedia("(max-width: 767px)").matches){
+    	if(window.matchMedia("(max-width: 769px)").matches){
 	    	table = $('#datatable-fund').DataTable();
 			table.destroy();
 	

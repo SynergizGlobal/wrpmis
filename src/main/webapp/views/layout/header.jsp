@@ -13,12 +13,12 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
 <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
 <style>
-	.preloader-wrapper {
+	/*.preloader-wrapper {
 		top: 45% !important;
 		left: 47% !important;
 	}
 	
-	/* 	textarea.materialize-textarea {
+	 //	textarea.materialize-textarea {
 		    line-height: normal;
 		    overflow-y: hidden;
 		    padding: .8rem 0 .8rem 0;
@@ -27,7 +27,9 @@
 		    -webkit-box-sizing: border-box;
 		    box-sizing: border-box;
 		    max-height:100px;
-	   } */
+	   }
+	   //
+	 */
 	nav .menu-active, nav .menu-active.blue {
 		background-color: #f56661 !important;
 		box-shadow: 0 0 5px #bababa inset;
@@ -68,11 +70,10 @@
 	}
 	
 	.notifications_group .item.read-message:hover {
-		/*background-color: #e7e7e7;*/
 		background-color: #ffffff;
 	}
 	
-	.notification_body{
+/*	.notification_body{
 		width:430px !important;
 	}
 	.mt-brdr{
@@ -123,36 +124,13 @@
 		overflow:scroll; 
 		padding-bottom: 4rem;
 	}
-	.head-item{
+	 .head-item{
 		position: sticky;
     	top: 0;
     	z-index:1;
     	background-color:#D75A55;
-	}
-	/*  date related styling */
-	#CurrentDate{
-		position: absolute;
-	    font-size: .9rem;
-	    margin-left: 1rem;	
-	}
-	 @media only screen and (min-width: 1980px){
-		#CurrentDate{
-			right:0;
-		}
-	}
-	@media only screen and (device-width: 768px){
-		.brand-logo{
-			margin-left:80px;
-		}
-		#CurrentDate{
-			right:-120px;
-		}
-	}
-	 @media only screen and (max-width: 321px){
-		#CurrentDate{
-			margin-left: .5rem;	
-		}
-	}
+	} */
+	
 </style>
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />
@@ -167,10 +145,10 @@
 
 	<!-- header @navigation starts here -->
 	<nav>
-	<div class="nav-wrapper blue darken-3">
+	<div class="nav-wrapper blue lighten-1">
 		<div class="">
 			<a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img
-				src="/pmis/resources/images/mrvclogo.png" alt="Logo"> MRVC PMIS <span id="CurrentDate"></span>
+				src="/pmis/resources/images/mrvclogo.png" alt="Logo"> <span class="brand-text">MRVC PMIS</span> <span id="CurrentDate"></span>
 			</a> 
 			<a href="<%=request.getContextPath() %>/home"
 				data-target="mobile-demo" class="sidenav-trigger"> 
@@ -1115,8 +1093,10 @@
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script>
    			var dt=new Date();
-   			var month= dt.getMonth() >10 ? "" + dt.getMonth(): "0" + dt.getMonth();; 
-   			var todayDate=dt.getDate() +"/"+month+"/"+dt.getFullYear();   			
+   			//var month= dt.getMonth() >10 ? "" + dt.getMonth(): "0" + dt.getMonth(); 
+   			const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+   			var years=dt.getYear() >100 ? dt.getYear()-100: dt.getYear();
+   			var todayDate=dt.getDate() +"-"+months[dt.getMonth()]+"-"+years;   			
    			document.getElementById("CurrentDate").innerHTML=todayDate;
    			
                $(document).ready(function () {

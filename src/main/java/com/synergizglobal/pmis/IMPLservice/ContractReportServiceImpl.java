@@ -41,12 +41,12 @@ public class ContractReportServiceImpl implements ContractReportService{
 	}
 
 	@Override
-	public List<Contract> getContractsBankGuaranteeForReport(Contract obj) throws Exception {
+	public Map<String,List<Contract>> getContractsBankGuaranteeForReport(Contract obj) throws Exception {
 		return dao.getContractsBankGuaranteeForReport(obj);
 	}
 
 	@Override
-	public List<Contract> getContractsInsuranceForReport(Contract obj) throws Exception {
+	public Map<String,List<Contract>> getContractsInsuranceForReport(Contract obj) throws Exception {
 		return dao.getContractsInsuranceForReport(obj);
 	}
 

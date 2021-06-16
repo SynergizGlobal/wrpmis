@@ -230,7 +230,19 @@
 											</button>
 										</div> -->
 									</div>
+									
 									<div class="row">
+										<div class="col m2 s3 input-field b-text">
+											<p class="mt-1">Step 6 :</p>
+										</div>
+										<div class="col m10 s9 input-field">
+											<a class="btn waves-effect waves-light bg-s t-c"
+												href="<%=request.getContextPath()%>/risk-atr-update" target="_blank" style="width: 100%;text-transform: none;">Click
+												here to update ATR on the Mitigation Plan of prioritized risks</a>
+										</div>
+									</div>
+									
+									<%-- <div class="row">
 										<div class="col m2 s3 input-field b-text">
 										</div>
 										<div class="col m10 s9 input-field b-text">
@@ -240,7 +252,7 @@
 												Mitigation Plan of prioritized risks, go to <a href="<%=request.getContextPath()%>/risk-atr-update" target="_blank">Update Forms > Risk >
 												Update ATR </a></p>
 										</div>
-									</div>
+									</div> --%>
 								</div>
 								<div class="col m1 hide-on-small-only"></div>
 							</div>

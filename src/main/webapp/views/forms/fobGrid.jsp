@@ -16,6 +16,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/fob.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
 	 <style>
      	.fw-400{
      		max-width:400px;
@@ -31,6 +33,25 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
+    @media only screen and (max-width: 768px){
+	        .center-small{
+	        	text-align:center;
+	        }
+	        div.dataTables_wrapper div.dataTables_info {
+		     white-space: normal; 
+			}
+			.btn, .btn-large, .btn-small, .btn-flat {
+			    padding: 0 10px;
+			}
+			.dataTables_filter label input {
+			    width: 100% !important;
+			}
+			.mdl-data-table tbody tr td:not(:last-of-type){ padding-left:10px !important; }
+			.min-85{
+				min-width:80px; 
+				max-width:80px; 
+			}
+        }
     </style>
 </head>
 <body>
@@ -57,7 +78,7 @@
 													class="fa fa-plus-circle"></i> Add FOB</strong></a>
 										</div>
 									</div>
-									<div class="col s12 m4 r-align">
+									<div class="col s12 m4 r-align hide-on-med-and-down">
 										<div class="m-1 ">
 											<a href="javascript:void(0);" onclick="exportFOB();"
 												class="btn waves-effect waves-light bg-s t-c"> <strong><i
@@ -70,7 +91,7 @@
 					</div>
 				</div>
 			</div>
-			</div>
+		  </div>
 		</c:if>
 		<div class="row">
 			<div class="col s12 m12">
@@ -93,7 +114,7 @@
 							<div class="col m3 hide-on-small-only"></div>
 							<div class="col m6 s12 ">
 								<div class="row" style="margin-bottom: 0;">
-									<!-- <div class="col s12 m4 input-field">
+									<!-- <div class="col s6 m4 input-field">
 										<p>
 											<label>Contract</label>
 										</p>
@@ -104,7 +125,7 @@
 										</select>
 									</div> -->
 									
-									<div class="col s12 m4 input-field">
+									<div class="col s6 m4 input-field">
 										<p>
 											<label>Work</label>
 										</p>
@@ -115,7 +136,7 @@
 										</select>
 									</div>
 									
-									<div class="col s12 m4 input-field">
+									<div class="col s6 m4 input-field">
 										<p>
 											<label>Work Status</label>
 										</p>
@@ -136,6 +157,7 @@
 							<div class="col m3 hide-on-small-only"></div>
 						</div>
 						<div class="row">
+						<div  style= "display:none;" id="webView">
 							<div class="col m12 s12">
 								<table id="datatable-fob" class="mdl-data-table">
 									<thead>
@@ -149,22 +171,26 @@
 										</tr>
 									</thead>
 									<tbody>
-										<!-- <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>                                         
-                                            <td></td>
-                                            <td></td>                                            
-                                            <td class="last-column"> <a href="fob.jsp"
-                                                    class="btn waves-effect waves-light bg-m t-c "><i
-                                                        class="fa fa-pencil"></i> </a>
-                                                <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-trash"></i></a>
-                                            </td>
-                                        </tr> -->
+										
 									</tbody>
 								</table>
 							</div>
+							</div>
+							<div  style= "display:none;" id="mobView">
+								<div class="col m12 s12">
+								<table id="datatable-fob_mobile" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th >Work</th>
+											<th>FOB ID</th>
+											<th class="no-sort">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+
+							 </div>
 						</div>
 					</div>
 				</div>
@@ -234,14 +260,60 @@
         	$('.close-message').delay(3000).fadeOut('slow');
         	
         	getFOBList();
-        });
         
+        });
+    	if(window.matchMedia("(max-width: 769px)").matches){
+        	$('tbody.web').removeAttr('id');
+            $('#mobView').css({'display':'block'});
+            $('#datatable-fob_mobile').DataTable({
+                columnDefs: [
+                    {
+                        targets: [0],
+                        className: 'mdl-data-table__cell--non-numeric',
+                        targets: 'nosort', orderable: false,
+                    },
+                    { "width": "10px", "targets": [2] },
+                ],
+                "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
+                "bAutoWidth": true,
+                "ordering": false, //to stop sorting option                
+                fixedHeader: true, // to change the language of data table	          
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            });
+          	
+        } else{
+        	$('#webView').css({'display':'block'});
+            $('#datatable-fob').DataTable({
+	                columnDefs: [
+	                    {
+	                        targets: [0],
+	                        className: 'mdl-data-table__cell--non-numeric',
+	                        targets: 'nosort', orderable: false,
+	                    },
+	                    { "width": "10px", "targets": [4] },
+	                ],
+	                "sScrollX": "100%",
+	                "sScrollXInner": "100%",
+	                "bScrollCollapse": true,
+	                "bAutoWidth": true,
+	                "ordering": false, //to stop sorting option                
+	                fixedHeader: true, // to change the language of data table	          
+	                initComplete: function () {
+	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	                }
+	            });
+        }
         function clearFilter(){
         	$("#work_id_fk").val('');
         	$("#work_status_fk").val('');
         	$(".searchable").select2();
         	window.localStorage.setItem("fobFilters",'');
         	getFOBList();
+        	
         }
         
         function addInQueWork(work_id_fk){
@@ -261,7 +333,282 @@
        	    	filtersMap["work_status_fk"] = work_status_fk;
         	}
         }
-<%--         
+
+        
+        function getFOBList(){
+        	$(".page-loader").show();
+        	
+        	getWorkStatusFilterList('');
+        	getWorksFilterList('');
+        	
+        	var work_id_fk = $("#work_id_fk").val();
+        	var work_status_fk = $("#work_status_fk").val();
+        	
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("fobFilters", filters);
+   			});
+        	if(window.matchMedia("(max-width: 769px)").matches){
+	         	table = $('#datatable-fob_mobile').DataTable();
+	    		 
+	    		table.destroy();
+	    		
+	    		$.fn.dataTable.moment('DD-MMM-YYYY');
+	    		table = $('#datatable-fob_mobile').DataTable({
+	    			"bStateSave": true,
+	        		fixedHeader: true,
+	                "fnStateSave": function (oSettings, oData) {
+	                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	                },
+	                "fnStateLoad": function (oSettings) {
+	                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	                },
+	                columnDefs: [
+	                    {
+	                        targets: [0, 1, 2],
+	                        className: 'mdl-data-table__cell--non-numeric'
+	                    },
+	                    { orderable: false, 'aTargets': ['nosort'] }
+	                ],
+	                // "ScrollX": true,
+	                "sScrollX": "100%",
+	                 "sScrollXInner": "100%",
+	                 "bScrollCollapse": true,
+	                initComplete: function () {
+	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	                }
+	            }).rows().remove().draw();
+	    		table.state.clear();		
+	    	 
+	    	 	var myParams = {work_id_fk : work_id_fk, work_status_fk : work_status_fk};
+	    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFOBList",
+		    			type:"POST",
+		    			data:myParams,cache: false,async:false,
+		    			success : function(data)
+		    			{    	
+	    					if(data != null && data != '' && data.length > 0){    					
+	    	         		$.each(data,function(key,val){
+	    	         			var fob_id = "'"+val.fob_id+"'";
+	    	                    var actions = '<a href="javascript:void(0);"  onclick="getFOB('+fob_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+	    	                   	var rowArray = [];    	                  
+	    	                   	var workName = '';
+	                            if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
+	    	                   	
+	    	                   	rowArray.push( workName);
+	    	                   	rowArray.push($.trim(val.fob_id));
+	    	                   	rowArray.push($.trim(actions));   	                   	
+	    	                   	
+	    	                    table.row.add(rowArray).draw( true );
+	    	                    		                       
+	    					});
+	    	         		
+	    	         		$(".page-loader").hide();
+	    				}else{
+	    					$(".page-loader").hide();
+	    				}
+	    				
+	    			},error: function (jqXHR, exception) {
+	    				$(".page-loader").hide();
+	    	         	getErrorMessage(jqXHR, exception);
+	    	     }});
+        	}else{
+        		table = $('#datatable-fob').DataTable();
+	    		 
+	    		table.destroy();
+	    		
+	    		$.fn.dataTable.moment('DD-MMM-YYYY');
+	    		table = $('#datatable-fob').DataTable({
+	    			"bStateSave": true,
+	        		fixedHeader: true,
+	                "fnStateSave": function (oSettings, oData) {
+	                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	                },
+	                "fnStateLoad": function (oSettings) {
+	                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	                },
+	                columnDefs: [
+	                    {
+	                        targets: [0, 1, 2],
+	                        className: 'mdl-data-table__cell--non-numeric'
+	                    },
+	                    { orderable: false, 'aTargets': ['nosort'] }
+	                ],
+	                // "ScrollX": true,
+	                "sScrollX": "100%",
+	                 "sScrollXInner": "100%",
+	                 "bScrollCollapse": true,
+	                initComplete: function () {
+	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	                }
+	            }).rows().remove().draw();
+	    		table.state.clear();		
+	    	 
+	    	 	var myParams = {work_id_fk : work_id_fk, work_status_fk : work_status_fk};
+	    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFOBList",
+		    			type:"POST",
+		    			data:myParams,cache: false,async:false,
+		    			success : function(data)
+		    			{    	
+	    					if(data != null && data != '' && data.length > 0){    					
+	    	         		$.each(data,function(key,val){
+	    	         			var fob_id = "'"+val.fob_id+"'";
+	    	                    var actions = '<a href="javascript:void(0);"  onclick="getFOB('+fob_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+	    	                   	var rowArray = [];    	                  
+	    	                   	var workName = '';
+	                            if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
+	    	                   	
+	    	                   	rowArray.push( workName);
+	    	                   	rowArray.push($.trim(val.fob_id));
+	    	                   	rowArray.push($.trim(val.fob_name)); 
+	    	                   	rowArray.push($.trim(val.work_status_fk));
+	    	                   	rowArray.push($.trim(actions));   	                   	
+	    	                   	
+	    	                    table.row.add(rowArray).draw( true );
+	    	                    		                       
+	    					});
+	    	         		
+	    	         		$(".page-loader").hide();
+	    				}else{
+	    					$(".page-loader").hide();
+	    				}
+	    				
+	    			},error: function (jqXHR, exception) {
+	    				$(".page-loader").hide();
+	    	         	getErrorMessage(jqXHR, exception);
+	    	     }});
+        	}
+        	
+        }
+        
+        function getWorkStatusFilterList(work_status){
+        	$(".page-loader").show();
+    	 	var contract_id_fk = $("#contract_id_fk").val();
+    	 	var work_status_fk = $("#work_status_fk").val();
+    	    if ($.trim(work_status_fk) == "") {
+    	    	$("#work_status_fk option:not(:first)").remove();
+    	    	var myParams = {contract_id_fk : contract_id_fk,work_status_fk : work_status_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorkStatusFilterListInFOB",
+                    data: myParams, cache: false,async: false,
+                    success: function (data) {
+                       if(data != null && data != '' && data.length > 0){  
+                            $.each(data, function (i, val) {
+                            		var selectedFlag = (work_status == val.work_status_fk)?'selected':'';
+    	                           $("#work_status_fk").append('<option value="' + val.work_status_fk + '"'+selectedFlag+'>' + $.trim(val.work_status_fk) + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+    	 }
+        
+        function getWorksFilterList(work_id){
+    	 	$(".page-loader").show();
+    	 	var work_status_fk = $("#work_status_fk").val();
+    	 	var work_id_fk = $("#work_id_fk").val();
+    	    if ($.trim(work_id_fk) == "") {
+    	    	$("#work_id_fk option:not(:first)").remove();
+    	    	var myParams = {work_id_fk : work_id_fk,work_status_fk : work_status_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInFOB",
+                    data: myParams, cache: false,async: false,
+                    success: function (data) {
+                    	if(data != null && data != '' && data.length > 0){  
+                            $.each(data, function (i, val) {
+                            	 var work_short_name = '';
+                                 if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) }
+                                 var selectedFlag = (work_id == val.work_id_fk)?'selected':'';
+    	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+    	 }
+        
+         <%-- function getContractsFilterList(contract_id){
+    	 	$(".page-loader").show();
+    	 	var work_status_fk = $("#work_status_fk").val();
+    	 	var contract_id_fk = $("#contract_id_fk").val();
+    	    if ($.trim(contract_id_fk) == "") {
+    	    	$("#contract_id_fk option:not(:first)").remove();
+    	    	var myParams = {contract_id_fk : contract_id_fk,work_status_fk : work_status_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInFOB",
+                    data: myParams, cache: false,async: false,
+                    success: function (data) {
+                    	if(data != null && data != '' && data.length > 0){  
+                            $.each(data, function (i, val) {
+                            	 var contract_short_name = '';
+                                 if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
+                                 var selectedFlag = (contract_id == val.contract_id_fk)?'selected':'';
+    	                         $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '"'+selectedFlag+'>' + $.trim(val.contract_id_fk) + contract_short_name + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+    	 } --%>
+        
+      	//This function is used to get error message for all ajax calls
+        function getErrorMessage(jqXHR, exception) {
+        	    var msg = '';
+        	    if (jqXHR.status === 0) {
+        	        msg = 'Not connect.\n Verify Network.';
+        	    } else if (jqXHR.status == 404) {
+        	        msg = 'Requested page not found. [404]';
+        	    } else if (jqXHR.status == 500) {
+        	        msg = 'Internal Server Error [500].';
+        	    } else if (exception === 'parsererror') {
+        	        msg = 'Requested JSON parse failed.';
+        	    } else if (exception === 'timeout') {
+        	        msg = 'Time out error.';
+        	    } else if (exception === 'abort') {
+        	        msg = 'Ajax request aborted.';
+        	    } else {
+        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        	    }
+        	    console.log(msg);
+         }
+        
+        
+        function getFOB(fob_id) {
+    		$("#fob_id").val(fob_id);
+    		$("#getForm").submit();
+    	}
+        
+        function exportFOB(){
+          	 var work_id_fk = $("#work_id_fk").val();
+          	 var work_status_fk = $("#work_status_fk").val();
+          	 
+          	 $("#exportWork_id_fk").val(work_id_fk);
+          	 $("#exportWork_status_fk").val(work_status_fk);
+          	 $("#exportFOBForm").submit();
+       	}
+        <%--         
         function getFOBList() {
     		$(".page-loader-2").show();
     		getWorkStatusFilterList('');
@@ -394,219 +741,6 @@
       	
      }
          --%>
-        
-        function getFOBList(){
-        	$(".page-loader").show();
-        	
-        	getWorkStatusFilterList('');
-        	getWorksFilterList('');
-        	
-        	var work_id_fk = $("#work_id_fk").val();
-        	var work_status_fk = $("#work_status_fk").val();
-        	
-        	var filters = '';
-        	Object.keys(filtersMap).forEach(function (key) {
-	    		//alert(filtersMap[key]);
-        		filters = filters + key +"="+filtersMap[key] + "^";
-        		window.localStorage.setItem("fobFilters", filters);
-   			});
-        	
-         	table = $('#datatable-fob').DataTable();
-    		 
-    		table.destroy();
-    		
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
-    		table = $('#datatable-fob').DataTable({
-        		"bStateSave": true,
-        		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    },
-                    { orderable: false, 'aTargets': ['nosort'] },
-                    { "width": "20px", "targets": [4] },
-                ],
-                // "ScrollX": true,
-                //"scrollCollapse": true,
-                //"sScrollY": 400,
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            }).rows().remove().draw();
-    		table.state.clear();		
-    	 
-    	 	var myParams = {work_id_fk : work_id_fk, work_status_fk : work_status_fk};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFOBList",
-	    			type:"POST",
-	    			data:myParams,cache: false,async:false,
-	    			success : function(data)
-	    			{    	
-    					if(data != null && data != '' && data.length > 0){    					
-    	         		$.each(data,function(key,val){
-    	         			var fob_id = "'"+val.fob_id+"'";
-    	                    var actions = '<a href="javascript:void(0);"  onclick="getFOB('+fob_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
-    	                   	var rowArray = [];    	                  
-    	                   	var workName = '';
-                            if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
-    	                   	
-    	                   	rowArray.push( workName);
-    	                   	rowArray.push($.trim(val.fob_id));
-    	                   	rowArray.push($.trim(val.fob_name)); 
-    	                   	rowArray.push($.trim(val.work_status_fk));
-    	                   	rowArray.push($.trim(actions));   	                   	
-    	                   	
-    	                    table.row.add(rowArray).draw( true );
-    	                    		                       
-    					});
-    	         		
-    	         		$(".page-loader").hide();
-    				}else{
-    					$(".page-loader").hide();
-    				}
-    				
-    			},error: function (jqXHR, exception) {
-    				$(".page-loader").hide();
-    	         	getErrorMessage(jqXHR, exception);
-    	     }});
-        }
-        
-        function getWorkStatusFilterList(work_status){
-        	$(".page-loader").show();
-    	 	var contract_id_fk = $("#contract_id_fk").val();
-    	 	var work_status_fk = $("#work_status_fk").val();
-    	    if ($.trim(work_status_fk) == "") {
-    	    	$("#work_status_fk option:not(:first)").remove();
-    	    	var myParams = {contract_id_fk : contract_id_fk,work_status_fk : work_status_fk};
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkStatusFilterListInFOB",
-                    data: myParams, cache: false,async: false,
-                    success: function (data) {
-                       if(data != null && data != '' && data.length > 0){  
-                            $.each(data, function (i, val) {
-                            		var selectedFlag = (work_status == val.work_status_fk)?'selected':'';
-    	                           $("#work_status_fk").append('<option value="' + val.work_status_fk + '"'+selectedFlag+'>' + $.trim(val.work_status_fk) + '</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-    	 }
-        
-        function getWorksFilterList(work_id){
-    	 	$(".page-loader").show();
-    	 	var work_status_fk = $("#work_status_fk").val();
-    	 	var work_id_fk = $("#work_id_fk").val();
-    	    if ($.trim(work_id_fk) == "") {
-    	    	$("#work_id_fk option:not(:first)").remove();
-    	    	var myParams = {work_id_fk : work_id_fk,work_status_fk : work_status_fk};
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInFOB",
-                    data: myParams, cache: false,async: false,
-                    success: function (data) {
-                    	if(data != null && data != '' && data.length > 0){  
-                            $.each(data, function (i, val) {
-                            	 var work_short_name = '';
-                                 if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) }
-                                 var selectedFlag = (work_id == val.work_id_fk)?'selected':'';
-    	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name + '</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-    	 }
-        
-         <%-- function getContractsFilterList(contract_id){
-    	 	$(".page-loader").show();
-    	 	var work_status_fk = $("#work_status_fk").val();
-    	 	var contract_id_fk = $("#contract_id_fk").val();
-    	    if ($.trim(contract_id_fk) == "") {
-    	    	$("#contract_id_fk option:not(:first)").remove();
-    	    	var myParams = {contract_id_fk : contract_id_fk,work_status_fk : work_status_fk};
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInFOB",
-                    data: myParams, cache: false,async: false,
-                    success: function (data) {
-                    	if(data != null && data != '' && data.length > 0){  
-                            $.each(data, function (i, val) {
-                            	 var contract_short_name = '';
-                                 if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
-                                 var selectedFlag = (contract_id == val.contract_id_fk)?'selected':'';
-    	                         $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '"'+selectedFlag+'>' + $.trim(val.contract_id_fk) + contract_short_name + '</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-    	 } --%>
-        
-      	//This function is used to get error message for all ajax calls
-        function getErrorMessage(jqXHR, exception) {
-        	    var msg = '';
-        	    if (jqXHR.status === 0) {
-        	        msg = 'Not connect.\n Verify Network.';
-        	    } else if (jqXHR.status == 404) {
-        	        msg = 'Requested page not found. [404]';
-        	    } else if (jqXHR.status == 500) {
-        	        msg = 'Internal Server Error [500].';
-        	    } else if (exception === 'parsererror') {
-        	        msg = 'Requested JSON parse failed.';
-        	    } else if (exception === 'timeout') {
-        	        msg = 'Time out error.';
-        	    } else if (exception === 'abort') {
-        	        msg = 'Ajax request aborted.';
-        	    } else {
-        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-        	    }
-        	    console.log(msg);
-         }
-        
-        
-        function getFOB(fob_id) {
-    		$("#fob_id").val(fob_id);
-    		$("#getForm").submit();
-    	}
-        
-        function exportFOB(){
-          	 var work_id_fk = $("#work_id_fk").val();
-          	 var work_status_fk = $("#work_status_fk").val();
-          	 
-          	 $("#exportWork_id_fk").val(work_id_fk);
-          	 $("#exportWork_status_fk").val(work_status_fk);
-          	 $("#exportFOBForm").submit();
-       	}
-
 
     </script>
 </body>

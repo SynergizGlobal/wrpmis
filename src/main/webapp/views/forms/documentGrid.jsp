@@ -96,7 +96,7 @@
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
 								<h6 class="hide-on-med-and-down">Update Document</h6>
-								<h6 class="hide-on-large-only">Document</h6>	
+								<h6 class="hide-on-large-only">Documents</h6>	
 							</div>
 						</span>
 						<div class="row no-mar">
@@ -154,7 +154,7 @@
 
 								</select>
 							</div>
-							<div class="col s12 m4 l2 center-align">
+							<div class="col s12 m4 l2 center-align offset-m4">
 								<button
 									class="btn bg-m waves-effect waves-light t-c clear-filters"
 									style="margin-top: 12px; width: 100%;" onclick="clearFilters()">Clear

@@ -131,6 +131,19 @@ public class ActivitiesBulkUpdateController {
 		return structures;
 	}
 	
+	@RequestMapping(value = "/ajax/getAcivitiesBulkUpdateComponentsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getAcivitiesBulkUpdateComponentsList(@ModelAttribute StripChart obj){
+		List<StripChart> components = null;
+		try{
+			components = activitiesBulkUpdateService.getAcivitiesBulkUpdateComponentsList(obj);			
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getAcivitiesBulkUpdateComponentsList() : "+e.getMessage());
+		}
+		return components;
+	}
+	
 	@RequestMapping(value = "/ajax/getAcivitiesBulkUpdateComponentIdsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<StripChart> getAcivitiesBulkUpdateComponentIds(@ModelAttribute StripChart obj){

@@ -1106,11 +1106,16 @@
                                 	className = "even";
                                 }
                                 
+                                var tempId = val.strip_chart_component_id;
+                                tempId = tempId.replace(/\s/g, "_");
+                                tempId = tempId.replace(/\//g, "_");
+                                tempId = tempId.replace(/\./g, "_");
+                                
                                 var pointerEvent = "";
                                 if(val.component_id_color == "completed"){
                                 	pointerEvent = "pointer-events: none;";
-                                	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'" >'
-                                    + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getActivitiesActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
+                                	html = html + '<div class="dot-container" id="dd'+tempId+'" >'
+                                    + '<a href="javascript:void(0);" id="'+tempId+'" style="'+pointerEvent+'" onclick="getActivitiesActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
                                     + '<span class="project '+className+'">'+val.strip_chart_component_id+'</span></a>';
                                    // if(i != 0){
                                     	html = html + '<span class="dot-line"></span>';
@@ -1120,8 +1125,8 @@
                                 	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" disabled>' + $.trim(val.strip_chart_component_id) + '</option>');
                                 } else {                
                                 	
-                                	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
-                                    + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getActivitiesActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
+                                	html = html + '<div class="dot-container" id="dd'+tempId+'">'
+                                    + '<a href="javascript:void(0);" id="'+tempId+'" style="'+pointerEvent+'" onclick="getActivitiesActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
                                     + '<span class="project '+className+'">'+val.strip_chart_component_id+'</span></a>';
                                    // if(i != 0){ 
                                     	html = html + '<span class="dot-line"></span>';
@@ -1241,13 +1246,18 @@
         
         function getComponentAndActivitiesList(componentId){
         	$( ".dot" ).removeClass( "active" );
-        	//$( "#"+componentId ).addClass( "active" );
         	
-        	/* var $scroller = $('.dotgroup-scroll');
+        	componentId = componentId.replace(/\s/g, "_");
+         	componentId = componentId.replace(/\//g, "_");
+         	componentId = componentId.replace(/\./g, "_");
+             
+         	$( "#"+componentId).addClass( "active" );
+        	
+        	var $scroller = $('.dotgroup-scroll');
             var childs=$scroller.children().children().length;
             var indexing=$(".dot-container").index($("#dd"+componentId));
            	var scrollTo=Math.round((indexing*($scroller[0].scrollWidth/childs))-childs);           
-            $scroller.animate({'scrollLeft': scrollTo}, 1000); */  
+            $scroller.animate({'scrollLeft': scrollTo}, 1000);  
                         
         	var componentName = $("#strip_chart_component_id").find('option:selected').attr("name");
         	

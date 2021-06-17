@@ -269,6 +269,59 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	}
 
 	@Override
+	public List<StripChart> getAcivitiesBulkUpdateComponentsList(StripChart obj) throws Exception {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<StripChart> objsList = new ArrayList<StripChart>();
+		StripChart sobj = null;
+		try {
+			connection = dataSource.getConnection();
+			
+			String qry = "select component as strip_chart_component "
+					+ "from activities "
+					+ "where component is not null and contract_id_fk = ? and structure = ?";
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
+				qry = qry + " and line = ?";
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_section_name())) {
+				qry = qry + " and section = ?";
+			}	
+			
+			qry = qry + " group by component";
+			
+			statement = connection.prepareStatement(qry);
+			int i = 1;
+			statement.setString(i++,obj.getContract_id_fk());
+			statement.setString(i++,obj.getStrip_chart_structure_id_fk());
+						
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
+				statement.setString(i++,obj.getStrip_chart_line_id_fk());
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_section_name())) {
+				statement.setString(i++,obj.getStrip_chart_section_name());
+			}		
+			
+			resultSet = statement.executeQuery();  
+			while(resultSet.next()) {
+				sobj = new StripChart();
+				sobj.setStrip_chart_component(resultSet.getString("strip_chart_component"));
+				
+				obj.setStrip_chart_component_id(sobj.getStrip_chart_component_id());
+				sobj.setComponent_id_color(getComponentIdColor(obj,connection));
+				objsList.add(sobj);
+			}
+						
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
+		}
+		return objsList;
+	}
+	
+	@Override
 	public List<StripChart> getAcivitiesBulkUpdateComponentIds(StripChart obj) throws Exception {
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -286,7 +339,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			String qry = "select distinct component_id as strip_chart_component_id_name,"
 					+ "component as strip_chart_component "
 					+ "from activities "
-					+ "where component_id is not null and contract_id_fk = ? and structure = ?";
+					+ "where component_id is not null and contract_id_fk = ? and structure = ? and component = ?";
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
 				qry = qry + " and line = ?";
@@ -301,6 +354,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			int i = 1;
 			statement.setString(i++,obj.getContract_id_fk());
 			statement.setString(i++,obj.getStrip_chart_structure_id_fk());
+			statement.setString(i++,obj.getStrip_chart_component());
 						
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
 				statement.setString(i++,obj.getStrip_chart_line_id_fk());

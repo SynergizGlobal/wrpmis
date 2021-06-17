@@ -55,6 +55,7 @@ i#prev {
 }
 .row .col{
 padding:0px;
+text-align:center;
 }
 /* .carousel.carousel-slider .carousel-item {
 position: inherit;
@@ -67,14 +68,14 @@ position: inherit;
 
 
 			<div class="row carousel carousel-slider" style="width:1210px;height:218px;text-align:center;">
+			<c:if test="${(fn:length(fobGalleryList))>3}">
 			<c:set var="count" value="0" />
-
 				<c:forEach var="outer" items="${fobGalleryList}" varStatus="seq1" begin="0" end="${(fn:length(fobGalleryList)-1)/3}">
 				
 					<a class="carousel-item" href="javascript:void(0);">
 					<c:forEach var="inner" items="${fobGalleryList}" varStatus="seq2" begin="${count}" end="${count+2}">
-					<div class="col s4" style="text-align:center;">
-										<span>${inner.created_date}</span><br>
+					<div class="col s4">
+					 <span>${inner.created_date}</span><br>
 					
 						<img src="<%=CommonConstants2.FOB_GALLERY%>${inner.fob_id_fk }/${inner.attachment}" alter="${inner.attachment}" style="width:413px;height:218px;"/>
 					</div>
@@ -82,7 +83,26 @@ position: inherit;
 					</c:forEach></a>
 					<c:set var="count" value="${count+3}" />  
 				</c:forEach>
-<div class="row slider-center"><i id="next" class="material-icons">chevron_right</i> <i id="prev" class="material-icons">chevron_left</i></div>
+				<div class="row slider-center"><i id="next" class="material-icons">chevron_right</i> <i id="prev" class="material-icons">chevron_left</i></div>
+				</c:if>
+				
+				<c:if test="${(fn:length(fobGalleryList))<=3}">
+			    <c:set var="count" value="0" />
+				<c:forEach var="outer" items="${fobGalleryList}" varStatus="seq1" begin="0" end="${(fn:length(fobGalleryList)-1)/3}">
+				
+					<a class="carousel-item" href="javascript:void(0);">
+					<c:forEach var="inner" items="${fobGalleryList}" varStatus="seq2" begin="${count}" end="${count+2}">
+					
+					<div <c:if test="${(fn:length(fobGalleryList))!=1}"> class="col s4" </c:if> <c:if test="${(fn:length(fobGalleryList))==2}"> style="padding-left:150px;padding-right:150px;text-align:center;" </c:if>>
+					 <span>${inner.created_date}</span><br>
+					
+						<img src="<%=CommonConstants2.FOB_GALLERY%>${inner.fob_id_fk }/${inner.attachment}" alter="${inner.attachment}" style="width:413px;height:218px;"/>
+					</div>
+					<c:set var="i" value="${i+3}" />
+					</c:forEach></a>
+					<c:set var="count" value="${count+3}" />  
+				</c:forEach>				
+				</c:if>
 			</div>
 
 

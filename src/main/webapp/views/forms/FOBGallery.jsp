@@ -51,30 +51,30 @@ i#prev {
     margin-right: auto;
      margin-bottom: 0px; 
 }
+
+
+.carousel .carousel-item 
+{
+height:270px;
+}
 </style>
 </head>
 <body>
 
-
-
- <div class="container no-mar" style="width:426px;height:270px;">
-	<div class="row">
-		<div class="col s12 m12">
-			<div class="carousel carousel-slider">
+ 
+ 
+			<div class="carousel carousel-slider" style="width:417px;height:215px;">
 				<c:forEach var="fObj" items="${fobGalleryList }" varStatus="index">
 				
 					<a class="carousel-item" href="javascript:void(0);">
 										<span>${fObj.created_date}</span><br>
 					
-						<img src="<%=CommonConstants2.FOB_GALLERY%>${fObj.fob_id_fk }/${fObj.attachment}" alter="${fObj.attachment}" style="width:426px;height:270px;"/>
+						<img src="<%=CommonConstants2.FOB_GALLERY%>${fObj.fob_id_fk }/${fObj.attachment}" alter="${fObj.attachment}" style="width:417px;height:215px;" />
 					</a>
 				</c:forEach>
 <div class="row slider-center"><i id="next" class="material-icons">chevron_right</i> <i id="prev" class="material-icons">chevron_left</i></div>
 			</div>
-   		</div>
-   	</div>
 
-</div>
 
 </body>
 <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>

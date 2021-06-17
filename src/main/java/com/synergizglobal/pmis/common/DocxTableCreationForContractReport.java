@@ -217,7 +217,7 @@ public class DocxTableCreationForContractReport {
 				Tr titleRow = factory.createTr();
 				List<String> tableHeader = new ArrayList<String>();
 				
-				tableHeader.add("S NO");
+				tableHeader.add("S.NO");
 				tableHeader.add("Agency");
 				tableHeader.add("Work - Contract");
 				tableHeader.add("BG NO");
@@ -226,17 +226,17 @@ public class DocxTableCreationForContractReport {
 				
 	
 				for (String headerValue : tableHeader) {
-					addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr, JcEnumeration.LEFT, true,
+					addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr, JcEnumeration.CENTER, true,
 							"ecf2ff");
 				}
 				table.getContent().add(titleRow);
-				for (Contract cObj : hodEntry.getValue()) {				
-					int sNo = 1;			
+				int sNo = 1;
+				for (Contract cObj : hodEntry.getValue()) {	
 					boolean hasBgColor = false;
 					String backgroundColor = null;
 					Tr contentRow = factory.createTr();
 	
-					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), contentRpr, JcEnumeration.LEFT,
+					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), contentRpr, JcEnumeration.CENTER,
 							hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(), contentRpr,
 							JcEnumeration.LEFT, hasBgColor, backgroundColor);
@@ -244,10 +244,10 @@ public class DocxTableCreationForContractReport {
 							JcEnumeration.LEFT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_number(), contentRpr, JcEnumeration.LEFT,
 							hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_value(), contentRpr, JcEnumeration.LEFT,
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_value(), contentRpr, JcEnumeration.RIGHT,
 							hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_valid_upto(), contentRpr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor);					
+							JcEnumeration.CENTER, hasBgColor, backgroundColor);					
 					
 					table.getContent().add(contentRow);
 				}
@@ -306,7 +306,7 @@ public class DocxTableCreationForContractReport {
 	
 				Tr titleRow = factory.createTr();
 				List<String> tableHeader = new ArrayList<String>();
-				tableHeader.add("S NO");
+				tableHeader.add("S.NO");
 				tableHeader.add("Agency");
 				tableHeader.add("Work - Contract");
 				tableHeader.add("Insurance No");
@@ -314,7 +314,7 @@ public class DocxTableCreationForContractReport {
 				tableHeader.add("Validity");
 	
 				for (String headerValue : tableHeader) {
-					addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr, JcEnumeration.LEFT, true,
+					addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr, JcEnumeration.CENTER, true,
 							"ecf2ff");
 				}
 				table.getContent().add(titleRow);
@@ -325,7 +325,7 @@ public class DocxTableCreationForContractReport {
 					String backgroundColor = null;
 					Tr contentRow = factory.createTr();
 	
-					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), contentRpr, JcEnumeration.LEFT,
+					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), contentRpr, JcEnumeration.CENTER,
 							hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(), contentRpr,
 							JcEnumeration.LEFT, hasBgColor, backgroundColor);
@@ -334,9 +334,9 @@ public class DocxTableCreationForContractReport {
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_number(), contentRpr,
 							JcEnumeration.LEFT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_value(), contentRpr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							JcEnumeration.RIGHT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_upto(), contentRpr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							JcEnumeration.CENTER, hasBgColor, backgroundColor);
 	
 					table.getContent().add(contentRow);
 				}
@@ -1420,7 +1420,7 @@ public class DocxTableCreationForContractReport {
 
 			for (int i = 1, len = contentArr.length; i < len; i++) {
 				Br br = factory.createBr();
-				run.getContent().add(br);// 换行  
+				run.getContent().add(br);
 				text = factory.createText();
 				text.setSpace("preserve");
 				text.setValue(contentArr[i]);
@@ -1472,9 +1472,20 @@ public class DocxTableCreationForContractReport {
 		tcb.setLeft(ctb);
 		tcb.setTop(ctb);
 		tcPr.setTcBorders(tcb);
+		
+		/********************************/
+		if("Validity".equals(content)) {
+			int width = 8;
+			if (width > 0) {
+	            TblWidth tableWidth = new TblWidth();
+	            tableWidth.setW(BigInteger.valueOf(width));
+	            tcPr.setTcW(tableWidth);
+	        }
+		}
+		/********************************/
 
-		tableCell.setTcPr(tcPr);
-
+		tableCell.setTcPr(tcPr);		
+		
 		tableRow.getContent().add(tableCell);
 	}
 

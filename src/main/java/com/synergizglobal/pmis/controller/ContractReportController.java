@@ -311,9 +311,9 @@ public class ContractReportController {
 			
 			
 			
-			String imagePath = null;
-			
-			JcEnumeration imageAlignment = JcEnumeration.LEFT;
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
+
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
 			String headerTextMiddle = "PMIS Report - Contract Detail";
 			
@@ -391,9 +391,9 @@ public class ContractReportController {
 			
 			
 			
-			String imagePath = null;
-			
-			JcEnumeration imageAlignment = JcEnumeration.LEFT;
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
+
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
 			String headerTextMiddle = "PMIS Report - Contracts List";
 			
@@ -879,7 +879,12 @@ public class ContractReportController {
 		}
 		hdr.getContent().add(p);
 		
-		/*RPr boldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
+		/********************************************/
+		
+		/*p = factory.createP();
+		r = factory.createR();
+		
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				true, false, false, false);
 		
 		
@@ -913,21 +918,21 @@ public class ContractReportController {
 			p.getContent().add(r);
 		}
 		
-		hdr.getContent().add(p);	*/
+		hdr.getContent().add(p);*/	
 		
 		/*******************************************************************************/
 
-		RPr titleRpr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
-
+		/*RPr titleRpr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
+		
 		Tbl table = factory.createTbl();
 		
 		TblPr tableProps = new TblPr();
-        CTTblLayoutType tblLayoutType = new CTTblLayoutType();
-        STTblLayoutType stTblLayoutType = STTblLayoutType.FIXED;
-        tblLayoutType.setType(stTblLayoutType);
-        tableProps.setTblLayout(tblLayoutType);
-        table.setTblPr(tableProps);
-        
+		CTTblLayoutType tblLayoutType = new CTTblLayoutType();
+		STTblLayoutType stTblLayoutType = STTblLayoutType.FIXED;
+		tblLayoutType.setType(stTblLayoutType);
+		tableProps.setTblLayout(tblLayoutType);
+		table.setTblPr(tableProps);
+		
 		Tr titleRow = factory.createTr();
 		addTableCell(factory, wordprocessingMLPackage, titleRow, "", titleRpr, JcEnumeration.CENTER, true, "ffffff");
 		addTableCell(factory, wordprocessingMLPackage, titleRow, headerTextMiddle, titleRpr, JcEnumeration.CENTER, true,
@@ -936,8 +941,65 @@ public class ContractReportController {
 				"ffffff");
 		table.getContent().add(titleRow);
 		setTableAlign(factory, table, JcEnumeration.CENTER);
-
-		hdr.getContent().add(table);
+		
+		hdr.getContent().add(table);*/
+		
+		/*******************************************************************************/
+		
+		p = factory.createP();
+		r = factory.createR();
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
+				true, false, false, false);
+		
+		
+		if(!StringUtils.isEmpty(headerTextMiddle)) {
+			PPr pPr = p.getPPr();
+			if (pPr == null) {
+				pPr = factory.createPPr();
+			}
+			Jc jc = pPr.getJc();
+			if (jc == null) {
+				jc = new Jc();
+			}
+			jc.setVal(JcEnumeration.CENTER);
+			pPr.setJc(jc);
+			p.setPPr(pPr);
+			
+			Text txt = factory.createText();
+			txt.setValue(headerTextMiddle);
+			r = factory.createR();
+			r.getContent().add(txt);
+			r.setRPr(boldRPr);
+			p.getContent().add(r);
+		}		
+		hdr.getContent().add(p);
+		/**************************************************************/
+		
+		p = factory.createP();
+		r = factory.createR();
+		if(!StringUtils.isEmpty(headerTextRight)) {
+			PPr pPr = p.getPPr();
+			if (pPr == null) {
+				pPr = factory.createPPr();
+			}
+			Jc jc = pPr.getJc();
+			if (jc == null) {
+				jc = new Jc();
+			}
+			jc.setVal(JcEnumeration.RIGHT);
+			pPr.setJc(jc);
+			p.setPPr(pPr);
+			
+			Text txt = factory.createText();
+			txt.setValue(headerTextRight);
+			r = factory.createR();
+			r.getContent().add(txt);
+			r.setRPr(boldRPr);
+			p.getContent().add(r);
+		}
+		hdr.getContent().add(p);
+		
+		/*******************************************************************************/
 		
 		return hdr;
 	}

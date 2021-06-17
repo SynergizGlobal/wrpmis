@@ -66,7 +66,7 @@
     <!-- header ends  -->
 
 	<div class="row">
-		<div class="col s12 m12">
+		<div class="col s12 hide-on-med-and-down">
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title headbg">
@@ -81,7 +81,7 @@
 						<div class="center-align m-1 close-message">${error}</div>
 					</c:if>
 					<div class="">
-						<div class="row plr-1 center-align">
+						<div class="row plr-1 center-align ">
 							<div class="col s12 m4">
 								<!-- <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
@@ -117,11 +117,18 @@
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
 								<h6>Update Zonal Railway</h6>
+								<h6 class="hide-on-med-and-down">Update Zonal Railway</h6>
+								<h6 class="hide-on-large-only">Zonal Railway</h6>
 							</div>
 						</span>
 						<div class="row no-mar">
+							<div class="col s12 hide-on-large-only mb-md-2 center-align">
+								<a href="<%=request.getContextPath()%>/add-zonal-railway-form"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add Zonal Railway</strong></a>
+							</div>
 							<form action="#">
-								<div class="col s6 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">Project</p>
 									<select class="searchable" id="project_id_fk"
 										name="project_id_fk" onchange="addInQueProject(this.value);getZonalRailwayList();">
@@ -129,7 +136,7 @@
 
 									</select>
 								</div>
-								<div class="col s6 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">Work</p>
 									<select class="searchable" id="work_id_fk" name="work_id_fk"
 										onchange="addInQueWork(this.value);getZonalRailwayList();">
@@ -137,7 +144,7 @@
 
 									</select>
 								</div>
-								<div class="col s6 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">Execution Agency</p>
 									<select class="searchable" id="execution_agency_railway_fk"
 										name="execution_agency_railway_fk"
@@ -146,7 +153,7 @@
 
 									</select>
 								</div>
-								<div class="col s6 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">Source of Fund</p>
 									<select class="searchable" id="source_of_funds"
 										name="source_of_funds" onchange="addInQueSOF(this.value);getZonalRailwayList();">
@@ -154,7 +161,7 @@
 
 									</select>
 								</div>
-								<div class="col s6 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">Status</p>
 									<select class="searchable" id="status_fk" name="status_fk"
 										onchange="addInQueStatus(this.value);getZonalRailwayList();">
@@ -162,10 +169,10 @@
 
 									</select>
 								</div>
-								<div class="col s12 m2 input-field">
+								<div class="col s12 m4 l2 input-field center-align">
 									<button
 										class="btn bg-m waves-effect waves-light t-c clear-filters"
-										style="margin-top: 6px; width: 100%;" onclick="clearFilters()">Clear
+										style="margin-top: 6px;width:100%;" onclick="clearFilters()">Clear
 										Filters</button>
 								</div>
 							</form>
@@ -490,7 +497,7 @@
 			            } },
 			         	{ "mData": function(data,type,row){
 			         		var contract_id = "'"+data.contract_id+"'";
-		                    var actions = '<a href="javascript:void(0);"  onclick="getContractId('+contract_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+		                    var actions = '<a href="javascript:void(0);"  onclick="getContractId('+contract_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
 			            	return actions;
 			            } }
 			            

@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
         p a {
             color: blue;
@@ -80,7 +82,7 @@
 											class="fa fa-plus-circle"></i> Add Data Gathering</strong></a>
 								</div>
 							</div>
-							<div class="col s12 m4 r-align">
+							<div class="col s12 m4 r-align hide-on-med-and-down">
 								<div class="m-1 ">
 									<a href="javascript:void(0);" onclick="exportDataGatherings();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
@@ -103,21 +105,21 @@
 						</span>
 						<div class="row no-mar" style="margin-bottom: 0;">
 							<div class="col m1 hide-on-small-only"></div>
-							<div class="col s12 m2 input-field">
+							<div class="col s6 m2 input-field">
 								<p class="searchable_label">Project</p>
 								<select id="project_id_fk" name="project_id_fk"
 									class="searchable" onchange="addInQueProject(this.value);getDataGatheringList();">
 									<option value="">Select</option>
 								</select>
 							</div>
-							<div class="col s12 m2 input-field">
+							<div class="col s6 m2 input-field">
 								<p class="searchable_label">Work</p>
 								<select id="work_id_fk" name="work_id_fk" class="searchable"
 									onchange="addInQueWork(this.value);getDataGatheringList();">
 									<option value="">Select</option>
 								</select>
 							</div>
-							<div class="col s12 m2 input-field">
+							<div class="col s6 m2 input-field">
 								<p class="searchable_label">Contract</p>
 								<select id="contract_id_fk" name="contract_id_fk"
 									class="searchable" onchange="addInQueContract(this.value);getDataGatheringList();">
@@ -130,7 +132,7 @@
                                     <option value=""  >Select</option>                                    
                                 </select>
                             </div> -->
-							<div class="col s12 m2 input-field">
+							<div class="col s6 m2 input-field">
 								<p class="searchable_label">Status</p>
 								<select id="status_fk" name="status_fk" class="searchable"
 									onchange="addInQueStatus(this.value);getDataGatheringList();">
@@ -148,6 +150,7 @@
 
 						<div class="row">
 							<div class="col m12 s12">
+							 <div  style= "display:none;" id="webView">
 								<table id="datatable-data-gathering" class="mdl-data-table">
 									<thead>
 										<tr>
@@ -161,23 +164,27 @@
 										</tr>
 									</thead>
 									<tbody>
-										<!--  <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="last-column"> <a href="#"
-                                                    class="btn waves-effect waves-light bg-m t-c"><i
-                                                        class="fa fa-pencil"></i></a>
-                                                <a href="#" class="btn waves-effect waves-light bg-s t-c"><i
-                                                        class="fa fa-trash"></i></a>
-                                            </td>
-                                        </tr> -->
+										
 									</tbody>
 
 								</table>
+							  </div>
+							  <div  style= "display:none;" id="mobView">
+							  		<table id="datatable-data-gathering_mobile" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th>Contract</th>
+											<th>Status</th>
+											<th class="no-sort">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+									</tbody>
+
+								</table>
+							  
+							  </div>
 							</div>
 						</div>
 					</div>
@@ -266,38 +273,16 @@
 	        	  }
 	          }
          }
-         
-	 	var table = $('#datatable-data-gathering').DataTable({
-			"bStateSave": true,
-			fixedHeader: true,
-	      "fnStateSave": function (oSettings, oData) {
-	          localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	      },
-	      "fnStateLoad": function (oSettings) {
-	          return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	      },
-	      columnDefs: [
-	          {
-	              targets: [0, 1, 2],
-	              className: 'mdl-data-table__cell--non-numeric'
-	          },
-	          { orderable: false, 'aTargets': ['nosort'] }
-	      ],
-	      // "ScrollX": true,
-	      "scrollCollapse": true,
-	      //"sScrollY": 400,
-	      "sScrollX": "100%",
-	          "sScrollXInner": "100%",
-	          "bScrollCollapse": true,
-	      initComplete: function () {
-	          $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	      }
-	  });
-		table.state.clear(); 
-		
+     
 	
 		$('.close-message').delay(3000).fadeOut('slow');
 		getDataGatheringList();
+		if(window.matchMedia("(max-width: 769px)").matches){
+		        $('#mobView').css({'display':'block'});
+		      	
+		 } else{
+		    	$('#webView').css({'display':'block'});
+		 }
         });
         
      function clearFilters() {
@@ -365,9 +350,113 @@
     		filters = filters + key +"="+filtersMap[key] + "^";
     		window.localStorage.setItem("dataGatheringFilters", filters);
 			});
-      
-     	table = $('#datatable-data-gathering').DataTable();
+    	if(window.matchMedia("(max-width: 769px)").matches){
+     	table = $('#datatable-data-gathering_mobile').DataTable();
  		 
+ 		table.destroy();
+
+ 		$.fn.dataTable.moment('DD-MMM-YYYY');
+
+ 		var myParams = "status_fk=" + status_fk + "&project_id_fk="
+ 				+ project_id_fk + "&work_id_fk=" + work_id_fk
+ 				+ "&contract_id_fk=" + contract_id_fk;
+
+ 		/***************************************************************************************************/
+
+ 		$("#datatable-data-gathering_mobile")
+ 				.DataTable(
+ 						{
+ 							"bProcessing" : true,
+ 							"bServerSide" : true,
+ 							"sort" : "position",
+ 							//bStateSave variable you can use to save state on client cookies: set value "true" 
+ 							"bStateSave" : false,
+ 							//Default: Page display length
+ 							"iDisplayLength" : 10,
+ 							"iData" : {
+ 								"start" : 52
+ 							},
+ 							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+ 							"iDisplayStart" : 0,
+ 							"fnDrawCallback" : function() {
+ 								//Get page numer on client. Please note: number start from 0 So
+ 								//for the first page you will see 0 second page 1 third page 2...
+ 								//Un-comment below alert to see page number
+ 								//alert("Current page number: "+this.fnPagingInfo().iPage);
+ 							},
+ 							//"sDom": 'l<"toolbar">frtip',
+ 							"initComplete" : function() {
+ 								$('.dataTables_filter input[type="search"]')
+ 										.attr('placeholder', 'Search')
+ 										.css({
+ 											'width' : '350px ',
+ 											'display' : 'inline-block'
+ 										});
+
+ 								var input = $('.dataTables_filter input')
+ 										.unbind(), self = this.api(), $searchButton = $(
+ 										'<i class="fa fa-search" title="Go">')
+ 								//.text('Go')
+ 								.click(function() {
+ 									self.search(input.val()).draw();
+ 								}), $clearButton = $(
+ 										'<i class="fa fa-close" title="Reset">')
+ 								//.text('X')
+ 								.click(function() {
+ 									input.val('');
+ 									$searchButton.click();
+ 								})
+ 								$('.dataTables_filter').append(
+ 										'<div class="right-btns"></div>');
+ 								$('.dataTables_filter div').append(
+ 										$searchButton, $clearButton);
+
+ 								/* var input = $('.dataTables_filter input').unbind(),
+ 								self = this.api(),
+ 								$searchButton = $('<i class="fa fa-search">')
+ 								           //.text('Go')
+ 								           .click(function() {			   	                    	 
+ 								              self.search(input.val()).draw();
+ 								           })			   	        
+ 								  $('.dataTables_filter label').append($searchButton); */
+ 							},
+ 							columnDefs : [ {
+ 								"targets" : 'no-sort',
+ 								"orderable" : false,
+ 							} ],
+ 							"sScrollX" : "100%",
+ 							"sScrollXInner" : "100%",
+ 							"bScrollCollapse" : true,
+ 							"language" : {
+ 								"info" : "_START_ - _END_ of _TOTAL_",
+ 								paginate : {
+ 									next : '<i class="fa fa-angle-right"></i>', 
+ 									previous : '<i class="fa fa-angle-left"></i>'  
+ 								}
+ 							},
+ 							"bDestroy" : true,
+ 							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-data-gathering-list?"+myParams,
+ 		        "aoColumns": [
+ 		            { "mData": function(data,type,row){
+ 		            	var contract_short_name = '';
+                         if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) }    	
+                      	if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk +contract_short_name; }
+         			} },   		
+         			 { "mData": function(data,type,row){
+  		            	if($.trim(data.status_fk) == ''){ return '-'; }else{ return data.status_fk; }
+  		            } },
+ 		         	{ "mData": function(data,type,row){
+ 		         		var id = "'"+data.id+"'";
+ 	                    var actions = '<a href="javascript:void(0);"  onclick="getDataGathering('+id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+ 		            	return actions;
+ 		            } }
+ 		            
+ 		        ]
+ 		    });
+ 	    
+    }else{
+    	table = $('#datatable-data-gathering').DataTable();
+		 
  		table.destroy();
 
  		$.fn.dataTable.moment('DD-MMM-YYYY');
@@ -474,9 +563,10 @@
  		            
  		        ]
  		    });
- 	    
- 	  $(".page-loader-2").hide();  		     
-   	
+    	
+    }
+   	$(".page-loader-2").hide();  		     
+
   }
      
      

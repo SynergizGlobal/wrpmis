@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/finance.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
         .row.no-mar {
             margin-bottom: 0;
@@ -93,14 +95,14 @@
 							<div class="col m3 hide-on-small-only"></div>
 							<div class="col m6 s12">
 								<div class="row" style="margin-bottom: 0;">
-									<div class="col s12 m4 input-field">
+									<div class="col s6 m4 input-field">
 										<p class="searchable_label">Work</p>
 										<select class="searchable" name="work_id_fk" id="work_id_fk"
 											onchange="addInQueWork(this.value);getTAFinancialList();">
 											<option value="" >Select</option>
 										</select>
 									</div>
-									<div class="col s12 m4 input-field">
+									<div class="col s6 m4 input-field">
 										<p class="searchable_label">Contract</p>
 										<select class="searchable" name="contract_id_fk"
 											id="contract_id_fk" onchange="addInQueContract(this.value);getTAFinancialList();">
@@ -121,7 +123,7 @@
 
 						<div class="row">
 							<div class="col m12 s12">
-
+							  <div  style= "display:none;" id="webView">
 								<table id="tafinancials" class="mdl-data-table">
 									<thead>
 										<tr>
@@ -137,22 +139,24 @@
 										</tr>
 									</thead>
 									<tbody>
-										<!--  <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="last-column"> <a href="finance.html"
-                                                    class="btn waves-effect waves-light bg-m t-c "><i
-                                                        class="fa fa-pencil"></i> </a>
-                                                <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-trash"></i></a>
-                                            </td>
-                                        </tr> -->
+										
 									</tbody>
 								</table>
-
+							   </div>
+							   <div  style= "display:none;" id="mobView">
+								 <table id="tafinancials_mobile" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th >Work</th>
+											<th>Contract</th>
+											<th class="no-sort">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+									</tbody>
+								</table>
+								</div> 
 							</div>
 						</div>
 					</div>
@@ -225,24 +229,13 @@
 	        	  }
 	          }
             }
-            $('#tafinancials').DataTable({
-                columnDefs: [
-                    {
-                        targets: [0, 1],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                    },
-                    { "width": "20px", "targets": [5] },
-                ],
-                fixedHeader: true,
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
             getTAFinancialList();
+            if(window.matchMedia("(max-width: 769px)").matches){
+    	        $('#mobView').css({'display':'block'});
+    	      	
+    		 } else{
+    		    	$('#webView').css({'display':'block'});
+    		 }
         });
 
         function clearFilter(){
@@ -287,119 +280,225 @@
         		filters = filters + key +"="+filtersMap[key] + "^";
         		window.localStorage.setItem("taFinancialsFilters", filters);
    			});
-        	table = $('#tafinancials').DataTable();
-			table.destroy();
+        	if(window.matchMedia("(max-width: 769px)").matches){
+	        	table = $('#tafinancials_mobile').DataTable();
+				table.destroy();
+	
+				$.fn.dataTable.moment('DD-MMM-YYYY');
+	
+				var myParams =  "work_id_fk="
+						+ work_id_fk + "&contract_id_fk="
+						+ contract_id_fk;
+	
+				/***************************************************************************************************/
+	
+				$("#tafinancials_mobile") 
+						.DataTable(
+								{
+									"bProcessing" : true,
+									"bServerSide" : true,
+									"sort" : "position",
+									//bStateSave variable you can use to save state on client cookies: set value "true" 
+									"bStateSave" : false,
+									//Default: Page display length
+									"iDisplayLength" : 10,
+									"iData" : {
+										"start" : 52
+									},
+									//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+									"iDisplayStart" : 0,
+									"fnDrawCallback" : function() {
+										//Get page numer on client. Please note: number start from 0 So
+										//for the first page you will see 0 second page 1 third page 2...
+										//Un-comment below alert to see page number
+										//alert("Current page number: "+this.fnPagingInfo().iPage);
+									},
+									//"sDom": 'l<"toolbar">frtip',
+									"initComplete" : function() {
+										$('.dataTables_filter input[type="search"]')
+												.attr('placeholder', 'Search')
+												.css({
+													'width' : '350px ',
+													'display' : 'inline-block'
+												});
+	
+										var input = $('.dataTables_filter input')
+												.unbind(), self = this.api(), $searchButton = $(
+												'<i class="fa fa-search" title="Go">')
+										//.text('Go')
+										.click(function() {
+											self.search(input.val()).draw();
+										}), $clearButton = $(
+												'<i class="fa fa-close" title="Reset">')
+										//.text('X')
+										.click(function() {
+											input.val('');
+											$searchButton.click();
+										})
+										$('.dataTables_filter').append(
+												'<div class="right-btns"></div>');
+										$('.dataTables_filter div').append(
+												$searchButton, $clearButton);
+	
+										/* var input = $('.dataTables_filter input').unbind(),
+										self = this.api(),
+										$searchButton = $('<i class="fa fa-search">')
+										           //.text('Go')
+										           .click(function() {			   	                    	 
+										              self.search(input.val()).draw();
+										           })			   	        
+										  $('.dataTables_filter label').append($searchButton); */
+									},
+									columnDefs : [ {
+										"targets" : 'no-sort',
+										"orderable" : false,
+									} ],
+									"sScrollX" : "100%",
+									"sScrollXInner" : "100%",
+									"bScrollCollapse" : true,
+									"language" : {
+										"info" : "_START_ - _END_ of _TOTAL_",
+										paginate : {
+											next : '<i class="fa fa-angle-right"></i>', // or '→'
+											previous : '<i class="fa fa-angle-left"></i>' // or '←' 
+										}
+									},
+									"bDestroy" : true,
+									"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-ta-financials?"+myParams,
+				        "aoColumns": [
+		  		            { "mData": function(data,type,row){
+		  		            	var work_short_name = '';
+		                         if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
+		                         if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
+		  		            } },
+		  		         	{ "mData": function(data,type,row){
+		  		         		var contract_short_name = '';
+		                         if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) }    	
+		                         if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk +contract_short_name; }
+		  		            } },
+				         	{ "mData": function(data,type,row){
+				         		var ID = "'"+data.financial_id+"'";
+			                    var actions = '<a href="javascript:void(0);"  onclick="getTAFinancials('+ID+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+				            	return actions;
+				            } }
+				            
+				        ]
+				    });
+        	}else{
+        	 	table = $('#tafinancials').DataTable();
+    			table.destroy();
 
-			$.fn.dataTable.moment('DD-MMM-YYYY');
+    			$.fn.dataTable.moment('DD-MMM-YYYY');
 
-			var myParams =  "work_id_fk="
-					+ work_id_fk + "&contract_id_fk="
-					+ contract_id_fk;
+    			var myParams =  "work_id_fk="
+    					+ work_id_fk + "&contract_id_fk="
+    					+ contract_id_fk;
 
-			/***************************************************************************************************/
+    			/***************************************************************************************************/
 
-			$("#tafinancials")
-					.DataTable(
-							{
-								"bProcessing" : true,
-								"bServerSide" : true,
-								"sort" : "position",
-								//bStateSave variable you can use to save state on client cookies: set value "true" 
-								"bStateSave" : false,
-								//Default: Page display length
-								"iDisplayLength" : 10,
-								"iData" : {
-									"start" : 52
-								},
-								//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-								"iDisplayStart" : 0,
-								"fnDrawCallback" : function() {
-									//Get page numer on client. Please note: number start from 0 So
-									//for the first page you will see 0 second page 1 third page 2...
-									//Un-comment below alert to see page number
-									//alert("Current page number: "+this.fnPagingInfo().iPage);
-								},
-								//"sDom": 'l<"toolbar">frtip',
-								"initComplete" : function() {
-									$('.dataTables_filter input[type="search"]')
-											.attr('placeholder', 'Search')
-											.css({
-												'width' : '350px ',
-												'display' : 'inline-block'
-											});
+    			$("#tafinancials")
+    					.DataTable(
+    							{
+    								"bProcessing" : true,
+    								"bServerSide" : true,
+    								"sort" : "position",
+    								//bStateSave variable you can use to save state on client cookies: set value "true" 
+    								"bStateSave" : false,
+    								//Default: Page display length
+    								"iDisplayLength" : 10,
+    								"iData" : {
+    									"start" : 52
+    								},
+    								//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+    								"iDisplayStart" : 0,
+    								"fnDrawCallback" : function() {
+    									//Get page numer on client. Please note: number start from 0 So
+    									//for the first page you will see 0 second page 1 third page 2...
+    									//Un-comment below alert to see page number
+    									//alert("Current page number: "+this.fnPagingInfo().iPage);
+    								},
+    								//"sDom": 'l<"toolbar">frtip',
+    								"initComplete" : function() {
+    									$('.dataTables_filter input[type="search"]')
+    											.attr('placeholder', 'Search')
+    											.css({
+    												'width' : '350px ',
+    												'display' : 'inline-block'
+    											});
 
-									var input = $('.dataTables_filter input')
-											.unbind(), self = this.api(), $searchButton = $(
-											'<i class="fa fa-search" title="Go">')
-									//.text('Go')
-									.click(function() {
-										self.search(input.val()).draw();
-									}), $clearButton = $(
-											'<i class="fa fa-close" title="Reset">')
-									//.text('X')
-									.click(function() {
-										input.val('');
-										$searchButton.click();
-									})
-									$('.dataTables_filter').append(
-											'<div class="right-btns"></div>');
-									$('.dataTables_filter div').append(
-											$searchButton, $clearButton);
+    									var input = $('.dataTables_filter input')
+    											.unbind(), self = this.api(), $searchButton = $(
+    											'<i class="fa fa-search" title="Go">')
+    									//.text('Go')
+    									.click(function() {
+    										self.search(input.val()).draw();
+    									}), $clearButton = $(
+    											'<i class="fa fa-close" title="Reset">')
+    									//.text('X')
+    									.click(function() {
+    										input.val('');
+    										$searchButton.click();
+    									})
+    									$('.dataTables_filter').append(
+    											'<div class="right-btns"></div>');
+    									$('.dataTables_filter div').append(
+    											$searchButton, $clearButton);
 
-									/* var input = $('.dataTables_filter input').unbind(),
-									self = this.api(),
-									$searchButton = $('<i class="fa fa-search">')
-									           //.text('Go')
-									           .click(function() {			   	                    	 
-									              self.search(input.val()).draw();
-									           })			   	        
-									  $('.dataTables_filter label').append($searchButton); */
-								},
-								columnDefs : [ {
-									"targets" : 'no-sort',
-									"orderable" : false,
-								} ],
-								"sScrollX" : "100%",
-								"sScrollXInner" : "100%",
-								"bScrollCollapse" : true,
-								"language" : {
-									"info" : "_START_ - _END_ of _TOTAL_",
-									paginate : {
-										next : '<i class="fa fa-angle-right"></i>', // or '→'
-										previous : '<i class="fa fa-angle-left"></i>' // or '←' 
-									}
-								},
-								"bDestroy" : true,
-								"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-ta-financials?"+myParams,
-			        "aoColumns": [
-	  		            { "mData": function(data,type,row){
-	  		            	var work_short_name = '';
-	                         if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
-	                         if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
-	  		            } },
-	  		         	{ "mData": function(data,type,row){
-	  		         		var contract_short_name = '';
-	                         if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) }    	
-	                         if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk +contract_short_name; }
-	  		            } },
-			            { "mData": function(data,type,row){
-			            	if($.trim(data.planned) == ''){ return '-'; }else{ return data.planned; }
-			            } },
-			         	{ "mData": function(data,type,row){
-			            	if($.trim(data.actual) == ''){ return '-'; }else{ return data.actual; }
-			            } },
-			            { "mData": function(data,type,row){
-			            	if($.trim(data.payment_received) == ''){ return '-'; }else{ return data.payment_received; }
-			            } },
-			         	{ "mData": function(data,type,row){
-			         		var ID = "'"+data.financial_id+"'";
-		                    var actions = '<a href="javascript:void(0);"  onclick="getTAFinancials('+ID+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
-			            	return actions;
-			            } }
-			            
-			        ]
-			    });
-		    
+    									/* var input = $('.dataTables_filter input').unbind(),
+    									self = this.api(),
+    									$searchButton = $('<i class="fa fa-search">')
+    									           //.text('Go')
+    									           .click(function() {			   	                    	 
+    									              self.search(input.val()).draw();
+    									           })			   	        
+    									  $('.dataTables_filter label').append($searchButton); */
+    								},
+    								columnDefs : [ {
+    									"targets" : 'no-sort',
+    									"orderable" : false,
+    								} ],
+    								"sScrollX" : "100%",
+    								"sScrollXInner" : "100%",
+    								"bScrollCollapse" : true,
+    								"language" : {
+    									"info" : "_START_ - _END_ of _TOTAL_",
+    									paginate : {
+    										next : '<i class="fa fa-angle-right"></i>', // or '→'
+    										previous : '<i class="fa fa-angle-left"></i>' // or '←' 
+    									}
+    								},
+    								"bDestroy" : true,
+    								"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-ta-financials?"+myParams,
+    			        "aoColumns": [
+    	  		            { "mData": function(data,type,row){
+    	  		            	var work_short_name = '';
+    	                         if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
+    	                         if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
+    	  		            } },
+    	  		         	{ "mData": function(data,type,row){
+    	  		         		var contract_short_name = '';
+    	                         if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) }    	
+    	                         if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk +contract_short_name; }
+    	  		            } },
+    			            { "mData": function(data,type,row){
+    			            	if($.trim(data.planned) == ''){ return '-'; }else{ return data.planned; }
+    			            } },
+    			         	{ "mData": function(data,type,row){
+    			            	if($.trim(data.actual) == ''){ return '-'; }else{ return data.actual; }
+    			            } },
+    			            { "mData": function(data,type,row){
+    			            	if($.trim(data.payment_received) == ''){ return '-'; }else{ return data.payment_received; }
+    			            } },
+    			         	{ "mData": function(data,type,row){
+    			         		var ID = "'"+data.financial_id+"'";
+    		                    var actions = '<a href="javascript:void(0);"  onclick="getTAFinancials('+ID+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+    			            	return actions;
+    			            } }
+    			            
+    			        ]
+    			    });
+        		
+        	}
 		  $(".page-loader-2").hide();  		     
       	
      }

@@ -14,13 +14,12 @@
     </title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/finance.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" > 
     <style>
         .input-field .searchable_label {
             font-size: 0.85rem;
@@ -90,6 +89,13 @@
 		.row.no-mar{
 			margin-bottom:0
 		}
+		@media only screen and (max-width: 768px){
+			input[type="month"]{
+				width: -webkit-fill-available;
+				height:40px;
+				box-shadow:inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff !important;
+			}
+		}
     </style>
 </head>
 
@@ -123,8 +129,7 @@
                         <div class="container container-no-margin">
                          <c:if test="${action eq 'add'}">	
                             <div class="row" 0>
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
@@ -135,7 +140,7 @@
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <p class="searchable_label">Contract <span class="required">*</span></p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"  onchange="resetWorksList();">
                                         <option value="">Select</option>
@@ -145,19 +150,17 @@
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             </c:if>
                         </div>
                          <div>
                        		<c:if test="${action eq 'edit'}">	
-                       		 <div class="row" style="margin-bottom: 0;">
-                       	      <div class="col m2 hide-on-small-only">	      </div>
-                       		  <div class="col s12 m4 input-field">
+                       		 <div class="row no-mar" >
+                       		  <div class="col s6 m4 input-field offset-m2">
                                     <input type="text" name="work_id_fk" id="work_id_fk" value="${taFinancialDetails.work_id_fk}- ${taFinancialDetails.work_short_name}" readonly />
                                     <label for="work_id_fk"> Work <span class="required">*</span></label>
 							  </div> 
-							  <div class="col s12 m4 input-field"> 
+							  <div class="col s6 m4 input-field"> 
                                     <input type="text" value="${taFinancialDetails.contract_id_fk}-${taFinancialDetails.contract_short_name}" readonly />
                                     <input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${taFinancialDetails.contract_id_fk}" readonly />      
                                     <label for="contract_id_fk"> Contract <span class="required">*</span></label>           	 	
@@ -166,12 +169,11 @@
                            </c:if>
                         </div>
                         <div class="row no-mar">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col s12 m8">
-                                <div class="row fixed-width no-mar" style="margin-bottom:10px">
+                            <div class="col s12 m8 offset-m2">
+                                <div class="row fixed-width">
                                     <h5 class="center-align">TA Financial Details</h5>
                                     <div class="table-inside">
-                                        <table id="financialFormTable" class="mdl-data-table">
+                                        <table id="financialFormTable" class="mdl-data-table mobile_responsible_table">
                                             <thead>
                                                 <tr>
                                                     <th>Month </th>
@@ -187,33 +189,33 @@
 		                                       	 <c:forEach var="sObj" items="${taFinancialDetails.taFinancials }" varStatus="index"> 
                                        	 
 	                                                <tr id="financialRow${index.count }">
-	                                                    <td> <input type="hidden" name= "IDs" id="IDs${index.count }" value="${sObj.ID }"/>
+	                                                    <td data-head="Month" class="input-field"> <input type="hidden" name= "IDs" id="IDs${index.count }" value="${sObj.ID }"/>
 	                                                    <input id="months${index.count }" name="months" type="month" class="validate" value="${sObj.month }"
 	                                                            placeholder="Select Month">
 	                                                        <span id="month${index.count }sgst_tdsError" class="error-msg"></span>
 	                                                    </td>
-	                                                    <td class="input-field">
+	                                                    <td data-head="Planned Invoicing" class="input-field">
 	                                                        <i class="material-icons prefix center-align">₹</i>
 	                                                        <input id="planned_invoice${index.count }" type="number" step="0.01" value="${sObj.planned }"
 	                                                            min="0.01" class="validate" name="planneds"
 	                                                            placeholder="Planned Invoicing">
 	                                                        <span id="planned_invoice${index.count }Error" class="error-msg"></span>
 	                                                    </td>
-	                                                    <td class="input-field">
+	                                                    <td data-head="Actual Invoicing" class="input-field">
 	                                                        <i class="material-icons prefix center-align">₹</i>
 	                                                        <input id="actual_invoices${index.count }" type="number" step="0.01" min="0.01" value="${sObj.actual }"
 	                                                            class="validate" name="actuals"
 	                                                            placeholder="Actual Invoicing">
 	                                                        <span id="actual_invoice${index.count }Error" class="error-msg"></span>
 	                                                    </td>
-	                                                    <td class="input-field">
+	                                                    <td data-head="Payment Received" class="input-field">
 	                                                        <i class="material-icons prefix center-align">₹</i>
 	                                                        <input id="payment_receiveds${index.count }" type="number" step="0.01" value="${sObj.payment_received }"
 	                                                            min="0.01" class="validate" name="payment_receiveds"
 	                                                            placeholder="Payment Received">
 	                                                        <span id="payment_received${index.count }Error" class="error-msg"></span>
 	                                                    </td>
-	                                                    <td>
+	                                                    <td class="mobile_btn_close">
 	                                                        <a onclick="removeFinancial('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
 	                                                                class="fa fa-close"></i></a>
 	                                                    </td>
@@ -222,32 +224,32 @@
                                       			 </c:when>
                                        			<c:otherwise>
                                        				 <tr id="financialRow0">
-	                                                    <td> <input id="months0" name="months" type="month" class="validate"
+	                                                    <td data-head="Month" class="input-field"> <input id="months0" name="months" type="month" class="validate"
 	                                                            placeholder="Select Month">
 	                                                        <span id="month0sgst_tdsError" class="error-msg"></span>
 	                                                    </td>
-	                                                    <td class="input-field">
+	                                                    <td data-head="Planned Invoicing" class="input-field">
 	                                                        <i class="material-icons prefix center-align">₹</i>
 	                                                        <input id="planned_invoices0" type="number" step="0.01"
 	                                                            min="0.01" class="validate" name="planneds"
 	                                                            placeholder="Planned Invoicing">
 	                                                        <span id="planned_invoice0Error" class="error-msg"></span>
 	                                                    </td>
-	                                                    <td class="input-field">
+	                                                    <td class="input-field" data-head="Actual Invoicing">
 	                                                        <i class="material-icons prefix center-align">₹</i>
 	                                                        <input id="actual_invoices0" type="number" step="0.01" min="0.01"
 	                                                            class="validate" name="actuals"
 	                                                            placeholder="Actual Invoicing">
 	                                                        <span id="actual_invoice0Error" class="error-msg"></span>
 	                                                    </td>
-	                                                    <td class="input-field">
+	                                                    <td class="input-field" data-head="Payment Received">
 	                                                        <i class="material-icons prefix center-align">₹</i>
 	                                                        <input id="payment_receiveds0" type="number" step="0.01"
 	                                                            min="0.01" class="validate" name="payment_receiveds"
 	                                                            placeholder="Payment Received">
 	                                                        <span id="payment_received0Error" class="error-msg"></span>
 	                                                    </td>
-	                                                    <td>
+	                                                    <td class="mobile_btn_close">
 	                                                        <a onclick="removeFinancial('0');" class="btn waves-effect waves-light red t-c "> <i
 	                                                                class="fa fa-close"></i></a>
 	                                                    </td>
@@ -416,16 +418,16 @@
             var No = Number(rowNo)+1;
              
             var html = ' <tr id="financialRow' + No + '"> <input type="hidden" name= "IDs" id="IDs'+No+'" />'+
-            '<td> <input id="months' + No + '"  name="months" type="month" class="validate" placeholder="Select Month">' +
+            '<td data-head="Month" class="input-field"> <input id="months' + No + '"  name="months" type="month" class="validate" placeholder="Select Month">' +
                 '<span id="month' + No + 'Error" class="error-msg"></span></td >'+
-                '<td class="input-field"> <i class="material-icons prefix center-align">₹</i>' +
+                '<td data-head="Planned Invoicing" class="input-field"> <i class="material-icons prefix center-align">₹</i>' +
                 '<input id="planned_invoices' + No + '" type="number" step="0.01" min="0.01" class="validate" name="planneds" placeholder="Planned Invoicing">' +
                 '<span id="planned_invoice' + No + 'Error" class="error-msg"></span> </td>'+
-                '<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="actual_invoices' + No + '" type="number" step="0.01" min="0.01" class="validate" name="actuals" placeholder="Actual Invoicing">' +
-                '<span id="actual_invoice' + No + 'Error" class="error-msg"></span> </td> <td class="input-field"><i class="material-icons prefix center-align">₹</i>' +
+                '<td data-head="Actual Invoicing" class="input-field"><i class="material-icons prefix center-align">₹</i><input id="actual_invoices' + No + '" type="number" step="0.01" min="0.01" class="validate" name="actuals" placeholder="Actual Invoicing">' +
+                '<span id="actual_invoice' + No + 'Error" class="error-msg"></span> </td> <td data-head="Payment Received" class="input-field"><i class="material-icons prefix center-align">₹</i>' +
                 '<input id="payment_receiveds' + No + '" type="number" step="0.01" min="0.01" class="validate" name="payment_receiveds" placeholder="Payment Received">' +
                 '<span id="payment_received' + No + 'Error" class="error-msg"></span></td>'+
-                '<td> <a onclick="removeFinancial('+ No +');" class="btn waves-effect waves-light red t-c "> ' +
+                '<td class="mobile_btn_close"> <a onclick="removeFinancial('+ No +');" class="btn waves-effect waves-light red t-c "> ' +
                 '<i class="fa fa-close"></i></a></td></tr>';
                 $('#financialTableBody').append(html);
 				$("#rowNo").val(rNo);

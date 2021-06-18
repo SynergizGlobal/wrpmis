@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
      <style>
         .input-field .searchable_label {
             font-size: 0.9rem;
@@ -31,6 +32,9 @@
 		}
 		.col.input-field>textarea.materialize-textarea{
 		   margin-bottom: 2px;
+		}
+		.file-field input[type=file]{
+			box-shadow:none;
 		}
     </style>
 </head>
@@ -65,8 +69,7 @@
                         <input type="hidden" name="id" id="id"  value="${deliverablesDetails.id }"/>
                         <c:if test="${action eq 'add'}">
 	                         <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field offset-m2">
 	                                    <p class="searchable_label"> Project <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
 	                               	  		 onchange="getWorksList(this.value);">
@@ -77,7 +80,7 @@
 			                             </select>
 	                               		 <span id="project_idError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field">
 	                                    <p class="searchable_label"> Work <span class="required">*</span></p>
 	                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
 	                                   		  onchange="getContractsList(this.value);">
@@ -89,18 +92,15 @@
 	                                   		   
 	                                  <span id="work_id_fkError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
 	                              </div>
                               </c:if>
                               <c:if test="${action eq 'edit'}">	
-	                              <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                               
-	                                <div class="col s12 m4 input-field">
+	                              <div class="row">                              
+	                                <div class="col s6 m4 input-field offset-m2">
 	                                    <input type="text" name="project_id_fk" id="project_id_fk" value="${deliverablesDetails.project_id_fk}- ${deliverablesDetails.project_name}" readonly />
 										<label for="project_id_fk">Project <span class="required">*</span></label>
 								    </div> 
-	                                <div class="col s12 m4 input-field"> 
+	                                <div class="col s6 m4 input-field"> 
 	                                   <input type="text" name="work_id_fk" id="work_id_fk" value="${deliverablesDetails.work_id_fk}- ${deliverablesDetails.work_name}" readonly />
 									    <label for="work_id_fk">Work <span class="required">*</span></label>
 	                                </div>
@@ -108,15 +108,14 @@
 	                             </div>
                               </c:if>
                               <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
                                 <c:if test="${action eq 'edit'}">	
-                                 	<div class="col s12 m4 input-field"> 
+                                 	<div class="col s6 m4 input-field offset-m2"> 
 	                              	    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${deliverablesDetails.contract_id_fk} - ${deliverablesDetails.contract_name}" readonly />
 	                                 	<label for="contract_id_fk">Contract <span class="required">*</span></label>     
                               	    </div>
                                  </c:if>
                              	 <c:if test="${action eq 'add'}">	
-	                                 <div class="col s12 m4 input-field">
+	                                 <div class="col s6 m4 input-field offset-m2">
 	                                    <p class="searchable_label">Contract <span class="required">*</span></p>
 	                                   <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
 	                                       	<option value="">Select</option>
@@ -127,7 +126,7 @@
 	                                   	<span id="contract_id_fkError" class="error-msg" ></span>
 	                                 </div>
                               	 </c:if>
-                                 <div class="col s12 m4 input-field">
+                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label">Deliverable Type <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="deliverable_type_fk" id="deliverable_type_fk">
                                         <option value="" >Select</option>
@@ -137,11 +136,9 @@
                                     </select>
                                     <span id="deliverable_type_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Priority </p>
                                     <select class="searchable validate-dropdown" name="project_priority_fk" id="project_priority_fk">
                                         <option value="" >Select</option>
@@ -151,7 +148,7 @@
                                     </select>
                                     <span id="project_priority_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <p class="searchable_label">Status </p>
                                     <select class="searchable validate-dropdown" name="status_fk" id="status_fk">
                                         <option value="" >Select</option>
@@ -161,41 +158,35 @@
                                     </select>
                                     <span id="status_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 input-field offset-m2">
                                     <textarea id="deliverable_description" name="deliverable_description" class="materialize-textarea"
                                         data-length="1000">${deliverablesDetails.deliverable_description }</textarea>
                                     <label for="deliverable_description">Deliverable Description</label>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${deliverablesDetails.target_date }">
                                     <label for="target_date">Target Date</label>
-                                    <button type="button" id="target_date_icon" class="white"><i
+                                    <button type="button" id="target_date_icon" ><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field ">
                                     <input id="start_date" name="start_date" type="text" class="validate datepicker" value="${deliverablesDetails.start_date }">
                                     <label for="start_date">Start Date</label>
-                                    <button type="button" id="start_date_icon" class="white"><i
+                                    <button type="button" id="start_date_icon" ><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 input-field offset-m2">
                                     <input id="finish_date" name="finish_date" type="text" class="validate datepicker" value="${deliverablesDetails.finish_date }">
                                     <label for="finish_date">Finish Date</label>
-                                    <button type="button" id="finish_date_icon" class="white"><i
+                                    <button type="button" id="finish_date_icon" ><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 						<div class="row">
 							<div class="col m2 hide-on-small-only"></div>

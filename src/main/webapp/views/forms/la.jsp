@@ -135,42 +135,42 @@
                                  <strong><i class="fa fa-plus-circle"></i> Add Land Acquisition</strong></a>
                         </div>
                         <div class="row no-mar" >
-                            <div class="col s6 m2 input-field">
+                            <div class="col s6 m4 l2 input-field">
                                 <p class="searchable_label">Select Project</p>
                                 <select id="project_id_fk" class="searchable" name="project_id_fk" onchange="addInQueProject(this.value);getLandAcquisitionList();">
                                     <option value="" >Select Project</option>
                                    
                                 </select>
                             </div>
-                             <div class="col s6 m2 input-field">
+                             <div class="col s6 m4 l2 input-field">
                                 <p class="searchable_label">Select Work</p>
                                 <select id="work_id_fk" class="searchable" name="work_id_fk" onchange="addInQueWork(this.value);getLandAcquisitionList();">
                                     <option value="" >Select Work</option>
                                    
                                 </select>
                             </div>
-                            <div class="col s6 m2 input-field">
+                            <div class="col s6 m4 l2 input-field">
                                 <p class="searchable_label">Select Village</p>
                                 <select id="village" class="searchable" name="village" onchange="addinQueVillage(this.value);getLandAcquisitionList();"> 
                                     <option value="" >Select Village</option>
                                    
                                 </select>
                             </div>
-                            <div class="col s6 m2 input-field">
+                            <div class="col s6 m4 l2 input-field">
                                 <p class="searchable_label fs-md-74rem">Select Type of Land</p>
                                 <select id="type_of_land" class="searchable" name="type_of_land" onchange="addinQueType(this.value);getLandAcquisitionList();">
                                     <option value="" >Select Type of Land</option>
                                    
                                 </select>
                             </div>
-                            <div class="col s6 m2 input-field">
+                            <div class="col s6 m4 l2 input-field">
                                 <p class="searchable_label fs-md-74rem">Select Sub Category</p>
                                 <select id="sub_category_of_land" class="searchable" name="sub_category_of_land" onchange="addInQueSubCategory(this.value);getLandAcquisitionList();">
                                     <option value="" >Select Sub Category</option>
                                    
                                 </select>
                             </div>
-                            <div class="col s12 m2 center-align input-field">
+                            <div class="col s12 m4 l2 center-align input-field">
                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                     style="margin-top: 10px;" onclick="clearFilters()">Clear
                                     Filters</button>
@@ -216,7 +216,7 @@
                                 <table id="land-acquisition-datatable_mob" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th> Work </th>                                          
+                                            <th style="width:150px;"> Work </th>                                          
                                             <th> Sub Category of Land</th>
                                             <th class="no-sort">Action</th>
                                         </tr>

@@ -687,7 +687,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join user u on c.hod_user_id_fk = u.user_id "+
 					"left join user us on c.dy_hod_user_id_fk = us.user_id "
 					+"left join department dt on c.department_fk = dt.department "
-					+"where contract_id is not null and i.released_fk <> 'Yes' ";
+					+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
 			
 			int arrSize = 0;			
 
@@ -754,7 +754,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						"left join user u on c.hod_user_id_fk = u.user_id "+
 						"left join user us on c.dy_hod_user_id_fk = us.user_id "
 						+"left join department dt on c.department_fk = dt.department "
-						+"where contract_id is not null and i.released_fk <> 'Yes' ";
+						+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
 				
 				arrSize = 0;			
 	

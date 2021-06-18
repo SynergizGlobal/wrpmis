@@ -9,13 +9,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Safety Incident - Update Forms - PMIS</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-	 
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-	 
+	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
+	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	 
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-	
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
 	 <style>
         .no-mar .row {
             margin-bottom: 0;
@@ -69,9 +67,7 @@
                     <div class="container container-no-margin">
                         <form action="<%=request.getContextPath() %>/add-safety" id="safetyForm" name="safetyForm" method="post" enctype="multipart/form-data">
                             <div class="row">
-                                <!-- row 4 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                 <p class="searchable_label"> Project <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
@@ -82,7 +78,7 @@
                                     </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                 <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
@@ -93,14 +89,10 @@
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 							<input type="hidden" id="status_fk" name="status_fk" value="Open"/>
-                            <div class="row">
-                                <!-- row 4 -->
-                                <div class="col m2 hide-on-small-only"></div>                                
-                                
-                                <div class="col s12 m4 input-field">
+                            <div class="row">                                
+                                <div class="col s6 m4 input-field offset-m2">
                                 	<p class="searchable_label"> Contract <span class="required">*</span></p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
@@ -110,9 +102,8 @@
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                
-                              
-                                 <div class="col s12 m4 input-field">
+                                                              
+                                 <div class="col s6 m4 input-field">
                                 <p class="searchable_label"> Category <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="setTitle(this.value);">
                                         <option value="">Select</option>
@@ -122,7 +113,6 @@
                                     </select>
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 							
                            <%--  <div class="row">
@@ -155,9 +145,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div> --%>
                             <div class="row">
-                                <!-- row 6 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                 <p class="searchable_label"> Impact <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="impact_fk" name="impact_fk">
                                         <option value="">Select</option>
@@ -167,7 +155,7 @@
                                     </select>
                                     <span id="impact_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                 <p class="searchable_label"> Root Cause <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="root_cause_fk" name="root_cause_fk">
                                         <option value="">Select</option>
@@ -177,7 +165,6 @@
                                     </select>
                                     <span id="root_cause_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
                                 <!-- row 6 -->
@@ -192,7 +179,7 @@
                                     </select>                                    
                                     <span id="status_fkError" class="error-msg" ></span>
                                 </div> --%>
-                                 <div class="col s12 m4 input-field mti-5">
+                                 <div class="col s6 m4 input-field mti-5">
 	                                 <p>
 									      <label>
 									        <input type="checkbox" id="committee_required" name="committee_required"/>
@@ -201,7 +188,7 @@
 									      <input type="hidden" id="committee_required_fk" name="committee_required_fk" value="No"/>
 								    </p>
 							    </div>
-							    <div class="col s12 m4 hidden input-field mti-5" id="committee_formed_div" >
+							    <div class="col s6 m4 hidden input-field mti-5" id="committee_formed_div" >
 	                                 <p>
 									      <label>
 									        <input type="checkbox" id="committee_formed" name="committee_formed" />
@@ -219,83 +206,69 @@
                                     </select>
                                     <span id="committee_formed_fkError" class="error-msg" ></span>
                                 </div> -->
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>                                
-                                 <div class="col s12 m8 input-field ">
+                                 <div class="col s12 m8 input-field offset-m2">
                                      <textarea id="title" name="title" class="materialize-textarea validate" data-length="100"></textarea>
 	                                 <label for="title">Short Description <span class="required">*</span></label>
 	                                 <span id="titleError" class="error-msg" ></span>
                                  </div>
-                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                     <div class="col s12 m8 input-field">
-                                         <textarea id="description" name="description" class="materialize-textarea validate" data-length="1000"></textarea>
-	                                     <label for="description">Full Description<span class="required">*</span></label>
-	                                     <span id="descriptionError" class="error-msg" ></span>
-                                     </div>                                    
-                                <div class="col m2 hide-on-small-only"></div>
+                                  <div class="col s12 m8 input-field offset-m2">
+                                      <textarea id="description" name="description" class="materialize-textarea validate" data-length="1000"></textarea>
+                                   <label for="description">Full Description<span class="required">*</span></label>
+                                   <span id="descriptionError" class="error-msg" ></span>
+                                  </div>                                    
                             </div>
 
                             <div class="row ">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="date" name="date" type="text" class="validate datepicker">
                                     <label for="date"> Date <span class="required">*</span></label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="location" name="location" type="text" class="validate">
-                                    <label for="location">Location/Station/KM<span class="required">*</span></label>
+                                    <label for="location" class="fs-sm-8rem">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <!-- row 6 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="latitude" name="latitude" type="text" class="validate">
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="longitude" name="longitude" type="text" class="validate">
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <!-- row 2 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 offset-m2 m4 input-field">
                                     <input id="reported_by" name="reported_by" type="text" class="validate" value="${sessionScope.USER_NAME }">
                                     <label for="reported_by">Reported By</label>
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="responsible_person" name="responsible_person" type="text" class="validate">
-                                    <label for="responsible_person">Person Responsible in MRVC</label>
+                                    <label for="responsible_person" class="fs-sm-67rem">Person Responsible in MRVC</label>
                                     <span id="responsible_personError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
                                <!--  <div class="col s12 m4 input-field ">
                                     <input id="closure_date" name="closure_date" type="text" class="validate datepicker">
                                     <label for="closure_date">Closure Date</label>
                                     <button type="button" id="closure_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="closure_dateError" class="error-msg" ></span>
                                 </div> -->
-                                 <div class="col s12 m4 input-field ">
+                                 <div class="col s12 offset-m2 m4 input-field ">
                                     <input id="investigation_completed" name="investigation_completed" type="text" class="validate datepicker">
                                     <label for="investigation_completed">Investigation Completion Date</label>
                                     <button type="button" id="investigation_completed_icon"><i class="fa fa-calendar"></i></button>
@@ -306,80 +279,60 @@
                                     <label for="lti_hours">Loss Time Injury (LTI) Hours</label>
                                     <span id="lti_hoursError" class="error-msg" ></span>
                                 </div>
-                                
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                               </div>
                             <div class="row">
-                                <!-- //row 7 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field ">
+                                <div class="col s6 offset-m2 m4 input-field ">
                                     <input id="equipment_impact" name="equipment_impact" type="text" class="validate">
                                     <label for="equipment_impact"> Equipment Impact </label>
                                     <span id="equipment_impactError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="people_impact" name="people_impact" type="text" class="validate">
                                     <label for="people_impact">People Impact</label>
                                     <span id="people_impactError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <!-- //row 7 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field ">
+                                <div class="col s12 m8 input-field offset-m2">
                                     <input id="work_impact" name="work_impact" type="text" class="validate">
                                     <label for="work_impact"> Work Impact </label>
                                     <span id="work_impactError" class="error-msg" ></span>
-                                </div>
-                                
-                                
-                                <div class="col m2 hide-on-small-only"></div>
+                                </div>                   
                             </div>
 
                             <div class="row">
-                                <!-- //row 7 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 offset-m2 m4 input-field">
                                     <input id="payment_date" name="payment_date" type="text" class="validate datepicker">
                                     <label for="payment_date">Payment Date</label>
                                     <button type="button" id="payment_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="payment_dateError" class="error-msg" ></span>
                                 </div>
-                               <div class="col s12 m4 input-field">
+                               <div class="col s6 m4 input-field">
                                		<i class="material-icons prefix center-align">₹</i>
                                     <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" class="validate">
                                     <label for="compensation"> Compensation </label>
                                     <span id="compensationError" class="error-msg" ></span>
                                 </div>
-                                
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
-                                <!-- //row 7 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                             </div>
+                            <div class="row">                               
+                                <div class="col s12 m8 offset-m2 input-field">
                                    <textarea id="corrective_measure_short_term" name="corrective_measure_short_term" class="materialize-textarea validate" data-length="1000"></textarea>  
                                     <label for="corrective_measure_short_term">Corrective Measure (Short Term) </label>
                                     <span id="corrective_measure_short_termError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                              <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 input-field offset-m2">
                                     <textarea id="corrective_measure_long_term" name="corrective_measure_long_term" class="materialize-textarea validate" data-length="1000">${safety.corrective_measure_long_term }</textarea>  
                                     <!-- <input id="corrective_measure_long_term" name="corrective_measure_long_term" type="text" class="validate"> -->
                                     <label for="corrective_measure_long_term">Corrective Measure (Long Term) </label>
                                     <span id="corrective_measure_long_termError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>                          
 
                             <div class="row">
-	                            <div class="col m2 hide-on-small-only"></div>
-	                            <div class="col s12 m8 input-field">
+	                            <div class="col s12 m8 offset-m2">
                             		<div id="selectedFilesInput">
                                     	<div class="file-field input-field" id="safetyFilesDiv1" >
 	                                        <div class="btn bg-m t-c">
@@ -398,18 +351,14 @@
 								</div>
                             </div>
                             <div class="row">
-                                <!-- row 10 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 input-field offset-m2">
                                     <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000"></textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
                             </div>
 
-
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <button type="button" onclick="addSafety()"

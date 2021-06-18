@@ -15,6 +15,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
 	
 	 <style>
         p a {
@@ -33,6 +35,11 @@
     	 .fw-110{
     	 	width:110px !important;
     	 	max-width:110px;
+    	 }
+    	 .fw-37vw{
+    	 	width:37vw !important;
+    	 	max-width:38vw;
+    	 
     	 }
        .input-field>.datepicker ~ label:not(.label-icon).active {
 		    background-color: transparent !important;
@@ -54,8 +61,8 @@
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 
    <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
+        <div class="col s12 m12 ">
+            <div class="card hide-on-med-and-down">
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
@@ -104,19 +111,24 @@
                 <div class="card-content">
                      <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Update Incident</h6>
+                            <h6 class="hide-on-med-and-down">Update Incident</h6>
+							<h6 class="hide-on-large-only">Incident</h6>
                         </div>
                     </span>
-                        <div class="row no-mar" style="margin-bottom: 0;">
-                        	<div class="col m5 s12">
-                        		<div class="row">
-                        			  <div class="col m4 s12 input-field">
+                        <div class="row no-mar">                        	
+							<div class="col s12 hide-on-large-only mb-md-2 center-align">
+							    <a href="<%=request.getContextPath()%>/add-safety-form" class="btn waves-effect waves-light bg-s t-c">
+							        <strong><i class="fa fa-plus-circle"></i> Add Incident</strong></a>
+							</div>
+                        	 <div class="col m12 s12 l10">
+                        		<div class="row">                        			
+                        			  <div class="col m4 s6 l2 input-field">
 		                            	<p class="searchable_label">Work</p>
 		                                 <select id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getSafetyList();" class="searchable">
 		                                     <option value="" >Select</option>		                                     
 		                                 </select>  
                             		 </div>
-		                            <div class="col s12 m4 input-field">
+		                            <div class="col s6 m4 l2 input-field">
 		                            	<p class="searchable_label">Contract</p>
 		                                 <select id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getSafetyList();" class="searchable">
 		                                     <option value="" >Select</option>
@@ -125,53 +137,50 @@
 				                             </c:forEach> --%>
 		                                 </select>                                
 		                            </div>
-		                            <div class="col s12 m4 input-field">
+		                            <div class="col s6 m4 l2 input-field">
 		                            <p class="searchable_label">HOD</p>
 		                                <select id="hod_user_id_fk" name="hod_user_id_fk" onchange="addInQueHOD(this.value);getSafetyList();" class="searchable">
 		                                     <option value="" >Select</option>
 		                                 </select>
 		                            </div>
-                        		</div>
-                        	</div>
-                        	
-                          <div class="col m7 s12">
-                            <div class="col s12 m3 input-field">
-                            <p class="searchable_label">Department</p>
-                                <select id="department_fk" name="department_fk" onchange="addInQueDepartment(this.value);getSafetyList();" class="searchable">
-                                     <option value="" >Select</option>
-                                     <%-- <c:forEach var="obj" items="${departments }">
-		                               	<option value="${obj.department }" <c:if test="${param.department_fk eq obj.department }">selected</c:if>>${obj.department_fk }<c:if test="${not empty obj.department_name}"> - </c:if> ${obj.department_name }</option>
-		                             </c:forEach> --%>
-                                 </select>
-                            </div>
-                            <div class="col s12 m3 input-field">
-                            <p class="searchable_label">Category</p>
-                                 <select id="category_fk" name="category_fk" onchange="addInQueCategory(this.value);getSafetyList();" class="searchable">
-                                     <option value="" >Select</option>
-                                     <%-- <c:forEach var="obj" items="${categorys }">
-		                               	<option value="${obj.category_fk }" <c:if test="${param.category_fk eq obj.category_fk }">selected</c:if>>${obj.category_fk }</option>
-		                             </c:forEach> --%>
-                                 </select>
-                            </div>
-                            <div class="col s12 m3 input-field">
-                            <p class="searchable_label">Status</p>
-                                 <select id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getSafetyList();" class="searchable">
-                                     <option value="" >Select</option>
-                                     <%-- <c:forEach var="obj" items="${statuses }">
-		                               	<option value="${obj.status_fk }" <c:if test="${param.status_fk eq obj.status_fk }">selected</c:if>>${obj.status_fk }</option>
-		                             </c:forEach> --%>
-                                 </select>
-                            </div>
-                            <div class="col s12 m3">
+		                            <div class="col s6 m4 l2 input-field">
+		                            <p class="searchable_label">Department</p>
+		                                <select id="department_fk" name="department_fk" onchange="addInQueDepartment(this.value);getSafetyList();" class="searchable">
+		                                     <option value="" >Select</option>
+		                                     <%-- <c:forEach var="obj" items="${departments }">
+				                               	<option value="${obj.department }" <c:if test="${param.department_fk eq obj.department }">selected</c:if>>${obj.department_fk }<c:if test="${not empty obj.department_name}"> - </c:if> ${obj.department_name }</option>
+				                             </c:forEach> --%>
+		                                 </select>
+		                            </div>
+		                            <div class="col s6 m4 l2 input-field">
+		                            <p class="searchable_label">Category</p>
+		                                 <select id="category_fk" name="category_fk" onchange="addInQueCategory(this.value);getSafetyList();" class="searchable">
+		                                     <option value="" >Select</option>
+		                                     <%-- <c:forEach var="obj" items="${categorys }">
+				                               	<option value="${obj.category_fk }" <c:if test="${param.category_fk eq obj.category_fk }">selected</c:if>>${obj.category_fk }</option>
+				                             </c:forEach> --%>
+		                                 </select>
+		                            </div>
+		                            <div class="col s6 m4 l2 input-field">
+		                            <p class="searchable_label">Status</p>
+		                                 <select id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getSafetyList();" class="searchable">
+		                                     <option value="" >Select</option>
+		                                     <%-- <c:forEach var="obj" items="${statuses }">
+				                               	<option value="${obj.status_fk }" <c:if test="${param.status_fk eq obj.status_fk }">selected</c:if>>${obj.status_fk }</option>
+				                             </c:forEach> --%>
+		                                 </select>
+		                            </div>
+                               </div>
+                            </div> 
+                            <div class="col s12 m4 offset-m4 l2 center-align">
                                 <button class="btn bg-s waves-effect waves-light t-c clear-filters "
                                     style="margin-top: 10px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
-                            </div>
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col m12 s12">
-
+							<div  style= "display:none;" id="webView">
                                 <table id="datatable-safety" class="mdl-data-table">
                                     <thead>
                                         <tr>
@@ -183,16 +192,29 @@
                                             <th>Department </th>
                                             <th>Category </th>                                           
                                             <th>Status </th>                                           
-                                            <th class="nosort">Action</th>
+                                            <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-
                                     </tbody>
-
                                 </table>
-
+                              </div>
+                              <div  style= "display:none;" id="mobView">
+                                <table id="datatable-safety_mob" class="mdl-data-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="fw-37vw">Contract</th>
+                                            <th >Short <br>Description </th>                                                                 
+                                            <th class="no-sort">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                              </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -273,9 +295,8 @@
 		        	  } 
 	        	  }
 	          }
-            }
-        	
-        	getSafetyList();
+            }        	
+        	getSafetyList();        	
         });
         
         
@@ -373,122 +394,227 @@
         		window.localStorage.setItem("safetyFilters", filters);
    			});
         	
-         	table = $('#datatable-safety').DataTable();
-    		table.destroy();
+        	if(window.matchMedia("(max-width: 769px)").matches){
+        		$('tbody.web').removeAttr('id');
+                $('#mobView').css({'display':'block'});
+        		table = $('#datatable-safety_mob').DataTable();
+        		table.destroy();
 
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
+        		$.fn.dataTable.moment('DD-MMM-YYYY');
 
-    		var myParams =  "work_id_fk="
-    				+ work_id_fk + "&contract_id_fk="+ contract_id_fk+ "&department_fk="+ department_fk+ "&category_fk="+ category_fk+ "&status_fk="+ status_fk+ "&hod_user_id_fk="+ hod_user_id_fk;
+        		var myParams =  "work_id_fk="
+        				+ work_id_fk + "&contract_id_fk="+ contract_id_fk+ "&department_fk="+ department_fk+ "&category_fk="+ category_fk+ "&status_fk="+ status_fk+ "&hod_user_id_fk="+ hod_user_id_fk;
 
-    		/***************************************************************************************************/
+        		/***************************************************************************************************/
 
-    		$("#datatable-safety")
-    				.DataTable(
-    						{
-    							"bProcessing" : true,
-    							"bServerSide" : true,
-    							"sort" : "position",
-    							//bStateSave variable you can use to save state on client cookies: set value "true" 
-    							"bStateSave" : false,
-    							//Default: Page display length
-    							"iDisplayLength" : 10,
-    							"iData" : {
-    								"start" : 52
-    							},
-    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-    							"iDisplayStart" : 0,
-    							"fnDrawCallback" : function() {
-    								//Get page numer on client. Please note: number start from 0 So
-    								//for the first page you will see 0 second page 1 third page 2...
-    								//Un-comment below alert to see page number
-    								//alert("Current page number: "+this.fnPagingInfo().iPage);
-    							},
-    							//"sDom": 'l<"toolbar">frtip',
-    							"initComplete" : function() {
-    								$('.dataTables_filter input[type="search"]')
-    										.attr('placeholder', 'Search')
-    										.css({
-    											'width' : '350px ',
-    											'display' : 'inline-block'
-    										});
+        		$("#datatable-safety_mob")
+        				.DataTable(
+        						{
+        							"bProcessing" : true,
+        							"bServerSide" : true,
+        							"sort" : "position",
+        							//bStateSave variable you can use to save state on client cookies: set value "true" 
+        							"bStateSave" : false,
+        							//Default: Page display length
+        							"iDisplayLength" : 10,
+        							"iData" : {
+        								"start" : 52
+        							},
+        							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+        							"iDisplayStart" : 0,
+        							"fnDrawCallback" : function() {
+        								//Get page numer on client. Please note: number start from 0 So
+        								//for the first page you will see 0 second page 1 third page 2...
+        								//Un-comment below alert to see page number
+        								//alert("Current page number: "+this.fnPagingInfo().iPage);
+        							},
+        							//"sDom": 'l<"toolbar">frtip',
+        							"initComplete" : function() {
+        								$('.dataTables_filter input[type="search"]')
+        										.attr('placeholder', 'Search')
+        										.css({
+        											'width' : '350px ',
+        											'display' : 'inline-block'
+        										});
 
-    								var input = $('.dataTables_filter input')
-    										.unbind(), self = this.api(), $searchButton = $(
-    										'<i class="fa fa-search" title="Go">')
-    								//.text('Go')
-    								.click(function() {
-    									self.search(input.val()).draw();
-    								}), $clearButton = $(
-    										'<i class="fa fa-close" title="Reset">')
-    								//.text('X')
-    								.click(function() {
-    									input.val('');
-    									$searchButton.click();
-    								})
-    								$('.dataTables_filter').append(
-    										'<div class="right-btns"></div>');
-    								$('.dataTables_filter div').append(
-    										$searchButton, $clearButton);
+        								var input = $('.dataTables_filter input')
+        										.unbind(), self = this.api(), $searchButton = $(
+        										'<i class="fa fa-search" title="Go">')
+        								//.text('Go')
+        								.click(function() {
+        									self.search(input.val()).draw();
+        								}), $clearButton = $(
+        										'<i class="fa fa-close" title="Reset">')
+        								//.text('X')
+        								.click(function() {
+        									input.val('');
+        									$searchButton.click();
+        								})
+        								$('.dataTables_filter').append(
+        										'<div class="right-btns"></div>');
+        								$('.dataTables_filter div').append(
+        										$searchButton, $clearButton);
 
-    								/* var input = $('.dataTables_filter input').unbind(),
-    								self = this.api(),
-    								$searchButton = $('<i class="fa fa-search">')
-    								           //.text('Go')
-    								           .click(function() {			   	                    	 
-    								              self.search(input.val()).draw();
-    								           })			   	        
-    								  $('.dataTables_filter label').append($searchButton); */
-    							},
-    							columnDefs : [ {
-    								"targets" : 'no-sort',
-    								"orderable" : false,
-    							} ],
-    							"sScrollX" : "100%",
-    							"sScrollXInner" : "100%",
-    							"bScrollCollapse" : true,
-    							"language" : {
-    								"info" : "_START_ - _END_ of _TOTAL_",
-    								paginate : {
-    									next : '<i class="fa fa-angle-right"></i>', 
-    									previous : '<i class="fa fa-angle-left"></i>'  
-    								}
-    							},
-    							"bDestroy" : true,
-    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getSafetyList?"+myParams,
-    		        "aoColumns": [
-      		         	{ "mData": function(data,type,row){
-      		         		 var contractName = '';
-                             if ($.trim(data.contract_short_name) != '') { contractName = ' - ' + $.trim(data.contract_short_name) }
-                             if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk + contractName ; }
-      		            } },
-    		         	{ "mData": function(data,type,row){
-    		            	if($.trim(data.title) == ''){ return '-'; }else{ return data.title; }
-    		            } },
-    		            { "mData": function(data,type,row){
-    		            	if($.trim(data.location) == ''){ return '-'; }else{ return data.location; }
-    		            } },
-    		            { "mData": function(data,type,row){
-    		            	if($.trim(data.responsible_person) == ''){ return '-'; }else{ return data.responsible_person; }
-    		            } },
-    		         	{ "mData": function(data,type,row){
-    		            	if($.trim(data.category_fk) == ''){ return '-'; }else{ return data.category_fk; }
-    		            } },
-    		            { "mData": function(data,type,row){
-    		            	if($.trim(data.category_fk) == ''){ return '-'; }else{ return data.category_fk; }
-    		            } },
-    		            { "mData": function(data,type,row){
-    		            	if($.trim(data.status_fk) == ''){ return '-'; }else{ return data.status_fk; }
-    		            } },
-    		         	{ "mData": function(data,type,row){
-    		         		var safety_id = "'"+data.safety_id+"'";
-    	                    var actions = '<a href="javascript:void(0);"  onclick="getSafety('+safety_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';
-    		            	return actions;
-    		            } }
-    		            
-    		        ]
-    		    });
-    	    
+        								/* var input = $('.dataTables_filter input').unbind(),
+        								self = this.api(),
+        								$searchButton = $('<i class="fa fa-search">')
+        								           //.text('Go')
+        								           .click(function() {			   	                    	 
+        								              self.search(input.val()).draw();
+        								           })			   	        
+        								  $('.dataTables_filter label').append($searchButton); */
+        							},
+        							columnDefs : [ {
+        								"targets" : 'no-sort',
+        								"orderable" : false,
+        							} ],
+        							"sScrollX" : "100%",
+        							"sScrollXInner" : "100%",
+        							"bScrollCollapse" : true,
+        							"language" : {
+        								"info" : "_START_ - _END_ of _TOTAL_",
+        								paginate : {
+        									next : '<i class="fa fa-angle-right"></i>', 
+        									previous : '<i class="fa fa-angle-left"></i>'  
+        								}
+        							},
+        							"bDestroy" : true,
+        							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getSafetyList?"+myParams,
+        		        "aoColumns": [
+          		         	{ "mData": function(data,type,row){
+          		         		 var contractName = '';
+                                 if ($.trim(data.contract_short_name) != '') { contractName = ' - ' + $.trim(data.contract_short_name) }
+                                 if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk + contractName ; }
+          		            } },
+        		         	{ "mData": function(data,type,row){
+        		            	if($.trim(data.title) == ''){ return '-'; }else{ return data.title; }
+        		            } },        		           
+        		         	{ "mData": function(data,type,row){
+        		         		var safety_id = "'"+data.safety_id+"'";
+        	                    var actions = '<a href="javascript:void(0);"  onclick="getSafety('+safety_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';
+        		            	return actions;
+        		            } }
+        		            
+        		        ]
+        		    });
+        	} else {
+        		$('#webView').css({'display':'block'});
+	         	table = $('#datatable-safety').DataTable();
+	    		table.destroy();
+	
+	    		$.fn.dataTable.moment('DD-MMM-YYYY');
+	
+	    		var myParams =  "work_id_fk="
+	    				+ work_id_fk + "&contract_id_fk="+ contract_id_fk+ "&department_fk="+ department_fk+ "&category_fk="+ category_fk+ "&status_fk="+ status_fk+ "&hod_user_id_fk="+ hod_user_id_fk;
+	
+	    		/***************************************************************************************************/
+	
+	    		$("#datatable-safety")
+	    				.DataTable(
+	    						{
+	    							"bProcessing" : true,
+	    							"bServerSide" : true,
+	    							"sort" : "position",
+	    							//bStateSave variable you can use to save state on client cookies: set value "true" 
+	    							"bStateSave" : false,
+	    							//Default: Page display length
+	    							"iDisplayLength" : 10,
+	    							"iData" : {
+	    								"start" : 52
+	    							},
+	    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+	    							"iDisplayStart" : 0,
+	    							"fnDrawCallback" : function() {
+	    								//Get page numer on client. Please note: number start from 0 So
+	    								//for the first page you will see 0 second page 1 third page 2...
+	    								//Un-comment below alert to see page number
+	    								//alert("Current page number: "+this.fnPagingInfo().iPage);
+	    							},
+	    							//"sDom": 'l<"toolbar">frtip',
+	    							"initComplete" : function() {
+	    								$('.dataTables_filter input[type="search"]')
+	    										.attr('placeholder', 'Search')
+	    										.css({
+	    											'width' : '350px ',
+	    											'display' : 'inline-block'
+	    										});
+	
+	    								var input = $('.dataTables_filter input')
+	    										.unbind(), self = this.api(), $searchButton = $(
+	    										'<i class="fa fa-search" title="Go">')
+	    								//.text('Go')
+	    								.click(function() {
+	    									self.search(input.val()).draw();
+	    								}), $clearButton = $(
+	    										'<i class="fa fa-close" title="Reset">')
+	    								//.text('X')
+	    								.click(function() {
+	    									input.val('');
+	    									$searchButton.click();
+	    								})
+	    								$('.dataTables_filter').append(
+	    										'<div class="right-btns"></div>');
+	    								$('.dataTables_filter div').append(
+	    										$searchButton, $clearButton);
+	
+	    								/* var input = $('.dataTables_filter input').unbind(),
+	    								self = this.api(),
+	    								$searchButton = $('<i class="fa fa-search">')
+	    								           //.text('Go')
+	    								           .click(function() {			   	                    	 
+	    								              self.search(input.val()).draw();
+	    								           })			   	        
+	    								  $('.dataTables_filter label').append($searchButton); */
+	    							},
+	    							columnDefs : [ {
+	    								"targets" : 'no-sort',
+	    								"orderable" : false,
+	    							} ],
+	    							"sScrollX" : "100%",
+	    							"sScrollXInner" : "100%",
+	    							"bScrollCollapse" : true,
+	    							"language" : {
+	    								"info" : "_START_ - _END_ of _TOTAL_",
+	    								paginate : {
+	    									next : '<i class="fa fa-angle-right"></i>', 
+	    									previous : '<i class="fa fa-angle-left"></i>'  
+	    								}
+	    							},
+	    							"bDestroy" : true,
+	    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getSafetyList?"+myParams,
+	    		        "aoColumns": [
+	      		         	{ "mData": function(data,type,row){
+	      		         		 var contractName = '';
+	                             if ($.trim(data.contract_short_name) != '') { contractName = ' - ' + $.trim(data.contract_short_name) }
+	                             if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk + contractName ; }
+	      		            } },
+	    		         	{ "mData": function(data,type,row){
+	    		            	if($.trim(data.title) == ''){ return '-'; }else{ return data.title; }
+	    		            } },
+	    		            { "mData": function(data,type,row){
+	    		            	if($.trim(data.location) == ''){ return '-'; }else{ return data.location; }
+	    		            } },
+	    		            { "mData": function(data,type,row){
+	    		            	if($.trim(data.responsible_person) == ''){ return '-'; }else{ return data.responsible_person; }
+	    		            } },
+	    		         	{ "mData": function(data,type,row){
+	    		            	if($.trim(data.category_fk) == ''){ return '-'; }else{ return data.category_fk; }
+	    		            } },
+	    		            { "mData": function(data,type,row){
+	    		            	if($.trim(data.category_fk) == ''){ return '-'; }else{ return data.category_fk; }
+	    		            } },
+	    		            { "mData": function(data,type,row){
+	    		            	if($.trim(data.status_fk) == ''){ return '-'; }else{ return data.status_fk; }
+	    		            } },
+	    		         	{ "mData": function(data,type,row){
+	    		         		var safety_id = "'"+data.safety_id+"'";
+	    	                    var actions = '<a href="javascript:void(0);"  onclick="getSafety('+safety_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';
+	    		            	return actions;
+	    		            } }
+	    		            
+	    		        ]
+	    		    });
+        	}
     	  $(".page-loader-2").hide();  		     
       	
        }

@@ -26,7 +26,7 @@ public class IssueDetailsDaoImpl implements IssueDetailsDao{
 
 	@Override
 	public Issue getIssue(Issue obj) throws Exception {
-		Issue iObj = null;
+		Issue iObj = new Issue();
 		try {
 			String qry = "select issue_id,contract_id_fk,title,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
 					+ "d.department_name,priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,"
@@ -82,40 +82,42 @@ public class IssueDetailsDaoImpl implements IssueDetailsDao{
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			iObj = (Issue)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
-			
-			if(!StringUtils.isEmpty(iObj)) {				
-				String filesQry ="select file_name,issue_id_fk as issue_id from issue_files where issue_id_fk = ? ";					
-				List<Issue> objsList = jdbcTemplate.query( filesQry,new Object[] {obj.getIssue_id()}, new BeanPropertyRowMapper<Issue>(Issue.class));					
-				if(!StringUtils.isEmpty(objsList)) {
-					iObj.setIssueFilesList(objsList);
-				}
-				
-				String fileNamesQry ="select group_concat(file_name) as attachments from issue_files where issue_id_fk = ? ";					
-				Issue fileNames = jdbcTemplate.queryForObject( fileNamesQry,new Object[] {obj.getIssue_id()}, new BeanPropertyRowMapper<Issue>(Issue.class));					
-				if(!StringUtils.isEmpty(fileNames)) {
-					iObj.setAttachments(fileNames.getAttachments());
-				}
-				
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
-					if(obj.getUser_id().equals(iObj.getResponsible_person()) || obj.getUser_id().equals(iObj.getEscalated_to()) 
-							|| obj.getUser_id().equals(iObj.getHod_user_id_fk()) || obj.getUser_id().equals(iObj.getDy_hod_user_id_fk()) 
-							|| obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN) ){
-						iObj.setReadonlyForm(false);
-					}else {
-						iObj.setReadonlyForm(true);
+			List<Issue> iObjList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
+			for (Issue issue : iObjList) {
+				if(!StringUtils.isEmpty(issue)) {
+					iObj = issue;
+					String filesQry ="select file_name,issue_id_fk as issue_id from issue_files where issue_id_fk = ? ";					
+					List<Issue> objsList = jdbcTemplate.query( filesQry,new Object[] {obj.getIssue_id()}, new BeanPropertyRowMapper<Issue>(Issue.class));					
+					if(!StringUtils.isEmpty(objsList)) {
+						iObj.setIssueFilesList(objsList);
+					}
+					
+					String fileNamesQry ="select group_concat(file_name) as attachments from issue_files where issue_id_fk = ? ";					
+					Issue fileNames = jdbcTemplate.queryForObject( fileNamesQry,new Object[] {obj.getIssue_id()}, new BeanPropertyRowMapper<Issue>(Issue.class));					
+					if(!StringUtils.isEmpty(fileNames)) {
+						iObj.setAttachments(fileNames.getAttachments());
+					}
+					
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
+						if(obj.getUser_id().equals(iObj.getResponsible_person()) || obj.getUser_id().equals(iObj.getEscalated_to()) 
+								|| obj.getUser_id().equals(iObj.getHod_user_id_fk()) || obj.getUser_id().equals(iObj.getDy_hod_user_id_fk()) 
+								|| obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN) ){
+							iObj.setReadonlyForm(false);
+						}else {
+							iObj.setReadonlyForm(true);
+						}
+						
+					}
+					
+					if(!StringUtils.isEmpty(obj.getMessage_id())) {
+						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
+						String msgUpdateqry = "UPDATE messages SET read_time=CURRENT_TIMESTAMP where message_id = :message_id" ;	
+						
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+						template.update(msgUpdateqry, paramSource);	
 					}
 					
 				}
-				
-				if(!StringUtils.isEmpty(obj.getMessage_id())) {
-					NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
-					String msgUpdateqry = "UPDATE messages SET read_time=CURRENT_TIMESTAMP where message_id = :message_id" ;	
-					
-					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-					template.update(msgUpdateqry, paramSource);	
-				}
-				
 			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

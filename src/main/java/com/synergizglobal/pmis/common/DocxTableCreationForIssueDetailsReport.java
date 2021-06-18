@@ -85,7 +85,7 @@ public class DocxTableCreationForIssueDetailsReport {
 		
 		/****************************************************************************/
 		
-		if(!StringUtils.isEmpty(issueDeailsReport)) {
+		
 			
 			Tbl titleTable = factory.createTbl();
 			addBorders(titleTable, "2");
@@ -428,14 +428,14 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	count++;
 	  	}
 		
-     /*===========================================================*/
+		/*===========================================================*/
 			setTableAlign(factory, titleTable, JcEnumeration.CENTER);
 			mp.addObject(titleTable);
 			
 			/****************************************************************/
 	
 			
-		}
+		
 		
 		if(!StringUtils.isEmpty(issueDeailsHistoryReport)) {			
 			/*P p = factory.createP();

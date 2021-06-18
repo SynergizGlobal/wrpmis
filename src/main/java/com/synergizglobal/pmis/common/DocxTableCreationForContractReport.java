@@ -206,9 +206,12 @@ public class DocxTableCreationForContractReport {
 			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, false, false, false,
 					false);
 
+			int temp = 1;
 			for (Map.Entry<String,List<Contract>> hodEntry : list.entrySet()) {
-				
-				addParagraph(mp, factory);
+				if(temp > 1) {
+					addParagraph(mp, factory);
+				}
+				temp++;
 				addHeading(wordMLPackage, mp, factory,JcEnumeration.LEFT,fontRPr,hodEntry.getKey());
 				
 				Tbl table = factory.createTbl();
@@ -295,10 +298,12 @@ public class DocxTableCreationForContractReport {
 			RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA, true, true, false, false);
 			RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
 			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, false, false, false,false);
-			
+			int temp = 1;
 			for (Map.Entry<String,List<Contract>> hodEntry : list.entrySet()) {
-				
-				addParagraph(mp, factory);
+				if(temp > 1) {
+					addParagraph(mp, factory);
+				}
+				temp++;
 				addHeading(wordMLPackage, mp, factory,JcEnumeration.LEFT,fontRPr,hodEntry.getKey());
 				
 				Tbl table = factory.createTbl();
@@ -1229,8 +1234,8 @@ public class DocxTableCreationForContractReport {
 	private static void addParagraph(MainDocumentPart mp, ObjectFactory factory) {
 		P p = factory.createP();
 		R r = factory.createR();
-		Br br = factory.createBr();
-		r.getContent().add(br);
+		//Br br = factory.createBr();
+		//r.getContent().add(br);
 		p.getContent().add(r);
 
 		mp.addObject(p);

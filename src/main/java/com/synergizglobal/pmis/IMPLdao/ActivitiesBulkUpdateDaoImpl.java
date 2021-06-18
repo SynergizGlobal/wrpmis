@@ -393,7 +393,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		try {	
 			String qry = " select (case "  
 					+" when ((select count(*) from activities s1 where s1.scope - s1.completed <> 0 "
-					+ " and s1.contract_id_fk = ? and s1.structure = ? and s1.component_id = ? ";
+					+ " and s1.contract_id_fk = ? and s1.structure = ? and s1.component_id = ? and s1.component = ? ";
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 						qry = qry + " and s1.line = ?";
 					}			
@@ -411,7 +411,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					//}	
 					//qry = qry + ") < CURDATE() ) > 0) then 'delayed' "  
 					+" when ((select count(*) from activities s3 where s3.completed = 0 and scope <> 0 "
-					+ "and s3.contract_id_fk = ? and s3.structure = ? and s3.component_id = ? ";
+					+ "and s3.contract_id_fk = ? and s3.structure = ? and s3.component_id = ? and s3.component = ? ";
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 						qry = qry + " and s3.line = ?";
 					}			
@@ -429,6 +429,8 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			stmt.setString(p++,sobj.getContract_id_fk());
 			stmt.setString(p++,sobj.getStrip_chart_structure_id_fk());
 			stmt.setString(p++,sobj.getStrip_chart_component_id());
+			stmt.setString(p++,sobj.getStrip_chart_component());
+			
 			if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 				stmt.setString(p++,sobj.getStrip_chart_line_id_fk());
 			}			
@@ -451,6 +453,8 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			stmt.setString(p++,sobj.getContract_id_fk());
 			stmt.setString(p++,sobj.getStrip_chart_structure_id_fk());
 			stmt.setString(p++,sobj.getStrip_chart_component_id());
+			stmt.setString(p++,sobj.getStrip_chart_component());
+			
 			if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 				stmt.setString(p++,sobj.getStrip_chart_line_id_fk());
 			}			
@@ -479,7 +483,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			String qry = "select activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name "
 					+ "from activities "
 					+ "where activity_id is not null and scope <> completed  "
-					+ "and component_id = ? and structure = ? ";
+					+ "and component_id = ? and structure = ? and component = ? ";
 			int arrSize = 2;			
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
@@ -498,6 +502,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			//pValues[i++] = CommonConstants2.STATUS_COMPLETED;
 			pValues[i++] = obj.getStrip_chart_component_id();
 			pValues[i++] = obj.getStrip_chart_structure_id_fk();
+			pValues[i++] = obj.getStrip_chart_component();
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
 				pValues[i++] = obj.getStrip_chart_line_id_fk();
@@ -564,6 +569,10 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					+",DATE_FORMAT(planned_finish,'%d-%m-%y') AS planned_finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from activities  " 
 					+ " where activity_id is not null and scope <> completed ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
+				qry = qry + "and component = ? ";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
 				qry = qry + "and component_id = ? ";
 				arrSize++;
@@ -587,6 +596,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			
 			int i = 0;
 			//pValues[i++] = CommonConstants2.STATUS_COMPLETED;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
+				pValues[i++] = obj.getStrip_chart_component();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
 				pValues[i++] = obj.getStrip_chart_component_id();
 			}

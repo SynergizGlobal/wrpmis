@@ -12,6 +12,7 @@ public interface ActivitiesDao {
 	public List<StripChart> getActivitiesContractsList(StripChart obj) throws Exception;
 	public List<StripChart> getActivitiesActivities(StripChart obj) throws Exception;
 	public List<StripChart> getActivitiesComponents(StripChart obj) throws Exception;
+	public List<StripChart> getActivityComponentsList(StripChart obj) throws Exception;
 	public List<StripChart> getActivitiesComponentIds(StripChart obj) throws Exception;
 	public List<StripChart> getActivitiesLines(StripChart obj) throws Exception;
 	public List<StripChart> getActivitiesSections(StripChart obj) throws Exception;

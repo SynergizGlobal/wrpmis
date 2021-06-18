@@ -363,12 +363,12 @@
                                              <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component" name="strip_chart_component" onchange="getComponentIdsList(this.value);">
                                                 <option value=""></option>
                                             </select>
-                                            <span id="strip_chart_component_idError" class="error-msg" ></span>
+                                            <span id="strip_chart_componentError" class="error-msg" ></span>
                                         </div>
                                         
                                          <div class="col m4 s12 input-field">
                                             <p class="searchable_label">Component ID</p>
-                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getComponentAndActivitiesList(this.value);">
+                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getAcivitiesBulkUpdateActivitiesList(this.value);">
                                                 <option value=""></option>
                                             </select>
                                             <span id="strip_chart_component_idError" class="error-msg" ></span>
@@ -495,28 +495,6 @@
                                         </div> -->
                                     </div>
 
-                                    <!-- <div class="row">                                     
-                                        <div class="col m4 s12 input-field">
-                                            <p class="searchable_label">Component ID</p>
-                                             <select class="searchable validate-dropdown" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getComponentAndActivitiesList(this.value);">
-                                                <option value="">Select</option>
-                                            </select>
-                                            <span id="strip_chart_component_idError" class="error-msg" ></span>
-                                        </div>
-                                        <div class="col m4 s12 input-field">
-                                            <p class="searchable_label">Component</p>
-                                            <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 2rem;" readonly="readonly">
-                                        </div>
-                                        <div class="col m4 s12 input-field">
-                                            <p class="searchable_label">Activity</p>
-                                            <select id="strip_chart_activity_id" name="strip_chart_activity_id"
-                                                class="searchable validate-dropdown"
-                                                onchange="getStripChartfiltersList();">
-                                                <option value="">Select</option>
-                                            </select>
-                                            <span id="strip_chart_activity_idError" class="error-msg"></span>
-                                        </div>
-                                    </div> -->
 									<br>
                                     <div class="row">
                                         <div class="col m2 hide-on-small-only"></div>
@@ -944,21 +922,20 @@
      	$("#strip_chart_component").val('');
      	$("#strip_chart_component").attr("readonly", true); */
      	
-     	$("#strip_chart_component_id option:not(:first)").remove();
-     	$("#strip_chart_activity_id option:not(:first)").remove();
+     	//$("#strip_chart_component_id option:not(:first)").remove();
      	
      	$('.searchable').select2();
      	
          $("#component_circles").html('');
          $("#component_circles_row").hide();
          $("#legends").hide();  
-         $("#table_show").hide();    	
+         $("#table_show").hide(); 
      } 
 	
 	  function getAcivitiesBulkUpdateStructures(value) {
-      	$(".page-loader-2").show();
-      	var contract_id_fk = $("#contract_id_fk").val();
-      	var strip_chart_structure_id_fk = value;
+      	  $(".page-loader-2").show();
+      	  var contract_id_fk = $("#contract_id_fk").val();
+      	  var strip_chart_structure_id_fk = value;
           $("#strip_chart_structure_id_fk option:not(:first)").remove();
           if ($.trim(contract_id_fk) != "") {
           	var myParams = { contract_id_fk: contract_id_fk };
@@ -975,8 +952,8 @@
 	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
 	                            }else if (strip_chart_structure_id_fk != null && strip_chart_structure_id_fk != "") {
 	                            	 var selectedFlag = (strip_chart_structure_id_fk != null)?'selected':'';
-	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
-	                                getComponentIdsList(strip_chart_structure_id_fk);
+	                                 $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
+	                            	 id2 = strip_chart_structure_id_fk;
 	                            } else {
 	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '">' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
 	                            }
@@ -987,7 +964,8 @@
                       
                       
                       if ($.trim(id1) != '' && $.trim(id2) != '') {
-                      	getComponentIdsList(id2);
+                    	  alert("hai");
+                    	  getComponentsList(id2);
                       }
                   }
               });
@@ -1044,8 +1022,6 @@
 	 }
 	
 	function getComponentsList(structure_id){
-		 getStripChartfiltersList();
-		 
 		 clearComponentCircle();
 		 
      	 $(".page-loader").show();
@@ -1079,7 +1055,9 @@
 	 function getComponentIdsList(component) {   
      	$(".page-loader-3").show();
      	
-     	 clearComponentCircle();
+     	clearComponentCircle();
+     	
+     	$("#strip_chart_component_id option:not(:first)").remove();
          
          var contract_id_fk = $("#contract_id_fk").val();
          var structureId = $("#strip_chart_structure_id_fk").val();
@@ -1092,7 +1070,7 @@
          if ($.trim(contract_id_fk) != "" && $.trim(structureId) != "" && $.trim(component) ) {                
              $.ajax({
                  url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateComponentIdsList",
-                 data: myParams, cache: false,
+                 data: myParams, cache: false,async:false,
                  success: function (data) {
                  	var id1 = "";
                  	var id2 = "";
@@ -1100,7 +1078,8 @@
                      
                      if (data.length > 0) {
                          $.each(data, function (i, val) {
-                         	var componentIdAndName = "'" + val.strip_chart_component_id + "','" +component+ "'";
+                         	 //var componentIdAndName = "'" + val.strip_chart_component_id + "','" +component+ "'";
+                         	 var componentId = "'" + val.strip_chart_component_id + "'";
                              var className = "odd";
                              if(i%2 == 0){
                              	className = "even";
@@ -1114,7 +1093,7 @@
                              if(val.component_id_color == "completed"){
                              	pointerEvent = "pointer-events: none;";
                              	html = html + '<div class="dot-container" id="dd'+tempId+'">'
-                                 + '<a href="javascript:void(0);" data-some="completed" id="'+tempId+'" style="'+pointerEvent+'" onclick="getAcivitiesBulkUpdateActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+' clearData" >'
+                                 + '<a href="javascript:void(0);" data-some="completed" id="'+tempId+'" style="'+pointerEvent+'" onclick="getAcivitiesBulkUpdateActivitiesList('+componentId+');" class="dot '+val.component_id_color+' clearData" >'
                                  + '<span class="project '+className+'" >'+val.strip_chart_component_id+'</span></a>';
                                 // if(i != 0){
                                  	html = html + '<span class="dot-line"></span>';
@@ -1125,7 +1104,7 @@
                              } else {                
                              	
                              	html = html + '<div class="dot-container" id="dd'+tempId+'">'
-                                 + '<a href="javascript:void(0);" id="'+tempId+'" style="'+pointerEvent+'" onclick="getAcivitiesBulkUpdateActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+' clearData" >'
+                                 + '<a href="javascript:void(0);" id="'+tempId+'" style="'+pointerEvent+'" onclick="getAcivitiesBulkUpdateActivitiesList('+componentId+');" class="dot '+val.component_id_color+' clearData" >'
                                  + '<span class="project '+className+'">'+val.strip_chart_component_id+'</span></a>';
                                 // if(i != 0){
                                  	html = html + '<span class="dot-line"></span>';
@@ -1142,7 +1121,7 @@
                          });
                          
                          $('.searchable').select2();
-                         getStripChartfiltersList();
+                         getAcivitiesBulkUpdateActivitiesList('');
                      }
                      $("#component_circles").html(html);
                      $("#component_circles_row").show();
@@ -1155,125 +1134,40 @@
                      
                      
                      if ($.trim(id1) != '' && $.trim(id2) != '') {
-                     	getAcivitiesBulkUpdateActivitiesList(id2,component);
+                     	getAcivitiesBulkUpdateActivitiesList(id2);
                      }
                  }
              });
          }else{
-         	$(".page-loader-3").hide();
-         	$("#component_circles").html(html);
+         	 $(".page-loader-3").hide();
+         	 $("#component_circles").html(html);
              $("#component_circles_row").hide();
              $('#legends').hide();
          }
      }
 	 
-	 function getAcivitiesBulkUpdateActivitiesList(componentId,componentName) {
-     	$( ".dot" ).removeClass( "active" );
-     	/* var incStr =componentName.indexOf('/');
-     	if(incStr >= 0){
-     		var component_name = componentName.replaceAll(/[^a-zA-Z0-9]/g," ")
-     		$( "#"+component_name ).addClass( "active" );
-     	}else{
-         	$( "#"+componentName ).addClass( "active" );
-     	} */
-     	/* $("#strip_chart_component option:not(:first)").remove();
-     	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
-     	$('.searchable').select2(); */
-     	
-     	/* $("#strip_chart_component").attr("readonly", false); 
-     	$("#strip_chart_component").val(componentName);
-     	$("#strip_chart_component").attr("readonly", true);  */
-     	
-     	$("#strip_chart_component_id").val(componentId);
-     	$(".page-loader").show();
-         $("#strip_chart_activity_id option:not(:first)").remove();
-         
-         var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-         var strip_chart_line_id_fk = $("#strip_chart_line_id_fk").val();
-         var strip_chart_section_name = $("#strip_chart_section_name").val();
-         
-         if ($.trim(componentId) != "") {
-             var myParams = { strip_chart_component_id: componentId,strip_chart_component : componentName,
-             		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
-             		strip_chart_section_name : strip_chart_section_name };
-             $.ajax({
-                 url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateActivitiesList",
-                 data: myParams, cache: false,
-                 success: function (data) {
-                 	var id1 = "";
-                 	var id2 = "";
-                     if (data.length > 0) {
-                         $.each(data, function (i, val) {
-	                            if ($.trim(id2) != '' && val.strip_chart_activity_id == $.trim(id2)) {
-	                            	id1 = val.strip_chart_activity_id;
-	                                $("#strip_chart_activity_id").append('<option value="' + val.strip_chart_activity_id + '" selected>' + $.trim(val.strip_chart_activity_name) + '</option>');
-	                            } else {
-	                                $("#strip_chart_activity_id").append('<option value="' + val.strip_chart_activity_id + '">' + $.trim(val.strip_chart_activity_name) + '</option>');
-	                            }
-                         });
-                     }
-                     $('.searchable').select2();
-                     $(".page-loader").hide(); 
-                     getStripChartfiltersList();
-                 }
-             });
-         }else{
-         	$(".page-loader").hide();
-         }
-     }
-	 
-	 
-	 
-	 function getComponentAndActivitiesList(componentId){
-		getStripChartfiltersList();
-     	$( ".dot" ).removeClass( "active" );
-     	
-     	componentId = componentId.replace(/\s/g, "_");
-     	componentId = componentId.replace(/\//g, "_");
-     	componentId = componentId.replace(/\./g, "_");
-         
-     	$( "#"+componentId).addClass( "active" );
-     	
-     	var $scroller = $('.dotgroup-scroll');
-        var childs=$scroller.children().children().length;
-        var indexing=$(".dot-container").index($("#dd"+componentId));
-        var scrollTo=Math.round((indexing*($scroller[0].scrollWidth/childs))-childs);           
-        $scroller.animate({'scrollLeft': scrollTo}, 1000); 
-     	
-     	$(".page-loader").show();
-         $("#strip_chart_activity_id option:not(:first)").remove();
-         
-         var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-         var strip_chart_line_id_fk = $("#strip_chart_line_id_fk").val();
-         var strip_chart_section_name = $("#strip_chart_section_name").val();
-         var strip_chart_component_id = $("#strip_chart_component_id").val();
-         var strip_chart_component = $("#strip_chart_component").val();
-         
-         if ($.trim(componentId) != "") {
-             var myParams = { strip_chart_component_id: strip_chart_component_id,strip_chart_component : strip_chart_component,
-             		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
-             		strip_chart_section_name : strip_chart_section_name };
-             $.ajax({
-                 url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateActivitiesList",
-                 data: myParams, cache: false,
-                 success: function (data) {
-                     if (data.length > 0) {
-                         $.each(data, function (i, val) {
-                             $("#strip_chart_activity_id").append('<option value="' + val.strip_chart_activity_id + '">' + $.trim(val.strip_chart_activity_name) + '</option>');
-                         });
-                     }
-                     $('.searchable').select2();
-                     $(".page-loader").hide();
-                 }
-             });
-         }else{
-         	$(".page-loader").hide();
-         }        
-     }
-     
 	
-     function getStripChartfiltersList(){
+     function getAcivitiesBulkUpdateActivitiesList(componentId){
     	 $(".page-loader").show();
+    	 
+    	 $("#strip_chart_component_id").val(componentId);
+    	 $("#strip_chart_component_id").select2();
+    	 
+    	 $( ".dot" ).removeClass( "active" );
+     	 if($.trim(componentId) != ''){
+	     	 componentId = componentId.replace(/\s/g, "_");
+	      	 componentId = componentId.replace(/\//g, "_");
+	      	 componentId = componentId.replace(/\./g, "_");
+	          
+	      	 $( "#"+componentId).addClass( "active" );
+	     	
+	     	 var $scroller = $('.dotgroup-scroll');
+	         var childs=$scroller.children().children().length;
+	         var indexing=$(".dot-container").index($("#dd"+componentId));
+	        	var scrollTo=Math.round((indexing*($scroller[0].scrollWidth/childs))-childs);           
+	         $scroller.animate({'scrollLeft': scrollTo}, 1000);
+     	 }
+     	 
     	 $("#table_show").show();
     	 var html = '';
     	 $("#filerList").html('');
@@ -1281,9 +1175,11 @@
     	 var strip_chart_component_id = $("#strip_chart_component_id").val();
     	 var strip_chart_activity_id = $("#strip_chart_activity_id").val();
     	 var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
+    	 var strip_chart_component = $("#strip_chart_component").val();
     	 var contract_id_fk = $("#contract_id_fk").val();
+    	 
     	 if ($.trim(strip_chart_structure_id_fk) != "") {
- 	        var myParams = { strip_chart_component_id: strip_chart_component_id, strip_chart_activity_id: strip_chart_activity_id,strip_chart_structure_id_fk : strip_chart_structure_id_fk, contract_id_fk : contract_id_fk };
+ 	        var myParams = { strip_chart_component_id: strip_chart_component_id, strip_chart_activity_id: strip_chart_activity_id,strip_chart_structure_id_fk : strip_chart_structure_id_fk, contract_id_fk : contract_id_fk,strip_chart_component : strip_chart_component };
  	        $.ajax({
  	            url: "<%=request.getContextPath()%>/ajax/getActivitiesfiltersList",
  	            data: myParams, cache: false,
@@ -1437,15 +1333,15 @@
 		 	  },"strip_chart_structure_id_fk": {
 		 		required: true
 		 	  },"strip_chart_component": {
-		 		required: false
+		 		required: true
 		 	  },"strip_chart_component_id": {
 		 		required: false
 		 	  },"strip_chart_activity_id": {
 		 		required: false
 		 	  },"actualScopes": {
-		 		 required: false,
-		 				 min:0
-	   		 	  }
+		 		required: false,
+		 		min:0
+	   		  }
     	 },
             messages: {
                   "project_id": {

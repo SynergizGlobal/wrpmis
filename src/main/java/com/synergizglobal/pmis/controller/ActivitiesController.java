@@ -169,6 +169,19 @@ public class ActivitiesController {
 		return structures;
 	}
 	
+	@RequestMapping(value = "/ajax/getActivityComponentsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getActivityComponentsList(@ModelAttribute StripChart obj){
+		List<StripChart> components = null;
+		try{
+			components = activitiesService.getActivityComponentsList(obj);			
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getActivitiesComponentIds() : "+e.getMessage());
+		}
+		return components;
+	}
+	
 	@RequestMapping(value = "/ajax/getActivityComponentIdsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<StripChart> getActivitiesComponentIds(@ModelAttribute StripChart obj){

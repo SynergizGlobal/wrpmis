@@ -41,6 +41,11 @@ public class ActivitiesServiceImpl implements ActivitiesService{
 	}
 
 	@Override
+	public List<StripChart> getActivityComponentsList(StripChart obj) throws Exception {
+		return dao.getActivityComponentsList(obj);
+	}
+	
+	@Override
 	public List<StripChart> getActivitiesComponentIds(StripChart obj) throws Exception {
 		return dao.getActivitiesComponentIds(obj);
 	}

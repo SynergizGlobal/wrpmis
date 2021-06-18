@@ -77,7 +77,7 @@
          <jsp:include page="../layout/header.jsp"></jsp:include>
 
 	<div class="row">
-		<div class="col s12 m12 ">
+		<div class="col s12 m12 hide-on-med-and-down">
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title headbg">
@@ -114,7 +114,7 @@
 								</div>
 							</div>
 
-							<div class="col s12 m4 r-align hide-on-med-and-down">
+							<div class="col s12 m4 r-align ">
 								<div class="m-1 ">
 									<a href="javascript:void(0);" onclick="exportDesign();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
@@ -132,13 +132,19 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6>Update Design & Drawing</h6>
+								<h6 class="hide-on-med-and-down">Update Design & Drawing</h6>
+								<h6 class="hide-on-large-only">Design & Drawing</h6>
 							</div>
 						</span>
-						<div class="row no-mar" style="margin-bottom: 0;">
+						<div class="row no-mar">
 							<div class="col s12 m12">
 								<div class="row">
-									<div class="col s6 m2 input-field">
+									<div class="col s12 hide-on-large-only mb-md-2 center-align">
+									    <a href="<%=request.getContextPath()%>/add-design-form"
+									        class="btn waves-effect waves-light bg-s t-c"> <strong><i
+									            class="fa fa-plus-circle"></i> Add Design & Drawing</strong></a>
+									</div>
+									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Work</p>
 										<select id="work_id_fk" name="work_id_fk"
 											onchange="addInQueWork(this.value);getDesignList();" class="searchable">
@@ -148,7 +154,7 @@
 	                                        </c:forEach> --%>
 										</select>
 									</div>
-									<div class="col s6 m2 input-field">
+									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Contract</p>
 										<select id="contract_id_fk" name="contract_id_fk"
 											onchange="addInQueContract(this.value);getDesignList();" class="searchable">
@@ -159,7 +165,7 @@
 											</c:forEach>
 										</select>
 									</div>
-									<div class="col s6 m2 input-field">
+									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Department</p>
 										<select id="department_id_fk" name="department_id_fk"
 											onchange="addInQueDepartment(this.value);getDesignList();" class="searchable">
@@ -171,7 +177,7 @@
 											</c:forEach>
 										</select>
 									</div>
-									<div class="col s6 m1 input-field">
+									<div class="col s6 m4 l1 input-field">
 										<p class="searchable_label">HOD</p>
 										<select id="hod" name="hod" onchange="addInQueHOD(this.value);getDesignList();"
 											class="searchable">
@@ -182,7 +188,7 @@
 											</c:forEach>
 										</select>
 									</div>
-									<div class="col s6 m2 input-field">
+									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Structure</p>
 										<select id="structure_type_fk" name="structure_type_fk"
 											onchange="addInQueStructure(this.value);getDesignList();" class="searchable">
@@ -193,7 +199,7 @@
 											</c:forEach>
 										</select>
 									</div>
-									<div class="col s6 m2 input-field">
+									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Drawing Type</p>
 										<select id="drawing_type_fk" name="drawing_type_fk"
 											onchange="addInQueDrawing(this.value);getDesignList();" class="searchable">
@@ -204,7 +210,7 @@
 											</c:forEach>
 										</select>
 									</div>
-									<div class="col s12 m1 input-field">
+									<div class="col s12 m4 offset-m4 l1 input-field center-align">
 										<button
 											class="btn bg-m waves-effect waves-light t-c clear-filters"
 											style="margin-top: 8px; width: 100%;"
@@ -495,7 +501,7 @@
 	            });
 			getDesignList();
 			getDesignUploadsList();
-			 if(window.matchMedia("(max-width: 767px)").matches){
+			 if(window.matchMedia("(max-width: 769px)").matches){
 	  		    	$('tbody.web').removeAttr('id');
 	  		        $('#mobView').css({'display':'block'});
 	  		      	
@@ -662,7 +668,7 @@
         		filters = filters + key +"="+filtersMap[key] + "^";
         		window.localStorage.setItem("designFilters", filters);
    			});
-        	 if(window.matchMedia("(max-width: 767px)").matches){
+        	 if(window.matchMedia("(max-width: 769px)").matches){
 	        		table = $('#datatable-design_mob').DataTable();
 	
 	     			table.destroy();
@@ -766,7 +772,7 @@
 	     			            } },			         	
 	     			         	{ "mData": function(data,type,row){
 	     			         		var design_id = "'"+data.design_id+"'";
-	     		                    var actions = '<a href="javascript:void(0);"  onclick="getDesign('+design_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+	     		                    var actions = '<a href="javascript:void(0);"  onclick="getDesign('+design_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
 	     			            	return actions;
 	     			            } }
 	     			            
@@ -835,7 +841,7 @@
 														'<div class="right-btns"></div>');
 												$('.dataTables_filter div').append(
 														$searchButton, $clearButton);
-												 if(window.matchMedia("(max-width: 767px)").matches){
+												 if(window.matchMedia("(max-width: 769px)").matches){
 										  		      	
 										  		   } 
 												/* var input = $('.dataTables_filter input').unbind(),

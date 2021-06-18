@@ -47,8 +47,7 @@
          .mdl-data-table tr th:last-of-type{
          	padding-right:5px !important;
          }
-         @media only screen and (min-width: 768px) and (max-width: 1024px){
-			
+         @media only screen and (min-width: 768px) and (max-width: 1024px){			
 			.mb-md-2{
 				margin-bottom:0;
 			}

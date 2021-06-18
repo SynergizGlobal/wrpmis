@@ -33,10 +33,16 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
+         .mt-md-18{
+         	margin-top:18px;
+         }
     @media only screen and (max-width: 768px){
 	        .center-small{
 	        	text-align:center;
 	        }
+	         .mt-md-18{
+	         	margin-top:0;
+	         }
 	        div.dataTables_wrapper div.dataTables_info {
 		     white-space: normal; 
 			}
@@ -59,7 +65,7 @@
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 		<c:if test="${(sessionScope.USER_TYPE eq 'DyHOD') or (sessionScope.USER_TYPE eq 'HOD') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
 			<div class="row">
-			<div class="col s12 m12">
+			<div class="col s12 m12 hide-on-med-and-down ">
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title headbg">
@@ -68,10 +74,8 @@
 							</div>
 						</span>
 						<div class="">
-							<div class="row plr-1 center-align">
-								
-									<div class="col s12 m4"></div>
-									<div class="col s12 m4">
+							<div class="row plr-1 center-align">								
+									<div class="col s12 m4 offset-m4">
 										<div class="m-1 c-align">
 											<a href="<%=request.getContextPath()%>/add-fob-form"
 												class="btn waves-effect waves-light bg-s t-c"> <strong><i
@@ -99,7 +103,8 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6>Update FOB</h6>
+								<h6 class="hide-on-med-and-down">Update FOB</h6>
+								<h6 class="hide-on-large-only">FOB</h6>
 							</div>
 						</span>
 						
@@ -110,10 +115,13 @@
 							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
 
-						<div class="row no-mar" style="margin-bottom: 0;">
-							<div class="col m3 hide-on-small-only"></div>
-							<div class="col m6 s12 ">
-								<div class="row" style="margin-bottom: 0;">
+						<div class="row no-mar">
+							<div class="col s12 hide-on-large-only mb-md-2 center-align">
+							    <a href="<%=request.getContextPath()%>/add-fob-form" class="btn waves-effect waves-light bg-s t-c"> <strong><i
+							                class="fa fa-plus-circle"></i> Add FOB</strong></a>
+							</div>
+							<div class="col s12 l6 offset-l3 m9 offset-m2">
+								<div class="row no-mar">
 									<!-- <div class="col s6 m4 input-field">
 										<p>
 											<label>Contract</label>
@@ -126,9 +134,7 @@
 									</div> -->
 									
 									<div class="col s6 m4 input-field">
-										<p>
-											<label>Work</label>
-										</p>
+										<p class="searchable_label">Work</p>
 										<select id="work_id_fk" name="work_id_fk"
 											onchange="addInQueWork(this.value);getFOBList();" class="searchable">
 											<option value="">Select</option>
@@ -137,24 +143,21 @@
 									</div>
 									
 									<div class="col s6 m4 input-field">
-										<p>
-											<label>Work Status</label>
-										</p>
+										<p class="searchable_label">Work Status</p>
 										<select id="work_status_fk" name="work_status_fk"
 											onchange="addInQueWorkStatus(this.value);getFOBList();" class="searchable">
 											<option value="">Select</option>
 
 										</select>
 									</div>
-									<div class="col s12 m4 input-field">
+									<div class="col s12 m4 input-field center-align">
 										<button
-											class="btn bg-m waves-effect waves-light t-c clear-filters"
-											style="margin-top: 18px; width: 100%;"
+											class="btn bg-m waves-effect waves-light t-c clear-filters mt-md-18"
+											style="width: 100%;"
 											onclick="clearFilter();">Clear Filters</button>
 									</div>
 								</div>
 							</div>
-							<div class="col m3 hide-on-small-only"></div>
 						</div>
 						<div class="row">
 						<div  style= "display:none;" id="webView">
@@ -270,7 +273,7 @@
                     {
                         targets: [0],
                         className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'nosort', orderable: false,
+                        targets: 'no-sort', orderable: false,
                     },
                     { "width": "10px", "targets": [2] },
                 ],
@@ -292,7 +295,7 @@
 	                    {
 	                        targets: [0],
 	                        className: 'mdl-data-table__cell--non-numeric',
-	                        targets: 'nosort', orderable: false,
+	                        targets: 'no-sort', orderable: false,
 	                    },
 	                    { "width": "10px", "targets": [4] },
 	                ],
@@ -367,10 +370,11 @@
 	                },
 	                columnDefs: [
 	                    {
-	                        targets: [0, 1, 2],
+	                        targets: [0],
 	                        className: 'mdl-data-table__cell--non-numeric'
 	                    },
-	                    { orderable: false, 'aTargets': ['nosort'] }
+	                    { "width": "20px", "targets": [2] },
+	                    { orderable: false, 'aTargets': ['no-sort'] }
 	                ],
 	                // "ScrollX": true,
 	                "sScrollX": "100%",
@@ -391,7 +395,7 @@
 	    					if(data != null && data != '' && data.length > 0){    					
 	    	         		$.each(data,function(key,val){
 	    	         			var fob_id = "'"+val.fob_id+"'";
-	    	                    var actions = '<a href="javascript:void(0);"  onclick="getFOB('+fob_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+	    	                    var actions = '<a href="javascript:void(0);"  onclick="getFOB('+fob_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
 	    	                   	var rowArray = [];    	                  
 	    	                   	var workName = '';
 	                            if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
@@ -430,10 +434,10 @@
 	                },
 	                columnDefs: [
 	                    {
-	                        targets: [0, 1, 2],
+	                        targets: [0],
 	                        className: 'mdl-data-table__cell--non-numeric'
 	                    },
-	                    { orderable: false, 'aTargets': ['nosort'] }
+	                    { orderable: false, 'aTargets': ['no-sort'] }
 	                ],
 	                // "ScrollX": true,
 	                "sScrollX": "100%",

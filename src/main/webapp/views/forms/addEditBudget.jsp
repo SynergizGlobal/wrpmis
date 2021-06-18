@@ -97,63 +97,6 @@
 	        }   
 		}
 		
-		@media only screen and (max-width: 768px)  {
-			.mt-brdr{
-				margin-top: auto !important;
-    			border: none !important;
-			}
-			.mt-brdr .btn{
-   				width: 100% !important;
-			}
-			.mobile_responsible_table>tbody tr td .select2-container{
-				width:100% !important;
-			}
-			.input-field .prefix{
-				width: 2rem;
-			}
-			.input-field .prefix ~ input, 
-			.input-field .prefix ~ textarea, 
-			.input-field .prefix ~ label, 
-			.input-field .prefix ~ .validate ~ label, 
-			.input-field .prefix ~ .helper-text, 
-			.input-field .prefix ~ .autocomplete-content{
-				margin-left: 2rem;
-			}
-			.input-field .prefix ~ label, 
-			.input-field .prefix ~ .validate ~ label {
-				margin-left:2.5rem
-			}
-			.input-field .prefix ~ .validate ~ label.active {
-				margin-left:2rem
-			}
-			.input-field.col .prefix ~ label, .input-field.col .prefix ~ .validate ~ label {
-			    width: calc(100% - 3rem );
-			}
-			
-			/* attachment in table styling starts here  */ 
-			.cell-disp-inb,
-			.cell-disp-inb .input-field{
-				margin:0
-			}			
-			.cell-disp-inb > div:not(.file-field),
-			.cell-disp-inb span{
-				display:inline-block !important;
-				white-space:inherit !important;
-			}
-			.cell-disp-inb .file-path-wrapper{
-				visibility:hidden;
-				width: 2px;
-			    margin-bottom: 0;
-			}
-			.cell-disp-inb > div.disp-in{
-				display:inline !important;
-			}
-			.filevalue {
-			    width: 200%;
-			    white-space: break-spaces;
-			}
-		  /* attachment in table styling ends here  */
-		}
 		td.input-field .select2-container--default{
 			display:inline-block;
 		}

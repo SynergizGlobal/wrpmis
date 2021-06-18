@@ -50,7 +50,7 @@
     <!-- header ends  -->
 
 	<div class="row">
-		<div class="col s12 m12">
+		<div class="col s12 m12 hide-on-med-and-down">
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title headbg">
@@ -88,7 +88,7 @@
 								</div>
 							</div>
 
-							<div class="col s12 m4 r-align hide-on-med-and-down">
+							<div class="col s12 m4 r-align ">
 								<div class="m-1 ">
 									<a href="javascript:void(0);" onclick="exportProject();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
@@ -106,12 +106,17 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6>Update Project</h6>
+								<h6 class="hide-on-med-and-down">Update Project</h6>
+								<h6 class="hide-on-large-only">Project</h6>
 							</div>
 						</span>
 						<div class="row">
+							<div class="col s12 hide-on-large-only mb-md-2 center-align">
+   								<a href="add-project-form"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add Project</strong></a>
+							</div>
 							<div class="col m12 s12" id="webView" style= "display:none;">
-
 								<table id="project_table" class="mdl-data-table">
 									<thead>
 										<tr>
@@ -164,7 +169,7 @@
 												<%-- <td>&nbsp;${ obj.pink_book_item_number }</td> --%>
 												<td class="last-column"><a href="javascript:void(0);"
 													onclick="getProject('${ obj.project_id }')"
-													class="btn waves-effect waves-light bg-m t-c "><i
+													class="btn mobile-btn waves-effect waves-light bg-m t-c "><i
 														class="fa fa-pencil"></i> </a> <%-- <a
 													onclick="deleteProject('${ obj.project_id }');"
 													class="btn waves-effect waves-light bg-s t-c "><i
@@ -221,7 +226,7 @@
 		
 		    
             //getProjectList();
-		     if(window.matchMedia("(max-width: 767px)").matches){
+		     if(window.matchMedia("(max-width: 769px)").matches){
 	  		        $('#mobView').css({'display':'table-header-group'});
 	  		      $('#project_table_mob').DataTable({
 		                columnDefs: [

@@ -103,7 +103,7 @@
 								<h6 class="hide-on-large-only">Data Gathering</h6>	
 							</div>
 						</span>
-						<div class="row no-mar" style="margin-bottom: 0;">
+						<div class="row no-mar" >
 							<div class="col s12 hide-on-large-only mb-md-2 center-align">
     							<a href="<%=request.getContextPath()%>/add-data-gathering-form"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i

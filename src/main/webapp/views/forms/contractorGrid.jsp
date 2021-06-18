@@ -51,7 +51,7 @@
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
 	<div class="row">
-		<div class="col s12 m12">
+		<div class="col s12 m12 hide-on-med-and-down">
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title headbg">
@@ -88,7 +88,7 @@
 								</div>
 							</div>
 
-							<div class="col s12 m4 r-align  hide-on-med-and-down">
+							<div class="col s12 m4 r-align ">
 								<div class="m-1 ">
 									<a href="javascript:void(0);" onclick="exportContractor();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
@@ -106,10 +106,16 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6>Update Contractor</h6>
+								<h6 class="hide-on-med-and-down">Update Contractor</h6>
+								<h6 class="hide-on-large-only">Contractor</h6>
 							</div>
 						</span>
 						<div class="row">
+							<div class="col s12 hide-on-large-only mb-md-2 center-align">
+							    <a href="<%=request.getContextPath()%>/add-contractor-form"
+							        class="btn waves-effect waves-light bg-s t-c"> <strong><i
+							            class="fa fa-plus-circle"></i> Add Contractor</strong></a>
+							</div>
 						<div  style= "display:none;" id="webView">
 							<div class="col m12 s12">
 								<table id="contractorTable" class="mdl-data-table">
@@ -198,7 +204,7 @@
         	
         	$('.close-message').delay(3000).fadeOut('slow');
             getContractorsList();
-            if(window.matchMedia("(max-width: 767px)").matches){
+            if(window.matchMedia("(max-width: 769px)").matches){
   		        $('#mobView').css({'display':'block'});
   		      	
   		    } else{
@@ -209,7 +215,7 @@
         function getContractorsList() {
     		$(".page-loader-2").show();
     		
-    		if(window.matchMedia("(max-width: 767px)").matches){
+    		if(window.matchMedia("(max-width: 769px)").matches){
 	         	table = $('#contractorTable_mobile').DataTable();
 	    		table.destroy();
 	
@@ -302,7 +308,7 @@
 	    		            } },
 	    		         	{ "mData": function(data,type,row){
 	    		         		var contractor_id = "'"+data.contractor_id+"'";
-	    	                    var actions = '<a href="javascript:void(0);"  onclick="getContractor('+contractor_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+	    	                    var actions = '<a href="javascript:void(0);"  onclick="getContractor('+contractor_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
 	    		            	return actions;
 	    		            } }
 	    		            

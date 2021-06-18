@@ -327,7 +327,7 @@
                                      <span id="consultant_contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <p class="searchable_label">Proof Consultant Contract </p>
+                                    <p class="searchable_label fs-sm-67rem ">Proof Consultant Contract </p>
                                     <select id="proof_consultant_contract_id_fk" name="proof_consultant_contract_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
                                           <option value="" selected>Select</option>

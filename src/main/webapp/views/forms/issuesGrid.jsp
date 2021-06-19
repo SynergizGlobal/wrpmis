@@ -10,12 +10,13 @@
 	<title>Issues</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
-	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-	
+	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">	
 	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />	
 	
 	 <style>
         p a {
@@ -38,7 +39,18 @@
 		.input-field>.datepicker ~ label:not(.label-icon).active {
 		    background-color: transparen  !importantt;
 		}
-      
+      .dataTables_filter label{
+      		position:relative;
+      }
+      .dataTables_filter label::after{
+      	position:absolute;
+      	top:30px;
+      	right:5px;
+      }
+      .fw-40vw{
+      	width:40vw;
+      	max-width:40vw;
+      }
     </style>
 </head>
 <body>
@@ -47,8 +59,8 @@
 
 
     <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
+        <div class="col s12 m12 ">
+            <div class="card hide-on-med-and-down">
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
@@ -102,19 +114,24 @@
                  <div class="card-content">
                   <span class="card-title headbg">
                        <div class="center-align bg-m p-2 m-b-5">
-                           <h6>Update Issue</h6>
+                           <h6 class="hide-on-med-and-down">Update Issue</h6>
+						   <h6 class="hide-on-large-only">Issues</h6>
                        </div>
                     </span>
-                        <div class="row no-mar" style="margin-bottom: 0;">
-                        <div class="col s12 m5">
+                        <div class="row no-mar">
+                           <div class="col s12 hide-on-large-only mb-md-2 center-align">
+							    <a href="<%=request.getContextPath() %>/add-issue-form" class="btn waves-effect waves-light bg-s t-c">
+							        <strong><i class="fa fa-plus-circle"></i> Add Issue</strong></a>
+							</div>
+                        <div class="col s12 m12 l10">
                         <div class="row">
-                           <div class="col s12 m4 input-field">
+                           <div class="col s6 m4 l2 input-field">
                             <p class="searchable_label">Work </p>
                                <select id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getIssues();" class="searchable">
                                    <option value="">Select</option>                                      
                                </select>
                           </div>
-                           <div class="col s12 m4 input-field">
+                           <div class="col s6 m4 l2 input-field">
                              <p class="searchable_label">Contract</p>
                                  <select id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getIssues();" class="searchable">
                                      <option value="" >Select</option>
@@ -124,18 +141,18 @@
                                  </select>                                                               
                            </div>
                            
-                          <div class="col s12 m4 input-field">
+                          <div class="col s6 m4 l2 input-field">
                             <p class="searchable_label">HOD </p>
                                <select id="hod" name="hod" onchange="addInQueHOD(this.value);getIssues();" class="searchable">
                                    <option value="">Select</option>                                      
                                </select>
                           </div>
-                           </div>
-                        </div>
+                         <!--   </div>
+                        </div> -->
                        
-                       <div class="col s12 m7">
-	                        <div class="row">
-	                        	<div class="col s12 m3 input-field">
+                      <!--  <div class="col s12 m7">
+	                        <div class="row"> -->
+	                        	<div class="col s6 m4 l2 input-field">
 	                                <p class="searchable_label">Department</p>
 	                                <select id="department_fk" name="department_fk" onchange="addInQueDepartment(this.value);getIssues();" class="searchable">
 	                                     <option value="" >Select</option>
@@ -144,7 +161,7 @@
 			                             </c:forEach> --%>
 	                                 </select>
                             	</div>
-	                            <div class="col s12 m3 input-field">
+	                            <div class="col s6 m4 l2 input-field">
 	                             <p class="searchable_label">Category</p>
 	                                 <select id="category_fk" name="category_fk" onchange="addInQueCategory(this.value);getIssues();" class="searchable">
 	                                     <option value="" >Select</option>
@@ -153,7 +170,7 @@
 			                             </c:forEach> --%>
 	                                 </select>
 	                            </div>
-	                            <div class="col s12 m3 input-field">
+	                            <div class="col s6 m4 l2 input-field">
 									 <p class="searchable_label">Status</p>                           
 	                                 <select id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getIssues();" class="searchable">
 	                                     <option value="" >Select</option>
@@ -162,43 +179,58 @@
 			                             </c:forEach> --%>
 	                                 </select>
 	                            </div>                             
-	                            <div class="col s12 m3">
-	                                <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                    style="margin-top: 12px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
-	                            </div>	                        
-	                        </div>
-                        </div>
-                            
+	                                                  
+	                  		</div>
+                        </div> 
+	                        <div class="col s12 m4 offset-m4 l2 center-align">
+		                             <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+		                                    style="margin-top: 12px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
+		                    </div>	 
+	                            
                         </div>
                         
                         <div class="row">
                             <div class="col m12 s12">
-
-                                <table id="datatable-issues" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                           <!--  <th>ID</th> -->
-                                            <th class="fw-350">Contract</th>
-                                            <th class="fw-200">Short Description </th>
-                                            <th>Location</th>
-                                            <th>Responsible <br> Person </th>
-                                            <th>Department</th>
-                                            <th>Issue Status </th>                                           
-                                            <th class="nosort">Action</th>
-                                            <!-- <th>Project ID</th> -->
-<!--                                             <th>Work</th> -->
-                                           <!--  <th>Activity</th> -->
-<!--                                             <th>Date </th> -->
-<!--                                             <th>Reported By </th> -->
-<!--                                             <th>Issue <br>Category </th> -->
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
-
-                                </table>
-
+ 								<div  style= "display:none;" id="webView">
+	                                <table id="datatable-issues" class="mdl-data-table">
+	                                    <thead>
+	                                        <tr>
+	                                           <!--  <th>ID</th> -->
+	                                            <th class="fw-350">Contract</th>
+	                                            <th class="fw-200">Short Description </th>
+	                                            <th>Location</th>
+	                                            <th>Responsible <br> Person </th>
+	                                            <th>Department</th>
+	                                            <th>Issue Status </th>                                           
+	                                            <th class="nosort">Action</th>
+	                                            <!-- <th>Project ID</th> -->
+	<!--                                             <th>Work</th> -->
+	                                           <!--  <th>Activity</th> -->
+	<!--                                             <th>Date </th> -->
+	<!--                                             <th>Reported By </th> -->
+	<!--                                             <th>Issue <br>Category </th> -->
+	                                        </tr>
+	                                    </thead>
+	                                    <tbody>
+	
+	                                    </tbody>	
+	                                </table>
+								</div>
+								<div  style= "display:none;" id="mobView">
+									<table id="datatable-issues_mob" class="mdl-data-table">
+	                                    <thead>
+	                                        <tr>
+	                                            <th class="fw-40vw">Contract</th>
+	                                            <th>Short Description </th>	                                                                               
+	                                            <th class="nosort">Action</th>
+	                                        </tr>
+	                                    </thead>
+	                                    <tbody>
+	
+	                                    </tbody>	
+	                                </table>
+								
+								</div>
                             </div>
                         </div>
                     </div>
@@ -294,7 +326,7 @@
 	        	  }
 	          }
             }
-        	
+         
         	getIssues();
         });
         
@@ -392,92 +424,184 @@
         		window.localStorage.setItem("issueFilters", filters);
    			});
          	
-         	table = $('#datatable-issues').DataTable();
-    		 
-    		table.destroy();
-    		
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
-    		table = $('#datatable-issues').DataTable({
-        		"bStateSave": true,
-        		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
+        	if(window.matchMedia("(max-width: 769px)").matches){
+        		$('tbody.web').removeAttr('id');
+                $('#mobView').css({'display':'block'});
+        		/* table = $('#datatable-issues_mob').DataTable();
+       		 
+        		table.destroy(); */
+        		
+        		$.fn.dataTable.moment('DD-MMM-YYYY');
+        		table = $('#datatable-issues_mob').DataTable({
+            		"bStateSave": true,
+            		fixedHeader: true,
+                    "fnStateSave": function (oSettings, oData) {
+                        localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
                     },
-                    { orderable: false, 'aTargets': ['nosort'] }
-                ],
-                // "ScrollX": true,
-                //"scrollCollapse": true,
-                //"sScrollY": 400,
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            }).rows().remove().draw();
-    		
-    		
-    		table.state.clear();	
-    	 
-    	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
-    	 			category_fk : category_fk, status_fk : status_fk,hod : hod };
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",
-    				type:"POST",
-    				data:myParams, cache: false,async:true,
-    				success : function(data){    				
-    				if(data != null && data != '' && data.length > 0){    					
-    	         		$.each(data,function(key,val){
-    	         			var issue_id = "'"+val.issue_id+"'";
-    	                    var actions = '<a href="javascript:void(0);"  onclick="getIssue('+issue_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
-    	                   	var rowArray = [];    	                  
-    	                   	
-    	                   	var workName = '';
-                            if ($.trim(val.work_name) != '') { workName = $.trim(val.work_name) }
-                            if ($.trim(val.work_name) == '') { workName = $.trim(val.work_id_fk) }
-                            
-                            var contract_name = '';
-                            if ($.trim(val.contract_short_name) != '') { contract_name = $.trim(val.contract_short_name) }
-                            if ($.trim(val.contract_short_name) == '') { contract_name = $.trim(val.contract_id_fk) }
-    	                   	
-    	                   	//rowArray.push($.trim(val.issue_id));
-    	                   	/* rowArray.push($.trim(val.project_id_fk)); */
-    	                   	/* rowArray.push($.trim(val.work_id_fk) + workName); */
-    	                   	rowArray.push(contract_name);
-    	                   	/* rowArray.push($.trim(val.activity)); */
-    	                   	rowArray.push($.trim(val.title));
-    	                   	/* rowArray.push($.trim(val.date)); */
-    	                   	rowArray.push($.trim(val.location));
-    	                   	/* rowArray.push($.trim(val.reported_by)); */
-    	                   	rowArray.push($.trim(val.responsible_person_designation));
-    	                   	rowArray.push($.trim(val.department_name));
-    	                   	/* rowArray.push($.trim(val.category_fk)); */
-    	                   	rowArray.push($.trim(val.status_fk));
-    	                   	
-    	                   	rowArray.push($.trim(actions));   	                   	
-    	                   	
-    	                    table.row.add(rowArray).draw( true );
-    	                    		                       
-    					});
-    	         		
-    	         		$(".page-loader-2").hide();
-    	         		//$('.page-loader-2').delay(2000).fadeOut('slow');
-    				}else{
-    					$(".page-loader-2").hide();
-    					//$('.page-loader-2').delay(2000).fadeOut('slow');
-    				}
-    				
-    			},error: function (jqXHR, exception) {
-    				$(".page-loader-2").hide();
-    	         	getErrorMessage(jqXHR, exception);
-    	     }});
+                    "fnStateLoad": function (oSettings) {
+                        return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                    },
+                    columnDefs: [
+                        {
+                            targets: [0],
+                            className: 'mdl-data-table__cell--non-numeric'
+                        },
+                        { orderable: false, 'aTargets': ['nosort'] }
+                    ],
+                    // "ScrollX": true,
+                    //"scrollCollapse": true,
+                    //"sScrollY": 400,
+                    "sScrollX": "100%",
+                    "sScrollXInner": "100%",
+                    "bScrollCollapse": true,
+                    initComplete: function () {
+                        $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                    }
+                }).rows().remove().draw();
+        		
+        		
+        		table.state.clear();	
+        	 
+        	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
+        	 			category_fk : category_fk, status_fk : status_fk,hod : hod };
+        		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",
+        				type:"POST",
+        				data:myParams, cache: false,async:true,
+        				success : function(data){    				
+        				if(data != null && data != '' && data.length > 0){    					
+        	         		$.each(data,function(key,val){
+        	         			var issue_id = "'"+val.issue_id+"'";
+        	                    var actions = '<a href="javascript:void(0);"  onclick="getIssue('+issue_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+        	                   	var rowArray = [];    	                  
+        	                   	
+        	                   	var workName = '';
+                                if ($.trim(val.work_name) != '') { workName = $.trim(val.work_name) }
+                                if ($.trim(val.work_name) == '') { workName = $.trim(val.work_id_fk) }
+                                
+                                var contract_name = '';
+                                if ($.trim(val.contract_short_name) != '') { contract_name = $.trim(val.contract_short_name) }
+                                if ($.trim(val.contract_short_name) == '') { contract_name = $.trim(val.contract_id_fk) }
+        	                   	
+        	                   	//rowArray.push($.trim(val.issue_id));
+        	                   	/* rowArray.push($.trim(val.project_id_fk)); */
+        	                   	/* rowArray.push($.trim(val.work_id_fk) + workName); */
+        	                   	rowArray.push(contract_name);
+        	                   	/* rowArray.push($.trim(val.activity)); */
+        	                   	rowArray.push($.trim(val.title));
+        	                   	/* rowArray.push($.trim(val.date)); */
+        	                   	//rowArray.push($.trim(val.location));
+        	                   	/* rowArray.push($.trim(val.reported_by)); */
+        	                   	//rowArray.push($.trim(val.responsible_person_designation));
+        	                   	//rowArray.push($.trim(val.department_name));
+        	                   	/* rowArray.push($.trim(val.category_fk)); */
+        	                   //	rowArray.push($.trim(val.status_fk));
+        	                   	
+        	                   	rowArray.push($.trim(actions));   	                   	
+        	                   	
+        	                    table.row.add(rowArray).draw( true );
+        	                    		                       
+        					});
+        	         		
+        	         		$(".page-loader-2").hide();
+        	         		//$('.page-loader-2').delay(2000).fadeOut('slow');
+        				}else{
+        					$(".page-loader-2").hide();
+        					//$('.page-loader-2').delay(2000).fadeOut('slow');
+        				}
+        				
+        			},error: function (jqXHR, exception) {
+        				$(".page-loader-2").hide();
+        	         	getErrorMessage(jqXHR, exception);
+        	     }});
+        	}else {
+        		$('#webView').css({'display':'block'});
+	         /* 	table = $('#datatable-issues').DataTable();
+	    		 
+	    		table.destroy(); */
+	    		
+	    		$.fn.dataTable.moment('DD-MMM-YYYY');
+	    		table = $('#datatable-issues').DataTable({
+	        		"bStateSave": true,
+	        		fixedHeader: true,
+	                "fnStateSave": function (oSettings, oData) {
+	                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	                },
+	                "fnStateLoad": function (oSettings) {
+	                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	                },
+	                columnDefs: [
+	                    {
+	                        targets: [0, 1, 2],
+	                        className: 'mdl-data-table__cell--non-numeric'
+	                    },
+	                    { orderable: false, 'aTargets': ['nosort'] }
+	                ],
+	                // "ScrollX": true,
+	                //"scrollCollapse": true,
+	                //"sScrollY": 400,
+	                "sScrollX": "100%",
+	                "sScrollXInner": "100%",
+	                "bScrollCollapse": true,
+	                initComplete: function () {
+	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	                }
+	            }).rows().remove().draw();
+	    		
+	    		
+	    		table.state.clear();	
+	    	 
+	    	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
+	    	 			category_fk : category_fk, status_fk : status_fk,hod : hod };
+	    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",
+	    				type:"POST",
+	    				data:myParams, cache: false,async:true,
+	    				success : function(data){    				
+	    				if(data != null && data != '' && data.length > 0){    					
+	    	         		$.each(data,function(key,val){
+	    	         			var issue_id = "'"+val.issue_id+"'";
+	    	                    var actions = '<a href="javascript:void(0);"  onclick="getIssue('+issue_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+	    	                   	var rowArray = [];    	                  
+	    	                   	
+	    	                   	var workName = '';
+	                            if ($.trim(val.work_name) != '') { workName = $.trim(val.work_name) }
+	                            if ($.trim(val.work_name) == '') { workName = $.trim(val.work_id_fk) }
+	                            
+	                            var contract_name = '';
+	                            if ($.trim(val.contract_short_name) != '') { contract_name = $.trim(val.contract_short_name) }
+	                            if ($.trim(val.contract_short_name) == '') { contract_name = $.trim(val.contract_id_fk) }
+	    	                   	
+	    	                   	//rowArray.push($.trim(val.issue_id));
+	    	                   	/* rowArray.push($.trim(val.project_id_fk)); */
+	    	                   	/* rowArray.push($.trim(val.work_id_fk) + workName); */
+	    	                   	rowArray.push(contract_name);
+	    	                   	/* rowArray.push($.trim(val.activity)); */
+	    	                   	rowArray.push($.trim(val.title));
+	    	                   	/* rowArray.push($.trim(val.date)); */
+	    	                   	rowArray.push($.trim(val.location));
+	    	                   	/* rowArray.push($.trim(val.reported_by)); */
+	    	                   	rowArray.push($.trim(val.responsible_person_designation));
+	    	                   	rowArray.push($.trim(val.department_name));
+	    	                   	/* rowArray.push($.trim(val.category_fk)); */
+	    	                   	rowArray.push($.trim(val.status_fk));
+	    	                   	
+	    	                   	rowArray.push($.trim(actions));   	                   	
+	    	                   	
+	    	                    table.row.add(rowArray).draw( true );
+	    	                    		                       
+	    					});
+	    	         		
+	    	         		$(".page-loader-2").hide();
+	    	         		//$('.page-loader-2').delay(2000).fadeOut('slow');
+	    				}else{
+	    					$(".page-loader-2").hide();
+	    					//$('.page-loader-2').delay(2000).fadeOut('slow');
+	    				}
+	    				
+	    			},error: function (jqXHR, exception) {
+	    				$(".page-loader-2").hide();
+	    	         	getErrorMessage(jqXHR, exception);
+	    	     }});
+        	}
         }
         
       	//This function is used to get error message for all ajax calls
@@ -536,8 +660,7 @@
             	  $(".page-loader").hide();
             }
         }
-        
-        
+                
         function getHODListFilter(hod_designation) {
 
         	var work_id_fk = $("#work_id_fk").val();
@@ -614,8 +737,6 @@
             }
         }
       	
-       
-        
         function getDepartmentsListFilter(department) {
          	$(".page-loader").show();
 

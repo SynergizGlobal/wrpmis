@@ -27,112 +27,10 @@
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 	<link rel="stylesheet" href="/pmis/resources/css/document-pages.css">
-	<style type="text/css">
-		.error-msg label{color:red!important;}
-		.bordered th,td{			
-			text-align:center !important;
-			/*padding:5px;
-			border:1px solid #ccc; */
-		}
-		.bordered td:not(:last-child){
-			border-right:1px solid #ccc;
-		}
-		.bordered th:not(:last-child){
-			border-right:1px solid #ccc;
-		}
-		.bordered tbody td:last-child,
-		.bordered tbody td:first-child,
-		.bordered thead th:last-child,
-		.bordered thead th:first-child{						
-			padding:5px 10px;
-			text-align:center !important;
-		}
-		.bordered tr{
-			border:1px solid #ccc;
-		}
-		.files-filter{
-			box-shadow: 0 0 4px 0 #999;
-		}
-		div.folder-header{
-			margin-top:15px;
-		}
-		.w-8p{
-			width:8%;
-		}
-		.w-8p.last-column{
-			width:8%;
-		}
-		.title-text,th.title-text{
-			text-align: left!important;
-			padding-left: 10px!important;
-		}
-		@media screen and (min-width:1024px){
-			.bordered tbody td:last-child a+a{
-				margin-left:10px;
-			}
-			.w-8p.last-column{
-				width:15%;
-			}
-		}
-		
-	</style>
-	<style>
-	/* this is additional code if need less code try to replace document-template css with mobile-document-template */
-/* 	.folder-group {
-		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px
-			rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-		background-color: #f2f2f2;		
-	} */
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css">
 	
-	.folder-header {
-		display: flex;
-		cursor: pointer;
-		-webkit-tap-highlight-color: transparent;
-		line-height: 1.5;
-		padding: 1rem;
-		background-color: #fff;
-		border-bottom: 1px solid #ddd;
-		border-top: 1px solid #ddd;
-		margin-top: 5px;
-	}
-	
-	.folder-header i {
-		width: 2rem;
-		font-size: 1.6rem;
-		display: inline-block;
-		text-align: center;
-		margin-right: 1rem;
-	}
-	
-	.folder-body {
-		padding: 1.5rem;
-		background-color:#fafafa;
-	}
-	
-	
-	 .d-flex{
-		display: flex;
-	    align-items: baseline;
-	    justify-content: flex-start;
-	    flex-flow: row wrap;
-	    padding-bottom:10px;
-	}
-	.files-filter {
-	    box-shadow: 0 0 4px 0 #999;
-	    width: 48%;
-	    margin: 1%;
-	    float: left;
-	}
-	div.folder-header {
-	    margin-top: 0;
-	}
-	@media screen and (max-width:576px){
-		.files-filter {
-	    	width: 98%;
-		}			
-	} 
-	
-</style>
+	<!-- if need less code try to replace document-template css with mobile-document-template --> 
+
 </head>
 <body>
 	<!-- header included -->
@@ -166,8 +64,8 @@
 								<input id="fileSearch" type="text" class="validate autocomplete" placeholder="Search ...">
 							</div>
 							<c:if test="${(sessionScope.USER_ROLE_CODE eq ROLE_CODE_DATA_ADMIN) or (sessionScope.USER_ROLE_CODE eq ROLE_CODE_IT_ADMIN)}">	
-							    <div class="col m2 s4 input-field">
-									<a class="btn t-t-i bg-m modal-trigger file-upload-btn" href="#upload-modal">Upload</a>							
+							    <div class="col m2 s4 input-field ">
+									<a class="btn t-t-i bg-m modal-trigger file-upload-btn mob-pad-reduce" href="#upload-modal">Upload</a>							
 								</div>
 							</c:if>
 						</div>
@@ -339,17 +237,13 @@
 					</div>
 					<input type="hidden" id="category" name="category" />
 					<div class="row" style="margin-top: 15px;">
-						<div class="col s12 m6">
-							<div class="center-align m-1">
-								<button type="button" onclick="uploadWebDocument();" style="width: 100%;"
-									class="btn waves-effect waves-light bg-m">Upload</button>
-							</div>
+						<div class="col s6 m6 center-align">
+							<button type="button" onclick="uploadWebDocument();" style="width: 100%;"
+								class="btn waves-effect waves-light bg-m">Upload</button>
 						</div>
-						<div class="col s12 m6">
-							<div class="center-align m-1">
-									<a href="<%=request.getContextPath()%>/web-documents/${document_type}"  class="btn waves-effect waves-light bg-s modal-close"
-	                                            style="width:100%">Cancel</a>
-							</div>
+						<div class="col s6 m6 center-align">
+							<a href="<%=request.getContextPath()%>/web-documents/${document_type}"  class="btn waves-effect waves-light bg-s modal-close"
+                                           style="width:100%">Cancel</a>
 						</div>
 					</div>
 				</form>

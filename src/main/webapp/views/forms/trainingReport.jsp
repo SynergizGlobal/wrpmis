@@ -16,86 +16,13 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-      <style>
-        p a {
-            color: blue;
-            text-decoration: none;
-        }
-
-        td:last-child,
-        td:last-of-type {
-            white-space: inherit;
-        }
-
-        .last-column a+a {
-            margin-left: 20px;
-        }
-
-        .input-field .searchable_label {
-            font-size: 0.9rem;
-        }
-
-        .tabs .tab a:not(.active) {
-            color: #999999;
-        }
-
-        .tabs .tab a:focus.active {
-            background-color: #e5e5e5;
-        }
-
-        .tabs .tab a.active {
-            color: #444;
-            background-color: #dadada;
-            border-bottom: 1px solid #444;
-        }
-
-        .tabs .indicator {
-            background-color: #888;
-        }
-
-        .btn.disabled,
-        .btn.disabled * {
-            color: #999 !important;
-        }
-
-        @media only screen and (max-width: 700px) {
-            .mt-md-54 {
-                margin-top: inherit;
-            }
-        }
-       
-        td {
-        	word-break: break-word;
-    		white-space: initial;
-		}
-		.fw-120{
-        	width:120px !important;
-        	max-width:120px;
-        }
-		.fw-200{
-        	width:200px;
-        	max-width:200px;
-        }
-        .fw-250{
-        	width:250px;
-        	max-width:250px;
-        }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
-		
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css">
+      <style>              
+		.mb-20{
+			margin-bottom:20px;
+		}	          
 		.error-msg label{color:red!important;}
-		.label-for-report{
-			text-align:left ;
-			line-height: 50px;
-		}
+
     </style>
 </head>
 
@@ -114,10 +41,9 @@
                     </span>
                     <div class="">
                         <div class="row no-mar">
-                            <div class="col m3 hide-on-small-only"></div>
-                            <div class="col m5 s12 offset-m1">
+                            <div class="col m8 l5 s12 offset-m2 offset-l4">
                             	<form action="<%=request.getContextPath() %>/generate-scheduled-training-report" id="scheduledTrainingReportForm" name="scheduledTrainingReportForm" method="post" target="_blank">
-	                                <div class="row">
+	                                <div class="row no-mar">
 	                                    <div class="col s12 m6 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Training Title</p>
 	                                        <select class="searchable validate-dropdown" name="title">
@@ -129,21 +55,20 @@
 	                                        <!-- <span id="titleError" class="error-msg" ></span> -->
 	                                    </div>
 	
-	                                    <div class="col s12 m6 input-field">
+	                                    <div class="col s12 m6 input-field mob-center">
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateScheduledTrainingReport()"> Scheduled Training</button>
 	                                    </div>
 	                                </div>                                
                                 </form>
+                                <div class="hide-on-med-and-up grey divider mb-20"></div>
                             </div>
-                            <div class="col m3 hide-on-small-only"></div>
                         </div>
                         <div class="row no-mar">
-                            <div class="col m3 hide-on-small-only"></div>
-                            <div class="col m5 s12 offset-m1">
+                            <div class="col m8 l5 s12 offset-m2 offset-l4">
                             	<form action="<%=request.getContextPath() %>/generate-employee-training-report" id="employeeTrainingReportForm" name="employeeTrainingReportForm" method="post" target="_blank">
-	                                <div class="row">
+	                                <div class="row no-mar">
 	                                    <div class="col s12 m6 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Employee</p>
 	                                        <select class="searchable validate-dropdown" id="attendee" name="attendee">
@@ -155,21 +80,20 @@
 	                                        <span id="attendeeError" class="error-msg" ></span>
 	                                    </div>
 	
-	                                    <div class="col s12 m6 input-field">
+	                                    <div class="col s12 m6 input-field mob-center">
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;font-weight: 600;"
 	                                            onclick="generateEmployeeTrainingReport()"> Employee Training</button>
 	                                    </div>
 	                                </div>                                
                                 </form>
+                                <div class="hide-on-med-and-up grey divider mb-20"></div>
                             </div>
-                            <div class="col m3 hide-on-small-only"></div>
                         </div>
                         <div class="row no-mar">
-                            <div class="col m3 hide-on-small-only"></div>
-                            <div class="col m5 s12 offset-m1">
+                            <div class="col m8 l5 s12 offset-m2 offset-l4">
                             	<form action="<%=request.getContextPath() %>/generate-completed-training-report" id="completedTrainingReportForm" name="completedTrainingReportForm" method="post" target="_blank">
-	                                <div class="row">
+	                                <div class="row no-mar">
 	                                    <div class="col s12 m6 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Training Title</p>
 	                                        <select class="searchable validate-dropdown" name="title">
@@ -181,7 +105,7 @@
 	                                        <!-- <span id="attendeeError" class="error-msg" ></span> -->
 	                                    </div>
 	
-	                                    <div class="col s12 m6 input-field">
+	                                    <div class="col s12 m6 input-field mob-center">
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateCompletedTrainingReport()"> Completed Training </button>
@@ -189,7 +113,6 @@
 	                                </div>                                
                                 </form>
                             </div>
-                            <div class="col m3 hide-on-small-only"></div>
                         </div>
                     </div>
                 </div>

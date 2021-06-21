@@ -16,71 +16,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-      <style>
-        p a {
-            color: blue;
-            text-decoration: none;
-        }
-
-        td:last-child,
-        td:last-of-type {
-            white-space: inherit;
-        }
-
-        .last-column a+a {
-            margin-left: 20px;
-        }
-
-        .input-field .searchable_label {
-            font-size: 0.9rem;
-        }
-
-        .tabs .tab a:not(.active) {
-            color: #999999;
-        }
-
-        .tabs .tab a:focus.active {
-            background-color: #e5e5e5;
-        }
-
-        .tabs .tab a.active {
-            color: #444;
-            background-color: #dadada;
-            border-bottom: 1px solid #444;
-        }
-
-        .tabs .indicator {
-            background-color: #888;
-        }
-
-        .btn.disabled,
-        .btn.disabled * {
-            color: #999 !important;
-        }
-
-        @media only screen and (max-width: 700px) {
-            .mt-md-54 {
-                margin-top: inherit;
-            }
-        }
-       
-        td {
-        	word-break: break-word;
-    		white-space: initial;
-		}
-		.fw-120{
-        	width:120px !important;
-        	max-width:120px;
-        }
-		.fw-200{
-        	width:200px;
-        	max-width:200px;
-        }
-        .fw-250{
-        	width:250px;
-        	max-width:250px;
-        }
-        		
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+      <style>   
 		.error-msg label{color:red!important;}
     </style>
 </head>
@@ -100,11 +37,10 @@
                     </span>
                     <div class="">
                         <div class="row no-mar">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12">
+                            <div class="col m8 s12 offset-m2">
                             	<form action="<%=request.getContextPath() %>/generate-design-drawing-report" id="reportForm" name="reportForm" method="post">
-	                                <div class="row">
-	                                    <div class="col s12 m4 input-field">
+	                                <div class="row no-mar">
+	                                    <div class="col s6 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
 	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="getHodListInDesignReport(this.value);">
 	                                            <option value="">Select </option>
@@ -112,7 +48,7 @@
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                    
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s6 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
 	                                        <select class="searchable validate-dropdown" id="hod" name="hod">
 	                                            <option value="">Select </option>
@@ -120,7 +56,7 @@
 	                                        <span id="hodError" class="error-msg" ></span>
 	                                    </div>
 	
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s12 m4 input-field mob-center">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;" onclick="generateReport()">Generate
 	                                            Report</button>
@@ -129,8 +65,6 @@
                                 
                                 </form>
                             </div>
-
-                            <div class="col m2 hide-on-small-only"></div>
                         </div>
                     </div>
                 </div>

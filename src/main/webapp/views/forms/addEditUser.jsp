@@ -13,12 +13,13 @@
 	<c:if test="${action eq 'add'}"> Add User - Admin - PMIS</c:if>
 	</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-	 
-	 
+	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	
+	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">	 
 	<link rel="stylesheet" href="/pmis/resources/css/users.css">
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
 	<style>
         #example3 .datepicker~button,
         #example4 .datepicker~button {
@@ -104,7 +105,19 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
-		      
+		 @media only screen and (max-width:768px) {          
+			.input-field input[type="email"]{
+				box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff !important;
+				width: -webkit-fill-available;
+			    background-color: transparent;
+			    padding-left: 10px;
+			}  			
+		} 
+		 @media only screen and (max-width:601px) {     
+			.col.s12.max-h{
+				width: 110%;
+			}
+		}
     </style>
 </head>
 <body>
@@ -135,10 +148,8 @@
 			                	<form action="<%=request.getContextPath() %>/add-user" id="userForm" name="userForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
                             <div class="row">
-                                <!-- row 4 -->
                                 <input id="user_id" name="user_id" type="hidden" value="${usrObj.user_id }">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                      <p class="searchable_label">User Role <span class="required">*</span></p>
                                       <select id="user_role_name_fk" name="user_role_name_fk" class="searchable validate-dropdown" onchange="setUserRoleCode();">
                                           <option value="">Select</option>
@@ -163,7 +174,7 @@
                                     <br><br>
                                 </div>
                                 </c:if> --%>
-                                 <div class="col s12 m4 input-field">
+                                 <div class="col s6 m4 input-field">
                                      <p class="searchable_label">User Type <span class="required">*</span></p>
                                       <select id="user_type_fk" name="user_type_fk" class="searchable validate-dropdown" >
                                           <option value="">Select</option>
@@ -173,13 +184,10 @@
                                       </select> 
                                       <span id="user_type_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <!-- row 6 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                    <p class="searchable_label">Department <span class="required">*</span></p>
                                     <select id="department_fk" name="department_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
@@ -189,7 +197,7 @@
                                     </select>     
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                    <p class="searchable_label">Reporting To <span class="required">*</span></p>
                                    <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable validate-dropdown">
                                        <option value="">Select</option>
@@ -199,74 +207,60 @@
                                    </select>   
                                    <span id="reporting_to_id_srfkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="user_name" name="user_name" type="text" class="validate" value="${usrObj.user_name }">
                                     <label for="name">Name</label>
                                     <span id="user_nameError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field ">
+                                <div class="col s6 m4 input-field ">
                                     <input id="designation" name="designation" type="text" class="validate" value="${usrObj.designation }">
                                     <label for="designation">Designation <span class="required">*</span></label>
                                     <span id="designationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field ">
+                                <div class="col s6 m4 input-field offset-m2 ">
                                     <input id="email_id" name="email_id" type="email" class="validate" value="${usrObj.email_id }">
                                     <label for="email_id">Email ID </label>
                                     <span id="email_idError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field ">
+                                <div class="col s6 m4 input-field ">
                                     <input id="mobile_number" name="mobile_number" type="number" class="validate" value="${usrObj.mobile_number }">
                                     <label for="mobile_number"> Mobile Number <span class="required">*</span></label>
                                     <span id="mobile_numberError" class="error-msg" ></span>
                                 </div>
-
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>        
                             
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                
-                                <div class="col s12 m4 input-field ">
+                            <div class="row">                               
+                                <div class="col s12 m4 input-field offset-m2">
                                     <input id="personal_contact_number " name="personal_contact_number" type="number" class="validate" value="${usrObj.personal_contact_number }">
                                     <label for="personal_contact_number"> Personal Contact Number </label>
                                     <span id="personal_contact_numberError" class="error-msg" ></span>
                                 </div>
-
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                                               
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field ">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="landline" name="landline" type="number" class="validate" value="${usrObj.landline }">
                                     <label for="landline"> Landline </label>
                                     <span id="landlineError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="extension" name="extension" type="number" class="validate" value="${usrObj.extension }">
                                     <label for="extension">Extension</label>
                                      <span id="extensionError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
                              <div class="row">
-                                <div class="col m4 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">                                
+                                <div class="col s12 m4 input-field offset-m4">                                
                                     <input id="pmis_key_fk" name="pmis_key_fk" type="text" class="validate" value="${usrObj.pmis_key_fk }">
                                     <label for="pmis_key_fk">PMIS KEY</label>
                                     <span id="pmis_key_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m4 hide-on-small-only"></div>
                             </div>
                             
                            <%--  <div class="row">
@@ -290,9 +284,8 @@
                             <div class="row fixed-width">
                                 <h5 class="center-align">User Permissions</h5>
                                 <!-- <div class="table-inside"> -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12 max-h">
-                                    <table id="userPermissionsTable" class="mdl-data-table" >
+                                <div class="col m8 s12 max-h offset-m2 " style="margin-bottom:20px;">
+                                    <table id="userPermissionsTable" class="mdl-data-table mobile_responsible_table" >
                                         <thead>
                                             <tr>
                                                 <th>User Access Type</th>
@@ -305,7 +298,7 @@
                                         		<c:when test="${not empty usrObj.userPermissions && fn:length(usrObj.userPermissions) gt 0 }">
                                         			<c:forEach var="dObj" items="${usrObj.userPermissions }" varStatus="index">                                        	
 			                                           <tr id="userPermissionsRow${index.count }">
-		                                                <td>
+		                                                <td data-head="User Access Type" class="input-field">
 		                                                    <select id="user_access_types${index.count }" name="user_access_types" onchange="getUserAccessValues(this.value,'${index.count }');" class="searchable">
 		                                                        <option value="">User Access Type</option>
 		                                                        <c:forEach var="obj" items="${userAccessTypes }">
@@ -313,7 +306,7 @@
 		                                                        </c:forEach>		                                                        
 		                                                    </select>
 		                                                </td>                                 
-		                                                <td>
+		                                                <td data-head="Value" class="input-field">
 		                                                    <select id="user_access_values${index.count }" name="user_access_values" class="searchable">
 		                                                        <option value="" selected>Select Value</option>
 		                                                         <c:if test="${dObj.user_access_type eq 'Contracts' }">		                                                		  
@@ -338,7 +331,7 @@
 		                                                        </c:if>    
 		                                                    </select>
 		                                                </td>
-		                                                <td>
+		                                                <td class="mobile_btn_close">
 		                                                    <a  href="javascript:void(0);" class="btn waves-effect waves-light red t-c " onclick="removeUserPermissions('${index.count }');"> <i
 		                                                            class="fa fa-close"></i></a>
 		                                                </td>
@@ -347,7 +340,7 @@
                                         		</c:when>
                                         		<c:otherwise>
 	                                        		<tr id="userPermissionsRow0">
-		                                                <td>
+		                                                <td data-head="User Access Type" class="input-field">
 		                                                    <select id="user_access_types0" name="user_access_types" onchange="getUserAccessValues(this.value,'0');" class="searchable">
 		                                                        <option value="" selected>User Access Type</option>
 		                                                        <c:forEach var="obj" items="${userAccessTypes }">
@@ -355,12 +348,12 @@
 		                                                        </c:forEach>
 		                                                    </select>
 		                                                </td>                                               
-		                                                <td>
+		                                                <td data-head="Value" class="input-field">
 		                                                    <select id="user_access_values0" name="user_access_values" class="searchable">
 		                                                        <option value="" selected>Select Value</option>
 		                                                    </select>
 		                                                </td>
-		                                                <td>
+		                                                <td class='mobile_btn_close'>
 		                                                    <a  href="javascript:void(0);" class="btn waves-effect waves-light red t-c " onclick="removeUserPermissions('0');"> <i
 		                                                            class="fa fa-close"></i></a>
 		                                                </td>
@@ -390,7 +383,6 @@
                                 <!-- </div> -->
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
 
                                 <!-- <div class="col m8 s12">
                                     <div class="file-field input-field">
@@ -404,7 +396,7 @@
                                     </div>
                                 </div> -->
                                 
-                                <div class="col m8 s12">
+                                <div class="col m8 s12 offset-m2">
                                     <div class="file-field input-field">
                                         <div class="btn bg-m">
                                         	<c:if test="${not empty usrObj.user_image }">
@@ -421,10 +413,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                      
-                                <div class="col m2 hide-on-small-only"></div>
-
+                                                     
                             </div>
                             <%-- <div class="row">
                                 <!-- row 10 -->
@@ -435,11 +424,9 @@
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
                             </div> --%>
-
-
+                            
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 m4 mt-brdr offset-m2">
                                     <div class="center-align m-1">
                                         <c:if test="${action eq 'edit'}">
 	                                       <button type="button" onclick="updateUser();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -449,12 +436,11 @@
 	                                    </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath()%>/users" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                         </form>
                     </div>
@@ -770,7 +756,7 @@
                 var rowNo = $("#rowNo").val();
                 var rNo = Number(rowNo)+1;
                 var html = '<tr id="userPermissionsRow'+rNo+'">'
-        		   		  +'<td>'
+        		   		  +'<td data-head="User Access Type" class="input-field">'
         		   		+'<select id="user_access_types'+rNo+'" name="user_access_types" onchange="getUserAccessValues(this.value,'+rNo+');" class="searchable">'
         		   		+'<option value="">User Access Type</option>'
         		   		<c:forEach var="obj" items="${userAccessTypes }">
@@ -778,12 +764,12 @@
 			            </c:forEach>		                                                        
 			            +'</select>'
 			            +'</td>'                                   
-			            +'<td>'
+			            +'<td data-head="Value" class="input-field">'
 			            +'<select id="user_access_values'+rNo+'" name="user_access_values" class="searchable">'
 			            +'<option value="0" selected>Select Value</option>'
                         +'</select>'
                         +'</td>'
-        			   	+'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeUserPermissions('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+        			   	+'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeUserPermissions('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
         			 
     			 $('#userPermissionsTableBody').append(html);
     			 $("#rowNo").val(rNo);

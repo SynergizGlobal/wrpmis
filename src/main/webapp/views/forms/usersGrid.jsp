@@ -14,6 +14,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/users.css">
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
 	<style>
       	
       	p a{
@@ -25,6 +27,14 @@
 		.row.no-mar {
             margin-bottom: 0;
         }
+        .dataTables_filter label{
+        	position:relative;
+        }
+        .dataTables_filter label::after{
+        	position:absolute;
+        	right:5px;
+        	top:30px;
+        }
     </style>
 </head>
 <body>
@@ -33,7 +43,7 @@
 
 
 	<div class="row">
-		<div class="col s12 m12">
+		<div class="col s12 m12 hide-on-med-and-down">
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title headbg">
@@ -87,13 +97,19 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6>Update User</h6>
+								<h6 class="hide-on-med-and-down">Update User</h6>
+								<h6 class="hide-on-large-only">Users</h6>
 							</div>
 						</span>
 						<div class="row no-mar" >
-							<div class="col m10 s12 offset-m1">
+							<div class="col s12 hide-on-large-only mb-md-2 center-align">
+							    <a href="<%=request.getContextPath()%>/add-user-form"
+							        class="btn waves-effect waves-light bg-s t-c"> <strong><i
+							            class="fa fa-plus-circle"></i> Add Users</strong></a>
+							</div>
+							<div class="col m12 s12 l10 offset-l1">
 								<div class="row no-mar">
-									<div class="col s12 m2 input-field offset-m1">
+									<div class="col s6 m4 l2 input-field offset-l1">
 										<p class="searchable_label">User Type</p>
 										<select id="user_type_fk" name="user_type_fk"
 											class="searchable" onchange="addInQueUserType(this.value);getUsersList();">
@@ -103,7 +119,7 @@
                                             </c:forEach> --%>
 										</select>
 									</div>
-									<div class="col s12 m2 input-field">
+									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">User Role</p>
 										<select id="user_role_name_fk" name="user_role_name_fk"
 											class="searchable" onchange="addInQueUserRole(this.value);getUsersList();">
@@ -113,7 +129,7 @@
                                             </c:forEach> --%>
 										</select>
 									</div>
-									<div class="col s12 m2 input-field">
+									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Department</p>
 										<select id="department_fk" name="department_fk"
 											class="searchable" onchange="addInQueDepartment(this.value);getUsersList();">
@@ -123,7 +139,7 @@
                                             </c:forEach> --%>
 										</select>
 									</div>
-									<div class="col s12 m2 input-field">
+									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Reporting To</p>
 										<select id="reporting_to_id_srfk" name="reporting_to_id_srfk"
 											class="searchable" onchange="addInQueReportingTo(this.value);getUsersList();">
@@ -133,7 +149,7 @@
                                             </c:forEach> --%>
 										</select>
 									</div>
-									<div class="col s12 m2">
+									<div class="col s12 m4 l2 center-align">
 										<button
 											class="btn bg-m waves-effect waves-light t-c clear-filters"
 											style="margin-top: 10px; width: 100%"
@@ -146,7 +162,7 @@
 
 						<div class="row">
 							<div class="col m12 s12">
-
+							<div  style= "display:none;" id="webView">
 								<table id="datatable-users" class="mdl-data-table">
 									<thead>
 										<tr>
@@ -184,7 +200,39 @@
 									</tbody>
 
 								</table>
+								</div>
+								
+								<div  style= "display:none;" id="mobView">
+								<table id="datatable-users_mob" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Name</th>											
+											<th class="no-sort">Action</th>
 
+										</tr>
+									</thead>
+									<tbody>
+
+										<!-- <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="last-column"> <a href="users.html"
+                                                    class="btn waves-effect waves-light bg-m t-c "><i
+                                                        class="fa fa-pencil"></i> </a>
+                                                <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
+                                                        class="fa fa-trash"></i></a>
+                                            </td>
+
+                                        </tr> -->
+
+									</tbody>
+
+								</table>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -404,80 +452,159 @@
         		window.localStorage.setItem("usersFilters", filters);
    			});
         	
-         	
-         	table = $('#datatable-users').DataTable();
-    		 
-    		table.destroy();
-    		
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
-    		table = $('#datatable-users').DataTable({
-    			"bSort": false,
-        		"bStateSave": true,
-        		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
+        	if(window.matchMedia("(max-width: 769px)").matches){
+        		$('tbody.web').removeAttr('id');
+                $('#mobView').css({'display':'block'});
+        		table = $('#datatable-users_mob').DataTable();
+       		 
+        		table.destroy();
+        		
+        		$.fn.dataTable.moment('DD-MMM-YYYY');
+        		table = $('#datatable-users_mob').DataTable({
+        			"bSort": false,
+            		"bStateSave": true,
+            		fixedHeader: true,
+                    "fnStateSave": function (oSettings, oData) {
+                        localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
                     },
-                    { orderable: false, 'aTargets': ['nosort'] },
-                    { "width": "20px", "targets": [6] },
-                ],
-                // "ScrollX": true,
-                //"scrollCollapse": true,
-                //"sScrollY": 400,
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            }).rows().remove().draw();
-    		
-    		
-    		table.state.clear();		
-    	 
-    	 	var myParams = {user_type_fk : user_type_fk,user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getUsersList",type:"POST",data:myParams,success : function(data){    				
-    				if(data != null && data != '' && data.length > 0){    					
-    	         		$.each(data,function(key,val){
-    	         			var user_id = "'"+val.user_id+"'";
-    	                    var actions = '<a href="javascript:void(0);"  onclick="getUser('+user_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
-    	                   	var rowArray = [];    	                  
-    	                   	
-    	                   	
-    	                   	rowArray.push($.trim(val.user_id));
-    	                   	rowArray.push($.trim(val.user_name));
-    	                   	rowArray.push($.trim(val.designation));
-    	                   	rowArray.push($.trim(val.department_name));
-    	                   	rowArray.push($.trim(val.reporting_to_name));
-    	                   	rowArray.push($.trim(val.user_type_fk));
-    	                   	rowArray.push($.trim(val.user_role_name_fk));
-    	                   	
-    	                   	rowArray.push($.trim(val.last_login));
-    	                   	rowArray.push($.trim(val.last7DaysLogins));
-    	                   	rowArray.push($.trim(val.last30DaysLogins));
-    	                   	
-    	                   	rowArray.push($.trim(actions));   	                   	
-    	                   	
-    	                    table.row.add(rowArray).draw( true );
-    	                    		                       
-    					});
-    	         		
-    	         		$(".page-loader-2").hide();
-    				}else{
-    					$(".page-loader-2").hide();
-    				}
-    				
-    			},error: function (jqXHR, exception) {
-    				$(".page-loader-2").hide();
-    	         	getErrorMessage(jqXHR, exception);
-    	     }});
+                    "fnStateLoad": function (oSettings) {
+                        return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                    },
+                    columnDefs: [
+                        {
+                            targets: [0],
+                            className: 'mdl-data-table__cell--non-numeric'
+                        },
+                        { orderable: false, 'aTargets': ['nosort'] },
+                        { "width": "20px", "targets": [2] },
+                    ],
+                    // "ScrollX": true,
+                    //"scrollCollapse": true,
+                    //"sScrollY": 400,
+                    "sScrollX": "100%",
+                    "sScrollXInner": "100%",
+                    "bScrollCollapse": true,
+                    initComplete: function () {
+                        $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                    }
+                }).rows().remove().draw();
+        		
+        		
+        		table.state.clear();		
+        	 
+        	 	var myParams = {user_type_fk : user_type_fk,user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
+        		$.ajax({url : "<%=request.getContextPath()%>/ajax/getUsersList",type:"POST",data:myParams,success : function(data){    				
+        				if(data != null && data != '' && data.length > 0){    					
+        	         		$.each(data,function(key,val){
+        	         			var user_id = "'"+val.user_id+"'";
+        	                    var actions = '<a href="javascript:void(0);"  onclick="getUser('+user_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+        	                   	var rowArray = [];    	                  
+        	                   	
+        	                   	
+        	                   	rowArray.push($.trim(val.user_id));
+        	                   	rowArray.push($.trim(val.user_name));
+        	                   	/* rowArray.push($.trim(val.designation));
+        	                   	rowArray.push($.trim(val.department_name));
+        	                   	rowArray.push($.trim(val.reporting_to_name));
+        	                   	rowArray.push($.trim(val.user_type_fk));
+        	                   	rowArray.push($.trim(val.user_role_name_fk));
+        	                   	
+        	                   	rowArray.push($.trim(val.last_login));
+        	                   	rowArray.push($.trim(val.last7DaysLogins)); 
+        	                   	rowArray.push($.trim(val.last30DaysLogins));*/
+        	                   	
+        	                   	rowArray.push($.trim(actions));   	                   	
+        	                   	
+        	                    table.row.add(rowArray).draw( true );
+        	                    		                       
+        					});
+        	         		
+        	         		$(".page-loader-2").hide();
+        				}else{
+        					$(".page-loader-2").hide();
+        				}
+        				
+        			},error: function (jqXHR, exception) {
+        				$(".page-loader-2").hide();
+        	         	getErrorMessage(jqXHR, exception);
+        	     }});
+        	} else {
+        		$('#webView').css({'display':'block'});
+        		table = $('#datatable-users').DataTable();
+       		 
+        		table.destroy();
+        		
+        		$.fn.dataTable.moment('DD-MMM-YYYY');
+        		table = $('#datatable-users').DataTable({
+        			"bSort": false,
+            		"bStateSave": true,
+            		fixedHeader: true,
+                    "fnStateSave": function (oSettings, oData) {
+                        localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                    },
+                    "fnStateLoad": function (oSettings) {
+                        return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                    },
+                    columnDefs: [
+                        {
+                            targets: [0, 1, 2],
+                            className: 'mdl-data-table__cell--non-numeric'
+                        },
+                        { orderable: false, 'aTargets': ['nosort'] },
+                        { "width": "20px", "targets": [6] },
+                    ],
+                    // "ScrollX": true,
+                    //"scrollCollapse": true,
+                    //"sScrollY": 400,
+                    "sScrollX": "100%",
+                    "sScrollXInner": "100%",
+                    "bScrollCollapse": true,
+                    initComplete: function () {
+                        $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                    }
+                }).rows().remove().draw();
+        		
+        		
+        		table.state.clear();		
+        	 
+        	 	var myParams = {user_type_fk : user_type_fk,user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
+        		$.ajax({url : "<%=request.getContextPath()%>/ajax/getUsersList",type:"POST",data:myParams,success : function(data){    				
+        				if(data != null && data != '' && data.length > 0){    					
+        	         		$.each(data,function(key,val){
+        	         			var user_id = "'"+val.user_id+"'";
+        	                    var actions = '<a href="javascript:void(0);"  onclick="getUser('+user_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+        	                   	var rowArray = [];    	                  
+        	                   	
+        	                   	
+        	                   	rowArray.push($.trim(val.user_id));
+        	                   	rowArray.push($.trim(val.user_name));
+        	                   	rowArray.push($.trim(val.designation));
+        	                   	rowArray.push($.trim(val.department_name));
+        	                   	rowArray.push($.trim(val.reporting_to_name));
+        	                   	rowArray.push($.trim(val.user_type_fk));
+        	                   	rowArray.push($.trim(val.user_role_name_fk));
+        	                   	
+        	                   	rowArray.push($.trim(val.last_login));
+        	                   	rowArray.push($.trim(val.last7DaysLogins));
+        	                   	rowArray.push($.trim(val.last30DaysLogins));
+        	                   	
+        	                   	rowArray.push($.trim(actions));   	                   	
+        	                   	
+        	                    table.row.add(rowArray).draw( true );
+        	                    		                       
+        					});
+        	         		
+        	         		$(".page-loader-2").hide();
+        				}else{
+        					$(".page-loader-2").hide();
+        				}
+        				
+        			},error: function (jqXHR, exception) {
+        				$(".page-loader-2").hide();
+        	         	getErrorMessage(jqXHR, exception);
+        	     }});
+        	}
+         	
         }
         
       	//This function is used to get error message for all ajax calls

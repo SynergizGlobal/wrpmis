@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -25,7 +27,6 @@ import com.synergizglobal.pmis.Idao.UserDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
-import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.User;
 @Repository
 public class UserDaoImpl implements UserDao{
@@ -69,7 +70,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUserReportingToList() throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select user_id,designation,user_name from user u ";
+			String qry = "select user_id,designation,user_name from user u where u.user_name not like '%user%' and u.pmis_key_fk not like '%SGS%'";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -144,7 +145,7 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public List<User> getUsersList(User obj) throws Exception {
-		List<User> objsList = null;
+		List<User> objsList = new ArrayList<User>();
 		try {
 			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_type_fk,u.user_image,department_name,usr.designation as reporting_to_name,"
@@ -154,7 +155,8 @@ public class UserDaoImpl implements UserDao{
 					+ "from user u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
 					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
-					+ "where u.user_id is not null " ;
+					+ "where u.user_id is not null" ;
+			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
 				qry = qry + " and u.user_role_name_fk = ?";
@@ -190,8 +192,11 @@ public class UserDaoImpl implements UserDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
 				pValues[i++] = obj.getUser_type_fk();
 			}
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));	
 			
+			
+			qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));	
 			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -623,7 +628,7 @@ public class UserDaoImpl implements UserDao{
 			String qry = "select usr.designation,u.reporting_to_id_srfk AS user_id,usr.user_name as reporting_to_name "
 					+ "from user u "
 					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
-					+ "where u.reporting_to_id_srfk is not null and u.reporting_to_id_srfk <> '' " ;
+					+ "where u.reporting_to_id_srfk is not null and u.reporting_to_id_srfk <> ''" ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
 				qry = qry + " and u.user_role_name_fk = ?";
@@ -708,6 +713,9 @@ public class UserDaoImpl implements UserDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
 				pValues[i++] = obj.getUser_type_fk();
 			}
+			
+			qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";
+			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));	
 			
 			

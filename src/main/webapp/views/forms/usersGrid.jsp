@@ -96,7 +96,7 @@
 									<div class="col s12 m2 input-field offset-m1">
 										<p class="searchable_label">User Type</p>
 										<select id="user_type_fk" name="user_type_fk"
-											class="searchable" onchange="getUsersList();">
+											class="searchable" onchange="addInQueUserType(this.value);getUsersList();">
 											<option value="">Select</option>
 											<%-- <c:forEach var="obj" items="${roles }">
                                             	<option value="${obj.user_role_name }">${obj.user_role_name }</option>
@@ -106,7 +106,7 @@
 									<div class="col s12 m2 input-field">
 										<p class="searchable_label">User Role</p>
 										<select id="user_role_name_fk" name="user_role_name_fk"
-											class="searchable" onchange="getUsersList();">
+											class="searchable" onchange="addInQueUserRole(this.value);getUsersList();">
 											<option value="">Select</option>
 											<%-- <c:forEach var="obj" items="${roles }">
                                             	<option value="${obj.user_role_name }">${obj.user_role_name }</option>
@@ -116,7 +116,7 @@
 									<div class="col s12 m2 input-field">
 										<p class="searchable_label">Department</p>
 										<select id="department_fk" name="department_fk"
-											class="searchable" onchange="getUsersList();">
+											class="searchable" onchange="addInQueDepartment(this.value);getUsersList();">
 											<option value="">Select</option>
 											<%-- <c:forEach var="obj" items="${departments }">
                                             	<option value="${obj.department }">${obj.department_name }</option>
@@ -126,7 +126,7 @@
 									<div class="col s12 m2 input-field">
 										<p class="searchable_label">Reporting To</p>
 										<select id="reporting_to_id_srfk" name="reporting_to_id_srfk"
-											class="searchable" onchange="getUsersList();">
+											class="searchable" onchange="addInQueReportingTo(this.value);getUsersList();">
 											<option value="">Select</option>
 											<%-- <c:forEach var="obj" items="${reportingToList }">
                                             	<option value="${obj.user_id }"><c:if test="${not empty obj.designation}">${obj.designation } - </c:if>${obj.user_name }</option>
@@ -291,6 +291,8 @@
 	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	<script>
+		
+		var filtersMap = new Object();
 	
 		function  openUploadUsersModal() {
 			$("#fileName").val('');
@@ -306,39 +308,67 @@
         	$('.modal').modal();
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-           	var table = $('#datatable-users').DataTable({
-        		"bStateSave": true,
-        		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    },
-                    { orderable: false, 'aTargets': ['nosort'] }
-                ],
-                //"ScrollX": true,
-                //"scrollCollapse": true,
-                //"sScrollY": 400,
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
-        	table.state.clear(); 
-    		
         	
         	$('.close-message').delay(3000).fadeOut('slow');
         	
+        	var filters = window.localStorage.getItem("usersFilters");
+	          
+            if($.trim(filters) != '' && $.trim(filters) != null){
+        	  var temp = filters.split('^'); 
+        	  for(var i=0;i< temp.length;i++){
+	        	  if($.trim(temp[i]) != '' ){
+	        		  var temp2 = temp[i].split('=');
+		        	  if($.trim(temp2[0]) == 'user_type_fk' ){
+		        		  getUserTypesFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'user_role_name_fk'){
+		        		  getUserRolesFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'department_fk'){
+		        		  getUserDepartmentsFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'reporting_to_id_srfk'){
+		        		  getUserReportingToListFilter(temp2[1]);
+		        	  }
+	        	  }
+	          }
+            }
+        	
         	getUsersList();
         });
+        
+        function addInQueUserType(user_type_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('user_type_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(user_type_fk) != ''){
+       	    	filtersMap["user_type_fk"] = user_type_fk;
+        	}
+        }
+        
+        function addInQueUserRole(user_role_name_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('user_role_name_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(user_role_name_fk) != ''){
+            	filtersMap["user_role_name_fk"] = user_role_name_fk;
+	      	}
+        }
+        
+        function addInQueDepartment(department_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('department_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(department_fk) != ''){
+       	    	filtersMap["department_fk"] = department_fk;
+        	}
+        }
+        
+        function addInQueReportingTo(reporting_to_id_srfk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('reporting_to_id_srfk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(reporting_to_id_srfk) != ''){
+            	filtersMap["reporting_to_id_srfk"] = reporting_to_id_srfk;
+	      	}
+        }
         
         function clearFilter(){
         	$("#user_type_fk").val('');
@@ -348,20 +378,32 @@
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             
+            window.localStorage.setItem("usersFilters",'');
+            
         	getUsersList();
         }
         
         function getUsersList(){
         	$(".page-loader-2").show();
+          	
+          	getUserTypesFilter('');
+          	getUserRolesFilter('');
+          	getUserDepartmentsFilter('');
+          	getUserReportingToListFilter('');
+          	
+
         	var user_type_fk = $("#user_type_fk").val();
         	var user_role_name_fk = $("#user_role_name_fk").val();
           	var department_fk = $("#department_fk").val();
           	var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
           	
-          	getUserTypesFilter();
-          	getUserRolesFilter();
-          	getUserDepartmentsFilter();
-          	getUserReportingToListFilter();
+          	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("usersFilters", filters);
+   			});
+        	
          	
          	table = $('#datatable-users').DataTable();
     		 
@@ -369,6 +411,7 @@
     		
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-users').DataTable({
+    			"bSort": false,
         		"bStateSave": true,
         		fixedHeader: true,
                 "fnStateSave": function (oSettings, oData) {
@@ -458,7 +501,7 @@
         	    console.log(msg);
          }
       	
-        function getUserTypesFilter() {
+        function getUserTypesFilter(user_type) {
         	var user_type_fk = $("#user_type_fk").val();
         	var user_role_name_fk = $("#user_role_name_fk").val();
           	var department_fk = $("#department_fk").val();
@@ -471,11 +514,12 @@
                 var myParams = {user_type_fk : user_type_fk,user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getUserTypesFilterInUser",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
- 	                           $("#user_type_fk").append('<option value="' + val.user_type_fk + '">' + $.trim(val.user_type_fk) +'</option>');
+                            	var selectedFlag = (user_type == val.user_type_fk)?'selected':'';
+ 	                            $("#user_type_fk").append('<option value="' + val.user_type_fk + '" '+selectedFlag+'>' + $.trim(val.user_type_fk) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -490,7 +534,7 @@
             }
         }
       	
-        function getUserRolesFilter() {
+        function getUserRolesFilter(user_role) {
         	var user_type_fk = $("#user_type_fk").val();
         	var user_role_name_fk = $("#user_role_name_fk").val();
           	var department_fk = $("#department_fk").val();
@@ -503,11 +547,12 @@
                 var myParams = {user_type_fk : user_type_fk,user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getUserRolesFilterInUser",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
- 	                           $("#user_role_name_fk").append('<option value="' + val.user_role_name_fk + '">' + $.trim(val.user_role_name_fk) +'</option>');
+                            	var selectedFlag = (user_role == val.user_role_name_fk)?'selected':'';
+ 	                            $("#user_role_name_fk").append('<option value="' + val.user_role_name_fk + '" '+selectedFlag+'>' + $.trim(val.user_role_name_fk) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -523,7 +568,7 @@
         }
        
         
-        function getUserDepartmentsFilter() {
+        function getUserDepartmentsFilter(department) {
         	var user_type_fk = $("#user_type_fk").val();
         	var user_role_name_fk = $("#user_role_name_fk").val();
           	var department_fk = $("#department_fk").val();
@@ -535,11 +580,12 @@
                 var myParams = {user_type_fk : user_type_fk,user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getUserDepartmentsFilterInUser",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	$("#department_fk").append('<option value="' + val.department_fk + '">' + $.trim(val.department_name) +'</option>');
+                            	var selectedFlag = (department == val.department_fk)?'selected':'';
+                            	$("#department_fk").append('<option value="' + val.department_fk + '" '+selectedFlag+'>' + $.trim(val.department_name) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -554,7 +600,7 @@
             }
         }
         
-        function getUserReportingToListFilter() {
+        function getUserReportingToListFilter(reporting_to) {
         	var user_type_fk = $("#user_type_fk").val();
         	var user_role_name_fk = $("#user_role_name_fk").val();
           	var department_fk = $("#department_fk").val();
@@ -567,13 +613,14 @@
                  var myParams = {user_type_fk : user_type_fk,user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getUserReportingToListFilterInUser",
-                     data: myParams, cache: false,
+                     data: myParams, cache: false,async: false,
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
                            	 	var designation = '';
-                            	if ($.trim(val.designation) != '') { designation =  $.trim(val.designation) }  	                           	
-                               	$("#reporting_to_id_srfk").append('<option value="' + val.user_id + '">' + /* $.trim(val.reporting_to_name)  + */ designation +'</option>');
+                            	if ($.trim(val.designation) != '') { designation =  $.trim(val.designation) }  	    
+                            	var selectedFlag = (reporting_to == val.reporting_to_id_srfk)?'selected':'';
+                               	$("#reporting_to_id_srfk").append('<option value="' + val.user_id + '" '+selectedFlag+'>' + /* $.trim(val.reporting_to_name)  + */ designation +'</option>');
                              });
                          }
                          $('.searchable').select2();

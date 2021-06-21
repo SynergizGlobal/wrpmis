@@ -197,7 +197,7 @@ public class UserController {
 			List<User> departments = userService.getUserDepartments();
 			model.addObject("departments", departments);
 			
-			List<User> reportingToList = userService.getUsersList(null);
+			List<User> reportingToList = userService.getUserReportingToList();
 			model.addObject("reportingToList", reportingToList);
 			
 			List<User> userAccessTypes = userService.getUserAccessTypes(null);
@@ -313,7 +313,7 @@ public class UserController {
 			List<User> departments = userService.getUserDepartments();
 			model.addObject("departments", departments);
 			
-			List<User> reportingToList = userService.getUsersList(null);
+			List<User> reportingToList = userService.getUserReportingToList();
 			model.addObject("reportingToList", reportingToList);
 			
 			List<User> userAccessTypes = userService.getUserAccessTypes(null);

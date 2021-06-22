@@ -16,14 +16,12 @@
     </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css"> -->
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)"    href="/pmis/resources/css/mobile-form-template.css" />
     <style>
         .input-field .searchable_label {
             font-size: 0.85rem;
@@ -88,12 +86,13 @@
         .select2-container--default .select2-selection--single {
             background-color: transparent;
         }
-        .m-b-2{
-			margin-bottom:2rem;
-		}
-		.row .col.input-field .searchable_label {
-		    margin-top: -10px !important;
-		}
+       
+		@media only screen and (max-width: 768px){
+			.input-field p.searchable_label {
+			    margin-top: -16px !important;
+			    margin-bottom: 0;
+			}
+		}		
     </style>
 </head>
 
@@ -128,13 +127,12 @@
 					  	<input type="hidden" name ="form_id" value="${reportDetails.form_id }" />
                         <div class="container container-no-margin">
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                    <input id="form_name" name="form_name" type="text" class="validate" value="${reportDetails.form_name }">
                                     <label for="form_name">Report Name <span class="required">*</span></label>
                                     <span id="form_nameError" class="error-msg"></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <p class="searchable_label">Module </p>
                                     <select class="searchable" id="module_name_fk" name="module_name_fk">
                                         <option value="">Select</option>
@@ -144,11 +142,9 @@
                                     </select>
                                     <span id="moduleError" class="error-msg"></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                            <div class="row">                                 
+                                <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Folder </p>
                                     <select class="searchable" id="parent_form_id_sr_fk" name="parent_form_id_sr_fk">
                                         <option value="">Select</option>
@@ -158,31 +154,27 @@
                                     </select>
                                     <span id="moduleError" class="error-msg"></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="priority" name="priority" type="number" class="validate" value="${reportDetails.priority }">
                                     <label for="priority">priority </label>
                                     <span id="priorityError" class="error-msg"></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                </div>                                 
                             </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field ">
+                            <div class="row">                                 
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="web_form_url" name="web_form_url" type="text" class="validate" value="${reportDetails.web_form_url }">
                                     <label for="web_form_url">Web Url </label>
                                     <span id="web_form_urlError" class="error-msg"></span>
                                 </div>
-                                <div class="col s12 m4 input-field ">
+                                <div class="col s6 m4 input-field ">
                                     <input id="mobile_form_url" name="mobile_form_url" type="text" class="validate" value="${reportDetails.mobile_form_url }">
                                     <label for="mobile_form_url">Mobile Url </label>
                                     <span id="mobile_form_urlError" class="error-msg"></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                </div>                                 
                             </div>
 
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                            <div class="row">                                 
+                                <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label"> Status </p>
                                     <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk">
                                         <option value="">Select</option>
@@ -190,13 +182,12 @@
                                       	    <option value= "${ obj.soft_delete_status_fk}" <c:if test="${reportDetails.soft_delete_status_fk eq obj.soft_delete_status_fk}">selected</c:if>>${obj.soft_delete_status_fk}</option>
                                           </c:forEach>
                                     </select>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                </div>                                 
                             </div>
 
                             <div class="row" style="margin-bottom: 20px;">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8">
+                                 
+                                <div class="col s12 m8 offset-m2">
                                     <div class="row fixed-width">
                                         <h5 class="center-align">Report Details</h5>
                                         <div class="table-inside">
@@ -223,7 +214,7 @@
 			                                                            <span id="access_type${index.count }Error" class="error-msg"></span>
 			                                                        </td>
 			                                                        <td class="input-field">
-			                                                            <select id="access_values${index.count }" class="searchables" name="access_values">
+			                                                            <select id="access_values${index.count }" class="searchable" name="access_values">
 			                                                                <option value="">Select</option>
 			                                                                
 			                                                                <c:if test="${aObj.access_type eq 'user_role' }">		                                                		  
@@ -304,13 +295,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                 
                             </div>
                             <!-- </div> -->
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 mt-brdr">
-                                    <div class="center-align m-1">
+                                 
+                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                                    <div class=" m-1">
 	                                         <c:if test="${action eq 'edit'}">
 	                                           <button type="button" onclick="updateReport();" class="btn waves-effect waves-light bg-m">Update</button>
 	                                         </c:if>
@@ -319,12 +310,12 @@
 											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4 mt-brdr">
-                                    <div class="center-align m-1">
+                                <div class="col s6 m4 mt-brdr center-align">
+                                    <div class=" m-1">
                                         <a href="<%=request.getContextPath()%>/reports" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                 
                             </div>
                         </div>
                     </form>

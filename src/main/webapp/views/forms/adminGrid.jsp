@@ -15,11 +15,12 @@
     <title>Admin Forms - Admin - PMIS</title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)"    href="/pmis/resources/css/mobile-grid-template.css" />
+
     <style>
         p a {
             color: blue;
@@ -42,6 +43,19 @@
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
+        @media only screen and (max-width:769px) {
+		    .dataTables_filter label{
+		        position:relative;
+		    }
+		    .dataTables_filter label::after{
+		        position:absolute;
+		        right:5px;
+		        top:30px;
+		    }
+		    .last-column .btn+.btn {
+		        margin-left: 10px;
+		    }
+		}
     </style>
 </head>
 
@@ -73,8 +87,8 @@
                     
                     <div class="">
                         <div class="row plr-1">
-                            <div class="col s12 m4 offset-m4">
-                                <div class="m-1 c-align">
+                            <div class="col s12 m4 offset-m4 center-align">
+                                <div class="m-1">
                                     <a href="<%=request.getContextPath() %>/add-admin-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Admin Form</strong></a>
                                 </div>
@@ -83,32 +97,61 @@
 
                         <div class="row">
                             <div class="col m12 s12">
-                                <table id="admin-grid" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Form Name</th>
-                                            <th>Priority</th>
-                                            <th>Status</th>
-                                            <th class="nosort">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                      <c:forEach var="obj" items="${adminList }">
-                                        <tr>
-                                        	<td>&nbsp;${ obj.admin_form_id }</td>
-											<td>&nbsp;${ obj.form_name }</td>
-											<td>&nbsp;${ obj.priority }</td>
-											<td>&nbsp;${ obj.soft_delete_status_fk }</td>
-                                            <td class="last-column"> <a class="btn waves-effect waves-light bg-m t-c" onclick="getAdmin('${ obj.admin_form_id }')">
-                                            <i class="fa fa-pencil"></i></a>
-                                                <a  class="btn waves-effect waves-light bg-m t-c" onclick="gotoLink('${ obj.url }')"><i class="fa fa-share"></i></a>
-                                            </td>
-                                        </tr>
-                                      </c:forEach>
-                                    </tbody>
-
-                                </table>
+	                            <div style="display:none;" id="webView">
+	                                <table id="admin-grid" class="mdl-data-table">
+	                                    <thead>
+	                                        <tr>
+	                                            <th>ID</th>
+	                                            <th>Form Name</th>
+	                                            <th>Priority</th>
+	                                            <th>Status</th>
+	                                            <th class="nosort">Action</th>
+	                                        </tr>
+	                                    </thead>
+	                                    <tbody>
+	                                      <c:forEach var="obj" items="${adminList }">
+	                                        <tr>
+	                                        	<td>&nbsp;${ obj.admin_form_id }</td>
+												<td>&nbsp;${ obj.form_name }</td>
+												<td>&nbsp;${ obj.priority }</td>
+												<td>&nbsp;${ obj.soft_delete_status_fk }</td>
+	                                            <td class="last-column"> <a class="btn waves-effect waves-light bg-m t-c" onclick="getAdmin('${ obj.admin_form_id }')">
+	                                            <i class="fa fa-pencil"></i></a>
+	                                                <a  class="btn waves-effect waves-light bg-m t-c" onclick="gotoLink('${ obj.url }')"><i class="fa fa-share"></i></a>
+	                                            </td>
+	                                        </tr>
+	                                      </c:forEach>
+	                                    </tbody>
+	
+	                                </table>
+	                              </div>
+	                              <div style="display:none;" id="mobView">
+	                                <table id="admin-grid_mob" class="mdl-data-table">
+	                                    <thead>
+	                                        <tr>
+	                                            <th>Form Name</th>
+	                                            <!-- <th>Priority</th> -->
+	                                            <th>Status</th>
+	                                            <th class="nosort">Action</th>
+	                                        </tr>
+	                                    </thead>
+	                                    <tbody>
+	                                      <c:forEach var="obj" items="${adminList }">
+	                                        <tr>
+	                                        	<%-- <td>&nbsp;${ obj.admin_form_id }</td> --%>
+												<td>&nbsp;${ obj.form_name }</td>
+												<%-- <td>&nbsp;${ obj.priority }</td> --%>
+												<td>&nbsp;${ obj.soft_delete_status_fk }</td>
+	                                            <td class="last-column"> <a class="btn mobile-btn waves-effect waves-light bg-m t-c" onclick="getAdmin('${ obj.admin_form_id }')">
+	                                            <i class="fa fa-pencil"></i></a>
+	                                                <a  class="btn mobile-btn waves-effect waves-light bg-m t-c" onclick="gotoLink('${ obj.url }')"><i class="fa fa-share"></i></a>
+	                                            </td>
+	                                        </tr>
+	                                      </c:forEach>
+	                                    </tbody>
+	
+	                                </table>
+	                             </div>
                             </div>
                         </div>
                     </div>
@@ -149,21 +192,43 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $('#admin-grid').DataTable({
-                columnDefs: [
-                    {
-                        targets: 'nosort', orderable: false,
-                    },
-                    { "width": "20px", "targets": [4] },
-                ],
-                "scrollCollapse": true,
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
+                        
+            if(window.matchMedia("(max-width: 769px)").matches){
+                $('tbody.web').removeAttr('id');
+                $('#mobView').css({'display':'block'});
+                $('#admin-grid_mob').DataTable({
+                    columnDefs: [
+                        {
+                            targets: 'nosort', orderable: false,
+                        },
+                        { "width": "20px", "targets": [2] },
+                    ],
+                    "scrollCollapse": true,
+                    "sScrollX": "100%",
+                    "sScrollXInner": "100%",
+                    "bScrollCollapse": true,
+                    initComplete: function () {
+                        $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                    }
+                });
+            } else {
+                $('#webView').css({'display':'block'});
+                $('#admin-grid').DataTable({
+                    columnDefs: [
+                        {
+                            targets: 'nosort', orderable: false,
+                        },
+                        { "width": "20px", "targets": [4] },
+                    ],
+                    "scrollCollapse": true,
+                    "sScrollX": "100%",
+                    "sScrollXInner": "100%",
+                    "bScrollCollapse": true,
+                    initComplete: function () {
+                        $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                    }
+                });
+            }
         });
 
         function getAdmin(admin_form_id){

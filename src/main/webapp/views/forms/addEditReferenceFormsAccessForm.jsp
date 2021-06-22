@@ -12,22 +12,20 @@
 		 <c:if test="${action eq 'add'}"> Add Reference Form - Admin - PMIS</c:if>
     </title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)"    href="/pmis/resources/css/mobile-form-template.css" />
     <style>
         .select2-container--default .select2-selection--single {
             background-color: transparent;
         }
-
-        .m-b-2 {
-            margin-bottom: 2rem;
-        }
+        @media only screen and (max-width: 768px){
+			.input-field p.searchable_label {
+			    margin-bottom: 0 !important;
+			}
+		}	
     </style>
 </head>
 
@@ -62,19 +60,19 @@
                         <div class="container container-no-margin">
                         <input type="hidden"  name="reference_forms_id" value="${refrenceFormDetails.reference_forms_id }" />
                             <div class="row">
-                                <div class="col s12 m4 input-field offset-m2">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="name" name="name" type="text" class="validate" value="${refrenceFormDetails.name }">
                                     <label for="name">Name</label>
                                     <span id="nameError" class="error-msg"></span>
                                 </div>
-                                <div class="col s12 m4 input-field ">
+                                <div class="col s6 m4 input-field ">
                                     <input id="form_url" name=form_url type="text" class="validate" value="${refrenceFormDetails.form_url }">
                                     <label for="url">Url </label>
                                     <span id="form_urlError" class="error-msg"></span>
                                 </div>
                             </div>
                             <div class="row" style="margin-bottom: 20px;">
-                                <div class="col s12 m4 input-field offset-m2">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Module </p>
                                     <select class="searchable validate-dropdown" id="module_fk" name="module_fk">
                                         <option value="">Select</option>
@@ -88,10 +86,8 @@
 
                             <!-- </div> -->
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 mt-brdr">
-                                    
-                                    <div class="center-align m-1">
+                                <div class="col s6 m4 mt-brdr offset-m2 center-align">                                    
+                                    <div class=" m-1">
 	                                         <c:if test="${action eq 'edit'}">
 	                                           <button type="button" onclick="updateReferenceForm();" class="btn waves-effect waves-light bg-m">Update</button>
 	                                         </c:if>
@@ -100,12 +96,11 @@
 											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4 mt-brdr">
-                                     <div class="center-align m-1">
+                                <div class="col s6 m4 mt-brdr center-align">
+                                     <div class=" m-1">
                                         <a href="<%=request.getContextPath()%>/reference-form" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                         </div>
                     </form>

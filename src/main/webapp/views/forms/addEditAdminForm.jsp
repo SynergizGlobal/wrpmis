@@ -16,79 +16,32 @@
 		 <c:if test="${action eq 'add'}"> Add Admin Form - Admin - PMIS</c:if>
     </title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css"> -->
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)"    href="/pmis/resources/css/mobile-form-template.css" />
     <style>
         .input-field .searchable_label {
             font-size: 0.85rem;
+            margin-bottom: 10px !important;
         }
-
         input::placeholder {
             color: #777;
         }
-
-        .fixed-width {
-            width: 100%;
-            margin-left: auto !important;
-            margin-right: auto !important;
-        }
-
-        .fixed-width .table-inside {
-            width: 100%;
-            overflow: auto;
-        }
-
-        /* Chrome, Safari, Edge, Opera */
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        /* Firefox */
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
-
-        .fw-8p {
-            width: 8%;
-        }
-
-        .radiogroup {
-            box-shadow: 1px 1px 3px 0px #ccc;
-            padding: 5px;
-            text-align: center;
-        }
-
-        .required {
-            color: red;
-            font-size: 1.3rem;
-            vertical-align: middle;
-        }
-
-        input[type=url]:not(.browser-default):focus:not([readonly])+label {
-            color: #2E58AD !important;
-        }
-
-        input[type=url]:not(.browser-default):focus:not([readonly]) {
-            border-bottom: 1px solid #2E58AD;
-            box-shadow: 0 1px 0 0 #2E58AD;
-        }
-
         .select2-container--default .select2-selection--single {
             background-color: transparent;
-        }
-        
+        }        
 		.error-msg-class{
-		color:red!important; 
+			color:red!important; 
 		}
-
+		@media only screen and (max-width: 768px){
+			.input-field p.searchable_label {
+			    margin-top: -16px !important;
+			    margin-bottom: 0 !important;
+			}
+		}		
     </style>
 </head>
 
@@ -123,24 +76,24 @@
                         <div class="container container-no-margin">
                         <input type="hidden" name="admin_form_id" value="${adminDetails.admin_form_id }"   />
                             <div class="row">
-                                <div class="col s12 m4 input-field offset-m2">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="form_name" name="form_name" type="text" class="validate" value="${adminDetails.form_name }">
                                     <label for="form_name">Form Name</label>
                                     <span id="form_nameError" class="error-msg"></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="url" name="url" type="text" class="validate"  value="${adminDetails.url }">
                                     <label for="url">Url </label>
                                     <span id="urlError" class="error-msg"></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s12 m4 input-field offset-m2">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="priority" name="priority" type="number" class="validate"  value="${adminDetails.priority }">
                                     <label for="priority">Priority </label>
                                     <span id="priorityError" class="error-msg"></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Status </p>
                                     <select id="soft_delete_status_fk" class="searchable validate-dropdown" name="soft_delete_status_fk">
                                         <option value="">Select</option>
@@ -155,9 +108,8 @@
 
                             <!-- </div> -->
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 mt-brdr">
-                                   <div class="center-align m-1">
+                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                                   <div class=" m-1">
 	                                         <c:if test="${action eq 'edit'}">
 	                                           <button type="button" onclick="updateAdmin();"  class="btn waves-effect waves-light bg-m">Update</button>
 	                                         </c:if>
@@ -166,12 +118,11 @@
 											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4 mt-brdr">
-                                    <div class="center-align m-1">
+                                <div class="col s6 m4 mt-brdr center-align">
+                                    <div class=" m-1">
                                         <a href="<%=request.getContextPath()%>/admin" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                         </div>
                     </form>

@@ -18,7 +18,9 @@
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" > 	
     <style>
         .filevalue {
             display: block;
@@ -222,7 +224,7 @@
                         <div class="row fixed-width" style="margin-bottom: 10px;">
                             <h5 class="center-align">Revision Details</h5>
                             <div class="table-inside">
-                                <table id="revision_details" class="mdl-data-table">
+                                <table id="revision_details" class="mdl-data-table mobile_responsible_table">
                                     <thead>
                                         <tr>
                                             <th>Revision No</th>

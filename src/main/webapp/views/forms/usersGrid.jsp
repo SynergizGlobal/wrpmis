@@ -27,13 +27,15 @@
 		.row.no-mar {
             margin-bottom: 0;
         }
-        .dataTables_filter label{
-        	position:relative;
-        }
-        .dataTables_filter label::after{
-        	position:absolute;
-        	right:5px;
-        	top:30px;
+         @media only screen and (max-width:769px) {    		
+	        .dataTables_filter label{
+	        	position:relative;
+	        }
+	        .dataTables_filter label::after{
+	        	position:absolute;
+	        	right:5px;
+	        	top:30px;
+	        }
         }
     </style>
 </head>

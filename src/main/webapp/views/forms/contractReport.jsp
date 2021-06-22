@@ -17,73 +17,16 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
       <style>
         p a {
             color: blue;
             text-decoration: none;
         }
-
-        td:last-child,
-        td:last-of-type {
-            white-space: inherit;
-        }
-
-        .last-column a+a {
-            margin-left: 20px;
-        }
-
-        .input-field .searchable_label {
-            font-size: 0.9rem;
-        }
-
-        .tabs .tab a:not(.active) {
-            color: #999999;
-        }
-
-        .tabs .tab a:focus.active {
-            background-color: #e5e5e5;
-        }
-
-        .tabs .tab a.active {
-            color: #444;
-            background-color: #dadada;
-            border-bottom: 1px solid #444;
-        }
-
-        .tabs .indicator {
-            background-color: #888;
-        }
-
-        .btn.disabled,
-        .btn.disabled * {
-            color: #999 !important;
-        }
-
-        @media only screen and (max-width: 700px) {
-            .mt-md-54 {
-                margin-top: inherit;
-            }
-        }
-       
-        td {
-        	word-break: break-word;
-    		white-space: initial;
-		}
-		.fw-120{
-        	width:120px !important;
-        	max-width:120px;
-        }
-		.fw-200{
-        	width:200px;
-        	max-width:200px;
-        }
-        .fw-250{
-        	width:250px;
-        	max-width:250px;
-        }
-.col.input-field p.searchable_label {
-    margin-top: -10px !important;
-}		
+      
+		/* .input-field .searchable_label {
+		    margin-top: -10px !important;
+		} */		
 		.error-msg label{color:red!important;}
 		.label-for-report{
 			text-align:left ;
@@ -108,46 +51,45 @@
                     </span>
                     <div class="">                    	
                         <div class="row no-mar">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12">
+                            <div class="col m8 s12 offset-m2">
                             	<form id="contractReportForm" name="contractReportForm" method="post">
-	                                <div class="row">
-	                                    <div class="col s12 m4 input-field">
+	                                <div class="row no-mar">
+	                                    <div class="col s6 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
 	                                        <select id="hod_designation" name="hod_designation" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All </option>
 	                                        </select>
 	                                        <span id="hod_designationError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s6 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
 	                                        <select id="work_id_fk" name="work_id_fk" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All</option>
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s6 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contractor</p>
 	                                        <select id="contractor_id_fk" name="contractor_id_fk" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All </option>
 	                                        </select>
 	                                        <span id="contractor_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                </div>  
-	                                <div class="row">
-	                                    <div class="col s12 m4 input-field">
+	                                <!-- </div>  
+	                                <div class="row"> -->
+	                                    <div class="col s6 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract Status</p>
 	                                        <select id="contract_status_fk" name="contract_status_fk" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All </option>
 	                                        </select>
 	                                        <span id="contract_status_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s6 m4 input-field">
 	                                        <input id="date" name="date" type="text" class="validate datepicker"> <label for="date"> Date</label>
-											<button type="button" id="date_icon" class="white"><i class="fa fa-calendar"></i></button>
+											<button type="button" id="date_icon" ><i class="fa fa-calendar"></i></button>
 											<span id="dateError" class="error-msg"></span>
 	                                    </div>
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s6 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract</p>
 	                                        <select id="contract_id" name="contract_id" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">Select </option>
@@ -157,37 +99,33 @@
 	                                </div>                              
                                 </form> 
                             </div>
-                            <div class="col m2 hide-on-small-only"></div>
                         </div>
                         <div class="row no-mar">
-                            <div class="col m8 hide-on-small-only"></div>
-                            <div class="col s12 m2 input-field">
+                            <div class="col s12 m3 input-field offset-m7 center-align">
                                  <button class="btn waves-effect waves-light bg-s t-c"
                                      style="margin-top: 6px; font-weight: 600;"
                                      onclick="clearFilters();"> Clear Filters</button>
                              </div>
-                            <div class="col m2 hide-on-small-only"></div>
                         </div>
                         <div class="row no-mar">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12">
+                            <div class="col m8 s12 offset-m2">
 	                                <div class="row">	                                  	
-	                                    <div class="col s12 m3 input-field">
+	                                    <div class="col s6 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateContractReport();"> Contracts List</button>
 	                                    </div>
-	                                    <div class="col s12 m3 input-field">
+	                                    <div class="col s6 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateBGReport();"> BG Report</button>
 	                                    </div>
-	                                    <div class="col s12 m3 input-field">
+	                                    <div class="col s12 m3 input-field center-align">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateInsurancceReport();"> Insurance Report</button>
 	                                    </div>
-	                                    <div class="col s12 m3 input-field">
+	                                    <div class="col s12 m3 input-field center-align">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateContractDetailReport();"> Contract Detail Report</button>

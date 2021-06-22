@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
         p a {
             color: blue;
@@ -39,6 +41,19 @@
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
+        @media only screen and (max-width:769px) {    		
+	        .dataTables_filter label{
+	        	position:relative;
+	        }
+	        .dataTables_filter label::after{
+	        	position:absolute;
+	        	right:5px;
+	        	top:30px;
+	        }
+	         .last-column .btn+.btn {
+	            margin-left: 10px;
+	        }
+       }
     </style>
 </head>
 
@@ -65,27 +80,25 @@
 							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
                         <div class="row plr-1">
-                            <div class="col s12 m4 offset-m4">
-                                <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath()%>/add-form-access" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Form</strong></a>
-                                </div>
+                            <div class="col s12 m4 offset-m4 center-align" style="margin-bottom:20px;">
+                                 <a href="<%=request.getContextPath()%>/add-form-access" class="btn waves-effect waves-light bg-s t-c">
+                                     <strong><i class="fa fa-plus-circle"></i> Add Form</strong></a>
                             </div>
                         </div>
-                        <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col s12 m2 input-field offset-m3">
+                        <div class="row no-mar">
+                            <div class="col s6 m3 l2 input-field offset-m2 offset-l3">
                                 <p class="searchable_label">Select Module</p>
                                 <select id="module_name_fk" name="module_name_fk" class="searchable" onchange="getFormsList();">
                                     <option value="">Select</option>
                                 </select>
                             </div>
-                            <div class="col s12 m2 input-field">
+                            <div class="col s6 m3 l2 input-field">
                                 <p class="searchable_label">Select Status</p>
                                <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk" onchange="getFormsList();">
                                     <option value="" >Select</option>
                                 </select>
                             </div>
-                            <div class="col s12 m2">
+                            <div class="col s12 m3 l2 mob-center">
                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                     style="margin-top: 10px;width: 100%;" onclick="clearFilters()">Clear
                                     Filters</button>
@@ -94,6 +107,7 @@
 
                         <div class="row">
                             <div class="col m12 s12">
+                            <div style="display:none;" id="webView">
                                 <table id="data-table-forms" class="mdl-data-table">
                                     <thead>
                                         <tr>
@@ -111,6 +125,22 @@
                                     </tbody>
 
                                 </table>
+                               </div>
+                               
+                                <div style="display:none;" id="mobView">
+                                <table id="data-table-forms_mob" class="mdl-data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Module</th>
+                                            <th>Form</th>                                            
+                                            <th class="nosort">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+
+                                </table>
+                               </div>
                             </div>
                         </div>
                     </div>
@@ -184,74 +214,148 @@
         	getModulesFilterList();
          	getStatusFilterList();
          	
-         	table = $('#data-table-forms').DataTable();
-   		 
-    		table.destroy();
-    		
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
-    		table = $('#data-table-forms').DataTable({
-        		"bStateSave": true,
-        		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
-                columnDefs: [
-                    {
-                        targets: [7],
-                        className: 'last-column'
-                    },
-                    { orderable: false, 'aTargets': ['nosort'] }
-                ],
-                // "ScrollX": true,
-                "sScrollX": "100%",
-                 "sScrollXInner": "100%",
-                 "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            }).rows().remove().draw();
-    		
-    		table.state.clear();	
-    	 	var myParams = {module_name_fk : module_name_fk,soft_delete_status_fk : soft_delete_status_fk};
-    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-forms-list",type:"POST",data:myParams,success : function(data){    
-    	 		
-    			if(data != null && data != '' && data.length > 0){    					
-             		$.each(data,function(key,val){
-             			var form_id = "'"+val.form_id+"'";
-                        var actions = '<a href="javascript:void(0);"  onclick="getAccessForm('+form_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>';
-                        			  
-                      	
-                        if($.trim(val.web_form_url) != ''){
-                        	actions = actions +'<a href="<%=request.getContextPath()%>/'+val.web_form_url+'" target="_blank" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-share"></i></a>';
-                        }			  
-                        var rowArray = [];    	                 
-                        
-                        rowArray.push(val.module_name_fk);
-                        rowArray.push(val.form_name);
-                       	rowArray.push(val.folder_name);
-                       	rowArray.push(val.web_form_url);
-                       	rowArray.push(val.mobile_form_url);
-                       	rowArray.push(val.priority);
-                       	rowArray.push(val.soft_delete_status_fk);
-                       
-                       	rowArray.push($.trim(actions)); 
-                       	
-                        table.row.add(rowArray).draw( true );
-                        		                       
-    				});
-             		
-             		$(".page-loader-2").hide();
-    			}else{
-    				$(".page-loader-2").hide();
-    			}
-    			
-    		},error: function (jqXHR, exception) {
-    			$(".page-loader-2").hide();
-             	getErrorMessage(jqXHR, exception);
-         }});
+         	if(window.matchMedia("(max-width: 769px)").matches){
+        		$('tbody.web').removeAttr('id');
+                $('#mobView').css({'display':'block'});
+	         	table = $('#data-table-forms_mob').DataTable();
+	   		 
+	    		table.destroy();
+	    		
+	    		$.fn.dataTable.moment('DD-MMM-YYYY');
+	    		table = $('#data-table-forms_mob').DataTable({
+	        		"bStateSave": true,
+	        		fixedHeader: true,
+	                "fnStateSave": function (oSettings, oData) {
+	                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	                },
+	                "fnStateLoad": function (oSettings) {
+	                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	                },
+	                columnDefs: [
+	                    {
+	                        targets: [2],
+	                        className: 'last-column'
+	                    },
+	                    { orderable: false, 'aTargets': ['nosort'] }
+	                ],
+	                // "ScrollX": true,
+	                "sScrollX": "100%",
+	                 "sScrollXInner": "100%",
+	                 "bScrollCollapse": true,
+	                initComplete: function () {
+	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	                }
+	            }).rows().remove().draw();
+	    		
+	    		table.state.clear();	
+	    	 	var myParams = {module_name_fk : module_name_fk,soft_delete_status_fk : soft_delete_status_fk};
+	    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-forms-list",type:"POST",data:myParams,success : function(data){    
+	    	 		
+	    			if(data != null && data != '' && data.length > 0){    					
+	             		$.each(data,function(key,val){
+	             			var form_id = "'"+val.form_id+"'";
+	                        var actions = '<a href="javascript:void(0);"  onclick="getAccessForm('+form_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>';
+	                        			  
+	                      	
+	                        if($.trim(val.web_form_url) != ''){
+	                        	actions = actions +'<a href="<%=request.getContextPath()%>/'+val.web_form_url+'" target="_blank" class="btn mobile-btn waves-effect waves-light bg-m t-c"><i class="fa fa-share"></i></a>';
+	                        }			  
+	                        var rowArray = [];    	                 
+	                        
+	                        rowArray.push(val.module_name_fk);
+	                        rowArray.push(val.form_name);
+	                       	/* rowArray.push(val.folder_name);
+	                       	rowArray.push(val.web_form_url);
+	                       	rowArray.push(val.mobile_form_url);
+	                       	rowArray.push(val.priority);
+	                       	rowArray.push(val.soft_delete_status_fk); */
+	                       
+	                       	rowArray.push($.trim(actions)); 
+	                       	
+	                        table.row.add(rowArray).draw( true );
+	                        		                       
+	    				});
+	             		
+	             		$(".page-loader-2").hide();
+	    			}else{
+	    				$(".page-loader-2").hide();
+	    			}
+	    			
+	    		},error: function (jqXHR, exception) {
+	    			$(".page-loader-2").hide();
+	             	getErrorMessage(jqXHR, exception);
+	         }});
+         	} else {
+         		$('#webView').css({'display':'block'});
+         		table = $('#data-table-forms').DataTable();
+   	   		 
+	    		table.destroy();
+	    		
+	    		$.fn.dataTable.moment('DD-MMM-YYYY');
+	    		table = $('#data-table-forms').DataTable({
+	        		"bStateSave": true,
+	        		fixedHeader: true,
+	                "fnStateSave": function (oSettings, oData) {
+	                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	                },
+	                "fnStateLoad": function (oSettings) {
+	                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	                },
+	                columnDefs: [
+	                    {
+	                        targets: [7],
+	                        className: 'last-column'
+	                    },
+	                    { orderable: false, 'aTargets': ['nosort'] }
+	                ],
+	                // "ScrollX": true,
+	                "sScrollX": "100%",
+	                 "sScrollXInner": "100%",
+	                 "bScrollCollapse": true,
+	                initComplete: function () {
+	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	                }
+	            }).rows().remove().draw();
+	    		
+	    		table.state.clear();	
+	    	 	var myParams = {module_name_fk : module_name_fk,soft_delete_status_fk : soft_delete_status_fk};
+	    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-forms-list",type:"POST",data:myParams,success : function(data){    
+	    	 		
+	    			if(data != null && data != '' && data.length > 0){    					
+	             		$.each(data,function(key,val){
+	             			var form_id = "'"+val.form_id+"'";
+	                        var actions = '<a href="javascript:void(0);"  onclick="getAccessForm('+form_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>';
+	                        			  
+	                      	
+	                        if($.trim(val.web_form_url) != ''){
+	                        	actions = actions +'<a href="<%=request.getContextPath()%>/'+val.web_form_url+'" target="_blank" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-share"></i></a>';
+	                        }			  
+	                        var rowArray = [];    	                 
+	                        
+	                        rowArray.push(val.module_name_fk);
+	                        rowArray.push(val.form_name);
+	                       	rowArray.push(val.folder_name);
+	                       	rowArray.push(val.web_form_url);
+	                       	rowArray.push(val.mobile_form_url);
+	                       	rowArray.push(val.priority);
+	                       	rowArray.push(val.soft_delete_status_fk);
+	                       
+	                       	rowArray.push($.trim(actions)); 
+	                       	
+	                        table.row.add(rowArray).draw( true );
+	                        		                       
+	    				});
+	             		
+	             		$(".page-loader-2").hide();
+	    			}else{
+	    				$(".page-loader-2").hide();
+	    			}
+	    			
+	    		},error: function (jqXHR, exception) {
+	    			$(".page-loader-2").hide();
+	             	getErrorMessage(jqXHR, exception);
+	         }});
+         	}
        }
         
         function getModulesFilterList() {

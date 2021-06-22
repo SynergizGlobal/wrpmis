@@ -8,11 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <title>Web Links - Admin - PMIS</title>
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)"  href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css">
     <style>
         .fixed-width {
             width: 100%;
@@ -49,6 +50,24 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
+        .no-border-bottom{
+        	border-bottom:0 !important;
+        }
+        
+         @media only screen and (device-width: 768px) {
+	        .input-field input[type='text']:not(.dropdown-trigger),
+	        .input-field input[type='number'], 
+	        .input-field textarea, 
+	        .select2-container--default .select2-selection--single{
+	        	width:90%;
+	        }
+	     }
+        
+        @media only screen and (max-device-width: 768px){
+			.mobile_responsible_table .input-field >textarea{
+			    height: 45px !important;			   
+			}
+		}
     </style>
 
 </head>
@@ -87,11 +106,10 @@
                     <form action="<%=request.getContextPath() %>/update-web-links" id="webLinksForm" name="webLinksForm" method="post">
                         <div class="container container-no-margin" style="margin-top:20px;margin-bottom:20px">
                             <div class="row">
-                                <div class="col m1 hide-on-small-only"></div>
-                                <div class="col m10 s12">
+                                <div class="col m10 s12 offset-m1">
                                     <div class="row fixed-width">
                                         <div class="table-inside">
-                                            <table id="web-links-table" class="mdl-data-table">
+                                            <table id="web-links-table" class="mdl-data-table mobile_responsible_table">
                                                 <thead>
                                                     <tr>
                                                         <th class="fw-40p">Name</th>
@@ -105,30 +123,30 @@
                                                 		<c:when test="${not empty webLinksList and fn:length(webLinksList) gt 0 }">
                                                 			<c:forEach var="obj" items="${webLinksList }" varStatus="index">
                                                 				<tr id="webLinkRow${index.count }">
-				                                                	<td>
+				                                                	<td data-head="Name" class="input-field">
 				                                                		<input type="hidden" id="id" name= "ids" value="${obj.id }"/>
 				                                                		<input type="text" id="name${index.count }" name="names" class="validate" placeholder = "Name" value="${obj.name }" />
 				                                                	</td >
-													                <td><textarea id="link${index.count }" name="links" class="materialize-textarea validate" placeholder="Link" >${obj.link }</textarea></td>
-													                <td><input type="number" id="priority${index.count }" name="prioritys" class="validate" placeholder="Priority" value="${obj.priority }" /> </td>
-													                <td><a onclick="removeWebLink('${index.count }');removableWebLinkIds('${obj.id }');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td> 
+													                <td data-head="Link" class="input-field"><textarea id="link${index.count }" name="links" class="materialize-textarea validate" placeholder="Link" >${obj.link }</textarea></td>
+													                <td data-head="Priority" class="input-field"><input type="number" id="priority${index.count }" name="prioritys" class="validate" placeholder="Priority" value="${obj.priority }" /> </td>
+													                <td class="mobile_btn_close"><a onclick="removeWebLink('${index.count }');removableWebLinkIds('${obj.id }');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td> 
 												                </tr>
                                                 			</c:forEach>
                                                 		</c:when>
                                                 		<c:otherwise>
                                                 			<tr id="webLinkRow0">
-			                                                	<td>
+			                                                	<td data-head="Name" class="input-field">
 				                                                	<input type="hidden" id="id" name= "ids" value=""/>
 				                                                	<input type="text" id="name0" name="names" class="validate" placeholder = "Name" />
 			                                                	</td >
-												                <td><textarea id="link0" name="links" class="materialize-textarea validate" placeholder="Link" ></textarea></td>
-												                <td><input type="number" id="priority0" name="prioritys" class="validate" placeholder="Priority" /> </td>
-												                <td><a onclick="removeWebLink('0');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td> 
+												                <td data-head="Link" class="input-field"><textarea id="link0" name="links" class="materialize-textarea validate" placeholder="Link" ></textarea></td>
+												                <td data-head="Priority" class="input-field"><input type="number" id="priority0" name="prioritys" class="validate" placeholder="Priority" /> </td>
+												                <td class="mobile_btn_close"><a onclick="removeWebLink('0');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td> 
 											                </tr>
                                                 		</c:otherwise>
                                                 	</c:choose>
                                                 	
-                                                    <tr>
+                                                    <tr class="no-border-bottom">
                                                         <td colspan="4" class="center-align">
                                                             <a href="javascript:void(0);" class="btn waves-effect waves-light bg-m t-c "
                                                                 onclick="addNewWebLinkRow()">
@@ -150,24 +168,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col m1 hide-on-small-only"></div>
                             </div>
                         </div>
 
                         <div class="container container-no-margin">
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 mt-brdr">
-                                    <div class="center-align m-1">
+                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                                    <div class=" m-1">
                                         <button type="submit"   class="btn waves-effect waves-light bg-m">Update</button>
                                     </div>
                                 </div>
-                                <div class="col s12 m4 mt-brdr">
-                                    <div class="center-align m-1">
+                                <div class="col s6 m4 mt-brdr center-align">
+                                    <div class=" m-1">
                                         <a href="<%=request.getContextPath() %>/web-links" class="btn waves-effect waves-light bg-s ">Reset</a>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                         </div>
                     </form>
@@ -204,13 +219,13 @@
 		    var rNo = Number(rowNo)+1;
 		    
             var text = '<tr>' 
-            	+ '<td>'
+            	+ '<td data-head="Name" class="input-field">'
             	+'<input type="hidden" id="id' + rNo + '" name= "ids" value=""/>'
             	+'<input id="name' + rNo + '" name="names" type="text" class="validate" placeholder = "Name" />'
             	+'</td > '
-            	+'<td><textarea id="link' + rNo + '" name="links" class="materialize-textarea validate" placeholder="Link" ></textarea></td>' 
-                +'<td><input id="priority' + rNo + '" name="prioritys" type="number" class="validate" placeholder="Priority" /> </td>' 
-                +'<td><a onclick="removeWebLink('+ rNo +');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>' 
+            	+'<td data-head="Link" class="input-field"><textarea id="link' + rNo + '" name="links" class="materialize-textarea validate" placeholder="Link" ></textarea></td>' 
+                +'<td data-head="Priority" class="input-field"><input id="priority' + rNo + '" name="prioritys" type="number" class="validate" placeholder="Priority" /> </td>' 
+                +'<td class="mobile_btn_close"><a onclick="removeWebLink('+ rNo +');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>' 
                 +'</tr>';
             $('#web-links-table tbody').find('tr:last').prev().after(text);
             $("#webLinkRowNo").val(rNo);

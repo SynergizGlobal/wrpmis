@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
       <style>
         p a {
             color: blue;
@@ -23,10 +24,7 @@
         }
         .input-field .searchable_label {
             font-size: 0.9rem;
-        }
-        .row.no-mar{
-        	margin-bottom:0;
-        }
+        }        
         .input-field .searchable_label {
 		    font-size: 0.95rem;
 		    color: #555;
@@ -44,7 +42,7 @@
                
         <div class="col s12 m12">
                <div class="row">               
-                <div class="col s12 m3">
+                <div class="col s12 m5 l3">
                  <div class="card">
 	                	<div class="card-content">     
 	            	<div class="card">
@@ -68,7 +66,7 @@
           		</div>
           		</div></div>
           		
-                <div class="col m9 s12 ">                
+                <div class="col m7 l9 s12 ">                
             	<div class="card">
 	                <div class="card-content">
 	                    <span class="card-title headbg">
@@ -90,7 +88,7 @@
 	                         <div class="row no-mar">
 	                         	<div class="col s12 m10 offset-m1">
 		                         	<div class="row">
-		                         		  <div class="col s12 m4 input-field">
+		                         		  <div class="col s12 m6 l4 input-field">
 			                                 <p class="searchable_label">Alert Type</p>
 			                                 <select class="searchable validate-dropdown" name="alert_type_fk" id="alert_type_fk" multiple="multiple" >
 			                                  	 <option value="" disabled="disabled">Select</option>
@@ -100,7 +98,7 @@
 			                                  </select>
 			                                 <span id="alert_type_fkError" class="error-msg" ></span>
 			                             </div>
-			                             <div class="col s12 m4 input-field">
+			                             <div class="col s12 m6 l4 input-field">
 			                                 <p class="searchable_label">Alert Level</p>
 			                                 <select  class="searchable validate-dropdown" name="alert_level" id="alert_level" multiple="multiple" >
 			                               		 <option value="" disabled="disabled">Select</option>
@@ -110,7 +108,7 @@
 			                                  </select>
 			                                 <span id="alert_levelError" class="error-msg" ></span>
 			                             </div>
-			                             <div class="col s12 m4 input-field">
+			                             <div class="col s12 m6 l4 input-field">
 			                                 <p class="searchable_label">Send To</p>
 			                                 <select  class="searchable validate-dropdown" name="email_id" id="email_id" multiple="multiple" >
 			                               		 <option value="" disabled="disabled">Select</option>
@@ -126,11 +124,11 @@
 	                         </div>
 	                         
 	                         <div class="row no-mar">	     
-	                             <div class="col s12 m3 input-field center-align offset-m3">
+	                             <div class="col s6 m4 l3 input-field center-align offset-l3 offset-m1">
 	                                 <button class="btn bg-m waves-effect waves-light t-c"
 	                                     style="min-width:160px;" type="button" onclick="sendAlerts()">Send Alerts</button>
 	                             </div>
-	                             <div class="col s12 m3 input-field center-align">
+	                             <div class="col s6 m4 l3 input-field center-align offset-m1">
 	                                 <button class="btn bg-s waves-effect waves-light t-c" type="button"
 	                                     style="min-width:160px" type="button" onclick="clearFilter()">Clear</button>
 	                             </div>

@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)"    href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)"    href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
         .modal-header {
             text-align: center;
@@ -83,37 +85,37 @@
                         </div> -->
                         <div class="row no-mar">
                             <form action="">
-                                <div class="col s12 m2 input-field">
+                                <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label">HOD</p>
                                     <select id="hod" name="hod" class="searchable" onchange="addInQueHOD(this.value);getAlerts();">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
-                                <div class="col s12 m2 input-field">
+                                <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label">Work</p>
                                     <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="addInQueWork(this.value);getAlerts();">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
-                                <div class="col s12 m2 input-field">
+                                <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label">Contract</p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="addInQueContract(this.value);getAlerts();">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
-                                <div class="col s12 m2 input-field">
+                                <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label">Contractor</p>
                                     <select id="contractor_id_fk" name="contractor_id_fk" class="searchable" onchange="addInQueContractor(this.value);getAlerts();">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
-                                <div class="col s12 m2 input-field">
+                                <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label">Alert Type</p>
                                     <select id="alert_type_fk" name="alert_type_fk" class="searchable" onchange="addInQueType(this.value);getAlerts();">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
-                                <div class="col s12 m2">
+                                <div class="col s6 m4 l2 mob-center">
                                     <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                         style="margin-top: 12px;width: 100%;" onclick="clearFilters()">Clear
                                         Filters</button>
@@ -123,38 +125,68 @@
 
                         <div class="row">
                             <div class="col m12 s12">
-                                <table id="notifications-table" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>HOD </th>
-                                            <th>Work </th>
-                                            <th>Contract </th>
-                                            <th>Contractor </th>
-                                            <th>Alert Type </th>
-                                            <th>Alert Level</th>
-                                            <th>Reason</th>
-                                            <th>Action Taken</th>
-                                            <th class="no-sort">&nbsp;</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    	<%-- <c:forEach var="obj" items="${alerts }">
+                            	<div style="display:none;" id="webView">
+	                                <table id="notifications-table" class="mdl-data-table">
+	                                    <thead>
 	                                        <tr>
-	                                            <td>${obj.hod }</td>
-	                                            <td>${obj.work_short_name }</td>
-	                                            <td>${obj.contract_short_name }</td>
-	                                            <td>${obj.contractor_name }</td>
-	                                            <td>${obj.alert_type_fk }</td>
-	                                            <td>${obj.alert_level }</td>
-	                                            <td>${obj.alert_value }</td>
-	                                            <td>${obj.remarks }</td>
-	                                            <td class="last-column">
-	                                                <a href="javascript:void(0);" onclick="addAlertRemarks('${obj.alert_id }');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>
-	                                            </td>
+	                                            <th>HOD </th>
+	                                            <th>Work </th>
+	                                            <th>Contract </th>
+	                                            <th>Contractor </th>
+	                                            <th>Alert Type </th>
+	                                            <th>Alert Level</th>
+	                                            <th>Reason</th>
+	                                            <th>Action Taken</th>
+	                                            <th class="no-sort">&nbsp;</th>
 	                                        </tr>
-                                        </c:forEach> --%>
-                                    </tbody>
-                                </table>
+	                                    </thead>
+	                                    <tbody>
+	                                    	<%-- <c:forEach var="obj" items="${alerts }">
+		                                        <tr>
+		                                            <td>${obj.hod }</td>
+		                                            <td>${obj.work_short_name }</td>
+		                                            <td>${obj.contract_short_name }</td>
+		                                            <td>${obj.contractor_name }</td>
+		                                            <td>${obj.alert_type_fk }</td>
+		                                            <td>${obj.alert_level }</td>
+		                                            <td>${obj.alert_value }</td>
+		                                            <td>${obj.remarks }</td>
+		                                            <td class="last-column">
+		                                                <a href="javascript:void(0);" onclick="addAlertRemarks('${obj.alert_id }');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>
+		                                            </td>
+		                                        </tr>
+	                                        </c:forEach> --%>
+	                                    </tbody>
+	                                </table>
+                                </div>
+                                <div style="display:none;" id="mobView">
+	                                <table id="notifications-table_mob" class="mdl-data-table">
+	                                    <thead>
+	                                        <tr>
+	                                            <th>Contract </th>	                                           
+	                                            <th>Action <br/>Taken</th>
+	                                            <th class="no-sort">&nbsp;</th>
+	                                        </tr>
+	                                    </thead>
+	                                    <tbody>
+	                                    	<%-- <c:forEach var="obj" items="${alerts }">
+		                                        <tr>
+		                                            <td>${obj.hod }</td>
+		                                            <td>${obj.work_short_name }</td>
+		                                            <td>${obj.contract_short_name }</td>
+		                                            <td>${obj.contractor_name }</td>
+		                                            <td>${obj.alert_type_fk }</td>
+		                                            <td>${obj.alert_level }</td>
+		                                            <td>${obj.alert_value }</td>
+		                                            <td>${obj.remarks }</td>
+		                                            <td class="last-column">
+		                                                <a href="javascript:void(0);" onclick="addAlertRemarks('${obj.alert_id }');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>
+		                                            </td>
+		                                        </tr>
+	                                        </c:forEach> --%>
+	                                    </tbody>
+	                                </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -172,30 +204,26 @@
            <form action="<%=request.getContextPath() %>/add-alert-remarks" method="post">
            	   <input type="hidden" id="alert_id" name="alert_id" />
                <div class="row no-mar">
-                   <div class="col m1 hide-on-small-only"></div>
-                   <div class="input-field col s12 m10">
+                   <div class="input-field col s12 m10 offset-m1">
                        <textarea id="remarks" name="remarks"
                            class="materialize-textarea"
                            data-length="500" maxlength="500" required="required"></textarea>
                        <label for="remarks">Action Taken</label>
                    </div>
-                   <div class="col m1 hide-on-small-only"></div>
                </div>
                <div class="row no-mar">
-                   <div class="col m1 hide-on-small-only"></div>
-                   <div class="col s12 m5">
+                   <div class="col s6 m5 offset-m1">
                        <div class="center-align m-1">
                            <button type="submit" style="width: 100%;"
                                class="btn waves-effect waves-light bg-m">ADD</button>
                        </div>
                    </div>
-                   <div class="col s12 m5">
+                   <div class="col s6 m5">
                        <div class="center-align m-1">
                            <button type="button" style="width: 100%;"
                                class="btn waves-effect waves-light bg-s modal-close">Cancel</button>
                        </div>
                    </div>
-                   <div class="col m1 hide-on-small-only"></div>
                </div>
            </form>
        </div>
@@ -373,130 +401,239 @@
         		window.localStorage.setItem("alertsFilters", filters);
    			});
          	
-         	table = $('#notifications-table').DataTable();
-    		table.destroy();
+        	if(window.matchMedia("(max-width: 769px)").matches){
+        	    $('tbody.web').removeAttr('id');
+        	    $('#mobView').css({'display':'block'});
+        	    table = $('#notifications-table_mob').DataTable();
+        		table.destroy();
 
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
+        		$.fn.dataTable.moment('DD-MMM-YYYY');
 
-    		var myParams =  "hod="
-    				+ hod + "&work_id_fk="+ work_id_fk+ "&contractor_id_fk="+ contractor_id_fk+ "&contract_id_fk="+ contract_id_fk+ "&alert_type_fk="+ alert_type_fk;
+        		var myParams =  "hod="
+        				+ hod + "&work_id_fk="+ work_id_fk+ "&contractor_id_fk="+ contractor_id_fk+ "&contract_id_fk="+ contract_id_fk+ "&alert_type_fk="+ alert_type_fk;
 
-    		/***************************************************************************************************/
+        		/***************************************************************************************************/
 
-    		$("#notifications-table")
-    				.DataTable(
-    						{
-    							"bProcessing" : true,
-    							"bServerSide" : true,
-    							"sort" : "position",
-    							//bStateSave variable you can use to save state on client cookies: set value "true" 
-    							"bStateSave" : false,
-    							//Default: Page display length
-    							"iDisplayLength" : 10,
-    							"iData" : {
-    								"start" : 52
-    							},
-    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-    							"iDisplayStart" : 0,
-    							"fnDrawCallback" : function() {
-    								//Get page numer on client. Please note: number start from 0 So
-    								//for the first page you will see 0 second page 1 third page 2...
-    								//Un-comment below alert to see page number
-    								//alert("Current page number: "+this.fnPagingInfo().iPage);
-    							},
-    							//"sDom": 'l<"toolbar">frtip',
-    							"initComplete" : function() {
-    								$('.dataTables_filter input[type="search"]')
-    										.attr('placeholder', 'Search')
-    										.css({
-    											'width' : '350px ',
-    											'display' : 'inline-block'
-    										});
+        		$("#notifications-table_mob")
+        				.DataTable(
+        						{
+        							"bProcessing" : true,
+        							"bServerSide" : true,
+        							"sort" : "position",
+        							//bStateSave variable you can use to save state on client cookies: set value "true" 
+        							"bStateSave" : false,
+        							//Default: Page display length
+        							"iDisplayLength" : 10,
+        							"iData" : {
+        								"start" : 52
+        							},
+        							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+        							"iDisplayStart" : 0,
+        							"fnDrawCallback" : function() {
+        								//Get page numer on client. Please note: number start from 0 So
+        								//for the first page you will see 0 second page 1 third page 2...
+        								//Un-comment below alert to see page number
+        								//alert("Current page number: "+this.fnPagingInfo().iPage);
+        							},
+        							//"sDom": 'l<"toolbar">frtip',
+        							"initComplete" : function() {
+        								$('.dataTables_filter input[type="search"]')
+        										.attr('placeholder', 'Search')
+        										.css({
+        											'width' : '350px ',
+        											'display' : 'inline-block'
+        										});
 
-    								var input = $('.dataTables_filter input')
-    										.unbind(), self = this.api(), $searchButton = $(
-    										'<i class="fa fa-search" title="Go">')
-    								//.text('Go')
-    								.click(function() {
-    									self.search(input.val()).draw();
-    								}), $clearButton = $(
-    										'<i class="fa fa-close" title="Reset">')
-    								//.text('X')
-    								.click(function() {
-    									input.val('');
-    									$searchButton.click();
-    								})
-    								$('.dataTables_filter').append(
-    										'<div class="right-btns"></div>');
-    								$('.dataTables_filter div').append(
-    										$searchButton, $clearButton);
+        								var input = $('.dataTables_filter input')
+        										.unbind(), self = this.api(), $searchButton = $(
+        										'<i class="fa fa-search" title="Go">')
+        								//.text('Go')
+        								.click(function() {
+        									self.search(input.val()).draw();
+        								}), $clearButton = $(
+        										'<i class="fa fa-close" title="Reset">')
+        								//.text('X')
+        								.click(function() {
+        									input.val('');
+        									$searchButton.click();
+        								})
+        								$('.dataTables_filter').append(
+        										'<div class="right-btns"></div>');
+        								$('.dataTables_filter div').append(
+        										$searchButton, $clearButton);
 
-    								/* var input = $('.dataTables_filter input').unbind(),
-    								self = this.api(),
-    								$searchButton = $('<i class="fa fa-search">')
-    								           //.text('Go')
-    								           .click(function() {			   	                    	 
-    								              self.search(input.val()).draw();
-    								           })			   	        
-    								  $('.dataTables_filter label').append($searchButton); */
-    							},
-    							columnDefs : [ {
-    								"targets" : 'no-sort',
-    								"orderable" : false,
-    							} ],
-    							"sScrollX" : "100%",
-    							"sScrollXInner" : "100%",
-    							"bScrollCollapse" : true,
-    							"language" : {
-    								"info" : "_START_ - _END_ of _TOTAL_",
-    								paginate : {
-    									next : '<i class="fa fa-angle-right"></i>', 
-    									previous : '<i class="fa fa-angle-left"></i>'  
-    								}
-    							},
-    							"bDestroy" : true,
-    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getAlerts?"+myParams,
-    		        "aoColumns": [
-    		        	{ "mData": function(data,type,row){
-     		            	if($.trim(data.hod) == ''){ return '-'; }else{ return data.hod; }
-     		            } },
-      		            { "mData": function(data,type,row){
-      		            	var work_short_name = '';
-                             if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
-                             if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
-      		            } },
-      		         	{ "mData": function(data,type,row){
-      		         		 var contractName = '';
-                             if ($.trim(data.contract_short_name) != '') { contractName = ' - ' + $.trim(data.contract_short_name) }
-                             if($.trim(data.contract_id) == ''){ return '-'; }else{ return data.contract_id + contractName ; }
-      		            } },
-    		         	{ "mData": function(data,type,row){
-    		            	if($.trim(data.contractor_name) == ''){ return '-'; }else{ return data.contractor_name; }
-    		            } },
-    		            { "mData": function(data,type,row){
-    		            	if($.trim(data.alert_type_fk) == ''){ return '-'; }else{ return data.alert_type_fk; }
-    		            } },
-    		            { "mData": function(data,type,row){
-    		            	if($.trim(data.alert_level) == ''){ return '-'; }else{ return data.alert_level; }
-    		            } },
-    		         	{ "mData": function(data,type,row){
-    		            	if($.trim(data.alert_value) == ''){ return '-'; }else{ return data.alert_value; }
-    		            } },
-    		            { "mData": function(data,type,row){
-    		            	if($.trim(data.remarks) == ''){ return '-'; }else{ return data.remarks; }
-    		            } },
-    		         	{ "mData": function(data,type,row){
-    		         		var alert_id = "'"+data.alert_id+"'";
-    	         			var remarks = "'"+data.remarks+"'";
-    	                    var actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+remarks+');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Action Taken</a>';
-    		            	return actions;
-    		            } }
-    		            
-    		        ]
-    		    });
-    	    
-    	  $(".page-loader-2").hide();  		     
-      	
+        								/* var input = $('.dataTables_filter input').unbind(),
+        								self = this.api(),
+        								$searchButton = $('<i class="fa fa-search">')
+        								           //.text('Go')
+        								           .click(function() {			   	                    	 
+        								              self.search(input.val()).draw();
+        								           })			   	        
+        								  $('.dataTables_filter label').append($searchButton); */
+        							},
+        							columnDefs : [ {
+        								"targets" : 'no-sort',
+        								"orderable" : false,
+        							} ],
+        							"sScrollX" : "100%",
+        							"sScrollXInner" : "100%",
+        							"bScrollCollapse" : true,
+        							"language" : {
+        								"info" : "_START_ - _END_ of _TOTAL_",
+        								paginate : {
+        									next : '<i class="fa fa-angle-right"></i>', 
+        									previous : '<i class="fa fa-angle-left"></i>'  
+        								}
+        							},
+        							"bDestroy" : true,
+        							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getAlerts?"+myParams,
+        		        "aoColumns": [
+        		        	
+          		         	{ "mData": function(data,type,row){
+          		         		 var contractName = '';
+                                 if ($.trim(data.contract_short_name) != '') { contractName = ' - ' + $.trim(data.contract_short_name) }
+                                 if($.trim(data.contract_id) == ''){ return '-'; }else{ return data.contract_id + contractName ; }
+          		            } },        		         	
+        		            { "mData": function(data,type,row){
+        		            	if($.trim(data.remarks) == ''){ return '-'; }else{ return data.remarks; }
+        		            } },
+        		         	{ "mData": function(data,type,row){
+        		         		var alert_id = "'"+data.alert_id+"'";
+        	         			var remarks = "'"+data.remarks+"'";
+        	                    var actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+remarks+');" class="btn mobile-btn waves-effect waves-light bg-m t-c modal-trigger">Action Taken</a>';
+        		            	return actions;
+        		            } }
+        		            
+        		        ]
+        		    });
+        	    
+        	  $(".page-loader-2").hide();  	
+        	} else {
+        	    $('#webView').css({'display':'block'});
+        		table = $('#notifications-table').DataTable();
+	    		table.destroy();
+	
+	    		$.fn.dataTable.moment('DD-MMM-YYYY');
+	
+	    		var myParams =  "hod="
+	    				+ hod + "&work_id_fk="+ work_id_fk+ "&contractor_id_fk="+ contractor_id_fk+ "&contract_id_fk="+ contract_id_fk+ "&alert_type_fk="+ alert_type_fk;
+	
+	    		/***************************************************************************************************/
+	
+	    		$("#notifications-table")
+	    				.DataTable(
+	    						{
+	    							"bProcessing" : true,
+	    							"bServerSide" : true,
+	    							"sort" : "position",
+	    							//bStateSave variable you can use to save state on client cookies: set value "true" 
+	    							"bStateSave" : false,
+	    							//Default: Page display length
+	    							"iDisplayLength" : 10,
+	    							"iData" : {
+	    								"start" : 52
+	    							},
+	    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+	    							"iDisplayStart" : 0,
+	    							"fnDrawCallback" : function() {
+	    								//Get page numer on client. Please note: number start from 0 So
+	    								//for the first page you will see 0 second page 1 third page 2...
+	    								//Un-comment below alert to see page number
+	    								//alert("Current page number: "+this.fnPagingInfo().iPage);
+	    							},
+	    							//"sDom": 'l<"toolbar">frtip',
+	    							"initComplete" : function() {
+	    								$('.dataTables_filter input[type="search"]')
+	    										.attr('placeholder', 'Search')
+	    										.css({
+	    											'width' : '350px ',
+	    											'display' : 'inline-block'
+	    										});
+	
+	    								var input = $('.dataTables_filter input')
+	    										.unbind(), self = this.api(), $searchButton = $(
+	    										'<i class="fa fa-search" title="Go">')
+	    								//.text('Go')
+	    								.click(function() {
+	    									self.search(input.val()).draw();
+	    								}), $clearButton = $(
+	    										'<i class="fa fa-close" title="Reset">')
+	    								//.text('X')
+	    								.click(function() {
+	    									input.val('');
+	    									$searchButton.click();
+	    								})
+	    								$('.dataTables_filter').append(
+	    										'<div class="right-btns"></div>');
+	    								$('.dataTables_filter div').append(
+	    										$searchButton, $clearButton);
+	
+	    								/* var input = $('.dataTables_filter input').unbind(),
+	    								self = this.api(),
+	    								$searchButton = $('<i class="fa fa-search">')
+	    								           //.text('Go')
+	    								           .click(function() {			   	                    	 
+	    								              self.search(input.val()).draw();
+	    								           })			   	        
+	    								  $('.dataTables_filter label').append($searchButton); */
+	    							},
+	    							columnDefs : [ {
+	    								"targets" : 'no-sort',
+	    								"orderable" : false,
+	    							} ],
+	    							"sScrollX" : "100%",
+	    							"sScrollXInner" : "100%",
+	    							"bScrollCollapse" : true,
+	    							"language" : {
+	    								"info" : "_START_ - _END_ of _TOTAL_",
+	    								paginate : {
+	    									next : '<i class="fa fa-angle-right"></i>', 
+	    									previous : '<i class="fa fa-angle-left"></i>'  
+	    								}
+	    							},
+	    							"bDestroy" : true,
+	    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getAlerts?"+myParams,
+	    		        "aoColumns": [
+	    		        	{ "mData": function(data,type,row){
+	     		            	if($.trim(data.hod) == ''){ return '-'; }else{ return data.hod; }
+	     		            } },
+	      		            { "mData": function(data,type,row){
+	      		            	var work_short_name = '';
+	                             if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
+	                             if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
+	      		            } },
+	      		         	{ "mData": function(data,type,row){
+	      		         		 var contractName = '';
+	                             if ($.trim(data.contract_short_name) != '') { contractName = ' - ' + $.trim(data.contract_short_name) }
+	                             if($.trim(data.contract_id) == ''){ return '-'; }else{ return data.contract_id + contractName ; }
+	      		            } },
+	    		         	{ "mData": function(data,type,row){
+	    		            	if($.trim(data.contractor_name) == ''){ return '-'; }else{ return data.contractor_name; }
+	    		            } },
+	    		            { "mData": function(data,type,row){
+	    		            	if($.trim(data.alert_type_fk) == ''){ return '-'; }else{ return data.alert_type_fk; }
+	    		            } },
+	    		            { "mData": function(data,type,row){
+	    		            	if($.trim(data.alert_level) == ''){ return '-'; }else{ return data.alert_level; }
+	    		            } },
+	    		         	{ "mData": function(data,type,row){
+	    		            	if($.trim(data.alert_value) == ''){ return '-'; }else{ return data.alert_value; }
+	    		            } },
+	    		            { "mData": function(data,type,row){
+	    		            	if($.trim(data.remarks) == ''){ return '-'; }else{ return data.remarks; }
+	    		            } },
+	    		         	{ "mData": function(data,type,row){
+	    		         		var alert_id = "'"+data.alert_id+"'";
+	    	         			var remarks = "'"+data.remarks+"'";
+	    	                    var actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+remarks+');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Action Taken</a>';
+	    		            	return actions;
+	    		            } }
+	    		            
+	    		        ]
+	    		    });
+	    	    
+	    	  $(".page-loader-2").hide();  		     
+          }
      }
 
         

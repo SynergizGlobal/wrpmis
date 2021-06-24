@@ -126,7 +126,7 @@ public class AlertsReportController {
 		boolean flag = false;
 		try{			
 			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
-			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh.mm aa"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh:mm aa"); 
 			String report_created_date = df.format(new Date()); 
 			
 			Map<String,List<Alerts>> contractAlerts = service.getContractAlerts(obj);
@@ -465,7 +465,7 @@ public class AlertsReportController {
 					filenameHint, id1, id2, imageAlignment);
 		}
 		
-hdr.getContent().add(p);
+		hdr.getContent().add(p);
 		
 		/********************************************/
 		
@@ -536,7 +536,7 @@ hdr.getContent().add(p);
 		
 		p = factory.createP();
 		r = factory.createR();
-		RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "28", STHint.EAST_ASIA,
+		RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
 		
 		
@@ -563,7 +563,7 @@ hdr.getContent().add(p);
 		hdr.getContent().add(p);
 		/**************************************************************/
 		
-		RPr calibriBoldRPr = getRPr(factory, "Calibri (Body)", "000000", "20", STHint.EAST_ASIA,
+		RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
 		p = factory.createP();
 		r = factory.createR();

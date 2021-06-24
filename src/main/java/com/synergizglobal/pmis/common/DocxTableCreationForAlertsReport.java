@@ -72,12 +72,12 @@ public class DocxTableCreationForAlertsReport {
 			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 					false, false, false, false);		
 			
-			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
+			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
 					true, false, false, false);
 			
 			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
 					true, false, false, false);
-			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 					false, false, false, false);
 			
 			for (Map.Entry<String,List<Alerts>> hodEntry : alerts.entrySet()) {
@@ -101,7 +101,7 @@ public class DocxTableCreationForAlertsReport {
 					
 					for (String headerValue : tableHeader) {
 						addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
-								JcEnumeration.LEFT, true, "ecf2ff");
+								JcEnumeration.CENTER, true, "ecf2ff");
 					}		
 					table.getContent().add(titleRow);
 					

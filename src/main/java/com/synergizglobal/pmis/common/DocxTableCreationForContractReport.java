@@ -70,12 +70,11 @@ public class DocxTableCreationForContractReport {
 			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, false, false, false,
 					false);
 			
-			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
-					true, false, false, false);
-			
+			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
+					true, false, false, false);			
 			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
 					true, false, false, false);
-			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 					false, false, false, false);
 
 			int rNo = 1;
@@ -109,7 +108,7 @@ public class DocxTableCreationForContractReport {
 						width = 800;
 					}
 					columnNo++;
-					addTableCellAndWidth(factory, wordMLPackage, titleRow0, headerValue, garamondBoldRPr, JcEnumeration.LEFT, true,
+					addTableCellAndWidth(factory, wordMLPackage, titleRow0, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
 							"ecf2ff",width);
 				}
 				table.getContent().add(titleRow0);
@@ -141,7 +140,7 @@ public class DocxTableCreationForContractReport {
 						width = 800;
 					}
 					columnNo++;
-					addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.LEFT, true,
+					addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
 							"ecf2ff",width);
 				}
 				table.getContent().add(titleRow);
@@ -224,12 +223,12 @@ public class DocxTableCreationForContractReport {
 			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, false, false, false,
 					false);
 			
-			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
+			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
 					true, false, false, false);
 			
 			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
 					true, false, false, false);
-			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 					false, false, false, false);
 
 			int temp = 1;
@@ -342,12 +341,12 @@ public class DocxTableCreationForContractReport {
 			RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
 			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, false, false, false,false);
 			
-			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
+			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
 					true, false, false, false);
 			
 			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
 					true, false, false, false);
-			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 					false, false, false, false);
 			
 			int temp = 1;

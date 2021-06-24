@@ -1236,17 +1236,24 @@ public class AlertsDaoImpl implements AlertsDao{
 	            
 				String emailSubject = "PMIS "+tObj.getAlert_type_fk()+" Alerts";
 				
-				Mail mail = new Mail();
-				mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
-				mail.setMailSubject(emailSubject);
-				mail.setTemplateName("alertsRajivRavi.vm");
+				
 				
 				if(alerts != null && alerts.size() > 0){
-					EMailSender emailSender = new EMailSender();
-					logger.error("sendAlertsToRajivRavi() >> Sending mail : Start ");	
-					emailSender.sendEmailWithAlertsRajivRavi(mail,alerts,tObj.getAlert_type_fk(),today_date,current_year); 
-					logger.error("sendAlertsToRajivRavi() >> Sending mail : End ");
-					flag = true;
+					
+					String itAdminsEmailsQry = "SELECT group_concat(email_id) FROM user where email_id is not null and email_id <> '' and user_role_name_fk = 'IT Admin'";
+					String itAdminsEmails = jdbcTemplate.queryForObject( itAdminsEmailsQry,String.class);
+					if(!StringUtils.isEmpty(itAdminsEmails)) {
+						EMailSender emailSender = new EMailSender();
+						Mail mail = new Mail();
+						mail.setMailTo(itAdminsEmails);
+						mail.setMailSubject(emailSubject);
+						mail.setTemplateName("alertsRajivRavi.vm");
+						
+						logger.error("sendAlertsToRajivRavi() >> Sending mail : Start ");	
+						emailSender.sendEmailWithAlertsRajivRavi(mail,alerts,tObj.getAlert_type_fk(),today_date,current_year); 
+						logger.error("sendAlertsToRajivRavi() >> Sending mail : End ");
+						flag = true;
+					}
 				}
 			}
 			sendRiskNotificationAlertMailsToRaviRajiv();
@@ -1316,18 +1323,21 @@ public class AlertsDaoImpl implements AlertsDao{
 	            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 	            String current_year = yearFormat.format(new Date()).toUpperCase();
 				
-				String emailSubject = "PMIS Risk Alerts";
-				
-				Mail mail = new Mail();
-				mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
-				//mail.setMailBcc(CommonConstants.BCC_MAIL);
-				mail.setMailSubject(emailSubject);
-				mail.setTemplateName("Risk_Alerts.vm");
-				
-				logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >>: Start ");	
-				emailSender.sendEmailWithRiskAlerts(mail,riskAlertsList,today_date,current_year); 
-				logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >> : End ");
-				
+	            String itAdminsEmailsQry = "SELECT group_concat(email_id) FROM user where email_id is not null and email_id <> '' and user_role_name_fk = 'IT Admin'";
+				String itAdminsEmails = jdbcTemplate.queryForObject( itAdminsEmailsQry,String.class);
+				if(!StringUtils.isEmpty(itAdminsEmails)) {
+					String emailSubject = "PMIS Risk Alerts";
+					
+					Mail mail = new Mail();
+					mail.setMailTo(itAdminsEmails);
+					//mail.setMailBcc(CommonConstants.BCC_MAIL);
+					mail.setMailSubject(emailSubject);
+					mail.setTemplateName("Risk_Alerts.vm");
+					logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >>: Start ");	
+					emailSender.sendEmailWithRiskAlerts(mail,riskAlertsList,today_date,current_year); 
+					logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >> : End ");
+					
+				}
 				/******************************************************************/
 				/*String qryIncharge = "select module_name,incharge_user_id_fk,u.email_id "
 						+ "from module m "

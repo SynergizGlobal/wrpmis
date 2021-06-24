@@ -112,21 +112,21 @@ public class DocxTableCreationForAlertsReport {
 						Tr contentRow = factory.createTr();	
 						
 						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, obj.getContractor_name(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
 						addTableCell(factory, wordMLPackage, contentRow, obj.getWork_id() + " - " + obj.getContract_short_name(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
 						addTableCell(factory, wordMLPackage, contentRow, obj.getAlert_type_fk(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, obj.getDetails(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
 						addTableCell(factory, wordMLPackage, contentRow, obj.getAlert_level(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, obj.getValidity(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, obj.getRemarks(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 					
 						table.getContent().add(contentRow);
 					}			

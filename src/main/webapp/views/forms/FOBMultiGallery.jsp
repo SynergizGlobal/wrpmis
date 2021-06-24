@@ -67,7 +67,7 @@ position: inherit;
 
 
 
-			<div class="row carousel carousel-slider" style="width:1210px;height:218px;text-align:center;">
+			<div class="row carousel carousel-slider" style="width:1210px;height:204px;text-align:center;">
 			<c:if test="${(fn:length(fobGalleryList))>3}">
 			<c:set var="count" value="0" />
 				<c:forEach var="outer" items="${fobGalleryList}" varStatus="seq1" begin="0" end="${(fn:length(fobGalleryList)-1)/3}">
@@ -77,7 +77,7 @@ position: inherit;
 					<div class="col s4">
 					 <span>${inner.created_date}</span><br>
 					
-						<img src="<%=CommonConstants2.FOB_GALLERY%>${inner.fob_id_fk }/${inner.attachment}" alter="${inner.attachment}" style="width:413px;height:218px;"/>
+						<img src="<%=CommonConstants2.FOB_GALLERY%>${inner.fob_id_fk }/${inner.attachment}" alter="${inner.attachment}" style="width:412px;height:204px;"/>
 					</div>
 					<c:set var="i" value="${i+3}" />
 					</c:forEach></a>
@@ -96,7 +96,7 @@ position: inherit;
 					<div <c:if test="${(fn:length(fobGalleryList))!=1}"> class="col s4" </c:if> <c:if test="${(fn:length(fobGalleryList))==2}"> style="padding-left:150px;padding-right:150px;text-align:center;" </c:if>>
 					 <span>${inner.created_date}</span><br>
 					
-						<img src="<%=CommonConstants2.FOB_GALLERY%>${inner.fob_id_fk }/${inner.attachment}" alter="${inner.attachment}" style="width:413px;height:218px;"/>
+						<img src="<%=CommonConstants2.FOB_GALLERY%>${inner.fob_id_fk }/${inner.attachment}" alter="${inner.attachment}" style="width:412px;height:204px;"/>
 					</div>
 					<c:set var="i" value="${i+3}" />
 					</c:forEach></a>

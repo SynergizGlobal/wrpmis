@@ -63,13 +63,13 @@ height:270px;
 
  
  
-			<div class="carousel carousel-slider" style="width:417px;height:215px;">
+			<div class="carousel carousel-slider" style="width:406px;height:230px;">
 				<c:forEach var="fObj" items="${fobGalleryList }" varStatus="index">
 				
 					<a class="carousel-item" href="javascript:void(0);">
 										<span>${fObj.created_date}</span><br>
 					
-						<img src="<%=CommonConstants2.FOB_GALLERY%>${fObj.fob_id_fk }/${fObj.attachment}" alter="${fObj.attachment}" style="width:417px;height:215px;" />
+						<img src="<%=CommonConstants2.FOB_GALLERY%>${fObj.fob_id_fk }/${fObj.attachment}" alter="${fObj.attachment}" style="width:406px;height:230px;" />
 					</a>
 				</c:forEach>
 <div class="row slider-center"><i id="next" class="material-icons">chevron_right</i> <i id="prev" class="material-icons">chevron_left</i></div>

@@ -48,5 +48,7 @@ public interface AlertsDao {
 	List<Alerts> getSendToListForGenerateSendAlerts() throws Exception;
 
 	boolean sendAlertsToParticulars(Alerts obj) throws Exception;
+
+	Map<String,List<Alerts>> getContractAlerts(Alerts obj) throws Exception;
 	
 }

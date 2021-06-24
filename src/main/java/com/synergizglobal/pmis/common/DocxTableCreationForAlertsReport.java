@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.common;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBElement;
 
@@ -44,105 +45,130 @@ import org.docx4j.wml.UnderlineEnumeration;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.model.Alerts;
+import com.synergizglobal.pmis.model.Contract;
 
 public class DocxTableCreationForAlertsReport {
 
 
 	/***************************** ALERTS REPORT ****************************************************************/
 	
-	public static void createTableForAlertsReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart t,
-			ObjectFactory factory, List<Alerts> alerts) {
-		RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
-				true, false, false, false);
+	public static void createTableForContractsAlertReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart t,
+			ObjectFactory factory, Map<String,List<Alerts>> alerts) throws Exception {
 		
-		RPr contentRpr = getRPr(factory, "Calibri", "000000", "14",
-				STHint.EAST_ASIA, false, false, false, false);
-		
-		RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
-				STHint.EAST_ASIA, true, false, false, false);	
-		
-		RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
-				true, true, false, false);
-		RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
-				true, false, false, false);
-		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
-				false, false, false, false);		
-		
-		Tbl table = factory.createTbl();
-		addBorders(table, "2");
-		
-		/****************************************************************************/
-		
-		if(!StringUtils.isEmpty(alerts)) {
-			Tr titleRow = factory.createTr();		
-			List<String> tableHeader = new ArrayList<String>();
-			tableHeader.add("S\nNo");
-			tableHeader.add("HOD");
-			tableHeader.add("Work name");
-			tableHeader.add("Contract Id");
-			tableHeader.add("Contractor");
-			tableHeader.add("Contract name");
-			/*tableHeader.add("Alerts Discription");*/
-			tableHeader.add("Alert Type");
-			tableHeader.add("Alert Level");
-			/*tableHeader.add("Pending Since(Days)");*/
-			tableHeader.add("Reason for alert");
-			/*tableHeader.add("Action Taken");*/
-			tableHeader.add("Action Taken:");  
+		try {		
+			RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
+					true, false, false, false);
 			
-			for (String headerValue : tableHeader) {
-				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
-						JcEnumeration.LEFT, true, "ecf2ff");
-			}		
-			table.getContent().add(titleRow);
+			RPr contentRpr = getRPr(factory, "Calibri", "000000", "14",
+					STHint.EAST_ASIA, false, false, false, false);
 			
-			int sNo = 1;
-			for (Alerts pObj : alerts) {
-				boolean hasBgColor = false;
-				String backgroundColor = null;
-				Tr contentRow = factory.createTr();	
+			RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
+					STHint.EAST_ASIA, true, false, false, false);	
+			
+			RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
+					true, true, false, false);
+			RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+					true, false, false, false);
+			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
+					false, false, false, false);		
+			
+			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
+					true, false, false, false);
+			
+			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+					true, false, false, false);
+			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+					false, false, false, false);
+			
+			for (Map.Entry<String,List<Alerts>> hodEntry : alerts.entrySet()) {
+				addParagraph(t, factory);
+				addHeading(wordMLPackage, t, factory,JcEnumeration.LEFT,calibriBoldRPr,hodEntry.getKey());
+			
+				Tbl table = factory.createTbl();
+				addBorders(table, "2");
 				
-				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getHod(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_short_name(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getContract_id(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getContractor_name(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getContract_short_name(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	*/		
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getAlert_type_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getAlert_level(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
-				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getPending_since(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getAlert_value(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getRemarks(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				//String corrective_measure = pObj.getCorrective_measure();
-				
-				String remarks = pObj.getRemarks();
-				
-				if(!StringUtils.isEmpty(remarks)) {
-					remarks = remarks + "Action Taken: " + pObj.getRemarks();
+				if (!StringUtils.isEmpty(hodEntry.getValue())) {
+					Tr titleRow = factory.createTr();		
+					List<String> tableHeader = new ArrayList<String>();
+					tableHeader.add("SN");
+					tableHeader.add("Agency");
+					tableHeader.add("Contract Number");
+					tableHeader.add("Alert Type");
+					tableHeader.add("Details");
+					tableHeader.add("Alert Level");
+					tableHeader.add("Validity");
+					tableHeader.add("Action Taken");  
+					
+					for (String headerValue : tableHeader) {
+						addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
+								JcEnumeration.LEFT, true, "ecf2ff");
+					}		
+					table.getContent().add(titleRow);
+					
+					int sNo = 1;
+					for (Alerts obj : hodEntry.getValue()) {
+						boolean hasBgColor = false;
+						String backgroundColor = null;
+						Tr contentRow = factory.createTr();	
+						
+						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, obj.getContractor_name(),
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+						addTableCell(factory, wordMLPackage, contentRow, obj.getWork_id() + " - " + obj.getContract_short_name(),
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+						addTableCell(factory, wordMLPackage, contentRow, obj.getAlert_type_fk(),
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, obj.getDetails(),
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+						addTableCell(factory, wordMLPackage, contentRow, obj.getAlert_level(),
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, obj.getValidity(),
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, obj.getRemarks(),
+								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					
+						table.getContent().add(contentRow);
+					}			
+					/****************************************************************************************/			
+					
+					setTableAlign(factory, table, JcEnumeration.CENTER);
+					t.addObject(table);
+					
 				}
-			
-				table.getContent().add(contentRow);
-			}			
-			/****************************************************************************************/			
-			
-			setTableAlign(factory, table, JcEnumeration.CENTER);
-			t.addObject(table);
-			
+			}
+		} catch (Exception e) {
+			throw new Exception(e);
 		}
 	} 
+	
+	/**************************************************************************************************************/
+
+	private static void addParagraph(MainDocumentPart mp, ObjectFactory factory) {
+		P p = factory.createP();
+		R r = factory.createR();
+		//Br br = factory.createBr();
+		//r.getContent().add(br);
+		p.getContent().add(r);
+
+		mp.addObject(p);
+	}
+
+	/***********************************************************************************************************************/
+
+	public static void addHeading(WordprocessingMLPackage wordMLPackage, MainDocumentPart t, ObjectFactory factory,
+			JcEnumeration alignment, RPr titleRPr, String contentValue) throws Exception {
+		P paragraph = factory.createP();
+		setParagraphAlign(factory, paragraph, alignment);
+		Text txt = factory.createText();
+		txt.setValue(contentValue);
+		R run = factory.createR();
+		run.getContent().add(txt);
+		run.setRPr(titleRPr);
+		paragraph.getContent().add(run);
+		t.addObject(paragraph);
+	}
+
 	
 	/*****************************
 	 * 

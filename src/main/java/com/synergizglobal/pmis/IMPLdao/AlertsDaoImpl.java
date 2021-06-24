@@ -11,11 +11,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -2577,6 +2574,179 @@ public class AlertsDaoImpl implements AlertsDao{
 			throw new Exception(e.getMessage());
 		}
 		return flag;
+	}
+
+	@Override
+	public Map<String,List<Alerts>> getContractAlerts(Alerts obj) throws Exception {
+		Map<String,List<Alerts>> objsList = new LinkedHashMap<String,List<Alerts>>();
+		try {
+			String hodQry = "select u.designation as hod "
+					+ "from alerts a "; 
+					if(!"IT Admin".equals(obj.getUser_role_name())) {
+						hodQry = hodQry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
+					}
+			
+					hodQry = hodQry + "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+			
+			int arrSize = 1;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				hodQry = hodQry + " and au.user_id_fk = ? ";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				hodQry = hodQry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				hodQry = hodQry + " and a.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				hodQry = hodQry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				hodQry = hodQry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				hodQry = hodQry + " and u.designation = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				hodQry = hodQry + " and a.alert_level = ?";
+				arrSize++;
+			}
+			
+			hodQry = hodQry + " group by u.designation order by u.designation asc";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				pValues[i++] = obj.getUser_id();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				pValues[i++] = obj.getAlert_level();
+			}
+			
+			List<Alerts> hodObjsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			for (Alerts hodObj : hodObjsList) {			
+				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
+						+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url,"
+						+ "(CASE WHEN (alert_type_fk = 'Bank Guarantee') THEN "
+						+ "(select bg_number from bank_guarantee where bg_type_fk is not null and bg_type_fk = 'Performance Guarantee' and release_date is null and contract_id_fk = a.contract_id limit 1) "
+						+ "WHEN (alert_type_fk = 'Insurance') THEN "
+						+ "(select insurance_number from insurance where (released_fk = 'No' OR released_fk is null OR released_fk = '') and contract_id_fk = a.contract_id limit 1) "
+						+ "ELSE ''"
+						+ "END) as details, "
+						+ "(CASE WHEN (alert_type_fk = 'Bank Guarantee') THEN "
+						+ "(select DATE_FORMAT(MIN(valid_upto),'%d-%m-%y') AS valid_upto from bank_guarantee where bg_type_fk is not null and bg_type_fk = 'Performance Guarantee' and release_date is null and contract_id_fk = a.contract_id) "
+						+ "WHEN (alert_type_fk = 'Insurance') THEN "
+						+ "(select DATE_FORMAT(MIN(valid_upto),'%d-%m-%y') AS valid_upto from insurance where (released_fk = 'No' OR released_fk is null OR released_fk = '') and contract_id_fk = a.contract_id) "
+						+ "WHEN (alert_type_fk = 'Contract Period') THEN "
+						+ "(select DATE_FORMAT(revised_doc,'%d-%m-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = a.contract_id limit 1) " 
+						+ "ELSE ''"
+						+ "END) as validity "
+						+ "from alerts a "; 
+						if(!"IT Admin".equals(obj.getUser_role_name())) {
+							qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
+						}
+				
+				qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
+						+ "left outer join work w on c.work_id_fk = w.work_id " 
+						+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+						+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+						+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+				
+				arrSize = 1;
+				if(!"IT Admin".equals(obj.getUser_role_name())) {
+					qry = qry + " and au.user_id_fk = ? ";
+					arrSize++;
+				}
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + " and c.work_id_fk = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+					qry = qry + " and a.contract_id = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+					qry = qry + " and c.contractor_id_fk = ? ";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+					qry = qry + " and a.alert_type_fk = ? ";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod())) {
+					qry = qry + " and u.designation = ? ";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+					qry = qry + " and a.alert_level = ?";
+					arrSize++;
+				}
+				
+				qry = qry + " order by u.designation,work_short_name,a.contract_id asc, alert_level desc";
+				
+				pValues = new Object[arrSize];
+				i = 0;
+				pValues[i++] = CommonConstants.ACTIVE;
+				if(!"IT Admin".equals(obj.getUser_role_name())) {
+					pValues[i++] = obj.getUser_id();
+				}
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] = obj.getWork_id_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+					pValues[i++] = obj.getContract_id_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+					pValues[i++] = obj.getContractor_id_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+					pValues[i++] = obj.getAlert_type_fk();
+				}
+				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod())) {
+					pValues[i++] = hodObj.getHod();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+					pValues[i++] = obj.getAlert_level();
+				}
+				
+				List<Alerts> alertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+				objsList.put(hodObj.getHod(), alertsList);
+			}
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 	

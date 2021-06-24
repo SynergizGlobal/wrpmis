@@ -120,4 +120,9 @@ public class AlertsServiceImpl implements AlertsService{
 		return dao.sendAlertsToParticulars(obj);
 	}
 
+	@Override
+	public Map<String,List<Alerts>> getContractAlerts(Alerts obj) throws Exception {
+		return dao.getContractAlerts(obj);
+	}
+
 }

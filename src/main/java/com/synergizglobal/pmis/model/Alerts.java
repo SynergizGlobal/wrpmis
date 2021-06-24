@@ -6,7 +6,7 @@ public class Alerts {
 	email_id,user_id,work_id,work_id_fk,contract_name,work_name,user_name,designation,user_role_name;
 
 	private String redirect_url,department_name,responsible_person,escalated_to,hod_user_id_fk,dy_hod_user_id_fk,created_by_user_id_fk,
-	user_id_fk,alert_level_fk,sub_work,reporting_to_user_id,reporting_to_email_id,alert_type_image;
+	user_id_fk,alert_level_fk,sub_work,reporting_to_user_id,reporting_to_email_id,alert_type_image,details,validity;
 	
 	private String status,uploaded_by_user_id_fk,corrective_measure,user_role_name_fk,user_type_fk,owner,owner_user_id,
 	responsible_person_user_id,assessment_date,module_name,incharge_user_id_fk;
@@ -433,6 +433,22 @@ public class Alerts {
 
 	public void setModule_name(String module_name) {
 		this.module_name = module_name;
+	}
+
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
+
+	public String getValidity() {
+		return validity;
+	}
+
+	public void setValidity(String validity) {
+		this.validity = validity;
 	}
 	
 }

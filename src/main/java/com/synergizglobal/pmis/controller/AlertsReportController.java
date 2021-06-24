@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,6 +80,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.common.DocxTableCreation;
 import com.synergizglobal.pmis.common.DocxTableCreationForAlertsReport;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.User;
 @Controller
@@ -94,7 +96,7 @@ public class AlertsReportController {
 	AlertsService service;
 	
 	@RequestMapping(value = "/generate-alerts-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generateAlertsReport(@ModelAttribute Alerts obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+	public ModelAndView generateConractsAlertReport(@ModelAttribute Alerts obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/get-alerts");
 		try{            
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -108,39 +110,40 @@ public class AlertsReportController {
 	    	obj.setUser_id(uObj.getUser_id());
 	    	obj.setEmail_id(uObj.getEmail_id());
 	    	obj.setUser_role_name(uObj.getUser_role_name_fk());
-			boolean flag = generateAlertsReport(response,currentDate,obj);
+			boolean flag = generateConractsAlertReport(response,currentDate,obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("generateAlertsReport : " + e.getMessage());
+			logger.error("generateConractsAlertReport : " + e.getMessage());
 		}
 		return model;
      }
 	
-	private boolean generateAlertsReport(HttpServletResponse response, String currentDate, Alerts obj) {
+	private boolean generateConractsAlertReport(HttpServletResponse response, String currentDate, Alerts obj) {
 		//XWPFDocument document = new XWPFDocument(); 
 		//StringBuilder repositoryExcerpts = new StringBuilder(); 
 		byte[] byteArray;        
         //ObjectFactory objectFactory = new ObjectFactory();
 		boolean flag = false;
 		try{			
-			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh.mm aa"); 
 			String report_created_date = df.format(new Date()); 
 			
-			List<Alerts> alerts = service.getAlerts(obj);
+			Map<String,List<Alerts>> contractAlerts = service.getContractAlerts(obj);
 			
-			boolean landscape = true;
+			boolean landscape = false;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
 			
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
-			String imagePath = null;
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
+
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
-			JcEnumeration imageAlignment = JcEnumeration.LEFT;
+			String headerTextMiddle = "Contracts Alert Report";
 			
-			String headerTextMiddle = "PMIS Report - Alerts";
-			
-			String headerTextRight = "Date : " + report_created_date;
+			String headerTextRight = report_created_date;
 			
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);
@@ -150,7 +153,7 @@ public class AlertsReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForAlertsReport.createTableForAlertsReport(wordMLPackage, mp, factory,alerts);
+			DocxTableCreationForAlertsReport.createTableForContractsAlertReport(wordMLPackage, mp, factory,contractAlerts);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
@@ -158,7 +161,7 @@ public class AlertsReportController {
 				byteArray = bos.toByteArray();
 				InputStream targetStream = new ByteArrayInputStream(byteArray);
 				String FILE_EXTENSION = ".docx";
-				String fileName = "Alerts Report - " + currentDate + FILE_EXTENSION;
+				String fileName = "Contracts Alert Report - " + currentDate + FILE_EXTENSION;
 				
 				response.setContentType("application/.csv");
 				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -176,13 +179,13 @@ public class AlertsReportController {
 				flag = true;
 		    }catch (Exception e) {
 				e.printStackTrace();
-				logger.error("generateAlertsReport >> FileNotFoundException occurs.." + e.getMessage());
+				logger.error("generateConractsAlertReport >> FileNotFoundException occurs.." + e.getMessage());
 				flag = false;
 		    }	
 		 	
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("generateAlertsReport >> " + e.getMessage());
+			logger.error("generateConractsAlertReport >> " + e.getMessage());
 			flag = false;
 		}
 		
@@ -462,18 +465,25 @@ public class AlertsReportController {
 					filenameHint, id1, id2, imageAlignment);
 		}
 		
+hdr.getContent().add(p);
+		
+		/********************************************/
+		
+		/*p = factory.createP();
+		r = factory.createR();
+		
 		RPr boldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				true, false, false, false);
 		
 		
 		if(!StringUtils.isEmpty(headerTextMiddle)) {
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < tabs1; i++) {
 				R.Tab rtab = factory.createRTab();
 		        JAXBElement<org.docx4j.wml.R.Tab> rtabWrapped = factory.createRTab(rtab);
 		        r.getContent().add( rtabWrapped);
 			}			
 			p.getContent().add(r);
-
+		
 			Text txt = factory.createText();
 			txt.setValue(headerTextMiddle);
 			r = factory.createR();
@@ -483,7 +493,7 @@ public class AlertsReportController {
 		}
 		
 		if(!StringUtils.isEmpty(headerTextRight)) {
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < tabs2; i++) {
 				R.Tab rtab = factory.createRTab();
 		        JAXBElement<org.docx4j.wml.R.Tab> rtabWrapped = factory.createRTab(rtab);
 		        r.getContent().add( rtabWrapped);
@@ -496,7 +506,90 @@ public class AlertsReportController {
 			p.getContent().add(r);
 		}
 		
-		hdr.getContent().add(p);	
+		hdr.getContent().add(p);*/	
+		
+		/*******************************************************************************/
+
+		/*RPr titleRpr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
+		
+		Tbl table = factory.createTbl();
+		
+		TblPr tableProps = new TblPr();
+		CTTblLayoutType tblLayoutType = new CTTblLayoutType();
+		STTblLayoutType stTblLayoutType = STTblLayoutType.FIXED;
+		tblLayoutType.setType(stTblLayoutType);
+		tableProps.setTblLayout(tblLayoutType);
+		table.setTblPr(tableProps);
+		
+		Tr titleRow = factory.createTr();
+		addTableCell(factory, wordprocessingMLPackage, titleRow, "", titleRpr, JcEnumeration.CENTER, true, "ffffff");
+		addTableCell(factory, wordprocessingMLPackage, titleRow, headerTextMiddle, titleRpr, JcEnumeration.CENTER, true,
+				"ffffff");
+		addTableCell(factory, wordprocessingMLPackage, titleRow, headerTextRight, titleRpr, JcEnumeration.RIGHT, true,
+				"ffffff");
+		table.getContent().add(titleRow);
+		setTableAlign(factory, table, JcEnumeration.CENTER);
+		
+		hdr.getContent().add(table);*/
+		
+		/*******************************************************************************/
+		
+		p = factory.createP();
+		r = factory.createR();
+		RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "28", STHint.EAST_ASIA,
+				true, false, false, false);
+		
+		
+		if(!StringUtils.isEmpty(headerTextMiddle)) {
+			PPr pPr = p.getPPr();
+			if (pPr == null) {
+				pPr = factory.createPPr();
+			}
+			Jc jc = pPr.getJc();
+			if (jc == null) {
+				jc = new Jc();
+			}
+			jc.setVal(JcEnumeration.CENTER);
+			pPr.setJc(jc);
+			p.setPPr(pPr);
+			
+			Text txt = factory.createText();
+			txt.setValue(headerTextMiddle);
+			r = factory.createR();
+			r.getContent().add(txt);
+			r.setRPr(garamondBoldRPr);
+			p.getContent().add(r);
+		}		
+		hdr.getContent().add(p);
+		/**************************************************************/
+		
+		RPr calibriBoldRPr = getRPr(factory, "Calibri (Body)", "000000", "20", STHint.EAST_ASIA,
+				true, false, false, false);
+		p = factory.createP();
+		r = factory.createR();
+		if(!StringUtils.isEmpty(headerTextRight)) {
+			PPr pPr = p.getPPr();
+			if (pPr == null) {
+				pPr = factory.createPPr();
+			}
+			Jc jc = pPr.getJc();
+			if (jc == null) {
+				jc = new Jc();
+			}
+			jc.setVal(JcEnumeration.RIGHT);
+			pPr.setJc(jc);
+			p.setPPr(pPr);
+			
+			Text txt = factory.createText();
+			txt.setValue(headerTextRight);
+			r = factory.createR();
+			r.getContent().add(txt);
+			r.setRPr(calibriBoldRPr);
+			p.getContent().add(r);
+		}
+		hdr.getContent().add(p);
+		
+		/*******************************************************************************/
 		
 		return hdr;
 	}

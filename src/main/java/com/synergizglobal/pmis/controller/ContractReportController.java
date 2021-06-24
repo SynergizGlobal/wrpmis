@@ -378,12 +378,13 @@ public class ContractReportController {
         //ObjectFactory objectFactory = new ObjectFactory();
 		boolean flag = false;
 		try{			
-			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh.mm aa");
 			String report_created_date = df.format(new Date()); 
 			
 			Map<String,List<Contract>> list = service.getContractsListForReport(obj);
 			
-			boolean landscape = true;
+			boolean landscape = false;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
 			
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
@@ -395,9 +396,9 @@ public class ContractReportController {
 
 			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
-			String headerTextMiddle = "PMIS Report - Contracts List";
+			String headerTextMiddle = "Contract Validity Report";
 			
-			String headerTextRight = "Date : " + report_created_date;
+			String headerTextRight = report_created_date;
 			
 			//String headerText = "PMIS Report - Contract Details";
 			
@@ -455,7 +456,8 @@ public class ContractReportController {
         //ObjectFactory objectFactory = new ObjectFactory();
 		boolean flag = false;
 		try{			
-			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh.mm aa");
 			String report_created_date = df.format(new Date()); 
 			Map<String,List<Contract>> list = service.getContractsBankGuaranteeForReport(obj);
 			
@@ -469,9 +471,9 @@ public class ContractReportController {
 
 			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
-			String headerTextMiddle = "PMIS Report - Status of Contract BG";
+			String headerTextMiddle = "Contract BG Validity Report";
 			
-			String headerTextRight = "Date : " + report_created_date;
+			String headerTextRight = report_created_date;
 			
 			//String headerText = "PMIS Report - Status of Contract BG";
 			
@@ -529,7 +531,8 @@ public class ContractReportController {
         //ObjectFactory objectFactory = new ObjectFactory();
 		boolean flag = false;
 		try{			
-			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh.mm aa");
 			String report_created_date = df.format(new Date()); 
 			Map<String,List<Contract>> list = service.getContractsInsuranceForReport(obj);
 			
@@ -543,9 +546,9 @@ public class ContractReportController {
 
 			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
-			String headerTextMiddle = "PMIS Report - Status of Contract Insurance";
+			String headerTextMiddle = "Contract Insurance Validity Report";
 			
-			String headerTextRight = "Date : " + report_created_date;
+			String headerTextRight = report_created_date;
 			
 			//String headerText = "PMIS Report - Status of Contract Insurance";
 			
@@ -948,7 +951,7 @@ public class ContractReportController {
 		
 		p = factory.createP();
 		r = factory.createR();
-		RPr boldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
+		RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "28", STHint.EAST_ASIA,
 				true, false, false, false);
 		
 		
@@ -969,12 +972,14 @@ public class ContractReportController {
 			txt.setValue(headerTextMiddle);
 			r = factory.createR();
 			r.getContent().add(txt);
-			r.setRPr(boldRPr);
+			r.setRPr(garamondBoldRPr);
 			p.getContent().add(r);
 		}		
 		hdr.getContent().add(p);
 		/**************************************************************/
 		
+		RPr calibriBoldRPr = getRPr(factory, "Calibri (Body)", "000000", "20", STHint.EAST_ASIA,
+				true, false, false, false);
 		p = factory.createP();
 		r = factory.createR();
 		if(!StringUtils.isEmpty(headerTextRight)) {
@@ -994,7 +999,7 @@ public class ContractReportController {
 			txt.setValue(headerTextRight);
 			r = factory.createR();
 			r.getContent().add(txt);
-			r.setRPr(boldRPr);
+			r.setRPr(calibriBoldRPr);
 			p.getContent().add(r);
 		}
 		hdr.getContent().add(p);

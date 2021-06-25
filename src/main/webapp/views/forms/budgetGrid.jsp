@@ -46,29 +46,23 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
-          @media only screen and (max-width: 768px){
-	       
-	        div.dataTables_wrapper div.dataTables_info {
-		     white-space: normal; 
+        @media only screen and (max-width: 769px){ 
+			
+			.dataTables_scrollBody tbody tr td:last-of-type,
+			.no-sort{
+				padding:3px !important;
+				max-width: 45px;
 			}
-			.btn, .btn-large, .btn-small, .btn-flat {
-			    padding: 0 10px;
+			.mob-btn{
+				padding:0 12px;
 			}
-			.dataTables_filter label input {
-			    width: 100% !important;
+			.hideCOl{
+				display:none;
 			}
-			.mdl-data-table tbody tr td:not(:last-of-type){ padding-left:10px !important; }
-			.f-70{
-				width:120px !important;
-    	 		max-width:120px;
+			.fw-300{width:30vw !important;
+        	max-width:30vw; }
+			
 			}
-			.card .card-content{
-		        padding-left:12px; 
-		        padding-right: 12px;
-		    } 
-		    .headbg{
-		        margin:-25px -12px 20px -12px;
-		    } 
     </style>
 </head>
 
@@ -171,19 +165,18 @@
 
 						<div class="row">
 							<div class="col m12 s12">
-							  <div  style= "display:none;" id="webView">
-									<table id="datatable-budget" class="mdl-data-table">
+								<table id="datatable-budget" class="mdl-data-table">
 										<thead>
 											<tr>
-												<th class="fw-300">Work</th>
+												<th class='fw-300'>Work</th>
 												<th>Latest <br>Financial Year
 												</th>
-												<th>Budget Estimate</th>
-												<th>Budget Grant</th>
-												<th>Reivised Estimate</th>
-												<th>Reivised Grant</th>
-												<th>Final Estimate</th>
-												<th>Final Grant</th>
+												<th  >Budget Estimate</th>
+												<th  >Budget Grant</th>
+												<th  >Reivised Estimate</th>
+												<th  >Reivised Grant</th>
+												<th  >Final Estimate</th>
+												<th  >Final Grant</th>
 												<th class="no-sort">Action</th>
 											</tr>
 										</thead>
@@ -191,22 +184,6 @@
 									
 										</tbody>
 									</table>
-								</div>
-								<div  style= "display:none;" id="mobView">
-								<table id="datatable-budget-mobile" class="mdl-data-table">
-									<thead>
-										<tr>
-											<th class="f-70">Work</th>
-											<th>Latest <br>Financial Year
-											</th>
-											<th class="no-sort mobile-btn ">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-								
-									</tbody>
-								</table>
-							  </div>
 							</div>
 						</div>
 					</div>
@@ -289,46 +266,10 @@
 	        	  }
 	          }
           }
-        
-    	/* var table = $('#datatable-budget').DataTable({
- 		"bStateSave": true,
- 		fixedHeader: true,
-         "fnStateSave": function (oSettings, oData) {
-             localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-         },
-         "fnStateLoad": function (oSettings) {
-             return JSON.parse(localStorage.getItem('MRVCDataTables'));
-         },
-         columnDefs: [
-             {
-                 targets: [0, 1, 2],
-                 className: 'mdl-data-table__cell--non-numeric'
-             },
-             { orderable: false, 'aTargets': ['nosort'] }
-         ],
-         // "ScrollX": true,
-         "scrollCollapse": true,
-         //"sScrollY": 400,
-         "sScrollX": "100%",
-             "sScrollXInner": "100%",
-             "bScrollCollapse": true,
-         initComplete: function () {
-             $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-         }
-     });
- 	table.state.clear(); 
-		
- 	 */
+  
  	$('.close-message').delay(3000).fadeOut('slow');
  	
  	getBudgetList();
- 	if(window.matchMedia("(max-width: 769px)").matches){
-    	$('tbody.web').removeAttr('id');
-        $('#mobView').css({'display':'block'});
-      	
-    } else{
-    	$('#webView').css({'display':'block'});
-    }
   });
  
     function clearFilter(){
@@ -376,115 +317,9 @@
     		filters = filters + key +"="+filtersMap[key] + "^";
     		window.localStorage.setItem("budgetFilters", filters);
 			});
-    	if(window.matchMedia("(max-width: 769px)").matches){
-	    	table = $('#datatable-budget-mobile').DataTable();
-			table.destroy();
-	
-			$.fn.dataTable.moment('DD-MMM-YYYY');
-	
-			var myParams =  "work_id_fk="
-					+ work_id_fk + "&project_id_fk="+ project_id_fk+ "&financial_year_fk="+ financial_year_fk;
-	
-			/***************************************************************************************************/
-	
-			$("#datatable-budget-mobile")
-					.DataTable(
-							{
-								"bProcessing" : true,
-								"bServerSide" : true,
-								"sort" : "position",
-								//bStateSave variable you can use to save state on client cookies: set value "true" 
-								"bStateSave" : false,
-								//Default: Page display length
-								"iDisplayLength" : 10,
-								"iData" : {
-									"start" : 52
-								},
-								//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-								"iDisplayStart" : 0,
-								"fnDrawCallback" : function() {
-									//Get page numer on client. Please note: number start from 0 So
-									//for the first page you will see 0 second page 1 third page 2...
-									//Un-comment below alert to see page number
-									//alert("Current page number: "+this.fnPagingInfo().iPage);
-								},
-								//"sDom": 'l<"toolbar">frtip',
-								"initComplete" : function() {
-									$('.dataTables_filter input[type="search"]')
-											.attr('placeholder', 'Search')
-											.css({
-												'width' : '350px ',
-												'display' : 'inline-block'
-											});
-	
-									var input = $('.dataTables_filter input')
-											.unbind(), self = this.api(), $searchButton = $(
-											'<i class="fa fa-search" title="Go">')
-									//.text('Go')
-									.click(function() {
-										self.search(input.val()).draw();
-									}), $clearButton = $(
-											'<i class="fa fa-close" title="Reset">')
-									//.text('X')
-									.click(function() {
-										input.val('');
-										$searchButton.click();
-									})
-									$('.dataTables_filter').append(
-											'<div class="right-btns"></div>');
-									$('.dataTables_filter div').append(
-											$searchButton, $clearButton);
-	
-									/* var input = $('.dataTables_filter input').unbind(),
-									self = this.api(),
-									$searchButton = $('<i class="fa fa-search">')
-									           //.text('Go')
-									           .click(function() {			   	                    	 
-									              self.search(input.val()).draw();
-									           })			   	        
-									  $('.dataTables_filter label').append($searchButton); */
-								},
-								columnDefs : [ {
-									"targets" : 'no-sort',
-									"orderable" : false
-								},
-								{ "targets": 2 ,
-								  "width": 20
-								}
-								],
-								"sScrollX" : "100%",
-								"sScrollXInner" : "100%",
-								"bScrollCollapse" : true,
-								"language" : {
-									"info" : "_START_ - _END_ of _TOTAL_",
-									paginate : {
-										next : '<i class="fa fa-angle-right"></i>', 
-										previous : '<i class="fa fa-angle-left"></i>'  
-									}
-								},
-								"bDestroy" : true,
-								"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-budget?"+myParams,
-			        "aoColumns": [
-	  		            { "mData": function(data,type,row){
-	  		            	var work_short_name = '';
-	                         if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
-	                         if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
-	  		            } },
-	  		         	{ "mData": function(data,type,row){
-	                         if($.trim(data.financial_year_fk) == ''){ return '-'; }else{ return data.financial_year_fk ; }
-	  		            } },
-			         	{ "mData": function(data,type,row){
-			         		var budget_id = "'"+data.budget_id+"'";
-		                    var actions = '<a href="javascript:void(0);"  onclick="getBudget('+budget_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
-			            	return actions;
-			            } }
-			            
-			        ]
-			    });
-    	}else{
     	   	table = $('#datatable-budget').DataTable();
     		table.destroy();
-
+			var i = 0;
     		$.fn.dataTable.moment('DD-MMM-YYYY');
 
     		var myParams =  "work_id_fk="
@@ -548,11 +383,13 @@
     								              self.search(input.val()).draw();
     								           })			   	        
     								  $('.dataTables_filter label').append($searchButton); */
-    							},
+    							}
+    							,
     							columnDefs : [ {
     								"targets" : 'no-sort',
     								"orderable" : false,
-    							} ],
+    							},{targets:[2,3,4,5,6,7],
+    			                       className: 'hideCOl'}],
     							"sScrollX" : "100%",
     							"sScrollXInner" : "100%",
     							"bScrollCollapse" : true,
@@ -563,9 +400,11 @@
     									previous : '<i class="fa fa-angle-left"></i>'  
     								}
     							},
+    							
     							"bDestroy" : true,
     							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-budget?"+myParams,
     		        "aoColumns": [
+    		        	
       		            { "mData": function(data,type,row){
       		            	var work_short_name = '';
                              if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
@@ -574,7 +413,8 @@
       		         	{ "mData": function(data,type,row){
                              if($.trim(data.financial_year_fk) == ''){ return '-'; }else{ return data.financial_year_fk ; }
       		            } },
-    		            { "mData": function(data,type,row){
+      		       
+    		            { "mData": function(data,type,row){ 
     		            	if($.trim(data.budget_estimate) == ''){ return '-'; }else{ return data.budget_estimate; }
     		            } },
     		         	{ "mData": function(data,type,row){
@@ -585,22 +425,22 @@
     		            } },
     		            { "mData": function(data,type,row){
     		            	if($.trim(data.revised_grant) == ''){ return '-'; }else{ return data.revised_grant; }
-    		            } },
+    		            }},
     		         	{ "mData": function(data,type,row){
     		            	if($.trim(data.final_estimate) == ''){ return '-'; }else{ return data.final_estimate; }
     		            } },
     		            { "mData": function(data,type,row){
     		            	if($.trim(data.final_grant) == ''){ return '-'; }else{ return data.final_grant; }
-    		            } },
+    		            } }, 
     		         	{ "mData": function(data,type,row){
     		         		var budget_id = "'"+data.budget_id+"'";
-    	                    var actions = '<a href="javascript:void(0);"  onclick="getBudget('+budget_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+    	                    var actions = '<a href="javascript:void(0);"  onclick="getBudget('+budget_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
     		            	return actions;
     		            } }
     		            
     		        ]
     		    });
-    	}
+    	
     	
 	  $(".page-loader-2").hide();  		     
   	

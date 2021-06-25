@@ -310,8 +310,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 offset-m2 m4 mt-brdr">
                                     <div class="center-align m-1">
                                           <c:if test="${action eq 'edit'}">
 	                                           <button type="button" onclick="updateFunds();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -321,12 +320,11 @@
 										  </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath()%>/source-of-funds" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                         </form>
                     </div>

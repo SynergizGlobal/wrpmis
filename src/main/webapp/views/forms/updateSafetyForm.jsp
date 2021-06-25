@@ -386,13 +386,13 @@
                                  
 							</div> 
                             <div class="row">
-                                <div class="col s12 m4 mt-brdr offset-m2">
+                                <div class="col s6 m4 mt-brdr offset-m2">
                                     <div class="center-align m-1">
                                         <button type="button" onclick="updateSafety()"
                                             class="btn waves-effect waves-light bg-m">Update </button>
                                     </div>
                                 </div>
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath() %>/safety" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>

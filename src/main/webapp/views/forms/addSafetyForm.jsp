@@ -359,13 +359,13 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 m4 mt-brdr offset-m2">
                                     <div class="center-align m-1">
                                         <button type="button" onclick="addSafety()"
                                             class="btn waves-effect waves-light bg-m" style="min-width:90px">Add </button>
                                     </div>
                                 </div>
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <!-- <button type="reset" class="btn waves-effect waves-light bg-s black-text"
                                             style="width:100%">Cancel</button> -->

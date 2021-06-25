@@ -10,10 +10,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Issue</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
+	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
+	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">	
+	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css"> 
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">		 
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
 	
 	 <style>
         .no-mar .row {
@@ -290,7 +294,7 @@
 									<div class="row fixed-width"
 										style="margin-bottom: 10px; margin-top: 20px">
 										<div class="table-inside">
-											<table class="mdl-data-table update-table">
+											<table class="mdl-data-table update-table mobile_responsible_table">
 												<thead>
 													<tr>
 														<th style="width: 30%;text-align: left;">File Type</th>
@@ -300,28 +304,26 @@
 												</thead>
 												<tbody id="issueFilesBody">
 													<tr id="actionRow0">
-														<td>
-															<div class="input-field">
-																<select  name="issue_file_types"  id="issue_file_types0"  class="validate-dropdown searchable">
-				                                   					 <option value="" >Select</option>
-				                                         			  <c:forEach var="obj" items="${issueFileTypes}">
-				                    					  				 <option value="${obj.issue_file_type }">${obj.issue_file_type}</option>
-				                                          			  </c:forEach>
-				                               					  </select>
-															</div>
+														<td data-head="File Type" class="input-field">
+															<select  name="issue_file_types"  id="issue_file_types0"  class="validate-dropdown searchable">
+			                                   					 <option value="" >Select</option>
+			                                         			  <c:forEach var="obj" items="${issueFileTypes}">
+			                    					  				 <option value="${obj.issue_file_type }">${obj.issue_file_type}</option>
+			                                          			  </c:forEach>
+			                               					  </select>
 														</td>
-														<td>
-															<div class="file-field input-field">
+														<td data-head="Attach File" class="input-field cell-disp-in">
+															<div class="file-field">
 						                                        <div class="btn bg-m t-c">
 						                                            <span>Attach Files</span>
 						                                            <input type="file" id="issueFiles0" name="issueFiles">
 						                                        </div>
 						                                        <div class="file-path-wrapper">
 						                                            <input class="file-path validate" type="text" id="issueFileNames0" name="issueFileNames">
-						                                        </div>                                       
-						                                    </div>
+						                                        </div>   
+					                                        </div>                                    
                                                       	</td>
-														<td>
+														<td class="mobile_btn_close">
 															<a onclick="removeActions('0');" class="btn red"> 
 																<i class="fa fa-close"></i></a>
 														</td>
@@ -349,12 +351,12 @@
                                                  
                             <div class="row no-mar">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <a onclick="addIssue();" class="btn waves-effect waves-light bg-m" style="min-width:85px">Add </a>
                                     </div>
                                 </div>
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath()%>/issues" class="btn waves-effect waves-light bg-s">Cancel  </a>
                                     </div>

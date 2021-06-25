@@ -138,9 +138,9 @@
 			    top: 0;
 			    right: 26px;
 			}			
-			.mobile_responsible_table #revisionsTableBody tr td .select2-container {
+			/* .mobile_responsible_table #revisionsTableBody tr td .select2-container {
 			    width: 100% !important;
-			}
+			} */
 			.mobile_responsible_table>tbody >tr:not(.datepicker-row) >td::before {
 			    vertical-align: middle;
 			}
@@ -208,7 +208,12 @@
 			    transform: translateY(-20px) scale(0.95);
 			}		
 			
-		
+		@media only screen and (max-width: 769px) and (min-width: 500px){
+			  #revTable .select2-container{
+		          max-width: inherit !important;
+    			  width: 95% !important;
+		      }
+		}
 		
     </style>
 </head>
@@ -965,8 +970,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 offset-m2 m4 mt-brdr">
                                     <div class="center-align m-1">
                                        <c:if test="${action eq 'edit'}">
 	                                       <button type="button" onclick="updateDesign();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -976,7 +980,7 @@
 	                                    </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath() %>/design" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>

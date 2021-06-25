@@ -86,8 +86,14 @@
         .select2-container--default .select2-selection--single {
             background-color: transparent;
         }
-        .m-b-2{
-			margin-bottom:2rem;
+        .input-field p.searchable_label {
+		    margin-bottom: 10px; 
+		}
+		@media only screen and (max-width: 768px){
+			.input-field p.searchable_label {
+			    margin-top: -18px !important;
+			    margin-bottom: 0; 
+			}
 		}
     </style>
 </head>

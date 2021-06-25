@@ -1396,16 +1396,20 @@
                             <div class="row">                                
                               
                                 <div class="col s6 m4 mt-brdr center-align offset-m2">
-                                     <c:if test="${action eq 'edit'}">
-                                       <button type="button" onclick="updateLAFrom();" class="btn waves-effect waves-light bg-m">Update</button>
-                                     </c:if>
-									 <c:if test="${action eq 'add'}"> 
-				                       <button type="button" onclick="addLAForm();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
-									 </c:if>
+	                                <div class="m-1">
+	                                     <c:if test="${action eq 'edit'}">
+	                                       <button type="button" onclick="updateLAFrom();" class="btn waves-effect waves-light bg-m">Update</button>
+	                                     </c:if>
+										 <c:if test="${action eq 'add'}"> 
+					                       <button type="button" onclick="addLAForm();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
+										 </c:if>                                
+	                                </div>
                                 </div>
                                 
                                 <div class="col s6 m4 mt-brdr center-align">
-                                     <a href="<%=request.getContextPath()%>/land-acquisition" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                	<div class="m-1">
+                                     	<a href="<%=request.getContextPath()%>/land-acquisition" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                    </div>
                                 </div>
                                  
                             </div>

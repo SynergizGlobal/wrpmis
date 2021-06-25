@@ -17,40 +17,38 @@
     <link rel="stylesheet" href="/pmis/resources/css/p6data.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
      	.text-primary p a:not(.btn) {
             color: blue;
         }
-        #existing p,#baseline p{
-        	 margin-bottom: 0;
+        #existing,
+        #baseline{
+        	padding:4rem 15px 15px;
+        	margin-bottom:10px; 
+        	box-shadow:0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);         	 	
         }
-        
+        #existing p,
+        #baseline p{
+        	 margin-bottom: 0;
+        }        
         .my-error-class {
 			color: red;
 		}
 		.input-field .searchable_label{
 			font-size:.85rem !important;
-		}
-		
+		}		
 		.my-valid-class {
 			color: green;
 		}		
-		 .tabs .tab a:focus, .tabs .tab a:focus.active {
+		.tabs .tab a:focus, 
+		.tabs .tab a:focus.active {
 		 	background-color:transparent;
-		 }
-		 .select2-container--default .select2-selection--single {
+		}
+		.select2-container--default .select2-selection--single {
 		 	background-color:transparent;
-		 }
-		.page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		}
 		.error-msg label{color:red!important;}
 		
 		.card-content #existing p,
@@ -76,15 +74,32 @@
 			color:#004346;
 			background-color:transparent;
 		}
-		#head{
-		text-transform: uppercase;
-		background-color:#f0f8ff;
-		text-align:center;
-		font-size: large;
-		font-weight: bold;
-		border-bottom: 1px solid  #000;
-		padding: 5px;
+		.head{
+			text-transform: uppercase;
+			/* background-color:#f0f8ff; */
+			background-color:#dadada;
+			text-align:center;
+			font-size: large;
+			font-weight: bold;
+			border-bottom: 1px solid  #000;
+			padding:8px 5px !important;
 		}
+		.head.existing{
+			background-color:#d5ebff;
+		}
+	  @media only screen and (max-width: 769px){ 		
+		.dataTables_scrollBody tbody tr td:last-of-type,
+		.no-sort{
+			padding:3px !important;
+			max-width: 45px;
+		}
+		.mob-btn{
+			padding:0 12px;
+		}
+		.hideCOl{
+			display:none;
+		}			
+	 }
     </style>
 </head>
 <body>
@@ -113,15 +128,14 @@
 							</div>
 						</c:if>     
 						<div class="row">
-							<div class="col m3 hide-on-small-only"></div>
-							<div class="col m6 s12">								
+							<div class="col s12 l6 offset-l3  m8 offset-m2">								
 			                  <!--   <ul class="tabs">
 			                        <li class="tab col s6" style="background-color:#f0f8ff"><a class="active" href="#existing">Update Existing</a></li>
 			                        <li class="tab col s6" style="background-color:#fafafa"><a  href="#baseline">Add Baseline</a></li>
 			                    </ul> -->
-			                    <div class="tab col s12" id="head">Add Baseline</div>  <br>
-				                  <div class="" id="baseline" style="padding:15px;background-color:#fafafa">
-				                    <div style="margin-top:20px">
+			                    <div class="tab col s12 head" >Add Baseline</div>   
+				                  <div class="" id="baseline" style="background-color:#fafafa">
+				                   <!--  <div style="margin-top:20px"> -->
 				                        <form action="<%=request.getContextPath() %>/upload-p6-data" name="p6UploadFrom" id="p6UploadFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
 				                                <div class="col s12 m6 input-field">
@@ -174,23 +188,22 @@
 				                                </div>
 				                            </div>
 				                        </form>
-				                    </div>
-				                    <div class="container-no-margin">
+				                   <!--  </div> -->
 				                        <div class="row center-align">
 				                            <div class="col m12 text-primary">
-				                                <p style="margin-bottom: 20px;"><strong>Note :</strong> Please make sure the uploading
+				                                <p><strong>Note :</strong> Please make sure the uploading
 				                                    P6 data file will be in
 				                                    the given format. Click <a href="/pmis/P6BaselineFile.xlsx" download>here</a> for
 				                                    the file format</p>
 				                            </div>
 				
 				                        </div>
-				                    </div>
+				                   
 				                </div>
 				                
-				                <div class="tab col s12" id="head">Update Existing</div>  <br>
-			                    <div class="" id="existing" style="padding:15px; background-color:#f0f8ff">
-				                    <div style="margin-top:20px">
+				                <div class="tab col s12 head existing" >Update Existing</div>   
+			                    <div class="" id="existing" style="background-color:#f0f8ff">
+				                   <!--  <div style="margin-top:20px"> -->
 				                        <form action="<%=request.getContextPath() %>/update-p6-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
 				                                <div class="col s12 m6 input-field">
@@ -242,18 +255,16 @@
 				                                </div>
 				                            </div>
 				                        </form>
-				                    </div>
-				                    <div class="container-no-margin">
+				                   <!--  </div> -->
 				                        <div class="row center-align">
 				                            <div class="col m12 text-primary">
-				                                <p style="margin-bottom: 20px;"><strong>Note :</strong> Please make sure the uploading
+				                                <p><strong>Note :</strong> Please make sure the uploading
 				                                    P6 data file will be in
 				                                    the given format. Click <a href="/pmis/P6UpdateFile.xlsx" download>here</a> for
 				                                    the file format</p>
 				                            </div>
 				
 				                        </div>
-				                    </div>
 				                </div>
 							</div>
 						</div>
@@ -268,11 +279,10 @@
                             <h6 class="mar-top center-align">P6 DATA HISTORY</h6>
                         </span>
                         
-                        <div class="row" style="margin-bottom: 0;">
+                        <div class="row no-mar">
                             <div class="col m12 s12 ">
-                                <div class="row" style="margin-bottom: 0;">
-                                 <div class="col m1 hide-on-small-only"></div>
-                                    <div class="col s12 m2 input-field">
+                                <div class="row no-mar">
+                                    <div class="col s6 m4 l2 offset-l1 input-field">
                                       <p class="searchable_label">Contract</p>
                                         <select id="contract_id" name="contract_id" onchange="getP6ActivityDataList();" class="searchable">
                                             <option value="">Select</option>
@@ -281,7 +291,7 @@
                                             </c:forEach> --%>	                                           
                                         </select>
                                     </div>
-                                    <div class="col s12 m2 input-field">
+                                    <div class="col s6 m4 l2 input-field">
                                       <p class="searchable_label">FOB </p>
                                         <select id="fob_id" name="fob_id" onchange="getP6ActivityDataList();" class="searchable">
                                             <option value="">Select</option>	
@@ -290,7 +300,7 @@
                                             </c:forEach>  --%>                                           
                                         </select>
                                     </div>
-                                    <div class="col s12 m2 input-field">
+                                    <div class="col s6 m4 l2 input-field">
                                     	<p class="searchable_label">Data Type</p>
                                         <select id="upload_type" name="upload_type" onchange="getP6ActivityDataList();" class="searchable">
                                             <option value="">Select</option>	
@@ -299,7 +309,7 @@
                                             </c:forEach> --%> 	                                        
                                         </select>
                                     </div>              
-                                    <div class="col s12 m2 input-field">
+                                    <div class="col s6 m4 l2 input-field">
                                     	<p class="searchable_label">Status</p>
                                         <select id="status_fk" name="status_fk" onchange="getP6ActivityDataList();" class="searchable">
                                             <option value="">Select</option>	
@@ -308,12 +318,11 @@
                                             </c:forEach> --%>	                                        
                                         </select>
                                     </div>                       
-                                    <div class="col s12 m2">
+                                    <div class="col s12 m4 l2 mob-center">
                                         <button class="btn bg-m waves-effect waves-light t-c"
-                                            style="margin-top: 12px; width:100%" onclick="clearFilter();">Clear Filters</button>
+                                            style="margin-top: 12px;" onclick="clearFilter();">Clear Filters</button>
                                     </div>
-									<div class="col m1 hide-on-small-only"></div>
-                                    
+                                   
                                 </div>
                             </div>
                         </div>
@@ -427,24 +436,7 @@
                 event.stopPropagation();
                 $('#data_dateUpload').click();
             });
-            $('#datatable-p6-data').DataTable({
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    }
-                ], 
-                //"scrollCollapse": true,
-                fixedHeader: true,
-               // "sScrollY": 400,
-               "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
-            
+
             getP6ActivityDataList();
         });
         
@@ -642,11 +634,14 @@
 	                   return JSON.parse(localStorage.getItem('MRVCDataTables'));
 	               },
 	               columnDefs: [
+	                   
 	                   {
-	                       targets: [0, 1, 2],
-	                       className: 'mdl-data-table__cell--non-numeric'
+	                	   targets:[2,3,4,5,6],
+	                       className: 'hideCOl'
 	                   },
-	                   { orderable: false, 'aTargets': ['nosort'] }
+	                   
+	                   { orderable: false, 'aTargets': ['nosort'] },
+	                   
 	               ],
 	               // "ScrollX": true,
 	               //"scrollCollapse": true,
@@ -658,8 +653,7 @@
 	                   $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
 	               }
 	           }).rows().remove().draw();
-	   		
-	   		
+
 	   		table.state.clear();		
 	   	 
 	   	 	var myParams = {contract_id_fk : contract_id_fk, fob_id_fk : fob_id_fk, upload_type : upload_type, status_fk : status_fk };
@@ -853,6 +847,7 @@
            	   $(".page-loader").hide();
            }
        }
+       
        
         
     </script>

@@ -409,7 +409,7 @@
 	                                	<p class="searchable_label">Units</p>
 	                                	<select class="units" id="awarded_cost_units" name="awarded_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs">Rs</option>
+	                                		<option value="rs" selected="selected">Rs</option>
 	                                		<option value="thousands">Thousands</option>
 	                                		<option value="lacs">Lacs</option>
 	                                		<option value="crores">Crores</option>
@@ -435,7 +435,7 @@
 	                                	<p class="searchable_label">Units</p>
 	                                	<select class="units" id="estimated_cost_units" name="estimated_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs">Rs</option>
+	                                		<option value="rs" selected="selected">Rs</option>
 	                                		<option value="thousands">Thousands</option>
 	                                		<option value="lacs">Lacs</option>
 	                                		<option value="crores">Crores</option>
@@ -563,7 +563,7 @@
                                                     <div class="col s3 pt-14">
 					                                	<select class="units" id="bg_values_units${index.count }" name="bg_values_units">
 					                                		<option value="">Select</option>
-					                                		<option value="rs">Rs</option>
+					                                		<option value="rs" selected="selected">Rs</option>
 					                                		<option value="thousands">Thousands</option>
 					                                		<option value="lacs">Lacs</option>
 					                                		<option value="crores">Crores</option>
@@ -640,7 +640,7 @@
                                                     <div class="col s3 pt-14">
 					                                	<select class="units" id="bg_values_units${index.count }" name="bg_values_units">
 					                                		<option value="">Select</option>
-					                                		<option value="rs">Rs</option>
+					                                		<option value="rs" selected="selected">Rs</option>
 					                                		<option value="thousands">Thousands</option>
 					                                		<option value="lacs">Lacs</option>
 					                                		<option value="crores">Crores</option>
@@ -782,7 +782,7 @@
                                                     <div class="col s3 pt-14">
 					                                	<select class="units" id="insurance_values_units${index.count }" name="insurance_values_units">
 					                                		<option value="">Select</option>
-					                                		<option value="rs">Rs</option>
+					                                		<option value="rs" selected="selected">Rs</option>
 					                                		<option value="thousands">Thousands</option>
 					                                		<option value="lacs">Lacs</option>
 					                                		<option value="crores">Crores</option>
@@ -865,7 +865,7 @@
                                                     <div class="col s3 pt-14">
 					                                	<select class="units" id="insurance_values_units${index.count }" name="insurance_values_units">
 					                                		<option value="">Select</option>
-					                                		<option value="rs">Rs</option>
+					                                		<option value="rs" selected="selected">Rs</option>
 					                                		<option value="thousands">Thousands</option>
 					                                		<option value="lacs">Lacs</option>
 					                                		<option value="crores">Crores</option>
@@ -1096,7 +1096,7 @@
                                                     <div class="col s3 pt-14">
 					                                	<select class="units" id="revised_amounts_units${index.count }" name="revised_amounts_units">
 					                                		<option value="">Select</option>
-					                                		<option value="rs">Rs</option>
+					                                		<option value="rs" selected="selected">Rs</option>
 					                                		<option value="thousands">Thousands</option>
 					                                		<option value="lacs">Lacs</option>
 					                                		<option value="crores">Crores</option>
@@ -1154,7 +1154,7 @@
                                                     <div class="col s3 pt-14">
 					                                	<select class="units" id="revised_amounts_units0" name="revised_amounts_units">
 					                                		<option value="">Select</option>
-					                                		<option value="rs">Rs</option>
+					                                		<option value="rs" selected="selected">Rs</option>
 					                                		<option value="thousands">Thousands</option>
 					                                		<option value="lacs">Lacs</option>
 					                                		<option value="crores">Crores</option>
@@ -1436,7 +1436,7 @@
 	                                	<p class="searchable_label">Units</p>
 	                                	<select class="units" id="completed_cost_units" name="completed_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs">Rs</option>
+	                                		<option value="rs" selected="selected">Rs</option>
 	                                		<option value="thousands">Thousands</option>
 	                                		<option value="lacs">Lacs</option>
 	                                		<option value="crores">Crores</option>
@@ -2163,7 +2163,7 @@
 				   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
 				   //+'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="number" min="0.01" step="0.01" class="validate"  placeholder="Amount"></td>'
 				   +'<td class="input-field row"> <div class="col s9"> <i class="material-icons prefix cost left-align">₹</i> <input id="bg_values'+rNo+'" name="bg_values" min="0.01" step="0.01" type="number" class="validate" placeholder="Amount">'
-				   +'</div><div class="col s3 pt-14">	<p class="searchable_label">Units</p>	<select class="units" id="bg_values_units'+rNo+'" name="bg_values_units"> <option value="">Select</option> <option value="rs">Rs</option> <option value="thousands">Thousands</option>'
+				   +'</div><div class="col s3 pt-14">	<p class="searchable_label">Units</p>	<select class="units" id="bg_values_units'+rNo+'" name="bg_values_units"> <option value="">Select</option> <option value="rs" selected="selected">Rs</option> <option value="thousands">Thousands</option>'
 				   +'<option value="lacs">Lacs</option>	<option value="crores">Crores</option>	</select> </div> </td>'
 				   +'<td><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button"><i class="fa fa-calendar"></i></button>'
 				   //+'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
@@ -2209,7 +2209,7 @@
 			  // +'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" placeholder="Insurance Value"></td>'
 			   +'<td class="input-field row"> <div class="col s9"> <i class="material-icons prefix cost left-align">₹</i> <input id="insurance_values'+rNo+'" name="insurance_values" '
 			   +'min="0.01" step="0.01" type="number" class="validate" placeholder="Insurance Value"> </div> <div class="col s3 pt-14"> <select class="units" id="insurance_values_units'+rNo+'" name="insurance_values_units">'
-			   +'<option value="">Select</option> <option value="rs">Rs</option>	<option value="thousands">Thousands</option> <option value="lacs">Lacs</option>	<option value="crores">Crores</option>	</select> </div> </td>' 
+			   +'<option value="">Select</option> <option value="rs" selected="selected">Rs</option>	<option value="thousands">Thousands</option> <option value="lacs">Lacs</option>	<option value="crores">Crores</option>	</select> </div> </td>' 
 			   +'<td><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
@@ -2291,7 +2291,7 @@
 			   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
 			   +'<td class="input-field row"> <div class="col s9"> <i class="material-icons prefix cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
 			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"> </div> <div class="col s3 pt-14"> <select class="units" id="revised_amounts_units'+rNo+'" name="revised_amounts_units">'
-			   +'<option>Select</option> <option value="rs">Rs</option> <option value="thousands">Thousands</option> <option value="lacs">Lacs</option> <option value="crores">Crores</option> </select> </div> </td>'
+			   +'<option>Select</option> <option value="rs" selected="selected">Rs</option> <option value="thousands">Thousands</option> <option value="lacs">Lacs</option> <option value="crores">Crores</option> </select> </div> </td>'
 			  // +'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"></td>'
 			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'

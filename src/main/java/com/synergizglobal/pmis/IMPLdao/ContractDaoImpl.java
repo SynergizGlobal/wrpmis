@@ -1441,7 +1441,7 @@ public class ContractDaoImpl implements ContractDao {
 					if(!StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 						for (int i = 0; i < arraySize; i++) {
 							int k = 1;
-							if( contract.getRevision_numbers().length > 0 && !StringUtils.isEmpty(contract.getRevision_numbers()[i]) && contract.getRevision_statuss()[i].equalsIgnoreCase("yes")) {
+							if( contract.getRevision_numbers().length > 0 && !StringUtils.isEmpty(contract.getRevision_numbers()[i])) {
 								stmt.setString(k++,(contract.getRevision_numbers().length > 0)?contract.getRevision_numbers()[i]:null);
 								stmt.setString(k++,(contract.getRevised_amounts().length > 0)?contract.getRevised_amounts()[i]:null);
 								stmt.setString(k++,DateParser.parse((contract.getRevised_docs().length > 0)?contract.getRevised_docs()[i]:null));								

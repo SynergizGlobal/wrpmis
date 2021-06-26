@@ -390,7 +390,7 @@
 	                                	<p class="searchable_label">Units</p>
 	                                	<select class="units" id="awarded_cost_units" name="awarded_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs">Rs</option>
+	                                		<option value="rs" selected="selected">Rs</option>
 	                                		<option value="thousands">Thousands</option>
 	                                		<option value="lacs">Lacs</option>
 	                                		<option value="crores">Crores</option>
@@ -407,7 +407,7 @@
 	                                	<p class="searchable_label">Units</p>
 	                                	<select class="units" id="estimated_cost_units" name="estimated_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs">Rs</option>
+	                                		<option value="rs" selected="selected">Rs</option>
 	                                		<option value="thousands">Thousands</option>
 	                                		<option value="lacs">Lacs</option>
 	                                		<option value="crores">Crores</option>

@@ -143,7 +143,8 @@ public class AlertsReportController {
 			
 			String headerTextMiddle = "Contracts Alert Report";
 			
-			String headerTextRight = report_created_date;			
+			//String headerTextRight = report_created_date;		
+			String headerTextRight = null;
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);
 			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 

@@ -54,7 +54,7 @@ import com.synergizglobal.pmis.model.Issue;
 public class DocxTableCreationForContractReport {
 
 	public static void createTableForContractReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, Map<String, List<Contract>> contractsData) throws Exception {
+			ObjectFactory factory, Map<String, List<Contract>> contractsData,String report_created_date) throws Exception {
 
 		try {
 
@@ -73,20 +73,50 @@ public class DocxTableCreationForContractReport {
 					false);
 			
 			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
-					true, false, false, false);			
+					true, false, false, false);		
+			RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+					true, false, false, false);	
+			
 			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
 					true, false, false, false);
 			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 					false, false, false, false);
 
-			int rNo = 1;
+			int temp = 1;
 			for (Map.Entry<String, List<Contract>> entry : contractsData.entrySet()) {
 				//System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
 				List<Contract> contracts = entry.getValue();
 				String keyName = entry.getKey();
 
-				addParagraph(mp, factory);
-				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, calibriBoldRPr, keyName);
+				//addParagraph(mp, factory);
+				//addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, calibriBoldRPr, keyName);
+				Tbl tableHead = factory.createTbl();
+				setTableAlign(factory, tableHead, JcEnumeration.CENTER);
+				//addBorders(tableHead, "0");
+				
+				/**************************************************************************/
+				Tr hodRow = factory.createTr();
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, keyName, calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+				String date = "";
+				if(temp == 1) {
+					date = report_created_date;
+				}else {
+					addParagraph(mp, factory);
+				}
+				temp++;
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, date, calibriBoldDateRPr, JcEnumeration.RIGHT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldDateRPr, JcEnumeration.RIGHT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldDateRPr, JcEnumeration.RIGHT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldDateRPr, JcEnumeration.RIGHT, true,"ffffff");
+				
+				tableHead.getContent().add(hodRow);
+				mergeCellsHorizontal(tableHead, 0, 0, 3);
+				mergeCellsHorizontal(tableHead, 0, 4, 7);
+				mp.addObject(tableHead);
+				/***************************************************************/
 
 				Tbl table = factory.createTbl();
 				addBorders(table, "2");
@@ -231,7 +261,7 @@ public class DocxTableCreationForContractReport {
 	}
 
 	public static void createTableForContractBGReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, Map<String, List<Contract>> list) throws Exception {
+			ObjectFactory factory, Map<String, List<Contract>> list,String report_created_date) throws Exception {
 		try {
 
 			RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA, true, false, false,
@@ -250,15 +280,43 @@ public class DocxTableCreationForContractReport {
 			
 			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
 					true, false, false, false);
+			RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+					true, false, false, false);	
 			
 			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
 					true, false, false, false);
 			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 					false, false, false, false);
-
+			int temp = 1;
 			for (Map.Entry<String,List<Contract>> hodEntry : list.entrySet()) {
-				addParagraph(mp, factory);
-				addHeading(wordMLPackage, mp, factory,JcEnumeration.LEFT,calibriBoldRPr,hodEntry.getKey());
+				//addParagraph(mp, factory);
+				//addHeading(wordMLPackage, mp, factory,JcEnumeration.LEFT,calibriBoldRPr,hodEntry.getKey());
+				
+				Tbl tableHead = factory.createTbl();
+				setTableAlign(factory, tableHead, JcEnumeration.CENTER);
+				//addBorders(tableHead, "0");
+				
+				/**************************************************************************/
+				Tr hodRow = factory.createTr();
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+				String date = "";
+				if(temp == 1) {
+					date = report_created_date;
+				}else {
+					addParagraph(mp, factory);
+				}
+				temp++;
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, date, calibriBoldDateRPr, JcEnumeration.RIGHT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldDateRPr, JcEnumeration.RIGHT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldDateRPr, JcEnumeration.RIGHT, true,"ffffff");
+				
+				tableHead.getContent().add(hodRow);
+				mergeCellsHorizontal(tableHead, 0, 0, 2);
+				mergeCellsHorizontal(tableHead, 0, 3, 5);
+				mp.addObject(tableHead);
+				/***************************************************************/
 				
 				Tbl table = factory.createTbl();
 				addBorders(table, "2");
@@ -347,7 +405,7 @@ public class DocxTableCreationForContractReport {
 	}
 
 	public static void createTableForContractInsuranceReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, Map<String,List<Contract>> list) throws Exception {
+			ObjectFactory factory, Map<String,List<Contract>> list,String report_created_date) throws Exception {
 		try {
 			RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA, true, false, false,
 					false);
@@ -364,15 +422,44 @@ public class DocxTableCreationForContractReport {
 			
 			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
 					true, false, false, false);
+			RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+					true, false, false, false);	
 			
 			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
 					true, false, false, false);
 			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 					false, false, false, false);
 			
+			int temp = 1;
 			for (Map.Entry<String,List<Contract>> hodEntry : list.entrySet()) {
-				addParagraph(mp, factory);
-				addHeading(wordMLPackage, mp, factory,JcEnumeration.LEFT,calibriBoldRPr,hodEntry.getKey());
+				//addParagraph(mp, factory);
+				//addHeading(wordMLPackage, mp, factory,JcEnumeration.LEFT,calibriBoldRPr,hodEntry.getKey());
+				
+				Tbl tableHead = factory.createTbl();
+				setTableAlign(factory, tableHead, JcEnumeration.CENTER);
+				//addBorders(tableHead, "0");
+				
+				/**************************************************************************/
+				Tr hodRow = factory.createTr();
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+				String date = "";
+				if(temp == 1) {
+					date = report_created_date;
+				}else {
+					addParagraph(mp, factory);
+				}
+				temp++;
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, date, calibriBoldDateRPr, JcEnumeration.RIGHT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldDateRPr, JcEnumeration.RIGHT, true,"ffffff");
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldDateRPr, JcEnumeration.RIGHT, true,"ffffff");
+				
+				tableHead.getContent().add(hodRow);
+				mergeCellsHorizontal(tableHead, 0, 0, 2);
+				mergeCellsHorizontal(tableHead, 0, 3, 5);
+				mp.addObject(tableHead);
+				/***************************************************************/
 				
 				Tbl table = factory.createTbl();
 				addBorders(table, "2");
@@ -927,7 +1014,7 @@ public class DocxTableCreationForContractReport {
 
 				List<String> noDataRow = new ArrayList<String>();
 				noDataRow.add("NO BG DATA");
-				for (int i = 0; i < 7; i++) {
+				for (int i = 0; i < 6; i++) {
 					noDataRow.add("");
 				}
 
@@ -936,7 +1023,7 @@ public class DocxTableCreationForContractReport {
 							hasBgColor, backgroundColor);
 				}
 				bgTable.getContent().add(contentRow);
-				mergeCellsHorizontal(bgTable, 1, 0, 7);
+				mergeCellsHorizontal(bgTable, 1, 0, 6);
 			}
 
 			setTableAlign(factory, bgTable, JcEnumeration.CENTER);
@@ -993,7 +1080,7 @@ public class DocxTableCreationForContractReport {
 
 				List<String> noDataRow = new ArrayList<String>();
 				noDataRow.add("NO INSURANCE DATA");
-				for (int i = 0; i < 6; i++) {
+				for (int i = 0; i < 5; i++) {
 					noDataRow.add("");
 				}
 
@@ -1002,7 +1089,7 @@ public class DocxTableCreationForContractReport {
 							hasBgColor, backgroundColor);
 				}
 				insuranceTable.getContent().add(contentRow);
-				mergeCellsHorizontal(insuranceTable, 1, 0, 6);
+				mergeCellsHorizontal(insuranceTable, 1, 0, 5);
 			}
 
 			setTableAlign(factory, insuranceTable, JcEnumeration.CENTER);
@@ -1661,6 +1748,91 @@ public class DocxTableCreationForContractReport {
 		/********************************/
 
 		tableCell.setTcPr(tcPr);		
+		
+		tableRow.getContent().add(tableCell);
+	}
+	
+	public static void addTableCellWithTopBottomSpace(ObjectFactory factory,
+			WordprocessingMLPackage wordMLPackage, Tr tableRow, String content,
+			RPr rpr, JcEnumeration jcEnumeration, boolean hasBgColor,
+			String backgroudColor) {
+		Tc tableCell = factory.createTc();
+		P p = factory.createP();
+		setParagraphAlign(factory, p, jcEnumeration);
+		//Text t = factory.createText();
+		//t.setValue(content);
+		R run = factory.createR();
+		run.setRPr(rpr);
+		
+		//run.getContent().add(t);
+		
+	    p.getContent().add(run);  
+	    if (content != null) {  
+	        String[] contentArr = content.split("\n");  
+	        Text text = factory.createText();  
+	        text.setSpace("preserve");  
+	        text.setValue(contentArr[0]);  
+	        run.getContent().add(text);  
+	  
+	        for (int i = 1, len = contentArr.length; i < len; i++) {  
+	            Br br = factory.createBr();  
+	            run.getContent().add(br);
+	            text = factory.createText();  
+	            text.setSpace("preserve");  
+	            text.setValue(contentArr[i]);  
+	            run.getContent().add(text);  
+	        }  
+	    }  
+		
+		
+
+		TcPr tcPr = tableCell.getTcPr();
+		if (tcPr == null) {
+			tcPr = factory.createTcPr();
+		}
+		
+		CTVerticalJc valign = factory.createCTVerticalJc();
+		valign.setVal(STVerticalJc.CENTER);
+		tcPr.setVAlign(valign);		
+		
+		//Removing space in cells
+		PPr pPr = factory.createPPr();
+		Spacing spacing = new Spacing();
+		spacing.setBefore(BigInteger.ONE);
+		spacing.setAfter(BigInteger.ONE);
+		spacing.setAfterLines(BigInteger.valueOf(20));
+		spacing.setBeforeLines(BigInteger.TEN);
+		pPr.setSpacing(spacing);
+		
+		Jc justification = factory.createJc();
+		justification.setVal(jcEnumeration);
+		pPr.setJc(justification);
+
+		
+		p.setPPr(pPr);
+		
+		tableCell.getContent().add(p);
+		if (hasBgColor) {
+			CTShd shd = tcPr.getShd();
+			if (shd == null) {
+				shd = factory.createCTShd();
+			}
+			shd.setColor("#ecf2ff");
+			shd.setFill(backgroudColor);
+			tcPr.setShd(shd);
+		}
+		
+		TcBorders tcb = factory.createTcPrInnerTcBorders();
+		CTBorder ctb = factory.createCTBorder();
+		STBorder stb = STBorder.NONE;
+		ctb.setVal(stb);
+		tcb.setBottom(ctb);
+		tcb.setRight(ctb);
+		tcb.setLeft(ctb);
+		tcb.setTop(ctb);
+		tcPr.setTcBorders(tcb);
+		
+		tableCell.setTcPr(tcPr);
 		
 		tableRow.getContent().add(tableCell);
 	}

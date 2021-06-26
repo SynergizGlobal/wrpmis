@@ -23,36 +23,15 @@
         .input-field .searchable_label {
             font-size: 0.9rem;
         }
-
-        .tabs .tab a:not(.active) {
-            color: #999999;
-        }
-
-        .tabs .tab a:focus.active {
-            background-color: #e5e5e5;
-        }
-
-        .tabs .tab a.active {
-            color: #444;
-            background-color: #dadada;
-            border-bottom: 1px solid #444;
-        }
-
-        .tabs .indicator {
-            background-color: #888;
-        }
-
         .btn.disabled,
         .btn.disabled * {
             color: #999 !important;
         }
-
         @media only screen and (max-width: 700px) {
             .mt-md-54 {
                 margin-top: inherit;
             }
-        }
-       
+        }       
         td {
         	word-break: break-word;
     		white-space: initial;
@@ -76,7 +55,7 @@
         .fw-250{
         	width:250px;
         	min-width:250px;
-        }
+        } 
         .fw-300{
         	width:300px;
         	min-width:300px;
@@ -86,14 +65,15 @@
         	color:blue;
         	text-decoration:underline;
         	cursor:pointer;
-        }
-      
+        }      
 		.error-msg label{color:red!important;}
 		
 		.dt-left{text-align: left!important;}
 		.dt-center{text-align: center!important;}
-		 @media only screen and (max-width: 769px){ 
-			
+	   	.clear-filters{
+        	margin-top:4px;
+         }
+		 @media only screen and (max-width: 769px){ 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
 			.no-sort{
 				padding:3px !important;
@@ -116,8 +96,11 @@
 	        	position:absolute;
 	        	right:5px;
 	        	top:30px;
+	        }	     
+	        .clear-filters{
+	        	margin-top:14px;
 	        }
-			}
+		}
     </style>
 </head>
 
@@ -152,7 +135,7 @@
 
                         <!--if  model 2 -->
                         <div class="row no-mar">
-                             <div class="col m6 s12 offset-m3"> 
+                             <div class="col m8 l6 s12 offset-m2 offset-l4"> 
 								<div class="col s6 m4 input-field">
 	                                <p class="searchable_label">Work</p>
 	                                  <select id="sub_work" name="sub_work" onchange="addInQueSubWork(this.value);getAssessmentDatesFilterList('');getRiskList();" class="searchable" required="required">
@@ -174,8 +157,7 @@
 	                                 </select>
 	                            </div> 
 	                            <div class="col s12 m4 center-align">
-	                                <button class="btn bg-s waves-effect waves-light t-c clear-filters"
-	                                    style="margin-top: 4px;" onclick="clearFilters()">Clear
+	                                <button class="btn bg-s waves-effect waves-light t-c clear-filters" onclick="clearFilters()">Clear
 	                                    Filters</button>
 	                            </div>
                             </div> 

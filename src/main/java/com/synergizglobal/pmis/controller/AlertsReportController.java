@@ -95,7 +95,7 @@ public class AlertsReportController {
 	@Autowired
 	AlertsService service;
 	
-	@RequestMapping(value = "/generate-alerts-report", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/generate-contracts-alert-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateConractsAlertReport(@ModelAttribute Alerts obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/get-alerts");
 		try{            
@@ -126,7 +126,7 @@ public class AlertsReportController {
 		boolean flag = false;
 		try{			
 			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
-			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh:mm aa"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa"); 
 			String report_created_date = df.format(new Date()); 
 			
 			Map<String,List<Alerts>> contractAlerts = service.getContractAlerts(obj);
@@ -144,6 +144,7 @@ public class AlertsReportController {
 			String headerTextMiddle = "Contracts Alert Report";
 			
 			String headerTextRight = report_created_date;
+			//String headerTextRight = null;
 			
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);
@@ -153,7 +154,7 @@ public class AlertsReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForAlertsReport.createTableForContractsAlertReport(wordMLPackage, mp, factory,contractAlerts);
+			DocxTableCreationForAlertsReport.createTableForContractsAlertReport(wordMLPackage, mp, factory,contractAlerts,report_created_date);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	

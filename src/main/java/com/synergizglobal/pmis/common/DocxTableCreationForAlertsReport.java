@@ -7,12 +7,14 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBElement;
 
+import org.docx4j.convert.in.xhtml.XHTMLImporterImpl;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.wml.BooleanDefaultTrue;
 import org.docx4j.wml.Br;
 import org.docx4j.wml.CTBorder;
 import org.docx4j.wml.CTShd;
+import org.docx4j.wml.CTTblLayoutType;
 import org.docx4j.wml.CTVerticalJc;
 import org.docx4j.wml.Color;
 import org.docx4j.wml.ContentAccessor;
@@ -28,6 +30,7 @@ import org.docx4j.wml.RFonts;
 import org.docx4j.wml.RPr;
 import org.docx4j.wml.STBorder;
 import org.docx4j.wml.STHint;
+import org.docx4j.wml.STTblLayoutType;
 import org.docx4j.wml.STVerticalJc;
 import org.docx4j.wml.Tbl;
 import org.docx4j.wml.TblBorders;
@@ -45,15 +48,15 @@ import org.docx4j.wml.UnderlineEnumeration;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.model.Alerts;
-import com.synergizglobal.pmis.model.Contract;
 
 public class DocxTableCreationForAlertsReport {
 
 
-	/***************************** ALERTS REPORT ****************************************************************/
+	/***************************** ALERTS REPORT 
+	 * @param report_created_date ****************************************************************/
 	
 	public static void createTableForContractsAlertReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart t,
-			ObjectFactory factory, Map<String,List<Alerts>> alerts) throws Exception {
+			ObjectFactory factory, Map<String,List<Alerts>> alerts, String report_created_date) throws Exception {
 		
 		try {		
 			RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
@@ -80,12 +83,20 @@ public class DocxTableCreationForAlertsReport {
 			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 					false, false, false, false);
 			
-			for (Map.Entry<String,List<Alerts>> hodEntry : alerts.entrySet()) {
-				addParagraph(t, factory);
-				addHeading(wordMLPackage, t, factory,JcEnumeration.LEFT,calibriBoldRPr,hodEntry.getKey());
-			
+			int heading = 1;
+			for (Map.Entry<String,List<Alerts>> hodEntry : alerts.entrySet()) {				
+				if(heading == 1) {
+					addHeading(wordMLPackage, t, factory,JcEnumeration.LEFT,calibriBoldRPr,hodEntry.getKey());
+				}else {
+					addParagraph(t, factory);
+					addHeading(wordMLPackage, t, factory,JcEnumeration.LEFT,calibriBoldRPr,hodEntry.getKey());
+				}
+				heading++;
+				
 				Tbl table = factory.createTbl();
-				addBorders(table, "2");
+				setTableAlign(factory, table, JcEnumeration.CENTER);
+				
+				addBorders(table, "1");
 				
 				if (!StringUtils.isEmpty(hodEntry.getValue())) {
 					Tr titleRow = factory.createTr();		
@@ -99,9 +110,29 @@ public class DocxTableCreationForAlertsReport {
 					tableHeader.add("Validity");
 					tableHeader.add("Action Taken");  
 					
+					int columnNo = 1;
 					for (String headerValue : tableHeader) {
-						addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
-								JcEnumeration.CENTER, true, "ecf2ff");
+						int width = 0;
+						if(1 == columnNo) {
+							width = 290;
+						}else if(2 == columnNo) {
+							width = 765;
+						}else if(3 == columnNo) {
+							width = 995;
+						}else if(4 == columnNo) {
+							width = 610;
+						}else if(5 == columnNo) {
+							width = 765;
+						}else if(6 == columnNo) {
+							width = 380;
+						}else if(7 == columnNo) {
+							width = 535;
+						}else if(8 == columnNo) {
+							width = 660;
+						}
+						columnNo++;
+						addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
+								"ecf2ff",width);
 					}		
 					table.getContent().add(titleRow);
 					
@@ -112,7 +143,7 @@ public class DocxTableCreationForAlertsReport {
 						Tr contentRow = factory.createTr();	
 						
 						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, obj.getContractor_name(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
 						addTableCell(factory, wordMLPackage, contentRow, obj.getWork_id() + " - " + obj.getContract_short_name(),
@@ -132,7 +163,7 @@ public class DocxTableCreationForAlertsReport {
 					}			
 					/****************************************************************************************/			
 					
-					setTableAlign(factory, table, JcEnumeration.CENTER);
+					
 					t.addObject(table);
 					
 				}
@@ -168,12 +199,44 @@ public class DocxTableCreationForAlertsReport {
 		paragraph.getContent().add(run);
 		t.addObject(paragraph);
 	}
+	
+	public static void addHeadingLeftRight(WordprocessingMLPackage wordMLPackage, MainDocumentPart t, ObjectFactory factory,
+			JcEnumeration alignment, RPr titleRPr, String string1, String string2) throws Exception {
+		P p = factory.createP();
+		R r = factory.createR();
+		
+		
+		if(!StringUtils.isEmpty(string1)) {
+			Text txt = factory.createText();
+			txt.setValue(string1);
+			r = factory.createR();
+			r.getContent().add(txt);
+			r.setRPr(titleRPr);
+			p.getContent().add(r);
+		}
+		
+		if(!StringUtils.isEmpty(string2)) {
+			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+					true, false, false, false);
+			for (int i = 0; i < 9; i++) {
+				R.Tab rtab = factory.createRTab();
+		        JAXBElement<org.docx4j.wml.R.Tab> rtabWrapped = factory.createRTab(rtab);
+		        r.getContent().add( rtabWrapped);
+			}
+			Text txt = factory.createText();
+			txt.setValue(string2);
+			r = factory.createR();
+			r.getContent().add(txt);
+			r.setRPr(calibriBoldRPr);
+			p.getContent().add(r);
+		}
+		
+		t.getContent().add(p);
+		
+	}
 
 	
-	/*****************************
-	 * 
-	 * 
-	 */
+	/******************************/
 	public static RPr getRPr(ObjectFactory factory, String fontFamily,
 			String colorVal, String fontSize, STHint sTHint, boolean isBlod,
 			boolean isUnderLine, boolean isItalic, boolean isStrike) {
@@ -215,7 +278,6 @@ public class DocxTableCreationForAlertsReport {
 	}
 	
 	public static void addBorders(Tbl table, String borderSize) {
-		table.setTblPr(new TblPr());
 		CTBorder border = new CTBorder();
 		border.setColor("a0a3bb");
 		border.setSz(new BigInteger(borderSize));
@@ -265,6 +327,11 @@ public class DocxTableCreationForAlertsReport {
         tblwidth.setW( BigInteger.valueOf( 5000) ); // 5000 = 100%
         tblwidth.setType("pct");
         tablePr.setTblW(tblwidth);
+
+        CTTblLayoutType tblLayoutType = new CTTblLayoutType();
+        STTblLayoutType stTblLayoutType = STTblLayoutType.FIXED;
+        tblLayoutType.setType(stTblLayoutType);
+        tablePr.setTblLayout(tblLayoutType);
         
 		table.setTblPr(tablePr);
 	}
@@ -294,7 +361,7 @@ public class DocxTableCreationForAlertsReport {
 	  
 	        for (int i = 1, len = contentArr.length; i < len; i++) {  
 	            Br br = factory.createBr();  
-	            run.getContent().add(br);// 换行  
+	            run.getContent().add(br);
 	            text = factory.createText();  
 	            text.setSpace("preserve");  
 	            text.setValue(contentArr[i]);  
@@ -316,8 +383,8 @@ public class DocxTableCreationForAlertsReport {
 		//Removing space in cells
 		PPr pPr = factory.createPPr();
 		Spacing spacing = new Spacing();
-		spacing.setBefore(BigInteger.TWO);
-		spacing.setAfter(BigInteger.TWO);
+		spacing.setBefore(BigInteger.ONE);
+		spacing.setAfter(BigInteger.ONE);
 		//spacing.setAfterLines(BigInteger.TEN);
 		//spacing.setBeforeLines(BigInteger.TEN);
 		pPr.setSpacing(spacing);
@@ -351,6 +418,96 @@ public class DocxTableCreationForAlertsReport {
 		tcPr.setTcBorders(tcb);
 		
 		tableCell.setTcPr(tcPr);
+		
+		tableRow.getContent().add(tableCell);
+	}
+	
+	public static void addTableCellAndWidth(ObjectFactory factory, WordprocessingMLPackage wordMLPackage, Tr tableRow,
+			String content, RPr rpr, JcEnumeration jcEnumeration, boolean hasBgColor, String backgroudColor,int columnWidth) {
+		Tc tableCell = factory.createTc();
+		   
+		P p = factory.createP();
+		setParagraphAlign(factory, p, jcEnumeration);
+		//Text t = factory.createText();
+		//t.setValue(content);
+		R run = factory.createR();
+		run.setRPr(rpr);
+
+		//run.getContent().add(t);
+
+		p.getContent().add(run);
+		if (content != null) {
+			String[] contentArr = content.split("\n");
+			Text text = factory.createText();
+			text.setSpace("preserve");
+			text.setValue(contentArr[0]);
+			run.getContent().add(text);
+
+			for (int i = 1, len = contentArr.length; i < len; i++) {
+				Br br = factory.createBr();
+				run.getContent().add(br);
+				text = factory.createText();
+				text.setSpace("preserve");
+				text.setValue(contentArr[i]);
+				run.getContent().add(text);
+			}
+		}
+
+		TcPr tcPr = tableCell.getTcPr();
+		if (tcPr == null) {
+			tcPr = factory.createTcPr();
+		}
+
+		CTVerticalJc valign = factory.createCTVerticalJc();
+		valign.setVal(STVerticalJc.CENTER);
+		tcPr.setVAlign(valign);
+
+		//Removing space in cells
+		PPr pPr = factory.createPPr();
+		Spacing spacing = new Spacing();
+		spacing.setBefore(BigInteger.ONE);
+		spacing.setAfter(BigInteger.ONE);
+		//spacing.setAfterLines(BigInteger.TEN);
+		//spacing.setBeforeLines(BigInteger.TEN);
+		pPr.setSpacing(spacing);
+
+		Jc justification = factory.createJc();
+		justification.setVal(jcEnumeration);
+		pPr.setJc(justification);
+
+		p.setPPr(pPr);
+
+		tableCell.getContent().add(p);
+		if (hasBgColor) {
+			CTShd shd = tcPr.getShd();
+			if (shd == null) {
+				shd = factory.createCTShd();
+			}
+			shd.setColor("auto");
+			shd.setFill(backgroudColor);
+			tcPr.setShd(shd);
+		}
+
+		TcBorders tcb = factory.createTcPrInnerTcBorders();
+		CTBorder ctb = factory.createCTBorder();
+		STBorder stb = STBorder.NONE;
+		ctb.setVal(stb);
+		tcb.setBottom(ctb);
+		tcb.setRight(ctb);
+		tcb.setLeft(ctb);
+		tcb.setTop(ctb);
+		tcPr.setTcBorders(tcb);
+		
+		/********************************/		
+		if (columnWidth > 0) {
+            TblWidth tableWidth = new TblWidth();
+            tableWidth.setW(BigInteger.valueOf(columnWidth));
+            tableWidth.setType("dxa");
+            tcPr.setTcW(tableWidth);
+        }		
+		/********************************/
+
+		tableCell.setTcPr(tcPr);		
 		
 		tableRow.getContent().add(tableCell);
 	}

@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
       <style>
         p a {
             color: blue;
@@ -64,6 +66,24 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
+          @media only screen and (max-width: 769px){ 
+			
+			.dataTables_scrollBody tbody tr td:last-of-type,
+			.no-sort{
+				padding:3px !important;
+				max-width: 45px;
+			}
+			.mob-btn{
+				padding:0 12px;
+			}
+			.hideCOl{
+				display:none;
+			}
+			.fw-370{
+				width:30vw !important;
+        		max-width:30vw;
+			 }
+			}
     </style>
 </head>
 
@@ -72,7 +92,7 @@
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
 	<div class="row">
-		<div class="col s12 m12">
+		<div class="col s12 m12 hide-on-med-and-down">
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title headbg">
@@ -123,14 +143,20 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6>Update Training</h6>
+								<h6 class="hide-on-med-and-down">Update Training</h6>
+								<h6 class="hide-on-large-only">Training</h6>	
 							</div>
 						</span>
 						<div class="row no-mar" style="margin-bottom: 0;">
+								<div class="col s12 hide-on-large-only mb-md-2 center-align">
+									<a href="<%=request.getContextPath()%>/add-training-form"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add Training</strong></a>
+								</div>
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col m8 s12 ">
 								<div class="row" style="margin-bottom: 0;">
-									<div class="col s12 m3 input-field">
+									<div class="col s6 m3 input-field">
 										<p class="searchable_label">Type</p>
 										<select class="searchable" name="training_type_fk"
 											id="training_type_fk" onchange="addInQueType(this.value);getTraningList();">
@@ -138,7 +164,7 @@
 
 										</select>
 									</div>
-									<div class="col s12 m3 input-field">
+									<div class="col s6 m3 input-field">
 										<p class="searchable_label">Category</p>
 										<select class="searchable" name="training_category_fk"
 											id="training_category_fk" onchange="addInQueCategory(this.value);getTraningList();">
@@ -146,15 +172,15 @@
 
 										</select>
 									</div>
-									<div class="col s12 m3 input-field">
+									<div class="col s6 m3 input-field">
 										<p class="searchable_label">Status</p>
 										<select class="searchable" name="status_fk" id="status_fk"
 											onchange="addInQueStatus(this.value);getTraningList();">
 											<option value="">Select Status</option>
 
-										</select>
+										</select> 
 									</div>
-									<div class="col s12 m3 input-field">
+									<div class="col s12 m3 center-align">
 										<button
 											class="btn bg-s waves-effect waves-light t-c clear-filters"
 											onclick="clearFilter();"
@@ -185,25 +211,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<!--  <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="last-column"> <a href="training_new.html"
-                                                    class="btn waves-effect waves-light bg-m t-c "><i
-                                                        class="fa fa-pencil"></i> </a>
-                                                <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-trash"></i></a>
-                                            </td>
-
-                                        </tr> -->
-
+										
 									</tbody>
 
 								</table>
@@ -350,22 +358,7 @@
                 coverTrigger: false,
                 closeOnClick: false,
             });
-            $('#datatable-training').DataTable({
-            	"order": [],
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'nosort', orderable: false,
-                    },
-                    { "width": "20px", "targets": [11] },
-                ], "scrollCollapse": true,
-                fixedHeader: true,
-                "sScrollY": 400,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
+     
             getTraningList();
         });
         
@@ -500,7 +493,8 @@
 								columnDefs : [ {
 									"targets" : 'no-sort',
 									"orderable" : false,
-								} ],
+								} ,{targets:[0,1,4,5,6,7,8,9,10],
+ 			                       className: 'hideCOl'}],
 								"sScrollX" : "100%",
 								"sScrollXInner" : "100%",
 								"bScrollCollapse" : true,
@@ -549,7 +543,7 @@
 			            } },
 			         	{ "mData": function(data,type,row){
 			         		var training_id = "'"+data.training_id+"'";
-		                    var actions = '<a href="javascript:void(0);"  onclick="getTraining('+training_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+		                    var actions = '<a href="javascript:void(0);"  onclick="getTraining('+training_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
 			            	return actions;
 			            } }
 			            

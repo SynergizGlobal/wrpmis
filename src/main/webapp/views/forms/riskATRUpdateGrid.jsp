@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-      <style>
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+       <style>
 
         .input-field .searchable_label {
             font-size: 0.9rem;
@@ -90,7 +92,32 @@
 		
 		.dt-left{text-align: left!important;}
 		.dt-center{text-align: center!important;}
-
+		 @media only screen and (max-width: 769px){ 
+			
+			.dataTables_scrollBody tbody tr td:last-of-type,
+			.no-sort{
+				padding:3px !important;
+				max-width: 45px;
+			}
+			.mob-btn{
+				padding:0 12px;
+			}
+			.hideCOl{
+				display:none;
+			}
+			.f-300{
+				width:30vw !important;
+        		max-width:30vw;
+			}
+			 .dataTables_filter label{
+	        	position:relative;
+	        }
+	        .dataTables_filter label::after{
+	        	position:absolute;
+	        	right:5px;
+	        	top:30px;
+	        }
+			}
     </style>
 </head>
 
@@ -100,7 +127,7 @@
 
 
     <div class="row" style="margin-bottom:0;">
-        <div class="col s12 m12">
+        <div class="col s12 m12 ">
             <div class="card">
                 <div class="card-content">
                     <span class="card-title headbg">
@@ -126,7 +153,7 @@
                         <!--if  model 2 -->
                         <div class="row no-mar">
                              <div class="col m6 s12 offset-m3"> 
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 	                                <p class="searchable_label">Work</p>
 	                                  <select id="sub_work" name="sub_work" onchange="addInQueSubWork(this.value);getAssessmentDatesFilterList('');getRiskList();" class="searchable" required="required">
                                       	<option value="" >Select</option>	                                           
@@ -140,13 +167,13 @@
 	                                 </select>
 	                            </div> -->
 	                            
-	                            <div class="col s12 m4 input-field" id="assessmentDatesDropdown" style="display: none;">
+	                            <div class="col s6 m4 input-field" id="assessmentDatesDropdown" style="display: none;">
 	                                <p class="searchable_label">Assessment Date</p>
 	                                 <select id="assessment_date" name="assessment_date" onchange="addInQueAssessmentDate(this.value);getRiskList();" class="searchable">
 	                                      <!-- <option value="" >Select </option> -->	                                           
 	                                 </select>
-	                            </div>
-	                            <div class="col s12 m4 input-field">
+	                            </div> 
+	                            <div class="col s12 m4 center-align">
 	                                <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                    style="margin-top: 4px;" onclick="clearFilters()">Clear
 	                                    Filters</button>
@@ -163,7 +190,7 @@
                                             <th>Item No.</th>
                                             <!-- <th>Risk Id</th> -->
                                             <th>Work</th>
-                                            <th>Area</th>
+                                            <th class="f-300">Area</th>
                                             <th>Sub Area</th>
                                             <th>Priority</th>
                                             <th>Mitigation Plan</th>
@@ -328,17 +355,15 @@
                     return JSON.parse(localStorage.getItem('MRVCDataTables'));
                 },
                 columnDefs: [
-                    {
-                        targets: [0],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    },
-                    { "width": "20px", "targets": [6] },
+                   
+                    { "width": "20px", "targets": [6] }, { targets: [0, 1, 4, 5, 6], className: 'hideCOl'  },
                     { orderable: false, 'aTargets': ['nosort'] },
                     { targets: [1, 2, 3, 5, 6], className: 'dt-left'  },
                     { targets: [0,4], className: 'dt-center'},
                     { targets: [0,4], className: 'fw-120'  },
                     { targets: [1,3], className: 'fw-170'  },
                     { targets: [5,6], className: 'fw-200'  },
+                   
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",
@@ -358,7 +383,7 @@
              		$.each(data,function(key,val){
              			var risk_id_pk = "'"+val.risk_id_pk+"'";
              			var risk_revision_id = "'"+val.risk_revision_id+"'";
-                        var actions = '<a href="javascript:void(0);" onclick="getRisk('+ risk_id_pk +','+risk_revision_id +');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>';
+                        var actions = '<a href="javascript:void(0);" onclick="getRisk('+ risk_id_pk +','+risk_revision_id +');" class="btn waves-effect waves-light bg-m t-c mob-btn"><i class="fa fa-pencil"></i></a>';
     					var rowArray = [];    	                 
     
                     	var workName = '';

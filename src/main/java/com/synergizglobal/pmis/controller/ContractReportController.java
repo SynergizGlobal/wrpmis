@@ -399,7 +399,8 @@ public class ContractReportController {
 			
 			String headerTextMiddle = "Contract Validity Report";
 			
-			String headerTextRight = report_created_date;
+			//String headerTextRight = report_created_date;
+			String headerTextRight = null;
 			
 			//String headerText = "PMIS Report - Contract Details";
 			
@@ -411,7 +412,7 @@ public class ContractReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForContractReport(wordMLPackage, mp, factory,list);
+			DocxTableCreationForContractReport.createTableForContractReport(wordMLPackage, mp, factory,list,report_created_date);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
@@ -474,7 +475,8 @@ public class ContractReportController {
 			
 			String headerTextMiddle = "Contract BG Validity Report";
 			
-			String headerTextRight = report_created_date;
+			//String headerTextRight = report_created_date;
+			String headerTextRight = null;
 			
 			//String headerText = "PMIS Report - Status of Contract BG";
 			
@@ -486,7 +488,7 @@ public class ContractReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForContractBGReport(wordMLPackage, mp, factory,list);
+			DocxTableCreationForContractReport.createTableForContractBGReport(wordMLPackage, mp, factory,list,report_created_date);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
@@ -549,7 +551,8 @@ public class ContractReportController {
 			
 			String headerTextMiddle = "Contract Insurance Validity Report";
 			
-			String headerTextRight = report_created_date;
+			//String headerTextRight = report_created_date;
+			String headerTextRight = null;
 			
 			//String headerText = "PMIS Report - Status of Contract Insurance";
 			
@@ -561,7 +564,7 @@ public class ContractReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForContractInsuranceReport(wordMLPackage, mp, factory,list);
+			DocxTableCreationForContractReport.createTableForContractInsuranceReport(wordMLPackage, mp, factory,list,report_created_date);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	

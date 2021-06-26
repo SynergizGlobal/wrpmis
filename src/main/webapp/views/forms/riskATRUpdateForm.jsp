@@ -13,13 +13,13 @@
     </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" > 
         <style>
         textarea::placeholder {
             color: #444;
@@ -33,20 +33,18 @@
         td {
             position: relative;
         }
-
+		.input-field .datepicker~button{
+			top:26px;
+		}		
         #riskReview {
             border: 1px solid #ddd;
         }
 
-        #riskReview .datepicker~button {
-            right:5px;
-        } 
-
-        #riskReview td .select2-container {
+       /*  #riskReview td .select2-container {
             width: 120px;
             max-width: 120px;
-        }
-
+        } */
+/*  datepicker table resetting css starts */ 
         .datepicker-table thead tr,
         .datepicker-table thead tr:hover,
         .datepicker-table tbody tr,
@@ -61,65 +59,6 @@
             padding: 0 !important;
         }
 
-        .datepicker-table th,
-        .datepicker-table td {
-            padding: 0;
-        }
-
-        .input-field .searchable_label {
-            font-size: 0.9rem;
-        }
-          .modal-header {
-            text-align: center;
-            background-color: #999999;
-            color: #fff;
-            margin: -24px -24px 20px !important;
-            padding: 1rem;
-            font-size: 24px;
-        }
-
-        .update-table {
-            border: 1px solid #ddd;
-        }
-
-        table.update-table tbody td .datepicker~button {
-            top: 15px !important;
-            right: 1px;
-        }
-
-        table.update-table tbody td .input-field {
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-         table.update-table tbody td .modal.datepicker-modal.open {
-            width: 85% !important;
-        }
-        
-        .fw-60 {
-            max-width: 60px;
-            width: 60px !important;
-        }
-        .fw-110{
-        	 max-width: 100px;
-            width: 100px !important;
-        }        
-        .fw-150 {
-            max-width: 150px;
-            width: 150px !important;
-        }
-        .fw-180 {
-            max-width: 180px;
-            width: 180px !important;
-        }
-       tbody .select2-container--default .select2-selection--single {
-        	background-color:transparent;
-        }
-         .modal:not(.datepicker-modal){
-        	max-height:90%;
-        	width:62%;
-        	min-height:75%;
-        }
-       
         .datepicker-table th, 
         .datepicker-table td,
         .mdl-data-table tbody td .datepicker-table th,
@@ -127,9 +66,25 @@
         	padding:0 !important;
         	height:44px !important;
         }
-        .mdl-data-table tbody td .datepicker-table .datepicker-row{
+          .mdl-data-table tbody td .datepicker-table .datepicker-row{
         	bottom-border:none;
         }
+/*  datepicker table resetting css ends */
+
+        .input-field .searchable_label {
+            font-size: 0.9rem;
+        }
+       
+        .fw-60 {
+            max-width: 60px;
+            width: 60px !important;
+        }
+        /*  .modal:not(.datepicker-modal){
+        	max-height:90%;
+        	width:62%;
+        	min-height:75%;
+        } */               
+      
         .input-field textarea{
         	border:none;
         	border-bottom:1px solid #9e9e9e;
@@ -148,11 +103,6 @@
 		.center-align.m-1 button.bg-m.waves-effect, 
 		.center-align.m-1 button.bg-s.waves-effect{
 			width:inherit;
-		}
-		.mt-brdr{
-			margin-top: 20px;
-		    border-top: 1px solid #777;
-		    border-bottom: 1px solid #777;
 		}
 		.error-msg{color:red!important;text-align: left;}
     </style>
@@ -263,7 +213,7 @@
 									<div class="row fixed-width"
 										style="margin-bottom: 40px; margin-top: 20px">
 										<div class="table-inside">
-											<table id="riskReview" class="mdl-data-table update-table">
+											<table id="riskReview" class="mdl-data-table update-table mobile_responsible_table">
 												<thead>
 													<tr>
 													<!-- 	<th style="width:25%">Assessment Date</th> -->
@@ -285,8 +235,8 @@
 					                                        				  </c:forEach>
 					                                                    </select>
 					                                                </td> --%>
-																	<td>
-											 							<div class="input-field">
+																	<td data-head="ATR Date" class="input-field" >
+																																		
 																			<input id="atr_dates${index.count }"
 																				name="atr_dates" type="text"
 																				class="validate datepicker" placeholder="ATR  Date"
@@ -295,12 +245,12 @@
 																				id="atr_date_icon${index.count }">
 																				<i class="fa fa-calendar"></i>
 																			</button>
+																		
 																			<p id="atr_dates${index.count }Error" class="error-msg" ></p>
-																		</div>
 																		<input type="hidden" id="atr_dates_old${index.count }" name="atr_dates_old" value="${aObj.atr_date }" />
 																		
 																	</td>
-																	<td>
+																	<td data-head="Action Taken" class="input-field">
 																		<textarea 
 																			id="action_takens${index.count }"
 																			name="action_takens" class="materialize-textarea"
@@ -308,7 +258,7 @@
 																			<p id="action_takens${index.count }Error" class="error-msg" ></p>
 																			<input type="hidden" id="action_takens_old${index.count }" name="action_takens_old" value="${aObj.action_taken }" />
 																	</td>
-																	<td>
+																	<td class="mobile_btn_close">
 																	<%-- <a onclick="removeActions('${index.count }');" class="btn waves-effect waves-light red t-c "> 
 																	<i class="fa fa-close"></i></a> --%>
 																	<a onclick="removeActions('${index.count }');" style="font-size: 20px;" class="btn red"> 
@@ -338,10 +288,10 @@
 				                                        				  </c:forEach>
 				                                                    </select>
 				                                                </td> --%>
-																<td><input type="hidden"
+																<td data-head="ATR Date" class="input-field">
+																		<input type="hidden"
 																	id="rowCounts0" name="rowCounts"
 																	value="1" class="hide" />
-																	<div class="input-field">
 																		<input id="atr_dates0"
 																			name="atr_dates" type="text"
 																			class="validate datepicker" placeholder="ATR  Date">
@@ -349,18 +299,18 @@
 																			id="atr_date_icon0">
 																			<i class="fa fa-calendar"></i>
 																		</button>
+																		
 																		<p id="atr_dates0Error" class="error-msg" ></p>
 																		<input type="hidden" id="atr_dates_old0" name="atr_dates_old" value="" />
-																	</div>
 																</td>
-																<td><textarea id="action_takens0"
+																<td data-head="Action Taken" class="input-field"><textarea id="action_takens0"
 																		name="action_takens" class="materialize-textarea"
 																		placeholder="Action Taken" style="height: 44px;"></textarea>
 																		<p id="action_takens0Error" class="error-msg" ></p>
 																		
 																		<input type="hidden" id="action_takens_old0" name="action_takens_old" value="" />
 																</td>
-																<td>
+																<td class="mobile_btn_close">
 																	<!-- <a onclick="removeActions('0');"
 																		class="btn waves-effect waves-light red t-c "> <i
 																		class="fa fa-close"></i></a> -->
@@ -414,14 +364,13 @@
 							<input  type="hidden"   name="risk_id_pk" value="${risk.risk_id_pk }" />
 							<input  type="hidden"   name="risk_revision_id" value="${risk.risk_revision_id }" />
 							<div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
                                 
                                     <!-- <div class="center-align m-1">
 										<button type="button" onclick="updateRisk();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
 									</div> -->
 									
-									<div class="center-align m-1">
+									<div class=" m-1">
                                     	<c:if test="${risk.readonlyForm eq false }">
                                         	<button type="button" onclick="updateRisk();" class="btn waves-effect waves-light bg-m">Update</button>
                                         </c:if>
@@ -431,15 +380,14 @@
                                     </div>
                                     
                                 </div>
-                                <div class="col s12 m4 mt-brdr">
-                                    <div class="center-align m-1">
+                                <div class="col s6 m4 mt-brdr center-align">
+                                    <div class=" m-1">
                                         <a href="<%=request.getContextPath()%>/risk-atr-update" class="btn waves-effect waves-light bg-s"
                                             >Cancel</a>
                                            <!--  <a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
                                             style="width:100%">Cancel</a>  -->
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                         </div>
                     </form>
@@ -617,12 +565,12 @@
 				  +' <option value= "${obj.risk_revision_id}">${obj.assessment_date}</option>'
 			  </c:forEach>
 			+'</select></div></td>' */
-			+'<td><div class="input-field"><input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'
+			+'<td data-head="ATR Date" class="input-field"> <input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'
 			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button>'
-			+'</div><p id="atr_dates' + rNo + 'Error" class="error-msg" ></p><input type="hidden" id="atr_dates_old' + rNo +'" name="atr_dates_old" value="" /></td>'
-			+'<td><textarea id="action_takens' + rNo +'"  name="action_takens" '
+			+'<p id="atr_dates' + rNo + 'Error" class="error-msg" ></p><input type="hidden" id="atr_dates_old' + rNo +'" name="atr_dates_old" value="" /></td>'
+			+'<td data-head="Action Taken" class="input-field"><textarea id="action_takens' + rNo +'"  name="action_takens" '
 			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea><p id="action_takens' + rNo + 'Error" class="error-msg" ></p><input type="hidden" id="action_takens_old' + rNo +'" name="action_takens_old" value="" /></td>'
-			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
+			+'<td class="mobile_btn_close"><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#riskRevisionBody').append(html);
             $("#rowNo").val(rNo);

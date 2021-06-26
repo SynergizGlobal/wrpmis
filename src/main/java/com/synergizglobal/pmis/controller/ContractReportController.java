@@ -292,7 +292,7 @@ public class ContractReportController {
 		boolean flag = false;
 		try{			
 			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
-			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh:mm aa");
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
 			String report_created_date = df.format(new Date()); 
 			
 			Contract contractDetails = service.getContractDetailsForReport(obj);
@@ -380,7 +380,7 @@ public class ContractReportController {
 		boolean flag = false;
 		try{			
 			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
-			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh:mm aa");
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
 			String report_created_date = df.format(new Date()); 
 			
 			Map<String,List<Contract>> list = service.getContractsListForReport(obj);
@@ -458,7 +458,7 @@ public class ContractReportController {
 		boolean flag = false;
 		try{			
 			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
-			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh:mm aa");
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
 			String report_created_date = df.format(new Date()); 
 			Map<String,List<Contract>> list = service.getContractsBankGuaranteeForReport(obj);
 			
@@ -533,7 +533,7 @@ public class ContractReportController {
 		boolean flag = false;
 		try{			
 			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
-			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh:mm aa");
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
 			String report_created_date = df.format(new Date()); 
 			Map<String,List<Contract>> list = service.getContractsInsuranceForReport(obj);
 			

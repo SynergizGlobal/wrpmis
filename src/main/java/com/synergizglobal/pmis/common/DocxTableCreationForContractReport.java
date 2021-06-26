@@ -13,6 +13,7 @@ import org.docx4j.wml.BooleanDefaultTrue;
 import org.docx4j.wml.Br;
 import org.docx4j.wml.CTBorder;
 import org.docx4j.wml.CTShd;
+import org.docx4j.wml.CTTblLayoutType;
 import org.docx4j.wml.CTVerticalJc;
 import org.docx4j.wml.Color;
 import org.docx4j.wml.ContentAccessor;
@@ -29,6 +30,7 @@ import org.docx4j.wml.RFonts;
 import org.docx4j.wml.RPr;
 import org.docx4j.wml.STBorder;
 import org.docx4j.wml.STHint;
+import org.docx4j.wml.STTblLayoutType;
 import org.docx4j.wml.STVerticalJc;
 import org.docx4j.wml.Tbl;
 import org.docx4j.wml.TblBorders;
@@ -104,8 +106,22 @@ public class DocxTableCreationForContractReport {
 				int columnNo = 1;
 				for (String headerValue : tableHeader0) {
 					int width = 0;
-					if(columnNo == 3 || columnNo == 4 || columnNo == 5){
-						width = 800;
+					if(1 == columnNo) {
+						width = 250;
+					}else if(2 == columnNo) {
+						width = 750;
+					}else if(3 == columnNo) {
+						width = 1150;
+					}else if(4 == columnNo) {
+						width = 600;
+					}else if(5 == columnNo) {
+						width = 600;
+					}else if(6 == columnNo) {
+						width = 600;
+					}else if(7 == columnNo) {
+						width = 550;
+					}else if(8 == columnNo) {
+						width = 500;
 					}
 					columnNo++;
 					addTableCellAndWidth(factory, wordMLPackage, titleRow0, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
@@ -128,16 +144,25 @@ public class DocxTableCreationForContractReport {
 				tableHeader.add("Awarded");
 				tableHeader.add("Revised");
 				
-				/*tableHeader.add("Awarded Cost (Rs. In Lakhs)");
-				tableHeader.add("Contractual Date of Completion");
-				tableHeader.add("Revised Contract Cost (Rs. In Lakhs)");
-				tableHeader.add("Revised Date of Completion");*/
-				
 				columnNo = 1;
 				for (String headerValue : tableHeader) {
 					int width = 0;
-					if(columnNo == 3 || columnNo == 4 || columnNo == 5){
-						width = 800;
+					if(1 == columnNo) {
+						width = 250;
+					}else if(2 == columnNo) {
+						width = 750;
+					}else if(3 == columnNo) {
+						width = 1150;
+					}else if(4 == columnNo) {
+						width = 600;
+					}else if(5 == columnNo) {
+						width = 600;
+					}else if(6 == columnNo) {
+						width = 600;
+					}else if(7 == columnNo) {
+						width = 550;
+					}else if(8 == columnNo) {
+						width = 500;
 					}
 					columnNo++;
 					addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
@@ -159,17 +184,17 @@ public class DocxTableCreationForContractReport {
 					Tr contentRow = factory.createTr();
 
 					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(), garamondRPr,
 							JcEnumeration.LEFT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getWork_id_fk()+" - "+cObj.getContract_short_name(), garamondRPr,
 							JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					addTableCellAndWidth(factory, wordMLPackage, contentRow, cObj.getLoa_date(), garamondRPr, JcEnumeration.CENTER,
-							hasBgColor, backgroundColor,800);
-					addTableCellAndWidth(factory, wordMLPackage, contentRow,cObj.getDoc(),
-							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor,800);
-					addTableCellAndWidth(factory, wordMLPackage, contentRow,cObj.getRevised_doc(),
-							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor,800);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getLoa_date(), garamondRPr, JcEnumeration.CENTER,
+							hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow,cObj.getDoc(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow,cObj.getRevised_doc(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getAwarded_cost(), garamondRPr,
 							JcEnumeration.RIGHT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getRevised_amount(), garamondRPr,
@@ -231,12 +256,8 @@ public class DocxTableCreationForContractReport {
 			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 					false, false, false, false);
 
-			int temp = 1;
 			for (Map.Entry<String,List<Contract>> hodEntry : list.entrySet()) {
-				if(temp > 1) {
-					addParagraph(mp, factory);
-				}
-				temp++;
+				addParagraph(mp, factory);
 				addHeading(wordMLPackage, mp, factory,JcEnumeration.LEFT,calibriBoldRPr,hodEntry.getKey());
 				
 				Tbl table = factory.createTbl();
@@ -251,24 +272,24 @@ public class DocxTableCreationForContractReport {
 				tableHeader.add("Agency");
 				tableHeader.add("Contract Number");
 				tableHeader.add("BG No");
-				tableHeader.add("Rs/- \n(in_lacs)");
+				tableHeader.add("Rs/- \n(in lacs)");
 				tableHeader.add("Validity");
 				
 				int columnNo = 1;
 				for (String headerValue : tableHeader) {
 					int width = 0;
 					if(1 == columnNo) {
-						width = 200;
+						width = 250;
 					}else if(2 == columnNo) {
-						width = 1500;
+						width = 1000;
 					}else if(3 == columnNo) {
-						width = 2100;
+						width = 1500;
 					}else if(4 == columnNo) {
-						width = 600;
+						width = 1000;
 					}else if(5 == columnNo) {
-						width = 300;
+						width = 700;
 					}else if(6 == columnNo) {
-						width = 300;
+						width = 550;
 					}
 					columnNo++;
 					addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
@@ -281,18 +302,18 @@ public class DocxTableCreationForContractReport {
 					String backgroundColor = null;
 					Tr contentRow = factory.createTr();
 	
-					addTableCellAndWidth(factory, wordMLPackage, contentRow, String.valueOf(sNo++), garamondRPr, JcEnumeration.CENTER,
-							hasBgColor, backgroundColor,200);
-					addTableCellAndWidth(factory, wordMLPackage, contentRow, cObj.getContractor_name(), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor,1500);
-					addTableCellAndWidth(factory, wordMLPackage, contentRow, cObj.getWork_id() +" - "+ cObj.getContract_short_name(), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor,2100);
-					addTableCellAndWidth(factory, wordMLPackage, contentRow, cObj.getBg_number(), garamondRPr, JcEnumeration.LEFT,
-							hasBgColor, backgroundColor,600);
-					addTableCellAndWidth(factory, wordMLPackage, contentRow, cObj.getBg_value(), garamondRPr, JcEnumeration.RIGHT,
-							hasBgColor, backgroundColor,300);
-					addTableCellAndWidth(factory, wordMLPackage, contentRow, cObj.getBg_valid_upto(), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor,300);					
+					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), garamondRPr, JcEnumeration.CENTER,
+							hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(), garamondRPr,
+							JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getWork_id() +" - "+ cObj.getContract_short_name(), garamondRPr,
+							JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_number(), garamondRPr, JcEnumeration.LEFT,
+							hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_value(), garamondRPr, JcEnumeration.RIGHT,
+							hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_valid_upto(), garamondRPr,
+							JcEnumeration.CENTER, hasBgColor, backgroundColor);					
 					
 					table.getContent().add(contentRow);
 				}
@@ -349,12 +370,8 @@ public class DocxTableCreationForContractReport {
 			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 					false, false, false, false);
 			
-			int temp = 1;
 			for (Map.Entry<String,List<Contract>> hodEntry : list.entrySet()) {
-				if(temp > 1) {
-					addParagraph(mp, factory);
-				}
-				temp++;
+				addParagraph(mp, factory);
 				addHeading(wordMLPackage, mp, factory,JcEnumeration.LEFT,calibriBoldRPr,hodEntry.getKey());
 				
 				Tbl table = factory.createTbl();
@@ -366,23 +383,23 @@ public class DocxTableCreationForContractReport {
 				tableHeader.add("Agency");
 				tableHeader.add("Contract Number");
 				tableHeader.add("Insurance No");
-				tableHeader.add("Rs/- \n(in_lacs)");
+				tableHeader.add("Rs/- \n(in lacs)");
 				tableHeader.add("Validity");
 				int columnNo = 1;
 				for (String headerValue : tableHeader) {
 					int width = 0;
 					if(1 == columnNo) {
-						width = 200;
+						width = 250;
 					}else if(2 == columnNo) {
-						width = 1500;
+						width = 1000;
 					}else if(3 == columnNo) {
-						width = 2100;
+						width = 1500;
 					}else if(4 == columnNo) {
-						width = 600;
+						width = 1000;
 					}else if(5 == columnNo) {
-						width = 300;
+						width = 700;
 					}else if(6 == columnNo) {
-						width = 300;
+						width = 550;
 					}
 					columnNo++;
 					addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
@@ -396,18 +413,18 @@ public class DocxTableCreationForContractReport {
 					String backgroundColor = null;
 					Tr contentRow = factory.createTr();
 	
-					addTableCellAndWidth(factory, wordMLPackage, contentRow, String.valueOf(sNo++), garamondRPr, JcEnumeration.CENTER,
-							hasBgColor, backgroundColor,200);
-					addTableCellAndWidth(factory, wordMLPackage, contentRow, cObj.getContractor_name(), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor,1500);
-					addTableCellAndWidth(factory, wordMLPackage, contentRow, cObj.getWork_id() +" - "+ cObj.getContract_short_name(), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor,2100);
-					addTableCellAndWidth(factory, wordMLPackage, contentRow, cObj.getInsurance_number(), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor,600);
-					addTableCellAndWidth(factory, wordMLPackage, contentRow, cObj.getInsurance_value(), garamondRPr,
-							JcEnumeration.RIGHT, hasBgColor, backgroundColor,300);
-					addTableCellAndWidth(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_upto(), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor,300);
+					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), garamondRPr, JcEnumeration.CENTER,
+							hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(), garamondRPr,
+							JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getWork_id() +" - "+ cObj.getContract_short_name(), garamondRPr,
+							JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_number(), garamondRPr,
+							JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_value(), garamondRPr,
+							JcEnumeration.RIGHT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_upto(), garamondRPr,
+							JcEnumeration.CENTER, hasBgColor, backgroundColor);
 	
 					table.getContent().add(contentRow);
 				}
@@ -1468,6 +1485,11 @@ public class DocxTableCreationForContractReport {
 		tblwidth.setW(BigInteger.valueOf(5000)); // 5000 = 100%
 		tblwidth.setType("pct");
 		tablePr.setTblW(tblwidth);
+		
+		CTTblLayoutType tblLayoutType = new CTTblLayoutType();
+        STTblLayoutType stTblLayoutType = STTblLayoutType.FIXED;
+        tblLayoutType.setType(stTblLayoutType);
+        tablePr.setTblLayout(tblLayoutType);
 
 		table.setTblPr(tablePr);
 	}

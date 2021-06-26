@@ -83,15 +83,9 @@ public class DocxTableCreationForAlertsReport {
 			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 					false, false, false, false);
 			
-			int heading = 1;
 			for (Map.Entry<String,List<Alerts>> hodEntry : alerts.entrySet()) {				
-				if(heading == 1) {
-					addHeading(wordMLPackage, t, factory,JcEnumeration.LEFT,calibriBoldRPr,hodEntry.getKey());
-				}else {
-					addParagraph(t, factory);
-					addHeading(wordMLPackage, t, factory,JcEnumeration.LEFT,calibriBoldRPr,hodEntry.getKey());
-				}
-				heading++;
+				addParagraph(t, factory);
+				addHeading(wordMLPackage, t, factory,JcEnumeration.LEFT,calibriBoldRPr,hodEntry.getKey());
 				
 				Tbl table = factory.createTbl();
 				setTableAlign(factory, table, JcEnumeration.CENTER);

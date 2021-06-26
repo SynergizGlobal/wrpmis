@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
       <style>
 		p a{
 			color:blue;
@@ -25,44 +27,16 @@
         .input-field .searchable_label {
             font-size: 0.9rem;
         }
-
-        .tabs .tab a:not(.active) {
-            color: #999999;
-        }
-
-        .tabs .tab a:focus.active {
-            background-color: #e5e5e5;
-        }
-
-        .tabs .tab a.active {
-            color: #444;
-            background-color: #dadada;
-            border-bottom: 1px solid #444;
-        }
-
-        .tabs .indicator {
-            background-color: #888;
-        }
-
         .btn.disabled,
         .btn.disabled * {
             color: #999 !important;
-        }
-
-        @media only screen and (max-width: 700px) {
-            .mt-md-54 {
-                margin-top: inherit;
-            }
-            .file-field .file-path-wrapper{
-	        	padding-left:1px;
-	        }
         }
        
         td {
         	word-break: break-word;
     		white-space: initial;
 		}
-		.fw-120{
+	/* 	.fw-120{
         	width:120px !important;
         	max-width:120px;
         }
@@ -73,7 +47,7 @@
         .fw-250{
         	width:250px;
         	max-width:250px;
-        }      
+        }      */ 
 		.error-msg label{color:red!important;}
 		.mt-1{
 			margin-top:.5rem !important;
@@ -84,12 +58,44 @@
 		.b-text p,.b-text{
 			font-weight:600;
 		}
-		.row.no-mar{
-			margin-bottom:0;
-		}
-		
 		.dt-left{text-align: left!important;}
 		.dt-center{text-align: center!important;}
+          @media only screen and (max-width:769px) {    		
+	        .dataTables_filter label{
+	        	position:relative;
+	        }
+	        .dataTables_filter label::after{
+	        	position:absolute;
+	        	right:5px;
+	        	top:30px;
+	        }
+	        .mob-50{
+	        	width:48vw !important;
+	        	max-width:48vw ;
+	        }
+	        .dataTables_scrollBody tbody tr td:last-of-type,
+			.no-sort{
+				padding:3px !important;
+				max-width: 45px;
+			}
+			.mob-btn{
+				padding:0 12px;
+			}
+			.hideCOl{
+				display:none;
+			}
+        }
+		@media only screen and (max-width: 700px) {
+            .mt-md-54 {
+                margin-top: inherit;
+            }
+            .file-field .file-path-wrapper{
+	        	padding-left:1px;
+	        }
+	        .mt-2{
+				margin-top:0 !important;
+			}
+        }
     </style>
 </head>
 
@@ -135,32 +141,32 @@
 								<div class="col m1 hide-on-small-only"></div>
 								<div class="col m10">
 									<div class="row">
-										<div class="col m2 s3 input-field b-text">
+										<div class="col m2 s12 mob-center input-field b-text">
 											<p class="mt-1">Step 1 :</p>
 										</div>
-										<div class="col m10 s9 input-field">
+										<div class="col m10 s12 mob-center input-field">
 											<a class="btn waves-effect waves-light bg-s t-c"
 												href="/pmis/Risk_Template.xlsx" download style="width: 100%">Click
 												here for the Risk Assessment Form</a>
 										</div>
 									</div>
 									<div class="row">
-										<div class="col m2 s3 input-field b-text">
+										<div class="col m2 s12 mob-center input-field b-text">
 											<p class="">Step 2 :</p>
 										</div>
-										<div class="col m10 s9 input-field">
+										<div class="col m10 s12 mob-center input-field">
 											<p class="b-text">Assess risk offline on the downloaded form</p>
 										</div>
 									</div>
 									<div class="row">
-										<div class="col m2 s3 input-field b-text">
+										<div class="col m2 s12 mob-center input-field b-text">
 											<p class="mt-2">Step 3 :</p>
 										</div>
-										<div class="col m5 s12 input-field">
+										<div class="col m5 s6 mob-center input-field">
 											<p class="mt-2 b-text">Select the Work</p>
 										</div>
 										<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
-											<div class="col m5 s12 input-field">
+											<div class="col m5 s6 mob-center input-field">
 												<p class="searchable_label left-align">Work</p>
 												<select id=sub_work name="sub_work"
 													class="searchable validate-dropdown">
@@ -175,7 +181,7 @@
 											</div>
 										</c:if>
 										<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">
-											<div class="col m5 s12 input-field">
+											<div class="col m5 s6 input-field">
 												<p class="searchable_label left-align">Work</p>
 												<select id="sub_work" name="sub_work"
 													class="searchable validate-dropdown">
@@ -190,10 +196,10 @@
 										</c:if>
 									</div>
 									<div class="row">
-										<div class="col m2 s3 input-field b-text">
+										<div class="col m2 s12 mob-center input-field b-text">
 											<p class="mt-2">Step 4 :</p>
 										</div>
-										<div class="col m5 s9 input-field ">
+										<div class="col m5 s12 mob-center input-field ">
 											<p class="mt-2 b-text">Upload the Completed Risk Assessment form</p>
 										</div>
 										<div class="col m5 s12 input-field file-field">
@@ -212,11 +218,11 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col m2 s3 input-field b-text">
+										<div class="col m2 s6 input-field b-text">
 											<p class="mt-1">Step 5 :</p>
 										</div>
 										<!-- <div class="col m5 s9 input-field"></div> -->
-										<div class="col m5 s9 input-field">
+										<div class="col m5 s6 input-field">
 											<button type="button"
 												class="btn waves-effect waves-light bg-s t-c disabled"
 												id="uploadRisk" >
@@ -232,11 +238,11 @@
 									</div>
 									
 									<div class="row">
-										<div class="col m2 s3 input-field b-text">
+										<div class="col m2 s12 mob-center input-field b-text">
 											<p class="mt-1">Step 6 :</p>
 										</div>
-										<div class="col m10 s9 input-field">
-											<a class="btn waves-effect waves-light bg-s t-c"
+										<div class="col m10 s12 mob-center input-field">
+											<a class="btn waves-effect waves-light bg-s t-c fs-sm-67rem"
 												href="<%=request.getContextPath()%>/risk-atr-update" target="_blank" style="width: 100%;text-transform: none;">Click
 												here to update ATR on the Mitigation Plan of prioritized risks</a>
 										</div>
@@ -314,13 +320,13 @@
 	                    </span>
 	                    <div class="">
 	                        <div class="row no-mar" >
-	                                    <div class="col s12 m2 input-field offset-m4">
+	                                    <div class="col s6 m3 input-field offset-m4">
 	                                        <p class="searchable_label">Work</p>
 	                                        <select id="sub_workfilter" name="sub_work" class="searchable" onchange="getRiskUploadsList(this.value);">
 	                                            <option value="">Select</option>
 	                                        </select>
 	                                    </div>                                 
-	                                    <div class="col s12 m3">
+	                                    <div class="col s6 m3">
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 12px;" onclick="clearFilters()">Clear
 	                                            Filters</button>
@@ -333,13 +339,13 @@
 	                                <table id="datatable-risk-uploads" class="mdl-data-table">
 	                                    <thead>
 	                                        <tr>                                            
-	                                            <th>Work</th>											
-												<th>Uploaded File</th>
-												<th>Status</th>
-												<th>Remarks</th>
-												<th>Assessment date</th>
-												<th>Uploaded by </th>
-												<th>Uploaded On</th>
+	                                            <th class="mob-50">Work</th>											
+												<th class="mob-50">Uploaded File</th>
+												<th class="hideCOl">Status</th>
+												<th class="hideCOl">Remarks</th>
+												<th class="hideCOl">Assessment date</th>
+												<th class="hideCOl">Uploaded by </th>
+												<th class="hideCOl">Uploaded On</th>
 	                                        </tr>
 	                                    </thead>
 										<tbody>
@@ -395,7 +401,7 @@
 	    	  $(".modal").modal();
 	          $('select:not(.searchable)').formSelect();
 	          $('.searchable').select2();
-	          $('.tabs').tabs();
+	         // $('.tabs').tabs();
 	          
 	          $("#sub_work").change(function () {
 	              if ($("#sub_work").val() == '') {
@@ -486,9 +492,10 @@
                     return JSON.parse(localStorage.getItem('MRVCDataTables'));
                 },
                 columnDefs: [
-                    { orderable: false, 'aTargets': ['nosort'] },
-                    { targets: [0, 1, 3, 4], className: 'dt-left'  },
-                    { targets: [2,5], className: 'dt-center'},
+                   // { orderable: false, 'aTargets': ['nosort'] },
+                    { targets: [0, 1], className: 'dt-left'  }, 
+                    { targets: [2,5,6], className: 'dt-center hideCOl'},
+                    { targets: [3,4], className: 'hideCOl dt-left'},
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",
@@ -512,14 +519,25 @@
                         }
                         var rowArray = []; 
                         
-                        rowArray.push($.trim(val.sub_work));
-                       	rowArray.push(filePath);
-                       	rowArray.push($.trim(val.status));
-                       	rowArray.push($.trim(val.remarks));
-                       	rowArray.push($.trim(val.assessment_date));
-                       	rowArray.push($.trim(val.uploaded_by));
-                       	rowArray.push($.trim(val.uploaded_on)); 
-                       	
+                        if(window.matchMedia("(max-width: 769px)").matches){
+                        	rowArray.push($.trim(val.sub_work));
+                        	rowArray.push(filePath);
+                        	rowArray.push('');
+                        	rowArray.push('');
+                        	rowArray.push('');
+                        	rowArray.push('');
+                        	rowArray.push();
+                	      	
+                		 } else{
+                			rowArray.push($.trim(val.sub_work));
+                           	rowArray.push(filePath);
+                           	rowArray.push($.trim(val.status));
+                           	rowArray.push($.trim(val.remarks));
+                           	rowArray.push($.trim(val.assessment_date));
+                           	rowArray.push($.trim(val.uploaded_by));
+                           	rowArray.push($.trim(val.uploaded_on)); 
+                		 }
+                       
                         table.row.add(rowArray).draw( true );
                         		                       
     				});
@@ -534,8 +552,8 @@
              	getErrorMessage(jqXHR, exception);
          }});
        }
-        
-        
+       $(window).resize(getRiskUploadsList(sub_work));
+               
         function getSubWorksFilterList() {
         	$(".page-loader").show();
            	$("#sub_workfilter option:not(:first)").remove();
@@ -584,7 +602,7 @@
     	  $('#uploadRiskBtn ~ .file-path-wrapper > input[type="text"]').val('');
     	  $('#uploadRiskBtn, #uploadRisk').addClass('disabled')
       }
-
+      
     </script>
 
 </body>

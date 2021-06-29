@@ -37,8 +37,16 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
+         .fw-111{
+         	width:15vw !important;
+	        	min-width:15vw;
+         }
+          .fw-100{
+         	width:10vw !important;
+	        	min-width:10vw;
+         }
           @media only screen and (max-width: 769px){ 
-			
+			 
 			.dataTables_scrollBody tbody tr td:last-of-type,
 			.no-sort{
 				padding:3px !important;
@@ -197,20 +205,6 @@
 									</tbody>
 								</table>
 							  </div>
-							<!--    <div  style= "display:none;" id="mobView">
-							   		<table id="datatable-document_mobile" class="mdl-data-table">
-									<thead>
-										<tr>
-											<th>Document Type</th>
-											<th>Document Name</th>
-											<th class="no-sort">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										
-									</tbody>
-								</table>
-							   </div> -->
 							</div>
 						</div>
 					</div>
@@ -310,12 +304,6 @@
          $('.close-message').delay(3000).fadeOut('slow');
    
             getDocumentList();
-            if(window.matchMedia("(max-width: 769px)").matches){
-    	        $('#mobView').css({'display':'block'});
-    	      	
-    		 } else{
-    		    	$('#webView').css({'display':'block'});
-    		 }
         });
         
         function clearFilters(){
@@ -327,7 +315,8 @@
         	$("#responsible_for_approval").val("");
         	$('.searchable').select2();
         	window.localStorage.setItem("documentsFilters",'');
-        	getDocumentList();
+            window.location.href = "<%=request.getContextPath()%>/documents";
+        	//getDocumentList();
         }
         
         function addInQueProject(project_id_fk){
@@ -484,12 +473,11 @@
     								columnDefs : [ {
     									targets : 'no-sort',
     									"orderable" : false,
-    								} ,
-    								
+    								} , 
     								{
     									targets : [2,3,4,5],
     									className: 'hideCOl',
-    								}],
+    								},{ targets: [0,1,4,5], className: 'fw-111'  },{ targets: [2], className: 'fw-100'  }], 
     								"sScrollX" : "100%",
     								"sScrollXInner" : "100%",
     								"bScrollCollapse" : true,
@@ -527,7 +515,7 @@
     			            } },
     			         	{ "mData": function(data,type,row){
     			         		var document_no = "'"+data.document_no+"'";
-    		                    var actions = '<a href="javascript:void(0);"  onclick="getDocument('+document_no+');" class="btn mob-btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+    		                    var actions = '<a href="javascript:void(0);"  onclick="getDocument('+document_no+');" class="btn mob-btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
     			            	return actions;
     			            } }
     			            

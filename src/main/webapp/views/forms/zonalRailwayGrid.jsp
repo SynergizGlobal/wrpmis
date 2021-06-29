@@ -57,6 +57,36 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }  
+       @media only screen and (max-width: 769px){ 
+		
+		.dataTables_scrollBody tbody tr td:last-of-type,
+		.no-sort{
+			padding:3px !important;
+			max-width: 45px;
+		}
+		.mob-btn{
+			padding:0 12px;
+		}
+		.hideCOl{
+			display:none;
+		} 
+		.r-300{
+			width:30vw !important;
+       		max-width:30vw;
+		}
+		 .dataTables_filter label{
+        	position:relative;
+        }
+        .dataTables_filter label::after{
+        	position:absolute;
+        	right:5px;
+        	top:30px;
+        }
+        .fw-111{
+        	width:30vw;
+        	min-width:30vw;
+        }
+     }
     </style>
 </head>
 
@@ -179,7 +209,6 @@
 
 						<div class="row">
 							<div class="col m12 s12">
-							  <div  style= "display:none;" id="webView">
 								<table id="zonal_railway_table" class="mdl-data-table">
 									<thead>
 										<tr>
@@ -205,23 +234,6 @@
 									</tbody>
 
 								</table>
-							  </div>
-							  <div  style= "display:none;" id="mobView">
-							  		<table id="zonal_railway_table_mobile" class="mdl-data-table">
-									<thead>
-										<tr>
-											<th class="fw-370">Sub Work</th>
-											<th>Execution <br>Agency
-											</th>
-											<th class="no-sort right-btns">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										
-									</tbody>
-
-								</table>
-							  </div>
 							</div>
 						</div>
 					</div>
@@ -310,15 +322,8 @@
  	        	  }
  	          }
              }
-     	
-     	    	$('.close-message').delay(3000).fadeOut('slow');
-     	    	getZonalRailwayList();
-     	    	 if(window.matchMedia("(max-width: 769px)").matches){
- 	  		        $('#mobView').css({'display':'block'});
- 	  		      	
- 	  		    } else{
- 	  		    	$('#webView').css({'display':'block'});
- 	  		    }
+   	    	$('.close-message').delay(3000).fadeOut('slow');
+   	    	getZonalRailwayList();
         });
 
         function clearFilters() {
@@ -328,7 +333,8 @@
             $('#source_of_funds').val('');
             $('#status_fk').val('');
             window.localStorage.setItem("zonalFilters",'');
-            getZonalRailwayList();
+            window.location.href = "<%=request.getContextPath()%>/zonal-railway";
+            //getZonalRailwayList();
             $('.searchable').select2();
         }
         
@@ -397,234 +403,127 @@
         		filters = filters + key +"="+filtersMap[key] + "^";
         		window.localStorage.setItem("zonalFilters", filters);
    			});
-        	
-        	if(window.matchMedia("(max-width: 769px)").matches){
-			table = $('#zonal_railway_table_mobile').DataTable();
+       		table = $('#zonal_railway_table').DataTable();
 
-			table.destroy();
+   			table.destroy();
 
-			$.fn.dataTable.moment('DD-MMM-YYYY');
+   			$.fn.dataTable.moment('DD-MMM-YYYY');
 
-			var myParams = "project_id_fk=" + project_id_fk + "&work_id_fk="
-					+ work_id_fk + "&execution_agency_railway_fk=" + execution_agency_railway_fk
-					+ "&source_of_funds=" + source_of_funds
-					+ "&status_fk=" + status_fk;
+   			var myParams = "project_id_fk=" + project_id_fk + "&work_id_fk="
+   					+ work_id_fk + "&execution_agency_railway_fk=" + execution_agency_railway_fk
+   					+ "&source_of_funds=" + source_of_funds
+   					+ "&status_fk=" + status_fk;
 
-			/***************************************************************************************************/
+   			/***************************************************************************************************/
 
-			$("#zonal_railway_table_mobile")
-					.DataTable(
-							{
-								"bProcessing" : true,
-								"bServerSide" : true,
-								"sort" : "position",
-								//bStateSave variable you can use to save state on client cookies: set value "true" 
-								"bStateSave" : false,
-								//Default: Page display length
-								"iDisplayLength" : 10,
-								"iData" : {
-									"start" : 52
-								},
-								//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-								"iDisplayStart" : 0,
-								"fnDrawCallback" : function() {
-									//Get page numer on client. Please note: number start from 0 So
-									//for the first page you will see 0 second page 1 third page 2...
-									//Un-comment below alert to see page number
-									//alert("Current page number: "+this.fnPagingInfo().iPage);
-								},
-								//"sDom": 'l<"toolbar">frtip',
-								"initComplete" : function() {
-									$('.dataTables_filter input[type="search"]')
-											.attr('placeholder', 'Search')
-											.css({
-												'width' : '350px ',
-												'display' : 'inline-block'
-											});
+   			$("#zonal_railway_table")
+   					.DataTable(
+   							{
+   								"bProcessing" : true,
+   								"bServerSide" : true,
+   								"sort" : "position",
+   								//bStateSave variable you can use to save state on client cookies: set value "true" 
+   								"bStateSave" : false,
+   								//Default: Page display length
+   								"iDisplayLength" : 10,
+   								"iData" : {
+   									"start" : 52
+   								},
+   								//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+   								"iDisplayStart" : 0,
+   								"fnDrawCallback" : function() {
+   									//Get page numer on client. Please note: number start from 0 So
+   									//for the first page you will see 0 second page 1 third page 2...
+   									//Un-comment below alert to see page number
+   									//alert("Current page number: "+this.fnPagingInfo().iPage);
+   								},
+   								//"sDom": 'l<"toolbar">frtip',
+   								"initComplete" : function() {
+   									$('.dataTables_filter input[type="search"]')
+   											.attr('placeholder', 'Search')
+   											.css({
+   												'width' : '350px ',
+   												'display' : 'inline-block'
+   											});
 
-									var input = $('.dataTables_filter input')
-											.unbind(), self = this.api(), $searchButton = $(
-											'<i class="fa fa-search" title="Go">')
-									//.text('Go')
-									.click(function() {
-										self.search(input.val()).draw();
-									}), $clearButton = $(
-											'<i class="fa fa-close" title="Reset">')
-									//.text('X')
-									.click(function() {
-										input.val('');
-										$searchButton.click();
-									})
-									$('.dataTables_filter').append(
-											'<div class="right-btns"></div>');
-									$('.dataTables_filter div').append(
-											$searchButton, $clearButton);
+   									var input = $('.dataTables_filter input')
+   											.unbind(), self = this.api(), $searchButton = $(
+   											'<i class="fa fa-search" title="Go">')
+   									//.text('Go')
+   									.click(function() {
+   										self.search(input.val()).draw();
+   									}), $clearButton = $(
+   											'<i class="fa fa-close" title="Reset">')
+   									//.text('X')
+   									.click(function() {
+   										input.val('');
+   										$searchButton.click();
+   									})
+   									$('.dataTables_filter').append(
+   											'<div class="right-btns"></div>');
+   									$('.dataTables_filter div').append(
+   											$searchButton, $clearButton);
 
-									/* var input = $('.dataTables_filter input').unbind(),
-									self = this.api(),
-									$searchButton = $('<i class="fa fa-search">')
-									           //.text('Go')
-									           .click(function() {			   	                    	 
-									              self.search(input.val()).draw();
-									           })			   	        
-									  $('.dataTables_filter label').append($searchButton); */
-								},
-								columnDefs : [ {
-									"targets" : 'no-sort',
-									"orderable" : false,
-								} ],
-								"sScrollX" : "100%",
-								"sScrollXInner" : "100%",
-								"bScrollCollapse" : true,
-								"language" : {
-									"info" : "_START_ - _END_ of _TOTAL_",
-									paginate : {
-										next : '<i class="fa fa-angle-right"></i>', 
-										previous : '<i class="fa fa-angle-left"></i>'  
-									}
-								},
-								"bDestroy" : true,
-								"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-zonal-railway?"+myParams,
-			        "aoColumns": [
-			            { "mData": function(data,type,row){
-			            	var work_short_name = '';
-	                        if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
-	                     	if($.trim(data.sub_work) == ''){ return '-'; }else{ return data.sub_work; }
-            			} },   				            
-			            { "mData": function(data,type,row){
-			            	if($.trim(data.execution_agency_railway_fk) == ''){ return '-'; }else{ return data.execution_agency_railway_fk; }
-			            } },
-			         	{ "mData": function(data,type,row){
-			         		var contract_id = "'"+data.contract_id+"'";
-		                    var actions = '<a href="javascript:void(0);"  onclick="getContractId('+contract_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
-			            	return actions;
-			            } }
-			            
-			        ]
-			    });
-        	}else{
-        		table = $('#zonal_railway_table').DataTable();
-
-    			table.destroy();
-
-    			$.fn.dataTable.moment('DD-MMM-YYYY');
-
-    			var myParams = "project_id_fk=" + project_id_fk + "&work_id_fk="
-    					+ work_id_fk + "&execution_agency_railway_fk=" + execution_agency_railway_fk
-    					+ "&source_of_funds=" + source_of_funds
-    					+ "&status_fk=" + status_fk;
-
-    			/***************************************************************************************************/
-
-    			$("#zonal_railway_table")
-    					.DataTable(
-    							{
-    								"bProcessing" : true,
-    								"bServerSide" : true,
-    								"sort" : "position",
-    								//bStateSave variable you can use to save state on client cookies: set value "true" 
-    								"bStateSave" : false,
-    								//Default: Page display length
-    								"iDisplayLength" : 10,
-    								"iData" : {
-    									"start" : 52
-    								},
-    								//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-    								"iDisplayStart" : 0,
-    								"fnDrawCallback" : function() {
-    									//Get page numer on client. Please note: number start from 0 So
-    									//for the first page you will see 0 second page 1 third page 2...
-    									//Un-comment below alert to see page number
-    									//alert("Current page number: "+this.fnPagingInfo().iPage);
-    								},
-    								//"sDom": 'l<"toolbar">frtip',
-    								"initComplete" : function() {
-    									$('.dataTables_filter input[type="search"]')
-    											.attr('placeholder', 'Search')
-    											.css({
-    												'width' : '350px ',
-    												'display' : 'inline-block'
-    											});
-
-    									var input = $('.dataTables_filter input')
-    											.unbind(), self = this.api(), $searchButton = $(
-    											'<i class="fa fa-search" title="Go">')
-    									//.text('Go')
-    									.click(function() {
-    										self.search(input.val()).draw();
-    									}), $clearButton = $(
-    											'<i class="fa fa-close" title="Reset">')
-    									//.text('X')
-    									.click(function() {
-    										input.val('');
-    										$searchButton.click();
-    									})
-    									$('.dataTables_filter').append(
-    											'<div class="right-btns"></div>');
-    									$('.dataTables_filter div').append(
-    											$searchButton, $clearButton);
-
-    									/* var input = $('.dataTables_filter input').unbind(),
-    									self = this.api(),
-    									$searchButton = $('<i class="fa fa-search">')
-    									           //.text('Go')
-    									           .click(function() {			   	                    	 
-    									              self.search(input.val()).draw();
-    									           })			   	        
-    									  $('.dataTables_filter label').append($searchButton); */
-    								},
-    								columnDefs : [ {
-    									"targets" : 'no-sort',
-    									"orderable" : false,
-    								} ],
-    								"sScrollX" : "100%",
-    								"sScrollXInner" : "100%",
-    								"bScrollCollapse" : true,
-    								"language" : {
-    									"info" : "_START_ - _END_ of _TOTAL_",
-    									paginate : {
-    										next : '<i class="fa fa-angle-right"></i>', 
-    										previous : '<i class="fa fa-angle-left"></i>'  
-    									}
-    								},
-    								"bDestroy" : true,
-    								"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-zonal-railway?"+myParams,
-    			        "aoColumns": [
-    			            { "mData": function(data,type,row){
-    			            	var work_short_name = '';
-    	                        if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
-    	                     	if($.trim(data.sub_work) == ''){ return '-'; }else{ return data.sub_work; }
-                			} },   				            
-    			            { "mData": function(data,type,row){
-    			            	if($.trim(data.execution_agency_railway_fk) == ''){ return '-'; }else{ return data.execution_agency_railway_fk; }
-    			            } },
-    			         	{ "mData": function(data,type,row){
-    			            	if($.trim(data.source_of_funds) == ''){ return '-'; }else{ return data.source_of_funds; }
-    			            } },
-    			            { "mData": function(data,type,row){
-    			            	if($.trim(data.status_fk) == ''){ return '-'; }else{ return data.status_fk; }
-    			            } },
-    			         	{ "mData": function(data,type,row){
-    			            	if($.trim(data.as_on_date) == ''){ return '-'; }else{ return data.as_on_date; }
-    			            } },
-    			            { "mData": function(data,type,row){
-    			            	if($.trim(data.expected_finish) == ''){ return '-'; }else{ return data.expected_finish; }
-    			            } },
-    			         	{ "mData": function(data,type,row){
-    			            	if($.trim(data.actual_finish) == ''){ return '-'; }else{ return data.actual_finish; }
-    			            } },
-    			            { "mData": function(data,type,row){
-    			            	if($.trim(data.cumulative_expenditure_upto_last_finacial_year) == ''){ return '-'; }else{ return data.cumulative_expenditure_upto_last_finacial_year; }
-    			            } },
-    			         	{ "mData": function(data,type,row){
-    			         		var contract_id = "'"+data.contract_id+"'";
-    		                    var actions = '<a href="javascript:void(0);"  onclick="getContractId('+contract_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
-    			            	return actions;
-    			            } }
-    			            
-    			        ]
-    			    });
-        	}
+   									/* var input = $('.dataTables_filter input').unbind(),
+   									self = this.api(),
+   									$searchButton = $('<i class="fa fa-search">')
+   									           //.text('Go')
+   									           .click(function() {			   	                    	 
+   									              self.search(input.val()).draw();
+   									           })			   	        
+   									  $('.dataTables_filter label').append($searchButton); */
+   								},
+   								columnDefs : [ {
+   									"targets" : 'no-sort',
+   									"orderable" : false,
+   								},{targets: [2,3,4,5,6,7], className: 'hideCOl'} ],
+   								"sScrollX" : "100%",
+   								"sScrollXInner" : "100%",
+   								"bScrollCollapse" : true,
+   								"language" : {
+   									"info" : "_START_ - _END_ of _TOTAL_",
+   									paginate : {
+   										next : '<i class="fa fa-angle-right"></i>', 
+   										previous : '<i class="fa fa-angle-left"></i>'  
+   									}
+   								},
+   								"bDestroy" : true,
+   								"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-zonal-railway?"+myParams,
+   			        "aoColumns": [
+   			            { "mData": function(data,type,row){
+   			            	var work_short_name = '';
+   	                        if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
+   	                     	if($.trim(data.sub_work) == ''){ return '-'; }else{ return data.sub_work; }
+               			} },   				            
+   			            { "mData": function(data,type,row){
+   			            	if($.trim(data.execution_agency_railway_fk) == ''){ return '-'; }else{ return data.execution_agency_railway_fk; }
+   			            } },
+   			         	{ "mData": function(data,type,row){
+   			            	if($.trim(data.source_of_funds) == ''){ return '-'; }else{ return data.source_of_funds; }
+   			            } },
+   			            { "mData": function(data,type,row){
+   			            	if($.trim(data.status_fk) == ''){ return '-'; }else{ return data.status_fk; }
+   			            } },
+   			         	{ "mData": function(data,type,row){
+   			            	if($.trim(data.as_on_date) == ''){ return '-'; }else{ return data.as_on_date; }
+   			            } },
+   			            { "mData": function(data,type,row){
+   			            	if($.trim(data.expected_finish) == ''){ return '-'; }else{ return data.expected_finish; }
+   			            } },
+   			         	{ "mData": function(data,type,row){
+   			            	if($.trim(data.actual_finish) == ''){ return '-'; }else{ return data.actual_finish; }
+   			            } },
+   			            { "mData": function(data,type,row){
+   			            	if($.trim(data.cumulative_expenditure_upto_last_finacial_year) == ''){ return '-'; }else{ return data.cumulative_expenditure_upto_last_finacial_year; }
+   			            } },
+   			         	{ "mData": function(data,type,row){
+   			         		var contract_id = "'"+data.contract_id+"'";
+   		                    var actions = '<a href="javascript:void(0);"  onclick="getContractId('+contract_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
+   			            	return actions;
+   			            } }
+   			            
+   			        ]
+   			    });
 		  $(".page-loader-2").hide();  		     
       	
      }

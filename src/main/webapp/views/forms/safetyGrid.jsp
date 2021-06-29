@@ -54,6 +54,36 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
+          @media only screen and (max-width: 769px){ 
+			
+			.dataTables_scrollBody tbody tr td:last-of-type,
+			.no-sort{
+				padding:3px !important;
+				max-width: 45px;
+			}
+			.mob-btn{
+				padding:0 12px;
+			}
+			.hideCOl{
+				display:none;
+			} 
+			.r-300{
+				width:30vw !important;
+        		max-width:30vw;
+			}
+			 .dataTables_filter label{
+	        	position:relative;
+	        }
+	        .dataTables_filter label::after{
+	        	position:absolute;
+	        	right:5px;
+	        	top:30px;
+	        }
+	         .mdl-data-table__cell--non-numeric.mdl-data-table__cell--non-numeric, .mdl-data-table td {
+			    text-align: left;
+			}
+	    
+		}
     </style>
 </head>
 <body>
@@ -180,7 +210,6 @@
                         
                         <div class="row">
                             <div class="col m12 s12">
-							<div  style= "display:none;" id="webView">
                                 <table id="datatable-safety" class="mdl-data-table">
                                     <thead>
                                         <tr>
@@ -199,22 +228,6 @@
                                         
                                     </tbody>
                                 </table>
-                              </div>
-                              <div  style= "display:none;" id="mobView">
-                                <table id="datatable-safety_mob" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="fw-37vw">Contract</th>
-                                            <th >Short <br>Description </th>                                                                 
-                                            <th class="no-sort">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                    </tbody>
-                                </table>
-                              </div>
-                                
                             </div>
                         </div>
                     </div>
@@ -310,8 +323,8 @@
         	
         	//window.localStorage.clear();
         	window.localStorage.setItem("safetyFilters",'');
-        	
-        	getSafetyList();
+        	window.location.href = "<%=request.getContextPath()%>/safety";
+        	//getSafetyList();
         }
         
         
@@ -393,228 +406,122 @@
         		filters = filters + key +"="+filtersMap[key] + "^";
         		window.localStorage.setItem("safetyFilters", filters);
    			});
-        	
-        	if(window.matchMedia("(max-width: 769px)").matches){
-        		$('tbody.web').removeAttr('id');
-                $('#mobView').css({'display':'block'});
-        		table = $('#datatable-safety_mob').DataTable();
-        		table.destroy();
+       		$('#webView').css({'display':'block'});
+         	table = $('#datatable-safety').DataTable();
+    		table.destroy();
 
-        		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
 
-        		var myParams =  "work_id_fk="
-        				+ work_id_fk + "&contract_id_fk="+ contract_id_fk+ "&department_fk="+ department_fk+ "&category_fk="+ category_fk+ "&status_fk="+ status_fk+ "&hod_user_id_fk="+ hod_user_id_fk;
+    		var myParams =  "work_id_fk="
+    				+ work_id_fk + "&contract_id_fk="+ contract_id_fk+ "&department_fk="+ department_fk+ "&category_fk="+ category_fk+ "&status_fk="+ status_fk+ "&hod_user_id_fk="+ hod_user_id_fk;
 
-        		/***************************************************************************************************/
+    		/***************************************************************************************************/
 
-        		$("#datatable-safety_mob")
-        				.DataTable(
-        						{
-        							"bProcessing" : true,
-        							"bServerSide" : true,
-        							"sort" : "position",
-        							//bStateSave variable you can use to save state on client cookies: set value "true" 
-        							"bStateSave" : false,
-        							//Default: Page display length
-        							"iDisplayLength" : 10,
-        							"iData" : {
-        								"start" : 52
-        							},
-        							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-        							"iDisplayStart" : 0,
-        							"fnDrawCallback" : function() {
-        								//Get page numer on client. Please note: number start from 0 So
-        								//for the first page you will see 0 second page 1 third page 2...
-        								//Un-comment below alert to see page number
-        								//alert("Current page number: "+this.fnPagingInfo().iPage);
-        							},
-        							//"sDom": 'l<"toolbar">frtip',
-        							"initComplete" : function() {
-        								$('.dataTables_filter input[type="search"]')
-        										.attr('placeholder', 'Search')
-        										.css({
-        											'width' : '350px ',
-        											'display' : 'inline-block'
-        										});
+    		$("#datatable-safety")
+    				.DataTable(
+    						{
+    							"bProcessing" : true,
+    							"bServerSide" : true,
+    							"sort" : "position",
+    							//bStateSave variable you can use to save state on client cookies: set value "true" 
+    							"bStateSave" : false,
+    							//Default: Page display length
+    							"iDisplayLength" : 10,
+    							"iData" : {
+    								"start" : 52
+    							},
+    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+    							"iDisplayStart" : 0,
+    							"fnDrawCallback" : function() {
+    								//Get page numer on client. Please note: number start from 0 So
+    								//for the first page you will see 0 second page 1 third page 2...
+    								//Un-comment below alert to see page number
+    								//alert("Current page number: "+this.fnPagingInfo().iPage);
+    							},
+    							//"sDom": 'l<"toolbar">frtip',
+    							"initComplete" : function() {
+    								$('.dataTables_filter input[type="search"]')
+    										.attr('placeholder', 'Search')
+    										.css({
+    											'width' : '350px ',
+    											'display' : 'inline-block'
+    										});
 
-        								var input = $('.dataTables_filter input')
-        										.unbind(), self = this.api(), $searchButton = $(
-        										'<i class="fa fa-search" title="Go">')
-        								//.text('Go')
-        								.click(function() {
-        									self.search(input.val()).draw();
-        								}), $clearButton = $(
-        										'<i class="fa fa-close" title="Reset">')
-        								//.text('X')
-        								.click(function() {
-        									input.val('');
-        									$searchButton.click();
-        								})
-        								$('.dataTables_filter').append(
-        										'<div class="right-btns"></div>');
-        								$('.dataTables_filter div').append(
-        										$searchButton, $clearButton);
+    								var input = $('.dataTables_filter input')
+    										.unbind(), self = this.api(), $searchButton = $(
+    										'<i class="fa fa-search" title="Go">')
+    								//.text('Go')
+    								.click(function() {
+    									self.search(input.val()).draw();
+    								}), $clearButton = $(
+    										'<i class="fa fa-close" title="Reset">')
+    								//.text('X')
+    								.click(function() {
+    									input.val('');
+    									$searchButton.click();
+    								})
+    								$('.dataTables_filter').append(
+    										'<div class="right-btns"></div>');
+    								$('.dataTables_filter div').append(
+    										$searchButton, $clearButton);
 
-        								/* var input = $('.dataTables_filter input').unbind(),
-        								self = this.api(),
-        								$searchButton = $('<i class="fa fa-search">')
-        								           //.text('Go')
-        								           .click(function() {			   	                    	 
-        								              self.search(input.val()).draw();
-        								           })			   	        
-        								  $('.dataTables_filter label').append($searchButton); */
-        							},
-        							columnDefs : [ {
-        								"targets" : 'no-sort',
-        								"orderable" : false,
-        							} ],
-        							"sScrollX" : "100%",
-        							"sScrollXInner" : "100%",
-        							"bScrollCollapse" : true,
-        							"language" : {
-        								"info" : "_START_ - _END_ of _TOTAL_",
-        								paginate : {
-        									next : '<i class="fa fa-angle-right"></i>', 
-        									previous : '<i class="fa fa-angle-left"></i>'  
-        								}
-        							},
-        							"bDestroy" : true,
-        							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getSafetyList?"+myParams,
-        		        "aoColumns": [
-          		         	{ "mData": function(data,type,row){
-          		         		 var contractName = '';
-                                 if ($.trim(data.contract_short_name) != '') { contractName = ' - ' + $.trim(data.contract_short_name) }
-                                 if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk + contractName ; }
-          		            } },
-        		         	{ "mData": function(data,type,row){
-        		            	if($.trim(data.title) == ''){ return '-'; }else{ return data.title; }
-        		            } },        		           
-        		         	{ "mData": function(data,type,row){
-        		         		var safety_id = "'"+data.safety_id+"'";
-        	                    var actions = '<a href="javascript:void(0);"  onclick="getSafety('+safety_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';
-        		            	return actions;
-        		            } }
-        		            
-        		        ]
-        		    });
-        	} else {
-        		$('#webView').css({'display':'block'});
-	         	table = $('#datatable-safety').DataTable();
-	    		table.destroy();
-	
-	    		$.fn.dataTable.moment('DD-MMM-YYYY');
-	
-	    		var myParams =  "work_id_fk="
-	    				+ work_id_fk + "&contract_id_fk="+ contract_id_fk+ "&department_fk="+ department_fk+ "&category_fk="+ category_fk+ "&status_fk="+ status_fk+ "&hod_user_id_fk="+ hod_user_id_fk;
-	
-	    		/***************************************************************************************************/
-	
-	    		$("#datatable-safety")
-	    				.DataTable(
-	    						{
-	    							"bProcessing" : true,
-	    							"bServerSide" : true,
-	    							"sort" : "position",
-	    							//bStateSave variable you can use to save state on client cookies: set value "true" 
-	    							"bStateSave" : false,
-	    							//Default: Page display length
-	    							"iDisplayLength" : 10,
-	    							"iData" : {
-	    								"start" : 52
-	    							},
-	    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-	    							"iDisplayStart" : 0,
-	    							"fnDrawCallback" : function() {
-	    								//Get page numer on client. Please note: number start from 0 So
-	    								//for the first page you will see 0 second page 1 third page 2...
-	    								//Un-comment below alert to see page number
-	    								//alert("Current page number: "+this.fnPagingInfo().iPage);
-	    							},
-	    							//"sDom": 'l<"toolbar">frtip',
-	    							"initComplete" : function() {
-	    								$('.dataTables_filter input[type="search"]')
-	    										.attr('placeholder', 'Search')
-	    										.css({
-	    											'width' : '350px ',
-	    											'display' : 'inline-block'
-	    										});
-	
-	    								var input = $('.dataTables_filter input')
-	    										.unbind(), self = this.api(), $searchButton = $(
-	    										'<i class="fa fa-search" title="Go">')
-	    								//.text('Go')
-	    								.click(function() {
-	    									self.search(input.val()).draw();
-	    								}), $clearButton = $(
-	    										'<i class="fa fa-close" title="Reset">')
-	    								//.text('X')
-	    								.click(function() {
-	    									input.val('');
-	    									$searchButton.click();
-	    								})
-	    								$('.dataTables_filter').append(
-	    										'<div class="right-btns"></div>');
-	    								$('.dataTables_filter div').append(
-	    										$searchButton, $clearButton);
-	
-	    								/* var input = $('.dataTables_filter input').unbind(),
-	    								self = this.api(),
-	    								$searchButton = $('<i class="fa fa-search">')
-	    								           //.text('Go')
-	    								           .click(function() {			   	                    	 
-	    								              self.search(input.val()).draw();
-	    								           })			   	        
-	    								  $('.dataTables_filter label').append($searchButton); */
-	    							},
-	    							columnDefs : [ {
-	    								"targets" : 'no-sort',
-	    								"orderable" : false,
-	    							} ],
-	    							"sScrollX" : "100%",
-	    							"sScrollXInner" : "100%",
-	    							"bScrollCollapse" : true,
-	    							"language" : {
-	    								"info" : "_START_ - _END_ of _TOTAL_",
-	    								paginate : {
-	    									next : '<i class="fa fa-angle-right"></i>', 
-	    									previous : '<i class="fa fa-angle-left"></i>'  
-	    								}
-	    							},
-	    							"bDestroy" : true,
-	    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getSafetyList?"+myParams,
-	    		        "aoColumns": [
-	      		         	{ "mData": function(data,type,row){
-	      		         		 var contractName = '';
-	                             if ($.trim(data.contract_short_name) != '') { contractName = ' - ' + $.trim(data.contract_short_name) }
-	                             if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk + contractName ; }
-	      		            } },
-	    		         	{ "mData": function(data,type,row){
-	    		            	if($.trim(data.title) == ''){ return '-'; }else{ return data.title; }
-	    		            } },
-	    		            { "mData": function(data,type,row){
-	    		            	if($.trim(data.location) == ''){ return '-'; }else{ return data.location; }
-	    		            } },
-	    		            { "mData": function(data,type,row){
-	    		            	if($.trim(data.responsible_person) == ''){ return '-'; }else{ return data.responsible_person; }
-	    		            } },
-	    		         	{ "mData": function(data,type,row){
-	    		            	if($.trim(data.category_fk) == ''){ return '-'; }else{ return data.category_fk; }
-	    		            } },
-	    		            { "mData": function(data,type,row){
-	    		            	if($.trim(data.category_fk) == ''){ return '-'; }else{ return data.category_fk; }
-	    		            } },
-	    		            { "mData": function(data,type,row){
-	    		            	if($.trim(data.status_fk) == ''){ return '-'; }else{ return data.status_fk; }
-	    		            } },
-	    		         	{ "mData": function(data,type,row){
-	    		         		var safety_id = "'"+data.safety_id+"'";
-	    	                    var actions = '<a href="javascript:void(0);"  onclick="getSafety('+safety_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';
-	    		            	return actions;
-	    		            } }
-	    		            
-	    		        ]
-	    		    });
-        	}
+    								/* var input = $('.dataTables_filter input').unbind(),
+    								self = this.api(),
+    								$searchButton = $('<i class="fa fa-search">')
+    								           //.text('Go')
+    								           .click(function() {			   	                    	 
+    								              self.search(input.val()).draw();
+    								           })			   	        
+    								  $('.dataTables_filter label').append($searchButton); */
+    							},
+    							columnDefs : [ {
+    								"targets" : 'no-sort',
+    								"orderable" : false,
+    							},{targets: [2,3,4,5,6], className: 'hideCOl'} ],
+    							"sScrollX" : "100%",
+    							"sScrollXInner" : "100%",
+    							"bScrollCollapse" : true,
+    							"language" : {
+    								"info" : "_START_ - _END_ of _TOTAL_",
+    								paginate : {
+    									next : '<i class="fa fa-angle-right"></i>', 
+    									previous : '<i class="fa fa-angle-left"></i>'  
+    								}
+    							},
+    							"bDestroy" : true,
+    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getSafetyList?"+myParams,
+    		        "aoColumns": [
+      		         	{ "mData": function(data,type,row){
+      		         		 var contractName = '';
+                             if ($.trim(data.contract_short_name) != '') { contractName = ' - ' + $.trim(data.contract_short_name) }
+                             if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk + contractName ; }
+      		            } },
+    		         	{ "mData": function(data,type,row){
+    		            	if($.trim(data.title) == ''){ return '-'; }else{ return data.title; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.location) == ''){ return '-'; }else{ return data.location; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.responsible_person) == ''){ return '-'; }else{ return data.responsible_person; }
+    		            } },
+    		         	{ "mData": function(data,type,row){
+    		            	if($.trim(data.category_fk) == ''){ return '-'; }else{ return data.category_fk; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.category_fk) == ''){ return '-'; }else{ return data.category_fk; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.status_fk) == ''){ return '-'; }else{ return data.status_fk; }
+    		            } },
+    		         	{ "mData": function(data,type,row){
+    		         		var safety_id = "'"+data.safety_id+"'";
+    	                    var actions = '<a href="javascript:void(0);"  onclick="getSafety('+safety_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';
+    		            	return actions;
+    		            } }
+    		            
+    		        ]
+    		    });
     	  $(".page-loader-2").hide();  		     
       	
        }

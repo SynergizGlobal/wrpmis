@@ -125,4 +125,24 @@ public class AlertsServiceImpl implements AlertsService{
 		return dao.getContractAlerts(obj);
 	}
 
+	@Override
+	public List<Alerts> getHodListInAlertsReport(Alerts obj) throws Exception {
+		return dao.getHodListInAlertsReport(obj);
+	}
+
+	@Override
+	public List<Alerts> getWorksListInAlertsReport(Alerts obj) throws Exception {
+		return dao.getWorksListInAlertsReport(obj);
+	}
+
+	@Override
+	public List<Alerts> getAlertLevelsListInAlertsReport(Alerts obj) throws Exception {
+		return dao.getAlertLevelsListInAlertsReport(obj);
+	}
+
+	@Override
+	public List<Alerts> getAlertTypesListInAlertsReport(Alerts obj) throws Exception {
+		return dao.getAlertTypesListInAlertsReport(obj);
+	}
+
 }

@@ -51,4 +51,12 @@ public interface AlertsDao {
 
 	Map<String,List<Alerts>> getContractAlerts(Alerts obj) throws Exception;
 	
+	List<Alerts> getHodListInAlertsReport(Alerts obj) throws Exception;
+
+	List<Alerts> getWorksListInAlertsReport(Alerts obj) throws Exception;
+
+	List<Alerts> getAlertLevelsListInAlertsReport(Alerts obj) throws Exception;
+
+	List<Alerts> getAlertTypesListInAlertsReport(Alerts obj) throws Exception;
+	
 }

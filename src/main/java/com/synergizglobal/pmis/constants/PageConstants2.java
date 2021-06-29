@@ -24,6 +24,7 @@ public class PageConstants2 {
 	public static final String contractReport = "forms/contractReport";
 	
 	public static final String alertsGrid = "forms/alertsGrid";
+	public static final String alertsReport = "forms/alertsReport";
 	
 	public static final String generateSendAlerts = "forms/generateSendAlerts";
 	

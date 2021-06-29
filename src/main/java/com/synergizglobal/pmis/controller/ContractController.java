@@ -705,9 +705,12 @@ public class ContractController {
 	public void exportSafety(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Contract contract,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.contractGrid);
 		List<Contract> dataList = new ArrayList<Contract>();
-		String userId = null;String userName = null;
 		try {
-			userId = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userRoleCode = (String) session.getAttribute("USER_ROLE_CODE");
+			contract.setUser_id(userId);
+			contract.setUser_role_code(userRoleCode);
 			view.setViewName("redirect:/contract");
 			dataList = contractService.contractList(contract);  
 			if(dataList != null && dataList.size() > 0){
@@ -930,7 +933,7 @@ public class ContractController {
 	         }
 		}catch(Exception e){	
 			e.printStackTrace();
-			logger.error("exportContract : : User Id - "+userId+" - User Name - "+userName+" - "+e.getMessage());
+			logger.error("exportContract : "+e.getMessage());
 			attributes.addFlashAttribute("error", commonError);			
 		}
 		//return view;

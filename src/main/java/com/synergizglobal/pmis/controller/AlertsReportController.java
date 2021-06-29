@@ -14,7 +14,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -62,25 +61,27 @@ import org.docx4j.wml.STFldCharType;
 import org.docx4j.wml.STHint;
 import org.docx4j.wml.STPageOrientation;
 import org.docx4j.wml.SectPr;
+import org.docx4j.wml.SectPr.PgSz;
 import org.docx4j.wml.Text;
 import org.docx4j.wml.U;
 import org.docx4j.wml.UnderlineEnumeration;
-import org.docx4j.wml.SectPr.PgSz;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.AlertsService;
-import com.synergizglobal.pmis.common.DocxTableCreation;
 import com.synergizglobal.pmis.common.DocxTableCreationForAlertsReport;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.User;
 @Controller
@@ -94,6 +95,77 @@ public class AlertsReportController {
 	
 	@Autowired
 	AlertsService service;
+	
+	@RequestMapping(value = "/alerts-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView alertsReport(){
+		ModelAndView model = new ModelAndView(PageConstants2.alertsReport);
+		try{            
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("alertsReport : " + e.getMessage());
+		}
+		return model;
+    }
+	
+	@RequestMapping(value = "/ajax/getHodListInAlertsReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Alerts> getHodListInAlertsReport(@ModelAttribute Alerts obj,HttpSession session) {
+		List<Alerts> objsList = null;  
+		try {
+			 User uObj = (User) session.getAttribute("user");
+		     obj.setUser_role_name(uObj.getUser_role_name_fk());
+			 objsList = service.getHodListInAlertsReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getHodListInAlertsReport : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorksListInAlertsReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Alerts> getWorksListInAlertsReport(@ModelAttribute Alerts obj,HttpSession session) {
+		List<Alerts> objsList = null;  
+		try {
+			User uObj = (User) session.getAttribute("user");
+		    obj.setUser_role_name(uObj.getUser_role_name_fk());
+			objsList = service.getWorksListInAlertsReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksListInAlertsReport : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getAlertLevelsListInAlertsReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Alerts> getAlertLevelsListInAlertsReport(@ModelAttribute Alerts obj,HttpSession session) {
+		List<Alerts> objsList = null;  
+		try {
+			User uObj = (User) session.getAttribute("user");
+		    obj.setUser_role_name(uObj.getUser_role_name_fk());
+			objsList = service.getAlertLevelsListInAlertsReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getAlertLevelsListInAlertsReport : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getAlertTypesListInAlertsReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Alerts> getAlertTypesListInAlertsReport(@ModelAttribute Alerts obj,HttpSession session) {
+		List<Alerts> objsList = null;  
+		try {
+			User uObj = (User) session.getAttribute("user");
+		    obj.setUser_role_name(uObj.getUser_role_name_fk());
+			objsList = service.getAlertTypesListInAlertsReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getAlertTypesListInAlertsReport : " + e.getMessage());
+		}
+		return objsList;
+	}
 	
 	@RequestMapping(value = "/generate-contracts-alert-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateConractsAlertReport(@ModelAttribute Alerts obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){

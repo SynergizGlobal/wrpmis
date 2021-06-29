@@ -95,11 +95,25 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 7 and release_date is null";
+					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 7 and DATEDIFF(valid_upto ,NOW()) > 0) and release_date is null";
 			
 			List<Alerts> bgQryAlert3List = jdbcTemplate.query( bgQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert3List) && bgQryAlert3List.size() > 0) {
 				list.addAll(bgQryAlert3List);
+			}
+			
+			String bgQryAlert4 = "select bg.contract_id_fk as contract_id, 'Overdue' as alert_level,'Bank Guarantee' as alert_type,"
+					+ "(case when bg.bg_type_fk is not null then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
+					+ "else CONCAT('Bank guarantee ',bg.bg_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+					+ " from contract c " + 
+					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
+					+ "where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 0 and release_date is null";
+			
+			List<Alerts> bgQryAlert4List = jdbcTemplate.query( bgQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(bgQryAlert4List) && bgQryAlert4List.size() > 0) {
+				list.addAll(bgQryAlert4List);
 			}
 			
 			/***************************** Insurance alerts*******************************************************/
@@ -138,11 +152,25 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk "
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 7 and (bg.released_fk = 'No' or bg.released_fk is null)";
+					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 7 and DATEDIFF(valid_upto ,NOW()) > 0) and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert3List = jdbcTemplate.query( insuranceQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert3List) && insuranceQryAlert3List.size() > 0) {
 				list.addAll(insuranceQryAlert3List);
+			}
+			
+			String insuranceQryAlert4 = "select bg.contract_id_fk as contract_id, 'Overdue' as alert_level,'Insurance' as alert_type,"
+					+ "(case when bg.insurance_type_fk is not null then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
+					+ "else CONCAT('Insurance ',bg.insurance_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,"
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "
+					+ " from contract c "
+					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk "
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
+					+ "where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 0 and (bg.released_fk = 'No' or bg.released_fk is null)";
+			
+			List<Alerts> insuranceQryAlert4List = jdbcTemplate.query( insuranceQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(insuranceQryAlert4List) && insuranceQryAlert4List.size() > 0) {
+				list.addAll(insuranceQryAlert4List);
 			}
 			
 			
@@ -188,11 +216,27 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null "
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where c.contract_status_fk = 'In Progress' " 
-					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 7) ";
+					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 7 " 
+					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 0)";
 			
 			List<Alerts> cpQryAlert3List = jdbcTemplate.query( cpQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cpQryAlert3List) && cpQryAlert3List.size() > 0) {
 				list.addAll(cpQryAlert3List);
+			}
+			
+			String cpQryAlert4 = "select contract_id,'Overdue' as alert_level,'Contract Period' as alert_type," 
+					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Contract revised date : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
+					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+					+ "from contract c " 
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null "
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
+					+ "where c.contract_status_fk = 'In Progress' " 
+					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 0) ";
+			
+			List<Alerts> cpQryAlert4List = jdbcTemplate.query( cpQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(cpQryAlert4List) && cpQryAlert4List.size() > 0) {
+				list.addAll(cpQryAlert4List);
 			}
 			
 			/***************************** Contract Value alerts*******************************************************/
@@ -2666,13 +2710,13 @@ public class AlertsDaoImpl implements AlertsDao{
 				String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
 						+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url,"
 						+ "(CASE WHEN (alert_type_fk = 'Bank Guarantee') THEN "
-						+ "(select bg_number from bank_guarantee where bg_type_fk is not null and bg_type_fk = 'Performance Guarantee' and release_date is null and contract_id_fk = a.contract_id limit 1) "
+						+ "(select bg_number from bank_guarantee where bg_type_fk is not null and release_date is null and contract_id_fk = a.contract_id limit 1) "
 						+ "WHEN (alert_type_fk = 'Insurance') THEN "
 						+ "(select insurance_number from insurance where (released_fk = 'No' OR released_fk is null OR released_fk = '') and contract_id_fk = a.contract_id limit 1) "
 						+ "ELSE ''"
 						+ "END) as details, "
 						+ "(CASE WHEN (alert_type_fk = 'Bank Guarantee') THEN "
-						+ "(select DATE_FORMAT(MIN(valid_upto),'%d-%m-%y') AS valid_upto from bank_guarantee where bg_type_fk is not null and bg_type_fk = 'Performance Guarantee' and release_date is null and contract_id_fk = a.contract_id) "
+						+ "(select DATE_FORMAT(MIN(valid_upto),'%d-%m-%y') AS valid_upto from bank_guarantee where bg_type_fk is not null and release_date is null and contract_id_fk = a.contract_id) "
 						+ "WHEN (alert_type_fk = 'Insurance') THEN "
 						+ "(select DATE_FORMAT(MIN(valid_upto),'%d-%m-%y') AS valid_upto from insurance where (released_fk = 'No' OR released_fk is null OR released_fk = '') and contract_id_fk = a.contract_id) "
 						+ "WHEN (alert_type_fk = 'Contract Period') THEN "
@@ -2752,6 +2796,282 @@ public class AlertsDaoImpl implements AlertsDao{
 				List<Alerts> alertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 				objsList.put(hodObj.getHod(), alertsList);
 			}
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Alerts> getHodListInAlertsReport(Alerts obj) throws Exception {
+		List<Alerts> objsList = new ArrayList<Alerts>();
+		try {
+			String qry = "select u.designation as hod "
+					+ "from alerts a "; 
+					if(!"IT Admin".equals(obj.getUser_role_name())) {
+						qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
+					}
+			
+					qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+			
+			int arrSize = 1;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				qry = qry + " and au.user_id_fk = ? ";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				qry = qry + " and a.alert_level = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " group by u.designation order by u.designation asc";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				pValues[i++] = obj.getUser_id();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				pValues[i++] = obj.getAlert_level();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Alerts> getWorksListInAlertsReport(Alerts obj) throws Exception {
+		List<Alerts> objsList = new ArrayList<Alerts>();
+		try {
+			String qry = "select c.work_id_fk as work_id,work_short_name "
+					+ "from alerts a "; 
+					if(!"IT Admin".equals(obj.getUser_role_name())) {
+						qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
+					}
+			
+					qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+			
+			int arrSize = 1;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				qry = qry + " and au.user_id_fk = ? ";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				qry = qry + " and a.alert_level = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " group by c.work_id_fk order by c.work_id_fk asc";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				pValues[i++] = obj.getUser_id();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				pValues[i++] = obj.getAlert_level();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Alerts> getAlertLevelsListInAlertsReport(Alerts obj) throws Exception {
+		List<Alerts> objsList = new ArrayList<Alerts>();
+		try {
+			String qry = "select a.alert_level "
+					+ "from alerts a "; 
+					if(!"IT Admin".equals(obj.getUser_role_name())) {
+						qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
+					}
+			
+					qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+			
+			int arrSize = 1;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				qry = qry + " and au.user_id_fk = ? ";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				qry = qry + " and a.alert_level = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " group by a.alert_level order by a.alert_level asc";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				pValues[i++] = obj.getUser_id();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				pValues[i++] = obj.getAlert_level();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Alerts> getAlertTypesListInAlertsReport(Alerts obj) throws Exception {
+		List<Alerts> objsList = new ArrayList<Alerts>();
+		try {
+			String qry = "select a.alert_type_fk "
+					+ "from alerts a "; 
+					if(!"IT Admin".equals(obj.getUser_role_name())) {
+						qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
+					}
+			
+					qry = qry + "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and a.alert_type_fk <> 'Issue' and a.alert_type_fk <> 'Risk' and alert_status = ? ";
+			
+			int arrSize = 1;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				qry = qry + " and au.user_id_fk = ? ";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				qry = qry + " and a.alert_level = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " group by a.alert_type_fk order by a.alert_type_fk asc";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!"IT Admin".equals(obj.getUser_role_name())) {
+				pValues[i++] = obj.getUser_id();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+				pValues[i++] = obj.getAlert_level();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
 
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

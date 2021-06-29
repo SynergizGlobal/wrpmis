@@ -582,7 +582,7 @@ public class RiskController {
 			
 			boolean flag = riskService.updateRiskAssessment(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "ATR Updated Succesfully.");
+				attributes.addFlashAttribute("success", "ATR Updated Successfully.");
 			} else {
 				attributes.addFlashAttribute("error","Updating ATR failed.");
 			}			

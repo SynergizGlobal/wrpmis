@@ -171,11 +171,11 @@ public class ActivitiesUploadController {
 							//checking given file format
 							if (headerRow != null) {
 								List<String> fileFormat = FileFormatModel.getActivityRefetenceData_FileFormat();
-								;
 								int noOfColumns = headerRow.getLastCellNum();
-								if (noOfColumns == fileFormat.size()) {
+								//System.out.println("Ref " + noOfColumns +" : "+fileFormat.size());
+								//if (noOfColumns == fileFormat.size()) {
 									for (int i = 0; i < fileFormat.size(); i++) {
-										//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+										//System.out.println(fileFormat.get(i).trim() +" : "+headerRow.getCell(i).getStringCellValue().trim());
 										//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
 										String columnName = headerRow.getCell(i).getStringCellValue().trim();
 										if (!columnName.equals(fileFormat.get(i).trim())
@@ -184,10 +184,10 @@ public class ActivitiesUploadController {
 											return model;
 										}
 									}
-								} else {
+								/*} else {
 									attributes.addFlashAttribute("error", uploadformatError);
 									return model;
-								}
+								}*/
 							} else {
 								attributes.addFlashAttribute("error", uploadformatError);
 								return model;
@@ -204,9 +204,10 @@ public class ActivitiesUploadController {
 								List<String> fileFormat = FileFormatModel.getActivityData_FileFormat();
 								
 								int noOfColumns = headerRow.getLastCellNum();
-								if (noOfColumns == fileFormat.size()) {
+								//System.out.println(noOfColumns +" : "+fileFormat.size());
+								//if (noOfColumns == fileFormat.size()) {
 									for (int i = 0; i < fileFormat.size(); i++) {
-										//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+										//System.out.println(fileFormat.get(i).trim() +" : "+headerRow.getCell(i).getStringCellValue().trim());
 										//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
 										String columnName = headerRow.getCell(i).getStringCellValue().trim();
 										if (!columnName.equals(fileFormat.get(i).trim())
@@ -215,10 +216,10 @@ public class ActivitiesUploadController {
 											return model;
 										}
 									}
-								} else {
+								/*} else {
 									attributes.addFlashAttribute("error", uploadformatError);
 									return model;
-								}
+								}*/
 							} else {
 								attributes.addFlashAttribute("error", uploadformatError);
 								return model;

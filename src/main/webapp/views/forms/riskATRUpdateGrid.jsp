@@ -60,7 +60,12 @@
         	width:300px;
         	min-width:300px;
         }
-        
+         @media only screen and (min-width: 769px){ 
+	        .fw-111{
+	        	width:128px;
+	        	min-width:128px;
+	        }
+        }
         .link-btn{
         	color:blue;
         	text-decoration:underline;
@@ -345,7 +350,7 @@
                     { targets: [0,4], className: 'fw-120'  },
                     { targets: [1,3], className: 'fw-170'  },
                     { targets: [5,6], className: 'fw-200'  },
-                   
+                    { targets: [2,7], className: 'fw-111'  },
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",

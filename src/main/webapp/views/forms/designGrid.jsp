@@ -50,13 +50,35 @@
          .row.no-mar{
          	margin-bottom:0;
          }
-         @media only screen and (max-width: 768px){
-			.btn, .btn-large, .btn-small, .btn-flat {
-			    padding: 0 10px;
+      @media only screen and (max-width: 769px){ 
+			
+			.dataTables_scrollBody tbody tr td:last-of-type,
+			.no-sort{
+				padding:3px !important;
+				max-width: 45px;
 			}
-			.dataTables_filter label input {
-			    width: 100% !important;
+			.mob-btn{
+				padding:0 12px;
 			}
+			.hideCOl{
+				display:none;
+			} 
+			.r-300{
+				width:30vw !important;
+        		max-width:30vw;
+			}
+			 .dataTables_filter label{
+	        	position:relative;
+	        }
+	        .dataTables_filter label::after{
+	        	position:absolute;
+	        	right:5px;
+	        	top:30px;
+	        }
+	        .fw-111{
+	        	width:35vw;
+	        	min-width:35vw;
+	        }
 		}
 		#datatable-design_mob td > .btn.t-c{
 			padding: 0 10px;
@@ -223,7 +245,6 @@
 
 						<div class="row">
 							<div class="col m12 s12">
-								<div  style= "display:none;" id="webView">
 									<table id="datatable-design" class="mdl-data-table">
 										<thead>
 											<tr>
@@ -245,23 +266,6 @@
 	
 										</tbody>
 									</table>
-								</div>
-								
-								<div  style= "display:none;" id="mobView">
-									<table id="datatable-design_mob" class="mdl-data-table">
-										<thead>
-											<tr>
-												<th class="fw-38w" style="width: 38vw !important;">Contract</th>
-												<th class="fw-38w">Title</th>												
-												<th class="no-sort">Action</th>
-											</tr>
-										</thead>
-										<tbody>
-	
-										</tbody>
-									</table>
-								</div>
-								
 							</div>
 						</div>
 					</div>
@@ -501,13 +505,6 @@
 	            });
 			getDesignList();
 			getDesignUploadsList();
-			 if(window.matchMedia("(max-width: 769px)").matches){
-	  		    	$('tbody.web').removeAttr('id');
-	  		        $('#mobView').css({'display':'block'});
-	  		      	
-	  		    } else{
-	  		    	$('#webView').css({'display':'block'});
-	  		    }
 		});
 
 		function clearFilter() {
@@ -519,7 +516,8 @@
 			$("#drawing_type_fk").val('');
 			$('.searchable').select2();
 			window.localStorage.setItem("designFilters",'');
-			getDesignList();
+			window.location.href = "<%=request.getContextPath()%>/design";
+			//getDesignList();
 			getDesignUploadsList();
 		}
         
@@ -668,117 +666,7 @@
         		filters = filters + key +"="+filtersMap[key] + "^";
         		window.localStorage.setItem("designFilters", filters);
    			});
-        	 if(window.matchMedia("(max-width: 769px)").matches){
-	        		table = $('#datatable-design_mob').DataTable();
-	
-	     			table.destroy();
-	
-	     			$.fn.dataTable.moment('DD-MMM-YYYY');
-	
-	     			var myParams = "work_id_fk=" + work_id_fk + "&contract_id_fk="
-	     					+ contract_id_fk + "&department_id_fk="
-	     					+ encodeURIComponent(department_id_fk) + "&hod=" + hod
-	     					+ "&structure_type_fk=" + structure_type_fk
-	     					+ "&drawing_type_fk=" + drawing_type_fk;
-	
-	     			/***************************************************************************************************/
-	
-	     			$("#datatable-design_mob")
-	     					.DataTable(
-	     							{
-	     								"bProcessing" : true,
-	     								"bServerSide" : true,
-	     								"sort" : "position",
-	     								//bStateSave variable you can use to save state on client cookies: set value "true" 
-	     								"bStateSave" : false,
-	     								//Default: Page display length
-	     								"iDisplayLength" : 10,
-	     								"iData" : {
-	     									"start" : 52
-	     								},
-	     								//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-	     								"iDisplayStart" : 0,
-	     								"fnDrawCallback" : function() {
-	     									//Get page numer on client. Please note: number start from 0 So
-	     									//for the first page you will see 0 second page 1 third page 2...
-	     									//Un-comment below alert to see page number
-	     									//alert("Current page number: "+this.fnPagingInfo().iPage);
-	     								},
-	     								//"sDom": 'l<"toolbar">frtip',
-	     								"initComplete" : function() {
-	     									$('.dataTables_filter input[type="search"]')
-	     											.attr('placeholder', 'Search').attr('id', 'Search')
-	     											.css({
-	     												'width' : '350px ',
-	     												'display' : 'inline-block'
-	     											});
-	     									var input = $('.dataTables_filter input')
-	     											.unbind(), self = this.api(), $searchButton = $(
-	     											'<i class="fa fa-search" id="test1" title="Go">')
-	     									//.text('Go')
-	     									.click(function() {
-	     										var iVal = $('.dataTables_filter input').val();
-	     										self.search(iVal).draw();
-	     									}), $clearButton = $(
-	     											'<i class="fa fa-close" title="Reset">')
-	     									//.text('X')
-	     									.click(function() {
-	     										input.val('');
-	     										$searchButton.click();
-	     									})
-	     									//$("div.right-btns").remove();
-	     									//$('.right-btns1').toggleClass('right-btns1').toggleClass('right-btns');
-	
-	     									$('.dataTables_filter').append(
-	     											'<div class="right-btns"></div>');
-	     									$('.dataTables_filter div').append(
-	     											$searchButton, $clearButton);
-	
-	     									/* var input = $('.dataTables_filter input').unbind(),
-	     									self = this.api(),
-	     									$searchButton = $('<i class="fa fa-search">')
-	     									           //.text('Go')
-	     									           .click(function() {			   	                    	 
-	     									              self.search(input.val()).draw();
-	     									           })			   	        
-	     									  $('.dataTables_filter label').append($searchButton); */
-	     								},
-	     								columnDefs : [ {
-	     									"targets" : 'no-sort',
-	     									"orderable" : false,
-	     								} ],
-	     								"sScrollX" : "100%",
-	     								"sScrollXInner" : "100%",
-	     								"bScrollCollapse" : true,
-	     								"language" : {
-	     									"info" : "_START_ - _END_ of _TOTAL_",
-	     									paginate : {
-	     										next : '<i class="fa fa-angle-right"></i>', // or '→'
-	     										previous : '<i class="fa fa-angle-left"></i>' // or '←' 
-	     									}
-	     								},
-	     								"bDestroy" : true,
-	     								"sAjaxSource" : "<%=request.getContextPath()%>/ajax/getDesignsList?"+myParams,
-	     										
-	     			        "aoColumns": [
-	     			        	
-	     			            { "mData": function(data,type,row){
-	     			            	var contract_short_name = '';
-	     	                        if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) }    	
-	     	                     	if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk + contract_short_name; }
-	                 			} },   				            
-	     			            { "mData": function(data,type,row){
-	     			            	if($.trim(data.drawing_title) == ''){ return '-'; }else{ return data.drawing_title; }
-	     			            } },			         	
-	     			         	{ "mData": function(data,type,row){
-	     			         		var design_id = "'"+data.design_id+"'";
-	     		                    var actions = '<a href="javascript:void(0);"  onclick="getDesign('+design_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
-	     			            	return actions;
-	     			            } }
-	     			            
-	     			        ]
-	     			    }); 
-	  		    }else{
+        	
 						table = $('#datatable-design').DataTable();
 			
 						table.destroy();
@@ -856,7 +744,8 @@
 											columnDefs : [ {
 												"targets" : 'no-sort',
 												"orderable" : false,
-											} ],
+											},{targets:[1,2,4,5,6,7],
+				 			                       className: 'hideCOl'},{ targets: [0], className: 'fw-111'  } ],
 											"sScrollX" : "100%",
 											"sScrollXInner" : "100%",
 											"bScrollCollapse" : true,
@@ -900,13 +789,12 @@
 						            } },
 						         	{ "mData": function(data,type,row){
 						         		var design_id = "'"+data.design_id+"'";
-					                    var actions = '<a href="javascript:void(0);"  onclick="getDesign('+design_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+					                    var actions = '<a href="javascript:void(0);"  onclick="getDesign('+design_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
 						            	return actions;
 						            } }
 						            
 						        ]
 						    });
-	  		   }
 		  $(".page-loader-2").hide();  		     
       	
      }

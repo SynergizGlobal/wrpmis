@@ -51,7 +51,41 @@
       	width:40vw;
       	max-width:40vw;
       }
-    </style>
+       .fw-111{
+	        	width:88px !important;
+	        	min-width:88px;
+	        }
+        @media only screen and (max-width: 769px){ 
+			
+			.dataTables_scrollBody tbody tr td:last-of-type,
+			.no-sort{
+				padding:3px !important;
+				max-width: 45px;
+			}
+			.mob-btn{
+				padding:0 12px;
+			}
+			.hideCOl{
+				display:none;
+			} 
+			.r-300{
+				width:30vw !important;
+        		max-width:30vw;
+			}
+			 .dataTables_filter label{
+	        	position:relative;
+	        }
+	        .dataTables_filter label::after{
+	        	position:absolute;
+	        	right:5px;
+	        	top:30px;
+	        }
+	       
+	        .mdl-data-table__cell--non-numeric.mdl-data-table__cell--non-numeric, .mdl-data-table td {
+			    text-align: left;
+			}
+		}
+    </style> 
 </head>
 <body>
 	<!-- header included -->
@@ -191,7 +225,6 @@
                         
                         <div class="row">
                             <div class="col m12 s12">
- 								<div  style= "display:none;" id="webView">
 	                                <table id="datatable-issues" class="mdl-data-table">
 	                                    <thead>
 	                                        <tr>
@@ -203,34 +236,12 @@
 	                                            <th>Department</th>
 	                                            <th>Issue Status </th>                                           
 	                                            <th class="nosort">Action</th>
-	                                            <!-- <th>Project ID</th> -->
-	<!--                                             <th>Work</th> -->
-	                                           <!--  <th>Activity</th> -->
-	<!--                                             <th>Date </th> -->
-	<!--                                             <th>Reported By </th> -->
-	<!--                                             <th>Issue <br>Category </th> -->
 	                                        </tr>
 	                                    </thead>
 	                                    <tbody>
 	
 	                                    </tbody>	
 	                                </table>
-								</div>
-								<div  style= "display:none;" id="mobView">
-									<table id="datatable-issues_mob" class="mdl-data-table">
-	                                    <thead>
-	                                        <tr>
-	                                            <th class="fw-40vw">Contract</th>
-	                                            <th>Short Description </th>	                                                                               
-	                                            <th class="nosort">Action</th>
-	                                        </tr>
-	                                    </thead>
-	                                    <tbody>
-	
-	                                    </tbody>	
-	                                </table>
-								
-								</div>
                             </div>
                         </div>
                     </div>
@@ -342,8 +353,9 @@
         	
         	//window.localStorage.clear();
         	window.localStorage.setItem("issueFilters",'');
+        	window.location.href = "<%=request.getContextPath()%>/issues";
         	
-        	getIssues();
+        	//getIssues();
         }
         
         function addInQueHOD(hod){
@@ -423,185 +435,89 @@
         		filters = filters + key +"="+filtersMap[key] + "^";
         		window.localStorage.setItem("issueFilters", filters);
    			});
-         	
-        	if(window.matchMedia("(max-width: 769px)").matches){
-        		$('tbody.web').removeAttr('id');
-                $('#mobView').css({'display':'block'});
-        		/* table = $('#datatable-issues_mob').DataTable();
-       		 
-        		table.destroy(); */
-        		
-        		$.fn.dataTable.moment('DD-MMM-YYYY');
-        		table = $('#datatable-issues_mob').DataTable({
-            		"bStateSave": true,
-            		fixedHeader: true,
-                    "fnStateSave": function (oSettings, oData) {
-                        localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                    },
-                    "fnStateLoad": function (oSettings) {
-                        return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                    },
-                    columnDefs: [
-                        {
-                            targets: [0],
-                            className: 'mdl-data-table__cell--non-numeric'
-                        },
-                        { orderable: false, 'aTargets': ['nosort'] }
-                    ],
-                    // "ScrollX": true,
-                    //"scrollCollapse": true,
-                    //"sScrollY": 400,
-                    "sScrollX": "100%",
-                    "sScrollXInner": "100%",
-                    "bScrollCollapse": true,
-                    initComplete: function () {
-                        $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                    }
-                }).rows().remove().draw();
-        		
-        		
-        		table.state.clear();	
-        	 
-        	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
-        	 			category_fk : category_fk, status_fk : status_fk,hod : hod };
-        		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",
-        				type:"POST",
-        				data:myParams, cache: false,async:true,
-        				success : function(data){    				
-        				if(data != null && data != '' && data.length > 0){    					
-        	         		$.each(data,function(key,val){
-        	         			var issue_id = "'"+val.issue_id+"'";
-        	                    var actions = '<a href="javascript:void(0);"  onclick="getIssue('+issue_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
-        	                   	var rowArray = [];    	                  
-        	                   	
-        	                   	var workName = '';
-                                if ($.trim(val.work_name) != '') { workName = $.trim(val.work_name) }
-                                if ($.trim(val.work_name) == '') { workName = $.trim(val.work_id_fk) }
-                                
-                                var contract_name = '';
-                                if ($.trim(val.contract_short_name) != '') { contract_name = $.trim(val.contract_short_name) }
-                                if ($.trim(val.contract_short_name) == '') { contract_name = $.trim(val.contract_id_fk) }
-        	                   	
-        	                   	//rowArray.push($.trim(val.issue_id));
-        	                   	/* rowArray.push($.trim(val.project_id_fk)); */
-        	                   	/* rowArray.push($.trim(val.work_id_fk) + workName); */
-        	                   	rowArray.push(contract_name);
-        	                   	/* rowArray.push($.trim(val.activity)); */
-        	                   	rowArray.push($.trim(val.title));
-        	                   	/* rowArray.push($.trim(val.date)); */
-        	                   	//rowArray.push($.trim(val.location));
-        	                   	/* rowArray.push($.trim(val.reported_by)); */
-        	                   	//rowArray.push($.trim(val.responsible_person_designation));
-        	                   	//rowArray.push($.trim(val.department_name));
-        	                   	/* rowArray.push($.trim(val.category_fk)); */
-        	                   //	rowArray.push($.trim(val.status_fk));
-        	                   	
-        	                   	rowArray.push($.trim(actions));   	                   	
-        	                   	
-        	                    table.row.add(rowArray).draw( true );
-        	                    		                       
-        					});
-        	         		
-        	         		$(".page-loader-2").hide();
-        	         		//$('.page-loader-2').delay(2000).fadeOut('slow');
-        				}else{
-        					$(".page-loader-2").hide();
-        					//$('.page-loader-2').delay(2000).fadeOut('slow');
-        				}
-        				
-        			},error: function (jqXHR, exception) {
-        				$(".page-loader-2").hide();
-        	         	getErrorMessage(jqXHR, exception);
-        	     }});
-        	}else {
-        		$('#webView').css({'display':'block'});
-	         /* 	table = $('#datatable-issues').DataTable();
-	    		 
-	    		table.destroy(); */
-	    		
-	    		$.fn.dataTable.moment('DD-MMM-YYYY');
-	    		table = $('#datatable-issues').DataTable({
-	        		"bStateSave": true,
-	        		fixedHeader: true,
-	                "fnStateSave": function (oSettings, oData) {
-	                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	                },
-	                "fnStateLoad": function (oSettings) {
-	                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	                },
-	                columnDefs: [
-	                    {
-	                        targets: [0, 1, 2],
-	                        className: 'mdl-data-table__cell--non-numeric'
-	                    },
-	                    { orderable: false, 'aTargets': ['nosort'] }
-	                ],
-	                // "ScrollX": true,
-	                //"scrollCollapse": true,
-	                //"sScrollY": 400,
-	                "sScrollX": "100%",
-	                "sScrollXInner": "100%",
-	                "bScrollCollapse": true,
-	                initComplete: function () {
-	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	                }
-	            }).rows().remove().draw();
-	    		
-	    		
-	    		table.state.clear();	
-	    	 
-	    	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
-	    	 			category_fk : category_fk, status_fk : status_fk,hod : hod };
-	    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",
-	    				type:"POST",
-	    				data:myParams, cache: false,async:true,
-	    				success : function(data){    				
-	    				if(data != null && data != '' && data.length > 0){    					
-	    	         		$.each(data,function(key,val){
-	    	         			var issue_id = "'"+val.issue_id+"'";
-	    	                    var actions = '<a href="javascript:void(0);"  onclick="getIssue('+issue_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
-	    	                   	var rowArray = [];    	                  
-	    	                   	
-	    	                   	var workName = '';
-	                            if ($.trim(val.work_name) != '') { workName = $.trim(val.work_name) }
-	                            if ($.trim(val.work_name) == '') { workName = $.trim(val.work_id_fk) }
-	                            
-	                            var contract_name = '';
-	                            if ($.trim(val.contract_short_name) != '') { contract_name = $.trim(val.contract_short_name) }
-	                            if ($.trim(val.contract_short_name) == '') { contract_name = $.trim(val.contract_id_fk) }
-	    	                   	
-	    	                   	//rowArray.push($.trim(val.issue_id));
-	    	                   	/* rowArray.push($.trim(val.project_id_fk)); */
-	    	                   	/* rowArray.push($.trim(val.work_id_fk) + workName); */
-	    	                   	rowArray.push(contract_name);
-	    	                   	/* rowArray.push($.trim(val.activity)); */
-	    	                   	rowArray.push($.trim(val.title));
-	    	                   	/* rowArray.push($.trim(val.date)); */
-	    	                   	rowArray.push($.trim(val.location));
-	    	                   	/* rowArray.push($.trim(val.reported_by)); */
-	    	                   	rowArray.push($.trim(val.responsible_person_designation));
-	    	                   	rowArray.push($.trim(val.department_name));
-	    	                   	/* rowArray.push($.trim(val.category_fk)); */
-	    	                   	rowArray.push($.trim(val.status_fk));
-	    	                   	
-	    	                   	rowArray.push($.trim(actions));   	                   	
-	    	                   	
-	    	                    table.row.add(rowArray).draw( true );
-	    	                    		                       
-	    					});
-	    	         		
-	    	         		$(".page-loader-2").hide();
-	    	         		//$('.page-loader-2').delay(2000).fadeOut('slow');
-	    				}else{
-	    					$(".page-loader-2").hide();
-	    					//$('.page-loader-2').delay(2000).fadeOut('slow');
-	    				}
-	    				
-	    			},error: function (jqXHR, exception) {
-	    				$(".page-loader-2").hide();
-	    	         	getErrorMessage(jqXHR, exception);
-	    	     }});
-        	}
+        	table = $('#datatable-issues').DataTable();
+
+    		table.destroy();
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#datatable-issues').DataTable({
+        		"bStateSave": true,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
+                columnDefs: [
+                    { orderable: false, 'aTargets': ['nosort'] },{targets:[2,3,4,5],
+	                       className: 'hideCOl'},{ targets: [2], className: 'fw-111'  }
+                ],
+                // "ScrollX": true,
+                //"scrollCollapse": true,
+                //"sScrollY": 400,
+                "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            }).rows().remove().draw();
+    		
+    		
+    		table.state.clear();	
+    	 
+    	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
+    	 			category_fk : category_fk, status_fk : status_fk,hod : hod };
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",
+    				type:"POST",
+    				data:myParams, cache: false,async:true,
+    				success : function(data){    				
+    				if(data != null && data != '' && data.length > 0){    					
+    	         		$.each(data,function(key,val){
+    	         			var issue_id = "'"+val.issue_id+"'";
+    	                    var actions = '<a href="javascript:void(0);"  onclick="getIssue('+issue_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+    	                   	var rowArray = [];    	                  
+    	                   	
+    	                   	var workName = '';
+                            if ($.trim(val.work_name) != '') { workName = $.trim(val.work_name) }
+                            if ($.trim(val.work_name) == '') { workName = $.trim(val.work_id_fk) }
+                            
+                            var contract_name = '';
+                            if ($.trim(val.contract_short_name) != '') { contract_name = $.trim(val.contract_short_name) }
+                            if ($.trim(val.contract_short_name) == '') { contract_name = $.trim(val.contract_id_fk) }
+    	                   	
+    	                   	//rowArray.push($.trim(val.issue_id));
+    	                   	/* rowArray.push($.trim(val.project_id_fk)); */
+    	                   	/* rowArray.push($.trim(val.work_id_fk) + workName); */
+    	                   	rowArray.push(contract_name);
+    	                   	/* rowArray.push($.trim(val.activity)); */
+    	                   	rowArray.push($.trim(val.title));
+    	                   	/* rowArray.push($.trim(val.date)); */
+    	                   	rowArray.push($.trim(val.location));
+    	                   	/* rowArray.push($.trim(val.reported_by)); */
+    	                   	rowArray.push($.trim(val.responsible_person_designation));
+    	                   	rowArray.push($.trim(val.department_name));
+    	                   	/* rowArray.push($.trim(val.category_fk)); */
+    	                   	rowArray.push($.trim(val.status_fk));
+    	                   	
+    	                   	rowArray.push($.trim(actions));   	                   	
+    	                   	
+    	                    table.row.add(rowArray).draw( true );
+    	                    		                       
+    					});
+    	         		
+    	         		$(".page-loader-2").hide();
+    	         		//$('.page-loader-2').delay(2000).fadeOut('slow');
+    				}else{
+    					$(".page-loader-2").hide();
+    					//$('.page-loader-2').delay(2000).fadeOut('slow');
+    				}
+    				
+    			},error: function (jqXHR, exception) {
+    				$(".page-loader-2").hide();
+    	         	getErrorMessage(jqXHR, exception);
+    	     }});
+       	
         }
         
       	//This function is used to get error message for all ajax calls

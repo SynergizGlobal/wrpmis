@@ -45,34 +45,7 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
-        /*   @media only screen and (max-width: 768px){
-	       
-	        div.dataTables_wrapper div.dataTables_info {
-		     white-space: normal; 
-			}
-			.btn, .btn-large, .btn-small, .btn-flat {
-			    padding: 0 10px;
-			}
-			.dataTables_filter label input {
-			    width: 100% !important;
-			}
-			.mdl-data-table tbody tr td:not(:last-of-type){ padding-left:10px !important; }
-			.f-70{
-				width:70px !important;
-    	 		max-width:70px;
-			}
-			.f-150{
-				width:150px !important;
-    	 		max-width:150px;
-			}
-			.card .card-content{
-		        padding-left:12px;
-		        padding-right: 12px;
-		    }
-		    .headbg{
-		        margin:-25px -12px 20px -12px;
-		    } 
-        } */
+
          @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,

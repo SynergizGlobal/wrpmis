@@ -12,10 +12,14 @@
 		<c:if test="${action eq 'add'}"> Add FOB - Update Forms - PMIS</c:if>
 	</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	
+	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
+	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">	
+	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	 
 	<link rel="stylesheet" href="/pmis/resources/css/fob.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
 	 <style>
         .fixed-width {
             width: 100%;
@@ -74,22 +78,39 @@
 		.cost_dropdown{
 			min-width:95px !important;
 		}
-		.input-field .prefix.cost ~ input,
-		.input-field .prefix.cost ~ label,
-		.input-field .prefix.cost ~ .validate ~ label {
-		    margin-left: 2rem;
-		    width: 92%;
-		    width: calc(100% - 2rem);
-		}
-		.input-field.col .prefix.cost ~ label,
-		.input-field.col .prefix.cost ~ .validate ~ label {
-		    width: calc(100% - 2rem - 1.5rem);
-		}
 		/* cost unit dropdown , lable and input styling ends here  */
 		
 		#gallery_table .datepicker~button {
             top: 32px;
+            right:20px;
         }
+        
+        @media only screen and (max-width: 768px){
+        	.mobile_responsible_table>tbody >tr:not(.datepicker-row)> td> div.btn{
+				float:none;
+				position:relative;
+			}
+			#gallery_table .datepicker~button{
+				top:0;
+			}
+			.h-auto{
+				height:auto !important;
+			}
+			
+			td.cell-disp-inb .file-path-wrapper {
+			    visibility: visible;
+			    width: 200%;
+			    display: block !important;
+			}
+        }
+       /*  datepicker styling to its defaults */
+    .mobile_responsible_table .datepicker-table .datepicker-row td {
+	  padding:0
+	}
+
+    .mobile_responsible_table>tbody .datepicker-table tr{
+        background-color: transparent;
+    }
     </style>
 </head>
 <body>
@@ -120,8 +141,7 @@
 			                	<form action="<%=request.getContextPath() %>/add-fob" id="fobForm" name="fobForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                 <p class="searchable_label"> Project</p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);" <c:if test="${not empty fob.project_id_fk}">disabled</c:if>>
@@ -132,7 +152,7 @@
                                     </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                 <p class="searchable_label"> Work</p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);" <c:if test="${not empty fob.work_id_fk}">disabled</c:if>>
@@ -143,12 +163,11 @@
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <%-- <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                 <p class="searchable_label"> Contract <span class="required">*</span></p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" 
                                      	onchange="resetWorksAndProjectsDropdowns();">
@@ -160,7 +179,7 @@
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                  
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                    <p class="searchable_label">Work Status <span class="required">*</span></p>
                                     <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown" onchange="openDates(this.value);">
                                         <option value="">Select</option>
@@ -176,8 +195,7 @@
                             </div> --%>
                             <br>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 input-field offset-m2">
                                 <p class="searchable_label">Contract</p>
                                  <select  class="searchable validate-dropdown" name="contract_id_fk" id="contract_id_fk" 
                                  			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();" 
@@ -196,7 +214,7 @@
                                 
                                 <input type="hidden" id="contract_name" name="contract_name" />
                                 
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 input-field ">
                                 <p class="searchable_label">Responsible Persons</p>
                                   <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
                                   multiple="multiple" <c:if test="${fn:length(fob.responsiblePeopleList) gt 0}">disabled</c:if>>
@@ -214,8 +232,7 @@
                             </div> 
                             <br>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m2 input-field">
+                                <div class="col s6 m2 input-field offset-m2">
                                     <input id="fob_name" name="fob_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${fob.fob_name }" >
                                     <label for="fob_name">FOB Name <span class="required">*</span></label>
                                     <span id="fob_nameError" class="error-msg" ></span>
@@ -228,7 +245,7 @@
 								</div>
                            
                                  <%-- <c:if test="${empty fob.fob_id }"> --%>
-	                                <div class="col s12 m2 input-field">
+	                                <div class="col s6 m2 input-field">
 	                                    <input id="fob_id" name="fob_id" type="text" class="validate" value="${fob.fob_id }" onkeyup="doValidate(this.value)" <c:if test="${not empty fob.fob_id}">readonly</c:if>>
 	                                    <label for="fob_id">FOB ID <span class="required">*</span></label>
 	                                    <span id="fob_idError" class="error-msg" ></span>
@@ -243,7 +260,7 @@
 	                                    <span id="fob_idError" class="error-msg" ></span>
 	                                </div>
                                 </c:if> --%>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field ">
                                     <p class="searchable_label">Work Status <span class="required">*</span></p>
                                     <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown" onchange="openDates(this.value);">
                                         <option value="">Select</option>
@@ -256,23 +273,22 @@
                                     <span id="work_status_fkError" class="error-msg" ></span>
                                 </div>
                                 <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${fob.work_status_fk }"/> 
-                            </div>
+                           </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-	                            <div class="col s12 m4 input-field">
+	                            <div class="col s12 m4 input-field offset-m2">
                                     <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${fob.target_date }" <c:if test="${not empty fob.target_date}">disabled</c:if>>
                                     <label for="target_date">Original Target Date </label>
                                     <button type="button" id="target_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="target_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s9 m3 input-field">
+                                <div class="col s8 m3 input-field">
                                 	<i class="material-icons prefix cost">₹</i>   
                                     <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${fob.estimated_cost }" min="0.01" step="0.01" <c:if test="${not empty fob.estimated_cost}">readonly</c:if>>
                                     <label for="estimated_cost">Estimated Cost</label>
                                     <span id="estimated_costError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s3 m1 input-field pt-10">
+                                <div class="col s4 m1 input-field">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units" id="estimated_cost_units" name="estimated_cost_units">
                                 		<option value="">Select</option>
@@ -282,13 +298,10 @@
                                 		<option value="crores">Crores</option>
                                 	</select>
                                 </div>
-                              <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
                             <div class="row">
-                                <!-- row 10 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 input-field offset-m2">
                                     <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000" maxlength="1000">${fob.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
@@ -296,44 +309,38 @@
                             </div>
                             <c:if test="${action eq 'edit'}">	
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <input id="latitude" name="latitude" type="text" class="validate" value="${fob.latitude }" <c:if test="${not empty fob.latitude}">readonly</c:if>>
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field ">
                                     <input id="longitude" name="longitude" type="text" class="validate" value="${fob.longitude }" <c:if test="${not empty fob.longitude}">readonly</c:if>>
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             </c:if>
                             
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field" id="construction_start_dateDiv" style="display: none;">
+                                <div class="col s6 m4 input-field offset-m2" id="construction_start_dateDiv" style="display: none;">
                                     <input id="construction_start_date" name="construction_start_date" type="text" class="validate datepicker" value="${fob.construction_start_date }" <c:if test="${not empty fob.construction_start_date}">disabled</c:if>>
-                                    <label for="construction_start_date">Construction Start Date </label>
+                                    <label for="construction_start_date" class="fs-sm-8rem">Construction Start Date </label>
                                     <button type="button" id="construction_start_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="construction_start_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field" id="revised_completionDiv" style="display: none;">
+                                <div class="col s6 m4 input-field " id="revised_completionDiv" style="display: none;">
                                     <input id="revised_completion" name="revised_completion" type="text" class="validate datepicker" value="${fob.revised_completion }" <c:if test="${not empty fob.revised_completion}">disabled</c:if>>
-                                    <label for="revised_completion">Target completion Date </label>
+                                    <label for="revised_completion" class="fs-sm-8rem">Target completion Date </label>
                                     <button type="button" id="revised_completion_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="revised_completionError" class="error-msg" ></span>
-                                </div>
-                                
-                                <div class="col m2 hide-on-small-only"></div>
+                                </div>                                
                             </div>
                             
 							<c:if test="${action eq 'edit'}">
 	                            <div class="row">
 	                                <h5 class="center-align">FOB Details</h5>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m8 ">
+	                                <div class="col s12 m8 offset-m2">
 	                                    <table id="fobDetailsTable" class="mdl-data-table">
 	                                        <thead>
 	                                            <tr>
@@ -376,24 +383,21 @@
 	                                     </tbody>
 	                                   </table>
 	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
                             </c:if>
                             <br>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field" id="commissioning_dateDiv" style="display: none;">
+                                <div class="col s6 m4 input-field offset-m2" id="commissioning_dateDiv" style="display: none;">
                                     <input id="commissioning_date" name="commissioning_date" type="text" class="validate datepicker" value="${fob.commissioning_date }" <c:if test="${not empty fob.commissioning_date}">disabled</c:if>>
                                     <label for="commissioning_date">Commissioning Date </label>
                                     <button type="button" id="commissioning_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="commissioning_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row" id="actual_completion_dateDiv" style="display: none;">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field"  >
+                                <div class="col s6 m4 input-field offset-m2"  >
                                     <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${fob.actual_completion_date }" <c:if test="${not empty fob.actual_completion_date}">disabled</c:if>>
                                     <label for="actual_completion_date">Actual Completion Date </label>
                                     <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
@@ -406,7 +410,7 @@
                                     <label for="completion_cost">Actual Completion Cost</label>
                                     <span id="completion_costError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s3 m1 input-field pt-10">
+                                <div class="col s3 m1 input-field">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units" id="completion_cost_units" name="completion_cost_units">
                                 		<option value="">Select</option>
@@ -442,18 +446,22 @@
 								</c:if>		 --%>
 								
                              <div class="row">
-								<div class="col m2 hide-on-small-only"></div>
-								<div class="col m8 s12">
+								<div class="col m8 s12 offset-m2">
 									<div class="row fixed-width"
-										style="margin-bottom: 10px; margin-top: 20px">
+										style="margin-bottom: 20px; margin-top: 20px">
 										<div class="table-inside">
-											<table class="mdl-data-table update-table" id="gallery_table">
+											<table class="mdl-data-table update-table mobile_responsible_table" id="gallery_table">
 												<thead>
 													<tr>
-														<th style="width: 52%;text-align: left;">Attach Photo</th>
+													<!-- 	<th style="width: 52%;text-align: left;">Attach Photo</th>
 														<th style="width: 30%;text-align: left;">Photo Date</th>
 														<th></th>
-														<th style="width: 8%;text-align: left;">Action</th>
+														<th style="width: 8%;text-align: left;">Action</th> -->
+														
+														<th >Attach Photo</th>
+														<th>Photo Date</th>
+														<th  style="display:none;"></th>
+														<th>Action</th>
 													</tr>
 												</thead>
 												<tbody id="fobFilesBody">
@@ -471,25 +479,23 @@
 							                               					  </select>
 																		</div>
 																	</td> --%>
-																	<td>
-																		<div class="file-field input-field">
-									                                        <div class="btn bg-m t-c">
-									                                            <span>Attach Photo</span>
-									                                            <input type="file" id="fobFiles${index.count }" name="fobFiles" accept="image/*">
-									                                        </div>
-									                                        <div class="file-path-wrapper">
-									                                            <input class="file-path validate" type="text" id="fobFileNames${index.count }" name="fobFileNames" value="${fObj.attachment }">
-									                                        </div>                             
-									                                    </div>
+																	<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
+								                                        <div class="btn bg-m t-c">
+								                                            <span>Attach Photo</span>
+								                                            <input type="file" id="fobFiles${index.count }" name="fobFiles" accept="image/*">
+								                                        </div>
+								                                        <div class="file-path-wrapper">
+								                                            <input class="file-path validate" type="text" id="fobFileNames${index.count }" name="fobFileNames" value="${fObj.attachment }">
+								                                        </div>                             
 			                                                      	</td>
-			                                                      	<td>
-		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" class="validate datepicker" style="width:150px;" /><i class="fa fa-calendar"></i></span>
+			                                                      	<td data-head="Photo Date" class="input-field">
+		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
 			                                                      	</td>
-			                                                      	<td>
+			                                                      	<td  style="display:none;">
 			                                                      		<input type="hidden" id="fob_file_ids${index.count }" name="fob_file_ids" value="${fObj.fob_file_id }"/>
 			                                                      		<a href="<%=CommonConstants2.FOB_GALLERY%>${fObj.fob_id_fk }/${fObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
 			                                                      	</td>
-																	<td>
+																	<td class="mobile_btn_close">
 																		<a onclick="removeActions('${index.count }');" class="btn red"> 
 																			<i class="fa fa-close"></i></a>
 																	</td>
@@ -509,23 +515,21 @@
 						                               					  </select>
 																	</div>
 																</td> --%>
-																<td>
-																	<div class="file-field input-field">
-								                                        <div class="btn bg-m t-c">
-								                                            <span>Attach Photo</span>
-								                                            <input type="file" id="fobFiles0" name="fobFiles" accept="image/*">
-								                                        </div>
-								                                        <div class="file-path-wrapper">
-								                                            <input class="file-path validate" type="text" id="fobFileNames0" name="fobFileNames">
-								                                        </div>                                       
-								                                    </div>
+																<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
+							                                        <div class="btn bg-m t-c">
+							                                            <span>Attach Photo</span>
+							                                            <input type="file" id="fobFiles0" name="fobFiles" accept="image/*">
+							                                        </div>
+							                                        <div class="file-path-wrapper">
+							                                            <input class="file-path validate" type="text" id="fobFileNames0" name="fobFileNames">
+							                                        </div>                                       
 		                                                      	</td>
-		                                                      	<td>
-		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" class="validate datepicker" style="width:150px;" /><i class="fa fa-calendar"></i></span>
+		                                                      	<td data-head="Photo Date" class="input-field">
+		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
 
 		                                                      	</td>
-		                                                      	<td><input type="hidden" id="fob_file_ids0" name="fob_file_ids"/></td>
-																<td>
+		                                                      	<td  style="display:none;"><input type="hidden" id="fob_file_ids0" name="fob_file_ids"/></td>
+																<td class="mobile_btn_close">
 																	<a onclick="removeActions('0');" class="btn red"> 
 																		<i class="fa fa-close"></i></a>
 																</td>
@@ -596,7 +600,7 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <c:if test="${action eq 'edit'}">
 	                                       <button type="button" onclick="updateFOB();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -606,7 +610,7 @@
 	                                    </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4 mt-brdr">
+                                <div class="col s6 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath()%>/fob" class="btn waves-effect waves-light bg-s" >Cancel</a>
                                     </div>
@@ -670,6 +674,24 @@
     	}
     	M.Datepicker.init(this, options);
     });
+    
+    /* window.onload = maxWindow;
+
+    function maxWindow() {
+        window.moveTo(0, 0);
+
+        if (document.all) {
+            top.window.resizeTo(screen.availWidth, screen.availHeight);
+        }
+
+        else if (document.layers || document.getElementById) {
+            if (top.window.outerHeight < screen.availHeight || top.window.outerWidth < screen.availWidth) {
+                top.window.outerHeight = screen.availHeight;
+                top.window.outerWidth = screen.availWidth;
+            }
+        }
+    }*/
+    
     
 	$(document).ready(function () {
 		$('select:not(.searchable):not(.units)').formSelect();
@@ -910,20 +932,19 @@
 		     </c:forEach>
    		   +'</select></div></td>'	  */  		  			
 		   
-   		html = html +'<td><div class="file-field input-field">'	
+   		html = html +'<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">'	
 		   +'<div class="btn bg-m t-c">'	
 		   +'<span>Attach Photos</span>'	
 		   +'<input type="file" id="fobFiles'+rNo+'" name="fobFiles" accept="image/*">'	
 		   +'</div>'	
 		   +'<div class="file-path-wrapper">'	
 		   +'<input class="file-path validate" type="text" id="fobFileNames'+rNo+'" name="fobFileNames">'	
-		   +'</div>'	               
 		   +'</div></td>'
-		   +'<td>'
-		   +'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" class="validate datepicker" style="width:150px;" /><i class="fa fa-calendar"></i></span>'
+		   +'<td data-head="Photo Date" class="input-field">'
+		   +'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_'+rNo+'_icon"><i class="fa fa-calendar"></i></button></span>'
 		   +'</td>'
-		   +'<td><a ></a><input type="hidden" id="fob_file_ids'+rNo+'" name="fob_file_ids"/></td>'
-		   +'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
+		   +'<td style="display:none;"><a ></a><input type="hidden" id="fob_file_ids'+rNo+'" name="fob_file_ids"/></td>'
+		   +'<td class="mobile_btn_close"><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
 		   +'</tr>';
 	
 		$('#fobFilesBody').append(html);

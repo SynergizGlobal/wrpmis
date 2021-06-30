@@ -36,28 +36,39 @@
          .mt-md-18{
          	margin-top:18px;
          }
-    @media only screen and (max-width: 768px){
-	        .center-small{
-	        	text-align:center;
-	        }
-	         .mt-md-18{
-	         	margin-top:0;
-	         }
-	        div.dataTables_wrapper div.dataTables_info {
-		     white-space: normal; 
-			}
-			.btn, .btn-large, .btn-small, .btn-flat {
-			    padding: 0 10px;
-			}
-			.dataTables_filter label input {
-			    width: 100% !important;
-			}
-			.mdl-data-table tbody tr td:not(:last-of-type){ padding-left:10px !important; }
-			.min-85{
-				min-width:80px; 
-				max-width:80px; 
-			}
+         @media only screen and (max-width: 769px){ 
+		
+		.dataTables_scrollBody tbody tr td:last-of-type,
+		.no-sort{
+			padding:3px !important;
+			max-width: 45px;
+		}
+		.mob-btn{
+			padding:0 12px; 
+		}
+		.hideCOl{
+			display:none;
+		} 
+		.r-300{
+			width:30vw !important;
+       		max-width:30vw;
+		}
+		 .dataTables_filter label{
+        	position:relative;
         }
+        .dataTables_filter label::after{
+        	position:absolute;
+        	right:5px;
+        	top:30px;
+        }
+        .fw-111{
+        	width:30vw;
+        	min-width:30vw;
+        }
+       .mdl-data-table__cell--non-numeric.mdl-data-table__cell--non-numeric {
+		    text-align: center;
+		}
+     } 
     </style>
 </head>
 <body>
@@ -160,7 +171,6 @@
 							</div>
 						</div>
 						<div class="row">
-						<div  style= "display:none;" id="webView">
 							<div class="col m12 s12">
 								<table id="datatable-fob" class="mdl-data-table">
 									<thead>
@@ -178,23 +188,6 @@
 									</tbody>
 								</table>
 							</div>
-							</div>
-							<div  style= "display:none;" id="mobView">
-								<div class="col m12 s12">
-								<table id="datatable-fob_mobile" class="mdl-data-table">
-									<thead>
-										<tr>
-											<th >Work</th>
-											<th>FOB ID</th>
-											<th class="no-sort">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
-
-							 </div>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -265,7 +258,7 @@
         	getFOBList();
         
         });
-    	if(window.matchMedia("(max-width: 769px)").matches){
+  /*   	if(window.matchMedia("(max-width: 769px)").matches){
         	$('tbody.web').removeAttr('id');
             $('#mobView').css({'display':'block'});
             $('#datatable-fob_mobile').DataTable({
@@ -309,13 +302,14 @@
 	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
 	                }
 	            });
-        }
+        } */
         function clearFilter(){
         	$("#work_id_fk").val('');
         	$("#work_status_fk").val('');
         	$(".searchable").select2();
         	window.localStorage.setItem("fobFilters",'');
-        	getFOBList();
+        	window.location.href="<%=request.getContextPath()%>/fob"
+        	//getFOBList();
         	
         }
         
@@ -353,136 +347,70 @@
         		filters = filters + key +"="+filtersMap[key] + "^";
         		window.localStorage.setItem("fobFilters", filters);
    			});
-        	if(window.matchMedia("(max-width: 769px)").matches){
-	         	table = $('#datatable-fob_mobile').DataTable();
-	    		 
-	    		table.destroy();
-	    		
-	    		$.fn.dataTable.moment('DD-MMM-YYYY');
-	    		table = $('#datatable-fob_mobile').DataTable({
-	    			"bStateSave": true,
-	        		fixedHeader: true,
-	                "fnStateSave": function (oSettings, oData) {
-	                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	                },
-	                "fnStateLoad": function (oSettings) {
-	                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	                },
-	                columnDefs: [
-	                    {
-	                        targets: [0],
-	                        className: 'mdl-data-table__cell--non-numeric'
-	                    },
-	                    { "width": "20px", "targets": [2] },
-	                    { orderable: false, 'aTargets': ['no-sort'] }
-	                ],
-	                // "ScrollX": true,
-	                "sScrollX": "100%",
-	                 "sScrollXInner": "100%",
-	                 "bScrollCollapse": true,
-	                initComplete: function () {
-	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	                }
-	            }).rows().remove().draw();
-	    		table.state.clear();		
-	    	 
-	    	 	var myParams = {work_id_fk : work_id_fk, work_status_fk : work_status_fk};
-	    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFOBList",
-		    			type:"POST",
-		    			data:myParams,cache: false,async:false,
-		    			success : function(data)
-		    			{    	
-	    					if(data != null && data != '' && data.length > 0){    					
-	    	         		$.each(data,function(key,val){
-	    	         			var fob_id = "'"+val.fob_id+"'";
-	    	                    var actions = '<a href="javascript:void(0);"  onclick="getFOB('+fob_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
-	    	                   	var rowArray = [];    	                  
-	    	                   	var workName = '';
-	                            if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
-	    	                   	
-	    	                   	rowArray.push( workName);
-	    	                   	rowArray.push($.trim(val.fob_id));
-	    	                   	rowArray.push($.trim(actions));   	                   	
-	    	                   	
-	    	                    table.row.add(rowArray).draw( true );
-	    	                    		                       
-	    					});
-	    	         		
-	    	         		$(".page-loader").hide();
-	    				}else{
-	    					$(".page-loader").hide();
-	    				}
-	    				
-	    			},error: function (jqXHR, exception) {
-	    				$(".page-loader").hide();
-	    	         	getErrorMessage(jqXHR, exception);
-	    	     }});
-        	}else{
-        		table = $('#datatable-fob').DataTable();
-	    		 
-	    		table.destroy();
-	    		
-	    		$.fn.dataTable.moment('DD-MMM-YYYY');
-	    		table = $('#datatable-fob').DataTable({
-	    			"bStateSave": true,
-	        		fixedHeader: true,
-	                "fnStateSave": function (oSettings, oData) {
-	                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	                },
-	                "fnStateLoad": function (oSettings) {
-	                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	                },
-	                columnDefs: [
-	                    {
-	                        targets: [0],
-	                        className: 'mdl-data-table__cell--non-numeric'
-	                    },
-	                    { orderable: false, 'aTargets': ['no-sort'] }
-	                ],
-	                // "ScrollX": true,
-	                "sScrollX": "100%",
-	                 "sScrollXInner": "100%",
-	                 "bScrollCollapse": true,
-	                initComplete: function () {
-	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	                }
-	            }).rows().remove().draw();
-	    		table.state.clear();		
-	    	 
-	    	 	var myParams = {work_id_fk : work_id_fk, work_status_fk : work_status_fk};
-	    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFOBList",
-		    			type:"POST",
-		    			data:myParams,cache: false,async:false,
-		    			success : function(data)
-		    			{    	
-	    					if(data != null && data != '' && data.length > 0){    					
-	    	         		$.each(data,function(key,val){
-	    	         			var fob_id = "'"+val.fob_id+"'";
-	    	                    var actions = '<a href="javascript:void(0);"  onclick="getFOB('+fob_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
-	    	                   	var rowArray = [];    	                  
-	    	                   	var workName = '';
-	                            if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
-	    	                   	
-	    	                   	rowArray.push( workName);
-	    	                   	rowArray.push($.trim(val.fob_id));
-	    	                   	rowArray.push($.trim(val.fob_name)); 
-	    	                   	rowArray.push($.trim(val.work_status_fk));
-	    	                   	rowArray.push($.trim(actions));   	                   	
-	    	                   	
-	    	                    table.row.add(rowArray).draw( true );
-	    	                    		                       
-	    					});
-	    	         		
-	    	         		$(".page-loader").hide();
-	    				}else{
-	    					$(".page-loader").hide();
-	    				}
-	    				
-	    			},error: function (jqXHR, exception) {
-	    				$(".page-loader").hide();
-	    	         	getErrorMessage(jqXHR, exception);
-	    	     }});
-        	}
+       		table = $('#datatable-fob').DataTable();
+    		 
+    		table.destroy();
+    		
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#datatable-fob').DataTable({
+    			"bStateSave": true,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
+                columnDefs: [
+                    {
+                        targets: [0],
+                        className: 'mdl-data-table__cell--non-numeric'
+                    },{targets: [2,3], className: 'hideCOl'},{ targets: [0,1], className: 'fw-111'  },
+                    { orderable: false, 'aTargets': ['no-sort'] }
+                ],
+                // "ScrollX": true,
+                "sScrollX": "100%",
+                 "sScrollXInner": "100%",
+                 "bScrollCollapse": true,
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            }).rows().remove().draw();
+    		table.state.clear();		
+    	 
+    	 	var myParams = {work_id_fk : work_id_fk, work_status_fk : work_status_fk};
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFOBList",
+	    			type:"POST",
+	    			data:myParams,cache: false,async:false,
+	    			success : function(data)
+	    			{    	
+    					if(data != null && data != '' && data.length > 0){    					
+    	         		$.each(data,function(key,val){
+    	         			var fob_id = "'"+val.fob_id+"'";
+    	                    var actions = '<a href="javascript:void(0);"  onclick="getFOB('+fob_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+    	                   	var rowArray = [];    	                  
+    	                   	var workName = '';
+                            if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
+    	                   	
+    	                   	rowArray.push( workName);
+    	                   	rowArray.push($.trim(val.fob_id));
+    	                   	rowArray.push($.trim(val.fob_name)); 
+    	                   	rowArray.push($.trim(val.work_status_fk));
+    	                   	rowArray.push($.trim(actions));   	                   	
+    	                   	
+    	                    table.row.add(rowArray).draw( true );
+    	                    		                       
+    					});
+    	         		
+    	         		$(".page-loader").hide();
+    				}else{
+    					$(".page-loader").hide();
+    				}
+    				
+    			},error: function (jqXHR, exception) {
+    				$(".page-loader").hide();
+    	         	getErrorMessage(jqXHR, exception);
+    	     }});
         	
         }
         

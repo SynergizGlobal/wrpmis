@@ -640,7 +640,7 @@ public class FOBDaoImpl implements FOBDao {
 			int arrSize = 0;
 		
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
-				qry = qry + " and work_status_fk = ?";
+				qry = qry + " and f.work_status_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
@@ -673,7 +673,7 @@ public class FOBDaoImpl implements FOBDao {
 			int arrSize = 0;
 		
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
-				qry = qry + " and work_status_fk = ?";
+				qry = qry + " and f.work_status_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){

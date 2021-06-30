@@ -175,7 +175,7 @@ public class UserLoginReportController {
 		    			int cellIndex = 0;	
 		    			 
 	            	    XSSFRow headingRow = sheet[sheetNum].createRow(count++);
-			            String headerString = "S.No.  ^Designation  ^Name ^Responsible person ^No of Logins";
+			            String headerString = "S.No.  ^Designation  ^Name ^Reporting to ^No of Logins";
 			            String[] firstHeaderStringArr = headerString.split("\\^");
 			            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
 				        	Cell cell = headingRow.createCell(i);

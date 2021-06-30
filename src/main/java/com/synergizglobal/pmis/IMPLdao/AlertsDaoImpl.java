@@ -185,7 +185,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			/***************************** Contract Period alerts*******************************************************/
 			
 			String cpQryAlert1 = "select contract_id,'1st Alert' as alert_level,'Contract Period' as alert_type," 
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Contract revised date : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
+					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
 					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then DATE_FORMAT(cr.revised_doc,'%Y-%m-%d') " 
@@ -202,7 +202,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(cpQryAlert1List);
 			}
 			String cpQryAlert2 = "select contract_id,'2nd Alert' as alert_level,'Contract Period' as alert_type," 
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Contract revised date : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
+					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
 					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then DATE_FORMAT(cr.revised_doc,'%Y-%m-%d') " 
@@ -221,7 +221,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			
 			String cpQryAlert3 = "select contract_id,'3rd Alert' as alert_level,'Contract Period' as alert_type," 
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Contract revised date : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
+					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
 					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then DATE_FORMAT(cr.revised_doc,'%Y-%m-%d') " 
@@ -239,7 +239,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			String cpQryAlert4 = "select contract_id,'Overdue' as alert_level,'Contract Period' as alert_type," 
-					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Contract revised date : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
+					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
 					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id,"
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then DATE_FORMAT(cr.revised_doc,'%Y-%m-%d') " 

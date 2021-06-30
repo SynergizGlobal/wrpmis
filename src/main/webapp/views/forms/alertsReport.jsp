@@ -77,7 +77,7 @@
 									<button type="button" class="btn waves-effect waves-light bg-s t-c" onclick="clearFilters();">Clear Filters</button>
 								</div>
 								<div class="col s6 m6 input-field center-align">
-									<button type="submit" class="btn waves-effect waves-light bg-m t-c"><strong>Generate Report </strong></button>
+									<button type="submit" class="btn waves-effect waves-light bg-m t-c"><strong>Generate Contracts Alert Report </strong></button>
 								</div>
 							</div>
 
@@ -132,6 +132,7 @@
         	$("#work_id_fk").val('');
         	$("#alert_level").val('');
         	$("#alert_type_fk").val('');
+        	$('.searchable').select2();
         	resetDropDowns();
         }
         
@@ -255,7 +256,7 @@
 	                success: function (data) {
 	                    if (data.length > 0) {
 	                        $.each(data, function (i, val){
-	                        	$("#alert_type_fk").append('<option value="' + val.alert_type_fk + '" selected>' + $.trim(val.alert_type_fk) + '</option>');
+	                        	$("#alert_type_fk").append('<option value="' + val.alert_type_fk + '">' + $.trim(val.alert_type_fk) + '</option>');
                         	});
 	                    }
 	                    $('.searchable').select2();

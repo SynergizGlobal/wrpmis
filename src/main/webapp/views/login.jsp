@@ -285,12 +285,18 @@
 			        //$("#systemIPA").html(data.ip);
 			        $("#system_ipa").val(data.ip);
 			    });
+				setTimeout(function () {
+	    			$(".page-loader").hide();
+	    		}, 500);
 		    	
 		    	$.getJSON("https://api.ipify.org?format=json",  function(data) { 
 		    		$(".page-loader-2").hide();
 					//$("#publicIPA").html(data.ip); 
 		    		$("#public_ipa").val(data.ip); 
-			    }); 	
+			    }); 
+				setTimeout(function () {
+	    			$(".page-loader-2").hide();
+	    		}, 500);
 		    	
 				
 				

@@ -36,6 +36,18 @@
          .mt-md-18{
          	margin-top:18px;
          }
+          .fw-15vw{
+        	width:50px !important;
+        	min-width:50px;
+	      }
+	     .fw-12vw{
+	        	width:15vw !important;
+	        	min-width:15vw !important;
+	      }
+	     .fw-10vw{
+		       	width:50px !important;
+		       	min-width:50px;
+	      }
          @media only screen and (max-width: 769px){ 
 		
 		.dataTables_scrollBody tbody tr td:last-of-type,
@@ -65,22 +77,15 @@
         	width:30vw;
         	min-width:30vw;
         }
+        .fw-12vw {
+	  	     width:15vw !important;
+        	min-width:15vw !important;
+		}
        .mdl-data-table__cell--non-numeric.mdl-data-table__cell--non-numeric {
 		    text-align: center;
 		}
      } 
-     .fw-15vw{
-        	width:50px !important;
-        	min-width:50px;
-      }
-     .fw-12vw{
-        	width:150px !important;
-        	min-width:150px !important;
-      }
-     .fw-10vw{
-	       	width:50px !important;
-	       	min-width:50px;
-      }
+    
     </style>
 </head>
 <body>
@@ -373,13 +378,12 @@
                 "fnStateLoad": function (oSettings) {
                     return JSON.parse(localStorage.getItem('MRVCDataTables'));
                 },
-                columnDefs: [
-                    {
-                        targets: [0],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    },{targets: [2,3], className: 'hideCOl'},{ targets: [0,1], className: 'fw-111'  },{ targets: [ 0,1,2, 3], className: 'fw-12vw'  },
-                    { targets: [4], className: 'fw-10vw'  },
-                    { orderable: false, 'aTargets': ['no-sort'] }
+                columnDefs: [ 
+                	{targets: [2,3], className: 'hideCOl'},
+                    { targets: [ 0,1,2, 3], className: 'fw-12vw'  },
+                    { targets: [4], className: 'fw-10vw'  }
+                    ,{ targets: [0,1], className: 'fw-111'  },
+                    { orderable: false, 'aTargets': ['no-sort'] } 
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",

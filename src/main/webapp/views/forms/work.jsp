@@ -34,25 +34,43 @@
           .input-field .searchable_label{
       		font-size:0.85rem;
         } 
-        @media only screen and (max-width: 768px){
-	        .center-small{
-	        	text-align:center;
-	        }
-	        div.dataTables_wrapper div.dataTables_info {
-		     white-space: normal; 
-			}
-			.btn, .btn-large, .btn-small, .btn-flat {
-			    padding: 0 10px;
-			}
-			.dataTables_filter label input {
-			    width: 100% !important;
-			}
-			.mdl-data-table tbody tr td:not(:last-of-type){ padding-left:10px !important; }
-			.min-85{
-				min-width:80px; 
-				max-width:80px; 
-			}
+        .fw-15vw{
+        	width:12vw;
+        	min-width:12vw;
         }
+        @media only screen and (max-width: 769px){ 
+		
+		.dataTables_scrollBody tbody tr td:last-of-type,
+		.no-sort{
+			padding:3px !important;
+			max-width: 45px;
+		}
+		.mob-btn{
+			padding:0 12px; 
+		}
+		.hideCOl{
+			display:none;
+		} 
+		.r-300{
+			width:30vw !important;
+       		max-width:30vw;
+		}
+		 .dataTables_filter label{
+        	position:relative;
+        }
+        .dataTables_filter label::after{
+        	position:absolute;
+        	right:5px;
+        	top:30px;
+        }
+        .fw-111{
+        	width:30vw;
+        	min-width:30vw;
+        }
+       .mdl-data-table__cell--non-numeric.mdl-data-table__cell--non-numeric {
+		    text-align: center;
+		}
+     } 
      </style>
 </head>
 <body>
@@ -142,7 +160,6 @@
 						</div>
 						<div class="row">
 							<div class="col m12 s12">
-								<div  style= "display:none;" id="webView">
 										<table id="datatable-works" class="mdl-data-table">
 											<thead>
 												<tr>
@@ -159,21 +176,6 @@
 											<tbody id="workTbale">
 											</tbody>
 										</table>
-		
-								 </div>
-								 <div  style= "display:none;" id="mobView">
-										<table id="datatable-works_mobile" class="mdl-data-table">
-											<thead>
-												<tr>
-													<th class="min-85">Work ID</th>
-													<th>Work Name</th>
-													<th class="no-sort">Action</th>
-												</tr>
-											</thead>
-											<tbody id="workTbale">
-											</tbody>
-										</table>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -251,13 +253,7 @@
            
             getWorksList();
         });
-        if(window.matchMedia("(max-width: 769px)").matches){
-		        $('#mobView').css({'display':'block'});
-		       
-        }else{
-        	 $('#webView').css({'display':'block'});
-        	
-        }
+        
         function addInQueProject(project_id_fk){
         	Object.keys(filtersMap).forEach(function (key) {
        			if(key.match('project_id_fk')) delete filtersMap[key];
@@ -279,71 +275,6 @@
         		filters = filters + key +"="+filtersMap[key] + "^";
         		window.localStorage.setItem("workFilters", filters);
     			});
-        	if(window.matchMedia("(max-width: 769px)").matches){
-	        	table = $('#datatable-works_mobile').DataTable();
-	    		 
-	    		table.destroy();
-	    		
-	    		$.fn.dataTable.moment('DD-MMM-YYYY');
-	    		table = $('#datatable-works_mobile').DataTable({
-	        		"bStateSave": true,
-	        		fixedHeader: true,
-	                "fnStateSave": function (oSettings, oData) {
-	                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	                },
-	                "fnStateLoad": function (oSettings) {
-	                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	                },
-	                columnDefs: [
-	                    {
-	                        targets: [0],
-	                        className: 'mdl-data-table__cell--non-numeric'
-	                    },
-	                    { "width": "20px", "targets": [2] },
-	                    { orderable: false, 'aTargets': ['no-sort'] }
-	                ],
-	                // "ScrollX": true,
-	                "sScrollX": "100%",
-	                 "sScrollXInner": "100%",
-	                 "bScrollCollapse": true,
-	                initComplete: function () {
-	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	                }
-	            }).rows().remove().draw();
-	    		
-	    		table.state.clear();		
-	    	 	var myParams = {project_id_fk : project_id_fk};
-	    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-WorksList",
-	    			type:"POST",
-	    			data:myParams, cache: false,async:false,
-	    			success : function(data){      				
-	    			if(data != null && data != '' && data.length > 0){    					
-	             		$.each(data,function(key,val){
-	             			var work_id = "'"+val.work_id+"'";
-	                        var actions = '<a href="javascript:void(0);"  onclick="getWork('+work_id+');" class="mobile-btn btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
-	                  	 	var rowArray = [];    	                 
-	                       	
-	                    	var project_name = '';
-	                        if ($.trim(val.project_name) != '') { project_name =  $.trim(val.project_name) }
-	                        
-	                       	rowArray.push($.trim(val.work_id));
-	                       	rowArray.push($.trim(val.work_short_name));
-	                       	rowArray.push($.trim(actions));   	                   	
-	                       	
-	                        table.row.add(rowArray).draw( true );
-	                        		                       
-	    				});
-	             		
-	             		$(".page-loader-2").hide();
-	    			}else{
-	    				$(".page-loader-2").hide();
-	    			}
-	    			
-	    		},error: function (jqXHR, exception) {
-	    			$(".page-loader-2").hide();
-	             	getErrorMessage(jqXHR, exception);
-	         }});
-        }else{
         	table = $('#datatable-works').DataTable();
    		 
     		table.destroy();
@@ -359,12 +290,13 @@
                     return JSON.parse(localStorage.getItem('MRVCDataTables'));
                 },
                 columnDefs: [
+                   
+                    { orderable: false, 'aTargets': ['no-sort'] },
                     {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    },
-                    { orderable: false, 'aTargets': ['no-sort'] }
-                ],
+                        targets: [0,3,4,5,6],
+                        className: 'hideCOl'
+                    },{ targets: [1,2], className: 'fw-111'  },{ targets: [0,1, 2, 3, 5, 6], className: 'fw-15vw'  },
+                ], 
                 // "ScrollX": true,
                 "sScrollX": "100%",
                  "sScrollXInner": "100%",
@@ -383,7 +315,7 @@
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
              			var work_id = "'"+val.work_id+"'";
-                        var actions = '<a href="javascript:void(0);"  onclick="getWork('+work_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
+                        var actions = '<a href="javascript:void(0);"  onclick="getWork('+work_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn"><i class="fa fa-pencil"></i></a>'
                   	 	var rowArray = [];    	                 
                        	
                     	var project_name = '';
@@ -411,7 +343,6 @@
     			$(".page-loader-2").hide();
              	getErrorMessage(jqXHR, exception);
          }});
-        }
        }
         
         

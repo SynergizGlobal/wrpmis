@@ -69,6 +69,18 @@
 		    text-align: center;
 		}
      } 
+     .fw-15vw{
+        	width:50px !important;
+        	min-width:50px;
+      }
+     .fw-12vw{
+        	width:150px !important;
+        	min-width:150px !important;
+      }
+     .fw-10vw{
+	       	width:50px !important;
+	       	min-width:50px;
+      }
     </style>
 </head>
 <body>
@@ -365,7 +377,8 @@
                     {
                         targets: [0],
                         className: 'mdl-data-table__cell--non-numeric'
-                    },{targets: [2,3], className: 'hideCOl'},{ targets: [0,1], className: 'fw-111'  },
+                    },{targets: [2,3], className: 'hideCOl'},{ targets: [0,1], className: 'fw-111'  },{ targets: [ 0,1,2, 3], className: 'fw-12vw'  },
+                    { targets: [4], className: 'fw-10vw'  },
                     { orderable: false, 'aTargets': ['no-sort'] }
                 ],
                 // "ScrollX": true,

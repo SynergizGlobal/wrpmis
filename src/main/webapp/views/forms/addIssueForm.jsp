@@ -11,8 +11,8 @@
     <title>Add Issue</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">	
 	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css"> 
+	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">	
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">		 
 	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
@@ -41,14 +41,11 @@
 		.input-field>textarea+label:not(.label-icon).active{
 			margin-top: 8px;
 		}
-		.m-b-2{
-			margin-bottom:2rem;
-		}
-		.mt-brdr{
-			margin-top: 20px;
-		    border-top: 1px solid #777;
-		    border-bottom: 1px solid #777;
-		}
+		@media only screen and (max-width: 769px) {			
+			.mobile_responsible_table>tbody tr:not(.datepicker-row):not(.mobile_hide_row) {
+			    border-bottom: 3px solid #007A7A;
+			}
+	   }
     </style>
 </head>
 <body>
@@ -73,8 +70,8 @@
                         	<input id="dy_hod_user_id_fk" name="dy_hod_user_id_fk" type="hidden" />
                             <div class="row">
                                 <!-- row 4 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                 
+                                <div class="col s6 offset-m2 m4 input-field">
                                     <p class="searchable_label"> Project</p>                                    
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
@@ -85,7 +82,7 @@
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                  <p class="searchable_label"> Work</p> 
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
@@ -96,12 +93,12 @@
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                 
                             </div>
 
                             <div class="row ">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                 
+                                <div class="col s12 m8 input-field offset-m2">
                                  <p class="searchable_label"> Contract <span class="required">*</span></p> 
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();getIssueCategoryList();getIssueTitlesList();">
                                         <option value="">Select</option>
@@ -112,12 +109,12 @@
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                 
                             </div>
                             <div class="row">
                                 <!-- row 2 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                 
+                                <div class="col s6 offset-m2 m4 input-field">
                                 	<p class="searchable_label">Issue Category <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="getIssueTitlesList();">
                                         <option value="">Select</option>
@@ -127,7 +124,7 @@
                                     </select>
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                 <p class="searchable_label">Issue Priority <span class="required">*</span></p> 
                                    <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
                                         <option value="">Select</option>
@@ -137,12 +134,12 @@
                                     </select>
                                     <span id="priority_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                 
                             </div>
                             <div class="row" style="margin-top: 20px;">
                                 <!-- row 2 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                 
+                                <div class="col s12 m8 input-field offset-m2">
                                     <!-- <input id="title" name="title" type="text" class="validate">
                                     <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span> -->
@@ -163,12 +160,12 @@
                                     
                                     
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                 
                             </div>
                             
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                 
+                                <div class="col s12 offset-m2 m8 input-field">
                                     <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000"></textarea>
                                     <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
@@ -177,24 +174,24 @@
                             
                             
                             <div class="row ">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                 
+                                <div class="col s6 offset-m2 m4 input-field">
                                     <input id="date" name="date" type="text" class="validate datepicker">
                                     <label for="date">Issue pending since <span class="required">*</span></label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 input-field">
                                     <input id="location" name="location" type="text" class="validate" value="${iObj.location}">
                                     <label for="location">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                 
                             </div>
 
                             <!-- <div class="row">
                                 row 6
-                                <div class="col m2 hide-on-small-only"></div>
+                                 
                                 <div class="col s12 m4 input-field">
                                     <input id="latitude" name="latitude" type="text" class="validate">
                                     <label for="latitude">Latitude </label>
@@ -205,13 +202,13 @@
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                 
                             </div> -->
                             
                          
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                 
+                                <div class="col s12 offset-m2 m4 input-field">
                                     <p class="searchable_label"> Responsible Organization (Pending with)<span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
                                         <option value="">Select</option>
@@ -247,7 +244,7 @@
                             
                             <div class="row" id="other_organization_responsibles_holder" style="display:none;">
                                 <!-- row 6 -->
-                                <div class="col m2 hide-on-small-only"></div>
+                                 
                                 <div class="col s12 m4 input-field">
                                     <input id="other_org_resposible_person_name" name="other_org_resposible_person_name" type="text" class="validate">
                                     <label for="other_org_resposible_person_name">Responsible Person Name </label>
@@ -255,14 +252,14 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="other_org_resposible_person_designation" name="other_org_resposible_person_designation" type="text" class="validate">
-                                    <label for="other_org_resposible_person_designation">Responsible Person Designation</label>
+                                    <label for="other_org_resposible_person_designation" class="fs-sm-8rem">Responsible Person Designation</label>
                                     <span id="other_org_resposible_person_designationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                 
                             </div>
                             
                             <div class="row">		
-                            	<div class="col m2 hide-on-small-only"></div>					 
+                            	 					 
 					            <div class="col s12 m4 input-field">
                                     <input id="reported_by" name="reported_by" type="text" class="validate" value="${sessionScope.user.user_name }">
                                     <label for="reported_by">Reported by <span class="required">*</span></label> 
@@ -289,10 +286,10 @@
 							</div>
 							
 							<div class="row">
-								<div class="col m2 hide-on-small-only"></div>
+								 
 								<div class="col m8 s12">
 									<div class="row fixed-width"
-										style="margin-bottom: 10px; margin-top: 20px">
+										style="margin-bottom: 20px; margin-top: 20px">
 										<div class="table-inside">
 											<table class="mdl-data-table update-table mobile_responsible_table">
 												<thead>
@@ -312,8 +309,7 @@
 			                                          			  </c:forEach>
 			                               					  </select>
 														</td>
-														<td data-head="Attach File" class="input-field cell-disp-in">
-															<div class="file-field">
+														<td data-head="Attach File" class="input-field cell-disp-inb file-field">
 						                                        <div class="btn bg-m t-c">
 						                                            <span>Attach Files</span>
 						                                            <input type="file" id="issueFiles0" name="issueFiles">
@@ -321,7 +317,6 @@
 						                                        <div class="file-path-wrapper">
 						                                            <input class="file-path validate" type="text" id="issueFileNames0" name="issueFileNames">
 						                                        </div>   
-					                                        </div>                                    
                                                       	</td>
 														<td class="mobile_btn_close">
 															<a onclick="removeActions('0');" class="btn red"> 
@@ -333,7 +328,7 @@
 											<table class="mdl-data-table">
 												<tbody>
 													<tr>
-														<td colspan="6" style="text-align: right;"><a
+														<td colspan="6" ><a
 															type="button"
 															class="btn waves-effect waves-light bg-m t-c "
 															onclick="addIssueFileRow()"> <i
@@ -350,18 +345,18 @@
 							</div>
                                                  
                             <div class="row no-mar">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s6 m4 mt-brdr">
-                                    <div class="center-align m-1">
+                                 
+                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                                    <div class="m-1">
                                         <a onclick="addIssue();" class="btn waves-effect waves-light bg-m" style="min-width:85px">Add </a>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr">
-                                    <div class="center-align m-1">
+                                <div class="col s6 m4 mt-brdr center-align">
+                                    <div class="m-1">
                                         <a href="<%=request.getContextPath()%>/issues" class="btn waves-effect waves-light bg-s">Cancel  </a>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                 
                             </div>
                         </form>
                     </div>
@@ -437,25 +432,23 @@
 			var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
             var html = '<tr id="actionRow' + rNo + '">'
-               +'<td> <div class="input-field">'
+               +'<td data-head="File Type" class="input-field">'
                +'<select name="issue_file_types" id="issue_file_types'+rNo+'"  class="validate-dropdown searchable" >'	   			
 	   		   +'<option value="" >Select</option>'
 			     <c:forEach var="obj" items="${issueFileTypes}">
 	     	      +'<option value="${obj.issue_file_type }">${obj.issue_file_type}</option>'
 			     </c:forEach>
-	   		   +'</select></div></td>'	   		  			
+	   		   +'</select></td>'	   		  			
 			   
-	   		   +'<td><div class="file-field input-field">'	
+	   		   +'<td data-head="Attach File" class="file-field input-field cell-disp-inb">'	
 			   +'<div class="btn bg-m t-c">'	
 			   +'<span>Attach Files</span>'	
 			   +'<input type="file" id="issueFiles'+rNo+'" name="issueFiles">'	
 			   +'</div>'	
 			   +'<div class="file-path-wrapper">'	
 			   +'<input class="file-path validate" type="text" id="issueFileNames'+rNo+'" name="issueFileNames">'	
-			   +'</div>'	               
-			   +'</div></td>'
-			   
-			   +'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
+			   +'</div></td>'			   
+			   +'<td class="mobile_btn_close"><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
 			   +'</tr>';
 		
 			$('#issueFilesBody').append(html);

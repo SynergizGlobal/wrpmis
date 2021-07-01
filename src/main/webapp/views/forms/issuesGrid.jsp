@@ -44,7 +44,7 @@
       }
       .dataTables_filter label::after{
       	position:absolute;
-      	top:30px;
+      	top:0;
       	right:5px;
       }
       .fw-40vw{

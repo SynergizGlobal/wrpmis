@@ -43,6 +43,47 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
+           @media only screen and (max-width: 769px){ 
+			
+			.dataTables_scrollBody tbody tr td:last-of-type,
+			.no-sort{
+				padding:3px !important;
+				max-width: 45px;
+			}
+			.mob-btn{
+				padding:0 12px;
+			}
+			.hideCOl{
+				display:none;
+			} 
+			.r-300{
+				width:30vw !important;
+        		max-width:30vw;
+			}
+			 .dataTables_filter label{
+	        	position:relative;
+	        }
+	        .dataTables_filter label::after{
+	        	position:absolute;
+	        	right:5px;
+	        	top:30px; 
+	        }
+	        .fw-111{
+	        	width:20vw;
+	        	min-width:20vw;
+	        	
+	        }
+	        .break{
+	        	text-align:center;
+	        	width:30vw;
+	        	min-width:30vw;
+			    margin-left: auto;
+			    margin-right: auto;
+	        }
+	        .break a{
+			 word-break: break-all;
+	        }
+		}
     </style>
 </head>
 
@@ -125,7 +166,6 @@
 
                         <div class="row">
                             <div class="col m12 s12">
-                            	<div style="display:none;" id="webView">
 	                                <table id="notifications-table" class="mdl-data-table">
 	                                    <thead>
 	                                        <tr>
@@ -141,52 +181,9 @@
 	                                        </tr>
 	                                    </thead>
 	                                    <tbody>
-	                                    	<%-- <c:forEach var="obj" items="${alerts }">
-		                                        <tr>
-		                                            <td>${obj.hod }</td>
-		                                            <td>${obj.work_short_name }</td>
-		                                            <td>${obj.contract_short_name }</td>
-		                                            <td>${obj.contractor_name }</td>
-		                                            <td>${obj.alert_type_fk }</td>
-		                                            <td>${obj.alert_level }</td>
-		                                            <td>${obj.alert_value }</td>
-		                                            <td>${obj.remarks }</td>
-		                                            <td class="last-column">
-		                                                <a href="javascript:void(0);" onclick="addAlertRemarks('${obj.alert_id }');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>
-		                                            </td>
-		                                        </tr>
-	                                        </c:forEach> --%>
+	                                
 	                                    </tbody>
 	                                </table>
-                                </div>
-                                <div style="display:none;" id="mobView">
-	                                <table id="notifications-table_mob" class="mdl-data-table">
-	                                    <thead>
-	                                        <tr>
-	                                            <th>Contract </th>	                                           
-	                                            <th>Action <br/>Taken</th>
-	                                            <th class="no-sort">&nbsp;</th>
-	                                        </tr>
-	                                    </thead>
-	                                    <tbody>
-	                                    	<%-- <c:forEach var="obj" items="${alerts }">
-		                                        <tr>
-		                                            <td>${obj.hod }</td>
-		                                            <td>${obj.work_short_name }</td>
-		                                            <td>${obj.contract_short_name }</td>
-		                                            <td>${obj.contractor_name }</td>
-		                                            <td>${obj.alert_type_fk }</td>
-		                                            <td>${obj.alert_level }</td>
-		                                            <td>${obj.alert_value }</td>
-		                                            <td>${obj.remarks }</td>
-		                                            <td class="last-column">
-		                                                <a href="javascript:void(0);" onclick="addAlertRemarks('${obj.alert_id }');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>
-		                                            </td>
-		                                        </tr>
-	                                        </c:forEach> --%>
-	                                    </tbody>
-	                                </table>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -329,6 +326,7 @@
             $('#alert_type_fk').val("");
             $('.searchable').select2();
             window.localStorage.setItem("alertsFilters",'');
+            window.location.href="<%=request.getContextPath()%>/get-alerts"
             getAlerts();
         }
         function addInQueHOD(hod){
@@ -400,240 +398,133 @@
         		filters = filters + key +"="+filtersMap[key] + "^";
         		window.localStorage.setItem("alertsFilters", filters);
    			});
-         	
-        	if(window.matchMedia("(max-width: 769px)").matches){
-        	    $('tbody.web').removeAttr('id');
-        	    $('#mobView').css({'display':'block'});
-        	    table = $('#notifications-table_mob').DataTable();
-        		table.destroy();
+        	
+       	
+       	    $('#webView').css({'display':'block'});
+       		table = $('#notifications-table').DataTable();
+    		table.destroy();
 
-        		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
 
-        		var myParams =  "hod="
-        				+ hod + "&work_id_fk="+ work_id_fk+ "&contractor_id_fk="+ contractor_id_fk+ "&contract_id_fk="+ contract_id_fk+ "&alert_type_fk="+ alert_type_fk;
+    		var myParams =  "hod="
+    				+ hod + "&work_id_fk="+ work_id_fk+ "&contractor_id_fk="+ contractor_id_fk+ "&contract_id_fk="+ contract_id_fk+ "&alert_type_fk="+ alert_type_fk;
 
-        		/***************************************************************************************************/
+    		/***************************************************************************************************/
 
-        		$("#notifications-table_mob")
-        				.DataTable(
-        						{
-        							"bProcessing" : true,
-        							"bServerSide" : true,
-        							"sort" : "position",
-        							//bStateSave variable you can use to save state on client cookies: set value "true" 
-        							"bStateSave" : false,
-        							//Default: Page display length
-        							"iDisplayLength" : 10,
-        							"iData" : {
-        								"start" : 52
-        							},
-        							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-        							"iDisplayStart" : 0,
-        							"fnDrawCallback" : function() {
-        								//Get page numer on client. Please note: number start from 0 So
-        								//for the first page you will see 0 second page 1 third page 2...
-        								//Un-comment below alert to see page number
-        								//alert("Current page number: "+this.fnPagingInfo().iPage);
-        							},
-        							//"sDom": 'l<"toolbar">frtip',
-        							"initComplete" : function() {
-        								$('.dataTables_filter input[type="search"]')
-        										.attr('placeholder', 'Search')
-        										.css({
-        											'width' : '350px ',
-        											'display' : 'inline-block'
-        										});
+    		$("#notifications-table")
+    				.DataTable(
+    						{
+    							"bProcessing" : true,
+    							"bServerSide" : true,
+    							"sort" : "position",
+    							//bStateSave variable you can use to save state on client cookies: set value "true" 
+    							"bStateSave" : false,
+    							//Default: Page display length
+    							"iDisplayLength" : 10,
+    							"iData" : {
+    								"start" : 52
+    							},
+    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+    							"iDisplayStart" : 0,
+    							"fnDrawCallback" : function() {
+    								//Get page numer on client. Please note: number start from 0 So
+    								//for the first page you will see 0 second page 1 third page 2...
+    								//Un-comment below alert to see page number
+    								//alert("Current page number: "+this.fnPagingInfo().iPage);
+    							},
+    							//"sDom": 'l<"toolbar">frtip',
+    							"initComplete" : function() {
+    								$('.dataTables_filter input[type="search"]')
+    										.attr('placeholder', 'Search')
+    										.css({
+    											'width' : '350px ',
+    											'display' : 'inline-block'
+    										});
 
-        								var input = $('.dataTables_filter input')
-        										.unbind(), self = this.api(), $searchButton = $(
-        										'<i class="fa fa-search" title="Go">')
-        								//.text('Go')
-        								.click(function() {
-        									self.search(input.val()).draw();
-        								}), $clearButton = $(
-        										'<i class="fa fa-close" title="Reset">')
-        								//.text('X')
-        								.click(function() {
-        									input.val('');
-        									$searchButton.click();
-        								})
-        								$('.dataTables_filter').append(
-        										'<div class="right-btns"></div>');
-        								$('.dataTables_filter div').append(
-        										$searchButton, $clearButton);
+    								var input = $('.dataTables_filter input')
+    										.unbind(), self = this.api(), $searchButton = $(
+    										'<i class="fa fa-search" title="Go">')
+    								//.text('Go')
+    								.click(function() {
+    									self.search(input.val()).draw();
+    								}), $clearButton = $(
+    										'<i class="fa fa-close" title="Reset">')
+    								//.text('X')
+    								.click(function() {
+    									input.val('');
+    									$searchButton.click();
+    								})
+    								$('.dataTables_filter').append(
+    										'<div class="right-btns"></div>');
+    								$('.dataTables_filter div').append(
+    										$searchButton, $clearButton); 
 
-        								/* var input = $('.dataTables_filter input').unbind(),
-        								self = this.api(),
-        								$searchButton = $('<i class="fa fa-search">')
-        								           //.text('Go')
-        								           .click(function() {			   	                    	 
-        								              self.search(input.val()).draw();
-        								           })			   	        
-        								  $('.dataTables_filter label').append($searchButton); */
-        							},
-        							columnDefs : [ {
-        								"targets" : 'no-sort',
-        								"orderable" : false,
-        							} ],
-        							"sScrollX" : "100%",
-        							"sScrollXInner" : "100%",
-        							"bScrollCollapse" : true,
-        							"language" : {
-        								"info" : "_START_ - _END_ of _TOTAL_",
-        								paginate : {
-        									next : '<i class="fa fa-angle-right"></i>', 
-        									previous : '<i class="fa fa-angle-left"></i>'  
-        								}
-        							},
-        							"bDestroy" : true,
-        							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getAlerts?"+myParams,
-        		        "aoColumns": [
-        		        	
-          		         	{ "mData": function(data,type,row){
-          		         		 var contractName = '';
-                                 if ($.trim(data.contract_short_name) != '') { contractName = ' - ' + $.trim(data.contract_short_name) }
-                                 if($.trim(data.contract_id) == ''){ return '-'; }else{ return data.contract_id + contractName ; }
-          		            } },        		         	
-        		            { "mData": function(data,type,row){
-        		            	if($.trim(data.remarks) == ''){ return '-'; }else{ return data.remarks; }
-        		            } },
-        		         	{ "mData": function(data,type,row){
-        		         		var alert_id = "'"+data.alert_id+"'";
-        	         			var remarks = "'"+data.remarks+"'";
-        	                    var actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+remarks+');" class="btn mobile-btn waves-effect waves-light bg-m t-c modal-trigger">Action Taken</a>';
-        		            	return actions;
-        		            } }
-        		            
-        		        ]
-        		    });
-        	    
-        	  $(".page-loader-2").hide();  	
-        	} else {
-        	    $('#webView').css({'display':'block'});
-        		table = $('#notifications-table').DataTable();
-	    		table.destroy();
-	
-	    		$.fn.dataTable.moment('DD-MMM-YYYY');
-	
-	    		var myParams =  "hod="
-	    				+ hod + "&work_id_fk="+ work_id_fk+ "&contractor_id_fk="+ contractor_id_fk+ "&contract_id_fk="+ contract_id_fk+ "&alert_type_fk="+ alert_type_fk;
-	
-	    		/***************************************************************************************************/
-	
-	    		$("#notifications-table")
-	    				.DataTable(
-	    						{
-	    							"bProcessing" : true,
-	    							"bServerSide" : true,
-	    							"sort" : "position",
-	    							//bStateSave variable you can use to save state on client cookies: set value "true" 
-	    							"bStateSave" : false,
-	    							//Default: Page display length
-	    							"iDisplayLength" : 10,
-	    							"iData" : {
-	    								"start" : 52
-	    							},
-	    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-	    							"iDisplayStart" : 0,
-	    							"fnDrawCallback" : function() {
-	    								//Get page numer on client. Please note: number start from 0 So
-	    								//for the first page you will see 0 second page 1 third page 2...
-	    								//Un-comment below alert to see page number
-	    								//alert("Current page number: "+this.fnPagingInfo().iPage);
-	    							},
-	    							//"sDom": 'l<"toolbar">frtip',
-	    							"initComplete" : function() {
-	    								$('.dataTables_filter input[type="search"]')
-	    										.attr('placeholder', 'Search')
-	    										.css({
-	    											'width' : '350px ',
-	    											'display' : 'inline-block'
-	    										});
-	
-	    								var input = $('.dataTables_filter input')
-	    										.unbind(), self = this.api(), $searchButton = $(
-	    										'<i class="fa fa-search" title="Go">')
-	    								//.text('Go')
-	    								.click(function() {
-	    									self.search(input.val()).draw();
-	    								}), $clearButton = $(
-	    										'<i class="fa fa-close" title="Reset">')
-	    								//.text('X')
-	    								.click(function() {
-	    									input.val('');
-	    									$searchButton.click();
-	    								})
-	    								$('.dataTables_filter').append(
-	    										'<div class="right-btns"></div>');
-	    								$('.dataTables_filter div').append(
-	    										$searchButton, $clearButton);
-	
-	    								/* var input = $('.dataTables_filter input').unbind(),
-	    								self = this.api(),
-	    								$searchButton = $('<i class="fa fa-search">')
-	    								           //.text('Go')
-	    								           .click(function() {			   	                    	 
-	    								              self.search(input.val()).draw();
-	    								           })			   	        
-	    								  $('.dataTables_filter label').append($searchButton); */
-	    							},
-	    							columnDefs : [ {
-	    								"targets" : 'no-sort',
-	    								"orderable" : false,
-	    							} ],
-	    							"sScrollX" : "100%",
-	    							"sScrollXInner" : "100%",
-	    							"bScrollCollapse" : true,
-	    							"language" : {
-	    								"info" : "_START_ - _END_ of _TOTAL_",
-	    								paginate : {
-	    									next : '<i class="fa fa-angle-right"></i>', 
-	    									previous : '<i class="fa fa-angle-left"></i>'  
-	    								}
-	    							},
-	    							"bDestroy" : true,
-	    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getAlerts?"+myParams,
-	    		        "aoColumns": [
-	    		        	{ "mData": function(data,type,row){
-	     		            	if($.trim(data.hod) == ''){ return '-'; }else{ return data.hod; }
-	     		            } },
-	      		            { "mData": function(data,type,row){
-	      		            	var work_short_name = '';
-	                             if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
-	                             if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
-	      		            } },
-	      		         	{ "mData": function(data,type,row){
-	      		         		 var contractName = '';
-	                             if ($.trim(data.contract_short_name) != '') { contractName = ' - ' + $.trim(data.contract_short_name) }
-	                             if($.trim(data.contract_id) == ''){ return '-'; }else{ return data.contract_id + contractName ; }
-	      		            } },
-	    		         	{ "mData": function(data,type,row){
-	    		            	if($.trim(data.contractor_name) == ''){ return '-'; }else{ return data.contractor_name; }
-	    		            } },
-	    		            { "mData": function(data,type,row){
-	    		            	if($.trim(data.alert_type_fk) == ''){ return '-'; }else{ return data.alert_type_fk; }
-	    		            } },
-	    		            { "mData": function(data,type,row){
-	    		            	if($.trim(data.alert_level) == ''){ return '-'; }else{ return data.alert_level; }
-	    		            } },
-	    		         	{ "mData": function(data,type,row){
-	    		            	if($.trim(data.alert_value) == ''){ return '-'; }else{ return data.alert_value; }
-	    		            } },
-	    		            { "mData": function(data,type,row){
-	    		            	if($.trim(data.remarks) == ''){ return '-'; }else{ return data.remarks; }
-	    		            } },
-	    		         	{ "mData": function(data,type,row){
-	    		         		var alert_id = "'"+data.alert_id+"'";
-	    	         			var remarks = "'"+data.remarks+"'";
-	    	                    var actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+remarks+');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Action Taken</a>';
-	    		            	return actions;
-	    		            } }
-	    		            
-	    		        ]
-	    		    });
+    								/* var input = $('.dataTables_filter input').unbind(),
+    								self = this.api(),
+    								$searchButton = $('<i class="fa fa-search">')
+    								           //.text('Go')
+    								           .click(function() {			   	                    	 
+    								              self.search(input.val()).draw();
+    								           })			   	        
+    								  $('.dataTables_filter label').append($searchButton); */
+    							},
+    							columnDefs : [ {
+    								"targets" : 'no-sort',
+    								"orderable" : false,
+    							},{targets: [0,1,2,3,6,7], className: 'hideCOl'},
+    							{targets: [4,5], className: 'fw-111'},{targets: [8], className: 'break'}],
+    							"sScrollX" : "100%",
+    							"sScrollXInner" : "100%",
+    							"bScrollCollapse" : true,
+    							"language" : {
+    								"info" : "_START_ - _END_ of _TOTAL_",
+    								paginate : {
+    									next : '<i class="fa fa-angle-right"></i>', 
+    									previous : '<i class="fa fa-angle-left"></i>'  
+    								}
+    							},
+    							"bDestroy" : true,
+    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getAlerts?"+myParams,
+    		        "aoColumns": [
+    		        	{ "mData": function(data,type,row){
+     		            	if($.trim(data.hod) == ''){ return '-'; }else{ return data.hod; }
+     		            } },
+      		            { "mData": function(data,type,row){
+      		            	var work_short_name = '';
+                             if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
+                             if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
+      		            } },
+      		         	{ "mData": function(data,type,row){
+      		         		 var contractName = '';
+                             if ($.trim(data.contract_short_name) != '') { contractName = ' - ' + $.trim(data.contract_short_name) }
+                             if($.trim(data.contract_id) == ''){ return '-'; }else{ return data.contract_id + contractName ; }
+      		            } },
+    		         	{ "mData": function(data,type,row){
+    		            	if($.trim(data.contractor_name) == ''){ return '-'; }else{ return data.contractor_name; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.alert_type_fk) == ''){ return '-'; }else{ return data.alert_type_fk; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.alert_level) == ''){ return '-'; }else{ return data.alert_level; }
+    		            } },
+    		         	{ "mData": function(data,type,row){
+    		            	if($.trim(data.alert_value) == ''){ return '-'; }else{ return data.alert_value; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.remarks) == ''){ return '-'; }else{ return data.remarks; }
+    		            } },
+    		         	{ "mData": function(data,type,row){
+    		         		var alert_id = "'"+data.alert_id+"'";
+    	         			var remarks = "'"+data.remarks+"'";
+    	                    var actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+remarks+');" class="btn waves-effect waves-light bg-m t-c modal-trigger mob-btn break">Action Taken</a>';
+    		            	return actions;
+    		            } }
+    		            
+    		        ]
+    		    });
 	    	    
 	    	  $(".page-loader-2").hide();  		     
-          }
      }
 
         

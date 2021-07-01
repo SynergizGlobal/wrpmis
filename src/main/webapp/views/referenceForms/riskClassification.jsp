@@ -77,16 +77,6 @@
                 width: 85% !important;
             }
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
 		.error-msg label{color:red!important;}
     </style>
 </head>
@@ -118,12 +108,10 @@
 					</c:if>
                     <div class="">
                         <div class="row">
-                            <div class="col m4 hide-on-small"></div>
-                            <div class="col m4 s12 center-align">
+                            <div class="col m12 s12 center-align">
                                 <a class="waves-effect waves-light btn bg-m modal-trigger t-c" href="#addUpdateModal">
                                     <i class="fa fa-plus-circle"></i> &nbsp; Add Risk Classification</a>
                             </div>
-                            <div class="col m4 hide-on-small"></div>
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">

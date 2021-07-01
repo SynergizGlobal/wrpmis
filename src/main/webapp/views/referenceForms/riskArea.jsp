@@ -46,7 +46,14 @@
         .last-column .btn+.btn {
             margin-left: 20px;
         }
-
+        input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
         .last-column {
             word-break: break-all;
             white-space: inherit;
@@ -142,10 +149,10 @@
                                     <tbody>
 										<c:forEach var="obj" items="${riskAreaDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="areaId${indexs.count}" value="${obj.area }" />
+												<input type="hidden" id="areaId${indexs.count}" value="${obj.area }" class="findLengths" />
 												${obj.area }</td>
 											<td>
-												<input type="hidden" id="item_noId${indexs.count}" value="${obj.item_no }" />
+												<input type="hidden" id="item_noId${indexs.count}" value="${obj.item_no }"  class="findLengths1"/>
 												${obj.item_no }</td>
 										<c:forEach var="tObj" items="${riskAreaDetails.tablesList}" varStatus="index">
 												<td><c:forEach var="cObj" items="${riskAreaDetails.countList}" >
@@ -215,20 +222,23 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m6">
-                                <input id="risk_area_text" type="text" name="area" class="validate">
+                                <input id="risk_area_text" type="text" name="area" class="validate"  onkeyup="doValidate(this.value,null)">
                                 <label for="risk_area_text">Risk Area</label>
                                 <span id="areaError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="item_no" type="number" name="item_no" min="1" class="validate">
+                                <input id="item_no" type="number" name="item_no" min="1" class="validate"  onkeyup="doValidate(null,this.value)">
                                 <label for="item_no">Item No</label>
                                 <span id="item_noError" class="error-msg" ></span>
                             </div>
+                            <div  style="text-align:center">
+                        		 <span id="DivError" class="error-msg" ></span> 
+                       		</div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addRiskArea()" class="btn waves-effect waves-light bg-m ">Add </button>
+                                    <button style="width: 100%;" onclick="addRiskArea()" class="btn waves-effect waves-light bg-m " id="bttn">Add </button>
                                 </div>
                             </div>
                       
@@ -271,12 +281,15 @@
                                 <label for="item_no_new">Item No</label>
                                 <span id="item_no_newError" class="error-msg" ></span>
                             </div>
+                            <div  style="text-align:center">
+                        		 <span id="DivUpdateError" class="error-msg" ></span> 
+                       		</div>
                         </div>
                       
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateRiskAreaType()"
+                                    <button style="width: 100%;" onclick="updateRiskAreaType()" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -344,7 +357,129 @@
                 }
             });
         });
-
+        var flag = false; 
+        function doValidate(value,value1){
+           var value = $('#risk_area_text').val();
+           var value1 = $('#item_no').val();
+           value = value.trim();
+           value1 = value1.trim();
+           var print_value = value;	
+     	   var print_value2 = value1;
+           var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths1').map((_,el) => el.value).get();
+           var s = Object.keys(ek).find(key => ek[key] === value);
+           if(value != null){ value = value.toLowerCase();}
+           if(value1 != null){ value1 = value1.toLowerCase();}
+         
+     	  
+     	   var validate = $('.findLengths').length;
+     	   if(validate == 0){flag = true;}
+     	   var count  = 0;
+     	  
+     	   while(count < validate){
+     		 	 var findVal = ek[count];
+     			 var findVal2 = ak[count];
+     			if(findVal != null){ findVal = findVal.toLowerCase(); }
+     			if(findVal2 != null){ findVal2 = findVal2.toLowerCase(); }
+     			
+     		   if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
+     			   $('#DivError').text('" '+print_value+' "'+' & '+'" '+print_value2+' alreday exists').css('color', 'red');
+   				   $('#areaError').text('');
+   				   $('#item_noError').text('');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			  if(findVal == value ){
+     				 $('#bttn').prop('disabled', true);
+     				 $('#DivError').text('');
+     				 $('#areaError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal2 != value1 ){$('#item_noError').text('');}else{ $('#item_noError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+     				 flag = false;
+      			     return false;
+     			  }else if(findVal2 == value1 ){
+     				 $('#bttn').prop('disabled', true);
+     				 $('#DivError').text('');
+     				 $('#item_noError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal != value ){$('#areaError').text('');}else{ $('#areaError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+     				 flag = false;
+      			     return false;
+     			  }else{
+        			   $('#DivError').text('');
+        			   $('#areaError').text('');
+        			   $('#item_noError').text('');
+        			   $('#bttn').prop('disabled', false); 
+        			   flag = true;
+     			  }
+     		
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value,value1){
+           var value = $('#value_new').val();
+           var value1 = $('#item_no_new').val();
+           value = value.trim();
+           value1 = value1.trim();
+     	   var print_value = value;	
+     	   var print_value2 = value1;	
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var no = $('#no').val()
+     	   var valueOld  = $('#value_old').val()
+           var valueOld2 = $('#user_role_code_old').val()
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths1').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   value = value.toLowerCase();
+     	   value1 = value1.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   var s1 = Object.keys(ak).find(key => ak[key] === valueOld2);
+     	   delete ek[s];
+     	   delete ak[s1];
+     	   while(count < validate){
+     		  var findVal = ek[count];
+  			  var findVal2 = ak[count];
+  			 if(findVal != null){ findVal = findVal.toLowerCase();}
+  			 if(findVal2 != null){ findVal2 = findVal2.toLowerCase();}
+   		     if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
+  				   $('#DivUpdateError').text('" '+print_value+' "'+' & '+'" '+print_value2+' alreday exists').css('color', 'red');
+  				   $('#value_newError').text('');
+ 			   	   $('#item_no_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			  if(findVal == value ){
+      				 $('#bttnUpdate').prop('disabled', true);
+      				 $('#DivUpdateError').text('');
+      				 $('#value_newError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');
+      				 if(findVal2 != value1 ){$('#item_no_newError').text('');}else{ $('#item_no_newError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+     				 
+      				 updateFlag = false; 
+      				 $('#bttnUpdate').prop('disabled', true);
+      				 return false;
+     			 }else if(findVal2 == value1 ){
+     				 $('#DivUpdateError').text('');
+     				 $('#item_no_newError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal != value ){$('#value_newError').text('');}else{ $('#value_newError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+     				 updateFlag = false;
+     				 $('#bttnUpdate').prop('disabled', true);
+     				 return false;
+     			  }else{
+       			       $('#DivUpdateError').text('');
+       			       $('#department_newError').text('');
+       			   	   $('#item_no_newError').text('');
+        			   $('#bttnUpdate').prop('disabled', false);
+        			   updateFlag = true;
+        			   }
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
      function addRiskArea(){
         	 if(validator.form()){ 
     			$(".page-loader").show();

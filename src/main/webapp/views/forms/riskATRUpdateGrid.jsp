@@ -31,6 +31,12 @@
             .mt-md-54 {
                 margin-top: inherit;
             }
+        } 
+         @media only screen and (max-width: 768px) {
+            .fw-111 {
+                width:20vw !important;
+        		max-width:20vw;
+            }
         }       
         td {
         	word-break: break-word;
@@ -84,6 +90,10 @@
 				padding:3px !important;
 				max-width: 45px;
 			}
+			 .fw-30{
+	        	width:30vw !important;
+	        	min-width:30vw;
+	        }
 			.mob-btn{
 				padding:0 12px;
 			}
@@ -350,7 +360,9 @@
                     { targets: [0,4], className: 'fw-120'  },
                     { targets: [1,3], className: 'fw-170'  },
                     { targets: [5,6], className: 'fw-200'  },
-                    { targets: [2,7], className: 'fw-111'  },
+                    { targets: [7], className: 'fw-111'  },
+                    { targets: [2,3], className: 'fw-30'  },
+                    { targets: [7], className: 'fw-111'  },
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",

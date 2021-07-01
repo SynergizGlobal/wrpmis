@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/project.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <style>
         .dataTables_filter label::after{
          	content:'';
@@ -30,17 +31,39 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
-       @media only screen and (max-width: 768px){
-	        div.dataTables_wrapper div.dataTables_info {
-		     white-space: normal; 
-			}
-			.btn, .btn-large, .btn-small, .btn-flat {
-			    padding: 0 10px;
-			}
-			.dataTables_filter label input {
-			    width: 100% !important;
-			}
+     @media only screen and (max-width: 769px){ 
+		
+		.dataTables_scrollBody tbody tr td:last-of-type,
+		.no-sort{
+			padding:3px !important;
+			max-width: 45px;
+		}
+		.mob-btn{
+			padding:0 12px; 
+		}
+		.hideCOl{
+			display:none;
+		} 
+		.r-300{
+			width:30vw !important;
+       		max-width:30vw;
+		}
+		 .dataTables_filter label{
+        	position:relative;
         }
+        .dataTables_filter label::after{
+        	position:absolute;
+        	right:5px;
+        	top:30px;
+        }
+        .fw-111{
+        	width:30vw;
+        	min-width:30vw;
+        }
+       .mdl-data-table__cell--non-numeric.mdl-data-table__cell--non-numeric {
+		    text-align: center;
+		}
+     } 
     </style>
 </head>
 <body>
@@ -116,7 +139,6 @@
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add Project</strong></a>
 							</div>
-							<div class="col m12 s12" id="webView" style= "display:none;">
 								<table id="project_table" class="mdl-data-table">
 									<thead>
 										<tr>
@@ -138,51 +160,15 @@
 												<td>&nbsp;${ obj.remarks }</td>
 												<td class="last-column"><a href="javascript:void(0);"
 													onclick="getProject('${ obj.project_id }')"
-													class="btn waves-effect waves-light bg-m t-c "><i
+													class="btn waves-effect waves-light bg-m t-c mob-btn"><i
 														class="fa fa-pencil"></i> </a> <%-- <a
 													onclick="deleteProject('${ obj.project_id }');"
 													class="btn waves-effect waves-light bg-s t-c "><i
 														class="fa fa-trash"></i></a> --%></td>
 											</tr>
 										</c:forEach>
- 
 									</tbody>
-
 								</table>
-
-							</div>
-							<div class="col m12 s12" id="mobView" style= "display:none;">
-
-								<table id="project_table_mob" class="mdl-data-table">
-									<thead>
-										<tr >
-											<th>Project ID</th>
-											<th>Project Name</th>
-											<th class="no-sort">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										 <c:forEach var="obj" items="${projectList }">
-											<tr>
-												<td>&nbsp;${ obj.project_id }</td>
-												<td>&nbsp;${ obj.project_name }</td>
-												<%-- <td>&nbsp;${ obj.pink_book_item_number }</td> --%>
-												<td class="last-column"><a href="javascript:void(0);"
-													onclick="getProject('${ obj.project_id }')"
-													class="btn mobile-btn waves-effect waves-light bg-m t-c "><i
-														class="fa fa-pencil"></i> </a> <%-- <a
-													onclick="deleteProject('${ obj.project_id }');"
-													class="btn waves-effect waves-light bg-s t-c "><i
-														class="fa fa-trash"></i></a> --%></td>
-											</tr>
-										</c:forEach>
- 
-									</tbody>
-
-								</table>
-
-							</div>
-							
 						</div>
 					</div>
 				</div>
@@ -222,54 +208,29 @@
                 closeOnClick: false,
             });
         	$('.close-message').delay(3000).fadeOut('slow');
-
-		
-		    
-            //getProjectList();
-		     if(window.matchMedia("(max-width: 769px)").matches){
-	  		        $('#mobView').css({'display':'table-header-group'});
-	  		      $('#project_table_mob').DataTable({
-		                columnDefs: [
-		                    {
-		                        targets: [0],
-		                        className: 'mdl-data-table__cell--non-numeric',
-		                        targets: 'nosort', orderable: false,
-		                    },
-		                    { "width": "10px", "targets": [2] },
-		                ],
-		                "sScrollX": "100%",
-		                "sScrollXInner": "100%",
-		                "bScrollCollapse": true,
-		                "bAutoWidth": true,
-		                "ordering": false, //to stop sorting option                
-		                fixedHeader: true, // to change the language of data table	          
-		                initComplete: function () {
-		                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-		                }
-		            });
-	  		      	
-	  		    } else{
-	  		    	$('#webView').css({'display':'table-header-group'});
-	  			     $('#project_table').DataTable({
-	  		                columnDefs: [
-	  		                    {
-	  		                        targets: [0],
-	  		                        className: 'mdl-data-table__cell--non-numeric',
-	  		                        targets: 'nosort', orderable: false,
-	  		                    },
-	  		                    { "width": "10px", "targets": [4] },
-	  		                ],
-	  		                "sScrollX": "100%",
-	  		                "sScrollXInner": "100%",
-	  		                "bScrollCollapse": true,
-	  		                "bAutoWidth": true,
-	  		                "ordering": false, //to stop sorting option                
-	  		                fixedHeader: true, // to change the language of data table	          
-	  		                initComplete: function () {
-	  		                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	  		                }
-	  		            });
-	  		    }
+	
+		     $('#project_table').DataTable({
+	                columnDefs: [
+	                    {
+	                        targets: [0],
+	                        className: 'mdl-data-table__cell--non-numeric',
+	                        targets: 'nosort', orderable: false,
+	                    },
+	                    {
+	                        targets: [2,3],
+	                        className: 'hideCOl'
+	                    },
+	                ],
+	                "sScrollX": "100%",
+	                "sScrollXInner": "100%",
+	                "bScrollCollapse": true,
+	                "bAutoWidth": true,
+	                "ordering": false, //to stop sorting option                
+	                fixedHeader: true, // to change the language of data table	          
+	                initComplete: function () {
+	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	                }
+	            });
         });
       
  		<%-- function getProjectList() {

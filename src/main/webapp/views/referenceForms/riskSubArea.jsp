@@ -162,9 +162,9 @@
 											<tr><td>
 												${obj.risk_area_fk }
 											</td>
-											<input type="hidden" id="risk_area_fk${indexs.count}" value="${obj.risk_area_fk }" name="risk_area_fk" /> 
-											<input type="hidden" id="sub_area${indexs.count}" value="${obj.sub_area }" />
-											<input type="hidden" id="item_no${indexs.count}" value="${obj.item_no }" />
+											<input type="hidden" id="risk_area_fk${indexs.count}" value="${obj.risk_area_fk }" name="risk_area_fk"   class="findLengths"/> 
+											<input type="hidden" id="sub_area${indexs.count}" value="${obj.sub_area }" class="findLengths1"/>
+											<input type="hidden" id="item_no${indexs.count}" value="${obj.item_no }" class="findLengths2"/>
 											<td>
 												${obj.sub_area }</td>
 											<td>
@@ -243,7 +243,7 @@
                             </div> -->
                               <div class="col s12 m6 input-field">
                                  <p class="searchable_label">Risk Area</p>
-                                 <select class="searchable validate-dropdown" name="risk_area_fk" id="area">
+                                 <select class="searchable validate-dropdown" name="risk_area_fk" id="area" onchange="doValidate(this.value,null,null)">
                                      <option value="">Select</option>
                                       <c:forEach var="obj" items="${riskAreaList }">
 		                                      <option value="${obj.area }">${obj.area }</option>
@@ -254,12 +254,12 @@
                         <!-- </div>
                         <div class="row"> -->
                         <div class="input-field col s12 m6">
-                                <input id="sub_area" type="text" name="sub_area" class="validate">
+                                <input id="sub_area" type="text" name="sub_area" class="validate" onkeyup="doValidate(null,this.value,null)">
                                 <label for="sub_area">Sub Area</label>
                                 <span id="sub_areaError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="item_no" type="number" min="1" name="item_no" class="validate">
+                                <input id="item_no" type="number" min="1" name="item_no" class="validate" onkeyup="doValidate(null,null,this.value)">
                                 <label for="item_no">Item No</label>
                                 <span id="item_noError" class="error-msg" ></span>
                             </div>
@@ -268,7 +268,7 @@
                         <div class="row no-mar">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addRiskSubArea()" class="btn waves-effect waves-light bg-m ">Add </button>
+                                    <button style="width: 100%;" onclick="addRiskSubArea()" class="btn waves-effect waves-light bg-m " id="bttn">Add </button>
                                 </div>
                             </div>
                             <div class="col s12 m6">
@@ -306,7 +306,7 @@
                             </div> -->
                               <div class="col s12 m6 input-field">
                                  <p class="searchable_label">Risk Area</p>
-                                 <select class="searchable validate-dropdown" name="risk_area_fk_new" id="risk_area_fk_new">
+                                 <select class="searchable validate-dropdown" name="risk_area_fk_new" id="risk_area_fk_new" onchange="doValidateUpdate(null,null,null)">
                                      <option value="">Select</option>
                                       <c:forEach var="obj" items="${riskAreaList }">
 		                                      <option value="${obj.area }" id="${obj.area }" >${obj.area }</option>
@@ -317,13 +317,13 @@
                         <!-- </div>
                         <div class="row"> -->
                         <div class="input-field col s12 m6">
-                                <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(null,null,null)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Sub Area</label>
                                 <span id="sub_areaError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="item_no_new" type="number" min="1" name="item_no_new" class="validate">
+                                <input id="item_no_new" type="number" min="1" name="item_no_new" class="validate" onkeyup="doValidateUpdate(null,null,null)">
                                 <label for="item_no_new">Item No</label>
                                 <span id="item_no_newError" class="error-msg" ></span>
                             </div>
@@ -332,7 +332,7 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="updateRiskAreaType()"
+                                    <button style="width: 100%;" onclick="updateRiskAreaType()" id="bttnUpdate"
                                         class="btn waves-effect waves-light bg-m">Update</button>
                                 </div>
                             </div>
@@ -391,6 +391,171 @@
                 }
             });
         });
+        
+        var flag = false; 
+        function doValidate(value,value1,value2){
+           var value = $('#area').val();
+           var value1 = $('#sub_area').val();
+           var value2 = $('#item_no').val();
+           value = value.trim();
+           value1 = value1.trim();
+           value2 = value2.trim();
+           var print_value = value;	
+     	   var print_value2 = value1;
+     	   var print_value3 = value2;
+           var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths1').map((_,el) => el.value).get();
+     	   var bk = $('.findLengths2').map((_,el) => el.value).get();
+           var s = Object.keys(ek).find(key => ek[key] === value);
+           if(value != null){ value = value.toLowerCase();}
+           if(value1 != null){ value1 = value1.toLowerCase();}
+           if(value2 != null){ value2 = value2.toLowerCase();}
+         
+     	  
+     	   var validate = $('.findLengths').length;
+     	   if(validate == 0){flag = true;}
+     	   var count  = 0;
+     	  
+     	   while(count < validate){
+     		 	 var findVal = ek[count];
+     			 var findVal2 = ak[count];
+     			 var findVal3 = bk[count];
+     			if(findVal != null){ findVal = findVal.toLowerCase(); }
+     			if(findVal2 != null){ findVal2 = findVal2.toLowerCase(); }
+     			if(findVal3 != null){ findVal3 = findVal3.toLowerCase(); }
+     			
+     		   if((findVal == value && value != null) && (findVal2 == value1 && value1 != null) && (findVal3 == value2 && value2 != null)){
+     			   $('#DivError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' & '+'" '+print_value3+' "'+' alreday exists').css('color', 'red');
+   				   $('#risk_area_fkError').text('');
+   				   $('#sub_areaError').text('');
+   				   $('#item_noError').text('');
+     			   $('#bttn').prop('disabled', true);
+     			   flag = false;
+     			   return false;
+     		   }else{
+     			  if(findVal == value ){
+     				 $('#bttn').prop('disabled', true);
+     				 $('#DivError').text('');
+     				 $('#risk_area_fkError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal2 != value1 ){$('#sub_areaError').text('');}else{ $('#sub_areaError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+     				 if(findVal3 != value2 ){$('#item_noError').text('');}else{$('#item_noError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');}
+     				 flag = false;
+      			     return false;
+     			  }else if(findVal2 == value1 ){
+     				 $('#bttn').prop('disabled', true);
+     				 $('#DivError').text('');
+     				 $('#sub_areaError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal != value ){$('#risk_area_fkError').text('');}else{ $('#risk_area_fkError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+     				 if(findVal3 != value2 ){$('#item_noError').text('');}else{ $('#item_noError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');}
+     				 flag = false;
+      			     return false;
+     			  }else if(findVal3 == value2 ){
+     				 $('#bttn').prop('disabled', true);
+     				 $('#DivError').text('');
+     				 $('#item_noError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal2 != value1 ){$('#sub_areaError').text('');}else{ $('#sub_areaError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+     				 if(findVal != value ){$('#risk_area_fkError').text('');}else{ $('#risk_area_fkError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+     				 flag = false;
+      			     return false;
+     			  }else{
+        			   $('#DivError').text('');
+        			   $('#risk_area_fkError').text('');
+        			   $('#sub_areaError').text('');
+        			   $('#item_noError').text('');
+        			   $('#bttn').prop('disabled', false); 
+        			   flag = true;
+     			  }
+     		
+     		   }
+     		   
+     		   count++;
+     	   }
+        }
+        var updateFlag = true;
+        function doValidateUpdate(value,value1,value2){
+           var value = $('#risk_area_fk_new').val();
+           var value1 = $('#value_new').val();
+           var value2 = $('#item_no_new').val();
+           value = value.trim();
+           value1 = value1.trim();
+           value2 = value2.trim();
+     	   var print_value = value;	
+     	   var print_value2 = value1;	
+     	   var print_value3 = value2;	
+     	   var validate = $('.findLengths').length;
+     	   var count  = 0;
+     	   var no = $('#no').val()
+     	   var valueOld  = $('#department_old').val()
+           var valueOld2 = $('#department_name_old').val()
+           var valueOld3 = $('#item_no_old').val()
+     	   var ek = $('.findLengths').map((_,el) => el.value).get();
+     	   var ak = $('.findLengths1').map((_,el) => el.value).get();
+     	   var bk = $('.findLengths2').map((_,el) => el.value).get();
+     	   value = value.toLowerCase();
+     	   value1 = value1.toLowerCase();
+     	   value2 = value2.toLowerCase();
+     	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
+     	   var s1 = Object.keys(ak).find(key => ak[key] === valueOld2);
+     	   var s2 = Object.keys(bk).find(key => bk[key] === valueOld3);
+     	   delete ek[s];
+     	   delete ak[s1];
+     	   delete bk[s2];
+     	   while(count < validate){
+     		  var findVal = ek[count];
+  			  var findVal2 = ak[count];
+  			  var findVal3 = bk[count];
+  			 if(findVal != null){ findVal = findVal.toLowerCase();}
+  			 if(findVal2 != null){ findVal2 = findVal2.toLowerCase();}
+  			 if(findVal3 != null){ findVal3 = findVal3.toLowerCase();}
+   		     if((findVal == value && value != null) && (findVal2 == value1 && value1 != null) && (findVal3 == value2 && value2 != null)){
+  				   $('#DivUpdateError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' & '+'" '+print_value3+' "'+' alreday exists').css('color', 'red');
+  				   $('#risk_area_fkError').text('');
+ 			   	   $('#value_newError').text('');
+ 			   	   $('#item_no_newError').text('');
+     			   $('#bttnUpdate').prop('disabled', true);
+     			   updateFlag = false;
+     			   return false;
+     		   }else{
+     			  if(findVal == value ){
+      				 $('#bttnUpdate').prop('disabled', true);
+      				 $('#DivUpdateError').text('');
+      				 $('#risk_area_fkError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');
+      				 if(findVal2 != value1 ){$('#department_nameError').text('');}else{ $('#department_nameError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+     				 if(findVal3 != value2 ){$('#item_no_newError').text('');}else{ $('#item_no_newError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');}
+     				 
+      				 updateFlag = false; 
+      				 $('#bttnUpdate').prop('disabled', true);
+      				 return false;
+     			 }else if(findVal2 == value1 ){
+     				 $('#DivUpdateError').text('');
+     				 $('#value_newError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal != value ){$('#risk_area_fkError').text('');}else{ $('#risk_area_fkError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+     				 if(findVal3 != value2 ){$('#item_no_newError').text('');}else{ $('#item_no_newError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');}
+     				 updateFlag = false;
+     				 $('#bttnUpdate').prop('disabled', true);
+     				 return false;
+     			  }else if(findVal3 == value2 ){
+     				 $('#DivUpdateError').text('');
+     				 $('#item_no_newError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal2 != value1 ){$('#value_newError').text('');}else{ $('#value_newError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+     				 if(findVal != value ){$('#risk_area_fkError').text('');}else{ $('#risk_area_fkError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+     				 updateFlag = false;
+     				$('#bttnUpdate').prop('disabled', true);
+     				return false;
+     			  }else{
+       			       $('#DivUpdateError').text('');
+       			       $('#risk_area_fkError').text('');
+       			   	   $('#value_newError').text('');
+       			   	   $('#item_no_newError').text('');
+        			   $('#bttnUpdate').prop('disabled', false);
+        			   updateFlag = true;
+        			   }
+     		   }
+     		   
+     		   count++; 
+     	   }
+        }
+        
         function addRiskSubArea(){
           	 if(validator.form()){ 
       			$(".page-loader").show();
@@ -457,8 +622,8 @@
       			     document.getElementById("item_no_newError").innerHTML="";
       		 	     error.appendTo('#item_no_newError');
       		 	   }else if(element.attr("id") == "risk_area_fk_new" ){
-      			     document.getElementById("risk_area_fk_newError").innerHTML="";
-      		 	     error.appendTo('#risk_area_fk_newError');
+      			     document.getElementById("risk_area_fkError").innerHTML="";
+      		 	     error.appendTo('#risk_area_fkError');
       		  }
       	        }
           });

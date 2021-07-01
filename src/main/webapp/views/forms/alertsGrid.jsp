@@ -43,6 +43,10 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
+         .fw-all{
+         		width:12vw !important;
+        		max-width:12vw;
+         }
            @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
@@ -327,7 +331,7 @@
             $('.searchable').select2();
             window.localStorage.setItem("alertsFilters",'');
             window.location.href="<%=request.getContextPath()%>/get-alerts"
-            getAlerts();
+            //getAlerts();
         }
         function addInQueHOD(hod){
         	Object.keys(filtersMap).forEach(function (key) {
@@ -472,7 +476,8 @@
     								"targets" : 'no-sort',
     								"orderable" : false,
     							},{targets: [0,1,2,3,6,7], className: 'hideCOl'},
-    							{targets: [4,5], className: 'fw-111'},{targets: [8], className: 'break'}],
+    							{targets: [4,5], className: 'fw-111'},{targets: [8], className: 'break'},
+    							{targets: [0,1,2,3,4,5,6,7], className: 'fw-all'},],
     							"sScrollX" : "100%",
     							"sScrollXInner" : "100%",
     							"bScrollCollapse" : true,

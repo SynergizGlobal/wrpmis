@@ -381,7 +381,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				arrSize++;
 			}
 			
-			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ORDER BY c.hod_user_id_fk";
+			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ORDER BY c.hod_user_id_fk is null asc";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

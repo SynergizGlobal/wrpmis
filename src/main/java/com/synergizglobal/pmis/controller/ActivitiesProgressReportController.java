@@ -209,7 +209,7 @@ public class ActivitiesProgressReportController {
 	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
 	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
 	        
-	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Calibri";
+	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Garamond";
 	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
@@ -218,7 +218,7 @@ public class ActivitiesProgressReportController {
 	        
 	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        
-	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Calibri";
+	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Garamond";
 	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	       
 	        /********************************************************/
@@ -414,7 +414,7 @@ public class ActivitiesProgressReportController {
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);
-								cell.setCellValue(Double.parseDouble(dObj.getCumulative_completed()));
+								cell.setCellValue(!StringUtils.isEmpty(dObj.getCumulative_completed())?Double.parseDouble(dObj.getCumulative_completed()):0);
 								
 						        rowNo++;
 						    }

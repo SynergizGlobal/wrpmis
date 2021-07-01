@@ -28,7 +28,7 @@ public class RiskPriorityDaoImpl  implements RiskPriorityDao{
 	public List<Safety> getRiskPriorityList() throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry ="select risk_priority from risk_priority ";
+			String qry ="select risk_priority from risk_priority order by CONCAT( REPEAT(  '0', 8 - LENGTH( risk_priority ) ) , risk_priority ) asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -62,7 +62,7 @@ public class RiskPriorityDaoImpl  implements RiskPriorityDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select risk_priority from risk_priority ";
+			String qry ="select risk_priority from risk_priority order by CONCAT( REPEAT(  '0', 8 - LENGTH( risk_priority ) ) , risk_priority ) asc ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);

@@ -157,7 +157,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 							+ "left outer join work w on rwh.work_id_fk = w.work_id "
 							+ "left outer join project p on w.project_id_fk = p.project_id "
 							+ "where rwh.work_id_fk = ? and rv.sub_work = ? and date = ? and priority_fk <> 'Accepted' "
-							+ "ORDER BY priority_fk ASC, area_item_no ASC , sub_area_item_no ASC ";
+							+ "ORDER BY CONCAT( REPEAT(  '0', 8 - LENGTH( priority_fk ) ) , priority_fk ) asc, area_item_no ASC , sub_area_item_no ASC ";
 					
 			Object[] pValues = new Object[] {obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date()};
 					
@@ -190,7 +190,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 					+ "left outer join work w on rwh.work_id_fk = w.work_id "
 					+ "left outer join project p on w.project_id_fk = p.project_id "
 					+ "where rwh.work_id_fk = ? and rv.sub_work = ? and date = ? and priority_fk <> 'Accepted'  "
-					+ "ORDER BY  priority_fk ASC, area_item_no ASC , sub_area_item_no ASC, DATE_FORMAT(atr_date,'%Y-%m-%d') ASC";
+					+ "ORDER BY CONCAT( REPEAT(  '0', 8 - LENGTH( priority_fk ) ) , priority_fk ) asc, area_item_no ASC , sub_area_item_no ASC, DATE_FORMAT(atr_date,'%Y-%m-%d') ASC";
 			
 					
 			Object[] pValues = new Object[] {obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date()};

@@ -319,6 +319,7 @@
             // adding table data into table ends */
 
             var table = $('#risk_priority_table').DataTable({
+            	"order": [],
                 columnDefs: [
                     {
                         targets: [0],

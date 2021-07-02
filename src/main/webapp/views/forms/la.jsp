@@ -50,6 +50,10 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
+         .fw-115{
+         		width:217px !important;
+        		max-width:217px;
+         }
           @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
@@ -83,15 +87,23 @@
 	        }
 	        .fw-111{
 	        	width:30vw;
-	        	min-width:30vw;
+	        	min-width:30vw; 
 	        }
 		}
+		
 		@media only screen and (min-width: 576px) and (max-width: 839px){
 			.fs-md-74rem{
 			    font-size: .74rem;
 			}
+			 .fw-111{
+	        	width:30vw !important;
+	        	min-width:30vw;
+	        }
 		}
-
+		.fw-last{
+				width:116px !important;
+	        	min-width:116px;
+		}
     </style>
 </head>
 
@@ -451,7 +463,13 @@
 	                         "targets": 'no-sort',
 	                         "orderable": false,
 	                     },{targets:[0,2,3,5],
-		                       className: 'hideCOl'}
+		                       className: 'hideCOl'} 
+		                   ,{targets: [4],
+			                       className: 'fw-115'}
+		                   ,{targets: [1,4],
+		                       className: 'fw-111'}
+		                   ,{targets: [6],
+		                       className: 'fw-last'}
 	                ],
 	   	            "sScrollX": "100%",
 	                "sScrollXInner": "100%",

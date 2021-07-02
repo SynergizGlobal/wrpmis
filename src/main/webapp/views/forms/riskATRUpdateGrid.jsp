@@ -66,6 +66,10 @@
         	width:300px;
         	min-width:300px;
         }
+        .fw-110{
+        	width:110px;
+        	min-width:110px;
+        }
          @media only screen and (min-width: 769px){ 
 	        .fw-111{
 	        	width:128px;
@@ -363,6 +367,7 @@
                     { targets: [7], className: 'fw-111'  },
                     { targets: [2,3], className: 'fw-30'  },
                     { targets: [7], className: 'fw-111'  },
+                    { targets: [2], className: 'fw-110'  },
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",

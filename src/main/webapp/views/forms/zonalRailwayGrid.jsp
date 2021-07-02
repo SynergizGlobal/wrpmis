@@ -83,8 +83,8 @@
         	top:30px;
         }
         .fw-111{
-        	width:30vw;
-        	min-width:30vw;
+        	width:45vw;
+        	min-width:45vw;
         }
      }
     </style>
@@ -476,7 +476,7 @@
    								columnDefs : [ {
    									"targets" : 'no-sort',
    									"orderable" : false,
-   								},{targets: [2,3,4,5,6,7], className: 'hideCOl'} ],
+   								},{targets: [2,3,4,5,6,7], className: 'hideCOl'},{targets: [0], className: 'fw-111'} ],
    								"sScrollX" : "100%",
    								"sScrollXInner" : "100%",
    								"bScrollCollapse" : true,

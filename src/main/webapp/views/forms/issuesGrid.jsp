@@ -52,9 +52,15 @@
       	max-width:40vw;
       }
        .fw-111{
-	        	width:88px !important;
+	        	width:88px ;
 	        	min-width:88px;
+	   }
+	    @media only screen and (min-width: 769px){ 
+        	.fw-110{
+	        	width:100px !important;
+	        	min-width:100px !important; 
 	        }
+       }
         @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
@@ -80,7 +86,10 @@
 	        	right:5px;
 	        	top:30px;
 	        }
-	       
+	        .fw-110{
+	        	width:50px !important;
+	        	min-width:50px !important; 
+	        }
 	        .mdl-data-table__cell--non-numeric.mdl-data-table__cell--non-numeric, .mdl-data-table td {
 			    text-align: left;
 			}
@@ -450,7 +459,7 @@
                 },
                 columnDefs: [
                     { orderable: false, 'aTargets': ['nosort'] },{targets:[2,3,4,5],
-	                       className: 'hideCOl'},{ targets: [2], className: 'fw-111'  }
+	                       className: 'hideCOl'},{ targets: [2], className: 'fw-111'  },{ targets: [6], className: 'fw-110'  }
                 ],
                 // "ScrollX": true,
                 //"scrollCollapse": true,

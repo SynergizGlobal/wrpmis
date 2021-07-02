@@ -50,6 +50,12 @@
          .row.no-mar{
          	margin-bottom:0;
          }
+       @media only screen and (min-width: 769px){ 
+        .fw-111{
+        		width:30vw !important;
+        		max-width:30vw;
+        }
+       }
       @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
@@ -76,8 +82,8 @@
 	        	top:30px;
 	        }
 	        .fw-111{
-	        	width:35vw;
-	        	min-width:35vw;
+	        	width:30vw;
+	        	min-width:30vw;
 	        }
 		}
 		#datatable-design_mob td > .btn.t-c{
@@ -745,7 +751,7 @@
 												"targets" : 'no-sort',
 												"orderable" : false,
 											},{targets:[1,2,4,5,6,7],
-				 			                       className: 'hideCOl'},{ targets: [0], className: 'fw-111'  } ],
+				 			                       className: 'hideCOl'},{ targets: [0], className: 'fw-111'  },{ targets: [0,3], className: 'fw-111'  } ],
 											"sScrollX" : "100%",
 											"sScrollXInner" : "100%",
 											"bScrollCollapse" : true,

@@ -1388,17 +1388,13 @@ public class DocxTableCreation {
 	
 	private static void addPageBreak(MainDocumentPart documentPart) {
 		 ObjectFactory objectFactory = new ObjectFactory();
-	        //P paragraph = objectFactory.createP();
-	        //R run = objectFactory.createR();
-	        P p = objectFactory.createP();
-	        // Create object for r
+	        //P p = objectFactory.createP();
 	        R r = objectFactory.createR();
-	        p.getContent().add(r);
-	        // Create object for br
+	        //p.getContent().add(r);
 	        Br br = objectFactory.createBr();
 	        r.getContent().add(br);
 	        br.setType(org.docx4j.wml.STBrType.PAGE);
-	        documentPart.addObject(p);
+	        documentPart.addObject(br);
 	}
 	
 	public static RPr getRPr(ObjectFactory factory, String fontFamily,

@@ -47,13 +47,13 @@
 	     .fw-10vw{
 		       	width:50px !important;
 		       	min-width:50px;
-	      }
+	      } 
          @media only screen and (max-width: 769px){ 
 		
 		.dataTables_scrollBody tbody tr td:last-of-type,
 		.no-sort{
 			padding:3px !important;
-			max-width: 45px;
+			max-width: 35px;
 		}
 		.mob-btn{
 			padding:0 12px; 
@@ -180,7 +180,7 @@
 									</div>
 									<div class="col s12 m4 input-field center-align">
 										<button
-											class="btn bg-m waves-effect waves-light t-c clear-filters mt-md-18"
+											class="btn bg-m waves-effect waves-light t-c clear-filters"
 											style="width: 100%;"
 											onclick="clearFilter();">Clear Filters</button>
 									</div>
@@ -381,8 +381,8 @@
                 columnDefs: [ 
                 	{targets: [2,3], className: 'hideCOl'},
                     { targets: [ 0,1,2, 3], className: 'fw-12vw'  },
-                    { targets: [4], className: 'fw-10vw'  }
-                    ,{ targets: [0,1], className: 'fw-111'  },
+                    { targets: [4], className: 'fw-10vw'  },
+                    { targets: [0,1], className: 'fw-111'  },
                     { orderable: false, 'aTargets': ['no-sort'] } 
                 ],
                 // "ScrollX": true,

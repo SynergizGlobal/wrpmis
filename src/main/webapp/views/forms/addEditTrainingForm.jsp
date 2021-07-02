@@ -22,6 +22,9 @@
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
+    
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
    
     <style>
         #session-table .datepicker~button {
@@ -188,6 +191,45 @@
 		.pos-rel{
 			position:relative;
 		}
+		.disp-init{
+			display:initial;
+		}
+			
+		@media only screen and (max-width: 768px){
+			.modal:not(.datepicker-modal){
+	        	max-height:80%;
+	        	width:85%;
+	        }
+	        .modal:not(.datepicker-modal).modal-header{
+	        	margin: -24px -12px 20px !important;
+    			font-size: 1.4rem;
+	        }
+	        .modal:not(.datepicker-modal) .modal-content{
+	        	padding:24px 12px;
+	        }
+	        .mobile_responsible_table .input-field input.timepicker{
+	        	width:100% ;
+	        }
+	        .timepicker~button{
+	        	right:-10px;
+	        }
+			td.cell-disp-inb .file-path-wrapper {
+			    visibility: hidden;
+			    width: 2px;
+			    margin-bottom: 0;
+			}
+			.pos-rel{
+				white-space:inherit !important;
+			}
+		}
+			@media only screen and (max-width: 769px) and (min-width: 500px){ 
+			input.timepicker~button{
+	        	right:25px;
+	        }	
+	        .mobile_responsible_table .input-field input.timepicker{
+	        	width:90% ;
+	        }	 
+		}
     </style>
 </head>
 
@@ -221,14 +263,14 @@
 						</c:if>
 					<div class="container container-no-margin">
 						<div class="row">
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col s12 m4 input-field">
+							 
+							<div class="col s6 offset-m2 m4 input-field">
 								<label class="primary-text-bold"></label>
 								<c:if test="${action eq 'edit'}">
-									<label class="primary-text-bold">Training ID : <span>${trainingDetails.training_id }</span></label>
+									<p class="primary-text-bold">Training ID : <span>${trainingDetails.training_id }</span></p>
 								</c:if>
 							</div>
-							<div class="col s12 m4 input-field">
+							<div class="col s6 m4 input-field">
 								<p class="searchable_label">Training Type <span class="required">*</span></p>
 								<select class="searchable validate-dropdown"
 									name="training_type_fk" id="training_type_fk">
@@ -240,12 +282,12 @@
 								</select> 
 								<span id="training_typeError" class="error-msg"></span>
 							</div>
-							<div class="col m2 hide-on-small-only"></div>
+							 
 						</div>
 
 						<div class="row">
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col s12 m4 input-field">
+							 
+							<div class="col s6 offset-m2 m4 input-field">
 								<p class="searchable_label">Category <span class="required">*</span></p>
 								<select class="searchable validate-dropdown"
 									name="training_category_fk" id="training_category_fk">
@@ -257,7 +299,7 @@
 								</select> 
 								<span id="training_category_fkError" class="error-msg"></span>
 							</div>
-							<div class="col s12 m4 input-field">
+							<div class="col s6 m4 input-field">
 								<p class="searchable_label">Status <span class="required">*</span></p>
 								<select class="searchable validate-dropdown" name="status_fk"
 									id="status_fk">
@@ -269,63 +311,62 @@
 								</select> 
 								<span id="status_fkError" class="error-msg"></span>
 							</div>
-							<div class="col m2 hide-on-small-only"></div>
+							 
 						</div>
 
 						<div class="row">
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col s12 m4 input-field ">
+							 
+							<div class="col s6 offset-m2 m4 input-field ">
 								<input id="faculty_name" name="faculty_name" type="text" class="validate" value="${trainingDetails.faculty_name }">
 								<label for="faculty_name">Faculty <span class="required">*</span></label>
 								<span id="faculty_nameError" class="error-msg"></span>
 							</div>
-							<div class="col s12 m4 input-field ">
+							<div class="col s6 m4 input-field ">
 								<input id="designation" type="text" class="validate" value="${trainingDetails.designation }"> 
 								<label for="designation">Designation</label>
 								<span id="designationError" class="error-msg"></span>
 							</div>
-							<div class="col m2 hide-on-small-only"></div>
+							 
 						</div>
 						<input type="hidden" name="training_id" value="${trainingDetails.training_id }" />
 						<div class="row">
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col s12 m8 input-field">
+							 
+							<div class="col s12 m8 input-field offset-m2">
 								<textarea id="title" name="title" class="materialize-textarea">${trainingDetails.title }</textarea>
 								<label for="title">Title <span class="required">*</span></label>
 								<span id="titleError" class="error-msg"></span>
 							</div>
-							<div class="col m2 hide-on-small-only"></div>
+							 
 						</div>
 						<div class="row">
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col s12 m8 input-field">
+							 
+							<div class="col s12 m8 input-field offset-m2">
 								<textarea id="description" name="description" class="materialize-textarea">${trainingDetails.description }</textarea>
 								<label for="description">Description <span class="required">*</span></label>
 								<span id="descriptionError" class="error-msg"></span>
 							</div>
-							<div class="col m2 hide-on-small-only"></div>
+							 
 						</div>
 
 						<div class="row">
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col s12 m8 input-field">
+							 
+							<div class="col s12 m8 input-field offset-m2">
 								<!-- <input id="training_center" type="text" class="validate" style="margin-top: 10px;">
                                     <label for="training_center"> Training Center </label> -->
 								<textarea id="training_center" name="training_center"
 									class="materialize-textarea">${trainingDetails.training_center }</textarea>
 								<label for="training_center">Training Center</label>
 							</div>
-							<div class="col m2 hide-on-small-only"></div>
+							 
 						</div>
 					</div>
 					
 				<div class="row">
-   				 <!-- <div class="col m1 hide-on-small-only"></div> -->
     				<div class="col m12 s12">        
 						<div class="row fixed-width">
 							<h5 class="center-align">Sessions</h5>
 							<div class="table-inside">
-								<table id="session-table" class="mdl-data-table">
+								<table id="session-table" class="mdl-data-table mobile_responsible_table">
 									<thead>
 										<tr>
 											<th class="fw-110">Session No</th>	
@@ -345,16 +386,16 @@
 													items="${trainingDetails.trainingSessions }"
 													varStatus="index">
 													<tr id="trainingRow${index.count }">
-														<td><input type="hidden" name="training_session_ids" id="training_session_ids${index.count }" value="${tObj.training_session_id}" />
+														<td data-head="Session No" class="input-field"><input type="hidden" name="training_session_ids" id="training_session_ids${index.count }" value="${tObj.training_session_id}" />
 														 <input id="session_nos${index.count }" name="session_nos" type="text" class="validate" value="${tObj.session_no }"
 															placeholder="Session No"></td>
-														<td><div class="pos-rel">
+														<td data-head="Start Time"  class="input-field"><div class="pos-rel">
 															<input id="start_times${index.count }"  name="start_times" type="text" class="validate timepicker" value="${tObj.start_time }"
 															placeholder="Start Time">
 															<button type="button" id="start_time_icon${index.count }"><i class="fa fa-clock-o"></i></button></div></td>
-														<td><div class="pos-rel"><input id="end_times${index.count }" name="end_times" type="text" class="validate timepicker" value="${tObj.end_time }" placeholder="End Time">
+														<td data-head="End Time"  class="input-field"><div class="pos-rel"><input id="end_times${index.count }" name="end_times" type="text" class="validate timepicker" value="${tObj.end_time }" placeholder="End Time">
 															<button type="button" id="end_time_icon${index.count }"><i class="fa fa-clock-o"></i></button></div></td>
-														<td class="attendees-column"><a href="#session-update-modal${index.count }" class="btn waves-effect waves-light bg-m t-c modal-trigger"
+														<td data-head="Attendees" class="attendees-column"><a href="#session-update-modal${index.count }" class="btn waves-effect waves-light bg-m t-c modal-trigger"
 															onclick="showNo(this);"> Update </a>
 															<div id="session-update-modal${index.count }" class="modal">
 																<div class="modal-content">
@@ -363,7 +404,7 @@
 																	<div class="row fixed-width">
 																		<div class="table-inside">
 																			<table id="training-update-table${index.count }"
-																				class="mdl-data-table val">
+																				class="mdl-data-table val mobile_responsible_table">
 																				<thead>
 																					<tr>
 																						<th>Department</th>
@@ -382,7 +423,7 @@
 																							test="${not empty tObj.trainingAttendees && fn:length(tObj.trainingAttendees) gt 0 }">
 																							<c:forEach var="dObj" items="${tObj.trainingAttendees }" varStatus="indexx">
 																								<tr id="attendeesRow${indexx.count }${index.count }">
-																									<td><input type="hidden" id="rowCounts${indexx.count }${index.count }${indexx.count }" name="rowCounts" class="hide" />
+																									<td data-head="Department" class="input-field"><input type="hidden" id="rowCounts${indexx.count }${index.count }${indexx.count }" name="rowCounts" class="hide" />
 																									<input type="hidden" name="training_session_id_fks" id="training_session_id_fks${indexx.count }${index.count }${indexx.count }"
 																										 value="${dObj.training_session_id_fk}" />
 																										<input type="hidden" name="training_attendees_ids" id="training_attendees_ids${indexx.count }${index.count }${indexx.count }"
@@ -395,7 +436,7 @@
 																													<c:if test="${dObj.department_name eq obj.department_name }">selected</c:if>>${obj.department_name }</option>
 																											</c:forEach>
 																									</select> <span id="training_category_fkError" class="error-msg"></span></td>																									
-																									<td>																											
+																									<td data-head="HOD" class="input-field">																											
 																                                        <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks${indexx.count }${index.count }${indexx.count }" >
 																                                            <option value="" >Select HOD</option>  
 																                                            <c:forEach var="obj" items="${usersList}">
@@ -403,7 +444,7 @@
 																											</c:forEach>                                         
 																                                        </select>                                   
 																									</td>
-																									<td>
+																									<td data-head="Attendee" class="input-field">
 																										<select class="searchable validate-dropdown" name="attendees" id="attendees${indexx.count }${index.count }${indexx.count }">
 																											<option value="">Select Attendee</option>
 																											<c:forEach var="obj" items="${attendeesList}">
@@ -411,11 +452,11 @@
 																											</c:forEach>
 																										 </select>
 																									</td>
-																									<td> <input type="text" placeholder="Designation" id="trainee_designations${indexx.count }${index.count }${indexx.count }" name="trainee_designations" value="${dObj.trainee_designation}"></td>		
-																									<td><input id="mobile_nos${indexx.count }${index.count }${indexx.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile"
+																									<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="trainee_designations${indexx.count }${index.count }${indexx.count }" name="trainee_designations" value="${dObj.trainee_designation}"></td>		
+																									<td data-head="Mobile" class="input-field"><input id="mobile_nos${indexx.count }${index.count }${indexx.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile"
 																										value="${dObj.mobile_no }"></td>
-																									<td>
-																										<p>
+																									<td data-head="Nominated" class="input-field">
+																										<p class="disp-init">
 																											<label><input type="hidden" name="required_fks" value ="${dObj.required_fk}" id="required_fk${indexx.count }${index.count }${indexx.count }" />
 																											  
 																											   <input type="checkbox" id="required_fks${indexx.count }${index.count }${indexx.count }"  class="required_fks" onChange="checkBox('${indexx.count }${index.count }${indexx.count }')"
@@ -424,8 +465,8 @@
 																											</label>
 																										</p>
 																									</td>
-																									<td>
-																										<p>
+																									<td data-head="Participated" class="input-field">
+																										<p class="disp-init">
 																											<label> <input type="hidden" name="participated_fks" value ="${dObj.participated_fk}" id="participated_fk${indexx.count }${index.count }${indexx.count }" /> 
 																											  
 																											   <input type="checkbox" id="participated_fks${indexx.count }${index.count }${indexx.count }"  class="participated_fks" onChange="checkBoxs('${indexx.count }${index.count }${indexx.count }')"
@@ -434,7 +475,7 @@
 																											</label>
 																										</p>
 																									</td>
-																									<td><a onclick="removeTrainingAttendees('${indexx.count }${index.count }${indexx.count }');prevRow('${index.count }')"
+																									<td class="mobile_btn_close"><a onclick="removeTrainingAttendees('${indexx.count }${index.count }${indexx.count }');prevRow('${index.count }')"
 																										class="btn waves-effect waves-light red t-c ">
 																											<i class="fa fa-close"></i>
 																									</a></td>
@@ -475,7 +516,7 @@
 																						 </c:when>
 																	 					<c:otherwise>
 																							<tr id="attendeesRow0${index.count }">
-																								<td><input type="hidden" id="rowCounts0${index.count }" name="rowCounts" value="1" class="hide" />
+																								<td data-head="Department" class="input-field"><input type="hidden" id="rowCounts0${index.count }" name="rowCounts" value="1" class="hide" />
 																								<input type="hidden" name="training_session_id_fks" id="training_session_id_fks0${index.count }"
 																									 value="${tObj.training_session_id}" />
 																									 <input type="hidden" name="training_attendees_ids" id="training_attendees_ids0${index.count }" />
@@ -485,7 +526,7 @@
 																												<option value="${obj.department_fk }">${obj.department_name }</option>
 																											</c:forEach>
 																									  </select> <span id="training_category_fkError" class="error-msg"></span></td>
-																								<td>																											
+																								<td data-head="HOD" class="input-field">																											
 																                                        <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks0${index.count }" >
 																                                            <option value="" >Select HOD</option>  
 																                                             <c:forEach var="obj" items="${usersList}">
@@ -493,7 +534,7 @@
 																											</c:forEach>                                           
 																                                        </select>                                   
 																								</td>
-																								<td>
+																								<td data-head="Attendee" class="input-field">
 																									<select class="searchable validate-dropdown" name="attendees" id="attendees0${index.count }">
 																											<option value="">Select Attendee</option>
 																											<c:forEach var="obj" items="${attendeesList}">
@@ -501,25 +542,24 @@
 																											</c:forEach>
 																								    </select>
 																								</td>	
-																								<td> <input type="text" placeholder="Designation" id="trainee_designations0${index.count }" name="trainee_designations" ></td>																							
-																								<td><input id="mobile_nos0${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
+																								<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="trainee_designations0${index.count }" name="trainee_designations" ></td>																							
+																								<td data-head="Mobile" class="input-field"><input id="mobile_nos0${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
 																								</td>
-																								<td>
-																									<p>
+																								<td data-head="Nominated" class="input-field">
+																									<p class="disp-init">
 																										<label> <input type="hidden" id="required_fk0${index.count }" name="required_fks" value="No" class="req" />
 																											<input type="checkbox" id="required_fks0${index.count }" /> <span></span>
 																										</label>
 																									</p>
 																								</td>
-																								<td>
-
-																									<p>
+																								<td data-head="Participated" class="input-field">
+																									<p class="disp-init">
 																										<label> <input type="hidden" id="participated_fk0${index.count }" name="participated_fks" value="No" class="part" /> 
 																											<input type="checkbox" id="participated_fks0${index.count }"  /> <span></span>
 																										</label>
 																									</p>
 																								</td>
-																								<td><a onclick="removeTrainingAttendees('0${index.count }');"	class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>
+																								<td class="mobile_btn_close"><a onclick="removeTrainingAttendees('0${index.count }');"	class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>
 																							</tr>
 																							<script>
 																									
@@ -576,8 +616,8 @@
 																	</div>
 																</div>
 															</div></td>
-														<td><textarea id="remarkss${index.count }" name="remarkss" class="materialize-textarea" placeholder="Remarks">${tObj.remarks }</textarea></td>
-														  <td>
+														<td data-head="Remarks" class="input-field"><textarea id="remarkss${index.count }" name="remarkss" class="materialize-textarea" placeholder="Remarks">${tObj.remarks }</textarea></td>
+														  <td data-head="Attachment" class="input-field cell-disp-inb">
                                                             <!-- <div class="">
                                                                 <input type="file" name="myfile" id="myFile0"
                                                                     onchange="getFileName(0)" style="display:none" />
@@ -607,11 +647,11 @@
 					                                        </div>                                       
 					                                    </div>
 													</div>
-				                                    <div id="selectedFiles${index.count }">
+				                                    <div id="selectedFiles${index.count }" class="disp-in">
 				                                    	<c:forEach var="obj" items="${tObj.trainingFilesList }" varStatus="indexx">
 															 <div id="trainingSessionFilesNames${index.count }${indexx.count }">
-																<a href="<%=CommonConstants.TRAINING_SESSIONS %>${obj.attachment }" class="filevalue" download>${obj.attachment } </a>
-																<span onclick="removeFileUpdate('${index.count }${indexx.count }','${index.count }')" class="attachment-remove-btn">X</span>
+																<a href="<%=CommonConstants.TRAINING_SESSIONS %>${obj.attachment }" class="filevalue" download>${obj.attachment } 
+																<span onclick="removeFileUpdate('${index.count }${indexx.count }','${index.count }')" class="attachment-remove-btn">X</span> </a>
 																<input type="hidden" id="trainingSessionFileNames${index.count }${indexx.count }" name="trainingSessionFileNames" value="${obj.attachment }">
 														     </div>
 														     <div style="clear:both" class="hide" id="hide${index.count }${indexx.count }"><input type="hidden" id="filecounts${index.count }${indexx.count }" name="filecounts" value="${indexx.count }"></div>
@@ -639,7 +679,7 @@
 															 </div>                                              
 													         <input type="hidden" id="trainingSessionFileNames${index.count }" name="trainingSessionFileNames" value="${tObj.attachment }">
                                                          --%></td>
-														<td><a onclick="removeTraining('${index.count }');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
+														<td class="mobile_btn_close right"><a onclick="removeTraining('${index.count }');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
 													</tr>
 													<script>
                                           				dateTimesInits++;                                         
@@ -648,20 +688,19 @@
 											</c:when>
 											<c:otherwise>
 												<tr id="trainingRow0">
-													<td><input type="hidden" name= "training_session_ids" id="training_session_ids0"  value="${tObj.training_session_id}"/>
+													<td data-head="Session No"  class="input-field" ><input type="hidden" name= "training_session_ids" id="training_session_ids0"  value="${tObj.training_session_id}"/>
 														<input id="session_nos0" name="session_nos" type="text" class="validate" placeholder="Session No"></td>
-													<td><div class="pos-rel"><input id="start_times0" name="start_times" type="text" class="validate timepicker" placeholder="Start Time">
+													<td data-head="Start Time"  class="input-field"><div class="pos-rel"><input id="start_times0" name="start_times" type="text" class="validate timepicker" placeholder="Start Time">
 														<button type="button" id="start_time_icon0"><i class="fa fa-clock-o"></i></button></div></td>
-													<td><div class="pos-rel"><input id="end_times0" name="end_times" type="text" class="validate timepicker" placeholder="End Time">
+													<td data-head="End Time"  class="input-field"><div class="pos-rel"><input id="end_times0" name="end_times" type="text" class="validate timepicker" placeholder="End Time">
 														<button type="button" id="end_time_icon0"><i class="fa fa-clock-o"></i></button></div></td>
-													<td class="attendees-column"><a href="#session-update-modal0" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a>
+													<td data-head="Attendees" class="input-field" ><a href="#session-update-modal0" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a>
 														<div id="session-update-modal0" class="modal">
 															<div class="modal-content">
 																<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4>
 															   	<div class="row fixed-width">
 																	<div class="table-inside">
-																		<table id="training-update-table0"
-																			class="mdl-data-table">
+																		<table id="training-update-table0"	class="mdl-data-table mobile_responsible_table">
 																			<thead>
 																				<tr>
 																					<th>Department</th>
@@ -676,7 +715,7 @@
 																			</thead>
 																			<tbody id="attendeesTableBody0">
 																				<tr id="attendeesRow0">
-																					<td><input type="hidden" id="rowCounts0" name="rowCounts" value="1" class="hide" />
+																					<td data-head="Department" class="input-field"><input type="hidden" id="rowCounts0" name="rowCounts" value="1" class="hide" />
 																					<input type="hidden" name="training_attendees_ids" id="training_attendees_ids0" value="${tObj.training_session_id_fk}"/> 
 																					<select class="searchable validate-dropdown" name="department_fks" id="department_fks0">
 																							<option value="">Select Department</option>
@@ -684,14 +723,14 @@
 																								<option value="${obj.department_fk }">${obj.department_name }</option>
 																							</c:forEach>
 																					</select> <!-- //pattern="[6-7-9]{1}[0-9]{9}" --> 
-																					<td> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks0" >
+																					<td data-head="HOD" class="input-field"> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks0" >
 																					<option value="" >Select HOD</option>
 																					 <c:forEach var="obj" items="${usersList}">
 																							<option value="${obj.hod_user_id_fk }">${obj.designation }</option>
 																					</c:forEach>  
 																					</select>    
 																					</td>
-																					<td>
+																					<td data-head="Attendee" class="input-field">
 																						<select class="searchable validate-dropdown" name="attendees" id="attendee0">
 																								<option value="">Select Attendee</option>
 																								<c:forEach var="obj" items="${attendeesList}">
@@ -699,25 +738,25 @@
 																								</c:forEach>
 																						 </select>
 																					</td>
-																					<td> <input type="text" placeholder="Designation" id="trainee_designations0" name="trainee_designations" ></td>
-																					<td><input id="mobile_nos0" name="mobile_nos" type="tel" class="validate num" placeholder="Mobile">
+																					<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="trainee_designations0" name="trainee_designations" ></td>
+																					<td data-head="Mobile" class="input-field"><input id="mobile_nos0" name="mobile_nos" type="number" class="validate num" placeholder="Mobile">
 																					<br><span id="mobile_nosError" class="error-msg"></span></td>
-																					<td>
-																						<p>
+																					<td data-head="Nominated" class="input-field">
+																						<p class="disp-init">
 																							<label> 
 																								<input type="hidden" id="required_fk0" name="required_fks" value="No" class="req" /> 
 																								<input type="checkbox" id="required_fks0" /> <span></span>
 																							</label>
 																						</p>
 																					</td>
-																					<td>
-																						<p>
+																					<td data-head="Participated" class="input-field">
+																						<p class="disp-init">
 																							<label> <input type="hidden" id="participated_fk0" name="participated_fks" value="No" class="part" />
 																								<input type="checkbox" id="participated_fks0"  /> <span></span>
 																							</label>
 																						</p>
 																					</td>
-																					<td><a onclick="removeTrainingAttendees('0');prevRow('0')" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i>
+																					<td class="mobile_btn_close"><a onclick="removeTrainingAttendees('0');prevRow('0')" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i>
 																					</a></td>
 																				</tr>
 
@@ -760,9 +799,9 @@
 																</div>
 															</div>
 														</div></td>
-													<td><textarea id="remarkss0" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea>
+													<td data-head="Remarks" class="input-field"><textarea id="remarkss0" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea>
 													</td>
-													  <td>
+													  <td data-head="Attachment" class="input-field cell-disp-inb">
                                                             <!-- <div class="">
                                                                 <input type="file" name="myfile" id="myFile0"
                                                                     onchange="getFileName(0)" style="display:none" />
@@ -796,7 +835,7 @@
 															 </div>         
 															 <input type="hidden" id="trainingSessionFileNames0" name="trainingSessionFileNames" >  -->
                                                         </td>
-													<td><a onclick="removeTraining('0');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
+													<td class="mobile_btn_close right"><a onclick="removeTraining('0');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
 												</tr>
 											</c:otherwise>
 										</c:choose>
@@ -823,18 +862,17 @@
 						</div>
 										
 				    </div>
-				  <!--   <div class="col m1 hide-on-small-only"></div> -->
 				</div>
 					
 						<div class="container container-no-margin">						
 							<div class="row" style="margin-top: 20px;">
-								<div class="col m2 hide-on-small-only"></div>
-								<div class="col m8 s12">
+								 
+								<div class="col m8 s12 offset-m2">
 									<div class="row">
-										<div class="col s6 m6 input-field">
+										<div class="col s5 m6 input-field">
 											<p style="margin-top: 18px;">Any Issue ?</p>
 										</div>
-										<div class="col s6 m6 input-field">
+										<div class="col s7 m6 input-field">
 											<p class="radiogroup"
 												style="padding-bottom: 10px; padding-top: 10px;">
 												<label> 
@@ -854,10 +892,10 @@
 							<div class="row">
 								<h6 class="center-align"
 									style="color: #282130; font-weight: 600">Issue Details</h6>
-								<div class="col m2 hide-on-small-only"></div>
-								<div class="col m8 s12">
+								 
+								<div class="col m8 s12 offset-m2">
 									<div class="row">
-										<div class="col s12 m6 input-field" style="margin-top: 33px;">
+										<div class="col s12 m4 l6 input-field" style="margin-top: 33px;">
 											<p class="searchable_label">Issue Category</p>
 											<select class="searchable validate-dropdown"
 												id="issue_category_id" name="issue_category_id">
@@ -867,7 +905,7 @@
 												</c:forEach>
 											</select> <span id="status_fkError" class="error-msg"></span>
 										</div>
-										<div class="col s12 m6 input-field" style="padding-top: 4px;">
+										<div class="col s12 m8 l6 input-field" style="padding-top: 4px;">
 											<p class="prio">Priority</p>
 											<p class="radiogroup">
 												<label>
@@ -887,8 +925,8 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m8 input-field"><textarea id="issue_description" name="issue_description" class="materialize-textarea" data-length="500"></textarea>
+								 
+								<div class="col s12 m8 input-field offset-m2"><textarea id="issue_description" name="issue_description" class="materialize-textarea" data-length="500"></textarea>
 									<label for="issueDesc">Issue Description</label>
 								</div>
 							</div>
@@ -896,17 +934,17 @@
 
 						<div class="row">
 							<!-- row 10 -->
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col s12 m8 input-field">
+							 
+							<div class="col s12 m8 input-field offset-m2">
 								<textarea id="remarks" class="materialize-textarea" name="remarks" id="remarks" data-length="1000">${trainingDetails.remarks }</textarea>
 								<label for="remarks">Remarks</label>
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col s12 m4 mt-brdr">
-								<div class="center-align m-1">
+							 
+							<div class="col s12 m4 mt-brdr offset-m2 center-align">
+								<div class=" m-1">
 									<c:if test="${action eq 'edit'}">
 										<button type="button" onclick="updateTraining();" class="btn waves-effect waves-light bg-m">Update</button>
 									</c:if>
@@ -915,13 +953,13 @@
 									</c:if>
 								</div>
 							</div>
-							<div class="col s12 m4 mt-brdr">
-								<div class="center-align m-1">
+							<div class="col s12 m4 mt-brdr center-align">
+								<div class=" m-1">
 									<a href="<%=request.getContextPath()%>/training"
 										class="btn waves-effect waves-light bg-s" >Cancel</a>
 								</div>
 							</div>
-							<div class="col m2 hide-on-small-only"></div>
+							 
 						</div>
 					</div>
 				 </form>
@@ -971,8 +1009,7 @@
 				
 		    for (var i = 0; i < files.length ; i++) {
 		    	html =  html + '<div id=trainingSessionFilesNames'+no+'>'
-				 + '<a href="#" class="filevalue"> '+$(this).get(0).files[i].name+'</a>'
-				 + '<span onclick="removeFile('+no+','+count+')" class="attachment-remove-btn">X</span>'
+				 + '<a href="#" class="filevalue"> '+$(this).get(0).files[i].name+'<span onclick="removeFile('+no+','+count+')" class="attachment-remove-btn">X</span></a>'
 				 + '</div>'
 				 + '<div style="clear:both;" id="hide'+no+'"><input id="fileCounts'+no+'"  name="filecounts"  type="hidden"></div>';
 		    }
@@ -1003,7 +1040,7 @@
 		    var spli1 = str.split('.')[0];
 		    for (var i = 0; i < files.length ; i++) {
 		    	html =  html + '<div id=trainingSessionFilesNames'+fileIndex+'>'
-				 + '<a href="#" class="filevalue"> '+$(this).get(0).files[i].name+'</a> <span onclick="removeFileUpdate('+fileIndex+','+bNo+')" class="attachment-remove-btn">X</span>'
+				 + '<a href="#" class="filevalue"> '+$(this).get(0).files[i].name+' <span onclick="removeFileUpdate('+fileIndex+','+bNo+')" class="attachment-remove-btn">X</span></a>'
 				
 				 + '<input type="hidden" id="trainingSessionFileNames'+fileIndex+'" name="trainingSessionFileNames" value="'+$(this).get(0).files[i].name+'" >'
 				 + '</div>'
@@ -1219,7 +1256,7 @@
           	    var lastRow = $('#attendeesTableBody'+tNo+' #rowCounts'+lastIndex).prop('disabled', true);
             } 
             var html = '<tr id="attendeesRow'+rNo+'">' +
-            	   '<td><input type="hidden" id="rowCounts'+rNo+'" name="rowCounts"  class="hide" />'+
+            	   '<td data-head="Department" class="input-field"><input type="hidden" id="rowCounts'+rNo+'" name="rowCounts"  class="hide" />'+
 			 	   '<input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+tNo+'" value="'+trainingSessionId+'" />'+
 				   '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo +tNo+'" />'+
 	               '<select id="department_fks'+ rNo +tNo+'" name="department_fks" class="searchable validate-dropdown " >'+
@@ -1228,23 +1265,23 @@
 		             	  '<option value="${obj.department_fk }">${obj.department_name}</option>' +
 		                </c:forEach>
 	         	    '</select></td>'+
-	                '<td> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks'+ rNo +tNo+'" >'+
+	                '<td data-head="HOD" class="input-field"> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks'+ rNo +tNo+'" >'+
 	                '<option value="" >Select HOD</option>'+
 	                <c:forEach var="obj" items="${usersList}">
 						'<option value="${obj.hod_user_id_fk }">${obj.designation }</option>'+
 					</c:forEach>
 	                '</select></td>'+
-	                '<td><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo +tNo+'" >'+
+	                '<td data-head="Attendee" class="input-field"><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo +tNo+'" >'+
 					'<option value="">Select Attendee</option>'+
 						<c:forEach var="obj" items="${attendeesList}">
 							'<option value="${obj.attendee }">${obj.attendee }</option>'+
 						</c:forEach>
 					'</select></td>' +
-	                '<td> <input type="text" placeholder="Designation" id="trainee_designations'+ rNo +tNo+'" name="trainee_designations" ></td>'+
-	                '<td><input id="mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
-	                '<td><p><label><input type="hidden" name="required_fks" id="required_fk'+ rNo +tNo+'" value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
-	                '<td><p><label><input type="hidden" name="participated_fks" id="participated_fk'+ rNo +tNo+'" value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +
-	                '<td><a onclick="removeTrainingAttendees('+rNo+'); prevRow('+tNo+')" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
+	                '<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="trainee_designations'+ rNo +tNo+'" name="trainee_designations" ></td>'+
+	                '<td data-head="Mobile" class="input-field"><input id="mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
+	                '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="required_fk'+ rNo +tNo+'" value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
+	                '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="participated_fk'+ rNo +tNo+'" value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +
+	                '<td class="mobile_btn_close"><a onclick="removeTrainingAttendees('+rNo+'); prevRow('+tNo+')" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
              $('#attendeesTableBody'+ index).append(html);
              $("#trainNo").val(rNo );
        	     $('#department_fks' + rNo+tNo ).select2();
@@ -1282,18 +1319,18 @@
           var tNo = Number(trainNo)+1;
           var i = 13;
           var html = '<tr id="trainingRow'+rNo+'">' +
-          '<td><input type="hidden" name= "training_session_ids" id="training_session_ids'+rNo+'"  />'+
+          '<td data-head="Session No" class="input-field"><input type="hidden" name= "training_session_ids" id="training_session_ids'+rNo+'"  />'+
           ' <input id="session_nos'+ rNo +'" name="session_nos" type="text" class="validate" placeholder="Session No"> </td>' +
-          '<td><div class="pos-rel"><input id="start_times'+ rNo +'" name="start_times" type="text" class="validate timepicker"  placeholder="Start Time">' +
+          '<td data-head="Start Time"  class="input-field"><div class="pos-rel"><input id="start_times'+ rNo +'" name="start_times" type="text" class="validate timepicker"  placeholder="Start Time">' +
          	  '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></div> </td>' +
-          '<td><div class="pos-rel"><input id="end_times'+ rNo +'" name="end_times" type="text" class="validate timepicker"placeholder="End Time">' +
+          '<td data-head="End Time" class="input-field"><div class="pos-rel"><input id="end_times'+ rNo +'" name="end_times" type="text" class="validate timepicker"placeholder="End Time">' +
           	  '<button type="button" id="end_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></div></td>' +
-          '<td class="attendees-column"><a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a> ' +
+          '<td data-head="Attendees" class="input-field"><a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a> ' +
 			  '<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
 				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4> <div class="row fixed-width"><div class="table-inside">'+
-					'<table id="training-update-table'+ rNo +'" class="mdl-data-table">'+
+					'<table id="training-update-table'+ rNo +'" class="mdl-data-table mobile_responsible_table">'+
 					  '<thead><tr><th>Department</th><th>HOD</th><th>Attendee</th><th>Designation</th><th>Mobile</th><th>Nominated</th><th>Participated</th><th>Action</th></tr></thead>'+
-						'<tbody id="attendeesTableBody'+ rNo +'" ><tr id="attendeesRow'+rNo+1+'"><td>'+
+						'<tbody id="attendeesTableBody'+ rNo +'" ><tr id="attendeesRow'+rNo+1+'"><td data-head="Department" class="input-field">'+
 						    '<input type="hidden" id="rowCounts'+rNo +'" name="rowCounts" value="1" class="hide" /><input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
 						    '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo+i+'" />'+
 						    '<select class="searchable validate-dropdown" name="department_fks" id="department_fks'+ rNo+i+'">'+
@@ -1301,39 +1338,39 @@
 					             <c:forEach var="obj" items="${departmentsList}">
 						            '<option value="${obj.department_fk }" >${obj.department_name }</option>'+
 						          </c:forEach>
-							'<td> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks'+ rNo +i+'" >'+
+							'<td data-head="HOD" class="input-field"> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks'+ rNo +i+'" >'+
 							'<option value="" >Select HOD</option>'+
 			                <c:forEach var="obj" items="${usersList}">
 								'<option value="${obj.hod_user_id_fk }">${obj.designation }</option>'+
 							</c:forEach>
 			                '</select> </td>'+
-			                '</select></td>'+
-							  '<td><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo+i+'" >'+
+			               // '</select></td>'+
+							  '<td data-head="Attendee" class="input-field"><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo+i+'" >'+
 								'<option value="">Select Attendee</option>'+
 									<c:forEach var="obj" items="${attendeesList}">
 										'<option value="${obj.attendee }" >${obj.attendee }</option>'+
 									</c:forEach>
 							'</select></td>' +
-			                '<td> <input type="text" placeholder="Designation" id="trainee_designations'+ rNo+i+'" name="trainee_designations" ></td>'+
-							'<td><input id="mobile_nos'+ rNo+i+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
-			                '<td><p><label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo+i+'" class="required_fks"/><span></span></label></p></td>' +
-			                '<td><p><label><input type="hidden" name="participated_fks" id="participated_fk'+ rNo+i+'" value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo+i+'" class="participated_fks" /><span></span></label></p></td>' +
-			                '<td><a onclick="removeTrainingAttendees('+rNo+1+');prevRow('+rNo+')" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
+			                '<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="trainee_designations'+ rNo+i+'" name="trainee_designations" ></td>'+
+							'<td data-head="Mobile" class="input-field"><input id="mobile_nos'+ rNo+i+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
+			                '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo+i+'" class="required_fks"/><span></span></label></p></td>' +
+			                '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="participated_fk'+ rNo+i+'" value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo+i+'" class="participated_fks" /><span></span></label></p></td>' +
+			                '<td class="mobile_btn_close"><a onclick="removeTrainingAttendees('+rNo+1+');prevRow('+rNo+')" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
 							'<input type="hidden" id="trainNo"  name="trainNo" value="0" /> ' +                    
 	                  		    '<table class="mdl-data-table"><tbody id="trainingUpdateBody">'+                                          
 	                            '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
 	                          '</tbody></table></div></div></div></div> </td>'+
-          '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
+          '<td data-head="Remarks" class="input-field"> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
           
-          '<td>  <div id="selectedFilesInput'+rNo+'"><div class="file-field input-field" id="trainingSessionFilesDivs'+rNo+1+'" >' 
+          '<td data-head="Attachment" class="input-field cell-disp-inb">  <div id="selectedFilesInput'+rNo+'" ><div class="file-field input-field" id="trainingSessionFilesDivs'+rNo+1+'" >' 
           + '<div class="btn bg-m t-c"> <span>Attach Files</span>'
               +'<input type="hidden"  name="trainingSessionFileNames" value=""><input type="file" id="trainingSessionFiles'+rNo+1+'" name="trainingSessionFiles"   onchange="selectFiles('+rNo+1+','+rNo+')"></div>'
               +' <div class="file-path-wrapper">'
           +' <input class="file-path validate" type="text">'
-          +' </div></div></div><div id="selectedFiles'+rNo+'"><div class="hide" id="hideVal'+rNo+'"> <input id="fileCounts'+rNo+'"  name="filecounts"  type="hidden" value="0"></div></div></td>'+
+          +' </div></div></div><div id="selectedFiles'+rNo+'" class="disp-in"><div class="hide" id="hideVal'+rNo+'"> <input id="fileCounts'+rNo+'"  name="filecounts"  type="hidden" value="0"></div></div></td>'+
          
           
-          '<td> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
+          '<td class="mobile_btn_close right"> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
           $('#trainingTableBody').append(html);
            
           $('#session-update-modal'+rNo).modal();
@@ -1381,7 +1418,7 @@
 		    var html = "";
 		    for (var i = 0; i < files.length ; i++) {
 		    	html =  html + '<div id=trainingSessionFilesNames'+no+'>'
-				 + '<a href="#" class="filevalue" >'+$(this).get(0).files[i].name+' </a><span onclick="removeFiles('+no+','+rNo+')" class="attachment-remove-btn">X</span>'		
+				 + '<a href="#" class="filevalue" >'+$(this).get(0).files[i].name+' <span onclick="removeFiles('+no+','+rNo+')" class="attachment-remove-btn">X</span></a>'		
 				 + '<input type="hidden" id="trainingSessionFileNames'+no+'" name="trainingSessionFileNames" value="'+$(this).get(0).files[i].name+'" >'
 				 + '</div>'
 				 + '<div style="clear:both;" class="hide" id="hide'+no+'"><input id="fileCounts'+no+'"  name="filecounts"  type="hidden"></div>';

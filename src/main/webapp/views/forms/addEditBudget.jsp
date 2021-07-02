@@ -59,6 +59,13 @@
                 min-width: 80px;
             }
         }
+        @media only screen and (max-width: 768px) {
+             td.cell-disp-inb div.file-path-wrapper {
+			    visibility: hidden;
+			    width: 2px;
+			    margin-bottom: 0;
+			}
+        }       
 
         .table-inside td span {
             text-align: center;
@@ -94,7 +101,7 @@
 			#budgetTableBody tr td .select2-container{
 	        	width:140px !important;
 	        	max-width:140px;
-	        }   
+	        }          
 		}
 		
 		td.input-field .select2-container--default{

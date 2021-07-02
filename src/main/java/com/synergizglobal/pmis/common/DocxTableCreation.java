@@ -80,6 +80,8 @@ public class DocxTableCreation {
 				true, false, false, false);
 		RPr garamondBold12RPr = getRPr(factory, "Garamond", "000000", "24", STHint.EAST_ASIA,
 				true, false, false, false);
+		RPr garamondBold11RPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+				true, false, false, false);
 		RPr garamondFont11RPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 				false, false, false, false);		
 		RPr garamondFont10RPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
@@ -113,7 +115,7 @@ public class DocxTableCreation {
 		  	tableHeader1.add("");
 			
 			for (String headerValue : tableHeader1) {
-				addTableCell(factory, wordMLPackage, titleRow1, headerValue, garamondFont11RPr,
+				addTableCell(factory, wordMLPackage, titleRow1, headerValue, garamondBold11RPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
 			}		
 			reportTable.getContent().add(titleRow1);
@@ -133,7 +135,7 @@ public class DocxTableCreation {
 		  	tableHeader2.add("");
 			
 			for (String headerValue : tableHeader2) {
-				addTableCell(factory, wordMLPackage, titleRow2, headerValue, garamondFont10RPr,
+				addTableCell(factory, wordMLPackage, titleRow2, headerValue, garamondBold10RPr,
 						JcEnumeration.RIGHT, true, "ecf2ff");
 			}		
 			reportTable.getContent().add(titleRow2);	
@@ -151,7 +153,7 @@ public class DocxTableCreation {
 			tableHeader3.add("Priority");
 			
 			for (String headerValue : tableHeader3) {
-				addTableCell(factory, wordMLPackage, titleRow3, headerValue, garamondFont10RPr,
+				addTableCell(factory, wordMLPackage, titleRow3, headerValue, garamondBold10RPr,
 						JcEnumeration.CENTER, true, "ecf2ff");
 			}		
 			reportTable.getContent().add(titleRow3);

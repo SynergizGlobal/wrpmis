@@ -202,7 +202,8 @@ public class RiskReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
-			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
 			String report_created_date = df.format(new Date()); 
 			
 			
@@ -214,7 +215,7 @@ public class RiskReportController {
 			//String headerTextMiddle = null;
 					
 			//String headerTextRight = currentDate;
-			String headerTextRight = "Date : " + report_created_date;
+			String headerTextRight = report_created_date;
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);		
 			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerTextRight);

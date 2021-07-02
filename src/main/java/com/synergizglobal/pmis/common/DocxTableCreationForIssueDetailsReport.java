@@ -81,6 +81,15 @@ public class DocxTableCreationForIssueDetailsReport {
 		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
+		RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+				true, false, false, false);	
+		
+		RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+				false, false, false, false);
 		
 		
 		/****************************************************************************/
@@ -91,18 +100,18 @@ public class DocxTableCreationForIssueDetailsReport {
 			addBorders(titleTable, "2");
 			int count = 0;
 			Tr titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Project", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Project", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getProject_name(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getProject_name(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
-			addTableCell(factory, wordMLPackage, titleTableRow, "Work", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Work", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 					JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getWork_short_name(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getWork_short_name(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
 		  	titleTable.getContent().add(titleTableRow);	
@@ -113,18 +122,18 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	/*===========================================================*/
 		  	
 		    titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Contract Id", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Contract Id", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getContract_id_fk(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getContract_id_fk(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
-			addTableCell(factory, wordMLPackage, titleTableRow, "Department", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Department", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 					JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getDepartment_name(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getDepartment_name(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 					JcEnumeration.LEFT, false, null);
 		
 		  	titleTable.getContent().add(titleTableRow);	
@@ -134,19 +143,19 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	/*===========================================================*/
 		  	
 		    titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Contract name", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Contract name", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getContract_name(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getContract_name(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
 		  	
-			addTableCell(factory, wordMLPackage, titleTableRow, "Contractor Name", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Contractor Name", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 					JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getContractor_name(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getContractor_name(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
 			titleTable.getContent().add(titleTableRow);	
@@ -155,18 +164,18 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	count++;
 		  	/*===========================================================*/
 		  	 titleTableRow = factory.createTr();		
-				addTableCell(factory, wordMLPackage, titleTableRow, "HOD", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "HOD", garamondBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getHod_designation(), titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getHod_designation(), garamondRPr,
 						JcEnumeration.LEFT, false, null);
 				
-					addTableCell(factory, wordMLPackage, titleTableRow, "Dy HOD", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Dy HOD", garamondBoldRPr,
 							JcEnumeration.LEFT, true, "ecf2ff");
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getDyHod_designation(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getDyHod_designation(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 					
 			  	titleTable.getContent().add(titleTableRow);	
@@ -176,13 +185,13 @@ public class DocxTableCreationForIssueDetailsReport {
 		     /*===========================================================*/
 			  	
 		    titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Short Description of Issue", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Short Description of Issue", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getTitle(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getTitle(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
 			for(int i=0; i<4;i++) {
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
 			}
 			
@@ -192,18 +201,18 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	/*===========================================================*/
 		  	
 		  	titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Reported By", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Reported By", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getReported_by(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getReported_by(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
-			addTableCell(factory, wordMLPackage, titleTableRow, "Reported On", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Reported On", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 					JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getCreated_date(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getCreated_date(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
 		  	titleTable.getContent().add(titleTableRow);	
@@ -215,13 +224,13 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	
 		  	titleTableRow = factory.createTr();		
 				
-			addTableCell(factory, wordMLPackage, titleTableRow, "Location/Station/KM", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Location/Station/KM", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getLocation(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getLocation(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
 			for(int i=0; i<4;i++) {
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
 			}
 			
@@ -231,18 +240,18 @@ public class DocxTableCreationForIssueDetailsReport {
 		  /*===========================================================*/
 
 	  	 titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Category", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Category", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getCategory_fk(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getCategory_fk(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
-			addTableCell(factory, wordMLPackage, titleTableRow, "Priority", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Priority", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 					JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getPriority_fk(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getPriority_fk(), garamondRPr,
 						JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
 		  	titleTable.getContent().add(titleTableRow);	
@@ -251,29 +260,29 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	count++;
 	     /*===========================================================*/
 		  	 titleTableRow = factory.createTr();		
-				addTableCell(factory, wordMLPackage, titleTableRow, "Issue Status", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Issue Status", garamondBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getStatus_fk(), titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getStatus_fk(), garamondRPr,
 						JcEnumeration.LEFT, false, null);
 				
 				if(!"Closed".equals(issueDeailsReport.getStatus_fk())) {
-					addTableCell(factory, wordMLPackage, titleTableRow, "Issue pending since", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Issue pending since", garamondBoldRPr,
 							JcEnumeration.LEFT, true, "ecf2ff");
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getDate(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getDate(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 					
 				}else {
-					addTableCell(factory, wordMLPackage, titleTableRow, "Issue Raised on", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Issue Raised on", garamondBoldRPr,
 							JcEnumeration.LEFT, true, "ecf2ff");
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getDate(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getDate(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 				}
 				
@@ -286,19 +295,19 @@ public class DocxTableCreationForIssueDetailsReport {
 			  	
 		  	if(!StringUtils.isEmpty(issueDeailsReport.getResponsible_person())) {
 		  		titleTableRow = factory.createTr();		
-				addTableCell(factory, wordMLPackage, titleTableRow, "Assigned To", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Assigned To", garamondBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getResponsible_person_designation(), titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getResponsible_person_designation(), garamondRPr,
 						JcEnumeration.LEFT, false, null);
 				
 				
-				addTableCell(factory, wordMLPackage, titleTableRow, "Assigned Date", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Assigned Date", garamondBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getAssigned_date(), titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getAssigned_date(), garamondRPr,
 						JcEnumeration.LEFT, false, null);
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
 				
 			  	titleTable.getContent().add(titleTableRow);	
@@ -309,19 +318,19 @@ public class DocxTableCreationForIssueDetailsReport {
 		  /*===========================================================*/
 		  	if(!"Closed".equals(issueDeailsReport.getStatus_fk())) {
 		  		titleTableRow = factory.createTr();		
-				addTableCell(factory, wordMLPackage, titleTableRow, "Pending With", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Pending With", garamondBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getOther_organization(), titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getOther_organization(), garamondRPr,
 						JcEnumeration.LEFT, false, null);
 				
 				
-				addTableCell(factory, wordMLPackage, titleTableRow, "Pending Since (Days)", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Pending Since (Days)", garamondBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getPending_since(), titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getPending_since(), garamondRPr,
 						JcEnumeration.LEFT, false, null);
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
 				
 			  	titleTable.getContent().add(titleTableRow);
@@ -333,19 +342,19 @@ public class DocxTableCreationForIssueDetailsReport {
 		  /*===========================================================*/
 		  	if(!"MRVC".equals(issueDeailsReport.getZonal_railway_fk())) {
 		  		titleTableRow = factory.createTr();		
-				addTableCell(factory, wordMLPackage, titleTableRow, "Responsible Person Name", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Responsible Person Name", garamondBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getOther_org_resposible_person_name(), titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getOther_org_resposible_person_name(), garamondRPr,
 						JcEnumeration.LEFT, false, null);
 				
 				
-				addTableCell(factory, wordMLPackage, titleTableRow, "Responsible Person Designation", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Responsible Person Designation", garamondBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondBoldRPr,
 						JcEnumeration.LEFT, false, null);
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getOther_org_resposible_person_designation(), titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getOther_org_resposible_person_designation(), garamondRPr,
 						JcEnumeration.LEFT, false, null);
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
 				
 			  	titleTable.getContent().add(titleTableRow);
@@ -356,13 +365,13 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	
 	     /*===========================================================*/
 		  	titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Issue / Action Taken \n/ Remarks", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Issue / Action Taken \n/ Remarks", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getCorrective_measure(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getCorrective_measure(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
 			for(int i=0; i<4;i++) {
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
 			}
 			
@@ -373,19 +382,19 @@ public class DocxTableCreationForIssueDetailsReport {
 	     /*===========================================================*/
 			if(!StringUtils.isEmpty(issueDeailsReport.getEscalated_to())) {
 		  		titleTableRow = factory.createTr();		
-				addTableCell(factory, wordMLPackage, titleTableRow, "Escalated To ", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Escalated To ", garamondBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
 				
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getEscalated_to_designation(), titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getEscalated_to_designation(), garamondRPr,
 						JcEnumeration.LEFT, false, null);
 				
-				addTableCell(factory, wordMLPackage, titleTableRow, "Escalation Date", titleRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Escalation Date", garamondBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondBoldRPr,
 						JcEnumeration.LEFT, false, null);
-				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getEscalation_date(), titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getEscalation_date(), garamondRPr,
 						JcEnumeration.LEFT, false, null);
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
 				
 			  	titleTable.getContent().add(titleTableRow);
@@ -396,13 +405,13 @@ public class DocxTableCreationForIssueDetailsReport {
      /*===========================================================*/
 		if(!StringUtils.isEmpty(issueDeailsReport.getEscalated_to())) {
 	  		titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Status after\nEscalation", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Status after\nEscalation", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getRemarks(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getRemarks(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
 		
 			for(int i=0; i<4;i++) {
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
 			}
 			
@@ -413,13 +422,13 @@ public class DocxTableCreationForIssueDetailsReport {
      /*===========================================================*/
 		if(!StringUtils.isEmpty(issueDeailsReport.getResolved_date())) {
 	  		titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Resolved Date", titleRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Resolved Date", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getResolved_date(), titleContentRpr,
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getResolved_date(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
 		
 			for(int i=0; i<4;i++) {
-				addTableCell(factory, wordMLPackage, titleTableRow, "", titleContentRpr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
 			}
 			
@@ -436,65 +445,77 @@ public class DocxTableCreationForIssueDetailsReport {
 	
 			
 		
-		
-		if(!StringUtils.isEmpty(issueDeailsHistoryReport)) {			
-			/*P p = factory.createP();
-			R r = factory.createR();		        
-			Br br = factory.createBr(); 
-			r.getContent().add( br); 
-			p.getContent().add(r);
-			
-			t.addObject(p);*/
-	        
-	       // addPageBreak(mp);
-			addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,titleRPr,"");
-			addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,titleRPr,"");
-	        addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,titleRPr,"Issue History");
-			
-			Tbl issueHistoryTable = factory.createTbl();
-			addBorders(issueHistoryTable, "2");
-			
-			
-			Tr titleRow = factory.createTr();		
-			List<String> tableHeader = new ArrayList<String>();
-			tableHeader.add("SNo.");
-			tableHeader.add("Date");
-			tableHeader.add("Issue Status");
-			tableHeader.add("Responsible Person");
-			tableHeader.add("Comment");
-			tableHeader.add("Update by");
-			
-			for (String headerValue : tableHeader) {
-				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
-						JcEnumeration.CENTER, true, "ecf2ff");
-			}		
-			issueHistoryTable.getContent().add(titleRow);
-			int sNo = 1;
-			for (Issue pObj : issueDeailsHistoryReport) {
-				boolean hasBgColor = false;
-				String backgroundColor = null;
-				Tr contentRow = factory.createTr();	
-				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-						titleContentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getCreated_date(),
-						titleContentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
-						titleContentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
-						titleContentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getComment(),
-						titleContentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getCreated_by(),
-						titleContentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+			if(!StringUtils.isEmpty(issueDeailsHistoryReport)) {
+					
+				/*P p = factory.createP();
+				R r = factory.createR();		        
+				Br br = factory.createBr(); 
+				r.getContent().add( br); 
+				p.getContent().add(r);
 				
-				issueHistoryTable.getContent().add(contentRow);
-			}			
-			/****************************************************************************************/			
+				t.addObject(p);*/
+		        
+		       // addPageBreak(mp);
+				addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,calibriBoldRPr,"");
+				addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,calibriBoldRPr,"");
+		        addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,calibriBoldRPr,"Issue History");
+				
+				Tbl issueHistoryTable = factory.createTbl();
+				addBorders(issueHistoryTable, "2");
+				
+				
+				Tr titleRow = factory.createTr();		
+				List<String> tableHeader = new ArrayList<String>();
+				tableHeader.add("SNo.");
+				tableHeader.add("Date");
+				tableHeader.add("Issue Status");
+				tableHeader.add("Responsible Person");
+				tableHeader.add("Comment");
+				tableHeader.add("Update by");
+				
+				for (String headerValue : tableHeader) {
+					addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
+							JcEnumeration.CENTER, true, "ecf2ff");
+				}		
+				issueHistoryTable.getContent().add(titleRow);
+				if(issueDeailsHistoryReport.size() > 0) {
+					int sNo = 1;
+					for (Issue pObj : issueDeailsHistoryReport) {
+						boolean hasBgColor = false;
+						String backgroundColor = null;
+						Tr contentRow = factory.createTr();	
+						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, pObj.getCreated_date(),
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, pObj.getComment(),
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, pObj.getCreated_by(),
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						
+						issueHistoryTable.getContent().add(contentRow);
+					}			
+				}else {
+					Tr contentRow = factory.createTr();	
+					addTableCell(factory, wordMLPackage, contentRow, "No data", garamondRPr,
+							JcEnumeration.CENTER, true, null);
+					for(int k = 0;k < 5;k++) {
+						addTableCell(factory, wordMLPackage, contentRow, "", garamondRPr,
+								JcEnumeration.CENTER, true, null);
+					}
+					issueHistoryTable.getContent().add(contentRow);
+					mergeCellsHorizontal(issueHistoryTable, 1, 0, 6);
+				}
+				/****************************************************************************************/			
+				
+				setTableAlign(factory, issueHistoryTable, JcEnumeration.CENTER);
+				mp.addObject(issueHistoryTable);
 			
-			setTableAlign(factory, issueHistoryTable, JcEnumeration.CENTER);
-			mp.addObject(issueHistoryTable);
-			
-		}
+			}
 	} 
 	public static void addHeading(WordprocessingMLPackage wordMLPackage,
 			MainDocumentPart t, ObjectFactory factory,JcEnumeration alignment, RPr titleRPr, String contentValue) throws Exception {

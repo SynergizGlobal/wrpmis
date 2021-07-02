@@ -69,6 +69,16 @@ public class DocxTableCreation {
 		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);
 		
+		RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
+				true, false, false, false);		
+		RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+				true, false, false, false);	
+		
+		RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+				false, false, false, false);
+		
 		addHeading(wordMLPackage, t, factory,JcEnumeration.RIGHT,fontRPr,"Annexure-I");
 		
 		Tbl table = factory.createTbl();
@@ -97,7 +107,7 @@ public class DocxTableCreation {
 		  	tableHeader1.add("");
 			
 			for (String headerValue : tableHeader1) {
-				addTableCell(factory, wordMLPackage, titleRow1, headerValue, titleRpr,
+				addTableCell(factory, wordMLPackage, titleRow1, headerValue, calibriBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
 			}		
 			reportTable.getContent().add(titleRow1);
@@ -117,7 +127,7 @@ public class DocxTableCreation {
 		  	tableHeader2.add("");
 			
 			for (String headerValue : tableHeader2) {
-				addTableCell(factory, wordMLPackage, titleRow2, headerValue, titleRpr,
+				addTableCell(factory, wordMLPackage, titleRow2, headerValue, calibriBoldRPr,
 						JcEnumeration.RIGHT, true, "ecf2ff");
 			}		
 			reportTable.getContent().add(titleRow2);	
@@ -135,7 +145,7 @@ public class DocxTableCreation {
 			tableHeader3.add("Priority");
 			
 			for (String headerValue : tableHeader3) {
-				addTableCell(factory, wordMLPackage, titleRow3, headerValue, titleRpr,
+				addTableCell(factory, wordMLPackage, titleRow3, headerValue, garamondBoldRPr,
 						JcEnumeration.CENTER, true, "ecf2ff");
 			}		
 			reportTable.getContent().add(titleRow3);
@@ -164,17 +174,17 @@ public class DocxTableCreation {
 					backgroundColor = null;
 					contentRow = factory.createTr();	
 					addTableCell(factory, wordMLPackage, contentRow, subArea.getArea_item_no()+"."+subArea.getSub_area_item_no(),
-							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, subArea.getSub_area(),
-							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, subArea.getProbability(),
-							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, subArea.getImpact(),
-							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, subArea.getRisk_rating(),
-							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, subArea.getPriority(),
-							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					
 					reportTable.getContent().add(contentRow);
 				}				
@@ -223,7 +233,7 @@ public class DocxTableCreation {
 			tableHeader.add("ACTION BY");
 			
 			for (String headerValue : tableHeader) {
-				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
+				addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
 						JcEnumeration.CENTER, true, "ecf2ff");
 			}		
 			reportTable.getContent().add(titleRow);
@@ -233,17 +243,17 @@ public class DocxTableCreation {
 				String backgroundColor = null;
 				Tr contentRow = factory.createTr();	
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getPriority(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getArea_item_no()+"."+pObj.getSub_area_item_no(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getRisk_rating(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getClassification(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getMitigation_plan(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getResponsible_person(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				
 				reportTable.getContent().add(contentRow);
 			}			
@@ -291,7 +301,7 @@ public class DocxTableCreation {
 			tableHeader.add("ATR DATE");
 			
 			for (String headerValue : tableHeader) {
-				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
+				addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
 						JcEnumeration.CENTER, true, "ecf2ff");
 			}		
 			reportTable.getContent().add(titleRow);
@@ -315,28 +325,28 @@ public class DocxTableCreation {
 
 				}
 					addTableCell(factory, wordMLPackage, contentRow, pObj.getPriority(),
-							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, pObj.getArea_item_no()+"."+pObj.getSub_area_item_no(),
-							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					int count2 = count++;
 					int toRow2 = toRow;
 					addTableCell(factory, wordMLPackage, contentRow, pObj.getRisk_rating(),
-							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					int count3 = count++;
 					int toRow3 = toRow;
 					addTableCell(factory, wordMLPackage, contentRow, pObj.getClassification(),
-							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					int count4 = count++;
 					int toRow4 = toRow;
 					addTableCell(factory, wordMLPackage, contentRow, pObj.getMitigation_plan(),
-							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					int count5 = count++;
 					int toRow5 = toRow;
 				
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getAction_taken(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getAtr_date(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				
 				reportTable.getContent().add(contentRow);
 				mergeCellsVertically(reportTable, count, fromRow, toRow);
@@ -421,7 +431,7 @@ public class DocxTableCreation {
 					
 					for (String headerValue : tableHeader) {
 						addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
-								JcEnumeration.LEFT, true, "ecf2ff");
+								JcEnumeration.CENTER, true, "ecf2ff");
 					}		
 					table.getContent().add(titleRow);
 					
@@ -449,7 +459,7 @@ public class DocxTableCreation {
 							Tr contentRow = factory.createTr();					
 							
 							addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+									garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 							/*addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_short_name(),
 									contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
 							addTableCell(factory, wordMLPackage, contentRow, pObj.getLocation(),
@@ -558,7 +568,17 @@ public class DocxTableCreation {
 		RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
 		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
-				false, false, false, false);		
+				false, false, false, false);	
+		
+		RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+				true, false, false, false);	
+		
+		RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+				false, false, false, false);
 		
 		Tbl table = factory.createTbl();
 		addBorders(table, "2");
@@ -584,8 +604,8 @@ public class DocxTableCreation {
 			tableHeader.add("Long Term\nCorrective\nMeasure");
 			
 			for (String headerValue : tableHeader) {
-				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
-						JcEnumeration.LEFT, true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
+						JcEnumeration.CENTER, true, "ecf2ff");
 			}		
 			table.getContent().add(titleRow);
 			
@@ -596,33 +616,33 @@ public class DocxTableCreation {
 				Tr contentRow = factory.createTr();	
 				
 				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_id_fk()+" - "+pObj.getWork_short_name(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getContractor_name(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getLocation(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getDate(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getImpact_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getCategory_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getRoot_cause_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);					
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);					
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getCommittee_formed_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure_short_term(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure_long_term(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				
 				table.getContent().add(contentRow);
 			}			
@@ -659,7 +679,15 @@ public class DocxTableCreation {
 		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
+		RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+				true, false, false, false);	
 		
+		RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+				false, false, false, false);
 		
 		/****************************************************************************/
 		
@@ -674,15 +702,15 @@ public class DocxTableCreation {
 					
 					/*===========================================================*/
 					Tr titleTableRow = factory.createTr();		
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training ID", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Training ID", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_id(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_id(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Title", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTitle(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Title", titleRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTitle(), titleContentRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 					
 				  	titleTable.getContent().add(titleTableRow);	
@@ -690,15 +718,15 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Session NO", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Session NO", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getSession_no(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getSession_no(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Description", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getDescription(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Description", titleRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getDescription(), titleContentRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 					
 				  	titleTable.getContent().add(titleTableRow);	
@@ -706,15 +734,15 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training Type", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Training Type", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_type_fk(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_type_fk(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Date", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getDate(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Date", titleRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getDate(), titleContentRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 		
 				  	titleTable.getContent().add(titleTableRow);	
@@ -722,15 +750,15 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Category", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Category", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_category_fk(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_category_fk(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Start Time", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getStart_time(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Start Time", titleRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getStart_time(), titleContentRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 			
 				  	titleTable.getContent().add(titleTableRow);	
@@ -738,15 +766,15 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training Centre", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Training Centre", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_center(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_center(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "End Time", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getEnd_time(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "End Time", titleRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getEnd_time(), titleContentRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 				
 				  	titleTable.getContent().add(titleTableRow);	
@@ -769,8 +797,8 @@ public class DocxTableCreation {
 					tableHeader.add("Reporting to");
 					
 					for (String headerValue : tableHeader) {
-						addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
-								JcEnumeration.LEFT, true, "ecf2ff");
+						addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
+								JcEnumeration.CENTER, true, "ecf2ff");
 					}		
 					table.getContent().add(titleRow);
 					
@@ -782,15 +810,15 @@ public class DocxTableCreation {
 						Tr contentRow = factory.createTr();	
 						
 						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getAttendee(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getDepartment_name(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getMobile_no(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getReporting_to(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						
 						table.getContent().add(contentRow);
 					}
@@ -808,7 +836,7 @@ public class DocxTableCreation {
 						noDataRow.add("");
 						
 						for (String headerValue : noDataRow) {
-							addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr,
+							addTableCell(factory, wordMLPackage, contentRow, headerValue, garamondRPr,
 									JcEnumeration.CENTER, hasBgColor, backgroundColor);
 						}		
 						table.getContent().add(contentRow);	
@@ -838,7 +866,7 @@ public class DocxTableCreation {
 			noDataRow.add("");
 			
 			for (String headerValue : noDataRow) {
-				addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr,
+				addTableCell(factory, wordMLPackage, contentRow, headerValue, garamondRPr,
 						JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			}		
 			titleTable.getContent().add(contentRow);	
@@ -870,6 +898,16 @@ public class DocxTableCreation {
 		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
+		RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+				true, false, false, false);	
+		
+		RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+				false, false, false, false);
+		
 		String employeeName = null,trainee_designation = null,department = null, reportingTo = null,nominated = null, attended = null;
 		for (Training aObj : employeeTrainings) {
 			employeeName = aObj.getAttendee();
@@ -890,18 +928,18 @@ public class DocxTableCreation {
 		
 		/*===========================================================*/
 		Tr titleTableRow = factory.createTr();		
-		addTableCell(factory, wordMLPackage, titleTableRow, "Name of Employee", titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "Name of Employee", garamondBoldRPr,
 				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, employeeName, titleContentRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, employeeName, garamondRPr,
 				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 				JcEnumeration.LEFT, false, null);
 	  	
-	  	addTableCell(factory, wordMLPackage, titleTableRow, "Designation", titleRpr,
+	  	addTableCell(factory, wordMLPackage, titleTableRow, "Designation", garamondBoldRPr,
 				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, trainee_designation, titleContentRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, trainee_designation, garamondRPr,
 				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 				JcEnumeration.LEFT, false, null);
 		
 	  	titleTable.getContent().add(titleTableRow);		
@@ -909,17 +947,17 @@ public class DocxTableCreation {
 		mergeCellsHorizontal(titleTable, 0, 4, 5);	
 		/*===========================================================*/
 		titleTableRow = factory.createTr();	
-		addTableCell(factory, wordMLPackage, titleTableRow, "Department", titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "Department", garamondBoldRPr,
 				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, department, titleContentRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, department, garamondRPr,
 				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "Reporting To", titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "Reporting To", garamondBoldRPr,
 				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, reportingTo, titleContentRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, reportingTo, garamondRPr,
 				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 				JcEnumeration.LEFT, false, null);
 		
 		
@@ -928,18 +966,18 @@ public class DocxTableCreation {
 		mergeCellsHorizontal(titleTable, 1, 4, 5);
 		/*===========================================================*/
 		titleTableRow = factory.createTr();	
-		addTableCell(factory, wordMLPackage, titleTableRow, "Nominated", titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "Nominated", garamondBoldRPr,
 				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, nominated, titleContentRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, nominated, garamondRPr,
 				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 				JcEnumeration.LEFT, false, null);
 		
-		addTableCell(factory, wordMLPackage, titleTableRow, "Attended", titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "Attended", garamondBoldRPr,
 				JcEnumeration.LEFT,  true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, attended, titleContentRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, attended, garamondRPr,
 				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 				JcEnumeration.LEFT, false, null);
 		
 	  	titleTable.getContent().add(titleTableRow);	
@@ -967,8 +1005,8 @@ public class DocxTableCreation {
 		tableHeader.add("Attended");
 		
 		for (String headerValue : tableHeader) {
-			addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
-					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
+					JcEnumeration.CENTER, true, "ecf2ff");
 		}		
 		table.getContent().add(titleRow);
 		
@@ -978,21 +1016,21 @@ public class DocxTableCreation {
 			Tr contentRow = factory.createTr();	
 			
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getTraining_id_fk(),
-					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getSession_no(),
-					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getTitle(),
-					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getDescription(),
-					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getTraining_center(),
-					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getDate(),
-					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getRequired_fk(),
-					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getParticipated_fk(),
-					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			
 			table.getContent().add(contentRow);
 		}
@@ -1009,7 +1047,7 @@ public class DocxTableCreation {
 			noDataRow.add("");
 			
 			for (String headerValue : noDataRow) {
-				addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr,
+				addTableCell(factory, wordMLPackage, contentRow, headerValue, garamondRPr,
 						JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			}		
 			table.getContent().add(contentRow);	
@@ -1043,7 +1081,15 @@ public class DocxTableCreation {
 		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
+		RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+				true, false, false, false);	
 		
+		RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+				false, false, false, false);
 		
 		/****************************************************************************/
 		
@@ -1058,15 +1104,15 @@ public class DocxTableCreation {
 					
 					/*===========================================================*/
 					Tr titleTableRow = factory.createTr();		
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training ID", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Training ID", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_id(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_id(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Title", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTitle(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Title", titleRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTitle(), titleContentRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 					
 				  	titleTable.getContent().add(titleTableRow);	
@@ -1074,15 +1120,15 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Session NO", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Session NO", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getSession_no(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getSession_no(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Description", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getDescription(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Description", boldRPr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getDescription(), titleContentRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 					
 				  	titleTable.getContent().add(titleTableRow);	
@@ -1090,15 +1136,15 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training Type", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Training Type", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_type_fk(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_type_fk(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Date", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getDate(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Date", titleRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getDate(), titleContentRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 		
 				  	titleTable.getContent().add(titleTableRow);	
@@ -1106,15 +1152,15 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Category", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Category", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_category_fk(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_category_fk(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Start Time", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getStart_time(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Start Time", titleRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getStart_time(), titleContentRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 			
 				  	titleTable.getContent().add(titleTableRow);	
@@ -1122,15 +1168,15 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training Centre", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Training Centre", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_center(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_center(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "End Time", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getEnd_time(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "End Time", titleRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getEnd_time(), titleContentRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 				
 				  	titleTable.getContent().add(titleTableRow);	
@@ -1138,15 +1184,15 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Nominated", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Nominated", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getNominated(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getNominated(), titleContentRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Attended", garamondBoldRPr,
+							JcEnumeration.LEFT, true, "ecf2ff");
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getAttended(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Attended", titleRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getAttended(), titleContentRpr,
-							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 							JcEnumeration.LEFT, false, null);
 				
 				  	titleTable.getContent().add(titleTableRow);	
@@ -1171,8 +1217,8 @@ public class DocxTableCreation {
 					tableHeader.add("Attended");
 					
 					for (String headerValue : tableHeader) {
-						addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
-								JcEnumeration.LEFT, true, "ecf2ff");
+						addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
+								JcEnumeration.CENTER, true, "ecf2ff");
 					}		
 					table.getContent().add(titleRow);
 					
@@ -1184,19 +1230,19 @@ public class DocxTableCreation {
 						Tr contentRow = factory.createTr();	
 						
 						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getAttendee(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getDepartment_name(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getMobile_no(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getReporting_to(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getRequired_fk(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getParticipated_fk(),
-								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 						
 						table.getContent().add(contentRow);
 					}
@@ -1213,7 +1259,7 @@ public class DocxTableCreation {
 						noDataRow.add("");
 						
 						for (String headerValue : noDataRow) {
-							addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr,
+							addTableCell(factory, wordMLPackage, contentRow, headerValue, garamondRPr,
 									JcEnumeration.CENTER, hasBgColor, backgroundColor);
 						}		
 						table.getContent().add(contentRow);	
@@ -1243,7 +1289,7 @@ public class DocxTableCreation {
 			noDataRow.add("");
 			
 			for (String headerValue : noDataRow) {
-				addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr,
+				addTableCell(factory, wordMLPackage, contentRow, headerValue, garamondRPr,
 						JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			}		
 			titleTable.getContent().add(contentRow);	
@@ -1672,6 +1718,16 @@ public class DocxTableCreation {
 		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
+		RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+				true, false, false, false);	
+		
+		RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+				false, false, false, false);
+		
 		Tbl table = factory.createTbl();
 		addBorders(table, "2");
 		
@@ -1686,8 +1742,8 @@ public class DocxTableCreation {
 		tableHeader.add("Open Issues"); 
 		
 		for (String headerValue : tableHeader) {
-			addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
-					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
+					JcEnumeration.CENTER, true, "ecf2ff");
 		}		
 		table.getContent().add(titleRow);
 		
@@ -1700,15 +1756,15 @@ public class DocxTableCreation {
 				String backgroundColor = null;
 				
 				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, iObj.getDesignation(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, iObj.getTotal_issues(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
 				addTableCell(factory, wordMLPackage, contentRow, iObj.getClosed_issues(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
 				addTableCell(factory, wordMLPackage, contentRow, iObj.getOpen_issues(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				
 				table.getContent().add(contentRow);
 				
@@ -1722,15 +1778,15 @@ public class DocxTableCreation {
 			String backgroundColor = null;
 			
 			addTableCell(factory, wordMLPackage, contentRow, "Total",
-					boldRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					garamondBoldRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, "",
-					boldRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					garamondBoldRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, String.valueOf(total_issues),
-					boldRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+					garamondBoldRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
 			addTableCell(factory, wordMLPackage, contentRow, String.valueOf(closed_issues),
-					boldRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
+					garamondBoldRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
 			addTableCell(factory, wordMLPackage, contentRow, String.valueOf(open_issues),
-					boldRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					garamondBoldRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 			table.getContent().add(contentRow);
 			
 			int size = issuesCounts.size()+1;

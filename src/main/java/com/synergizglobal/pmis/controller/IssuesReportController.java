@@ -600,7 +600,7 @@ public class IssuesReportController {
 
 		/*******************************************************************************/
 
-		RPr titleRpr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
+		RPr titleRpr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA, true, false, false, false);
 
 		Tbl table = factory.createTbl();
 		
@@ -1218,7 +1218,7 @@ public class IssuesReportController {
 		//ObjectFactory objectFactory = new ObjectFactory();
 		boolean flag = false;
 		try {
-			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh.mm aa");
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
 			String report_created_date = df.format(new Date());
 
 			List<Issue> issuesCounts = issueService.getIssuesSummaryData(obj);

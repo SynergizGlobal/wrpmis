@@ -38,7 +38,11 @@ import org.docx4j.relationships.Relationship;
 import org.docx4j.utils.BufferUtil;
 import org.docx4j.wml.BooleanDefaultTrue;
 import org.docx4j.wml.Br;
+import org.docx4j.wml.CTBorder;
 import org.docx4j.wml.CTSettings;
+import org.docx4j.wml.CTShd;
+import org.docx4j.wml.CTTblLayoutType;
+import org.docx4j.wml.CTVerticalJc;
 import org.docx4j.wml.Color;
 import org.docx4j.wml.Drawing;
 import org.docx4j.wml.FldChar;
@@ -56,15 +60,26 @@ import org.docx4j.wml.PPr;
 import org.docx4j.wml.R;
 import org.docx4j.wml.RFonts;
 import org.docx4j.wml.RPr;
+import org.docx4j.wml.STBorder;
 import org.docx4j.wml.STBrType;
 import org.docx4j.wml.STFldCharType;
 import org.docx4j.wml.STHint;
 import org.docx4j.wml.STPageOrientation;
+import org.docx4j.wml.STTblLayoutType;
+import org.docx4j.wml.STVerticalJc;
 import org.docx4j.wml.SectPr;
+import org.docx4j.wml.Tbl;
+import org.docx4j.wml.TblPr;
+import org.docx4j.wml.TblWidth;
+import org.docx4j.wml.Tc;
+import org.docx4j.wml.TcPr;
 import org.docx4j.wml.Text;
+import org.docx4j.wml.Tr;
 import org.docx4j.wml.U;
 import org.docx4j.wml.UnderlineEnumeration;
+import org.docx4j.wml.PPrBase.Spacing;
 import org.docx4j.wml.SectPr.PgSz;
+import org.docx4j.wml.TcPrInner.TcBorders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -85,6 +100,7 @@ import com.synergizglobal.pmis.common.DocxTableCreation;
 import com.synergizglobal.pmis.common.DocxTableCreationForIssueDetailsReport;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.RiskReport;
 
@@ -105,7 +121,7 @@ public class IssueDetailsReportController {
 	public String commonError;
 	
 	@RequestMapping(value = "/get-issues-details-report/{issue_id}", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generatePendingIssuesReport(@ModelAttribute Issue obj ,@PathVariable("issue_id") String issue_id,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+	public ModelAndView getIssuesDetailsReport(@ModelAttribute Issue obj ,@PathVariable("issue_id") String issue_id,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/issues-report");
 		try{            
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -116,7 +132,7 @@ public class IssueDetailsReportController {
 			boolean flag = getIssuesDetailsReport(response,currentDate,obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("generatePendingIssuesReport : " + e.getMessage());
+			logger.error("getIssuesDetailsReport : " + e.getMessage());
 		}
 		return model;
      }
@@ -128,7 +144,7 @@ public class IssueDetailsReportController {
         //ObjectFactory objectFactory = new ObjectFactory();
 		boolean flag = false;
 		try{			
-			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
 			String report_created_date = df.format(new Date()); 
 			
 			Issue issueDeailsReport = issueService.getIssue(obj);
@@ -141,15 +157,15 @@ public class IssueDetailsReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
-			String imagePath = null;
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
 			
-			JcEnumeration imageAlignment = JcEnumeration.LEFT;
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
+
+			String headerTextMiddle = "PMIS Report - Issue Details";
+
+			String headerTextRight = report_created_date;
 			
 			int issue_count = 0;
-			
-			String headerTextMiddle = "PMIS Report - Issue Detail";
-			
-			String headerTextRight = "Date : " + report_created_date;
 			
 			//String headerText = "PMIS Report - Pending Issues";
 			
@@ -480,8 +496,9 @@ public class IssueDetailsReportController {
 					BufferUtil.getBytesFromInputStream(is), altText,
 					filenameHint, id1, id2, imageAlignment);
 		}
+		hdr.getContent().add(p);
 		
-		RPr boldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
+		/*RPr boldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				true, false, false, false);
 		
 		
@@ -492,7 +509,7 @@ public class IssueDetailsReportController {
 		        r.getContent().add( rtabWrapped);
 			}			
 			p.getContent().add(r);
-
+		
 			Text txt = factory.createText();
 			txt.setValue(headerTextMiddle);
 			r = factory.createR();
@@ -515,10 +532,135 @@ public class IssueDetailsReportController {
 			p.getContent().add(r);
 		}
 		
-		hdr.getContent().add(p);	
+		hdr.getContent().add(p);*/	
+		
+		/*******************************************************************************/
+
+		RPr titleRpr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA, true, false, false, false);
+
+		Tbl table = factory.createTbl();
+		
+		TblPr tableProps = new TblPr();
+        CTTblLayoutType tblLayoutType = new CTTblLayoutType();
+        STTblLayoutType stTblLayoutType = STTblLayoutType.FIXED;
+        tblLayoutType.setType(stTblLayoutType);
+        tableProps.setTblLayout(tblLayoutType);
+        table.setTblPr(tableProps);
+        
+		Tr titleRow = factory.createTr();
+		addTableCell(factory, wordprocessingMLPackage, titleRow, "", titleRpr, JcEnumeration.CENTER, true, "ffffff");
+		addTableCell(factory, wordprocessingMLPackage, titleRow, headerTextMiddle, titleRpr, JcEnumeration.CENTER, true,
+				"ffffff");
+		addTableCell(factory, wordprocessingMLPackage, titleRow, headerTextRight, titleRpr, JcEnumeration.RIGHT, true,
+				"ffffff");
+		table.getContent().add(titleRow);
+		setTableAlign(factory, table, JcEnumeration.CENTER);
+
+		hdr.getContent().add(table);
 		
 		return hdr;
 	}
+	
+	public void addTableCell(ObjectFactory factory, WordprocessingMLPackage wordMLPackage, Tr tableRow, String content,
+			RPr rpr, JcEnumeration jcEnumeration, boolean hasBgColor, String backgroudColor) {
+		Tc tableCell = factory.createTc();
+		P p = factory.createP();
+		setParagraphAlign(factory, p, jcEnumeration);
+		//Text t = factory.createText();
+		//t.setValue(content);
+		R run = factory.createR();
+		run.setRPr(rpr);
+
+		//run.getContent().add(t);
+
+		p.getContent().add(run);
+		if (content != null) {
+			String[] contentArr = content.split("\n");
+			Text text = factory.createText();
+			text.setSpace("preserve");
+			text.setValue(contentArr[0]);
+			run.getContent().add(text);
+
+			for (int i = 1, len = contentArr.length; i < len; i++) {
+				Br br = factory.createBr();
+				run.getContent().add(br);
+				text = factory.createText();
+				text.setSpace("preserve");
+				text.setValue(contentArr[i]);
+				run.getContent().add(text);
+			}
+		}
+
+		TcPr tcPr = tableCell.getTcPr();
+		if (tcPr == null) {
+			tcPr = factory.createTcPr();
+		}
+
+		CTVerticalJc valign = factory.createCTVerticalJc();
+		valign.setVal(STVerticalJc.CENTER);
+		tcPr.setVAlign(valign);
+
+		//Removing space in cells
+		PPr pPr = factory.createPPr();
+		Spacing spacing = new Spacing();
+		spacing.setBefore(BigInteger.TWO);
+		spacing.setAfter(BigInteger.TWO);
+		//spacing.setAfterLines(BigInteger.TEN);
+		//spacing.setBeforeLines(BigInteger.TEN);
+		pPr.setSpacing(spacing);
+
+		Jc justification = factory.createJc();
+		justification.setVal(jcEnumeration);
+		pPr.setJc(justification);
+
+		p.setPPr(pPr);
+
+		tableCell.getContent().add(p);
+		if (hasBgColor) {
+			CTShd shd = tcPr.getShd();
+			if (shd == null) {
+				shd = factory.createCTShd();
+			}
+			shd.setColor("auto");
+			shd.setFill(backgroudColor);
+			tcPr.setShd(shd);
+		}
+
+		TcBorders tcb = factory.createTcPrInnerTcBorders();
+		CTBorder ctb = factory.createCTBorder();
+		STBorder stb = STBorder.NONE;
+		ctb.setVal(stb);
+		tcb.setBottom(ctb);
+		tcb.setRight(ctb);
+		tcb.setLeft(ctb);
+		tcb.setTop(ctb);
+		tcPr.setTcBorders(tcb);
+
+		tableCell.setTcPr(tcPr);
+
+		tableRow.getContent().add(tableCell);
+	}
+
+	public static void setTableAlign(ObjectFactory factory, Tbl table, JcEnumeration jcEnumeration) {
+		TblPr tablePr = table.getTblPr();
+		if (tablePr == null) {
+			tablePr = factory.createTblPr();
+		}
+		Jc jc = tablePr.getJc();
+		if (jc == null) {
+			jc = new Jc();
+		}
+		jc.setVal(jcEnumeration);
+		tablePr.setJc(jc);
+
+		TblWidth tblwidth = factory.createTblWidth();
+		tblwidth.setW(BigInteger.valueOf(5000)); // 5000 = 100%
+		tblwidth.setType("pct");
+		tablePr.setTblW(tblwidth);
+
+		table.setTblPr(tablePr);
+	}
+
 	
 	public Hdr getHdr(WordprocessingMLPackage wordprocessingMLPackage,
 			ObjectFactory factory, HeaderPart sourcePart,String headerText) throws Exception {

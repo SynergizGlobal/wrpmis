@@ -40,8 +40,43 @@
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
-         @media only screen and (max-width:769px) {    		
-	        .dataTables_filter label{
+        .fw-111{
+	        	width:11vw; 
+	        	min-width:11vw;
+	    }
+	     div.dataTables_wrapper div.dataTables_info {
+		    white-space: break-spaces;
+		} 
+          @media only screen and (max-width: 769px){ 
+			
+			.dataTables_scrollBody tbody tr td:last-of-type,
+			.no-sort{
+				padding:3px !important;
+				max-width: 45px;
+			}
+			.mob-btn{
+				padding:0 12px;
+			}
+			.hideCOl{
+				display:none;
+			} 
+			.r-300{
+				width:30vw !important;
+        		max-width:30vw;
+			}
+			 .dataTables_filter label{
+	        	position:relative;
+	        }
+	        .dataTables_filter label::after{
+	        	position:absolute;
+	        	right:5px;
+	        	top:30px;
+	        }
+	        .fw-111{
+	        	width:20vw;
+	        	min-width:20vw;
+	        }
+	         .dataTables_filter label{
 	        	position:relative;
 	        }
 	        .dataTables_filter label::after{
@@ -52,7 +87,7 @@
 	         .last-column .btn+.btn {
 	            margin-left: 10px;
 	        }
-       }
+		}
     </style>
 </head>
 
@@ -108,7 +143,6 @@
 
                         <div class="row">
                             <div class="col m12 s12">
-	                            <div style="display:none;" id="webView">
 									 <table id="data-table-forms" class="mdl-data-table">
 	                                    <thead>
 	                                        <tr>
@@ -127,21 +161,6 @@
 	
 	                                </table>
 								</div>
-                                <div style="display:none;" id="mobView">
-								 <table id="data-table-forms_mob" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Module</th>
-                                            <th>Report</th>                                            
-                                            <th class="nosort">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-
-                                </table>
-							</div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -213,150 +232,77 @@
         	var soft_delete_status_fk = $("#soft_delete_status_fk").val();
         	getModulesFilterList();
          	getStatusFilterList();
-         	
-         	if(window.matchMedia("(max-width: 769px)").matches){
-         	    $('tbody.web').removeAttr('id');
-         	    $('#mobView').css({'display':'block'});
-         	   table = $('#data-table-forms_mob').DataTable();
+         	table = $('#data-table-forms').DataTable();
          		 
-	       		table.destroy();
-	       		
-	       		$.fn.dataTable.moment('DD-MMM-YYYY');
-	       		table = $('#data-table-forms_mob').DataTable({
-	           		"bStateSave": true,
-	           		fixedHeader: true,
-	                   "fnStateSave": function (oSettings, oData) {
-	                       localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	                   },
-	                   "fnStateLoad": function (oSettings) {
-	                       return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	                   },
-	                   columnDefs: [
-	                       {
-	                           targets: [2],
-	                           className: 'last-column'
-	                       },
-	                       { orderable: false, 'aTargets': ['nosort'] }
-	                   ],
-	                   // "ScrollX": true,
-	                   "sScrollX": "100%",
-	                    "sScrollXInner": "100%",
-	                    "bScrollCollapse": true,
-	                   initComplete: function () {
-	                       $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	                   }
-	               }).rows().remove().draw();
-	       		
-	       		table.state.clear();	
-	       	 	var myParams = {module_name_fk : module_name_fk,soft_delete_status_fk : soft_delete_status_fk};
-	       	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-reports-list",type:"POST",data:myParams,success : function(data){    
-	       	 		
-	       			if(data != null && data != '' && data.length > 0){    					
-	                		$.each(data,function(key,val){
-	                			var form_id = "'"+val.form_id+"'";
-	                           var actions = '<a href="javascript:void(0);"  onclick="getAccessReport('+form_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>';
-	                           			  
-	                         	
-	                           if($.trim(val.web_form_url) != ''){
-	                           	actions = actions +'<a href="<%=request.getContextPath()%>/'+val.web_form_url+'" target="_blank" class="btn mobile-btn waves-effect waves-light bg-m t-c"><i class="fa fa-share"></i></a>';
-	                           }			  
-	                           var rowArray = [];    	                 
-	                           
-	                           rowArray.push(val.module_name_fk);
-	                           rowArray.push(val.form_name);
-	                          	/* rowArray.push(val.folder_name);
-	                          	rowArray.push(val.web_form_url);
-	                          	rowArray.push(val.mobile_form_url);
-	                          	rowArray.push(val.priority);
-	                          	rowArray.push(val.soft_delete_status_fk);
-	                           */
-	                          	rowArray.push($.trim(actions)); 
-	                          	
-	                           table.row.add(rowArray).draw( true );
-	                           		                       
-	       				});
-	                		
-	                		$(".page-loader-2").hide();
-	       			}else{
-	       				$(".page-loader-2").hide();
-	       			}
-	       			
-	       		},error: function (jqXHR, exception) {
-	       			$(".page-loader-2").hide();
-	                	getErrorMessage(jqXHR, exception);
-	            }});
-         	    
-         	} else {
-         	    $('#webView').css({'display':'block'});
-	         	table = $('#data-table-forms').DataTable();
-	         		 
-	       		table.destroy();
-	       		
-	       		$.fn.dataTable.moment('DD-MMM-YYYY');
-	       		table = $('#data-table-forms').DataTable({
-	           		"bStateSave": true,
-	           		fixedHeader: true,
-	                   "fnStateSave": function (oSettings, oData) {
-	                       localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	                   },
-	                   "fnStateLoad": function (oSettings) {
-	                       return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	                   },
-	                   columnDefs: [
-	                       {
-	                           targets: [7],
-	                           className: 'last-column'
-	                       },
-	                       { orderable: false, 'aTargets': ['nosort'] }
-	                   ],
-	                   // "ScrollX": true,
-	                   "sScrollX": "100%",
-	                    "sScrollXInner": "100%",
-	                    "bScrollCollapse": true,
-	                   initComplete: function () {
-	                       $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	                   }
-	               }).rows().remove().draw();
-	       		
-	       		table.state.clear();	
-	       	 	var myParams = {module_name_fk : module_name_fk,soft_delete_status_fk : soft_delete_status_fk};
-	       	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-reports-list",type:"POST",data:myParams,success : function(data){    
-	       	 		
-	       			if(data != null && data != '' && data.length > 0){    					
-	                		$.each(data,function(key,val){
-	                			var form_id = "'"+val.form_id+"'";
-	                           var actions = '<a href="javascript:void(0);"  onclick="getAccessReport('+form_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>';
-	                           			  
-	                         	
-	                           if($.trim(val.web_form_url) != ''){
-	                           	actions = actions +'<a href="<%=request.getContextPath()%>/'+val.web_form_url+'" target="_blank" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-share"></i></a>';
-	                           }			  
-	                           var rowArray = [];    	                 
-	                           
-	                           rowArray.push(val.module_name_fk);
-	                           rowArray.push(val.form_name);
-	                          	rowArray.push(val.folder_name);
-	                          	rowArray.push(val.web_form_url);
-	                          	rowArray.push(val.mobile_form_url);
-	                          	rowArray.push(val.priority);
-	                          	rowArray.push(val.soft_delete_status_fk);
-	                          
-	                          	rowArray.push($.trim(actions)); 
-	                          	
-	                           table.row.add(rowArray).draw( true );
-	                           		                       
-	       				});
-	                		
-	                		$(".page-loader-2").hide();
-	       			}else{
-	       				$(".page-loader-2").hide();
-	       			}
-	       			
-	       		},error: function (jqXHR, exception) {
-	       			$(".page-loader-2").hide();
-	                	getErrorMessage(jqXHR, exception);
-	            }});
-         	}
+       		table.destroy();
+       		
+       		$.fn.dataTable.moment('DD-MMM-YYYY');
+       		table = $('#data-table-forms').DataTable({
+           		"bStateSave": true,
+           		fixedHeader: true,
+                   "fnStateSave": function (oSettings, oData) {
+                       localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                   },
+                   "fnStateLoad": function (oSettings) {
+                       return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                   },
+                   columnDefs: [
+                       {
+                           targets: [7],
+                           className: 'last-column'
+                       },
+                       {targets: [2,3,4,5,6], className: 'hideCOl'},
+                       {targets: [0,1,2,3,4,5,6,7], className: 'fw-111'},
+                       {targets: [0,1,7], className: 'fw-111'},
+                       { orderable: false, 'aTargets': ['nosort'] }
+                   ],
+                   // "ScrollX": true,
+                   "sScrollX": "100%",
+                    "sScrollXInner": "100%",
+                    "bScrollCollapse": true,
+                   initComplete: function () {
+                       $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                   }
+               }).rows().remove().draw();
+       		
+       		table.state.clear();	
+       	 	var myParams = {module_name_fk : module_name_fk,soft_delete_status_fk : soft_delete_status_fk};
+       	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-reports-list",type:"POST",data:myParams,success : function(data){    
+       	 		
+       			if(data != null && data != '' && data.length > 0){    					
+                		$.each(data,function(key,val){
+                			var form_id = "'"+val.form_id+"'";
+                           var actions = '<a href="javascript:void(0);"  onclick="getAccessReport('+form_id+');" class="btn waves-effect waves-light bg-m t-c mobile-btn"><i class="fa fa-pencil"></i></a>';
+                           			  
+                         	
+                           if($.trim(val.web_form_url) != ''){
+                           	actions = actions +'<a href="<%=request.getContextPath()%>/'+val.web_form_url+'" target="_blank" class="btn waves-effect waves-light bg-m t-c mobile-btn"><i class="fa fa-share"></i></a>';
+                           }			  
+                           var rowArray = [];    	                 
+                           
+                           rowArray.push(val.module_name_fk);
+                           rowArray.push(val.form_name);
+                          	rowArray.push(val.folder_name);
+                          	rowArray.push(val.web_form_url);
+                          	rowArray.push(val.mobile_form_url);
+                          	rowArray.push(val.priority);
+                          	rowArray.push(val.soft_delete_status_fk);
+                          
+                          	rowArray.push($.trim(actions)); 
+                          	
+                           table.row.add(rowArray).draw( true );
+                           		                       
+       				});
+                		
+                		$(".page-loader-2").hide();
+       			}else{
+       				$(".page-loader-2").hide();
+       			}
+       			
+       		},error: function (jqXHR, exception) {
+       			$(".page-loader-2").hide();
+                	getErrorMessage(jqXHR, exception);
+            }});
          	
        }
         

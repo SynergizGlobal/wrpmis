@@ -38,23 +38,52 @@
         .last-column .btn+.btn {
             margin-left: 20px;
         }
-
+		 div.dataTables_wrapper div.dataTables_info {
+		    white-space: break-spaces;
+		} 
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
-
-       @media only screen and (max-width:769px) {
-		    .dataTables_filter label{
-		        position:relative;
-		    }
-		    .dataTables_filter label::after{
-		        position:absolute;
-		        right:5px;
-		        top:30px;
-		    }
-		    .last-column .btn+.btn {
-		        margin-left: 10px;
-		    }
+ @media only screen and (max-width: 769px){ 
+			
+			.dataTables_scrollBody tbody tr td:last-of-type,
+			.no-sort{
+				padding:3px !important;
+				max-width: 45px;
+			}
+			.mob-btn{
+				padding:0 12px;
+			}
+			.hideCOl{
+				display:none;
+			} 
+			.r-300{
+				width:30vw !important;
+        		max-width:30vw;
+			}
+			 .dataTables_filter label{
+	        	position:relative;
+	        }
+	        .dataTables_filter label::after{
+	        	position:absolute;
+	        	right:5px;
+	        	top:30px;
+	        }
+	        .fw-111{
+	        	width:20vw;
+	        	min-width:20vw;
+	        }
+	         .dataTables_filter label{
+	        	position:relative;
+	        }
+	        .dataTables_filter label::after{
+	        	position:absolute;
+	        	right:5px;
+	        	top:30px;
+	        }
+	         .last-column .btn+.btn {
+	            margin-left: 10px;
+	        }
 		}
     </style>
 </head>
@@ -102,7 +131,6 @@
 
                         <div class="row">
                             <div class="col m12 s12">
-	                            <div style="display:none;" id="webView">
 	                                <table id="Reference_forms_table" class="mdl-data-table">
 	                                    <thead>
 	                                        <tr>
@@ -112,44 +140,10 @@
 	                                        </tr>
 	                                    </thead>
 	                                    <tbody>
-	                                        <!-- <tr>
-	                                            <th></th>
-	                                            <th></th>
-	                                            <td class="last-column"> <a href="reference_forms_form.html"
-	                                                    class="btn waves-effect waves-light bg-m t-c"><i
-	                                                        class="fa fa-pencil"></i></a>
-	                                                <a href="#" class="btn waves-effect waves-light bg-m t-c"><i
-	                                                        class="fa fa-share"></i></a>
-	                                            </td>
-	                                        </tr> -->
+	                                   
 	                                    </tbody>
 	
 	                                </table>
-	                               </div>
-	                                   <div style="display:none;" id="mobView">
-	                                <table id="Reference_forms_table_mob" class="mdl-data-table">
-	                                    <thead>
-	                                        <tr>
-	                                            <th>Name</th>
-	                                            <th>Module</th>
-	                                            <th class="nosort">Action</th>
-	                                        </tr>
-	                                    </thead>
-	                                    <tbody>
-	                                        <!-- <tr>
-	                                            <th></th>
-	                                            <th></th>
-	                                            <td class="last-column"> <a href="reference_forms_form.html"
-	                                                    class="btn waves-effect waves-light bg-m t-c"><i
-	                                                        class="fa fa-pencil"></i></a>
-	                                                <a href="#" class="btn waves-effect waves-light bg-m t-c"><i
-	                                                        class="fa fa-share"></i></a>
-	                                            </td>
-	                                        </tr> -->
-	                                    </tbody>
-	
-	                                </table>
-	                               </div>
                             </div>
                         </div>
                     </div>
@@ -225,37 +219,8 @@
         }); */
         $(document).ready(function () {
       	   $('select:not(.searchable)').formSelect();
-             $('.searchable').select2();
-         	var table = $('#Reference_forms_table').DataTable({
-      		"bStateSave": true,
-      		fixedHeader: true,
-              "fnStateSave": function (oSettings, oData) {
-                  localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-              },
-              "fnStateLoad": function (oSettings) {
-                  return JSON.parse(localStorage.getItem('MRVCDataTables'));
-              },
-              columnDefs: [
-                  {
-                      targets: [0],
-                      className: 'mdl-data-table__cell--non-numeric'
-                  },
-                  { orderable: false, 'aTargets': ['nosort'] }
-              ],
-              // "ScrollX": true,
-              "scrollCollapse": true,
-              //"sScrollY": 400,
-              "sScrollX": "100%",
-                  "sScrollXInner": "100%",
-                  "bScrollCollapse": true,
-              initComplete: function () {
-                  $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-              }
-          });
-      	table.state.clear(); 
-     		
-      	
-      	$('.close-message').delay(3000).fadeOut('slow');
+           $('.searchable').select2();
+      	   $('.close-message').delay(3000).fadeOut('slow');
       	
       	getModuleFilter();
        });
@@ -269,158 +234,71 @@
         	$(".page-loader-2").show();
         	var module_fk = $("#module_fk").val();
         	
-
-        	if(window.matchMedia("(max-width: 769px)").matches){
-        	    $('tbody.web').removeAttr('id');
-        	    $('#mobView').css({'display':'block'});
-        	    table = $('#Reference_forms_table_mob').DataTable();
-       		 
-        		table.destroy();
-        		
-        		$.fn.dataTable.moment('DD-MMM-YYYY');
-        		table = $('#Reference_forms_table_mob').DataTable({
-            		"bStateSave": true,
-            		fixedHeader: true,
-                    "fnStateSave": function (oSettings, oData) {
-                        localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                    },
-                    "fnStateLoad": function (oSettings) {
-                        return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                    },
-                    columnDefs: [
-                        {
-                            targets: [2],
-                            className: 'last-column'
-                        },
-                        { "width": "20px", "targets": [2] },
-                        { orderable: false, 'aTargets': ['nosort'] }
-                    ],
-                    // "ScrollX": true,
-                    "sScrollX": "100%",
-                     "sScrollXInner": "100%",
-                     "bScrollCollapse": true,
-                    initComplete: function () {
-                        $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                    }
-                }).rows().remove().draw();
-        		
-        		table.state.clear();		
-        	 	var myParams = {module_fk : module_fk};
-        	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-reference-forms-list",type:"POST",data:myParams,success : function(data){    				
-        			if(data != null && data != '' && data.length > 0){    					
-                 		$.each(data,function(key,val){
-                 			var reference_forms_id = "'"+val.reference_forms_id+"'";
-                 			var form_url = "'"+val.form_url+"'";
-                            var actions = '<a href="javascript:void(0);"  onclick="getReferenceForm('+reference_forms_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
-                            			  +'<a href="javascript:void(1);" onclick="gotoPath('+form_url+');" class="btn mobile-btn waves-effect waves-light bg-m t-c"><i class="fa fa-share"></i></a>'
-                          	var rowArray = [];    	                 
-                           	
-                        	
-                          /*   var folder_name = '';
-                            if($.trim(val.dashboard_id) != $.trim(val.parent_dashboard_id_sr_fk)) { 
-                            	folder_name =  $.trim(val.folder); 
-                            } else{ 
-                            	folder_name =  '-';
-                            } */
-                            
-                            if($.trim(val.name) == ''){ name =  '-'; }else{ name =  $.trim(val.name); }
-                            if($.trim(val.module_fk) == ''){ module_fk =  '-'; }else{ module_fk =  $.trim(val.module_fk); }
-                            
-                            
-                            rowArray.push(name);
-                           	rowArray.push(module_fk);
-                           	
-                           	rowArray.push($.trim(actions));   	                   	
-                           	
-                            table.row.add(rowArray).draw( true );
-                            		                       
-        				});
-                 		
-                 		$(".page-loader-2").hide();
-        			}else{
-        				$(".page-loader-2").hide();
-        			}
-        			
-        		},error: function (jqXHR, exception) {
-        			$(".page-loader-2").hide();
-                 	getErrorMessage(jqXHR, exception);
-             }});
-        	    
-        	} else {
-        	    $('#webView').css({'display':'block'});
-        	    table = $('#Reference_forms_table').DataTable();
-       		 
-        		table.destroy();
-        		
-        		$.fn.dataTable.moment('DD-MMM-YYYY');
-        		table = $('#Reference_forms_table').DataTable({
-            		"bStateSave": true,
-            		fixedHeader: true,
-                    "fnStateSave": function (oSettings, oData) {
-                        localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                    },
-                    "fnStateLoad": function (oSettings) {
-                        return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                    },
-                    columnDefs: [
-                        {
-                            targets: [2],
-                            className: 'last-column'
-                        },
-                        { "width": "20px", "targets": [2] },
-                        { orderable: false, 'aTargets': ['nosort'] }
-                    ],
-                    // "ScrollX": true,
-                    "sScrollX": "100%",
-                     "sScrollXInner": "100%",
-                     "bScrollCollapse": true,
-                    initComplete: function () {
-                        $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                    }
-                }).rows().remove().draw();
-        		
-        		table.state.clear();		
-        	 	var myParams = {module_fk : module_fk};
-        	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-reference-forms-list",type:"POST",data:myParams,success : function(data){    				
-        			if(data != null && data != '' && data.length > 0){    					
-                 		$.each(data,function(key,val){
-                 			var reference_forms_id = "'"+val.reference_forms_id+"'";
-                 			var form_url = "'"+val.form_url+"'";
-                            var actions = '<a href="javascript:void(0);"  onclick="getReferenceForm('+reference_forms_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
-                            			  +'<a href="javascript:void(1);" onclick="gotoPath('+form_url+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-share"></i></a>'
-                          	var rowArray = [];    	                 
-                           	
-                        	
-                          /*   var folder_name = '';
-                            if($.trim(val.dashboard_id) != $.trim(val.parent_dashboard_id_sr_fk)) { 
-                            	folder_name =  $.trim(val.folder); 
-                            } else{ 
-                            	folder_name =  '-';
-                            } */
-                            
-                            if($.trim(val.name) == ''){ name =  '-'; }else{ name =  $.trim(val.name); }
-                            if($.trim(val.module_fk) == ''){ module_fk =  '-'; }else{ module_fk =  $.trim(val.module_fk); }
-                            
-                            
-                            rowArray.push(name);
-                           	rowArray.push(module_fk);
-                           	
-                           	rowArray.push($.trim(actions));   	                   	
-                           	
-                            table.row.add(rowArray).draw( true );
-                            		                       
-        				});
-                 		
-                 		$(".page-loader-2").hide();
-        			}else{
-        				$(".page-loader-2").hide();
-        			}
-        			
-        		},error: function (jqXHR, exception) {
-        			$(".page-loader-2").hide();
-                 	getErrorMessage(jqXHR, exception);
-             }});
-        	}        	
+      	    table = $('#Reference_forms_table').DataTable();
+     		 
+      		table.destroy();
+      		
+      		$.fn.dataTable.moment('DD-MMM-YYYY');
+      		table = $('#Reference_forms_table').DataTable({
+          		"bStateSave": true,
+          		fixedHeader: true,
+                  "fnStateSave": function (oSettings, oData) {
+                      localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                  },
+                  "fnStateLoad": function (oSettings) {
+                      return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                  },
+                  columnDefs: [
+                      {
+                          targets: [2],
+                          className: 'last-column'
+                      },
+                      {targets: [0,1,2], className: 'fw-111'},
+                      { "width": "20px", "targets": [2] },
+                      { orderable: false, 'aTargets': ['nosort'] }
+                  ],
+                  // "ScrollX": true,
+                  "sScrollX": "100%",
+                   "sScrollXInner": "100%",
+                   "bScrollCollapse": true,
+                  initComplete: function () {
+                      $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                  }
+              }).rows().remove().draw();
+      		
+      		table.state.clear();		
+      	 	var myParams = {module_fk : module_fk};
+      	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-reference-forms-list",type:"POST",data:myParams,success : function(data){    				
+      			if(data != null && data != '' && data.length > 0){    					
+               		$.each(data,function(key,val){
+               			var reference_forms_id = "'"+val.reference_forms_id+"'";
+               			var form_url = "'"+val.form_url+"'";
+                          var actions = '<a href="javascript:void(0);"  onclick="getReferenceForm('+reference_forms_id+');" class="btn waves-effect waves-light bg-m t-c mobile-btn"><i class="fa fa-pencil"></i></a>'
+                          			  +'<a href="javascript:void(1);" onclick="gotoPath('+form_url+');" class="btn waves-effect waves-light bg-m t-c mobile-btn"><i class="fa fa-share"></i></a>'
+                        	var rowArray = [];    	                 
+                    
+                          if($.trim(val.name) == ''){ name =  '-'; }else{ name =  $.trim(val.name); }
+                          if($.trim(val.module_fk) == ''){ module_fk =  '-'; }else{ module_fk =  $.trim(val.module_fk); }
+                          
+                          
+                          rowArray.push(name);
+                         	rowArray.push(module_fk);
+                         	
+                         	rowArray.push($.trim(actions));   	                   	
+                         	
+                          table.row.add(rowArray).draw( true );
+                          		                       
+      				});
+               		
+               		$(".page-loader-2").hide();
+      			}else{
+      				$(".page-loader-2").hide();
+      			}
+      			
+      		},error: function (jqXHR, exception) {
+      			$(".page-loader-2").hide();
+               	getErrorMessage(jqXHR, exception);
+           }});
         }
       
         function gotoPath(path){

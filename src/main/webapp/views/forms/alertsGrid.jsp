@@ -55,7 +55,7 @@
 				max-width: 45px;
 			}
 			.mob-btn{
-				padding:0 12px;
+				padding:4px 12px;
 			}
 			.hideCOl{
 				display:none;
@@ -79,13 +79,17 @@
 	        }
 	        .break{
 	        	text-align:center;
-	        	width:30vw;
-	        	min-width:30vw;
+	        	width:26vw;
+    			min-width:26vw;
 			    margin-left: auto;
 			    margin-right: auto;
+			    
 	        }
 	        .break a{
-			 word-break: break-all;
+			   word-break: break-word;
+			   height: auto;
+			   white-space: normal;
+			   line-height: inherit;
 	        }
 		}
     </style>
@@ -522,7 +526,7 @@
     		         	{ "mData": function(data,type,row){
     		         		var alert_id = "'"+data.alert_id+"'";
     	         			var remarks = "'"+data.remarks+"'";
-    	                    var actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+remarks+');" class="btn waves-effect waves-light bg-m t-c modal-trigger mob-btn break">Action Taken</a>';
+    	                    var actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+remarks+');" class="btn waves-effect waves-light bg-m t-c modal-trigger mob-btn">Action Taken</a>';
     		            	return actions;
     		            } }
     		            

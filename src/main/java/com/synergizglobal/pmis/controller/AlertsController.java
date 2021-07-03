@@ -2,7 +2,9 @@ package com.synergizglobal.pmis.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.synergizglobal.pmis.Iservice.AlertsService;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.AlertsPaginationObject;
@@ -109,10 +112,31 @@ public class AlertsController {
 	public ModelAndView sendAlertsToAllByManual(){		
 		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
-	    	logger.error("sendAlertsToAllByManual : start");
+	    	   Date date = new Date();
+			   Calendar cal = Calendar.getInstance();
+	           cal.setTime(date); // don't forget this if date is arbitrary
+	             
+	           SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+	           SimpleDateFormat dayOfWeekTextFormat = new SimpleDateFormat("EEEE");
+	           String dayOfWeekText = dayOfWeekTextFormat.format(date).toUpperCase();
+	           //int month = cal.get(Calendar.MONTH); // 0 being January
+	           
+	           String alert_type = null;
+	           if(dayOfWeekText.equals("MONDAY")) {
+	        	   alert_type = CommonConstants2.ALERT_TYPE_BANK_GUARANTEE;
+	           }else if(dayOfWeekText.equals("TUESDAY")) {
+	        	   alert_type = CommonConstants2.ALERT_TYPE_INSURANCE;
+	           }else if(dayOfWeekText.equals("WEDNESDAY")) {
+	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT_PERIOD;
+	           }else if(dayOfWeekText.equals("THURSDAY")) {
+	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT_VALUE;
+	           }else if(dayOfWeekText.equals("FRIDAY")) {
+	        	   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
+	           }
+	    	   logger.error("sendAlertsToAllByManual : start");
 			
-		    boolean flag = service.sendNotificationAlertMails(null);
-		    logger.error("sendAlertsToAllByManual >> Sending mails : "+ flag); 
+		       boolean flag = service.sendNotificationAlertMails(alert_type);
+		       logger.error("sendAlertsToAllByManual >> Sending mails : "+ flag); 
 			
 		 } catch (Exception e) {
 			 e.printStackTrace();

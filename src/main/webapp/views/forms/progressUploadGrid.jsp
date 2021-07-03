@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
         p a {
             color: blue;
@@ -31,29 +33,8 @@
 
         .input-field .searchable_label {
             font-size: 0.9rem;
-        }
+        }        
         
-        .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
-		
-		.page-loader-2 {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}
-		
 		.dataTables_filter label::after {
 		    position: relative;
 		    content: none;
@@ -72,6 +53,15 @@
 			max-width:200px;
 		}
 		label.error{color:red;}
+		@media only screen and (max-width: 769px){
+			.w-sm-auto {
+			    width: auto !important;
+			}
+			th.fw-33p{
+				width:33% !important;		
+			}
+		}
+
     </style>
 </head>
 
@@ -121,21 +111,21 @@
 										
 									</c:if>
 								</div>											
-								<div class="col s12 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">Work</p>
 									<select class="searchable validate-dropdown" id="work_id_upload" name="work_id" onchange="getContracts(this.value);">
 										<option value="">Select</option>
 									</select> 
 									<span id="work_idError" class="error-msg"></span>
 								</div>	
-								<div class="col s12 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">Contract</p>
 									<select class="searchable validate-dropdown" id="contract_id_fk_upload" name="contract_id_fk" onchange="getFOBContractsList(this.value);">
 										<option value="">Select</option>	
 									</select> 
 									<span id="contract_id_fkError" class="error-msg"></span>
 								</div>	
-								<div class="col s12 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">Structure Type</p>
 									<select class="searchable validate-dropdown" id="structure_type_fk_upload" name="structure_type_fk">
 										<option value="">Select</option>
@@ -143,7 +133,7 @@
 									<span id="structure_type_fkError" class="error-msg"></span>
 								</div>	
 								
-								<div class="col s12 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<div id="hideFOBDiv">
 										<p class="searchable_label">Structure</p>
 										<select class="searchable validate-dropdown" id="fob_id" name="fob_id">
@@ -153,7 +143,7 @@
 									</div>
 								</div>	
 								
-								<div class="col s12 m4 file-field input-field" >
+								<div class="col s12 m4 l4 file-field input-field" >
 								      <div class="btn bg-m t-c">
 								        <span>Upload File</span>
 								        <input type="file" name="uploadFile" id="uploadFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
@@ -166,17 +156,16 @@
 												
 							</div>
 							<div class="row">	
-								<div class="col s12 m6 input-field">
+								<div class="col s12 m4 offset-m2 offset-l1">
 									<div class="center-align m-1">
 										<!-- <button type="button" class="btn waves-effect waves-light bg-s t-c"	style="width: 100%" onclick="clearFilters();">Clear Filters</button> -->
 										<p style="padding-top:1rem">Click <a href="/pmis/Activities_Template.xlsx" download>here</a> for the template</p>
 									</div>
 								</div>
-								<div class="col s12 m6 input-field">
-									<div class="center-align m-1">
-										<button type="button" onclick="uploadActivities();"
-											class="btn waves-effect waves-light bg-m t-c"
-											style="width: 100%"><strong>Upload </strong></button>
+								<div class="col s12 m4 input-field center-align">
+									<div class=" m-1">
+										<button type="button" onclick="uploadActivities();" style="width:100%;"
+											class="btn waves-effect waves-light bg-m t-c w-sm-auto"><strong>Upload </strong></button>
 									</div>
 								</div>
 							</div>
@@ -197,28 +186,27 @@
                     </span>
                     <div class="">
                         <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8">
+                            <div class="col m10 l8 offset-l2 offset-m1">
                                 <div class="row">
-                                    <div class="col s12 m3 input-field">
+                                    <div class="col s6 m3 input-field">
                                         <p class="searchable_label">Work</p>
                                         <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="getActivitiesUploadFilesList();">
                                             <option value="">Select</option>
                                         </select>
                                     </div>
-                                    <div class="col s12 m3 input-field">
+                                    <div class="col s6 m3 input-field">
                                         <p class="searchable_label">Contract</p>
                                         <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getActivitiesUploadFilesList();">
                                             <option value="">Select</option>
                                         </select>
                                     </div>
-                                    <div class="col s12 m3 input-field">
+                                    <div class="col s6 m3 input-field">
                                         <p class="searchable_label">Structure Type</p>
                                         <select id="structure_type_fk" name="structure_type_fk" class="searchable" onchange="getActivitiesUploadFilesList();">
                                             <option value="">Select</option>
                                         </select>
                                     </div>                                  
-                                    <div class="col s12 m3">
+                                    <div class="col s6 m3">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                             style="margin-top: 12px;width: 100%;" onclick="clearFilters()">Clear
                                             Filters</button>
@@ -234,10 +222,10 @@
                                 <table id="datatable-activities" class="mdl-data-table">
                                     <thead>
                                         <tr>                                            
-                                            <th>Work</th>
-											<th>Contract</th>
+                                            <th class="fw-33p">Work</th>
+											<th class="fw-33p">Contract</th>
 											<th>Structure type</th>
-											<th>Uploaded File</th>
+											<th class="fw-33p">Uploaded File</th>
 											<th>Status</th>
 											<th>Remarks</th>
 											<th>Uploaded by </th>
@@ -575,10 +563,10 @@
 	                   return JSON.parse(localStorage.getItem('MRVCDataTables'));
 	               },
 	               columnDefs: [
-	                   {
-	                       targets: [0, 1, 2],
-	                       className: 'mdl-data-table__cell--non-numeric'
-	                   },
+	            	   {
+	                        targets: [2,4,5,6,7],
+	                        className: 'hideCOl'
+	                    },
 	                   { orderable: false, 'aTargets': ['nosort'] }
 	               ],
 	               // "ScrollX": true,

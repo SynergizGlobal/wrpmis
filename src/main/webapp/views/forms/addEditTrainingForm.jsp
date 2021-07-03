@@ -943,7 +943,7 @@
 
 						<div class="row">
 							 
-							<div class="col s12 m4 mt-brdr offset-m2 center-align">
+							<div class="col s6 m4 mt-brdr offset-m2 center-align">
 								<div class=" m-1">
 									<c:if test="${action eq 'edit'}">
 										<button type="button" onclick="updateTraining();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -953,7 +953,7 @@
 									</c:if>
 								</div>
 							</div>
-							<div class="col s12 m4 mt-brdr center-align">
+							<div class="col s6 m4 mt-brdr center-align">
 								<div class=" m-1">
 									<a href="<%=request.getContextPath()%>/training"
 										class="btn waves-effect waves-light bg-s" >Cancel</a>

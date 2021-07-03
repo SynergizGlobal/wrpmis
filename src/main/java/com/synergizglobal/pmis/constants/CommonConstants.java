@@ -75,8 +75,7 @@ public class CommonConstants {
 	public final static String LAND_ACQUISITION_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"LAND_ACQUISITION_FILES"+File.separator;
 	public final static String DESIGN_UPLOADED_FILE_SAVING_PATH = DIRECTORY_PATH+"/Development/nginx-1.9.9/html/pmis/DESIGN_UPLOADED_FILES/";
  
-	/*********** PRODUCTION ****************************************************/
-	
+	/*********** Syntract AWS ****************************************************/	
 	/*public final static String LOGIN_BACKGROUND_IMAGE = "usr/share/nginx/html/pmis/resources/images/";
 	public static String LOGIN_BACKGROUND_IMAGE_URL = "/pmis/resources/images/login-background.jpg";
 	public final static String CONTEXT_PATH = "http://syntrackpro.com/pmis";
@@ -97,7 +96,7 @@ public class CommonConstants {
 	public final static String DESIGN_UPLOADED_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/DESIGN_UPLOADED_FILES/";
 	*/
 	
-	
+	/*********** MRVC Server ****************************************************/	
 	/*public final static String LOGIN_BACKGROUND_IMAGE = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"resources"+File.separator+"images"+File.separator;
 	public static String LOGIN_BACKGROUND_IMAGE_URL = "/pmis/resources/images/login-background.jpg";
 	public final static String CONTEXT_PATH = "http://10.203.10.157/pmis";

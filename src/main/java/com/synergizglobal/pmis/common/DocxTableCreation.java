@@ -13,6 +13,7 @@ import org.docx4j.wml.BooleanDefaultTrue;
 import org.docx4j.wml.Br;
 import org.docx4j.wml.CTBorder;
 import org.docx4j.wml.CTShd;
+import org.docx4j.wml.CTTblLayoutType;
 import org.docx4j.wml.CTVerticalJc;
 import org.docx4j.wml.Color;
 import org.docx4j.wml.ContentAccessor;
@@ -28,6 +29,7 @@ import org.docx4j.wml.RFonts;
 import org.docx4j.wml.RPr;
 import org.docx4j.wml.STBorder;
 import org.docx4j.wml.STHint;
+import org.docx4j.wml.STTblLayoutType;
 import org.docx4j.wml.STVerticalJc;
 import org.docx4j.wml.Tbl;
 import org.docx4j.wml.TblBorders;
@@ -436,10 +438,25 @@ public class DocxTableCreation {
 					
 					
 					//tableHeader.add("Person\nResponsible\nin MRVC\n(Assigned to)");  
-					
+					int columnNo = 1;
 					for (String headerValue : tableHeader) {
-						addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
-								JcEnumeration.CENTER, true, "ecf2ff");
+						int width = 0;
+						if(1 == columnNo) {
+							width = 200;
+						}else if(2 == columnNo) {
+							width = 500;
+						}else if(3 == columnNo) {
+							width = 2600;
+						}else if(4 == columnNo) {
+							width = 550;
+						}else if(5 == columnNo) {
+							width = 550;
+						}else if(6 == columnNo) {
+							width = 700;
+						}
+						columnNo++;
+						addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
+								"ecf2ff",width);
 					}		
 					table.getContent().add(titleRow);
 					
@@ -545,7 +562,7 @@ public class DocxTableCreation {
 					}			
 					/****************************************************************************************/			
 					
-					setTableAlign(factory, table, JcEnumeration.CENTER);
+					setTableAlignFixed(factory, table, JcEnumeration.CENTER);
 					t.addObject(table);
 					
 				}
@@ -1492,6 +1509,33 @@ public class DocxTableCreation {
         
 		table.setTblPr(tablePr);
 	}
+	
+	public static void setTableAlignFixed(ObjectFactory factory, Tbl table,
+			JcEnumeration jcEnumeration) {
+		TblPr tablePr = table.getTblPr();
+		if (tablePr == null) {
+			tablePr = factory.createTblPr();
+		}
+		Jc jc = tablePr.getJc();
+		if (jc == null) {
+			jc = new Jc();
+		}
+		jc.setVal(jcEnumeration);
+		tablePr.setJc(jc);
+		
+		
+		TblWidth tblwidth = factory.createTblWidth();
+        tblwidth.setW( BigInteger.valueOf( 5000) ); // 5000 = 100%
+        tblwidth.setType("pct");
+        tablePr.setTblW(tblwidth);
+        
+        CTTblLayoutType tblLayoutType = new CTTblLayoutType();
+        STTblLayoutType stTblLayoutType = STTblLayoutType.FIXED;
+        tblLayoutType.setType(stTblLayoutType);
+        tablePr.setTblLayout(tblLayoutType);
+        
+		table.setTblPr(tablePr);
+	}
 
 	
 	public static void addTableCell(ObjectFactory factory,
@@ -1575,6 +1619,96 @@ public class DocxTableCreation {
 		tcPr.setTcBorders(tcb);
 		
 		tableCell.setTcPr(tcPr);
+		
+		tableRow.getContent().add(tableCell);
+	}
+	
+	public static void addTableCellAndWidth(ObjectFactory factory, WordprocessingMLPackage wordMLPackage, Tr tableRow,
+			String content, RPr rpr, JcEnumeration jcEnumeration, boolean hasBgColor, String backgroudColor,int columnWidth) {
+		Tc tableCell = factory.createTc();
+		   
+		P p = factory.createP();
+		setParagraphAlign(factory, p, jcEnumeration);
+		//Text t = factory.createText();
+		//t.setValue(content);
+		R run = factory.createR();
+		run.setRPr(rpr);
+
+		//run.getContent().add(t);
+
+		p.getContent().add(run);
+		if (content != null) {
+			String[] contentArr = content.split("\n");
+			Text text = factory.createText();
+			text.setSpace("preserve");
+			text.setValue(contentArr[0]);
+			run.getContent().add(text);
+
+			for (int i = 1, len = contentArr.length; i < len; i++) {
+				Br br = factory.createBr();
+				run.getContent().add(br);
+				text = factory.createText();
+				text.setSpace("preserve");
+				text.setValue(contentArr[i]);
+				run.getContent().add(text);
+			}
+		}
+
+		TcPr tcPr = tableCell.getTcPr();
+		if (tcPr == null) {
+			tcPr = factory.createTcPr();
+		}
+
+		CTVerticalJc valign = factory.createCTVerticalJc();
+		valign.setVal(STVerticalJc.CENTER);
+		tcPr.setVAlign(valign);
+
+		//Removing space in cells
+		PPr pPr = factory.createPPr();
+		Spacing spacing = new Spacing();
+		spacing.setBefore(BigInteger.TWO);
+		spacing.setAfter(BigInteger.TWO);
+		//spacing.setAfterLines(BigInteger.TEN);
+		//spacing.setBeforeLines(BigInteger.TEN);
+		pPr.setSpacing(spacing);
+
+		Jc justification = factory.createJc();
+		justification.setVal(jcEnumeration);
+		pPr.setJc(justification);
+
+		p.setPPr(pPr);
+
+		tableCell.getContent().add(p);
+		if (hasBgColor) {
+			CTShd shd = tcPr.getShd();
+			if (shd == null) {
+				shd = factory.createCTShd();
+			}
+			shd.setColor("auto");
+			shd.setFill(backgroudColor);
+			tcPr.setShd(shd);
+		}
+
+		TcBorders tcb = factory.createTcPrInnerTcBorders();
+		CTBorder ctb = factory.createCTBorder();
+		STBorder stb = STBorder.NONE;
+		ctb.setVal(stb);
+		tcb.setBottom(ctb);
+		tcb.setRight(ctb);
+		tcb.setLeft(ctb);
+		tcb.setTop(ctb);
+		tcPr.setTcBorders(tcb);
+		
+		/********************************/		
+		if (columnWidth > 0) {
+            TblWidth tableWidth = new TblWidth();
+            tableWidth.setW(BigInteger.valueOf(columnWidth));
+            tableWidth.setType("dxa");
+            tcPr.setTcW(tableWidth);
+        }		
+		/********************************/
+
+		tableCell.setTcPr(tcPr);		
 		
 		tableRow.getContent().add(tableCell);
 	}

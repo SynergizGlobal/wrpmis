@@ -217,6 +217,12 @@
                    </div>
                </div>
                <div class="row no-mar">
+                   <div class="input-field col s12 m10 offset-m1">
+                       <label> <input type="checkbox"/> <span> Amendment not required in contract, Stop sending this alert in mail and notifications</span> </label>
+                   </div>
+               </div>
+               <br>
+               <div class="row no-mar">
                    <div class="col s6 m5 offset-m1">
                        <div class="center-align m-1">
                            <button type="submit" style="width: 100%;"

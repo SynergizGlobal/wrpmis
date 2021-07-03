@@ -1063,7 +1063,7 @@ public class IssuesReportController {
 		//ObjectFactory objectFactory = new ObjectFactory();
 		boolean flag = false;
 		try {
-			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh.mm aa");
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
 			String report_created_date = df.format(new Date());
 
 			obj.setStatus_fk("Closed");
@@ -1075,9 +1075,9 @@ public class IssuesReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 
-			String imagePath = null;
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
 
-			JcEnumeration imageAlignment = JcEnumeration.LEFT;
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 
 			int issue_count = 0;
 			if (pendingIssues != null) {
@@ -1087,11 +1087,11 @@ public class IssuesReportController {
 					}
 				}
 			}
-			String headerTextMiddle = "PMIS Report - Pending Issues (" + issue_count + " Nos)";
+			String headerTextMiddle = "Project Issues (" + issue_count + " Nos)";
 
 			//String headerTextRight = "Date : " + report_created_date;
 
-			String headerTextRight = "";
+			String headerTextRight = report_created_date;
 
 			//String headerText = "PMIS Report - Pending Issues";
 
@@ -1146,7 +1146,7 @@ public class IssuesReportController {
 		byte[] byteArray = null;
 		;
 		try {
-			DateFormat df = new SimpleDateFormat("dd-MM-YYYY, hh.mm aa");
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
 			String report_created_date = df.format(new Date());
 
 			List<Issue> issuesCounts = issueService.getIssuesSummaryData(obj);
@@ -1157,11 +1157,11 @@ public class IssuesReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 
-			String imagePath = null;
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
 
-			JcEnumeration imageAlignment = JcEnumeration.LEFT;
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 
-			String headerTextMiddle = "PMIS Report - Issues Summary";
+			String headerTextMiddle = "Issues Summary";
 
 			String headerTextRight = report_created_date;
 

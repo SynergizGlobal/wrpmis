@@ -223,15 +223,14 @@
                        <label for="remarks">Action Taken</label>
                    </div>
                </div>
-               <div class="row no-mar">
+               <div class="row no-mar" id="amendment_not_required_in_contract_Div" style="display: none;">
                    <div class="input-field col s12 m10 offset-m1">
                        <label> <input type="checkbox" id="amendment_not_required_in_contract" name="amendment_not_required_in_contract" value="Yes"/> <span> Amendment not required in contract, Stop sending this alert in mail and notifications</span> </label>
                    </div>
-                   
                </div>
                <div class="row no-mar">
 	               <div class="input-field col s12 m10 offset-m1">
-	               		<p id="messageError"></p>	
+	               		<p class="my-error-class" id="messageError"></p>	
 	               </div>
                </div>
                <div class="row no-mar">
@@ -543,12 +542,13 @@
     		            	if($.trim(data.remarks) == ''){ return '-'; }else{ return data.remarks; }
     		            } },
     		         	{ "mData": function(data,type,row){
+    		         		var alert_type_fk = "'"+data.alert_type_fk+"'";
     		         		var alert_id = "'"+data.alert_id+"'";
     	         			var remarks = "'"+data.remarks+"'";
     	         			var amendment_not_required_in_contract = "'"+data.amendment_not_required_in_contract+"'";
     	                    var actions = '-';    	                    
     	                    if("IT" !== '${sessionScope.USER_ROLE_CODE}'){
-    	                    	actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+remarks+','+amendment_not_required_in_contract+');" class="btn waves-effect waves-light bg-m t-c modal-trigger mob-btn">Action Taken</a>';
+    	                    	actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+alert_type_fk+','+remarks+','+amendment_not_required_in_contract+');" class="btn waves-effect waves-light bg-m t-c modal-trigger mob-btn">Action Taken</a>';
     	                    }
     		            	return actions;
     		            } }
@@ -725,12 +725,18 @@
             }
         }
         
-        function addAlertRemarks(alert_id,remarks,amendment_not_required_in_contract){   
+        function addAlertRemarks(alert_id,alert_type_fk,remarks,amendment_not_required_in_contract){   
         	$("#remarksModal").modal("open"); 
         	$("#messageError").html('');
         	$("#remarks").val('');
         	$("#amendment_not_required_in_contract").prop("checked", false);
         	$("#alert_id").val(alert_id);
+        	
+        	if(alert_type_fk == 'Bank Guarantee' || alert_type_fk == 'Contract Period' || alert_type_fk == 'Insurance'){
+        		$("#amendment_not_required_in_contract_Div").show();
+        	}else{
+        		$("#amendment_not_required_in_contract_Div").hide();
+        	}
         	if($.trim(remarks) != '' && $.trim(remarks) != 'null'){
         		$("#remarks").val(remarks);
         		$("#remarks").show().focus()
@@ -743,11 +749,34 @@
         }
         
         function addRemarks(){
-        	if(validator.form()){
+        	var remarks = $("#remarks").val();
+        	var amendment_not_required_in_contract = $("#amendment_not_required_in_contract").prop('checked');
+        	//alert(remarks +" : "+amendment_not_required_in_contract);
+        	if($.trim(remarks) != '' || amendment_not_required_in_contract == true){
+        		$("#messageError").html('');
         		$(".page-loader").show();
         		document.getElementById("remarksForm").submit();
+        	}else{
+        		$("#messageError").html('Required any one field');
         	}
         }
+        
+        $('textarea').change(function(){
+            if ($(this).val() != ""){
+            	$("#messageError").html('');
+            }
+        });
+        $('textarea').keyup(function(){
+            if ($(this).val() != ""){
+            	$("#messageError").html('');
+            }
+        });
+        
+        $('input[type=checkbox]').change(function(){
+            if ($(this).val() != ""){
+            	$("#messageError").html('');
+            }
+        });
         
         var validator = $('#remarksForm').validate({
    		 	errorClass: "my-error-class",

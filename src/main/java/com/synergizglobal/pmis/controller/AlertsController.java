@@ -284,12 +284,13 @@ public class AlertsController {
 		//JSONObject json = new JSONObject();
 		String json2 = null;
 		String userId = null;
-		String userName = null,user_role_name=null;
+		String userName = null,user_role_name=null,user_role_code = null;
 		try {
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
 			user_role_name = (String) session.getAttribute("USER_ROLE_NAME");
-			obj.setUser_id(userId);obj.setUser_role_name(user_role_name);
+			user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setUser_id(userId);obj.setUser_role_code(user_role_code);
 			pw = response.getWriter();
 			//Fetch the page number from client
 			Integer pageNumber = 0;
@@ -449,6 +450,7 @@ public class AlertsController {
 	     try {
 	    	 String user_Id = (String) session.getAttribute("USER_ID");
 	    	 //String userName = (String) session.getAttribute("USER_NAME");
+	    	 obj.setUser_id_fk(user_Id);
 	    	 boolean flag = service.addAlertRemarks(obj);
 	    	 if(flag) {
 	    		 attributes.addFlashAttribute("success", "Remarks addedd successfully.");

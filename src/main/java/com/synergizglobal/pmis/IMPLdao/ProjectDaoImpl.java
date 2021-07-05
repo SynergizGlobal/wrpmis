@@ -580,7 +580,7 @@ public class ProjectDaoImpl implements ProjectDao {
 				
 				/********************************************************************************/
 				
-				String qryUsers ="SELECT user_id FROM `user` where designation = 'CPM/II' ";
+				String qryUsers ="SELECT incharge_user_id_fk as user_id FROM `module` where module_name = 'Works' ";
 				List<String> users = jdbcTemplate.queryForList( qryUsers, String.class);	
 				if(!StringUtils.isEmpty(users) && users.size() > 0) {
 					String userIds[]  = new String[users.size()];	

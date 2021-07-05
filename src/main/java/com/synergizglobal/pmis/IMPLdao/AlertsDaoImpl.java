@@ -330,7 +330,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			List<Alerts> alertsSendManually = jdbcTemplate.query( qryAlertsSendManually, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
 			
-			for (Alerts obj : list) {
+			for (Alerts obj : list) {				
 				stmt = connection.prepareStatement(qryInsert,Statement.RETURN_GENERATED_KEYS);
 				String alert_level = obj.getAlert_level();
 				String alert_type = obj.getAlert_type();
@@ -339,6 +339,8 @@ public class AlertsDaoImpl implements AlertsDao{
 				String redirect_url = obj.getRedirect_url();
 				String details = obj.getDetails();
 				String valid_upto = obj.getValidity();
+				
+				String user_id = getAmendmentNotRequiredInContract(contract_id,alert_value,connection);
 				
 				int p = 1;
                 stmt.setString(p++, alert_level);
@@ -360,13 +362,14 @@ public class AlertsDaoImpl implements AlertsDao{
                 	}
                 	DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
                 	
-                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk)VALUES(?,?)";
+                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk,amendment_not_required_in_contract)VALUES(?,?,?)";
     				stmt = connection.prepareStatement(qry);
     				
     				if(!StringUtils.isEmpty(obj.getHod_user_id_fk()) && !"1st Alert".equals(alert_level)) {
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getHod_user_id_fk());
+		                stmt.setString(p++, obj.getHod_user_id_fk().equals(user_id)?"Yes":null);
 		                stmt.addBatch();
 					}
     				
@@ -374,6 +377,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getDy_hod_user_id_fk());
+		                stmt.setString(p++, obj.getDy_hod_user_id_fk().equals(user_id)?"Yes":null);
 		                stmt.addBatch();
     				}
     				
@@ -381,6 +385,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getReporting_to_user_id());
+		                stmt.setString(p++, obj.getReporting_to_user_id().equals(user_id)?"Yes":null);
 		                stmt.addBatch();
     				}
     				
@@ -389,18 +394,21 @@ public class AlertsDaoImpl implements AlertsDao{
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());
+    		                stmt.setString(p++, aObj.getUser_id_fk().equals(user_id)?"Yes":null);
     		                stmt.addBatch();
     					}
     					if(StringUtils.isEmpty(aObj.getAlert_type_fk()) && (!StringUtils.isEmpty(aObj.getAlert_level_fk()) && aObj.getAlert_level_fk().equals(alert_level))) {
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());
+    		                stmt.setString(p++, aObj.getUser_id_fk().equals(user_id)?"Yes":null);
     		                stmt.addBatch();
     					}
     					if((!StringUtils.isEmpty(aObj.getAlert_type_fk()) && aObj.getAlert_type_fk().equals(alert_type)) && (!StringUtils.isEmpty(aObj.getAlert_level_fk()) && aObj.getAlert_level_fk().equals(alert_level))) {
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());
+    		                stmt.setString(p++, aObj.getUser_id_fk().equals(user_id)?"Yes":null);
     		                stmt.addBatch();
     					}
     					
@@ -408,6 +416,7 @@ public class AlertsDaoImpl implements AlertsDao{
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());
+    		                stmt.setString(p++, aObj.getUser_id_fk().equals(user_id)?"Yes":null);
     		                stmt.addBatch();
     					}
 					}   				
@@ -442,6 +451,34 @@ public class AlertsDaoImpl implements AlertsDao{
 			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, resultSet);
 		}
 		return flag;
+	}
+
+	private String getAmendmentNotRequiredInContract(String contract_id, String alert_value, Connection connection) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String user_id = null;
+		try {
+			String remarksQry ="SELECT user_id_fk FROM alerts_user where amendment_not_required_in_contract = 'Yes' " + 
+					"and alerts_id_fk = (select alert_id from alerts where contract_id = ? and alert_value = ? " + 
+					"AND created_date = (select max(created_date) from alerts where contract_id = ? and alert_value = ? limit 1)  limit 1)";
+			stmt = connection.prepareStatement(remarksQry);
+			int p = 1;
+            stmt.setString(p++, contract_id);
+            stmt.setString(p++, alert_value);
+            stmt.setString(p++, contract_id);
+            stmt.setString(p++, alert_value);
+            
+            rs = stmt.executeQuery();
+            if(rs.next()) {
+            	user_id = rs.getString("user_id_fk");
+            }
+            
+		} catch (Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return user_id;
 	}
 
 	public boolean generateIssueAlertsByCronJob() throws Exception {
@@ -951,7 +988,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join alerts_user u on u.alerts_id_fk = a.alert_id " 
 					+ "left join user u2 on u.user_id_fk = u2.user_id " 
 					+ "where a.alert_status = 'Active' and count <> 0 "
-					+ "and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' ";
+					+ "and (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '') and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(alert_type)) {
@@ -978,7 +1015,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "left join work w on c.work_id_fk = w.work_id " 
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id " 
-						+ "where alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '') and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
 				
 				arrSize = 2;
 				if(!StringUtils.isEmpty(alert_type)) {
@@ -1008,7 +1045,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							+ "left join work w on c.work_id_fk = w.work_id " 
 							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 							+ "left join user u on c.hod_user_id_fk = u.user_id " 
-							+ "where alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
 					
 					arrSize = 3;
 					if(!StringUtils.isEmpty(alert_type)) {
@@ -1837,11 +1874,22 @@ public class AlertsDaoImpl implements AlertsDao{
 	public boolean addAlertRemarks(Alerts obj) throws Exception {
 		boolean flag = false;
 		try {
-			String updateQry = "update alerts set remarks = ? where alert_id = ?";	
-			Object[] pValues = new Object[] {obj.getRemarks(),obj.getAlert_id()};
-			int c = jdbcTemplate.update(updateQry,pValues);	
-			if(c > 0) {
-				flag = true;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRemarks())) {
+				String updateQry = "update alerts set remarks = ? where alert_id = ?";	
+				Object[] pValues = new Object[] {obj.getRemarks(),obj.getAlert_id()};
+				int c = jdbcTemplate.update(updateQry,pValues);	
+				if(c > 0) {
+					flag = true;
+				}
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAmendment_not_required_in_contract())) {
+				String updateAlertUserQry = "update alerts_user set amendment_not_required_in_contract = ? where alerts_id_fk = ? and user_id_fk = ?";	
+				Object[] pValues = new Object[] {obj.getAmendment_not_required_in_contract(),obj.getAlert_id(),obj.getUser_id_fk()};
+				int c = jdbcTemplate.update(updateAlertUserQry,pValues);	
+				if(c > 0) {
+					flag = true;
+				}
 			}
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -1869,7 +1917,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {
-				qry = qry + " and au.user_id_fk = ? ";
+				qry = qry + " and (au.amendment_not_required_in_contract is null or au.amendment_not_required_in_contract = '') and au.user_id_fk = ? ";
 				arrSize++;
 			}
 			
@@ -1943,7 +1991,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				arrSize = 1;
 				if(!"IT Admin".equals(obj.getUser_role_name())) {
-					qry = qry + " and au.user_id_fk = ? ";
+					qry = qry + " and (au.amendment_not_required_in_contract is null or au.amendment_not_required_in_contract = '') and au.user_id_fk = ? ";
 					arrSize++;
 				}
 				
@@ -2139,7 +2187,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		int totalRecords = 0;
 		try {
 			String qry = "select count(*) as total_records from alerts a "; 
-					if(!"IT Admin".equals(obj.getUser_role_name())) {
+					if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 						qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
 					}
 			
@@ -2150,7 +2198,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";
 			
 			int arrSize = 1;
-			if(!"IT Admin".equals(obj.getUser_role_name())) {
+			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and au.user_id_fk = ? ";
 				arrSize++;
 			}
@@ -2202,7 +2250,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = CommonConstants.ACTIVE;
-			if(!"IT Admin".equals(obj.getUser_role_name())) {
+			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 			}
 			
@@ -2251,9 +2299,13 @@ public class AlertsDaoImpl implements AlertsDao{
 		List<Alerts> objsList = new ArrayList<Alerts>();
 		try {
 			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
-					+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url "
-					+ "from alerts a "; 
-					if(!"IT Admin".equals(obj.getUser_role_name())) {
+					+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url ";
+					if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+						qry = qry + ",amendment_not_required_in_contract "; 
+					}
+					
+					qry = qry + "from alerts a "; 
+					if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 						qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
 					}
 			
@@ -2264,7 +2316,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";
 			
 			int arrSize = 1;
-			if(!"IT Admin".equals(obj.getUser_role_name())) {
+			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and au.user_id_fk = ? ";
 				arrSize++;
 			}
@@ -2320,7 +2372,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = CommonConstants.ACTIVE;
-			if(!"IT Admin".equals(obj.getUser_role_name())) {
+			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 			}
 			

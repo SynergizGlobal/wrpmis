@@ -92,6 +92,13 @@
 			   line-height: inherit;
 	        }
 		}
+		
+		.my-error-class {
+   			 color:red;
+		}
+		.my-valid-class {
+   			 color:green;
+		}
     </style>
 </head>
 
@@ -206,26 +213,31 @@
            <h5 class="modal-header"> Add Action Taken <span
                    class="right modal-action modal-close"><span
                        class="material-icons">close</span></span></h5>
-           <form action="<%=request.getContextPath() %>/add-alert-remarks" method="post">
+           <form action="<%=request.getContextPath() %>/add-alert-remarks" method="post" id="remarksForm" name="remarksForm">
            	   <input type="hidden" id="alert_id" name="alert_id" />
                <div class="row no-mar">
                    <div class="input-field col s12 m10 offset-m1">
                        <textarea id="remarks" name="remarks"
                            class="materialize-textarea"
-                           data-length="500" maxlength="500" required="required"></textarea>
+                           data-length="500" maxlength="500"></textarea>
                        <label for="remarks">Action Taken</label>
                    </div>
                </div>
                <div class="row no-mar">
                    <div class="input-field col s12 m10 offset-m1">
-                       <label> <input type="checkbox"/> <span> Amendment not required in contract, Stop sending this alert in mail and notifications</span> </label>
+                       <label> <input type="checkbox" id="amendment_not_required_in_contract" name="amendment_not_required_in_contract" value="Yes"/> <span> Amendment not required in contract, Stop sending this alert in mail and notifications</span> </label>
                    </div>
+                   
                </div>
-               <br>
+               <div class="row no-mar">
+	               <div class="input-field col s12 m10 offset-m1">
+	               		<p id="messageError"></p>	
+	               </div>
+               </div>
                <div class="row no-mar">
                    <div class="col s6 m5 offset-m1">
                        <div class="center-align m-1">
-                           <button type="submit" style="width: 100%;"
+                           <button type="button" onclick="addRemarks();" style="width: 100%;"
                                class="btn waves-effect waves-light bg-m">ADD</button>
                        </div>
                    </div>
@@ -277,6 +289,7 @@
     
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
@@ -532,7 +545,11 @@
     		         	{ "mData": function(data,type,row){
     		         		var alert_id = "'"+data.alert_id+"'";
     	         			var remarks = "'"+data.remarks+"'";
-    	                    var actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+remarks+');" class="btn waves-effect waves-light bg-m t-c modal-trigger mob-btn">Action Taken</a>';
+    	         			var amendment_not_required_in_contract = "'"+data.amendment_not_required_in_contract+"'";
+    	                    var actions = '-';    	                    
+    	                    if("IT" !== '${sessionScope.USER_ROLE_CODE}'){
+    	                    	actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+remarks+','+amendment_not_required_in_contract+');" class="btn waves-effect waves-light bg-m t-c modal-trigger mob-btn">Action Taken</a>';
+    	                    }
     		            	return actions;
     		            } }
     		            
@@ -542,113 +559,6 @@
 	    	  $(".page-loader-2").hide();  		     
      }
 
-        
-		function getAlerts1(){
-			$(".page-loader-2").show();
-			
-			var alert_id_from_tableau = '${alert_id}';
-
-        	getContractsFilterList('');
-			getHODFilterList('');
-			getContractorsFilterList('');
-			getWorkFilterList('');
-			getAlertTypesFilterList('');
-
-			var hod = $("#hod").val();
-   	    	var work_id_fk = $("#work_id_fk").val();
-   	    	var contractor_id_fk = $("#contractor_id_fk").val();
-   	    	var contract_id_fk = $("#contract_id_fk").val();
-   	    	var alert_type_fk = $("#alert_type_fk").val();
-
-        	var filters = '';
-        	Object.keys(filtersMap).forEach(function (key) {
-	    		//alert(filtersMap[key]);
-        		filters = filters + key +"="+filtersMap[key] + "^";
-        		window.localStorage.setItem("alertsFilters", filters);
-   			});
-         	
-         	table = $('#notifications-table').DataTable();
-    		 
-    		table.destroy();
-    		
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
-    		table = $('#notifications-table').DataTable({
-        		"bStateSave": true,
-        		fixedHeader: true, 
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    },
-                    { orderable: false, 'aTargets': ['nosort'] }
-                ],
-                // "ScrollX": true,
-                //"scrollCollapse": true,
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            }).rows().remove().draw();
-    		
-    		
-    		table.state.clear();		
-    	 
-    		var myParams = {user_id : user_id,email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getAlerts",
-    			data:myParams,cache: false,async:false,
-    			type:'POST',
-    			dataType: 'json',
-    			success : function(data){    				
-    				if(data != null && data != '' && data.length > 0){    					
-    	         		$.each(data,function(key,val){
-    	         			var alert_id = "'"+val.alert_id+"'";
-    	         			var remarks = "'"+val.remarks+"'";
-    	                    var actions = '<a href="javascript:void(0);" onclick="addAlertRemarks('+alert_id+','+remarks+');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Action Taken</a>';    	                   	
-    	                   	var rowArray = [];    	                 
-    	                   	
-    	                	var workName = '';
-                            if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                            
-                            var contractName = '';
-                            if ($.trim(val.contract_short_name) != '') { contractName = ' - ' + $.trim(val.contract_short_name) }
-                            
-                            rowArray.push($.trim(val.hod));
-    	                   	rowArray.push($.trim(val.work_id_fk) + workName);
-    	                   	rowArray.push($.trim(val.contract_id) + contractName);
-    	                   	rowArray.push($.trim(val.contractor_name));
-    	                   	rowArray.push($.trim(val.alert_type_fk));
-    	                   	rowArray.push($.trim(val.alert_level));
-    	                   	rowArray.push($.trim(val.alert_value));
-    	                   	rowArray.push($.trim(val.remarks));
-    	                   	rowArray.push($.trim(actions));
-    	                   	
-    	                    table.row.add(rowArray).draw( true );
-    	                    
-    	                    
-    	                    if($.trim(alert_id_from_tableau) == $.trim(val.alert_id) ){
-    	                    	addAlertRemarks(val.alert_id,val.remarks);
-    	                    }
-    	                    		                       
-    					});
-    	         		
-    	         		$(".page-loader-2").hide();
-    				}else{
-    					$(".page-loader-2").hide();
-    				}
-    				
-    			},error: function (jqXHR, exception) {
-    				$(".page-loader-2").hide();
-    	         	getErrorMessage(jqXHR, exception);
-    	     }});
-		}
         
 	   	function getContractsFilterList(contract){
    	    	$(".page-loader").show();
@@ -815,16 +725,77 @@
             }
         }
         
-        function addAlertRemarks(alert_id,remarks){   
-        	$("#remarksModal").modal("open");
+        function addAlertRemarks(alert_id,remarks,amendment_not_required_in_contract){   
+        	$("#remarksModal").modal("open"); 
+        	$("#messageError").html('');
         	$("#remarks").val('');
+        	$("#amendment_not_required_in_contract").prop("checked", false);
         	$("#alert_id").val(alert_id);
         	if($.trim(remarks) != '' && $.trim(remarks) != 'null'){
         		$("#remarks").val(remarks);
         		$("#remarks").show().focus()
-        	}        	
+        	} 
+        	if($.trim(amendment_not_required_in_contract) != '' && $.trim(amendment_not_required_in_contract) != 'null' && 
+        			$.trim(amendment_not_required_in_contract) == 'Yes'){
+        		$("#amendment_not_required_in_contract").prop("checked", true);
+        	}   
         	
         }
+        
+        function addRemarks(){
+        	if(validator.form()){
+        		$(".page-loader").show();
+        		document.getElementById("remarksForm").submit();
+        	}
+        }
+        
+        var validator = $('#remarksForm').validate({
+   		 	errorClass: "my-error-class",
+   		   	validClass: "my-valid-class",
+		   	ignore: ":hidden:not(.validate-dropdown)",
+	   	   	rules: {
+		   	   	"remarks":{
+			 		 required: function(element) {
+							   		return !$("#amendment_not_required_in_contract").val();
+							   }
+			 	 },"amendment_not_required_in_contract": {
+	   			 	 required: function(element) {
+							   		return !$("#remarks").val();
+							   }
+	   			  }
+	   		 				
+	   	 	},
+	   	    messages: {
+	   			 "remarks":{
+	  	 	  		required: 'Required any one field'
+			 	  },"amendment_not_required_in_contract": {
+   		 			required: 'Required any one field'
+   		 	  	  }
+	   	 				      
+	        },
+	   	    errorPlacement:
+		   	 	function(error, element){
+		   			if (element.attr("id") == "amendment_not_required_in_contract" ){
+	   		 		     document.getElementById("messageError").innerHTML="";
+	   		 			 error.appendTo('#messageError');
+		   		 	}else if (element.attr("id") == "remarks" ){
+		  	 		     document.getElementById("messageError").innerHTML="";
+			 			 error.appendTo('#messageError');
+			 		}
+		   	 },invalidHandler: function (form, validator) {
+		         var errors = validator.numberOfInvalids();
+		         if (errors) {
+		             var position = validator.errorList[0].element;
+		             jQuery('html, body').animate({
+		                 scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+		             }, 1000);
+		         }
+		     },submitHandler: function(form) {
+		   	    // do other things for a valid form
+		   	    //form.submit();
+		   	    //return true;
+		   	  }
+		});
     </script>
 
 </body>

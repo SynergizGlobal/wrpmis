@@ -9,7 +9,7 @@ public class Alerts {
 	user_id_fk,alert_level_fk,sub_work,reporting_to_user_id,reporting_to_email_id,alert_type_image,details,validity;
 	
 	private String status,uploaded_by_user_id_fk,corrective_measure,user_role_name_fk,user_type_fk,owner,owner_user_id,
-	responsible_person_user_id,assessment_date,module_name,incharge_user_id_fk;
+	responsible_person_user_id,assessment_date,module_name,incharge_user_id_fk,amendment_not_required_in_contract,user_role_code;
 	
 	public String getOwner_user_id() {
 		return owner_user_id;
@@ -449,6 +449,22 @@ public class Alerts {
 
 	public void setValidity(String validity) {
 		this.validity = validity;
+	}
+
+	public String getAmendment_not_required_in_contract() {
+		return amendment_not_required_in_contract;
+	}
+
+	public void setAmendment_not_required_in_contract(String amendment_not_required_in_contract) {
+		this.amendment_not_required_in_contract = amendment_not_required_in_contract;
+	}
+
+	public String getUser_role_code() {
+		return user_role_code;
+	}
+
+	public void setUser_role_code(String user_role_code) {
+		this.user_role_code = user_role_code;
 	}
 	
 }

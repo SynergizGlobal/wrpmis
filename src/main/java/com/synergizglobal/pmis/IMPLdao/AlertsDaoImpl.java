@@ -324,7 +324,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			jdbcTemplate.update(updateQry,pValues);	
 			
 			
-			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url,details,valid_upto) VALUES  (?,?,?,?,?,?,?,?,?,?)";
+			String qryInsert = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,remarks,redirect_url,details,valid_upto,amendment_not_required_in_contract)"
+					+ " VALUES  (?,?,?,?,?,?,?,?,?,?,?)";
 			
 			String qryAlertsSendManually = "select user_id_fk,alert_type_fk,alert_level_fk from alerts_send_manually ";			
 			List<Alerts> alertsSendManually = jdbcTemplate.query( qryAlertsSendManually, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -340,7 +341,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				String details = obj.getDetails();
 				String valid_upto = obj.getValidity();
 				
-				String user_id = getAmendmentNotRequiredInContract(contract_id,alert_value,connection);
+				String amendment_not_required_in_contract = getAmendmentNotRequiredInContract(contract_id,alert_type,alert_value,connection);
 				
 				int p = 1;
                 stmt.setString(p++, alert_level);
@@ -353,6 +354,7 @@ public class AlertsDaoImpl implements AlertsDao{
                 stmt.setString(p++, redirect_url);
                 stmt.setString(p++, details);
                 stmt.setString(p++, valid_upto);
+                stmt.setString(p++, amendment_not_required_in_contract);
                 int c = stmt.executeUpdate();
                 resultSet = stmt.getGeneratedKeys();
                 if(c > 0) {
@@ -362,14 +364,13 @@ public class AlertsDaoImpl implements AlertsDao{
                 	}
                 	DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
                 	
-                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk,amendment_not_required_in_contract)VALUES(?,?,?)";
+                	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk)VALUES(?,?)";
     				stmt = connection.prepareStatement(qry);
     				
     				if(!StringUtils.isEmpty(obj.getHod_user_id_fk()) && !"1st Alert".equals(alert_level)) {
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getHod_user_id_fk());
-		                stmt.setString(p++, obj.getHod_user_id_fk().equals(user_id)?"Yes":null);
 		                stmt.addBatch();
 					}
     				
@@ -377,7 +378,6 @@ public class AlertsDaoImpl implements AlertsDao{
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getDy_hod_user_id_fk());
-		                stmt.setString(p++, obj.getDy_hod_user_id_fk().equals(user_id)?"Yes":null);
 		                stmt.addBatch();
     				}
     				
@@ -385,7 +385,6 @@ public class AlertsDaoImpl implements AlertsDao{
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getReporting_to_user_id());
-		                stmt.setString(p++, obj.getReporting_to_user_id().equals(user_id)?"Yes":null);
 		                stmt.addBatch();
     				}
     				
@@ -394,21 +393,18 @@ public class AlertsDaoImpl implements AlertsDao{
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());
-    		                stmt.setString(p++, aObj.getUser_id_fk().equals(user_id)?"Yes":null);
     		                stmt.addBatch();
     					}
     					if(StringUtils.isEmpty(aObj.getAlert_type_fk()) && (!StringUtils.isEmpty(aObj.getAlert_level_fk()) && aObj.getAlert_level_fk().equals(alert_level))) {
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());
-    		                stmt.setString(p++, aObj.getUser_id_fk().equals(user_id)?"Yes":null);
     		                stmt.addBatch();
     					}
     					if((!StringUtils.isEmpty(aObj.getAlert_type_fk()) && aObj.getAlert_type_fk().equals(alert_type)) && (!StringUtils.isEmpty(aObj.getAlert_level_fk()) && aObj.getAlert_level_fk().equals(alert_level))) {
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());
-    		                stmt.setString(p++, aObj.getUser_id_fk().equals(user_id)?"Yes":null);
     		                stmt.addBatch();
     					}
     					
@@ -416,7 +412,6 @@ public class AlertsDaoImpl implements AlertsDao{
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());
-    		                stmt.setString(p++, aObj.getUser_id_fk().equals(user_id)?"Yes":null);
     		                stmt.addBatch();
     					}
 					}   				
@@ -453,24 +448,37 @@ public class AlertsDaoImpl implements AlertsDao{
 		return flag;
 	}
 
-	private String getAmendmentNotRequiredInContract(String contract_id, String alert_value, Connection connection) throws Exception {
+	private String getAmendmentNotRequiredInContract(String contract_id, String alert_type, String alert_value, Connection connection) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String user_id = null;
+		String amendment_not_required_in_contract = null;
 		try {
-			String remarksQry ="SELECT user_id_fk FROM alerts_user where amendment_not_required_in_contract = 'Yes' " + 
-					"and alerts_id_fk = (select alert_id from alerts where contract_id = ? and alert_value = ? " + 
-					"AND created_date = (select max(created_date) from alerts where contract_id = ? and alert_value = ? limit 1)  limit 1)";
+			String remarksQry ="select amendment_not_required_in_contract from alerts where contract_id = ? and alert_type_fk = ? ";
+					if(!"Contract Value".equals(alert_type)) {
+						remarksQry = remarksQry + " and alert_value = ?"; 
+					}
+					
+					remarksQry = remarksQry + " AND created_date = (select max(created_date) from alerts where contract_id = ? and alert_type_fk = ? ";
+					if(!"Contract Value".equals(alert_type)) {
+						remarksQry = remarksQry + " and alert_value = ?"; 
+					}
+					remarksQry = remarksQry + " limit 1)  limit 1";
 			stmt = connection.prepareStatement(remarksQry);
 			int p = 1;
             stmt.setString(p++, contract_id);
-            stmt.setString(p++, alert_value);
+            stmt.setString(p++, alert_type);
+            if(!"Contract Value".equals(alert_type)) {
+            	stmt.setString(p++, alert_value);
+            }
             stmt.setString(p++, contract_id);
-            stmt.setString(p++, alert_value);
+            stmt.setString(p++, alert_type);
+            if(!"Contract Value".equals(alert_type)) {
+            	stmt.setString(p++, alert_value);
+            }
             
             rs = stmt.executeQuery();
             if(rs.next()) {
-            	user_id = rs.getString("user_id_fk");
+            	amendment_not_required_in_contract = rs.getString("amendment_not_required_in_contract");
             }
             
 		} catch (Exception e) {
@@ -478,7 +486,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}
-		return user_id;
+		return amendment_not_required_in_contract;
 	}
 
 	public boolean generateIssueAlertsByCronJob() throws Exception {
@@ -988,7 +996,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join alerts_user u on u.alerts_id_fk = a.alert_id " 
 					+ "left join user u2 on u.user_id_fk = u2.user_id " 
 					+ "where a.alert_status = 'Active' and count <> 0 "
-					+ "and (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '') and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' ";
+					+ "and (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(alert_type)) {
@@ -1015,7 +1023,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "left join work w on c.work_id_fk = w.work_id " 
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id " 
-						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '') and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
 				
 				arrSize = 2;
 				if(!StringUtils.isEmpty(alert_type)) {
@@ -1045,7 +1053,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							+ "left join work w on c.work_id_fk = w.work_id " 
 							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 							+ "left join user u on c.hod_user_id_fk = u.user_id " 
-							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
 					
 					arrSize = 3;
 					if(!StringUtils.isEmpty(alert_type)) {
@@ -1874,22 +1882,11 @@ public class AlertsDaoImpl implements AlertsDao{
 	public boolean addAlertRemarks(Alerts obj) throws Exception {
 		boolean flag = false;
 		try {
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRemarks())) {
-				String updateQry = "update alerts set remarks = ? where alert_id = ?";	
-				Object[] pValues = new Object[] {obj.getRemarks(),obj.getAlert_id()};
-				int c = jdbcTemplate.update(updateQry,pValues);	
-				if(c > 0) {
-					flag = true;
-				}
-			}
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAmendment_not_required_in_contract())) {
-				String updateAlertUserQry = "update alerts_user set amendment_not_required_in_contract = ? where alerts_id_fk = ? and user_id_fk = ?";	
-				Object[] pValues = new Object[] {obj.getAmendment_not_required_in_contract(),obj.getAlert_id(),obj.getUser_id_fk()};
-				int c = jdbcTemplate.update(updateAlertUserQry,pValues);	
-				if(c > 0) {
-					flag = true;
-				}
+			String updateQry = "update alerts set remarks = ?,amendment_not_required_in_contract = ? where alert_id = ?";	
+			Object[] pValues = new Object[] {obj.getRemarks(),obj.getAmendment_not_required_in_contract(),obj.getAlert_id()};
+			int c = jdbcTemplate.update(updateQry,pValues);	
+			if(c > 0) {
+				flag = true;
 			}
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -1917,7 +1914,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {
-				qry = qry + " and (au.amendment_not_required_in_contract is null or au.amendment_not_required_in_contract = '') and au.user_id_fk = ? ";
+				qry = qry + " and (a.amendment_not_required_in_contract is null or a.amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and au.user_id_fk = ? ";
 				arrSize++;
 			}
 			
@@ -1991,7 +1988,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				arrSize = 1;
 				if(!"IT Admin".equals(obj.getUser_role_name())) {
-					qry = qry + " and (au.amendment_not_required_in_contract is null or au.amendment_not_required_in_contract = '') and au.user_id_fk = ? ";
+					qry = qry + " and (a.amendment_not_required_in_contract is null or a.amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and au.user_id_fk = ? ";
 					arrSize++;
 				}
 				
@@ -2299,12 +2296,8 @@ public class AlertsDaoImpl implements AlertsDao{
 		List<Alerts> objsList = new ArrayList<Alerts>();
 		try {
 			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
-					+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url ";
-					if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-						qry = qry + ",amendment_not_required_in_contract "; 
-					}
-					
-					qry = qry + "from alerts a "; 
+					+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name,redirect_url,amendment_not_required_in_contract  "
+					+ "from alerts a "; 
 					if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 						qry = qry + "left join alerts_user au on au.alerts_id_fk = a.alert_id "; 
 					}

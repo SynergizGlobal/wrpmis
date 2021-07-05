@@ -237,7 +237,7 @@
                    <div class="col s6 m5 offset-m1">
                        <div class="center-align m-1">
                            <button type="button" onclick="addRemarks();" style="width: 100%;"
-                               class="btn waves-effect waves-light bg-m">ADD</button>
+                               class="btn waves-effect waves-light bg-m">Submit</button>
                        </div>
                    </div>
                    <div class="col s6 m5">
@@ -542,14 +542,15 @@
     		            	if($.trim(data.remarks) == ''){ return '-'; }else{ return data.remarks; }
     		            } },
     		         	{ "mData": function(data,type,row){
+    		         		var alert_level = "'"+data.alert_level+"'";
     		         		var alert_type_fk = "'"+data.alert_type_fk+"'";
     		         		var alert_id = "'"+data.alert_id+"'";
     	         			var remarks = "'"+data.remarks+"'";
     	         			var amendment_not_required_in_contract = "'"+data.amendment_not_required_in_contract+"'";
     	                    var actions = '-';    	                    
-    	                    if("IT" !== '${sessionScope.USER_ROLE_CODE}'){
-    	                    	actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+alert_type_fk+','+remarks+','+amendment_not_required_in_contract+');" class="btn waves-effect waves-light bg-m t-c modal-trigger mob-btn">Action Taken</a>';
-    	                    }
+    	                    //if("IT" !== '${sessionScope.USER_ROLE_CODE}'){
+    	                    	actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+alert_level+','+alert_type_fk+','+remarks+','+amendment_not_required_in_contract+');" class="btn waves-effect waves-light bg-m t-c modal-trigger mob-btn">Action Taken</a>';
+    	                    //}
     		            	return actions;
     		            } }
     		            
@@ -725,21 +726,21 @@
             }
         }
         
-        function addAlertRemarks(alert_id,alert_type_fk,remarks,amendment_not_required_in_contract){   
+        function addAlertRemarks(alert_id,alert_level,alert_type_fk,remarks,amendment_not_required_in_contract){   
         	$("#remarksModal").modal("open"); 
         	$("#messageError").html('');
         	$("#remarks").val('');
         	$("#amendment_not_required_in_contract").prop("checked", false);
         	$("#alert_id").val(alert_id);
         	
-        	if(alert_type_fk == 'Bank Guarantee' || alert_type_fk == 'Contract Period' || alert_type_fk == 'Insurance'){
+        	if((alert_type_fk == 'Contract Period' || alert_type_fk == 'Contract Value') && alert_level != 'Overdue' ){
         		$("#amendment_not_required_in_contract_Div").show();
         	}else{
         		$("#amendment_not_required_in_contract_Div").hide();
         	}
         	if($.trim(remarks) != '' && $.trim(remarks) != 'null'){
         		$("#remarks").val(remarks);
-        		$("#remarks").show().focus()
+        		$("#remarks").show().focus();
         	} 
         	if($.trim(amendment_not_required_in_contract) != '' && $.trim(amendment_not_required_in_contract) != 'null' && 
         			$.trim(amendment_not_required_in_contract) == 'Yes'){

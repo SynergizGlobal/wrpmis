@@ -453,28 +453,16 @@ public class AlertsDaoImpl implements AlertsDao{
 		ResultSet rs = null;
 		String amendment_not_required_in_contract = null;
 		try {
-			String remarksQry ="select amendment_not_required_in_contract from alerts where contract_id = ? and alert_type_fk = ? ";
-					if(!"Contract Value".equals(alert_type)) {
-						remarksQry = remarksQry + " and alert_value = ?"; 
-					}
-					
-					remarksQry = remarksQry + " AND created_date = (select max(created_date) from alerts where contract_id = ? and alert_type_fk = ? ";
-					if(!"Contract Value".equals(alert_type)) {
-						remarksQry = remarksQry + " and alert_value = ?"; 
-					}
-					remarksQry = remarksQry + " limit 1)  limit 1";
+			String remarksQry ="select amendment_not_required_in_contract from alerts where contract_id = ? and alert_type_fk = ?  and alert_value = ?"
+					+ " AND created_date = (select max(created_date) from alerts where contract_id = ? and alert_type_fk = ? and alert_value = ? limit 1)  limit 1";
 			stmt = connection.prepareStatement(remarksQry);
 			int p = 1;
             stmt.setString(p++, contract_id);
             stmt.setString(p++, alert_type);
-            if(!"Contract Value".equals(alert_type)) {
-            	stmt.setString(p++, alert_value);
-            }
+            stmt.setString(p++, alert_value);
             stmt.setString(p++, contract_id);
             stmt.setString(p++, alert_type);
-            if(!"Contract Value".equals(alert_type)) {
-            	stmt.setString(p++, alert_value);
-            }
+            stmt.setString(p++, alert_value);
             
             rs = stmt.executeQuery();
             if(rs.next()) {

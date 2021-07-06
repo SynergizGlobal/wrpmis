@@ -215,6 +215,7 @@
                        class="material-icons">close</span></span></h5>
            <form action="<%=request.getContextPath() %>/add-alert-remarks" method="post" id="remarksForm" name="remarksForm">
            	   <input type="hidden" id="alert_id" name="alert_id" />
+           	   <input type="hidden" id="alert_type_fk" name="alert_type_fk" />
                <div class="row no-mar">
                    <div class="input-field col s12 m10 offset-m1">
                        <textarea id="remarks" name="remarks"
@@ -732,6 +733,7 @@
         	$("#remarks").val('');
         	$("#amendment_not_required_in_contract").prop("checked", false);
         	$("#alert_id").val(alert_id);
+        	$("#alert_type_fk").val(alert_type_fk);
         	
         	if((alert_type_fk == 'Contract Period' || alert_type_fk == 'Contract Value') && alert_level != 'Overdue' ){
         		$("#amendment_not_required_in_contract_Div").show();
@@ -753,12 +755,17 @@
         	var remarks = $("#remarks").val();
         	var amendment_not_required_in_contract = $("#amendment_not_required_in_contract").prop('checked');
         	//alert(remarks +" : "+amendment_not_required_in_contract);
+        	
+        	var alert_type_fk = $("#alert_type_fk").val();
+        	
         	if($.trim(remarks) != '' || amendment_not_required_in_contract == true){
         		$("#messageError").html('');
         		$(".page-loader").show();
         		document.getElementById("remarksForm").submit();
-        	}else{
+        	}else if((alert_type_fk == 'Contract Period' || alert_type_fk == 'Contract Value') ){
         		$("#messageError").html('Required any one field');
+        	}else{
+        		$("#messageError").html('Remarks required');
         	}
         }
         

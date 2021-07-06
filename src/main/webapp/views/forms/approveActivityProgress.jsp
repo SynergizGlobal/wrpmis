@@ -80,6 +80,9 @@
         .last-column .btn+.btn {
             margin-left: 10px;
         }
+         .mdl-data-table.dataTable.no-footer {
+            width: 100% !important;
+        }
     </style>
 
 </head>

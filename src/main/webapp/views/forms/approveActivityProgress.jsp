@@ -186,17 +186,17 @@
                                                         </label>
                                                     </p>
                                                 </th>
-                                                <th>work</th>
-                                                <th>structure</th>
-                                                <th>department</th>
-                                                <th>activity</th>
-                                                <th>reporting date</th>
-                                                <th>completed</th>
-                                                <th>remaining</th>
-                                                <th>actual</th>
-                                                <th>updated by</th>
-                                                <th>pending on</th>
-                                                <th>action</th>
+                                                <th>Work</th>
+                                                <th>Structure</th>
+                                                <th>Department</th>
+                                                <th>Activity</th>
+                                                <th>Completed</th>
+                                                <th>Remaining</th>
+                                                <th>Reporting date</th>
+                                                <th>Actual for the day</th>
+                                                <th>Updated by</th>
+                                                <th>Updated on</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>

@@ -28,6 +28,8 @@ public class PageConstants2 {
 	
 	public static final String generateSendAlerts = "forms/generateSendAlerts";
 	
+	public static final String approveActivityProgress = "forms/approveActivityProgress";
+	
 	public static final String alreadyLoggedIn = "alreadyLoggedIn";
 	
 }

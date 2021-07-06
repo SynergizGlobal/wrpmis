@@ -629,10 +629,10 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		boolean flag = false;
 		try {
 			con = dataSource.getConnection();
-			String insertQry = "INSERT INTO activity_progress"
-					+ "(created_by_user_id_fk, remarks, completed_scope, activity_id_fk,progress_date)"
+			String insertQry = "INSERT INTO approvable_activity_progress"
+					+ "(created_by_user_id_fk, remarks, completed_scope, activity_id_fk,progress_date,dyhod_user_id_fk)"
 					+ "VALUES"
-					+ "(?,?,?,?,?)";
+					+ "(?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insertQry);
 			int	arraySize = 0;
 			if( !StringUtils.isEmpty(obj.getActualScopes()) && obj.getActualScopes().length > 0) {
@@ -656,6 +656,8 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				    insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:null);
 				    insertStmt.setString(k++,(obj.getActivity_ids()[i]));
 				    insertStmt.setString(k++, obj.getProgress_date());
+				    String dyHodOfActivity = getDyHodOfActivity(obj.getActivity_ids()[i]);
+				    insertStmt.setString(k++, dyHodOfActivity);
 				    insertStmt.addBatch();
 			    }
 			}
@@ -667,7 +669,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 			
-			if(flag) {
+			/*if(flag) {
 				int arrSize =0;
 				if( !StringUtils.isEmpty(obj.getCompletedScopes()) && obj.getCompletedScopes().length > 0) {
 					obj.setCompletedScopes(CommonMethods.replaceEmptyByNullInSringArray(obj.getCompletedScopes()));
@@ -731,10 +733,10 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					}
 					updateStmt.setString(k++,(obj.getActivity_ids()[i]));
 					updateStmt.executeUpdate();
-				}
+				}*/
 				
 				/********************************************************************************/
-				if(!StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				/*if(!StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
 					String qryUsers ="SELECT dy_hod_user_id_fk "
 							+ "FROM fob_contract "
 							+ "left join contract on contract_id_fk = contract_id "
@@ -759,9 +761,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 						msgObj.setMessage(message);
 						messagesDao.addMessages(msgObj,template);
 					}
-				}
+				}*/
 				/********************************************************************************/	
-			}
+			//}
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
@@ -770,6 +772,17 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
 		}	
 		return flag;
+	}
+	
+	private String getDyHodOfActivity(String activity_id) throws Exception {
+		String dy_hod_user_id_fk = null;
+		try {
+			String qry = "select dy_hod_user_id_fk from contract where contract_id = (select contract_id_fk from activities where activity_id = ?)";
+			dy_hod_user_id_fk = (String)jdbcTemplate.queryForObject( qry, new Object[]{activity_id},String.class);			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return dy_hod_user_id_fk;
 	}
 
 }

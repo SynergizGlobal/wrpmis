@@ -667,11 +667,10 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 				issueId = null;
 			}
 			
-			String qry = "INSERT INTO activity_progress"
+			String qry = "INSERT INTO approvable_activity_progress"
 					+ "(progress_date,activity_id_fk,completed_scope,remarks,"
-					//+ "issue_id_fk,"
-					+ "created_by_user_id_fk) "
-					+ "VALUES (?,?,?,?,?)";
+					+ "created_by_user_id_fk,dyhod_user_id_fk) "
+					+ "VALUES (?,?,?,?,?,?)";
 			
 			int arrSize = 5;
 			
@@ -685,13 +684,16 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 				pValues[i++] = obj.getRemarks();
 				//pValues[i++] = issueId;
 				pValues[i++] = obj.getCreated_by_user_id_fk();
+				
+				String dyHodOfActivity = getDyHodOfActivity(obj.getActivity_id());
+				pValues[i++] = dyHodOfActivity;
 			}			
 			int count = jdbcTemplate.update( qry, pValues);			
 			if(count > 0) {
 				flag = true;
 			}
 			
-			String updateQry = "UPDATE activities SET  completed = ? + ?";				
+			/*String updateQry = "UPDATE activities SET  completed = ? + ?";				
 			
 			int arrSize2 = 3;
 			
@@ -741,13 +743,26 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 			int count2 = jdbcTemplate.update( updateQry, pValues2);			
 			if(count2 > 0) {
 				flag = true;
-			}
+			}*/
+			
+			
 			transactionManager.commit(status);
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
 			throw new Exception(e.getMessage());
 		}
 		return flag;
+	}
+	
+	private String getDyHodOfActivity(String activity_id) throws Exception {
+		String dy_hod_user_id_fk = null;
+		try {
+			String qry = "select dy_hod_user_id_fk from contract where contract_id = (select contract_id_fk from activities where activity_id = ?)";
+			dy_hod_user_id_fk = (String)jdbcTemplate.queryForObject( qry, new Object[]{activity_id},String.class);			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return dy_hod_user_id_fk;
 	}
 
 	private String getDepartment(String contract_id_fk) throws Exception {

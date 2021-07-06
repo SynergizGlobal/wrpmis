@@ -3,10 +3,11 @@ package com.synergizglobal.pmis.model;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Activity {
-	private String activity_id,contract_id_fk,structure_type_fk,section,line,structure,component,component_id,order,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,
+	private String activity_id,contract_id_fk,structure_type_fk,section,line,structure,component,component_id,order,activity_name,planned_start,
+	planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,
 	contract_id,contract_name,contract_short_name,struture_type,work_id,work_name,work_short_name,structure_type,
 	created_date,created_by_user_id_fk,modified_date,modified_by_user_id_fk,activity_id_fk,
-	progress_id,progress_date,completed_scope,attachment_url,work_id_fk,fob_id;
+	progress_id,progress_date,completed_scope,attachment_url,work_id_fk,fob_id,user_id,user_name,dyhod_user_id_fk,department_fk,updated_by_user_id_fk;
 	
 	private String activities_data_id,uploaded_file,status,uploaded_by_user_id_fk,uploaded_on;
 	
@@ -372,6 +373,46 @@ public class Activity {
 
 	public void setWork_id_fk(String work_id_fk) {
 		this.work_id_fk = work_id_fk;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getDyhod_user_id_fk() {
+		return dyhod_user_id_fk;
+	}
+
+	public void setDyhod_user_id_fk(String dyhod_user_id_fk) {
+		this.dyhod_user_id_fk = dyhod_user_id_fk;
+	}
+
+	public String getDepartment_fk() {
+		return department_fk;
+	}
+
+	public void setDepartment_fk(String department_fk) {
+		this.department_fk = department_fk;
+	}
+
+	public String getUpdated_by_user_id_fk() {
+		return updated_by_user_id_fk;
+	}
+
+	public void setUpdated_by_user_id_fk(String updated_by_user_id_fk) {
+		this.updated_by_user_id_fk = updated_by_user_id_fk;
 	}
 	
 	

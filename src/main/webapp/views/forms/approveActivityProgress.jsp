@@ -83,6 +83,9 @@
          .mdl-data-table.dataTable.no-footer {
             width: 100% !important;
         }
+        .table-inside .mdl-data-table td {
+		    text-align: left !important;
+		}
     </style>
 
 </head>
@@ -177,7 +180,7 @@
                                     <table class="mdl-data-table" id="datatable-table-pending">
                                         <thead>
                                             <tr>
-                                                <th style=" text-align: center; vertical-align: bottom;">
+                                                <th class="nosort" style=" text-align: left; vertical-align: bottom;">
                                                     <p>
                                                         <label>
                                                             <input type="checkbox" name="pending_select-all"
@@ -196,7 +199,7 @@
                                                 <th>Actual for the day</th>
                                                 <th>Updated by</th>
                                                 <th>Updated on</th>
-                                                <th>Action</th>
+                                                <th class="nosort">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -231,238 +234,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="approved_div" class="col s12">
-                            <div class="row no-mar">
-                                <div class="col m10 s12 offset-m1">
-                                    <div class="row">
-                                        <div class="col s6 m4 l2 input-field offset-l1">
-                                            <p class="searchable_label">Work</p>
-                                            <select name="approved_work_id_fk" id="approved_work_id_fk"
-                                                class="searchable validate-dropdown">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                        <div class="col s6 m4 l2 input-field ">
-                                            <p class="searchable_label">Structure</p>
-                                            <select name="approved_structure_fk" id="approved_structure_fk"
-                                                class="searchable validate-dropdown">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                        <div class="col s6 m4 l2 input-field">
-                                            <p class="searchable_label">Department</p>
-                                            <select name="approved_department_fk" id="approved_department_fk"
-                                                class="searchable validate-dropdown">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                        <div class="col s6 m4 l2 input-field">
-                                            <p class="searchable_label"> Updated By</p>
-                                            <select name="approved_updated_by_fk" id="approved_updated_by_fk"
-                                                class="searchable validate-dropdown">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                        <div class="col s12 m4 l3 input-field center-align">
-                                            <button class="btn bg-m waves-effect waves-light t-c clear-filters "
-                                                onclick="clearFilter('approved');">Clear Filters</button>
-                                        </div>
-                                    </div>
-                                    <span id="approved_checkBoxError" class="error-msg"
-                                        style="text-align:center"></span>
-
-                                    <span class="errMsg" id="approved_checkErrMsg">select at least one check box
-                                    </span>
-                                </div>
-                                <span id="approved_actualScopesError" class="error-msg" style="color:red"></span>
-                            </div>
-                            <!-- <div class="row no-mar" style="margin-bottom: 0;">
-                                <div class="col m8 s12 center-align offset-m2 btn-holder">
-                                    <a class="btn waves-effect t-c disabled" id="approved_approve-btn"> <i
-                                            class="fa fa-check"></i> Approve
-                                    </a>
-                                    <a class="btn waves-effect bg-s t-c disabled" id="approved_reject-btn"> <i
-                                            class="fa fa-close"></i> Reject
-                                    </a>
-                                </div>
-                            </div> -->
-
-                            <div class="row fixed-width" style="margin-bottom: 30px;">
-                                <div class="table-inside">
-                                    <table class="mdl-data-table" id="datatable-table-approved">
-                                        <thead>
-                                            <tr>
-                                                <!-- <th style=" text-align: center; vertical-align: bottom;">
-                                                    <p>
-                                                        <label>
-                                                            <input type="checkbox" name="approved_select-all"
-                                                                id="approved_select-all" />
-                                                            <span></span>
-                                                        </label>
-                                                    </p>
-                                                </th> -->
-                                                <th>work</th>
-                                                <th>structure</th>
-                                                <th>department</th>
-                                                <th>activity</th>
-                                                <th>reporting date</th>
-                                                <th>completed</th>
-                                                <th>remaining</th>
-                                                <th>actual</th>
-                                                <th>updated by</th>
-                                                <th>approved on</th>
-                                                <!-- <th>action</th> -->
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <!-- <td>
-                                                    <p>
-                                                        <label>
-                                                            <input type="checkbox" name="approved_activity_check"
-                                                                class="check" id="approved_check_1" />
-                                                            <span></span>
-                                                        </label>
-                                                    </p>
-                                                </td> -->
-                                                <td>work</td>
-                                                <td>structure</td>
-                                                <td>department</td>
-                                                <td>activity</td>
-                                                <td>reporting date</td>
-                                                <td>completed</td>
-                                                <td>remaining</td>
-                                                <td>actual</td>
-                                                <td>updated by</td>
-                                                <td>approved on</td>
-                                                <!-- <td class="last-column">
-                                                    <a href="" class="btn"><i class="fa fa-check"></i> </a>
-                                                    <a href="" class="btn bg-s"><i class="fa fa-close"></i></a>
-                                                </td> -->
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="rejected_div" class="col s12">
-                            <div class="row no-mar">
-                                <div class="col m10 s12 offset-m1">
-                                    <div class="row">
-                                        <div class="col s6 m4 l2 input-field offset-l1">
-                                            <p class="searchable_label">Work</p>
-                                            <select name="rejected_work_id_fk" id="rejected_work_id_fk"
-                                                class="searchable validate-dropdown">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                        <div class="col s6 m4 l2 input-field ">
-                                            <p class="searchable_label">Structure</p>
-                                            <select name="rejected_structure_fk" id="rejected_structure_fk"
-                                                class="searchable validate-dropdown">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                        <div class="col s6 m4 l2 input-field">
-                                            <p class="searchable_label">Department</p>
-                                            <select name="rejected_department_fk" id="rejected_department_fk"
-                                                class="searchable validate-dropdown">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                        <div class="col s6 m4 l2 input-field">
-                                            <p class="searchable_label"> Updated By</p>
-                                            <select name="rejected_updated_by_fk" id="rejected_updated_by_fk"
-                                                class="searchable validate-dropdown">
-                                                <option value="">Select</option>
-
-                                            </select>
-                                        </div>
-                                        <div class="col s12 m4 l3 input-field center-align">
-                                            <button class="btn bg-m waves-effect waves-light t-c clear-filters "
-                                                onclick="clearFilter('rejected');">Clear Filters</button>
-                                        </div>
-                                    </div>
-                                    <span id="rejected_checkBoxError" class="error-msg"
-                                        style="text-align:center"></span>
-
-                                    <span class="errMsg" id="checkErrMsg">select at least one check box
-                                    </span>
-                                </div>
-                                <span id="rejected_actualScopesError" class="error-msg" style="color:red"></span>
-                            </div>
-                            <!-- <div class="row no-mar" style="margin-bottom: 0;">
-                                <div class="col m8 s12 center-align offset-m2 btn-holder">
-                                    <a class="btn waves-effect t-c disabled" id="rejected_approve-btn"> <i
-                                            class="fa fa-check"></i> Approve
-                                    </a>
-                                    <a class="btn waves-effect bg-s t-c disabled" id="rejected_reject-btn"> <i
-                                            class="fa fa-close"></i> Reject
-                                    </a>
-                                </div>
-                            </div> -->
-
-                            <div class="row fixed-width" style="margin-bottom: 30px;">
-                                <div class="table-inside">
-                                    <table class="mdl-data-table" id="datatable-table-rejected">
-                                        <thead>
-                                            <tr>
-                                                <!-- <th style=" text-align: center; vertical-align: bottom;">
-                                                    <p>
-                                                        <label>
-                                                            <input type="checkbox" name="rejected_select-all"
-                                                                id="rejected_select-all" />
-                                                            <span></span>
-                                                        </label>
-                                                    </p>
-                                                </th> -->
-                                                <th>work</th>
-                                                <th>structure</th>
-                                                <th>department</th>
-                                                <th>activity</th>
-                                                <th>reporting date</th>
-                                                <th>completed</th>
-                                                <th>remaining</th>
-                                                <th>actual</th>
-                                                <th>updated by</th>
-                                                <th>rejcted on</th>
-                                                <!-- <th>action</th> -->
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <!-- <td>
-                                                    <p>
-                                                        <label>
-                                                            <input type="checkbox" name="rejected_activity_check"
-                                                                class="check" id="rejected_check_1" />
-                                                            <span></span>
-                                                        </label>
-                                                    </p>
-                                                </td> -->
-                                                <td>work</td>
-                                                <td>structure</td>
-                                                <td>department</td>
-                                                <td>activity</td>
-                                                <td>reporting date</td>
-                                                <td>completed</td>
-                                                <td>remaining</td>
-                                                <td>actual</td>
-                                                <td>updated by</td>
-                                                <td>rejcted on</td>
-                                                <!-- <td class="last-column">
-                                                    <a href="" class="btn"><i class="fa fa-check"></i> </a>
-                                                    <a href="" class="btn bg-s"><i class="fa fa-close"></i></a>
-                                                </td> -->
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
+                        
 
                     <!-- </form> -->
                 </div>
@@ -526,6 +298,7 @@
                 $('#datatable-table-pending').DataTable({
                     columnDefs: [
                         { "width": "10px", "targets": [11] },
+                        {  targets: 'nosort', orderable: false, }
                     ],
                     'order': [1, 'asc'],
                     "ScrollX": true,
@@ -536,32 +309,7 @@
                         $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                     }
                 });
-                $('#datatable-table-approved').DataTable({
-                    columnDefs: [
-                        // { "width": "10px", "targets": [9] },
-                    ],
-                   // 'order': [1, 'asc'],
-                    "ScrollX": true,
-                    "scrollCollapse": true,
-                    "sScrollY": 400,
-                    //paging: true,
-                    initComplete: function () {
-                        $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                    }
-                });
-                $('#datatable-table-rejected').DataTable({
-                    columnDefs: [
-                        // { "width": "10px", "targets": [9] },
-                    ],
-                   // 'order': [1, 'asc'],
-                    "ScrollX": true,
-                    "scrollCollapse": true,
-                    "sScrollY": 400,
-                    //paging: true,
-                    initComplete: function () {
-                        $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                    }
-                });
+               
             });
 
             // clear filter functionality for all divs
@@ -591,27 +339,6 @@
                 });
             });
 
-            $('#approved_select-all').change(function () {
-                var _this = this;
-                $('input[name="approved_activity_check"]').each(function () {
-                    if ($(_this).is(':checked')) {
-                        $(this).prop('checked', true);
-                    } else {
-                        $(this).prop('checked', false);
-                    }
-                });
-            });
-
-            $('#rejected_select-all').change(function () {
-                var _this = this;
-                $('input[name="rejected_activity_check"]').each(function () {
-                    if ($(_this).is(':checked')) {
-                        $(this).prop('checked', true);
-                    } else {
-                        $(this).prop('checked', false);
-                    }
-                });
-            });
 
             $("#pending_reject-btn").on("click", function (event) {
                 // event.preventDefault();

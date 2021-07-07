@@ -630,9 +630,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		try {
 			con = dataSource.getConnection();
 			String insertQry = "INSERT INTO approvable_activity_progress"
-					+ "(created_by_user_id_fk, remarks, completed_scope, activity_id_fk,progress_date,dyhod_user_id_fk)"
+					+ "(created_by_user_id_fk, remarks, completed_scope, activity_id_fk,progress_date,dyhod_user_id_fk,approval_status_fk)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,?)";
+					+ "(?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insertQry);
 			int	arraySize = 0;
 			if( !StringUtils.isEmpty(obj.getActualScopes()) && obj.getActualScopes().length > 0) {
@@ -658,6 +658,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				    insertStmt.setString(k++, obj.getProgress_date());
 				    String dyHodOfActivity = getDyHodOfActivity(obj.getActivity_ids()[i]);
 				    insertStmt.setString(k++, dyHodOfActivity);
+				    insertStmt.setString(k++, "Pending");
 				    insertStmt.addBatch();
 			    }
 			}

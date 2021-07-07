@@ -7,13 +7,41 @@ public class Activity {
 	planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,
 	contract_id,contract_name,contract_short_name,struture_type,work_id,work_name,work_short_name,structure_type,
 	created_date,created_by_user_id_fk,modified_date,modified_by_user_id_fk,activity_id_fk,
-	progress_id,progress_date,completed_scope,attachment_url,work_id_fk,fob_id,user_id,user_name,dyhod_user_id_fk,department_fk,updated_by_user_id_fk;
+	progress_id,progress_date,completed_scope,attachment_url,work_id_fk,fob_id,user_id,user_name,dyhod_user_id_fk,department_fk,updated_by_user_id_fk,
+	approved_on,rejected_on,approval_status_fk,department_name,user_role_code,updated_on,updated_by,cumulative_completed,actual_for_the_day,
+	total_scope,remaining_scope;
 	
 	private String activities_data_id,uploaded_file,status,uploaded_by_user_id_fk,uploaded_on;
 	
-	private MultipartFile uploadFile;
+	private boolean message_flag;
+	private String message;
 	
+	private MultipartFile uploadFile;
 
+
+	public String getApproved_on() {
+		return approved_on;
+	}
+
+	public void setApproved_on(String approved_on) {
+		this.approved_on = approved_on;
+	}
+
+	public String getRejected_on() {
+		return rejected_on;
+	}
+
+	public void setRejected_on(String rejected_on) {
+		this.rejected_on = rejected_on;
+	}
+
+	public String getApproval_status_fk() {
+		return approval_status_fk;
+	}
+
+	public void setApproval_status_fk(String approval_status_fk) {
+		this.approval_status_fk = approval_status_fk;
+	}
 
 	public String getFob_id() {
 		return fob_id;
@@ -413,6 +441,86 @@ public class Activity {
 
 	public void setUpdated_by_user_id_fk(String updated_by_user_id_fk) {
 		this.updated_by_user_id_fk = updated_by_user_id_fk;
+	}
+
+	public String getDepartment_name() {
+		return department_name;
+	}
+
+	public void setDepartment_name(String department_name) {
+		this.department_name = department_name;
+	}
+
+	public String getUser_role_code() {
+		return user_role_code;
+	}
+
+	public void setUser_role_code(String user_role_code) {
+		this.user_role_code = user_role_code;
+	}
+
+	public String getUpdated_on() {
+		return updated_on;
+	}
+
+	public void setUpdated_on(String updated_on) {
+		this.updated_on = updated_on;
+	}
+
+	public String getUpdated_by() {
+		return updated_by;
+	}
+
+	public void setUpdated_by(String updated_by) {
+		this.updated_by = updated_by;
+	}
+
+	public String getCumulative_completed() {
+		return cumulative_completed;
+	}
+
+	public void setCumulative_completed(String cumulative_completed) {
+		this.cumulative_completed = cumulative_completed;
+	}
+
+	public String getActual_for_the_day() {
+		return actual_for_the_day;
+	}
+
+	public void setActual_for_the_day(String actual_for_the_day) {
+		this.actual_for_the_day = actual_for_the_day;
+	}
+
+	public String getTotal_scope() {
+		return total_scope;
+	}
+
+	public void setTotal_scope(String total_scope) {
+		this.total_scope = total_scope;
+	}
+
+	public String getRemaining_scope() {
+		return remaining_scope;
+	}
+
+	public void setRemaining_scope(String remaining_scope) {
+		this.remaining_scope = remaining_scope;
+	}
+
+	public boolean isMessage_flag() {
+		return message_flag;
+	}
+
+	public void setMessage_flag(boolean message_flag) {
+		this.message_flag = message_flag;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
 	

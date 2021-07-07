@@ -113,10 +113,11 @@
                     <div class="row">
                         <div class="col s12">
                             <ul class="tabs">
-                                <li class="tab col s4"><a class="active" href="#pending_div">Pending</a></li>
-                                <li class="tab col s4"><a href="#approved_div" class="l-r-brdr">Approved</a></li>
-                                <li class="tab col s4"><a href="#rejected_div">Rejected</a></li>
+                                <li class="tab col s4"><a class="active" href="javascript:void(0);" onclick="setActivityProgressStatus('Pending')">Pending</a></li>
+                                <li class="tab col s4"><a class="l-r-brdr" href="javascript:void(0);" onclick="setActivityProgressStatus('Approved')">Approved</a></li>
+                                <li class="tab col s4"><a href="javascript:void(0);" onclick="setActivityProgressStatus('Rejected')">Rejected</a></li>
                             </ul>
+                            <input type="hidden" id="approval_status_fk" name="approval_status_fk" value="Pending"/>
                         </div>
                         <div id="pending_div" class="col s12">
                             <div class="row no-mar">
@@ -124,36 +125,37 @@
                                     <div class="row">
                                         <div class="col s6 m4 l2 input-field offset-l1">
                                             <p class="searchable_label">Work</p>
-                                            <select name="pending_work_id_fk" id="pending_work_id_fk"
-                                                class="searchable validate-dropdown">
-                                                <option value="">Select</option>
-                                            </select>
+                                            <select id="work_id_fk" name="work_id_fk" onchange="getActivities();" class="searchable">
+			                                   <option value="">Select</option>                                      
+			                                </select>
                                         </div>
+                                        <div class="col s6 m4 l2 input-field">
+                                            <p class="searchable_label">Contract</p>
+                                            <select id="contract_id_fk" name="contract_id_fk" onchange="getActivities();" class="searchable">
+                                     			<option value="" >Select</option>
+                                 			</select>     
+                                        </div>                                        
                                         <div class="col s6 m4 l2 input-field ">
                                             <p class="searchable_label">Structure</p>
-                                            <select name="pending_structure_fk" id="pending_structure_fk"
-                                                class="searchable validate-dropdown">
-                                                <option value="">Select</option>
-                                            </select>
+                                            <select id="structure" name="structure" onchange="getActivities();" class="searchable">
+                                     			<option value="" >Select</option>
+                                 			</select>
                                         </div>
-                                        <div class="col s6 m4 l2 input-field">
+                                        <!-- <div class="col s6 m4 l2 input-field">
                                             <p class="searchable_label">Department</p>
-                                            <select name="pending_department_fk" id="pending_department_fk"
-                                                class="searchable validate-dropdown">
+                                            <select name="department_fk" id="department_fk" onchange="getActivities();" class="searchable">
                                                 <option value="">Select</option>
                                             </select>
-                                        </div>
+                                        </div> -->
                                         <div class="col s6 m4 l2 input-field">
                                             <p class="searchable_label">Updated By</p>
-                                            <select name="pending_updated_by_fk" id="pending_updated_by_fk"
-                                                class="searchable validate-dropdown">
+                                            <select name="updated_by_user_id_fk" id="updated_by_user_id_fk" onchange="getActivities();" class="searchable">
                                                 <option value="">Select</option>
-
                                             </select>
                                         </div>
-                                        <div class="col s12 m4 l3 input-field center-align">
+                                        <div class="col s12 m4 l2 input-field center-align">
                                             <button class="btn bg-m waves-effect waves-light t-c clear-filters "
-                                                onclick="clearFilter('pending');">Clear Filters</button>
+                                                onclick="clearFilter();">Clear Filters</button>
                                         </div>
                                     </div>
                                     <span id="pending_checkBoxError" class="error-msg" style="text-align:center"></span>
@@ -164,12 +166,12 @@
                                 <span id="actualScopesError" class="error-msg" style="color:red"></span>
                             </div>
 
-                            <div class="row no-mar" style="margin-bottom: 0;">
+                            <div class="row no-mar" id="button_div" style="margin-bottom: 0;display: none;">
                                 <div class="col m8 s12 center-align offset-m2 btn-holder">
-                                    <a class="btn waves-effect t-c disabled" id="pending_approve-btn"><i
+                                    <a class="btn waves-effect t-c disabled" id="approve-btn"><i
                                             class="fa fa-check"></i> Approve
                                     </a>
-                                    <a class="btn waves-effect bg-s t-c disabled" id="pending_reject-btn"> <i
+                                    <a class="btn waves-effect bg-s t-c disabled" id="reject-btn"> <i
                                             class="fa fa-close"></i> Reject
                                     </a>
                                 </div>
@@ -189,21 +191,23 @@
                                                         </label>
                                                     </p>
                                                 </th>
-                                                <th>Work</th>
+                                                <!-- <th>Work</th> -->
+                                                <th>Contract</th>
                                                 <th>Structure</th>
-                                                <th>Department</th>
+                                                <th>Component</th>
+                                                <th>Component Id</th>
                                                 <th>Activity</th>
-                                                <th>Completed</th>
-                                                <th>Remaining</th>
-                                                <th>Reporting date</th>
-                                                <th>Actual for the day</th>
+                                                <th>Cumulative <br>Completed</th>
+                                                <th>Actual for<br> the day</th>
                                                 <th>Updated by</th>
                                                 <th>Updated on</th>
+                                                <th>Approved on</th>
+                                                <th>Rejected on</th>
                                                 <th class="nosort">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td>
                                                     <p>
                                                         <label>
@@ -213,6 +217,7 @@
                                                         </label>
                                                     </p>
                                                 </td>
+                                                <td>work</td>
                                                 <td>work</td>
                                                 <td>structure</td>
                                                 <td>department</td>
@@ -228,7 +233,7 @@
                                                     <a href="" class="btn bg-s" id="pending_reject_1"><i
                                                             class="fa fa-close"></i></a>
                                                 </td>
-                                            </tr>
+                                            </tr> -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -289,18 +294,142 @@
         <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
         <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 
-        <script>
+        <script type="text/javascript">
+        	var filtersMap = new Object();
             $(document).ready(function () {
                 $(".errMsg").hide();
                 $(".errMsgCheck").hide();
                 $('.searchable').select2();
                 $('.tabs').tabs();
-                $('#datatable-table-pending').DataTable({
+                var filters = window.localStorage.getItem("activitiesApprovalFilters");
+  	          
+                if($.trim(filters) != '' && $.trim(filters) != null){
+            	  var temp = filters.split('^'); 
+            	  for(var i=0;i< temp.length;i++){
+    	        	  if($.trim(temp[i]) != '' ){
+    	        		  var temp2 = temp[i].split('=');
+    		        	  if($.trim(temp2[0]) == 'structure' ){
+    		        		  getStructuresListFilter(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+    		        		  getWorksListFilter(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+    		        		  getContractsListFilter(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'department_fk'){
+    		        		  getDepartmentsListFilter(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'updated_by_user_id_fk'){
+    		        		  getUpdatedByListFilter(temp2[1]);
+    		        	  }
+    	        	  }
+    	          }
+                }
+             
+            	getActivities();
+               
+            });
+            
+            function setActivityProgressStatus(approval_status_fk){
+            	$("#approval_status_fk").val(approval_status_fk);
+            	$("#work_id_fk").val("");
+            	$("#contract_id_fk").val("");
+            	//$("#department_fk").val("");
+            	$("#structure").val("");
+            	$("#updated_by_user_id_fk").val("");  
+            	$(".searchable").select2();
+            	getActivities();
+            }
+
+            // clear filter functionality for all divs
+            function clearFilter() {
+            	$("#work_id_fk").val("");
+            	$("#contract_id_fk").val("");
+            	//$("#department_fk").val("");
+            	$("#structure").val("");
+            	$("#updated_by_user_id_fk").val("");  
+            	$(".searchable").select2();
+            	
+            	//window.localStorage.clear();
+            	//window.localStorage.setItem("activitiesApprovalFilters",'');            	
+            	getActivities();
+            }
+            
+            function addInQueStructure(structure){
+            	Object.keys(filtersMap).forEach(function (key) {
+    	   			if(key.match('structure')) delete filtersMap[key];
+    	   		});
+            	if($.trim(structure) != ''){
+           	    	filtersMap["structure"] = structure;
+            	}
+            }
+            
+            function addInQueWork(work_id_fk){
+    	      	Object.keys(filtersMap).forEach(function (key) {
+    		   		if(key.match('work_id_fk')) delete filtersMap[key];
+    	   	   	});
+    	      	if($.trim(work_id_fk) != ''){
+                	filtersMap["work_id_fk"] = work_id_fk;
+    	      	}
+            }
+            
+            function addInQueContract(contract_id_fk){
+            	Object.keys(filtersMap).forEach(function (key) {
+    	   			if(key.match('contract_id_fk')) delete filtersMap[key];
+    	   		});
+            	if($.trim(contract_id_fk) != ''){
+           	    	filtersMap["contract_id_fk"] = contract_id_fk;
+            	}
+            }
+            
+            function addInQueDepartment(department_fk){
+    	      	Object.keys(filtersMap).forEach(function (key) {
+    		   		if(key.match('department_fk')) delete filtersMap[key];
+    	   	   	});
+    	      	if($.trim(department_fk) != ''){
+                	filtersMap["department_fk"] = department_fk;
+    	      	}
+            }
+            
+            function addInQueUpdatedBy(updated_by_user_id_fk){
+            	Object.keys(filtersMap).forEach(function (key) {
+    	   			if(key.match('updated_by_user_id_fk')) delete filtersMap[key];
+    	   		});
+            	if($.trim(updated_by_user_id_fk) != ''){
+           	    	filtersMap["updated_by_user_id_fk"] = updated_by_user_id_fk;
+            	}
+            }
+                
+            function getActivities(){
+            	$(".page-loader-2").show();
+
+            	getStructuresListFilter('');
+            	getWorksListFilter('');
+            	getContractsListFilter('');
+            	//getDepartmentsListFilter('');
+            	getUpdatedByListFilter('');
+            	
+            	var approval_status_fk = $("#approval_status_fk").val();
+            	var work_id_fk = $("#work_id_fk").val();
+            	var contract_id_fk = $("#contract_id_fk").val();
+            	var structure = $("#structure").val();
+            	var department_fk = $("#department_fk").val();
+            	var updated_by_user_id_fk = $("#updated_by_user_id_fk").val();
+            	
+            	var filters = '';
+            	Object.keys(filtersMap).forEach(function (key) {
+    	    		//alert(filtersMap[key]);
+            		filters = filters + key +"="+filtersMap[key] + "^";
+            		window.localStorage.setItem("activitiesApprovalFilters", filters);
+       			});
+            	table = $('#datatable-table-pending').DataTable();
+
+        		table.destroy();
+        		$.fn.dataTable.moment('DD-MMM-YYYY');
+        		table = $('#datatable-table-pending').DataTable({
+        			"sort" : [],
                     columnDefs: [
-                        { "width": "10px", "targets": [11] },
+                        //{ "width": "10px", "targets": [10] },
                         {  targets: 'nosort', orderable: false, }
                     ],
-                    'order': [1, 'asc'],
+                    //'order': [1, 'asc'],
                     "ScrollX": true,
                     "scrollCollapse": true,
                     "sScrollY": 400,
@@ -308,19 +437,322 @@
                     initComplete: function () {
                         $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                     }
-                });
-               
-            });
+                }).rows().remove().draw();
+        		
+        		
+        		table.state.clear();	
+        		
+        		 if(approval_status_fk == 'Pending'){
+        			$("#button_div").show();
+        			table.column( 0 ).visible(true);
+        			table.column( 9 ).visible(true);
+        			table.column( 10 ).visible(false);
+        			table.column( 11 ).visible(false);
+        			table.column( 12 ).visible(true);
+        		}else if(approval_status_fk == 'Approved'){
+        			$("#button_div").hide();
+        			table.column( 0 ).visible(false);
+        			table.column( 9 ).visible(false);
+        			table.column( 10 ).visible(true);
+        			table.column( 11 ).visible(false);
+        			table.column( 12 ).visible(false);
+        		}else if(approval_status_fk == 'Rejected'){
+        			$("#button_div").hide();
+        			table.column( 0 ).visible(false);
+        			table.column( 9 ).visible(false);
+        			table.column( 10 ).visible(false);
+        			table.column( 11 ).visible(true);
+        			table.column( 12 ).visible(false);
+        		}
+        	 
+        	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
+        	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk,approval_status_fk : approval_status_fk };
+        		$.ajax({url : "<%=request.getContextPath()%>/ajax/getApprovableActivities",
+        				type:"POST",
+        				data:myParams, cache: false,async:false,
+        				success : function(data){    				
+        				if(data != null && data != '' && data.length > 0){    					
+        	         		$.each(data,function(key,val){
+        	         			var progress_id = "'"+val.progress_id+"'";
+        	                    var rowArray = [];   
+        	                    var checkbox = '-';
+        	                    var actions = '-';
+        	                    if(approval_status_fk == 'Pending'){
+	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_check_'+key+'" /><span></span></label></p>';
+	        	                   	
+	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+progress_id+');" class="btn"><i class="fa fa-check"></i> </a>'
+        	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+progress_id+');" class="btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>';
+        	                   	}
+        	                    
+	        	         		rowArray.push(checkbox);
+        	                   	//rowArray.push(val.work_short_name);
+        	                   	rowArray.push($.trim(val.contract_short_name));
+        	                   	rowArray.push($.trim(val.structure));
+        	                   	rowArray.push($.trim(val.component));
+        	                   	rowArray.push($.trim(val.component_id));
+        	                   	rowArray.push($.trim(val.activity_name));        	                   	
+        	                   	rowArray.push($.trim(val.cumulative_completed));
+        	                   	rowArray.push($.trim(val.actual_for_the_day));
+        	                   	rowArray.push($.trim(val.updated_by));
+        	                   	rowArray.push($.trim(val.updated_on));
+        	                   	rowArray.push($.trim(val.approved_on));
+        	                   	rowArray.push($.trim(val.rejected_on));
+        	                   	rowArray.push($.trim(actions));
+        	                   	
+        	                    table.row.add(rowArray).draw( true );
+        	                    	                       
+        					});
+        	         		
+        	         		$(".page-loader-2").hide();
+        				}else{
+        					$(".page-loader-2").hide();
+        				}
+        				
+        			},error: function (jqXHR, exception) {
+        				$(".page-loader-2").hide();
+        	         	getErrorMessage(jqXHR, exception);
+        	     }});
+           	
+            }
+            
+			function approveActivityProgress(progress_id){
+				$(".page-loader").show();
+                if ($.trim(progress_id) != "") {
+                    var myParams = {progress_id : progress_id };
+                    $.ajax({
+                        url: "<%=request.getContextPath()%>/ajax/approveActivityProgress",
+                        data: myParams, cache: false,async: false,
+                        success: function (data) {
+                        	if (data != null) {
+	                            if (data.message_flag == true) {
+	                            	//swal("Success!",data.message);
+	                            	swal({
+		                                    title: "Success",
+		                                    text: data.message, 
+		                                    type: "success",
+		                                    icon: "success",
+		                                    showCancelButton: false,
+		                                    confirmButtonColor: "#26a69a",
+		                                    confirmButtonText: "Okay",
+		                                    closeOnConfirm: true,
+		                    	            closeOnCancel: false
+		                                },function (isConfirm) {
+		                                    if (isConfirm) {
+		                                    	getActivities();
+		                    	            }
+		                                }
+	                                );
+	                            }else{
+	                            	swal("Failed",data.message, "error");
+	                            }
+                        	}
+                            $(".page-loader").hide();
+                        },error: function (jqXHR, exception) {
+         	   			  $(".page-loader").hide();
+       	   	          	  getErrorMessage(jqXHR, exception);
+      	   	     	  }
+                    });
+                }else{
+                	  $(".page-loader").hide();
+                }
+            }
+            
+          	//This function is used to get error message for all ajax calls
+            function getErrorMessage(jqXHR, exception) {
+            	    var msg = '';
+            	    if (jqXHR.status === 0) {
+            	        msg = 'Not connect.\n Verify Network.';
+            	    } else if (jqXHR.status == 404) {
+            	        msg = 'Requested page not found. [404]';
+            	    } else if (jqXHR.status == 500) {
+            	        msg = 'Internal Server Error [500].';
+            	    } else if (exception === 'parsererror') {
+            	        msg = 'Requested JSON parse failed.';
+            	    } else if (exception === 'timeout') {
+            	        msg = 'Time out error.';
+            	    } else if (exception === 'abort') {
+            	        msg = 'Ajax request aborted.';
+            	    } else {
+            	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+            	    }
+            	    console.log(msg);
+            	    swal("Failed",msg, "error");
+             }
+          	
+            function getWorksListFilter(work) {
+            	$(".page-loader").show();
+            	
+            	var approval_status_fk = $("#approval_status_fk").val();
+            	var work_id_fk = $("#work_id_fk").val();
+            	var contract_id_fk = $("#contract_id_fk").val();
+            	var structure = $("#structure").val();
+            	var department_fk = $("#department_fk").val();
+            	var updated_by_user_id_fk = $("#updated_by_user_id_fk").val();
+             	
+                if ($.trim(work_id_fk) == "") {
+                    $("#work_id_fk option:not(:first)").remove();
+                    var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
+            	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
+                    $.ajax({
+                        url: "<%=request.getContextPath()%>/ajax/getWorksInApprovableActivities",
+                        data: myParams, cache: false,async: false,
+                        success: function (data) {
+                            if (data.length > 0) {
+                                $.each(data, function (i, val) {
+                                	var selectedFlag = (work == val.work_id_fk)?'selected':'';
+     	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '" '+selectedFlag+'>' + val.work_short_name +'</option>');
+                                });
+                            }
+                            $('.searchable').select2();
+                            $(".page-loader").hide();
+                        },error: function (jqXHR, exception) {
+         	   			  $(".page-loader").hide();
+       	   	          	  getErrorMessage(jqXHR, exception);
+      	   	     	  }
+                    });
+                }else{
+                	  $(".page-loader").hide();
+                }
+            }
+                    
+            function getStructuresListFilter(structure_name) {
+            	$(".page-loader").show();
+            	var approval_status_fk = $("#approval_status_fk").val();
+            	var work_id_fk = $("#work_id_fk").val();
+            	var contract_id_fk = $("#contract_id_fk").val();
+            	var structure = $("#structure").val();
+            	var department_fk = $("#department_fk").val();
+            	var updated_by_user_id_fk = $("#updated_by_user_id_fk").val();
 
-            // clear filter functionality for all divs
-            function clearFilter(a) {
-                $(".page-loader").show();
-                $("#" + a + "_work_id_fk").val("");
-                $("#" + a + "_structure_fk").val("");
-                $("#" + a + "_department_fk").val("");
-                $("#" + a + "_updated_by_fk").val("");
-                $('.searchable').select2();
-                $(".page-loader").hide();
+                if ($.trim(structure) == "") {
+                     $("#structure option:not(:first)").remove();
+                     var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
+             	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
+                     $.ajax({
+                         url: "<%=request.getContextPath()%>/ajax/getStructuresInApprovableActivities",
+                         data: myParams, cache: false,async: false,
+                         success: function (data) {
+                             if (data.length > 0) {
+                                 $.each(data, function (i, val) {                             	
+                                 	var selectedFlag = (structure_name == val.structure)?'selected':'';
+                                	$("#structure").append('<option value="' + val.structure + '" '+selectedFlag+'>' + $.trim(val.structure) +'</option>');
+                                 });
+                             }
+                             $('.searchable').select2();
+                             $(".page-loader").hide();
+                         },error: function (jqXHR, exception) {
+      	      	   		   $(".page-loader").hide();
+      	    	   	       getErrorMessage(jqXHR, exception);
+          	   	       }
+                     });
+                 }else{
+                 	   $(".page-loader").hide();
+                 }
+            }
+            
+            function getContractsListFilter(contract) {
+            	$(".page-loader").show();
+            	var approval_status_fk = $("#approval_status_fk").val();
+            	var work_id_fk = $("#work_id_fk").val();
+            	var contract_id_fk = $("#contract_id_fk").val();
+            	var structure = $("#structure").val();
+            	var department_fk = $("#department_fk").val();
+            	var updated_by_user_id_fk = $("#updated_by_user_id_fk").val();
+
+                if ($.trim(contract_id_fk) == "") {
+                    $("#contract_id_fk option:not(:first)").remove();
+                    var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
+            	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
+                    $.ajax({
+                        url: "<%=request.getContextPath()%>/ajax/getContractsInApprovableActivities",
+                        data: myParams, cache: false,async: false,
+                        success: function (data) {
+                            if (data.length > 0) {
+                                $.each(data, function (i, val) {
+                                	var selectedFlag = (contract == val.contract_id_fk)?'selected':'';
+     	                            $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '" '+selectedFlag+'>' + val.contract_short_name +'</option>');
+                                });
+                            }
+                            $('.searchable').select2();
+                            $(".page-loader").hide();
+                        },error: function (jqXHR, exception) {
+         	   			  $(".page-loader").hide();
+       	   	          	  getErrorMessage(jqXHR, exception);
+      	   	     	  }
+                    });
+                }else{
+                	  $(".page-loader").hide();
+                }
+            }
+          	
+            function getDepartmentsListFilter(department) {
+             	$(".page-loader").show();
+             	var approval_status_fk = $("#approval_status_fk").val();
+             	var work_id_fk = $("#work_id_fk").val();
+            	var contract_id_fk = $("#contract_id_fk").val();
+            	var structure = $("#structure").val();
+            	var department_fk = $("#department_fk").val();
+            	var updated_by_user_id_fk = $("#updated_by_user_id_fk").val();
+
+                if ($.trim(department_fk) == "") {
+                    $("#department_fk option:not(:first)").remove();
+                    var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
+            	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
+                    $.ajax({
+                        url: "<%=request.getContextPath()%>/ajax/getDepartmentsInApprovableActivities",
+                        data: myParams, cache: false,async: false,
+                        success: function (data) {
+                            if (data.length > 0) {
+                                $.each(data, function (i, val) {
+                                	var selectedFlag = (department == val.department_fk)?'selected':'';
+                                	$("#department_fk").append('<option value="' + val.department_fk + '" '+selectedFlag+'>' + $.trim(val.department_name) +'</option>');
+                                });
+                            }
+                            $('.searchable').select2();
+                            $(".page-loader").hide();
+                        },error: function (jqXHR, exception) {
+     	      	   		   $(".page-loader").hide();
+     	    	   	       getErrorMessage(jqXHR, exception);
+         	   	       }
+                    });
+                }else{
+                	   $(".page-loader").hide();
+                }
+            }
+            
+            function getUpdatedByListFilter(user_id) {
+             	$(".page-loader").show();
+             	var approval_status_fk = $("#approval_status_fk").val();
+             	var work_id_fk = $("#work_id_fk").val();
+            	var contract_id_fk = $("#contract_id_fk").val();
+            	var structure = $("#structure").val();
+            	var department_fk = $("#department_fk").val();
+            	var updated_by_user_id_fk = $("#updated_by_user_id_fk").val();
+            	
+                if ($.trim(updated_by_user_id_fk) == "") {
+                     $("#updated_by_user_id_fk option:not(:first)").remove();
+                     var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
+             	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
+                     $.ajax({
+                         url: "<%=request.getContextPath()%>/ajax/getUpdatedByListInApprovableActivities",
+                         data: myParams, cache: false,async: false,
+                         success: function (data) {
+                             if (data.length > 0) {
+                                 $.each(data, function (i, val) {
+                                	 var selectedFlag = (user_id == val.user_id)?'selected':'';
+                               	 	 $("#updated_by_user_id_fk").append('<option value="' + val.user_id + '" '+selectedFlag+'>' + $.trim(val.user_name) +'</option>');
+                                 });
+                             }
+                             $('.searchable').select2();
+                             $(".page-loader").hide();
+                         },error: function (jqXHR, exception) {
+      	      	   		   $(".page-loader").hide();
+      	    	   	       getErrorMessage(jqXHR, exception);
+          	   	       }
+                     });
+                 }else{
+                 	   $(".page-loader").hide();
+                 }
             }
 
             // select or deselect all checkboxes
@@ -329,18 +761,18 @@
                 $('input[name="pending_activity_check"]').each(function () {
                     if ($(_this).is(':checked')) {
                         $(this).prop('checked', true);
-                        $('#pending_approve-btn').removeClass('disabled');
-                        $('#pending_reject-btn').removeClass('disabled');
+                        $('#approve-btn').removeClass('disabled');
+                        $('#reject-btn').removeClass('disabled');
                     } else {
                         $(this).prop('checked', false);
-                        $('#pending_approve-btn').addClass('disabled');
-                        $('#pending_reject-btn').addClass('disabled');
+                        $('#approve-btn').addClass('disabled');
+                        $('#reject-btn').addClass('disabled');
                     }
                 });
             });
 
 
-            $("#pending_reject-btn").on("click", function (event) {
+            $("#reject-btn").on("click", function (event) {
                 // event.preventDefault();
                 swal({
                     title: "Are you sure You want to Reject 'number' of Activities?",
@@ -348,28 +780,19 @@
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "Yes, delete it!",
-                    closeOnConfirm: true
-                },
-                    function () {
-                        $(".deleteedition").submit();
-                    });
+                    closeOnConfirm: false,
+    	            closeOnCancel: false
+                },function (isConfirm) {
+                    if (isConfirm) {
+                    	$(".deleteedition").submit();
+    	            }else {
+    	                swal("You are cancelled the rejection", "", "error");
+    	            }
+                }
+              );
             });
-
-
-            $("#pending_reject_1").on("click", function (event) {
-                event.preventDefault();
-                swal({
-                    title: "Are you sure You want to Reject this Activity?",
-                    text: "", type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, Reject it!",
-                    closeOnConfirm: true
-                },
-                    function () {
-                        $(".deleteedition").submit();
-                    });
-            });
+            
+            
         </script>
 
 </body>

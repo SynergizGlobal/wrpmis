@@ -21,4 +21,8 @@ public interface ProgressApprovalService {
 	Activity approveActivityProgress(Activity obj) throws Exception;
 
 	Activity rejectActivityProgress(Activity obj) throws Exception;
+
+	Activity approveMultipleActivityProgress(Activity obj) throws Exception;
+
+	Activity rejectMultipleActivityProgress(Activity obj) throws Exception;
 }

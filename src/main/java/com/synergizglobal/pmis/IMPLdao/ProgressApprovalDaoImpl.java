@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -582,6 +583,168 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		}catch(Exception e){ 
 			aObj.setMessage_flag(false);
 			aObj.setMessage("Please try again after sometime.");
+			throw new Exception(e.getMessage());
+		}
+		return aObj;
+	}
+
+
+	@Override
+	public Activity approveMultipleActivityProgress(Activity obj) throws Exception {
+		Activity aObj = new Activity();
+		try {
+			List<Activity> approvableList = new ArrayList<Activity>();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProgress_id())) {
+				String qry = "select progress_id,progress_date,activity_id_fk as activity_id,IFNULL(a.scope,0) as scope,IFNULL(a.completed,0) as completed,"
+						+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
+						+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
+						+ "ap.created_by_user_id_fk,dyhod_user_id_fk,u.user_name as updated_by,"
+						+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
+						+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name "
+						+ "from approvable_activity_progress ap "
+						+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
+						+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
+						+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
+						+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
+						+ "where progress_id  in (";
+				String placeholders = "";
+				String progress_id = obj.getProgress_id().replaceAll("'", "");
+				String[] progress_ids = progress_id.split(",");
+				for(int p=0;p<progress_ids.length;p++) {
+					if(placeholders.length() > 0) {
+						placeholders = placeholders + ",";
+					}else{
+						placeholders = placeholders + "";
+					}
+					placeholders = placeholders + "?";
+				}
+				
+				qry = qry + placeholders+")";			
+				
+				Object[] pValues = new Object[progress_ids.length];	
+				for(int p=0;p<progress_ids.length;p++) {
+					pValues[p] = progress_ids[p].trim();
+				}
+				List<Activity> objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
+				for (Activity activity : objsList) {
+					approvableList.add(activity);	
+				}
+			}
+			
+			String successMessage = "";
+			String failureMessage = "";
+			int successCount = 0;
+			int failureCount = 0;
+			
+			if(!StringUtils.isEmpty(approvableList) && approvableList.size() > 0) {
+				for (Activity activity : approvableList) {
+					float scope = Float.parseFloat(activity.getScope());
+					float completed = Float.parseFloat(activity.getCompleted());
+					float remaining = Float.parseFloat(activity.getRemaining_scope());
+					float actual_for_the_day = Float.parseFloat(activity.getActual_for_the_day());
+					if((completed+actual_for_the_day) <= scope) {
+						String updateQry = "UPDATE activities SET completed = ? + ?";	
+						int arrSize = 3;
+						
+						if(completed == 0) {
+							updateQry = updateQry + ", actual_start = ?";
+							arrSize++;
+						}				
+						if(scope == (completed+actual_for_the_day)) {
+							updateQry = updateQry + ", planned_finish = ?";
+							arrSize++;
+						}				
+						updateQry = updateQry + " WHERE activity_id = ?";
+						
+						Object[] pValues = new Object[arrSize];
+						int i = 0;			
+						pValues[i++] = activity.getCompleted();			
+						pValues[i++] = activity.getActual_for_the_day();
+						if(completed == 0) {
+							pValues[i++] = activity.getProgress_date();
+						}
+						if(scope == (completed+actual_for_the_day)) {
+							pValues[i++] = activity.getProgress_date();
+						}
+						pValues[i++] = activity.getActivity_id();
+						
+						int count = jdbcTemplate.update( updateQry, pValues);			
+						if(count > 0) {
+							jdbcTemplate.update( "UPDATE approvable_activity_progress set approval_status_fk = ?, approved_on = CURRENT_TIMESTAMP where progress_id = ?",
+									new Object[]{"Approved",activity.getProgress_id()});	
+							successCount++;
+						}else {
+							failureCount++;
+						}
+					}else{
+						failureCount++;
+					}
+				}
+				aObj.setMessage_flag(true);
+				if(successCount > 0) {
+					successMessage = successMessage + successCount+ " Activities approved.";
+				}
+				if(failureCount > 0 && !StringUtils.isEmpty(successMessage)) {
+					successMessage = successMessage + "And "+failureCount+" activities failed to approve";
+				}else if(failureCount > 0){
+					successMessage = successMessage + failureCount+" activities failed to approve";
+				}
+				
+				aObj.setMessage_flag(true);
+				aObj.setMessage(successMessage);
+			}else{
+				aObj.setMessage_flag(false);
+				aObj.setMessage("There is no activities to approve");
+			}
+		}catch(Exception e){ 
+			aObj.setMessage_flag(false);
+			aObj.setMessage("Please try after sometime.");
+			throw new Exception(e.getMessage());
+		}
+		return aObj;
+	}
+
+
+	@Override
+	public Activity rejectMultipleActivityProgress(Activity obj) throws Exception {
+		Activity aObj = new Activity();
+		try {
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProgress_id())) {
+				String qry  = "UPDATE approvable_activity_progress set approval_status_fk = ?, rejected_on = CURRENT_TIMESTAMP where progress_id in(";				
+				
+				String progress_id = obj.getProgress_id().replaceAll("'", "");
+				String[] progress_ids = progress_id.split(",");
+				String placeholders = "";
+				for(int p=0;p<progress_ids.length;p++) {
+					if(placeholders.length() > 0) {
+						placeholders = placeholders + ",";
+					}else{
+						placeholders = placeholders + "";
+					}
+					placeholders = placeholders + "?";
+				}
+				
+				qry = qry + placeholders+")";			
+				
+				Object[] pValues = new Object[1+(progress_ids.length)];	
+				int i = 0;
+				pValues[i++] = "Rejected";
+				for(int p=0;p<progress_ids.length;p++) {
+					pValues[i++] = progress_ids[p].trim();
+				}
+				
+				int c = jdbcTemplate.update( qry,pValues);	
+				if(c > 0) {
+					aObj.setMessage_flag(true);
+					aObj.setMessage("You are rejected "+ progress_ids.length +" activities" );
+				}else {
+					aObj.setMessage_flag(false);
+					aObj.setMessage("Please try after sometime.");
+				}
+			}
+		}catch(Exception e){ 
+			aObj.setMessage_flag(false);
+			aObj.setMessage("Please try after sometime.");
 			throw new Exception(e.getMessage());
 		}
 		return aObj;

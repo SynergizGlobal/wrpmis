@@ -183,4 +183,38 @@ public class ProgressApprovalController {
 		return aObj;
 	}
 	
+	@RequestMapping(value = "/ajax/approveMultipleActivityProgress", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Activity approveMultipleActivityProgress(@ModelAttribute Activity obj,HttpSession session){
+		Activity aObj = new Activity();
+		try{
+			String user_id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setDyhod_user_id_fk(user_id);
+			obj.setUser_role_code(user_role_code);
+			aObj = service.approveMultipleActivityProgress(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("approveMultipleActivityProgress() : "+e.getMessage());
+		}
+		return aObj;
+	}
+	
+	@RequestMapping(value = "/ajax/rejectMultipleActivityProgress", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Activity rejectMultipleActivityProgress(@ModelAttribute Activity obj,HttpSession session){
+		Activity aObj = new Activity();
+		try{
+			String user_id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setDyhod_user_id_fk(user_id);
+			obj.setUser_role_code(user_role_code);
+			aObj = service.rejectMultipleActivityProgress(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("rejectMultipleActivityProgress() : "+e.getMessage());
+		}
+		return aObj;
+	}
+	
 }

@@ -22,4 +22,8 @@ public interface ProgressApprovalDao {
 
 	Activity rejectActivityProgress(Activity obj) throws Exception;
 
+	Activity approveMultipleActivityProgress(Activity obj) throws Exception;
+
+	Activity rejectMultipleActivityProgress(Activity obj) throws Exception;
+
 }

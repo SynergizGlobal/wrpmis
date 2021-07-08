@@ -168,11 +168,9 @@
 
                             <div class="row no-mar" id="button_div" style="margin-bottom: 0;display: none;">
                                 <div class="col m8 s12 center-align offset-m2 btn-holder">
-                                    <a class="btn waves-effect t-c disabled" id="approve-btn"><i
-                                            class="fa fa-check"></i> Approve
+                                    <a class="btn waves-effect t-c disabled" id="approve-btn" onclick="approveMultipleActivityProgress();"><i class="fa fa-check"></i> Approve
                                     </a>
-                                    <a class="btn waves-effect bg-s t-c disabled" id="reject-btn"> <i
-                                            class="fa fa-close"></i> Reject
+                                    <a class="btn waves-effect bg-s t-c disabled" id="reject-btn" onclick="rejectMultipleActivityProgress();"> <i class="fa fa-close"></i> Reject
                                     </a>
                                 </div>
                             </div>
@@ -478,7 +476,7 @@
         	                    var checkbox = '-';
         	                    var actions = '-';
         	                    if(approval_status_fk == 'Pending'){
-	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_check_'+key+'" /><span></span></label></p>';
+	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+key+'" value="'+progress_id+'" /><span></span></label></p>';
 	        	                   	
 	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+progress_id+');" class="btn"><i class="fa fa-check"></i> </a>'
         	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+progress_id+');" class="btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>';
@@ -838,7 +836,7 @@
             });
 
 
-            $("#reject-btn").on("click", function (event) {
+            /* $("#reject-btn").on("click", function (event) {
                 // event.preventDefault();
                 swal({
                     title: "Are you sure You want to Reject 'number' of Activities?",
@@ -856,7 +854,125 @@
     	            }
                 }
               );
-            });
+            }); */
+            
+            function approveMultipleActivityProgress(){
+				$(".page-loader").show();				
+				var progress_id = $('input[name="pending_activity_check"]:checked').map(function() {
+		            return $(this).val();
+		        }).get().join(",");
+				//alert(progress_id);
+                if ($.trim(progress_id) != "") {
+                    var myParams = {progress_id : progress_id };
+                    $.ajax({
+                        url: "<%=request.getContextPath()%>/ajax/approveMultipleActivityProgress",
+                        data: myParams, cache: false,async: false,
+                        success: function (data) {
+                        	if (data != null) {
+	                            if (data.message_flag == true) {
+	                            	//swal("Success!",data.message);
+	                            	swal({
+		                                    title: "Success",
+		                                    text: data.message, 
+		                                    type: "success",
+		                                    icon: "success",
+		                                    showCancelButton: false,
+		                                    confirmButtonColor: "#26a69a",
+		                                    confirmButtonText: "Okay",
+		                                    closeOnConfirm: true,
+		                    	            closeOnCancel: false
+		                                },function (isConfirm) {
+		                                    if (isConfirm) {
+		                                    	getActivities();
+		                    	            }
+		                                }
+	                                );
+	                            }else{
+	                            	swal("Failed",data.message, "error");
+	                            }
+                        	}
+                            $(".page-loader").hide();
+                        },error: function (jqXHR, exception) {
+         	   			  $(".page-loader").hide();
+       	   	          	  getErrorMessage(jqXHR, exception);
+      	   	     	  }
+                    });
+                }else{
+                	  $(".page-loader").hide();
+                	  swal("Please select atleast one checkbox","", "error");
+                }
+            }
+            
+            
+            function rejectMultipleActivityProgress(){
+				swal({
+                    title: "Are you sure You want to Reject selected progress of activities?",
+                    text: "", 
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, reject it!",
+                    closeOnConfirm: true,
+    	            closeOnCancel: true
+                },function (isConfirm) {
+                    if (isConfirm) {
+                    	confirmRejectMultipleActivityProgress();
+    	            }
+                }
+              );
+			}
+			
+			function confirmRejectMultipleActivityProgress(){
+				$(".page-loader").show();
+				var progress_id = $('input[name="pending_activity_check"]:checked').map(function() {
+		            return $(this).val();
+		        }).get().join(",");
+				
+                if ($.trim(progress_id) != "") {
+                    var myParams = {progress_id : progress_id };
+                    $.ajax({
+                        url: "<%=request.getContextPath()%>/ajax/rejectMultipleActivityProgress",
+                        data: myParams, cache: false,async: false,
+                        success: function (data) {                        	
+                        	if (data != null) {
+	                            if (data.message_flag == true) {
+	                            	//getActivities();
+	                            	//swal("Success!",data.message);
+	                            	setTimeout(function(){
+	                            		$(".page-loader").hide();
+		                            	swal({
+			                                    title: "Success",
+			                                    text: data.message, 
+			                                    type: "success",
+			                                    icon: "success",
+			                                    showCancelButton: false,
+			                                    confirmButtonColor: "#26a69a",
+			                                    confirmButtonText: "Okay",
+			                                    closeOnConfirm: true,
+			                    	            closeOnCancel: false
+			                                },function (isConfirm) {
+			                                    if (isConfirm) {
+			                                    	getActivities();
+			                    	            }
+			                                }
+		                                );
+	                            	},500);
+	                            }else{
+	                            	swal("Failed",data.message, "error");
+	                            	$(".page-loader").hide();
+	                            }
+                        	}
+                            
+                        },error: function (jqXHR, exception) {
+         	   			  $(".page-loader").hide();
+       	   	          	  getErrorMessage(jqXHR, exception);
+      	   	     	  }
+                    });
+                }else{                	
+                	 $(".page-loader").hide();
+                	 swal("Please select atleast one checkbox","", "error");
+                }
+            }
             
             
         </script>

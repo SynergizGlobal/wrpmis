@@ -565,5 +565,26 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		}
 		return aObj;
 	}
+	
+	@Override
+	public Activity rejectActivityProgress(Activity obj) throws Exception {
+		Activity aObj = new Activity();
+		try {
+			int c = jdbcTemplate.update( "UPDATE approvable_activity_progress set approval_status_fk = ?, rejected_on = CURRENT_TIMESTAMP where progress_id = ?",
+						new Object[]{"Rejected",obj.getProgress_id()});	
+			if(c > 0) {
+				aObj.setMessage_flag(true);
+				aObj.setMessage("Activity progress rejected.");
+			}else {
+				aObj.setMessage_flag(false);
+				aObj.setMessage("Please try again after sometime.");
+			}
+		}catch(Exception e){ 
+			aObj.setMessage_flag(false);
+			aObj.setMessage("Please try again after sometime.");
+			throw new Exception(e.getMessage());
+		}
+		return aObj;
+	}
 
 }

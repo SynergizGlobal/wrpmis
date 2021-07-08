@@ -556,6 +556,72 @@
                 	  $(".page-loader").hide();
                 }
             }
+			
+			function rejectActivityProgress(progress_id){
+				swal({
+                    title: "Are you sure You want to Reject progress of activity?",
+                    text: "", 
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, reject it!",
+                    closeOnConfirm: true,
+    	            closeOnCancel: true
+                },function (isConfirm) {   
+                    if (isConfirm) {
+                    	confirmRejectActivityProgress(progress_id);
+    	            }
+                }
+              );
+			}
+			
+			function confirmRejectActivityProgress(progress_id){
+				$(".page-loader").show();
+                if ($.trim(progress_id) != "") {
+                    var myParams = {progress_id : progress_id };
+                    $.ajax({
+                        url: "<%=request.getContextPath()%>/ajax/rejectActivityProgress",
+                        data: myParams, cache: false,async: false,
+                        success: function (data) {
+                        	
+                        	if (data != null) {
+	                            if (data.message_flag == true) {
+	                            	//getActivities();
+	                            	//swal("Success!",data.message);
+	                            	setTimeout(function(){
+	                            		$(".page-loader").hide();
+		                            	swal({
+			                                    title: "Success",
+			                                    text: data.message, 
+			                                    type: "success",
+			                                    icon: "success",
+			                                    showCancelButton: false,
+			                                    confirmButtonColor: "#26a69a",
+			                                    confirmButtonText: "Okay",
+			                                    closeOnConfirm: true,
+			                    	            closeOnCancel: false
+			                                },function (isConfirm) {
+			                                    if (isConfirm) {
+			                                    	getActivities();
+			                    	            }
+			                                }
+		                                );
+	                            	},500);
+	                            }else{
+	                            	swal("Failed",data.message, "error");
+	                            	$(".page-loader").hide();
+	                            }
+                        	}
+                            
+                        },error: function (jqXHR, exception) {
+         	   			  $(".page-loader").hide();
+       	   	          	  getErrorMessage(jqXHR, exception);
+      	   	     	  }
+                    });
+                }else{
+                	  $(".page-loader").hide();
+                }
+            }
             
           	//This function is used to get error message for all ajax calls
             function getErrorMessage(jqXHR, exception) {

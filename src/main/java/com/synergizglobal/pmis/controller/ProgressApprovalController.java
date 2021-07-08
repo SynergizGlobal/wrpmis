@@ -161,7 +161,24 @@ public class ProgressApprovalController {
 			aObj = service.approveActivityProgress(obj);	
 		}catch(Exception e){
 			e.printStackTrace();
-			logger.error("getUpdatedByListInApprovableActivities() : "+e.getMessage());
+			logger.error("approveActivityProgress() : "+e.getMessage());
+		}
+		return aObj;
+	}
+	
+	@RequestMapping(value = "/ajax/rejectActivityProgress", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Activity rejectActivityProgress(@ModelAttribute Activity obj,HttpSession session){
+		Activity aObj = new Activity();
+		try{
+			String user_id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setDyhod_user_id_fk(user_id);
+			obj.setUser_role_code(user_role_code);
+			aObj = service.rejectActivityProgress(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("rejectActivityProgress() : "+e.getMessage());
 		}
 		return aObj;
 	}

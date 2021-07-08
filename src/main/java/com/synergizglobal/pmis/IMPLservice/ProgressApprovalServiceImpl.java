@@ -50,4 +50,9 @@ public class ProgressApprovalServiceImpl implements ProgressApprovalService{
 		return dao.approveActivityProgress(obj);
 	}
 
+	@Override
+	public Activity rejectActivityProgress(Activity obj) throws Exception {
+		return dao.rejectActivityProgress(obj);
+	}
+
 }

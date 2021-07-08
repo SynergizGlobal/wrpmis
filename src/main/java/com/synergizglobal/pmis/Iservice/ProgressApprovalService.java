@@ -19,4 +19,6 @@ public interface ProgressApprovalService {
 	List<Activity> getUpdatedByListInApprovableActivities(Activity obj) throws Exception;
 
 	Activity approveActivityProgress(Activity obj) throws Exception;
+
+	Activity rejectActivityProgress(Activity obj) throws Exception;
 }

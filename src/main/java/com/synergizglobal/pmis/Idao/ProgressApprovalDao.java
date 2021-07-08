@@ -20,4 +20,6 @@ public interface ProgressApprovalDao {
 
 	Activity approveActivityProgress(Activity obj) throws Exception;
 
+	Activity rejectActivityProgress(Activity obj) throws Exception;
+
 }

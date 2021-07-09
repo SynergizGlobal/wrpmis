@@ -31,6 +31,18 @@
   </div>
      <!-- <script src="/pmis/resources/js/theme.js"></script> -->
      <script>
+     $( document ).ready(function() {
+			if(window.matchMedia("(max-width: 769px)").matches)
+			{ 
+			  var elem = document.documentElement;
+			  $('html').click(function () {
+			        if (elem.isFullscreen !== true) {
+			        	elem.requestFullscreen(); 
+			        }
+			    });
+			}
+		}); 
+     
      document.getElementById("currentYear").innerHTML = new Date().getFullYear();
      $('.dropdown-trigger').dropdown({
     	 coverTrigger:false,    	 

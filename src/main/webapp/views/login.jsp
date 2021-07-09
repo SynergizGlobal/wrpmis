@@ -110,7 +110,7 @@
     </style>
 </head>
 
-<body style="background: black url(<%=CommonConstants.LOGIN_BACKGROUND_IMAGE_URL%>) no-repeat center center;background-size: cover;  background-color: rgba(125,0,0,0.32);">
+<body>
  	       <!-- header starts -->
  	  	  <nav>
 	        <div class="nav-wrapper bg">
@@ -280,6 +280,8 @@
 			$(document).ready(function() {	
 				
 				
+		
+				
 				$.getJSON("https://jsonip.com?callback=?", function (data) {
 					$(".page-loader").hide();
 			        //$("#systemIPA").html(data.ip);
@@ -314,6 +316,8 @@
 			    }
 			});
 			
+
+			
 			function login() {
 				window.localStorage.clear();
 				var flag = $('#loginForm').valid();
@@ -323,7 +327,18 @@
 			}
 		    
 			//form validations and footer related code 
-		    $(document).ready(function() {		    	
+		    $(document).ready(function() {	
+		    	
+				if(window.matchMedia("(max-width: 769px)").matches)
+				{ 
+				  var elem = document.documentElement;
+				  $('html').click(function () {
+				        if (elem.isFullscreen !== true) {
+				        	elem.requestFullscreen(); 
+				        }
+				    });
+				}	    	
+		    	
 		    	$('#logoutMsg').delay(3000).fadeOut('slow');
 		    	
 				 $("#year").html(new Date().getFullYear());

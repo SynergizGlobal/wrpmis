@@ -777,9 +777,9 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 								"from activity_progress ap " + 
 								"left outer join activities a on ap.activity_id_fk = a.activity_id " + 
 								"left outer join contract c on a.contract_id_fk = c.contract_id " + 
-								"where a.contract_id_fk = ? and ap.progress_date = ? and a.structure = ? group by a.activity_name";
+								"where a.contract_id_fk = ? and ap.progress_date >= ? and ap.progress_date <= ? and a.structure = ? group by a.activity_name";
 						
-						pValues = new Object[] {cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getStructure(),cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getStructure()};
+						pValues = new Object[] {cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getStructure(),cObj.getContract_id_fk(),obj.getFrom_date(),obj.getTo_date(),contractProgressStructure.getStructure()};
 						
 						List<ActivitiesProgressReport> pList = jdbcTemplate.query( progressQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 						

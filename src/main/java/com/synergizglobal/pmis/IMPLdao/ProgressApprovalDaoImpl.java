@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ProgressApprovalDao;
@@ -29,6 +34,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 	@Override
 	public List<Activity> getApprovableActivities(Activity obj) throws Exception {
 		List<Activity> objsList = null;
+		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
 			String qry = "select progress_id,progress_date,activity_id_fk,a.scope as total_scope,a.completed as cumulative_completed,"
 					+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
@@ -103,7 +109,15 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				pValues[i++] = obj.getApproval_status_fk();
 			}
 			
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));		
+			for (Activity aObj : objsList) {
+				if(!StringUtils.isEmpty(aObj.getCumulative_completed())) {
+					aObj.setCumulative_completed(numberFormatter.format(Double.parseDouble(aObj.getCumulative_completed())));
+				}
+				if(!StringUtils.isEmpty(aObj.getRemaining_scope())) {
+					aObj.setRemaining_scope(numberFormatter.format(Double.parseDouble(aObj.getRemaining_scope())));
+				}
+			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -500,6 +514,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 	@Override
 	public Activity approveActivityProgress(Activity obj) throws Exception {
 		Activity aObj = new Activity();
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			String qry = "select progress_id,progress_date,activity_id_fk as activity_id,IFNULL(a.scope,0) as scope,IFNULL(a.completed,0) as completed,"
 					+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
@@ -556,6 +572,13 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					if(count > 0) {
 						jdbcTemplate.update( "UPDATE approvable_activity_progress set approval_status_fk = ?,approved_or_rejected_by = ?, approved_on = CURRENT_TIMESTAMP where progress_id = ?",
 								new Object[]{"Approved",obj.getDyhod_user_id_fk(),aObj.getProgress_id()});	
+						
+						String pQry = "INSERT INTO activity_progress(progress_date,activity_id_fk,completed_scope,remarks,created_by_user_id_fk,approval_datails_id_fk)"
+								+ "SELECT progress_date,activity_id_fk,completed_scope,remarks,created_by_user_id_fk,progress_id "
+								+ "FROM approvable_activity_progress "
+								+ "WHERE progress_id = ?";
+						jdbcTemplate.update( pQry,new Object[]{aObj.getProgress_id()});
+						
 						aObj.setMessage_flag(true);
 						aObj.setMessage("Activity progress approved.");
 					}else {
@@ -567,7 +590,9 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					aObj.setMessage("Acceptable progress is "+remaining+". But here actual for the day is "+actual_for_the_day);
 				}
 			}
+			transactionManager.commit(status);
 		}catch(Exception e){ 
+			transactionManager.rollback(status);
 			aObj.setMessage_flag(false);
 			aObj.setMessage("Please try again after sometime.");
 			throw new Exception(e.getMessage());
@@ -677,9 +702,16 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						pValues[i++] = activity.getActivity_id();
 						
 						int count = jdbcTemplate.update( updateQry, pValues);			
-						if(count > 0) {
+						if(count > 0) {							
 							jdbcTemplate.update( "UPDATE approvable_activity_progress set approval_status_fk = ?,approved_or_rejected_by = ?, approved_on = CURRENT_TIMESTAMP where progress_id = ?",
 									new Object[]{"Approved",obj.getDyhod_user_id_fk(),activity.getProgress_id()});	
+							
+							String pQry = "INSERT INTO activity_progress(progress_date,activity_id_fk,completed_scope,remarks,created_by_user_id_fk,approval_datails_id_fk)"
+									+ "SELECT progress_date,activity_id_fk,completed_scope,remarks,created_by_user_id_fk,progress_id "
+									+ "FROM approvable_activity_progress "
+									+ "WHERE progress_id = ?";
+							jdbcTemplate.update( pQry,new Object[]{activity.getProgress_id()});
+							
 							successCount++;
 						}else {
 							failureCount++;

@@ -86,6 +86,34 @@
         .table-inside .mdl-data-table td {
 		    text-align: left !important;
 		}
+		.fw-120{
+        	width:120px !important;
+        	max-width:120px;
+        }
+        .fw-150{
+        	width:150px !important;
+        	min-width:150px;
+        }
+        .fw-170{
+        	width:170px !important;
+        	min-width:170px;
+        }
+		.fw-200{
+        	width:200px;
+        	min-width:200px;
+        }
+        .fw-250{
+        	width:250px;
+        	min-width:250px;
+        } 
+        .fw-300{
+        	width:300px;
+        	min-width:300px;
+        }
+        .fw-110{
+        	width:110px;
+        	min-width:110px;
+        }
     </style>
 
 </head>
@@ -425,7 +453,8 @@
         			"sort" : [],
                     columnDefs: [
                         //{ "width": "10px", "targets": [10] },
-                        {  targets: 'nosort', orderable: false, }
+                        { targets: 'nosort', orderable: false, },
+                        { targets: [1], className: 'fw-200'  },
                     ],
                     //'order': [1, 'asc'],
                     "ScrollX": true,

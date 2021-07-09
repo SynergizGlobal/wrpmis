@@ -634,7 +634,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					+ "(created_by_user_id_fk, remarks, completed_scope, activity_id_fk,progress_date,approval_status_fk)"
 					+ "VALUES"
 					+ "(?,?,?,?,?,?)";
-			insertStmt = con.prepareStatement(insertQry);
+			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
 			int	arraySize = 0;
 			if( !StringUtils.isEmpty(obj.getActualScopes()) && obj.getActualScopes().length > 0) {
 				obj.setActualScopes(CommonMethods.replaceEmptyByNullInSringArray(obj.getActualScopes()));

@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/contract.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
     <style>        
         .input-field .searchable_label{
         	font-size:0.85rem;
@@ -39,7 +40,30 @@
          }
          .right-btns .fa+.fa{
          	right:-10px;
-         }    
+         }   
+           @media only screen and (max-width: 769px){ 
+			
+			.dataTables_scrollBody tbody tr td:last-of-type,
+			.no-sort{
+				padding:3px !important;
+				max-width: 45px;
+			}
+			.mob-btn{
+				padding:0 12px;
+			}
+			.hideCOl{
+				display:none;
+			}
+			.fw-2{
+				width:45vw !important;
+        		max-width:45vw;  
+        	}
+        	fw-1{
+				width:30vw !important;
+        		max-width:30vw; 
+        	} 
+			
+		} 
     </style>
 </head>
 
@@ -48,7 +72,7 @@
          <jsp:include page="../layout/header.jsp"></jsp:include>
     <!-- header ends  -->
 	<div class="row">
-		<div class="col s12 m12">
+		<div class="col s12 m12 hide-on-med-and-down">
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title headbg">
@@ -113,15 +137,31 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6>Update Contract</h6>
+								<h6 class="hide-on-med-and-down">Update Contract</h6>
+								<h6 class="hide-on-large-only">Contract</h6>		
 							</div>
 						</span>
 						<div class="row no-mar" style="margin-bottom: 0;">
+						<c:choose>
+							    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD'   || sessionScope.USER_TYPE eq 'DyHOD'}">
+									   <div class="col s12 hide-on-large-only mb-md-2 center-align">
+										    <a href="add-contract-form" class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											 class="fa fa-plus-circle"></i> Add Contract</strong></a>
+										</div>
+							    </c:when>
+							    <c:otherwise>
+							        <div class="col s12 m4">
+										<div class="m-1 c-align">
+										
+										</div>
+									</div>
+							    </c:otherwise>
+							</c:choose>
 							<!--   <div class="col m1 hide-on-small-only"></div> -->
 							<div class="col m11 s12 ">
 								<!--    <div class="row" style="margin-bottom: 0;">
                                 <div class="col m1 hide-on-small-only"></div> -->
-								<div class="col s12 m2 input-field">
+								<div class="col s6 m2 input-field">
 									<p class="searchable_label">Project</p>
 									<select id="project_id_fk" name="project_id_fk"
 										onchange="addInQueProject(this.value);getContractList();" class="searchable">
@@ -131,7 +171,7 @@
                                                 </c:forEach>  --%>
 									</select>
 								</div>
-								<div class="col s12 m2 input-field">
+								<div class="col s6 m2 input-field">
 									<p class="searchable_label">Work</p>
 									<select id="work_id_fk" name="work_id_fk"
 										onchange="addInQueWork(this.value);getContractList();" class="searchable">
@@ -139,7 +179,7 @@
 										<%--   <c:forEach var="obj" items="${worksList }">
                                                     <option value="${obj.work_id_fk }" >${obj.work_id_fk}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
                                                 </c:forEach>  --%>
-									</select>
+									</select> 
 								</div>
 								<%-- <div class="col s12 m2 input-field">
 									<p class="searchable_label">Department</p>
@@ -152,7 +192,7 @@
 									</select>
 								</div> --%>
 								
-								<div class="col s12 m2 input-field">
+								<div class="col s6 m2 input-field">
 									<p class="searchable_label">HOD</p>
 									<select id="designation" name="designation"
 										onchange="addInQueHOD(this.value);getContractList();" class="searchable">
@@ -160,7 +200,7 @@
 
 									</select>
 								</div>
-								<div class="col s12 m2 input-field">
+								<div class="col s6 m2 input-field">
 									<p class="searchable_label">Dy HOD</p>
 									<select id="dy_hod_designation" name="dy_hod_designation"
 										onchange="addInQueDYHodDesignation(this.value);getContractList();" class="searchable">
@@ -168,7 +208,7 @@
 
 									</select>
 								</div>
-								<div class="col s12 m2 input-field">
+								<div class="col s6 m2 input-field">
 									<p class="searchable_label">Contractor</p>
 									<select id="contractor_id_fk" name="contractor_id_fk"
 										onchange="addInQueContractor(this.value);getContractList();" class="searchable">
@@ -178,7 +218,7 @@
                                                 </c:forEach>  --%>
 									</select>
 								</div>
-								<div class="col s12 m2 input-field">
+								<div class="col s6 m2 input-field">
 									<p class="searchable_label">Status</p>
 									<select id="contract_status_fk" name="contract_status_fk"
 										onchange="addInQueStatus(this.value);getContractList();" class="searchable">
@@ -186,7 +226,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="col s12 m1">
+							<div class="col s12 m1">  
 								<button class="btn bg-m waves-effect waves-light t-c"
 									style="margin-top: 12px; width: 100%" onclick="clearFilter();">Clear
 									Filters</button>
@@ -213,25 +253,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<%--  <c:forEach var="obj" items="${contractList }">
-                                        <tr>
-
-                                            <td>${ obj.work_name }</td>
-                                            <td >${ obj.contract_id }</td>
-                                            <td >${ obj.contract_name }</td>
-                                            <td>${ obj.contractor_name }</td>
-                                            <td>${ obj.department_fk }</td>
-                                            <td>${ obj.hod_user_id_fk }</td>
-                                            <td>${ obj.dy_hod_user_id_fk }</td>
-                                            <td class="last-column"> <a href="contract.html"
-                                                    class="btn waves-effect waves-light bg-m t-c "><i
-                                                        class="fa fa-pencil"></i> </a>
-                                                <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-trash"></i></a>
-                                            </td>
-
-                                        </tr>
-                                        </c:forEach>  --%>
+									
 								</tbody>
 							</table>
 						</div>
@@ -344,7 +366,7 @@
     	$('.searchable').select2();
     	
     	window.localStorage.setItem("contractFilters",'');
-    	getContractList();
+    	window.location.href= "<%=request.getContextPath()%>/contract";
     }
     
     function addInQueProject(project_id_fk){
@@ -487,7 +509,8 @@
 							columnDefs : [ {
 								"targets" : 'no-sort',
 								"orderable" : false,
-							} ],
+							},{targets:[0,3,4,5,6],
+			                       className: 'hideCOl'},{ targets: [1], className: 'fw-1'  },{ targets: [2], className: 'fw-2'  } ],
 							"sScrollX" : "100%",
 							"sScrollXInner" : "100%",
 							"bScrollCollapse" : true,
@@ -526,7 +549,7 @@
 		            } },
 		         	{ "mData": function(data,type,row){
 		         		var contract_id = "'"+data.contract_id+"'";
-	                    var actions = '<a href="javascript:void(0);"  onclick="getContract('+contract_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+	                    var actions = '<a href="javascript:void(0);"  onclick="getContract('+contract_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
 		            	return actions;
 		            } }
 		            

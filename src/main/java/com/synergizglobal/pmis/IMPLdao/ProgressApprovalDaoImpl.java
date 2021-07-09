@@ -33,10 +33,11 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			String qry = "select progress_id,progress_date,activity_id_fk,a.scope as total_scope,a.completed as cumulative_completed,"
 					+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
 					+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
-					+ "ap.created_by_user_id_fk,dyhod_user_id_fk,u.user_name as updated_by,"
+					+ "ap.created_by_user_id_fk,aph.dyhod_user_id_fk,u.user_name as updated_by,approved_or_rejected_by,"
 					+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
 					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name "
-					+ "from approvable_activity_progress ap "
+					+ "from approvable_activity_progress_dyhod aph "
+					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
 					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
 					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
@@ -45,7 +46,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			int arrSize = 0;			
 			
 			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and ap.dyhod_user_id_fk = ?";
+				qry = qry + " and aph.dyhod_user_id_fk = ?";
 				arrSize++;
 			}
 			
@@ -73,6 +74,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				qry = qry + " and ap.approval_status_fk = ?";
 				arrSize++;
 			}
+			
+			qry = qry + " group by ap.progress_id order by ap.progress_id asc";
 			
 			Object[] pValues = new Object[arrSize];			
 			
@@ -113,7 +116,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select c.work_id_fk,work_short_name "
-					+ "from approvable_activity_progress ap "
+					+ "from approvable_activity_progress_dyhod aph "
+					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
 					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
@@ -122,7 +126,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			int arrSize = 0;			
 			
 			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and ap.dyhod_user_id_fk = ?";
+				qry = qry + " and aph.dyhod_user_id_fk = ?";
 				arrSize++;
 			}
 					
@@ -190,7 +194,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select a.contract_id_fk,contract_short_name "
-					+ "from approvable_activity_progress ap "
+					+ "from approvable_activity_progress_dyhod aph "
+					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
 					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
@@ -199,7 +204,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			int arrSize = 0;			
 			
 			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and ap.dyhod_user_id_fk = ?";
+				qry = qry + " and aph.dyhod_user_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -266,7 +271,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select structure "
-					+ "from approvable_activity_progress ap "
+					+ "from approvable_activity_progress_dyhod aph "
+					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
 					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "where progress_id is not null";
@@ -274,7 +280,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			int arrSize = 0;			
 			
 			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and ap.dyhod_user_id_fk = ?";
+				qry = qry + " and aph.dyhod_user_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -341,7 +347,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select c.department_fk,department_name "
-					+ "from approvable_activity_progress ap "
+					+ "from approvable_activity_progress_dyhod aph "
+					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
 					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN department d ON c.department_fk = d.department "
@@ -350,7 +357,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			int arrSize = 0;			
 			
 			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and ap.dyhod_user_id_fk = ?";
+				qry = qry + " and aph.dyhod_user_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -417,7 +424,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		List<Activity> objsList = null;
 		try {
 			String qry = "select ap.created_by_user_id_fk as user_id,user_name "
-					+ "from approvable_activity_progress ap "
+					+ "from approvable_activity_progress_dyhod aph "
+					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
 					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
@@ -426,7 +434,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			int arrSize = 0;			
 			
 			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and ap.dyhod_user_id_fk = ?";
+				qry = qry + " and aph.dyhod_user_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -496,7 +504,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			String qry = "select progress_id,progress_date,activity_id_fk as activity_id,IFNULL(a.scope,0) as scope,IFNULL(a.completed,0) as completed,"
 					+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
 					+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
-					+ "ap.created_by_user_id_fk,dyhod_user_id_fk,u.user_name as updated_by,"
+					+ "ap.created_by_user_id_fk,approved_or_rejected_by,u.user_name as updated_by,"
 					+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
 					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name "
 					+ "from approvable_activity_progress ap "
@@ -546,8 +554,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					
 					int count = jdbcTemplate.update( updateQry, pValues);			
 					if(count > 0) {
-						jdbcTemplate.update( "UPDATE approvable_activity_progress set approval_status_fk = ?, approved_on = CURRENT_TIMESTAMP where progress_id = ?",
-								new Object[]{"Approved",aObj.getProgress_id()});	
+						jdbcTemplate.update( "UPDATE approvable_activity_progress set approval_status_fk = ?,approved_or_rejected_by = ?, approved_on = CURRENT_TIMESTAMP where progress_id = ?",
+								new Object[]{"Approved",obj.getDyhod_user_id_fk(),aObj.getProgress_id()});	
 						aObj.setMessage_flag(true);
 						aObj.setMessage("Activity progress approved.");
 					}else {
@@ -571,8 +579,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 	public Activity rejectActivityProgress(Activity obj) throws Exception {
 		Activity aObj = new Activity();
 		try {
-			int c = jdbcTemplate.update( "UPDATE approvable_activity_progress set approval_status_fk = ?, rejected_on = CURRENT_TIMESTAMP where progress_id = ?",
-						new Object[]{"Rejected",obj.getProgress_id()});	
+			int c = jdbcTemplate.update( "UPDATE approvable_activity_progress set approval_status_fk = ?,approved_or_rejected_by = ?, rejected_on = CURRENT_TIMESTAMP where progress_id = ?",
+						new Object[]{"Rejected",obj.getDyhod_user_id_fk(),obj.getProgress_id()});	
 			if(c > 0) {
 				aObj.setMessage_flag(true);
 				aObj.setMessage("Activity progress rejected.");
@@ -598,7 +606,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				String qry = "select progress_id,progress_date,activity_id_fk as activity_id,IFNULL(a.scope,0) as scope,IFNULL(a.completed,0) as completed,"
 						+ "ap.completed_scope as actual_for_the_day,(IFNULL(a.scope,0) - IFNULL(a.completed,0)) as remaining_scope,"
 						+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
-						+ "ap.created_by_user_id_fk,dyhod_user_id_fk,u.user_name as updated_by,"
+						+ "ap.created_by_user_id_fk,approved_or_rejected_by,u.user_name as updated_by,"
 						+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
 						+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name "
 						+ "from approvable_activity_progress ap "
@@ -670,8 +678,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						
 						int count = jdbcTemplate.update( updateQry, pValues);			
 						if(count > 0) {
-							jdbcTemplate.update( "UPDATE approvable_activity_progress set approval_status_fk = ?, approved_on = CURRENT_TIMESTAMP where progress_id = ?",
-									new Object[]{"Approved",activity.getProgress_id()});	
+							jdbcTemplate.update( "UPDATE approvable_activity_progress set approval_status_fk = ?,approved_or_rejected_by = ?, approved_on = CURRENT_TIMESTAMP where progress_id = ?",
+									new Object[]{"Approved",obj.getDyhod_user_id_fk(),activity.getProgress_id()});	
 							successCount++;
 						}else {
 							failureCount++;
@@ -710,7 +718,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		Activity aObj = new Activity();
 		try {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProgress_id())) {
-				String qry  = "UPDATE approvable_activity_progress set approval_status_fk = ?, rejected_on = CURRENT_TIMESTAMP where progress_id in(";				
+				String qry  = "UPDATE approvable_activity_progress set approval_status_fk = ?,approved_or_rejected_by = ?, rejected_on = CURRENT_TIMESTAMP where progress_id in(";				
 				
 				String progress_id = obj.getProgress_id().replaceAll("'", "");
 				String[] progress_ids = progress_id.split(",");
@@ -726,9 +734,10 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				
 				qry = qry + placeholders+")";			
 				
-				Object[] pValues = new Object[1+(progress_ids.length)];	
+				Object[] pValues = new Object[2+(progress_ids.length)];	
 				int i = 0;
 				pValues[i++] = "Rejected";
+				pValues[i++] = obj.getDyhod_user_id_fk();
 				for(int p=0;p<progress_ids.length;p++) {
 					pValues[i++] = progress_ids[p].trim();
 				}

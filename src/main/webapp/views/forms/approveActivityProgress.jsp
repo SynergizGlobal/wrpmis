@@ -103,7 +103,7 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m m-b-2">
-                                <h6>Approve Activity Progress</h6>
+                                <h6>Approve Activity Progress - Validate data</h6>
                             </div>
                         </span>
                     </div>
@@ -430,7 +430,7 @@
                     //'order': [1, 'asc'],
                     "ScrollX": true,
                     "scrollCollapse": true,
-                    "sScrollY": 400,
+                    //"sScrollY": 400,
                     //paging: true,
                     initComplete: function () {
                         $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });

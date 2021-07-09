@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -32,7 +33,9 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.StripChart;
 
 @Repository
@@ -49,6 +52,9 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 
 	@Autowired
 	IssueDaoImpl issueDaoImpl;
+	
+	@Autowired
+	MessagesDao messagesDao;
 
 	@Override
 	public List<StripChart> getActivitiesProjectsList(StripChart obj) throws Exception {
@@ -649,32 +655,47 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			issueId = null;
 			}*/
 			
-			String qry = "INSERT INTO approvable_activity_progress"
+			String insertQry = "INSERT INTO approvable_activity_progress"
 					+ "(progress_date,activity_id_fk,completed_scope,remarks,"
-					+ "created_by_user_id_fk,dyhod_user_id_fk,approval_status_fk) "
-					+ "VALUES (?,?,?,?,?,?,?)";
+					+ "created_by_user_id_fk,approval_status_fk) "
+					+ "VALUES (?,?,?,?,?,?)";
 			
-			int arrSize = 5;
 			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			if(!StringUtils.isEmpty(obj)) {				
-				pValues[i++] = obj.getProgress_date();			
-				pValues[i++] = obj.getActivity_id();
-				pValues[i++] = obj.getProgress();
-				pValues[i++] = obj.getRemarks();
-				//pValues[i++] = issueId;
-				pValues[i++] = obj.getCreated_by_user_id_fk();
-				
-				String dyHodOfActivity = getDyHodOfActivity(obj.getActivity_id());
-				pValues[i++] = dyHodOfActivity;
-				
-				pValues[i++] = "Pending";
-			}			
-			int count = jdbcTemplate.update( qry, pValues);			
+			KeyHolder holder = new GeneratedKeyHolder();
+			int count = jdbcTemplate.update(new PreparedStatementCreator() {
+				@Override
+				public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+					PreparedStatement ps = connection.prepareStatement(insertQry, Statement.RETURN_GENERATED_KEYS);
+					int i = 1;
+					ps.setString(i++, obj.getProgress_date());
+					ps.setString(i++, obj.getActivity_id());
+					ps.setString(i++, obj.getProgress());
+					ps.setString(i++, obj.getRemarks());
+					ps.setString(i++, obj.getCreated_by_user_id_fk());
+					ps.setString(i++, "Pending");
+					return ps;
+				}
+			}, holder);
+					
 			if(count > 0) {
-				flag = true;
+				flag = true;				
+				String generated_id = String.valueOf(holder.getKey().longValue());		        
+		        String qry = "INSERT INTO approvable_activity_progress_dyhod(dyhod_user_id_fk, progress_id_fk)values(:dyhod_user_id_fk,:progress_id)";
+		        List<String> dyHodsList = getDyHodsOfActivity(obj.getStrip_chart_structure_id_fk());
+		        if(!StringUtils.isEmpty(dyHodsList) && dyHodsList.size() > 0) {
+		        	NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+			        int size = dyHodsList.size();
+					SqlParameterSource[] source = new SqlParameterSource[size];
+					int i = 0;
+			        for (String dyhod : dyHodsList) {
+			        	Activity aObj = new Activity();
+						aObj.setDyhod_user_id_fk(dyhod);
+						aObj.setProgress_id(generated_id);
+						source[i] = new BeanPropertySqlParameterSource(aObj);
+						i++;
+					}
+			        template.batchUpdate(qry, source);
+		        }
 			}
 			
 			/*String updateQry = "UPDATE activities SET  completed = ? + ?";				
@@ -729,26 +750,59 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 				flag = true;
 			}*/
 			
+			/********************************************************************************/
+			if(!StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				String qryUsers ="SELECT dy_hod_user_id_fk "
+						+ "FROM fob_contract "
+						+ "left join contract on contract_id_fk = contract_id "
+						+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? group by dy_hod_user_id_fk";
+				List<String> users = jdbcTemplate.queryForList( qryUsers,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);	
+				if(!StringUtils.isEmpty(users) && users.size() > 0) {
+					NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+					String userIds[]  = new String[users.size()];	
+					userIds = users.toArray(userIds);
+					String messageType = "Activity Progress";
+					String redirect_url = "/progress-approval-page";
+					
+					String qryFOBName ="SELECT fob_name FROM fob where fob_id = ? ";
+					String fob_name = jdbcTemplate.queryForObject( qryFOBName,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);	
+					if(StringUtils.isEmpty(fob_name)) {
+						fob_name = obj.getStrip_chart_structure_id_fk();
+					}
+					String message = "Progress updated for FOB "+fob_name+" please validate the same.";
+					 
+					Messages msgObj = new Messages();
+					msgObj.setUser_ids(userIds);
+					msgObj.setMessage_type(messageType);
+					msgObj.setRedirect_url(redirect_url);
+					msgObj.setMessage(message);
+					messagesDao.addMessages(msgObj,template);
+				}
+			}
+			/********************************************************************************/	
+			
 			
 			transactionManager.commit(status);
-		}catch(
-
-	Exception e)
-	{
-		transactionManager.rollback(status);
-		throw new Exception(e.getMessage());
-	}return flag;
-	}
-
-	private String getDyHodOfActivity(String activity_id) throws Exception {
-		String dy_hod_user_id_fk = null;
-		try {
-			String qry = "select dy_hod_user_id_fk from contract where contract_id = (select contract_id_fk from activities where activity_id = ?)";
-			dy_hod_user_id_fk = (String) jdbcTemplate.queryForObject(qry, new Object[] { activity_id }, String.class);
-		} catch (Exception e) {
+		}catch( Exception e) {
+			e.printStackTrace();
+			transactionManager.rollback(status);
 			throw new Exception(e.getMessage());
 		}
-		return dy_hod_user_id_fk;
+		return flag;
+	}
+
+	private List<String> getDyHodsOfActivity(String structure) throws Exception {
+		List<String>  dy_hods = null;
+		try {
+			String qryUsers ="SELECT dy_hod_user_id_fk "
+					+ "FROM fob_contract "
+					+ "left join contract on contract_id_fk = contract_id "
+					+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? group by dy_hod_user_id_fk";
+			dy_hods = jdbcTemplate.queryForList( qryUsers,new Object[]{structure}, String.class);
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return dy_hods;
 	}
 
 	private String getDepartment(String contract_id_fk) throws Exception {

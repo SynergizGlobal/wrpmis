@@ -141,7 +141,7 @@
 								<h6 class="hide-on-large-only">Contract</h6>		
 							</div>
 						</span>
-						<div class="row no-mar" style="margin-bottom: 0;">
+						<div class="row no-mar">
 						<c:choose>
 							    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD'   || sessionScope.USER_TYPE eq 'DyHOD'}">
 									   <div class="col s12 hide-on-large-only mb-md-2 center-align">
@@ -158,10 +158,10 @@
 							    </c:otherwise>
 							</c:choose>
 							<!--   <div class="col m1 hide-on-small-only"></div> -->
-							<div class="col m11 s12 ">
+							<div class="col m12 l10 s12">
 								<!--    <div class="row" style="margin-bottom: 0;">
                                 <div class="col m1 hide-on-small-only"></div> -->
-								<div class="col s6 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">Project</p>
 									<select id="project_id_fk" name="project_id_fk"
 										onchange="addInQueProject(this.value);getContractList();" class="searchable">
@@ -171,7 +171,7 @@
                                                 </c:forEach>  --%>
 									</select>
 								</div>
-								<div class="col s6 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">Work</p>
 									<select id="work_id_fk" name="work_id_fk"
 										onchange="addInQueWork(this.value);getContractList();" class="searchable">
@@ -192,7 +192,7 @@
 									</select>
 								</div> --%>
 								
-								<div class="col s6 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">HOD</p>
 									<select id="designation" name="designation"
 										onchange="addInQueHOD(this.value);getContractList();" class="searchable">
@@ -200,7 +200,7 @@
 
 									</select>
 								</div>
-								<div class="col s6 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">Dy HOD</p>
 									<select id="dy_hod_designation" name="dy_hod_designation"
 										onchange="addInQueDYHodDesignation(this.value);getContractList();" class="searchable">
@@ -208,7 +208,7 @@
 
 									</select>
 								</div>
-								<div class="col s6 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">Contractor</p>
 									<select id="contractor_id_fk" name="contractor_id_fk"
 										onchange="addInQueContractor(this.value);getContractList();" class="searchable">
@@ -218,7 +218,7 @@
                                                 </c:forEach>  --%>
 									</select>
 								</div>
-								<div class="col s6 m2 input-field">
+								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">Status</p>
 									<select id="contract_status_fk" name="contract_status_fk"
 										onchange="addInQueStatus(this.value);getContractList();" class="searchable">
@@ -226,9 +226,9 @@
 									</select>
 								</div>
 							</div>
-							<div class="col s12 m1">  
+							<div class="col s12 m12 l2 center-align">  
 								<button class="btn bg-m waves-effect waves-light t-c"
-									style="margin-top: 12px; width: 100%" onclick="clearFilter();">Clear
+									style="margin-top: 12px;" onclick="clearFilter();">Clear
 									Filters</button>
 							</div>
 						</div>

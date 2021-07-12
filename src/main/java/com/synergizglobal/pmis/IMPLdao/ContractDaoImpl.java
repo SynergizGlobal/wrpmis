@@ -255,6 +255,7 @@ public class ContractDaoImpl implements ContractDao {
 							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(ContractQry);
 			int q = 1;
+		    int r =0;
 			stmt.setString(q++,contract_id); 
 			stmt.setString(q++,contract.getWork_id_fk()); 
 			stmt.setString(q++,contract.getDepartment_fk()); 
@@ -369,6 +370,43 @@ public class ContractDaoImpl implements ContractDao {
 				}
 			    c = stmt.executeBatch();
 				if(stmt != null){stmt.close();}
+				
+				if(!StringUtils.isEmpty(contract.getResponsible_people_id_fks()) && contract.getResponsible_people_id_fks().length > 0) {
+					contract.setResponsible_people_id_fks(CommonMethods.replaceEmptyByNullInSringArray(contract.getResponsible_people_id_fks()));
+					if(arraySize < contract.getResponsible_people_id_fks().length) {
+						arraySize = contract.getResponsible_people_id_fks().length;
+					}
+				}
+				
+				if(!StringUtils.isEmpty(contract.getDepartment_fks()) && !StringUtils.isEmpty(contract.getResponsible_people_id_fks())) {
+					String file_insert_qry = "INSERT into  contract_executive (contract_id_fk, department_id_fk, executive_user_id_fk) VALUES (?,?,?)";
+					PreparedStatement multiExecutiveStmt = con.prepareStatement(file_insert_qry);
+					int len = contract.getDepartment_fks().length;
+					for(int i =0; i< len; i++) {
+						int  j = 0;
+						while ( j < contract.getFilecounts()[i] ) 
+						{
+						    int k = 1;
+						    int a = r++;  
+						    if(i <= (len))
+						    {
+						    	String deptName = contract.getDepartment_fks()[i];
+								multiExecutiveStmt.setString(k++,(contract.getContract_id()));
+								multiExecutiveStmt.setString(k++,(deptName));
+								multiExecutiveStmt.setString(k++,(contract.getResponsible_people_id_fks()[a]));
+								multiExecutiveStmt.addBatch();
+								 j++;
+						   
+						    }else 
+						    {
+						    	 j++;
+						    }
+						}
+					}
+					//if(multiExecutiveStmt != null){multiExecutiveStmt.close();}
+					int[] insertCount1 = multiExecutiveStmt.executeBatch();
+
+				}
 				
 				String Insurence_qry = "INSERT into  insurance (insurance_type_fk,issuing_agency,agency_address,"
 									+"insurance_number,insurance_value,valid_upto,remarks,contract_id_fk,revision,released_fk) "
@@ -861,6 +899,8 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setContractDocuments(getContractDocuments(contract.getContract_id(),con));
 				
 				contract.setResponsiblePeopleList(getResponsiblePeopleList(contract.getContract_id(),con));
+				contract.setDepartmentList(getDepartmentList(contract.getContract_id(),con));
+				
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -870,6 +910,62 @@ public class ContractDaoImpl implements ContractDao {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 		}		
 		return contract;	
+	}
+
+	private List<Contract> getDepartmentList(String contract_id, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Contract> objsList = new ArrayList<Contract>();
+		Contract obj = null;
+		try {
+			String qry ="SELECT id, contract_id_fk, department_id_fk, executive_user_id_fk from contract_executive where contract_id_fk = ? group by department_id_fk";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, contract_id);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Contract();
+				obj.setDepartment_id_fk(resultSet.getString("department_id_fk"));
+				obj.setExecutive_user_id_fk(resultSet.getString("executive_user_id_fk"));
+				obj.setExecutivesList(getExecutivesList(contract_id,obj.getDepartment_id_fk(),con));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return objsList;
+	}
+	
+	private List<Contract> getExecutivesList(String contract_id,String departmentID, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Contract> objsList = new ArrayList<Contract>();
+		Contract obj = null;
+		try {
+			String qry ="SELECT executive_user_id_fk,u.user_name,u.designation from contract_executive c "
+					+ "left join user u on c.executive_user_id_fk = u.user_id where contract_id_fk = ? and  department_id_fk = ?";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, contract_id);
+			stmt.setString(2, departmentID);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Contract();
+				obj.setExecutive_user_id_fk(resultSet.getString("executive_user_id_fk"));
+				obj.setUser_name(resultSet.getString("u.user_name"));
+				obj.setDesignation(resultSet.getString("u.designation"));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return objsList;
 	}
 
 	private List<Contract> getResponsiblePeopleList(String contract_id, Connection con) throws Exception {
@@ -1104,6 +1200,7 @@ public class ContractDaoImpl implements ContractDao {
 								+ "where contract_id = ?";
 				stmt = con.prepareStatement(contractUpdate_Qry);
 				int p = 1;
+				int r=0;
 				stmt.setString(p++,contract.getWork_id_fk()); 
 				stmt.setString(p++,contract.getDepartment_fk()); 
 				stmt.setString(p++,contract.getContract_name()); 
@@ -1143,6 +1240,48 @@ public class ContractDaoImpl implements ContractDao {
 				 
 				int arraySize = 0;
 				if(flag) {
+					String deleteExecutivesQry = "DELETE from contract_executive where contract_id_fk = ?";		 
+					stmt = con.prepareStatement(deleteExecutivesQry);
+					stmt.setString(1,contract.getContract_id());
+					stmt.executeUpdate();
+					if(stmt != null){stmt.close();}
+					
+					if(!StringUtils.isEmpty(contract.getResponsible_people_id_fks()) && contract.getResponsible_people_id_fks().length > 0) {
+						contract.setResponsible_people_id_fks(CommonMethods.replaceEmptyByNullInSringArray(contract.getResponsible_people_id_fks()));
+						if(arraySize < contract.getResponsible_people_id_fks().length) {
+							arraySize = contract.getResponsible_people_id_fks().length;
+						}
+					}
+					if(!StringUtils.isEmpty(contract.getDepartment_fks()) && !StringUtils.isEmpty(contract.getResponsible_people_id_fks())) {
+						String file_insert_qry = "INSERT into  contract_executive (contract_id_fk, department_id_fk, executive_user_id_fk) VALUES (?,?,?)";
+						PreparedStatement multiExecutiveStmt = con.prepareStatement(file_insert_qry);
+						int len = contract.getDepartment_fks().length;
+						for(int i =0; i< len; i++) {
+							int  j = 0;
+							while ( j < contract.getFilecounts()[i] ) 
+							{
+							    int k = 1;
+							    int a = r++;  
+							    if(i <= (len))
+							    {
+							    	String deptName = contract.getDepartment_fks()[i];
+									multiExecutiveStmt.setString(k++,(contract.getContract_id()));
+									multiExecutiveStmt.setString(k++,(deptName));
+									multiExecutiveStmt.setString(k++,(contract.getResponsible_people_id_fks()[a]));
+									multiExecutiveStmt.addBatch();
+									 j++;
+							   
+							    }else 
+							    {
+							    	 j++;
+							    }
+							}
+						}
+						//if(multiExecutiveStmt != null){multiExecutiveStmt.close();}
+						int[] insertCount1 = multiExecutiveStmt.executeBatch();
+
+					}
+					
 					String deleteQry = "DELETE from bank_guarantee where contract_id_fk = ?";		 
 					stmt = con.prepareStatement(deleteQry);
 					stmt.setString(1,contract.getContract_id());
@@ -2602,8 +2741,37 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getResponsiblePeopleList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
+			String qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getExecutivesListForContractForm(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk,u.department_fk FROM user u " + 
+					"left join department d on u.department_fk = d.department " + 
+					"where  user_id is not null  ";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and u.department_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + "and user_name not like '%user%' and pmis_key_fk not like '%SGS%'";// and department_fk in('Engg','Elec','S&T') 
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			//pValues[i++] = CommonConstants.USER_TYPE_HOD;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+				
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

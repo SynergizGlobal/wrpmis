@@ -393,6 +393,19 @@ public class ContractController {
 		return dataList;
 	}
 	
+	@RequestMapping(value = "/ajax/getExecutivesListForContractForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getExecutivesListForContractForm(@ModelAttribute Contract obj) {
+		List<Contract> dataList = null;  
+		try {
+			dataList = contractService.getExecutivesListForContractForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getExecutivesListForContractForm : " + e.getMessage());
+		}
+		return dataList;
+	}
+	
 	
 	@RequestMapping(value = "/addcontract", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addContract(@ModelAttribute Contract obj){

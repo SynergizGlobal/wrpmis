@@ -13,14 +13,12 @@
     <title> Edit Contract - Update Forms - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">    
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/contract.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <style>
  
         #ravTable .datepicker~button,
@@ -267,10 +265,9 @@
 	                                </div>	
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
-	                            
-	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>	
-	                                <%-- <div class="col s12 m4 input-field">
+
+						<%--	<div class="row">
+								 <div class="col s12 m4 input-field">
 	                                 <p class="searchable_label">Department <span class="required">*</span></p>
 	                                    <select name="department_fk" id="department_fk" class="searchable">
 	                                        <option value="" selected>Select</option>
@@ -280,8 +277,9 @@
 	                                    </select>
 	                             		 <span id="department_fkError" class="error-msg" ></span>
 	                                </div> --%>
-	                                
-	                                <div class="col s12 m4 input-field">
+
+
+								<%--  <div class="col s12 m4 input-field">
 	                                    <p class="searchable_label">Department <span class="required">*</span></p>
                                     	<input type="text"  value="${contractDeatils.department_name }" readonly />
                                         <input type="hidden" name="department_fk" id="department_fk" value="${contractDeatils.department_fk}" readonly />
@@ -301,11 +299,62 @@
 		                                   </c:forEach>
 		                                  </select>
 	                                     <span id="responsible_people_id_fkError" class="error-msg"></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	
-	                            <div class="row">
+	                                </div> 								
+							</div>--%>
+							
+							 <div class="row"> 
+	                            	<div class="col m8 offset-m2 s12">
+										<div class="row fixed-width">
+									        <h5 class="center-align">Department Details</h5>
+									        <div class="table-inside">
+									            <table id="departmentTable" class="mdl-data-table mobile_responsible_table" >
+									                <thead>
+									                    <tr>
+									                        <th style="width:22%">Department</th>
+															<th>Select Executives</th>
+															<th style="width:8%">Action</th>
+									                    </tr>
+									                </thead>
+									                <tbody id="departmentTableBody">
+									                    <tr id="departmentRow0">
+									                        <td data-head="Department" class="input-field">
+									                             <select class="searchable validate-dropdown" name="department_fks" class="searchable"
+									                                id="department_fk0" onchange="getExecutivesList('0');">
+									                                	<option value="" >Select</option>  
+																          <c:forEach var="obj" items="${departmentList }">
+								                                      	    <option value= "${ obj.department_fk}" >${ obj.department_name}</option>
+								                                          </c:forEach>
+									                              </select>
+									                        </td>
+									                        <td data-head="Select Executives" class="input-field">
+									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks"
+									                                id="responsible_people_id_fk0" multiple="multiple">
+									                                <option value="" disabled="disabled">Select</option>
+									                             
+									                            </select>
+									                        </td>
+									                        <td class="mobile_btn_close">
+									                            <a onclick="removeDepartment('0');"
+									                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+									                        </td>
+									                    </tr>
+									                 
+									                </tbody>
+									            </table>
+									            <table  class="mdl-data-table" style="margin-bottom: 30px">
+			                                        <tbody>                                          
+			                                            <tr>
+			                                   				<td colspan="3" style="text-align: right;" ><a   class="btn waves-effect waves-light bg-m t-c "  onclick="addDepartmentRow()"> <i class="fa fa-plus"></i></a></td>
+			                                             </tr>
+			                                        </tbody>
+			                                    </table>
+			                                    <input type="hidden" id="deptRowNo"  name="deptRowNo" value="0" />
+									        </div>
+									    </div>
+									</div>
+								</div>
+
+							<div class="row">
 	                                <!-- row 4 -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m8 input-field">
@@ -400,6 +449,33 @@
 	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s9 m3 input-field">
+	                                    <i class="material-icons prefix cost left-align">₹</i>
+	                                    <input id="estimated_cost" name="estimated_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.estimated_cost }">
+	                                    <label for="estimated_cost"> Detailed Estimated cost</label>
+	                                    <span id="estimated_costError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s3 m1 input-field pt-5">
+	                                	<p class="searchable_label">Units</p>
+	                                	<select class="units" id="estimated_cost_units" name="estimated_cost_units">
+	                                		<option value="">Select</option>
+	                                		<option value="rs" selected="selected">Rs</option>
+	                                		<option value="thousands">Thousands</option>
+	                                		<option value="lacs">Lacs</option>
+	                                		<option value="crores">Crores</option>
+	                                	</select>
+                                	</div>
+	                               
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }" >
+	                                    <label for="doc">Original DOC</label>
+	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
+	                                     <span id="docError" class="error-msg" ></span>
+	                                </div>
+	                                 <div class="col s9 m3 input-field">
 	                                	<i class="material-icons prefix cost left-align">₹</i>
 	                                    <input id="awarded_cost" name="awarded_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.awarded_cost }" />
 	                                    <label for="awarded_cost">Awarded cost</label>
@@ -408,32 +484,6 @@
 	                                <div class="col s3 m1 input-field pt-5">
 	                                	<p class="searchable_label">Units</p>
 	                                	<select class="units" id="awarded_cost_units" name="awarded_cost_units">
-	                                		<option value="">Select</option>
-	                                		<option value="rs" selected="selected">Rs</option>
-	                                		<option value="thousands">Thousands</option>
-	                                		<option value="lacs">Lacs</option>
-	                                		<option value="crores">Crores</option>
-	                                	</select>
-                                	</div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }" >
-	                                    <label for="doc">Contractual DOC</label>
-	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
-	                                     <span id="docError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s9 m3 input-field">
-	                                    <i class="material-icons prefix cost left-align">₹</i>
-	                                    <input id="estimated_cost" name="estimated_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.estimated_cost }">
-	                                    <label for="estimated_cost">Estimated cost</label>
-	                                    <span id="estimated_costError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s3 m1 input-field pt-5">
-	                                	<p class="searchable_label">Units</p>
-	                                	<select class="units" id="estimated_cost_units" name="estimated_cost_units">
 	                                		<option value="">Select</option>
 	                                		<option value="rs" selected="selected">Rs</option>
 	                                		<option value="thousands">Thousands</option>
@@ -1646,6 +1696,71 @@
 	       	}
        	});
         
+        function getExecutivesList(num) {
+        	$(".page-loader").show();
+        	var count = Number(num);
+        	var department_fk = $('#department_fk'+count).val();
+        	$("#responsible_people_id_fk"+count+" option:not(:first)").attr("selected",false);
+            if ($.trim(department_fk) != "") {
+            	$("#responsible_people_id_fk"+count+" option:not(:first)").remove();
+                var myParams = { department_fk: department_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getExecutivesListForContractForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	 var userName = '';
+	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
+                                 var designation = '';
+                                 if ($.trim(val.designation) != '') { designation = $.trim(val.designation) }
+                                
+                                if ($.trim(hod_user_id_fk) != '') {
+                                     $("#responsible_people_id_fk"+count).append('<option name="responsible_people_id_fks" value="' + val.dy_hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) + '</option>');
+                                     $("#responsible_people_id_fk"+count).select2(); 
+                                 } else {
+                                     $("#responsible_people_id_fk"+count).append('<option name="responsible_people_id_fks" value="' + val.dy_hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
+                        	    	 $("#responsible_people_id_fk"+count).select2();
+                                 }
+                            });
+                        }
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+  
+        function addDepartmentRow(){
+        	 var rowNo = $("#deptRowNo").val();
+    		 var rNo = Number(rowNo)+1;
+    		 var total = 0;
+    		 var html = '<tr id="departmentRow'+rNo+'">'
+    			   +'<td data-head="Department" class="input-field">'
+    			   +'<select class="searchable validate-dropdown" name="department_fks" class="searchable" id="department_fk'+rNo+'" onchange="getExecutivesList('+rNo+');">'
+    			   			+'<option value="" >Select</option> '
+    			   			<c:forEach var="obj" items="${departmentList }">
+    			   				+'<option value= "${ obj.department_fk}" >${ obj.department_name}</option>'
+    			   			</c:forEach>
+    			   +' </select></td>'
+    			   +'<td data-head="Select Executives" class="input-field">'
+    			   		+'<select class="searchable validate-dropdown" name="responsible_people_id_fks" id="responsible_people_id_fk'+rNo+'" multiple="multiple">'
+    			   			+'<option value="" disabled="disabled">Select</option>'
+    			   
+    			   +'</select></td>'
+    			   +'<td class="mobile_btn_close"> <a onclick="removeDepartment('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'
+    			   +'</tr>';
+    		
+    			 $('#departmentTableBody').append(html);
+    			 $("#deptRowNo").val(rNo);
+    			 $('.searchable').select2();
+        }
+        
+        function removeDepartment(rowNo){
+        	$("#departmentRow"+rowNo).remove();
+        }
+        
         function getDyHodList() {
         	$(".page-loader").show();
         	var hod_user_id_fk = $("#hod_user_id_fk").val();
@@ -2463,21 +2578,9 @@
 				    }
 					
 			});		
-			
-			/* 
-			$('.revision_status_checking').each(function(i,val){
-				if($(this).prop('checked')){
-					if($('#revised_amounts'+i).val()!="" && $('#revised_amounts'+i).val()!=undefined){	
-						console.log(i)
-						$("#revision_status"+i).prop('checked',true);
-					}
-				}
-				
-			}); */
-
+						
 		}
-
-
+		
     </script>
 
 </body>

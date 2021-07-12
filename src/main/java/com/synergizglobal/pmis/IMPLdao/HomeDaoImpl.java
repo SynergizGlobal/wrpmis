@@ -897,7 +897,7 @@ public class HomeDaoImpl implements HomeDao {
 				}
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
@@ -912,7 +912,7 @@ public class HomeDaoImpl implements HomeDao {
 					+ "group by message_type order by message_type ASC";
 			objsList = jdbcTemplate.query( qry,new Object[] {mObj.getUser_id_fk()}, new BeanPropertyRowMapper<Messages>(Messages.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}

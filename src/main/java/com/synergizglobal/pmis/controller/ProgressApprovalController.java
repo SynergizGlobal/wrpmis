@@ -53,13 +53,168 @@ public class ProgressApprovalController {
 		List<Activity> activities = null;
 		try{
 			String user_id = (String) session.getAttribute("USER_ID");
-			obj.setUser_id(user_id);
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setDyhod_user_id_fk(user_id);
+			obj.setUser_role_code(user_role_code);
 			activities = service.getApprovableActivities(obj);	
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.error("getApprovableActivities() : "+e.getMessage());
 		}
 		return activities;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorksInApprovableActivities", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Activity> getWorksInApprovableActivities(@ModelAttribute Activity obj,HttpSession session){
+		List<Activity> objsList = null;
+		try{
+			String user_id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setDyhod_user_id_fk(user_id);
+			obj.setUser_role_code(user_role_code);
+			objsList = service.getWorksInApprovableActivities(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getWorksInApprovableActivities() : "+e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsInApprovableActivities", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Activity> getContractsInApprovableActivities(@ModelAttribute Activity obj,HttpSession session){
+		List<Activity> objsList = null;
+		try{
+			String user_id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setDyhod_user_id_fk(user_id);
+			obj.setUser_role_code(user_role_code);
+			objsList = service.getContractsInApprovableActivities(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getContractsInApprovableActivities() : "+e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getStructuresInApprovableActivities", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Activity> getStructuresInApprovableActivities(@ModelAttribute Activity obj,HttpSession session){
+		List<Activity> objsList = null;
+		try{
+			String user_id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setDyhod_user_id_fk(user_id);
+			obj.setUser_role_code(user_role_code);
+			objsList = service.getStructuresInApprovableActivities(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getStructuresInApprovableActivities() : "+e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getDepartmentsInApprovableActivities", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Activity> getDepartmentsInApprovableActivities(@ModelAttribute Activity obj,HttpSession session){
+		List<Activity> objsList = null;
+		try{
+			String user_id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setDyhod_user_id_fk(user_id);
+			obj.setUser_role_code(user_role_code);
+			objsList = service.getDepartmentsInApprovableActivities(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getDepartmentsInApprovableActivities() : "+e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getUpdatedByListInApprovableActivities", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Activity> getUpdatedByListInApprovableActivities(@ModelAttribute Activity obj,HttpSession session){
+		List<Activity> objsList = null;
+		try{
+			String user_id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setDyhod_user_id_fk(user_id);
+			obj.setUser_role_code(user_role_code);
+			objsList = service.getUpdatedByListInApprovableActivities(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getUpdatedByListInApprovableActivities() : "+e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/approveActivityProgress", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Activity approveActivityProgress(@ModelAttribute Activity obj,HttpSession session){
+		Activity aObj = new Activity();
+		try{
+			String user_id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setDyhod_user_id_fk(user_id);
+			obj.setUser_role_code(user_role_code);
+			aObj = service.approveActivityProgress(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("approveActivityProgress() : "+e.getMessage());
+		}
+		return aObj;
+	}
+	
+	@RequestMapping(value = "/ajax/rejectActivityProgress", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Activity rejectActivityProgress(@ModelAttribute Activity obj,HttpSession session){
+		Activity aObj = new Activity();
+		try{
+			String user_id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setDyhod_user_id_fk(user_id);
+			obj.setUser_role_code(user_role_code);
+			aObj = service.rejectActivityProgress(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("rejectActivityProgress() : "+e.getMessage());
+		}
+		return aObj;
+	}
+	
+	@RequestMapping(value = "/ajax/approveMultipleActivityProgress", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Activity approveMultipleActivityProgress(@ModelAttribute Activity obj,HttpSession session){
+		Activity aObj = new Activity();
+		try{
+			String user_id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setDyhod_user_id_fk(user_id);
+			obj.setUser_role_code(user_role_code);
+			aObj = service.approveMultipleActivityProgress(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("approveMultipleActivityProgress() : "+e.getMessage());
+		}
+		return aObj;
+	}
+	
+	@RequestMapping(value = "/ajax/rejectMultipleActivityProgress", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Activity rejectMultipleActivityProgress(@ModelAttribute Activity obj,HttpSession session){
+		Activity aObj = new Activity();
+		try{
+			String user_id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setDyhod_user_id_fk(user_id);
+			obj.setUser_role_code(user_role_code);
+			aObj = service.rejectMultipleActivityProgress(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("rejectMultipleActivityProgress() : "+e.getMessage());
+		}
+		return aObj;
 	}
 	
 }

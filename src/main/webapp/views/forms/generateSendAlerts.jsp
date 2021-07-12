@@ -45,26 +45,37 @@
                 <div class="col s12 m5 l3">
                  <div class="card">
 	                	<div class="card-content">     
-	            	<div class="card">
-	                	<div class="card-content">                  
-	                      <div class="row no-mar">	     
-	                          <div class="col s12 m12 input-field center-align">
-	                              <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px" href="<%=request.getContextPath() %>/generate-alerts-manually"> Generate Alerts</a>
-	                          </div>                            
-	                      </div>                  
-	                    </div>
-	                </div>  
-	                <div class="card">
-	                	<div class="card-content">                  
-	                      <div class="row no-mar">	     
-	                          <div class="col s12 m12 input-field center-align">
-                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px" href="<%=request.getContextPath() %>/send-alerts-to-all"> Send Alerts to All </a>
-	                          </div>                            
-	                      </div>                  
-	                    </div>
-	                </div>              
+			            	<div class="card">
+			                	<div class="card-content">                  
+			                      <div class="row no-mar">	     
+			                          <div class="col s12 m12 input-field center-align">
+			                              <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px" href="<%=request.getContextPath() %>/generate-alerts-manually"> Generate Alerts</a>
+			                          </div>                            
+			                      </div>                  
+			                    </div>
+			                </div>  
+			                <div class="card">
+			                	<div class="card-content">                  
+			                      <div class="row no-mar">	     
+			                          <div class="col s12 m12 input-field center-align">
+		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px;height: auto;" href="<%=request.getContextPath() %>/send-alerts-to-all"> Send Contract & Issue Alerts to All </a>
+			                          </div>                            
+			                      </div>   
+			                      <div class="row no-mar">	     
+			                          <div class="col s12 m12 input-field center-align">
+		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px;" href="<%=request.getContextPath() %>/send-risk-alerts-to-all"> Send Risk Alerts to All </a>
+			                          </div>                            
+			                      </div>    
+			                      <div class="row no-mar">	     
+			                          <div class="col s12 m12 input-field center-align">
+		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px" href="<%=request.getContextPath() %>/send-alerts-rajiv-ravi"> Send All Alerts to IT Admins </a>
+			                          </div>                            
+			                      </div>                   
+			                    </div>
+			                </div>              
+		          		</div>
           		</div>
-          		</div></div>
+          		</div>
           		
                 <div class="col m7 l9 s12 ">                
             	<div class="card">

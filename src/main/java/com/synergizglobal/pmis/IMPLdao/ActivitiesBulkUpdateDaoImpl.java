@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -630,10 +631,10 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		try {
 			con = dataSource.getConnection();
 			String insertQry = "INSERT INTO approvable_activity_progress"
-					+ "(created_by_user_id_fk, remarks, completed_scope, activity_id_fk,progress_date,dyhod_user_id_fk)"
+					+ "(created_by_user_id_fk, remarks, completed_scope, activity_id_fk,progress_date,approval_status_fk)"
 					+ "VALUES"
 					+ "(?,?,?,?,?,?)";
-			insertStmt = con.prepareStatement(insertQry);
+			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
 			int	arraySize = 0;
 			if( !StringUtils.isEmpty(obj.getActualScopes()) && obj.getActualScopes().length > 0) {
 				obj.setActualScopes(CommonMethods.replaceEmptyByNullInSringArray(obj.getActualScopes()));
@@ -656,8 +657,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				    insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:null);
 				    insertStmt.setString(k++,(obj.getActivity_ids()[i]));
 				    insertStmt.setString(k++, obj.getProgress_date());
-				    String dyHodOfActivity = getDyHodOfActivity(obj.getActivity_ids()[i]);
-				    insertStmt.setString(k++, dyHodOfActivity);
+				    insertStmt.setString(k++, "Pending");
 				    insertStmt.addBatch();
 			    }
 			}
@@ -665,9 +665,31 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			
 			if(insertCount.length > 0) {
 				flag = true;
+				List<String> generatedIds = new ArrayList<String>();
+				ResultSet rs = insertStmt.getGeneratedKeys();
+		        if (rs != null) {
+		            while (rs.next()) {
+		                int generatedId = rs.getInt(1);
+		                generatedIds.add(String.valueOf(generatedId));
+		            }
+		        }
+		        DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
+		        
+		        String qry = "INSERT INTO approvable_activity_progress_dyhod(dyhod_user_id_fk, progress_id_fk)values(?,?)";
+		        insertStmt = con.prepareStatement(qry);
+		        List<String> dyHodsList = getDyHodsOfActivity(obj.getStrip_chart_structure_id_fk());
+		        for (String dyhod : dyHodsList) {
+					for (String generated_id : generatedIds) {
+						insertStmt.setString(1, dyhod);
+					    insertStmt.setString(2, generated_id);
+					    insertStmt.addBatch();
+					}
+				}
+		        insertStmt.executeBatch();
+		        
+		        DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 			}
-
-			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
+			
 			
 			/*if(flag) {
 				int arrSize =0;
@@ -736,23 +758,25 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				}*/
 				
 				/********************************************************************************/
-				/*if(!StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				if(!StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
 					String qryUsers ="SELECT dy_hod_user_id_fk "
 							+ "FROM fob_contract "
 							+ "left join contract on contract_id_fk = contract_id "
-							+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? ";
+							+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? group by dy_hod_user_id_fk";
 					List<String> users = jdbcTemplate.queryForList( qryUsers,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);	
 					if(!StringUtils.isEmpty(users) && users.size() > 0) {
 						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 						String userIds[]  = new String[users.size()];	
 						userIds = users.toArray(userIds);
 						String messageType = "Activity Progress";
-						String redirect_url = null;
+						String redirect_url = "/progress-approval-page";
 						
 						String qryFOBName ="SELECT fob_name FROM fob where fob_id = ? ";
 						String fob_name = jdbcTemplate.queryForObject( qryFOBName,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);	
-						
-						String message = "Progress updated for FOB "+fob_name+" please validate the same.";
+						if(StringUtils.isEmpty(fob_name)) {
+							fob_name = obj.getStrip_chart_structure_id_fk();
+						}
+						String message = "Progress updated for FOB "+fob_name+". Pending approval.";
 						 
 						Messages msgObj = new Messages();
 						msgObj.setUser_ids(userIds);
@@ -761,7 +785,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 						msgObj.setMessage(message);
 						messagesDao.addMessages(msgObj,template);
 					}
-				}*/
+				}
 				/********************************************************************************/	
 			//}
 		}catch(Exception e){ 
@@ -774,15 +798,18 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		return flag;
 	}
 	
-	private String getDyHodOfActivity(String activity_id) throws Exception {
-		String dy_hod_user_id_fk = null;
+	private List<String> getDyHodsOfActivity(String structure) throws Exception {
+		List<String>  dy_hods = null;
 		try {
-			String qry = "select dy_hod_user_id_fk from contract where contract_id = (select contract_id_fk from activities where activity_id = ?)";
-			dy_hod_user_id_fk = (String)jdbcTemplate.queryForObject( qry, new Object[]{activity_id},String.class);			
+			String qryUsers ="SELECT dy_hod_user_id_fk "
+					+ "FROM fob_contract "
+					+ "left join contract on contract_id_fk = contract_id "
+					+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? group by dy_hod_user_id_fk";
+			dy_hods = jdbcTemplate.queryForList( qryUsers,new Object[]{structure}, String.class);
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
-		return dy_hod_user_id_fk;
+		return dy_hods;
 	}
 
 }

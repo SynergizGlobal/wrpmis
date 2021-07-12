@@ -278,7 +278,8 @@
     	$("#financial_year_fk").val("");
     	$('.searchable').select2();
     	window.localStorage.setItem("budgetFilters",'');
-    	getBudgetList();
+    	window.location.href= "<%=request.getContextPath()%>/budget";
+    	//getBudgetList();
     }
     
     function addInQueProject(project_id_fk){

@@ -36,7 +36,7 @@ public class ActivitiesController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 	
-	Logger logger = Logger.getLogger(HomeController.class);
+	Logger logger = Logger.getLogger(ActivitiesController.class);
 	@Autowired
 	ActivitiesService activitiesService;
 	
@@ -283,7 +283,7 @@ public class ActivitiesController {
 			
 			boolean flag = activitiesService.updateActivities(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Activities updated successfully.");
+				attributes.addFlashAttribute("success", "Activity updated successfully.");
 			}else {
 				attributes.addFlashAttribute("error", "Something went wrong. Please try again.");
 			}
@@ -291,7 +291,7 @@ public class ActivitiesController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", "Something went wrong. Please try again.");
-			logger.error("updateStripChart : " + e.getMessage());
+			logger.error("updateActivities : " + e.getMessage());
 		}
 		return model;
 	}

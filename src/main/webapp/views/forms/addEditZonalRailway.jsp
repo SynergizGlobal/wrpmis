@@ -14,13 +14,12 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/zonal.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style>
         .row.fixed-width {
             width: 100%;
@@ -76,7 +75,38 @@
 	       	max-width:110px;
 	       	white-space:break-spaces;
        }
-             
+       .hideCol{
+       		display:none !important;
+       }
+       
+       @media only screen and (max-width: 768px){       
+			.input-field p.searchable_label {
+			    margin-bottom: 0;
+			}
+			.mobile_responsible_table>tbody >tr:not(.datepicker-row) >td::before {
+			    vertical-align: middle;
+			}
+			input[type="month"]{
+				box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff !important;
+    			height: 40px;
+    			padding-left: 10px;
+			}
+			.mobile_responsible_table>tbody > tr:not(.datepicker-row) >td >input[type="number"]~.units{
+				position:relative;
+				top:0;
+				right:23px;
+			}
+			.hideCol{
+				display:block !important;
+       			width:100% !important;
+       		}
+       		.mobile_responsible_table>tbody >tr:not(.datepicker-row) >td.hideCol::before {
+			    text-align:center !important;
+			    font-weight:bold;
+			}
+       }
+
+
     </style>
 
 </head>
@@ -113,8 +143,7 @@
                         <div class="container container-no-margin">
                             <div class="row">
                              <c:if test="${action eq 'add'}">	
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field offset-m2">
 	                                    <p class="searchable_label"> Project <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getWorksList(this.value);">
 	                                        <option value="">Select</option>
@@ -124,7 +153,7 @@
 	                                    </select>
 	                                    <span id="project_id_fkError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field">
 	                                    <p class="searchable_label"> Work <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns(this.value);" > 
 	                                        <option value="" >Select</option>
@@ -134,17 +163,14 @@
 	                                    </select>
 	                                    <span id="work_id_fkError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
                                  </c:if>
                                  <c:if test="${action eq 'edit'}">	
-		                              <!-- <div class="row" id="center" style="text-align:left;"> -->
-			                              <div class="col m2 hide-on-small-only">
-			                              </div>
-			                       		  <div class="col s12 m4 input-field">
+		                              <!-- <div class="row" id="center" style="text-align:left;"> -->			                            
+			                       		  <div class="col s6 m4 input-field offset-m2">
 			                                    <input type="text" value="${zonalRailwayDetails.project_id_fk} - ${zonalRailwayDetails.project_name}" readonly id="project_value" />
 												<label for="project_value"> Project <span class="required">*</span></label>
 										  </div> 
-										  <div class="col s12 m4 input-field"> 
+										  <div class="col s6 m4 input-field"> 
 			                                    <input type="text"  value="${zonalRailwayDetails.work_id_fk} - ${zonalRailwayDetails.work_short_name}" readonly id="work_value"/>
 											    <label for="work_value"> Work <span class="required">*</span></label>
 			                                    <input type="hidden" name="work_id_fk" id="work_id_fk" value="${zonalRailwayDetails.work_id_fk}" readonly />
@@ -154,29 +180,24 @@
                             </div>
                             <c:if test="${action eq 'add'}">	
      						<div class="row">
-                               <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 input-field offset-m2">
                                 	<textarea placeholder="Sub Work" name="sub_work" id="sub_work" class='materialize-textarea'></textarea>
                                 	<label for="sub_work">Sub Work</label>
                                 </div>	
-                               <div class="col m2 hide-on-small-only"></div>
                             </div>
 							</c:if>
 							<c:if test="${action eq 'edit'}">	
      						<div class="row">
-                               <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 input-field offset-m2">
                                 	<textarea placeholder="Sub Work" name="sub_work" id="sub_work" class='materialize-textarea'>${zonalRailwayDetails.sub_work}</textarea>
 	                                <label for="sub_work">Sub Work</label>
                                 </div>	
-                               <div class="col m2 hide-on-small-only"></div>
                             </div>
 							</c:if>
                             <div class="row">
-                               <div class="col m2 hide-on-small-only"></div>
                              <c:if test="${action eq 'add'}">
-                                <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Execution Agency <span class="required">*</span></p>
+                                <div class="col s6 m4 input-field offset-m2">
+                                    <p class="searchable_label fs-sm-8rem">Execution Agency <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="execution_agency_railway_fk" name="execution_agency_railway_fk">
                                         <option value="" >Select</option>
                                          <c:forEach var="obj" items="${railwayList }">
@@ -185,8 +206,8 @@
                                     </select>
                                     <span id="execution_agency_railway_fkError" class="error-msg" ></span>
                                  </div>
-                                 <div class="col m4 hide-on-small-only"></div>
-                                 <div class="col s12 m4 input-field">
+                                 <!-- <div class="col m4 hide-on-small-only"></div> -->
+                                 <div class="col s6 m4 input-field">
                                     <input type="text" id="contract_id" name="contract_id"   />
                                      <label for="contract_id">Sub Work ID <span class="required">*</span>:</label>
                                      <span id="contract_idError" class="error-msg"></span>
@@ -194,24 +215,21 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 </c:if>	
                                  <c:if test="${action eq 'edit'}">
-                                 <div class="col s12 m4 input-field"> 
+                                 <div class="col s6 m4 input-field offset-m2"> 
                                     <input type="text"  value="${zonalRailwayDetails.execution_agency_railway_fk} - ${zonalRailwayDetails.railway_name}" readonly id="execution_agency"/>
-								     <label for="execution_agency">Execution Agency <span class="required">*</span>:</label>
+								     <label for="execution_agency" class="fs-sm-8rem">Execution Agency <span class="required">*</span>:</label>
 			                     </div>
-			                     <div class="col s12 m4 input-field">
+			                     <div class="col s6 m4 input-field">
                                     <input type="text" id="contract_id" name="contract_id"   value="${zonalRailwayDetails.contract_id }" readonly />
                                      <label for="contract_id">Sub Work ID <span class="required">*</span>:</label>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                                </c:if>	
-                                
+                                </c:if>	                                
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
                                <!--  <div class="col s12 m8 input-field"> 
                                     <div class="row">-->
-                                        <div class="col s12 m4 input-field">
+                                        <div class="col s6 m4 input-field offset-m2">
                                             <p class="searchable_label">Source of Funds </p>
                                             <select class="searchable" id="source_of_funds" name="source_of_funds">
                                                 <option value="" >Select</option>
@@ -220,8 +238,8 @@
 		                                        </c:forEach>
                                             </select>
                                         </div>
-                                         <div class="col s12 m4 input-field">
-                                            <p class="searchable_label">Nodal Officer in MRVC </p>
+                                         <div class="col s6 m4 input-field">
+                                            <p class="searchable_label fs-sm-8rem">Nodal Officer in MRVC </p>
                                             <select class="searchable" id="responsible_person_user_fk" name="responsible_person_user_fk">
                                                 <option value="" >Select</option>
                                                  <c:forEach var="obj" items="${usersList }"> 
@@ -232,12 +250,10 @@
                                       
                                    <!--  </div>
                                 </div> -->
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 						<div class="row">
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col s12 m4 input-field">
-								<p class="searchable_label" style="margin-bottom:5px">Status</p>
+							<div class="col s6 m4 input-field offset-m2">
+								<p class="searchable_label mb-lg-5px">Status</p>
 								<select class="searchable" id="status_fk" name="status_fk">
 									<option value="">Select</option>
 									<c:forEach var="obj" items="${statusList }">
@@ -246,21 +262,19 @@
 									</c:forEach>
 								</select>
 							</div>
-							<div class="col s12 m4 input-field">
+							<div class="col s6 m4 input-field">
 								<input id="asOnDate" type="text" class="validate datepicker"
 									value="${zonalRailwayDetails.as_on_date }" name="as_on_date">
 								<label for="asOnDate">As on Date</label>
 								<button type="button" id="asOnDate__icon"
-									class="white datepicker-btn">
+									class="  datepicker-btn">
 									<i class="fa fa-calendar"></i>
 								</button>
 							</div>
-							<div class="col m2 hide-on-small-only"></div>
 						</div>
 
 						<div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 input-field offset-m2">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="sanction_cost" name="sanction_cost" type="number" class="validate" min="0.01" step="0.01" value="${zonalRailwayDetails.sanction_cost }">
                                     <label for="sanction_cost">Sanction Cost</label>
@@ -273,12 +287,10 @@
                                     <label for="latest_revised_cost">Latest Revised Cost</label>
                                     <span id="latest_revised_costError" class="error-msg"></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 input-field offset-m2">
                                      <i class="material-icons prefix center-align">₹</i>	
                                     <input id="cumilative_expenditure" name="cumulative_expenditure_upto_last_finacial_year" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.cumulative_expenditure_upto_last_finacial_year }"
                                         class="validate">
@@ -292,44 +304,41 @@
                                     <label for="completion_cost">Completion Cost</label>
                                     <span id="completion_costError" class="error-msg"></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 input-field offset-m2">
                                     <div class="row">
-                                        <div class="col s12 m4 input-field">
+                                        <div class="col s6 m4 input-field">
                                             <input id="actual_start" name="actual_start" type="text" value="${zonalRailwayDetails.actual_start }"
                                                 class="validate datepicker">
                                             <label for="actual_start">Actual Start</label>
                                             <button type="button" id="actual_start__icon"
-                                                class="white datepicker-btn"><i class="fa fa-calendar"></i></button>
+                                                class="  datepicker-btn"><i class="fa fa-calendar"></i></button>
                                         </div>
-                                        <div class="col s12 m4 input-field">
+                                        <div class="col s6 m4 input-field">
                                             <input id="expected_finish" name="expected_finish" type="text"  value="${zonalRailwayDetails.expected_finish }"
                                                 class="validate datepicker">
                                             <label for="expected_finish">Expected Finish</label>
                                             <button type="button" id="expected_finish__icon"
-                                                class="white datepicker-btn"><i class="fa fa-calendar"></i></button>
+                                                class="  datepicker-btn"><i class="fa fa-calendar"></i></button>
                                         </div>
-                                        <div class="col s12 m4 input-field">
+                                        <div class="col s6 m4 input-field">
                                             <input id="actual_finish" name="actual_finish" type="text"  value="${zonalRailwayDetails.actual_finish }"
                                                 class="validate datepicker">
                                             <label for="actual_finish">Actual Finish</label>
                                             <button type="button" id="actual_finish__icon"
-                                                class="white datepicker-btn"><i class="fa fa-calendar"></i></button>
+                                                class="  datepicker-btn"><i class="fa fa-calendar"></i></button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                         </div>
 
                         <div class="row fixed-width" style="margin-bottom: 10px;">
                             <h5 class="center-align">Progress details</h5>
                             <div class="table-inside">
-                                <table id="zonal_railway_table" class="mdl-data-table">
+                                <table id="zonal_railway_table" class="mdl-data-table mobile_responsible_table">
                                     <thead>
                                         <tr>
                                             <th rowspan="2" class="fw-125">Month</th>
@@ -355,57 +364,60 @@
 		                                       	 <c:forEach var="pObj" items="${zonalRailwayDetails.zonalRailway }" varStatus="index"> 
                                        	 
                                         <tr id="progressRow${index.count }">
-                                            <td><input type="hidden" name= "progress_ids" id="progress_ids${index.count }" value="${pObj.progress_id }"/>
+                                            <td data-head="Month" class="input-field"><input type="hidden" name= "progress_ids" id="progress_ids${index.count }" value="${pObj.progress_id }"/>
                                                 <input id="months${index.count }" name="months"  class="month" type="month" class="validate" value="${pObj.month }"
                                                     placeholder="Month">
                                             </td>
-                                            <td>
+                                            <td class="hideCol" data-head="Expenditure"></td>
+                                            <td data-head="Cum Actual Current FY (in Cr)" class="input-field">
                                                 <input id="cum_actual_expenditure_fy_crs${index.count }" name="cum_actual_expenditure_fy_crs" value="${pObj.cum_actual_expenditure_fy_cr }"
                                                     type="number" class="validate" min="0.01" step="0.01"
                                                     placeholder="Amount">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
-                                            <td class="input-field">
+                                            <td data-head="Cum planned %" class="input-field">
                                                 <input id="cum_planned_expenditure_pers${index.count }" name="cum_planned_expenditure_pers" value="${pObj.cum_planned_expenditure_per }"
                                                     type="number" class="validate" 
                                                     placeholder="Cum Planned %">
                                                     <span class="units">%</span>
                                             </td>
-                                            <td>
+                                            <td data-head="Cum Actual (in Cr)" class="input-field">
                                                 <input id="cum_actual_expenditure_crs${index.count }" name="cum_actual_expenditure_crs" type="number" class="validate" value="${pObj.cum_actual_expenditure_cr }"
                                                     min="0.01" step="0.01" placeholder="cum Actual">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
-                                            <td class="input-field">
+                                            <td data-head="Cum Actual %" class="input-field">
                                                 <input id="cum_actual_expenditure_pers${index.count }" name="cum_actual_expenditure_pers" type="number" value="${pObj.cum_actual_expenditure_per }"
                                                     class="validate"  placeholder="cum Actual %">
                                                     <span class="units">%</span>
                                             </td>
-                                            <td class="input-field">
+                                            <td class="hideCol" data-head="Physical Progress"></td>
+                                            <td data-head="Cum planned %" class="input-field">
                                                 <input id="cum_planned_physical_progress_pers${index.count }"
                                                     name="cum_planned_physical_progress_pers" type="number" class="validate" value="${pObj.cum_planned_physical_progress_per }"
                                                      placeholder="Cum Planned %">
                                                     <span class="units">%</span>
                                             </td>
-                                            <td class="input-field">
+                                            <td data-head="Cum Actual %" class="input-field">
                                                 <input id="cum_actual_physical_progress_pers${index.count }"
                                                     name="cum_actual_physical_progress_pers" type="number" class="validate" value="${pObj.cum_actual_physical_progress_per }"
                                                      placeholder="cum Actual %">
                                                     <span class="units">%</span>
                                             </td>
-                                            <td>
+                                            <td class="hideCol" data-head=" "></td>
+                                            <td data-head="Progress" class="input-field">
                                                 <input id="progresss${index.count }" name="progresss" type="text" class="validate" value="${pObj.progress }"
                                                     placeholder="Progress">
                                             </td>
-                                            <td>
+                                            <td data-head="Issue" class="input-field">
                                                 <input id="issues${index.count }" name="issues" type="text" class="validate" value="${pObj.issue }"
                                                     placeholder="Issue">
                                             </td>
-                                            <td>
+                                            <td data-head="Assistance Required" class="input-field">
                                                  <input id="assistance_requireds${index.count }" name="assistance_requireds" type="text" class="validate" value="${pObj.assistance_required }"
                                                     placeholder="Assistance Requireds">
                                             </td>
-                                            <td>
+                                            <td class="mobile_btn_close">
                                                 <a onclick="removeProgress('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                         class="fa fa-close"></i></a>
                                             </td>
@@ -415,56 +427,56 @@
                                	    </c:when>
                                 	<c:otherwise>
                                          <tr id="progressRow0">
-                                            <td><input type="hidden" name= "progress_ids" id="progress_ids0" />
+                                            <td data-head="Month" class="input-field"><input type="hidden" name= "progress_ids" id="progress_ids0" />
                                                 <input id="months0" name="months" type="month" class="validate" class="month"
                                                     placeholder="Month">
                                             </td>
-                                            <td>
+                                            <td data-head="Cum Actual Current FY (in Cr)" class="input-field">
                                                 <input id="cum_actual_expenditure_fy_crs0" name="cum_actual_expenditure_fy_crs" value=" "
                                                     type="number" class="validate" min="0.01" step="0.01"
                                                     placeholder="Amount">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
-                                            <td>
+                                            <td data-head="Cum planned %" class="input-field">
                                                 <input id="cum_planned_expenditure_pers0" name="cum_planned_expenditure_pers"  value=" "
                                                     type="number" class="validate" min="0.01" step="0.01"
                                                     placeholder="Cum Planned %">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
-                                            <td>
+                                            <td data-head="Cum Actual (in Cr)" class="input-field">
                                                 <input id="cum_actual_expenditure_crs0" name="cum_actual_expenditure_crs" type="number" class="validate"  value=" "
                                                     min="0.01" step="0.01" placeholder="cum Actual">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
-                                            <td>
+                                            <td data-head="Cum Actual %" class="input-field">
                                                 <input id="cum_actual_expenditure_pers0" name="cum_actual_expenditure_pers" type="number"   value=" "
                                                     class="validate" min="0.01" step="0.01" placeholder="cum Actual %">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
-                                            <td>
+                                            <td data-head="Cum planned %" class="input-field">
                                                 <input id="cum_planned_physical_progress_pers0"
                                                     name="cum_planned_physical_progress_pers" type="number" class="validate"  value=" "
                                                     min="0.01" step="0.01" placeholder="Cum Planned %">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
-                                            <td>
+                                            <td data-head="Cum Actual %" class="input-field">
                                                 <input id="cum_actual_physical_progress_pers0"
                                                     name="cum_actual_physical_progress_pers" type="number" class="validate"  value=" "
                                                     min="0.01" step="0.01" placeholder="cum Actual %">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
-                                            <td>
+                                            <td data-head="Progress" class="input-field">
                                                 <input id="progresss0" name="progresss" type="text" class="validate" 
                                                     placeholder="Progress">
                                             </td>
-                                            <td>
+                                            <td data-head="Issue" class="input-field">
                                                 <input id="issues0" name="issues" type="text" class="validate" 
                                                     placeholder="Issue">
                                             </td>
-                                            <td> <input id="assistance_requireds0" name="assistance_requireds" type="text" class="validate"
+                                            <td data-head="Assistance Required" class="input-field"> <input id="assistance_requireds0" name="assistance_requireds" type="text" class="validate"
                                                     placeholder="Assistance Requireds">
                                             </td>
-                                            <td>
+                                            <td class="mobile_btn_close">
                                                 <a onclick="removeProgress('0');" class="btn waves-effect waves-light red t-c "> <i
                                                         class="fa fa-close"></i></a>
                                             </td>
@@ -510,13 +522,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col s6 m6">
-                                            <div class="center-align m-1">
+                                        <div class="col s6 m6 center-align">
+                                            <div class=" m-1">
                                                 <button  class="btn waves-effect waves-light bg-m ">Submit</button>
                                             </div>
                                         </div>
-                                        <div class="col s6 m6">
-                                            <div class="center-align m-1">
+                                        <div class="col s6 m6 center-align">
+                                            <div class=" m-1">
                                                 <button  class="btn waves-effect waves-light bg-s modal-close">Cancel</button>
                                             </div>
                                         </div>
@@ -527,20 +539,18 @@
 
                         <div class="container container-no-margin">
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 mt-brdr">
-                                     <div class="center-align m-1">
-	                                         <c:if test="${action eq 'edit'}">
-	                                           <button type="button" onclick="updateZonalRailway();" class="btn waves-effect waves-light bg-m ">Update</button>
-	                                         </c:if>
-											 <c:if test="${action eq 'add'}"> 
-						                       <button type="button" onclick="addZonalRailway();" class="btn waves-effect waves-light bg-m ">Add</button>
-											 </c:if>
+                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                                     <div class=" m-1">
+                                         <c:if test="${action eq 'edit'}">
+                                           <button type="button" onclick="updateZonalRailway();" class="btn waves-effect waves-light bg-m ">Update</button>
+                                         </c:if>
+										 <c:if test="${action eq 'add'}"> 
+					                       <button type="button" onclick="addZonalRailway();" class="btn waves-effect waves-light bg-m ">Add</button>
+										 </c:if>
                                     </div>
-                                </div>
-                              
-                                <div class="col s12 m4 mt-brdr">
-                                    <div class="center-align m-1">
+                                </div>                              
+                                <div class="col s6 m4 mt-brdr center-align">
+                                    <div class=" m-1">
                                             <a href="<%=request.getContextPath()%>/zonal-railway" class="btn waves-effect waves-light bg-s ">Cancel</a>
                                     </div>
                                 </div>
@@ -688,17 +698,17 @@
         function addProgressRow() {
        	    var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
-            var html = '<tr id="progressRow'+rNo+'"> <td><input type="hidden" name= "progress_ids" id="progress_ids' + rNo + '" /> <input id="months' + rNo + '" name="months" type="month" class="validate" placeholder="Month"> </td>' +
-                '<td> <input id="cum_actual_expenditure_fy_crs' + rNo + '" name="cum_actual_expenditure_fy_crs" type="number"  class="validate" min="0.01" step="0.01" placeholder="Amount">' +
-                '</td> <td> <input id="cum_planned_expenditure_pers' + rNo + '" name="cum_planned_expenditure_pers" type="number" value="" class="validate" placeholder="Cum Planned %">' +
-                '</td> <td> <input id="cum_actual_expenditure_crs' + rNo + '" name="cum_actual_expenditure_crs" type="number" class="validate" min="0.01" step="0.01" placeholder="cum Actual"> </td>' +
-                '<td> <input id="cum_actual_expenditure_pers' + rNo + '" name="cum_actual_expenditure_pers" type="number" class="validate"  placeholder="cum Actual %"> </td>' +
-                '<td> <input id="cum_planned_physical_progress_pers" name="cum_planned_physical_progress_pers" type="number" class="validate"  placeholder="Cum Planned %">' +
-                '</td> <td> <input id="cum_actual_physical_progress_pers' + rNo + '" name="cum_actual_physical_progress_pers" type="number" class="validate"  placeholder="cum Actual %"> ' +
-                '</td> <td> <input id="progresss' + rNo + '" name="progresss" type="text" class="validate" placeholder="Progress"> </td> <td>' +
-                '<input id="issues' + rNo + '" name="issues" type="text" class="validate" placeholder="Issue"> </td> <td>' +
+            var html = '<tr id="progressRow'+rNo+'"> <td data-head="Month" class="input-field"><input type="hidden" name= "progress_ids" id="progress_ids' + rNo + '" /> <input id="months' + rNo + '" name="months" type="month" class="validate" placeholder="Month"> </td>' +
+                '<td class="hideCol" data-head="Expenditure"></td><td data-head="Cum Actual Current FY (in Cr)" class="input-field"> <input id="cum_actual_expenditure_fy_crs' + rNo + '" name="cum_actual_expenditure_fy_crs" type="number"  class="validate" min="0.01" step="0.01" placeholder="Amount">' +
+                '</td> <td data-head="Cum planned %" class="input-field"> <input id="cum_planned_expenditure_pers' + rNo + '" name="cum_planned_expenditure_pers" type="number" value="" class="validate" placeholder="Cum Planned %"> <span class="units">%</span>' +
+                '</td> <td data-head="Cum Actual (in Cr)" class="input-field"> <input id="cum_actual_expenditure_crs' + rNo + '" name="cum_actual_expenditure_crs" type="number" class="validate" min="0.01" step="0.01" placeholder="cum Actual"></td>' +
+                '<td data-head="Cum Actual %" class="input-field"> <input id="cum_actual_expenditure_pers' + rNo + '" name="cum_actual_expenditure_pers" type="number" class="validate"  placeholder="cum Actual %"><span class="units">%</span> </td>' +
+                '<td class="hideCol" data-head="Physical Progress"></td><td data-head="Cum planned %" class="input-field"> <input id="cum_planned_physical_progress_pers" name="cum_planned_physical_progress_pers" type="number" class="validate"  placeholder="Cum Planned %"><span class="units">%</span>' +
+                '</td> <td data-head="Cum Actual %" class="input-field"> <input id="cum_actual_physical_progress_pers' + rNo + '" name="cum_actual_physical_progress_pers" type="number" class="validate"  placeholder="cum Actual %"> <span class="units">%</span>' +
+                '</td> <td class="hideCol" data-head=" "></td><td data-head="Progress" class="input-field"> <input id="progresss' + rNo + '" name="progresss" type="text" class="validate" placeholder="Progress"> </td> <td data-head="Issue" class="input-field">' +
+                '<input id="issues' + rNo + '" name="issues" type="text" class="validate" placeholder="Issue"> </td> <td data-head="Assistance Required" class="input-field">' +
                 '<input id="assistance_requireds' + rNo + '" name="assistance_requireds" type="text" class="validate" placeholder="Assistance Requireds"> </td>' +
-                '<td> <a onclick="removeProgress(' + rNo + ');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
+                '<td class="mobile_btn_close"> <a onclick="removeProgress(' + rNo + ');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
             $('#progressTableBody').append(html);
 			$("#rowNo").val(rNo);
 			

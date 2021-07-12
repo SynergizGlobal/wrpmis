@@ -72,65 +72,12 @@
 	.notifications_group .item.read-message:hover {
 		background-color: #ffffff;
 	}
-	
-/*	.notification_body{
-		width:430px !important;
+	.fourth-lvl{
+		margin-left: 10px !important;
+    	margin-right: 10px !important;
+    	background-color: #e0e0e0 !important;
 	}
-	.mt-brdr{
-		margin-top: 20px;
-	    border-top: 1px solid #777;
-	    border-bottom: 1px solid #777;
-	}
-	.mt-brdr .center-align.m-1 button.bg-m, 
-	.mt-brdr .center-align.m-1 button.bg-s{
-		width:inherit;
-	}
-	
-	.message_group .item {
-	    padding: 2px 5px;
-	    margin: 0px!important;
-	    width: 100%;
-	}
-	.message_group .item {
-	    position: relative;
-	    display: block;
-	    width: 100%;
-	    padding: 5px 10px 10px 10px;
-	    line-height: 23px;
-	    font-size: 0.85rem;
-	    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-	    width: 100%;
-	    margin: 3px;
-	    padding: 10px;
-	    border-radius: 0px;
-	}
-	.notifications_group{
-		margin-top:5px;
-	}	
-	.search-holder{
-	  position: sticky;
-	  top: 0;
-	  background-color: #f56661;
-	  z-index: 1;
-	}
-	.alert-table-icon{
-		text-align:center !important;
-	}
-	.notification_body {
-		overflow:hidden;
-	}
-	.notifications_group{
-		height:100%;
-		overflow:scroll; 
-		padding-bottom: 4rem;
-	}
-	 .head-item{
-		position: sticky;
-    	top: 0;
-    	z-index:1;
-    	background-color:#D75A55;
-	} */
-	
+		
 </style>
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />
@@ -783,13 +730,33 @@
 							</a>
 								<ul class="dropdown-data collapsible-body third-lvl">
 									<c:forEach var="subList" items="${form.formsSubMenu }">
-										<li><a
+										<c:if test="${ empty subList.formsSubMenuLevel2}">
+											<li><a
+												href="<%=request.getContextPath()%>/${subList.webFormUrl }">
+													<span class="nav-label">${subList.formName }</span>
+											</a></li>
+										</c:if>
+										<c:if test="${not empty subList.formsSubMenuLevel2}">
+											<li class="sub-menu" id="tech_assist_list"><a href="#!" class="collapsible-header">
+													<span class="nav-label">${subList.formName }</span></a>
+												<ul class="dropdown-data collapsible-body fourth-lvl" id="tech_assist_ul">
+													<c:forEach var="subListLevel2" items="${subList.formsSubMenuLevel2}">
+														<li><a
+															href="<%=request.getContextPath()%>/${subListLevel2.webFormUrl }">
+																${subListLevel2.formName } </a></li>
+													</c:forEach>
+												</ul></li>
+										</c:if>
+										<%-- <li><a
 											href="<%=request.getContextPath()%>/${subList.webFormUrl }">
 												<span class="nav-label">${subList.formName }</span>
-										</a></li>
+										</a></li> --%>
 									</c:forEach>
 								</ul></li>
 						</c:if>
+						
+											
+												
 
 					</c:forEach>
 
@@ -1514,7 +1481,13 @@
 	    		 
 	    	 });
 
-	         
+	          $("#tech_assist_list").click(function(){
+	        	  $(this).toggleClass("active"); 
+	        	  	if($(this).hasClass('active'))
+	        	     	$('#tech_assist_ul').css("display","block"); 
+	        	  	else
+	        	  		$('#tech_assist_ul').css("display","none"); 
+	        	});
  </script>
 
 </body>

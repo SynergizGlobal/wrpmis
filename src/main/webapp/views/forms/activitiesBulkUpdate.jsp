@@ -13,10 +13,9 @@
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
      <style>
-        /* body {
-            overflow-x: hidden;
-        } */
 		/* Chrome, Safari, Edge, Opera */
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
@@ -42,10 +41,12 @@
         [type="radio"].with-gap:checked+span::after {
             border: 2px solid #2E58AD !important;
         }
-
         .primary-text {
             color: #2E58AD;
             font-weight: 500;
+        }
+        .table-inside{
+        	margin-bottom:25px;
         }
 
         /* dots related styling  */
@@ -166,26 +167,7 @@
         #dotgroup1 .dot.delayed {
             background-color: #f00;
         }
-
-        .page-loader {
-            background: #332e2ec2 !important;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-        
-        .page-loader-2 {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}
+       
 		.page-loader-3 {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -195,11 +177,6 @@
 		    left: 0;
 		    z-index: 1000;
 		}
-
-        .preloader-wrapper {
-            top: 45% !important;
-            left: 47% !important;
-        }
 
         .error-msg label {
             color: red !important;
@@ -221,6 +198,9 @@
         thead th input[type="checkbox"]:checked+span:not(.lever):before{
             border-right: 2px solid #fff;
             border-bottom: 2px solid #fff;
+        }
+        .mobile_responsible_table>tbody > tr:not(.datepicker-row) >td{
+        	height:auto;
         }
     </style>
      <style>
@@ -297,10 +277,9 @@
                     <form action="<%=request.getContextPath() %>/update-activities-bulk" id="ActivitiesBulkUpdateForm" name="ActivitiesBulkUpdateForm" method="post" >
                     <div class="container container-no-margin">
                         <div class="row">                          
-                                <div class="col m1 hide-on-small-only"></div>
-                                <div class="col m10 s12">
+                                <div class="col m10 s12 offset-m1">
                                     <div class="row">
-                                        <div class="col m4 s12 input-field">
+                                        <div class="col m4 s6 input-field">
                                             <p class="searchable_label">Project</p>
                                             <select class="searchable validate-dropdown" id="project_id" name="project_id" data-placeholder="Select"
                                                 onchange="addInQueProject(this.value);getAcivitiesBulkUpdateWorksList(this.value);onLoadMethod();">
@@ -311,7 +290,7 @@
                                             </select>
                                             <span id="project_idError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col m8 s12 input-field">
+                                        <div class="col m8 s6 input-field">
                                             <p class="searchable_label">Work</p>
                                             <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" data-placeholder="Select"
                                                 onchange="addInQueWork(this.value);getAcivitiesBulkUpdateContractsList(this.value);onLoadMethod();">
@@ -335,7 +314,7 @@
                                         </div>
                                     </div>
                                     <div class="row" id="toggle-selects">
-                                        <div class="col m4 s12 input-field" >
+                                        <div class="col m4 s6 input-field" >
                                             <p class="searchable_label">Structure <span class="required">*</span></p>
                                            <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk" data-placeholder="Select"
                                                 class="searchable validate-dropdown" onchange="getComponentsList(this.value);addInQueStructure(this.value);onLoadMethod();">
@@ -358,7 +337,7 @@
                                             </select>
                                         </div> -->
                                         
-                                        <div class="col m4 s12 input-field">
+                                        <div class="col m4 s6 input-field">
                                             <p class="searchable_label">Component</p>
                                              <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component" name="strip_chart_component" onchange="getComponentIdsList(this.value);">
                                                 <option value=""></option>
@@ -477,15 +456,15 @@
                                     </div> 
 
 									<div class="row legends" id="legends" style="display:none;">
-                                        <div class="col m4 s3 center-align">
+                                        <div class="col m4 s4 center-align">
                                             <span class="box not-started"></span>
                                             <span class="description">Not Started</span>
                                         </div>
-                                        <div class="col m4 s3 center-align">
+                                        <div class="col m4 s4 center-align">
                                             <span class="box in-progress"></span>
                                             <span class="description">In Progress</span>
                                         </div>
-                                        <div class="col m4 s3 center-align">
+                                        <div class="col m4 s4 center-align">
                                             <span class="box completed"></span>
                                             <span class="description">Completed</span>
                                         </div>
@@ -497,16 +476,12 @@
 
 									<br>
                                     <div class="row">
-                                        <div class="col m2 hide-on-small-only"></div>
-                                       
-                                        <div class="col m2 hide-on-small-only"></div>
-                                        <div class="col m4 s6 input-field" style="margin-bottom: 30px;margin-top: 10px;">
+                                        <div class="col m4 s6 input-field offset-m2" style="margin-bottom: 30px;margin-top: 10px;">
                                              <input id="progress_date" name="progress_date" type="text" class="validate datepicker">
                                              <label for="progress_date">Reporting Date <span class="required">*</span></label>
                                              <button type="button" id="progress_date_icon" class="white"><i class="fa fa-calendar"></i></button>
                                               <span id="progress_dateError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col m2 hide-on-small-only"></div>
                                          <div class="col m4 s6 input-field" style="margin-bottom: 30px;margin-top: 10px;">
                                           <div class="center-align m-3">
                                                 <button type="button" onclick="updateProgress();" id="btn1" class="btn waves-effect waves-light bg-m" >Update</button>
@@ -517,11 +492,10 @@
 									<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
 									<!-- <span id="actualScopesError" class="error-msg" style="text-align:center"></span> -->
 								</div>
-								<div class="col m1 hide-on-small-only"></div>
-								
-                                <div class="row fixed-width" id="table_show" style= "display:none;">					 <!-- style= "display:none;" -->
+							
+                                <div class="row fixed-width " id="table_show" style= "display:none;">					 <!-- style= "display:none;" -->
                                         <div class="table-inside">
-                                            <table class="mdl-data-table" id="table">
+                                            <table class="mdl-data-table mobile_responsible_table" id="table">
                                                 <thead>
                                                     <tr>
                                                        <!--  <th>
@@ -576,8 +550,7 @@
 						</div>
 								<div class="container container-no-margin" >
 								<div class="row">
-								 <div class="col m1 hide-on-small-only"></div>
-                                <div class="col m10 s12">
+                                <div class="col m10 s12 offset-m1">
                                     <div class="row">
                                        <!--  <div class="col m12 s12 input-field">
                                             <textarea id="remarks" name="remarks" class="materialize-textarea"
@@ -587,13 +560,13 @@
                                     </div>
                                     <input type="hidden" id="activity_id" name="activity_id" />
                                     <div class="row">
-                                        <div class="col s12 m6 mt-brdr">
-                                            <div class="center-align m-1">
+                                        <div class="col s6 m6 mt-brdr center-align">
+                                            <div class=" m-1">
                                                 <button type="button" onclick="updateProgress();" id="btn" class="btn waves-effect waves-light bg-m" >Update</button>
                                             </div>
                                         </div>
-                                        <div class="col s12 m6 mt-brdr">
-                                            <div class="center-align m-1">
+                                        <div class="col s6 m6 mt-brdr center-align">
+                                            <div class=" m-1">
                                                 <button type="reset" onClick="window.location.reload(); clearFilters();" class="btn waves-effect waves-light bg-s">Reset</button>
                                             </div>
                                         </div>
@@ -964,7 +937,7 @@
                       
                       
                       if ($.trim(id1) != '' && $.trim(id2) != '') {
-                    	  alert("hai");
+                    	  //alert("hai");
                     	  getComponentsList(id2);
                       }
                   }
@@ -1192,14 +1165,14 @@
  	                    	 html = '<tr id="row'+num+'">'
  	            	 			/* +'<td>' + $.trim(val.strip_chart_component_id_name) + '<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></td>'
  	            	 			+'<td>' + $.trim(val.strip_chart_component) + '</td>' */
- 	            	 			+'<td><p style="text-align: left;">' + $.trim(val.strip_chart_activity_name) +' ('+$.trim(val.unit_fk)+' )<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></p></td>'
- 	            	 			+'<td>' + $.trim(val.planned_start) + '</td>'
- 	            	 			+'<td>' + $.trim(val.planned_finish) + '</td>'
- 	            	 			+'<td><span>' + $.trim(val.scope) + '</span>'
+ 	            	 			+'<td data-head="Activity" class="input-field"><div>' + $.trim(val.strip_chart_activity_name) +' ('+$.trim(val.unit_fk)+' )<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></div></td>'
+ 	            	 			+'<td data-head="Planned Start" class="input-field">' + $.trim(val.planned_start) + '</td>'
+ 	            	 			+'<td data-head="Planned Finish" class="input-field">' + $.trim(val.planned_finish) + '</td>'
+ 	            	 			+'<td data-head="Scope" class="input-field"><span>' + $.trim(val.scope) + '</span>'
  	            	 			+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
- 	            	 			+'<td><span>' + $.trim(val.completed) + '</span>'
+ 	            	 			+'<td data-head="Completed" class="input-field"><span>' + $.trim(val.completed) + '</span>'
  	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
- 	            	 			+' <td class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'"  ><br><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
+ 	            	 			+' <td data-head="Actual" class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'"  ><br><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
  	                    		$("#filerList").append(html);	  
  	                    	 	
  	                    	 	/* $(document).on('change', '#strip_chart_component_id ,#strip_chart_activity_id', function() {  $('#filerList').empty(html); });

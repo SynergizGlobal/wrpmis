@@ -316,9 +316,41 @@
 									                    </tr>
 									                </thead>
 									                <tbody id="departmentTableBody">
+									                <c:choose>
+				                                        <c:when test="${not empty contractDeatils.executivesList gt 0 }">
+				                                          
+				                                		  <c:forEach var="departmentObj" items="${contractDeatils.executivesList }" varStatus="index">   
+											                  <tr id="departmentRow${index.count }">
+											                        <td data-head="Department" class="input-field">
+											                             <select class="searchable validate-dropdown" name="department_fks" class="searchable" 
+											                             	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
+											                                id="department_fk${index.count }" onchange="getExecutivesList('${index.count }');">
+											                                	<option value="" >Select</option>  
+																		          <c:forEach var="obj" items="${departmentList }">
+										                                      	    <option value= "${ obj.department_fk}" >${ obj.department_name}</option>
+										                                          </c:forEach>
+											                              </select>
+											                        </td>
+											                        <td data-head="Select Executives" class="input-field">
+											                            <select class="searchable validate-dropdown" name="responsible_people_id_fks"
+											                            	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
+											                             id="responsible_people_id_fk${index.count }" multiple="multiple">
+											                                <option value="" disabled="disabled">Select</option>
+											                             
+											                            </select>
+											                        </td>
+											                        <td class="mobile_btn_close">
+											                            <a onclick="removeDepartment('${index.count }');"
+											                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+											                        </td>
+											                    </tr>
+									                	</c:forEach>
+                                           			</c:when>
+                                             		<c:otherwise>
 									                    <tr id="departmentRow0">
 									                        <td data-head="Department" class="input-field">
-									                             <select class="searchable validate-dropdown" name="department_fks" class="searchable"
+									                             <select class="searchable validate-dropdown" name="department_fks" class="searchable" 
+									                             	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
 									                                id="department_fk0" onchange="getExecutivesList('0');">
 									                                	<option value="" >Select</option>  
 																          <c:forEach var="obj" items="${departmentList }">
@@ -328,6 +360,7 @@
 									                        </td>
 									                        <td data-head="Select Executives" class="input-field">
 									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks"
+									                               <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
 									                                id="responsible_people_id_fk0" multiple="multiple">
 									                                <option value="" disabled="disabled">Select</option>
 									                             
@@ -338,7 +371,8 @@
 									                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
 									                        </td>
 									                    </tr>
-									                 
+									              </c:otherwise>
+                                            	</c:choose>
 									                </tbody>
 									            </table>
 									            <table  class="mdl-data-table" style="margin-bottom: 30px">

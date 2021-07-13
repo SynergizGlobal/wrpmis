@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <title>Risk Work HOD</title>
+    <title>Add Risk Subwork & Responsible person</title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -100,12 +100,12 @@
 							</div>
 					</c:if>
                         <div class="row">
-                            <div class="col m4 hide-on-small"></div>
-                            <div class="col m4 s12 center-align">
+                            <div class="col m3 hide-on-small"></div>
+                            <div class="col m6 s12 center-align">
                                 <a class="waves-effect waves-light btn bg-m modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Risk Work HOD</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Subwork & Responsible person</a>
                             </div>
-                            <div class="col m4 hide-on-small"></div>
+                            <div class="col m3 hide-on-small"></div>
                         </div>
                         <div class="row no-mar">
                           

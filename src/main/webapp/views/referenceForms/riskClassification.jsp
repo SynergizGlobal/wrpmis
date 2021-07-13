@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
     <style>
+    	
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
@@ -78,13 +79,27 @@
             }
         }
 		.error-msg label{color:red!important;}
+		.dataTables_length{
+		    text-align: center;
+		}
+		th{    		
+    		text-transform: capitalize;    		
+		}
+		@media (min-width: 480px) and (max-width: 839px){
+		    .mdl-cell--6-col, .mdl-cell--6-col-tablet.mdl-cell--6-col-tablet {
+		        width: 100%;
+		        text-align:center;
+		    }
+		    div.dataTables_wrapper div.dataTables_filter{
+		            text-align:center;
+		    }
+		}
     </style>
 </head>
 
 <body>
 
     <!-- header  starts-->
-<%-- <jsp:include page="../layout/header.jsp"></jsp:include> --%>
     <!-- header ends  -->
 
     <div class="row">

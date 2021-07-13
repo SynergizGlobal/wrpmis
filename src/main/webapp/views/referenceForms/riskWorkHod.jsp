@@ -69,6 +69,21 @@
                 width: 85% !important;
             }
         }
+        .dataTables_length{
+		    text-align: center;
+		}
+		th{    		
+    		text-transform: capitalize;    		
+		}
+		@media (min-width: 480px) and (max-width: 839px){
+		    .mdl-cell--6-col, .mdl-cell--6-col-tablet.mdl-cell--6-col-tablet {
+		        width: 100%;
+		        text-align:center;
+		    }
+		    div.dataTables_wrapper div.dataTables_filter{
+		            text-align:center;
+		    }
+		}
     </style>
 </head>
 
@@ -100,12 +115,10 @@
 							</div>
 					</c:if>
                         <div class="row">
-                            <div class="col m2 hide-on-small"></div>
-                            <div class="col m8 s12 center-align">
+                            <div class="col m12 s12 center-align">
                                 <a style="height: auto;" class="waves-effect waves-light btn bg-m modal-trigger t-c" href="#addUpdateModal">
                                     <i class="fa fa-plus-circle"></i> &nbsp; Add Subwork & Responsible HOD</a>
                             </div>
-                            <div class="col m2 hide-on-small"></div>
                         </div>
                         <div class="row no-mar">
                           

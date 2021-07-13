@@ -97,6 +97,21 @@
 		}	
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
 		.error-msg label{color:red!important;}
+		.dataTables_length{
+		    text-align: center;
+		}
+		th{    		
+    		text-transform: capitalize;    		
+		}
+		@media (min-width: 480px) and (max-width: 839px){
+		    .mdl-cell--6-col, .mdl-cell--6-col-tablet.mdl-cell--6-col-tablet {
+		        width: 100%;
+		        text-align:center;
+		    }
+		    div.dataTables_wrapper div.dataTables_filter{
+		            text-align:center;
+		    }
+		}
     </style>
 </head>
 
@@ -126,12 +141,10 @@
 					</c:if>
                     <div class="">
                         <div class="row">
-                            <div class="col m4 hide-on-small"></div>
-                            <div class="col m4 s12 center-align">
+                            <div class="col m12 s12 center-align">
                                 <a class="waves-effect waves-light btn bg-m modal-trigger t-c" href="#addUpdateModal">
                                     <i class="fa fa-plus-circle"></i> &nbsp; Add Risk Area</a>
                             </div>
-                            <div class="col m4 hide-on-small"></div>
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
@@ -141,7 +154,11 @@
                                             <th>Risk Area</th>
                                             <th>Item No</th>
                                             <c:forEach var="tObj" items="${riskAreaDetails.tablesList}" >
-                                            	 <th>${tObj.tName } <br>(count)</th>
+                                            	<%--  <th>${tObj.tName } <br>(count)</th> --%>
+                                            	 <c:forEach var="TObj" items="${tObj.tName }" >
+                                            	 	<c:set var = "mTObj" value = "${fn:replace(TObj, '_', ' ')}" />
+                                            	 	<th>${mTObj } <br>(count)</th>
+                                            	</c:forEach>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>

@@ -679,12 +679,18 @@
    			$(".page-loader").show();
    			var flag = validateRisk();
    			if(flag){
-   				$('form input[name=atr_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   		   		$('form input[name=action_takens]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   				//$('form input[name=atr_dates]').each(function(){ if($.trim(this.value) != ''){$(this).val(this.value.split(",").join("~$~")); } });
+   				//$('form input[name=action_takens]').each(function(){ if($.trim(this.value) != ''){$(this).val(this.value.split(",").join("~$~")); } });
+   		   		$('form input[name=atr_dates]').each(function(){
+	   		   		var idNo = (this.id).replace('atr_dates','');
+	        		var action_taken = $("#action_takens"+idNo).val();
+   		   			if($.trim(action_taken) != ''){
+   		   				$("#action_takens"+idNo).val(action_taken.split(",").join("~$~")); 
+   		   			} 
+   		   		});
    	   			$("#riskForm").submit();
    			}
    			$(".page-loader").hide();
-   			
         }
         
         function validateRisk(){

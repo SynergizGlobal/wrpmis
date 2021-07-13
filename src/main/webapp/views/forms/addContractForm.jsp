@@ -231,7 +231,7 @@
 			                                    	  <option value="${obj.user_id }" <c:if test="${sessionScope.USER_ID eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
 			                                        </c:forEach>  --%>  
 	                                            </select> 
-
+												<input type="hidden"  name="department_fk" id="department_fk"/>
 												<!-- <label for="hod_user_id_fk">HOD</label>  -->
 	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
@@ -308,11 +308,12 @@
 									                              </select>
 									                        </td>
 									                        <td data-head="Select Executives" class="input-field">
-									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks"
+									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks" onchange="fileCount('0')"
 									                                id="responsible_people_id_fk0" multiple="multiple">
 									                                <option value="" disabled="disabled">Select</option>
 									                             
 									                            </select>
+									                            <input type="hidden" id="filecounts0" name="filecounts" value="0">
 									                        </td>
 									                        <td class="mobile_btn_close">
 									                            <a onclick="removeDepartment('0');"
@@ -1190,11 +1191,14 @@
              //console.log($("#dy_hod_user_id_fk").children("option").filter(":selected").text())
           
         });
-       
+     
         function getExecutivesList(num) {
         	$(".page-loader").show();
         	var count = Number(num);
         	var department_fk = $('#department_fk'+count).val();
+        	var id =  $("#departmentTable tbody tr:first-of-type >td:first-of-type").find('.searchable').attr("id");  
+        	var deptFirst = $('#'+id).val();
+        	$('#department_fk').val(deptFirst);
         	$("#responsible_people_id_fk"+count+" option:not(:first)").attr("selected",false);
             if ($.trim(department_fk) != "") {
             	$("#responsible_people_id_fk"+count+" option:not(:first)").remove();
@@ -1211,10 +1215,10 @@
                                  if ($.trim(val.designation) != '') { designation = $.trim(val.designation) }
                                 
                                 if ($.trim(hod_user_id_fk) != '') {
-                                     $("#responsible_people_id_fk"+count).append('<option name="responsible_people_id_fks" value="' + val.dy_hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) + '</option>');
+                                     $("#responsible_people_id_fk"+count).append('<option name="responsible_people_id_fks" value="' + val.hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) + '</option>');
                                      $("#responsible_people_id_fk"+count).select2(); 
                                  } else {
-                                     $("#responsible_people_id_fk"+count).append('<option name="responsible_people_id_fks" value="' + val.dy_hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
+                                     $("#responsible_people_id_fk"+count).append('<option name="responsible_people_id_fks" value="' + val.hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
                         	    	 $("#responsible_people_id_fk"+count).select2();
                                  }
                             });
@@ -1226,11 +1230,16 @@
             	$(".page-loader").hide();
             }
         }
+        
+        function fileCount(Rno){
+        	var count = $('#responsible_people_id_fk'+Rno+' option:selected').length;
+        	$('#filecounts'+Rno).val(count)
+        }
   
         function addDepartmentRow(){
         	 var rowNo = $("#deptRowNo").val();
     		 var rNo = Number(rowNo)+1;
-    		 var total = 0;
+    		 var no = 0;
     		 var html = '<tr id="departmentRow'+rNo+'">'
     			   +'<td data-head="Department" class="input-field">'
     			   +'<select class="searchable validate-dropdown" name="department_fks" class="searchable" id="department_fk'+rNo+'" onchange="getExecutivesList('+rNo+');">'
@@ -1238,9 +1247,9 @@
     			   			<c:forEach var="obj" items="${departmentList }">
     			   				+'<option value= "${ obj.department_fk}" >${ obj.department_name}</option>'
     			   			</c:forEach>
-    			   +' </select></td>'
+    			   +' </select><input id="filecounts'+rNo+'"  name="filecounts"  type="hidden"></td>'
     			   +'<td data-head="Select Executives" class="input-field">'
-    			   		+'<select class="searchable validate-dropdown" name="responsible_people_id_fks" id="responsible_people_id_fk'+rNo+'" multiple="multiple">'
+    			   		+'<select class="searchable validate-dropdown" name="responsible_people_id_fks" id="responsible_people_id_fk'+rNo+'" onchange="fileCount('+rNo+')"  multiple="multiple">'
     			   			+'<option value="" disabled="disabled">Select</option>'
     			   
     			   +'</select></td>'
@@ -1254,6 +1263,9 @@
         
         function removeDepartment(rowNo){
         	$("#departmentRow"+rowNo).remove();
+        	var id =  $("#departmentTable tbody tr:first-of-type >td:first-of-type").find('.searchable').attr("id");  
+        	var deptFirst = $('#'+id).val();
+        	$('#department_fk').val(deptFirst);
         }
         function getDyHodList() {
         	$(".page-loader").show();

@@ -339,10 +339,11 @@
             $('.modal').modal({ dismissible: false });
 
             var table = $('#risk_area_table').DataTable({
+            	"order": [],
                 columnDefs: [
                     {
-                        targets: [0],
-                        className: 'mdl-data-table__cell--non-numeric',
+                        targets: [1],
+                        //className: 'mdl-data-table__cell--non-numeric',
                         targets: 'no-sort', orderable: false,
                     },
                     { "width": "20px", "targets": [3] },

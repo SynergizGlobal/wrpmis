@@ -137,6 +137,10 @@ public class ContractServiceImpl implements ContractService{
 	public List<Contract> getResponsiblePeopleList(Contract obj) throws Exception {
 		return contractDao.getResponsiblePeopleList(obj);
 	}
+	@Override
+	public List<Contract> getExecutivesListForContractForm(Contract obj) throws Exception {
+		return contractDao.getExecutivesListForContractForm(obj);
+	}
 	
 
 }

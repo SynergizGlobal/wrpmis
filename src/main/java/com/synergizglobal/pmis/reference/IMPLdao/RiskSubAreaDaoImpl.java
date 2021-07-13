@@ -62,7 +62,7 @@ public class RiskSubAreaDaoImpl implements RiskSubAreaDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select sub_area,risk_area_fk, item_no from risk_sub_area ";
+			String qry ="select sub_area,risk_area_fk, item_no from risk_sub_area order by risk_area_fk,item_no ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);

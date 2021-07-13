@@ -67,4 +67,6 @@ public interface ContractDao {
 
 	public List<Contract> getResponsiblePeopleList(Contract obj) throws Exception;
 
+	public List<Contract> getExecutivesListForContractForm(Contract obj) throws Exception;
+
 }

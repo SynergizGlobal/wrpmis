@@ -430,7 +430,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						+ "(select cast((IFNULL(SUM(gross_work_done),0)/100000) as CHAR) AS gross_work_done from expenditure where contract_id_fk = contract_id) as cumulative_expenditure, "
 						+ "(select DATE_FORMAT(MAX(valid_upto),'%d-%m-%y') AS valid_upto from insurance where (released_fk = 'No' OR released_fk is null OR released_fk = '') and contract_id_fk = contract_id) as insurance_valid_till, "
 						+ "(select DATE_FORMAT(MAX(valid_upto),'%d-%m-%y') AS valid_upto from bank_guarantee where bg_type_fk is not null and bg_type_fk = 'Performance Guarantee' and release_date is null and contract_id_fk = contract_id) as pbg_valid_till, "
-						+ "(SELECT sum(contract_per) FROM pmis.activities_scurve where contract_id_fk = contract_id and category = 'Actual') as PhysicalProgress  "
+						+ "(SELECT sum(contract_per) FROM pmis.activities_scurve where contract_id_fk = contract_id and category COLLATE utf8mb4_unicode_ci= 'Actual' COLLATE utf8mb4_unicode_ci) as PhysicalProgress  "
 						+ " from contract c "  
 						+ "left join work w on c.work_id_fk = w.work_id "  
 						+ "left join contractor cr on c.contractor_id_fk = cr.contractor_id "  

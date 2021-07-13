@@ -16,15 +16,43 @@ public class Risk {
 	private boolean readonlyForm = true;
 	private MultipartFile riskFile;
 	private MultipartFile riskAssessmentFile;
-
-	private String [] risk_revision_ids, risk_id_pk_fks, dates, prioritys, probabilitys, impacts,
-	owners, responsible_persons, mitigation_plans, action_takens, attachments,atr_dates,priority_fks,risk_action_ids,assessment_dates,atr_dates_old,action_takens_old;
-	
-	private int [] rowCounts;
 	
 	private List<Risk> risks; 
 	private List<Risk> riskActions; 
+	private List<String> atr_dates,action_takens,atr_dates_old,action_takens_old;
 	
+
+	public List<String> getAtr_dates() {
+		return atr_dates;
+	}
+
+	public void setAtr_dates(List<String> atr_dates) {
+		this.atr_dates = atr_dates;
+	}
+
+	public List<String> getAction_takens() {
+		return action_takens;
+	}
+
+	public void setAction_takens(List<String> action_takens) {
+		this.action_takens = action_takens;
+	}
+
+	public List<String> getAtr_dates_old() {
+		return atr_dates_old;
+	}
+
+	public void setAtr_dates_old(List<String> atr_dates_old) {
+		this.atr_dates_old = atr_dates_old;
+	}
+
+	public List<String> getAction_takens_old() {
+		return action_takens_old;
+	}
+
+	public void setAction_takens_old(List<String> action_takens_old) {
+		this.action_takens_old = action_takens_old;
+	}
 
 	public String getMitigation_plan_old() {
 		return mitigation_plan_old;
@@ -34,21 +62,6 @@ public class Risk {
 		this.mitigation_plan_old = mitigation_plan_old;
 	}
 
-	public String[] getAtr_dates_old() {
-		return atr_dates_old;
-	}
-
-	public void setAtr_dates_old(String[] atr_dates_old) {
-		this.atr_dates_old = atr_dates_old;
-	}
-
-	public String[] getAction_takens_old() {
-		return action_takens_old;
-	}
-
-	public void setAction_takens_old(String[] action_takens_old) {
-		this.action_takens_old = action_takens_old;
-	}
 
 	public String getOwner_user_id() {
 		return owner_user_id;
@@ -146,14 +159,6 @@ public class Risk {
 		this.risk_action_id = risk_action_id;
 	}
 
-	public String[] getRisk_action_ids() {
-		return risk_action_ids;
-	}
-
-	public void setRisk_action_ids(String[] risk_action_ids) {
-		this.risk_action_ids = risk_action_ids;
-	}
-
 	public String getItem_no() {
 		return item_no;
 	}
@@ -177,9 +182,6 @@ public class Risk {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public void setRowCounts(int[] rowCounts) {
-		this.rowCounts = rowCounts;
-	}
 
 	public String getProbability() {
 		return probability;
@@ -196,41 +198,12 @@ public class Risk {
 	public void setImpact(String impact) {
 		this.impact = impact;
 	}
-
-	public String[] getProbabilitys() {
-		return probabilitys;
-	}
-
-	public void setProbabilitys(String[] probabilitys) {
-		this.probabilitys = probabilitys;
-	}
-
-	public String[] getImpacts() {
-		return impacts;
-	}
-
-	public void setImpacts(String[] impacts) {
-		this.impacts = impacts;
-	}
-
 	public String getPriority_fk() {
 		return priority_fk;
 	}
 
 	public void setPriority_fk(String priority_fk) {
 		this.priority_fk = priority_fk;
-	}
-
-	public String[] getPriority_fks() {
-		return priority_fks;
-	}
-
-	public void setPriority_fks(String[] priority_fks) {
-		this.priority_fks = priority_fks;
-	}
-
-	public int[] getRowCounts() {
-		return rowCounts;
 	}
 
 	public List<Risk> getRiskActions() {
@@ -257,13 +230,6 @@ public class Risk {
 		this.atr_date = atr_date;
 	}
 
-	public String[] getAtr_dates() {
-		return atr_dates;
-	}
-
-	public void setAtr_dates(String[] atr_dates) {
-		this.atr_dates = atr_dates;
-	}
 
 	public String getProject_name() {
 		return project_name;
@@ -305,80 +271,6 @@ public class Risk {
 
 	public void setRisks(List<Risk> risks) {
 		this.risks = risks;
-	}
-
-	public String[] getRisk_revision_ids() {
-		return risk_revision_ids;
-	}
-
-	public void setRisk_revision_ids(String[] risk_revision_ids) {
-		this.risk_revision_ids = risk_revision_ids;
-	}
-
-	public String[] getRisk_id_pk_fks() {
-		return risk_id_pk_fks;
-	}
-
-	public void setRisk_id_pk_fks(String[] risk_id_pk_fks) {
-		this.risk_id_pk_fks = risk_id_pk_fks;
-	}
-
-	public String[] getDates() {
-		return dates;
-	}
-
-	public void setDates(String[] dates) {
-		this.dates = dates;
-	}
-
-	public String[] getPrioritys() {
-		return prioritys;
-	}
-
-	public void setPrioritys(String[] prioritys) {
-		this.prioritys = prioritys;
-	}
-
-	
-
-	public String[] getOwners() {
-		return owners;
-	}
-
-	public void setOwners(String[] owners) {
-		this.owners = owners;
-	}
-
-	public String[] getResponsible_persons() {
-		return responsible_persons;
-	}
-
-	public void setResponsible_persons(String[] responsible_persons) {
-		this.responsible_persons = responsible_persons;
-	}
-
-	public String[] getMitigation_plans() {
-		return mitigation_plans;
-	}
-
-	public void setMitigation_plans(String[] mitigation_plans) {
-		this.mitigation_plans = mitigation_plans;
-	}
-
-	public String[] getAction_takens() {
-		return action_takens;
-	}
-
-	public void setAction_takens(String[] action_takens) {
-		this.action_takens = action_takens;
-	}
-
-	public String[] getAttachments() {
-		return attachments;
-	}
-
-	public void setAttachments(String[] attachments) {
-		this.attachments = attachments;
 	}
 
 	public String getRisk_id_pk() {
@@ -585,14 +477,6 @@ public class Risk {
 
 	public void setRisk_revision_id_fk(String risk_revision_id_fk) {
 		this.risk_revision_id_fk = risk_revision_id_fk;
-	}
-
-	public String [] getAssessment_dates() {
-		return assessment_dates;
-	}
-
-	public void setAssessment_dates(String [] assessment_dates) {
-		this.assessment_dates = assessment_dates;
 	}
 
 	public String getUploaded_by() {

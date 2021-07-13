@@ -256,7 +256,7 @@
 																			name="action_takens" class="materialize-textarea"
 																			placeholder="Action Taken" style="height: 44px;">${aObj.action_taken}</textarea>
 																			<p id="action_takens${index.count }Error" class="error-msg" ></p>
-																			<input type="hidden" id="action_takens_old${index.count }" name="action_takens_old" value="${aObj.action_taken }" />
+																			<textarea style="display:none;" id="action_takens_old${index.count }" name="action_takens_old" >${aObj.action_taken }</textarea>
 																	</td>
 																	<td class="mobile_btn_close">
 																	<%-- <a onclick="removeActions('${index.count }');" class="btn waves-effect waves-light red t-c "> 
@@ -308,7 +308,7 @@
 																		placeholder="Action Taken" style="height: 44px;"></textarea>
 																		<p id="action_takens0Error" class="error-msg" ></p>
 																		
-																		<input type="hidden" id="action_takens_old0" name="action_takens_old" value="" />
+																		<textarea style="display:none;" id="action_takens_old0" name="action_takens_old"></textarea>
 																</td>
 																<td class="mobile_btn_close">
 																	<!-- <a onclick="removeActions('0');"
@@ -569,7 +569,7 @@
 			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button>'
 			+'<p id="atr_dates' + rNo + 'Error" class="error-msg" ></p><input type="hidden" id="atr_dates_old' + rNo +'" name="atr_dates_old" value="" /></td>'
 			+'<td data-head="Action Taken" class="input-field"><textarea id="action_takens' + rNo +'"  name="action_takens" '
-			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea><p id="action_takens' + rNo + 'Error" class="error-msg" ></p><input type="hidden" id="action_takens_old' + rNo +'" name="action_takens_old" value="" /></td>'
+			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea><p id="action_takens' + rNo + 'Error" class="error-msg" ></p><textarea style="display:none;" id="action_takens_old' + rNo + '" name="action_takens_old"></textarea></td>'
 			+'<td class="mobile_btn_close"><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#riskRevisionBody').append(html);
@@ -679,15 +679,6 @@
    			$(".page-loader").show();
    			var flag = validateRisk();
    			if(flag){
-   				//$('form input[name=atr_dates]').each(function(){ if($.trim(this.value) != ''){$(this).val(this.value.split(",").join("~$~")); } });
-   				//$('form input[name=action_takens]').each(function(){ if($.trim(this.value) != ''){$(this).val(this.value.split(",").join("~$~")); } });
-   		   		$('form input[name=atr_dates]').each(function(){
-	   		   		var idNo = (this.id).replace('atr_dates','');
-	        		var action_taken = $("#action_takens"+idNo).val();
-   		   			if($.trim(action_taken) != ''){
-   		   				$("#action_takens"+idNo).val(action_taken.split(",").join("~$~")); 
-   		   			} 
-   		   		});
    	   			$("#riskForm").submit();
    			}
    			$(".page-loader").hide();

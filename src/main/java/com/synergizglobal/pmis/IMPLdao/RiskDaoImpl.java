@@ -643,17 +643,29 @@ public class RiskDaoImpl implements RiskDao{
 				}
 			}*/
 			
-			if(!StringUtils.isEmpty(obj.getAction_takens()) && obj.getAction_takens().length > 0) {
+			/*if(!StringUtils.isEmpty(obj.getAction_takens()) && obj.getAction_takens().length > 0) {
 				obj.setAction_takens(CommonMethods.replaceEmptyByNullInSringArray(obj.getAction_takens()));
 				if(arraySize < obj.getAction_takens().length) {
 					arraySize = obj.getAction_takens().length;
 				}
 			}
-		
+			
 			if(!StringUtils.isEmpty(obj.getAtr_dates()) && obj.getAtr_dates().length > 0) {
 				obj.setAtr_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getAtr_dates()));
 				if(arraySize < obj.getAtr_dates().length) {
 					arraySize = obj.getAtr_dates().length;
+				}
+			}*/
+			
+			if(!StringUtils.isEmpty(obj.getAction_takens()) && obj.getAction_takens().size() > 0) {
+				if(arraySize < obj.getAction_takens().size()) {
+					arraySize = obj.getAction_takens().size();
+				}
+			}
+			
+			if(!StringUtils.isEmpty(obj.getAtr_dates()) && obj.getAtr_dates().size() > 0) {
+				if(arraySize < obj.getAtr_dates().size()) {
+					arraySize = obj.getAtr_dates().size();
 				}
 			}
 			
@@ -667,10 +679,10 @@ public class RiskDaoImpl implements RiskDao{
 			insertStmt = con.prepareStatement(qry);
 			for(int i = 0; i < arraySize; i++) {	
 				int k = 1;
-				if((!StringUtils.isEmpty(obj.getAtr_dates()[i])) && (!StringUtils.isEmpty(obj.getAction_takens()[i]))) {
+				if(!StringUtils.isEmpty(obj.getAtr_dates().get(i)) && !StringUtils.isEmpty(obj.getAction_takens().get(i)) ) {
 					insertStmt.setString(k++,obj.getRisk_revision_id());
-					insertStmt.setString(k++,(obj.getAction_takens().length > 0)?obj.getAction_takens()[i]:null);
-					insertStmt.setString(k++,DateParser.parse((obj.getAtr_dates().length > 0)?obj.getAtr_dates()[i]:null));
+					insertStmt.setString(k++,(obj.getAction_takens().size() > 0)?obj.getAction_takens().get(i):null);
+					insertStmt.setString(k++,DateParser.parse((obj.getAtr_dates().size() > 0)?obj.getAtr_dates().get(i):null));
 					insertStmt.addBatch();
 				} 
 			}
@@ -678,10 +690,10 @@ public class RiskDaoImpl implements RiskDao{
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 			if(insertCount.length > 0) {
 				for(int j = 0; j < arraySize; j++) {	
-					if((!StringUtils.isEmpty(obj.getAtr_dates_old()) && obj.getAtr_dates_old().length > 0 && !(obj.getAtr_dates()[j].equals(obj.getAtr_dates_old()[j]))) 
-							|| (!StringUtils.isEmpty(obj.getAction_takens_old()) && obj.getAction_takens_old().length > 0 && !(obj.getAction_takens()[j].equals(obj.getAction_takens_old()[j]))) 
-							|| (StringUtils.isEmpty(obj.getAtr_dates_old()) || (!StringUtils.isEmpty(obj.getAtr_dates_old()) && obj.getAtr_dates_old().length <= 0) 
-									&& (StringUtils.isEmpty(obj.getAction_takens_old()) || (!StringUtils.isEmpty(obj.getAction_takens_old()) && obj.getAction_takens_old().length <= 0))) 
+					if((!StringUtils.isEmpty(obj.getAtr_dates_old()) && obj.getAtr_dates_old().size() > 0 && !(obj.getAtr_dates().get(j).equals(obj.getAtr_dates_old().get(j)))) 
+							|| (!StringUtils.isEmpty(obj.getAction_takens_old()) && obj.getAction_takens_old().size() > 0 && !(obj.getAction_takens().get(j).equals(obj.getAction_takens_old().get(j)))) 
+							|| (StringUtils.isEmpty(obj.getAtr_dates_old()) || (!StringUtils.isEmpty(obj.getAtr_dates_old()) && obj.getAtr_dates_old().size() <= 0) 
+									&& (StringUtils.isEmpty(obj.getAction_takens_old()) || (!StringUtils.isEmpty(obj.getAction_takens_old()) && obj.getAction_takens_old().size() <= 0))) 
 							) {
 
 						/*String messageType = "Risk";

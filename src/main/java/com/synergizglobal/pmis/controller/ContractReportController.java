@@ -89,6 +89,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -207,9 +208,9 @@ public class ContractReportController {
 		return contractList;
 	}
 	
-	@RequestMapping(value = "/generate-contract-report", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/generate-contract-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatContractReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/contract-report");
+		ModelAndView model = new ModelAndView("redirect:/contract-report?id={id}");
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -226,9 +227,47 @@ public class ContractReportController {
 		return model;
     }
 	
-	@RequestMapping(value = "/generate-contract-bg-report", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/generate-contract-doc-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generatContractDocReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView("redirect:/contract-report?id={id}");
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+	           
+            obj.setDate(DateParser.parse(obj.getDate()));
+            
+			boolean flag = generatContractDocReport(response,currentDate,obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractDocReport : " + e.getMessage());
+		}
+		return model;
+    }
+	
+	@RequestMapping(value = "/generate-contract-doc-bg-insurance-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generatContractDocBgInsuranceReport(@PathVariable("id") String id,@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView("redirect:/contract-report?id="+id);
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+	           
+            obj.setDate(DateParser.parse(obj.getDate()));
+            
+			boolean flag = generatContractDocBGInsuranceReport(response,currentDate,obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractDocBGInsuranceReport : " + e.getMessage());
+		}
+		return model;
+    }
+	
+	@RequestMapping(value = "/generate-contract-bg-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatContractBankGuaranteeReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/contract-report");
+		ModelAndView model = new ModelAndView("redirect:/contract-report?id={id}");
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -245,9 +284,9 @@ public class ContractReportController {
 		return model;
     }
 	
-	@RequestMapping(value = "/generate-contract-insurance-report", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/generate-contract-insurance-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatContractInsuranceReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/contract-report");
+		ModelAndView model = new ModelAndView("redirect:/contract-report?id={id}");
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -264,10 +303,9 @@ public class ContractReportController {
 		return model;
     }
 	
-	
-	@RequestMapping(value = "/generate-contract-detail-report", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/generate-contract-detail-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatContractDetailReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/contract-report");
+		ModelAndView model = new ModelAndView("redirect:/contract-report?id={id}");
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -385,7 +423,7 @@ public class ContractReportController {
 			
 			Map<String,List<Contract>> list = service.getContractsListForReport(obj);
 			
-			boolean landscape = false;
+			boolean landscape = true;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
 			
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
@@ -397,7 +435,7 @@ public class ContractReportController {
 
 			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
-			String headerTextMiddle = "Contract Validity Report";
+			String headerTextMiddle = "List of Contracts";
 			
 			//String headerTextRight = report_created_date;
 			String headerTextRight = null;
@@ -420,7 +458,7 @@ public class ContractReportController {
 				byteArray = bos.toByteArray();
 				InputStream targetStream = new ByteArrayInputStream(byteArray);
 				String FILE_EXTENSION = ".docx";
-				String fileName = "Contracts Report - " + currentDate + FILE_EXTENSION;
+				String fileName = "List of Contracts Report - " + currentDate + FILE_EXTENSION;
 				
 				response.setContentType("application/.csv");
 				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -521,6 +559,159 @@ public class ContractReportController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("generatContractBankGuaranteeReport >> " + e.getMessage());
+			flag = false;
+		}
+		
+		return flag;
+	}	
+	private boolean generatContractDocBGInsuranceReport(HttpServletResponse response, String currentDate, Contract obj) throws Exception {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		boolean flag = false;
+		try{			
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+			String report_created_date = df.format(new Date()); 
+			Map<String,List<Contract>> list = service.getContractsDocBGInsuranceForReport(obj);
+			
+			boolean landscape = false;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
+
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
+			
+			String headerTextMiddle = "Contract DOC, BG and Insurance Validity Report";
+			
+			//String headerTextRight = report_created_date;
+			String headerTextRight = null;
+			
+			//String headerText = "PMIS Report - Status of Contract BG";
+			
+			int tabs1 = 8;int tabs2 = 4;
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,tabs1,tabs2);
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);				 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreationForContractReport.createTableForContractDocBGInsuranceReport(wordMLPackage, mp, factory,list,report_created_date);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "Contract DOC BG and Insurance Validity Report - " + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/.csv");
+				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				response.setContentType("application/vnd.ms-excel");
+				response.setContentType("application/pdf");
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+				
+				flag = true;
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generatContractDocBGInsuranceReport >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractDocBGInsuranceReport >> " + e.getMessage());
+			flag = false;
+			throw new Exception(e);
+		}
+		
+		return flag;
+	}
+	
+	
+	private boolean generatContractDocReport(HttpServletResponse response, String currentDate, Contract obj) {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		boolean flag = false;
+		try{			
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+			String report_created_date = df.format(new Date()); 
+			Map<String,List<Contract>> list = service.getContractsDocReport(obj);
+			
+			boolean landscape = false;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
+
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
+			
+			String headerTextMiddle = "Contract DOC Validity Report";
+			
+			//String headerTextRight = report_created_date;
+			String headerTextRight = null;
+			
+			//String headerText = "PMIS Report - Status of Contract BG";
+			
+			int tabs1 = 8;int tabs2 = 4;
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,tabs1,tabs2);
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);				 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreationForContractReport.createTableForContractDocReport(wordMLPackage, mp, factory,list,report_created_date);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "Contract DOC Validity Report - " + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/.csv");
+				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				response.setContentType("application/vnd.ms-excel");
+				response.setContentType("application/pdf");
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+				
+				flag = true;
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generatContractDocReport >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractDocReport >> " + e.getMessage());
 			flag = false;
 		}
 		

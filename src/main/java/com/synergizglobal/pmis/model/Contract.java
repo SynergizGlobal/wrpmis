@@ -14,9 +14,9 @@ public class Contract {
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status,revision_status
 	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till,
 	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code,contract_file_type_fk,contract_file_type,contract_file_id,
-	responsible_people_id_fk,hod_name,dy_hod_name;
+	responsible_people_id_fk,hod_name,dy_hod_name,PhysicalProgress;
 	
-	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk;
+	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
 
 	private String[] bg_type_fks,issuing_banks,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,bankStatus,insuranceStatus,codes, bg_dates, release_dates,released_fks,
 	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,insurance_revisions,revision_statuss,
@@ -28,9 +28,7 @@ public class Contract {
 	
 	private MultipartFile contractFile;
 	
-	private String[] contractDocumentNames,contractDocumentFileNames,milestone_ids,contractKeyPersonnelNames,contractKeyPersonnelMobileNos,contractKeyPersonnelEmailIds,contractKeyPersonnelDesignations
-	,ids, contract_id_fks, department_id_fks, executive_user_id_fks,department_fks,responsible_people_id_fks;
-	private int[] filecounts;
+	private String[] contractDocumentNames,contractDocumentFileNames,milestone_ids,contractKeyPersonnelNames,contractKeyPersonnelMobileNos,contractKeyPersonnelEmailIds,contractKeyPersonnelDesignations;
 	private MultipartFile[] contractDocumentFiles;
 	
 	private List<Contract> bankGauranree;
@@ -40,98 +38,9 @@ public class Contract {
 	private List<Contract> contractDocuments;
 	private List<Contract> contractKeyPersonnels;
 	private List<Contract> responsiblePeopleList;
-	private List<Contract> departmentList;
-	private List<Contract> executivesList;
 	
-	public List<Contract> getDepartmentList() {
-		return departmentList;
-	}
-
-	public void setDepartmentList(List<Contract> departmentList) {
-		this.departmentList = departmentList;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getDepartment_id_fk() {
-		return department_id_fk;
-	}
-
-	public void setDepartment_id_fk(String department_id_fk) {
-		this.department_id_fk = department_id_fk;
-	}
-
-	public String getExecutive_user_id_fk() {
-		return executive_user_id_fk;
-	}
-
-	public void setExecutive_user_id_fk(String executive_user_id_fk) {
-		this.executive_user_id_fk = executive_user_id_fk;
-	}
-
-	public String[] getDepartment_fks() {
-		return department_fks;
-	}
-
-	public void setDepartment_fks(String[] department_fks) {
-		this.department_fks = department_fks;
-	}
-
-	public String[] getResponsible_people_id_fks() {
-		return responsible_people_id_fks;
-	}
-
-	public void setResponsible_people_id_fks(String[] responsible_people_id_fks) {
-		this.responsible_people_id_fks = responsible_people_id_fks;
-	}
-
-	public int[] getFilecounts() {
-		return filecounts;
-	}
-
-	public void setFilecounts(int[] filecounts) {
-		this.filecounts = filecounts;
-	}
 
 	
-	public String[] getIds() {
-		return ids;
-	}
-
-	public void setIds(String[] ids) {
-		this.ids = ids;
-	}
-
-	public String[] getContract_id_fks() {
-		return contract_id_fks;
-	}
-
-	public void setContract_id_fks(String[] contract_id_fks) {
-		this.contract_id_fks = contract_id_fks;
-	}
-
-	public String[] getDepartment_id_fks() {
-		return department_id_fks;
-	}
-
-	public void setDepartment_id_fks(String[] department_id_fks) {
-		this.department_id_fks = department_id_fks;
-	}
-
-	public String[] getExecutive_user_id_fks() {
-		return executive_user_id_fks;
-	}
-
-	public void setExecutive_user_id_fks(String[] executive_user_id_fks) {
-		this.executive_user_id_fks = executive_user_id_fks;
-	}
-
 	public String getContract_file_type_fk() {
 		return contract_file_type_fk;
 	}
@@ -1535,12 +1444,12 @@ public class Contract {
 		this.dy_hod_name = dy_hod_name;
 	}
 
-	public List<Contract> getExecutivesList() {
-		return executivesList;
+	public String getPhysicalProgress() {
+		return PhysicalProgress;
 	}
 
-	public void setExecutivesList(List<Contract> executivesList) {
-		this.executivesList = executivesList;
+	public void setPhysicalProgress(String physicalProgress) {
+		PhysicalProgress = physicalProgress;
 	}
 	
 }

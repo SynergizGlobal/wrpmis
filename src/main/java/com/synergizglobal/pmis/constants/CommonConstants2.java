@@ -43,7 +43,7 @@ public class CommonConstants2 {
 	
 	
 	/*********** LOCAL ****************************************************/
-	public static String DIRECTORY_PATH = "E:";
+	public static String DIRECTORY_PATH = "C:";
 	
 	public final static String USER_LOGIN_REPORT_MAIL = "gkalluri@ghsltechnologies.com";
 	public final static String ALERTS_EMAIL = "kallurigurappa@gmail.com,gkalluri@ghsltechnologies.com";

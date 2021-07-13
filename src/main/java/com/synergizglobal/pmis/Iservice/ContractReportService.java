@@ -20,7 +20,11 @@ public interface ContractReportService {
 	Map<String,List<Contract>> getContractsBankGuaranteeForReport(Contract obj) throws Exception;
 
 	Map<String,List<Contract>> getContractsInsuranceForReport(Contract obj) throws Exception;
+	
+	Map<String,List<Contract>> getContractsDocReport(Contract obj) throws Exception;
 
+	Map<String,List<Contract>> getContractsDocBGInsuranceForReport(Contract obj) throws Exception;
+	
 	List<Contract> getContractListInContractReport(Contract obj) throws Exception;
 
 	Contract getContractDetailsForReport(Contract obj) throws Exception;

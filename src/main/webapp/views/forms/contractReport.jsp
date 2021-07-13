@@ -45,69 +45,76 @@
             <div class="card">
                 <div class="card-content">
                     <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Contract Reports </h6>
+                        <div class="center-align bg-m p-2 m-b-5"  style="background-color:#006699;color:#ffffff;">
+                            <h6 id="rptName">Contract Reports </h6>
                         </div>
                     </span>
                     <div class="">                    	
                         <div class="row no-mar">
                             <div class="col m8 s12 offset-m2">
                             	<form id="contractReportForm" name="contractReportForm" method="post">
-	                                <div class="row no-mar">
-	                                    <div class="col s6 m4 input-field">
+	                                <div class="row no-mar">	
+	                                    <div class="col s6 m3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
 	                                        <select id="hod_designation" name="hod_designation" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All </option>
 	                                        </select>
 	                                        <span id="hod_designationError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s6 m4 input-field">
+	                                    <div class="col s6 m3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
 	                                        <select id="work_id_fk" name="work_id_fk" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All</option>
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s6 m4 input-field">
+	                                    <div class="col s6 m3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contractor</p>
 	                                        <select id="contractor_id_fk" name="contractor_id_fk" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All </option>
 	                                        </select>
 	                                        <span id="contractor_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                <!-- </div>  
-	                                <div class="row"> -->
-	                                    <div class="col s6 m4 input-field">
+	                                    <div class="col s6 m3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract Status</p>
 	                                        <select id="contract_status_fk" name="contract_status_fk" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All </option>
 	                                        </select>
 	                                        <span id="contract_status_fkError" class="error-msg" ></span>
-	                                    </div>
-	                                    <div class="col s6 m4 input-field">
-	                                        <input id="date" name="date" type="text" class="validate datepicker"> <label for="date"> Date</label>
+	                                    </div>	                                    
+	                                </div>  
+	                                <div class="row" id="nextRow" style="display:none;">
+	                                    <div class="col s6 m3 input-field" id="dateDiv">
+	                                        <input id="date" name="date" type="text" class="validate datepicker"> <label for="date"> Validity Expiry By Date</label>
 											<button type="button" id="date_icon" ><i class="fa fa-calendar"></i></button>
 											<span id="dateError" class="error-msg"></span>
 	                                    </div>
-	                                    <div class="col s6 m4 input-field">
+	                                    <div class="col s6 m3 input-field" id="contractDiv">
 	                                        <p class="searchable_label" style="text-align:left">Contract</p>
 	                                        <select id="contract_id" name="contract_id" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="contract_idError" class="error-msg" ></span>
 	                                    </div>
-	                                </div>                              
+	                                </div>  
+			                        <div class="row">
+	                                    <div class="col s6 m6 input-field" style="text-align:right;">
+	                                        <button type="button" class="btn btn-primary" style="background-color:#006699;color:#ffffff;text-transform: none;" id="btnGenerateReport"
+	                                            onclick="generateContractReport();"> Generate Report</button>
+	                                    </div>			                        
+			                            <div class="col s6 m6 input-field" style="text-align:left;">
+												<button type="reset" class="btn btn-reset" style="background-color:#F44336;color:#ffffff;text-transform: none;" id="btnReset" onclick="clearFilters();">Reset</button>
+			
+			                                <!--  <button class="btn waves-effect waves-light bg-s t-c"
+			                                     style="margin-top: 6px; font-weight: 600;"
+			                                     onclick="clearFilters();"> Clear Filters</button> -->
+			                             </div>
+			                        </div>	                                                            
                                 </form> 
                             </div>
                         </div>
-                        <div class="row no-mar">
-                            <div class="col s12 m3 input-field offset-m7 center-align">
-                                 <button class="btn waves-effect waves-light bg-s t-c"
-                                     style="margin-top: 6px; font-weight: 600;"
-                                     onclick="clearFilters();"> Clear Filters</button>
-                             </div>
-                        </div>
-                        <div class="row no-mar">
+
+<!--                         <div class="row no-mar">
                             <div class="col m8 s12 offset-m2">
 	                                <div class="row">	                                  	
 	                                    <div class="col s6 m3 input-field">
@@ -134,7 +141,7 @@
                             </div>
                             <div class="col m2 hide-on-small-only"></div>
                         </div> 
-                                             
+ -->                                             
                     </div>
                                             
                 </div>
@@ -186,7 +193,60 @@
   	    	  }
   	        });
             
+            	var ReportNo = getUrlVars()["id"];
+				if(ReportNo==1)
+				{
+					$("#rptName").html("List of Contracts");
+					$("#nextRow").hide();
+					
+				}
+				else if(ReportNo==2)
+				{
+					$("#rptName").html("Contract Detail Report");
+					$("#nextRow").show();
+					$("#dateDiv").hide();
+					$("#contractDiv").show();
+				}
+				else if(ReportNo==3)
+				{
+					$("#rptName").html("DOC Report");
+					$("#nextRow").show();
+					$("#dateDiv").show();
+					$("#contractDiv").hide();					
+				}
+				else if(ReportNo==4)
+				{
+					$("#rptName").html("BG Report");
+					$("#nextRow").show();
+					$("#dateDiv").show();
+					$("#contractDiv").hide();						
+				}
+				else if(ReportNo==5)
+				{
+					$("#rptName").html("Insurance Report");
+					$("#nextRow").show();
+					$("#dateDiv").show();
+					$("#contractDiv").hide();						
+				}
+				else if(ReportNo==6)
+				{
+					$("#rptName").html("DOC, BG & Insurance Report");
+					$("#nextRow").show();
+					$("#dateDiv").show();
+					$("#contractDiv").hide();						
+				}
+            
         });
+        
+        function getUrlVars() {
+            var vars = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                vars[key] = value;
+            });
+            return vars;
+        }
+        
+        
         
         function clearFilters(){
         	$("#contractor_id_fk").val('');
@@ -376,8 +436,45 @@
         
         function generateContractReport() {
         	//$(".page-loader").show();
-        	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-report");
-        	$("#contractReportForm").submit();
+        	if(getUrlVars()["id"]==1)
+        		{
+        			$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-report/"+getUrlVars()["id"]);
+        		}
+        	    else if(getUrlVars()["id"]==2)
+	    		{
+        	    	var contract_id = $("#contract_id").val();
+                	if($.trim(contract_id) != '')
+                	{
+    	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-detail-report/"+getUrlVars()["id"]);
+                    	$("#contractReportForm").submit();
+                	}
+                	else
+                	{
+                		var errorMessage = "Please select contract";
+                		$("#contract_idError").html(errorMessage);
+                		//swal("Required!", errorMessage, "error");
+                	}       	    	
+	    		}  
+        	    else if(getUrlVars()["id"]==3)
+	    		{
+	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-doc-report/"+getUrlVars()["id"]);
+	    		} 
+        	    else if(getUrlVars()["id"]==4)
+	    		{
+	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-bg-report/"+getUrlVars()["id"]);
+	    		} 
+        	    else if(getUrlVars()["id"]==5)
+	    		{
+	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-insurance-report/"+getUrlVars()["id"]);
+	    		} 
+        	    else if(getUrlVars()["id"]==6)
+	    		{
+	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-doc-bg-insurance-report/"+getUrlVars()["id"]);
+	    		}  
+        	if(getUrlVars()["id"]!=2)
+        		{
+        			$("#contractReportForm").submit();
+        		}
 		}
         function generateBGReport() {
         	//$(".page-loader").show();

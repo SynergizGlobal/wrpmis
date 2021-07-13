@@ -428,10 +428,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						+ "(select remarks from contract_revision where action = 'Yes' and contract_id_fk = contract_id limit 1) as revision_remarks,"
 						
 						+ "(select cast((IFNULL(SUM(gross_work_done),0)/100000) as CHAR) AS gross_work_done from expenditure where contract_id_fk = contract_id) as cumulative_expenditure, "
-						+ "(select DATE_FORMAT(MIN(valid_upto),'%d-%m-%y') AS valid_upto from insurance where (released_fk = 'No' OR released_fk is null OR released_fk = '') and contract_id_fk = contract_id) as insurance_valid_till, "
-						+ "(select DATE_FORMAT(MIN(valid_upto),'%d-%m-%y') AS valid_upto from bank_guarantee where bg_type_fk is not null and bg_type_fk = 'Performance Guarantee' and release_date is null and contract_id_fk = contract_id) as pbg_valid_till "
-	 
-						+ "from contract c "  
+						+ "(select DATE_FORMAT(MAX(valid_upto),'%d-%m-%y') AS valid_upto from insurance where (released_fk = 'No' OR released_fk is null OR released_fk = '') and contract_id_fk = contract_id) as insurance_valid_till, "
+						+ "(select DATE_FORMAT(MAX(valid_upto),'%d-%m-%y') AS valid_upto from bank_guarantee where bg_type_fk is not null and bg_type_fk = 'Performance Guarantee' and release_date is null and contract_id_fk = contract_id) as pbg_valid_till, "
+						+ "(SELECT sum(contract_per) FROM pmis.activities_scurve where contract_id_fk = contract_id and category = 'Actual') as PhysicalProgress  "
+						+ " from contract c "  
 						+ "left join work w on c.work_id_fk = w.work_id "  
 						+ "left join contractor cr on c.contractor_id_fk = cr.contractor_id "  
 						+ "left join project p on w.project_id_fk = p.project_id "  
@@ -669,6 +669,285 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 				objsList.put(hodObj.getHod_designation(), bgList);
 			}	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public Map<String,List<Contract>> getContractsDocBGInsuranceForReport(Contract obj) throws Exception {
+		Map<String,List<Contract>> objsList = new LinkedHashMap<String, List<Contract>>();
+		try {
+			
+			String hodQry ="select u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name "
+					+"from insurance i " + 
+					"left join contract c on i.contract_id_fk = c.contract_id " +
+					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
+					"left join project p on w.project_id_fk = p.project_id " + 
+					"left join user u on c.hod_user_id_fk = u.user_id "+
+					"left join user us on c.dy_hod_user_id_fk = us.user_id "
+					+"left join department dt on c.department_fk = dt.department "
+					+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
+			
+			int arrSize = 0;			
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				hodQry = hodQry + " and c.contract_id = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
+				hodQry = hodQry + " and u.designation = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				hodQry = hodQry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				hodQry = hodQry + " and c.contractor_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				hodQry = hodQry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+				hodQry = hodQry + " and i.valid_upto <= ?";
+				arrSize++;
+			}
+			
+			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ORDER BY c.hod_user_id_fk";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
+				pValues[i++] = obj.getHod_designation();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+				pValues[i++] = obj.getDate();
+			}
+			
+			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+			for (Contract hodObj : hodList) {			
+				String qry ="select insurance_id,i.contract_id_fk,insurance_type_fk,issuing_agency,agency_address,insurance_number,cast(TRUNCATE((IFNULL(insurance_value,0)/100000),2) as CHAR) as insurance_value,DATE_FORMAT(valid_upto,'%d-%m-%y') AS insurance_valid_upto,i.remarks as insurence_remark,revision,released_fk,"
+						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head," + 
+						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%Y') AS actual_completion_date,c.remarks,"
+						+"DATE_FORMAT(contract_closure_date,'%d-%b-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%b-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%b-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%b-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%b-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
+						+"DATE_FORMAT(retention_money_release,'%d-%b-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%b-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%b-%Y') AS contract_closure ,contract_status_fk,bg_required,insurance_required "
+						+"from insurance i " + 
+						"left join contract c on i.contract_id_fk = c.contract_id " +
+						"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+						"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
+						"left join project p on w.project_id_fk = p.project_id " + 
+						"left join user u on c.hod_user_id_fk = u.user_id "+
+						"left join user us on c.dy_hod_user_id_fk = us.user_id "
+						+"left join department dt on c.department_fk = dt.department "
+						+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
+				
+				arrSize = 0;			
+	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+					qry = qry + " and c.contract_id = ? ";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
+					qry = qry + " and u.designation = ? ";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + " and c.work_id_fk = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+					qry = qry + " and c.contractor_id_fk = ?";
+					arrSize++;
+				}	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+					qry = qry + " and c.contract_status_fk = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+					qry = qry + " and i.valid_upto <= ?";
+					arrSize++;
+				}
+				pValues = new Object[arrSize];
+				i = 0;
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+					pValues[i++] = obj.getContract_id();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
+					pValues[i++] = hodObj.getHod_designation();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] = obj.getWork_id_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+					pValues[i++] = obj.getContractor_id_fk();
+				}	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+					pValues[i++] = obj.getContract_status_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+					pValues[i++] = obj.getDate();
+				}
+				
+				List<Contract> insuranceList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+				objsList.put(hodObj.getHod_designation(), insuranceList);
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public Map<String,List<Contract>> getContractsDocReport(Contract obj) throws Exception {
+		Map<String,List<Contract>> objsList = new LinkedHashMap<String, List<Contract>>();
+		try {
+			
+			String hodQry ="select u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name "
+					+"from insurance i " + 
+					"left join contract c on i.contract_id_fk = c.contract_id " +
+					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
+					"left join project p on w.project_id_fk = p.project_id " + 
+					"left join user u on c.hod_user_id_fk = u.user_id "+
+					"left join user us on c.dy_hod_user_id_fk = us.user_id "
+					+"left join department dt on c.department_fk = dt.department "
+					+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
+			
+			int arrSize = 0;			
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				hodQry = hodQry + " and c.contract_id = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
+				hodQry = hodQry + " and u.designation = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				hodQry = hodQry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				hodQry = hodQry + " and c.contractor_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				hodQry = hodQry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+				hodQry = hodQry + " and i.valid_upto <= ?";
+				arrSize++;
+			}
+			
+			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ORDER BY c.hod_user_id_fk";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
+				pValues[i++] = obj.getHod_designation();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+				pValues[i++] = obj.getDate();
+			}
+			
+			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+			for (Contract hodObj : hodList) {			
+				String qry ="select insurance_id,i.contract_id_fk,insurance_type_fk,issuing_agency,agency_address,insurance_number,cast(TRUNCATE((IFNULL(insurance_value,0)/100000),2) as CHAR) as insurance_value,DATE_FORMAT(valid_upto,'%d-%m-%y') AS insurance_valid_upto,i.remarks as insurence_remark,revision,released_fk,"
+						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head," + 
+						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%Y') AS actual_completion_date,c.remarks,"
+						+"DATE_FORMAT(contract_closure_date,'%d-%b-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%b-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%b-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%b-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%b-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
+						+"DATE_FORMAT(retention_money_release,'%d-%b-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%b-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%b-%Y') AS contract_closure ,contract_status_fk,bg_required,insurance_required "
+						+"from insurance i " + 
+						"left join contract c on i.contract_id_fk = c.contract_id " +
+						"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+						"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
+						"left join project p on w.project_id_fk = p.project_id " + 
+						"left join user u on c.hod_user_id_fk = u.user_id "+
+						"left join user us on c.dy_hod_user_id_fk = us.user_id "
+						+"left join department dt on c.department_fk = dt.department "
+						+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
+				
+				arrSize = 0;			
+	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+					qry = qry + " and c.contract_id = ? ";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
+					qry = qry + " and u.designation = ? ";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + " and c.work_id_fk = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+					qry = qry + " and c.contractor_id_fk = ?";
+					arrSize++;
+				}	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+					qry = qry + " and c.contract_status_fk = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+					qry = qry + " and i.valid_upto <= ?";
+					arrSize++;
+				}
+				pValues = new Object[arrSize];
+				i = 0;
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+					pValues[i++] = obj.getContract_id();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
+					pValues[i++] = hodObj.getHod_designation();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] = obj.getWork_id_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+					pValues[i++] = obj.getContractor_id_fk();
+				}	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+					pValues[i++] = obj.getContract_status_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+					pValues[i++] = obj.getDate();
+				}
+				
+				List<Contract> insuranceList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+				objsList.put(hodObj.getHod_designation(), insuranceList);
+			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

@@ -1755,9 +1755,9 @@
         	$(".page-loader").show();
         	var count = Number(num);
         	var department_fk = $('#department_fks'+count).val();
-        	var id =  $("#departmentTable tbody tr:first-of-type >td:first-of-type").find('.searchable').attr("id");  
+        	/* var id =  $("#departmentTable tbody tr:first-of-type >td:first-of-type").find('.searchable').attr("id");  
         	var deptFirst = $('#'+id).val();
-        	$('#department_fk').val(deptFirst);
+        	$('#department_fk').val(deptFirst); */
         	$("#responsible_people_id_fks"+count+" option:not(:first)").attr("selected",false);
             if ($.trim(department_fk) != "") {
             	$("#responsible_people_id_fks"+count+" option:not(:first)").remove();
@@ -1813,16 +1813,16 @@
     			   +'<td class="mobile_btn_close"> <a onclick="removeDepartment('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'
     			   +'</tr>';
     		
-    			 $('#departmentTableBody').append(html);
+    			 $('#departmentTableBody').append(html); 
     			 $("#deptRowNo").val(rNo);
     			 $('.searchable').select2();
         }
         
         function removeDepartment(rowNo){
         	$("#departmentRow"+rowNo).remove();
-        	var id =  $("#departmentTable tbody tr:first-of-type >td:first-of-type").find('.searchable').attr("id");  
+        	/* var id =  $("#departmentTable tbody tr:first-of-type >td:first-of-type").find('.searchable').attr("id");  
         	var deptFirst = $('#'+id).val();
-        	$('#department_fk').val(deptFirst);
+        	$('#department_fk').val(deptFirst); */
         }
         
         function getDyHodList() {

@@ -1192,7 +1192,7 @@ public class ContractDaoImpl implements ContractDao {
 		try{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
-			String contractUpdate_Qry = "UPDATE contract SET work_id_fk = ?,department_fk = ?,contract_name = ?,contract_short_name = ?,contractor_id_fk = ?,contract_type_fk = ?,"
+			String contractUpdate_Qry = "UPDATE contract SET work_id_fk = ?,contract_name = ?,contract_short_name = ?,contractor_id_fk = ?,contract_type_fk = ?,"
 								+"scope_of_contract = ?,hod_user_id_fk = ?,dy_hod_user_id_fk = ?,doc = ?,awarded_cost = ?,loa_letter_number = ?,loa_date = ?,ca_no = ?,ca_date = ?"
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 
 								"estimated_cost = ?,contract_closure_date = ?,completion_certificate_release = ?,final_takeover = ?,final_bill_release = ?,defect_liability_period = ?," + 
@@ -1202,7 +1202,7 @@ public class ContractDaoImpl implements ContractDao {
 				int p = 1;
 				int r=0;
 				stmt.setString(p++,contract.getWork_id_fk()); 
-				stmt.setString(p++,contract.getDepartment_fk()); 
+				//stmt.setString(p++,contract.getDepartment_fk()); 
 				stmt.setString(p++,contract.getContract_name()); 
 				stmt.setString(p++,contract.getContract_short_name()); 
 				stmt.setString(p++,contract.getContractor_id_fk()); 

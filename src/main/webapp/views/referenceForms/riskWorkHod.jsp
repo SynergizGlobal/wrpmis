@@ -100,12 +100,12 @@
 							</div>
 					</c:if>
                         <div class="row">
-                            <div class="col m3 hide-on-small"></div>
-                            <div class="col m6 s12 center-align">
-                                <a class="waves-effect waves-light btn bg-m modal-trigger t-c" href="#addUpdateModal">
+                            <div class="col m2 hide-on-small"></div>
+                            <div class="col m8 s12 center-align">
+                                <a style="height: auto;" class="waves-effect waves-light btn bg-m modal-trigger t-c" href="#addUpdateModal">
                                     <i class="fa fa-plus-circle"></i> &nbsp; Add Subwork & Responsible HOD</a>
                             </div>
-                            <div class="col m3 hide-on-small"></div>
+                            <div class="col m2 hide-on-small"></div>
                         </div>
                         <div class="row no-mar">
                           

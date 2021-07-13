@@ -115,7 +115,7 @@
                                         <tr>
                                             <th>Work ID</th>
                                             <th>Sub Work</th>
-                                            <th>Hod User ID</th>
+                                            <th>Hod</th>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>

@@ -657,15 +657,15 @@ public class RiskDaoImpl implements RiskDao{
 				}
 			}*/
 			
-			if(!StringUtils.isEmpty(obj.getAction_takens()) && obj.getAction_takens().size() > 0) {
-				if(arraySize < obj.getAction_takens().size()) {
-					arraySize = obj.getAction_takens().size();
-				}
-			}
-			
 			if(!StringUtils.isEmpty(obj.getAtr_dates()) && obj.getAtr_dates().size() > 0) {
 				if(arraySize < obj.getAtr_dates().size()) {
 					arraySize = obj.getAtr_dates().size();
+				}
+			}
+			
+			if(!StringUtils.isEmpty(obj.getAction_takens()) && obj.getAction_takens().size() > 0) {
+				if(arraySize < obj.getAction_takens().size()) {
+					arraySize = obj.getAction_takens().size();
 				}
 			}
 			
@@ -677,7 +677,7 @@ public class RiskDaoImpl implements RiskDao{
 			
 			String qry = "INSERT into risk_action (risk_revision_id_fk,action_taken,atr_date)VALUES (?,?,?)";	
 			insertStmt = con.prepareStatement(qry);
-			for(int i = 0; i < arraySize; i++) {	
+			for(int i = 1; i < arraySize; i++) {	
 				int k = 1;
 				if(!StringUtils.isEmpty(obj.getAtr_dates().get(i)) && !StringUtils.isEmpty(obj.getAction_takens().get(i)) ) {
 					insertStmt.setString(k++,obj.getRisk_revision_id());
@@ -689,7 +689,7 @@ public class RiskDaoImpl implements RiskDao{
 			int[] insertCount = insertStmt.executeBatch();
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 			if(insertCount.length > 0) {
-				for(int j = 0; j < arraySize; j++) {	
+				for(int j = 1; j < arraySize; j++) {	
 					if((!StringUtils.isEmpty(obj.getAtr_dates_old()) && obj.getAtr_dates_old().size() > 0 && !(obj.getAtr_dates().get(j).equals(obj.getAtr_dates_old().get(j)))) 
 							|| (!StringUtils.isEmpty(obj.getAction_takens_old()) && obj.getAction_takens_old().size() > 0 && !(obj.getAction_takens().get(j).equals(obj.getAction_takens_old().get(j)))) 
 							|| (StringUtils.isEmpty(obj.getAtr_dates_old()) || (!StringUtils.isEmpty(obj.getAtr_dates_old()) && obj.getAtr_dates_old().size() <= 0) 

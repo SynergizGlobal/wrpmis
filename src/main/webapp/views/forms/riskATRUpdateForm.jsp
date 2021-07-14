@@ -223,8 +223,13 @@
 													</tr>
 												</thead>
 												<tbody id="riskRevisionBody">
+													<input type="hidden" name="atr_dates" />
+													<input type="hidden" name="atr_dates_old" />
+													<input type="hidden" name="action_takens" />
+													<input type="hidden" name="action_takens_old" />
 													<c:choose>
 														<c:when	test="${not empty risk.riskActions && fn:length(risk.riskActions) gt 0 }">
+															
 															<c:forEach var="aObj" items="${risk.riskActions }"	varStatus="index">
 																<tr id="actionRow${index.count }">																	
 					                                                <%-- <td>

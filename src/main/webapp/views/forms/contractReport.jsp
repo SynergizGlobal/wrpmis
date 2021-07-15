@@ -56,7 +56,7 @@
 	                                <div class="row no-mar">	
 	                                    <div class="col s6 m3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
-	                                        <select id="hod_designation" name="hod_designation" onchange="getResetFiltersList();" class="searchable validate-dropdown">
+	                                        <select id="hod_designation" class="searchable validate-dropdown" name="hod_designations" onchange="getResetFiltersList();"  multiple="multiple" >
 	                                            <option value="">All </option>
 	                                        </select>
 	                                        <span id="hod_designationError" class="error-msg" ></span>
@@ -270,19 +270,21 @@
         	$(".page-loader").show();
         	var contractor_id_fk = $("#contractor_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
-        	var hod_designation = $("#hod_designation").val();
+        	var hod_designations = $("#hod_designation").val();
         	var contract_status_fk = $("#contract_status_fk").val();
         	var contract_id = $("#contract_id").val();
-            if ($.trim(hod_designation) == "") {
+            if ($.trim(hod_designations) == "") {
             	$("#hod_designation option:not(:first)").remove();
-        	 	var myParams = {hod_designation : hod_designation,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
+        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getHODListInContractReport",
+                    type:"post",
+	          		traditional: true, 
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#hod_designation").append('<option value="' + val.designation + '">' + $.trim(val.designation)  + '</option>');
+    	                           $("#hod_designation").append('<option  name="hod_designations" value="' + val.designation + '">' + $.trim(val.designation)  + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -303,14 +305,17 @@
 	   		$(".page-loader").show();
         	var contractor_id_fk = $("#contractor_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
-        	var hod_designation = $("#hod_designation").val();
+        	var hod_designations = $("#hod_designation").val();
+        	
         	var contract_status_fk = $("#contract_status_fk").val();
         	var contract_id = $("#contract_id").val();
             if ($.trim(work_id_fk) == "") {
             	$("#work_id_fk option:not(:first)").remove();
-        	 	var myParams = {hod_designation : hod_designation,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
+        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
                 $.ajax({
 	                   url: "<%=request.getContextPath()%>/ajax/getWorksListInContractReport",
+	                   type:"post",
+	          		   traditional: true, 
 	                   data: myParams, cache: false,
 	                   success: function (data) {
 	                       if (data.length > 0) {
@@ -336,14 +341,16 @@
         	$(".page-loader").show();
         	var contractor_id_fk = $("#contractor_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
-        	var hod_designation = $("#hod_designation").val();
+        	var hod_designations = $("#hod_designation").val();
         	var contract_status_fk = $("#contract_status_fk").val();
         	var contract_id = $("#contract_id").val();
             if ($.trim(contractor_id_fk) == "") {
             	$("#contractor_id_fk option:not(:first)").remove();
-        	 	var myParams = {hod_designation : hod_designation,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
+        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractorsListInContractReport",
+                    type:"post",
+	          		traditional: true, 
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -369,14 +376,16 @@
         	$(".page-loader").show();
         	var contractor_id_fk = $("#contractor_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
-        	var hod_designation = $("#hod_designation").val();
+        	var hod_designations = $("#hod_designation").val();
         	var contract_status_fk = $("#contract_status_fk").val();
         	var contract_id = $("#contract_id").val();
             if ($.trim(contract_status_fk) == "") {
             	$("#contract_status_fk option:not(:first)").remove();
-        	 	var myParams = {hod_designation : hod_designation,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
+        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
                 $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getContractStatusListInContractReport",
+                   type:"post",
+	          	   traditional: true, 
                    data: myParams, cache: false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -402,17 +411,21 @@
          }
         
         function getContractListFilter(){
+        	//debugger
         	$(".page-loader").show();
         	var contractor_id_fk = $("#contractor_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
-        	var hod_designation = $("#hod_designation").val();
+        	var hod_designations = $("#hod_designation").val();
         	var contract_status_fk = $("#contract_status_fk").val();
         	var contract_id = $("#contract_id").val();
             if ($.trim(contract_id) == "") {
             	$("#contract_id option:not(:first)").remove();
-        	 	var myParams = {hod_designation : hod_designation,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
+        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
+
                 $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getContractListInContractReport",
+                   type:"post",
+	          	   traditional: true, 
                    data: myParams, cache: false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -507,6 +520,26 @@
     	    }
     	});
         
+      	//This function is used to get error message for all ajax calls
+        function getErrorMessage(jqXHR, exception) {
+        	    var msg = '';
+        	    if (jqXHR.status === 0) {
+        	        msg = 'Not connect.\n Verify Network.';
+        	    } else if (jqXHR.status == 404) {
+        	        msg = 'Requested page not found. [404]';
+        	    } else if (jqXHR.status == 500) {
+        	        msg = 'Internal Server Error [500].';
+        	    } else if (exception === 'parsererror') {
+        	        msg = 'Requested JSON parse failed.';
+        	    } else if (exception === 'timeout') {
+        	        msg = 'Time out error.';
+        	    } else if (exception === 'abort') {
+        	        msg = 'Ajax request aborted.';
+        	    } else {
+        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        	    }
+        	    console.log(msg);
+         }
         
     </script>
 

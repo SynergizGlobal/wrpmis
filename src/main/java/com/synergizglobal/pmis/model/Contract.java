@@ -21,7 +21,7 @@ public class Contract {
 	private String[] bg_type_fks,issuing_banks,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,bankStatus,insuranceStatus,codes, bg_dates, release_dates,released_fks,
 	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,insurance_revisions,revision_statuss,
 	 contract_milestones_ids, milestone_names, milestone_dates, actual_dates, revisions,mile_remarks,
-	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts, revised_docs,revision_remarks,contract_file_type_fks,contract_file_ids,contract_file_types;
+	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts,hod_designations, revised_docs,revision_remarks,contract_file_type_fks,contract_file_ids,contract_file_types;
 	
 	private String contractor_id, contractor_specilization_fk, address,
 	primary_contact_name, phone_number, pan_number, gst_number, bank_name, account_number, ifsc_code;
@@ -43,6 +43,14 @@ public class Contract {
 	private List<Contract> departmentList;
 	private List<Contract> executivesList;
 	
+	public String[] getHod_designations() {
+		return hod_designations;
+	}
+
+	public void setHod_designations(String[] hod_designations) {
+		this.hod_designations = hod_designations;
+	}
+
 	public List<Contract> getDepartmentList() {
 		return departmentList;
 	}

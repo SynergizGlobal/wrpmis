@@ -95,7 +95,6 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		return objsList;
 	}
 
-	@Override
 	public List<Contract> getWorksListInContractReport(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
@@ -107,9 +106,18 @@ public class ContractReportDaoImpl implements ContractReportDao {
 
 			int arrSize = 0;
 			
-
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				qry = qry + " and u.designation = ? ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				
+				qry = qry + " and u.designation in (?";
+				int length = obj.getHod_designations().length;
+				if(length > 1) {
+					for(int i =0; i< (length-1); i++) {
+						qry = qry + ",?";
+						arrSize++;
+					}
+				}
+				
+				qry = qry + " ) ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -131,8 +139,14 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			qry = qry + " group by c.work_id_fk order by c.work_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				pValues[i++] = obj.getHod_designation();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				int length = obj.getHod_designations().length;
+				if(length >= 1) {
+					for(int j =0; j<= (length-1); j++) {
+						pValues[i++] = obj.getHod_designations()[j];
+					}
+				}
+				
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -148,6 +162,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return objsList;

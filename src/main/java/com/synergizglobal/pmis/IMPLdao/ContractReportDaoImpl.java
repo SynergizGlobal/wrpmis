@@ -516,7 +516,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						+ "(select revision_date from contract_revision where revision_date is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as  revision_date," 
 						+ "(select cast((IFNULL(revised_amount,0)/100000) as CHAR) as revised_amount from contract_revision where revised_amount is not null and action = 'Yes' and contract_id_fk = contract_id) as  revised_amount,"
 						+ "(select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as  revised_doc," 
-						+ "(select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as  revised_doc_temp," 
+						+ "(select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as  revised_doc_temp," 
 						+ "(select remarks from contract_revision where action = 'Yes' and contract_id_fk = contract_id limit 1) as revision_remarks,"
 						
 						+ "(select cast((IFNULL(SUM(gross_work_done),0)/100000) as CHAR) AS gross_work_done from expenditure where contract_id_fk = contract_id) as cumulative_expenditure, "

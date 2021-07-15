@@ -551,11 +551,11 @@ public class DocxTableCreationForContractReport {
 				for (String headerValue : tableHeader) {
 					int width = 0;
 					if(1 == columnNo) {
-						width = 250;
+						width = 230;
 					}else if(2 == columnNo) {
 						width = 1000;
 					}else if(3 == columnNo) {
-						width = 1500;
+						width = 1000;
 					}else if(4 == columnNo) {
 						width = 650;
 					}else if(5 == columnNo) {
@@ -704,11 +704,11 @@ public class DocxTableCreationForContractReport {
 				for (String headerValue : tableHeader) {
 					int width = 0;
 					if(1 == columnNo) {
-						width = 250;
+						width = 230;
 					}else if(2 == columnNo) {
-						width = 1200;
+						width = 1100;
 					}else if(3 == columnNo) {
-						width = 1500;
+						width = 1100;
 					}else if(4 == columnNo) {
 						width = 900;
 					}else if(5 == columnNo) {
@@ -857,7 +857,7 @@ public class DocxTableCreationForContractReport {
 					}else if(2 == columnNo) {
 						width = 1000;
 					}else if(3 == columnNo) {
-						width = 1200;
+						width = 1000;
 					}else if(4 == columnNo) {
 						width = 800;
 					}else if(5 == columnNo) {

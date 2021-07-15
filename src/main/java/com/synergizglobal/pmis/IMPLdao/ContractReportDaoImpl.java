@@ -48,8 +48,17 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			int arrSize = 0;
 			
 
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				qry = qry + " and u.designation = ? ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				qry = qry + " and u.designation in (?";
+				int length = obj.getHod_designations().length;
+				if(length > 1) {
+					for(int i =0; i< (length-1); i++) {
+						qry = qry + ",?";
+						arrSize++;
+					}
+				}
+				
+				qry = qry + " ) ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -73,8 +82,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				pValues[i++] = obj.getHod_designation();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				int length = obj.getHod_designations().length;
+				if(length >= 1) {
+					for(int j =0; j<= (length-1); j++) {
+						pValues[i++] = obj.getHod_designations()[j];
+					}
+				}	
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -180,8 +194,17 @@ public class ContractReportDaoImpl implements ContractReportDao {
 
 			int arrSize = 0;			
 
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				qry = qry + " and u.designation = ? ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				qry = qry + " and u.designation in (?";
+				int length = obj.getHod_designations().length;
+				if(length > 1) {
+					for(int i =0; i< (length-1); i++) {
+						qry = qry + ",?";
+						arrSize++;
+					}
+				}
+				
+				qry = qry + " ) ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -203,8 +226,16 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			qry = qry + " group by c.contractor_id_fk order by c.contractor_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				pValues[i++] = obj.getHod_designation();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) 
+			{
+				
+				int length = obj.getHod_designations().length;
+				if(length >= 1) {
+					for(int j =0; j<= (length-1); j++) {
+						pValues[i++] = obj.getHod_designations()[j];
+					}
+				}				
+				
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -246,8 +277,18 @@ public class ContractReportDaoImpl implements ContractReportDao {
 
 			int arrSize = 0;			
 
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				qry = qry + " and u.designation = ? ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				qry = qry + " and u.designation in (?";
+				int length = obj.getHod_designations().length;
+				if(length > 1) {
+					for(int i =0; i< (length-1); i++) {
+						qry = qry + ",?";
+						arrSize++;
+					}
+				}
+				
+				qry = qry + " ) ";
+				
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -269,8 +310,15 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			qry = qry + " group by c.contract_status_fk order by c.contract_status_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				pValues[i++] = obj.getHod_designation();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				int length = obj.getHod_designations().length;
+				if(length >= 1) {
+					for(int j =0; j<= (length-1); j++) {
+						pValues[i++] = obj.getHod_designations()[j];
+					}
+				}				
+				
+				
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -303,8 +351,18 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			int arrSize = 0;
 			
 
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				qry = qry + " and u.designation = ? ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) 
+			{
+				qry = qry + " and u.designation in (?";
+				int length = obj.getHod_designations().length;
+				if(length > 1) {
+					for(int i =0; i< (length-1); i++) {
+						qry = qry + ",?";
+						arrSize++;
+					}
+				}
+				
+				qry = qry + " ) ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -327,8 +385,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				pValues[i++] = obj.getHod_designation();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				int length = obj.getHod_designations().length;
+				if(length >= 1) {
+					for(int j =0; j<= (length-1); j++) {
+						pValues[i++] = obj.getHod_designations()[j];
+					}
+				}	
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -374,8 +437,17 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				hodQry = hodQry + " and c.contract_id = ? ";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				hodQry = hodQry + " and u.designation = ? ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				hodQry = hodQry + " and u.designation in (?";
+				int length = obj.getHod_designations().length;
+				if(length > 1) {
+					for(int i1 =0; i1< (length-1); i1++) {
+						hodQry = hodQry + ",?";
+						arrSize++;
+					}
+				}
+				
+				hodQry = hodQry + " ) ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -403,8 +475,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				pValues[i++] = obj.getHod_designation();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				int length = obj.getHod_designations().length;
+				if(length >= 1) {
+					for(int j =0; j<= (length-1); j++) {
+						pValues[i++] = obj.getHod_designations()[j];
+					}
+				}	
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -461,8 +538,17 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					qry = qry + " and c.contract_id = ? ";
 					arrSize++;
 				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-					qry = qry + " and u.designation = ? ";
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+					qry = qry + " and u.designation in (?";
+					int length = obj.getHod_designations().length;
+					if(length > 1) {
+						for(int i1 =0; i1< (length-1); i1++) {
+							qry = qry + ",?";
+							arrSize++;
+						}
+					}
+					
+					qry = qry + " ) ";
 					arrSize++;
 				}else {
 					qry = qry + " and c.hod_user_id_fk is null ";
@@ -490,8 +576,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 					pValues[i++] = obj.getContract_id();
 				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-					pValues[i++] = obj.getHod_designation();
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+					int length = obj.getHod_designations().length;
+					if(length >= 1) {
+						for(int j =0; j<= (length-1); j++) {
+							pValues[i++] = obj.getHod_designations()[j];
+						}
+					}
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 					pValues[i++] = obj.getWork_id_fk();
@@ -573,8 +664,17 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				hodQry = hodQry + " and c.contract_id = ? ";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				hodQry = hodQry + " and u.designation = ? ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				hodQry = hodQry + " and u.designation in (?";
+				int length = obj.getHod_designations().length;
+				if(length > 1) {
+					for(int i1 =0; i1< (length-1); i1++) {
+						hodQry = hodQry + ",?";
+						arrSize++;
+					}
+				}
+				
+				hodQry = hodQry + " ) ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -600,8 +700,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				pValues[i++] = obj.getHod_designation();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				int length = obj.getHod_designations().length;
+				if(length >= 1) {
+					for(int j =0; j<= (length-1); j++) {
+						pValues[i++] = obj.getHod_designations()[j];
+					}
+				}
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -639,8 +744,17 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					qry = qry + " and c.contract_id = ? ";
 					arrSize++;
 				}
-				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
-					qry = qry + " and u.designation = ? ";
+				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designations())) {
+					qry = qry + " and u.designation in (?";
+					int length = obj.getHod_designations().length;
+					if(length > 1) {
+						for(int i1 =0; i1< (length-1); i1++) {
+							qry = qry + ",?";
+							arrSize++;
+						}
+					}
+					
+					qry = qry + " ) ";
 					arrSize++;
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -664,8 +778,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 					pValues[i++] = obj.getContract_id();
 				}
-				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
-					pValues[i++] = hodObj.getHod_designation();
+				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designations())) {
+					int length = obj.getHod_designations().length;
+					if(length >= 1) {
+						for(int j =0; j<= (length-1); j++) {
+							pValues[i++] = obj.getHod_designations()[j];
+						}
+					}
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 					pValues[i++] = obj.getWork_id_fk();
@@ -712,8 +831,17 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				hodQry = hodQry + " and c.contract_id = ? ";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				hodQry = hodQry + " and u.designation = ? ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				hodQry = hodQry + " and u.designation in (?";
+				int length = obj.getHod_designations().length;
+				if(length > 1) {
+					for(int i1 =0; i1< (length-1); i1++) {
+						hodQry = hodQry + ",?";
+						arrSize++;
+					}
+				}
+				
+				hodQry = hodQry + " ) ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -740,8 +868,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				pValues[i++] = obj.getHod_designation();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				int length = obj.getHod_designations().length;
+				if(length >= 1) {
+					for(int j =0; j<= (length-1); j++) {
+						pValues[i++] = obj.getHod_designations()[j];
+					}
+				}
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -780,8 +913,17 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					qry = qry + " and c.contract_id = ? ";
 					arrSize++;
 				}
-				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
-					qry = qry + " and u.designation = ? ";
+				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designations())) {
+					qry = qry + " and u.designation in (?";
+					int length = obj.getHod_designations().length;
+					if(length > 1) {
+						for(int i1 =0; i1< (length-1); i1++) {
+							qry = qry + ",?";
+							arrSize++;
+						}
+					}
+					
+					qry = qry + " ) ";
 					arrSize++;
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -805,8 +947,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 					pValues[i++] = obj.getContract_id();
 				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
-					pValues[i++] = hodObj.getHod_designation();
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hodObj.getHod_designations())) {
+					int length = obj.getHod_designations().length;
+					if(length >= 1) {
+						for(int j =0; j<= (length-1); j++) {
+							pValues[i++] = obj.getHod_designations()[j];
+						}
+					}					
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 					pValues[i++] = obj.getWork_id_fk();
@@ -853,8 +1000,17 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				hodQry = hodQry + " and c.contract_id = ? ";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				hodQry = hodQry + " and u.designation = ? ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				hodQry = hodQry + " and u.designation in (?";
+				int length = obj.getHod_designations().length;
+				if(length > 1) {
+					for(int i1 =0; i1< (length-1); i1++) {
+						hodQry = hodQry + ",?";
+						arrSize++;
+					}
+				}
+				
+				hodQry = hodQry + " ) ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -881,8 +1037,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				pValues[i++] = obj.getHod_designation();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				int length = obj.getHod_designations().length;
+				if(length >= 1) {
+					for(int j =0; j<= (length-1); j++) {
+						pValues[i++] = obj.getHod_designations()[j];
+					}
+				}
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -920,8 +1081,17 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					qry = qry + " and c.contract_id = ? ";
 					arrSize++;
 				}
-				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
-					qry = qry + " and u.designation = ? ";
+				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designations())) {
+					qry = qry + " and u.designation in (?";
+					int length = obj.getHod_designations().length;
+					if(length > 1) {
+						for(int i1 =0; i1< (length-1); i1++) {
+							qry = qry + ",?";
+							arrSize++;
+						}
+					}
+					
+					qry = qry + " ) ";
 					arrSize++;
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -945,8 +1115,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 					pValues[i++] = obj.getContract_id();
 				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
-					pValues[i++] = hodObj.getHod_designation();
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hodObj.getHod_designations())) {
+					int length = obj.getHod_designations().length;
+					if(length >= 1) {
+						for(int j =0; j<= (length-1); j++) {
+							pValues[i++] = obj.getHod_designations()[j];
+						}
+					}
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 					pValues[i++] = obj.getWork_id_fk();
@@ -992,8 +1167,17 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				hodQry = hodQry + " and c.contract_id = ? ";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				hodQry = hodQry + " and u.designation = ? ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				hodQry = hodQry + " and u.designation in (?";
+				int length = obj.getHod_designations().length;
+				if(length > 1) {
+					for(int i1 =0; i1< (length-1); i1++) {
+						hodQry = hodQry + ",?";
+						arrSize++;
+					}
+				}
+				
+				hodQry = hodQry + " ) ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1020,8 +1204,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
-				pValues[i++] = obj.getHod_designation();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				int length = obj.getHod_designations().length;
+				if(length >= 1) {
+					for(int j =0; j<= (length-1); j++) {
+						pValues[i++] = obj.getHod_designations()[j];
+					}
+				}
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -1059,8 +1248,17 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					qry = qry + " and c.contract_id = ? ";
 					arrSize++;
 				}
-				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
-					qry = qry + " and u.designation = ? ";
+				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designations())) {
+					qry = qry + " and u.designation in (?";
+					int length = obj.getHod_designations().length;
+					if(length > 1) {
+						for(int i1 =0; i1< (length-1); i1++) {
+							qry = qry + ",?";
+							arrSize++;
+						}
+					}
+					
+					hodQry = hodQry + " ) ";
 					arrSize++;
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1084,8 +1282,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 					pValues[i++] = obj.getContract_id();
 				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
-					pValues[i++] = hodObj.getHod_designation();
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hodObj.getHod_designations())) {
+					int length = obj.getHod_designations().length;
+					if(length >= 1) {
+						for(int j =0; j<= (length-1); j++) {
+							pValues[i++] = obj.getHod_designations()[j];
+						}
+					}
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 					pValues[i++] = obj.getWork_id_fk();

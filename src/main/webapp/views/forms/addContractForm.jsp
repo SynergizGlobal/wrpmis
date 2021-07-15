@@ -13,14 +13,13 @@
     <title>Add Contract - Update Forms - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-         
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">         
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/contract.css">
-     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style>
 
         #ravTable .datepicker~button,
@@ -65,6 +64,8 @@
 
         .fixed-width {
             width: 100%;
+            margin-left:auto !important;
+            margin-right:auto !important;
         }
 
         .fixed-width .table-inside {
@@ -167,6 +168,24 @@
 		    width: calc(100% - 2rem - 1.5rem);
 		}
 		/* cost unit dropdown , lable and input styling ends here  */
+		.min-200{
+			min-width:200px;
+		}
+		@media only screen and (max-width: 768px){
+			.mobile_responsible_table>tbody> tr:not(.datepicker-row):not(.mobile_hide_row) {
+			    border-bottom: 3px solid #2A9D8F;
+			}
+			.h-auto{
+				height:auto !important;
+			}
+			.input-field p.searchable_label {
+			    margin-top: -24px !important;
+			}
+			 .filevalue {
+			    width: 200%;
+			    white-space: break-spaces;
+			}
+		}
     </style>
 </head>
 
@@ -191,9 +210,7 @@
                         <form action="add-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                             <div class="container container-no-margin">
 	                            <div class="row">
-	                                <!-- row 1  -->
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 offset-m2 input-field">
 	                                <p class="searchable_label">Project <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
 	                                    onchange="getWorksList(this.value);">
@@ -204,7 +221,7 @@
 	                                    </select>                                    
 	                                     <span id="project_id_fkError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field">
 	                                <p class="searchable_label">Work <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" 
 	                                    	onchange="resetProjectsDropdowns(this.value);">
@@ -216,14 +233,10 @@
 	                                     <span id="work_id_fkError" class="error-msg" ></span>
 	                                </div>
 	                                <input type="hidden" id="work_short_name" name="work_short_name"/>
-	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
-	                            <div class="row">
-	                                <!-- //row 9 -->
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m8 ">
+	
 	                                    <div class="row">
-	  										<div class="col s12 m6 input-field">
+	  										<div class="col s6 m4 input-field offset-m2">
 	  										 	<p class="searchable_label">HOD<span class="required">*</span></p>
 	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDepartmentsList(); getDyHodList();"> 
 	                                     		  <option value="">Select</option> 
@@ -235,7 +248,7 @@
 												<!-- <label for="hod_user_id_fk">HOD</label>  -->
 	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
-	                                        <div class="col s12 m6 input-field">
+	                                        <div class="col s6 m4 input-field">
 	                                        	<p class="searchable_label">Dy HOD<span class="required">*</span></p>
 	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();">
 	                                                <option value="">Select</option>
@@ -248,11 +261,7 @@
 	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
 	                                    </div>
-	                                </div>
-	
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	                            
+	                                
 	                           <%--  <div class="row">
 	                                <!-- row 1  -->
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -307,7 +316,7 @@
 								                                          </c:forEach>
 									                              </select>
 									                        </td>
-									                        <td data-head="Select Executives" class="input-field">
+									                        <td data-head="Select Executives" class="input-field h-auto">
 									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks" onchange="fileCount('0')"
 									                                id="responsible_people_id_fk0" multiple="multiple">
 									                                <option value="" disabled="disabled">Select</option>
@@ -336,32 +345,20 @@
 									</div>
 								</div>
 	                            <div class="row">
-	                                <!-- row 4 -->
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m8 input-field">
+	                                <div class="col s12 m8 input-field offset-m2">
 	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate materialize-textarea" ></textarea>
 	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	                            
-	                            <div class="row">
-	                                <!-- row 4 -->
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m8 input-field">
+	                                </div>	                              
+	                                <div class="col s12 m8 input-field offset-m2">
 	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" >
 	                                    <label for="contract_short_name">Contract Short Name</label>
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	
-	                            <div class="row">
-	                                <!-- row 6 -->
-	                                <div class="col m2 hide-on-small-only"></div>
-	
-	                                <div class="col s12 m4 input-field">
+	                            <div class="row">	
+	                                <div class="col s6 m4 input-field offset-m2">
 	                                 <p class="searchable_label">Contract Type <span class="required">*</span></p>
 	                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
@@ -369,11 +366,9 @@
 			                                     <option value="${obj.contract_type_fk }" >${obj.contract_type_fk }</option>
 			                                   </c:forEach>
 	                                    </select>                                   
-	                                     <span id="contract_type_fkError" class="error-msg" ></span>
-	                                    
-	                                </div>
-	                                
-	                                <div class="col s12 m4 input-field">
+	                                     <span id="contract_type_fkError" class="error-msg" ></span>	                                    
+	                                </div>	                                
+	                                <div class="col s6 m4 input-field">
 	                                 <p class="searchable_label">Contractor Name <span class="required">*</span></p>
 	                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
@@ -383,25 +378,20 @@
 	                                    </select>
 	                                    <span id="contractor_id_fkError" class="error-msg" ></span>
 	                                </div>                             
-	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m8 input-field">
+	                                <div class="col s12 m8 input-field offset-m2">
 	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="materialize-textarea validate" data-length="1000">${contractDeatils.scope_of_contract }</textarea>
 	                                    <label for="scope_of_contract">Scope of Contract</label>
 	                                 <span id="scope_of_contractError" class="error-msg" ></span>                                    
 	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>	
-	                            </div>
-	                          <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
+	                           
+	                                <div class="col s6 m4 input-field offset-m2">
 	                                    <input id="loa_letter_number" name="loa_letter_number" type="text" class="validate">
 	                                    <label for="loa_letter_number">LOA Letter No</label>
 	                                    <span id="loa_letter_numberError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field">
 	                                    <input id="loa_date" name="loa_date" type="text" class="validate datepicker">
 	                                    <label for="loa_date">LOA Date</label>
 	                                     <span id="loa_dateError" class="error-msg" ></span>
@@ -409,13 +399,12 @@
 	                                </div>
 	                            </div>
 	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field offset-m2">
 	                                    <input id="ca_no" name="ca_no" type="text" class="validate">
 	                                    <label for="ca_no">CA No</label>
 	                                    <span id="ca_noError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field">
 	                                    <input id="ca_date" name="ca_date" type="text" class="validate datepicker">
 	                                    <label for="ca_date">CA Date</label>
 	                                    <span id="ca_dateError" class="error-msg" ></span>
@@ -423,15 +412,13 @@
 	                                </div>
 	                            </div>
 	                            <div class="row">
-	                                <!-- //row 7 -->
-	                                <div class="col m2 hide-on-small-only"></div>	                               
 	                                <!-- <div class="col s12 m4 input-field">
 	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate datepicker">
 	                                    <label for="date_of_start">Date of Start</label>
 	                                     <span id="date_of_startError" class="error-msg" ></span>
 	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
 	                                </div> -->
-	                                	<div class="col s9 m3 input-field">
+	                                	<div class="col s9 m3 input-field offset-m2">
 	                                    <i class="material-icons prefix cost">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" type="number" min="0.01" step="0.01" class="validate">
 	                                    <label for="estimated_cost">Detailed Estimated cost</label>
@@ -446,8 +433,7 @@
 	                                		<option value="lacs">Lacs</option>
 	                                		<option value="crores">Crores</option>
 	                                	</select>
-                                	</div>
-                                	
+                                	</div>                                	
 	                                <div class="col s9 m3 input-field">
 	                                	<i class="material-icons prefix cost">₹</i>
 	                                    <input id="awarded_cost" name="awarded_cost" type="number" min="0.01" step="0.01" class="validate">
@@ -465,19 +451,15 @@
 	                                	</select>
                                 	</div>
                                 	
-                                
-	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
+	                                <div class="col s6 m4 input-field offset-m2">
 	                                    <input name="doc" id="doc" type="text" class="validate datepicker">
 	                                    <label for="doc">Original DOC</label>
 	                                    <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="docError" class="error-msg" ></span>
-	                                </div>	
-	                                
-	                                <div class="col s12 m4 input-field">
+	                                </div>		                                
+	                                <div class="col s6 m4 input-field">
 	                                 <p class="searchable_label"> <label>Status of Contract</label> </p>
 	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
 	                                         <option value="" selected>Select</option>
@@ -486,9 +468,7 @@
 		                                     </c:forEach>
 	                                    </select>
 	                                    <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div>                                
-	                                
-	                                <div class="col m2 hide-on-small-only"></div>
+	                                </div>         	                                
 	                            </div>	   
 	                            
 	                            <%-- <div class="row">
@@ -507,8 +487,7 @@
 	                            </div> --%>
 	                            
 	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m8 input-field">
+	                                <div class="col s12 m8 input-field offset-m2">
 	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000"></textarea>
 	                                    <label for="remarks">Remarks</label>
 	                                      <span id="remarksError" class="error-msg"></span>
@@ -885,7 +864,7 @@
                             <input type="hidden" id="reporting_to_id_srfk" name="reporting_to_id_srfk" /> -->
                             
                               <!-- new code  starts-->
-                            <div class="container container-no-margin">
+                           <!--  <div class="container container-no-margin"> -->
 	                            <!-- <div class="container">
 	                                <div class="row fixed-width">
 	                                    <h5 class="center-align">Key Personnel</h5>
@@ -935,15 +914,15 @@
 	                                </div>
 	                            </div> -->
 	
-	                            <div class="" style="margin-bottom:30px">
+	                            <div class=" col m8 offset-m2 s12" style="margin-bottom:30px; padding:0;">
 	                                <div class="row fixed-width">
 	                                    <h5 class="center-align">Documents</h5>
 	                                    <div class="table-inside">
-	                                        <table class="mdl-data-table">
+	                                        <table class="mdl-data-table mobile_responsible_table">
 	                                            <thead>
 	                                                <tr>
 	                                                	<th>File Type </th>
-	                                                    <th>Name </th>
+	                                                    <th class="min-200">Name </th>
 	                                                    <th style="text-align:center">Attachment</th>
 	                                                    <th> </th>
 	                                                    <th style="width:8%">Action</th>
@@ -951,32 +930,30 @@
 	                                            </thead>
 	                                            <tbody id="contractDocumentTableBody" >
 	                                                <tr id="contractDocumentRow0">
-	                                                	<td>
-															<div class="input-field">
-																<select  name="contract_file_types"  id="contract_file_types0"  class="validate-dropdown searchable">
-				                                   					 <option value="" >--Select--</option>
-				                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
-				                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
-				                                          			  </c:forEach>
-				                               					  </select>
-															</div>
+	                                                	<td data-head="File Type" class="input-field">
+															<select  name="contract_file_types"  id="contract_file_types0"  class="validate-dropdown searchable">
+			                                   					 <option value="" >--Select--</option>
+			                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
+			                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
+			                                          			  </c:forEach>
+			                               					  </select>
 													    </td>
-	                                                    <td> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
+	                                                    <td data-head="Name" class="input-field"> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
 	                                                            placeholder="Name">
 	                                                    </td>
-	                                                    <td>
-	                                                        <div class="normal-btn">
+	                                                    <td data-head="Attachment" class="input-field">
+	                                                        <span class="normal-btn">
 	                                                            <input type="file" id="contractDocumentFiles0" name="contractDocumentFiles"
 	                                                                style="display:none" onchange="getFileName('0')"/>
 	                                                            <label for="contractDocumentFiles0" class="btn bg-m"><i
 	                                                                    class="fa fa-paperclip"></i></label>
 	                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
-	                                                        </div>
+	                                                        </span>
 	                                                    </td>
 	                                                    <td>
 	                                                       
 	                                                    </td>
-	                                                    <td>
+	                                                    <td class="mobile_btn_close">
 	                                                        <a href="javascript:void(0);" onclick="removeContractDocument('0');" class="btn waves-effect waves-light red t-c "> <i
 	                                                                class="fa fa-close"></i></a>
 	                                                    </td>
@@ -996,7 +973,7 @@
 	                                    </div>
 	                                </div>
 	                            </div>
-							</div>
+							<!-- </div> -->
                             <!-- new code  ends-->
                             
 <!--                             <div class="row"> -->
@@ -1109,18 +1086,16 @@
 	                            </div>--%>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 mt-brdr">
-                                    <div class="center-align m-1">
+                                <div class="col s6 m4 mt-brdr center-align offset-m2">
+                                    <div class="m-1">
                                         <button type="button" onclick="addContract();" class="btn waves-effect waves-light bg-m" style="min-width:90px;">Add</button>
                                     </div>
                                 </div>
-                                <div class="col s12 m4 mt-brdr">
-                                    <div class="center-align m-1">
+                                <div class="col s6 m4 mt-brdr center-align">
+                                    <div class="m-1">
                                         <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                        </div>
                         </form>
@@ -1248,7 +1223,7 @@
     			   				+'<option value= "${ obj.department_fk}" >${ obj.department_name}</option>'
     			   			</c:forEach>
     			   +' </select><input id="filecounts'+rNo+'"  name="filecounts"  type="hidden"></td>'
-    			   +'<td data-head="Select Executives" class="input-field">'
+    			   +'<td data-head="Select Executives" class="input-field h-auto">'
     			   		+'<select class="searchable validate-dropdown" name="responsible_people_id_fks" id="responsible_people_id_fk'+rNo+'" onchange="fileCount('+rNo+')"  multiple="multiple">'
     			   			+'<option value="" disabled="disabled">Select</option>'
     			   
@@ -2008,23 +1983,23 @@
 		 var rNo = Number(rowNo)+1;
 		 var total = 0;
 		 var html = '<tr id="contractDocumentRow'+rNo+'">'
-					 +'<td><div class="input-field">'
+					 +'<td data-head="File Type" class="input-field">'
 						+'<select  name="contract_file_types"  id="contract_file_types'+rNo+'"  class="validate-dropdown searchable">'
 							+ '<option value="" >--Select--</option>'
 						  <c:forEach var="obj" items="${contractFileTypeList}">
 				  				+ '<option value="${obj.contract_file_type }">${obj.contract_file_type}</option>'
 						  </c:forEach>
-					 + '</select></div></td>'
-					 +'<td> <input id="contractDocumentNames'+rNo+'" name="contractDocumentNames" type="text" class="validate" placeholder="Name"> </td>'
-					 +'<td>'
-					 +'<div class="normal-btn">'
+					 + '</select></td>'
+					 +'<td data-head="Name" class="input-field"> <input id="contractDocumentNames'+rNo+'" name="contractDocumentNames" type="text" class="validate" placeholder="Name"> </td>'
+					 +'<td data-head="Attachment" class="input-field">'
+					 +'<span class="normal-btn">'
 					 +'<input type="file" id="contractDocumentFiles'+rNo+'" name="contractDocumentFiles" style="display:none" onchange="getFileName('+rNo+')" />'
 					 +'<label for="contractDocumentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
 					 +'<span id="contractDocumentFileName'+rNo+'" class="filevalue"></span>'
-					 +'</div>'
+					 +'</span>'
 					 +'</td>'
 					 +'<td></td>'
-					 +'<td>'
+					 +'<td class="mobile_btn_close">'
 					 +'<a href="javascript:void(0);" onclick="removeContractDocument('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
 					 +'</td>'
 			   		 +'</tr>';

@@ -133,6 +133,7 @@ public class PageConstants {
 	
 	public static final String riskPriority = "referenceForms/riskPriority";
 	public static final String riskClassification = "referenceForms/riskClassification";
+	public static final String riskDelete = "referenceForms/riskDelete";
 	public static final String riskArea = "referenceForms/riskArea";
 	public static final String riskSubArea = "referenceForms/riskSubArea";
 	

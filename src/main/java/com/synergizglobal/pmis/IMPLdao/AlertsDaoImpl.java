@@ -87,7 +87,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from contract c " +
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk "
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 7) and release_date is null";
+					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15) and release_date is null";
 			
 			List<Alerts> bgQryAlert2List = jdbcTemplate.query( bgQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert2List) && bgQryAlert2List.size() > 0) {
@@ -104,7 +104,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 7 and DATEDIFF(valid_upto ,NOW()) > 0) and release_date is null";
+					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 0) and release_date is null";
 			
 			List<Alerts> bgQryAlert3List = jdbcTemplate.query( bgQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert3List) && bgQryAlert3List.size() > 0) {
@@ -156,7 +156,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 7) and (bg.released_fk = 'No' or bg.released_fk is null)";
+					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15) and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert2List = jdbcTemplate.query( insuranceQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert2List) && insuranceQryAlert2List.size() > 0) {
@@ -173,7 +173,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk "
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 7 and DATEDIFF(valid_upto ,NOW()) > 0) and (bg.released_fk = 'No' or bg.released_fk is null)";
+					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 0) and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert3List = jdbcTemplate.query( insuranceQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert3List) && insuranceQryAlert3List.size() > 0) {
@@ -228,7 +228,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 30 " 
-					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 7)";
+					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 15)";
 			
 			List<Alerts> cpQryAlert2List = jdbcTemplate.query( cpQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cpQryAlert2List) && cpQryAlert2List.size() > 0) {
@@ -246,7 +246,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null "
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where c.contract_status_fk = 'In Progress' " 
-					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 7 " 
+					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 15 " 
 					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 0)";
 			
 			List<Alerts> cpQryAlert3List = jdbcTemplate.query( cpQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -284,8 +284,8 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
-					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 95 "  
-					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 120))";
+					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 80 "  
+					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 90))";
 			
 			List<Alerts> cvQryAlert1List = jdbcTemplate.query( cvQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cvQryAlert1List) && cvQryAlert1List.size() > 0) {
@@ -304,15 +304,14 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
-					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 120 "  
-					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 145))";
+					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 90 "  
+					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 95))";
 			
 			
 			List<Alerts> cvQryAlert2List = jdbcTemplate.query( cvQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cvQryAlert2List) && cvQryAlert2List.size() > 0) {
 				list.addAll(cvQryAlert2List);
 			}
-			
 			
 			String cvQryAlert3 = "select c.contract_id,'3rd Alert' as alert_level,'Contract Value' as alert_type,CONCAT('Cumulative expenditure : ',"  
 					+ "(select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id),"  
@@ -321,16 +320,35 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ ") AS alert_value," 
 					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "  
 					+ "from contract c "  
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_amount is not null "
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_amount is not null " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
 					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
-					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 145 ))";
-			
+					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 95 "  
+					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 100))";
 			
 			List<Alerts> cvQryAlert3List = jdbcTemplate.query( cvQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cvQryAlert3List) && cvQryAlert3List.size() > 0) {
 				list.addAll(cvQryAlert3List);
+			}
+			
+			String cvQryAlert4 = "select c.contract_id,'Overdue' as alert_level,'Contract Value' as alert_type,CONCAT('Cumulative expenditure : ',"  
+			+ "(select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id),"  
+			+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : ' WHEN awarded_cost is not null THEN ', Awarded Cost : ' ELSE '' END), "  
+			+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)"  
+			+ ") AS alert_value," 
+			+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "  
+			+ "from contract c "  
+			+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_amount is not null "
+			+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
+			+ "where c.contract_status_fk = 'In Progress' " 
+			+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
+			+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 100 ))";
+	
+	
+			List<Alerts> cvQryAlert4List = jdbcTemplate.query( cvQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(cvQryAlert4List) && cvQryAlert4List.size() > 0) {
+				list.addAll(cvQryAlert4List);
 			}
 			
 			
@@ -383,7 +401,7 @@ public class AlertsDaoImpl implements AlertsDao{
                 	String qry = "INSERT INTO alerts_user(alerts_id_fk,user_id_fk)VALUES(?,?)";
     				stmt = connection.prepareStatement(qry);
     				
-    				if(!StringUtils.isEmpty(obj.getHod_user_id_fk()) && !"1st Alert".equals(alert_level)) {
+    				if(!StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 		                p = 1;
 	    				stmt.setString(p++, alert_id);
 		                stmt.setString(p++, obj.getHod_user_id_fk());
@@ -397,12 +415,13 @@ public class AlertsDaoImpl implements AlertsDao{
 		                stmt.addBatch();
     				}
     				
-    				if(!StringUtils.isEmpty(obj.getReporting_to_user_id()) && "3rd Alert".equals(alert_level) && ("Contract Period".equals(alert_type) || "Contract Value".equals(alert_type))) {
-		                p = 1;
-	    				stmt.setString(p++, alert_id);
-		                stmt.setString(p++, obj.getReporting_to_user_id());
-		                stmt.addBatch();
-    				}
+					/*if(!StringUtils.isEmpty(obj.getReporting_to_user_id()) && "3rd Alert".equals(alert_level) 
+							&& ("Contract Period".equals(alert_type) || "Contract Value".equals(alert_type))) {
+					    p = 1;
+						stmt.setString(p++, alert_id);
+					    stmt.setString(p++, obj.getReporting_to_user_id());
+					    stmt.addBatch();
+					}*/
     				
     				for (Alerts aObj : alertsSendManually) {
     					if(StringUtils.isEmpty(aObj.getAlert_level_fk()) && (!StringUtils.isEmpty(aObj.getAlert_type_fk()) && aObj.getAlert_type_fk().equals(alert_type))) {
@@ -417,7 +436,8 @@ public class AlertsDaoImpl implements AlertsDao{
     		                stmt.setString(p++, aObj.getUser_id_fk());
     		                stmt.addBatch();
     					}
-    					if((!StringUtils.isEmpty(aObj.getAlert_type_fk()) && aObj.getAlert_type_fk().equals(alert_type)) && (!StringUtils.isEmpty(aObj.getAlert_level_fk()) && aObj.getAlert_level_fk().equals(alert_level))) {
+    					if((!StringUtils.isEmpty(aObj.getAlert_type_fk()) && aObj.getAlert_type_fk().equals(alert_type)) && (!StringUtils.isEmpty(aObj.getAlert_level_fk()) 
+    							&& aObj.getAlert_level_fk().equals(alert_level))) {
     						p = 1;
     	    				stmt.setString(p++, alert_id);
     		                stmt.setString(p++, aObj.getUser_id_fk());
@@ -1004,8 +1024,15 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(alert_type)) {
-				userIdQry = userIdQry + " and a.alert_type_fk = ?";
-				arrSize++;
+				String atP = "";
+				userIdQry = userIdQry + " and a.alert_type_fk IN(";
+				String[] types = alert_type.split(",");
+				for (int p=0; p < types.length; p++) {
+					userIdQry = userIdQry + (atP.contains("?")?",":"")+"?";
+					atP = atP + "?";
+					arrSize++;
+				}
+				userIdQry = userIdQry + ")";
 			}
 			userIdQry = userIdQry +  "group by user_id_fk";
 			
@@ -1013,7 +1040,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(alert_type)) {
-				pValues[i++] = alert_type;
+				String[] types = alert_type.split(",");
+				for (int p=0; p < types.length; p++) {
+					pValues[i++] = types[p];
+				}
 			}
 			
 			List<Alerts> userIdList = jdbcTemplate.query( userIdQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -1031,8 +1061,15 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				arrSize = 2;
 				if(!StringUtils.isEmpty(alert_type)) {
-					aLevelQry = aLevelQry + " and a.alert_type_fk = ?";
-					arrSize++;
+					String atP = "";
+					aLevelQry = aLevelQry + " and a.alert_type_fk IN(";
+					String[] types = alert_type.split(",");
+					for (int p=0; p < types.length; p++) {
+						aLevelQry = aLevelQry + (atP.contains("?")?",":"")+"?";
+						atP = atP + "?";
+						arrSize++;
+					}
+					aLevelQry = aLevelQry + ")";
 				}
 				aLevelQry = aLevelQry +  " group by alert_level order by alert_level desc";
 				
@@ -1042,7 +1079,10 @@ public class AlertsDaoImpl implements AlertsDao{
 				pValues[i++] = CommonConstants.ACTIVE;
 				pValues[i++] = uObj.getUser_id_fk();
 				if(!StringUtils.isEmpty(alert_type)) {
-					pValues[i++] = alert_type;
+					String[] types = alert_type.split(",");
+					for (int p=0; p < types.length; p++) {
+						pValues[i++] = types[p];
+					}
 				}
 				
 				List<Alerts> alert_levels = jdbcTemplate.query( aLevelQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -1061,8 +1101,15 @@ public class AlertsDaoImpl implements AlertsDao{
 					
 					arrSize = 3;
 					if(!StringUtils.isEmpty(alert_type)) {
-						qry = qry + " and a.alert_type_fk = ?";
-						arrSize++;
+						String atP = "";
+						qry = qry + " and a.alert_type_fk IN(";
+						String[] types = alert_type.split(",");
+						for (int p=0; p < types.length; p++) {
+							qry = qry + (atP.contains("?")?",":"")+"?";
+							atP = atP + "?";
+							arrSize++;
+						}
+						qry = qry + ")";
 					}
 					qry = qry +  " order by hod,work_short_name,a.contract_id asc, alert_level desc";
 					
@@ -1073,7 +1120,10 @@ public class AlertsDaoImpl implements AlertsDao{
 					pValues[i++] = CommonConstants.ACTIVE;
 					pValues[i++] = uObj.getUser_id_fk();
 					if(!StringUtils.isEmpty(alert_type)) {
-						pValues[i++] = alert_type;
+						String[] types = alert_type.split(",");
+						for (int p=0; p < types.length; p++) {
+							pValues[i++] = types[p];
+						}
 					}
 					
 					List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -1105,17 +1155,22 @@ public class AlertsDaoImpl implements AlertsDao{
 		            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 		            String current_year = yearFormat.format(new Date()).toUpperCase();
 		            
-					String emailSubject = "PMIS "+alert_type+" Alerts";
-					
+					//String emailSubject = "PMIS "+alert_type+" Alerts";
+		            String alert_types = "Contract";
+		            String emailSubject = "PMIS Contract Alerts";
+		            if(!StringUtils.isEmpty(alert_type) && alert_type.equals("Issue")) {
+		            	emailSubject = "PMIS Issue Alerts";
+		            	alert_types = "Issue";
+		            }
 					Mail mail = new Mail();
 					mail.setMailTo(uObj.getEmail_id());
 					mail.setMailBcc(CommonConstants.BCC_MAIL);
 					mail.setMailSubject(emailSubject);
 					mail.setTemplateName("alerts.vm");
 					
-					logger.error("sendNotificationAlertMails() >> Alert Type "+alert_type+ ". Sending mail to "+uObj.getEmail_id()+": Start ");	
-					emailSender.sendEmailWithAlerts(mail,alerts,today_date,current_year,alert_type); 
-					logger.error("sendNotificationAlertMails() >> Alert Type "+alert_type+ ".  Sending mail to "+uObj.getEmail_id()+": End ");
+					logger.error("sendNotificationAlertMails() >> Alert Type "+alert_types+ ". Sending mail to "+uObj.getEmail_id()+": Start ");	
+					emailSender.sendEmailWithAlerts(mail,alerts,today_date,current_year,alert_types); 
+					logger.error("sendNotificationAlertMails() >> Alert Type "+alert_types+ ".  Sending mail to "+uObj.getEmail_id()+": End ");
 				}
 					
 				flag = true;
@@ -1284,9 +1339,9 @@ public class AlertsDaoImpl implements AlertsDao{
 	public boolean sendAlertsToRajivRavi() throws Exception {
 		boolean flag = false;
 		try {
+			List<Alerts> alert_types = new ArrayList<Alerts>();
 			
-			
-			String aTypeQry = "select alert_type_fk " 
+			/*String aTypeQry = "select alert_type_fk " 
 					+ "from alerts a " 
 					+ "left join contract c on a.contract_id = c.contract_id " 
 					+ "left join work w on c.work_id_fk = w.work_id " 
@@ -1295,7 +1350,15 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "where alert_status = ? and count <> 0 and a.alert_type_fk <> 'Risk' "
 					+ "group by alert_type_fk order by alert_type_fk desc";
 			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
-			List<Alerts> alert_types = jdbcTemplate.query( aTypeQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			List<Alerts> alert_types = jdbcTemplate.query( aTypeQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));*/
+			Alerts contractAlertTypeObj = new Alerts();
+			contractAlertTypeObj.setAlert_type_fk(CommonConstants2.ALERT_TYPE_CONTRACT);
+			alert_types.add(contractAlertTypeObj);
+			
+			Alerts issueAlertObj = new Alerts();
+			issueAlertObj.setAlert_type_fk(CommonConstants2.ALERT_TYPE_ISSUE);
+			alert_types.add(issueAlertObj);
+			
 			for (Alerts tObj : alert_types) {	
 				Map<String,List<Alerts>> alerts = new LinkedHashMap<String, List<Alerts>>();
 				String aLevelQry = "select alert_level " 
@@ -1303,10 +1366,37 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "left join contract c on a.contract_id = c.contract_id " 
 						+ "left join work w on c.work_id_fk = w.work_id " 
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
-						+ "left join user u on c.hod_user_id_fk = u.user_id " 
-						+ "where alert_status = ? and count <> 0 and a.alert_type_fk = ? "
-						+ "group by alert_level order by alert_level desc";
-				pValues = new Object[] {CommonConstants.ACTIVE,tObj.getAlert_type_fk()};
+						+ "left join user u on c.hod_user_id_fk = u.user_id "
+						+ "where alert_status = ? and count <> 0 "; 
+						//+ "where alert_status = ? and a.alert_type_fk = ? "
+						//+ "group by alert_level order by alert_level desc";
+				int arrSize = 1;
+				if(!StringUtils.isEmpty(tObj.getAlert_type_fk())) {
+					String atP = "";
+					aLevelQry = aLevelQry + " and a.alert_type_fk IN(";
+					String[] types = tObj.getAlert_type_fk().split(",");
+					for (int p=0; p < types.length; p++) {
+						aLevelQry = aLevelQry + (atP.contains("?")?",":"")+"?";
+						atP = atP + "?";
+						arrSize++;
+					}
+					aLevelQry = aLevelQry + ")";
+				}
+				aLevelQry = aLevelQry +  " group by alert_level order by alert_level desc";
+				
+				
+				Object[] pValues = new Object[arrSize];
+				
+				int i = 0;
+				pValues[i++] = CommonConstants.ACTIVE;
+				if(!StringUtils.isEmpty(tObj.getAlert_type_fk())) {
+					String[] types = tObj.getAlert_type_fk().split(",");
+					for (int p=0; p < types.length; p++) {
+						pValues[i++] = types[p];
+					}
+				}
+				
+				//Object[] pValues = new Object[] {CommonConstants.ACTIVE,tObj.getAlert_type_fk()};
 				List<Alerts> alert_levels = jdbcTemplate.query( aLevelQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 				
 				for (Alerts lObj : alert_levels) {	
@@ -1317,11 +1407,37 @@ public class AlertsDaoImpl implements AlertsDao{
 							+ "left join work w on c.work_id_fk = w.work_id " 
 							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 							+ "left join user u on c.hod_user_id_fk = u.user_id " 
-							+ "where alert_level = ? and alert_status = ? and count <> 0 and a.alert_type_fk = ? "
-							+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+							+ "where alert_level = ? and alert_status = ? and count <> 0 ";
+							//+ "where alert_level = ? and alert_status = ? and count <> 0 and a.alert_type_fk = ? "
+							//+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+					arrSize = 2;
+					if(!StringUtils.isEmpty(tObj.getAlert_type_fk())) {
+						String atP = "";
+						qry = qry + " and a.alert_type_fk IN(";
+						String[] types = tObj.getAlert_type_fk().split(",");
+						for (int p=0; p < types.length; p++) {
+							qry = qry + (atP.contains("?")?",":"")+"?";
+							atP = atP + "?";
+							arrSize++;
+						}
+						qry = qry + ")";
+					}
 					
+					qry = qry +  " order by hod,work_short_name,a.contract_id asc, alert_level desc";
 					
-					pValues = new Object[] {lObj.getAlert_level(),CommonConstants.ACTIVE,tObj.getAlert_type_fk()};
+					pValues = new Object[arrSize];
+					
+					i = 0;
+					pValues[i++] = lObj.getAlert_level();
+					pValues[i++] = CommonConstants.ACTIVE;
+					if(!StringUtils.isEmpty(tObj.getAlert_type_fk())) {
+						String[] types = tObj.getAlert_type_fk().split(",");
+						for (int p=0; p < types.length; p++) {
+							pValues[i++] = types[p];
+						}
+					}
+					
+					//pValues = new Object[] {lObj.getAlert_level(),CommonConstants.ACTIVE,tObj.getAlert_type_fk()};
 					List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 					
 					for (Alerts alert : allAlertsList) {
@@ -1347,8 +1463,13 @@ public class AlertsDaoImpl implements AlertsDao{
 	            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 	            String current_year = yearFormat.format(new Date()).toUpperCase();
 	            
-				String emailSubject = "PMIS "+tObj.getAlert_type_fk()+" Alerts";
-				
+				//String emailSubject = "PMIS "+tObj.getAlert_type_fk()+" Alerts";
+	            String alert_types_text = "Contract";
+	            String emailSubject = "PMIS Contract Alerts";
+	            if(!StringUtils.isEmpty(tObj.getAlert_type_fk()) && tObj.getAlert_type_fk().equals("Issue")) {
+	            	emailSubject = "PMIS Issue Alerts";
+	            	alert_types_text = "Issue";
+	            }
 				
 				
 				if(alerts != null && alerts.size() > 0){
@@ -1363,7 +1484,8 @@ public class AlertsDaoImpl implements AlertsDao{
 						mail.setTemplateName("alertsRajivRavi.vm");
 						
 						logger.error("sendAlertsToRajivRavi() >> Sending mail : Start ");	
-						emailSender.sendEmailWithAlertsRajivRavi(mail,alerts,tObj.getAlert_type_fk(),today_date,current_year); 
+						//emailSender.sendEmailWithAlertsRajivRavi(mail,alerts,tObj.getAlert_type_fk(),today_date,current_year); 
+						emailSender.sendEmailWithAlertsRajivRavi(mail,alerts,alert_types_text,today_date,current_year);
 						logger.error("sendAlertsToRajivRavi() >> Sending mail : End ");
 						flag = true;
 					}

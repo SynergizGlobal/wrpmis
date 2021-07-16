@@ -44,11 +44,15 @@
                                                                     style="padding:10px 0;color: #eeeeee; font-family: Arial, sans-serif; font-size: 13px;background-color:#4A4E69;position:sticky;top: 0;">
                                                                     <b> Contract name</b>
                                                                 </td>
+																<td width="10%"
+                                                                    style="padding:10px 0;color: #eeeeee; font-family: Arial, sans-serif; font-size: 13px;background-color:#4A4E69;position:sticky;top: 0;">
+                                                                    <b>Alert Type</b>
+                                                                </td>
                                                                 <td width="30%"
                                                                     style="padding:10px 0;color: #eeeeee; font-family: Arial, sans-serif; font-size: 13px;background-color:#4A4E69;position:sticky;top: 0;">
                                                                     <b>Reason for alert</b>
                                                                 </td>
-                                                                <td width="40%"
+                                                                <td width="30%"
                                                                     style="padding:10px 0;color: #eeeeee; font-family: Arial, sans-serif; font-size: 13px;background-color:#4A4E69;position:sticky;top: 0;width:300px">
                                                                     <b>Action Taken</b>
                                                                 </td>
@@ -58,7 +62,7 @@
                                                         <tbody>
                                                         	#foreach ($key in ${alerts.keySet()})                                                            
                                                             <tr style="position: relative;">
-                                                                <td colspan="4"
+                                                                <td colspan="5"
                                                                     style="text-align: center;border: 1px solid #A0A3BB;padding: 10px;background-color: #cfcfcf;font-weight: 600; position: sticky;top:30px;">
                                                                     $key
                                                                 </td>
@@ -82,6 +86,14 @@
                                                                     </a> $x.contract_short_name
                                                                     #end
                                                                 </td>
+																
+																<td align="center" width="10%"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; word-wrap:break-word;">
+                                                                    #if($x.alert_type_fk && !$x.alert_type_fk.empty)
+                                                                    <img src="http://203.153.40.44/pmis/resources/images/alert_imgs/$x.alert_type_image" alt="info icon" style="width:auto;height:20px;  vertical-align: middle;"/>
+                                                                    $x.alert_type_fk
+                                                                    #end
+                                                                </td>
                                                                 
                                                                 <td align="left" width="30%"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; word-wrap:break-word;">
@@ -89,7 +101,7 @@
                                                                     $x.alert_value
                                                                     #end
                                                                 </td>
-                                                                <td align="left" width="40%"
+                                                                <td align="left" width="10%"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; word-wrap:break-word;">
                                                                     #if($x.remarks && !$x.remarks.empty)
                                                                     $x.remarks

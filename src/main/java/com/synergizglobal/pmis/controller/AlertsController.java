@@ -121,20 +121,27 @@ public class AlertsController {
 	           String dayOfWeekText = dayOfWeekTextFormat.format(date).toUpperCase();
 	           //int month = cal.get(Calendar.MONTH); // 0 being January
 	           
+				/*String alert_type = null;
+				if(dayOfWeekText.equals("MONDAY")) {
+				   alert_type = CommonConstants2.ALERT_TYPE_BANK_GUARANTEE;
+				}else if(dayOfWeekText.equals("TUESDAY")) {
+				   alert_type = CommonConstants2.ALERT_TYPE_INSURANCE;
+				}else if(dayOfWeekText.equals("WEDNESDAY")) {
+				   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT_PERIOD;
+				}else if(dayOfWeekText.equals("THURSDAY")) {
+				   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT_VALUE;
+				}else if(dayOfWeekText.equals("FRIDAY")) {
+				   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
+				}*/
+	           
 	           String alert_type = null;
-	           if(dayOfWeekText.equals("MONDAY")) {
-	        	   alert_type = CommonConstants2.ALERT_TYPE_BANK_GUARANTEE;
-	           }else if(dayOfWeekText.equals("TUESDAY")) {
-	        	   alert_type = CommonConstants2.ALERT_TYPE_INSURANCE;
-	           }else if(dayOfWeekText.equals("WEDNESDAY")) {
-	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT_PERIOD;
-	           }else if(dayOfWeekText.equals("THURSDAY")) {
-	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT_VALUE;
+	           if(dayOfWeekText.equals("WEDNESDAY")) {
+	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT;
 	           }else if(dayOfWeekText.equals("FRIDAY")) {
 	        	   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
 	           }
+	           
 	    	   logger.error("sendAlertsToAllByManual : start");
-			
 		       boolean flag = service.sendNotificationAlertMails(alert_type);
 		       logger.error("sendAlertsToAllByManual >> Sending mails : "+ flag); 
 			

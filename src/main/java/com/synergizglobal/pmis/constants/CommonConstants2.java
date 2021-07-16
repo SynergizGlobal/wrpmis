@@ -16,6 +16,7 @@ public class CommonConstants2 {
 	public final static String  LOGOUT_TYPE_TIMEOUT = "Timeout";
 	public final static String  LOGOUT_TYPE_LOGOUT = "Logout";
 	
+	public final static String  ALERT_TYPE_CONTRACT = "Bank Guarantee,Insurance,Contract Period,Contract Value";
 	public final static String  ALERT_TYPE_BANK_GUARANTEE = "Bank Guarantee";
 	public final static String  ALERT_TYPE_CONTRACT_PERIOD = "Contract Period";
 	public final static String  ALERT_TYPE_CONTRACT_VALUE = "Contract Value";

@@ -889,6 +889,7 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setBg_required(resultSet.getString("bg_required"));
 				contract.setInsurance_required(resultSet.getString("insurance_required"));
 				contract.setRemarks(resultSet.getString("remarks"));
+				contract.setTarget_doc(resultSet.getString("target_doc"));
 
 				contract.setBankGauranree(getBankGauranree(contract.getContract_id(),con));	
 				contract.setInsurence(getInsurence(contract.getContract_id(),con));	

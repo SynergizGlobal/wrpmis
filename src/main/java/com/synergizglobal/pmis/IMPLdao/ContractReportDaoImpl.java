@@ -1041,10 +1041,12 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					qry = qry + " and c.contract_id = ? ";
 					arrSize++;
 				}
+				
 				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
 					qry = qry + " and u.designation = ? ";
 					arrSize++;
 				}
+				
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 					qry = qry + " and c.work_id_fk = ?";
 					arrSize++;

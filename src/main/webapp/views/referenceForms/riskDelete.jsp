@@ -25,23 +25,20 @@
             font-size: 0.85rem;
         }
 
-		.mdl-data-table td.last-column {
-		    text-align: left ;
+		.mdl-data-table td.last-column ,
+		.mdl-data-table thead th{
+		    text-align: left !important;
 		}
         .row.no-mar {
             margin-bottom: 0;
         }
-/*         .last-column .btn+.btn {
-            margin-left: 20px;
-        } */
+
         input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
 		  -webkit-appearance: none;
 		  margin: 0;
 		}
-		/* input[type=number] {
-		  -moz-appearance: textfield;
-		} */
+
         .last-column {
             word-break: break-all;
             white-space: inherit;
@@ -50,20 +47,6 @@
         .error {
             color: red;
         }
-		/* input[type=number]:not(.browser-default):focus:not([readonly]),
-		input[type=text]:not(.browser-default):focus:not([readonly]),
-		input[type=search]:not(.browser-default):focus:not([readonly]),
-		textarea.materialize-textarea:focus:not([readonly])   {
-		    border-bottom: 1px solid #999999 !important;
-		    box-shadow: 0 1px 0 0 #999999 !important;
-		}
-		.input-field input[type=text]:not(.browser-default).validate+label::after,
-		.input-field input[type=text]:not(.browser-default):focus:not([readonly])+label ,
-		.input-field input[type=number]:not(.browser-default).validate+label::after,
-		.input-field input[type=number]:not(.browser-default):focus:not([readonly])+label ,
-		.input-field textarea.materialize-textarea:focus:not([readonly])+label       {
-		    color: #999999  !important;
-		} */
         @media only screen and (max-width: 600px) {
 
             .dataTables_filter input[type="search"],
@@ -123,7 +106,19 @@
 							</div>
 					</c:if>
                     <div class="">
-                      
+                     	<div class="row no-mar">
+                     	 	<div class="col s12 m4 l2 offset-m2 offset-l4 input-field">
+                                <p class="searchable_label">Select Sub Work</p>
+                                <select id="sub_work_id" class="searchable">
+                                    <option value="">Select</option>	                                    
+                                </select>
+                           	</div>
+                           	<div class="col s12 m4 l2 center-align">
+                                <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+                                    style="margin-top: 20px;" onclick="clearFilters()">Clear
+                                    Filters</button>
+                            </div>
+                     	</div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
                                 <table id="risk_delete_table" class="mdl-data-table">
@@ -216,34 +211,39 @@
         });
        
   
-  function deleteRow(val){
-  	$("#area").val(val);
-  	showCancelMessage(); 
-	    }
-  	
-  
-  function showCancelMessage() {
-    	swal({
-	            title: "Are you sure?",
-	            text: "You will be able to change the status of record!",
-	            type: "warning",
-	            showCancelButton: true, 
-	            confirmButtonColor: "#DD6B55",
-	            confirmButtonText: "Yes, delete it!",
-	            cancelButtonText: "No, cancel it!",
-	            closeOnConfirm: false,
-	            closeOnCancel: false
-	        }, function (isConfirm) {
-	            if (isConfirm) {
-	               // swal("Deleted!", "Record has been deleted", "success");
-	                $(".page-loader").show();
-	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-risk-area');
-	    	    	$('#getForm').submit();
-	           }else {
-	                swal("Cancelled", "Record is safe :)", "error");
-	            }
-	        });
-	    }
+	  function deleteRow(val){
+	  	$("#area").val(val);
+	  	showCancelMessage(); 
+		    }
+	  	
+	  
+	  function showCancelMessage() {
+	    	swal({
+		            title: "Are you sure?",
+		            text: "You will be able to change the status of record!",
+		            type: "warning",
+		            showCancelButton: true, 
+		            confirmButtonColor: "#DD6B55",
+		            confirmButtonText: "Yes, delete it!",
+		            cancelButtonText: "No, cancel it!",
+		            closeOnConfirm: false,
+		            closeOnCancel: false
+		        }, function (isConfirm) {
+		            if (isConfirm) {
+		               // swal("Deleted!", "Record has been deleted", "success");
+		                $(".page-loader").show();
+		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-risk-area');
+		    	    	$('#getForm').submit();
+		           }else {
+		                swal("Cancelled", "Record is safe :)", "error");
+		            }
+		        });
+	  }
+	  function clearFilters() {
+          $('#sub_work_id').val("");          
+          $('.searchable').select2();
+      }
+	  
 </script>
 
 </body>

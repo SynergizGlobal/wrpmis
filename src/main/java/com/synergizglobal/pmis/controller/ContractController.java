@@ -698,7 +698,8 @@ public class ContractController {
 			contract.setPbg_release(DateParser.parse(contract.getPbg_release()));
 			contract.setBg_date(DateParser.parse(contract.getBg_date()));
 			contract.setRelease_date(DateParser.parse(contract.getRelease_date()));
-		
+			contract.setTarget_doc(DateParser.parse(contract.getTarget_doc()));
+			
 			boolean flag =  contractService.updateContract(contract);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Contract Updated Succesfully.");

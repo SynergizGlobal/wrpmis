@@ -24,7 +24,7 @@ public class Contract {
 	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts,hod_designations, revised_docs,revision_remarks,contract_file_type_fks,contract_file_ids,contract_file_types;
 	
 	private String contractor_id, contractor_specilization_fk, address,
-	primary_contact_name, phone_number, pan_number, gst_number, bank_name, account_number, ifsc_code;
+	primary_contact_name, phone_number, pan_number, gst_number, bank_name, account_number, ifsc_code,target_doc;
 	
 	private MultipartFile contractFile;
 	
@@ -1557,6 +1557,14 @@ public class Contract {
 
 	public void setPhysicalProgress(String physicalProgress) {
 		PhysicalProgress = physicalProgress;
+	}
+
+	public String getTarget_doc() {
+		return target_doc;
+	}
+
+	public void setTarget_doc(String target_doc) {
+		this.target_doc = target_doc;
 	}
 	
 }

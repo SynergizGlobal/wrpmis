@@ -136,9 +136,11 @@ public class AlertsController {
 	           
 	           String alert_type = null;
 	           if(dayOfWeekText.equals("WEDNESDAY")) {
-	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT;
-	           }else if(dayOfWeekText.equals("FRIDAY")) {
+	        	   //alert_type = CommonConstants2.ALERT_TYPE_CONTRACT;
 	        	   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
+	           }else if(dayOfWeekText.equals("FRIDAY")) {
+	        	   //alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
+	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT;
 	           }
 	           
 	    	   logger.error("sendAlertsToAllByManual : start");

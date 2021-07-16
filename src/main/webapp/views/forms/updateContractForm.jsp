@@ -530,7 +530,7 @@
 	                            <div class="row">	                                
 	                                <div class="col s12 m4 input-field offset-m2">
 	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate datepicker" value="${contractDeatils.date_of_start }">
-	                                    <label for="date_of_start">Date of Start</label>
+	                                    <label for="date_of_start">Date of Start <span class="required">*</span></label>
 	                                     <span id="date_of_startError" class="error-msg" ></span>
 	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
@@ -573,8 +573,15 @@
 	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
 	                                     <span id="docError" class="error-msg" ></span>
 	                                </div>
-	                                                             
+	                                
 	                                <div class="col s6 m4 input-field offset-m2">
+	                                    <input name="target_doc" id="target_doc" type="text" class="validate datepicker" value="${contractDeatils.target_doc }" >
+	                                    <label for="target_doc">Target DOC</label>
+	                                     <button type="button" id="target_doc_icon"><i class="fa fa-calendar"></i></button>
+	                                     <span id="target_docError" class="error-msg" ></span>
+	                                </div>
+	                                                             
+	                                <div class="col s6 m4 input-field">
 	                                   <p class="searchable_label"><label>Status of Contract</label></p>
 	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);">
 	                                        <option value="" selected>Select</option>
@@ -2033,10 +2040,13 @@
         	 	   	  },"doc": {
         		 		required: false,
    				 		dateBefore1:"#date_of_start"
-        		 	  },"awarded_cost": {
+        		 	  },"target_doc":{
+        		 		 required: false,
+    				 	 dateAfterDoc:"#doc"
+         	 	  	  },"awarded_cost": {
         		 		required: false
         		 	  },"date_of_start": {
-        		 		required: false
+        		 		required: true
         		 	  },"estimated_cost": {
         		 		required: false
         		 	  },"loa_letter_number": {
@@ -2100,6 +2110,8 @@
         	 			required: 'Required'
         	 	  	 },"doc": {
         	 			required: 'Required'
+        	 	  	 },"target_doc":{
+        	 	  		required: 'Required'
         	 	  	 },"awarded_cost": {
        			 		required: 'Required'
        			 	  },"date_of_start": {
@@ -2176,6 +2188,9 @@
 	           	 	    }else if (element.attr("id") == "doc" ){
 	        	 		     document.getElementById("docError").innerHTML="";
 	        	 			 error.appendTo("#docError");
+	        	 	    }else if (element.attr("id") == "target_doc" ){
+	        	 		     document.getElementById("target_docError").innerHTML="";
+	        	 			 error.appendTo("#target_docError");
 	        	 	    }else if (element.attr("id") == "awarded_cost" ){
 	        	 		     document.getElementById("awarded_costError").innerHTML="";
 	        	 			 error.appendTo('#awarded_costError');
@@ -2267,6 +2282,40 @@
             }
             
         }, "Planned Doc date must be after Date of start");
+        
+        $.validator.addMethod("dateAfterDoc", function(value, element) {
+            var fromDateString = $('#loa_date').val();
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+            
+            var today = new Date();
+        	var dd = today.getDate();
+
+        	var mm = today.getMonth()+1; 
+        	var yyyy = today.getFullYear();
+        	if(dd<10) {
+        	    dd='0'+dd;
+        	} 
+        	if(mm<10){
+        	    mm='0'+mm;
+        	} 
+            var today_date = new Date(yyyy,mm-1,dd);
+            
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return (Date.parse(toDate) >= Date.parse(fromDate) && Date.parse(toDate) >= Date.parse(today_date));
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+                return Date.parse(toDate) >= Date.parse(today_date);
+            }else{
+            	return true;
+            }
+            
+        }, "Target DOC must be after LOA Date or Today");
+        
     	
     	$.validator.addMethod("dateBefore2", function(value, element) {
             var fromDateString = $('#final_takeover').val();

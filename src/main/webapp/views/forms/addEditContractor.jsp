@@ -190,7 +190,7 @@
 							<div class="row">
                                 <div class="col s6 m4 input-field offset-m2">
                                      <input id="email" name="email_id" type="text" class="validate" value="${contractorDetails.email_id }">
-                                     <label for="email">Email Id</label>
+                                     <label for="email">Email Address</label>
                                      <span id="emailError" class="error-msg" ></span>
                                  </div>
                                  <div class="col s6 m4 input-field">

@@ -831,7 +831,7 @@ public class ContractDaoImpl implements ContractDao {
 									+ "DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,"
 									+ "DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 									+ "DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,"
-									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name " + 
+									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,DATE_FORMAT(target_doc,'%d-%m-%Y') AS target_doc " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -1196,7 +1196,7 @@ public class ContractDaoImpl implements ContractDao {
 								+"scope_of_contract = ?,hod_user_id_fk = ?,dy_hod_user_id_fk = ?,doc = ?,awarded_cost = ?,loa_letter_number = ?,loa_date = ?,ca_no = ?,ca_date = ?"
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 
 								"estimated_cost = ?,contract_closure_date = ?,completion_certificate_release = ?,final_takeover = ?,final_bill_release = ?,defect_liability_period = ?," + 
-								"retention_money_release = ?,pbg_release = ?,contract_status_fk = ?,bg_required = ?,insurance_required = ?,remarks = ? "
+								"retention_money_release = ?,pbg_release = ?,contract_status_fk = ?,bg_required = ?,insurance_required = ?,remarks = ?,target_doc = ? "
 								+ "where contract_id = ?";
 				stmt = con.prepareStatement(contractUpdate_Qry);
 				int p = 1;
@@ -1231,6 +1231,7 @@ public class ContractDaoImpl implements ContractDao {
 				stmt.setString(p++,contract.getBg_required()); 
 				stmt.setString(p++,contract.getInsurance_required()); 
 				stmt.setString(p++,contract.getRemarks()); 
+				stmt.setString(p++,contract.getTarget_doc()); 
 				stmt.setString(p++,contract.getContract_id()); 
 				count = stmt.executeUpdate();
 				if(count > 0) {

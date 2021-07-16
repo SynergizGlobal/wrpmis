@@ -109,7 +109,7 @@
                      	<div class="row no-mar">
                      	 	<div class="col s12 m4 l2 offset-m2 offset-l4 input-field">
                                 <p class="searchable_label">Select Sub Work</p>
-                                <select id="sub_work_id" class="searchable">
+                                <select id="sub_work" name="sub_work"  class="searchable" onchange="resetRiskLIsts();">
                                     <option value="">Select</option>	                                    
                                 </select>
                            	</div>
@@ -131,23 +131,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${risksList}" varStatus="indexs">
-											<tr>
-												<td>
-													<input type="hidden" id="sub_workId${indexs.count}" value="${obj.area }" class="findLengths" />
-													${obj.sub_work }
-												</td>
-												<td>
-													<input type="hidden" id="dateId${indexs.count}" value="${obj.item_no }"  class="findLengths1"/>
-													${obj.date }
-											    </td>
-												<td>
-													${obj.count }
-												</td>
-												<td class="last-column ">
-													<a onclick="deleteRow('${ obj.sub_work }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a>
-	 											</td></tr>											  
- 										  </c:forEach>
+										
                                     </tbody>
                                 </table>
                             </div>
@@ -175,21 +159,24 @@
 
 
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="area" id="area" />
+    	<input type="hidden" name="sub_work" id="sub_work_id" />
+    	<input type="hidden" name="date" id="date" />
     </form>
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
+    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function () { 
             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
 
-            var table = $('#risk_delete_table').DataTable({
+           /*  var table = $('#risk_delete_table').DataTable({
             	"order": [],
                 columnDefs: [
                     {
@@ -207,16 +194,17 @@
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
                 }
-            });
+            }); */
+            resetRiskLIsts(); 
         });
        
   
-	  function deleteRow(val){
-	  	$("#area").val(val);
+	  function deleteRow(date,subWork){ 
+	  	$("#sub_work_id").val(subWork);
+	  	$("#date").val(date);
 	  	showCancelMessage(); 
-		    }
+	  }
 	  	
-	  
 	  function showCancelMessage() {
 	    	swal({
 		            title: "Are you sure?",
@@ -232,15 +220,112 @@
 		            if (isConfirm) {
 		               // swal("Deleted!", "Record has been deleted", "success");
 		                $(".page-loader").show();
-		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-risk-area');
+		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-risk');
 		    	    	$('#getForm').submit();
 		           }else {
 		                swal("Cancelled", "Record is safe :)", "error");
 		            }
 		        });
 	  }
+	  
+	  function resetRiskLIsts(){
+		  risksList();
+		  getSubWorkFilter();
+	  }
+	  function getSubWorkFilter(project) {
+      	$(".page-loader").show();
+          var sub_work = $("#sub_work").val();
+  		if ($.trim(sub_work) == "") {
+          	$("#sub_work option:not(:first)").remove();
+          	var myParams = { sub_work: sub_work};
+              $.ajax({
+                  url: "<%=request.getContextPath()%>/ajax/getSubWorkFilterListInRiskDelete",
+                  data: myParams, cache: false,async: false,
+                  success: function (data) {
+                      if (data.length > 0) {
+                          $.each(data, function (i, val) {
+                          	
+  	                        $("#sub_work").append('<option value="' + val.sub_work + '">'  + val.sub_work +'</option>');
+                          });
+                      }
+                      $('.searchable').select2();
+                      $(".page-loader").hide();
+                  },error: function (jqXHR, exception) {
+   	   			      $(".page-loader").hide();
+  	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+              });
+          }else{
+          	  $(".page-loader").hide();
+          }
+      }
+	  
+	  function risksList(){
+		$(".page-loader-2").show();
+		var sub_work = $("#sub_work").val();
+      	table = $('#risk_delete_table').DataTable();
+  		table.destroy();
+  		$.fn.dataTable.moment('DD-MMM-YYYY');
+  		table = $('#risk_delete_table').DataTable({
+  			"order": [],
+      		"bStateSave": false,
+      		fixedHeader: true,
+              "fnStateSave": function (oSettings, oData) {
+                  localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+              },
+              "fnStateLoad": function (oSettings) {
+                  return JSON.parse(localStorage.getItem('MRVCDataTables'));
+              },
+              columnDefs: [
+                  {
+                      targets: [1],
+                      //className: 'mdl-data-table__cell--non-numeric',
+                      targets: 'no-sort', orderable: false,
+                  },
+                  { "width": "20px", "targets": [3] },
+              ],
+              // "ScrollX": true,
+              "sScrollX": "100%",
+               "sScrollXInner": "100%",
+               "bScrollCollapse": true,
+              initComplete: function () {
+                  $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+              }
+          }).rows().remove().draw();
+  		
+  		table.state.clear();		
+  		var myParams = {sub_work: sub_work};
+  		$.ajax({url : "<%=request.getContextPath()%>/ajax/getRisksListInRiskDelete",type:"POST",
+  			data:myParams,async: false,
+  			success : function(data){    				
+  				if(data != null && data != '' && data.length > 0){    					
+	             		$.each(data,function(key,val){
+	                        
+	                        var actions = '<a href="javascript:void(0);" onclick="deleteRow(\''+val.date +'\',\'' +val.sub_work+'\');" c class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a>'
+	                        var rowArray = [];    	                 
+	                        
+	                       	rowArray.push($.trim(val.sub_work));
+	                       	rowArray.push($.trim(val.date));
+	                       	rowArray.push($.trim(val.count));
+	                       	rowArray.push($.trim(actions)); 
+	                       	
+	                        table.row.add(rowArray).draw( true ); 
+	                        		                       
+	    				});
+	             		
+	             		$(".page-loader-2").hide();
+	    			}else{
+	    				$(".page-loader-2").hide();
+	    			}
+  			
+  		},error: function (jqXHR, exception) {
+  			$(".page-loader-2").hide();
+           	getErrorMessage(jqXHR, exception);
+       }});
+	  }
 	  function clearFilters() {
-          $('#sub_work_id').val("");          
+          $('#sub_work').val("");      
+          resetRiskLIsts(); 
           $('.searchable').select2();
       }
 	  

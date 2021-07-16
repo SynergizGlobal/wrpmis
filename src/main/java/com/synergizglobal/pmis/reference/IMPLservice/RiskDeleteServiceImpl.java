@@ -16,13 +16,18 @@ public class RiskDeleteServiceImpl implements RiskDeleteService{
 	RiskDeleteDao dao;
 
 	@Override
-	public List<TrainingType> getRisksList() throws Exception {
-		return dao.getRisksList();
+	public List<TrainingType> getRisksList(TrainingType obj) throws Exception {
+		return dao.getRisksList(obj);
 	}
 
 	@Override
 	public boolean deleteRisk(TrainingType obj) throws Exception {
 		return dao.deleteRisk(obj);
+	}
+
+	@Override
+	public List<TrainingType> getSubWorkFilterList(TrainingType obj) throws Exception {
+		return dao.getSubWorkFilterList(obj);
 	}
 
 }

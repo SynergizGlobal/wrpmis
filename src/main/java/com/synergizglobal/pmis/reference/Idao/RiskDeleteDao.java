@@ -7,8 +7,10 @@ import com.synergizglobal.pmis.reference.model.TrainingType;
 
 public interface RiskDeleteDao {
 
-	List<TrainingType> getRisksList() throws Exception;
+	List<TrainingType> getRisksList(TrainingType obj) throws Exception;
 
 	boolean deleteRisk(TrainingType obj) throws Exception;
+
+	List<TrainingType> getSubWorkFilterList(TrainingType obj) throws Exception;
 
 }

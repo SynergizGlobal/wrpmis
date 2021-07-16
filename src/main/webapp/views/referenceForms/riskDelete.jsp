@@ -136,46 +136,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${riskAreaDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${risksList}" varStatus="indexs">
 											<tr>
 												<td>
-													<input type="hidden" id="areaId${indexs.count}" value="${obj.area }" class="findLengths" />
-													${obj.area }
+													<input type="hidden" id="sub_workId${indexs.count}" value="${obj.area }" class="findLengths" />
+													${obj.sub_work }
 												</td>
 												<td>
-													<input type="hidden" id="item_noId${indexs.count}" value="${obj.item_no }"  class="findLengths1"/>
-													${obj.item_no }
+													<input type="hidden" id="dateId${indexs.count}" value="${obj.item_no }"  class="findLengths1"/>
+													${obj.date }
 											    </td>
 												<td>
-													<c:forEach var="cObj" items="${riskAreaDetails.countList}" >
-														<c:choose> 
-													    <c:when test="${tObj.tName eq cObj.tName }"> 
-													    		<c:choose>  
-																    <c:when test="${cObj.area eq obj.area }"> 
-																      	 ( ${cObj.count } )   
-																    </c:when>  
-																    <c:otherwise>  
-																    </c:otherwise>   
-															</c:choose>
-														</c:when>
-														<c:otherwise> 
-													   </c:otherwise>
-														</c:choose>
-													</c:forEach>
+													${obj.count }
 												</td>
-												<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-											 	<c:forEach var="oSbj"  items="${riskAreaDetails.dList}" varStatus="indexx"> 													 
-													<c:choose>  
-													    <c:when test="${oSbj.area eq obj.area }"> 
-													      	<%-- <a onclick="deleteRow('${ oSbj.area }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
-													      	</a> --%>
-													      	<a onclick="deleteRow('${ oSbj.risk_classification_id }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
-													      	</a>
-													    </c:when>  
-													    <c:otherwise>  
-													    </c:otherwise>   
-													</c:choose>  
-	 											 </c:forEach>
+												<td class="last-column ">
+													<a onclick="deleteRow('${ obj.sub_work }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a>
 	 											</td></tr>											  
  										  </c:forEach>
                                     </tbody>

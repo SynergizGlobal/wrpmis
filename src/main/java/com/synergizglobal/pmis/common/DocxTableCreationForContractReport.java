@@ -280,7 +280,7 @@ public class DocxTableCreationForContractReport {
 							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow,cObj.getRevised_amount(),
 							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getActual_completion_date(), garamondRPr,
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getDoc(), garamondRPr,
 							JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getRevised_doc(), garamondRPr,
 							JcEnumeration.CENTER, hasBgColor, backgroundColor);
@@ -937,7 +937,7 @@ public class DocxTableCreationForContractReport {
 					false, false);
 			RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA, true, true, false, false);
 			RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
-			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, false, false, false,
+			RPr fontRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, false, false, false,
 					false);
 
 			/********************* Contract Details Starts *******************************************************/

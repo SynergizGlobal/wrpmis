@@ -69,10 +69,8 @@ public class Schedular {
 	//@Scheduled(cron = "0 50 10 * * *")	//  = every day 2:10 am.
 	//@Scheduled(cron = "0 10 16 * * *")	//  = every day 4:10 pm.
 	//@Scheduled(cron = "${cron.expression.generate.alerts}")
-	public void generateAlertsByCronJob(){		
-	     String message = "Method executed every day. Current time is :: "+ new Date();
-	     
-	     logger.error("generateAlertsByCronJob : "+message);	    
+	public void generateAlertsByCronJob(){	
+	     logger.error("generateAlertsByCronJob : Method executed every day. Current time is :"+ new Date());	    
 	     try {
 	    	 
 	    	//System.out.println("Start "+ new Date());
@@ -80,15 +78,15 @@ public class Schedular {
             //System.out.println("End "+ new Date());
 	    	logger.error("generateAlertsByCronJob : "+flag);
 	    	
-	    	flag = alertService.sendRiskNotificationAlertMails();
-			logger.error("sendRiskNotificationAlertMails >> Sending mails : "+ flag); 
+	    	flag = alertService.sendEMailNotificationWithRiskAlerts();
+			logger.error("sendEMailNotificationWithRiskAlerts >> Sent mails : "+ flag); 
 			
-			flag = alertService.sendAlertsToRajivRavi();
-			logger.error("generateAlertsByCronJob >> Sending mails : "+ flag); 
+			flag = alertService.sendEMailNotificationAlertsToITAdmins();
+			logger.error("sendEMailNotificationAlertsToITAdmins >> Sent mails : "+ flag); 
 			
 			//Calling stored procedures
 			flag = alertService.callingStoredProcedures();
-			logger.error("generateAlertsByCronJob >> Run Procedures : "+ flag);
+			logger.error("callingStoredProcedures >> Run Procedures : "+ flag);
 			
 		 } catch (Exception e) {
 			 e.printStackTrace();
@@ -126,13 +124,12 @@ public class Schedular {
 	           String alert_type = null;
 	           if(dayOfWeekText.equals("WEDNESDAY")) {
 	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT;
+	        	   boolean flag = alertService.sendEMailNotificationWithContractAlerts(alert_type);
+				   logger.error("sendEMailNotificationWithContractAlertsByCronJob >> Sent mails : "+ flag);
 	           }else if(dayOfWeekText.equals("FRIDAY")) {
 	        	   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
-	           }
-	           
-	           if(!StringUtils.isEmpty(alert_type)) {
-			       boolean flag = alertService.sendNotificationAlertMails(alert_type);
-				   logger.error("sendNotificationAlertMailsToAllByCronJob >> ALert type "+alert_type+". Sending mails : "+ flag);
+	        	   boolean flag = alertService.sendEMailNotificationWithIssueAlerts(alert_type);
+				   logger.error("sendEMailNotificationWithIssueAlertsByCronJob >> Sent mails : "+ flag);
 	           }
 			   
 		 } catch (Exception e) {

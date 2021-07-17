@@ -1009,11 +1009,10 @@ public class AlertsDaoImpl implements AlertsDao{
 
 
 	@Override
-	public boolean sendNotificationAlertMails(String alert_type) throws Exception {
+	public boolean sendEMailNotificationWithContractAlerts(String alert_type) throws Exception {
 		boolean flag = false;
 		try {
 			EMailSender emailSender = new EMailSender();
-			
 			
 			String userIdQry = "SELECT user_id_fk,u2.email_id "
 					+ "FROM alerts a " 
@@ -1145,10 +1144,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					alerts.put(lObj.getAlert_level(), allAlertsList);
 				}
 				
-				logger.error("sendNotificationAlertMails() >> before - "+uObj.getEmail_id() + " : "+alerts.size());	
 				if(alerts != null && alerts.size() > 0) {
-					logger.error("sendNotificationAlertMails() >> After - "+uObj.getEmail_id() + " : "+alerts.size());	
-					
 					SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
 		            String today_date = monthFormat.format(new Date()).toUpperCase();
 		            
@@ -1158,19 +1154,15 @@ public class AlertsDaoImpl implements AlertsDao{
 					//String emailSubject = "PMIS "+alert_type+" Alerts";
 		            String alert_types = "Contract";
 		            String emailSubject = "PMIS Contract Alerts";
-		            if(!StringUtils.isEmpty(alert_type) && alert_type.equals("Issue")) {
-		            	emailSubject = "PMIS Issue Alerts";
-		            	alert_types = "Issue";
-		            }
 					Mail mail = new Mail();
 					mail.setMailTo(uObj.getEmail_id());
 					mail.setMailBcc(CommonConstants.BCC_MAIL);
 					mail.setMailSubject(emailSubject);
-					mail.setTemplateName("alerts.vm");
+					mail.setTemplateName("ContractAlerts.vm");
 					
-					logger.error("sendNotificationAlertMails() >> Alert Type "+alert_types+ ". Sending mail to "+uObj.getEmail_id()+": Start ");	
-					emailSender.sendEmailWithAlerts(mail,alerts,today_date,current_year,alert_types); 
-					logger.error("sendNotificationAlertMails() >> Alert Type "+alert_types+ ".  Sending mail to "+uObj.getEmail_id()+": End ");
+					logger.error("sendEMailNotificationWithContractAlerts() >> Alert Type "+alert_types+ ". Sending mail to "+uObj.getEmail_id()+": Start ");	
+					emailSender.sendEmailWithContractAlerts(mail,alerts,today_date,current_year,alert_types); 
+					logger.error("sendEMailNotificationWithContractAlerts() >> Alert Type "+alert_types+ ".  Sending mail to "+uObj.getEmail_id()+": End ");
 				}
 					
 				flag = true;
@@ -1183,7 +1175,160 @@ public class AlertsDaoImpl implements AlertsDao{
 	}
 	
 	@Override
-	public boolean sendRiskNotificationAlertMails() throws Exception {
+	public boolean sendEMailNotificationWithIssueAlerts(String alert_type) throws Exception {
+		boolean flag = false;
+		try {
+			EMailSender emailSender = new EMailSender();
+			
+			
+			String userIdQry = "SELECT user_id_fk,u2.email_id "
+					+ "FROM alerts a " 
+					+ "left join alerts_user u on u.alerts_id_fk = a.alert_id " 
+					+ "left join user u2 on u.user_id_fk = u2.user_id " 
+					+ "where a.alert_status = 'Active' and count <> 0 "
+					+ "and (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' ";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(alert_type)) {
+				String atP = "";
+				userIdQry = userIdQry + " and a.alert_type_fk IN(";
+				String[] types = alert_type.split(",");
+				for (int p=0; p < types.length; p++) {
+					userIdQry = userIdQry + (atP.contains("?")?",":"")+"?";
+					atP = atP + "?";
+					arrSize++;
+				}
+				userIdQry = userIdQry + ")";
+			}
+			userIdQry = userIdQry +  "group by user_id_fk";
+			
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(alert_type)) {
+				String[] types = alert_type.split(",");
+				for (int p=0; p < types.length; p++) {
+					pValues[i++] = types[p];
+				}
+			}
+			
+			List<Alerts> userIdList = jdbcTemplate.query( userIdQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			Map<String,List<Alerts>> alerts = new LinkedHashMap<String, List<Alerts>>();
+			for (Alerts uObj : userIdList) {
+				alerts = new LinkedHashMap<String, List<Alerts>>();
+				String aLevelQry = "select alert_level " 
+						+ "from alerts a "  
+						+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
+						+ "left join contract c on a.contract_id = c.contract_id " 
+						+ "left join work w on c.work_id_fk = w.work_id " 
+						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+						+ "left join user u on c.hod_user_id_fk = u.user_id " 
+						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+				
+				arrSize = 2;
+				if(!StringUtils.isEmpty(alert_type)) {
+					String atP = "";
+					aLevelQry = aLevelQry + " and a.alert_type_fk IN(";
+					String[] types = alert_type.split(",");
+					for (int p=0; p < types.length; p++) {
+						aLevelQry = aLevelQry + (atP.contains("?")?",":"")+"?";
+						atP = atP + "?";
+						arrSize++;
+					}
+					aLevelQry = aLevelQry + ")";
+				}
+				aLevelQry = aLevelQry +  " group by alert_level order by alert_level desc";
+				
+				
+				pValues = new Object[arrSize];
+				i = 0;
+				pValues[i++] = CommonConstants.ACTIVE;
+				pValues[i++] = uObj.getUser_id_fk();
+				if(!StringUtils.isEmpty(alert_type)) {
+					String[] types = alert_type.split(",");
+					for (int p=0; p < types.length; p++) {
+						pValues[i++] = types[p];
+					}
+				}
+				
+				List<Alerts> alert_levels = jdbcTemplate.query( aLevelQry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+				
+				for (Alerts lObj : alert_levels) {
+					
+					String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,"
+							+ "work_short_name,contract_short_name,contractor_name,IFNULL(a.remarks,'') as remarks,redirect_url " 
+							+ "from alerts a "  
+							+ "left join alerts_user au on au.alerts_id_fk = a.alert_id " 
+							+ "left join contract c on a.contract_id = c.contract_id " 
+							+ "left join work w on c.work_id_fk = w.work_id " 
+							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+							+ "left join user u on c.hod_user_id_fk = u.user_id " 
+							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+					
+					arrSize = 3;
+					if(!StringUtils.isEmpty(alert_type)) {
+						String atP = "";
+						qry = qry + " and a.alert_type_fk IN(";
+						String[] types = alert_type.split(",");
+						for (int p=0; p < types.length; p++) {
+							qry = qry + (atP.contains("?")?",":"")+"?";
+							atP = atP + "?";
+							arrSize++;
+						}
+						qry = qry + ")";
+					}
+					qry = qry +  " order by hod,work_short_name,a.contract_id asc, alert_level desc";
+					
+					
+					pValues = new Object[arrSize];
+					i = 0;
+					pValues[i++] = lObj.getAlert_level();
+					pValues[i++] = CommonConstants.ACTIVE;
+					pValues[i++] = uObj.getUser_id_fk();
+					if(!StringUtils.isEmpty(alert_type)) {
+						String[] types = alert_type.split(",");
+						for (int p=0; p < types.length; p++) {
+							pValues[i++] = types[p];
+						}
+					}
+					
+					List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+					
+					alerts.put(lObj.getAlert_level(), allAlertsList);
+				}
+				
+				if(alerts != null && alerts.size() > 0) {					
+					SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
+		            String today_date = monthFormat.format(new Date()).toUpperCase();
+		            
+		            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+		            String current_year = yearFormat.format(new Date()).toUpperCase();
+		            
+					String alert_types = "Issue";
+		            String emailSubject = "PMIS Issue Alerts";
+		            
+					Mail mail = new Mail();
+					mail.setMailTo(uObj.getEmail_id());
+					mail.setMailBcc(CommonConstants.BCC_MAIL);
+					mail.setMailSubject(emailSubject);
+					mail.setTemplateName("IssueAlerts.vm");
+					
+					logger.error("sendEMailNotificationWithIssueAlerts() >> Sending mail to "+uObj.getEmail_id()+": Start ");	
+					emailSender.sendEmailWithIssueAlerts(mail,alerts,today_date,current_year,alert_types); 
+					logger.error("sendEMailNotificationWithIssueAlerts() >> Sending mail to "+uObj.getEmail_id()+": End ");
+				}
+					
+				flag = true;
+			}
+			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return flag;
+	}
+	
+	@Override
+	public boolean sendEMailNotificationWithRiskAlerts() throws Exception {
 		boolean flag = false;
 		try {
 			EMailSender emailSender = new EMailSender();
@@ -1211,7 +1356,6 @@ public class AlertsDaoImpl implements AlertsDao{
 							+ "left join user u on au.user_id_fk = u.user_id " 
 							+ "where alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk = 'Risk' "
 							+ "order by hod,alert_level desc";
-					
 					
 					Object[] pValues = new Object[] {CommonConstants.ACTIVE,uObj.getUser_id_fk()};
 					List<Alerts> riskAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -1249,8 +1393,7 @@ public class AlertsDaoImpl implements AlertsDao{
 										}
 									}
 								}
-							}
-							
+							}							
 							if(!StringUtils.isEmpty(alerts.getAlert_value())) {
 								if(alerts.getAlert_value().contains("Risk assessment of")) {
 									riskMainAlertsList.add(alerts);
@@ -1262,26 +1405,20 @@ public class AlertsDaoImpl implements AlertsDao{
 								}else if(alerts.getAlert_value().contains("Please update ATR against")) {
 									riskATRAlertsList.add(alerts);
 								}
-							}
-							
-							
-							
+							}							
 						}
-						
 						SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
 			            String today_date = monthFormat.format(new Date()).toUpperCase();
 			            
 			            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
-			            String current_year = yearFormat.format(new Date()).toUpperCase();
-			            
-			            
+			            String current_year = yearFormat.format(new Date()).toUpperCase();			            
 						
 						String emailSubject = null;						
 						if(riskMainAlertsList.size() > 0) {	
 							Mail mail = new Mail();
 							mail.setMailTo(uObj.getEmail_id());
 							mail.setMailBcc(CommonConstants.BCC_MAIL);
-							mail.setTemplateName("Risk_Alerts.vm");
+							mail.setTemplateName("RiskAlerts.vm");
 							if(isOverdue && !StringUtils.isEmpty(uObj.getReporting_to_email_id())) {
 								mail.setMailCc(uObj.getReporting_to_email_id());
 							}
@@ -1295,31 +1432,31 @@ public class AlertsDaoImpl implements AlertsDao{
 							}
 							emailSubject = "PMIS Risk Assessment Due";
 							mail.setMailSubject(emailSubject);
-							logger.error("sendRiskNotificationAlertMails() >>Assessment Due Sending mail to "+uObj.getEmail_id()+": Start ");	
+							logger.error("sendEMailNotificationWithRiskAlert() >>Assessment Due Sending mail to "+uObj.getEmail_id()+": Start ");	
 							emailSender.sendEmailWithRiskAlerts(mail,riskMainAlertsList,today_date,current_year); 
-							logger.error("sendRiskNotificationAlertMails() >>Assessment Due Sending mail to "+uObj.getEmail_id()+": End ");
+							logger.error("sendEMailNotificationWithRiskAlert() >>Assessment Due Sending mail to "+uObj.getEmail_id()+": End ");
 						}
 						if(riskMitigationPlanAlertsList.size() > 0) {
 							Mail mail = new Mail();
 							mail.setMailTo(uObj.getEmail_id());
 							mail.setMailBcc(CommonConstants.BCC_MAIL);
-							mail.setTemplateName("Risk_Alerts.vm");
+							mail.setTemplateName("RiskAlerts.vm");
 							emailSubject = "PMIS Risk Assessment- Mitigation Plan";
 							mail.setMailSubject(emailSubject);
-							logger.error("sendRiskNotificationAlertMails() >> Mitigation Plan Sending mail to "+uObj.getEmail_id()+": Start ");	
+							logger.error("sendEMailNotificationWithRiskAlert() >> Mitigation Plan Sending mail to "+uObj.getEmail_id()+": Start ");	
 							emailSender.sendEmailWithRiskAlerts(mail,riskMitigationPlanAlertsList,today_date,current_year); 
-							logger.error("sendRiskNotificationAlertMails() >> Mitigation Plan Sending mail to "+uObj.getEmail_id()+": End ");
+							logger.error("sendEMailNotificationWithRiskAlert() >> Mitigation Plan Sending mail to "+uObj.getEmail_id()+": End ");
 						}
 						if(riskATRAlertsList.size() > 0) {
 							Mail mail = new Mail();
 							mail.setMailTo(uObj.getEmail_id());
 							mail.setMailBcc(CommonConstants.BCC_MAIL);
-							mail.setTemplateName("Risk_Alerts.vm");
+							mail.setTemplateName("RiskAlerts.vm");
 							emailSubject = "PMIS Risk Assessment- Action Taken Report";
 							mail.setMailSubject(emailSubject);
-							logger.error("sendRiskNotificationAlertMails() >> ATR Sending mail to "+uObj.getEmail_id()+": Start ");	
+							logger.error("sendEMailNotificationWithRiskAlert() >> ATR Sending mail to "+uObj.getEmail_id()+": Start ");	
 							emailSender.sendEmailWithRiskAlerts(mail,riskATRAlertsList,today_date,current_year); 
-							logger.error("sendRiskNotificationAlertMails() >> ATR Sending mail to "+uObj.getEmail_id()+": End ");
+							logger.error("sendEMailNotificationWithRiskAlert() >> ATR Sending mail to "+uObj.getEmail_id()+": End ");
 						}						
 						
 					}
@@ -1336,7 +1473,7 @@ public class AlertsDaoImpl implements AlertsDao{
 
 	
 	@Override
-	public boolean sendAlertsToRajivRavi() throws Exception {
+	public boolean sendEMailNotificationAlertsToITAdmins() throws Exception {
 		boolean flag = false;
 		try {
 			List<Alerts> alert_types = new ArrayList<Alerts>();
@@ -1359,7 +1496,28 @@ public class AlertsDaoImpl implements AlertsDao{
 			issueAlertObj.setAlert_type_fk(CommonConstants2.ALERT_TYPE_ISSUE);
 			alert_types.add(issueAlertObj);
 			
-			for (Alerts tObj : alert_types) {	
+			Alerts riskAlertObj = new Alerts();
+			riskAlertObj.setAlert_type_fk(CommonConstants2.ALERT_TYPE_RISK);
+			alert_types.add(riskAlertObj);
+			
+			for (Alerts tObj : alert_types) {
+				 if(!StringUtils.isEmpty(tObj.getAlert_type_fk()) && tObj.getAlert_type_fk().equals("Risk")) {
+					 sendEmailNotificationWithRiskAlertsToITAmdin(tObj.getAlert_type_fk());
+				 }else {
+					 sendEmailNotificationWithContractAndIssueAlertToITAmdin(tObj.getAlert_type_fk());
+				 }
+			}
+			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return flag;
+	}
+	
+	public boolean sendEmailNotificationWithContractAndIssueAlertToITAmdin(String alert_type) throws Exception {
+		boolean flag = false;
+		try {
+			if(!StringUtils.isEmpty(alert_type)) {
 				Map<String,List<Alerts>> alerts = new LinkedHashMap<String, List<Alerts>>();
 				String aLevelQry = "select alert_level " 
 						+ "from alerts a " 
@@ -1371,10 +1529,10 @@ public class AlertsDaoImpl implements AlertsDao{
 						//+ "where alert_status = ? and a.alert_type_fk = ? "
 						//+ "group by alert_level order by alert_level desc";
 				int arrSize = 1;
-				if(!StringUtils.isEmpty(tObj.getAlert_type_fk())) {
+				if(!StringUtils.isEmpty(alert_type)) {
 					String atP = "";
 					aLevelQry = aLevelQry + " and a.alert_type_fk IN(";
-					String[] types = tObj.getAlert_type_fk().split(",");
+					String[] types = alert_type.split(",");
 					for (int p=0; p < types.length; p++) {
 						aLevelQry = aLevelQry + (atP.contains("?")?",":"")+"?";
 						atP = atP + "?";
@@ -1389,8 +1547,8 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				int i = 0;
 				pValues[i++] = CommonConstants.ACTIVE;
-				if(!StringUtils.isEmpty(tObj.getAlert_type_fk())) {
-					String[] types = tObj.getAlert_type_fk().split(",");
+				if(!StringUtils.isEmpty(alert_type)) {
+					String[] types = alert_type.split(",");
 					for (int p=0; p < types.length; p++) {
 						pValues[i++] = types[p];
 					}
@@ -1411,10 +1569,10 @@ public class AlertsDaoImpl implements AlertsDao{
 							//+ "where alert_level = ? and alert_status = ? and count <> 0 and a.alert_type_fk = ? "
 							//+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
 					arrSize = 2;
-					if(!StringUtils.isEmpty(tObj.getAlert_type_fk())) {
+					if(!StringUtils.isEmpty(alert_type)) {
 						String atP = "";
 						qry = qry + " and a.alert_type_fk IN(";
-						String[] types = tObj.getAlert_type_fk().split(",");
+						String[] types = alert_type.split(",");
 						for (int p=0; p < types.length; p++) {
 							qry = qry + (atP.contains("?")?",":"")+"?";
 							atP = atP + "?";
@@ -1430,8 +1588,8 @@ public class AlertsDaoImpl implements AlertsDao{
 					i = 0;
 					pValues[i++] = lObj.getAlert_level();
 					pValues[i++] = CommonConstants.ACTIVE;
-					if(!StringUtils.isEmpty(tObj.getAlert_type_fk())) {
-						String[] types = tObj.getAlert_type_fk().split(",");
+					if(!StringUtils.isEmpty(alert_type)) {
+						String[] types = alert_type.split(",");
 						for (int p=0; p < types.length; p++) {
 							pValues[i++] = types[p];
 						}
@@ -1463,17 +1621,13 @@ public class AlertsDaoImpl implements AlertsDao{
 	            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 	            String current_year = yearFormat.format(new Date()).toUpperCase();
 	            
-				//String emailSubject = "PMIS "+tObj.getAlert_type_fk()+" Alerts";
-	            String alert_types_text = "Contract";
 	            String emailSubject = "PMIS Contract Alerts";
-	            if(!StringUtils.isEmpty(tObj.getAlert_type_fk()) && tObj.getAlert_type_fk().equals("Issue")) {
+	            if(!StringUtils.isEmpty(alert_type) && alert_type.equals("Issue")) {
 	            	emailSubject = "PMIS Issue Alerts";
-	            	alert_types_text = "Issue";
 	            }
 				
 				
-				if(alerts != null && alerts.size() > 0){
-					
+				if(alerts != null && alerts.size() > 0){					
 					String itAdminsEmailsQry = "SELECT group_concat(email_id) FROM user where email_id is not null and email_id <> '' and user_role_name_fk = 'IT Admin'";
 					String itAdminsEmails = jdbcTemplate.queryForObject( itAdminsEmailsQry,String.class);
 					if(!StringUtils.isEmpty(itAdminsEmails)) {
@@ -1481,25 +1635,24 @@ public class AlertsDaoImpl implements AlertsDao{
 						Mail mail = new Mail();
 						mail.setMailTo(itAdminsEmails);
 						mail.setMailSubject(emailSubject);
-						mail.setTemplateName("alertsRajivRavi.vm");
-						
-						logger.error("sendAlertsToRajivRavi() >> Sending mail : Start ");	
-						//emailSender.sendEmailWithAlertsRajivRavi(mail,alerts,tObj.getAlert_type_fk(),today_date,current_year); 
-						emailSender.sendEmailWithAlertsRajivRavi(mail,alerts,alert_types_text,today_date,current_year);
-						logger.error("sendAlertsToRajivRavi() >> Sending mail : End ");
-						flag = true;
+						if(!StringUtils.isEmpty(alert_type) && alert_type.equals("Issue")) {
+							mail.setTemplateName("IssueAlerts.vm");
+							emailSender.sendEmailWithIssueAlerts(mail,alerts,today_date,current_year,alert_type); 
+						}else {
+							mail.setTemplateName("ContractAlerts.vm");
+							emailSender.sendEmailWithContractAlerts(mail,alerts,today_date,current_year,alert_type); 
+						}
 					}
+					flag = true;
 				}
 			}
-			sendRiskNotificationAlertMailsToRaviRajiv();
-			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
 		return flag;
 	}
 	
-	public boolean sendRiskNotificationAlertMailsToRaviRajiv() throws Exception {
+	public boolean sendEmailNotificationWithRiskAlertsToITAmdin(String alert_type) throws Exception {
 		boolean flag = false;
 		try {
 			EMailSender emailSender = new EMailSender();
@@ -1510,13 +1663,12 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join risk_work_hod rwh on ((rwh.sub_work = REPLACE(a.redirect_url,'/risk-assessment?sub_work=','')) "
 					+ "or (rwh.sub_work = substring_index(REPLACE(a.redirect_url,'/risk-atr-update?sub_work=',''), '&assessment_date=',1) )) "
 					+ "left join `user` u on rwh.hod_user_id_fk = u.user_id " 
-					+ "where alert_status = ? and count <> 0 and a.alert_type_fk = 'Risk' "
+					+ "where alert_status = ? and count <> 0 and a.alert_type_fk = ? "
 					+ "order by hod,alert_level desc";
 			
 			
-			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
+			Object[] pValues = new Object[] {CommonConstants.ACTIVE,alert_type};
 			List<Alerts> riskAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-			
 			
 			if(riskAlertsList != null && riskAlertsList.size() > 0) {
 				
@@ -1567,7 +1719,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					mail.setMailTo(itAdminsEmails);
 					//mail.setMailBcc(CommonConstants.BCC_MAIL);
 					mail.setMailSubject(emailSubject);
-					mail.setTemplateName("Risk_Alerts.vm");
+					mail.setTemplateName("RiskAlerts.vm");
 					logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >>: Start ");	
 					emailSender.sendEmailWithRiskAlerts(mail,riskAlertsList,today_date,current_year); 
 					logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >> : End ");
@@ -1585,7 +1737,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						mail = new Mail();
 						mail.setMailTo(alerts.getEmail_id());
 						mail.setMailSubject(emailSubject);
-						mail.setTemplateName("Risk_Alerts.vm");
+						mail.setTemplateName("RiskAlerts.vm");
 						
 						logger.error("sendRiskNotificationAlertMailsToRaviRajiv() >>: Incharge email Start : "+alerts.getEmail_id());	
 						emailSender.sendEmailWithRiskAlerts(mail,riskAlertsList,today_date,current_year); 
@@ -2782,9 +2934,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				email_ids = Arrays.asList(obj.getEmail_id().split(","));
 			}				
 			for (String email_id : email_ids) {
-				logger.error("sendAlertsToParticulars() >> before - "+email_id + " : "+alerts.size());	
 				if(alerts != null && alerts.size() > 0 && !StringUtils.isEmpty(email_id)) {
-					logger.error("sendAlertsToParticulars() >> After - "+email_id + " : "+alerts.size());	
 					
 					SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
 		            String today_date = monthFormat.format(new Date()).toUpperCase();
@@ -2797,7 +2947,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		            if(!StringUtils.isEmpty(obj.getAlert_type_fk()) && obj.getAlert_type_fk().length() > 0) {
 						alert_type = String.join(",", obj.getAlert_type_fk());
 					}else {
-						alert_type = "Contract & Issue";
+						alert_type = "Contract";
 					}
 		            
 					String emailSubject = "PMIS "+alert_type+" Alerts";
@@ -2806,10 +2956,10 @@ public class AlertsDaoImpl implements AlertsDao{
 					mail.setMailTo(email_id);
 					mail.setMailBcc(CommonConstants.BCC_MAIL);
 					mail.setMailSubject(emailSubject);
-					mail.setTemplateName("alerts.vm");
+					mail.setTemplateName("ContractAlerts.vm");
 					
 					logger.error("sendAlertsToParticulars() >> Sending mail to "+email_id+": Start ");	
-					emailSender.sendEmailWithAlerts(mail,alerts,today_date,current_year,alert_type); 
+					emailSender.sendEmailWithContractAlerts(mail,alerts,today_date,current_year,alert_type); 
 					logger.error("sendAlertsToParticulars() >> Sending mail to "+email_id+": End ");
 					flag = true;
 				}

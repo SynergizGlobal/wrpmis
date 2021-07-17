@@ -21,13 +21,23 @@ public class AlertsServiceImpl implements AlertsService{
 	}
 
 	@Override
-	public boolean sendNotificationAlertMails(String alert_type) throws Exception {
-		return dao.sendNotificationAlertMails(alert_type);
+	public boolean sendEMailNotificationWithContractAlerts(String alert_type) throws Exception {
+		return dao.sendEMailNotificationWithContractAlerts(alert_type);
+	}
+	
+	@Override
+	public boolean sendEMailNotificationWithIssueAlerts(String alert_type) throws Exception {
+		return dao.sendEMailNotificationWithIssueAlerts(alert_type);
 	}
 
 	@Override
-	public boolean sendAlertsToRajivRavi() throws Exception {
-		return dao.sendAlertsToRajivRavi();
+	public boolean sendEMailNotificationWithRiskAlerts() throws Exception {
+		return dao.sendEMailNotificationWithRiskAlerts();
+	}	
+
+	@Override
+	public boolean sendEMailNotificationAlertsToITAdmins() throws Exception {
+		return dao.sendEMailNotificationAlertsToITAdmins();
 	}
 
 	@Override
@@ -93,12 +103,7 @@ public class AlertsServiceImpl implements AlertsService{
 	@Override
 	public List<Alerts> getAlertTypes(Alerts aObj) throws Exception {
 		return dao.getAlertTypes(aObj);
-	}
-
-	@Override
-	public boolean sendRiskNotificationAlertMails() throws Exception {
-		return dao.sendRiskNotificationAlertMails();
-	}
+	}	
 
 	@Override
 	public List<Alerts> getAlertTypesForGenerateSendAlerts() throws Exception {

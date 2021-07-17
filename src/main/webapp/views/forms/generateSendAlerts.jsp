@@ -58,9 +58,14 @@
 			                	<div class="card-content">                  
 			                      <div class="row no-mar">	     
 			                          <div class="col s12 m12 input-field center-align">
-		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px;height: auto;" href="<%=request.getContextPath() %>/send-alerts-to-all"> Send Contract & Issue Alerts to All </a>
+		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px;height: auto;" href="<%=request.getContextPath() %>/send-contract-alerts-to-all"> Send Contract Alerts to All </a>
 			                          </div>                            
-			                      </div>   
+			                      </div> 
+			                      <div class="row no-mar">	     
+			                          <div class="col s12 m12 input-field center-align">
+		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px;height: auto;" href="<%=request.getContextPath() %>/send-issue-alerts-to-all"> Send Issue Alerts to All </a>
+			                          </div>                            
+			                      </div>     
 			                      <div class="row no-mar">	     
 			                          <div class="col s12 m12 input-field center-align">
 		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px;" href="<%=request.getContextPath() %>/send-risk-alerts-to-all"> Send Risk Alerts to All </a>
@@ -68,7 +73,7 @@
 			                      </div>    
 			                      <div class="row no-mar">	     
 			                          <div class="col s12 m12 input-field center-align">
-		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px" href="<%=request.getContextPath() %>/send-alerts-rajiv-ravi"> Send All Alerts to IT Admins </a>
+		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px" href="<%=request.getContextPath() %>/send-alerts-to-it-admins"> Send All Alerts to IT Admins </a>
 			                          </div>                            
 			                      </div>                   
 			                    </div>

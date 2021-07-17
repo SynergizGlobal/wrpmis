@@ -52,7 +52,20 @@ public class AlertsController {
 	AlertsService service;
 	
 	@Value("${common.error.message}")
-	public String commonError;
+	public String commonError;	
+	
+	@RequestMapping(value="/run-procedures",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView runProcedures(){		
+		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
+	     try {
+	    	boolean flag = service.callingStoredProcedures();
+	    	System.out.println("flag : "+flag);
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("rubProcedures() : "+e.getMessage());
+		 }
+	     return model;
+	}
 	
 	@RequestMapping(value="/generate-send-alerts-page",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateSendAlertsFromPage(){		
@@ -68,6 +81,23 @@ public class AlertsController {
 	    	 model.addObject("sendToList",sendToList);
 		 } catch (Exception e) {
 			logger.error("generateSendAlertsFromPage() : "+e.getMessage());
+		 }
+	     return model;
+	}
+	
+	@RequestMapping(value="/generate-alerts-manually",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateAlertsManually(){		
+		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
+	     try {
+	    	logger.error("generateAlertsManually : start");
+	    	//System.out.println("Start "+ new Date());
+            boolean flag = service.generateAterts();
+            //System.out.println("End "+ new Date());
+	    	logger.error("generateAlertsManually : "+flag);
+			
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("generateAlertsByManual() : "+e.getMessage());
 		 }
 	     return model;
 	}
@@ -94,22 +124,8 @@ public class AlertsController {
 	     return model;
 	}
 	
-	
-	@RequestMapping(value="/run-procedures",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView runProcedures(){		
-		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
-	     try {
-	    	boolean flag = service.callingStoredProcedures();
-	    	System.out.println("flag : "+flag);
-		 } catch (Exception e) {
-			 e.printStackTrace();
-			logger.error("rubProcedures() : "+e.getMessage());
-		 }
-	     return model;
-	}
-	
-	@RequestMapping(value="/send-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView sendAlertsToAllByManual(){		
+	@RequestMapping(value="/send-contract-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView sendContractAlertsToAllByManual(){		
 		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
 	    	   Date date = new Date();
@@ -135,17 +151,38 @@ public class AlertsController {
 				}*/
 	           
 	           String alert_type = null;
-	           if(dayOfWeekText.equals("WEDNESDAY")) {
-	        	   //alert_type = CommonConstants2.ALERT_TYPE_CONTRACT;
-	        	   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
-	           }else if(dayOfWeekText.equals("FRIDAY")) {
-	        	   //alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
+	           //if(dayOfWeekText.equals("WEDNESDAY")) {
 	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT;
-	           }
-	           
-	    	   logger.error("sendAlertsToAllByManual : start");
-		       boolean flag = service.sendNotificationAlertMails(alert_type);
-		       logger.error("sendAlertsToAllByManual >> Sending mails : "+ flag); 
+	        	   boolean flag = service.sendEMailNotificationWithContractAlerts(alert_type);
+				   logger.error("sendContractAlertsToAllByManual >> Sent mails : "+ flag);
+	           //}
+			
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("sendContractAlertsToAllByManual() : "+e.getMessage());
+		 }
+	     return model;
+	}
+	
+	@RequestMapping(value="/send-issue-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView sendIssueAlertsToAllByManual(){		
+		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
+	     try {
+	    	   Date date = new Date();
+			   Calendar cal = Calendar.getInstance();
+	           cal.setTime(date); // don't forget this if date is arbitrary
+	             
+	           SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+	           SimpleDateFormat dayOfWeekTextFormat = new SimpleDateFormat("EEEE");
+	           String dayOfWeekText = dayOfWeekTextFormat.format(date).toUpperCase();
+	           //int month = cal.get(Calendar.MONTH); // 0 being January
+	           String alert_type = null;
+	           //if(dayOfWeekText.equals("FRIDAY")) {
+	        	   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
+	        	   logger.error("sendIssueAlertsToAllByManual : start");
+			       boolean flag = service.sendEMailNotificationWithIssueAlerts(alert_type);
+			       logger.error("sendIssueAlertsToAllByManual >> Sending mails : "+ flag); 
+	           //}
 			
 		 } catch (Exception e) {
 			 e.printStackTrace();
@@ -155,101 +192,39 @@ public class AlertsController {
 	}
 	
 	@RequestMapping(value="/send-risk-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView sendRiskAlertsToAllByManual(){		
+	public ModelAndView sendEMailNotificationWithRiskAlertsByManual(){		
 		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
-	    	logger.error("sendRiskAlertsToAllByManual : start");
+	    	logger.error("sendEMailNotificationWithRiskAlertsByManual : start");
 		    
-		    boolean flag = service.sendRiskNotificationAlertMails();
-			logger.error("sendRiskAlertsToAllByManual >> Sending mails : "+ flag);
+		    boolean flag = service.sendEMailNotificationWithRiskAlerts();
+			logger.error("sendEMailNotificationWithRiskAlertsByManual >> Sent mails : "+ flag);
 			
 		 } catch (Exception e) {
 			 e.printStackTrace();
-			logger.error("sendRiskAlertsToAllByManual() : "+e.getMessage());
+			logger.error("sendEMailNotificationWithRiskAlertsByManual() : "+e.getMessage());
 		 }
 	     return model;
 	}
 	
-	@RequestMapping(value="/generate-and-send-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generateAndSendAlertsToAllByManual(){		
+	@RequestMapping(value="/send-alerts-to-it-admins",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView sendEMailNotificationAlertsToITAdminsByManual(){		
 		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
-	    	logger.error("generateAndSendAlertsToAllByManual : start");
-	    	//System.out.println("Start "+ new Date());
-            boolean flag = service.generateAterts();
-            //System.out.println("End "+ new Date());
-	    	logger.error("generateAndSendAlertsToAllByManual >> generateAterts : "+flag);
-			
-		    flag = service.sendNotificationAlertMails(null);
-		    logger.error("generateAndSendAlertsToAllByManual >> sendNotificationAlertMails >> Sending mails : "+ flag); 
-		    //System.out.println("Sending mails : "+ flag); 
-		    
-		    flag = service.sendRiskNotificationAlertMails();
-			logger.error("generateAndSendAlertsToAllByManual >> sendRiskNotificationAlertMails >> Sending mails : "+ flag);
-			
-		 } catch (Exception e) {
-			 e.printStackTrace();
-			logger.error("generateAndSendAlertsToAllByManual() : "+e.getMessage());
-		 }
-	     return model;
-	}
-	
-
-	
-	@RequestMapping(value="/generate-and-send-alerts-rajiv-ravi",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generateAndSendAlertsToRajivRaviByManual(){		
-		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
-	     try {
-	    	logger.error("generateAndSendAlertsToRajivRaviByManual : start");
-	    	//System.out.println("Start "+ new Date());
-            boolean flag = service.generateAterts();
-            //System.out.println("End "+ new Date());
-	    	logger.error("generateAndSendAlertsToRajivRaviByManual : "+flag);
+	    	logger.error("sendEMailNotificationAlertsToITAdminsByManual : start");
 	    	 
-			flag = service.sendAlertsToRajivRavi();
-			logger.error("generateAndSendAlertsToRajivRaviByManual >> Sending mails : "+ flag); 
-			//System.out.println("Sending mails : "+ flag); 
-			
-		 } catch (Exception e) {
-			 e.printStackTrace();
-			logger.error("generateAlertsByManual() : "+e.getMessage());
-		 }
-	     return model;
-	}
-	
-	@RequestMapping(value="/send-alerts-rajiv-ravi",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView sendAlertsToRajivRaviByManual(){		
-		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
-	     try {
-	    	logger.error("sendAlertsToRajivRaviByManual : start");
-	    	 
-			boolean flag = service.sendAlertsToRajivRavi();
-			logger.error("sendAlertsToRajivRaviByManual >> Sending mails : "+ flag); 
+			boolean flag = service.sendEMailNotificationAlertsToITAdmins();
+			logger.error("sendEMailNotificationAlertsToITAdminsByManual >> Sent mails : "+ flag); 
 			//System.out.println("Sending mails : "+ flag);
 			
 		 } catch (Exception e) {
 			 e.printStackTrace();
-			logger.error("sendAlertsToRajivRaviByManual() : "+e.getMessage());
+			logger.error("sendEMailNotificationAlertsToITAdminsByManual() : "+e.getMessage());
 		 }
 	     return model;
 	}
 	
-	@RequestMapping(value="/generate-alerts-manually",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generateAlertsManually(){		
-		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
-	     try {
-	    	logger.error("generateAlertsManually : start");
-	    	//System.out.println("Start "+ new Date());
-            boolean flag = service.generateAterts();
-            //System.out.println("End "+ new Date());
-	    	logger.error("generateAlertsManually : "+flag);
-			
-		 } catch (Exception e) {
-			 e.printStackTrace();
-			logger.error("generateAlertsByManual() : "+e.getMessage());
-		 }
-	     return model;
-	}
+	/********************************************************************************************/
 	
 	@RequestMapping(value="/get-alerts",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getAlertsList(HttpSession session){		

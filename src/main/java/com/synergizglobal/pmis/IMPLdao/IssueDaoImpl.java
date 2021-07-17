@@ -518,7 +518,7 @@ public class IssueDaoImpl implements IssueDao {
 
 				String issue_status = obj.getStatus_fk();
 				String reported_by_email_id = obj.getReported_by_email_id();
-				sendEmailWithIssueAlert(issue_id, issue_status, reported_by_email_id, obj.getExisting_status_fk(), null,
+				sendEmailWithIssueStatusAlert(issue_id, issue_status, reported_by_email_id, obj.getExisting_status_fk(), null,
 						null);
 
 			}
@@ -762,7 +762,7 @@ public class IssueDaoImpl implements IssueDao {
 				String reported_by_email_id = obj.getReported_by_email_id();
 				String existing_responsible_person = obj.getExisting_responsible_person();
 				String existing_escalated_to = obj.getExisting_escalated_to();
-				sendEmailWithIssueAlert(issue_id, issue_status, reported_by_email_id, existing_status_fk,
+				sendEmailWithIssueStatusAlert(issue_id, issue_status, reported_by_email_id, existing_status_fk,
 						existing_responsible_person, existing_escalated_to);
 
 			}
@@ -774,7 +774,7 @@ public class IssueDaoImpl implements IssueDao {
 		return flag;
 	}
 
-	public void sendEmailWithIssueAlert(String issue_id, String issue_status, String reported_by_email_id,
+	public void sendEmailWithIssueStatusAlert(String issue_id, String issue_status, String reported_by_email_id,
 			String existing_status_fk, String existing_responsible_person, String existing_escalated_to)
 			throws Exception {
 
@@ -1278,7 +1278,7 @@ public class IssueDaoImpl implements IssueDao {
 				mail.setMailCc(mailCC);
 				mail.setMailBcc(CommonConstants.BCC_MAIL);
 				mail.setMailSubject(emailSubject);
-				mail.setTemplateName("IssueAlert.vm");
+				mail.setTemplateName("IssueStatusAlert.vm");
 
 				SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
 				String today_date = monthFormat.format(new Date()).toUpperCase();
@@ -1288,11 +1288,11 @@ public class IssueDaoImpl implements IssueDao {
 
 				if (!StringUtils.isEmpty(mailTo)) {
 					EMailSender emailSender = new EMailSender();
-					logger.error("sendEmailWithIssueAlert() >> Sending mail to " + mailTo + ": Start ");
-					logger.error("sendEmailWithIssueAlert() >> Sending mail CC " + mailCC + ": Start ");
-					emailSender.sendEmailWithIssueAlert(mail, iObj, today_date, current_year);
-					logger.error("sendEmailWithIssueAlert() >> Sending mail to " + mailTo + ": end ");
-					logger.error("sendEmailWithIssueAlert() >> Sending mail CC " + mailCC + ": end ");
+					logger.error("sendEmailWithIssueStatusAlert() >> Sending mail to " + mailTo + ": Start ");
+					logger.error("sendEmailWithIssueStatusAlert() >> Sending mail CC " + mailCC + ": Start ");
+					emailSender.sendEmailWithIssueStatusAlert(mail, iObj, today_date, current_year);
+					logger.error("sendEmailWithIssueStatusAlert() >> Sending mail to " + mailTo + ": end ");
+					logger.error("sendEmailWithIssueStatusAlert() >> Sending mail CC " + mailCC + ": end ");
 				}
 			}
 		} catch (Exception e) {

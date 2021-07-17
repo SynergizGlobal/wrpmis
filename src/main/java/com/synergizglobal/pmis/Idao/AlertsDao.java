@@ -9,9 +9,13 @@ public interface AlertsDao {
 
 	boolean generateAterts() throws Exception;
 
-	boolean sendNotificationAlertMails(String alert_type) throws Exception;
+	boolean sendEMailNotificationWithContractAlerts(String alert_type) throws Exception;
 	
-	boolean sendAlertsToRajivRavi() throws Exception;
+	boolean sendEMailNotificationWithIssueAlerts(String alert_type) throws Exception;
+
+	boolean sendEMailNotificationWithRiskAlerts() throws Exception;
+	
+	boolean sendEMailNotificationAlertsToITAdmins() throws Exception;
 
 	List<Alerts> getAlerts(Alerts obj) throws Exception;
 	
@@ -38,8 +42,6 @@ public interface AlertsDao {
 	List<Alerts> getAlertsList(Alerts obj, int startIndex, int offset, String searchParameter) throws Exception;
 
 	List<Alerts> getAlertTypes(Alerts aObj) throws Exception;
-
-	boolean sendRiskNotificationAlertMails() throws Exception;
 	
 	List<Alerts> getAlertTypesForGenerateSendAlerts() throws Exception;
 

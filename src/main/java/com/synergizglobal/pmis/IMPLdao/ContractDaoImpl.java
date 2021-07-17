@@ -1296,7 +1296,7 @@ public class ContractDaoImpl implements ContractDao {
 							+"bg_number,bg_value,valid_upto,contract_id_fk,code,bg_date,release_date) "
 							+"VALUES (?,?,?,?,?,?,?,?,?)";
 					stmt = con.prepareStatement(BankG_qry);
-			
+				    arraySize = 0;
 					if(!StringUtils.isEmpty(contract.getBg_type_fks()) && contract.getBg_type_fks().length > 0) {
 						contract.setBg_type_fks(CommonMethods.replaceEmptyByNullInSringArray(contract.getBg_type_fks()));
 						if(arraySize < contract.getBg_type_fks().length) {

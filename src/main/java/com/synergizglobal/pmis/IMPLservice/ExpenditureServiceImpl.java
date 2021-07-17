@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.ExpenditureDao;
 import com.synergizglobal.pmis.Iservice.ExpenditureService;
 import com.synergizglobal.pmis.model.Expenditure;
-import com.synergizglobal.pmis.model.SourceOfFund;
 
 @Service
 public class ExpenditureServiceImpl implements ExpenditureService{
@@ -95,6 +94,11 @@ public class ExpenditureServiceImpl implements ExpenditureService{
 	@Override
 	public int getTotalRecords(Expenditure obj, String searchParameter) throws Exception {
 		return dao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<Expenditure> getExpendituresListForExport(Expenditure obj) throws Exception {
+		return dao.getExpendituresListForExport(obj);
 	}
 	
 	

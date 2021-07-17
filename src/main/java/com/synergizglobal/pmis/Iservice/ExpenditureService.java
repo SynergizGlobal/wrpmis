@@ -39,4 +39,6 @@ public interface ExpenditureService {
 
 	public int getTotalRecords(Expenditure obj, String searchParameter) throws Exception;
 
+	public List<Expenditure> getExpendituresListForExport(Expenditure obj) throws Exception;
+
 }

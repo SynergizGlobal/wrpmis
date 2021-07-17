@@ -42,12 +42,10 @@ import com.synergizglobal.pmis.Iservice.ExpenditureService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Project;
-import com.synergizglobal.pmis.model.Risk;
-import com.synergizglobal.pmis.model.ExpenditurePaginationObject;
 import com.synergizglobal.pmis.model.Expenditure;
+import com.synergizglobal.pmis.model.ExpenditurePaginationObject;
 import com.synergizglobal.pmis.model.FileFormatModel;
-import com.synergizglobal.pmis.model.P6Data;
+import com.synergizglobal.pmis.model.Project;
 
 @Controller
 public class ExpenditureController {
@@ -402,7 +400,7 @@ public class ExpenditureController {
 		List<Expenditure> dataList = new ArrayList<Expenditure>();
 		try {
 			view.setViewName("redirect:/expenditure");
-			dataList =  expenditureService.getExpendituresList(obj, 0, 0, commonError);
+			dataList =  expenditureService.getExpendituresListForExport(obj);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
 		        XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Expenditure"));

@@ -278,8 +278,12 @@
         function getHistoryList(tempalteName){
         	$(".page-loader-2").show();
         	template_name = tempalteName;
-        	table = $('#history_table').DataTable();
-    		table.destroy();
+        	table = $('#history_table').DataTable({
+        		"paging": false,
+        		"searching": false,
+        		"info":false
+        	});
+    		//table.destroy();
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#history_table').DataTable().rows().remove().draw();;
     		table.state.clear();		

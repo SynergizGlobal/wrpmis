@@ -359,8 +359,8 @@
 									            <table id="departmentTable" class="mdl-data-table mobile_responsible_table" >
 									                <thead>
 									                    <tr>
-									                        <th style="width:22%">Department</th>
-															<th>Select Executives</th>
+									                        <th style="width:22%">Department <span class="required">*</span></th>
+															<th>Select Executives <span class="required">*</span></th>
 															<th style="width:8%">Action</th>
 									                    </tr>
 									                </thead>
@@ -549,8 +549,9 @@
 	                                		<option value="lacs">Lacs</option>
 	                                		<option value="crores">Crores</option>
 	                                	</select>
-                                	</div>	                               
-	                           
+                                	</div>	                         
+                                </div>      
+	                           	<div class="row">
 	                                 <div class="col s9 m3 input-field offset-m2">
 	                                	<i class="material-icons prefix cost left-align">₹</i>
 	                                    <input id="awarded_cost" name="awarded_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.awarded_cost }" />

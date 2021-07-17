@@ -15,8 +15,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -402,61 +411,133 @@ public class ExpenditureController {
 			view.setViewName("redirect:/expenditure");
 			dataList =  expenditureService.getExpendituresListForExport(obj);
 			if(dataList != null && dataList.size() > 0){
-				XSSFWorkbook  workBook = new XSSFWorkbook ();
-		        XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Expenditure"));
+		        XSSFWorkbook  workBook = new XSSFWorkbook ();
+	            XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Expenditure"));
 		        workBook.setSheetOrder(sheet.getSheetName(), 0);
+		        
+		        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
+		        byte[] yellowRGB = new byte[]{(byte)255, (byte)192, (byte)0};
+		        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+		        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+		        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+		        
+		        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+		        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
 		        XSSFRow headingRow = sheet.createRow(0);
-	            headingRow.createCell((short)0).setCellValue("Expenditure ID");
-	            headingRow.createCell((short)1).setCellValue("Work");
-	            headingRow.createCell((short)2).setCellValue("Contract");
-	         	headingRow.createCell((short)3).setCellValue("Ledger Account");
-	         	headingRow.createCell((short)4).setCellValue("Date");
-	            headingRow.createCell((short)5).setCellValue("Contractor Name");
-	            headingRow.createCell((short)6).setCellValue("Vocher Type");
-	            headingRow.createCell((short)7).setCellValue("Vocher No");
-	            headingRow.createCell((short)8).setCellValue("Narration");
-	            headingRow.createCell((short)9).setCellValue("Net Paid");
-	            headingRow.createCell((short)10).setCellValue("Gross Work Done");
-	            headingRow.createCell((short)11).setCellValue("sd Payable");
-	            headingRow.createCell((short)12).setCellValue("Contractor Income Tax");
-	            headingRow.createCell((short)13).setCellValue("CGST TDS");
-	            headingRow.createCell((short)14).setCellValue("SGST TDS");
-	            headingRow.createCell((short)15).setCellValue("IGST TDS");
-	            headingRow.createCell((short)16).setCellValue("VAT WCT");
-	            headingRow.createCell((short)17).setCellValue("Mob Advance");
-	            headingRow.createCell((short)18).setCellValue("Interest on Mob Advance");
-	            headingRow.createCell((short)19).setCellValue("Amount Withheld");
-	            headingRow.createCell((short)20).setCellValue("Remarks");
-	           
-
+		        String headerString = "Expenditure ID^Work^Contract^Ledger Account^Date^Contractor Name^Vocher Type^Vocher No^Narration^Net Paid^Gross Work Done"
+	            		+ "^SD Payable^Contractor Income Tax^CGST TDS^SGST TDS^IGST TDS^VAT WCT^Mob Advance^Interest on Mob Advance^"
+	            		+ "Amount Withheld^Remarks";
+	            
+	            String[] firstHeaderStringArr = headerString.split("\\^");
+	            
+	            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+		        	Cell cell = headingRow.createCell(i);
+			        cell.setCellStyle(greenStyle);
+					cell.setCellValue(firstHeaderStringArr[i]);
+				}
 	            short rowNo = 1;
+	          
 	            for (Expenditure eObj : dataList) {
-	                XSSFRow row = sheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(eObj.getExpenditure_id());
-	                row.createCell((short)1).setCellValue(eObj.getWork_id_fk() +" - "+eObj.getWork_name());
-	                row.createCell((short)2).setCellValue(eObj.getContract_id_fk()+" - "+ eObj.getContract_name());
-	                row.createCell((short)3).setCellValue(eObj.getLedger_account());
-	                row.createCell((short)4).setCellValue(eObj.getDate());
-	                row.createCell((short)5).setCellValue(eObj.getContract_name());
-	                row.createCell((short)6).setCellValue(eObj.getVoucher_type());
-	                row.createCell((short)7).setCellValue(eObj.getVoucher_no());
-	                row.createCell((short)8).setCellValue(eObj.getNarration());
-	                row.createCell((short)9).setCellValue(eObj.getNet_paid());
-	                row.createCell((short)10).setCellValue(eObj.getGross_work_done());
-	                row.createCell((short)11).setCellValue(eObj.getSd_payable());
-	                row.createCell((short)12).setCellValue(eObj.getContractor_income_tax());
-	                row.createCell((short)13).setCellValue(eObj.getCgst_tds());
-	                row.createCell((short)14).setCellValue(eObj.getSgst_tds());
-	                row.createCell((short)15).setCellValue(eObj.getIgst_tds());
-	                row.createCell((short)16).setCellValue(eObj.getVat_wct());
-	                row.createCell((short)17).setCellValue(eObj.getMob_advance());
-	                row.createCell((short)18).setCellValue(eObj.getInterest_on_mob_adv());
-	                row.createCell((short)19).setCellValue(eObj.getAmount_withheld());
-	                row.createCell((short)20).setCellValue(eObj.getRemarks());
-	             
-	                rowNo++;
+	            	 XSSFRow row = sheet.createRow(rowNo);
+		                int c = 0;
+		                
+		                Cell cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getExpenditure_id());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getWork_id_fk() +" - "+eObj.getWork_name());
+						
+		                cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getContract_id_fk()+" - "+ eObj.getContract_name());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getLedger_account());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getDate());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getContractor_name());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getVoucher_type());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getVoucher_no());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getNarration());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getNet_paid());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getGross_work_done());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getSd_payable());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getContractor_income_tax());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getCgst_tds());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getSgst_tds());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getIgst_tds());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getVat_wct());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getMob_advance());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getInterest_on_mob_adv());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getAmount_withheld());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getRemarks());
+						
+						rowNo++;
 	            }
-	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+	            for(int columnIndex = 0; columnIndex < 100; columnIndex++) {
 	            	//sheet.autoSizeColumn(columnIndex);
 	        		sheet.setColumnWidth(columnIndex, 25 * 200);
 				}
@@ -506,6 +587,37 @@ public class ExpenditureController {
 		}
 	}
 
+	private CellStyle cellFormating(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {
+		CellStyle style = workBook.createCellStyle();
+		//Setting Background color  
+		//style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		
+		if (style instanceof XSSFCellStyle) {
+		   XSSFCellStyle xssfcellcolorstyle = (XSSFCellStyle)style;
+		   xssfcellcolorstyle.setFillForegroundColor(new XSSFColor(rgb, null));
+		}
+		//style.setFillPattern(FillPatternType.ALT_BARS);
+		style.setBorderBottom(BorderStyle.MEDIUM);
+		style.setBorderTop(BorderStyle.MEDIUM);
+		style.setBorderLeft(BorderStyle.MEDIUM);
+		style.setBorderRight(BorderStyle.MEDIUM);
+		style.setAlignment(hAllign);
+		style.setVerticalAlignment(vAllign);
+		style.setWrapText(isWrapText);
+		
+		Font font = workBook.createFont();
+        //font.setColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
+        font.setFontHeightInPoints((short)fontSize);  
+        font.setFontName(fontName);  //"Times New Roman"
+        
+        font.setItalic(isItalicText); 
+        font.setBold(isBoldText);
+        // Applying font to the style  
+        style.setFont(font); 
+        
+        return style;
+	}
 	@RequestMapping(value = "/upload-expenditures", method = {RequestMethod.POST})
 	public ModelAndView uploadRisk(@ModelAttribute Expenditure expenditure,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();

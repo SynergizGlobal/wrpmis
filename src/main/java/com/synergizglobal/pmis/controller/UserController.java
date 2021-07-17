@@ -180,6 +180,19 @@ public class UserController {
 		return dObj;
 	}
 	
+	@RequestMapping(value = "/ajax/getUserReportingToList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getUserReportingToList(@ModelAttribute User obj) {
+		List<User> reportingToList = null;
+		try {
+			reportingToList = userService.getUserReportingToList(obj.getDepartment_fk());
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getUserReportingToList : " + e.getMessage());
+		}
+		return reportingToList;
+	}
+	
 	@RequestMapping(value="/add-user-form",method=RequestMethod.GET)
 	public ModelAndView addUserForm(HttpSession session) {
 		ModelAndView model = new ModelAndView();
@@ -197,7 +210,7 @@ public class UserController {
 			List<User> departments = userService.getUserDepartments();
 			model.addObject("departments", departments);
 			
-			List<User> reportingToList = userService.getUserReportingToList();
+			List<User> reportingToList = userService.getUserReportingToList(null);
 			model.addObject("reportingToList", reportingToList);
 			
 			List<User> userAccessTypes = userService.getUserAccessTypes(null);
@@ -313,17 +326,11 @@ public class UserController {
 			List<User> departments = userService.getUserDepartments();
 			model.addObject("departments", departments);
 			
-			List<User> reportingToList = userService.getUserReportingToList();
-			model.addObject("reportingToList", reportingToList);
-			
 			List<User> userAccessTypes = userService.getUserAccessTypes(null);
 			model.addObject("userAccessTypes", userAccessTypes);
 			
 			List<User> pmisKeys = userService.getPmisKeys();
 			model.addObject("pmisKeys", pmisKeys);
-			
-			User user = userService.getUser(obj);			
-			model.addObject("usrObj", user);
 			
 			List<User> contractsForAccess = userService.getContractsForUserAccessTypes(obj);
 			model.addObject("contractsForAccess", contractsForAccess);
@@ -336,6 +343,12 @@ public class UserController {
 			
 			List<User> worksForAccess = userService.getWorksForUserAccessTypes(obj);
 			model.addObject("worksForAccess", worksForAccess);
+			
+			User user = userService.getUser(obj);			
+			model.addObject("usrObj", user);
+			
+			List<User> reportingToList = userService.getUserReportingToList(user.getDepartment_fk());
+			model.addObject("reportingToList", reportingToList);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

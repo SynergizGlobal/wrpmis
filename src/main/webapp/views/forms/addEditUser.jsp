@@ -189,7 +189,7 @@
                             <div class="row">
                                 <div class="col s6 m4 input-field offset-m2">
                                    <p class="searchable_label">Department <span class="required">*</span></p>
-                                    <select id="department_fk" name="department_fk" class="searchable validate-dropdown">
+                                    <select id="department_fk" name="department_fk" class="searchable validate-dropdown" onchange="getReportingToPersonsList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departments }">
                                         	<option value="${obj.department }" <c:if test="${obj.department eq usrObj.department_fk}">selected</c:if>>${obj.department_name }</option>
@@ -482,6 +482,31 @@
             $('.searchable').select2();
             $('#remarks').characterCounter();
         });
+        
+        function getReportingToPersonsList(department_fk){
+       	  	 $(".page-loader").show(); 
+     		 $("#reporting_to_id_srfk option:not(:first)").remove();
+             var myParams = { department_fk : department_fk };
+             $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getUserReportingToList",
+                   data: myParams, cache: false,async:true,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                        	  var name = "";
+                        	  if($.trim(val.designation) != ''){
+                        		  name = $.trim(val.designation) + " - " + $.trim(val.user_name)
+                        	  }
+                              $("#reporting_to_id_srfk").append('<option value="' + val.user_id + '">' + $.trim(name)+ '</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error:function(){
+                	   $(".page-loader").hide();
+                   }
+             });
+        }
         
         function setUserRoleCode(){
         	var user_role_code = $("#user_role_name_fk").find('option:selected').attr("name");

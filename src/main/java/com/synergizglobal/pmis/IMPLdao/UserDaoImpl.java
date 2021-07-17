@@ -67,11 +67,21 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public List<User> getUserReportingToList() throws Exception {
+	public List<User> getUserReportingToList(String department_fk) throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select user_id,designation,user_name from user u where u.user_name not like '%user%' and u.pmis_key_fk not like '%SGS%'";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));	
+			String qry = "select user_id,designation,user_name from user u where u.user_name not like '%user%' and u.pmis_key_fk not like '%SGS%' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(department_fk)) {
+				qry = qry + " and department_fk = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(department_fk)) {
+				pValues[i++] = department_fk;
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -337,15 +347,14 @@ public class UserDaoImpl implements UserDao{
 				pValues[i++] = obj.getReporting_to_id_srfk();
 			}
 			
-			uobj = (User)jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<User>(User.class));	
+			uobj = (User)jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<User>(User.class));
 			
 			if(!StringUtils.isEmpty(uobj) && !StringUtils.isEmpty(uobj.getUser_id())) {
-				List<User> objsList = null;
 				String qryUserPermission = "select user_access_type_fk as user_access_type,access_value from user_access where user_id_fk = ? " ;
 				
-				objsList = jdbcTemplate.query(qryUserPermission, new Object[] {uobj.getUser_id()}, new BeanPropertyRowMapper<User>(User.class));	
+				List<User> permObjsList = jdbcTemplate.query(qryUserPermission, new Object[] {uobj.getUser_id()}, new BeanPropertyRowMapper<User>(User.class));	
 				
-				uobj.setUserPermissions(objsList);
+				uobj.setUserPermissions(permObjsList);
 			}
 			
 		}catch(Exception e){ 

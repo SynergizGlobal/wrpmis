@@ -17,7 +17,7 @@ public class User  {
 	
 	private List<User> departmentList,DesignationsList,UserLoginList;
 	
-	private List<User> userPermissions;
+	private List<User> userPermissions,reportingToPersonsList;
 	
 	private MultipartFile fileName;
 	
@@ -634,6 +634,16 @@ public class User  {
 
 	public void setSingle_login_session_id(String single_login_session_id) {
 		this.single_login_session_id = single_login_session_id;
+	}
+
+
+	public List<User> getReportingToPersonsList() {
+		return reportingToPersonsList;
+	}
+
+
+	public void setReportingToPersonsList(List<User> reportingToPersonsList) {
+		this.reportingToPersonsList = reportingToPersonsList;
 	}
 	
 	

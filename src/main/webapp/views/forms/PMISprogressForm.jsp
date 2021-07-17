@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,14 +16,20 @@
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
       <style>
-        .mdl-data-table {
-            border: 1px solid #ccc;
-        }
 
+        .table-inside .mdl-data-table td:first-of-type{
+        	text-align:left !important;
+        }
         .hiddendiv.common {
             width: 99vw !important;
         }
+        .dataTables_filter label {
+		    color: transparent;
+		    font-size:0.1px;
+		}
 
         thead th input[type="checkbox"]+span:not(.lever):before {
             border: 2px solid #fff;
@@ -41,16 +48,19 @@
         .date-holder {
             position: relative;
         }
-
+		td:first-of-type,
+		th:first-of-type{
+			max-width:5rem;
+		}
         .date-holder .datepicker~button {
             top: 30%;
             right: 0;
         }
 
         td .datepicker~button {
-            top: 30px;
+            top: 26px;
         }
-
+ 		/* date picker styling reset code starts here  */
         td .datepicker {
             font-size: 0.87rem !important;
         }
@@ -74,6 +84,7 @@
             padding: 0;
             border: 0;
         }
+        /* date picker styling reset code ends here  */
 		.w-150{
 			width:150px;
 			min-width:150px;
@@ -86,15 +97,12 @@
 			max-width:250px;
 		}
         @media only screen and (max-width: 700px) {
-            div.dataTables_wrapper div.dataTables_filter input {
-                width: 90% !important;
-            }
             .w-150,.w-250{
-			width:auto;
-			min-width:auto;
-			max-width:auto;
-			word-break:break-word;
-		}
+				width:auto;
+				min-width:auto;
+				max-width:auto;
+				word-break:break-word;
+			}
         }
          .error-msg label {
             color: red !important;
@@ -105,25 +113,7 @@
         .errMsgCheck label {
        		 color: red !important;
         }
-        .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		 .page-loader-2 {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}			
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+       
 		/* Chrome, Safari, Edge, Opera */
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
@@ -144,6 +134,64 @@
 		   padding-top: 10px;
 		   font-weight: 600;
     }
+    @media only screen and (max-width: 769px) {
+	    .mobile_responsible_table >tbody > tr >td:nth-child(1) >p{
+	    	display:inline-block;
+	    }
+	     .mdl-cell--6-col, .mdl-cell--6-col-tablet.mdl-cell--6-col-tablet,
+	     div.dataTables_wrapper div.dataTables_filter label {
+             width: 100% !important;
+         }
+        /*  select all holding code starts here */
+         .mobile_responsible_table.different >thead{
+         	display:block;
+         	background-color:#2E58AD;
+         	padding-bottom:0;
+         }        
+         .mobile_responsible_table.different >thead tr> th:not(:first-of-type){
+         	display:none;        	
+         }   
+         .mobileCheckbox::after,
+         .mobileCheckbox::before{
+         	content:'' !important;
+         }
+         .mobileCheckbox >p::after{
+         	content:'' !important;
+         } 
+         .mobileCheckbox> p::before{
+         	content:'Select All' !important;
+         } 
+         .mobileCheckbox> p > label{
+         	vertical-align:middle;
+         	margin-left:1rem;
+         } 
+       /*  select all holding code ends here */       
+       	.nextLine{
+       		white-space:break-spaces;
+       		display:inline-block;
+       		padding: 0 4px;
+       		width: -webkit-fill-available;
+       	}
+       	.h-auto{
+       		height:auto !important;
+       	}    
+       	td:first-of-type,
+		th:first-of-type{
+			max-width:inherit;
+		}  	       	
+    }
+    @media only screen and (max-width: 768px){
+		.dataTables_filter input,
+         div.dataTables_wrapper div.dataTables_filter label input{
+             width: 96% !important;
+         }
+	}
+	@media only screen and (max-width: 576px){
+		.dataTables_filter input,
+         div.dataTables_wrapper div.dataTables_filter label input{
+             width: 90% !important;
+         }
+	}
     </style>
 </head>
 <body>
@@ -158,7 +206,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
+                            <div class="center-align p-2 bg-m m-b-2">
                                 <h6>Progress Form</h6>
                             </div>
                         </span>
@@ -166,44 +214,35 @@
                     <!-- form start-->
                     <form action="<%=request.getContextPath() %>/update-pmis-progrss-form" id="progressForm" name="progressForm" method="post" >
                         <div class="row" style="margin-bottom: 0;">
-                            <div class="col m1 hide-on-small-only"></div>
-                            <div class="col m10 s12">
-                                <div class="row ">
-                                    <div class="col m1 hide-on-small-only"></div>
-                                   <!--  <div class="col m8 s12">
-                                        <div class="row" style="margin-bottom: 0;"> -->
-                                            <div class="col s12 m2 input-field">
-                                                <p class="searchable_label">Project</p>
-                                                <select name="project_id_fk" id="project_id_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
-                                                    <option value="">Select</option>                                                    
-                                                </select>
-                                            </div> 
-                                             <div class="col s12 m2 input-field">
-                                                <p class="searchable_label">Work</p>
-                                                <select name="work_id_fk" id="work_id_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
-                                                    <option value="">Select</option>                                                    
-                                                </select>
-                                            </div> 
-                                            <div class="col s12 m2 input-field">
-                                                <p class="searchable_label">Milestone</p>
-                                                <select name="milestone_fk" id="milestone_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
-                                                    <option value="">Select</option>                                                    
-                                                </select>
-                                            </div>          
-                                               <div class="col s12 m2 input-field">
-                                                <p class="searchable_label">Contract</p>
-                                                <select  name="contract_id_fk" id="contract_id_fk"  onchange="getMileStoneList();" class="searchable validate-dropdown">
-                                                    <option value="">Select</option>                                                    
-                                                </select>
-                                            </div>                                 
-                                            <div class="col s12 m2 input-field">
-                                                <button class="btn bg-m waves-effect waves-light t-c clear-filters "  onclick="clearFilter();"
-                                                    style="margin-top: 8px;width: 100%;">Clear Filters</button>
-                                            </div>
-                                       <!--  </div>
-                                    </div> -->
-                                    
-                                    <div class="col m1 hide-on-small-only"></div>
+                            <div class="col m10 s12 offset-m1">
+                                <div class="row ">                                  
+                                      <div class="col s6 m4 l2 input-field offset-l1">
+                                          <p class="searchable_label">Project</p>
+                                          <select name="project_id_fk" id="project_id_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                              <option value="">Select</option>                                                    
+                                          </select>
+                                      </div> 
+                                       <div class="col s6 m4 l2 input-field">
+                                          <p class="searchable_label">Work</p>
+                                          <select name="work_id_fk" id="work_id_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                              <option value="">Select</option>                                                    
+                                          </select>
+                                      </div> 
+                                      <div class="col s6 m4 l2 input-field">
+                                          <p class="searchable_label">Milestone</p>
+                                          <select name="milestone_fk" id="milestone_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                              <option value="">Select</option>                                                    
+                                          </select>
+                                      </div>          
+                                         <div class="col s6 m4 l2 input-field">
+                                          <p class="searchable_label">Contract</p>
+                                          <select  name="contract_id_fk" id="contract_id_fk"  onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                              <option value="">Select</option>                                                    
+                                          </select>
+                                      </div>                                 
+                                      <div class="col s12 m4 l3 input-field center-align">
+                                          <button class="btn bg-m waves-effect waves-light t-c clear-filters "  onclick="clearFilter();">Clear Filters</button>
+                                      </div>                                    
                                 </div>
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col m2 hide-on-small-only"></div>
@@ -221,10 +260,10 @@
 							<span id="actualScopesError" class="error-msg" style="color:red"></span>
                                 <div class="row fixed-width" style="margin-bottom: 30px;">
                                     <div class="table-inside">
-                                        <table class="mdl-data-table" id="datatable-table">
+                                        <table class="mdl-data-table mobile_responsible_table different" id="datatable-table">
                                             <thead>
                                                 <tr>
-                                                    <th>
+                                                    <th class="mobileCheckbox">
                                                         <p>
                                                             <label>
                                                                 <input type="checkbox" name="select-all" 
@@ -250,7 +289,7 @@
                                                     
                                                 </tr>
                                             </thead>
-                                            <tbody id="filerList">
+                                            <tbody id="filerList">                                            	  
                                            <%--  <c:forEach items="${mileStoneList}" var="obj" varStatus="index">
                                                 <tr>
                                                     <td>
@@ -271,7 +310,7 @@
                                                             <input id="start_date${index.count }" type="text"
                                                                 class="validate datepicker" placeholder="Start Date"
                                                                 value="${obj.actual_start}">
-                                                            <button type="button" id="start_date_icon${index.count }" class="white"><i
+                                                            <button type="button" id="start_date_icon${index.count }" ><i
                                                                     class="fa fa-calendar"></i></button>
                                                     </td>
                                     </div>
@@ -280,7 +319,7 @@
                                         <div class="date-holder">
                                             <input type="text" class="validate datepicker" 
                                                 placeholder="Finish Date" value="${obj.actual_finish}">
-                                            <button type="button" id="finish_date_icon${index.count }" class="white"><i
+                                            <button type="button" id="finish_date_icon${index.count }" ><i
                                                     class="fa fa-calendar"></i></button>
                                         </div>
                                     </td>
@@ -301,10 +340,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
-
-                                    
+                                <div class="col m8 s12 offset-m2">                                    
                                     <div class="row">
                                         <!-- <div class="col s12 m4">
                                                 <div class="center-align m-1">
@@ -313,14 +349,14 @@
                                                         Activities</button>
                                                 </div>
                                             </div> -->
-                                        <div class="col s12 m6">
-                                            <div class="center-align m-1">
+                                        <div class="col s6 m6 center-align">
+                                            <div class=" m-1">
                                                 <button type="button" id="btn"  class="btn waves-effect waves-light bg-m"
                                                     style="width: 100%;">Update</button>
                                             </div>
                                         </div>
-                                        <div class="col s12 m6">
-                                            <div class="center-align m-1">
+                                        <div class="col s6 m6 center-align">
+                                            <div class=" m-1">
                                                 <button type="reset" class="btn waves-effect waves-light bg-s"
                                                     style="width: 100%;">Reset</button>
                                             </div>
@@ -604,11 +640,8 @@
                     'searchable':false,
                     'orderable':false,
                     'className': 'mdl-data-table__cell--non-numeric',
-                    
-                    // targets: [0, 1, 2],
-                    // className: 'mdl-data-table__cell--non-numeric',
-                   
-                },
+                                       
+                },              
                 { "width": "10px", "targets": [6] },                
             ],
             'order': [1, 'asc'],
@@ -634,19 +667,19 @@
 	  	                  	var rowArray = []; 
 	  	                  	
 	  	                    var checkBox = 		        '<tr id="row'+num+'"><td><p><label><input type="checkbox" class="check" name="activity_check" id="check_'+num+'"/><span><input type="hidden" name="ids"  id="ids'+num+'"  value="' + $.trim(val.id) + '" /></span></label></p></td>';
-	                    	var milestone_name = 	    '<td>' + $.trim(val.milestone_name) + '</td>';
-	                    	var activity_description =	'<td>' + $.trim(val.activity_description) + '</td>';
-	                    	var planned_start =			'<td>' + $.trim(val.planned_start) + '</td>';
-	                    	var planned_finish = 		'<td>' + $.trim(val.planned_finish) + '</td>';
-	                    	var actual_starts =			'<td> <div class="date-holder"><input id="actual_starts'+num+'" name="actual_starts" type="text" class="validate datepicker" placeholder="Start Date" value="' + $.trim(val.actual_start) + '">'
-                            								+'<button type="button" id="start_date_icon'+num+'" class="white"><i class="fa fa-calendar"></i></button></td>';
-                           	var actual_finishs = 		'<td> <div class="date-holder"><input id="actual_finishs'+num+'" name="actual_finishs" type="text" class="validate datepicker" placeholder="Finish Date" value="' + $.trim(val.actual_finish) + '">'
-                          						  		    +'<button type="button" id="finish_date_icon'+num+'" class="white"><i class="fa fa-calendar"></i></button></td>';
-                          	var totalScope = 			'<td><span>' + $.trim(val.total_scope) + '</span>'
+	                    	var milestone_name = 	    '<td data-head="Milestone" class="input-field"><span class="nextLine">' + $.trim(val.milestone_name) + '</span></td>';
+	                    	var activity_description =	'<td data-head="Activity" class="input-field"><span class="nextLine">' + $.trim(val.activity_description) + '</span></td>';
+	                    	var planned_start =			'<td data-head="Planned Start Date" class="input-field"><span class="nextLine">' + $.trim(val.planned_start) + '</span></td>';
+	                    	var planned_finish = 		'<td data-head="Planned Finish Date" class="input-field"><span class="nextLine">' + $.trim(val.planned_finish) + '</span></td>';
+	                    	var actual_starts =			'<td data-head="Actual Start Date " class="input-field"> <input id="actual_starts'+num+'" name="actual_starts" type="text" class="validate datepicker" placeholder="Start Date" value="' + $.trim(val.actual_start) + '">'
+                            								+'<button type="button" id="start_date_icon'+num+'" ><i class="fa fa-calendar"></i></button></td>';
+                           	var actual_finishs = 		'<td data-head="Actual Finish Date" class="input-field"> <input id="actual_finishs'+num+'" name="actual_finishs" type="text" class="validate datepicker" placeholder="Finish Date" value="' + $.trim(val.actual_finish) + '">'
+                          						  		    +'<button type="button" id="finish_date_icon'+num+'" ><i class="fa fa-calendar"></i></button></td>';
+                          	var totalScope = 			'<td data-head="Scope" class="input-field"><span class="nextLine">' + $.trim(val.total_scope) + '</span>'
           	 											+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.total_scope) + '" />';
-          	 				var completed = 			'<td><span>' + $.trim(val.completed) + '</span>'
+          	 				var completed = 			'<td data-head="Completed" class="input-field"><span class="nextLine">' + $.trim(val.completed) + '</span>'
           	 											+'<input type="hidden" name="completedScopes" class="completed" id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" />';
-          	 				var actual = 				'<td class="input-field"><input type="number" class="count" min="0" name="actualScopes" id="actualScopes'+num+'"  ><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
+          	 				var actual = 				'<td data-head="Actual" class="input-field"><input type="number" class="count" min="0" name="actualScopes" id="actualScopes'+num+'"  ><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
                    			
           	 				rowArray.push(checkBox);
                    			rowArray.push(milestone_name);
@@ -663,6 +696,21 @@
                     			 
                     		//$("#filerList").append(html);
                     		 table.row.add(rowArray).draw( true );
+                    		 
+                    		 //adding data-head attribute for all tds in a row 
+                    		 table.rows().every(function(){
+                    			 var tr_node=this.node();
+                    			 $(tr_node).find('td:nth-child(1)').attr('data-head','Check to Select').addClass('input-field');
+                    			 $(tr_node).find('td:nth-child(2)').attr('data-head','Milestone').addClass('input-field h-auto');
+                    			 $(tr_node).find('td:nth-child(3)').attr('data-head','Activity').addClass('input-field h-auto');
+                    			 $(tr_node).find('td:nth-child(4)').attr('data-head','Planned Start Date').addClass('input-field');
+                    			 $(tr_node).find('td:nth-child(5)').attr('data-head','Planned Finish Date').addClass('input-field');
+                    			 $(tr_node).find('td:nth-child(6)').attr('data-head','Actual Start Date').addClass('input-field');
+                    			 $(tr_node).find('td:nth-child(7)').attr('data-head','Actual Finish Date').addClass('input-field');
+                    			 $(tr_node).find('td:nth-child(8)').attr('data-head','Scope').addClass('input-field');
+                    			 $(tr_node).find('td:nth-child(9)').attr('data-head','Completed').addClass('input-field');
+                    			 $(tr_node).find('td:nth-child(10)').attr('data-head','Actual').addClass('input-field');
+                    		});
                     		 
                     	 	$("#check_"+num).change(function() {
                     	 		//alert("#actualScopes"+num)

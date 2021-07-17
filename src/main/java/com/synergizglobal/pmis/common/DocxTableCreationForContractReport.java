@@ -1261,13 +1261,10 @@ public class DocxTableCreationForContractReport {
 			String backgroundColor1 = null;
 			Tr progressContentRow1 = factory.createTr();
 
-			/*addTableCell(factory, wordMLPackage, progressContentRow1,
-					progressDetailsAsOnDate.getActual_physical_progress(), contentRpr, JcEnumeration.LEFT, hasBgColor1,
-					backgroundColor1);*/
 			addTableCell(factory, wordMLPackage, progressContentRow1,
-					"", contentRpr, JcEnumeration.LEFT, hasBgColor1,
+					progressDetailsAsOnDate.getActual_physical_progress(), contentRpr, JcEnumeration.LEFT, hasBgColor1,
 					backgroundColor1);
-			addTableCell(factory, wordMLPackage, progressContentRow1, progressDetailsAsOnDate.getActual_physical_progress(), contentRpr, JcEnumeration.LEFT, hasBgColor1,
+			addTableCell(factory, wordMLPackage, progressContentRow1, "", contentRpr, JcEnumeration.LEFT, hasBgColor1,
 					backgroundColor1);
 			addTableCell(factory, wordMLPackage, progressContentRow1,
 					progressDetailsAsOnDate.getActual_financial_progress(), contentRpr, JcEnumeration.LEFT, hasBgColor1,

@@ -71,6 +71,14 @@
 		th{    		
     		text-transform: capitalize;    		
 		}
+		.fw-50{
+			width: 50vw !important;;
+			max-width: 50vw;
+		} 
+		.fw-20{
+			width: 20vw !important;;
+			max-width: 20vw;
+		}
 		@media (min-width: 480px) and (max-width: 839px){
 		    .mdl-cell--6-col, .mdl-cell--6-col-tablet.mdl-cell--6-col-tablet {
 		        width: 100%;
@@ -200,6 +208,10 @@
        
   
 	  function deleteRow(date,subWork){ 
+		if(date === "null"){
+			date = " ";
+		}
+		
 	  	$("#sub_work_id").val(subWork);
 	  	$("#date").val(date);
 	  	showCancelMessage(); 
@@ -278,10 +290,12 @@
               },
               columnDefs: [
                   {
-                      targets: [1],
+                      //targets: [1],
                       //className: 'mdl-data-table__cell--non-numeric',
                       targets: 'no-sort', orderable: false,
                   },
+                  {targets: [0], className: 'fw-50'},
+                  {targets: [1,2], className: 'fw-20'},
                   { "width": "20px", "targets": [3] },
               ],
               // "ScrollX": true,

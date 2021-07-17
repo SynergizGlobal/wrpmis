@@ -42,7 +42,16 @@ public class Contract {
 	private List<Contract> responsiblePeopleList;
 	private List<Contract> departmentList;
 	private List<Contract> executivesList;
+	private List<Contract> responsiblePersonsList;
 	
+	public List<Contract> getResponsiblePersonsList() {
+		return responsiblePersonsList;
+	}
+
+	public void setResponsiblePersonsList(List<Contract> responsiblePersonsList) {
+		this.responsiblePersonsList = responsiblePersonsList;
+	}
+
 	public String[] getHod_designations() {
 		return hod_designations;
 	}

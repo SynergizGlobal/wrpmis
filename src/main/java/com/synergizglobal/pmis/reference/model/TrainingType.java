@@ -2,6 +2,8 @@ package com.synergizglobal.pmis.reference.model;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 
 public class TrainingType {
 	
@@ -18,8 +20,51 @@ public class TrainingType {
 	zonal_railway_funds,risk_minimum_new,risk_maximum_new,risk_classification_id, classification, minimum, maximum,alert_level,alert_type,as_built_status,user_type,
 	login_event_type,yesorno,type,notification_type, notification_type_icon,notification_type_icon_new,type_fk_new,notification_type_new, type_fk,web_documents_category,financial_year,
 	risk_work_hod_id, work_id_fk, hod_user_id_fk,designation,work_short_name,work_id_fk_new,hod_user_id_fk_new,sub_work,sub_work_new,
-	contract_category_fk,risk_revision_id,risk_id_pk_fk, date, issue_category_fk,contract_file_type,issue_file_type,fob_file_type,contract_category_fk_new,issue_other_organization,issue_category_fk_new,project_file_type,work_file_type;
+	contract_category_fk,risk_revision_id,risk_id_pk_fk, date, issue_category_fk,contract_file_type,issue_file_type,fob_file_type,contract_category_fk_new,issue_other_organization,issue_category_fk_new,project_file_type,work_file_type
+	, template_name, attachment, uploaded_on, uploaded_by;
     
+	private MultipartFile templateFile;
+	
+	public MultipartFile getTemplateFile() {
+		return templateFile;
+	}
+
+	public void setTemplateFile(MultipartFile templateFile) {
+		this.templateFile = templateFile;
+	}
+
+	public String getTemplate_name() {
+		return template_name;
+	}
+
+	public void setTemplate_name(String template_name) {
+		this.template_name = template_name;
+	}
+
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+
+	public String getUploaded_on() {
+		return uploaded_on;
+	}
+
+	public void setUploaded_on(String uploaded_on) {
+		this.uploaded_on = uploaded_on;
+	}
+
+	public String getUploaded_by() {
+		return uploaded_by;
+	}
+
+	public void setUploaded_by(String uploaded_by) {
+		this.uploaded_by = uploaded_by;
+	}
+
 	private int counts;
 
 	public int getCounts() {

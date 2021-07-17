@@ -539,7 +539,7 @@
 		            	if($.trim(data.contractor_name) == ''){ return '-'; }else{ return data.contractor_name; }
 		            } },
 		         	{ "mData": function(data,type,row){
-		            	if($.trim(data.department_name) == ''){ return '-'; }else{ return data.department_name; }
+		            	if($.trim(data.department_id_fk) == ''){ return '-'; }else{ return data.department_id_fk; }
 		            } },
 		            { "mData": function(data,type,row){
 		            	if($.trim(data.designation) == ''){ return '-'; }else{ return data.designation; }

@@ -927,6 +927,8 @@ public class ContractDaoImpl implements ContractDao {
 				obj = new Contract();
 				obj.setDepartment_id_fk(resultSet.getString("department_id_fk"));
 				obj.setExecutive_user_id_fk(resultSet.getString("executive_user_id_fk"));
+				obj.setDepartment_fk(obj.getDepartment_id_fk());
+				obj.setResponsiblePersonsList(getExecutivesListForContractForm(obj));
 				obj.setExecutivesList(getExecutivesList(contract_id,obj.getDepartment_id_fk(),con));
 				objsList.add(obj);
 			}
@@ -2554,7 +2556,7 @@ public class ContractDaoImpl implements ContractDao {
 			throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head  " + 
+			String qry ="select w.work_name,w.work_short_name, GROUP_CONCAT(DISTINCT dt1.department_name SEPARATOR ', ') as department_id_fk,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head  " + 
 					",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
 					+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 					+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%m-%Y') AS contract_closure ,contract_status_fk,bg_required,insurance_required " + 
@@ -2563,8 +2565,10 @@ public class ContractDaoImpl implements ContractDao {
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
 					"left join user u on c.hod_user_id_fk = u.user_id "+
-					"left join user us on c.dy_hod_user_id_fk = us.user_id "
-					+"left join department dt on c.department_fk = dt.department "
+					"left join user us on c.dy_hod_user_id_fk = us.user_id "+
+					"left join contract_executive ce on c.contract_id = ce.contract_id_fk "
+					+"left join department dt on c.department_fk = dt.department "+
+					"left join department dt1 on ce.department_id_fk = dt1.department "
 					+"where contract_id is not null ";
 			
 			int arrSize = 0;
@@ -2614,7 +2618,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " ORDER BY contract_id ASC limit ?,?";
+				qry = qry + "GROUP BY contract_id ORDER BY contract_id ASC limit ?,?";
 				arrSize++;
 				arrSize++;
 			}

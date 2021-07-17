@@ -67,22 +67,22 @@ public class RiskDeleteDaoImpl implements RiskDeleteDao{
 		List<TrainingType> objsList = null;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			
-			String deleteRiskActionsQry ="DELETE ra from risk_action ra " + 
-					"LEFT join risk_revision rr on rr.risk_revision_id = ra.risk_revision_id_fk " + 
-					"LEFT join risk r on r.risk_id_pk = rr.risk_id_pk_fk WHERE rr.date =:date and r.sub_work= :sub_work";
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			count = namedParamJdbcTemplate.update(deleteRiskActionsQry, paramSource);
-			
-			String deleteRiskRevisionsQry ="DELETE rr from  risk_revision rr " + 
-					"LEFT join risk r on r.risk_id_pk = rr.risk_id_pk_fk WHERE rr.date =:date and r.sub_work= :sub_work";
-			paramSource = new BeanPropertySqlParameterSource(obj);		 
-			count = namedParamJdbcTemplate.update(deleteRiskRevisionsQry, paramSource);
-			
+			if(!StringUtils.isEmpty(obj.getDate())) {
+				String deleteRiskActionsQry ="DELETE ra from risk_action ra " + 
+						"LEFT join risk_revision rr on rr.risk_revision_id = ra.risk_revision_id_fk " + 
+						"LEFT join risk r on r.risk_id_pk = rr.risk_id_pk_fk WHERE rr.date =:date and r.sub_work= :sub_work";
+				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteRiskActionsQry, paramSource);
+				
+				String deleteRiskRevisionsQry ="DELETE rr from  risk_revision rr " + 
+						"LEFT join risk r on r.risk_id_pk = rr.risk_id_pk_fk WHERE rr.date =:date and r.sub_work= :sub_work";
+				paramSource = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteRiskRevisionsQry, paramSource);
+			}
 			int riskCaunt = getRiskCount(obj.getSub_work(),obj);
 			if(riskCaunt == 0) {
 				 String deleteRiskQry ="DELETE from risk WHERE `sub_work`= :sub_work; ";
-				 paramSource = new BeanPropertySqlParameterSource(obj);		 
+				 BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 				 count = namedParamJdbcTemplate.update(deleteRiskQry, paramSource);
 			}
 				

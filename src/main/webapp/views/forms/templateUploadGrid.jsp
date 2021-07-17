@@ -75,7 +75,12 @@
                         </div>
                     </span>
                     <div class="">
-
+						<c:if test="${not empty success }">
+							<div class="center-align m-1 close-message">${success}</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">${error}</div>
+						</c:if>
                         <div class="row">
                             <div class="col m12 s12">
                                 <table id="upload-form-grid" class="mdl-data-table">
@@ -89,19 +94,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    <c:forEach var="obj" items="${templatesList}" >
                                         <tr>
-                                            <td>template Name</td>
-                                            <td>uploaded by 1</td>
-                                            <td>uploaded on 1</td>
-                                            <td>status</td>
+                                        
+                                            <td>${obj.template_name }</td>
+                                            <td>${obj.uploaded_by }</td>
+                                            <td>${obj.uploaded_on }</td>
+                                            <td>${obj.status }</td>
+                                            
                                             <td class="last-column">
-                                                <a href="#" class="btn waves-effect waves-light bg-m " title="Upload"><i
+                                                <a href="#addUpdateModal" class="btn waves-effect waves-light modal-trigger" onclick="uploadFunction('${obj.template_name }');" title="Upload"><i
                                                         class="fa fa-upload"></i></a>
-                                                <a href="#" class="btn waves-effect waves-light " title="Download"><i
+                                                <a  class="btn waves-effect waves-light " href="/pmis/${obj.template_name }.xlsx" download  title="Download"><i
                                                         class="fa fa-download"></i></a>
-                                                <a href="#" class="btn waves-effect waves-light bg-s " title="Delete"><i
+                                                <a href="#" class="btn waves-effect waves-light bg-s " title="Delete"  onclick="deleteTemplate('${obj.id }');" ><i
                                                         class="fa fa-trash"></i></a>
-                                                <a href="#history1" class="btn waves-effect waves-light modal-trigger"
+                                                <a href="#history1" class="btn waves-effect waves-light modal-trigger"  onclick="getHistoryList('${obj.template_name }');"
                                                     title="History"><svg xmlns="http://www.w3.org/2000/svg"
                                                         xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
                                                         width="24" height="24" viewBox="0 0 24 24">
@@ -113,7 +121,7 @@
                                                         <h6 class="headbg modal-header">Template Name <span
                                                                 class="right modal-action modal-close"><span
                                                                     class="material-icons">close</span></span></h6>
-                                                        <table class="responsive-table">
+                                                        <table class="responsive-table" id="history_table">
                                                             <thead>
                                                                 <tr>
                                                                     <th>template </th>
@@ -123,21 +131,15 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td><a href="#" download="template">template</a>
-                                                                    </td>
-                                                                    <td>uploaaded by</td>
-                                                                    <td>uploaded on</td>
-                                                                    <td>status</td>
-                                                                </tr>
+                                                               
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
+                                        </c:forEach>
                                     </tbody>
-
                                 </table>
                             </div>
                         </div>
@@ -146,7 +148,50 @@
             </div>
         </div>
     </div>
+   <div id="addUpdateModal" class="modal">
+		<form action="<%=request.getContextPath() %>/upload-template" id="templateForm" name="templateForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+            <div class="modal-content">
+                <h5 class="headbg modal-header">Upload Template<span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h5>
+                <div class="row">
+                    <div class="col m2 hide-on-small"></div>
+                    <div class="col m8 s12">
+                    <input type="hidden" id="template_name" name="template_name"  >
+                        <div class="row">
+                            <div class="input-field col s12 m12">
+                            <div class="file-field input-field" >
+                            <div class="btn bg-m t-c">
+		                             <span>Attach File</span>
+                                <input type="file" id="templateFile" name="templateFile"  class="validate">  <!-- onchange="selectFile('1')" -->
+                               </div> 
+                                <div class="file-path-wrapper">
+		                            <input class="file-path validate" type="text">
+		                        </div>   
+                                <span id="template_nameError" class="error-msg" ></span>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m6">
+                               <div class="center-align m-1">
+										<button id="bttn" style="width: 100%;" onclick="uploadTemplate();" class="btn waves-effect waves-light bg-m">Upload</button>
+								</div>
+                            </div>
+                            <div class="col s12 m6">
+                                <div class="center-align m-1">
+                                    <a href="<%=request.getContextPath()%>/template-upload"
+									class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col m2 hide-on-small"></div>
+                </div>
 
+            </div>
+
+        </form>
+    </div>
     <!-- footer  -->
  <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -155,16 +200,23 @@
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
+    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
+    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
-
+    
+	<form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="id" id="id" />
+    </form>
     <script>
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('.modal').modal();
+            
             $('#upload-form-grid').DataTable({
                 columnDefs: [
                     {
@@ -182,7 +234,85 @@
                 }
             });
         });
+        
+        function uploadTemplate() {
+        	if(validator.form()){ 
+     			$(".page-loader").show();
+     			$("#addUpdateModal").modal();
+     			document.getElementById("templateForm").submit();	
+          }
+        }
 
+        function uploadFunction(templateName){
+        	$('#template_name').val(templateName)        	
+        }
+        
+        function deleteTemplate(id){
+        	$("#id").val(id);
+    	  	showCancelMessage();
+        }
+        
+        function showCancelMessage() {
+	    	swal({
+		            title: "Are you sure?",
+		            text: "You will be able to change the status of record!",
+		            type: "warning",
+		            showCancelButton: true, 
+		            confirmButtonColor: "#DD6B55",
+		            confirmButtonText: "Yes, delete it!",
+		            cancelButtonText: "No, cancel it!",
+		            closeOnConfirm: false,
+		            closeOnCancel: false
+		        }, function (isConfirm) {
+		            if (isConfirm) {
+		               // swal("Deleted!", "Record has been deleted", "success");
+		                $(".page-loader").show();
+		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-template');
+		    	    	$('#getForm').submit();
+		           }else {
+		                swal("Cancelled", "Record is safe :)", "error");
+		            }
+		        });
+	  }
+	  
+        function getHistoryList(tempalteName){
+        	$(".page-loader-2").show();
+        	template_name = tempalteName;
+        	table = $('#history_table').DataTable();
+    		table.destroy();
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#history_table').DataTable().rows().remove().draw();;
+    		table.state.clear();		
+    		var myParams = {template_name : template_name};
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getTemplateHistoryList",type:"POST",
+    			data:myParams,async: false,
+    			success : function(data){    				
+    				if(data != null && data != '' && data.length > 0){    					
+	             		$.each(data,function(key,val){
+	                        var template = "";
+	                        
+	                        template = '<a href="/pmis/'+val.template_name +'.xlsx" download>'+val.template_name + '</a>';
+	                        var rowArray = [];    	                  
+	                        
+	                       	rowArray.push($.trim(template));
+	                       	rowArray.push($.trim(val.uploaded_by)); 
+	                       	rowArray.push($.trim(val.uploaded_on));
+	                       	rowArray.push($.trim(val.status)); 
+	                       	
+	                        table.row.add(rowArray).draw( true );
+	                        		                       
+	    				});
+	             		
+	             		$(".page-loader-2").hide();
+	    			}else{
+	    				$(".page-loader-2").hide();
+	    			}
+    			
+    		},error: function (jqXHR, exception) {
+    			$(".page-loader-2").hide();
+             	getErrorMessage(jqXHR, exception);
+         }});
+       }
     </script>
 </body>
 

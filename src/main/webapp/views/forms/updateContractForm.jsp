@@ -385,10 +385,10 @@
 											                            	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
 											                             multiple="multiple">
 											                             <option value="" disabled="disabled">Select</option>
-											                             <c:forEach var="obj" items="${responsiblePeopleList}">
-											                             <option value="${obj.user_id }" 
+											                             <c:forEach var="obj" items="${departmentObj.responsiblePersonsList}">
+											                             <option value="${obj.hod_user_id_fk }" 
 																		 		<c:forEach var="tempobj" items="${departmentObj.executivesList}">
-																		 			<c:if test="${tempobj.executive_user_id_fk eq obj.user_id}">selected</c:if>
+																		 			<c:if test="${tempobj.executive_user_id_fk eq obj.hod_user_id_fk}">selected</c:if>
 									                                          	</c:forEach>
 																	 		>${obj.designation} - ${obj.user_name}</option>
 									                                         </c:forEach>
@@ -2046,7 +2046,8 @@
          	 	  	  },"awarded_cost": {
         		 		required: false
         		 	  },"date_of_start": {
-        		 		required: true
+        		 		 required: true,
+    				 	 dateBeforeDOS:"#date_of_start"
         		 	  },"estimated_cost": {
         		 		required: false
         		 	  },"loa_letter_number": {
@@ -2263,6 +2264,24 @@
         	  }
         });
         
+        $.validator.addMethod("dateBeforeDOS", function(value, element) {
+            var fromDateString = $('#loa_date').val();
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+            
+        }, "Date of Start must be after LOA Date");
         
         $.validator.addMethod("dateBefore1", function(value, element) {
             var fromDateString = $('#date_of_start').val();

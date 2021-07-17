@@ -151,11 +151,11 @@ public class AlertsController {
 				}*/
 	           
 	           String alert_type = null;
-	           //if(dayOfWeekText.equals("WEDNESDAY")) {
+	           if(dayOfWeekText.equals("WEDNESDAY")) {
 	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT;
 	        	   boolean flag = service.sendEMailNotificationWithContractAlerts(alert_type);
 				   logger.error("sendContractAlertsToAllByManual >> Sent mails : "+ flag);
-	           //}
+	           }
 			
 		 } catch (Exception e) {
 			 e.printStackTrace();
@@ -177,12 +177,12 @@ public class AlertsController {
 	           String dayOfWeekText = dayOfWeekTextFormat.format(date).toUpperCase();
 	           //int month = cal.get(Calendar.MONTH); // 0 being January
 	           String alert_type = null;
-	           //if(dayOfWeekText.equals("FRIDAY")) {
+	           if(dayOfWeekText.equals("FRIDAY")) {
 	        	   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
 	        	   logger.error("sendIssueAlertsToAllByManual : start");
 			       boolean flag = service.sendEMailNotificationWithIssueAlerts(alert_type);
 			       logger.error("sendIssueAlertsToAllByManual >> Sending mails : "+ flag); 
-	           //}
+	           }
 			
 		 } catch (Exception e) {
 			 e.printStackTrace();

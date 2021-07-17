@@ -937,7 +937,7 @@ public class DocxTableCreationForContractReport {
 					false, false);
 			RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA, true, true, false, false);
 			RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
-			RPr fontRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, false, false, false,
+			RPr fontRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA, true, false, false,
 					false);
 
 			/********************* Contract Details Starts *******************************************************/
@@ -1254,7 +1254,7 @@ public class DocxTableCreationForContractReport {
 			addTableCell(factory, wordMLPackage, progressContentRow1,
 					"", contentRpr, JcEnumeration.LEFT, hasBgColor1,
 					backgroundColor1);
-			addTableCell(factory, wordMLPackage, progressContentRow1, "", contentRpr, JcEnumeration.LEFT, hasBgColor1,
+			addTableCell(factory, wordMLPackage, progressContentRow1, progressDetailsAsOnDate.getActual_physical_progress(), contentRpr, JcEnumeration.LEFT, hasBgColor1,
 					backgroundColor1);
 			addTableCell(factory, wordMLPackage, progressContentRow1,
 					progressDetailsAsOnDate.getActual_financial_progress(), contentRpr, JcEnumeration.LEFT, hasBgColor1,
@@ -1267,15 +1267,38 @@ public class DocxTableCreationForContractReport {
 					backgroundColor1);
 
 			progressDetailsTable.getContent().add(progressContentRow1);
+			
 
 			mergeCellsHorizontal(progressDetailsTable, 2, 0, 1);
 			mergeCellsHorizontal(progressDetailsTable, 2, 2, 3);
 			mergeCellsHorizontal(progressDetailsTable, 2, 4, 5);
 
+			Tr remarksRow = factory.createTr();
+			
+			addTableCell(factory, wordMLPackage, remarksRow,
+					"Remarks:", boldRPr, JcEnumeration.LEFT, hasBgColor1,
+					backgroundColor1);
+			addTableCell(factory, wordMLPackage, remarksRow, contractDetails.getRemarks(), contentRpr, JcEnumeration.LEFT, hasBgColor1,
+					backgroundColor1);
+			addTableCell(factory, wordMLPackage, remarksRow,
+					"", contentRpr, JcEnumeration.LEFT, hasBgColor1,
+					backgroundColor1);
+			addTableCell(factory, wordMLPackage, remarksRow, "", contentRpr, JcEnumeration.LEFT, hasBgColor1,
+					backgroundColor1);
+			addTableCell(factory, wordMLPackage, remarksRow,"",
+					contentRpr, JcEnumeration.LEFT, hasBgColor1, backgroundColor1);
+			addTableCell(factory, wordMLPackage, remarksRow, "", contentRpr, JcEnumeration.LEFT, hasBgColor1,
+					backgroundColor1);	
+			progressDetailsTable.getContent().add(remarksRow);
+			
+			mergeCellsHorizontal(progressDetailsTable, 3, 1, 5);
+
 			setTableAlign(factory, progressDetailsTable, JcEnumeration.CENTER);
 			mp.addObject(progressDetailsTable);
+			
 
 			/********************* Progress Details as on date Details ends *******************************************************/
+			
 
 			/********************* Milestone Details Starts *******************************************************/
 			Tbl milestoneTable = factory.createTbl();

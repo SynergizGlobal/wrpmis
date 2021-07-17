@@ -1367,7 +1367,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					+ "(select cast(IFNULL(sum(gross_work_done),0) as CHAR) from expenditure where contract_id_fk = contract_id) as payment_made, "
 					+ "(select cast(IFNULL(revised_amount,0) as CHAR) from contract_revision where revised_amount is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as revised_amount,"
 					+ "cast(awarded_cost as CHAR) as awarded_cost,"
-					+ "(SELECT sum(contract_per) FROM activities_scurve where contract_id_fk = contract_id and category COLLATE utf8mb4_unicode_ci = 'Actual') as actual_physical_progress,"
+					+ "(SELECT ROUND(sum(contract_per),2)*100 FROM activities_scurve where contract_id_fk = contract_id and category COLLATE utf8mb4_unicode_ci = 'Actual') as actual_physical_progress,"
 					+ "DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc "
 					+ "from contract c "
 					+ "where c.contract_id = ?";

@@ -103,13 +103,13 @@
                                             <td>${obj.status }</td>
                                             
                                             <td class="last-column">
-                                                <a href="#addUpdateModal" class="btn waves-effect waves-light modal-trigger" onclick="uploadFunction('${obj.template_name }');" title="Upload"><i
+                                                <a href="#addUpdateModal" class="btn bg-m waves-effect waves-light modal-trigger" onclick="uploadFunction('${obj.template_name }');" title="Upload"><i
                                                         class="fa fa-upload"></i></a>
                                                 <a  class="btn waves-effect waves-light " href="/pmis/${obj.template_name }.xlsx" download  title="Download"><i
                                                         class="fa fa-download"></i></a>
                                                 <a href="#" class="btn waves-effect waves-light bg-s " title="Delete"  onclick="deleteTemplate('${obj.id }');" ><i
                                                         class="fa fa-trash"></i></a>
-                                                <a href="#history1" class="btn waves-effect waves-light modal-trigger"  onclick="getHistoryList('${obj.template_name }');"
+                                                <a href="#history1" class="btn bg-m waves-effect waves-light modal-trigger"  onclick="getHistoryList('${obj.template_name }');"
                                                     title="History"><svg xmlns="http://www.w3.org/2000/svg"
                                                         xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
                                                         width="24" height="24" viewBox="0 0 24 24">

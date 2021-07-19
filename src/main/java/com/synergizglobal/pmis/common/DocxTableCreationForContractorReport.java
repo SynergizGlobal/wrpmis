@@ -113,6 +113,8 @@ public class DocxTableCreationForContractorReport {
 				mp.addObject(tableHead);
 				/***************************************************************/
 
+				
+				
 				Tbl table = factory.createTbl();
 				addBorders(table, "2");
 				

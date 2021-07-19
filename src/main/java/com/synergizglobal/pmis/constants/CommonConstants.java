@@ -99,7 +99,7 @@ public class CommonConstants {
 	public final static String LAND_ACQUISITION_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/LAND_ACQUISITION_FILES/";
 	public final static String DESIGN_UPLOADED_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/DESIGN_UPLOADED_FILES/";
 	public final static String TEMPLATE_FILEPATH = "usr/share/nginx/html/pmis/";
-	public final static String TEMPLATE_FILEPATH = "usr/share/nginx/html/pmis/TEMPLATES_OLD/";
+	public final static String TEMPLATE_OLD_FILEPATH = "usr/share/nginx/html/pmis/TEMPLATES_OLD/";
 	*/
 	
 	/*********** MRVC Server ****************************************************/	

@@ -522,7 +522,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						+ "(select cast((IFNULL(SUM(gross_work_done),0)/10000000) as CHAR) AS gross_work_done from expenditure where contract_id_fk = contract_id) as cumulative_expenditure, "
 						+ "(select DATE_FORMAT(MAX(valid_upto),'%d-%b-%y') AS valid_upto from insurance where (released_fk = 'No' OR released_fk is null OR released_fk = '') and contract_id_fk = contract_id) as insurance_valid_till, "
 						+ "(select DATE_FORMAT(MIN(valid_upto),'%d-%b-%y') AS valid_upto from bank_guarantee where bg_type_fk is not null and bg_type_fk = 'Performance Guarantee' and release_date is null and contract_id_fk = contract_id) as pbg_valid_till, "
-						+ "(SELECT truncate(sum(contract_per),2)*100 FROM pmis.activities_scurve where contract_id_fk = contract_id and category COLLATE utf8mb4_unicode_ci= 'Actual' COLLATE utf8mb4_unicode_ci) as PhysicalProgress  "
+						+ "(SELECT sum(contract_per)*100 FROM pmis.activities_scurve where contract_id_fk = contract_id and category COLLATE utf8mb4_unicode_ci= 'Actual' COLLATE utf8mb4_unicode_ci) as PhysicalProgress  "
 						+ " from contract c "  
 						+ "left join work w on c.work_id_fk = w.work_id "  
 						+ "left join contractor cr on c.contractor_id_fk = cr.contractor_id "  
@@ -1428,7 +1428,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					+ "(select cast(IFNULL(sum(gross_work_done),0) as CHAR) from expenditure where contract_id_fk = contract_id) as payment_made, "
 					+ "(select cast(IFNULL(revised_amount,0) as CHAR) from contract_revision where revised_amount is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as revised_amount,"
 					+ "cast(awarded_cost as CHAR) as awarded_cost,"
-					+ "(SELECT truncate(sum(contract_per),2)*100 FROM activities_scurve where contract_id_fk = contract_id and category COLLATE utf8mb4_unicode_ci = 'Actual') as actual_physical_progress,"
+					+ "(SELECT sum(contract_per)*100 FROM activities_scurve where contract_id_fk = contract_id and category COLLATE utf8mb4_unicode_ci = 'Actual') as actual_physical_progress,"
 					+ "DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc "
 					+ "from contract c "
 					+ "where c.contract_id = ?";
@@ -1719,3 +1719,5 @@ public class ContractReportDaoImpl implements ContractReportDao {
 
 	
 }
+
+

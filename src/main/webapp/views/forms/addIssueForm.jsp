@@ -260,7 +260,7 @@
                             
                             <div class="row">		
                             	 					 
-					            <div class="col s12 m4 input-field">
+					            <div class="col s12 m4 input-field offset-m2">
                                     <input id="reported_by" name="reported_by" type="text" class="validate" value="${sessionScope.user.user_name }">
                                     <label for="reported_by">Reported by <span class="required">*</span></label> 
                                     <span id="reported_byError" class="error-msg" ></span>
@@ -287,7 +287,7 @@
 							
 							<div class="row">
 								 
-								<div class="col m8 s12">
+								<div class="col m8 s12 offset-m2">
 									<div class="row fixed-width"
 										style="margin-bottom: 20px; margin-top: 20px">
 										<div class="table-inside">

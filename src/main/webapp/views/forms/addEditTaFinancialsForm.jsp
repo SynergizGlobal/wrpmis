@@ -28,6 +28,11 @@
         input::placeholder {
             color: #777;
         }
+        .input-field input[type="text"]::placeholder,
+		.input-field input[type="number"]::placeholder ,
+		.input-field input[type="email"] {
+		    color: #ddd;
+		}
 
         input[type="month"] {
             height: 35px;

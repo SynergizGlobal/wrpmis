@@ -1815,10 +1815,6 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				qry = qry + " and c.contractor_id_fk = ? ";
 				arrSize++;
@@ -1850,9 +1846,6 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				pValues[i++] = obj.getContractor_id_fk();
 			}
@@ -1878,87 +1871,7 @@ public class ContractDaoImpl implements ContractDao {
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
-	}
-
-	@Override
-	public List<Contract> departmentsFilterList(Contract obj) throws Exception {
-		List<Contract> objsList = null;
-		try {
-			String qry = "SELECT c.department_fk,d.department_name "
-					+ "from contract c "+
-					 "LEFT JOIN department d on c.department_fk = d.department " +
-					 "LEFT JOIN work w on c.work_id_fk = w.work_id " + 
-					 "LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					 "where c.department_fk is not null and c.department_fk <> '' ";
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
-				qry = qry + " and c.contractor_id_fk = ? ";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and w.project_id_fk = ? ";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
-				qry = qry + " and c.hod_user_id_fk = ? ";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
-				qry = qry + " and c.dy_hod_user_id_fk = ? ";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-				qry = qry + " and c.contract_status_fk = ?";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
-				arrSize++;
-				arrSize++;
-			}
-			qry = qry + " GROUP BY c.department_fk ";
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
-				pValues[i++] = obj.getContractor_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				pValues[i++] = obj.getProject_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
-				pValues[i++] = obj.getDesignation();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
-				pValues[i++] = obj.getDy_hod_designation();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-				pValues[i++] = obj.getContract_status_fk();
-			}
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
-			
-			}
-			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
+	}	
 
 	@Override
 	public List<Contract> worksFilterList(Contract obj) throws Exception {
@@ -1972,10 +1885,6 @@ public class ContractDaoImpl implements ContractDao {
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
@@ -2008,9 +1917,6 @@ public class ContractDaoImpl implements ContractDao {
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				pValues[i++] = obj.getContractor_id_fk();
@@ -2053,10 +1959,6 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				qry = qry + " and c.contractor_id_fk = ? ";
 				arrSize++;
@@ -2087,9 +1989,6 @@ public class ContractDaoImpl implements ContractDao {
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				pValues[i++] = obj.getContractor_id_fk();
@@ -2178,10 +2077,6 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				qry = qry + " and c.contractor_id_fk = ? ";
 				arrSize++;
@@ -2212,9 +2107,6 @@ public class ContractDaoImpl implements ContractDao {
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				pValues[i++] = obj.getContractor_id_fk();
@@ -2258,10 +2150,6 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				qry = qry + " and c.contractor_id_fk = ? ";
 				arrSize++;
@@ -2292,9 +2180,6 @@ public class ContractDaoImpl implements ContractDao {
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				pValues[i++] = obj.getContractor_id_fk();
@@ -2337,10 +2222,6 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				qry = qry + " and c.contractor_id_fk = ? ";
 				arrSize++;
@@ -2371,9 +2252,6 @@ public class ContractDaoImpl implements ContractDao {
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				pValues[i++] = obj.getContractor_id_fk();
@@ -2457,17 +2335,12 @@ public class ContractDaoImpl implements ContractDao {
 					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 					"left join project p on w.project_id_fk = p.project_id "
-					+"left join department dt on c.department_fk = dt.department "
 					+"where contract_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				qry = qry + " and c.contractor_id_fk = ?";
 				arrSize++;
 			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
@@ -2509,9 +2382,6 @@ public class ContractDaoImpl implements ContractDao {
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				pValues[i++] = obj.getContractor_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
@@ -2556,7 +2426,7 @@ public class ContractDaoImpl implements ContractDao {
 			throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select w.work_name,w.work_short_name, GROUP_CONCAT(DISTINCT dt1.department_name SEPARATOR ', ') as department_id_fk,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head  " + 
+			String qry ="select w.work_name,w.work_short_name, GROUP_CONCAT(DISTINCT dt.department_name SEPARATOR ', ') as department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head  " + 
 					",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
 					+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 					+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%m-%Y') AS contract_closure ,contract_status_fk,bg_required,insurance_required " + 
@@ -2567,8 +2437,7 @@ public class ContractDaoImpl implements ContractDao {
 					"left join user u on c.hod_user_id_fk = u.user_id "+
 					"left join user us on c.dy_hod_user_id_fk = us.user_id "+
 					"left join contract_executive ce on c.contract_id = ce.contract_id_fk "
-					+"left join department dt on c.department_fk = dt.department "+
-					"left join department dt1 on ce.department_id_fk = dt1.department "
+					+"left join department dt on ce.department_id_fk = dt.department "
 					+"where contract_id is not null ";
 			
 			int arrSize = 0;
@@ -2576,10 +2445,6 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contractor_id_fk = ?";
 				arrSize++;
 			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
@@ -2626,9 +2491,6 @@ public class ContractDaoImpl implements ContractDao {
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				pValues[i++] = obj.getContractor_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				pValues[i++] = obj.getDepartment_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();

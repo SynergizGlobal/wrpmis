@@ -35,8 +35,6 @@ public interface ContractService {
 
 	public List<Contract> contractorsFilterList(Contract obj)throws Exception;
 
-	public List<Contract> departmentsFilterList(Contract obj)throws Exception;
-
 	public List<Contract> worksFilterList(Contract obj)throws Exception;
 
 	public List<Contract> getProjectsFilterList(Contract obj) throws Exception;

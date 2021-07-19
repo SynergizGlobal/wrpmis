@@ -249,23 +249,6 @@ public class ContractController {
 		}
 		return contractorsFilterList;
 	}
-	
-	@RequestMapping(value = "/ajax/getDepartmentsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<Contract> getDepartmentsFilterList(@ModelAttribute Contract obj,HttpSession session) {
-		List<Contract> departmentFilterList = null;
-		try {
-			User uObj = (User) session.getAttribute("user");
-			obj.setUser_type_fk(uObj.getUser_type_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());
-			obj.setUser_id(uObj.getUser_id());
-			departmentFilterList = contractService.departmentsFilterList(obj);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getDepartmentsFilterList : " + e.getMessage());
-		}
-		return departmentFilterList;
-	}
 
 	@RequestMapping(value = "/ajax/getWorksFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

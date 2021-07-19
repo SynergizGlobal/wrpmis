@@ -73,10 +73,7 @@ public class ContractServiceImpl implements ContractService{
 	public List<Contract> contractorsFilterList(Contract obj) throws Exception {
 		return contractDao.contractorsFilterList(obj); 
 	}
-	@Override
-	public List<Contract> departmentsFilterList(Contract obj) throws Exception {
-		return contractDao.departmentsFilterList(obj);
-	}
+	
 	@Override
 	public List<Contract> worksFilterList(Contract obj) throws Exception {
 		return contractDao.worksFilterList(obj);

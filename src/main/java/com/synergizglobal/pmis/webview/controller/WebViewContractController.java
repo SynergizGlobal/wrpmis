@@ -96,19 +96,6 @@ public class WebViewContractController {
 		}
 		return contractorsFilterList;
 	}
-	
-	@RequestMapping(value = "/ajax/getDepartmentsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<Contract> getDepartmentsFilterList(@ModelAttribute Contract obj) {
-		List<Contract> departmentFilterList = null;
-		try {
-			 departmentFilterList = contractService.departmentsFilterList(obj);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getDepartmentsFilterList : " + e.getMessage());
-		}
-		return departmentFilterList;
-	}
 
 	@RequestMapping(value = "/ajax/getWorksFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

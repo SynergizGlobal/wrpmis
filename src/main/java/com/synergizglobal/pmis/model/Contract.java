@@ -14,7 +14,7 @@ public class Contract {
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status,revision_status
 	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till,
 	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code,contract_file_type_fk,contract_file_type,contract_file_id,
-	responsible_people_id_fk,hod_name,dy_hod_name,PhysicalProgress,ContractAlertRemarks;
+	responsible_people_id_fk,hod_name,dy_hod_name,PhysicalProgress,ContractAlertRemarks,revised_amount_units,bg_value_units,insurance_value_units,awarded_cost_units,estimated_cost_units;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk;
 
@@ -29,7 +29,7 @@ public class Contract {
 	private MultipartFile contractFile;
 	
 	private String[] contractDocumentNames,contractDocumentFileNames,milestone_ids,contractKeyPersonnelNames,contractKeyPersonnelMobileNos,contractKeyPersonnelEmailIds,contractKeyPersonnelDesignations
-	,ids, contract_id_fks, department_id_fks, executive_user_id_fks,department_fks,responsible_people_id_fks;
+	,ids, contract_id_fks, department_id_fks, executive_user_id_fks,department_fks,responsible_people_id_fks,revised_amount_unitss,bg_value_unitss,insurance_value_unitss;
 	private int[] filecounts;
 	private MultipartFile[] contractDocumentFiles;
 	
@@ -43,7 +43,72 @@ public class Contract {
 	private List<Contract> departmentList;
 	private List<Contract> executivesList;
 	private List<Contract> responsiblePersonsList;
-	
+
+
+	public String getRevised_amount_units() {
+		return revised_amount_units;
+	}
+
+	public void setRevised_amount_units(String revised_amount_units) {
+		this.revised_amount_units = revised_amount_units;
+	}
+
+	public String getBg_value_units() {
+		return bg_value_units;
+	}
+
+	public void setBg_value_units(String bg_value_units) {
+		this.bg_value_units = bg_value_units;
+	}
+
+	public String getInsurance_value_units() {
+		return insurance_value_units;
+	}
+
+	public void setInsurance_value_units(String insurance_value_units) {
+		this.insurance_value_units = insurance_value_units;
+	}
+
+	public String[] getRevised_amount_unitss() {
+		return revised_amount_unitss;
+	}
+
+	public void setRevised_amount_unitss(String[] revised_amount_unitss) {
+		this.revised_amount_unitss = revised_amount_unitss;
+	}
+
+	public String[] getBg_value_unitss() {
+		return bg_value_unitss;
+	}
+
+	public void setBg_value_unitss(String[] bg_value_unitss) {
+		this.bg_value_unitss = bg_value_unitss;
+	}
+
+	public String[] getInsurance_value_unitss() {
+		return insurance_value_unitss;
+	}
+
+	public void setInsurance_value_unitss(String[] insurance_value_unitss) {
+		this.insurance_value_unitss = insurance_value_unitss;
+	}
+
+	public String getAwarded_cost_units() {
+		return awarded_cost_units;
+	}
+
+	public void setAwarded_cost_units(String awarded_cost_units) {
+		this.awarded_cost_units = awarded_cost_units;
+	}
+
+	public String getEstimated_cost_units() {
+		return estimated_cost_units;
+	}
+
+	public void setEstimated_cost_units(String estimated_cost_units) {
+		this.estimated_cost_units = estimated_cost_units;
+	}
+
 	public List<Contract> getResponsiblePersonsList() {
 		return responsiblePersonsList;
 	}

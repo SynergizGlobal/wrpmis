@@ -81,6 +81,10 @@
      	 .my-error-class {
    			 color:red;
 		}
+		.my-error {
+   			 color:red;
+   			 font-size: 12px
+		}
 		.my-valid-class {
    			 color:green;
 		}
@@ -379,9 +383,10 @@
 										                                      	    <option value= "${ obj.department_fk}" <c:if test="${departmentObj.department_id_fk eq obj.department_fk}">selected</c:if>>${ obj.department_name}</option>
 										                                          </c:forEach>
 											                              </select> 
+											                              <span id="deptError${index.count }" class="my-error"></span>
 											                        </td>
 											                        <td data-head="Select Executives" class="input-field h-auto">
-											                            <select class="searchable validate-dropdown" name="responsible_people_id_fks" id="responsible_people_id_fks${index.count }" onchange="fileCount('${index.count }')"
+											                            <select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks${index.count }" onchange="fileCount('${index.count }');hideErrors('${index.count }');"
 											                            	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
 											                             multiple="multiple">
 											                             <option value="" disabled="disabled">Select</option>
@@ -393,6 +398,7 @@
 																	 		>${obj.designation} - ${obj.user_name}</option>
 									                                         </c:forEach>
 											                            </select>
+											                             <span id="personError${index.count }" class="my-error" ></span>
 											                            <input type="hidden" id="filecounts${index.count }" name="filecounts">
 											                            <script>
 											                            	var count = $("#responsible_people_id_fks${index.count } :selected").length;
@@ -409,24 +415,26 @@
                                              		<c:otherwise>
 									                    <tr id="departmentRow0">
 									                        <td data-head="Department" class="input-field">
-									                             <select class="searchable validate-dropdown" name="department_fks" id="department_fks0" class="searchable" onchange="getExecutivesList('0');"
+									                             <select class="searchable validate-dropdown dept" name="department_fks" id="department_fks0" class="searchable" onchange="getExecutivesList('0');"
 									                             	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>> 
 									                                	<option value="" >Select</option>  
 																          <c:forEach var="obj" items="${departmentList }">
 								                                      	    <option value= "${ obj.department_fk}" >${ obj.department_name}</option>
 								                                          </c:forEach>
 									                              </select>
+									                              <span id="deptError0" class="my-error"></span>
 									                              <input type="hidden" id="filecounts0" name="filecounts" value="0">
 									                        </td>
 									                        <td data-head="Select Executives" class="input-field h-auto">
-									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks"  onchange="fileCount('0')"
+									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks"  onchange="fileCount('0');hideErrors('0')"
 									                               <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
 									                                id="responsible_people_id_fks0" multiple="multiple">
 									                                <option value="" disabled="disabled">Select</option>
-									                             	 <c:forEach var="obj" items="${responsiblePeopleList}">
+									                             	 <%-- <c:forEach var="obj" items="${responsiblePeopleList}">
 											                             <option value="${obj.user_id }"> ${obj.designation} - ${obj.user_name}</option>
-									                                 </c:forEach>
+									                                 </c:forEach> --%>
 									                            </select>
+									                            <span id="personError0" class="my-error"></span>
 									                        </td>
 									                        <td class="mobile_btn_close">
 									                            <a onclick="removeDepartment('0');"
@@ -509,7 +517,7 @@
 	                                </div>
 	                                <div class="col s6 m4 input-field">
 	                                    <input id="loa_date" name="loa_date" type="text" class="validate datepicker" value="${contractDeatils.loa_date }">
-	                                    <label for="loa_date">LOA Date</label>
+	                                    <label for="loa_date">LOA Date<span class="required">*</span></label>
 	                                    <span id="loa_dateError" class="error-msg" ></span>
 	                                    <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
@@ -541,14 +549,15 @@
 	                                    <span id="estimated_costError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s3 m1 input-field pt-5">
-	                                	<p class="searchable_label">Units</p>
-	                                	<select class="units" id="estimated_cost_units" name="estimated_cost_units">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs" selected="selected">Rs</option>
-	                                		<option value="thousands">Thousands</option>
-	                                		<option value="lacs">Lacs</option>
-	                                		<option value="crores">Crores</option>
+	                                		<option value="rs" <c:if test="${contractDeatils.estimated_cost_units eq 'rs' }">selected</c:if>>Rs</option>
+	                                		<option value="thousands" <c:if test="${contractDeatils.estimated_cost_units eq 'thousands' }">selected</c:if>>Thousands</option>
+	                                		<option value="lacs" <c:if test="${contractDeatils.estimated_cost_units eq 'lacs' }">selected</c:if>>Lacs</option>
+	                                		<option value="crores" <c:if test="${contractDeatils.estimated_cost_units eq 'crores' }">selected</c:if>>Crores</option>
 	                                	</select>
+	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
                                 	</div>	                         
                                 </div>      
 	                           	<div class="row">
@@ -559,14 +568,15 @@
 	                                    <span id="awarded_costError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s3 m1 input-field pt-5">
-	                                	<p class="searchable_label">Units</p>
-	                                	<select class="units" id="awarded_cost_units" name="awarded_cost_units">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units validate-dropdown" id="awarded_cost_units" name="awarded_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs" selected="selected">Rs</option>
-	                                		<option value="thousands">Thousands</option>
-	                                		<option value="lacs">Lacs</option>
-	                                		<option value="crores">Crores</option>
+	                                		<option value="rs" <c:if test="${contractDeatils.awarded_cost_units eq 'rs' }">selected</c:if>>Rs</option>
+	                                		<option value="thousands" <c:if test="${contractDeatils.awarded_cost_units eq 'thousands' }">selected</c:if>>Thousands</option>
+	                                		<option value="lacs" <c:if test="${contractDeatils.awarded_cost_units eq 'lacs' }">selected</c:if>>Lacs</option>
+	                                		<option value="crores" <c:if test="${contractDeatils.awarded_cost_units eq 'crores' }">selected</c:if>>Crores</option>
 	                                	</select>
+	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
                                 	</div>
 	                                <div class="col s6 m4 input-field ">
 	                                    <input name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }" >
@@ -645,7 +655,8 @@
                                                 <th>Issuing Bank </th>
                                                <!--  <th>Bank Address </th> -->
                                                 <th>BG / FDR <br>Number </th>
-                                                <th colspan="2">Amount </th>
+                                                <th >Amount </th>
+                                                <th>Units</th>
                                                 <th>BG / FDR <br> Date </th>
                                                 <th>Expiry Date </th>
                                               <!--   <th>Remarks </th> -->
@@ -691,13 +702,14 @@
                                                         placeholder="Amount">
                                                  </td>
                                                  <td class="responsive_units">
-					                                	<select class="units" id="bg_values_units${index.count }" name="bg_values_units">
+					                                	<select class="units validate-dropdown" id="bg_values_units${index.count }" name="bg_value_unitss">
 					                                		<option value="">Select</option>
-					                                		<option value="rs" selected="selected">Rs</option>
-					                                		<option value="thousands">Thousands</option>
-					                                		<option value="lacs">Lacs</option>
-					                                		<option value="crores">Crores</option>
+					                                		<option value="rs" <c:if test="${bankObj.bg_value_units eq 'rs' }">selected</c:if>>Rs</option>
+					                                		<option value="thousands" <c:if test="${bankObj.bg_value_units eq 'thousands' }">selected</c:if>>Thousands</option>
+					                                		<option value="lacs" <c:if test="${bankObj.bg_value_units eq 'lacs' }">selected</c:if>>Lacs</option>
+					                                		<option value="crores" <c:if test="${bankObj.bg_value_units eq 'crores' }">selected</c:if>>Crores</option>
 					                                	</select>
+					                                	<span id="bg_units${index.count }Error" class="my-error"></span>
                                                 </td>
                                                <td data-head="BG / FDR Date " class="input-field">
                                                     <input id="bg_dates${index.count }" name="bg_dates" type="text" class="validate datepicker" value="${bankObj.bg_date }"
@@ -722,7 +734,15 @@
                                                 </td>                                               
                                                
                                             </tr>
-                                           
+                                           <script type="text/javascript">
+                                             	$('#bg_values_units${index.count }').change(function(){
+									            	if($.trim($('#bg_values_units${index.count }').val()) == ""){
+														$('#bg_units${index.count }Error').text('Requried');
+													}else{
+														$('#bg_units${index.count }Error').text('');
+													}
+										        });
+                                             </script>
                                           </c:forEach>
                                            </c:when>
                                              <c:otherwise>
@@ -758,13 +778,14 @@
                                                     	<input id="bg_values0" name="bg_values" min="0.01" step="0.01" type="number" class="validate"     placeholder="Amount">
                                                   </td>
                                                   <td class="responsive_units">
-					                                	<select class="units" id="bg_values_units${index.count }" name="bg_values_units">
+					                                	<select class="units validate-dropdown" id="bg_values_units0" name="bg_value_unitss">
 					                                		<option value="">Select</option>
-					                                		<option value="rs" selected="selected">Rs</option>
+					                                		<option value="rs">Rs</option>
 					                                		<option value="thousands">Thousands</option>
 					                                		<option value="lacs">Lacs</option>
 					                                		<option value="crores">Crores</option>
 					                                	</select>
+					                                	<span id="bg_units0Error" class="my-error"></span>
                                                     </div>
                                                 </td>
                                                 <td data-head="BG / FDR Date " class="input-field">
@@ -799,6 +820,13 @@
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
 	                                                 });
+	                                                $('#bg_values_units0').change(function(){
+										            	if($.trim($('#bg_values_units0').val()) == ""){
+															$('#bg_units0Error').text('Requried');
+														}else{
+															$('#bg_units0Error').text('');
+														}
+											        });
 	                                             
                                                 </script>
                                               </c:otherwise>
@@ -857,7 +885,8 @@
                                                 <th>Issuing Agency </th>
                                                 <th>Agency Address </th>
                                                 <th>Insurance Number </th>
-                                                <th colspan="2">Insurance Value </th>
+                                                <th >Insurance Value </th>
+                                                <th>Units</th>
                                                 <th>Revision </th>
                                                 <th>Valid Upto </th>
                                                 <th>Remarks </th>
@@ -897,13 +926,14 @@
                                                         placeholder="Insurance Value">
                                                     </td> 
                                                     <td class="responsive_units">
-					                                	<select class="units" id="insurance_values_units${index.count }" name="insurance_values_units">
+					                                	<select class="units validate-dropdown" id="insurance_values_units${index.count }" name="insurance_value_unitss">
 					                                		<option value="">Select</option>
-					                                		<option value="rs" selected="selected">Rs</option>
-					                                		<option value="thousands">Thousands</option>
-					                                		<option value="lacs">Lacs</option>
-					                                		<option value="crores">Crores</option>
+					                                		<option value="rs" <c:if test="${insurenceObj.insurance_value_units eq 'rs' }">selected</c:if>>Rs</option>
+					                                		<option value="thousands" <c:if test="${insurenceObj.insurance_value_units eq 'thousands' }">selected</c:if>>Thousands</option>
+					                                		<option value="lacs" <c:if test="${insurenceObj.insurance_value_units eq 'lacs' }">selected</c:if>>Lacs</option>
+					                                		<option value="crores" <c:if test="${insurenceObj.insurance_value_units eq 'crores' }">selected</c:if>>Crores</option>
 					                                	</select>
+					                                	<span id="insurence_units${index.count }Error" class="my-error"></span>
                                                  </td>
                                                  <td data-head="Revision " class="input-field">
                                                     <input id="insurance_revisions${index.count }" name="insurance_revisions" type="text" class="validate" value="${insurenceObj.revision }"  
@@ -945,6 +975,13 @@
 							                            	  $("#insuranceStatuss${index.count }").val('No')
 							                              }
 							                   	    });
+	                                                 $('#insurance_values_units${index.count }').change(function(){
+											            	if($.trim($('#insurance_values_units${index.count }').val()) == ""){
+																$('#insurence_units${index.count }Error').text('Requried');
+															}else{
+																$('#insurence_units${index.count }Error').text('');
+															}
+												    });
                                                 </script>
                                              </c:forEach>
                                              </c:when>
@@ -974,17 +1011,18 @@
                                                 </td>
                                                 <td data-head="Insurance Value " class="input-field ">
                                                 		<i class="material-icons prefix cost left-align">₹</i>
-                                                    	<input id="insurance_values${index.count }" name="insurance_values" min="0.01" step="0.01" type="number" class="validate" value="${insurenceObj.insurance_value }"
+                                                    	<input id="insurance_values0" name="insurance_values" min="0.01" step="0.01" type="number" class="validate" value="${insurenceObj.insurance_value }"
                                                         placeholder="Insurance Value">
                                                     </td> 
                                                     <td class="responsive_units">
-					                                	<select class="units" id="insurance_values_units${index.count }" name="insurance_values_units">
+					                                	<select class="units validate-dropdown" id="insurance_values_units0" name="insurance_value_unitss">
 					                                		<option value="">Select</option>
-					                                		<option value="rs" selected="selected">Rs</option>
+					                                		<option value="rs">Rs</option>
 					                                		<option value="thousands">Thousands</option>
 					                                		<option value="lacs">Lacs</option>
 					                                		<option value="crores">Crores</option>
 					                                	</select>
+					                                	<span id="insurence_units0Error" class="my-error"></span>
                                                  </td>
                                                  <td data-head="Revision " class="input-field">
                                                     <input id="insurance_revisions0" name="insurance_revisions" type="text" class="validate" 
@@ -1025,6 +1063,13 @@
 							                            	  $("#insuranceStatuss0").val('No')
 							                              }
 							                   	    });
+	                                                $('#insurance_values_units0').change(function(){
+										            	if($.trim($('#insurance_values_units0').val()) == ""){
+															$('#insurence_units0Error').text('Requried');
+														}else{
+															$('#insurence_units0Error').text('');
+														}
+											    	});
                                                 </script>
                                            
                                              </c:otherwise>
@@ -1177,7 +1222,8 @@
                                         <thead>
                                             <tr>
                                                 <th>Revision Number <span class="required">*</span></th>
-                                                <th colspan="2">Revised Amount </th>
+                                                <th >Revised Amount </th>
+                                                <th>Units</th>
                                                 <th>Revised DOC </th>
                                                 <th>Remarks </th>
                                                 <th>Current</th>
@@ -1198,15 +1244,16 @@
                                                     	<input id="revised_amounts${index.count }" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" value="${revObj.revised_amount }"
                                                         placeholder="Revised Amount">
                                                  </td>
-                                                 <td>
+                                                 <td class="responsive_units">
                                                    <!--  <div class="col s3 pt-14"> -->
-					                                	<select class="units" id="revised_amounts_units${index.count }" name="revised_amounts_units">
+					                                	<select class="units validate-dropdown" id="revised_amounts_units${index.count }" name="revised_amount_unitss">
 					                                		<option value="">Select</option>
-					                                		<option value="rs" selected="selected">Rs</option>
-					                                		<option value="thousands">Thousands</option>
-					                                		<option value="lacs">Lacs</option>
-					                                		<option value="crores">Crores</option>
+					                                		<option value="rs" <c:if test="${revObj.revised_amount_units eq 'rs' }">selected</c:if>>Rs</option>
+					                                		<option value="thousands" <c:if test="${revObj.revised_amount_units eq 'thousands' }">selected</c:if>>Thousands</option>
+					                                		<option value="lacs" <c:if test="${revObj.revised_amount_units eq 'lacs' }">selected</c:if>>Lacs</option>
+					                                		<option value="crores" <c:if test="${revObj.revised_amount_units eq 'crores' }">selected</c:if>>Crores</option>
 					                                	</select>
+					                                	<span id="units${index.count }Error" class="my-error"></span>
                                                    <!--  </div> -->
                                                 </td>
                                                 <td data-head="Revised DOC " class="input-field">
@@ -1250,6 +1297,13 @@
 							                            	  $("#revision_statuss${index.count }").val('No')
 							                              }
 							                   	    });
+	                                                $('#revised_amounts_units${index.count }').change(function(){
+										            	if($.trim($('#revised_amounts_units${index.count }').val()) == ""){
+															$('#units${index.count }Error').text('Requried');
+														}else{
+															$('#units${index.count }Error').text('');
+														}
+											    	});
                                                 </script>
                                           </c:forEach>
                                            </c:when>
@@ -1264,13 +1318,14 @@
                                                 </td>
                                                 <td class="responsive_units"> 
                                                     <!-- div class="col s3 pt-14"> -->
-					                                	<select class="units" id="revised_amounts_units0" name="revised_amounts_units">
+					                                	<select class="units validate-dropdown" id="revised_amounts_units0" name="revised_amount_unitss">
 					                                		<option value="">Select</option>
-					                                		<option value="rs" selected="selected">Rs</option>
+					                                		<option value="rs" >Rs</option>
 					                                		<option value="thousands">Thousands</option>
 					                                		<option value="lacs">Lacs</option>
 					                                		<option value="crores">Crores</option>
 					                                	</select>
+					                                	<span id="units0Error" class="my-error"></span>
                                                     <!-- </div> -->
                                                 </td>
                                                 <td data-head="Revised DOC " class="input-field">
@@ -1307,6 +1362,14 @@
 							                            	  $("#revision_statuss0").val('No')
 							                              }
 							                   	    });
+										            
+										            $('#revised_amounts_units0').change(function(){
+										            	if($.trim($('#revised_amounts_units0').val()) == ""){
+															$('#units0Error').text('Requried');
+														}else{
+															$('#units0Error').text('');
+														}
+											    	});
                                                 </script> 
                                              </c:otherwise>
                                             </c:choose> 
@@ -1315,7 +1378,7 @@
                                      <table class="mdl-data-table">
                                         <tbody id="revTableBody">                                          
                                             <tr>
-									<td colspan="5" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addRevRow()"> <i
+									<td colspan="6" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addRevRow()"> <i
                                                             class="fa fa-plus"></i></a></td>
                                               </tr>
                                         </tbody>
@@ -1541,10 +1604,10 @@
 	                                     <span id="completed_costError" class="error-msg" ></span>
 	                                </div>    
 	                                <div class="col s3 m1 input-field pt-5">
-	                                	<p class="searchable_label">Units</p>
-	                                	<select class="units" id="completed_cost_units" name="completed_cost_units">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units validate-dropdown" id="completed_cost_units" name="completed_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs" selected="selected">Rs</option>
+	                                		<option value="rs" >Rs</option>
 	                                		<option value="thousands">Thousands</option>
 	                                		<option value="lacs">Lacs</option>
 	                                		<option value="crores">Crores</option>
@@ -1751,10 +1814,13 @@
 	       		$("#insurance_div").hide();
 	       	}
        	});
-        
+        function hideErrors(count){
+        	$('#personError'+count).hide();
+        }
         function getExecutivesList(num) {
         	$(".page-loader").show();
         	var count = Number(num);
+        	$('#deptError'+count).hide();
         	var department_fk = $('#department_fks'+count).val();
         	/* var id =  $("#departmentTable tbody tr:first-of-type >td:first-of-type").find('.searchable').attr("id");  
         	var deptFirst = $('#'+id).val();
@@ -1805,12 +1871,12 @@
     			   			<c:forEach var="obj" items="${departmentList }">
     			   				+'<option value= "${ obj.department_fk}" >${ obj.department_name}</option>'
     			   			</c:forEach>
-    			   +' </select><input id="filecounts'+rNo+'"  name="filecounts"  type="hidden"></td>'
+    			   +' </select><span id="deptError'+rNo+'" class="my-error"></span><input id="filecounts'+rNo+'"  name="filecounts"  type="hidden"></td>'
     			   +'<td data-head="Select Executives" class="input-field h-auto">'
-    			   		+'<select class="searchable validate-dropdown" name="responsible_people_id_fks" id="responsible_people_id_fks'+rNo+'" onchange="fileCount('+rNo+')"  multiple="multiple">'
+    			   		+'<select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks'+rNo+'" onchange="fileCount('+rNo+'); hideErrors('+rNo+');"  multiple="multiple">'
     			   			+'<option value="" disabled="disabled">Select</option>'
     			   
-    			   +'</select></td>'
+    			   +'</select><span id="personError'+rNo+'" class="my-error"></span></td>'
     			   +'<td class="mobile_btn_close"> <a onclick="removeDepartment('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'
     			   +'</tr>';
     		
@@ -1945,11 +2011,20 @@
         
         
         function updateContract(){
-        	
-        	
+        	var flag = validateContract();
+        	if(flag){
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	
 	  		
+	  			 $('.multipleUnits').each(function() {
+	        	        $(this).rules("add", 
+	        	            {
+	        	                required: true,
+	        	                messages: {
+	        	                    required: "Name is required",
+	        	                }
+	        	            });
+	        	    });
 	  			var bg_required = $("input[name=bg_required]:checked").val();
 	  			var insurance_required = $("input[name=insurance_required]:checked").val();
 	  			var contract_status_fk = $("#contract_status_fk").val();
@@ -1962,8 +2037,33 @@
 	        	}
 	        	if(contract_status_fk != 'Completed' && contract_status_fk != 'Closed'){
 	        		$("#contractClosureDetails").remove();
-	        	}
-	        	
+	        	} 
+        		 var count = $('#departmentTable tbody .dept').length;
+        		 for(var i =1; i<= count; i++){
+        			 
+        			 var dept =  $('#department_fks'+i).val()
+        			 var person =  $('#responsible_people_id_fks'+i).val()
+        			 if(dept == '' || person == ''){
+        				 if(dept == ''){
+        				 	$("#deptError"+i).html("requried");
+        				 }
+        				 if(person == ''){
+            			 	 $("#personError"+i).html("requried");
+            			 }
+        				 //$(".my-error").focus();
+        			 }
+        			
+        		 }
+        		 for(var i =1; i<= count; i++){
+        			 var dept =  $('#department_fks'+i).val()
+        			 var person =  $('#responsible_people_id_fks'+i).val()
+        			 if(dept == '' || person == ''){
+        				 return $(".page-loader").hide();
+        			 }
+        		 }
+	        	$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
+	  			$('form input[name=responsible_people_id_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			
 	  			$('form input[name=bg_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
 	  			$('form input[name=issuing_banks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=bank_addresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
@@ -2009,12 +2109,14 @@
 	  			
     			document.getElementById("contractForm").submit();			
     	 	}
+        	}
     	}
 
         var validator = $('#contractForm').validate({
         	
         		 errorClass: "my-error-class",
-        		   validClass: "my-valid-class",
+        		   validClass: "my-valid-class", 
+        		  
         	ignore: ":hidden:not(.validate-dropdown)",
         	   rules: {
         			  "project_id_fk": {
@@ -2046,15 +2148,15 @@
     				 	 dateAfterDoc:"#doc"
          	 	  	  },"awarded_cost": {
         		 		required: false
-        		 	  },"date_of_start": {
-        		 		 required: true,
-    				 	 dateBeforeDOS:"#date_of_start"
+        		 	  },"date_of_start": { 
+        		 		 required: false,
+    				 	 dateBeforeDOS:"#loa_date"
         		 	  },"estimated_cost": {
         		 		required: false
         		 	  },"loa_letter_number": {
         		 		required: false
         		 	  },"loa_date":{
-        		 		 required: false
+        		 		 required: true
         		 	  },"ca_no": {
         	 		    required: false
         	 	   	  },"ca_date": {
@@ -2085,6 +2187,14 @@
         		 		 required: false
         		 	  },"remarks":{
         		 		 required: false
+        		 	  },"estimated_cost_units":{
+        		 		 required: function(element){
+        		             return $("#estimated_cost").val()!="";
+        		         }
+        		 	  },"awarded_cost_units":{
+        		 		 required: function(element){
+        		             return $("#awarded_cost").val()!="";
+        		         }
         		 	  }
         		 				
         	 	},
@@ -2152,6 +2262,10 @@
         	 	  		required: 'Required'
         		 	  },"remarks":{
         	 	  		required: 'Required'
+        		 	  },"estimated_cost_units":{
+        	 	  		required: 'Units required'
+        		 	  },"awarded_cost_units":{
+        	 	  		required: 'Units required'
         		 	  }
         	 				      
             },
@@ -2247,6 +2361,12 @@
         		 	    }else if (element.attr("id") == "contract_status_fk" ){
         	 		     document.getElementById("contract_status_fkError").innerHTML="";
         	 			 error.appendTo('#contract_status_fkError');
+	        	 	    }else if (element.attr("id") == "estimated_cost_units" ){
+        	 		     document.getElementById("estimated_cost_unitsError").innerHTML="";
+        	 			 error.appendTo('#estimated_cost_unitsError');
+	        	 	    }else if (element.attr("id") == "awarded_cost_units" ){
+        	 		     document.getElementById("awarded_cost_unitsError").innerHTML="";
+        	 			 error.appendTo('#awarded_cost_unitsError');
 	        	 	    }else if (element.attr("id") == "remarks" ){
 	       	 		     document.getElementById("remarksError").innerHTML="";
 	    	 			 error.appendTo('#remarksError');}
@@ -2259,6 +2379,7 @@
                      }, 1000);
                  }
              },submitHandler: function(form) {
+            	 alert($('#awarded_cost').val());
         	    // do other things for a valid form
         	    //form.submit();
         	    //return true;
@@ -2404,8 +2525,8 @@
 				   +'<td data-head="BG / FDR Number " class="input-field"><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
 				   //+'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="number" min="0.01" step="0.01" class="validate"  placeholder="Amount"></td>'
 				   +'<td data-head="Amount " class="input-field"> <i class="material-icons prefix cost left-align">₹</i> <input id="bg_values'+rNo+'" name="bg_values" min="0.01" step="0.01" type="number" class="validate" placeholder="Amount">'
-				   +'</td><td class="responsive_units">		<select class="units" id="bg_values_units'+rNo+'" name="bg_values_units"> <option value="">Select</option> <option value="rs" selected="selected">Rs</option> <option value="thousands">Thousands</option>'
-				   +'<option value="lacs">Lacs</option>	<option value="crores">Crores</option>	</select> </div> </td>'
+				   +'</td><td class="responsive_units">		<select class="units validate-dropdown" id="bg_values_units'+rNo+'" name="bg_value_unitss"> <option value="">Select</option> <option value="rs" >Rs</option> <option value="thousands">Thousands</option>'
+				   +'<option value="lacs">Lacs</option>	<option value="crores">Crores</option>	</select><span id="bg_units'+rNo+'Error" class="my-error"></span></div> </td>'
 				   +'<td data-head="BG / FDR Date " class="input-field"><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button"><i class="fa fa-calendar"></i></button>'
 				   //+'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
 				   +'<td data-head="Expiry Date " class="input-field"><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Expiry Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
@@ -2424,6 +2545,12 @@
 		  	    	     $('.confirmation-btns .datepicker-done').click();
 		  	    	  }
 		         });
+				 
+		             $('#bg_values_units'+rNo).on('change', function(e){
+		            	 if($.trim($('#bg_values_units'+rNo).val()) != ""){
+		            		 $('#bg_units'+rNo+'Error').text('');
+		            	 }
+		             });
 				
 		} 
 		
@@ -2448,9 +2575,9 @@
 			   +'<td data-head="Agency Address " class="input-field"><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
 			   +'<td data-head="Insurance Number " class="input-field"><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
 			  // +'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" placeholder="Insurance Value"></td>'
-			   +'<td data-head="Insurance Value " class="input-field"> <i class="material-icons prefix cost left-align">₹</i> <input id="insurance_values'+rNo+'" name="insurance_values" '
-			   +'min="0.01" step="0.01" type="number" class="validate" placeholder="Insurance Value"> </td><td class="responsive_units"> <select class="units" id="insurance_values_units'+rNo+'" name="insurance_values_units">'
-			   +'<option value="">Select</option> <option value="rs" selected="selected">Rs</option>	<option value="thousands">Thousands</option> <option value="lacs">Lacs</option>	<option value="crores">Crores</option>	</select> </div> </td>' 
+			   +'<td data-head="Insurance Value " class="input-field responsive_units"> <i class="material-icons prefix cost left-align">₹</i> <input id="insurance_values'+rNo+'" name="insurance_values" '
+			   +'min="0.01" step="0.01" type="number" class="validate" placeholder="Insurance Value"> </td><td class="responsive_units"> <select class="units validate-dropdown" id="insurance_values_units'+rNo+'" name="insurance_value_unitss">'
+			   +'<option value="">Select</option> <option value="rs" >Rs</option>	<option value="thousands">Thousands</option> <option value="lacs">Lacs</option>	<option value="crores">Crores</option>	</select> <span id="insurence_units'+rNo+'Error" class="my-error"></span></div> </td>' 
 			   +'<td data-head="Revision " class="input-field"><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td data-head="Valid Upto " class="input-field"><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Remarks " class="input-field"><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
@@ -2478,6 +2605,12 @@
                 	  $("#insuranceStatus"+rNo).val('No')
                   }
        	    });
+			  
+	             $('#insurance_values_units'+rNo).on('change', function(e){
+	            	 if($.trim($('#insurance_values_units'+rNo).val()) != ""){
+	            		 $('#insurence_units'+rNo+'Error').text('');
+	            	 }
+	             });
 		} 
 		
 		
@@ -2531,8 +2664,8 @@
 		    var html = '<tr id="revRow'+rNo+'">'
 			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
 			   +'<td data-head="Revised Amount " class="input-field"> <i class="material-icons prefix cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
-			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"> </td><td class="responsive_units"> <select class="units" id="revised_amounts_units'+rNo+'" name="revised_amounts_units">'
-			   +'<option>Select</option> <option value="rs" selected="selected">Rs</option> <option value="thousands">Thousands</option> <option value="lacs">Lacs</option> <option value="crores">Crores</option> </select> </div> </td>'
+			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"> </td><td class="responsive_units"> <select class="units validate-dropdown multipleUnits" id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
+			   +'<option value="">Select</option> <option value="rs" >Rs</option> <option value="thousands">Thousands</option> <option value="lacs">Lacs</option> <option value="crores">Crores</option> </select> <span id="units'+rNo+'Error" class="my-error"></span></div> </td>'
 			  // +'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"></td>'
 			   +'<td data-head="Revised DOC" class="input-field"><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
@@ -2564,8 +2697,14 @@
                  	  $("#revision_statuss"+rNo).val('No')
                    }
         	    });
+             
+           
+             $('#revised_amounts_units'+rNo).on('change', function(e){
+            	 if($.trim($('#revised_amounts_units'+rNo).val()) != ""){
+            		 $('#units'+rNo+'Error').text('');
+            	 }
+             });
 		} 
-		
 		
 		function removeRev(rowNo){
 			$("#revRow"+rowNo).remove();
@@ -2706,6 +2845,79 @@
 			});		
 						
 		}
+		function validateContract(){
+			var flag = true;
+			$("input[name=bg_values]").each(function(){
+				var idNo = (this.id).replace('bg_values','');
+				var bg_value_units = $("#bg_values_units"+idNo).val();
+				if(idNo === ""){
+	       				idNo = 0;
+	       		}
+	       		if($.trim(bg_value_units) == "" && $('#bg_values'+idNo).val() != ""){
+					$('#bg_units'+idNo+'Error').text('Requried');
+					flag = false;
+				}
+			});
+			$("input[name=insurance_values]").each(function(){
+	       		var idNo = (this.id).replace('insurance_values','');
+	       		if(idNo === ""){
+	       				idNo = 0;
+	       		}
+	       		var d = $('#insurance_values'+idNo).val();
+	       		var insurance_value_units = $("#insurance_values_units"+idNo).val();
+	       		if($.trim(insurance_value_units) == "" && $('#insurance_values'+idNo).val() != ""){
+					$('#insurence_units'+idNo+'Error').text('Requried');
+					flag = false;
+				}
+			});
+			$("input[name=revised_amounts]").each(function(){
+	       		var idNo = (this.id).replace('revised_amounts','');
+	       		if(idNo === ""){
+	       				idNo = 0;
+	       		}
+	       		var revised_amount_units = $("#revised_amounts_units"+idNo).val();
+	       		if( $.trim(revised_amount_units) == "" && $('#revised_amounts'+idNo).val() != ""){
+					$('#units'+idNo+'Error').text('Requried');
+					flag = false;
+				}
+			});
+			return flag;
+		}
+		$('select[name=bg_value_unitss]').change(function(key, element){
+			$("input[name=bg_values]").each(function(){
+				var idNo = (this.id).replace('bg_value_unitss',''); 
+        		if($.trim(this.value) == "" && $('#bg_values'+idNo).val() != ""){ 
+        			$('#bg_units'+idNo+'Error').text('Requried');
+				}else{
+					$('#bg_units'+idNo+'Error').text('');
+				}
+            });
+			
+		});
+		$('select[name=insurance_value_unitss]').change(function(key, element){
+			
+			$("input[name=insurance_values]").each(function(){
+				var idNo = (this.id).replace('insurance_value_unitss','');
+        		if($.trim(this.value) == "" && $('#insurance_values'+idNo).val() != ""){
+        			$('#insurence_units'+idNo+'Error').text('Requried');
+				}else{
+					$('#insurence_units'+idNo+'Error').text('');
+				}
+            });
+			
+		});
+		$('select[name=revised_amount_unitss]').change(function(key, element){
+			
+			$("input[name=revised_amounts]").each(function(){
+				var idNo = (this.id).replace('revised_amount_unitss','');
+        		if($.trim(this.value) == "" && $('#revised_amounts'+idNo).val() != ""){
+        			$('#units'+idNo+'Error').text('Requried');
+				}else{
+					$('#units'+idNo+'Error').text('');
+				}
+            });
+			
+		});
 		
     </script>
 

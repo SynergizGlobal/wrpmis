@@ -28,7 +28,10 @@
         #mileTable .datepicker~button {
             top: 26px;
         }
-
+		.my-error {
+   			 color:red;
+   			 font-size: 12px
+		}
         .datepicker-table thead tr,
         .datepicker-table thead tr:hover,
         .datepicker-table tbody tr,
@@ -300,7 +303,7 @@
 									            <table id="departmentTable" class="mdl-data-table mobile_responsible_table" >
 									                <thead>
 									                    <tr>
-									                        <th style="width:22%">Department</th>
+									                        <th style="width:22%">Department<span class="required"> *</span></th>
 															<th>Select Executives</th>
 															<th style="width:8%">Action</th>
 									                    </tr>
@@ -315,13 +318,15 @@
 								                                      	    <option value= "${ obj.department_fk}" >${ obj.department_name}</option>
 								                                          </c:forEach>
 									                              </select>
+									                               <span id="deptError0" class="my-error"></span>
 									                        </td>
 									                        <td data-head="Select Executives" class="input-field h-auto">
-									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks" onchange="fileCount('0')"
+									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks" onchange="fileCount('0');hideErrors('0')"
 									                                id="responsible_people_id_fk0" multiple="multiple">
 									                                <option value="" disabled="disabled">Select</option>
 									                             
 									                            </select>
+									                            <span id="personError0" class="my-error"></span>
 									                            <input type="hidden" id="filecounts0" name="filecounts" value="0">
 									                        </td>
 									                        <td class="mobile_btn_close">
@@ -426,13 +431,14 @@
 	                                </div>
 	                                <div class="col s3 m1 input-field pt-5">
 	                                	<p class="searchable_label">Units</p>
-	                                	<select class="units" id="estimated_cost_units" name="estimated_cost_units">
+	                                	<select class="units validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs" selected="selected">Rs</option>
+	                                		<option value="rs" >Rs</option>
 	                                		<option value="thousands">Thousands</option>
 	                                		<option value="lacs">Lacs</option>
 	                                		<option value="crores">Crores</option>
 	                                	</select>
+	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
                                 	</div>                                	
 	                                <div class="col s9 m3 input-field">
 	                                	<i class="material-icons prefix cost">₹</i>
@@ -442,13 +448,14 @@
 	                                </div>
 	                                <div class="col s3 m1 input-field pt-5">
 	                                	<p class="searchable_label">Units</p>
-	                                	<select class="units" id="awarded_cost_units" name="awarded_cost_units">
+	                                	<select class="units validate-dropdown" id="awarded_cost_units" name="awarded_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs" selected="selected">Rs</option>
+	                                		<option value="rs" >Rs</option>
 	                                		<option value="thousands">Thousands</option>
 	                                		<option value="lacs">Lacs</option>
 	                                		<option value="crores">Crores</option>
 	                                	</select>
+	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
                                 	</div>
                                 	
 	                            </div>
@@ -1222,12 +1229,12 @@
     			   			<c:forEach var="obj" items="${departmentList }">
     			   				+'<option value= "${ obj.department_fk}" >${ obj.department_name}</option>'
     			   			</c:forEach>
-    			   +' </select><input id="filecounts'+rNo+'"  name="filecounts"  type="hidden"></td>'
+    			   +' </select><span id="deptError'+rNo+'" class="my-error"><input id="filecounts'+rNo+'"  name="filecounts"  type="hidden"></td>'
     			   +'<td data-head="Select Executives" class="input-field h-auto">'
     			   		+'<select class="searchable validate-dropdown" name="responsible_people_id_fks" id="responsible_people_id_fk'+rNo+'" onchange="fileCount('+rNo+')"  multiple="multiple">'
     			   			+'<option value="" disabled="disabled">Select</option>'
     			   
-    			   +'</select></td>'
+    			   +'</select><span id="personError'+rNo+'" class="my-error"></span></td>'
     			   +'<td class="mobile_btn_close"> <a onclick="removeDepartment('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'
     			   +'</tr>';
     		
@@ -1412,7 +1419,28 @@
 	  		
 	  			var work_short_name = $("#work_id_fk").find('option:selected').attr("workShortName");
 	  			$("#work_short_name").val(work_short_name);
-	  		
+	  			 var count = $('#departmentTable tbody .dept').length;
+        		 for(var i =1; i<= count; i++){
+        			 
+        			 var dept =  $('#department_fks'+i).val()
+        			 var person =  $('#responsible_people_id_fks'+i).val()
+        			 if(dept == '' || person == ''){
+        				 if(dept == ''){
+        				 	$("#deptError"+i).html("requried");
+        				 }
+        				 if(person == ''){
+            			 	 $("#personError"+i).html("requried");
+            			 }
+        				 //$(".my-error").focus();
+        			 }
+        		 }
+        		 for(var i =1; i<= count; i++){
+        			 var dept =  $('#department_fks'+i).val()
+        			 var person =  $('#responsible_people_id_fks'+i).val()
+        			 if(dept == '' || person == ''){
+        				 return $(".page-loader").hide();
+        			 }
+        		 }
 	  			$('form input[name=bg_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
 	  			$('form input[name=issuing_banks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=bank_addresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
@@ -1528,7 +1556,15 @@
 		   		 		 required: false
 		   		 	  },"remarks":{
 		 		 		 required: false
-				 	  }
+				 	  },"estimated_cost_units":{
+        		 		 required: function(element){
+        		             return $("#estimated_cost").val()!="";
+        		         }
+        		 	  },"awarded_cost_units":{
+        		 		 required: function(element){
+        		             return $("#awarded_cost").val()!="";
+        		         }
+        		 	  }
 		   		 				
 		   	 	},
 		   	   messages: {
@@ -1593,7 +1629,11 @@
 		   	 	  		required: 'Required'
 		   		 	  },"remarks":{
 		  	 	  		required: 'Required'
-				 	  }
+				 	  },"estimated_cost_units":{
+        	 	  		required: 'Units required'
+        		 	  },"awarded_cost_units":{
+        	 	  		required: 'Units required'
+        		 	  }
 		   	 				      
 		       },
 		   	  errorPlacement:
@@ -1685,7 +1725,13 @@
 			 	    }else if (element.attr("id") == "contract_status_fk" ){
 		 		     document.getElementById("contract_status_fkError").innerHTML="";
 		 			 error.appendTo('#contract_status_fkError');
-		   	 	    }else if (element.attr("id") == "remarks" ){
+		   	 	    }else if (element.attr("id") == "estimated_cost_units" ){
+       	 		     document.getElementById("estimated_cost_unitsError").innerHTML="";
+    	 			 error.appendTo('#estimated_cost_unitsError');
+        	 	    }else if (element.attr("id") == "awarded_cost_units" ){
+    	 		     document.getElementById("awarded_cost_unitsError").innerHTML="";
+    	 			 error.appendTo('#awarded_cost_unitsError');
+        	 	    }else if (element.attr("id") == "remarks" ){
 		  	 		     document.getElementById("remarksError").innerHTML="";
 			 			 error.appendTo('#remarksError');}
 		   	 },invalidHandler: function (form, validator) {

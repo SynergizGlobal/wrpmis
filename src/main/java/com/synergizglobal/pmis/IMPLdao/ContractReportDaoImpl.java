@@ -514,15 +514,15 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						+ "(select remarks from contract_revision where contract_revision_id = (select max(contract_revision_id) from contract_revision where contract_id_fk = contract_id)) as  revision_remarks " */
 						+ "(select revision_number from contract_revision where revision_number is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as  revision_number," 
 						+ "(select revision_date from contract_revision where revision_date is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as  revision_date," 
-						+ "(select cast((IFNULL(revised_amount,0)/100000) as CHAR) as revised_amount from contract_revision where revised_amount is not null and action = 'Yes' and contract_id_fk = contract_id) as  revised_amount,"
+						+ "(select cast((IFNULL(revised_amount,0)/10000000) as CHAR) as revised_amount from contract_revision where revised_amount is not null and action = 'Yes' and contract_id_fk = contract_id) as  revised_amount,"
 						+ "(select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as  revised_doc," 
 						+ "(select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as  revised_doc_temp," 
 						+ "(select remarks from contract_revision where action = 'Yes' and contract_id_fk = contract_id limit 1) as revision_remarks,"
 						
 						+ "(select cast((IFNULL(SUM(gross_work_done),0)/10000000) as CHAR) AS gross_work_done from expenditure where contract_id_fk = contract_id) as cumulative_expenditure, "
 						+ "(select DATE_FORMAT(MAX(valid_upto),'%d-%b-%y') AS valid_upto from insurance where (released_fk = 'No' OR released_fk is null OR released_fk = '') and contract_id_fk = contract_id) as insurance_valid_till, "
-						+ "(select DATE_FORMAT(MAX(valid_upto),'%d-%b-%y') AS valid_upto from bank_guarantee where bg_type_fk is not null and bg_type_fk = 'Performance Guarantee' and release_date is null and contract_id_fk = contract_id) as pbg_valid_till, "
-						+ "(SELECT ROUND(sum(contract_per),2)*100 FROM pmis.activities_scurve where contract_id_fk = contract_id and category COLLATE utf8mb4_unicode_ci= 'Actual' COLLATE utf8mb4_unicode_ci) as PhysicalProgress  "
+						+ "(select DATE_FORMAT(MIN(valid_upto),'%d-%b-%y') AS valid_upto from bank_guarantee where bg_type_fk is not null and bg_type_fk = 'Performance Guarantee' and release_date is null and contract_id_fk = contract_id) as pbg_valid_till, "
+						+ "(SELECT truncate(sum(contract_per),2)*100 FROM pmis.activities_scurve where contract_id_fk = contract_id and category COLLATE utf8mb4_unicode_ci= 'Actual' COLLATE utf8mb4_unicode_ci) as PhysicalProgress  "
 						+ " from contract c "  
 						+ "left join work w on c.work_id_fk = w.work_id "  
 						+ "left join contractor cr on c.contractor_id_fk = cr.contractor_id "  
@@ -629,39 +629,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		}
 		return mapObjsList;
 	}
-	
-	
-	private String getContractAlertRemarks(String alert_type, String contract_id, String alert_value, Connection connection) throws Exception {
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String remarks = null;
-		try {
-			String remarksQry ="select remarks from alerts where alert_status='Active' and alert_type_fk = ? and contract_id = ? and alert_value = ? "
-    				+ "AND created_date = (select max(created_date) from alerts where alert_status='Active' and alert_type_fk = ? and contract_id = ? and alert_value = ? )";
-			stmt = connection.prepareStatement(remarksQry);
-			int p = 1;
-            stmt.setString(p++, alert_type);
-            stmt.setString(p++, contract_id);
-            stmt.setString(p++, alert_value);
-            stmt.setString(p++, alert_type);
-            stmt.setString(p++, contract_id);
-            stmt.setString(p++, alert_value);
-            
-            rs = stmt.executeQuery();
-            if(rs.next()) {
-            	remarks = rs.getString("remarks");
-            }
-            
-		} catch (Exception e) {
-			throw new Exception(e);
-		}finally {
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
-		}
-		return remarks;
-	}	
-	
-	
 
+	
 	@Override
 	public Map<String,List<Contract>> getContractsBankGuaranteeForReport(Contract obj) throws Exception {
 		Map<String,List<Contract>> objsList = new LinkedHashMap<String, List<Contract>>();
@@ -906,14 +875,38 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {			
-				String qry ="select insurance_id,i.contract_id_fk,insurance_type_fk,issuing_agency,agency_address,insurance_number,cast(TRUNCATE((IFNULL(insurance_value,0)/100000),2) as CHAR) as insurance_value,DATE_FORMAT(valid_upto,'%d-%b-%y') AS insurance_valid_upto,i.remarks as insurence_remark,revision,released_fk,"
+				String qry ="select distinct DATE_FORMAT(i.valid_upto,'%d-%b-%y') AS insurance_valid_upto,i.remarks as insurence_remark,revision,released_fk,"
 						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head," + 
-						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%Y') AS actual_completion_date,c.remarks,"
-						+"DATE_FORMAT(contract_closure_date,'%d-%b-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%b-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%b-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%b-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%b-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
-						+"DATE_FORMAT(retention_money_release,'%d-%b-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%b-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%b-%Y') AS contract_closure ,contract_status_fk,bg_required,insurance_required, "
-						+"(select MAX(DATE_FORMAT(valid_upto,'%d-%b-%y')) from bank_guarantee bg where bg.contract_id_fk = c.contract_id ) AS bg_valid_upto "
-						+"from insurance i " + 
-						"left join contract c on i.contract_id_fk = c.contract_id " +
+						//"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,"
+						 "case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end AS doc,"
+						 //+ "cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%Y') AS actual_completion_date,c.remarks,"
+						//+"DATE_FORMAT(contract_closure_date,'%d-%b-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%b-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%b-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%b-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%b-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
+						//+"DATE_FORMAT(retention_money_release,'%d-%b-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%b-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%b-%Y') AS contract_closure ,contract_status_fk,bg_required,insurance_required, "
+						+"(select MAX(DATE_FORMAT(valid_upto,'%d-%b-%y')) from bank_guarantee bg where bg.contract_id_fk = c.contract_id ) AS bg_valid_upto, "
+						
+						+"CONCAT((select CONCAT('DOC-',remarks) from alerts where alert_status='Active' and alert_type_fk = 'Contract Period' and contract_id = c.contract_id and alert_value ="
+
+					+ "(case when (cr1.action = 'Yes' and cr1.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr1.revised_doc,'%d-%b-%Y') )) " 
+					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end )),"+			
+						
+					"(select CONCAT('\nBG-',remarks) from alerts where alert_status='Active' and alert_type_fk = 'Bank Guarantee' and contract_id = c.contract_id and alert_value = (case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
+					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
+					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
+					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) "
++ "AND created_date = (select max(created_date) from alerts where alert_status='Active' and alert_type_fk = 'Bank Guarantee' and contract_id = c.contract_id and alert_value = (case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
+					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
+					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
+					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end )))) ContractAlertRemarks " 
+					
+
+					
+					
+						
+						
+						+"from contract c " + 
+						"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id " +
+						"left join insurance i on i.contract_id_fk = c.contract_id " +
+						"LEFT JOIN contract_revision cr1 on cr1.contract_id_fk = c.contract_id and cr1.action = 'Yes' and cr1.revised_doc is not null "+
 						"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 						"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 						"left join project p on w.project_id_fk = p.project_id " + 
@@ -1239,7 +1232,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 + "AND created_date = (select max(created_date) from alerts where alert_status='Active' and alert_type_fk = 'Insurance' and contract_id = c.contract_id and alert_value = (case when (i.insurance_type_fk is not null and i.insurance_number is not null) then CONCAT(i.insurance_type_fk,' ',i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 						+ "when (i.insurance_type_fk is null and i.insurance_number is not null) then CONCAT(i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 						+ "when (i.insurance_type_fk is not null and i.insurance_number is null) then CONCAT(i.insurance_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-						+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ))) as ContractAlertRemarks "						
+						+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ))) as ContractAlertRemarks "						
 						
 						+"from insurance i " + 
 						"left join contract c on i.contract_id_fk = c.contract_id " +
@@ -1428,7 +1421,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					+ "(select cast(IFNULL(sum(gross_work_done),0) as CHAR) from expenditure where contract_id_fk = contract_id) as payment_made, "
 					+ "(select cast(IFNULL(revised_amount,0) as CHAR) from contract_revision where revised_amount is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as revised_amount,"
 					+ "cast(awarded_cost as CHAR) as awarded_cost,"
-					+ "(SELECT ROUND(sum(contract_per),2)*100 FROM activities_scurve where contract_id_fk = contract_id and category COLLATE utf8mb4_unicode_ci = 'Actual') as actual_physical_progress,"
+					+ "(SELECT truncate(sum(contract_per),2)*100 FROM activities_scurve where contract_id_fk = contract_id and category COLLATE utf8mb4_unicode_ci = 'Actual') as actual_physical_progress,"
 					+ "DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc "
 					+ "from contract c "
 					+ "where c.contract_id = ?";

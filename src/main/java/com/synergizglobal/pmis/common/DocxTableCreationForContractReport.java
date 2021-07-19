@@ -265,18 +265,6 @@ public class DocxTableCreationForContractReport {
 				int sNo = 1;
 				for (Contract cObj : contracts) 
 				{
-					var cStr="";
-					var aStr="";
-					
-					if(cObj.getCumulative_expenditure()!=null && cObj.getCumulative_expenditure()!="")
-					{
-						cStr=" Cr.";
-					}
-					if(cObj.getAwarded_cost()!=null && cObj.getAwarded_cost()!="")
-					{
-						aStr=" Cr.";
-					}					
-					
 					boolean hasBgColor = false;
 					String backgroundColor = null;
 					Tr contentRow = factory.createTr();
@@ -289,7 +277,7 @@ public class DocxTableCreationForContractReport {
 							JcEnumeration.LEFT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getLoa_date(), garamondRPr, JcEnumeration.CENTER,
 							hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow,cObj.getAwarded_cost()+""+aStr,
+					addTableCell(factory, wordMLPackage, contentRow,cObj.getAwarded_cost(),
 							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow,cObj.getRevised_amount(),
 							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
@@ -303,7 +291,7 @@ public class DocxTableCreationForContractReport {
 							JcEnumeration.CENTER, hasBgColor, backgroundColor);					
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_till(), garamondRPr,
 							JcEnumeration.CENTER, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getCumulative_expenditure()+""+cStr, garamondRPr,
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getCumulative_expenditure(), garamondRPr,
 							JcEnumeration.RIGHT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getPhysicalProgress(), garamondRPr,
 							JcEnumeration.RIGHT, hasBgColor, backgroundColor);
@@ -602,8 +590,8 @@ public class DocxTableCreationForContractReport {
 							hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_upto(), garamondRPr, JcEnumeration.CENTER,
 							hasBgColor, backgroundColor);					
-					addTableCell(factory, wordMLPackage, contentRow, "", garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);					
+					addTableCell(factory, wordMLPackage, contentRow,  cObj.getContractAlertRemarks(), garamondRPr,
+							JcEnumeration.LEFT, hasBgColor, backgroundColor);					
 					
 					table.getContent().add(contentRow);
 				}

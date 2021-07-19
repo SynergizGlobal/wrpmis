@@ -1068,6 +1068,17 @@
    			document.getElementById("CurrentDate").innerHTML=todayDate;
    			
                $(document).ready(function () {
+            	   
+            	   $("a[href='/pmis/contractorslist']").click(function() {
+
+            		   $.ajax({
+                           url: "<%=request.getContextPath()%>/ajax/contractorslist",
+                           	  cache: false,async:true,
+    		                  success: function (data) {
+    		                  }
+    		                    	  
+    		           });
+            	   });
             	  // $('.header-select').formSelect();
                    //notification dropdown
                    $('.notification.dropdown-trigger').dropdown({

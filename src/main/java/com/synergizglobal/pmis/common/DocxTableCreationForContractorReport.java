@@ -111,10 +111,9 @@ public class DocxTableCreationForContractorReport {
 				mergeCellsHorizontal(tableHead, 0, 0, 3);
 				mergeCellsHorizontal(tableHead, 0, 3, 6);
 				mp.addObject(tableHead);
+				
 				/***************************************************************/
 
-				
-				
 				Tbl table = factory.createTbl();
 				addBorders(table, "2");
 				

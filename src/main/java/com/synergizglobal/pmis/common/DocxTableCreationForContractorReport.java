@@ -80,8 +80,7 @@ public class DocxTableCreationForContractorReport {
 					false, false, false, false);
 
 			int temp = 1;
-			for (Contractor cObj : contractsData) 
-			{
+
 
 				Tbl tableHead = factory.createTbl();
 				setLandscapeTableAlign(factory, tableHead, JcEnumeration.CENTER);
@@ -133,7 +132,7 @@ public class DocxTableCreationForContractorReport {
 				for (String headerValue : tableHeader0) {
 					int width = 0;
 					if(1 == columnNo) {
-						width = 230;
+						width = 250;
 					}else if(2 == columnNo) {
 						width = 1100;
 					}else if(3 == columnNo) {
@@ -188,7 +187,6 @@ public class DocxTableCreationForContractorReport {
 				}
 				setTableAlign(factory, table, JcEnumeration.CENTER);
 				mp.addObject(table);
-			}
 
 		} catch (Exception e) {
 			throw new Exception(e);

@@ -449,7 +449,7 @@ public class DocxTableCreationForContractReport {
 							hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getDoc(), garamondRPr, JcEnumeration.CENTER,
 							hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, "", garamondRPr,
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getContractAlertRemarks(), garamondRPr,
 							JcEnumeration.CENTER, hasBgColor, backgroundColor);					
 					
 					table.getContent().add(contentRow);
@@ -757,7 +757,7 @@ public class DocxTableCreationForContractReport {
 							hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_valid_upto(), garamondRPr,
 							JcEnumeration.CENTER, hasBgColor, backgroundColor);	
-					addTableCell(factory, wordMLPackage, contentRow, "", garamondRPr,
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getContractAlertRemarks(), garamondRPr,
 							JcEnumeration.CENTER, hasBgColor, backgroundColor);						
 					
 					table.getContent().add(contentRow);
@@ -905,7 +905,7 @@ public class DocxTableCreationForContractReport {
 							JcEnumeration.RIGHT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_upto(), garamondRPr,
 							JcEnumeration.CENTER, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, "", garamondRPr,
+					addTableCell(factory, wordMLPackage, contentRow,cObj.getContractAlertRemarks(), garamondRPr,
 							JcEnumeration.CENTER, hasBgColor, backgroundColor);					
 	
 					table.getContent().add(contentRow);

@@ -14,7 +14,7 @@ public class Contract {
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status,revision_status
 	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till,
 	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code,contract_file_type_fk,contract_file_type,contract_file_id,
-	responsible_people_id_fk,hod_name,dy_hod_name,PhysicalProgress;
+	responsible_people_id_fk,hod_name,dy_hod_name,PhysicalProgress,ContractAlertRemarks;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk;
 
@@ -1574,6 +1574,14 @@ public class Contract {
 
 	public void setTarget_doc(String target_doc) {
 		this.target_doc = target_doc;
+	}
+
+	public String getContractAlertRemarks() {
+		return ContractAlertRemarks;
+	}
+
+	public void setContractAlertRemarks(String contractAlertRemarks) {
+		ContractAlertRemarks = contractAlertRemarks;
 	}
 	
 }

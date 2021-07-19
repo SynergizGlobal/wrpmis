@@ -139,7 +139,7 @@ public class DocxTableCreationForContractorReport {
 					}else if(3 == columnNo) {
 						width = 1100;
 					}else if(4 == columnNo) {
-						width = 800;
+						width = 1000;
 					}else if(5 == columnNo) {
 						width = 1100;
 					}else if(6 == columnNo) {

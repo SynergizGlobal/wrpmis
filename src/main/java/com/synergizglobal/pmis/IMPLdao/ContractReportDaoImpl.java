@@ -875,7 +875,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {			
-				String qry ="select distinct DATE_FORMAT(i.valid_upto,'%d-%b-%y') AS insurance_valid_upto,"
+				String qry ="select distinct (select MAX(DATE_FORMAT(valid_upto,'%d-%b-%y')) from insurance pp where pp.contract_id_fk = c.contract_id ) AS insurance_valid_upto,"
 						+ "c.contract_short_name,cr.contractor_name," + 
 						//"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,"
 						 "case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end AS doc,"
@@ -884,7 +884,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						//+"DATE_FORMAT(retention_money_release,'%d-%b-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%b-%Y') AS pbg_release,DATE_FORMAT(contract_closure,'%d-%b-%Y') AS contract_closure ,contract_status_fk,bg_required,insurance_required, "
 						+"(select MAX(DATE_FORMAT(valid_upto,'%d-%b-%y')) from bank_guarantee bg where bg.contract_id_fk = c.contract_id ) AS bg_valid_upto, "
 						
-						+"replace(GROUP_CONCAT(CONCAT(replace(replace((coalesce((select CONCAT('DOC-',coalesce(remarks,'NO Data')) from alerts where alert_status='Active' and alert_type_fk = 'Contract Period' and contract_id = c.contract_id and alert_value ="
+						+"GROUP_CONCAT(distinct CONCAT(replace(replace((coalesce((select CONCAT('DOC-',coalesce(remarks,'NO Data')) from alerts where alert_status='Active' and alert_type_fk = 'Contract Period' and contract_id = c.contract_id and alert_value ="
 
 					+ "(case when (cr1.action = 'Yes' and cr1.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr1.revised_doc,'%d-%b-%Y') )) " 
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end )),'')),'DOC-NO Data',''),'DOC-.',''),"+			
@@ -905,7 +905,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 + "AND created_date = (select max(created_date) from alerts where alert_status='Active' and alert_type_fk = 'Insurance' and contract_id = c.contract_id  and alert_value = (case when (i.insurance_type_fk is not null and i.insurance_number is not null) then CONCAT(i.insurance_type_fk,' ',i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (i.insurance_type_fk is null and i.insurance_number is not null) then CONCAT(i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
 					+ "when (i.insurance_type_fk is not null and i.insurance_number is null) then CONCAT(i.insurance_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ))),'')),'Insurance-NO Data',''))),',','') AS ContractAlertRemarks "
+					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ))),'')),'Insurance-NO Data',''))) AS ContractAlertRemarks "
 					
 					
 						
@@ -968,7 +968,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
 					pValues[i++] = obj.getDate();
 				}
-				qry = qry + " group by insurance_valid_upto,c.contract_short_name,cr.contractor_name,doc,revised_doc,bg_valid_upto";
+				qry=qry+" group by insurance_valid_upto,c.contract_short_name,cr.contractor_name,doc,revised_doc,bg_valid_upto";
 				List<Contract> insuranceList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				objsList.put(hodObj.getHod_designation(), insuranceList);
 			}

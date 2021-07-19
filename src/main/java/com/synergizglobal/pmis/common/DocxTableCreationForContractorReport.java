@@ -116,6 +116,7 @@ public class DocxTableCreationForContractorReport {
 				Tbl table = factory.createTbl();
 				addBorders(table, "2");
 				
+				
 				/************************************************************************/
 				Tr titleRow0 = factory.createTr();
 				List<String> tableHeader0 = new ArrayList<String>();

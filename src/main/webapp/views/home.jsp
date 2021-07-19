@@ -74,11 +74,11 @@
             transition: background-color 0.3s ease-in-out;
         }
 
-        .card.sec-clr .card.main-clr.active,
+        /* .card.sec-clr .card.main-clr.active,
         .card.sec-clr .card.main-clr,
         .card.sec-clr .card.sec-clr {
             background-color: #f0f7ff;
-        }
+        } */
 
         .card-title .material-icons {
             font-size: 1.5rem;

@@ -53,7 +53,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
-				qry = qry + " and ledger_account = ?";
+				qry = qry + " and ledger_account like CONCAT(?,'%')";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
@@ -140,7 +140,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
-				qry = qry + " and ledger_account = ?";
+				qry = qry + " and ledger_account like CONCAT(?,'%')";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
@@ -780,7 +780,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
-				qry = qry + " and ledger_account = ?";
+				qry = qry + " and ledger_account like CONCAT(?,'%')";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {

@@ -237,7 +237,7 @@
 	                                </div>
 	                                <input type="hidden" id="work_short_name" name="work_short_name"/>
 	                            </div>
-	
+								   <input type="hidden" id="contract_id_code" name="contract_id_code"/>
 	                                    <div class="row">
 	  										<div class="col s6 m4 input-field offset-m2">
 	  										 	<p class="searchable_label">HOD<span class="required">*</span></p>
@@ -1308,6 +1308,8 @@
                             $.each(data, function (i, val) {
                             	   var userName = '';
  	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
+ 	                        	   var deptCode =  val.contract_id_code;
+	                        	   $("#contract_id_code").val(deptCode);
       	                           if ($.trim(dy_hod_user_id_fk) != '') {
 	      	                        	 document.querySelectorAll('#hod_user_id_fk > option').forEach((option) => {
 	                                	    // if ((option.value) == ($.trim(val.hod_user_id_fk))){

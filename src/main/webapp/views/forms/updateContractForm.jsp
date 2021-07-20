@@ -194,7 +194,7 @@
 			min-width:50px;			
 		}
 		.responsive_units > .select2-container{
-			max-width:50px;
+			max-width:50px !important;
 		}
 		@media only screen and (max-width: 769px){
 			.mobile_responsible_table>tbody> tr:not(.datepicker-row):not(.mobile_hide_row) {
@@ -235,6 +235,7 @@
 			    width: 53%;
 			}
 		}
+		.validate:focus{ scroll-behavior:smooth;}
 		/* cost unit dropdown , lable and input styling ends here  */
     </style>
 </head>
@@ -578,13 +579,14 @@
 	                                	</select>
 	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
                                 	</div>
-	                                <div class="col s6 m4 input-field ">
+	                                <div class="col s12 m4 input-field ">
 	                                    <input name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }" >
 	                                    <label for="doc">Original DOC</label>
 	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
 	                                     <span id="docError" class="error-msg" ></span>
 	                                </div>
-	                                
+	                                </div>
+	                                <div class="row">
 	                                <div class="col s6 m4 input-field offset-m2">
 	                                    <input name="target_doc" id="target_doc" type="text" class="validate datepicker" value="${contractDeatils.target_doc }" >
 	                                    <label for="target_doc">Target DOC</label>
@@ -2845,6 +2847,7 @@
 			});		
 						
 		}
+		
 		function validateContract(){
 			var flag = true;
 			$("input[name=bg_values]").each(function(){
@@ -2855,6 +2858,9 @@
 	       		}
 	       		if($.trim(bg_value_units) == "" && $('#bg_values'+idNo).val() != ""){
 					$('#bg_units'+idNo+'Error').text('Requried');
+					$('#bg_values_units'+idNo).slideDown(100,function(){
+						$(this).focus();
+					});
 					flag = false;
 				}
 			});
@@ -2867,6 +2873,9 @@
 	       		var insurance_value_units = $("#insurance_values_units"+idNo).val();
 	       		if($.trim(insurance_value_units) == "" && $('#insurance_values'+idNo).val() != ""){
 					$('#insurence_units'+idNo+'Error').text('Requried');
+					$('#insurance_values_units'+idNo).slideDown(100,function(){
+						$(this).focus();
+					});
 					flag = false;
 				}
 			});
@@ -2878,11 +2887,15 @@
 	       		var revised_amount_units = $("#revised_amounts_units"+idNo).val();
 	       		if( $.trim(revised_amount_units) == "" && $('#revised_amounts'+idNo).val() != ""){
 					$('#units'+idNo+'Error').text('Requried');
+					$('#revised_amounts_units'+idNo).slideDown(100,function(){
+						$(this).focus();
+					});
 					flag = false;
-				}
+				} 
 			});
 			return flag;
 		}
+		
 		$('select[name=bg_value_unitss]').change(function(key, element){
 			$("input[name=bg_values]").each(function(){
 				var idNo = (this.id).replace('bg_value_unitss',''); 
@@ -2912,6 +2925,7 @@
 				var idNo = (this.id).replace('revised_amount_unitss','');
         		if($.trim(this.value) == "" && $('#revised_amounts'+idNo).val() != ""){
         			$('#units'+idNo+'Error').text('Requried');
+        			
 				}else{
 					$('#units'+idNo+'Error').text('');
 				}

@@ -245,7 +245,7 @@ public class ContractDaoImpl implements ContractDao {
 		try{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
-			String contract_id = getContractIdByWorkId(contract.getWork_id_fk(),getDepartmentCode(contract.getDepartment_fk(),con),con);
+			String contract_id = getContractIdByWorkId(contract.getWork_id_fk(),contract.getContract_id_code(),con);
 			contract.setContract_id(contract_id);
 			String ContractQry = "INSERT INTO contract "
 							+"(contract_id,work_id_fk,department_fk,contract_name,contract_short_name,contractor_id_fk,contract_type_fk,scope_of_contract,hod_user_id_fk,"
@@ -2117,7 +2117,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getDesignationsFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT c.hod_user_id_fk as hod_user_id,u.designation "
+			String qry = "SELECT c.hod_user_id_fk as hod_user_id,u.designation  "
 					+ "from contract c " + 
 					"left join user u on c.hod_user_id_fk = u.user_id "+
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -2590,8 +2590,9 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getHodList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk,u.reporting_to_id_srfk FROM user u " + 
+			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk,d.contract_id_code,u.reporting_to_id_srfk FROM user u " + 
 					"left join user u1 on u.reporting_to_id_srfk = u1.user_id " + 
+					"LEFT JOIN department d on u.department_fk = d.department " +
 					"where  u.user_type_fk = ?  ";
 			
 			int arrSize = 1;

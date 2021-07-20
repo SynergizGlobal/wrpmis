@@ -156,6 +156,7 @@ public class DocxTableCreationForContractorReport {
 					boolean hasBgColor = false;
 					String backgroundColor = null;
 					Tr contentRow = factory.createTr();
+					
 
 					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), garamondRPr,
 							JcEnumeration.CENTER, hasBgColor, backgroundColor);

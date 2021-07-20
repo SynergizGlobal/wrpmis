@@ -127,15 +127,15 @@ public class DocxTableCreationForContractorReport {
 					if(1 == columnNo) {
 						width = 250;
 					}else if(2 == columnNo) {
-						width = 1100;
-					}else if(3 == columnNo) {
-						width = 1100;
-					}else if(4 == columnNo) {
 						width = 1000;
+					}else if(3 == columnNo) {
+						width = 850;
+					}else if(4 == columnNo) {
+						width = 900;
 					}else if(5 == columnNo) {
-						width = 1100;
+						width = 1500;
 					}else if(6 == columnNo) {
-						width = 620;
+						width = 740;
 					}else if(7 == columnNo) {
 						width = 750;
 					}else if(8 == columnNo) {
@@ -168,9 +168,9 @@ public class DocxTableCreationForContractorReport {
 					addTableCell(factory, wordMLPackage, contentRow,cObj1.getAddress(),
 							garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj1.getPrimary_contact_name(), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							JcEnumeration.LEFT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj1.getPhone_number(), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							JcEnumeration.LEFT, hasBgColor, backgroundColor);
 					
 					
 					addTableCell(factory, wordMLPackage, contentRow, cObj1.getEmail_id(), garamondRPr,
@@ -355,7 +355,7 @@ public class DocxTableCreationForContractorReport {
 		tablePr.setJc(jc);
 
 		TblWidth tblwidth = factory.createTblWidth();
-		tblwidth.setW(BigInteger.valueOf(5800)); // 5000 = 100%
+		tblwidth.setW(BigInteger.valueOf(5200)); // 5000 = 100%
 		tblwidth.setType("pct");
 		tablePr.setTblW(tblwidth);
 		

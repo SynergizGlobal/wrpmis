@@ -444,13 +444,15 @@
                                             	</c:choose>
 									                </tbody>
 									            </table>
+									            <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
 									            <table  class="mdl-data-table" style="margin-bottom: 30px">
 			                                        <tbody>                                          
 			                                            <tr>
 			                                   				<td colspan="3" style="text-align: right;" ><a   class="btn waves-effect waves-light bg-m t-c "  onclick="addDepartmentRow()"> <i class="fa fa-plus"></i></a></td>
 			                                             </tr>
 			                                        </tbody>
-			                                    </table>
+			                                    </table> 
+			                                    </c:if>
 			                                    <c:choose>
 				                                    <c:when test="${not empty contractDeatils.departmentList && fn:length(contractDeatils.departmentList) gt 0 }">
 				                                		<input type="hidden" id="deptRowNo"  name="deptRowNo" value="${fn:length(contractDeatils.departmentList) }" />
@@ -464,7 +466,7 @@
 									    </div>
 									</div>
 								</div>
-
+								<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }"><br> </c:if>
 							<div class="row">
 	                                <div class="col s12 m8 input-field offset-m2">
 	                                    <textarea id="contract_name" name ="contract_name" class="materialize-textarea" data-length="1000">${contractDeatils.contract_name }</textarea>
@@ -1871,7 +1873,7 @@
     			   			</c:forEach>
     			   +' </select><span id="deptError'+rNo+'" class="my-error"></span><input id="filecounts'+rNo+'"  name="filecounts"  type="hidden"></td>'
     			   +'<td data-head="Select Executives" class="input-field h-auto">'
-    			   		+'<select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks'+rNo+'" onchange="fileCount('+rNo+');"  multiple="multiple">'
+    			   		+'<select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks'+rNo+'" onchange="fileCount(' +rNo+ ');"  MULTIPLE>'
     			   			+'<option value="" >Select</option>'
     			   
     			   +'</select><span id="personError'+rNo+'" class="my-error"></span></td>'

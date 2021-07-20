@@ -2122,7 +2122,7 @@
          	 	  	  },"awarded_cost": {
         		 		required: false
         		 	  },"date_of_start": { 
-        		 		 required: false,
+        		 		 required: true,
     				 	 dateBeforeDOS:"#loa_date"
         		 	  },"estimated_cost": {
         		 		required: false
@@ -2370,6 +2370,8 @@
             if($.trim(fromDateString) != '' && $.trim(value) != ''){
             	return Date.parse(fromDate) <= Date.parse(toDate);
             }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return true;
+            }else{
             	return true;
             }
         }, "Date of Start must be after LOA Date");

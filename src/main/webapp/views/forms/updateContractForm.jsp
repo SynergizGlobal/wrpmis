@@ -83,7 +83,7 @@
 		}
 		.my-error {
    			 color:red;
-   			 font-size: 12px
+   			 font-size: .8rem;
 		}
 		.my-valid-class {
    			 color:green;
@@ -518,7 +518,7 @@
 	                                </div>
 	                                <div class="col s6 m4 input-field">
 	                                    <input id="loa_date" name="loa_date" type="text" class="validate datepicker" value="${contractDeatils.loa_date }">
-	                                    <label for="loa_date">LOA Date<span class="required">*</span></label>
+	                                    <label for="loa_date">LOA Date</label>
 	                                    <span id="loa_dateError" class="error-msg" ></span>
 	                                    <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
@@ -2129,7 +2129,7 @@
         		 	  },"loa_letter_number": {
         		 		required: false
         		 	  },"loa_date":{
-        		 		 required: true
+        		 		 required: false
         		 	  },"ca_no": {
         	 		    required: false
         	 	   	  },"ca_date": {
@@ -2358,7 +2358,6 @@
         	    //return true;
         	  }
         });
-        
         $.validator.addMethod("dateBeforeDOS", function(value, element) {
             var fromDateString = $('#loa_date').val();
             var fromDateParts = fromDateString.split("-");
@@ -2371,13 +2370,26 @@
             if($.trim(fromDateString) != '' && $.trim(value) != ''){
             	return Date.parse(fromDate) <= Date.parse(toDate);
             }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
-            	return false;
-            }else{
             	return true;
             }
-            
         }, "Date of Start must be after LOA Date");
-        
+       /*  
+        $('#loa_date').change(function(){
+                var fromDateString = $('#loa_date').val();
+                var fromDateParts = fromDateString.split("-");
+                var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+                var toDateParts = $('#date_of_start').val().split("-");
+                var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+                if($.trim(fromDateString) != '' && $.trim(toDateParts) != ''){
+                	if( Date.parse(fromDate) <= Date.parse(toDate)){
+                    	$('#date_of_startError').text("")
+                	}else{
+                		$('#date_of_startError').text("Date of Start must be after LOA Date").addClass("my-error");
+                	}
+                }
+        });
+         */
         $.validator.addMethod("dateBefore1", function(value, element) {
             var fromDateString = $('#date_of_start').val();
             var fromDateParts = fromDateString.split("-");

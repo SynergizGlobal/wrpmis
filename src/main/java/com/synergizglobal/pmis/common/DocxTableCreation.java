@@ -106,7 +106,7 @@ public class DocxTableCreation {
 		  	//tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")\nHOD - "+obj.getOwner()+"\nDate of Risk Assessment - "+obj.getAssessment_date());
 			//tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")\nHOD - "+obj.getOwner()
 			tableHeader1.add("Name of Project: "+obj.getSub_work()+"\nHOD - "+obj.getOwner()
-			+"\nSanction Details: "
+			+"\nProject Sanction Details: "
 			+ "\nEstimated/Revised Cost : "+obj.getEstimatedOrRevisedCost() + " Cr"
 			+ "\nEstimated/Revised Sanction Year : "+obj.getEstimatedOrRevisedDate()
 			);
@@ -222,7 +222,7 @@ public class DocxTableCreation {
 	        addHeading(wordMLPackage, t, factory,JcEnumeration.RIGHT,garamondFont10RPr,"Annexure-II");
 	        addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,garamondBold12RPr,"PRIORITIZATION OF RISKS & ITS MITIGATION/REDUCTION PLAN");
 	        //addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")");
-	        addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,garamondBold12RPr,"Name of Project: "+obj.getWork_short_name());
+	        addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,garamondBold12RPr,"Name of Project: "+obj.getSub_work());
 	        addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,garamondBold12RPr,"Date of Risk Assessment : "+obj.getAssessment_date());
 			
 			Tbl reportTable = factory.createTbl();
@@ -289,7 +289,7 @@ public class DocxTableCreation {
 			addHeading(wordMLPackage, t, factory,JcEnumeration.RIGHT,garamondFont10RPr,"Annexure-III");
 			addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,garamondBold12RPr,"ATR ON MITIGATION/REDUCTION PLAN");
 			//addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")");
-			addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,garamondBold12RPr,"Name of Project: "+obj.getWork_short_name());
+			addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,garamondBold12RPr,"Name of Project: "+obj.getSub_work());
 			addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,garamondBold12RPr,"Date of Risk Assessment : "+obj.getAssessment_date());
 			
 			Tbl reportTable = factory.createTbl();

@@ -1414,7 +1414,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			            String current_year = yearFormat.format(new Date()).toUpperCase();			            
 						
 						String emailSubject = null;						
-						if(riskMainAlertsList.size() > 0) {	
+						if(riskMainAlertsList.size() > 0 && !StringUtils.isEmpty(uObj.getEmail_id())) {	
 							Mail mail = new Mail();
 							mail.setMailTo(uObj.getEmail_id());
 							mail.setMailBcc(CommonConstants.BCC_MAIL);
@@ -1436,7 +1436,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							emailSender.sendEmailWithRiskAlerts(mail,riskMainAlertsList,today_date,current_year); 
 							logger.error("sendEMailNotificationWithRiskAlert() >>Assessment Due Sending mail to "+uObj.getEmail_id()+": End ");
 						}
-						if(riskMitigationPlanAlertsList.size() > 0) {
+						if(riskMitigationPlanAlertsList.size() > 0 && !StringUtils.isEmpty(uObj.getEmail_id())) {
 							Mail mail = new Mail();
 							mail.setMailTo(uObj.getEmail_id());
 							mail.setMailBcc(CommonConstants.BCC_MAIL);
@@ -1447,7 +1447,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							emailSender.sendEmailWithRiskAlerts(mail,riskMitigationPlanAlertsList,today_date,current_year); 
 							logger.error("sendEMailNotificationWithRiskAlert() >> Mitigation Plan Sending mail to "+uObj.getEmail_id()+": End ");
 						}
-						if(riskATRAlertsList.size() > 0) {
+						if(riskATRAlertsList.size() > 0 && !StringUtils.isEmpty(uObj.getEmail_id())) {
 							Mail mail = new Mail();
 							mail.setMailTo(uObj.getEmail_id());
 							mail.setMailBcc(CommonConstants.BCC_MAIL);

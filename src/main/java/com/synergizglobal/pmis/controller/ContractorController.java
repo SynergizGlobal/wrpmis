@@ -647,7 +647,7 @@ public class ContractorController {
 			
 			List<Contractor> list = contractorService.getContractorsList();
 			
-			boolean landscape = false;
+			boolean landscape = true;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
 			
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();

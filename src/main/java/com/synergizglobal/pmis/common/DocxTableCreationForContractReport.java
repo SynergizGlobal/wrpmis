@@ -53,6 +53,8 @@ import com.synergizglobal.pmis.model.Issue;
 
 public class DocxTableCreationForContractReport {
 
+
+
 	public static void createTableForContractReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
 			ObjectFactory factory, Map<String, List<Contract>> contractsData,String report_created_date) throws Exception {
 

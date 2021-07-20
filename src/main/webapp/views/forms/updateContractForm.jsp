@@ -376,7 +376,7 @@
 				                                		  <c:forEach var="departmentObj" items="${contractDeatils.departmentList }" varStatus="index">   
 											                  <tr id="departmentRow${index.count }">
 											                        <td data-head="Department" class="input-field">
-											                             <select class="searchable validate-dropdown" name="department_fks" id="department_fks${index.count }" class="searchable" 
+											                             <select class="searchable validate-dropdown" name="department_fks" id="department_fks${index.count }"
 											                             	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
 											                                id="department_fk${index.count }" onchange="getExecutivesList('${index.count }');">
 											                                	<option value="" >Select</option>  
@@ -387,7 +387,7 @@
 											                              <span id="deptError${index.count }" class="my-error"></span>
 											                        </td>
 											                        <td data-head="Select Executives" class="input-field h-auto">
-											                            <select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks${index.count }" onchange="fileCount('${index.count }');hideErrors('${index.count }');"
+											                            <select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks${index.count }" onchange="fileCount('${index.count }');"
 											                            	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
 											                             multiple="multiple">
 											                             <option value="" disabled="disabled">Select</option>
@@ -416,7 +416,7 @@
                                              		<c:otherwise>
 									                    <tr id="departmentRow0">
 									                        <td data-head="Department" class="input-field">
-									                             <select class="searchable validate-dropdown dept" name="department_fks" id="department_fks0" class="searchable" onchange="getExecutivesList('0');"
+									                             <select class="searchable validate-dropdown dept" name="department_fks" id="department_fks0"  onchange="getExecutivesList('0');"
 									                             	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>> 
 									                                	<option value="" >Select</option>  
 																          <c:forEach var="obj" items="${departmentList }">
@@ -427,13 +427,11 @@
 									                              <input type="hidden" id="filecounts0" name="filecounts" value="0">
 									                        </td>
 									                        <td data-head="Select Executives" class="input-field h-auto">
-									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks"  onchange="fileCount('0');hideErrors('0')"
+									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks"  onchange="fileCount('0');"
 									                               <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
 									                                id="responsible_people_id_fks0" multiple="multiple">
 									                                <option value="" disabled="disabled">Select</option>
-									                             	 <%-- <c:forEach var="obj" items="${responsiblePeopleList}">
-											                             <option value="${obj.user_id }"> ${obj.designation} - ${obj.user_name}</option>
-									                                 </c:forEach> --%>
+									                             	
 									                            </select>
 									                            <span id="personError0" class="my-error"></span>
 									                        </td>
@@ -1816,9 +1814,7 @@
 	       		$("#insurance_div").hide();
 	       	}
        	});
-        function hideErrors(count){
-        	$('#personError'+count).hide();
-        }
+       
         function getExecutivesList(num) {
         	$(".page-loader").show();
         	var count = Number(num);
@@ -1868,15 +1864,15 @@
     		 var no = 0;
     		 var html = '<tr id="departmentRow'+rNo+'">'
     			   +'<td data-head="Department" class="input-field">'
-    			   +'<select class="searchable validate-dropdown" name="department_fks" class="searchable" id="department_fks'+rNo+'" onchange="getExecutivesList('+rNo+');">'
+    			   +'<select class="searchable validate-dropdown" name="department_fks" id="department_fks'+rNo+'" onchange="getExecutivesList('+rNo+');">'
     			   			+'<option value="" >Select</option> '
     			   			<c:forEach var="obj" items="${departmentList }">
     			   				+'<option value= "${ obj.department_fk}" >${ obj.department_name}</option>'
     			   			</c:forEach>
     			   +' </select><span id="deptError'+rNo+'" class="my-error"></span><input id="filecounts'+rNo+'"  name="filecounts"  type="hidden"></td>'
     			   +'<td data-head="Select Executives" class="input-field h-auto">'
-    			   		+'<select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks'+rNo+'" onchange="fileCount('+rNo+'); hideErrors('+rNo+');"  multiple="multiple">'
-    			   			+'<option value="" disabled="disabled">Select</option>'
+    			   		+'<select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks'+rNo+'" onchange="fileCount('+rNo+');"  multiple="multiple">'
+    			   			+'<option value="" >Select</option>'
     			   
     			   +'</select><span id="personError'+rNo+'" class="my-error"></span></td>'
     			   +'<td class="mobile_btn_close"> <a onclick="removeDepartment('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'
@@ -1889,9 +1885,6 @@
         
         function removeDepartment(rowNo){
         	$("#departmentRow"+rowNo).remove();
-        	/* var id =  $("#departmentTable tbody tr:first-of-type >td:first-of-type").find('.searchable').attr("id");  
-        	var deptFirst = $('#'+id).val();
-        	$('#department_fk').val(deptFirst); */
         }
         
         function getDyHodList() {
@@ -2018,15 +2011,14 @@
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	
 	  		
-	  			 $('.multipleUnits').each(function() {
-	        	        $(this).rules("add", 
-	        	            {
-	        	                required: true,
-	        	                messages: {
-	        	                    required: "Name is required",
-	        	                }
-	        	            });
-	        	    });
+	  			var estimated_cost = $('#estimated_cost').val();
+	  			var awarded_cost = $('#awarded_cost').val();
+	  			if(estimated_cost == ""){
+	  				$('#estimated_cost_units').val("");
+	  			}
+	  			if(awarded_cost == ""){
+	  				$('#awarded_cost_units').val("");
+	  			}
 	  			var bg_required = $("input[name=bg_required]:checked").val();
 	  			var insurance_required = $("input[name=insurance_required]:checked").val();
 	  			var contract_status_fk = $("#contract_status_fk").val();
@@ -2038,31 +2030,8 @@
 	        		$("#insurance_div").remove();
 	        	}
 	        	if(contract_status_fk != 'Completed' && contract_status_fk != 'Closed'){
-	        		$("#contractClosureDetails").remove();
+	        		$("#contractClosureDetails").remove(); 
 	        	} 
-        		 var count = $('#departmentTable tbody .dept').length;
-        		 for(var i =1; i<= count; i++){
-        			 
-        			 var dept =  $('#department_fks'+i).val()
-        			 var person =  $('#responsible_people_id_fks'+i).val()
-        			 if(dept == '' || person == ''){
-        				 if(dept == ''){
-        				 	$("#deptError"+i).html("requried");
-        				 }
-        				 if(person == ''){
-            			 	 $("#personError"+i).html("requried");
-            			 }
-        				 //$(".my-error").focus();
-        			 }
-        			
-        		 }
-        		 for(var i =1; i<= count; i++){
-        			 var dept =  $('#department_fks'+i).val()
-        			 var person =  $('#responsible_people_id_fks'+i).val()
-        			 if(dept == '' || person == ''){
-        				 return $(".page-loader").hide();
-        			 }
-        		 }
 	        	$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
 	  			$('form input[name=responsible_people_id_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			
@@ -2666,7 +2635,7 @@
 		    var html = '<tr id="revRow'+rNo+'">'
 			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
 			   +'<td data-head="Revised Amount " class="input-field"> <i class="material-icons prefix cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
-			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"> </td><td class="responsive_units"> <select class="units validate-dropdown multipleUnits" id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
+			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"> </td><td class="responsive_units"> <select class="units validate-dropdown " id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
 			   +'<option value="">Select</option> <option value="rs" >Rs</option> <option value="thousands">Thousands</option> <option value="lacs">Lacs</option> <option value="crores">Crores</option> </select> <span id="units'+rNo+'Error" class="my-error"></span></div> </td>'
 			  // +'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"></td>'
 			   +'<td data-head="Revised DOC" class="input-field"><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
@@ -2853,10 +2822,12 @@
 			$("input[name=bg_values]").each(function(){
 				var idNo = (this.id).replace('bg_values','');
 				var bg_value_units = $("#bg_values_units"+idNo).val();
+				var bg_values = $("#bg_values"+idNo).val();
+				if($.trim(bg_values) == ""){$("#bg_values_units"+idNo).val("");}
 				if(idNo === ""){
 	       				idNo = 0;
 	       		}
-	       		if($.trim(bg_value_units) == "" && $('#bg_values'+idNo).val() != ""){
+	       		if($.trim(bg_value_units) == "" && bg_values != ""){
 					$('#bg_units'+idNo+'Error').text('Requried');
 					$('#bg_values_units'+idNo).slideDown(100,function(){
 						$(this).focus();
@@ -2866,11 +2837,12 @@
 			});
 			$("input[name=insurance_values]").each(function(){
 	       		var idNo = (this.id).replace('insurance_values','');
+	       		var insurance_value_units = $("#insurance_values_units"+idNo).val();
+	       		var insurance_values = $("#insurance_values"+idNo).val();
+				if($.trim(insurance_values) == ""){$("#insurance_values_units"+idNo).val("");}
 	       		if(idNo === ""){
 	       				idNo = 0;
 	       		}
-	       		var d = $('#insurance_values'+idNo).val();
-	       		var insurance_value_units = $("#insurance_values_units"+idNo).val();
 	       		if($.trim(insurance_value_units) == "" && $('#insurance_values'+idNo).val() != ""){
 					$('#insurence_units'+idNo+'Error').text('Requried');
 					$('#insurance_values_units'+idNo).slideDown(100,function(){
@@ -2881,10 +2853,12 @@
 			});
 			$("input[name=revised_amounts]").each(function(){
 	       		var idNo = (this.id).replace('revised_amounts','');
+	       		var revised_amount_units = $("#revised_amounts_units"+idNo).val();
+	       		var revised_amounts = $("#revised_amounts"+idNo).val();
+				if($.trim(revised_amounts) == ""){$("#revised_amounts_units"+idNo).val("");}
 	       		if(idNo === ""){
 	       				idNo = 0;
 	       		}
-	       		var revised_amount_units = $("#revised_amounts_units"+idNo).val();
 	       		if( $.trim(revised_amount_units) == "" && $('#revised_amounts'+idNo).val() != ""){
 					$('#units'+idNo+'Error').text('Requried');
 					$('#revised_amounts_units'+idNo).slideDown(100,function(){

@@ -430,7 +430,7 @@
 	                                    <span id="estimated_costError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s3 m1 input-field pt-5">
-	                                	<p class="searchable_label">Units</p>
+	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
 	                                		<option value="">Select</option>
 	                                		<option value="rs" >Rs</option>
@@ -447,7 +447,7 @@
 	                                    <span id="awarded_costError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s3 m1 input-field pt-5">
-	                                	<p class="searchable_label">Units</p>
+	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown" id="awarded_cost_units" name="awarded_cost_units">
 	                                		<option value="">Select</option>
 	                                		<option value="rs" >Rs</option>
@@ -1421,28 +1421,14 @@
 	  		
 	  			var work_short_name = $("#work_id_fk").find('option:selected').attr("workShortName");
 	  			$("#work_short_name").val(work_short_name);
-	  			 var count = $('#departmentTable tbody .dept').length;
-        		 for(var i =1; i<= count; i++){
-        			 
-        			 var dept =  $('#department_fks'+i).val()
-        			 var person =  $('#responsible_people_id_fks'+i).val()
-        			 if(dept == '' || person == ''){
-        				 if(dept == ''){
-        				 	$("#deptError"+i).html("requried");
-        				 }
-        				 if(person == ''){
-            			 	 $("#personError"+i).html("requried");
-            			 }
-        				 //$(".my-error").focus();
-        			 }
-        		 }
-        		 for(var i =1; i<= count; i++){
-        			 var dept =  $('#department_fks'+i).val()
-        			 var person =  $('#responsible_people_id_fks'+i).val()
-        			 if(dept == '' || person == ''){
-        				 return $(".page-loader").hide();
-        			 }
-        		 }
+	  			var estimated_cost = $('#estimated_cost').val();
+	  			var awarded_cost = $('#awarded_cost').val();
+	  			if(estimated_cost == ""){
+	  				$('#estimated_cost_units').val("");
+	  			}
+	  			if(awarded_cost == ""){
+	  				$('#awarded_cost_units').val("");
+	  			}
 	  			$('form input[name=bg_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
 	  			$('form input[name=issuing_banks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=bank_addresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	

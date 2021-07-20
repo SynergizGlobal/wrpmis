@@ -387,7 +387,7 @@ public class ContractDaoImpl implements ContractDao {
 					}
 				}
 				
-				if(!StringUtils.isEmpty(contract.getDepartment_fks()) && !StringUtils.isEmpty(contract.getResponsible_people_id_fks())) {
+				if(!StringUtils.isEmpty(contract.getDepartment_fks())) {
 					String file_insert_qry = "INSERT into  contract_executive (contract_id_fk, department_id_fk, executive_user_id_fk) VALUES (?,?,?)";
 					PreparedStatement multiExecutiveStmt = con.prepareStatement(file_insert_qry);
 					int len = contract.getDepartment_fks().length;
@@ -1286,7 +1286,7 @@ public class ContractDaoImpl implements ContractDao {
 							arraySize = contract.getResponsible_people_id_fks().length;
 						}
 					}
-					if(!StringUtils.isEmpty(contract.getDepartment_fks()) && !StringUtils.isEmpty(contract.getResponsible_people_id_fks())) {
+					if(!StringUtils.isEmpty(contract.getDepartment_fks())) {
 						String file_insert_qry = "INSERT into  contract_executive (contract_id_fk, department_id_fk, executive_user_id_fk) VALUES (?,?,?)";
 						PreparedStatement multiExecutiveStmt = con.prepareStatement(file_insert_qry);
 						int len = contract.getDepartment_fks().length;

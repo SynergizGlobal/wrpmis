@@ -170,11 +170,11 @@ public class DocxTableCreationForContractorReport {
 					addTableCell(factory, wordMLPackage, contentRow, cObj1.getPrimary_contact_name(), garamondRPr,
 							JcEnumeration.LEFT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj1.getPhone_number(), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					
 					
 					addTableCell(factory, wordMLPackage, contentRow, cObj1.getEmail_id(), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);					
+							JcEnumeration.LEFT, hasBgColor, backgroundColor);					
 				
 					table.getContent().add(contentRow);
 				}

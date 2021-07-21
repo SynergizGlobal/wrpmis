@@ -1609,11 +1609,12 @@
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown" id="completed_cost_units" name="completed_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs" >Rs</option>
-	                                		<option value="thousands">Thousands</option>
-	                                		<option value="lacs">Lacs</option>
-	                                		<option value="crores">Crores</option>
+	                                		<option value="rs" <c:if test="${contractDeatils.completed_cost_units eq 'rs' }">selected</c:if>>Rs</option>
+	                                		<option value="thousands" <c:if test="${contractDeatils.completed_cost_units eq 'thousands' }">selected</c:if>>Thousands</option>
+	                                		<option value="lacs" <c:if test="${contractDeatils.completed_cost_units eq 'lacs' }">selected</c:if>>Lacs</option>
+	                                		<option value="crores" <c:if test="${contractDeatils.completed_cost_units eq 'crores' }">selected</c:if>>Crores</option>
 	                                	</select>
+	                                	<span id="completed_cost_unitsError" class="error-msg" ></span>
                                 	</div>                          
 	                            </div> 
 	      						<div class="row">
@@ -2015,11 +2016,15 @@
 	  		
 	  			var estimated_cost = $('#estimated_cost').val();
 	  			var awarded_cost = $('#awarded_cost').val();
+	  			var completed_cost = $('#completed_cost').val();
 	  			if(estimated_cost == ""){
 	  				$('#estimated_cost_units').val("");
 	  			}
 	  			if(awarded_cost == ""){
 	  				$('#awarded_cost_units').val("");
+	  			}
+	  			if(completed_cost == ""){
+	  				$('#completed_cost_units').val("");
 	  			}
 	  			var bg_required = $("input[name=bg_required]:checked").val();
 	  			var insurance_required = $("input[name=insurance_required]:checked").val();
@@ -2168,6 +2173,10 @@
         		 		 required: function(element){
         		             return $("#awarded_cost").val()!="";
         		         }
+        		 	  },"completed_cost_units":{
+        		 		 required: function(element){
+        		             return $("#completed_cost").val()!="";
+        		         }
         		 	  }
         		 				
         	 	},
@@ -2238,6 +2247,8 @@
         		 	  },"estimated_cost_units":{
         	 	  		required: 'Units required'
         		 	  },"awarded_cost_units":{
+        	 	  		required: 'Units required'
+        		 	  },"completed_cost_units":{
         	 	  		required: 'Units required'
         		 	  }
         	 				      
@@ -2340,6 +2351,9 @@
 	        	 	    }else if (element.attr("id") == "awarded_cost_units" ){
         	 		     document.getElementById("awarded_cost_unitsError").innerHTML="";
         	 			 error.appendTo('#awarded_cost_unitsError');
+	        	 	    }else if (element.attr("id") == "completed_cost_units" ){
+        	 		     document.getElementById("completed_cost_unitsError").innerHTML="";
+        	 			 error.appendTo('#completed_cost_unitsError');
 	        	 	    }else if (element.attr("id") == "remarks" ){
 	       	 		     document.getElementById("remarksError").innerHTML="";
 	    	 			 error.appendTo('#remarksError');}

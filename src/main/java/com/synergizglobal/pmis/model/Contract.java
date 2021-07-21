@@ -14,7 +14,7 @@ public class Contract {
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status,revision_status
 	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till,
 	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code,contract_file_type_fk,contract_file_type,contract_file_id,
-	responsible_people_id_fk,hod_name,dy_hod_name,PhysicalProgress,ContractAlertRemarks,revised_amount_units,bg_value_units,insurance_value_units,awarded_cost_units,estimated_cost_units;
+	responsible_people_id_fk,hod_name,dy_hod_name,PhysicalProgress,ContractAlertRemarks,revised_amount_units,bg_value_units,completed_cost_units,insurance_value_units,awarded_cost_units,estimated_cost_units;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk;
 
@@ -44,6 +44,14 @@ public class Contract {
 	private List<Contract> executivesList;
 	private List<Contract> responsiblePersonsList;
 
+
+	public String getCompleted_cost_units() {
+		return completed_cost_units;
+	}
+
+	public void setCompleted_cost_units(String completed_cost_units) {
+		this.completed_cost_units = completed_cost_units;
+	}
 
 	public String getRevised_amount_units() {
 		return revised_amount_units;

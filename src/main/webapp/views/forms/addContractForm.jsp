@@ -282,7 +282,7 @@
 		                                 <p class="searchable_label">Responsible Persons</p>
 		                                 <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk1" 
 		                                  multiple="multiple">
-		                                   <option value="" disabled="disabled">Select</option>
+		                                   <option value="" >Select</option>
 		                                   <c:forEach var="obj" items="${responsiblePeopleList}">
 		           					  			 <option value="${obj.user_id }"> ${obj.designation} - ${obj.user_name}</option>
 		                                   </c:forEach>
@@ -321,9 +321,9 @@
 									                               <span id="deptError0" class="my-error"></span>
 									                        </td>
 									                        <td data-head="Select Executives" class="input-field h-auto">
-									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks" onchange="fileCount('0');hideErrors('0')"
+									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks" onchange="fileCount('0');"
 									                                id="responsible_people_id_fk0" multiple="multiple">
-									                                <option value="" disabled="disabled">Select</option>
+									                                <option value="" >Select</option>
 									                             
 									                            </select>
 									                            <span id="personError0" class="my-error"></span>
@@ -1178,12 +1178,13 @@
         	$(".page-loader").show();
         	var count = Number(num);
         	var department_fk = $('#department_fk'+count).val();
-        	var id =  $("#departmentTable tbody tr:first-of-type >td:first-of-type").find('.searchable').attr("id");  
-        	var deptFirst = $('#'+id).val();
-        	$('#department_fk').val(deptFirst);
+        	/* var id =  $("#departmentTable tbody tr:first-of-type >td:first-of-type").find('.searchable').attr("id");  
+        	var deptFirst = $('#'+id).val(); */
+        	
         	$("#responsible_people_id_fk"+count+" option:not(:first)").attr("selected",false);
+        	$("#responsible_people_id_fk"+count+" option:not(:first)").remove();
             if ($.trim(department_fk) != "") {
-            	$("#responsible_people_id_fk"+count+" option:not(:first)").remove();
+            	
                 var myParams = { department_fk: department_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getExecutivesListForContractForm",
@@ -1197,11 +1198,9 @@
                                  if ($.trim(val.designation) != '') { designation = $.trim(val.designation) }
                                 
                                 if ($.trim(hod_user_id_fk) != '') {
-                                     $("#responsible_people_id_fk"+count).append('<option name="responsible_people_id_fks" value="' + val.hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) + '</option>');
-                                     $("#responsible_people_id_fk"+count).select2(); 
+                                     $("#responsible_people_id_fk"+count).append('<option  value="' + val.hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) + '</option>');
                                  } else {
-                                     $("#responsible_people_id_fk"+count).append('<option name="responsible_people_id_fks" value="' + val.hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
-                        	    	 $("#responsible_people_id_fk"+count).select2();
+                                     $("#responsible_people_id_fk"+count).append('<option  value="' + val.hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
                                  }
                             });
                         }
@@ -1232,7 +1231,7 @@
     			   +' </select><span id="deptError'+rNo+'" class="my-error"><input id="filecounts'+rNo+'"  name="filecounts"  type="hidden"></td>'
     			   +'<td data-head="Select Executives" class="input-field h-auto">'
     			   		+'<select class="searchable validate-dropdown" name="responsible_people_id_fks" id="responsible_people_id_fk'+rNo+'" onchange="fileCount('+rNo+')"  multiple="multiple">'
-    			   			+'<option value="" disabled="disabled">Select</option>'
+    			   			+'<option value="" >Select</option>'
     			   
     			   +'</select><span id="personError'+rNo+'" class="my-error"></span></td>'
     			   +'<td class="mobile_btn_close"> <a onclick="removeDepartment('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'
@@ -1310,6 +1309,7 @@
  	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
  	                        	   var deptCode =  val.contract_id_code;
 	                        	   $("#contract_id_code").val(deptCode);
+	                        	   $('#department_fk').val(val.department_fk);
       	                           if ($.trim(dy_hod_user_id_fk) != '') {
 	      	                        	 document.querySelectorAll('#hod_user_id_fk > option').forEach((option) => {
 	                                	    // if ((option.value) == ($.trim(val.hod_user_id_fk))){
@@ -1416,9 +1416,19 @@
         }
         
         function addContract(){
+        	var rowCount = $('#departmentTableBody tr').length;
+        	var c = $('[name=responsible_people_id_fks]').length;
+  			for(var i=0; i<= (rowCount-1); i++){ 
+  				var resp_Person = $("#responsible_people_id_fk"+i).val();
+  				if(resp_Person == ""){
+  					$("#responsible_people_id_fk"+i).val("");
+  					var v = $("#responsible_people_id_fk"+i).val();
+  					$("#filecounts"+i).val(0);
+  				}
+  			}
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	
-	  		
+	  			
 	  			var work_short_name = $("#work_id_fk").find('option:selected').attr("workShortName");
 	  			$("#work_short_name").val(work_short_name);
 	  			var estimated_cost = $('#estimated_cost').val();
@@ -1429,6 +1439,9 @@
 	  			if(awarded_cost == ""){
 	  				$('#awarded_cost_units').val("");
 	  			}
+	  			$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
+	  			$('form input[name=responsible_people_id_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
+	  			
 	  			$('form input[name=bg_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
 	  			$('form input[name=issuing_banks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=bank_addresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	

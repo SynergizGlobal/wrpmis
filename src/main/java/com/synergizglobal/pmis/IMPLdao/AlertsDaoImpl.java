@@ -70,7 +70,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk "
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 60 and DATEDIFF(valid_upto ,NOW()) > 30) and release_date is null";
+					+"where contract_status_fk in ('In Progress','Completed') and (DATEDIFF(valid_upto ,NOW()) <= 60 and DATEDIFF(valid_upto ,NOW()) > 30) and release_date is null";
 			
 			List<Alerts> bgQryAlert1List = jdbcTemplate.query( bgQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert1List) && bgQryAlert1List.size() > 0) {
@@ -87,7 +87,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from contract c " +
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk "
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15) and release_date is null";
+					+"where contract_status_fk in ('In Progress','Completed') and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15) and release_date is null";
 			
 			List<Alerts> bgQryAlert2List = jdbcTemplate.query( bgQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert2List) && bgQryAlert2List.size() > 0) {
@@ -104,7 +104,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 0) and release_date is null";
+					+ "where contract_status_fk in ('In Progress','Completed') and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 0) and release_date is null";
 			
 			List<Alerts> bgQryAlert3List = jdbcTemplate.query( bgQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert3List) && bgQryAlert3List.size() > 0) {
@@ -121,7 +121,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 0 and release_date is null";
+					+ "where contract_status_fk in ('In Progress','Completed') and DATEDIFF(valid_upto ,NOW()) <= 0 and release_date is null";
 			
 			List<Alerts> bgQryAlert4List = jdbcTemplate.query( bgQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert4List) && bgQryAlert4List.size() > 0) {
@@ -139,7 +139,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c " + 
 					"left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 60 and DATEDIFF(valid_upto ,NOW()) > 30) and (bg.released_fk = 'No' or bg.released_fk is null)";
+					+"where contract_status_fk in ('In Progress','Completed') and (DATEDIFF(valid_upto ,NOW()) <= 60 and DATEDIFF(valid_upto ,NOW()) > 30) and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert1List = jdbcTemplate.query( insuranceQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert1List) && insuranceQryAlert1List.size() > 0) {
@@ -156,7 +156,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15) and (bg.released_fk = 'No' or bg.released_fk is null)";
+					+ "where contract_status_fk in ('In Progress','Completed') and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15) and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert2List = jdbcTemplate.query( insuranceQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert2List) && insuranceQryAlert2List.size() > 0) {
@@ -173,7 +173,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk "
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 0) and (bg.released_fk = 'No' or bg.released_fk is null)";
+					+ "where contract_status_fk in ('In Progress','Completed') and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 0) and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert3List = jdbcTemplate.query( insuranceQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert3List) && insuranceQryAlert3List.size() > 0) {
@@ -190,7 +190,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk "
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 0 and (bg.released_fk = 'No' or bg.released_fk is null)";
+					+ "where contract_status_fk in ('In Progress','Completed') and DATEDIFF(valid_upto ,NOW()) <= 0 and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert4List = jdbcTemplate.query( insuranceQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert4List) && insuranceQryAlert4List.size() > 0) {
@@ -209,7 +209,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c " 
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk = 'In Progress' " 
+					+ "where c.contract_status_fk in ('In Progress','Completed') " 
 					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 60 " 
 					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 30)";
 			
@@ -226,7 +226,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c " 
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null "
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk = 'In Progress' " 
+					+ "where c.contract_status_fk in ('In Progress','Completed') " 
 					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 30 " 
 					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 15)";
 			
@@ -245,7 +245,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c " 
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null "
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk = 'In Progress' " 
+					+ "where c.contract_status_fk in ('In Progress','Completed') " 
 					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 15 " 
 					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 0)";
 			
@@ -263,7 +263,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c " 
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null "
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk = 'In Progress' " 
+					+ "where c.contract_status_fk in ('In Progress','Completed') " 
 					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 0) ";
 			
 			List<Alerts> cpQryAlert4List = jdbcTemplate.query( cpQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -282,7 +282,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c "  
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_amount is not null "
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk = 'In Progress' " 
+					+ "where c.contract_status_fk in ('In Progress','Completed') " 
 					+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
 					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 80 "  
 					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 90))";
@@ -302,7 +302,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c "  
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_amount is not null " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk = 'In Progress' " 
+					+ "where c.contract_status_fk in ('In Progress','Completed') " 
 					+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
 					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 90 "  
 					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 95))";
@@ -322,7 +322,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c "  
 					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_amount is not null " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-					+ "where c.contract_status_fk = 'In Progress' " 
+					+ "where c.contract_status_fk in ('In Progress','Completed') " 
 					+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
 					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 95 "  
 					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 100))";
@@ -341,7 +341,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			+ "from contract c "  
 			+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_amount is not null "
 			+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id "
-			+ "where c.contract_status_fk = 'In Progress' " 
+			+ "where c.contract_status_fk in ('In Progress','Completed') " 
 			+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
 			+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 100 ))";
 	

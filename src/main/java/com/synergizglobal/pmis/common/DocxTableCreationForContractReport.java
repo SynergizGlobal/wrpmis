@@ -297,7 +297,7 @@ public class DocxTableCreationForContractReport {
 							JcEnumeration.RIGHT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getPhysicalProgress(), garamondRPr,
 							JcEnumeration.RIGHT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, "", garamondRPr,
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getTarget_doc(), garamondRPr,
 							JcEnumeration.RIGHT, hasBgColor, backgroundColor);					
 					table.getContent().add(contentRow);
 				}

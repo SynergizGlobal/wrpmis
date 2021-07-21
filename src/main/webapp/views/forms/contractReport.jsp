@@ -57,7 +57,6 @@
 	                                    <div class="col s6 m3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
 	                                        <select id="hod_designation" class="searchable validate-dropdown" name="hod_designations" onchange="getResetFiltersList();"  multiple="multiple" >
-	                                            <option value="">All </option>
 	                                        </select>
 	                                        <span id="hod_designationError" class="error-msg" ></span>
 	                                    </div>
@@ -103,7 +102,7 @@
 	                                            onclick="generateContractReport();"> Generate Report</button>
 	                                    </div>			                        
 			                            <div class="col s6 m6 input-field" style="text-align:left;">
-												<button type="reset" class="btn btn-reset" style="background-color:#F44336;color:#ffffff;text-transform: none;" id="btnReset" onclick="clearFilters();">Reset</button>
+												<button type="button" class="btn waves-effect waves-light bg-s t-c" style="background-color:#F44336;color:#ffffff;text-transform: none;" onclick="clearFilters();">Reset</button>
 			
 			                                <!--  <button class="btn waves-effect waves-light bg-s t-c"
 			                                     style="margin-top: 6px; font-weight: 600;"
@@ -249,6 +248,7 @@
         
         
         function clearFilters(){
+        	$("#hod_designation option:first").remove();
         	$("#contractor_id_fk").val('');
         	$("#work_id_fk").val('');
         	$("#hod_designation").val('');
@@ -274,7 +274,7 @@
         	var contract_status_fk = $("#contract_status_fk").val();
         	var contract_id = $("#contract_id").val();
             if ($.trim(hod_designations) == "") {
-            	$("#hod_designation option:not(:first)").remove();
+            	$("#hod_designation option").remove();
         	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getHODListInContractReport",
@@ -282,7 +282,9 @@
 	          		traditional: true, 
                     data: myParams, cache: false,
                     success: function (data) {
-                        if (data.length > 0) {
+                        if (data.length > 0) 
+                        {
+                        	$("#hod_designation").append('<option  name="hod_designations" value="">All</option>');
                             $.each(data, function (i, val) {
     	                           $("#hod_designation").append('<option  name="hod_designations" value="' + val.designation + '">' + $.trim(val.designation)  + '</option>');
                             });

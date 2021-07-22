@@ -434,7 +434,9 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var selectedFalg = '';
-                            	if(work == val.sub_work){selectedFalg = 'selected';addInQueSubWork(val.sub_work)};
+                            	if($.trim(work) != ''){
+                            		if($.trim(work).toLowerCase() == $.trim(val.sub_work).toLowerCase()){selectedFalg = 'selected';addInQueSubWork(val.sub_work);};
+                            	}
                             	$("#sub_work").append('<option value="' + val.sub_work + '" '+selectedFalg+'>' + $.trim(val.sub_work) +'</option>');
                             });
                         }

@@ -242,8 +242,8 @@
 											<p class="mt-1">Step 6 :</p>
 										</div>
 										<div class="col m10 s12 mob-center input-field">
-											<a class="btn waves-effect waves-light bg-s t-c fs-sm-67rem"
-												href="<%=request.getContextPath()%>/risk-atr-update" target="_blank" style="width: 100%;text-transform: none;">Click
+											<a class="btn waves-effect waves-light bg-s t-c fs-sm-67rem" onclick="openRiskATRUpdateForm();"
+												href="javascript:void(0);" style="width: 100%;text-transform: none;">Click
 												here to update ATR on the Mitigation Plan of prioritized risks</a>
 										</div>
 									</div>
@@ -387,6 +387,9 @@
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
+	<form action="<%=request.getContextPath()%>/risk-atr-update" id="riskATRUpdateForm" name="riskATRUpdateForm" target="_blank" method="post">
+		<input type="hidden" id="sub_work_atr_update" name="sub_work"/>
+	</form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
@@ -601,6 +604,12 @@
     	  $('.searchable').select2();
     	  $('#uploadRiskBtn ~ .file-path-wrapper > input[type="text"]').val('');
     	  $('#uploadRiskBtn, #uploadRisk').addClass('disabled')
+      }
+      
+      function openRiskATRUpdateForm(){
+    	  var sub_work =  $('#sub_work').val();
+    	  $("#sub_work_atr_update").val(sub_work);
+    	  $("#riskATRUpdateForm").submit();
       }
       
     </script>

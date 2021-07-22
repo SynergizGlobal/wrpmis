@@ -1,4 +1,5 @@
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -94,34 +95,34 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="obj" items="${templatesList}" >
+                                    <c:forEach var="obj" items="${templatesList}" varStatus="index">
                                         <tr>
                                         
                                             <td>${obj.template_name }</td>
                                             <td>${obj.uploaded_by }</td>
-                                            <td>${obj.uploaded_on }</td>
+                                            <td>${obj.user_name }</td>
                                             <td>${obj.status }</td>
                                             
                                             <td class="last-column">
-                                                <a href="#addUpdateModal" class="btn bg-m waves-effect waves-light modal-trigger" onclick="uploadFunction('${obj.template_name }');" title="Upload"><i
+                                                <a href="#addUpdateModal" class="btn bg-m waves-effect waves-light modal-trigger" id="${index.count }" onclick="uploadFunction('${obj.template_name }');" title="Upload"><i
                                                         class="fa fa-upload"></i></a>
                                                 <a  class="btn waves-effect waves-light " href="/pmis/${obj.template_name }.xlsx" download  title="Download"><i
                                                         class="fa fa-download"></i></a>
                                                 <a href="#" class="btn waves-effect waves-light bg-s " title="Delete"  onclick="deleteTemplate('${obj.id }');" ><i
                                                         class="fa fa-trash"></i></a>
-                                                <a href="#history1" class="btn bg-m waves-effect waves-light modal-trigger"  onclick="getHistoryList('${obj.template_name }');"
+                                                <a href="#history${index.count }" class="btn bg-m waves-effect waves-light modal-trigger"  
                                                     title="History"><svg xmlns="http://www.w3.org/2000/svg"
                                                         xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
                                                         width="24" height="24" viewBox="0 0 24 24">
                                                         <path
                                                             d="M4,2C2.9,2 2,2.9 2,4V20C2,21.1 2.9,22 4,22H12.41C12.41,25.87 12.13,23 16,23C19.87,23 23,19.87 23,16C23,12.13 21.87,9.3 18,9.3V8L12,2H4M4,4H11V9H16C12.13,9 9,12.13 9,16C9,19.87 6.39,20 10.26,20H4V4M16,11C18.76,11 21,13.24 21,16C21,18.76 18.76,21 16,21C13.24,21 11,18.76 11,16C11,13.24 13.24,11 16,11M15,12V17L18.61,19.16L19.36,17.94L16.5,16.25V12H15Z" />
                                                     </svg></a>
-                                                <div id="history1" class="modal">
+                                                <div id="history${index.count }" class="modal"> 
                                                     <div class="modal-content">
-                                                        <h6 class="headbg modal-header">Template Name <span
+                                                        <h6 class="headbg modal-header">Template Upload History <span 
                                                                 class="right modal-action modal-close"><span
                                                                     class="material-icons">close</span></span></h6>
-                                                        <table class="responsive-table" id="history_table">
+                                                        <table class="responsive-table" id="history_table${index.count }">
                                                             <thead>
                                                                 <tr>
                                                                     <th>template </th>
@@ -130,8 +131,22 @@
                                                                     <th>status</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
-                                                               
+                                                            <tbody> 
+                                                            <c:choose> 
+	                                                            <c:when test = "${not empty obj.tableHistoryList}">
+	                                                              <c:forEach var="hObj" items="${obj.tableHistoryList}" varStatus="indexx">
+	                                                               <tr id="historyTableRow${index.count }${indexx.count }">
+	                                                               		<td><a  id="attachment${index.count }${indexx.count }" href="/pmis/TEMPLATES_OLD/${obj.attachment }" download title="Download">  ${hObj.template_name }</a></td>
+	                                                               		<td>${hObj.user_name }</td>
+	                                                               		<td>${hObj.uploaded_on }</td>
+	                                                               		<td>${hObj.status }</td>
+	                                                               </tr>
+	                                                             </c:forEach> 
+	                                                             </c:when>
+	                                                             <c:otherwise>
+														           <tr> <td colspan="4">No Rows to Display</td></tr>
+														         </c:otherwise>
+														         </c:choose>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -236,6 +251,7 @@
         });
         
         function uploadTemplate() {
+        	
         	if(validator.form()){ 
      			$(".page-loader").show();
      			$("#addUpdateModal").modal();
@@ -275,48 +291,6 @@
 		        });
 	  }
 	  
-        function getHistoryList(tempalteName){
-        	$(".page-loader-2").show();
-        	template_name = tempalteName;
-        	table = $('#history_table').DataTable({
-        		"paging": false,
-        		"searching": false,
-        		"info":false
-        	});
-    		//table.destroy();
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
-    		table = $('#history_table').DataTable().rows().remove().draw();;
-    		table.state.clear();		
-    		var myParams = {template_name : template_name};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getTemplateHistoryList",type:"POST",
-    			data:myParams,async: false,
-    			success : function(data){    				
-    				if(data != null && data != '' && data.length > 0){    					
-	             		$.each(data,function(key,val){
-	                        var template = "";
-	                        
-	                        template = '<a href="/pmis/'+val.template_name +'.xlsx" download>'+val.template_name + '</a>';
-	                        var rowArray = [];    	                  
-	                        
-	                       	rowArray.push($.trim(template));
-	                       	rowArray.push($.trim(val.uploaded_by)); 
-	                       	rowArray.push($.trim(val.uploaded_on));
-	                       	rowArray.push($.trim(val.status)); 
-	                       	
-	                        table.row.add(rowArray).draw( true );
-	                        		                       
-	    				});
-	             		
-	             		$(".page-loader-2").hide();
-	    			}else{
-	    				$(".page-loader-2").hide();
-	    			}
-    			
-    		},error: function (jqXHR, exception) {
-    			$(".page-loader-2").hide();
-             	getErrorMessage(jqXHR, exception);
-         }});
-       }
     </script>
 </body>
 

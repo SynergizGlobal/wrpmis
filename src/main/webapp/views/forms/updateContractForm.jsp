@@ -343,7 +343,7 @@
 		                                 <p class="searchable_label">Responsible Persons</p>
 		                                 <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
 		                                  multiple="multiple">
-		                                   <option value="" disabled="disabled">Select</option>
+		                                   <option value="" >Select</option>
 		                                   <c:forEach var="obj" items="${responsiblePeopleList}">
 		           					  			 <option value="${obj.user_id }"            					  			 
 		           					  			 		<c:forEach var="tempobj" items="${contractDeatils.responsiblePeopleList}">
@@ -390,7 +390,7 @@
 											                            <select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks${index.count }" onchange="fileCount('${index.count }');"
 											                            	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
 											                             multiple="multiple">
-											                             <option value="" disabled="disabled">Select</option>
+											                             <option value="" >Select</option>
 											                             <c:forEach var="obj" items="${departmentObj.responsiblePersonsList}">
 											                             <option value="${obj.hod_user_id_fk }" 
 																		 		<c:forEach var="tempobj" items="${departmentObj.executivesList}">
@@ -430,7 +430,7 @@
 									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks"  onchange="fileCount('0');"
 									                               <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
 									                                id="responsible_people_id_fks0" multiple="multiple">
-									                                <option value="" disabled="disabled">Select</option>
+									                                <option value="" >Select</option>
 									                             	
 									                            </select>
 									                            <span id="personError0" class="my-error"></span>
@@ -553,10 +553,9 @@
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs" <c:if test="${contractDeatils.estimated_cost_units eq 'rs' }">selected</c:if>>Rs</option>
-	                                		<option value="thousands" <c:if test="${contractDeatils.estimated_cost_units eq 'thousands' }">selected</c:if>>Thousands</option>
-	                                		<option value="lacs" <c:if test="${contractDeatils.estimated_cost_units eq 'lacs' }">selected</c:if>>Lacs</option>
-	                                		<option value="crores" <c:if test="${contractDeatils.estimated_cost_units eq 'crores' }">selected</c:if>>Crores</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${contractDeatils.estimated_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		    </c:forEach>
 	                                	</select>
 	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
                                 	</div>	                         
@@ -572,10 +571,9 @@
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown" id="awarded_cost_units" name="awarded_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs" <c:if test="${contractDeatils.awarded_cost_units eq 'rs' }">selected</c:if>>Rs</option>
-	                                		<option value="thousands" <c:if test="${contractDeatils.awarded_cost_units eq 'thousands' }">selected</c:if>>Thousands</option>
-	                                		<option value="lacs" <c:if test="${contractDeatils.awarded_cost_units eq 'lacs' }">selected</c:if>>Lacs</option>
-	                                		<option value="crores" <c:if test="${contractDeatils.awarded_cost_units eq 'crores' }">selected</c:if>>Crores</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${contractDeatils.awarded_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		    </c:forEach>
 	                                	</select>
 	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
                                 	</div>
@@ -706,10 +704,9 @@
                                                  <td class="responsive_units">
 					                                	<select class="units validate-dropdown" id="bg_values_units${index.count }" name="bg_value_unitss">
 					                                		<option value="">Select</option>
-					                                		<option value="rs" <c:if test="${bankObj.bg_value_units eq 'rs' }">selected</c:if>>Rs</option>
-					                                		<option value="thousands" <c:if test="${bankObj.bg_value_units eq 'thousands' }">selected</c:if>>Thousands</option>
-					                                		<option value="lacs" <c:if test="${bankObj.bg_value_units eq 'lacs' }">selected</c:if>>Lacs</option>
-					                                		<option value="crores" <c:if test="${bankObj.bg_value_units eq 'crores' }">selected</c:if>>Crores</option>
+					                                      <c:forEach var="obj" items="${unitsList }">
+		                                    			    <option value="${obj.value }" <c:if test="${bankObj.bg_value_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+		                                     			  </c:forEach>
 					                                	</select>
 					                                	<span id="bg_units${index.count }Error" class="my-error"></span>
                                                 </td>
@@ -782,10 +779,9 @@
                                                   <td class="responsive_units">
 					                                	<select class="units validate-dropdown" id="bg_values_units0" name="bg_value_unitss">
 					                                		<option value="">Select</option>
-					                                		<option value="rs">Rs</option>
-					                                		<option value="thousands">Thousands</option>
-					                                		<option value="lacs">Lacs</option>
-					                                		<option value="crores">Crores</option>
+					                                		<c:forEach var="obj" items="${unitsList }">
+		                                    			     <option value="${obj.value }">${obj.unit }</option>
+		                                     			    </c:forEach>
 					                                	</select>
 					                                	<span id="bg_units0Error" class="my-error"></span>
                                                     </div>
@@ -930,10 +926,9 @@
                                                     <td class="responsive_units">
 					                                	<select class="units validate-dropdown" id="insurance_values_units${index.count }" name="insurance_value_unitss">
 					                                		<option value="">Select</option>
-					                                		<option value="rs" <c:if test="${insurenceObj.insurance_value_units eq 'rs' }">selected</c:if>>Rs</option>
-					                                		<option value="thousands" <c:if test="${insurenceObj.insurance_value_units eq 'thousands' }">selected</c:if>>Thousands</option>
-					                                		<option value="lacs" <c:if test="${insurenceObj.insurance_value_units eq 'lacs' }">selected</c:if>>Lacs</option>
-					                                		<option value="crores" <c:if test="${insurenceObj.insurance_value_units eq 'crores' }">selected</c:if>>Crores</option>
+					                                		<c:forEach var="obj" items="${unitsList }">
+		                                    			    <option value="${obj.value }" <c:if test="${insurenceObj.insurance_value_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+		                                     			  </c:forEach>
 					                                	</select>
 					                                	<span id="insurence_units${index.count }Error" class="my-error"></span>
                                                  </td>
@@ -1019,10 +1014,9 @@
                                                     <td class="responsive_units">
 					                                	<select class="units validate-dropdown" id="insurance_values_units0" name="insurance_value_unitss">
 					                                		<option value="">Select</option>
-					                                		<option value="rs">Rs</option>
-					                                		<option value="thousands">Thousands</option>
-					                                		<option value="lacs">Lacs</option>
-					                                		<option value="crores">Crores</option>
+					                                		<c:forEach var="obj" items="${unitsList }">
+		                                    			    <option value="${obj.value }">${obj.unit }</option>
+		                                     			  </c:forEach>
 					                                	</select>
 					                                	<span id="insurence_units0Error" class="my-error"></span>
                                                  </td>
@@ -1250,10 +1244,9 @@
                                                    <!--  <div class="col s3 pt-14"> -->
 					                                	<select class="units validate-dropdown" id="revised_amounts_units${index.count }" name="revised_amount_unitss">
 					                                		<option value="">Select</option>
-					                                		<option value="rs" <c:if test="${revObj.revised_amount_units eq 'rs' }">selected</c:if>>Rs</option>
-					                                		<option value="thousands" <c:if test="${revObj.revised_amount_units eq 'thousands' }">selected</c:if>>Thousands</option>
-					                                		<option value="lacs" <c:if test="${revObj.revised_amount_units eq 'lacs' }">selected</c:if>>Lacs</option>
-					                                		<option value="crores" <c:if test="${revObj.revised_amount_units eq 'crores' }">selected</c:if>>Crores</option>
+					                                		<c:forEach var="obj" items="${unitsList }">
+		                                    			      <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+		                                     			    </c:forEach>
 					                                	</select>
 					                                	<span id="units${index.count }Error" class="my-error"></span>
                                                    <!--  </div> -->
@@ -1322,10 +1315,9 @@
                                                     <!-- div class="col s3 pt-14"> -->
 					                                	<select class="units validate-dropdown" id="revised_amounts_units0" name="revised_amount_unitss">
 					                                		<option value="">Select</option>
-					                                		<option value="rs" >Rs</option>
-					                                		<option value="thousands">Thousands</option>
-					                                		<option value="lacs">Lacs</option>
-					                                		<option value="crores">Crores</option>
+					                                		<c:forEach var="obj" items="${unitsList }">
+		                                    			      <option value="${obj.value }">${obj.unit }</option>
+		                                     			    </c:forEach>
 					                                	</select>
 					                                	<span id="units0Error" class="my-error"></span>
                                                     <!-- </div> -->
@@ -1609,10 +1601,9 @@
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown" id="completed_cost_units" name="completed_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs" <c:if test="${contractDeatils.completed_cost_units eq 'rs' }">selected</c:if>>Rs</option>
-	                                		<option value="thousands" <c:if test="${contractDeatils.completed_cost_units eq 'thousands' }">selected</c:if>>Thousands</option>
-	                                		<option value="lacs" <c:if test="${contractDeatils.completed_cost_units eq 'lacs' }">selected</c:if>>Lacs</option>
-	                                		<option value="crores" <c:if test="${contractDeatils.completed_cost_units eq 'crores' }">selected</c:if>>Crores</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }" <c:if test="${contractDeatils.completed_cost_units eq obj.value }">selected</c:if>>${obj.unit }</option>
+		                                	</c:forEach>
 	                                	</select>
 	                                	<span id="completed_cost_unitsError" class="error-msg" ></span>
                                 	</div>                          
@@ -2009,6 +2000,17 @@
         
         
         function updateContract(){
+        	var rowCount = $('#departmentTableBody tr').length;
+        	var c = $('[name=responsible_people_id_fks]').length;
+  			for(var i=1; i<= (rowCount); i++){ 
+  				var resp_Person = $("#responsible_people_id_fks"+i).val();
+  				if(resp_Person == ""){
+  					$("#responsible_people_id_fks"+i).val("");
+  					var v = $("#responsible_people_id_fks"+i).val(); 
+  					$("#filecounts"+i).val(1);
+  					$('#responsible_people_id_fks' + i + ' option[value=""]').hide();
+  				}
+  			}
         	var flag = validateContract();
         	if(flag){
 	  		if(validator.form()){ // validation perform
@@ -2526,8 +2528,12 @@
 				   +'<td data-head="BG / FDR Number " class="input-field"><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
 				   //+'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="number" min="0.01" step="0.01" class="validate"  placeholder="Amount"></td>'
 				   +'<td data-head="Amount " class="input-field"> <i class="material-icons prefix cost left-align">₹</i> <input id="bg_values'+rNo+'" name="bg_values" min="0.01" step="0.01" type="number" class="validate" placeholder="Amount">'
-				   +'</td><td class="responsive_units">		<select class="units validate-dropdown" id="bg_values_units'+rNo+'" name="bg_value_unitss"> <option value="">Select</option> <option value="rs" >Rs</option> <option value="thousands">Thousands</option>'
-				   +'<option value="lacs">Lacs</option>	<option value="crores">Crores</option>	</select><span id="bg_units'+rNo+'Error" class="my-error"></span></div> </td>'
+				   +'</td><td class="responsive_units">		<select class="units validate-dropdown" id="bg_values_units'+rNo+'" name="bg_value_unitss">'
+				   +'<option value="">Select</option>'
+				    <c:forEach var="obj" items="${unitsList }">
+  			     	 +'<option value="${obj.value }">${obj.unit }</option>'
+   			    	</c:forEach>	
+				   +'</select><span id="bg_units'+rNo+'Error" class="my-error"></span></div> </td>'
 				   +'<td data-head="BG / FDR Date " class="input-field"><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button"><i class="fa fa-calendar"></i></button>'
 				   //+'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
 				   +'<td data-head="Expiry Date " class="input-field"><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Expiry Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
@@ -2578,7 +2584,11 @@
 			  // +'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" placeholder="Insurance Value"></td>'
 			   +'<td data-head="Insurance Value " class="input-field responsive_units"> <i class="material-icons prefix cost left-align">₹</i> <input id="insurance_values'+rNo+'" name="insurance_values" '
 			   +'min="0.01" step="0.01" type="number" class="validate" placeholder="Insurance Value"> </td><td class="responsive_units"> <select class="units validate-dropdown" id="insurance_values_units'+rNo+'" name="insurance_value_unitss">'
-			   +'<option value="">Select</option> <option value="rs" >Rs</option>	<option value="thousands">Thousands</option> <option value="lacs">Lacs</option>	<option value="crores">Crores</option>	</select> <span id="insurence_units'+rNo+'Error" class="my-error"></span></div> </td>' 
+			   +'<option value="">Select</option>'
+			   <c:forEach var="obj" items="${unitsList }">
+		     	 +'<option value="${obj.value }">${obj.unit }</option>'
+			    </c:forEach>
+			   +'</select> <span id="insurence_units'+rNo+'Error" class="my-error"></span></div> </td>' 
 			   +'<td data-head="Revision " class="input-field"><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td data-head="Valid Upto " class="input-field"><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Remarks " class="input-field"><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
@@ -2666,7 +2676,11 @@
 			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
 			   +'<td data-head="Revised Amount " class="input-field"> <i class="material-icons prefix cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
 			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"> </td><td class="responsive_units"> <select class="units validate-dropdown " id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
-			   +'<option value="">Select</option> <option value="rs" >Rs</option> <option value="thousands">Thousands</option> <option value="lacs">Lacs</option> <option value="crores">Crores</option> </select> <span id="units'+rNo+'Error" class="my-error"></span></div> </td>'
+			   +'<option value="">Select</option>'
+			   <c:forEach var="obj" items="${unitsList }">
+		     	 +'<option value="${obj.value }">${obj.unit }</option>'
+			   </c:forEach>			  
+		       +'</select> <span id="units'+rNo+'Error" class="my-error"></span></div> </td>'
 			  // +'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"></td>'
 			   +'<td data-head="Revised DOC" class="input-field"><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'

@@ -489,6 +489,9 @@ public class ContractController {
 			List<Contract> responsiblePeopleList = contractService.getResponsiblePeopleList(obj);
 			model.addObject("responsiblePeopleList", responsiblePeopleList);
 			
+			List<Contract> unitsList = contractService.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
+			
 		}catch (Exception e) {
 			logger.error("Contract : " + e.getMessage());
 		}
@@ -598,6 +601,9 @@ public class ContractController {
 			List<Contract> responsiblePeopleList = contractService.getResponsiblePeopleList(obj);
 			model.addObject("responsiblePeopleList", responsiblePeopleList);
 			
+			List<Contract> unitsList = contractService.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
+			
 			Contract contractDeatils = contractService.getContract(obj);
 			model.addObject("contractDeatils", contractDeatils);
 			
@@ -650,6 +656,8 @@ public class ContractController {
 			List<Contract> contract_Statustype = contractService.getContractStatusType();
 			model.addObject("contract_Statustype", contract_Statustype);
 			
+			List<Contract> unitsList = contractService.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
 			
 			obj.setContract_id(contract_id);
 			Contract contractDeatils = contractService.getContract(obj);

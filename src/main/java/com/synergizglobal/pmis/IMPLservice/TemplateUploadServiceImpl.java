@@ -29,10 +29,4 @@ public class TemplateUploadServiceImpl implements TemplateUploadService{
 		return dao.deleteTemplate(obj);
 	}
 
-	@Override
-	public List<TrainingType> getTemplateHistoryList(TrainingType obj) throws Exception {
-		return dao.getTemplateHistoryList(obj);
-	}
-
-	
 }

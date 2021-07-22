@@ -400,19 +400,21 @@ public class ContractDaoImpl implements ContractDao {
 					int len = contract.getDepartment_fks().length;
 					for(int i =0; i< len; i++) {
 						int  j = 0;
-						while ( j <= contract.getFilecounts()[i] ) 
+						while ( j < contract.getFilecounts()[i] ) 
 						{
+							int ffffff = contract.getFilecounts()[i];
 						    int k = 1;
 						    int a = r++;  
 						    if(i <= (len))
 						    {
 						    	String deptName = contract.getDepartment_fks()[i];
-								multiExecutiveStmt.setString(k++,(contract.getContract_id()));
-								multiExecutiveStmt.setString(k++,(deptName));
-								multiExecutiveStmt.setString(k++,(contract.getResponsible_people_id_fks().length > 0)?contract.getResponsible_people_id_fks()[i]:null);
-								multiExecutiveStmt.addBatch();
+						    	if(!StringUtils.isEmpty(deptName)) {
+									multiExecutiveStmt.setString(k++,(contract.getContract_id()));
+									multiExecutiveStmt.setString(k++,(deptName));
+									multiExecutiveStmt.setString(k++,(contract.getResponsible_people_id_fks().length > 0)?contract.getResponsible_people_id_fks()[a]:null);
+									multiExecutiveStmt.addBatch();
+						    	}
 								 j++;
-						   
 						    }else 
 						    {
 						    	 j++;
@@ -861,13 +863,14 @@ public class ContractDaoImpl implements ContractDao {
 									+ "DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,"
 									+ "DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 									+ "DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,"
-									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,DATE_FORMAT(target_doc,'%d-%m-%Y') AS target_doc,awarded_cost_units,estimated_cost_units,completed_cost_units " + 
+									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,DATE_FORMAT(target_doc,'%d-%m-%Y') AS target_doc,awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 									"left join project p on w.project_id_fk = p.project_id " + 
 									"left join user u on c.hod_user_id_fk = u.user_id "+
-									"left join user us on c.dy_hod_user_id_fk = us.user_id "
+									"left join user us on c.dy_hod_user_id_fk = us.user_id "+
+									"left join money_unit mu on c.completed_cost_units = mu.value COLLATE utf8mb4_unicode_ci "
 									+"left join department dt on c.department_fk = dt.department where contract_id = ?" ;
 			stmt = con.prepareStatement(contract_updateQry);
 			stmt.setString(1, obj.getContract_id());
@@ -923,6 +926,7 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setAwarded_cost_units(resultSet.getString("awarded_cost_units"));
 				contract.setEstimated_cost_units(resultSet.getString("estimated_cost_units"));
 				contract.setCompleted_cost_units(resultSet.getString("completed_cost_units"));
+				contract.setUnit(resultSet.getString("unit"));
 
 				contract.setBankGauranree(getBankGauranree(contract.getContract_id(),con));	
 				contract.setInsurence(getInsurence(contract.getContract_id(),con));	
@@ -1092,7 +1096,9 @@ public class ContractDaoImpl implements ContractDao {
 		Contract obj = null;
 		try {
 			String qry ="SELECT revision_number,cast(revised_amount as CHAR) as revised_amount,revised_amount_units ,DATE_FORMAT(revised_doc,'%d-%m-%Y') AS revised_doc"
-					+ ",action as revision_status,remarks from contract_revision where contract_id_fk = ?";
+					+ ",action as revision_status,remarks,mu.unit from contract_revision cr "+
+					"left join money_unit mu on cr.revised_amount_units = mu.value COLLATE utf8mb4_unicode_ci "
+					+ " where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
 			resultSet = stmt.executeQuery();
@@ -1104,6 +1110,7 @@ public class ContractDaoImpl implements ContractDao {
 				obj.setRevised_doc(resultSet.getString("revised_doc"));
 				obj.setRevision_status(resultSet.getString("revision_status"));
 				obj.setRemarks(resultSet.getString("remarks"));
+				obj.setUnit(resultSet.getString("unit"));
 				contract_revision.add(obj);
 			}
 		}catch(Exception e){ 
@@ -1157,7 +1164,9 @@ public class ContractDaoImpl implements ContractDao {
 		Contract obj = null;
 		try {
 			String qry ="SELECT insurance_type_fk,issuing_agency,agency_address,insurance_number,cast(insurance_value as CHAR) as insurance_value,DATE_FORMAT(valid_upto,'%d-%m-%Y') AS valid_upto"
-					+ ",remarks,revision,released_fk as insurance_status,insurance_value_units from insurance where contract_id_fk = ?";
+					+ ",remarks,revision,released_fk as insurance_status,insurance_value_units,mu.unit from insurance i "+
+					"left join money_unit mu on i.insurance_value_units = mu.value COLLATE utf8mb4_unicode_ci "
+					+ "where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
 			resultSet = stmt.executeQuery();
@@ -1173,6 +1182,7 @@ public class ContractDaoImpl implements ContractDao {
 				obj.setRevision(resultSet.getString("revision"));
 				obj.setInsurance_status(resultSet.getString("insurance_status"));
 				obj.setInsurance_value_units(resultSet.getString("insurance_value_units"));
+				obj.setUnit(resultSet.getString("unit"));
 				insurence.add(obj);
 			}
 		}catch(Exception e){ 
@@ -1192,8 +1202,10 @@ public class ContractDaoImpl implements ContractDao {
 		Contract obj = null;
 		try {
 			String qry ="SELECT code,bg_type_fk,issuing_bank, bg_number,cast(bg_value as CHAR) as bg_value,DATE_FORMAT(valid_upto,'%d-%m-%Y') AS valid_upto"
-					+ ",DATE_FORMAT(bg_date,'%d-%m-%Y') AS bg_date,DATE_FORMAT(release_date,'%d-%m-%Y') AS release_date,bg_value_units "
-					+ " from bank_guarantee where contract_id_fk = ?";
+					+ ",DATE_FORMAT(bg_date,'%d-%m-%Y') AS bg_date,DATE_FORMAT(release_date,'%d-%m-%Y') AS release_date,bg_value_units,mu.unit "
+					+ " from bank_guarantee bg "+
+					"left join money_unit mu on bg.bg_value_units = mu.value COLLATE utf8mb4_unicode_ci "
+					+ "where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
 			resultSet = stmt.executeQuery();
@@ -1209,6 +1221,7 @@ public class ContractDaoImpl implements ContractDao {
 				obj.setBg_date(resultSet.getString("bg_date"));
 				obj.setRelease_date(resultSet.getString("release_date"));
 				obj.setBg_value_units(resultSet.getString("bg_value_units"));
+				obj.setUnit(resultSet.getString("unit"));
 				bankGauranree.add(obj);
 			}
 		}catch(Exception e){ 
@@ -1295,6 +1308,12 @@ public class ContractDaoImpl implements ContractDao {
 							arraySize = contract.getResponsible_people_id_fks().length;
 						}
 					}
+					if(!StringUtils.isEmpty(contract.getDepartment_fks()) && contract.getDepartment_fks().length > 0) {
+						contract.setDepartment_fks(CommonMethods.replaceEmptyByNullInSringArray(contract.getDepartment_fks()));
+						if(arraySize < contract.getDepartment_fks().length) {
+							arraySize = contract.getDepartment_fks().length;
+						}
+					}
 					if(!StringUtils.isEmpty(contract.getDepartment_fks())) {
 						String file_insert_qry = "INSERT into  contract_executive (contract_id_fk, department_id_fk, executive_user_id_fk) VALUES (?,?,?)";
 						PreparedStatement multiExecutiveStmt = con.prepareStatement(file_insert_qry);
@@ -1303,17 +1322,19 @@ public class ContractDaoImpl implements ContractDao {
 							int  j = 0;
 							while ( j < contract.getFilecounts()[i] ) 
 							{
+								int ffffff = contract.getFilecounts()[i];
 							    int k = 1;
 							    int a = r++;  
 							    if(i <= (len))
 							    {
 							    	String deptName = contract.getDepartment_fks()[i];
-									multiExecutiveStmt.setString(k++,(contract.getContract_id()));
-									multiExecutiveStmt.setString(k++,(deptName));
-									multiExecutiveStmt.setString(k++,(contract.getResponsible_people_id_fks()[a]));
-									multiExecutiveStmt.addBatch();
+							    	if(!StringUtils.isEmpty(deptName)) {
+										multiExecutiveStmt.setString(k++,(contract.getContract_id()));
+										multiExecutiveStmt.setString(k++,(deptName));
+										multiExecutiveStmt.setString(k++,(contract.getResponsible_people_id_fks().length > 0)?contract.getResponsible_people_id_fks()[a]:null);
+										multiExecutiveStmt.addBatch();
+							    	}
 									 j++;
-							   
 							    }else 
 							    {
 							    	 j++;
@@ -2701,6 +2722,18 @@ public class ContractDaoImpl implements ContractDao {
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getUnitsList(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry = "select id, unit, value from money_unit";			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

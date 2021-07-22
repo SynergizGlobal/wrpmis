@@ -433,10 +433,9 @@
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs" >Rs</option>
-	                                		<option value="thousands">Thousands</option>
-	                                		<option value="lacs">Lacs</option>
-	                                		<option value="crores">Crores</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }">${obj.unit }</option>
+                                   		    </c:forEach>
 	                                	</select>
 	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
                                 	</div>                                	
@@ -450,10 +449,9 @@
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown" id="awarded_cost_units" name="awarded_cost_units">
 	                                		<option value="">Select</option>
-	                                		<option value="rs" >Rs</option>
-	                                		<option value="thousands">Thousands</option>
-	                                		<option value="lacs">Lacs</option>
-	                                		<option value="crores">Crores</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }">${obj.unit }</option>
+                                   		    </c:forEach>
 	                                	</select>
 	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
                                 	</div>
@@ -1423,7 +1421,8 @@
   				if(resp_Person == ""){
   					$("#responsible_people_id_fk"+i).val("");
   					var v = $("#responsible_people_id_fk"+i).val();
-  					$("#filecounts"+i).val(0);
+  					$("#filecounts"+i).val(1);
+  					$('#responsible_people_id_fk' + i + ' option[value=""]').hide();
   				}
   			}
 	  		if(validator.form()){ // validation perform

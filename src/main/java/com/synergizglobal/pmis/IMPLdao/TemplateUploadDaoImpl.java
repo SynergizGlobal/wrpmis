@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.TemplateUploadDao;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.Training;
 import com.synergizglobal.pmis.model.Work;
 import com.synergizglobal.pmis.reference.model.TrainingType;
 
@@ -32,12 +33,25 @@ public class TemplateUploadDaoImpl implements TemplateUploadDao{
 	public List<TrainingType> getTemplatesList() throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="select id, template_name, attachment, uploaded_on, uploaded_by, status from upload_templates where status = ?";
+			String qry ="select id, template_name, attachment, DATE_FORMAT(uploaded_on,'%d-%m-%Y') AS uploaded_on, uploaded_by,u.user_name status from upload_templates ut "
+					+ "left join user u on ut.uploaded_by = u.user_id "
+					+ " where status = ?";
 			int arrSize = 1;
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = CommonConstants.ACTIVE;
-			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
+			
+			for (TrainingType session : objsList) {
+				List<TrainingType> objsList1 = null;
+				String qryDetails = "select id, template_name, attachment, DATE_FORMAT(uploaded_on,'%d-%m-%Y') AS uploaded_on,u.user_name, uploaded_by, status " + 
+						"from upload_templates ut "
+						+ "left join user u on ut.uploaded_by = u.user_id "
+						+"where  template_name = ? and status = ? ORDER BY uploaded_on asc";
+				
+				objsList1 = jdbcTemplate.query(qryDetails, new Object[] {session.getTemplate_name(),CommonConstants.INACTIVE}, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
+				session.setTableHistoryList(objsList1); 
+			}
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}
@@ -79,11 +93,15 @@ public class TemplateUploadDaoImpl implements TemplateUploadDao{
 	@Override
 	public boolean deleteTemplate(TrainingType obj) throws Exception {
 		boolean flag = false;
+		Connection con = null;
+		PreparedStatement stmt = null;
+		int count = 0;
 		try {
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
-			String deleteQry = "DELETE FROM upload_templates where id= :id ";
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);			
+			con = dataSource.getConnection();
+			String deleteQry = "UPDATE upload_templates SET status = ? where id= ? ";
+			stmt = con.prepareStatement(deleteQry);
+			stmt.setString(1,CommonConstants.INACTIVE);
+			stmt.setString(2,obj.getId());
 			if(count > 0) {
 				flag = true;
 			}
@@ -93,31 +111,5 @@ public class TemplateUploadDaoImpl implements TemplateUploadDao{
 		return flag;
 	}
 
-	@Override
-	public List<TrainingType> getTemplateHistoryList(TrainingType obj) throws Exception {
-		List<TrainingType> objsList = null;
-		try {
-			String qry = "SELECT id, template_name, attachment, uploaded_on, uploaded_by, status from upload_templates  " ;
-			int arrSize = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTemplate_name())) {
-				qry = qry + " where template_name = ? ";
-				arrSize++;
-			}
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTemplate_name())) {
-				pValues[i++] = obj.getTemplate_name();
-			}
-			
-		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-	
-	
 	
 }

@@ -9,7 +9,7 @@ public class TrainingType {
 	
 	private String training_type,binary,dashboard_type,id, la_sub_category,bg_type_old,bg_type_fk, la_category_fk,la_category,contractor_specialization,user_role_name,bg_type,status,contract_type,department,deliverable_type, department_name, contract_id_code,document_type, user_role_code,user_access_type,soft_delete_status,source_of_funds, user_access_table,requirement_stage,unit_type,execution_agency,old_training_type,new_training_type,insurance_type,training_status,training_category,drawing_type,utility_type;
 
-	private String Table_name,column_name,constraint_name,referenced_table_name,referenced_column_name,count,tName,bg_type_new,binary_new,binary_old;
+	private String Table_name,column_name,constraint_name,user_name,referenced_table_name,referenced_column_name,count,tName,bg_type_new,binary_new,binary_old;
 	
 	private String department_new,department_old,department_name_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
 	,contractor_specialization_new,contract_type_old,contract_type_new,dashboard_type_old,dashboard_type_new,status_old,status_new,deliverable_type_old,
@@ -23,8 +23,35 @@ public class TrainingType {
 	contract_category_fk,risk_revision_id,risk_id_pk_fk, date, issue_category_fk,contract_file_type,issue_file_type,fob_file_type,contract_category_fk_new,issue_other_organization,issue_category_fk_new,project_file_type,work_file_type
 	, template_name, attachment, uploaded_on, uploaded_by;
     
+	List<TrainingType> tableHistoryList;
 	private MultipartFile templateFile;
+	private MultipartFile templateFileOld;
 	
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public List<TrainingType> getTableHistoryList() {
+		return tableHistoryList;
+	}
+
+	public void setTableHistoryList(List<TrainingType> tableHistoryList) {
+		this.tableHistoryList = tableHistoryList;
+	}
+
+	public MultipartFile getTemplateFileOld() {
+		return templateFileOld;
+	}
+
+	public void setTemplateFileOld(MultipartFile templateFileOld) {
+		this.templateFileOld = templateFileOld;
+	}
+
 	public MultipartFile getTemplateFile() {
 		return templateFile;
 	}

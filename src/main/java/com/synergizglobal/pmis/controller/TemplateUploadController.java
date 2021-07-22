@@ -1,9 +1,14 @@
 package com.synergizglobal.pmis.controller;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -61,22 +66,38 @@ public class TemplateUploadController {
 		ModelAndView model = new ModelAndView();
 		String userId = null;String userName = null;
 		try{
+			Random random = new Random(); 
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
 			model.setViewName("redirect:/template-upload");
 			obj.setUploaded_by(userId);
+			
+			int renNum = random.nextInt(50);
+			int renNum2 = random.nextInt(300);
 			String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
 			obj.setUploaded_on(timeStamp);
-			String fileDirectory = CommonConstants.TEMPLATE_FILEPATH ;
 			MultipartFile file = obj.getTemplateFile();
-			if (null != file && !file.isEmpty()){
-				String fileName = file.getOriginalFilename();
-				String fileName_new = obj.getTemplate_name()+"."+ fileName.split("\\.")[1];
-				obj.setAttachment(fileName_new);
-				FileUploads.singleFileSaving(file, fileDirectory, fileName_new);
+			File theDir = new File(CommonConstants.TEMPLATE_OLD_FILEPATH);
+			if (!theDir.exists()){
+			    theDir.mkdirs();
 			}
+			Path oldFile  = Paths.get(CommonConstants.TEMPLATE_FILEPATH + obj.getTemplate_name()+".xlsx");
+			String renameFile = obj.getTemplate_name() +"_"+ timeStamp+"_"+renNum+renNum2+".xlsx";
+			Files.move(oldFile, oldFile.resolveSibling(CommonConstants.TEMPLATE_FILEPATH + renameFile));
+			
+			Path temp = Files.move
+			        (Paths.get(CommonConstants.TEMPLATE_FILEPATH + renameFile), 
+			        Paths.get(CommonConstants.TEMPLATE_OLD_FILEPATH + renameFile));
+			String fileDirectory = CommonConstants.TEMPLATE_FILEPATH ;
+			
+			String fileName = file.getOriginalFilename();
+			String fileName_new = obj.getTemplate_name()+"."+ fileName.split("\\.")[1];
+			obj.setAttachment(renameFile);
+			
+			FileUploads.singleFileSaving(file, fileDirectory, fileName_new);
 			
 			boolean flag =  service.uploadTemplate(obj);
+			//boolean old = setOldFilePath(obj,session,attributes);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Template Added Succesfully.");
 			}
@@ -84,12 +105,14 @@ public class TemplateUploadController {
 				attributes.addFlashAttribute("error","uploading Template is failed. Try again.");
 			}
 		}catch (Exception e) {
+			e.printStackTrace();
 			attributes.addFlashAttribute("error","uploading Template is failed. Try again.");
 			logger.error("uploadTemplate : " + e.getMessage());
 		}
 		return model;
 	}
 	
+
 	@RequestMapping(value = "/delete-template", method = {RequestMethod.POST})
 	@ResponseBody
 	public ModelAndView deleteTemplate(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
@@ -109,17 +132,5 @@ public class TemplateUploadController {
 		}
 		return model;
 	}
-	
-	@RequestMapping(value = "/ajax/getTemplateHistoryList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<TrainingType> getTemplateHistoryList(@ModelAttribute TrainingType obj) {
-		List<TrainingType> dataList = null;  
-		try {
-			dataList = service.getTemplateHistoryList(obj);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getTemplateHistoryList : " + e.getMessage());
-		}
-		return dataList;
-	}
+
 }

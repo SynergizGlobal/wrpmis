@@ -12,6 +12,5 @@ public interface TemplateUploadService {
 
 	boolean deleteTemplate(TrainingType obj) throws Exception;
 
-	List<TrainingType> getTemplateHistoryList(TrainingType obj) throws Exception;
 
 }

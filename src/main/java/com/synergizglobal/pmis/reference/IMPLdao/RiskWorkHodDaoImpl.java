@@ -4,12 +4,14 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.reference.Idao.RiskWorkHodDao;
@@ -27,7 +29,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 	public List<TrainingType> getRiskWorkHODDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="select risk_work_hod_id, work_id_fk,sub_work, hod_user_id_fk,u.designation,w.work_short_name from risk_work_hod wh "
+			String qry ="select risk_work_hod_id, work_id_fk,sub_work, risk_work_completed,hod_user_id_fk,u.designation,w.work_short_name from risk_work_hod wh "
 					+ "left join work w on wh.work_id_fk = w.work_id "
 					+ "left join user u on wh.hod_user_id_fk = u.user_id ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
@@ -65,9 +67,14 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 	public boolean addRiskWorkHOD(TrainingType obj) throws Exception {
 		boolean flag = false;
 		try {
+			String riskCompleted = obj.getRisk_work_completed();
+			if(StringUtils.isEmpty(riskCompleted)) 
+			{
+				obj.setRisk_work_completed("No");
+			}
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO risk_work_hod"
-					+ "( work_id_fk,sub_work, hod_user_id_fk) VALUES (:work_id_fk,:sub_work, :hod_user_id_fk)";
+					+ "( work_id_fk,sub_work, hod_user_id_fk,risk_work_completed) VALUES (:work_id_fk,:sub_work, :hod_user_id_fk, :risk_work_completed)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -85,9 +92,14 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 	public boolean updateRiskWorkHOD(TrainingType obj) throws Exception {
 		boolean flag = false;
 		try {
+			String riskCompleted = obj.getRisk_work_completed_new();
+			if(StringUtils.isEmpty(riskCompleted)) 
+			{
+				obj.setRisk_work_completed_new("No");
+			}
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "UPDATE risk_work_hod set "
-					+ "work_id_fk= :work_id_fk_new, hod_user_id_fk= :hod_user_id_fk_new,sub_work= :sub_work_new where risk_work_hod_id = :risk_work_hod_id";
+					+ "work_id_fk= :work_id_fk_new, hod_user_id_fk= :hod_user_id_fk_new,sub_work= :sub_work_new,risk_work_completed= :risk_work_completed_new where risk_work_hod_id = :risk_work_hod_id";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			

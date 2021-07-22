@@ -152,7 +152,7 @@
 											<td> 
 												<p class="center-align">
 											      <label>
-											        <input type="checkbox" id="risk_work_completed${index.count}" name="risk_work_completed" <c:if test="${index.count}%2 == 0">checked</c:if> />
+											        <input type="checkbox" id="risk_work_completed${index.count}" name="risk_work_completed" disabled="disabled"  value="${obj.risk_work_completed }"  <c:if test="${obj.risk_work_completed eq 'Yes'}">checked</c:if> />
 											        <span></span>
 											      </label>
 											    </p>
@@ -221,7 +221,7 @@
                         	<div class="input-field col s6 m6">
                                <p class="center-align">
 							      <label>
-							        <input type="checkbox" id="risk_work_completed${index.count}" name="risk_work_completed" />
+							        <input type="checkbox"  class="risk_work_completed" id="risk_work_completed" name="risk_work_completed" value="No"/>
 							        <span></span>
 							      </label>
 							    </p>
@@ -292,7 +292,7 @@
                         	<div class="input-field col s6 m6">
                                <p class="center-align">
 							      <label>
-							        <input type="checkbox" id="risk_work_completed_new" name="risk_work_completed_new" />
+							        <input type="checkbox" class="risk_work_completed" id="risk_work_completed_new" name="risk_work_completed_new" value="No"  />
 							        <span></span>
 							      </label>
 							    </p>
@@ -364,21 +364,34 @@
                 }
             });
         });
-
+        $("input").change(function(){
+        	
+        	
+        })
         function updateRow(no) {
             var work = $('#work'+no).val();
             var user = $('#user'+no).val();
             var sub_work = $('#sub_work'+no).val();
             var risk_work_hod_id = $('#risk_work_hod_id'+no).val();
+            var risk_work_completed = $('#risk_work_completed'+no).val();
             $('#onlyUpdateModal').modal('open');
             $('#update_work_id_text').val($.trim(work))
             $('#update_hod_user_id').val($.trim(user))
             $('#sub_work_new').val($.trim(sub_work))
+            if(risk_work_completed == "Yes")
+            {
+            	$('.risk_work_completed').prop('checked', true);$("#risk_work_completed_new").val("Yes");
+            }
+            else
+            {
+            	$('.risk_work_completed').prop('checked', false);$("#risk_work_completed_new").val("No");
+            }
             //$('#risk_work_completed_new').val($.trim(sub_work))
             $('#risk_work_hod_id').val($.trim(risk_work_hod_id))
             $('#onlyUpdateModal #update_work_id_text').val($.trim(work)).focus();
             $('#onlyUpdateModal #update_hod_user_id').val($.trim(user)).focus();
             $('#onlyUpdateModal #sub_work_new').val($.trim(sub_work)).focus();
+            
             $('select[name^="work_id_fk"] option[value="'+ $.trim(work) +'"]').attr("selected","selected");
             $('select[name^="hod_user_id_fk"] option[value="'+ user +'"]').attr("selected","selected");
   	    	$('.searchable').select2();
@@ -502,7 +515,15 @@
    		            }
    		        });
    		    }
-      
+   	  
+    	  $("input[type='checkbox']").click(function() {
+    		  
+    		  if(this.checked){
+        		  $(".risk_work_completed").val("Yes");
+        	  }else{
+        		  $(".risk_work_completed").val("No");
+        	  }
+    	  })
     </script>
 
 </body>

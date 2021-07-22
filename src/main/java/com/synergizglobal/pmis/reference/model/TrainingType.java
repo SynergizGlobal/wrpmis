@@ -9,9 +9,9 @@ public class TrainingType {
 	
 	private String training_type,binary,dashboard_type,id, la_sub_category,bg_type_old,bg_type_fk, la_category_fk,la_category,contractor_specialization,user_role_name,bg_type,status,contract_type,department,deliverable_type, department_name, contract_id_code,document_type, user_role_code,user_access_type,soft_delete_status,source_of_funds, user_access_table,requirement_stage,unit_type,execution_agency,old_training_type,new_training_type,insurance_type,training_status,training_category,drawing_type,utility_type;
 
-	private String Table_name,column_name,constraint_name,user_name,referenced_table_name,referenced_column_name,count,tName,bg_type_new,binary_new,binary_old;
+	private String Table_name,column_name,constraint_name,user_name,referenced_table_name,risk_work_completed,referenced_column_name,count,tName,bg_type_new,binary_new,binary_old;
 	
-	private String department_new,department_old,department_name_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
+	private String department_new,department_old,department_name_new,risk_work_completed_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
 	,contractor_specialization_new,contract_type_old,contract_type_new,dashboard_type_old,dashboard_type_new,status_old,status_new,deliverable_type_old,
 	deliverable_type_new,document_type_old,document_type_new,value_old,value_new,general_status,category,priority,status_of_new,status_of,manual_folders,module_name,module_incharge,incharge_user_id_fk
 	,p6_wbs_category,project_priority,railway_id, railway_name,railway_name_new,railway_id_val,report_type,revision_status,risk_priority,approval_status,land_type
@@ -27,6 +27,22 @@ public class TrainingType {
 	private MultipartFile templateFile;
 	private MultipartFile templateFileOld;
 	
+
+	public String getRisk_work_completed_new() {
+		return risk_work_completed_new;
+	}
+
+	public void setRisk_work_completed_new(String risk_work_completed_new) {
+		this.risk_work_completed_new = risk_work_completed_new;
+	}
+
+	public String getRisk_work_completed() {
+		return risk_work_completed;
+	}
+
+	public void setRisk_work_completed(String risk_work_completed) {
+		this.risk_work_completed = risk_work_completed;
+	}
 
 	public String getUser_name() {
 		return user_name;

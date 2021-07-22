@@ -2549,7 +2549,7 @@
             }else{
             	return true;
             }
-        }, "Contract closure date must be after Release of Completion Certificate date");
+        }, "Contract closure date must be after Release of Completion Certificate date"); 
 
         $('select').change(function(){
             if ($(this).val() != ""){

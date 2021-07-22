@@ -18,7 +18,7 @@
   <!-- Dropdown Structure -->
   <ul id='help-dropdown' class='dropdown-content blue lighten-5'>
     <li><a href="/pmis/PMIS User Manual Ver-1.pdf" target="_blank">PMIS Manual <i class="fa fa-download"></i></a></li>
-    	<ul style="padding-left: 20px;">
+    	<ul >
 	        <li style="min-height: 20px;">
 	        	<a style="font-size: 14px;min-height: 20px;padding: 11px 16px;line-height: 0px;font-weight: 100;" href="/pmis/PMIS - Issue Module - User Manual.docx" >PMIS Issue Module<i class="fa fa-download"></i></a>
 	        </li>
@@ -41,14 +41,15 @@
 			        }
 			    });
 			}
+			  $('.dropdown-trigger').dropdown({
+			    	 coverTrigger:false,    	 
+			    	 closeOnClick: false,
+			    	 aboveOrigin:true,
+			     });
 		}); 
      
      document.getElementById("currentYear").innerHTML = new Date().getFullYear();
-     $('.dropdown-trigger').dropdown({
-    	 coverTrigger:false,    	 
-    	 closeOnClick: false,
-    	 aboveOrigin:true,
-     });
+   
  /* 	$('textarea.materialize-textarea').on('input propertychange',function(){
 		 if($(this).height() > 44) {			 $(this).css('overflow-y','auto');	 $(this).css('box-sizing','content-box'); }
 	}); */

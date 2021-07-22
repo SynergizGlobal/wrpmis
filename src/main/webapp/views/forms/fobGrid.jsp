@@ -92,7 +92,7 @@
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 		<c:if test="${(sessionScope.USER_TYPE eq 'DyHOD') or (sessionScope.USER_TYPE eq 'HOD') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
-			<div class="row">
+			<div class="row no-mar" style="margin-bottom:0;">
 			<div class="col s12 m12 hide-on-med-and-down ">
 				<div class="card">
 					<div class="card-content">

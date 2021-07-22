@@ -105,14 +105,14 @@
                     </span>
                     <div class="">
                     <c:if test="${not empty success }">
-					        <div class="center-align m-1 close-message">	
-							   ${success}
-							</div>
+				        <div class="center-align m-1 close-message">	
+						   ${success}
+						</div>
 					</c:if>
 					<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">
-							   ${error}
-							</div>
+						<div class="center-align m-1 close-message">
+						   ${error}
+						</div>
 					</c:if>
                         <div class="row">
                             <div class="col m12 s12 center-align">
@@ -129,6 +129,7 @@
                                             <th>Work ID</th>
                                             <th>Sub Work</th>
                                             <th>Hod</th>
+                                            <th>Work <br>Completed</th>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
@@ -138,14 +139,24 @@
 											<td>
 											 	<input type="hidden" id="risk_work_hod_id${index.count}" name="risk_work_hod_id" value="${obj.risk_work_hod_id }" />
 												<input type="hidden" id="work${index.count}" value="${obj.work_id_fk }" />
-												${obj.work_id_fk }<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</td>
+												${obj.work_id_fk }<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }
+											</td>
 											<td>
 											 	${obj.sub_work }
 											 	<input type="hidden" id="sub_work${index.count}" value="${obj.sub_work }" />
 											</td>
 											<td>
 												<input type="hidden" id="user${index.count}" value="${obj.hod_user_id_fk }" />
-												${obj.designation }</td>
+												${obj.designation }
+											</td>
+											<td> 
+												<p class="center-align">
+											      <label>
+											        <input type="checkbox" id="risk_work_completed${index.count}" name="risk_work_completed" <c:if test="${index.count}%2 == 0">checked</c:if> />
+											        <span></span>
+											      </label>
+											    </p>
+											</td>
 										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.risk_work_hod_id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
 									    </c:forEach>
                                     </tbody>
@@ -167,10 +178,9 @@
             <div class="modal-content">
                 <h5 class="modal-header">Add Risk Work HOD <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
-                <div class="row">
-                    <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
-                        <div class="row">
+                <div class="row no-mar">
+                    <div class="col m8 s12 offset-m2">
+                        <div class="row no-mar">
                             <div class="input-field col s12 m6">
                                 <!-- <input id="work_id_text" type="text" class="validate">
                                 <label for="work_id_text">Work ID</label> -->
@@ -202,6 +212,21 @@
                                  <span id="sub_workError" class="error-msg" ></span>
                             </div>
                         </div>
+                        <div class="row no-mar">
+                        	<div class="input-field col s6 m6">
+                               <p class="center-align">
+							      Risk Work Completed ?
+							    </p>
+                            </div>
+                        	<div class="input-field col s6 m6">
+                               <p class="center-align">
+							      <label>
+							        <input type="checkbox" id="risk_work_completed${index.count}" name="risk_work_completed" />
+							        <span></span>
+							      </label>
+							    </p>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
@@ -217,7 +242,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
         </form>
     </div>
@@ -227,9 +251,8 @@
             <div class="modal-content">
                 <h5 class="modal-header">Update Risk Work HOD <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
-                <div class="row">
-                    <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
+                <div class="row no-mar">
+                    <div class="col m8 s12 offset-m2">
                         <div class="row">
                         	<input type="hidden" id="risk_work_hod_id" name="risk_work_hod_id"  />
                             <div class="input-field col s12 m6">
@@ -260,6 +283,21 @@
                                  <span id="sub_work_newError" class="error-msg" ></span>
                             </div>
                         </div>
+                        <div class="row no-mar">
+                        	<div class="input-field col s6 m6">
+                               <p class="center-align">
+							      Risk Work Completed ?
+							    </p>
+                            </div>
+                        	<div class="input-field col s6 m6">
+                               <p class="center-align">
+							      <label>
+							        <input type="checkbox" id="risk_work_completed_new" name="risk_work_completed_new" />
+							        <span></span>
+							      </label>
+							    </p>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
@@ -274,7 +312,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
             </div>
         </form>
@@ -307,33 +344,6 @@
             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
 
-           /*  // adding table data into table start
-            var newArr = [
-                ["Financial", "13"],
-                ["Human Resource", "5"],
-                ["Legal", "2"],
-                ["Management", "1"],
-                ["Material", "10"],
-                ["Organizational", "4"],
-                ["Political", "14"],
-                ["Site Risk – (R&R)", "9"],
-                ["Site Safety", "8"]
-            ]
-            function makeTableHTML(myArray) {
-                var result = "";
-                for (var i = 0; i < myArray.length; i++) {
-                    result += "<tr>";
-                    for (var j = 0; j < myArray[i].length; j++) {
-                        result += "<td>" + myArray[i][j] + "</td>";
-                    }
-                    result += '<td class="last-column"> <a href="#" class="btn waves-effect waves-light bg-m t-c" onclick="updateRow(' + i + ')">' +
-                        '<i class="fa fa-pencil"></i></a><a href="#addUpdateModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
-                }
-                return result;
-            } */
-            //$('#risk_work_hod_table tbody').append(makeTableHTML(newArr));
-            // adding table data into table ends
-
             var table = $('#risk_work_hod_table').DataTable({
                 columnDefs: [
                     {
@@ -364,6 +374,7 @@
             $('#update_work_id_text').val($.trim(work))
             $('#update_hod_user_id').val($.trim(user))
             $('#sub_work_new').val($.trim(sub_work))
+            //$('#risk_work_completed_new').val($.trim(sub_work))
             $('#risk_work_hod_id').val($.trim(risk_work_hod_id))
             $('#onlyUpdateModal #update_work_id_text').val($.trim(work)).focus();
             $('#onlyUpdateModal #update_hod_user_id').val($.trim(user)).focus();

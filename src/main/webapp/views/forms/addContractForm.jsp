@@ -241,7 +241,7 @@
 	                                    <div class="row">
 	  										<div class="col s6 m4 input-field offset-m2">
 	  										 	<p class="searchable_label">HOD<span class="required">*</span></p>
-	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDepartmentsList(); getDyHodList();"> 
+	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDyHodList();"> 
 	                                     		  <option value="">Select</option> 
 	                                                 <%-- <c:forEach var="obj" items="${hodList }"> 
 			                                    	  <option value="${obj.user_id }" <c:if test="${sessionScope.USER_ID eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
@@ -264,37 +264,7 @@
 	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
 	                                    </div>
-	                                
-	                           <%--  <div class="row">
-	                                <!-- row 1  -->
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                	<p class="searchable_label">Department <span class="required">*</span></p>
-	                                    <select name="department_fk" id="department_fk" class="searchable validate-dropdown" onchange="getExecutivesList(0);">
-	                                        <option value="">Select</option>
-	                                           <c:forEach var="obj" items="${departmentList }">
-	                                      	    <option value= "${ obj.department_fk}" >${ obj.department_name}</option>
-	                                          </c:forEach>
-	                                    </select>
-	                                      <span id="department_fkError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s12 m4 input-field">
-		                                 <p class="searchable_label">Responsible Persons</p>
-		                                 <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk1" 
-		                                  multiple="multiple">
-		                                   <option value="" >Select</option>
-		                                   <c:forEach var="obj" items="${responsiblePeopleList}">
-		           					  			 <option value="${obj.user_id }"> ${obj.designation} - ${obj.user_name}</option>
-		                                   </c:forEach>
-		                                  </select>
-	                                     <span id="responsible_people_id_fkError" class="error-msg"></span>
-	                                </div>
-	                                
-	                                <!-- <div class="col s12 m4 input-field">
-	                                    <label class="primary-text-bold" style="margin-top:10px">Contract ID :</label>
-	                                </div> -->
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div> --%>
+	              
 	                            <div class="row"> 
 	                            	<div class="col m8 offset-m2 s12">
 										<div class="row fixed-width">
@@ -475,22 +445,7 @@
 	                                    <span id="contract_status_fkError" class="error-msg" ></span>
 	                                </div>         	                                
 	                            </div>	   
-	                            
-	                            <%-- <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>	                                
-	                                <div class="col s12 m4 input-field">
-	                                 <p class="searchable_label"> <label>Status of Contract</label> </p>
-	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
-	                                         <option value="" selected>Select</option>
-                                       		 <c:forEach var="obj" items="${contract_Statustype }">
-		                                    	 <option value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started' }">selected</c:if>>${obj.contract_status_fk }</option>
-		                                     </c:forEach>
-	                                    </select>
-	                                    <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div> --%>
-	                            
+	                         
 	                            <div class="row">
 	                                <div class="col s12 m8 input-field offset-m2">
 	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000"></textarea>
@@ -498,426 +453,9 @@
 	                                      <span id="remarksError" class="error-msg"></span>
 	                                </div>
 	                            </div>                        
-	                           
-	                            <%-- <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                 <p>   <label>Status of Contract</p>
-	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
-	                                        <option value="" selected>Select</option>
-	                                       		 <c:forEach var="obj" items="${contract_Statustype }">
-			                                    	 <option value="${obj.contract_status_fk }" >${obj.contract_status_fk }</option>
-			                                      </c:forEach>
-	                                    </select>
-	                                    <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div> --%>
-	                          <!--   <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 input-field center-align no-float-small">
-                                    <p>Bank Guarantee Required</p>
-                                    <p>
-                                        <label>
-                                            <input class="with-gap" name="bg_required" type="radio" value="Yes" />
-                                            <span>Yes</span>
-                                        </label>
-                                        <label>
-                                            <input class="with-gap" name="bg_required" type="radio" value="No" />
-                                            <span>No</span>
-                                        </label>
-                                    </p>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div> -->
-							</div>
-                            <!-- bg show hide div  -->
-                          <%--   <div class="row fixed-width" id="bank_guarantee_div">
-                                <h5 class="center-align">Bank Guarantee Details</h5>
-                                <div class="table-inside">
-                                    <table id="bankTable" class="mdl-data-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="fs-100">Code </th>
-                                                <th>BG Type </th>
-                                                <th>Issuing Bank </th>
-                                               <!--  <th>Bank Address </th> -->
-                                                <th>BG / FDR <br>Number </th>
-                                                <th>Amount </th>
-                                                <th>BG / FDR <br> Date </th>
-                                                <th>Expiry Date </th>
-                                              <!--   <th>Remarks </th> -->
-                                                <th>Release Date</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="bankTableBody">
-                                            <tr id="bankRow0">
-                                            <td class="fs-100"> <input id="codes0" type="text" class="validate" name="codes"
-                                                        placeholder="Code">
-                                                </td>
-                                                <td> <select id="bg_type_fks0" name="bg_type_fks" class="searchable">
-                                                        <option value="" selected>Select </option>
-                                                         <c:forEach var="obj" items="${bankGuaranteeTYpe }">
-		                                    			   <option value="${obj.bg_type_fk }" >${obj.bg_type_fk }</option>
-		                                     			  </c:forEach>
-                                                    </select>
-                                                </td> 
-                                                  
-                                                <td>
-                                                    <input id="issuing_banks0" name="issuing_banks"  type="text" class="validate"
-                                                        placeholder="Issuing Bank">
-                                                </td>
-                                               <!--  <td>
-                                                    <input id="bank_addresss0" name ="bank_addresss" type="text" class="validate"
-                                                        placeholder="Bank Address">
-                                                </td> -->
-                                                <td>
-                                                    <input id="bg_numbers0" name="bg_numbers" type="text" class="validate"
-                                                        placeholder="BG / FDR Number">
-                                                </td>
-                                                <td class="input-field"><i class="material-icons prefix cost">₹</i>
-                                                    <input id="bg_values0" name="bg_values" type="number" min="0.01" step="0.01" class="validate"
-                                                        placeholder="Amount">
-                                                </td>
-                                                <td>
-                                                    <input id="bg_dates0" name="bg_dates" type="text" class="validate datepicker"
-                                                        placeholder="BG /FDR Date">
-                                                         <button type="button"><i class="fa fa-calendar"></i></button>
-                                                </td>
-                                                <td>
-                                                    <input id="bg_valid_uptos0" name="bg_valid_uptos" type="text" class="validate datepicker"
-                                                        placeholder="Expiry Date">
-                                                    <button type="button"><i class="fa fa-calendar"></i></button>
-                                                </td>
-                                               <!--  <td>
-                                                    <input id="remarkss0" name ="remarkss" type="text" class="validate"
-                                                        placeholder="Remarks">
-                                                </td> -->
-												<td>	
-													<!-- <label> <input type="checkbox" id="status0"/> <span></span> </label>	 -->
-													<input id="release_dates0" name="release_dates" type="text" class="validate datepicker"
-                                                        placeholder="Release Date">
-                                                    <button type="button"><i class="fa fa-calendar"></i></button>
-												</td>                                                
-                                                <td>
-                                                    <a onclick="removeBank('0');" class="btn waves-effect waves-light red t-c "> <i
-                                                            class="fa fa-close"></i></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                      <table class="mdl-data-table">
-                                        <tbody id="bankTableBody">                                          
-                                            <tr>
-									 <td colspan="9" style="text-align: right;"> <a   class="btn waves-effect waves-light bg-m t-c "  onclick="addBankRow()"> <i
-                                                            class="fa fa-plus"></i></a></td>
-                                         </tr>
-                                        </tbody>
-                                    </table>
-									<input type="hidden" id="bankRowNo"  name="bankRowNo" value="0" />                                
-								</div>
-                            </div>
- 							 --%>
- 							<!-- <div class="container container-no-margin">
-	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col m8 input-field center-align no-float-small">
-	                                    <p>Insurance Required</p>
-	                                    <p>
-	                                        <label>
-	                                            <input class="with-gap" name="insurance_required" type="radio" value="Yes" />
-	                                            <span>Yes</span>
-	                                        </label>
-	                                        <label>
-	                                            <input class="with-gap" name="insurance_required" type="radio" value="No" />
-	                                            <span>No</span>
-	                                        </label>
-	                                    </p>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-							</div> -->
-                            <!-- insurance show hide div  -->
-                           <%--  <div class="row fixed-width" id="insurance_div">
-                                <h5 class="center-align">Insurance Details</h5>
-                                <div class="table-inside">
-                                    <table id="insurenceTable" class="mdl-data-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Insurance Type </th>
-                                                <th>Issuing Agency </th>
-                                                <th>Agency Address </th>
-                                                <th>Insurance Number </th>
-                                                <th>Insurance Value </th>
-                                                <th>Revision </th>
-                                                <th>Valid Upto </th>
-                                                <th>Remarks </th>
-                                                <th>Release</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                         <tbody id="insurenceTableBody">
-                                        
-                                            <tr id="insurenceRow0">
-                                                <td>
-                                                    <select id="insurance_type_fks0" name="insurance_type_fks" class="searchable">
-                                                        <option value="" selected>Select</option>
-                                                          <c:forEach var="obj" items="${insurance_type }">
-                                      					   <option value= "${ obj.insurance_type}" >${ obj.insurance_type}</option>
-                                        				  </c:forEach>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input id="issuing_agencys0" name="issuing_agencys" type="text" class="validate" 
-                                                        placeholder="Issuing Agency">
-                                                </td>
-                                                <td>
-                                                    <input id="agency_addresss0" name="agency_addresss" type="text" class="validate" 
-                                                        placeholder="Agency Address">
-                                                </td>
-
-                                                <td>
-                                                    <input id="insurance_numbers0" name="insurance_numbers" type="text" class="validate" 
-                                                        placeholder="Insurance Number">
-                                                </td>
-                                                <td class="input-field"><i class="material-icons prefix cost">₹</i>
-                                                    <input id="insurance_values0" name="insurance_values" type="number" class="validate"  min="0.01" step="0.01" 
-                                                        placeholder="Insurance Value">
-                                                </td>
-                                                <td>
-                                                    <input id="insurance_revisions0" name="insurance_revisions" type="text" class="validate" 
-                                                        placeholder="Revision">
-                                                </td>
-												
-											<td><input id="insurence_valid_uptos0"
-												name="insurence_valid_uptos" type="text"
-												class="validate datepicker" placeholder="Valid Upto">
-												<button type="button">
-													<i class="fa fa-calendar"></i>
-												</button></td>
-											<td>
-                                                    <input id="insurence_remarks0" name="insurence_remarks"  type="text" class="validate" 
-                                                        placeholder="Remarks">
-                                                </td>
-                                                 <td><label><input type="hidden" id="insuranceStatuss0" name="insuranceStatus" value="No" />
-                                                 <input type="checkbox" id="insuranceStatus0" /> <span></span> </label>	</td>       
-                                                
-                                                <td>
-                                                    <a onclick="removeInsurence('0');" class="btn waves-effect waves-light red t-c "> <i
-                                                            class="fa fa-close"></i></a>
-                                                </td>
-                                            </tr>
-                                             <script type="text/javascript">
-	                                              
-	                                                $('#insuranceStatus0').on('change', function(e){
-							                             if($(this).prop('checked'))
-							                             {
-							                            	// $(".part").prop('disabled', true);
-							                                 $('#insuranceStatuss0').val('Yes');
-							                             } else{
-							                              	 
-							                            	  $("#insuranceStatuss0").prop('checked',false).removeAttr('checked');
-							                            	  $("#insuranceStatuss0").val('No')
-							                              }
-							                   	    });
-                                                </script>
-                                           
-                                        </tbody>
-                                    </table>
-                                     <table  class="mdl-data-table">
-                                        <tbody id="insurenceTableBody">                                          
-                                            <tr>
-                                   <td colspan="8" style="text-align: right;" ><a   class="btn waves-effect waves-light bg-m t-c "  onclick="addInsurenceRow()"> <i class="fa fa-plus"></i></a></td>
-                                             </tr>
-                                        </tbody>
-                                    </table>
-                                    <input type="hidden" id="insurenceRowNo"  name="insurenceRowNo" value="0" />
-
-                                </div>
-                            </div>
- --%>
+	                        
  							<div class="container container-no-margin">
-	                            <!-- <div class="row fixed-width">
-	                                <h5 class="center-align">Milestone Details</h5>
-	                                <div class="table-inside">
-	                                    <table id="mileTable" class="mdl-data-table">
-	                                        <thead>
-	                                            <tr>
-	                                            	<th>Milestone ID </th>
-	                                                <th>Milestone Name </th>
-	                                                <th>Milestone Date </th>
-	                                                <th>Actual Date </th>
-	                                                <th>Revision</th>
-	                                                <th>Remarks </th>
-	                                                <th>Action</th>
-	                                            </tr>
-	                                        </thead>
-	                                         <tbody id="milestoneTableBody" >
-	                                        
-	                                            <tr id="mileRow0">  
-	                                            	<td>
-	                                                    <input id="milestone_ids0" name="milestone_ids" type="text" class="validate" 
-	                                                        placeholder="Milestone ID">
-	                                                </td>                                  
-	                                                <td>
-	                                                    <input id="milestone_names0" name="milestone_names" type="text" class="validate" 
-	                                                        placeholder="Milestone Name ">
-	                                                </td>
-	                                                <td>
-	                                                    <input id="milestone_dates0" name="milestone_dates" type="text" class="validate datepicker" 
-	                                                        placeholder="Milestone Date">
-	                                                    <button type="button"><i class="fa fa-calendar"></i></button>
-	                                                </td>
-	                                                <td>
-	                                                    <input id="actual_dates0" name="actual_dates" type="text" class="validate datepicker" 
-	                                                        placeholder="Actual Date">
-	                                                   <button type="button"><i class="fa fa-calendar"></i></button>
-	                                                </td>
-	                                                <td>
-	                                                    <input id="revisions0" name="revisions" type="text" class="validate" 
-	                                                        placeholder="Revision">
-	                                                </td>
-	                                                <td>
-	                                                    <input id="mile_remarks0" name="mile_remarks" type="text" class="validate" 
-	                                                        placeholder="Remarks">
-	                                                </td>
-	                                                <td><a onclick="removeMilestone('0');" class="btn waves-effect waves-light red t-c "> <i
-	                                                            class="fa fa-close"></i></a>
-	                                                </td>
-	                                            </tr>
-	                                        </tbody>
-	                                    </table>
-	  												<table class="mdl-data-table">
-	                                        <tbody id="milestoneTableBody">                                          
-	                                            <tr>
-	  										<td colspan="6" style="text-align: right;" ><a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addMilestoneRow()"> <i
-	                                                            class="fa fa-plus"></i></a></td> 
-	                                             </tr>
-	                                        </tbody>
-	                                    </table>
-	                                    <input type="hidden" id="mileRowNo"  name="mileRowNo" value="0" />
-	                                </div>
-	                            </div> -->
-	                           <!--  <div class="row fixed-width">
-                                <h5 class="center-align">Revision Details</h5>
-                                <div class="table-inside">
-
-                                    <table id="ravTable" class="mdl-data-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Revision Number <span class="required">*</span></th>
-                                                <th>Revised Amount </th>
-                                                <th>Revised DOC </th>
-                                                <th>Remarks </th>
-                                                <th>Current </th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                         <tbody  id="revTableBody" >
-                                            <tr id="revRow0">
-                                                <td> <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
-                                                        placeholder="Revision Number">
-                                                </td>
-                                                <td class="input-field">
-                                                   <i class="material-icons prefix cost">₹</i> <input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"
-                                                        placeholder="Revised Amount">
-                                                </td>
-                                                <td>
-                                                    <input id="revised_docs0" name="revised_docs" type="text" class="validate datepicker" 
-                                                        placeholder="Revised DOC">
-                                                    <button type="button"><i class="fa fa-calendar"></i></button>
-                                                </td>
-                                                <td> 
-                                                    <input id="revision_remarks0" name="revision_remarks" type="text" class="validate" 
-                                                        placeholder="Remarks">
-                                                </td>
-                                                 <td><label><input type="hidden" class="hidden_check" id="revision_statuss0" name="revision_statuss" value="No" />
-                                                 <input type="checkbox" id="revision_status0" onchange="revisionChecks('0')" class="revision_status_checking"/> <span></span> </label>	</td>       
-                                                
-                                                <td><a onclick="removeRev('0');" class="btn waves-effect waves-light red t-c "> <i
-                                                            class="fa fa-close"></i></a>
-                                                </td>
-                                            </tr>
-                                            <script type="text/javascript">
-	                                              
-	                                                $('#revision_status0').on('change', function(e){
-							                             if($(this).prop('checked'))
-							                             {
-							                            	// $(".part").prop('disabled', true);
-							                                 $('#revision_statuss0').val('Yes');
-							                             } else{
-							                              	 
-							                            	  $("#revision_statuss0").prop('checked',false).removeAttr('checked');
-							                            	  $("#revision_statuss0").val('No')
-							                              }
-							                   	    });
-                                                </script> 
-                                        </tbody>
-                                    </table>
-                                    <table class="mdl-data-table">
-                                        <tbody id="revTableBody">                                          
-                                            <tr>
-												<td colspan="5" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addRevRow()"> <i
-                                                            class="fa fa-plus"></i></a></td>
-                                              </tr>
-                                        </tbody></table>
-                                   	 <input type="hidden" id="revRowNo"  name="revRowNo" value="0" />
-                                </div>
-                            </div>
-                            </div>
-                            <input type="hidden" id="reporting_to_id_srfk" name="reporting_to_id_srfk" /> -->
-                            
-                              <!-- new code  starts-->
-                           <!--  <div class="container container-no-margin"> -->
-	                            <!-- <div class="container">
-	                                <div class="row fixed-width">
-	                                    <h5 class="center-align">Key Personnel</h5>
-	                                    <div class="table-inside">
-	                                        <table class="mdl-data-table">
-	                                            <thead>
-	                                                <tr>
-	                                                    <th>Name </th>
-	                                                    <th>Designation </th>
-	                                                    <th>Mobile No</th>
-	                                                    <th>Email ID </th>
-	                                                    <th>Action</th>
-	                                                </tr>
-	                                            </thead>
-	                                            <tbody id="keyPersonnelTableBody">
-	                                                <tr id="keyPersonnelRow0">
-	                                                    <td> 
-	                                                    	<input id="contractKeyPersonnelNames0" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">
-	                                                    </td>
-	                                                    <td> 
-	                                                    	<input id="contractKeyPersonnelDesignations0" name="contractKeyPersonnelDesignations" type="text" class="validate" placeholder="Designation">
-	                                                    </td>
-	                                                    <td>
-	                                                        <input id="contractKeyPersonnelMobileNos0" name="contractKeyPersonnelMobileNos" type="number" class="validate" placeholder="Mobile No">
-	                                                    </td>
-	                                                    <td>
-	                                                        <input id="contractKeyPersonnelEmailIds0" name="contractKeyPersonnelEmailIds" type="text" class="validate" placeholder="Email">
-	                                                    </td>
-	                                                    <td>
-	                                                        <a href="javascript:void(0);" onclick="removeKeyPersonnel('0');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
-	                                                    </td>
-	                                                </tr>
-	                                            </tbody>
-	                                        </table>
-	                                        
-	                                        <table class="mdl-data-table">
-		                                        <tbody id="revTableBody">                                          
-		                                            <tr>
-														<td colspan="4" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addKeyPersonnelRow()"> <i
-		                                                            class="fa fa-plus"></i></a></td>
-		                                              </tr>
-		                                        </tbody>
-		                                     </table>
-		                                   	 <input type="hidden" id="keyRowNo"  name="keyRowNo" value="0" />
-                                   	 
-	                                    </div>
-	                                </div>
-	                            </div> -->
+	                           
 	
 	                            <div class=" col m8 offset-m2 s12" style="margin-bottom:30px; padding:0;">
 	                                <div class="row fixed-width">
@@ -978,117 +516,7 @@
 	                                    </div>
 	                                </div>
 	                            </div>
-							<!-- </div> -->
-                            <!-- new code  ends-->
-                            
-<!--                             <div class="row"> -->
-<!--                                 <div class="col m2 hide-on-small-only"></div> -->
-<!--                                 <div class="col m8 s12"> -->
-<!--                                     <div class="file-field input-field"> -->
-<!--                                         <div class="btn bg-m"> -->
-<!--                                             <span>Attachment</span> -->
-<!--                                             <input type="file"> -->
-<!--                                         </div> -->
-<!--                                         <div class="file-path-wrapper"> -->
-<!--                                             <input class="file-path validate" type="text"> -->
-<!--                                         </div> -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                                 <div class="col m2 hide-on-small-only"></div> -->
-<!--                             </div> -->
-                         <div class="container container-no-margin">    
-                         	<!-- <div class="row">
-                         		<h5 class="center-align">Contract Closure Details</h5>
-                         	</div>
-                          		<div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker">
-	                                    <label for="actual_completion_date">Actual Completed Date</label>
-	                                     <span id="actual_completion_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
-	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                	<i class="material-icons prefix cost">₹</i>
-	                                    <input id="completed_cost" name="completed_cost" type="number" min="0.01" step="0.01" class="validate">
-	                                    <label for="completed_cost">Completed Cost</label>
-	                                      <span id="completed_costError" class="error-msg" ></span>
-	                                </div>                              
-	                            </div> 
-	      						<div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker">
-	                                    <label for="final_takeover">Final Taking over by Client</label>
-	                                    <button type="button" id="final_takeover_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="final_takeoverError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker">
-	                                    <label for="completion_certificate_release">Release of Completion Certificate</label>
-	                                     <span id="completion_certificate_releaseError" class="error-msg" ></span>
-	                                    <button type="button" id="completion_certificate_release_icon"><i class="fa fa-calendar"></i></button>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	
-	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>	                                
-	                                <div class="col s12 m4 input-field"> 
-	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker">
-	                                    <label for="contract_closure_date">Contract Closure</label>
-	                                    <button type="button" id="contract_closure_date_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="contract_closure_dateError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker">
-	                                    <label for="final_bill_release">Release of Final bill</label>
-	                                    <button type="button" id="final_bill_release_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="final_bill_releaseError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker">
-	                                    <label for="defect_liability_period">Defect Liability Period</label>
-	                                    <button type="button" id="defect_liability_period_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_retention_release" name="retention_money_release" type="text" class="validate datepicker">
-	                                    <label for="final_retention_release"> Release of Final Retention amount/BG</label>
-	                                    <button type="button" id="final_retention_release_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="final_retention_releaseError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker">
-	                                    <label for="pbg_release">Release of PBG</label>
-	                                    <button type="button" id="pbg_release_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="pbg_releaseError" class="error-msg" ></span>
-	                                </div> -->
-	                                <!-- <div class="col s12 m4 input-field">
-	                                    <input id="contract_closure" name="contract_closure" type="text" class="validate">
-	                                    <label for="contract_closure"> Contract Closure Comment</label>
-	                                    <span id="ontract_closureError" class="error-msg" ></span>
-	                                </div> -->
-	                                <%-- <div class="col s12 m4 input-field">
-	                                 <p class="searchable_label"> <label>Status of Contract</label> </p>
-	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
-	                                        <option value="" selected>Select</option>
-	                                       		 <c:forEach var="obj" items="${contract_Statustype }">
-			                                    	 <option value="${obj.contract_status_fk }" >${obj.contract_status_fk }</option>
-			                                      </c:forEach>
-	                                    </select>
-	                                    <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div> 
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>--%>
+						
 
                             <div class="row">
                                 <div class="col s6 m4 mt-brdr center-align offset-m2">
@@ -1263,15 +691,14 @@
                             	   var userName = '';
 	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
       	                           if ($.trim(hod_user_id_fk) != '') {
-      	                        	 	//$("#dy_hod_user_id_fk option:not(:first)").remove();
                                          $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" >' + $.trim(val.designation) + userName + '</option>');
-                                         console.log(val.dy_hod_user_id_fk)
                                      } else {
-                                        // $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
                                          if(val.dy_hod_user_id_fk == user_hod){
                                              $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
                                 	    	 $("#dy_hod_user_id_fk").select2();
                                 	    	 getHodList();
+                                         }else{
+                                             $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
                                          }
                                      }
                             });
@@ -1310,12 +737,9 @@
 	                        	   $('#department_fk').val(val.department_fk);
       	                           if ($.trim(dy_hod_user_id_fk) != '') {
 	      	                        	 document.querySelectorAll('#hod_user_id_fk > option').forEach((option) => {
-	                                	    // if ((option.value) == ($.trim(val.hod_user_id_fk))){
-	                                	    	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
-	                                	    	 $("#hod_user_id_fk").select2();
-	                                	    // }
+	                               	    	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
+	                               	    	 $("#hod_user_id_fk").select2();
 	                                	 })
-                                       //$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
                                      } else {
                                          $("#hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
                                          if(val.hod_user_id_fk == user_hod){
@@ -1323,13 +747,11 @@
                                 	    	 $("#hod_user_id_fk").select2();
                                 	    	 getDyHodList();
                                          }
-                                         
                                      }
                             });
                         }
                         $('.searchable').select2();
                         $(".page-loader").hide();
-                        getDepartmentsList();
                     },error: function (jqXHR, exception) {
      	   			      $(".page-loader").hide();
     	   	          	  getErrorMessage(jqXHR, exception);
@@ -1364,45 +786,7 @@
             	$(".page-loader").hide();
             }
         }
-         
-        function getDepartmentsList() {
-        	$(".page-loader").show();
-        	var hod = $('#hod_user_id_fk').val();
-        	var dyHod = $('#hod_user_id_fk').val();
-        	$("#department_fk option:not(:first)").attr("selected",false);
-
-            if ($.trim(hod) != "") {
-                var myParams = { hod_user_id_fk: hod, dy_hod_user_id_fk : dyHod };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getDepartmentsListForContractForm",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	 var department_name = '';
-                                 if ($.trim(val.department_name) != '') { department_name = $.trim(val.department_name) }
-                                
-                                if ($.trim(val.department_fk) != '') {
-                                	 document.querySelectorAll('#department_fk > option').forEach((option) => {
-                                	     if ((option.value) == ($.trim(val.department_fk))){
-                                	    	 $('select[name="department_fk"]').find('option[value="' + val.department_fk + '"]').attr("selected",true);
-                                	    	 $("#department_fk").select2();
-                                	     }
-                                	    	 
-                                	 })
-                                } else {
-                                    $("#department_fk").append('<option value="' + val.department_fk + '">' +  $.trim(department_name) + '</option>');
-                                }
-                            });
-                        }
-                        $(".page-loader").hide();
-                    }
-                });
-            }else{
-            	$(".page-loader").hide();
-            }
-        } 
-        
+      
         function resetProjectsDropdowns(workId){
         	var projectId = '';
         	if($.trim(workId) != ''){  

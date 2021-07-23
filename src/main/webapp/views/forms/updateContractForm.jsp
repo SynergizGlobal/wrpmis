@@ -316,31 +316,6 @@
 	                             <div class="row">
 	                                <div class="col s12 m8 offset-m2">
 	                                    <div class="row">
-	  										<%-- <div class="col s12 m6 input-field">
-	  										 	<p><label>HOD</label></p>
-	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDepartmentsList(); getDyHodList();"> 
-	                                     		  <option value="">Select</option> 
-	                                                   <c:forEach var="obj" items="${hodList }"> 
-			                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.hod_user_id_fk eq obj.user_id}">selected</c:if>> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach>    
-	                                            </select>  
-												<!-- <input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
-												<label for="hod_user_id_fk">HOD</label> -->
-	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
-	                                        </div>
-	                                        <div class="col s12 m6 input-field">
-	                                        	<p><label>Dy HOD</label></p>
-	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();">
-	                                                <option value="">Select</option>
-	                                                 <c:forEach var="obj" items="${dyHodList }"> 
-			                                    	  <option name="${obj.reporting_to_id_srfk }" value="${obj.dy_hod_user_id_fk }" <c:if test="${contractDeatils.dy_hod_user_id_fk eq obj.dy_hod_user_id_fk}">selected</c:if>> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach>   
-	                                            </select>
-												<!-- <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
-	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
-	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
-	                                        </div> --%>
-	                                        
 	                                        <div class="col s6 m6 input-field">
 			                                	<p class="searchable_label">HOD <span class="required">*</span></p>
 		                               			 <c:choose>
@@ -380,42 +355,6 @@
 	                                </div>	
 	                            </div>
 
-						<%--	<div class="row">
-								 <div class="col s12 m4 input-field">
-	                                 <p class="searchable_label">Department <span class="required">*</span></p>
-	                                    <select name="department_fk" id="department_fk" class="searchable">
-	                                        <option value="" selected>Select</option>
-	                                          <c:forEach var="obj" items="${departmentList }">
-	                                      	    <option value= "${ obj.department_fk}" <c:if test="${contractDeatils.department_fk eq obj.department_fk}">selected</c:if>>${ obj.department_name}</option>
-	                                          </c:forEach>
-	                                    </select>
-	                             		 <span id="department_fkError" class="error-msg" ></span>
-	                                </div> --%>
-
-
-								<%--  <div class="col s12 m4 input-field">
-	                                    <p class="searchable_label">Department <span class="required">*</span></p>
-                                    	<input type="text"  value="${contractDeatils.department_name }" readonly />
-                                        <input type="hidden" name="department_fk" id="department_fk" value="${contractDeatils.department_fk}" readonly />
-	                                </div>
-	                                
-	                                <div class="col s12 m4 input-field">
-		                                 <p class="searchable_label">Responsible Persons</p>
-		                                 <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
-		                                  multiple="multiple">
-		                                   <option value="" >Select</option>
-		                                   <c:forEach var="obj" items="${responsiblePeopleList}">
-		           					  			 <option value="${obj.user_id }"            					  			 
-		           					  			 		<c:forEach var="tempobj" items="${contractDeatils.responsiblePeopleList}">
-												 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id}">selected</c:if>
-			                                          	</c:forEach>           					  			 
-		           					  			 > ${obj.designation} - ${obj.user_name}</option>
-		                                   </c:forEach>
-		                                  </select>
-	                                     <span id="responsible_people_id_fkError" class="error-msg"></span>
-	                                </div> 								
-							</div>--%>
-							
 							 <div class="row"> 
 	                            	<div class="col m8 offset-m2 s12">
 										<div class="row fixed-width">
@@ -2013,11 +1952,17 @@
                             	   var userName = '';
 	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
 	                        	   var user = '${contractDeatils.dy_hod_user_id_fk}';
-	                        	   if ($.trim(hod_user_id_fk) != '') {
-                                       $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
-                                   } else {
-                                       $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
-                                   }
+      	                           if ($.trim(hod_user_id_fk) != '') {
+                                         $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" >' + $.trim(val.designation) + userName + '</option>');
+                                     } else {
+                                         if(val.dy_hod_user_id_fk == user){
+                                             $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
+                                	    	 $("#dy_hod_user_id_fk").select2();
+                                	    	 getHodList();
+                                         }else{
+                                             $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                                         }
+                                     }
                             });
                         }
                         $('.searchable').select2();
@@ -2049,22 +1994,27 @@
                             $.each(data, function (i, val) {
                             	   var userName = '';
  	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
-      	                           if ($.trim(dy_hod_user_id_fk) != '') { 
+ 	                        	   var deptCode =  val.contract_id_code;
+	                        	   $("#contract_id_code").val(deptCode);
+	                        	   $('#department_fk').val(val.department_fk);
+	                        	   var user = '${contractDeatils.dy_hod_user_id_fk}';
+      	                           if ($.trim(dy_hod_user_id_fk) != '') {
 	      	                        	 document.querySelectorAll('#hod_user_id_fk > option').forEach((option) => {
-	                                	    // if ((option.value) == ($.trim(val.hod_user_id_fk))){
-	                                	    	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
-	                                	    	 //$("#hod_user_id_fk").select2();
-	                                	    // }
+                                	    	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
+                                	    	 $("#hod_user_id_fk").select2();
 	                                	 })
-                                       //$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
                                      } else {
                                          $("#hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                                         if(val.hod_user_id_fk == user){
+                                        	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
+                                	    	 $("#hod_user_id_fk").select2();
+                                	    	 getDyHodList();
+                                         }
                                      }
                             });
                         }
                         $('.searchable').select2();
                         $(".page-loader").hide();
-                        getDepartmentsList();
                     },error: function (jqXHR, exception) {
      	   			      $(".page-loader").hide();
     	   	          	  getErrorMessage(jqXHR, exception);
@@ -2919,68 +2869,7 @@
 		    $('#contractDocumentFileName'+rowNo).html(filename);
 		    $('#contractDocumentFileNames'+rowNo).val(filename);
 		}
-/* 
-		function revisionChecks(a){
-			
-			$('.revision_status_checking').each(function(i,val){
-				//$(".revision_status_checking").prop('checked',false);
-					if($('#revised_amounts'+i).val()=="" && $('#revised_docs'+i).val()==""){
-						$("#revision_status"+i).prop('checked',false);
-				    }
-					
-					if(($('#revised_amounts'+a).val()=="" && $('#revised_docs'+a).val()!="") || ($('#revised_amounts'+a).val()!="" && $('#revised_docs'+a).val()=="")){
-						//$("#revision_status"+i).prop('checked',true);
-						if($("#revision_status"+i).prop('checked')){
-							if($('#revised_amounts'+i).val()!="" && $('#revised_docs'+i).val()!=""){
-								$(".revision_status_checking").prop('checked',false);
-							}
-							//$(".hidden_check").val('No');
-							
-							$("#revision_status"+a).prop('checked',true);
-							$("#revision_statuss"+a).val('Yes');
-							if(i != a){
-								if($("#revision_status"+i).prop('checked') == true 	&& $('#revised_amounts'+i).val() !="" && $('#revised_docs'+a).val()==""){
-									$("#revision_statuss"+i).val('No');
-									$("#revision_status"+i).prop('checked',false);							
-													
-								}
-								if($("#revision_status"+i).prop('checked') == true 	&& $('#revised_docs'+i).val()!="" && $('#revised_amounts'+a).val()==""){
-									$("#revision_statuss"+i).val('No');
-									$("#revision_status"+i).prop('checked',false);							
-													 
-								}
-								if($("#revision_status"+i).prop('checked') == false && $('#revised_docs'+i).val()!="" && $('#revised_amounts'+a).val()!=""){
-									$("#revision_statuss"+i).val('No');
-													 
-								}
-								if($("#revision_status"+i).prop('checked') == false){
-									$("#revision_statuss"+i).val('No');
-													 
-								}
-							}
-							if(i == a ){
-								$("#revision_status"+i).prop('checked',true);	
-							}
-						}
-				    }
-					
-					if($('#revised_amounts'+a).val()!="" && $('#revised_docs'+a).val()!=""){
-				    	//$("#revision_status"+i).prop('checked',true);
-						if($("#revision_status"+i).prop('checked')){
-							$(".revision_status_checking").prop('checked',false);
-							$(".hidden_check").val('No');
-							$("#revision_status"+a).prop('checked',true);
-							$("#revision_statuss"+a).val('Yes');
-							//$("#revision_status"+i).prop('checked',true);
-							//if($('#revised_amounts'+a).val()!="" && $('#revised_docs'+a).val()!=""){$(".revision_status_checking").prop('checked',false);$("#revision_status"+a).prop('checked',true);}
-						}
-				    	
-				    }
-					
-			});		
-						
-		} */
-		
+
 		function revisionChecks(s, no) {
             var type = (s == 'amounts') ? '' : (s == 'docs') ? '_amounts' : '';
             /* if ($('#revision' + type + "_status" + no).prop('checked') && $('#revision' + type + "_status" + no).attr('disabled') == undefined) {
@@ -3012,7 +2901,6 @@
             }
         }
 
-        
 		function validateContract(){
 			var flag = true;
 			$("input[name=bg_values]").each(function(){

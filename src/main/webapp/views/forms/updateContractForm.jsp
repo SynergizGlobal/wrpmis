@@ -326,6 +326,7 @@
 					                                    	  <option value="${obj.user_id }" <c:if test="${sessionScope.USER_ID eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
 					                                        </c:forEach>  --%>  
 	                                            		</select>
+	                                            		<span id="hod_user_id_fkError" class="error-msg" ></span>
 				                                	</c:when>
 				                                 	<c:otherwise>
 				                                 		 <input type="text"  value="${contractDeatils.hod_designation }<c:if test="${not empty contractDeatils.hod_name}"> - </c:if>${contractDeatils.hod_name}"  readonly />
@@ -344,6 +345,7 @@
 					                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
 					                                        </c:forEach>   --%> 
 			                                              </select>
+			                                              <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
 				                                	</c:when>
 				                                 	<c:otherwise>
 				                                    	<input type="text"  value="${contractDeatils.dy_hod_designation }<c:if test="${not empty contractDeatils.dy_hod_name}"> - </c:if>${contractDeatils.dy_hod_name}" readonly />

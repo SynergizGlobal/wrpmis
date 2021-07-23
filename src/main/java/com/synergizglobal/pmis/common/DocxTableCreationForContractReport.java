@@ -454,7 +454,7 @@ public class DocxTableCreationForContractReport {
 
 					List<String> noDataRow = new ArrayList<String>();
 					noDataRow.add("Nil");
-					for (int i = 0; i < 6; i++) {
+					for (int i = 0; i < 5; i++) {
 						noDataRow.add("");
 					}
 

@@ -679,10 +679,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				hodQry = hodQry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
-				hodQry = hodQry + " and bg.valid_upto <= ?";
-				arrSize++;
-			}
+			/*
+			 * if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) { hodQry
+			 * = hodQry + " and bg.valid_upto <= ?"; arrSize++; }
+			 */
 			
 			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ORDER BY c.hod_user_id_fk ASC";
 			Object[] pValues = new Object[arrSize];
@@ -707,9 +707,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
-				pValues[i++] = obj.getDate();
-			}
+			/*
+			 * if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+			 * pValues[i++] = obj.getDate(); }
+			 */
 				
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {			
@@ -1078,10 +1079,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				hodQry = hodQry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
-				hodQry = hodQry + " and i.valid_upto <= ?";
-				arrSize++;
-			}
+			/*
+			 * if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) { hodQry
+			 * = hodQry + " and i.valid_upto <= ?"; arrSize++; }
+			 */
 			
 			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ORDER BY c.hod_user_id_fk";
 			
@@ -1107,9 +1108,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
-				pValues[i++] = obj.getDate();
-			}
+			/*
+			 * if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+			 * pValues[i++] = obj.getDate(); }
+			 */
 			
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) 
@@ -1118,7 +1120,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				var conCatQry="case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end";
 				if(obj.getDate()!=null && obj.getDate()!="")
 				{
-					conCatQry="case when (case when (select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select  revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  limit 1) else doc end)>'"+obj.getDate()+"' then '' else (case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end) end";
+					conCatQry="case when (case when (select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select  revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  limit 1) else doc end)>'"+obj.getDate()+"' then 'NO DOC' else (case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end) end";
 				}
 								
 				
@@ -1196,7 +1198,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 				if(obj.getDate()!=null && obj.getDate()!="")
 				{
-					qry = qry +" where 1=(case when loa_date is not null and (STR_TO_DATE(doc,'%d-%M-%Y')>'"+obj.getDate()+"') then 0 else 1 end) ";
+					qry = qry +" where 1=(case when loa_date is not null and doc='NO DOC' then 0 else 1 end) ";
 				}
 				
 				
@@ -1256,10 +1258,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				hodQry = hodQry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
-				hodQry = hodQry + " and i.valid_upto <= ?";
-				arrSize++;
-			}
+			/*
+			 * if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) { hodQry
+			 * = hodQry + " and i.valid_upto <= ?"; arrSize++; }
+			 */
 			
 			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ORDER BY c.hod_user_id_fk";
 			
@@ -1285,9 +1287,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
-				pValues[i++] = obj.getDate();
-			}
+			/*
+			 * if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+			 * pValues[i++] = obj.getDate(); }
+			 */
 			
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {			

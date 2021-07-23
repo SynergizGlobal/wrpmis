@@ -1273,7 +1273,7 @@
                                                 </td>
                                                 <td data-head="Revised Amount " class="input-field light-blue_column">
                                                 		<i class="material-icons prefix cost left-align">₹</i>
-                                                    	<input id="revised_amounts${index.count }" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" value="${revObj.revised_amount }"
+                                                    	<input id="revised_amounts${index.count }" name="revised_amounts" min="0.01" step="0.01" type="number" onkeyup="toggleRevision('amounts', ${index.count })" class="validate" value="${revObj.revised_amount }"
                                                         placeholder="Revised Amount">
                                                  </td>
                                                  <td class="responsive_units light-blue_column">
@@ -1290,24 +1290,26 @@
                                                  <td data-head="Current" class="input-field light-blue_column p-h-0">	
                                                  	<p>
                                                  	<label> 
-                                                		<input type="checkbox" id="revision_amount_status${index.count }"  name="revision_amount_status"
-                                                			<c:if test="${revObj.revision_status == 'Yes'}">checked</c:if>/> 
+                                                  	   <input type="hidden" class="hidden_check" id="revision_amounts_statuss${index.count }" name="revision_amounts_statuss" value="${revObj.revision_amounts_status}" />
+                                                	   <input type="checkbox"  id="revision_amounts_status${index.count }" 
+                                                          onchange="revisionChecks('doc',${index.count })"<c:if test="${revObj.revision_amounts_status == 'Yes'}">checked
+                                                          </c:if>/>
                                                 			<span></span> 
-                                                	</label>	</p>
+                                                	</label></p>
                                                 </td>
                                                 <td data-head="Revised DOC " class="input-field light-green_column">
                                                     <input id="revised_docs${index.count }" name="revised_docs" type="text" class="validate datepicker" value="${revObj.revised_doc }"
-                                                        placeholder="Revised DOC">
+                                                       onchange="toggleRevision('docs', ${index.count })"  placeholder="Revised DOC">
                                                     <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                  <td data-head="Current" class="input-field light-green_column p-h-0">	
                                                  	<p>
                                                  	<label> 
                                                  		<input type="hidden" class="hidden_check" id="revision_statuss${index.count }" name="revision_statuss" value="${revObj.revision_status}" />
-                                                		<input type="checkbox" id="revision_status${index.count }"  onchange="revisionChecks('${index.count }')" class="revision_status_checking" 
+                                                		<input type="checkbox" id="revision_status${index.count }"  onchange="revisionChecks('doc','${index.count }')" class="revision_status_checking" 
                                                 			<c:if test="${revObj.revision_status == 'Yes'}">checked</c:if>/> 
                                                 			<span></span> 
-                                                	</label>	</p>
+                                                	</label></p>
                                                 </td> 
                                                 <td data-head="Remarks " class="input-field "> 
                                                     <input id="revision_remarks${index.count }" name="revision_remarks" type="text" class="validate" value="${revObj.remarks }"
@@ -1325,6 +1327,16 @@
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
 	                                                 });
+	                                                
+                                                	var amount = $('#revised_amounts${index.count }').val();
+                                                	if(amount == ""){
+                                                		$('#revision_amounts_status${index.count }').attr('disabled', true);
+                                                	}
+                                                	var date = $('#revised_docs${index.count }').val();
+                                                	if(date == ""){
+                                                		$('#revision_status${index.count }').attr('disabled', true);
+                                                	}
+  	                                                	
 	                                                $('#revision_status${index.count }').on('change', function(e){
 							                             if($(this).prop('checked'))
 							                             {
@@ -1334,6 +1346,17 @@
 							                              	 
 							                            	  $("#revision_statuss${index.count }").prop('checked',false).removeAttr('checked');
 							                            	  $("#revision_statuss${index.count }").val('No')
+							                              }
+							                   	    });
+	                                                $('#revision_amounts_status${index.count }').on('change', function(e){
+							                             if($(this).prop('checked'))
+							                             {
+							                            	// $(".part").prop('disabled', true);
+							                                 $('#revision_amounts_statuss${index.count }').val('Yes');
+							                             } else{
+							                              	 
+							                            	  $("#revision_amounts_statuss${index.count }").prop('checked',false).removeAttr('checked');
+							                            	  $("#revision_amounts_statuss${index.count }").val('No')
 							                              }
 							                   	    });
 	                                                $('#revised_amounts_units${index.count }').change(function(){
@@ -1353,7 +1376,7 @@
                                                 </td>
                                                 <td data-head="Revised Amount " class="input-field light-blue_column">
                                                 		<i class="material-icons prefix cost left-align">₹</i>
-                                                    	<input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount">
+                                                    	<input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" onkeyup="toggleRevision('amounts', '0')"  placeholder="Revised Amount">
                                                 </td>
                                                 <td class="responsive_units light-blue_column"> 
                                                     <!-- div class="col s3 pt-14"> -->
@@ -1369,18 +1392,21 @@
                                                 <td data-head="Current" class="input-field light-blue_column p-h-0">	
                                                  	<p>
                                                  	<label> 
-                                                		<input type="checkbox" id="revision_amount_status${index.count }"  name="revision_amount_status" 
-                                                			<c:if test="${revObj.revision_status == 'Yes'}">checked</c:if>/> 
-                                                			<span></span> 
-                                                	</label>	</p>
+                                                 		<input type="hidden" id="revision_amounts_statuss0" name="revision_amounts_statuss" class="hidden_check" value="No" />
+	                                                	<input type="checkbox"  id="revision_amounts_status0" 
+	                                                       onchange="revisionChecks('doc',0)" disabled  />
+	                                                	<span></span> 
+                                                	</label></p>
                                                 </td>
                                                 <td data-head="Revised DOC " class="input-field light-green_column">
                                                     <input id="revised_docs0" name="revised_docs" type="text" class="validate datepicker" 
-                                                        placeholder="Revised DOC">
+                                                       onchange="toggleRevision('docs', '0' )"  placeholder="Revised DOC">
                                                    <button type="button"><i class="fa fa-calendar"></i></button>
-                                                </td>
+                                                </td> 
                                                 <td data-head="Current" class="input-field light-green_column p-h-0"><p><label><input type="hidden" id="revision_statuss0" name="revision_statuss" class="hidden_check" value="No" />
-                                                 <input type="checkbox" class="revision_status_checking" onchange="revisionChecks('0')" id="revision_status0" /> <span></span> </label></p>	</td>      
+                                                 <input type="checkbox" id="revision_status0"  onchange="revisionChecks('doc','0')" class="revision_status_checking"  disabled />  <span></span> </label></p>
+                                                 	</td>      
+                                               
                                                 <td data-head="Remarks " class="input-field"> 
                                                     <input id="revision_remarks0" name="revision_remarks" type="text" class="validate" 
                                                         placeholder="Remarks">
@@ -1406,6 +1432,16 @@
 							                              	 
 							                            	  $("#revision_statuss0").prop('checked',false).removeAttr('checked');
 							                            	  $("#revision_statuss0").val('No')
+							                              }
+							                   	    });
+	                                                $('#revision_amounts_status0').on('change', function(e){
+							                             if($(this).prop('checked'))
+							                             {
+							                                 $('#revision_amounts_statuss0').val('Yes');
+							                             } else{
+							                              	 
+							                            	  $("#revision_amounts_statuss0").prop('checked',false).removeAttr('checked');
+							                            	  $("#revision_amounts_statuss0").val('No')
 							                              }
 							                   	    });
 										            
@@ -2727,17 +2763,17 @@
 		    var html = '<tr id="revRow'+rNo+'">'
 			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
 			   +'<td data-head="Revised Amount " class="input-field light-blue_column"> <i class="material-icons prefix cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
-			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"> </td><td class="responsive_units light-blue_column"> <select class="units validate-dropdown " id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
+			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" onkeyup="toggleRevision(' + '\'amounts\'' + ',' + rNo + ')"  placeholder="Revised Amount"> </td><td class="responsive_units light-blue_column"> <select class="units validate-dropdown " id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
 			   +'<option value="">Select</option>'
 			   <c:forEach var="obj" items="${unitsList }">
 		     	 +'<option value="${obj.value }">${obj.unit }</option>'
 			   </c:forEach>			  
 		       +'</select> <span id="units'+rNo+'Error" class="my-error"></span></div> </td>'
-		       +'<td data-head="Current" class="input-field light-blue_column"> <p> <label> <input type="checkbox" id="revision_amount_status${index.count }" <c:if test="${revObj.revision_status == 'Yes'}">checked</c:if>/> <span></span> </label> </p> </td> '
-			  // +'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"></td>'
-			   +'<td data-head="Revised DOC" class="input-field light-green_column"><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
+		       +'<td data-head="Current" class="input-field light-blue_column"> <p> <label><input type="hidden" id="revision_amounts_statuss'+rNo+'"  name="revision_amounts_statuss" class="hidden_check" value="No" /> '
+		       +'<input type="checkbox"  id="revision_amounts_status'+rNo+'" disabled onchange="revisionChecks(' + '\'amounts\'' + ',' + rNo + ')"/> <span></span> </label> </p> </td> '
+			   +'<td data-head="Revised DOC" class="input-field light-green_column"><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker" onchange="toggleRevision(' + '\'docs\'' + ',' + rNo + ')"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
-			   +'<td data-head="Current" class="input-field light-green_column"><p><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check" value="No" /><input type="checkbox" class="revision_status_checking" onchange="revisionChecks('+rNo+')"  id="revision_status'+rNo+'" /> <span></span> </label></p></td>'
+			   +'<td data-head="Current" class="input-field light-green_column"><p><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check" value="No" /><input type="checkbox" class="revision_status_checking" disabled onchange="revisionChecks(' + '\'docs\'' + ',' + rNo + ')"  id="revision_status'+rNo+'" /> <span></span> </label></p></td>'
 			   +'<td data-head="Remarks" class="input-field"> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
 		 	   +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			   +'</tr>';
@@ -2756,7 +2792,6 @@
              $('#revision_status'+rNo).on('change', function(e){
                   if($(this).prop('checked'))
                   {
-                 	// $(".part").prop('disabled', true);
                       $('#revision_statuss'+rNo).val('Yes');
                   } else{
                    	 
@@ -2764,7 +2799,16 @@
                  	  $("#revision_statuss"+rNo).val('No')
                    }
         	    });
-             
+             $('#revision_amounts_status'+rNo).on('change', function(e){
+                 if($(this).prop('checked'))
+                 {
+                     $('#revision_amounts_statuss'+rNo).val('Yes');
+                 } else{
+                  	 
+                	  $("#revision_amounts_statuss"+rNo).prop('checked',false).removeAttr('checked');
+                	  $("#revision_amounts_statuss"+rNo).val('No')
+                  }
+       	    });
            
              $('#revised_amounts_units'+rNo).on('change', function(e){
             	 if($.trim($('#revised_amounts_units'+rNo).val()) != ""){
@@ -2848,12 +2892,9 @@
 		    $('#contractDocumentFileName'+rowNo).html(filename);
 		    $('#contractDocumentFileNames'+rowNo).val(filename);
 		}
-
+/* 
 		function revisionChecks(a){
-			//alert('hai');
-			/* $('input[name=revision_statuss]').each(function(j,item){
-				$("#"+item.id).val('No');
-			}); */
+			
 			$('.revision_status_checking').each(function(i,val){
 				//$(".revision_status_checking").prop('checked',false);
 					if($('#revised_amounts'+i).val()=="" && $('#revised_docs'+i).val()==""){
@@ -2911,8 +2952,39 @@
 					
 			});		
 						
-		}
+		} */
 		
+		function revisionChecks(s, no) {
+            var type = (s == 'amounts') ? '' : (s == 'docs') ? '_amounts' : '';
+            /* if ($('#revision' + type + "_status" + no).prop('checked') && $('#revision' + type + "_status" + no).attr('disabled') == undefined) {
+                $('#revision' + type + "_status" + no).prop('checked', false);
+            } */
+            $("#revision_amounts_status"+no).change(function(){
+            	if($("#revision_status"+no).prop('checked')){
+            		$('#revision_status' + no).prop('checked', false);
+                	$("#revision_statuss"+no).val('No');
+            	}
+            })
+            $("#revision_status"+no).change(function(){
+            	if($("#revision_amounts_status"+no).prop('checked')){
+            		$('#revision_amounts_status' + no).prop('checked', false);
+                	$("#revision_amounts_statuss"+no).val('No');
+            	}
+            })
+        }
+
+        function toggleRevision(s, no) {
+            var type = (s == 'docs') ? '' : (s == 'amounts') ? '_amounts' : '';
+            var idType = (s == 'docs') ? '_docs' : (s == 'amounts') ? '_amounts' : '';
+
+            if ($('#revised' + idType + no).val() != '') {
+                $('#revision' + type + "_status" + no).removeAttr('disabled');
+            } else {
+                $('#revision' + type + "_status" + no).attr('disabled', true);
+            }
+        }
+
+        
 		function validateContract(){
 			var flag = true;
 			$("input[name=bg_values]").each(function(){

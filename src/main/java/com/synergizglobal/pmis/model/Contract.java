@@ -14,11 +14,11 @@ public class Contract {
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status,revision_status
 	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till,
 	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code,contract_file_type_fk,contract_file_type,contract_file_id,
-	responsible_people_id_fk,hod_name,dy_hod_name,PhysicalProgress, unit, value,ContractAlertRemarks,revised_amount_units,bg_value_units,completed_cost_units,insurance_value_units,awarded_cost_units,estimated_cost_units;
+	responsible_people_id_fk,hod_name,dy_hod_name,PhysicalProgress,revision_amounts_status, unit, value,ContractAlertRemarks,revised_amount_units,bg_value_units,completed_cost_units,insurance_value_units,awarded_cost_units,estimated_cost_units;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk;
 
-	private String[] bg_type_fks,issuing_banks,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,bankStatus,insuranceStatus,codes, bg_dates, release_dates,released_fks,
+	private String[] bg_type_fks,issuing_banks,revision_amounts_statuss,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,bankStatus,insuranceStatus,codes, bg_dates, release_dates,released_fks,
 	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,insurance_revisions,revision_statuss,
 	 contract_milestones_ids, milestone_names, milestone_dates, actual_dates, revisions,mile_remarks,
 	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts,hod_designations, revised_docs,revision_remarks,contract_file_type_fks,contract_file_ids,contract_file_types;
@@ -44,6 +44,22 @@ public class Contract {
 	private List<Contract> executivesList;
 	private List<Contract> responsiblePersonsList;
 
+
+	public String getRevision_amounts_status() {
+		return revision_amounts_status;
+	}
+
+	public void setRevision_amounts_status(String revision_amounts_status) {
+		this.revision_amounts_status = revision_amounts_status;
+	}
+
+	public String[] getRevision_amounts_statuss() {
+		return revision_amounts_statuss;
+	}
+
+	public void setRevision_amounts_statuss(String[] revision_amounts_statuss) {
+		this.revision_amounts_statuss = revision_amounts_statuss;
+	}
 
 	public String getUnit() {
 		return unit;

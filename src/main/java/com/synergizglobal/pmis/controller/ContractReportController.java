@@ -526,7 +526,7 @@ public class ContractReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForContractBGReport(wordMLPackage, mp, factory,list,report_created_date);
+			DocxTableCreationForContractReport.createTableForContractBGReport(wordMLPackage, mp, factory,list,report_created_date,obj.getDate());
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
@@ -601,7 +601,7 @@ public class ContractReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForContractDocBGInsuranceReport(wordMLPackage, mp, factory,list,report_created_date);
+			DocxTableCreationForContractReport.createTableForContractDocBGInsuranceReport(wordMLPackage, mp, factory,list,report_created_date,obj.getDate());
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
@@ -679,7 +679,7 @@ public class ContractReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForContractDocReport(wordMLPackage, mp, factory,list,report_created_date);
+			DocxTableCreationForContractReport.createTableForContractDocReport(wordMLPackage, mp, factory,list,report_created_date,obj.getDate());
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
@@ -755,7 +755,7 @@ public class ContractReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForContractInsuranceReport(wordMLPackage, mp, factory,list,report_created_date);
+			DocxTableCreationForContractReport.createTableForContractInsuranceReport(wordMLPackage, mp, factory,list,report_created_date,obj.getDate());
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	

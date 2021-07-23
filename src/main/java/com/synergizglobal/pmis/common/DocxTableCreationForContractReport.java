@@ -332,7 +332,7 @@ public class DocxTableCreationForContractReport {
 	}
 	
 	public static void createTableForContractDocReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, Map<String, List<Contract>> list,String report_created_date,String ValidityDate) throws Exception {
+			ObjectFactory factory, Map<String, List<Contract>> list,String report_created_date) throws Exception {
 		try {
 
 			RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA, true, false, false,
@@ -369,17 +369,7 @@ public class DocxTableCreationForContractReport {
 				
 				/**************************************************************************/
 				Tr hodRow = factory.createTr();
-				if(ValidityDate!=null)
-				{
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "Validity Till Date:"+ValidityDate, calibriBoldDateRPr, JcEnumeration.LEFT, true,"ffffff");
-				}
-				else
-				{
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-				}				
-				
-				
-				
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				String date = "";
@@ -396,23 +386,6 @@ public class DocxTableCreationForContractReport {
 				tableHead.getContent().add(hodRow);
 				mergeCellsHorizontal(tableHead, 0, 0, 2);
 				mergeCellsHorizontal(tableHead, 0, 3, 5);
-				
-				
-				if(ValidityDate!=null)
-				{
-				
-					Tr hodRow1 = factory.createTr();
-					
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-		
-					
-					tableHead.getContent().add(hodRow1);
-					mergeCellsHorizontal(tableHead, 1, 0, 3);
-				}				
-				
-				
 				mp.addObject(tableHead);
 				/***************************************************************/
 				
@@ -504,7 +477,7 @@ public class DocxTableCreationForContractReport {
 	
 	
 	public static void createTableForContractDocBGInsuranceReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, Map<String, List<Contract>> list,String report_created_date,String ValidityDate) throws Exception {
+			ObjectFactory factory, Map<String, List<Contract>> list,String report_created_date) throws Exception {
 		try {
 
 			RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA, true, false, false,
@@ -541,14 +514,7 @@ public class DocxTableCreationForContractReport {
 				
 				/**************************************************************************/
 				Tr hodRow = factory.createTr();
-				if(ValidityDate!=null)
-				{
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "Validity Till Date:"+ValidityDate, calibriBoldDateRPr, JcEnumeration.LEFT, true,"ffffff");
-				}
-				else
-				{
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-				}
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
@@ -567,23 +533,6 @@ public class DocxTableCreationForContractReport {
 				tableHead.getContent().add(hodRow);
 				mergeCellsHorizontal(tableHead, 0, 0, 3);
 				mergeCellsHorizontal(tableHead, 0, 4, 6);
-				if(ValidityDate!=null)
-				{
-				
-					Tr hodRow1 = factory.createTr();
-					
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-		
-					
-					tableHead.getContent().add(hodRow1);
-					mergeCellsHorizontal(tableHead, 1, 0, 3);
-				}
-
-				
-
 				mp.addObject(tableHead);
 				/***************************************************************/
 				
@@ -650,6 +599,7 @@ public class DocxTableCreationForContractReport {
 							JcEnumeration.LEFT, hasBgColor, backgroundColor);					
 					
 					table.getContent().add(contentRow);
+					
 				}
 				
 				if (StringUtils.isEmpty(hodEntry.getValue()) || hodEntry.getValue().isEmpty()) {
@@ -682,7 +632,7 @@ public class DocxTableCreationForContractReport {
 	
 
 	public static void createTableForContractBGReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, Map<String, List<Contract>> list,String report_created_date,String ValidityDate) throws Exception {
+			ObjectFactory factory, Map<String, List<Contract>> list,String report_created_date) throws Exception {
 		try {
 
 			RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA, true, false, false,
@@ -719,15 +669,7 @@ public class DocxTableCreationForContractReport {
 				
 				/**************************************************************************/
 				Tr hodRow = factory.createTr();
-				if(ValidityDate!=null)
-				{
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "Validity Till Date:"+ValidityDate, calibriBoldDateRPr, JcEnumeration.LEFT, true,"ffffff");
-				}
-				else
-				{
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-				}
-				
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
@@ -746,21 +688,6 @@ public class DocxTableCreationForContractReport {
 				tableHead.getContent().add(hodRow);
 				mergeCellsHorizontal(tableHead, 0, 0, 3);
 				mergeCellsHorizontal(tableHead, 0, 4, 6);
-				
-				if(ValidityDate!=null)
-				{
-				
-					Tr hodRow1 = factory.createTr();
-					
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-		
-					
-					tableHead.getContent().add(hodRow1);
-					mergeCellsHorizontal(tableHead, 1, 0, 3);
-				}			
 				mp.addObject(tableHead);
 				/***************************************************************/
 				
@@ -859,7 +786,7 @@ public class DocxTableCreationForContractReport {
 	}
 
 	public static void createTableForContractInsuranceReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, Map<String,List<Contract>> list,String report_created_date,String ValidityDate) throws Exception {
+			ObjectFactory factory, Map<String,List<Contract>> list,String report_created_date) throws Exception {
 		try {
 			RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA, true, false, false,
 					false);
@@ -895,14 +822,7 @@ public class DocxTableCreationForContractReport {
 				
 				/**************************************************************************/
 				Tr hodRow = factory.createTr();
-				if(ValidityDate!=null)
-				{
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "Validity Till Date:"+ValidityDate, calibriBoldDateRPr, JcEnumeration.LEFT, true,"ffffff");
-				}
-				else
-				{
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-				}
+				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
@@ -920,22 +840,6 @@ public class DocxTableCreationForContractReport {
 				tableHead.getContent().add(hodRow);
 				mergeCellsHorizontal(tableHead, 0, 0, 3);
 				mergeCellsHorizontal(tableHead, 0, 4, 6);
-				
-				if(ValidityDate!=null)
-				{
-				
-					Tr hodRow1 = factory.createTr();
-					
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, hodEntry.getKey(), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow1, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-		
-					
-					tableHead.getContent().add(hodRow1);
-					mergeCellsHorizontal(tableHead, 1, 0, 3);
-				}
-				
 				mp.addObject(tableHead);
 				/***************************************************************/
 				

@@ -511,10 +511,16 @@ public class ContractReportController {
 
 			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
+			String headerTextRight = "";
+			if(obj.getDate()!=null && obj.getDate()!="")
+			{
+				
+				headerTextRight="(Expiry by "+DateParser.parseToIndianDateFormatWithDot(obj.getDate())+")";
+			}			
+			
 			String headerTextMiddle = "Contract BG Validity Report";
 			
 			//String headerTextRight = report_created_date;
-			String headerTextRight = null;
 			
 			//String headerText = "PMIS Report - Status of Contract BG";
 			
@@ -526,7 +532,7 @@ public class ContractReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForContractBGReport(wordMLPackage, mp, factory,list,report_created_date,obj.getDate());
+			DocxTableCreationForContractReport.createTableForContractBGReport(wordMLPackage, mp, factory,list,report_created_date);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
@@ -586,10 +592,16 @@ public class ContractReportController {
 
 			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
+			String headerTextRight = "";
+			if(obj.getDate()!=null && obj.getDate()!="")
+			{
+				
+				headerTextRight="(Expiry by "+DateParser.parseToIndianDateFormatWithDot(obj.getDate())+")";
+			}			
+			
 			String headerTextMiddle = "Contract DOC, BG and Insurance Validity Report";
 			
 			//String headerTextRight = report_created_date;
-			String headerTextRight = null;
 			
 			//String headerText = "PMIS Report - Status of Contract BG";
 			
@@ -601,7 +613,7 @@ public class ContractReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForContractDocBGInsuranceReport(wordMLPackage, mp, factory,list,report_created_date,obj.getDate());
+			DocxTableCreationForContractReport.createTableForContractDocBGInsuranceReport(wordMLPackage, mp, factory,list,report_created_date);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
@@ -664,10 +676,17 @@ public class ContractReportController {
 
 			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
+			String headerTextRight = "";
+			if(obj.getDate()!=null && obj.getDate()!="")
+			{
+				
+				headerTextRight="(Expiry by "+DateParser.parseToIndianDateFormatWithDot(obj.getDate())+")";
+			}
+			
 			String headerTextMiddle = "Contract DOC Validity Report";
 			
 			//String headerTextRight = report_created_date;
-			String headerTextRight = null;
+			
 			
 			//String headerText = "PMIS Report - Status of Contract BG";
 			
@@ -679,7 +698,7 @@ public class ContractReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForContractDocReport(wordMLPackage, mp, factory,list,report_created_date,obj.getDate());
+			DocxTableCreationForContractReport.createTableForContractDocReport(wordMLPackage, mp, factory,list,report_created_date);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
@@ -740,10 +759,16 @@ public class ContractReportController {
 
 			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
+			String headerTextRight = "";
+			if(obj.getDate()!=null && obj.getDate()!="")
+			{
+				
+				headerTextRight="(Expiry by "+DateParser.parseToIndianDateFormatWithDot(obj.getDate())+")";
+			}			
+			
 			String headerTextMiddle = "Contract Insurance Validity Report";
 			
 			//String headerTextRight = report_created_date;
-			String headerTextRight = null;
 			
 			//String headerText = "PMIS Report - Status of Contract Insurance";
 			
@@ -755,7 +780,7 @@ public class ContractReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForContractInsuranceReport(wordMLPackage, mp, factory,list,report_created_date,obj.getDate());
+			DocxTableCreationForContractReport.createTableForContractInsuranceReport(wordMLPackage, mp, factory,list,report_created_date);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
@@ -1186,7 +1211,7 @@ public class ContractReportController {
 			if (jc == null) {
 				jc = new Jc();
 			}
-			jc.setVal(JcEnumeration.RIGHT);
+			jc.setVal(JcEnumeration.CENTER);
 			pPr.setJc(jc);
 			p.setPPr(pPr);
 			

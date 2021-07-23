@@ -706,10 +706,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			String work_ids_qry = "select rwh.sub_work,rwh.work_id_fk as work_id,hod_user_id_fk,work_name,work_short_name,reporting_to_id_srfk as reporting_to_user_id "  
 					+ "from risk_work_hod rwh "
 					+ "left join work w on rwh.work_id_fk = w.work_id " 
-					+ "left join risk_upload ru on rwh.sub_work = ru.sub_work " 
 					+ "left join user u on rwh.hod_user_id_fk = u.user_id " 
-					+ "where (risk_work_completed is null or risk_work_completed = 'No' or risk_work_completed = '') and (select count(*) from risk_upload where sub_work = rwh.sub_work and `status` = 'Success' and DATE_FORMAT(assessment_date,'%m-%Y') = DATE_FORMAT(NOW(),'%m-%Y')) <= 0 "
-					+ "and (select count(*) from risk_upload where sub_work = rwh.sub_work and `status` = 'Success') >= 1 "
+					+ "where (risk_work_completed is null or risk_work_completed = 'No' or risk_work_completed = '') "
+					+ "and (select count(*) from risk r1 left join risk_revision rr1 on r1.risk_id_pk = rr1.risk_id_pk_fk where r1.sub_work = rwh.sub_work and DATE_FORMAT(rr1.`date`,'%m-%Y') = DATE_FORMAT(NOW(),'%m-%Y')) <= 0 "
+					+ "and (select count(*) from risk r1 left join risk_revision rr1 on r1.risk_id_pk = rr1.risk_id_pk_fk where r1.sub_work = rwh.sub_work) >= 1 "
 					+ "group by rwh.sub_work,hod_user_id_fk";		
 			risk_alerts = jdbcTemplate.query( work_ids_qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			

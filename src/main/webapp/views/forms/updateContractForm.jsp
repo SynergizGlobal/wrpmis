@@ -562,7 +562,13 @@
                                 	</div>	                         
                                 </div>      
 	                           	<div class="row">
-	                                 <div class="col s9 m3 input-field offset-m2">
+	                                <div class="col s12 m4 input-field offset-m2">
+	                                    <input name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }" >
+	                                    <label for="doc">Original DOC</label>
+	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
+	                                     <span id="docError" class="error-msg" ></span>
+	                                </div>
+	                                   <div class="col s9 m3 input-field ">
 	                                	<i class="material-icons prefix cost left-align">₹</i>
 	                                    <input id="awarded_cost" name="awarded_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.awarded_cost }" />
 	                                    <label for="awarded_cost">Awarded cost</label>
@@ -578,12 +584,6 @@
 	                                	</select>
 	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
                                 	</div>
-	                                <div class="col s12 m4 input-field ">
-	                                    <input name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }" >
-	                                    <label for="doc">Original DOC</label>
-	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
-	                                     <span id="docError" class="error-msg" ></span>
-	                                </div>
 	                                </div>
 	                                <div class="row">
 	                                <div class="col s6 m4 input-field offset-m2">
@@ -657,7 +657,7 @@
                                                <!--  <th>Bank Address </th> -->
                                                 <th>BG / FDR <br>Number </th>
                                                 <th >Amount </th>
-                                                <th>Units</th>
+                                                <th>Unit</th>
                                                 <th>BG / FDR <br> Date </th>
                                                 <th>Expiry Date </th>
                                               <!--   <th>Remarks </th> -->
@@ -885,7 +885,7 @@
                                                 <th>Agency Address </th>
                                                 <th>Insurance Number </th>
                                                 <th >Insurance Value </th>
-                                                <th>Units</th>
+                                                <th>Unit</th>
                                                 <th>Revision </th>
                                                 <th>Valid Upto </th>
                                                 <th>Remarks </th>
@@ -1220,7 +1220,7 @@
                                             <tr>
                                                 <th>Revision Number <span class="required">*</span></th>
                                                 <th class="light-blue_column">Revised Amount </th>
-                                                <th class="light-blue_column">Units</th>
+                                                <th class="light-blue_column">Unit</th>
                                                 <th class="light-blue_column p-h-0">Current</th>
                                                 <th class="light-green_column">Revised DOC </th>
                                                 <th class="light-green_column p-h-0">Current</th>

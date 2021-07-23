@@ -2143,9 +2143,9 @@
         	 	   	  },"scope_of_contract": {
         	 		    required: false,
         	 	   	  },"hod_user_id_fk": {
-        		 		required: false
+        		 		required: true
         		 	  },"dy_hod_user_id_fk": {
-        	 		    required: false
+        	 		    required: true
         	 	   	  },"doc": {
         		 		required: false,
    				 		dateBefore1:"#date_of_start"

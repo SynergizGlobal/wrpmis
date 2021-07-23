@@ -51,10 +51,16 @@
 		.input-field>textarea+label:not(.label-icon).active{
 			margin-top: 8px;
 		}
+		.mar{
+			margin-bottom:10px !important;
+		}
 		@media only screen and (max-width: 769px) {
 			.mobile_responsible_table>tbody >tr:not(.datepicker-row)> td> div.btn{
 				float:none;
 				position:relative;
+			}
+			.mar{
+				margin-bottom:0 !important;
 			}
 			td.cell-disp-inb .file-path-wrapper {
 			    visibility: visible;
@@ -142,19 +148,15 @@
                                 </div>
                                  
                             </div>
-                            <div class="row">
-                                <!-- row 2 -->
-                                 
+                            <div class="row">                                 
                                 <div class="col s12 m8 input-field offset-m2">
                                     <textarea id="title" name="title" class="materialize-textarea" data-length="1000" readonly>${issue.title }</textarea>
                                     <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span>
-                                </div>
-                                 
+                                </div>                                 
                             </div>
                             
-                            <div class="row">
-                                 
+                            <div class="row">                                 
                                 <div class="col s12 m8 input-field offset-m2">
                                     <textarea id="corrective_measure" name="corrective_measure"   class="materialize-textarea"  data-length="1000">${issue.corrective_measure }</textarea>
                                     <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
@@ -164,8 +166,7 @@
                                 </div>
                             </div>    
                             
-                            <div class="row ">
-                                 
+                            <div class="row ">                                 
                                 <div class="col s6 m4 input-field offset-m2">
                                     <input id="date" name="date" type="text" class="datepicker1" value="${issue.date }" readonly>
                                     <label for="date">Issue pending since <span class="required">*</span></label>
@@ -196,7 +197,7 @@
                                  
                             </div> --%>
                           
-                            <div class="row">
+                            <div class="row mar">
                                  
                                 <div class="col s12 offset-m2 m8 input-field">
                                    <p class="searchable_label"> Responsible Organization (Pending with)<span class="required">*</span></p>
@@ -208,19 +209,23 @@
                                     </select>
                                     <span id="zonal_railway_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field" id="other_organization_holder" style="display:none;">
-                                    <%-- <input id="other_organization" name="other_organization"  type="text" class="validate" value="${issue.other_organization}">
-                                    <label for="other_organization">Organization Name (Pending with)<span class="required">*</span></label> --%>
-                                    <p class="searchable_label">Organization Name (Pending with)<span class="required">*</span></p> 
-                                    <select class="searchable browser-default" id="other_organization" name="other_organization">
-                                        <option value="" selected>Select</option>
-                                        <c:forEach var="obj" items="${otherOrganizations }">
-                                            <option value="${obj.other_organization }" <c:if test="${obj.other_organization eq issue.other_organization }">selected</c:if>>${obj.other_organization}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="other_organizationError" class="error-msg" ></span>
-                                </div>
-                                 <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
+                             </div> 
+							 <div class="row mar" id="other_organization_holder" style="display:none;">
+	                                <div class="col s12 m4 offset-m2 input-field" >
+	                                    <%-- <input id="other_organization" name="other_organization"  type="text" class="validate" value="${issue.other_organization}">
+	                                    <label for="other_organization">Organization Name (Pending with)<span class="required">*</span></label> --%>
+	                                    <p class="searchable_label">Organization Name (Pending with)<span class="required">*</span></p> 
+	                                    <select class="searchable browser-default" id="other_organization" name="other_organization">
+	                                        <option value="" selected>Select</option>
+	                                        <c:forEach var="obj" items="${otherOrganizations }">
+	                                            <option value="${obj.other_organization }" <c:if test="${obj.other_organization eq issue.other_organization }">selected</c:if>>${obj.other_organization}</option>
+	                                        </c:forEach>
+	                                    </select>
+	                                    <span id="other_organizationError" class="error-msg" ></span>
+	                                </div>
+                               </div>
+                               <div class="row mar" id="department_holder" style="display:none;">
+                                 <div class="col s12 m4 input-field offset-m2" >
                                   <p class="searchable_label"> Department Responsible (Pending with)<span class="required">*</span></p> 
                                     <select class="searchable browser-default" id="other_organizations" name="other_organization" onchange="getResponsiblePersons(this.value)">
                                         <option value="" selected>Select</option>
@@ -238,8 +243,7 @@
                                 </div>
                             </div>
                             
-                            <div class="row" id="other_organization_responsibles_holder" style="display:none;">
-                                <!-- row 6 -->
+                            <div class="row mar" id="other_organization_responsibles_holder" style="display:none;">
                                  
                                 <div class="col s12 m4 input-field offset-m2">
                                     <input id="other_org_resposible_person_name" name="other_org_resposible_person_name" type="text" class="validate" value="${issue.other_org_resposible_person_name }">
@@ -270,7 +274,7 @@
 					          </div>
 							</div>
 
-                            <div class="row" id="assignDateDiv" style="display:none">
+                            <div class="row mar" id="assignDateDiv" style="display:none">
                                 <!-- row 2 -->
                                                                  
                                 <div class="col s12 m4 input-field offset-m2">
@@ -295,7 +299,7 @@
                                                   
                                                    
                             <div>
-	                            <div class="row" id="escalatedDiv" style="display: none;">
+	                            <div class="row mar" id="escalatedDiv" style="display: none;">
 	                                 
 	                                <div class="col s6 offset-m2 m4 input-field">
 	                                    <%-- <input id="escalated_to" name="escalated_to" type="text" class="validate" value="${issue.escalated_to }">
@@ -318,7 +322,7 @@
 	                                </div>
 	                                 
 	                            </div>
-                            	<div class="row" id="escalatedRemarksDiv" style="display: none;">
+                            	<div class="row mar" id="escalatedRemarksDiv" style="display: none;">
 	                                 
 	                                <div class="col s12 m8 input-field offset-m2" >
 	                                <div id="test" data-message="${issue.remarks }" style="display: none;"></div>
@@ -332,16 +336,13 @@
                             </div>
                             
                             <div class="row">
-                                <!-- row 2 -->
-                                                               
-                                <div class="col s12 m4 input-field" style="margin-top:15px; display:none;" id="resolvedDiv">
+                                <div class="col s12 m4 input-field offset-m2" style="margin-top:15px; display:none;" id="resolvedDiv">
                                     <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
                                     <label for="resolved_date"> Resolved Date<span class="required">*</span></label>
                                     <button type="button" id="resolved_date_icon"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="resolved_dateError" class="error-msg" ></span>
-                                </div>
-                                 
+                                </div>                                 
                             </div>
                             <input type="hidden" name="existingAssignedPerson" id="existingAssignedPerson" />
                             <div class="row">

@@ -2025,45 +2025,6 @@
             }
         }
      
-        function getDepartmentsList() {
-        	$(".page-loader").show();
-        	var hod = $('#hod_user_id_fk').val();
-        	var dyHod = $('#hod_user_id_fk').val();
-        	$("#department_fk option:not(:first)").attr("selected",false);
-
-            if ($.trim(hod) != "") {
-                var myParams = { hod_user_id_fk: hod, dy_hod_user_id_fk : dyHod };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getDepartmentsListForContractForm",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	 var department_name = '';
-                                 if ($.trim(val.department_name) != '') { department_name = $.trim(val.department_name) }
-                                
-                                if ($.trim(val.department_fk) != '') {
-                                	 document.querySelectorAll('#department_fk > option').forEach((option) => {
-                                	     if ((option.value) == ($.trim(val.department_fk))){
-                                	    	 $('select[name="department_fk"]').find('option[value="' + val.department_fk + '"]').attr("selected",true);
-                                	    	 $("#department_fk").select2();
-                                	     }
-                                	    	 
-                                	 })
-                                } else {
-                                    $("#department_fk").append('<option value="' + val.department_fk + '">' +  $.trim(department_name) + '</option>');
-                                }
-                            });
-                        }
-                        $(".page-loader").hide();
-                    }
-                });
-            }else{
-            	$(".page-loader").hide();
-            }
-        } 
-        
-        
         function updateContract(){
         	var rowCount = $('#departmentTableBody tr').length;
         	var c = $('[name=responsible_people_id_fks]').length;

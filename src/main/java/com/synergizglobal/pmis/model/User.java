@@ -9,7 +9,6 @@ public class User  {
 	private String oldPassword;
 	private String newPassword;
 	private String confirmPassword;
-	private String passwordExpiredTime;
 	
 	private String reporting_to_name,reporting_to_designation,department,department_name,user_access_type,user_access_table,user_id_fk,user_type_fk,loginCount,
 	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_name,
@@ -407,17 +406,6 @@ public class User  {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-
-
-	public String getPasswordExpiredTime() {
-		return passwordExpiredTime;
-	}
-
-
-	public void setPasswordExpiredTime(String passwordExpiredTime) {
-		this.passwordExpiredTime = passwordExpiredTime;
-	}
-
 
 	public MultipartFile getFileName() {
 		return fileName;

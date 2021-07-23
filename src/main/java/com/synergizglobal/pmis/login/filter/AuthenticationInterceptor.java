@@ -84,17 +84,20 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
     public void postHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler,
             ModelAndView model) throws Exception {
-		String clientId = null;
-		String userId = null;String userName = null;
 		try {
 			User userDetails = (User)request.getSession().getAttribute("user");
 			String single_login_session_id = (String)request.getSession().getAttribute("SINGLE_LOGIN_SESSION_ID");
 			if(!StringUtils.isEmpty(userDetails)) {
-				userId = userDetails.getUser_id();
-				userName = userDetails.getUser_name();
-				if(!StringUtils.isEmpty(userDetails.getPasswordExpiredTime()) && Integer.parseInt(userDetails.getPasswordExpiredTime()) <= 0){
-					model.setViewName(PageConstants.passwordReset);
-					model.addObject("message", passwordExpired);
+				
+				boolean flag = service.addUserLastActiveDateTime(userDetails);
+				
+				String single_session_id = loginService.getSingleLoginSessionId(userDetails);
+				if(!StringUtils.isEmpty(single_login_session_id) && StringUtils.isEmpty(single_session_id)){
+					request.getSession().invalidate();
+					model.setViewName("redirect:/login");
+				}else if(!StringUtils.isEmpty(single_login_session_id) && !single_login_session_id.equals(single_session_id)){
+					request.getSession().invalidate();
+					model.setViewName("redirect:/someone-login");
 				}
 				
 				String base = "web";
@@ -143,21 +146,11 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				/*List<Messages> messages = service.getMessages(mObj);
 				model.addObject("messages", messages);*/
 				
-				boolean flag = service.addUserLastActiveDateTime(userDetails);
-				
-				String single_session_id = loginService.getSingleLoginSessionId(userDetails);
-				if(!StringUtils.isEmpty(single_login_session_id) && !single_login_session_id.equals(single_session_id)){
-					request.getSession().invalidate();
-					model.setViewName("redirect:/someone-login");
-				}
-				
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			if(!StringUtils.isEmpty(clientId)){
-				logger.error("postHandle() : User Id - "+userId+" - User Name - "+userName+" - "+e.getMessage());
-			}
+			logger.error("postHandle() : "+e.getMessage());
 		}
 		
         super.postHandle(request, response, handler, model);

@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
@@ -23,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -76,7 +76,7 @@ public class RiskController {
 	public String uploadformatError;
 	
 	@RequestMapping(value="/risk-assessment",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView riskAssessment(@ModelAttribute Risk obj,HttpSession session){
+	public ModelAndView riskAssessment(@ModelAttribute Risk obj,HttpSession session,Model modelObj){
 		ModelAndView model = new ModelAndView(PageConstants.riskAssessmentUpload);
 		try {
 			User uObj = (User) session.getAttribute("user");
@@ -91,7 +91,13 @@ public class RiskController {
 			List<Risk> workHodList = riskService.getSubWorkHodFilterListInRiskAssessmnt(obj);
 			model.addObject("workHodList", workHodList);
 			
-			model.addObject("sub_work", obj.getSub_work());
+			/*String sub_work = (String) modelObj.asMap().get("sub_work");
+			if(!StringUtils.isEmpty(sub_work)) {
+				model.addObject("sub_work", sub_work);
+			}else {
+				model.addObject("sub_work", obj.getSub_work());
+			}*/
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("riskAssessment : " + e.getMessage());
@@ -175,23 +181,12 @@ public class RiskController {
 						
 						result = uploadRiskAssessment(risk,userId,userName);
 						attributes.addFlashAttribute("success", result[0]);
-						/*if(arr[0] > 0) {
-							attributes.addFlashAttribute("updateSuccess", arr[0] + " Risk updated successfully. ");
-							msg = msg + arr[0] + " Risk updated successfully. ";
-						}
-						if(arr[1] > 0) {
-							attributes.addFlashAttribute("success", arr[1] + " Risk added successfully. ");
-							msg = msg + arr[1] + " Risk added successfully. ";
-						}
-						
-						if(arr[0] == 0 && arr[1] == 0) {
-							attributes.addFlashAttribute("success", "No risks found in file.");
-							msg = msg + " No risks found in file. ";
-						}*/
 						
 						risk.setUploaded_by_user_id_fk(userId);
 						if(result[0].contains("Risk Assessment uploaded successfully.")) {
 							risk.setStatus("Success");
+							attributes.addFlashAttribute("assessment_date", result[1]);
+							attributes.addFlashAttribute("sub_work", risk.getSub_work());
 						}else{
 							risk.setStatus("Fail");
 						}
@@ -541,7 +536,7 @@ public class RiskController {
 		ModelAndView model = new ModelAndView(PageConstants.riskATRUpdateGrid);
 		try {
 			model.addObject("sub_work", obj.getSub_work());
-			model.addObject("assessment_date", DateParser.parseToIndianDateFormat(obj.getAssessment_date()));
+			model.addObject("assessment_date", DateParser.parseToDDMMMYYYYFormat(obj.getAssessment_date()));
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("riskATRUpdate : " + e.getMessage());

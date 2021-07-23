@@ -14,6 +14,8 @@ public class DateParser {
 	public static SimpleDateFormat indianDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	public static SimpleDateFormat mySQLDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	public static SimpleDateFormat mySQLDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	public static SimpleDateFormat ddmmmyyyyFormat = new SimpleDateFormat("dd-MMM-yyyy");
+	
 	private static final Map<String, String> DATE_FORMAT_REGEXPS = new HashMap<String, String>() {        
 		/**
 		 * 
@@ -113,6 +115,24 @@ public class DateParser {
                     Date date = sdf.parse(value);
                     //System.out.println(String.format("Format : %s | Value : %s | Parsed Date : %s", value, date, format));
                     parsedDate = indianDateFormat.format(date);
+                } catch (ParseException e) {
+                    // Failed the execution
+                }
+            }
+        }
+        return parsedDate;
+    }
+    
+    public static String parseToDDMMMYYYYFormat(String value) {
+    	String parsedDate = null;
+        if (value != null) {
+            String format = determineDateFormat(value);
+            if (format != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat(format);
+                try {
+                    Date date = sdf.parse(value);
+                    //System.out.println(String.format("Format : %s | Value : %s | Parsed Date : %s", value, date, format));
+                    parsedDate = ddmmmyyyyFormat.format(date);
                 } catch (ParseException e) {
                     // Failed the execution
                 }

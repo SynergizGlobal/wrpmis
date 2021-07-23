@@ -389,6 +389,7 @@
 
 	<form action="<%=request.getContextPath()%>/risk-atr-update" id="riskATRUpdateForm" name="riskATRUpdateForm" target="_blank" method="post">
 		<input type="hidden" id="sub_work_atr_update" name="sub_work"/>
+		<input type="hidden" id="assessment_date_atr_update" name="assessment_date"/>
 	</form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -609,6 +610,10 @@
       function openRiskATRUpdateForm(){
     	  var sub_work =  $('#sub_work').val();
     	  $("#sub_work_atr_update").val(sub_work);
+    	  
+    	  var assessment_date =  '${assessment_date}';
+    	  $("#assessment_date_atr_update").val(assessment_date);
+    	  
     	  $("#riskATRUpdateForm").submit();
       }
       

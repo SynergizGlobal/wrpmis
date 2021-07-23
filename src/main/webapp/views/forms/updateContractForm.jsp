@@ -343,13 +343,38 @@
 	                                        
 	                                        <div class="col s6 m6 input-field">
 			                                	<p class="searchable_label">HOD <span class="required">*</span></p>
-		                               			 <input type="text"  value="${contractDeatils.hod_designation }<c:if test="${not empty contractDeatils.hod_name}"> - </c:if>${contractDeatils.hod_name}" readonly />
-		                                      	 <input type="hidden" name="hod_user_id_fk" id="hod_user_id_fk" value="${contractDeatils.hod_user_id_fk}" readonly />
+		                               			 <c:choose>
+				                                    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
+				                                		 <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDyHodList();"> 
+	                                     		  			<option value="">Select</option> 
+			                                                 <%-- <c:forEach var="obj" items="${hodList }"> 
+					                                    	  <option value="${obj.user_id }" <c:if test="${sessionScope.USER_ID eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+					                                        </c:forEach>  --%>  
+	                                            		</select>
+				                                	</c:when>
+				                                 	<c:otherwise>
+				                                 		 <input type="text"  value="${contractDeatils.hod_designation }<c:if test="${not empty contractDeatils.hod_name}"> - </c:if>${contractDeatils.hod_name}"  readonly />
+		                                      	 		 <input type="hidden" name="hod_user_id_fk" id="hod_user_id_fk" value="${contractDeatils.hod_user_id_fk}" readonly />
+				                                 	</c:otherwise>
+				                                 </c:choose>
+		                               			
 			                                </div>
 			                                <div class="col s6 m6 input-field">
 			                                    <p class="searchable_label">Dy HOD <span class="required">*</span></p>
-		                                    	<input type="text"  value="${contractDeatils.dy_hod_designation }<c:if test="${not empty contractDeatils.dy_hod_name}"> - </c:if>${contractDeatils.dy_hod_name}" readonly />
-		                                        <input type="hidden" name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" value="${contractDeatils.dy_hod_user_id_fk}" readonly />
+			                                    <c:choose>
+				                                    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
+				                                		  <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();">
+			                                                <option value="">Select</option>
+			                                                 <%--  <c:forEach var="obj" items="${dyHodList }"> 
+					                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+					                                        </c:forEach>   --%> 
+			                                              </select>
+				                                	</c:when>
+				                                 	<c:otherwise>
+				                                    	<input type="text"  value="${contractDeatils.dy_hod_designation }<c:if test="${not empty contractDeatils.dy_hod_name}"> - </c:if>${contractDeatils.dy_hod_name}" readonly />
+				                                        <input type="hidden" name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" value="${contractDeatils.dy_hod_user_id_fk}" readonly />
+				                                 	</c:otherwise>
+				                                 </c:choose>
 			                                </div>	
 	                                    </div>
 	                                </div>	
@@ -406,13 +431,13 @@
 									                </thead>
 									                <tbody id="departmentTableBody">
 									                <c:choose>
-				                                        <c:when test="${not empty contractDeatils.departmentList }">
+				                                        <c:when test="${not empty contractDeatils.departmentList }" >
 				                                          
 				                                		  <c:forEach var="departmentObj" items="${contractDeatils.departmentList }" varStatus="index">   
 											                  <tr id="departmentRow${index.count }">
 											                        <td data-head="Department" class="input-field">
 											                             <select class="searchable validate-dropdown" name="department_fks" id="department_fks${index.count }"
-											                             	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
+											                             	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD'  && sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>
 											                                id="department_fk${index.count }" onchange="getExecutivesList('${index.count }');">
 											                                	<option value="" >Select</option>  
 																		          <c:forEach var="obj" items="${departmentList }">
@@ -423,7 +448,7 @@
 											                        </td>
 											                        <td data-head="Select Executives" class="input-field h-auto">
 											                            <select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks${index.count }" onchange="fileCount('${index.count }');"
-											                            	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
+											                            	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD'   && sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>
 											                             multiple="multiple">
 											                             <option value="" >Select</option>
 											                             <c:forEach var="obj" items="${departmentObj.responsiblePersonsList}">
@@ -452,7 +477,7 @@
 									                    <tr id="departmentRow0">
 									                        <td data-head="Department" class="input-field">
 									                             <select class="searchable validate-dropdown dept" name="department_fks" id="department_fks0"  onchange="getExecutivesList('0');"
-									                             	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>> 
+									                             	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD'  && sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>> 
 									                                	<option value="" >Select</option>  
 																          <c:forEach var="obj" items="${departmentList }">
 								                                      	    <option value= "${ obj.department_fk}" >${ obj.department_name}</option>
@@ -463,7 +488,7 @@
 									                        </td>
 									                        <td data-head="Select Executives" class="input-field h-auto">
 									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks"  onchange="fileCount('0');"
-									                               <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }">disabled </c:if>
+									                               <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD'   && sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>
 									                                id="responsible_people_id_fks0" multiple="multiple">
 									                                <option value="" >Select</option>
 									                             	
@@ -479,11 +504,11 @@
                                             	</c:choose>
 									                </tbody>
 									            </table>
-									            <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
+									            <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD'   || sessionScope.USER_TYPE eq 'DyHOD'}">
 									            <table  class="mdl-data-table" style="margin-bottom: 30px">
 			                                        <tbody>                                          
 			                                            <tr>
-			                                   				<td colspan="3" style="text-align: right;" ><a   class="btn waves-effect waves-light bg-m t-c "  onclick="addDepartmentRow()"> <i class="fa fa-plus"></i></a></td>
+			                                   				<td colspan="3" style="text-align: right;" ><a class="btn waves-effect waves-light bg-m t-c "  onclick="addDepartmentRow()"> <i class="fa fa-plus"></i></a></td>
 			                                             </tr>
 			                                        </tbody>
 			                                    </table> 
@@ -1868,6 +1893,8 @@
 	       	}else{
 	       		$("#insurance_div").hide();
 	       	}
+            getDyHodList();
+            getHodList();
             
         });
         
@@ -2022,11 +2049,11 @@
                             $.each(data, function (i, val) {
                             	   var userName = '';
  	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
-      	                           if ($.trim(dy_hod_user_id_fk) != '') {
+      	                           if ($.trim(dy_hod_user_id_fk) != '') { 
 	      	                        	 document.querySelectorAll('#hod_user_id_fk > option').forEach((option) => {
 	                                	    // if ((option.value) == ($.trim(val.hod_user_id_fk))){
 	                                	    	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
-	                                	    	 $("#hod_user_id_fk").select2();
+	                                	    	 //$("#hod_user_id_fk").select2();
 	                                	    // }
 	                                	 })
                                        //$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
@@ -2980,6 +3007,7 @@
             if ($('#revised' + idType + no).val() != '') {
                 $('#revision' + type + "_status" + no).removeAttr('disabled');
             } else {
+            	$('#revision' + type + "_status" + no).prop('checked', false);
                 $('#revision' + type + "_status" + no).attr('disabled', true);
             }
         }
@@ -3075,7 +3103,7 @@
 			
 		});
 		
-    </script>
+	  </script>
 
 </body>
 

@@ -1256,10 +1256,10 @@
                                                  <td data-head="Current" class="input-field light-blue_column p-h-0">	
                                                  	<p>
                                                  	<label> 
-                                                  	   <input type="hidden" class="hidden_check" id="revision_amounts_statuss${index.count }" name="revision_amounts_statuss" value="${revObj.revision_amounts_status}" />
+                                                  	   <input type="hidden" class="hidden_check hidden_amount" id="revision_amounts_statuss${index.count }" name="revision_amounts_statuss" value="${revObj.revision_amounts_status}" />
                                                 	   <input type="checkbox"  id="revision_amounts_status${index.count }" 
                                                           onchange="revisionChecks('doc',${index.count })"<c:if test="${revObj.revision_amounts_status == 'Yes'}">checked
-                                                          </c:if>/>
+                                                          </c:if> class="revision_amount_status" /> 
                                                 			<span></span> 
                                                 	</label></p>
                                                 </td>
@@ -1271,8 +1271,8 @@
                                                  <td data-head="Current" class="input-field light-green_column p-h-0">	
                                                  	<p>
                                                  	<label> 
-                                                 		<input type="hidden" class="hidden_check" id="revision_statuss${index.count }" name="revision_statuss" value="${revObj.revision_status}" />
-                                                		<input type="checkbox" id="revision_status${index.count }"  onchange="revisionChecks('doc','${index.count }')" class="revision_status_checking" 
+                                                 		<input type="hidden" class="hidden_check hidden_doc" id="revision_statuss${index.count }" name="revision_statuss" value="${revObj.revision_status}" />
+                                                		<input type="checkbox" id="revision_status${index.count }"  onchange="revisionChecks('docs','${index.count }')" class="revision_doc_status" 
                                                 			<c:if test="${revObj.revision_status == 'Yes'}">checked</c:if>/> 
                                                 			<span></span> 
                                                 	</label></p>
@@ -1358,9 +1358,9 @@
                                                 <td data-head="Current" class="input-field light-blue_column p-h-0">	
                                                  	<p>
                                                  	<label> 
-                                                 		<input type="hidden" id="revision_amounts_statuss0" name="revision_amounts_statuss" class="hidden_check" value="No" />
+                                                 		<input type="hidden" id="revision_amounts_statuss0" name="revision_amounts_statuss" class="hidden_check hidden_amount" value="No" />
 	                                                	<input type="checkbox"  id="revision_amounts_status0" 
-	                                                       onchange="revisionChecks('doc',0)" disabled  />
+	                                                       onchange="revisionChecks('amounts',0)" class="revision_amount_status" disabled  />
 	                                                	<span></span> 
                                                 	</label></p>
                                                 </td>
@@ -1369,8 +1369,8 @@
                                                        onchange="toggleRevision('docs', '0' )"  placeholder="Revised DOC">
                                                    <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td> 
-                                                <td data-head="Current" class="input-field light-green_column p-h-0"><p><label><input type="hidden" id="revision_statuss0" name="revision_statuss" class="hidden_check" value="No" />
-                                                 <input type="checkbox" id="revision_status0"  onchange="revisionChecks('doc','0')" class="revision_status_checking"  disabled />  <span></span> </label></p>
+                                                <td data-head="Current" class="input-field light-green_column p-h-0"><p><label><input type="hidden" id="revision_statuss0" name="revision_statuss" class="hidden_check hidden_doc" value="No" />
+                                                 <input type="checkbox" id="revision_status0"  onchange="revisionChecks('docs','0')" class="revision_doc_status"  disabled />  <span></span> </label></p>
                                                  	</td>      
                                                
                                                 <td data-head="Remarks " class="input-field"> 
@@ -2709,11 +2709,11 @@
 		     	 +'<option value="${obj.value }">${obj.unit }</option>'
 			   </c:forEach>			  
 		       +'</select> <span id="units'+rNo+'Error" class="my-error"></span></div> </td>'
-		       +'<td data-head="Current" class="input-field light-blue_column"> <p> <label><input type="hidden" id="revision_amounts_statuss'+rNo+'"  name="revision_amounts_statuss" class="hidden_check" value="No" /> '
-		       +'<input type="checkbox"  id="revision_amounts_status'+rNo+'" disabled onchange="revisionChecks(' + '\'amounts\'' + ',' + rNo + ')"/> <span></span> </label> </p> </td> '
+		       +'<td data-head="Current" class="input-field light-blue_column p-h-0"> <p> <label><input type="hidden" id="revision_amounts_statuss'+rNo+'"  name="revision_amounts_statuss" class="hidden_check hidden_amount" value="No" /> '
+		       +'<input type="checkbox"  id="revision_amounts_status'+rNo+'" disabled onchange="revisionChecks(' + '\'amounts\'' + ',' + rNo + ')" class="revision_amount_status"/> <span></span> </label> </p> </td> '
 			   +'<td data-head="Revised DOC" class="input-field light-green_column"><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker" onchange="toggleRevision(' + '\'docs\'' + ',' + rNo + ')"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
-			   +'<td data-head="Current" class="input-field light-green_column"><p><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check" value="No" /><input type="checkbox" class="revision_status_checking" disabled onchange="revisionChecks(' + '\'docs\'' + ',' + rNo + ')"  id="revision_status'+rNo+'" /> <span></span> </label></p></td>'
+			   +'<td data-head="Current" class="input-field light-green_column p-h-0"><p><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check hidden_doc" value="No" /><input type="checkbox" class="revision_doc_status" disabled onchange="revisionChecks(' + '\'docs\'' + ',' + rNo + ')"  id="revision_status'+rNo+'" /> <span></span> </label></p></td>'
 			   +'<td data-head="Remarks" class="input-field"> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
 		 	   +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			   +'</tr>';
@@ -2834,22 +2834,20 @@
 		}
 
 		function revisionChecks(s, no) {
-            var type = (s == 'amounts') ? '' : (s == 'docs') ? '_amounts' : '';
-            /* if ($('#revision' + type + "_status" + no).prop('checked') && $('#revision' + type + "_status" + no).attr('disabled') == undefined) {
-                $('#revision' + type + "_status" + no).prop('checked', false);
-            } */
-            $("#revision_amounts_status"+no).change(function(){
-            	if($("#revision_status"+no).prop('checked')){
-            		$('#revision_status' + no).prop('checked', false);
-                	$("#revision_statuss"+no).val('No');
+            var type = (s == 'amounts') ? 'amount' : (s == 'docs') ? 'doc' : '';
+            var clsType = (s == 'amounts') ? '_amounts_' : (s == 'docs') ? '_' : '';
+            
+            //list all the elements
+            var listing=$('.revision_'+type+'_status');    
+            
+            $.each(listing,function(no,val){
+            	if(!$(val).attr('disabled')){            		
+            		$('.hidden_'+type).val('No');
+            		$(val).prop('checked', false);            		
             	}
             })
-            $("#revision_status"+no).change(function(){
-            	if($("#revision_amounts_status"+no).prop('checked')){
-            		$('#revision_amounts_status' + no).prop('checked', false);
-                	$("#revision_amounts_statuss"+no).val('No');
-            	}
-            })
+            $("#revision"+clsType+"status"+no).prop('checked', true);
+        	$("#revision"+clsType+"statuss"+no).val('Yes');
         }
 
         function toggleRevision(s, no) {

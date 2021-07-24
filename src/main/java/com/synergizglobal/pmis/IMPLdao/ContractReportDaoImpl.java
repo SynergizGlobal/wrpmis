@@ -714,7 +714,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {			
-				String qry ="select bank_guarantee_id,bg.contract_id_fk,bg_type_fk,issuing_bank,bg_number,cast(TRUNCATE((IFNULL(bg_value,0)/100000),2) as CHAR) as bg_value,DATE_FORMAT(valid_upto,'%d-%b-%y') AS bg_valid_upto,code,DATE_FORMAT(bg_date,'%d-%b-%Y') AS bg_date,DATE_FORMAT(release_date,'%d-%b-%Y') AS release_date,"
+				String qry ="select * from(select bank_guarantee_id,bg.contract_id_fk,bg_type_fk,issuing_bank,bg_number,cast(TRUNCATE((IFNULL(bg_value,0)/100000),2) as CHAR) as bg_value,DATE_FORMAT(valid_upto,'%d-%b-%y') AS bg_valid_upto,code,DATE_FORMAT(bg_date,'%d-%b-%Y') AS bg_date,DATE_FORMAT(release_date,'%d-%b-%Y') AS release_date,"
 						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head," + 
 						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
 						+"DATE_FORMAT(contract_closure_date,'%d-%b-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%b-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%b-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%b-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
@@ -784,6 +784,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
 					pValues[i++] = obj.getDate();
 				}
+				
+				qry = qry + " ) as a ";
+				
+				if(obj.getDate()!=null && obj.getDate()!="")
+				{
+					qry = qry +" where 1=(case when (STR_TO_DATE(bg_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"') then 0 else 1 end) ";
+				}				
 					
 				List<Contract> bgList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				
@@ -1294,7 +1301,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {			
-				String qry ="select insurance_id,i.contract_id_fk,insurance_type_fk,issuing_agency,agency_address,insurance_number,cast(TRUNCATE((IFNULL(insurance_value,0)/100000),2) as CHAR) as insurance_value,DATE_FORMAT(valid_upto,'%d-%b-%y') AS insurance_valid_upto,i.remarks as insurence_remark,revision,released_fk,"
+				String qry ="select * from(select insurance_id,i.contract_id_fk,insurance_type_fk,issuing_agency,agency_address,insurance_number,cast(TRUNCATE((IFNULL(insurance_value,0)/100000),2) as CHAR) as insurance_value,DATE_FORMAT(valid_upto,'%d-%b-%y') AS insurance_valid_upto,i.remarks as insurence_remark,revision,released_fk,"
 						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head," + 
 						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%b-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%b-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%b-%Y') AS actual_completion_date,c.remarks,"
 						+"DATE_FORMAT(contract_closure_date,'%d-%b-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%b-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%b-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%b-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%b-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
@@ -1364,6 +1371,12 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
 					pValues[i++] = obj.getDate();
 				}
+				qry = qry + " ) as a ";
+				
+				if(obj.getDate()!=null && obj.getDate()!="")
+				{
+					qry = qry +" where 1=(case when (STR_TO_DATE(insurance_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"') then 0 else 1 end) ";
+				}				
 				
 				List<Contract> insuranceList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				objsList.put(hodObj.getHod_designation(), insuranceList);

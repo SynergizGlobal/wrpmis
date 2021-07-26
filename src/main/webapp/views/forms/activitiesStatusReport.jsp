@@ -281,7 +281,7 @@
         	var contract_id = $("#contract_id").val();
         	var fob_id_fk = $("#fob_id_fk").val();
         	//alert(contract_id +" "+ fob_id_fk);
-            if ($.trim(contract_id) != "" && $.trim(fob_id_fk) == "") {
+            if ($.trim(contract_id) != "" ) {
             	$("#fob_id_fk option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk :fob_id_fk};
                 $.ajax({

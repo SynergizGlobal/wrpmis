@@ -38,7 +38,7 @@
 					<div class="center-align">
 						<span class="card-title headbg">
 							<div class="center-align p-2 bg-m m-b-2">
-								<h6>Activities Progress Report</h6>
+								<h6 id="rptName">Activities Progress Report</h6>
 							</div>
 						</span>
 					</div>
@@ -47,7 +47,7 @@
 						<div class="row">
 						<div class="col s12 m12 l7 offset-l2">
 							<div class="row no-mar" style="margin-bottom:0;">
-								<div class="col s6 m3 l4 input-field">
+								<div class="col s6 m3 l4 input-field"> 
 									<p class="searchable_label">Project</p>
 									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="resetprojectDropDowns();">
 										<option value="">Select</option>										<option>1</option>
@@ -68,42 +68,40 @@
 									</select> 
 									<span id="contract_idError" class="error-msg"></span>
 								</div>	 
-											
-							<!-- </div>
-							<div class="row">	 -->
-<!-- 							<div class="col l3 show-on-large"></div> -->
-								<div class="col s6 m3 l4 input-field">
-									<p class="searchable_label">Contractor</p>
-									<select class="searchable validate-dropdown" id="contractor_id" name="contractor_id" onchange="resetContractorDropDowns();">
-										<option value="">Select</option>	
-									</select> 
-									<span id="contractor_idError" class="error-msg"></span>
-								</div>
-								<div class="col s6 m3 l4 input-field">
-									<p class="searchable_label">HOD</p>
-									<select class="searchable validate-dropdown" id="hod" name="hod" onchange="resethodDropDowns();">
-										<option value="">Select</option>	
-									</select> 
-									<span id="hod_idError" class="error-msg"></span>
-								</div>
-								<div class="col s6 m3 l4 input-field">
-									<p class="searchable_label">Dy HOD</p>
-									<select class="searchable validate-dropdown" id="dyhod" name="dyhod" onchange="resetdyhodDropDowns();">
-										<option value="">Select</option>	
-									</select> 
-									<span id="dyhod_idError" class="error-msg"></span>
-								</div>
-							<!-- </div>
-							
-							<div class="row"> -->
+							    <div class="row" id="nextRow">
+									<div class="col s6 m3 l4 input-field">
+										<p class="searchable_label">Contractor</p>
+										<select class="searchable validate-dropdown" id="contractor_id" name="contractor_id" onchange="resetContractorDropDowns();">
+											<option value="">Select</option>	
+										</select> 
+										<span id="contractor_idError" class="error-msg"></span>
+									</div>
+									<div class="col s6 m3 l4 input-field">
+										<p class="searchable_label">HOD</p>
+										<select class="searchable validate-dropdown" id="hod" name="hod" onchange="resethodDropDowns();">
+											<option value="">Select</option>	
+										</select> 
+										<span id="hod_idError" class="error-msg"></span>
+									</div>
+									<div class="col s6 m3 l4 input-field">
+										<p class="searchable_label">Dy HOD</p>
+										<select class="searchable validate-dropdown" id="dyhod" name="dyhod" onchange="resetdyhodDropDowns();">
+											<option value="">Select</option>	
+										</select> 
+										<span id="dyhod_idError" class="error-msg"></span>
+									</div>
+								</div>	
+
+
+
 							    <div class="col s6 m3 l4 input-field" id="fob_id_fk_div" style="display: none;">
-									<p class="searchable_label">FOB</p>
+									<p class="searchable_label">Structure</p>
 									<select class="searchable validate-dropdown" id="fob_id_fk" name="fob_id_fk">
 										<option value="">Select</option>	
 									</select> 
 									<span id="fob_id_fkError" class="error-msg"></span>
 								</div>			
-								<div class="col s6 m3 l4 input-field">
+								<div class="col s6 m3 l4 input-field" id="fmRow">
 									<input id="from_date" name="from_date" type="text" class="validate datepicker"> <label for="from_date"> From Date <span class="required">*</span></label>
 									<button type="button" id="from_date_icon"><i class="fa fa-calendar"></i></button>
 									<span id="from_dateError" class="error-msg"></span>
@@ -116,12 +114,12 @@
 							</div>									
 							
 							<div class="row">	
-								<div class="col s6 m6 input-field center-align">
-									<button type="button" class="btn waves-effect waves-light bg-s t-c" onclick="clearFilters();">Clear Filters</button>
-								</div>
-								<div class="col s6 m6 input-field center-align">
+								<div class="col s6 m6 input-field" style="text-align:right;">
 									<button type="submit" class="btn waves-effect waves-light bg-m t-c"><strong>Generate Report </strong></button>
 								</div>
+								<div class="col s6 m6 input-field" style="text-align:left;">
+									<button type="button" class="btn waves-effect waves-light bg-s t-c" onclick="clearFilters();">Reset</button>
+								</div>								
 							</div>
 
 						</div>
@@ -196,6 +194,28 @@
 	    });
 
         $(document).ready(function () {
+        	
+        	var ReportNo = getUrlVars()["id"];
+			if(ReportNo==1)
+			{
+				 $('#activitiesReportForm').attr('action', 'generate-activities-dpr-report');
+				$("#rptName").html("Daily Progress Report");
+				$("#nextRow").show();
+				$("#fob_id_fk_div").show();
+				$("#fmRow").show();
+				$("#to_date_holder").show();
+				
+			}
+			else if(ReportNo==2)
+			{
+				$('#activitiesReportForm').attr('action', 'generate-activities-status-report');
+				$("#rptName").html("Status Report");
+				$("#nextRow").hide();
+				$("#fob_id_fk_div").hide();
+				$("#fmRow").hide();
+				$("#to_date_holder").hide();
+			}      	
+        	
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             resetFilterDropDowns();           
@@ -207,14 +227,22 @@
         	}
         });
         
+        function getUrlVars() {
+            var vars = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                vars[key] = value;
+            });
+            return vars;
+        }
+        
         function clearFilters(){
-        	$("#project_id option:not(:first)").remove();
+        /* 	$("#project_id option:not(:first)").remove();
         	$("#work_id option:not(:first)").remove();
         	$("#contract_id option:not(:first)").remove();
         	$("#fob_id_fk option:not(:first)").remove();
         	$("#contractor_id option:not(:first)").remove();
         	$("#hod option:not(:first)").remove();
-        	$("#dyhod option:not(:first)").remove();
+        	$("#dyhod option:not(:first)").remove(); */
         	
         	$("#project_id").val('');
         	$("#work_id").val('');

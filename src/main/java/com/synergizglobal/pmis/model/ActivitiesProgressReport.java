@@ -1,10 +1,92 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 public class ActivitiesProgressReport {
-	private String progress_date,activity_id_fk,completed_scope,activity_id,contract_id_fk,fob_id_fk,component_id_name, 
-	component,activity_name,structure,scope,completed,contract_name,contract_short_name,work_name,work_short_name,contractor_name,hod,dyhod,
+	private String progress_date,activity_id_fk,completed_scope,activity_id,contract_id_fk,fob_id_fk,component_id_name, planned_start,planned_finish,actual_start,actual_finish,
+	component,activity_name,structure,scope,completed,contract_name,contract_short_name,work_name,work_short_name,contractor_name,hod,dyhod,unit,
 	work_id,contract_id,reporting_date,work_id_fk,contractor_id_fk,cumulative_completed,excluded_scope,from_date,to_date,
 	project_id,project_name,project_id_fk,contractor_id,user_id,user_name,designation,fob_id,fob_name,structure_type_fk,structure_type,component_id;
+
+	List<ActivitiesProgressReport> componentsList;
+	List<ActivitiesProgressReport> activitiessList;
+	List<ActivitiesProgressReport> structuressList;
+	
+	
+	public List<ActivitiesProgressReport> getStructuressList() {
+		return structuressList;
+	}
+
+	public void setStructuressList(List<ActivitiesProgressReport> structuressList) {
+		this.structuressList = structuressList;
+	}
+
+	String [] fob_id_fks;
+	
+	
+	public String[] getFob_id_fks() {
+		return fob_id_fks;
+	}
+
+	public void setFob_id_fks(String[] fob_id_fks) {
+		this.fob_id_fks = fob_id_fks;
+	}
+
+	public List<ActivitiesProgressReport> getComponentsList() {
+		return componentsList;
+	}
+
+	public void setComponentsList(List<ActivitiesProgressReport> componentsList) {
+		this.componentsList = componentsList;
+	}
+
+	public List<ActivitiesProgressReport> getActivitiessList() {
+		return activitiessList;
+	}
+
+	public void setActivitiessList(List<ActivitiesProgressReport> activitiessList) {
+		this.activitiessList = activitiessList;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getActual_start() {
+		return actual_start;
+	}
+
+	public void setActual_start(String actual_start) {
+		this.actual_start = actual_start;
+	}
+
+	public String getActual_finish() {
+		return actual_finish;
+	}
+
+	public void setActual_finish(String actual_finish) {
+		this.actual_finish = actual_finish;
+	}
+
+	public String getPlanned_start() {
+		return planned_start;
+	}
+
+	public void setPlanned_start(String planned_start) {
+		this.planned_start = planned_start;
+	}
+
+	public String getPlanned_finish() {
+		return planned_finish;
+	}
+
+	public void setPlanned_finish(String planned_finish) {
+		this.planned_finish = planned_finish;
+	}
 
 	public String getStructure_type_fk() {
 		return structure_type_fk;

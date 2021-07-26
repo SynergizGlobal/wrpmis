@@ -99,6 +99,8 @@ public class PageConstants {
 	
 	public static final String activitiesReport = "forms/activitiesReport";
 	
+	public static final String activitiesStatusReport = "forms/activitiesStatusReport";
+	
 	public static final String taFinancialsGrid = "forms/taFinancialsGrid";
 	public static final String addEditTaFinancialsForm = "forms/addEditTaFinancialsForm";
 	

@@ -908,11 +908,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 				var conCatBGQry="(select DATE_FORMAT(MIN(valid_upto),'%d-%b-%y') from bank_guarantee bg where bg.contract_id_fk = c.contract_id  and bg_type_fk is not null and release_date is null)";
 				
-				var conCatQry="DATE_FORMAT(i.valid_upto,'%d-%b-%y')";
+				var conCatQry="(select DATE_FORMAT(MIN(i1.valid_upto),'%d-%b-%y') from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes'))";
 				
 				var conCatDocQry="case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end ";
-	
 				
+
 				String qry ="select * from (select distinct "+conCatQry+" AS insurance_valid_upto,"
 						+ "c.contract_short_name,cr.contractor_name," + 
 						conCatDocQry+" AS doc,"
@@ -954,7 +954,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						"left join user u on c.hod_user_id_fk = u.user_id "+
 						"left join user us on c.dy_hod_user_id_fk = us.user_id "
 						+"left join department dt on c.department_fk = dt.department "
-						+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
+						+"where contract_id is not null ";
 				
 				arrSize = 0;			
 	
@@ -1026,7 +1026,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 				if(obj.getDate()!=null && obj.getDate()!="")
 				{
-					qry=qry+"where 1=(case when (STR_TO_DATE(doc,'%d-%M-%Y')>'"+obj.getDate()+"' and STR_TO_DATE(bg_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and STR_TO_DATE(insurance_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"') then 0 else 1 end)";
+					qry=qry+"where 1=(case when (STR_TO_DATE(doc,'%d-%M-%Y')>'"+obj.getDate()+"' and STR_TO_DATE(bg_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and STR_TO_DATE(insurance_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"') then 0  WHEN (STR_TO_DATE(doc,'%d-%M-%Y')>'"+obj.getDate()+"' and insurance_valid_upto is null and bg_valid_upto is null) then 0  WHEN (STR_TO_DATE(insurance_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and doc is null and bg_valid_upto is null) then 0 WHEN (STR_TO_DATE(bg_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and insurance_valid_upto is null and doc is null) then 0  when (STR_TO_DATE(bg_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and STR_TO_DATE(doc,'%d-%M-%Y')>'"+obj.getDate()+"' and insurance_valid_upto is null) then 0 when (STR_TO_DATE(bg_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and STR_TO_DATE(insurance_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and doc is null) then 0 when (STR_TO_DATE(insurance_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and STR_TO_DATE(doc,'%d-%M-%Y')>'"+obj.getDate()+"' and bg_valid_upto is null) then 0 else 1 end)";
 				}
 				
 				List<Contract> insuranceList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));

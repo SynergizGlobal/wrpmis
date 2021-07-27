@@ -50,21 +50,24 @@
 								<div class="col s6 m3 l4 input-field"> 
 									<p class="searchable_label">Project</p>
 									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="resetFilterDropDowns();">
-										<option value="">Select</option>										<option>1</option>
+										<option value="">Select</option>										
 									</select> 
 									<span id="project_idError" class="error-msg"></span>
 								</div>							
 								<div class="col s6 m3 l4 input-field">
 									<p class="searchable_label">Work</p>
 									<select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="resetFilterDropDowns();">
-										<option value="">Select</option>	<option>1</option>
+										<option value="">Select</option>	
 									</select> 
 									<span id="work_idError" class="error-msg"></span>
 								</div>	
 								<div class="col s6 m3 l4 input-field">
 									<p class="searchable_label">Contract</p>
 									<select class="searchable validate-dropdown" id="contract_id" name="contract_id" onchange="resetFilterDropDowns();">
-										<option value="">Select</option>		<option>1</option>
+										<option value="">Select</option>		
+										<c:forEach var="obj" items="${contarctsList }">
+	                                      	   <option value= "${obj.contract_id}" >${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+	                                    </c:forEach>
 									</select> 
 									<span id="contract_idError" class="error-msg"></span>
 								</div>	 
@@ -89,7 +92,7 @@
 									<button type="submit" class="btn waves-effect waves-light bg-m t-c"><strong>Generate Report </strong></button>
 								</div>
 								<div class="col s6 m6 input-field" style="text-align:left;">
-									<button type="button" class="btn waves-effect waves-light bg-s t-c" onclick="clearFilters();">Reset</button>
+									<button type="button" class="btn waves-effect waves-light bg-s t-c" onClick="window.location.reload();" >Reset</button>
 								</div>								
 							</div>
 

@@ -414,4 +414,19 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 		}
 		return objsList;
 	}
+
+	@Override
+	public List<ActivitiesProgressReport> getContractsListInActivities() throws Exception {
+		List<ActivitiesProgressReport> objsList = null;
+		try {
+			String qryDetails = "select contract_id_fk as contract_id,c.contract_short_name from activities a "
+					+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
+					+"where contract_id_fk is not null and contract_id_fk <> '' group by contract_id";
+			
+			objsList = jdbcTemplate.query(qryDetails, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 }

@@ -20,4 +20,6 @@ public interface ActivitiesStatusReportService {
 
 	List<ActivitiesProgressReport> getFobFilterListInActivitiesStatusReport(ActivitiesProgressReport obj) throws Exception;
 
+	List<ActivitiesProgressReport> getContractsListInActivities() throws Exception;
+
 }

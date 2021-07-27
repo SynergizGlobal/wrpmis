@@ -50,5 +50,10 @@ public class ActivitiesStatusReportServiceImpl implements ActivitiesStatusReport
 			throws Exception {
 		return dao.getFobFilterListInActivitiesStatusReport(obj);
 	}
+
+	@Override
+	public List<ActivitiesProgressReport> getContractsListInActivities() throws Exception {
+		return dao.getContractsListInActivities();
+	}
 	
 }

@@ -167,14 +167,15 @@ public class ActivitiesStatusReportController {
 			
 			/***************************************************************************/
 	        
-			byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
-	        byte[] yellowRGB = new byte[]{(byte)255, (byte)192, (byte)0};
+			byte[] blueRGB = new byte[]{(byte)180, (byte)198, (byte)231};
+			byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)153};
 	        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
 	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
 	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
 	        
+	        
 	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Garamond";
-	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
@@ -182,9 +183,9 @@ public class ActivitiesStatusReportController {
 	        
 	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle cellStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        CellStyle centerStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle centerStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 
-	        CellStyle componentStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle componentStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Garamond";
 	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
@@ -312,14 +313,14 @@ public class ActivitiesStatusReportController {
 				            XSSFRow structureRow = dprSheet.createRow(rowNo++);
 					
 				            /**********************************************************************/
-							String headerString = "Activity Name^ Start ^Finish^Unit^Scope^Completed";
+							String headerString = "Activity Name^Unit^Scope^Completed^ Start ^Finish";
 					        
 					        String[] headerStringArr = headerString.split("\\^");
 					        
 					        XSSFRow headingRow = dprSheet.createRow(rowNo++);
 					        for (int i = 0; i < headerStringArr.length; i++) {		        	
 						        cell = headingRow.createCell(i);
-							    cell.setCellStyle(greenStyle);
+							    cell.setCellStyle(blueStyle);
 								cell.setCellValue(headerStringArr[i]);
 							}				
 						for (ActivitiesProgressReport cObj : zObj.getComponentsList()) {  
@@ -346,6 +347,18 @@ public class ActivitiesStatusReportController {
 								cell.setCellValue(dObj.getActivity_name());
 								
 								cell = row.createCell(c++);
+								cell.setCellStyle(sectionStyle);
+								cell.setCellValue(dObj.getUnit());
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(numberStyle);
+								cell.setCellValue(Double.parseDouble(dObj.getScope()));
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(numberStyle);
+								cell.setCellValue(Double.parseDouble(dObj.getCompleted()));
+								
+								cell = row.createCell(c++);
 								if(StringUtils.isEmpty(dObj.getActual_start())) {
 									cell.setCellStyle(sectionStyle);
 									cell.setCellValue(dObj.getPlanned_start());
@@ -363,17 +376,6 @@ public class ActivitiesStatusReportController {
 									cell.setCellValue(dObj.getActual_finish());
 								}
 						       
-								cell = row.createCell(c++);
-								cell.setCellStyle(sectionStyle);
-								cell.setCellValue(dObj.getUnit());
-								
-								cell = row.createCell(c++);
-								cell.setCellStyle(numberStyle);
-								cell.setCellValue(Double.parseDouble(dObj.getScope()));
-								
-								cell = row.createCell(c++);
-								cell.setCellStyle(numberStyle);
-								cell.setCellValue(Double.parseDouble(dObj.getCompleted()));
 								
 						        rowNo++;
 						    }

@@ -55,7 +55,7 @@ public class CommonConstants {
 	
 	/*********** LOCAL ****************************************************/
 	
-	public static String DIRECTORY_PATH = "E:";
+	public static String DIRECTORY_PATH = "C:";
 	
 	
 	public final static String LOGIN_BACKGROUND_IMAGE = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"resources"+File.separator+"images"+File.separator;

@@ -468,7 +468,15 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				arrSize++;
 			}
 			
-			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ORDER BY c.hod_user_id_fk is null asc";
+			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) 
+			{
+				hodQry = hodQry + " ORDER BY c.hod_user_id_fk is null asc";
+			}
+			else
+			{
+				hodQry = hodQry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning')";
+			}
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -514,7 +522,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						+ "(select remarks from contract_revision where contract_revision_id = (select max(contract_revision_id) from contract_revision where contract_id_fk = contract_id)) as  revision_remarks " */
 						+ "(select revision_number from contract_revision where revision_number is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as  revision_number," 
 						+ "(select revision_date from contract_revision where revision_date is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as  revision_date," 
-						+ "(select cast((IFNULL(revised_amount,0)/10000000) as CHAR) as revised_amount from contract_revision where revised_amount is not null and action = 'Yes' and contract_id_fk = contract_id) as  revised_amount,"
+						+ "(select cast((IFNULL(revised_amount,0)/10000000) as CHAR) as revised_amount from contract_revision where revised_amount is not null and revision_amounts_status = 'Yes' and contract_id_fk = contract_id) as  revised_amount,"
 						+ "(select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as  revised_doc," 
 						+ "(select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as  revised_doc_temp," 
 						+ "(select remarks from contract_revision where action = 'Yes' and contract_id_fk = contract_id limit 1) as revision_remarks,"

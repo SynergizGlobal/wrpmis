@@ -475,7 +475,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			else
 			{
-				hodQry = hodQry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning')";
+				hodQry = hodQry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
 			}
 			
 			Object[] pValues = new Object[arrSize];

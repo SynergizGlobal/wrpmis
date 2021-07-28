@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -100,9 +101,13 @@ import com.synergizglobal.pmis.Iservice.ContractReportService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.DocxTableCreation;
 import com.synergizglobal.pmis.common.DocxTableCreationForContractReport;
+import com.synergizglobal.pmis.common.EMailSender;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.User;
 @Controller
 public class ContractReportController {
 	@InitBinder
@@ -168,6 +173,34 @@ public class ContractReportController {
 		}
 		return worksList;
 	}
+	
+	@RequestMapping(value="/contract-report-auto-email",method=RequestMethod.GET)
+	public void contractReportAutoEmail(){
+		try {
+			Contract obj=new Contract();
+			
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+	           
+            obj.setDate(DateParser.parse(obj.getDate()));			
+			
+			boolean flag = generatContractDocBGInsuranceReportAutoEmail(currentDate,obj);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("contractReportAutoEmail : " + e.getMessage());
+		}
+	}	
+	
+	public static Date getFirstDateOfMonth(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
+        return cal.getTime();
+    }
+
+
 	
 	@RequestMapping(value = "/ajax/getContractorsListInContractReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -569,7 +602,91 @@ public class ContractReportController {
 		}
 		
 		return flag;
-	}	
+	}
+	
+	
+	public boolean generatContractDocBGInsuranceReportAutoEmail(String currentDate, Contract obj) throws Exception {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		boolean flag = false;
+		try{			
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+			String report_created_date = df.format(new Date()); 
+			Map<String,List<Contract>> list = service.getContractsDocBGInsuranceForReport(obj);
+			
+			boolean landscape = false;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
+
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
+			
+			String headerTextRight = "";
+			if(obj.getDate()!=null && obj.getDate()!="")
+			{
+				
+				headerTextRight="(Expiry by "+DateParser.parseToIndianDateFormatWithDot(obj.getDate())+")";
+			}			
+			
+			String headerTextMiddle = "Contract DOC BG and Insurance Validity Report";
+			
+			//String headerTextRight = report_created_date;
+			
+			//String headerText = "PMIS Report - Status of Contract BG";
+			
+			int tabs1 = 8;int tabs2 = 4;
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,tabs1,tabs2);
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);				 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreationForContractReport.createTableForContractDocBGInsuranceReport(wordMLPackage, mp, factory,list,report_created_date);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				
+				String file_extention = "docx";
+				String docbginsurance_file_name = "Contract-DOC-BG-and-Insurance-Validity-Report";
+
+				String recipients = "", cc = "", bcc = CommonConstants.BCC_MAIL,
+						subject = "Contract DOC BG and Insurance Validity Report", body = "";
+
+				recipients = service.getEmailIdsOfDepartments();
+
+				if (!StringUtils.isEmpty(recipients)) {
+					EMailSender emailSender = new EMailSender();
+					emailSender.sendEmailWithContractReportsAttachment("swathi.sagi@synergizglobal.com", cc, bcc, subject, body,
+							docbginsurance_file_name, file_extention, byteArray);
+				}
+				
+				flag = true;
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generatContractDocBGInsuranceReport >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractDocBGInsuranceReport >> " + e.getMessage());
+			flag = false;
+			throw new Exception(e);
+		}
+		
+		return flag;
+	}
+	
+	
 	private boolean generatContractDocBGInsuranceReport(HttpServletResponse response, String currentDate, Contract obj) throws Exception {
 		//XWPFDocument document = new XWPFDocument(); 
 		//StringBuilder repositoryExcerpts = new StringBuilder(); 

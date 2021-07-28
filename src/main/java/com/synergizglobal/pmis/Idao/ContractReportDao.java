@@ -41,5 +41,8 @@ public interface ContractReportDao {
 	Contract getContractorDetails(Contract obj) throws Exception;
 
 	List<Contract> getKeyPersonnelForReport(Contract obj) throws Exception;
+
+	String getEmailIdsOfDepartments() throws Exception;
+
 	
 }

@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.User;
 
@@ -42,6 +43,9 @@ public class Schedular {
 	
 	@Autowired
 	IssuesReportController issueReportController;
+	
+	@Autowired
+	ContractReportController contractReportController;
 	
 	@Autowired
 	UserLoginReportController userLoginReportController;
@@ -194,8 +198,11 @@ public class Schedular {
 	public void sendMailWithContractBGInsuranceReport(){
 	     try {
 	    	 logger.error("sendMailWithContractBGInsuranceReport : Method executed at > "+new Date());
-	    	 Issue obj = new Issue();
-             boolean flag = issueReportController.sendMailWithOpenIssues(obj);
+	    	 Contract obj = new Contract();
+				SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+				Date date = new Date();
+	            String currentDate = sqlDate.format(date);	    	 
+             boolean flag = contractReportController.generatContractDocBGInsuranceReportAutoEmail(currentDate,obj);
 	    	 logger.error("sendMailWithContractBGInsuranceReport : "+flag);
 		 } catch (Exception e) {
 			 e.printStackTrace();

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.ContractReportDao;
 import com.synergizglobal.pmis.Iservice.ContractReportService;
 import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.Issue;
 
 @Service
 public class ContractReportServiceImpl implements ContractReportService{
@@ -103,6 +104,11 @@ public class ContractReportServiceImpl implements ContractReportService{
 	@Override
 	public List<Contract> getKeyPersonnelForReport(Contract obj) throws Exception {
 		return dao.getKeyPersonnelForReport(obj);
+	}
+	
+	@Override
+	public String getEmailIdsOfDepartments() throws Exception {
+		return dao.getEmailIdsOfDepartments();
 	}
 
 }

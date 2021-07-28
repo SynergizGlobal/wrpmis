@@ -1797,7 +1797,18 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		return objsList;
 	}
 
-	
+	@Override
+	public String getEmailIdsOfDepartments() throws Exception {
+		String email_ids = null;
+		try {
+			String qry = "select group_concat(email_id) from user where designation in('CMD','DIR Project') OR department_fk in('Fin','Engg','Elec','S&T') and EMAIL_ID is not null order by designation ";
+			
+			email_ids = jdbcTemplate.queryForObject( qry, String.class);	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return email_ids;
+	}
 }
 
 

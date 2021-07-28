@@ -838,4 +838,103 @@ public class EMailSender {
 	}
 
 	
+	public void sendEmailWithContractReportsAttachment(String recipients,String cc, String bcc, String subject, 
+			String body,String contract_file_name, String file_extention, byte[] contract_byte_array) {
+		 
+		 try {
+			 // create a message
+			 MimeMessage message = new MimeMessage( getSession() );
+			 DataSource ds = null;
+			 message.setFrom(new InternetAddress(mailId));
+			 
+			 if(!StringUtils.isEmpty(recipients)) {
+				 ArrayList<String> recipientsArray = new ArrayList<String>();
+				 StringTokenizer stringTokenizer = new StringTokenizer(recipients, ",");
+				 
+				 while (stringTokenizer.hasMoreTokens()) {
+					 recipientsArray.add(stringTokenizer.nextToken());
+				 }
+				 int sizeTo = recipientsArray.size();
+				 InternetAddress[] addressTo = new InternetAddress[sizeTo];
+				 for (int i = 0; i < sizeTo; i++) {
+					 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
+				 }	 
+				 message.setRecipients(Message.RecipientType.TO, addressTo);
+			 }
+			 /*********************************************************************/
+			 
+			 if(!StringUtils.isEmpty(cc)) {
+				 ArrayList<String> ccRecipientsArray = new ArrayList<String>();
+				 StringTokenizer ccStringTokenizer = new StringTokenizer(cc, ",");
+				 
+				 while (ccStringTokenizer.hasMoreTokens()) {
+					 ccRecipientsArray.add(ccStringTokenizer.nextToken());
+				 }
+				 int sizeCC = ccRecipientsArray.size();
+				 InternetAddress[] addressCC = new InternetAddress[sizeCC];
+				 for (int i = 0; i < sizeCC; i++) {
+					 addressCC[i] = new InternetAddress(ccRecipientsArray.get(i).toString());
+				 }
+				 message.setRecipients(Message.RecipientType.CC, addressCC);
+			 }
+			 
+			 /*********************************************************************/
+			  
+			  if(!StringUtils.isEmpty(bcc)) {
+				  ArrayList<String> bccArray = new ArrayList<String>();
+				  StringTokenizer stringTokenizerBcc = new StringTokenizer(bcc, ",");
+				 
+				  while (stringTokenizerBcc.hasMoreTokens()) {
+					  bccArray.add(stringTokenizerBcc.nextToken());
+				  }
+				  int sizeBcc = bccArray.size();
+				  InternetAddress[] addressBcc = new InternetAddress[sizeBcc];
+				  for (int i = 0; i < sizeBcc; i++) {
+					  addressBcc[i] = new InternetAddress(bccArray.get(i).toString());
+				  }	 
+				  message.setRecipients(Message.RecipientType.BCC, addressBcc);
+			  }
+			  /*********************************************************************/
+			  
+			 message.setSubject(subject);
+			 
+			 // create and fill the first message part
+			 MimeBodyPart mimeBodyPart1 = new MimeBodyPart();
+			 mimeBodyPart1.setText(body);
+			 
+			 // Open issues attachment part
+			 MimeBodyPart mimeBodyPart2 = new MimeBodyPart();
+			 try{
+				 ds = new ByteArrayDataSource(contract_byte_array, "application/msword");
+			 }catch (Exception ioe ){			
+				 logger.error("sendEmailWithAttachment >> "+ioe.getMessage());
+			 }
+			 DataHandler dh = new DataHandler(ds);
+			 mimeBodyPart2.setHeader("Content-Disposition", "attachment;filename="+contract_file_name+"."+file_extention);
+			 mimeBodyPart2.setDataHandler(dh);
+			 mimeBodyPart2.setFileName(contract_file_name+"."+file_extention);
+			 
+			 
+			 /*****************************************************************************************/
+			 
+			 Multipart multiPart = new MimeMultipart();
+			 multiPart.addBodyPart(mimeBodyPart1);
+			 multiPart.addBodyPart(mimeBodyPart2);
+			 
+			 message.setContent(multiPart);
+			 
+			 // set the Date: header
+			 message.setSentDate(new Date());
+			 
+			 // send the message
+			 Transport.send(message);
+			 
+		 }catch (MessagingException mex) {
+			 mex.printStackTrace();
+			 logger.error("sendEmailWithAttachment >> "+mex);
+		 }
+		
+	}
+
+	
 }

@@ -20,6 +20,11 @@
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style>
+	    @media only screen and (min-width: 1200px){
+			html {
+			    font-size: 14px;
+			}
+	    }
         p a {
             color: blue
         }
@@ -103,6 +108,12 @@
 			    width: calc(100% - 3rem );
 			}
 			
+		}
+		.pt-10{
+			padding-top:.6rem !important;
+		}
+		.fs-85{
+			font-size:.85rem !important;
 		}
     </style>
 </head>
@@ -254,89 +265,199 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s8 m3 input-field offset-m2">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="net_paid" min="0.01" step="0.01" type="number" class="validate" name="net_paid" value="${expenditureDetails.net_paid }">
                                     <label for="net_paid"> Net Paid </label>
                                     <span id="net_paidError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field ">
+                                <div class="col s4 m1 input-field pt-10">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="net_paid_units" name="net_paid_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                  		    </c:forEach>
+                                	</select>
+                                	<span id="net_paid_unitsError" class="error-msg" ></span>
+                                	</div>
+                                <div class="col s8 m3 input-field ">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="sd_payable" min="0.01" step="0.01" type="number" class="validate" name="sd_payable" value="${expenditureDetails.sd_payable }">
                                     <label for="sd_payable">SD Payable</label>
                                     <span id="sd_payableError" class="error-msg" ></span>
-                                </div>                               
+                                </div>  
+                                <div class="col s4 m1 input-field pt-10">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="sd_payable_units" name="sd_payable_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                  		    </c:forEach>
+                                	</select>
+                                	<span id="sd_payable_unitsError" class="error-msg" ></span>
+                                </div>                             
                             </div>
                             <div class="row">
-                                <div class="col s12 m4 input-field offset-m2">
+                                <div class="col s8 m3 input-field offset-m2">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="gross_work_done" min="0.01" step="0.01" type="number" class="validate" name="gross_work_done" value="${expenditureDetails.gross_work_done }"> 
                                     <label for="gross_work_done"> Gross Work Done </label>
                                     <span id="gross_work_doneError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s4 m1 input-field pt-10">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="gross_work_done_units" name="gross_work_done_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                  		    </c:forEach>
+                                	</select>
+                                	<span id="gross_work_done_unitsError" class="error-msg" ></span>
+                                </div> 
+                                <div class="col s8 m3 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="contractor_income_tax" min="0.01" step="0.01" type="number" class="validate" name="contractor_income_tax" value="${expenditureDetails.contractor_income_tax }">
                                     <label for="contractor_income_tax">Contractor Income Tax</label>
                                     <span id="contractor_income_taxError" class="error-msg" ></span>
                                 </div>
+                                 <div class="col s4 m1 input-field pt-10">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="contractor_tax_units" name="contractor_tax_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                  		    </c:forEach>
+                                	</select>
+                                	<span id="contractor_tax_unitsError" class="error-msg" ></span>
+                                </div> 
                             </div>
                             <div class="row">
-								<div class="col s12 m8 offset-m2">
-									<div class="row">
-										<div class="col s6 m4 input-field">
+								<!-- <div class="col s12 m8 offset-m2">
+									<div class="row"> -->
+										<div class="col s8 m3 input-field offset-m2">
 											<i class="material-icons prefix center-align">₹</i> <input
 												id="cgst_tds" min="0.01" step="0.01" type="number" class="validate" name="cgst_tds"
 												value="${expenditureDetails.cgst_tds }"> <label
 												for="cgst_tds">CGST TDS</label> <span id="cgst_tdsError"
 												class="error-msg"></span>
 										</div>
-										<div class="col s6 m4 input-field">
+									    <div class="col s4 m1 input-field pt-10">
+		                                	<p class="searchable_label">Unit</p>
+		                                	<select class="units searchable validate-dropdown" id="cgst_tds_units" name="cgst_tds_units">
+		                                		<option value="">Select</option>
+		                                		<c:forEach var="obj" items="${unitsList }">
+		                                 			   <option value="${obj.value }" >${obj.unit }</option>
+		                                  		    </c:forEach>
+		                                	</select>
+		                                	<span id="cgst_tds_unitsError" class="error-msg" ></span>
+		                                </div>
+										<div class="col s8 m3 input-field">
 											<i class="material-icons prefix center-align">₹</i> <input
 												id="sgst_tds" min="0.01" step="0.01" type="number" class="validate" name="sgst_tds"
 												value="${expenditureDetails.sgst_tds }"> <label
 												for="sgst_tds">SGST TDS</label> <span id="sgst_tdsError"
 												class="error-msg"></span>
 										</div>
-										<div class="col s6 m4 input-field">
+										<div class="col s4 m1 input-field pt-10">
+		                                	<p class="searchable_label">Unit</p>
+		                                	<select class="units searchable validate-dropdown" id="sgst_tds_units" name="sgst_tds_units">
+		                                		<option value="">Select</option>
+		                                		<c:forEach var="obj" items="${unitsList }">
+		                                 			   <option value="${obj.value }" >${obj.unit }</option>
+		                                  		    </c:forEach>
+		                                	</select>
+		                                	<span id="sgst_tds_unitsError" class="error-msg" ></span>
+		                                </div>
+		                                </div>
+		                                <div class="row">
+										<div class="col s8 m3 input-field offset-m2">
 											<i class="material-icons prefix center-align">₹</i> <input
 												id="igst_tds" min="0.01" step="0.01" type="number" class="validate" name="igst_tds"
 												value="${expenditureDetails.igst_tds }"> <label
 												for="igst_tds">IGST TDS</label> <span id="igst_tdsError"
 												class="error-msg"></span>
 										</div>
-									</div>
-								</div>
+										<div class="col s4 m1 input-field pt-10">
+		                                	<p class="searchable_label">Unit</p>
+		                                	<select class="units searchable validate-dropdown" id="igst_tds_units" name="igst_tds_units">
+		                                		<option value="">Select</option>
+		                                		<c:forEach var="obj" items="${unitsList }">
+		                                 			   <option value="${obj.value }" >${obj.unit }</option>
+		                                  		    </c:forEach>
+		                                	</select>
+		                                	<span id="igst_tds_unitsError" class="error-msg" ></span>
+		                               </div>
+									<!-- </div>
+								</div> -->
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s8 m3 input-field offset-m2">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="mob_advance" min="0.01" step="0.01" type="number" class="validate" name="mob_advance" value="${expenditureDetails.mob_advance }">
                                     <label for="mob_advance">Mobilization Advance</label>
                                     <span id="mob_advanceError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s4 m1 input-field pt-10">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="mobilization_advance_units" name="mobilization_advance_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                  		    </c:forEach>
+                                	</select>
+                                	<span id="mobilization_advance_unitsError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s8 m3 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="interest_on_mob_adv" min="0.01" step="0.01" type="number" class="validate" name="interest_on_mob_adv" value="${expenditureDetails.interest_on_mob_adv }">
-                                    <label for="interest_on_mob_adv">Interest on Mobilization
+                                    <label for="interest_on_mob_adv" class="fs-85">Interest on Mobilization
                                         Advance</label>
                                     <span id="interest_on_mob_advError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s4 m1 input-field pt-10">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="interest_on_mobilization_units" name="interest_on_mobilization_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                  		    </c:forEach>
+                                	</select>
+                                	<span id="interest_on_mobilization_unitsError" class="error-msg" ></span>
+                                </div>
                             </div>
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s8 m3 input-field offset-m2">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="vat_wct" min="0.01" step="0.01" type="number" class="validate" name="vat_wct" value="${expenditureDetails.vat_wct }">
                                     <label for="vat_wct">VAT WCT</label>
                                     <span id="vat_wctError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s4 m1 input-field pt-10">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="vat_wct_units" name="vat_wct_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                  		    </c:forEach>
+                                	</select>
+                                	<span id="vat_wct_unitsError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s8 m3 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="amount_withheld" min="0.01" step="0.01" type="number" class="validate" name="amount_withheld" value="${expenditureDetails.amount_withheld }">
                                     <label for="amount_withheld" class="fs-sm-8rem">Amount WithHeld</label>
                                     <span id="amount_withheldError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s4 m1 input-field pt-10">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="amount_withheld_units" name="amount_withheld_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                  		    </c:forEach>
+                                	</select>
+                                	<span id="amount_withheld_unitsError" class="error-msg" ></span>
                                 </div>
                             </div>
 

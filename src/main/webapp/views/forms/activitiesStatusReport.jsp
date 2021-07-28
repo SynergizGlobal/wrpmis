@@ -38,7 +38,7 @@
 					<div class="center-align">
 						<span class="card-title headbg">
 							<div class="center-align p-2 bg-m m-b-2">
-								<h6 id="rptName">Activities Progress Report</h6>
+								<h6 id="rptName">Activities Status Report</h6>
 							</div>
 						</span>
 					</div>

@@ -38,7 +38,7 @@
 					<div class="center-align">
 						<span class="card-title headbg">
 							<div class="center-align p-2 bg-m m-b-2">
-								<h6 id="rptName">Activities Progress Report</h6>
+								<h6 id="rptName">Daily Progress Report</h6>
 							</div>
 						</span>
 					</div>
@@ -194,28 +194,6 @@
 	    });
 
         $(document).ready(function () {
-        	
-        	var ReportNo = getUrlVars()["id"];
-			if(ReportNo==1)
-			{
-				 $('#activitiesReportForm').attr('action', 'generate-activities-dpr-report');
-				$("#rptName").html("Daily Progress Report");
-				$("#nextRow").show();
-				$("#fob_id_fk_div").show();
-				$("#fmRow").show();
-				$("#to_date_holder").show();
-				
-			}
-			else if(ReportNo==2)
-			{
-				$('#activitiesReportForm').attr('action', 'generate-activities-status-report');
-				$("#rptName").html("Status Report");
-				$("#nextRow").hide();
-				$("#fob_id_fk_div").hide();
-				$("#fmRow").hide();
-				$("#to_date_holder").hide();
-			}      	
-        	
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             resetFilterDropDowns();           
@@ -226,15 +204,7 @@
         		$('#to_date_holder').css("display", "block");
         	}
         });
-        
-        function getUrlVars() {
-            var vars = {};
-            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-                vars[key] = value;
-            });
-            return vars;
-        }
-        
+ 
         function clearFilters(){
         /* 	$("#project_id option:not(:first)").remove();
         	$("#work_id option:not(:first)").remove();

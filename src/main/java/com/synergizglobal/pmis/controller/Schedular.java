@@ -188,6 +188,20 @@ public class Schedular {
 			logger.error("sendUserLoginReportByCronJob() : "+e.getMessage());
 		 }
 	}
+	
+	//@Scheduled(cron = "0 0/1 * * * *")	//  = every minute.
+	//@Scheduled(cron = "${cron.expression.send.mail.with.contract.bg.insurance.report}")
+	public void sendMailWithContractBGInsuranceReport(){
+	     try {
+	    	 logger.error("sendMailWithContractBGInsuranceReport : Method executed at > "+new Date());
+	    	 Issue obj = new Issue();
+             boolean flag = issueReportController.sendMailWithOpenIssues(obj);
+	    	 logger.error("sendMailWithContractBGInsuranceReport : "+flag);
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			 logger.error("sendMailWithContractBGInsuranceReport() : "+e.getMessage());
+		 }
+	}
 		
 	/**********************************************************************************/
 	

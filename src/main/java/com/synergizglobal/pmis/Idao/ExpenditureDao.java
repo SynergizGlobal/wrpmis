@@ -40,4 +40,6 @@ public interface ExpenditureDao {
 
 	public List<Expenditure> getExpendituresListForExport(Expenditure obj) throws Exception;
 
+	public List<Expenditure> getUnitsList() throws Exception;
+
 }

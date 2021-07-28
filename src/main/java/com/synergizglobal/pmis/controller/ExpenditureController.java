@@ -286,6 +286,10 @@ public class ExpenditureController {
 			
 			List<Expenditure> voucherList = expenditureService.getVoucherList();
 			model.addObject("voucherList", voucherList);
+			
+			List<Expenditure> unitsList = expenditureService.getUnitsList();
+			model.addObject("unitsList", unitsList);
+			
 		}catch (Exception e) {
 				logger.error("Expenditure : " + e.getMessage());
 		}
@@ -341,6 +345,8 @@ public class ExpenditureController {
 			model.addObject("projectsList", projectsList);
 			List<Expenditure> voucherList = expenditureService.getVoucherList();
 			model.addObject("voucherList", voucherList);
+			List<Expenditure> unitsList = expenditureService.getUnitsList();
+			model.addObject("unitsList", unitsList);
 			Expenditure expenditureDetails = expenditureService.getExpenditure(obj);
 			model.addObject("expenditureDetails", expenditureDetails);
 		}catch (Exception e) {
@@ -434,9 +440,9 @@ public class ExpenditureController {
 		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        
 		        XSSFRow headingRow = sheet.createRow(0);
-		        String headerString = "Expenditure ID^Work^Contract^Ledger Account^Date^Contractor Name^Vocher Type^Vocher No^Narration^Net Paid^Gross Work Done"
-	            		+ "^SD Payable^Contractor Income Tax^CGST TDS^SGST TDS^IGST TDS^VAT WCT^Mob Advance^Interest on Mob Advance^"
-	            		+ "Amount Withheld^Remarks";
+		        String headerString = "Expenditure ID^Work^Contract^Ledger Account^Date^Contractor Name^Vocher Type^Vocher No^Narration^Net Paid^Units^Gross Work Done^Units"
+	            		+ "^SD Payable^Units^Contractor Income Tax^Units^CGST TDS^Units^SGST TDS^Units^IGST TDS^Units^VAT WCT^Units^Mob Advance^Units^Interest on Mob Advance^Units^"
+	            		+ "Amount Withheld^Units^Remarks";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            
@@ -493,7 +499,15 @@ public class ExpenditureController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getUnit());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
 						cell.setCellValue(eObj.getGross_work_done());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getGross_units());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
@@ -501,7 +515,15 @@ public class ExpenditureController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getSd_units());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
 						cell.setCellValue(eObj.getContractor_income_tax());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getContractor_income_units());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
@@ -509,7 +531,15 @@ public class ExpenditureController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getCgst_units());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
 						cell.setCellValue(eObj.getSgst_tds());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getSgst_units());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
@@ -517,7 +547,15 @@ public class ExpenditureController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getIgst_units());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
 						cell.setCellValue(eObj.getVat_wct());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getVat_units());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
@@ -525,11 +563,23 @@ public class ExpenditureController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getMob_units());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
 						cell.setCellValue(eObj.getInterest_on_mob_adv());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getInterest_units());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
 						cell.setCellValue(eObj.getAmount_withheld());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getWithheld_units());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);

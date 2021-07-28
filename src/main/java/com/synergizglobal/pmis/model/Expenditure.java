@@ -8,12 +8,206 @@ import org.springframework.web.multipart.MultipartFile;
 public class Expenditure {
 	
 
-	private String expenditure_id, contract_id_fk,contract_name,contract_id,work_id_fk,work_name,work_id, igst_tds,ledger_account, date, contractor_name, voucher_type, voucher_no, 
+	private String expenditure_id,id,unit,value,contract_id_fk,contract_name,contract_id,work_id_fk,work_name,work_id, igst_tds,ledger_account, date, contractor_name, voucher_type, voucher_no, 
 	narration, net_paid, gross_work_done, sd_payable, contractor_income_tax, cgst_tds, sgst_tds, vat_wct, mob_advance 
-	,interest_on_mob_adv, amount_withheld, remarks,financial_year,financial_year_fk,project_id_fk,project_name,work_short_name,contract_short_name,project_id;
+	,interest_on_mob_adv, amount_withheld, remarks,financial_year,financial_year_fk,project_id_fk,project_name,work_short_name,contract_short_name,project_id,
+	net_paid_units,gross_work_done_units,sd_payable_units,contractor_income_tax_units,cgst_tds_units,sgst_tds_units,igst_tds_units,vat_wct_units,mob_advance_units,interest_on_mob_adv_units,amount_withheld_units,
+	sd_units,gross_units,contractor_income_units,cgst_units,sgst_units,igst_units,vat_units,mob_units,interest_units,withheld_units;
 
 	private MultipartFile expenditureFile;
 	
+	public String getSd_units() {
+		return sd_units;
+	}
+
+	public void setSd_units(String sd_units) {
+		this.sd_units = sd_units;
+	}
+
+	public String getGross_units() {
+		return gross_units;
+	}
+
+	public void setGross_units(String gross_units) {
+		this.gross_units = gross_units;
+	}
+
+	public String getContractor_income_units() {
+		return contractor_income_units;
+	}
+
+	public void setContractor_income_units(String contractor_income_units) {
+		this.contractor_income_units = contractor_income_units;
+	}
+
+	public String getCgst_units() {
+		return cgst_units;
+	}
+
+	public void setCgst_units(String cgst_units) {
+		this.cgst_units = cgst_units;
+	}
+
+	public String getSgst_units() {
+		return sgst_units;
+	}
+
+	public void setSgst_units(String sgst_units) {
+		this.sgst_units = sgst_units;
+	}
+
+	public String getIgst_units() {
+		return igst_units;
+	}
+
+	public void setIgst_units(String igst_units) {
+		this.igst_units = igst_units;
+	}
+
+	public String getVat_units() {
+		return vat_units;
+	}
+
+	public void setVat_units(String vat_units) {
+		this.vat_units = vat_units;
+	}
+
+	public String getMob_units() {
+		return mob_units;
+	}
+
+	public void setMob_units(String mob_units) {
+		this.mob_units = mob_units;
+	}
+
+	public String getInterest_units() {
+		return interest_units;
+	}
+
+	public void setInterest_units(String interest_units) {
+		this.interest_units = interest_units;
+	}
+
+	public String getWithheld_units() {
+		return withheld_units;
+	}
+
+	public void setWithheld_units(String withheld_units) {
+		this.withheld_units = withheld_units;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public String getNet_paid_units() {
+		return net_paid_units;
+	}
+
+	public void setNet_paid_units(String net_paid_units) {
+		this.net_paid_units = net_paid_units;
+	}
+
+	public String getGross_work_done_units() {
+		return gross_work_done_units;
+	}
+
+	public void setGross_work_done_units(String gross_work_done_units) {
+		this.gross_work_done_units = gross_work_done_units;
+	}
+
+	public String getSd_payable_units() {
+		return sd_payable_units;
+	}
+
+	public void setSd_payable_units(String sd_payable_units) {
+		this.sd_payable_units = sd_payable_units;
+	}
+
+	public String getContractor_income_tax_units() {
+		return contractor_income_tax_units;
+	}
+
+	public void setContractor_income_tax_units(String contractor_income_tax_units) {
+		this.contractor_income_tax_units = contractor_income_tax_units;
+	}
+
+	public String getCgst_tds_units() {
+		return cgst_tds_units;
+	}
+
+	public void setCgst_tds_units(String cgst_tds_units) {
+		this.cgst_tds_units = cgst_tds_units;
+	}
+
+	public String getSgst_tds_units() {
+		return sgst_tds_units;
+	}
+
+	public void setSgst_tds_units(String sgst_tds_units) {
+		this.sgst_tds_units = sgst_tds_units;
+	}
+
+	public String getIgst_tds_units() {
+		return igst_tds_units;
+	}
+
+	public void setIgst_tds_units(String igst_tds_units) {
+		this.igst_tds_units = igst_tds_units;
+	}
+
+	public String getVat_wct_units() {
+		return vat_wct_units;
+	}
+
+	public void setVat_wct_units(String vat_wct_units) {
+		this.vat_wct_units = vat_wct_units;
+	}
+
+	public String getMob_advance_units() {
+		return mob_advance_units;
+	}
+
+	public void setMob_advance_units(String mob_advance_units) {
+		this.mob_advance_units = mob_advance_units;
+	}
+
+	public String getInterest_on_mob_adv_units() {
+		return interest_on_mob_adv_units;
+	}
+
+	public void setInterest_on_mob_adv_units(String interest_on_mob_adv_units) {
+		this.interest_on_mob_adv_units = interest_on_mob_adv_units;
+	}
+
+	public String getAmount_withheld_units() {
+		return amount_withheld_units;
+	}
+
+	public void setAmount_withheld_units(String amount_withheld_units) {
+		this.amount_withheld_units = amount_withheld_units;
+	}
+
 	public MultipartFile getExpenditureFile() {
 		return expenditureFile;
 	}

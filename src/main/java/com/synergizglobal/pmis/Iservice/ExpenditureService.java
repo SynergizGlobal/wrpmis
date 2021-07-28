@@ -41,4 +41,6 @@ public interface ExpenditureService {
 
 	public List<Expenditure> getExpendituresListForExport(Expenditure obj) throws Exception;
 
+	public List<Expenditure> getUnitsList() throws Exception;
+
 }

@@ -100,6 +100,11 @@ public class ExpenditureServiceImpl implements ExpenditureService{
 	public List<Expenditure> getExpendituresListForExport(Expenditure obj) throws Exception {
 		return dao.getExpendituresListForExport(obj);
 	}
+
+	@Override
+	public List<Expenditure> getUnitsList() throws Exception {
+		return dao.getUnitsList();
+	}
 	
 	
 

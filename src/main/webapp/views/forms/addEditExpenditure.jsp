@@ -276,7 +276,7 @@
                                 	<select class="units searchable validate-dropdown" id="net_paid_units" name="net_paid_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                 			   <option value="${obj.value }" <c:if test="${expenditureDetails.net_paid_units eq obj.value}">selected</c:if>>${obj.unit }</option>
                                   		    </c:forEach>
                                 	</select>
                                 	<span id="net_paid_unitsError" class="error-msg" ></span>
@@ -292,7 +292,7 @@
                                 	<select class="units searchable validate-dropdown" id="sd_payable_units" name="sd_payable_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                 			   <option value="${obj.value }" <c:if test="${expenditureDetails.sd_payable_units eq obj.value}">selected</c:if>>${obj.unit }</option>
                                   		    </c:forEach>
                                 	</select>
                                 	<span id="sd_payable_unitsError" class="error-msg" ></span>
@@ -310,7 +310,7 @@
                                 	<select class="units searchable validate-dropdown" id="gross_work_done_units" name="gross_work_done_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                 			   <option value="${obj.value }" <c:if test="${expenditureDetails.gross_work_done_units eq obj.value}">selected</c:if> >${obj.unit }</option>
                                   		    </c:forEach>
                                 	</select>
                                 	<span id="gross_work_done_unitsError" class="error-msg" ></span>
@@ -323,13 +323,13 @@
                                 </div>
                                  <div class="col s4 m1 input-field pt-10">
                                 	<p class="searchable_label">Unit</p>
-                                	<select class="units searchable validate-dropdown" id="contractor_tax_units" name="contractor_tax_units">
+                                	<select class="units searchable validate-dropdown" id="contractor_income_tax_units" name="contractor_income_tax_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                 			   <option value="${obj.value }" <c:if test="${expenditureDetails.contractor_income_tax_units eq obj.value}">selected</c:if> >${obj.unit }</option>
                                   		    </c:forEach>
                                 	</select>
-                                	<span id="contractor_tax_unitsError" class="error-msg" ></span>
+                                	<span id="contractor_income_tax_unitsError" class="error-msg" ></span>
                                 </div> 
                             </div>
                             <div class="row">
@@ -347,7 +347,7 @@
 		                                	<select class="units searchable validate-dropdown" id="cgst_tds_units" name="cgst_tds_units">
 		                                		<option value="">Select</option>
 		                                		<c:forEach var="obj" items="${unitsList }">
-		                                 			   <option value="${obj.value }" >${obj.unit }</option>
+		                                 			   <option value="${obj.value }"  <c:if test="${expenditureDetails.cgst_tds_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                  		    </c:forEach>
 		                                	</select>
 		                                	<span id="cgst_tds_unitsError" class="error-msg" ></span>
@@ -364,7 +364,7 @@
 		                                	<select class="units searchable validate-dropdown" id="sgst_tds_units" name="sgst_tds_units">
 		                                		<option value="">Select</option>
 		                                		<c:forEach var="obj" items="${unitsList }">
-		                                 			   <option value="${obj.value }" >${obj.unit }</option>
+		                                 			   <option value="${obj.value }" <c:if test="${expenditureDetails.sgst_tds_units eq obj.value}">selected</c:if> >${obj.unit }</option>
 		                                  		    </c:forEach>
 		                                	</select>
 		                                	<span id="sgst_tds_unitsError" class="error-msg" ></span>
@@ -383,7 +383,7 @@
 		                                	<select class="units searchable validate-dropdown" id="igst_tds_units" name="igst_tds_units">
 		                                		<option value="">Select</option>
 		                                		<c:forEach var="obj" items="${unitsList }">
-		                                 			   <option value="${obj.value }" >${obj.unit }</option>
+		                                 			   <option value="${obj.value }" <c:if test="${expenditureDetails.igst_tds_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                  		    </c:forEach>
 		                                	</select>
 		                                	<span id="igst_tds_unitsError" class="error-msg" ></span>
@@ -400,13 +400,13 @@
                                 </div>
                                 <div class="col s4 m1 input-field pt-10">
                                 	<p class="searchable_label">Unit</p>
-                                	<select class="units searchable validate-dropdown" id="mobilization_advance_units" name="mobilization_advance_units">
+                                	<select class="units searchable validate-dropdown" id="mob_advance_units" name="mob_advance_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                 			   <option value="${obj.value }" <c:if test="${expenditureDetails.mob_advance_units eq obj.value}">selected</c:if>>${obj.unit }</option>
                                   		    </c:forEach>
                                 	</select>
-                                	<span id="mobilization_advance_unitsError" class="error-msg" ></span>
+                                	<span id="mob_advance_unitsError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s8 m3 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
@@ -417,13 +417,13 @@
                                 </div>
                                 <div class="col s4 m1 input-field pt-10">
                                 	<p class="searchable_label">Unit</p>
-                                	<select class="units searchable validate-dropdown" id="interest_on_mobilization_units" name="interest_on_mobilization_units">
+                                	<select class="units searchable validate-dropdown" id="interest_on_mob_adv_units" name="interest_on_mob_adv_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                 			   <option value="${obj.value }"  <c:if test="${expenditureDetails.interest_on_mob_adv_units eq obj.value}">selected</c:if>>${obj.unit }</option>
                                   		    </c:forEach>
                                 	</select>
-                                	<span id="interest_on_mobilization_unitsError" class="error-msg" ></span>
+                                	<span id="interest_on_mob_adv_unitsError" class="error-msg" ></span>
                                 </div>
                             </div>
                             <div class="row">
@@ -438,7 +438,7 @@
                                 	<select class="units searchable validate-dropdown" id="vat_wct_units" name="vat_wct_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                 			   <option value="${obj.value }"  <c:if test="${expenditureDetails.vat_wct_units eq obj.value}">selected</c:if>>${obj.unit }</option>
                                   		    </c:forEach>
                                 	</select>
                                 	<span id="vat_wct_unitsError" class="error-msg" ></span>
@@ -454,7 +454,7 @@
                                 	<select class="units searchable validate-dropdown" id="amount_withheld_units" name="amount_withheld_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-                                 			   <option value="${obj.value }" >${obj.unit }</option>
+                                 			   <option value="${obj.value }"  <c:if test="${expenditureDetails.amount_withheld_units eq obj.value}">selected</c:if>>${obj.unit }</option>
                                   		    </c:forEach>
                                 	</select>
                                 	<span id="amount_withheld_unitsError" class="error-msg" ></span>
@@ -730,7 +730,51 @@
 	  			 		  required: false
 	  			 	  },"igst_tds": {
 	  			 		  required: false
-	  			 	  }	
+	  			 	  },"net_paid_units":{
+        		 		 required: function(element){
+        		             return $("#net_paid").val()!="";
+        		         }
+        		 	  },"gross_work_done_units":{
+        		 		 required: function(element){
+        		             return $("#gross_work_done").val()!="";
+        		         }
+        		 	  },"sd_payable_units":{
+        		 		 required: function(element){
+        		             return $("#sd_payable").val()!="";
+        		         }
+        		 	  },"contractor_income_tax_units":{
+        		 		 required: function(element){
+        		             return $("#contractor_income_tax").val()!="";
+        		         }
+        		 	  },"cgst_tds_units":{
+        		 		 required: function(element){
+        		             return $("#cgst_tds").val()!="";
+        		         }
+        		 	  },"sgst_tds_units":{
+        		 		 required: function(element){
+        		             return $("#sgst_tds").val()!="";
+        		         }
+        		 	  },"igst_tds_units":{
+        		 		 required: function(element){
+        		             return $("#igst_tds").val()!="";
+        		         }
+        		 	  },"vat_wct_units":{
+        		 		 required: function(element){
+        		             return $("#vat_wct").val()!="";
+        		         }
+        		 	  },"mob_advance_units":{
+        		 		 required: function(element){
+        		             return $("#mob_advance").val()!="";
+        		         }
+        		 	  },"interest_on_mob_adv_units":{
+        		 		 required: function(element){
+        		             return $("#interest_on_mob_adv").val()!="";
+        		         }
+        		 	  },"amount_withheld_units":{
+        		 		 required: function(element){
+        		             return $("#amount_withheld").val()!="";
+        		         }
+        		 	  }			
 	  		 	},
 	  		    messages: {
 	  		 		   "project_id_fk": {
@@ -774,6 +818,28 @@
 	  			 	  },"interest_on_mob_adv1": {
 	  			 		required: 'Required'
 	  			 	  },"amount_withheld": {
+	  			 		required: 'Required'
+	  			 	  },"net_paid_units": {
+	  			 		required: 'Required'
+	  			 	  },"gross_work_done_units": {
+	  			 		required: 'Required'
+	  			 	  },"sd_payable_units": {
+	  			 		required: 'Required'
+	  			 	  },"contractor_income_tax_units": {
+	  			 		required: 'Required'
+	  			 	  },"cgst_tds_units": {
+	  			 		required: 'Required'
+	  			 	  },"sgst_tds_units": {
+	  			 		required: 'Required'
+	  			 	  },"igst_tds_units": {
+	  			 		required: 'Required'
+	  			 	  },"vat_wct_units": {
+	  			 		required: 'Required'
+	  			 	  },"mob_advance_units": {
+	  			 		required: 'Required'
+	  			 	  },"interest_on_mob_adv_units": {
+	  			 		required: 'Required'
+	  			 	  },"amount_withheld_units": {
 	  			 		required: 'Required'
 	  			 	  }		
 		   		},
@@ -844,8 +910,41 @@
 					 }else if(element.attr("id") == "amount_withheld" ){
 					     document.getElementById("amount_withheldError").innerHTML="";
 				 	     error.appendTo('#amount_withheldError');
-					 }else{
-	 					 error.insertAfter(element);
+					 }else if(element.attr("id") == "net_paid_units" ){
+						    document.getElementById("net_paid_unitsError").innerHTML="";
+					     error.appendTo('#net_paid_unitsError');
+					}else if(element.attr("id") == "sd_payable_units" ){
+					    document.getElementById("sd_payable_unitsError").innerHTML="";
+					     error.appendTo('#sd_payable_unitsError');
+					}else if(element.attr("id") == "gross_work_done_units" ){
+					    document.getElementById("gross_work_done_unitsError").innerHTML="";
+					     error.appendTo('#gross_work_done_unitsError');
+					}else if(element.attr("id") == "contractor_income_tax_units" ){
+					    document.getElementById("contractor_income_tax_unitsError").innerHTML="";
+					     error.appendTo('#contractor_income_tax_unitsError');
+					}else if(element.attr("id") == "cgst_tds_units" ){
+					    document.getElementById("cgst_tds_unitsError").innerHTML="";
+					     error.appendTo('#cgst_tds_unitsError');
+					}else if(element.attr("id") == "sgst_tds_units" ){
+					    document.getElementById("sgst_tds_unitsError").innerHTML="";
+					     error.appendTo('#sgst_tds_unitsError');
+					}else if(element.attr("id") == "igst_tds_units" ){
+					    document.getElementById("igst_tds_unitsError").innerHTML="";
+					     error.appendTo('#igst_tds_unitsError');
+					}else if(element.attr("id") == "mob_advance_units" ){
+					    document.getElementById("mob_advance_unitsError").innerHTML="";
+					     error.appendTo('#mob_advance_unitsError');
+					}else if(element.attr("id") == "interest_on_mob_adv_units" ){
+					    document.getElementById("interest_on_mob_adv_unitsError").innerHTML="";
+					     error.appendTo('#interest_on_mob_adv_unitsError');
+					}else if(element.attr("id") == "vat_wct_units" ){
+					    document.getElementById("vat_wct_unitsError").innerHTML="";
+					     error.appendTo('#vat_wct_unitsError');
+					}else if(element.attr("id") == "amount_withheld_units" ){
+					    document.getElementById("amount_withheld_unitsError").innerHTML="";
+					     error.appendTo('#amount_withheld_unitsError');
+					}else{
+ 					 error.insertAfter(element);
 			        } 
 		   		},invalidHandler: function (form, validator) {
                 var errors = validator.numberOfInvalids();

@@ -19,6 +19,7 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -137,7 +138,7 @@ public class AlertsController {
 	           String dayOfWeekText = dayOfWeekTextFormat.format(date).toUpperCase();
 	           //int month = cal.get(Calendar.MONTH); // 0 being January
 	           
-				/*String alert_type = null;
+				String alert_type = null;
 				if(dayOfWeekText.equals("MONDAY")) {
 				   alert_type = CommonConstants2.ALERT_TYPE_BANK_GUARANTEE;
 				}else if(dayOfWeekText.equals("TUESDAY")) {
@@ -146,16 +147,20 @@ public class AlertsController {
 				   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT_PERIOD;
 				}else if(dayOfWeekText.equals("THURSDAY")) {
 				   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT_VALUE;
-				}else if(dayOfWeekText.equals("FRIDAY")) {
-				   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
-				}*/
+				}
+				
+				if(!StringUtils.isEmpty(alert_type)) {
+					boolean flag = service.sendEMailNotificationWithContractAlerts(alert_type);
+					logger.error("sendContractAlertsToAllByManual >> "+ alert_type +" Sent mails : "+ flag);
+				}
+				
 	           
-	           String alert_type = null;
-	           if(dayOfWeekText.equals("WEDNESDAY")) {
-	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT;
-	        	   boolean flag = service.sendEMailNotificationWithContractAlerts(alert_type);
+				/*String alert_type = null;
+				if(dayOfWeekText.equals("WEDNESDAY")) {
+				   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT;
+				   boolean flag = service.sendEMailNotificationWithContractAlerts(alert_type);
 				   logger.error("sendContractAlertsToAllByManual >> Sent mails : "+ flag);
-	           }
+				}*/
 			
 		 } catch (Exception e) {
 			 e.printStackTrace();

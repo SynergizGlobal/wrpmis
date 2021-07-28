@@ -112,7 +112,7 @@ public class Schedular {
 	           String dayOfWeekText = dayOfWeekTextFormat.format(date).toUpperCase();
 	           //int month = cal.get(Calendar.MONTH); // 0 being January
 	           
-				/*String alert_type = null;
+				String alert_type = null;
 				if(dayOfWeekText.equals("MONDAY")) {
 				   alert_type = CommonConstants2.ALERT_TYPE_BANK_GUARANTEE;
 				}else if(dayOfWeekText.equals("TUESDAY")) {
@@ -123,18 +123,28 @@ public class Schedular {
 				   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT_VALUE;
 				}else if(dayOfWeekText.equals("FRIDAY")) {
 				   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
-				}*/
+				}
+				
+				if(!StringUtils.isEmpty(alert_type)) {
+					if(dayOfWeekText.equals("FRIDAY")) {
+					    boolean flag = alertService.sendEMailNotificationWithIssueAlerts(alert_type);
+					    logger.error("sendEMailNotificationWithIssueAlertsByCronJob >> Sent mails : "+ flag);
+					}else {
+						boolean flag = alertService.sendEMailNotificationWithContractAlerts(alert_type);
+						logger.error("sendEMailNotificationWithContractAlertsByCronJob >> "+alert_type+" Sent mails : "+ flag);
+					}
+				}
 	           
-	           String alert_type = null;
-	           if(dayOfWeekText.equals("WEDNESDAY")) {
-	        	   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT;
-	        	   boolean flag = alertService.sendEMailNotificationWithContractAlerts(alert_type);
+				/*String alert_type = null;
+				if(dayOfWeekText.equals("WEDNESDAY")) {
+				   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT;
+				   boolean flag = alertService.sendEMailNotificationWithContractAlerts(alert_type);
 				   logger.error("sendEMailNotificationWithContractAlertsByCronJob >> Sent mails : "+ flag);
-	           }else if(dayOfWeekText.equals("FRIDAY")) {
-	        	   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
-	        	   boolean flag = alertService.sendEMailNotificationWithIssueAlerts(alert_type);
+				}else if(dayOfWeekText.equals("FRIDAY")) {
+				   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
+				   boolean flag = alertService.sendEMailNotificationWithIssueAlerts(alert_type);
 				   logger.error("sendEMailNotificationWithIssueAlertsByCronJob >> Sent mails : "+ flag);
-	           }
+				}*/
 			   
 		 } catch (Exception e) {
 			 e.printStackTrace();

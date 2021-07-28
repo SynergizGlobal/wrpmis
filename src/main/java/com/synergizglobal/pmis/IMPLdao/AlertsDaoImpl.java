@@ -1151,18 +1151,18 @@ public class AlertsDaoImpl implements AlertsDao{
 		            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 		            String current_year = yearFormat.format(new Date()).toUpperCase();
 		            
-					//String emailSubject = "PMIS "+alert_type+" Alerts";
-		            String alert_types = "Contract";
-		            String emailSubject = "PMIS Contract Alerts";
+					String emailSubject = "PMIS "+alert_type+" Alerts";
+		            //String alert_types = "Contract";
+		            //String emailSubject = "PMIS Contract Alerts";
 					Mail mail = new Mail();
 					mail.setMailTo(uObj.getEmail_id());
 					mail.setMailBcc(CommonConstants.BCC_MAIL);
 					mail.setMailSubject(emailSubject);
 					mail.setTemplateName("ContractAlerts.vm");
 					
-					logger.error("sendEMailNotificationWithContractAlerts() >> Alert Type "+alert_types+ ". Sending mail to "+uObj.getEmail_id()+": Start ");	
-					emailSender.sendEmailWithContractAlerts(mail,alerts,today_date,current_year,alert_types); 
-					logger.error("sendEMailNotificationWithContractAlerts() >> Alert Type "+alert_types+ ".  Sending mail to "+uObj.getEmail_id()+": End ");
+					logger.error("sendEMailNotificationWithContractAlerts() >> Alert Type "+alert_type+ ". Sending mail to "+uObj.getEmail_id()+": Start ");	
+					emailSender.sendEmailWithContractAlerts(mail,alerts,today_date,current_year,alert_type); 
+					logger.error("sendEMailNotificationWithContractAlerts() >> Alert Type "+alert_type+ ".  Sending mail to "+uObj.getEmail_id()+": End ");
 				}
 					
 				flag = true;

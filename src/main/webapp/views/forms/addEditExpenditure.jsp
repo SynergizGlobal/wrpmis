@@ -670,12 +670,100 @@
         }
         
         function addExpenditure(){
+        	var net_paid = $('#net_paid').val();
+  			var gross_work_done = $('#gross_work_done').val();
+  			var sd_payable = $('#sd_payable').val();
+  			var contractor_income_tax = $('#contractor_income_tax').val();
+  			var cgst_tds = $('#cgst_tds').val();
+  			var sgst_tds = $('#sgst_tds').val();
+  			var igst_tds = $('#igst_tds').val();
+  			var vat_wct = $('#vat_wct').val();
+  			var mob_advance = $('#mob_advance').val();
+  			var interest_on_mob_adv = $('#interest_on_mob_adv').val();
+  			var amount_withheld = $('#amount_withheld').val();
+  			if(net_paid == ""){
+  				$('#net_paid_units').val("");
+  			}
+  			if(gross_work_done == ""){
+  				$('#gross_work_done_units').val("");
+  			}
+  			if(sd_payable == ""){
+  				$('#sd_payable_units').val("");
+  			}
+  			if(contractor_income_tax == ""){
+  				$('#contractor_income_tax_units').val("");
+  			}
+  			if(cgst_tds == ""){
+  				$('#cgst_tds_units').val("");
+  			}
+  			if(sgst_tds == ""){
+  				$('#sgst_tds_units').val("");
+  			}
+  			if(igst_tds == ""){
+  				$('#igst_tds_units').val("");
+  			}
+  			if(vat_wct == ""){
+  				$('#vat_wct_units').val("");
+  			}
+  			if(mob_advance == ""){
+  				$('#mob_advance_units').val("");
+  			}
+  			if(interest_on_mob_adv == ""){
+  				$('#interest_on_mob_adv_units').val("");
+  			}
+  			if(amount_withheld == ""){
+  				$('#amount_withheld_units').val("");
+  			}
         	if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	    		
 	   			document.getElementById("expenditureForm").submit();			
   	 	 	}
         }
        function updateExpenditure(){
+    	   	var net_paid = $('#net_paid').val();
+  			var gross_work_done = $('#gross_work_done').val();
+  			var sd_payable = $('#sd_payable').val();
+  			var contractor_income_tax = $('#contractor_income_tax').val();
+  			var cgst_tds = $('#cgst_tds').val();
+  			var sgst_tds = $('#sgst_tds').val();
+  			var igst_tds = $('#igst_tds').val();
+  			var vat_wct = $('#vat_wct').val();
+  			var mob_advance = $('#mob_advance').val();
+  			var interest_on_mob_adv = $('#interest_on_mob_adv').val();
+  			var amount_withheld = $('#amount_withheld').val();
+  			if(net_paid == ""){
+  				$('#net_paid_units').val("");
+  			}
+  			if(gross_work_done == ""){
+  				$('#gross_work_done_units').val("");
+  			}
+  			if(sd_payable == ""){
+  				$('#sd_payable_units').val("");
+  			}
+  			if(contractor_income_tax == ""){
+  				$('#contractor_income_tax_units').val("");
+  			}
+  			if(cgst_tds == ""){
+  				$('#cgst_tds_units').val("");
+  			}
+  			if(sgst_tds == ""){
+  				$('#sgst_tds_units').val("");
+  			}
+  			if(igst_tds == ""){
+  				$('#igst_tds_units').val("");
+  			}
+  			if(vat_wct == ""){
+  				$('#vat_wct_units').val("");
+  			}
+  			if(mob_advance == ""){
+  				$('#mob_advance_units').val("");
+  			}
+  			if(interest_on_mob_adv == ""){
+  				$('#interest_on_mob_adv_units').val("");
+  			}
+  			if(amount_withheld == ""){
+  				$('#amount_withheld_units').val("");
+  			}
     	    if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	    		
 	   			document.getElementById("expenditureForm").submit();	

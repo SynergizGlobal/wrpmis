@@ -237,11 +237,11 @@
 	                                </div>
 	                                <input type="hidden" id="work_short_name" name="work_short_name"/>
 	                            </div>
-								   <input type="hidden" id="contract_id_code" name="contract_id_code"/>
+								   <input type="hidden" id="contract_id_code" name="contract_id_code"/> 
 	                                    <div class="row">
 	  										<div class="col s6 m4 input-field offset-m2">
 	  										 	<p class="searchable_label">HOD<span class="required">*</span></p>
-	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDyHodList();"> 
+	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDyHodList();"  <c:if test="${sessionScope.USER_TYPE eq 'HOD'  || sessionScope.USER_TYPE eq 'DyHOD'}"> disabled  </c:if>> 
 	                                     		  <option value="">Select</option> 
 	                                                 <%-- <c:forEach var="obj" items="${hodList }"> 
 			                                    	  <option value="${obj.user_id }" <c:if test="${sessionScope.USER_ID eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
@@ -253,7 +253,7 @@
 	                                        </div>
 	                                        <div class="col s6 m4 input-field">
 	                                        	<p class="searchable_label">Dy HOD<span class="required">*</span></p>
-	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();">
+	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();" <c:if test="${sessionScope.USER_TYPE eq 'DyHOD'}"> disabled  </c:if>>
 	                                                <option value="">Select</option>
 	                                                 <%--  <c:forEach var="obj" items="${dyHodList }"> 
 			                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 

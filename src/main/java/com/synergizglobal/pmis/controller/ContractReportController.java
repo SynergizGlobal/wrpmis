@@ -622,7 +622,6 @@ public class ContractReportController {
             c1.set(Calendar.DATE, 16);
             c1.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
             c1.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
-            
             if(getFirstDateOfMonth(new Date())==new Date() || c1.getTime()==new Date())
             {
 		           if(getFirstDateOfMonth(new Date())==new Date())

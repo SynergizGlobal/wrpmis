@@ -2198,7 +2198,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + "GROUP BY c.hod_user_id_fk ORDER BY u.designation  ";
+			qry = qry + "GROUP BY c.hod_user_id_fk ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -2653,7 +2653,7 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and u.user_id = ? ";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
+			//qry = qry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = CommonConstants.USER_TYPE_HOD;

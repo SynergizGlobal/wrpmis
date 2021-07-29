@@ -352,9 +352,12 @@ public class ContractController {
 	
 	@RequestMapping(value = "/ajax/getHodList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getHodList(@ModelAttribute Contract obj) {
+	public List<Contract> getHodList(@ModelAttribute Contract obj,HttpSession session) {
 		List<Contract> dataList = null;  
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_code());
+			
 			dataList = contractService.getHodList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -365,9 +368,11 @@ public class ContractController {
 	
 	@RequestMapping(value = "/ajax/getDyHodList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getDyHodList(@ModelAttribute Contract obj) {
+	public List<Contract> getDyHodList(@ModelAttribute Contract obj,HttpSession session) {
 		List<Contract> dataList = null;  
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_code());
 			dataList = contractService.getDyHodList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();

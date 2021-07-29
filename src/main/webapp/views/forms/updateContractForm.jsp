@@ -1258,7 +1258,7 @@
                                                  	<label> 
                                                   	   <input type="hidden" class="hidden_check hidden_amount" id="revision_amounts_statuss${index.count }" name="revision_amounts_statuss" value="${revObj.revision_amounts_status}" />
                                                 	   <input type="checkbox"  id="revision_amounts_status${index.count }" 
-                                                          onchange="revisionChecks('doc',${index.count })"<c:if test="${revObj.revision_amounts_status == 'Yes'}">checked
+                                                          onchange="revisionChecks('amounts',${index.count })"<c:if test="${revObj.revision_amounts_status == 'Yes'}">checked
                                                           </c:if> class="revision_amount_status" /> 
                                                 			<span></span> 
                                                 	</label></p>
@@ -1331,7 +1331,24 @@
 														}else{
 															$('#units${index.count }Error').text('');
 														}
-											    	});
+											    	});	                                             	                                                
+	                                             	       
+	                                                 $(document).ready(function () {                                               
+                                                	 if( $('#revision_amounts_status'+${index.count}).prop('checked',true) ){    
+                                                		if(!$('#revision_amounts_status'+${index.count}).attr('disabled')){
+                                                	 		revisionChecks('amounts',${index.count});	                                                			
+                                                		} else {
+                                                			$('#revision_amounts_status'+${index.count}).prop('checked',false)
+                                                		}
+                                                	}
+                                                	if(	$('#revision_status'+${index.count}).prop('checked',true) ){    
+                                                		if (!$('#revision_status'+${index.count}).attr('disabled')){
+                                                	 		revisionChecks('docs',${index.count})	                                                			
+                                                		} else {
+                                                			$('#revision_status'+${index.count}).prop('checked',false)
+                                                		}
+                                                	} 	                                                	
+	                                                }); 
                                                 </script>
                                           </c:forEach>
                                            </c:when>
@@ -2841,13 +2858,14 @@
             var listing=$('.revision_'+type+'_status');    
             
             $.each(listing,function(no,val){
-            	if(!$(val).attr('disabled')){            		
+            	if(!$(val).attr('disabled')){      
+            		console.log($(val))
             		$('.hidden_'+type).val('No');
             		$(val).prop('checked', false);            		
-            	}
+            	}            	
             })
-            $("#revision"+clsType+"status"+no).prop('checked', true);
-        	$("#revision"+clsType+"statuss"+no).val('Yes');
+           	$("#revision"+clsType+"status"+no).prop('checked', true);
+           	$("#revision"+clsType+"statuss"+no).val('Yes');           
         }
 
         function toggleRevision(s, no) {

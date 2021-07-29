@@ -1153,7 +1153,31 @@ public class AlertsDaoImpl implements AlertsDao{
 						}
 					}
 					
-					alerts.put(lObj.getAlert_level(), allAlertsList);
+					String alert_level = lObj.getAlert_level();
+					if(alert_type.equals(CommonConstants2.ALERT_TYPE_CONTRACT_VALUE)) {
+						if(alert_level.equals("Overdue")) {
+							alert_level = alert_level + " (Expenditure>Contract Value)";
+						}else if(alert_level.equals("3rd Alert")) {
+							alert_level = alert_level + " (Expenditure>95% of Contract Value)";
+						}else if(alert_level.equals("2nd Alert")) {
+							alert_level = alert_level + " (Expenditure>90% of Contract Value)";
+						}else if(alert_level.equals("1st Alert")) {
+							alert_level = alert_level + " (Expenditure>80% of Contract Value)";
+						}
+					}else{
+						if(alert_level.equals("Overdue")) {
+							alert_level = alert_level + " (Expired)";
+						}else if(alert_level.equals("3rd Alert")) {
+							alert_level = alert_level + " (Expiry in 15 days)";
+						}else if(alert_level.equals("2nd Alert")) {
+							alert_level = alert_level + " (Expiry in 30 days)";
+						}else if(alert_level.equals("1st Alert")) {
+							alert_level = alert_level + " (Expiry in 60 days)";
+						}
+					}
+					if(!StringUtils.isEmpty(allAlertsList) && allAlertsList.size() > 0) {
+						alerts.put(alert_level, allAlertsList);
+					}
 				}
 				
 				if(alerts != null && alerts.size() > 0) {
@@ -1178,6 +1202,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				}
 					
 				flag = true;
+				break;
 			}
 			
 		}catch(Exception e){ 

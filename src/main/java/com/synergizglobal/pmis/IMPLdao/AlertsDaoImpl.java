@@ -2483,6 +2483,11 @@ public class AlertsDaoImpl implements AlertsDao{
 			stmt.executeQuery();  
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 			
+			String qry6 = "call create_user_calendar_dates()";			
+			stmt = connection.prepareCall(qry6);			
+			stmt.executeQuery();  
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			
 			flag = true;
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

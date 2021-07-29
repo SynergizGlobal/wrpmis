@@ -1202,7 +1202,6 @@ public class AlertsDaoImpl implements AlertsDao{
 				}
 					
 				flag = true;
-				break;
 			}
 			
 		}catch(Exception e){ 

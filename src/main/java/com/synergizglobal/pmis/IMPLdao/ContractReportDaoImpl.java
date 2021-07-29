@@ -469,14 +469,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			
 			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ";
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) 
-			{
-				hodQry = hodQry + " ORDER BY c.hod_user_id_fk is null asc";
-			}
-			else
-			{
-				hodQry = hodQry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
-			}
+			hodQry = hodQry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
+			
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -692,7 +686,9 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			 * = hodQry + " and bg.valid_upto <= ?"; arrSize++; }
 			 */
 			
-			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ORDER BY c.hod_user_id_fk ASC";
+			hodQry = hodQry + " GROUP BY c.hod_user_id_fk";
+			hodQry = hodQry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
+			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
@@ -879,7 +875,9 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				hodQry = hodQry + " ) ";
 			}
 			
-			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ORDER BY c.hod_user_id_fk";
+			hodQry = hodQry + " GROUP BY c.hod_user_id_fk";
+			hodQry = hodQry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
+
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1099,7 +1097,9 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			 * = hodQry + " and i.valid_upto <= ?"; arrSize++; }
 			 */
 			
-			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ORDER BY c.hod_user_id_fk";
+			hodQry = hodQry + " GROUP BY c.hod_user_id_fk";
+			hodQry = hodQry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
+
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1278,7 +1278,9 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			 * = hodQry + " and i.valid_upto <= ?"; arrSize++; }
 			 */
 			
-			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ORDER BY c.hod_user_id_fk";
+			hodQry = hodQry + " GROUP BY c.hod_user_id_fk";
+			hodQry = hodQry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
+
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

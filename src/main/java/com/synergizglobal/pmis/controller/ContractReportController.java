@@ -612,69 +612,97 @@ public class ContractReportController {
         //ObjectFactory objectFactory = new ObjectFactory();
 		boolean flag = false;
 		try{			
-			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+
 			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
 			String report_created_date = df.format(new Date()); 
-			Map<String,List<Contract>> list = service.getContractsDocBGInsuranceForReport(obj);
 			
-			boolean landscape = false;
-			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
-			
-			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
-			ObjectFactory factory = Context.getWmlObjectFactory();
-			
-			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
-
-			JcEnumeration imageAlignment = JcEnumeration.CENTER;
-			
-			String headerTextRight = "";
-			if(obj.getDate()!=null && obj.getDate()!="")
-			{
-				
-				headerTextRight="(Expiry by "+DateParser.parseToIndianDateFormatWithDot(obj.getDate())+")";
-			}			
-			
-			String headerTextMiddle = "Contract DOC BG and Insurance Validity Report";
-			
-			//String headerTextRight = report_created_date;
-			
-			//String headerText = "PMIS Report - Status of Contract BG";
-			
-			int tabs1 = 8;int tabs2 = 4;
-			
-			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,tabs1,tabs2);
-			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);				 
-			createHeaderReference(wordMLPackage, mp, factory, relationship);
-			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
-			createFooterReference(wordMLPackage, mp, factory, relationship);
-			 			  
-			DocxTableCreationForContractReport.createTableForContractDocBGInsuranceReport(wordMLPackage, mp, factory,list,report_created_date);
-	    	  
+            Calendar c1 = Calendar.getInstance();
+            
+            
+            c1.set(Calendar.DATE, 16);
+            c1.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+            c1.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
+            
+            if(getFirstDateOfMonth(new Date())==new Date() || c1.getTime()==new Date())
+            {
+		           if(getFirstDateOfMonth(new Date())==new Date())
+		           {
+		               Calendar cal = Calendar.getInstance();
+		               
+		               cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		               String LastDate=cal.getTime().toString();
+		         	   obj.setDate(DateParser.parse(LastDate));
+		           }
+		           if(c1.getTime()==new Date())
+		           {
+		        	   Calendar cal2 = Calendar.getInstance(); 
+		        	   cal2.add(Calendar.MONTH, 1);
+		        	   String NextMonthSameDate=cal2.getTime().toString();
+		        	   obj.setDate(DateParser.parse(NextMonthSameDate));
+		           }
+					
+					
+					Map<String,List<Contract>> list = service.getContractsDocBGInsuranceForReport(obj);
+					
+					boolean landscape = false;
+					WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+					
+					MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+					ObjectFactory factory = Context.getWmlObjectFactory();
+					
+					String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
+		
+					JcEnumeration imageAlignment = JcEnumeration.CENTER;
+					
+					String headerTextRight = "";
+					if(obj.getDate()!=null && obj.getDate()!="")
+					{
 						
-			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-				wordMLPackage.save(bos);
-				byteArray = bos.toByteArray();
-				
-				String file_extention = "docx";
-				String docbginsurance_file_name = "Contract-DOC-BG-and-Insurance-Validity-Report";
-
-				String recipients = "", cc = "", bcc = CommonConstants.BCC_MAIL,
-						subject = "Contract DOC BG and Insurance Validity Report", body = "";
-
-				recipients = service.getEmailIdsOfDepartments();
-
-				if (!StringUtils.isEmpty(recipients)) {
-					EMailSender emailSender = new EMailSender();
-					emailSender.sendEmailWithContractReportsAttachment("swathi.sagi@synergizglobal.com", cc, bcc, subject, body,
-							docbginsurance_file_name, file_extention, byteArray);
-				}
-				
-				flag = true;
-		    }catch (Exception e) {
-				e.printStackTrace();
-				logger.error("generatContractDocBGInsuranceReport >> FileNotFoundException occurs.." + e.getMessage());
-				flag = false;
-		    }	
+						headerTextRight="(Expiry by "+DateParser.parseToIndianDateFormatWithDot(obj.getDate())+")";
+					}			
+					
+					String headerTextMiddle = "Contract DOC BG and Insurance Validity Report";
+					
+					//String headerTextRight = report_created_date;
+					
+					//String headerText = "PMIS Report - Status of Contract BG";
+					
+					int tabs1 = 8;int tabs2 = 4;
+					
+					Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,tabs1,tabs2);
+					//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);				 
+					createHeaderReference(wordMLPackage, mp, factory, relationship);
+					relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+					createFooterReference(wordMLPackage, mp, factory, relationship);
+					 			  
+					DocxTableCreationForContractReport.createTableForContractDocBGInsuranceReport(wordMLPackage, mp, factory,list,report_created_date);
+			    	  
+								
+					try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+						wordMLPackage.save(bos);
+						byteArray = bos.toByteArray();
+						
+						String file_extention = "docx";
+						String docbginsurance_file_name = "Contract-DOC-BG-and-Insurance-Validity-Report";
+		
+						String recipients = "", cc = "", bcc = CommonConstants.BCC_MAIL,
+								subject = "Contract DOC BG and Insurance Validity Report", body = "";
+		
+						recipients = service.getEmailIdsOfDepartments();
+		
+						if (!StringUtils.isEmpty(recipients)) {
+							EMailSender emailSender = new EMailSender();
+							emailSender.sendEmailWithContractReportsAttachment("swathi.sagi@synergizglobal.com", cc, bcc, subject, body,
+									docbginsurance_file_name, file_extention, byteArray);
+						}
+						
+						flag = true;
+				    }catch (Exception e) {
+						e.printStackTrace();
+						logger.error("generatContractDocBGInsuranceReport >> FileNotFoundException occurs.." + e.getMessage());
+						flag = false;
+				    }	
+            }
 		 	
 		} catch (Exception e) {
 			e.printStackTrace();

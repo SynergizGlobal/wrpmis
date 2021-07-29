@@ -38,7 +38,9 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
-		
+		.pt-10{
+			padding-top:10px !important;
+		}
 	@media only screen and (max-width: 768px){
 			/* table datepicker , select2 dropdown , table column and update , cancel buttons styling for mobile versions */
 		
@@ -74,7 +76,9 @@
 			.fs-sm-8rem{
 				font-size:.8rem !important;
 			}	
-			
+			.pt-10{
+				padding-top:6px !important;
+			}
 			.input-field>.datepicker~button{
 				top:10px;
 				right:6px;
@@ -102,8 +106,7 @@
 			}
 			#selectedFilesInput .file-path-wrapper .file-path{
 				box-shadow:none !important;
-			}
-			
+			}			
 		}
 				
     </style>
@@ -199,18 +202,28 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s12 m4 input-field offset-m2">
                                     <input id="funding_date" type="text" class="validate datepicker" name="funding_date" value="${fundDetails.funding_date }">
                                     <label for="funding_date">Funding Date</label>
                                     <button type="button" id="funding_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="funding_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s8 m3 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="fund_amount" min="0.01" step="0.01" type="number" class="validate" name="fund_amount" value="${fundDetails.fund_amount }">
                                     <label for="fund_amount fs-sm-8rem"> Fund Amount </label>
                                     <span id="fund_amountError" class="error-msg" ></span>
                                 </div>
+                                <div class="col s4 m1 input-field pt-10">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="sanction_cost_units" name="sanction_cost_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }" >${obj.unit }</option>
+	                                	</c:forEach>
+                                	</select>
+                                	<span id="sanction_cost_unitsError" class="error-msg" ></span>
+                               	</div> 
                             </div>
 
                             <div class="row">

@@ -77,7 +77,9 @@
     	margin-right: 10px !important;
     	background-color: #e0e0e0 !important;
 	}
-		
+	.pt-10{
+		padding-top:.6rem !important;
+	}
 </style>
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />

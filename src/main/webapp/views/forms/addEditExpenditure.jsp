@@ -108,10 +108,7 @@
 			    width: calc(100% - 3rem );
 			}
 			
-		}
-		.pt-10{
-			padding-top:.6rem !important;
-		}
+		}		
 		.fs-85{
 			font-size:.85rem !important;
 		}

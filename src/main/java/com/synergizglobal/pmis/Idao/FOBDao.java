@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Idao;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FOB;
 
 public interface FOBDao {
@@ -45,5 +46,7 @@ public interface FOBDao {
 	List<FOB> getFobDetailsTypes(FOB obj) throws Exception;
 
 	List<FOB> getResponsiblePeopleListForFOBForm(FOB obj) throws Exception;
+
+	List<FOB> getUnitsList(FOB obj) throws Exception;
 
 }

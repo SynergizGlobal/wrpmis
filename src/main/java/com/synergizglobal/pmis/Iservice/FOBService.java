@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FOB;
 
 public interface FOBService {
@@ -48,5 +49,7 @@ public interface FOBService {
 	List<FOB> getFobDetailsTypes(FOB obj) throws Exception;
 
 	List<FOB> getResponsiblePeopleListForFOBForm(FOB obj) throws Exception;
+
+	List<FOB> getUnitsList(FOB obj) throws Exception;
 
 }

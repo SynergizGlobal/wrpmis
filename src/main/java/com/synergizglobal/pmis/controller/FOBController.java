@@ -303,6 +303,9 @@ public class FOBController {
 			List<String> generalStatusList = homeService.getGeneralStatusList();
 			model.addObject("generalStatusList", generalStatusList);
 			
+			List<FOB> unitsList = fobService.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("addFOBForm : " + e.getMessage());
@@ -424,6 +427,9 @@ public class FOBController {
 			
 			List<FOB> fobDetailsTypes = fobService.getFobDetailsTypes(obj);
 			model.addObject("fobDetailsTypes", fobDetailsTypes);
+			
+			List<FOB> unitsList = fobService.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
 			
 			FOB fob = fobService.getFOB(obj);
 			model.addObject("fob", fob);

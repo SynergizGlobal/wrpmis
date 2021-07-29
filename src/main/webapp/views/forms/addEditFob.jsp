@@ -286,17 +286,17 @@
                                 	<i class="material-icons prefix cost">₹</i>   
                                     <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${fob.estimated_cost }" min="0.01" step="0.01" <c:if test="${not empty fob.estimated_cost}">readonly</c:if>>
                                     <label for="estimated_cost">Estimated Cost</label>
-                                    <span id="estimated_costError" class="error-msg" ></span>
+                                    <span id="estimated_costError" class="error-msg" ></span> 
                                 </div>
                                 <div class="col s4 m1 input-field">
                                 	<p class="searchable_label">Units</p>
-                                	<select class="units" id="estimated_cost_units" name="estimated_cost_units">
+                                	<select class="units validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
                                 		<option value="">Select</option>
-                                		<option value="rs">Rs</option>
-                                		<option value="thousands">Thousands</option>
-                                		<option value="lacs">Lacs</option>
-                                		<option value="crores">Crores</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${fob.estimated_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		 </c:forEach>
                                 	</select>
+                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
                                 </div>
                             </div>
                             
@@ -412,19 +412,19 @@
                                 </div>
                                 <div class="col s3 m1 input-field">
                                 	<p class="searchable_label">Units</p>
-                                	<select class="units" id="completion_cost_units" name="completion_cost_units">
+                                	<select class="units validate-dropdown" id="completion_cost_units" name="completion_cost_units">
                                 		<option value="">Select</option>
-                                		<option value="rs">Rs</option>
-                                		<option value="thousands">Thousands</option>
-                                		<option value="lacs">Lacs</option>
-                                		<option value="crores">Crores</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${fob.completion_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		 </c:forEach>
                                 	</select>
+                                	<span id="completion_cost_unitsError" class="error-msg" ></span>
                                 </div>
                                <%--  </c:if> --%>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
-                            <div class="row">
+                            <div class="row"> 
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m12 s12">
 	                            <%-- <c:if test="${action eq 'add'}">
@@ -1135,6 +1135,13 @@
     function addFOB(){
 		if(validator.form()){ // validation perform
 			//var contract_name = $( "#contract_id_fk option:selected" ).text();
+			var completion_cost = $("#completion_cost").val();
+			var estimated_cost = $("#estimated_cost").val();
+			if(completion_cost == ""){
+  				$('#completion_cost_units').val("");
+  			}if(estimated_cost == ""){
+  				$('#estimated_cost_units').val("");
+  			}
 			var contract_name = $("#contract_id_fk option:selected").map(function() {
 			    return $(this).text();
 			}).get();
@@ -1153,7 +1160,13 @@
     function updateFOB(){
   		if(validator.form()){ 
   			$(".page-loader").show();
-  			
+  			var completion_cost = $("#completion_cost").val();
+			var estimated_cost = $("#estimated_cost").val();
+			if(completion_cost == ""){
+  				$('#completion_cost_units').val("");
+  			}if(estimated_cost == ""){
+  				$('#estimated_cost_units').val("");
+  			}
   			$("#project_id_fk").attr('disabled', false);
   			$("#work_id_fk").attr('disabled', false);
   			$("#contract_id_fk").attr('disabled', false);
@@ -1218,7 +1231,15 @@
 				 		required: false
 				 	  },"remarks":{
 				 		 required: false
-				 	  }
+				 	  },"completion_cost_units":{
+        		 		 required: function(element){
+        		             return $("#completion_cost").val()!="";
+        		         }
+        		 	  },"estimated_cost_units":{
+        		 		 required: function(element){
+        		             return $("#estimated_cost").val()!="";
+        		         }
+        		 	  }
 				 				
 			 	},
 			   messages: {
@@ -1253,6 +1274,10 @@
    				 	  },"longitude": {
    				 		required: 'Required'
    				 	  },"remarks":{
+			 	  		required: 'Required'
+				 	  },"completion_cost_units": {
+   				 		required: 'Required'
+   				 	  },"estimated_cost_units":{
 			 	  		required: 'Required'
 				 	  }
 			 				      
@@ -1307,7 +1332,13 @@
   			 	    }else if (element.attr("id") == "longitude" ){
   			 		     document.getElementById("longitudeError").innerHTML="";
   			 			 error.appendTo('#longitudeError');
-  			 	    }else if (element.attr("id") == "remarks" ){
+  			 	    }else if (element.attr("id") == "completion_cost_units" ){
+		 	    	     document.getElementById("completion_cost_unitsError").innerHTML="";
+		 			     error.appendTo('#completion_cost_unitsError');
+			 	    }else if (element.attr("id") == "estimated_cost_units" ){
+			 		     document.getElementById("estimated_cost_unitsError").innerHTML="";
+			 			 error.appendTo('#estimated_cost_unitsError');
+			 	    }else if (element.attr("id") == "remarks" ){
 			 		     document.getElementById("remarksError").innerHTML="";
 			 			 error.appendTo('#remarksError');
 			 	    }

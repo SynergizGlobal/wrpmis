@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.Idao.FOBDao;
 import com.synergizglobal.pmis.Iservice.FOBService;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FOB;
 
 @Service
@@ -117,6 +118,11 @@ public class FOBServiceImpl implements FOBService {
 	@Override
 	public List<FOB> getResponsiblePeopleListForFOBForm(FOB obj) throws Exception {
 		return fobDao.getResponsiblePeopleListForFOBForm(obj);
+	}
+
+	@Override
+	public List<FOB> getUnitsList(FOB obj) throws Exception {
+		return fobDao.getUnitsList(obj);
 	}
 
 }

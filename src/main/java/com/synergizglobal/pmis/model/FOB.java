@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FOB {
-	private String fob_id,fob_name,id,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,
+	private String fob_id,fob_name,id, unit,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,
 	commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment,fob_detail_id,fob_id_fk,
 	detail_name,value,work_id_fk,project_id_fk,revised_completion,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost,
 	project_id,work_id,work_name,work_short_name,status,fob_file_type,fob_file_type_fk,fob_file_id,fob_details_location,fob_details_type,
-	created_date,responsible_people_id_fk,user_id,user_name,designation,department_fk,user_type,existing_work_status_fk;
+	created_date,responsible_people_id_fk,user_id,user_name,designation,department_fk,user_type,existing_work_status_fk,estimated_cost_units,completion_cost_units;
 
 
 
@@ -23,6 +23,30 @@ public class FOB {
 	
 	
 	
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getEstimated_cost_units() {
+		return estimated_cost_units;
+	}
+
+	public void setEstimated_cost_units(String estimated_cost_units) {
+		this.estimated_cost_units = estimated_cost_units;
+	}
+
+	public String getCompletion_cost_units() {
+		return completion_cost_units;
+	}
+
+	public void setCompletion_cost_units(String completion_cost_units) {
+		this.completion_cost_units = completion_cost_units;
+	}
+
 	public String getUser_id() {
 		return user_id;
 	}

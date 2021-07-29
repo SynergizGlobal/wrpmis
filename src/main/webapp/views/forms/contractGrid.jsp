@@ -241,14 +241,13 @@
 							<table id="datatable-contract" class="mdl-data-table">
 								<thead>
 									<tr>
-
-										<th class="fw-150">Work</th>
-										<th>Contract ID</th>
-										<th class="fw-250">Contract Name</th>
-										<th>Contractor Name</th>
-										<th>Department</th>
-										<th>HOD</th>
-										<th>Dy HOD</th>
+										<th class="no-sort fw-150">Work</th>
+										<th class="no-sort">Contract ID</th>
+										<th class="no-sort fw-250">Contract Name</th>
+										<th class="no-sort">Contractor Name</th>
+										<th class="no-sort">Department</th>
+										<th class="no-sort">HOD</th>
+										<th class="no-sort">Dy HOD</th>
 										<th class="no-sort">Action</th>
 									</tr>
 								</thead>
@@ -452,9 +451,11 @@
 		$("#datatable-contract")
 				.DataTable(
 						{
+							"bSort": false,
+							"order": [],
 							"bProcessing" : true,
 							"bServerSide" : true,
-							"sort" : "position",
+							//"sort" : "position",
 							//bStateSave variable you can use to save state on client cookies: set value "true" 
 							"bStateSave" : false,
 							//Default: Page display length

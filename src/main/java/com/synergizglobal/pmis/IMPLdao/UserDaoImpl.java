@@ -27,6 +27,7 @@ import com.synergizglobal.pmis.Idao.UserDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.User;
 @Repository
 public class UserDaoImpl implements UserDao{
@@ -72,14 +73,22 @@ public class UserDaoImpl implements UserDao{
 		try {
 			String qry = "select user_id,designation,user_name from user u where u.user_name not like '%user%' and u.pmis_key_fk not like '%SGS%' ";
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(department_fk)) {
+			if(!StringUtils.isEmpty(department_fk) && department_fk.equals(CommonConstants.USER_TYPE_ID_MANAGEMENT)) {
 				qry = qry + " and department_fk = ?";
 				arrSize++;
+			}else if(!StringUtils.isEmpty(department_fk)) {
+				qry = qry + " and (department_fk = ? or department_fk = ?)";
+				arrSize++;
+				arrSize++;
 			}
+			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(department_fk)) {
+			if(!StringUtils.isEmpty(department_fk) && department_fk.equals(CommonConstants.USER_TYPE_ID_MANAGEMENT)) {
 				pValues[i++] = department_fk;
+			}else if(!StringUtils.isEmpty(department_fk)) {
+				pValues[i++] = department_fk;
+				pValues[i++] = CommonConstants.USER_TYPE_ID_MANAGEMENT;
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));	
 		}catch(Exception e){ 

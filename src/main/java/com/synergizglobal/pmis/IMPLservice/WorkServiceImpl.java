@@ -72,8 +72,8 @@ public class WorkServiceImpl implements WorkService {
 */
 
 	@Override
-	public List<Work> getWorkRevisionsList() throws Exception {
-		return workDao.getWorkRevisionsList();
+	public List<Work> getWorkRevisionsList(Work obj) throws Exception {
+		return workDao.getWorkRevisionsList(obj);
 	}
 
 	@Override
@@ -89,5 +89,10 @@ public class WorkServiceImpl implements WorkService {
 	@Override
 	public List<Work> getWorktProjectsList(Work obj) throws Exception {
 		return workDao.getWorktProjectsList(obj);
+	}
+
+	@Override
+	public List<Work> getUnitsList() throws Exception {
+		return workDao.getUnitsList();
 	}
 }

@@ -10,12 +10,14 @@ public class Work {
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,latest_revised_cost,
 	year_of_revision,revision_number,wys_renarks,attachment,work_attachment,railway,executed_by,projected_completion,created_date,
 	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink,id,
-	work_yearly_sanction_id,  pink_book_item_number,projected_completion_date,work_file_id,work_file_type,work_file_type_fk,work_status_fk,existing_work_status_fk;
+	work_yearly_sanction_id,  pink_book_item_number,projected_completion_date,work_file_id,work_file_type,work_file_type_fk,work_status_fk,existing_work_status_fk,
+	sanctioned_estimated_cost_unit,sanctioned_completion_cost_unit,anticipated_cost_unit,completion_cost_unit,latest_revised_cost_unit,unit,value,
+	estimated_cost_unit,sanctioned_cost_unit,anticipated_unit,completion_unti,revision_unit;
 
 
 
 	private String[] financial_years,latest_revised_costs,latest_revised_costs_units,
-	year_of_revisions,revision_numbers,remarkss,workFileNames,work_file_ids,work_file_types;
+	year_of_revisions,revision_numbers,remarkss,workFileNames,work_file_ids,work_file_types,latest_revised_cost_units;
 
 	private List<Work> workRevisions;
 	//private MultipartFile workFile;
@@ -27,8 +29,110 @@ public class Work {
 	private List<Work> workFilesList;
 	private MultipartFile[] workFiles;
 	
-	
 
+	public String getEstimated_cost_unit() {
+		return estimated_cost_unit;
+	}
+
+	public void setEstimated_cost_unit(String estimated_cost_unit) {
+		this.estimated_cost_unit = estimated_cost_unit;
+	}
+
+	public String getSanctioned_cost_unit() {
+		return sanctioned_cost_unit;
+	}
+
+	public void setSanctioned_cost_unit(String sanctioned_cost_unit) {
+		this.sanctioned_cost_unit = sanctioned_cost_unit;
+	}
+
+	public String getAnticipated_unit() {
+		return anticipated_unit;
+	}
+
+	public void setAnticipated_unit(String anticipated_unit) {
+		this.anticipated_unit = anticipated_unit;
+	}
+
+	public String getCompletion_unti() {
+		return completion_unti;
+	}
+
+	public void setCompletion_unti(String completion_unti) {
+		this.completion_unti = completion_unti;
+	}
+
+	public String getRevision_unit() {
+		return revision_unit;
+	}
+
+	public void setRevision_unit(String revision_unit) {
+		this.revision_unit = revision_unit;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public String getLatest_revised_cost_unit() {
+		return latest_revised_cost_unit;
+	}
+
+	public void setLatest_revised_cost_unit(String latest_revised_cost_unit) {
+		this.latest_revised_cost_unit = latest_revised_cost_unit;
+	}
+
+	public String[] getLatest_revised_cost_units() {
+		return latest_revised_cost_units;
+	}
+
+	public void setLatest_revised_cost_units(String[] latest_revised_cost_units) {
+		this.latest_revised_cost_units = latest_revised_cost_units;
+	}
+
+	public String getSanctioned_estimated_cost_unit() {
+		return sanctioned_estimated_cost_unit;
+	}
+
+	public void setSanctioned_estimated_cost_unit(String sanctioned_estimated_cost_unit) {
+		this.sanctioned_estimated_cost_unit = sanctioned_estimated_cost_unit;
+	}
+
+	public String getSanctioned_completion_cost_unit() {
+		return sanctioned_completion_cost_unit;
+	}
+
+	public void setSanctioned_completion_cost_unit(String sanctioned_completion_cost_unit) {
+		this.sanctioned_completion_cost_unit = sanctioned_completion_cost_unit;
+	}
+
+	public String getAnticipated_cost_unit() {
+		return anticipated_cost_unit;
+	}
+
+	public void setAnticipated_cost_unit(String anticipated_cost_unit) {
+		this.anticipated_cost_unit = anticipated_cost_unit;
+	}
+
+	public String getCompletion_cost_unit() {
+		return completion_cost_unit;
+	}
+
+	public void setCompletion_cost_unit(String completion_cost_unit) {
+		this.completion_cost_unit = completion_cost_unit;
+	}
 
 	public String getCreated_date() {
 		return created_date;

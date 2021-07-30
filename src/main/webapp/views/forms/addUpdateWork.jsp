@@ -31,6 +31,10 @@
             margin-left:auto !important;
             margin-right:auto !important;
         }
+        .my-error {
+   			 color:red;
+   			 font-size: .8rem;
+		}
         .fixed-width .table-inside {
             width: 100%;
             overflow: auto;
@@ -327,14 +331,14 @@
                                 </div>
                                 <div class="col s4 m3 l1 input-field">
                                 	<p class="searchable_label">Units</p>
-                                	<select class="units" id="sanctioned_estimated_cost_units" name="sanctioned_estimated_cost_units">
+                                	<select class="units validate-dropdown" id="sanctioned_estimated_cost_unit" name="sanctioned_estimated_cost_unit">
                                 		<option value="">Select</option>
-                                		<option value="rs">Rs</option>
-                                		<option value="thousands">Thousands</option>
-                                		<option value="lacs">Lacs</option>
-                                		<option value="crores">Crores</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${workDetails.sanctioned_estimated_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		 </c:forEach>
                                 	</select>
-                                	<!-- <label for="sanctioned_estimated_cost_units">Units</label> -->
+                                	<span id="sanctioned_estimated_cost_unitError" class="error-msg" ></span>
+                                	<!-- <label for="sanctioned_estimated_cost_unit">Units</label> -->
                                 </div>
                               
                                 <div class="col s8 m5 l3 input-field offset-m2 ">
@@ -345,13 +349,13 @@
                                 </div>
                                 <div class="col s4 m3 l1 input-field">
                                 	<p class="searchable_label">Units</p>
-                                	<select class="units" id="sanctioned_completion_cost_units" name="sanctioned_completion_cost_units">
+                                	<select class="units validate-dropdown" id="sanctioned_completion_cost_unit" name="sanctioned_completion_cost_unit">
                                 		<option value="">Select</option>
-                                		<option value="rs">Rs</option>
-                                		<option value="thousands">Thousands</option>
-                                		<option value="lacs">Lacs</option>
-                                		<option value="crores">Crores</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${workDetails.sanctioned_completion_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		 </c:forEach>
                                 	</select>
+                                	<span id="sanctioned_completion_cost_unitError" class="error-msg" ></span>
                                 </div>
                             </div>
                             
@@ -380,13 +384,13 @@
                                 </div>
                                 <div class="col s4 m1 input-field">
                                 	<p class="searchable_label">Units</p>
-                                	<select class="units" id="anticipated_cost_units" name="anticipated_cost_units">
+                                	<select class="units validate-dropdown" id="anticipated_cost_unit" name="anticipated_cost_unit">
                                 		<option value="">Select</option>
-                                		<option value="rs">Rs</option>
-                                		<option value="thousands">Thousands</option>
-                                		<option value="lacs">Lacs</option>
-                                		<option value="crores">Crores</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${workDetails.anticipated_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		 </c:forEach>
                                 	</select>
+                                	<span id="anticipated_cost_unitError" class="error-msg" ></span>
                                 </div>
                                 <c:if test="${action eq 'edit'}">
 	                                <div class="col s12 m4 input-field">
@@ -642,7 +646,7 @@
 	                                                        placeholder="Latest Revised Cost">
 	                                                    </div> 
 	                                                    <div class="col s3 pt-14">
-	                                                    	<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units">
+	                                                    	<select class="units validate-dropdown" id="latest_revised_cost_units${index.count}" name="latest_revised_cost_units">
 						                                		<option value="">Select</option>
 						                                		<option value="rs">Rs</option>
 						                                		<option value="thousands">Thousands</option>
@@ -657,7 +661,7 @@
 		                                                        placeholder="Latest Revised Cost">
 		                                                    </div> 
 		                                                    <div class=" pt-14" >
-		                                                    	<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units">
+		                                                    	<select class="units validate-dropdown" id="latest_revised_cost_units${index.count}" name="latest_revised_cost_units">
 							                                		<option value="">Select</option>
 							                                		<option value="rs">Rs</option>
 							                                		<option value="thousands">Thousands</option>
@@ -672,13 +676,13 @@
 	                                                        placeholder="Latest Revised Cost">
 	                                                </td>
 	                                                <td>
-	                                                	<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units">
+	                                                	<select class="units validate-dropdown" id="latest_revised_cost_units${index.count}" name="latest_revised_cost_units">
 					                                		<option value="">Select</option>
-					                                		<option value="rs">Rs</option>
-					                                		<option value="thousands">Thousands</option>
-					                                		<option value="lacs">Lacs</option>
-					                                		<option value="crores">Crores</option>
+					                                		<c:forEach var="obj" items="${unitsList }">
+				                                  			   <option value="${obj.value }" <c:if test="${revObj.latest_revised_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
+				                                   			 </c:forEach>
 					                                	</select>
+					                                	<p id="units${index.count}Error" class="my-error" ></p>
 	                                                </td>
 	                                                
 	                                                <td data-head="Year of Revision" class="input-field">
@@ -720,7 +724,7 @@
 	                                                        placeholder="Latest Revised Cost">
 	                                                    </div> 
 	                                                    <div class="col s3 pt-14">
-	                                                    	<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units">
+	                                                    	<select class="units" id="latest_revised_cost_units${index.count}" name="latest_revised_cost_units">
 						                                		<option value="">Select</option>
 						                                		<option value="rs">Rs</option>
 						                                		<option value="thousands">Thousands</option>
@@ -734,7 +738,7 @@
 	                                                        placeholder="Latest Revised Cost">
 	                                                    </div> 
 	                                                    <div class=" pt-14" >
-	                                                    	<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units">
+	                                                    	<select class="units" id="latest_revised_cost_units${index.count}" name="latest_revised_cost_units">
 						                                		<option value="">Select</option>
 						                                		<option value="rs">Rs</option>
 						                                		<option value="thousands">Thousands</option>
@@ -745,17 +749,17 @@
 	                                                    </span> --%>
 	                                               <!--  </td> -->
 	                                               <td>
-	                                               		<input id="latest_revised_costs${index.count }" name="latest_revised_costs" type="number" class="validate" value="${revObj.latest_revised_cost }"
+	                                               		<input id="latest_revised_costs0" name="latest_revised_costs" type="number" class="validate" value="${revObj.latest_revised_cost }"
 	                                                        placeholder="Latest Revised Cost">
 	                                               </td>
 	                                               <td>
-	                                               		<select class="units" id="latest_revised_costs_units${index.count}" name="latest_revised_costs_units">
+	                                               		<select class="units validate-dropdown" id="latest_revised_cost_units0" name="latest_revised_cost_units">
 					                                		<option value="">Select</option>
-					                                		<option value="rs">Rs</option>
-					                                		<option value="thousands">Thousands</option>
-					                                		<option value="lacs">Lacs</option>
-					                                		<option value="crores">Crores</option>
+					                                		<c:forEach var="obj" items="${unitsList }">
+					                                  			   <option value="${obj.value }">${obj.unit }</option>
+					                                   		 </c:forEach>
 					                                	</select>
+					                                	<p id="units0Error" class="my-error" ></p>
 	                                               </td>
 	                                               
 	                                                <td  data-head="Year of Revision" class="input-field ">
@@ -819,13 +823,13 @@
                                 </div>
                                 <div class="col s4 m3 l1 input-field">
                                 	<p class="searchable_label">Units</p>
-                                	<select class="units" id="completion_cost_units" name="completion_cost_units">
+                                	<select class="units validate-dropdown" id="completion_cost_unit" name="completion_cost_unit">
                                 		<option value="">Select</option>
-                                		<option value="rs">Rs</option>
-                                		<option value="thousands">Thousands</option>
-                                		<option value="lacs">Lacs</option>
-                                		<option value="crores">Crores</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${workDetails.completion_cost_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		 </c:forEach>
                                 	</select>
+                                	<span id="completion_cost_unitError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div> 
@@ -1043,29 +1047,55 @@
   //*********************VALIDATION FOR WORK ADD/EDIT FORMS*************************************      
         
         function addWork(){
-	  		if(validator.form()){ // validation perform
-	  			$(".page-loader").show();	    
-	  			var project_name = $( "#project_id_fk option:selected" ).text();
-	  			$("#project_name").val(project_name);
-	  			$('form input[name=financial_years]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			//$('form input[name=pink_book_item_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=latest_revised_costs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=year_of_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=revision_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			document.getElementById("workForm").submit();			
-    	 	}
+        	var flag = validateContract();
+        	if(flag){
+		  		if(validator.form()){ // validation perform
+		  			$(".page-loader").show();	    
+		  			var sanctioned_estimated_cost = $('#sanctioned_estimated_cost').val();
+		  			var sanctioned_completion_cost = $('#sanctioned_completion_cost').val();
+		  			var anticipated_cost = $('#anticipated_cost').val();
+		  			var completion_cost = $('#completion_cost').val();
+		  			if(sanctioned_estimated_cost == ""){$('#sanctioned_estimated_cost_unit').val("");}
+		  			if(sanctioned_completion_cost == ""){$('#sanctioned_completion_cost_unit').val("");}
+		  			if(anticipated_cost == ""){$('#anticipated_cost_unit').val("");}
+		  			if(completion_cost == ""){$('#completion_cost_unit').val("");}
+		  			
+		  			var project_name = $( "#project_id_fk option:selected" ).text();
+		  			$("#project_name").val(project_name);
+		  			$('form input[name=financial_years]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			//$('form input[name=pink_book_item_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=latest_revised_costs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=latest_revised_cost_unit]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=year_of_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=revision_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			document.getElementById("workForm").submit();			
+	    	 	}
+        	}
     	}
   
         function updateWork(){
-	  		if(validator.form()){ // validation perform
-	  			$(".page-loader").show();	    		
-	  			$('form input[name=financial_years]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			//$('form input[name=pink_book_item_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=latest_revised_costs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=year_of_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=revision_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			document.getElementById("workForm").submit();			
-    	 	}
+        	var flag = validateContract();
+        	if(flag){
+		  		if(validator.form()){ // validation perform
+		  			$(".page-loader").show();	   
+		  			var sanctioned_estimated_cost = $('#sanctioned_estimated_cost').val();
+		  			var sanctioned_completion_cost = $('#sanctioned_completion_cost').val();
+		  			var anticipated_cost = $('#anticipated_cost').val();
+		  			var completion_cost = $('#completion_cost').val();
+		  			if(sanctioned_estimated_cost == ""){$('#sanctioned_estimated_cost_unit').val("");}
+		  			if(sanctioned_completion_cost == ""){$('#sanctioned_completion_cost_unit').val("");}
+		  			if(anticipated_cost == ""){$('#anticipated_cost_unit').val("");}
+		  			if(completion_cost == ""){$('#completion_cost_unit').val("");}
+		  			
+		  			$('form input[name=financial_years]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			//$('form input[name=pink_book_item_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=latest_revised_costs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=year_of_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=latest_revised_cost_unit]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=revision_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			document.getElementById("workForm").submit();			
+	    	 	}
+        	}
     	}
         
         var validator = $('#workForm').validate({
@@ -1101,7 +1131,23 @@
 		  			 		required: false
 		  			 	  }	,"remarks": {
 		  			 		required: false
-		  			 	  }		
+		  			 	  },"sanctioned_estimated_cost_unit":{
+	        		 		 required: function(element){
+	        		             return $("#sanctioned_estimated_cost").val()!="";
+	        		         }
+	        		 	  },"sanctioned_completion_cost_unit":{
+	        		 		 required: function(element){
+	        		             return $("#sanctioned_completion_cost").val()!="";
+	        		         }
+	        		 	  },"anticipated_cost_unit":{
+	        		 		 required: function(element){
+	        		             return $("#anticipated_cost").val()!="";
+	        		         }
+	        		 	  },"completion_cost_unit":{
+	        		 		 required: function(element){
+	        		             return $("#completion_cost").val()!="";
+	        		         }
+	        		 	  }		
 		  		 	},
 		  		    messages: {
 		  		 		 "project_id_fk": {
@@ -1132,6 +1178,14 @@
 		  		 			required: 'This Field Required'
 		  		 		 },"remarks": {
 		  		 			required: 'This Field Required'
+		  		 	  	 },"sanctioned_estimated_cost_unit": {
+		  		 			required: 'Required'
+		  		 	  	 },"sanctioned_completion_cost_unit": {
+		  		 			required: 'Required'
+		  		 	  	 },"anticipated_cost_unit": {
+		  		 			required: 'Required'
+		  		 		 },"completion_cost_unit": {
+		  		 			required: 'Required'
 		  		 	  	 }
 			   		},
 			   		errorPlacement:function(error, element){
@@ -1177,6 +1231,18 @@
 						 }else if (element.attr("id") == "remarks" ){
 							  document.getElementById("remarksError").innerHTML="";
 							  error.appendTo('#remarksError');
+						 }else if (element.attr("id") == "sanctioned_estimated_cost_unit" ){
+							  document.getElementById("sanctioned_estimated_cost_unitError").innerHTML="";
+							  error.appendTo('#sanctioned_estimated_cost_unitError');
+						 }else if (element.attr("id") == "sanctioned_completion_cost_unit" ){
+							  document.getElementById("sanctioned_completion_cost_unitError").innerHTML="";
+							  error.appendTo('#sanctioned_completion_cost_unitError');
+						 }else if (element.attr("id") == "anticipated_cost_unit" ){
+							  document.getElementById("anticipated_cost_unitError").innerHTML="";
+							  error.appendTo('#anticipated_cost_unitError');
+						 }else if (element.attr("id") == "completion_cost_unit" ){
+							  document.getElementById("completion_cost_unitError").innerHTML="";
+							  error.appendTo('#completion_cost_unitError');
 						 }else{
 				            	error.insertAfter(element);
 				            } 
@@ -1229,9 +1295,13 @@
 				   //+'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
 				   //+'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost" min="0.01" step="0.01"></td>'
 				   +'<td data-head="Latest Revised Cost " class="input-field"> <input id="latest_revised_costs'+rNo+'" name="latest_revised_costs" type="number" class="validate" value=""'
-				   +'placeholder="Latest Revised Cost" min="0.01" step="0.01"> </td> <td><select class="units" id="latest_revised_costs_units'+rNo+'" name="latest_revised_costs_units">'
-               	   +'<option value="">Select</option> <option value="rs">Rs</option>	<option value="thousands">Thousands</option> <option value="lacs">Lacs</option>	<option value="crores">Crores</option> </select>'
-	               +'</td>'
+				   +'placeholder="Latest Revised Cost" min="0.01" step="0.01"> </td> ' 
+				   +'<td><select class="units validate-dropdown" id="latest_revised_cost_units'+rNo+'" name="latest_revised_cost_units">'
+               	   +'<option value="">Select</option>'
+		             <c:forEach var="obj" items="${unitsList }">
+		      			   +'<option value="${obj.value }">${obj.unit }</option>'
+		       		 </c:forEach>	              
+		      	   +'</select><p id="units'+rNo+'Error" class="my-error" ></p></td>'
 				   +'<td data-head="Year of Revision " class="input-field">'
 				   +'<select id="year_of_revisions'+rNo+'" name="year_of_revisions" class="validate-dropdown searchable" >'
 				   +'<option value="" selected>select</option>'
@@ -1248,6 +1318,12 @@
 				// $('select').formSelect();
 				 $('.searchable').select2();
 				 $('.units').select2({dropdownCssClass : 'cost_dropdown'});
+				 
+				 $('#latest_revised_cost_units'+rNo).on('change', function(e){
+	            	 if($.trim($('#latest_revised_costs'+rNo).val()) != ""){
+	            		 $('#units'+rNo+'Error').text('');
+	            	 }
+	             });
 		 //******************* Revision table Validation***************************************
 
 		
@@ -1278,6 +1354,38 @@
 	   	  $(link).css('display','none');
      }       
      
+     function validateContract(){
+    	 var flag = true;
+	     $("input[name=latest_revised_costs]").each(function(){
+	    		var idNo = (this.id).replace('latest_revised_costs','');
+	    		var latest_revised_cost_unit = $("#latest_revised_cost_units"+idNo).val();
+	    		var latest_revised_costs = $("#latest_revised_costs"+idNo).val();
+				if($.trim(latest_revised_costs) == ""){$("#latest_revised_cost_units"+idNo).val("");}
+	    		if(idNo === ""){
+	    				idNo = 0;
+	    		}
+	    		if( $.trim(latest_revised_cost_unit) == "" && $('#latest_revised_costs'+idNo).val() != ""){
+					$('#units'+idNo+'Error').text('Requried');
+					$('#latest_revised_cost_units'+idNo).slideDown(100,function(){
+						$(this).focus();
+					});
+					flag = false;
+				} 
+			});
+			return flag;
+	}
+     $('select[name=latest_revised_cost_units]').change(function(key, element){
+			$("select[name=latest_revised_cost_units]").each(function(){
+				var idNo = (this.id).replace('latest_revised_cost_units','');
+	     		if($.trim(this.value) == "" && $('#latest_revised_costs'+idNo).val() != ""){
+	     			$('#units'+idNo+'Error').text('Requried');
+	     			
+				}else{
+					$('#units'+idNo+'Error').text('');
+				}
+            });
+		});
+	
     </script>
 </body>
 

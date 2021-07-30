@@ -265,6 +265,9 @@ public class WorkController {
 			List<Work> workFileTypes = workService.getWorkFileTypes();
 			model.addObject("workFileTypes", workFileTypes);
 			
+			List<Work> unitsList = workService.getUnitsList();
+			model.addObject("unitsList", unitsList);
+			
 			workId= work.getWork_id();
 			Work workDetails = workService.getWork(workId, work);
 			model.addObject("workDetails", workDetails);
@@ -289,7 +292,8 @@ public class WorkController {
 			model.addObject("excecuteList", excecuteList);
 			List<Year> yearList = workService.getYearList();
 			model.addObject("yearList", yearList);
-			
+			List<Work> unitsList = workService.getUnitsList();
+			model.addObject("unitsList", unitsList);
 			List<Work> workFileTypes = workService.getWorkFileTypes();
 			model.addObject("workFileTypes", workFileTypes);
 
@@ -488,7 +492,7 @@ public class WorkController {
 			userId = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			view.setViewName("redirect:/work");
 			dataList = workService.getWorksList(work); 
-			revisionList = workService.getWorkRevisionsList();
+			revisionList = workService.getWorkRevisionsList(work);
 			if(dataList != null && dataList.size() > 0){
 			            XSSFWorkbook  workBook = new XSSFWorkbook ();
 			            XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Work"));
@@ -517,8 +521,8 @@ public class WorkController {
 				        
 				        
 			            XSSFRow headingRow = sheet.createRow(0);
-			            String headerString = "Project ID^Project Name^Work ID^Work Short Name^Sanctioned Year^Railway Agency^Executed By^Sanctioned Estimated Cost^Sanctioned Completion Cost^Completeion Period Months^"
-			            		+ "Anticipated Cost^Projected Completion Date^Completion Cost^Year of Completion^Remarks";
+			            String headerString = "Project ID^Project Name^Work ID^Work Short Name^Sanctioned Year^Railway Agency^Executed By^Sanctioned Estimated Cost^Unit^Sanctioned Completion Cost^Unit^Completeion Period Months^"
+			            		+ "Anticipated Cost^Unit^Projected Completion Date^Completion Cost^Unit^Year of Completion^Remarks";
 			            
 			            String[] firstHeaderStringArr = headerString.split("\\^");
 			            
@@ -529,7 +533,7 @@ public class WorkController {
 						}
 			            
 			            XSSFRow headingRow1 = revisonSheet.createRow(0);
-			            String headerString1 = "Work ID^Financial Year^PB Item No^Latest Revised Cost^Year Of Revision^Revision Number";
+			            String headerString1 = "Work ID^Financial Year^PB Item No^Latest Revised Cost^Unit^Year Of Revision^Revision Number";
 			            
 			            String[] secondHeaderStringArr = headerString1.split("\\^");
 			            
@@ -576,9 +580,17 @@ public class WorkController {
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getSanctioned_estimated_cost());
 							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getEstimated_cost_unit());
+							
 			                cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getSanctioned_completion_cost());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getSanctioned_cost_unit());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
@@ -587,6 +599,10 @@ public class WorkController {
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getAnticipated_cost());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getAnticipated_unit());
 						
 			                cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
@@ -596,6 +612,11 @@ public class WorkController {
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getCompletion_cost());
 
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getCompletion_unti());
+
+		
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getYear_of_completion());
@@ -628,6 +649,10 @@ public class WorkController {
 									cell1.setCellStyle(sectionStyle);
 									cell1.setCellValue(obj.getLatest_revised_cost());
 									
+									cell1 = row.createCell(b++);
+									cell1.setCellStyle(sectionStyle);
+									cell1.setCellValue(obj.getRevision_unit());
+										
 					                cell1 = row.createCell(b++);
 									cell1.setCellStyle(sectionStyle);
 									cell1.setCellValue(obj.getYear_of_revision());

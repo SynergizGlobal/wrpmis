@@ -30,14 +30,17 @@ public interface WorkDao {
 	public int getTotalRecords(Work obj, String searchParameter) throws Exception;
 
 	public List<Work> getWorksList(Work obj, int startIndex, int offset, String searchParameter) throws Exception;
+	 * @param obj 
 */
 
-	public List<Work> getWorkRevisionsList() throws Exception;
+	public List<Work> getWorkRevisionsList(Work obj) throws Exception;
 
 	public List<Work> getWorkFileTypes() throws Exception;
 
 	public List<Work> getWorksList(Work obj) throws Exception;
 
 	public List<Work> getWorktProjectsList(Work obj) throws Exception;
+
+	public List<Work> getUnitsList() throws Exception;
 
 }

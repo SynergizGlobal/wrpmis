@@ -28,13 +28,15 @@ public interface WorkService {
 
 	public List<Work> getWorkList(Work work) throws Exception;
 
-	public List<Work> getWorkRevisionsList() throws Exception;
+	public List<Work> getWorkRevisionsList(Work work) throws Exception;
 
 	public List<Work> getWorkFileTypes() throws Exception;
 
 	public List<Work> getWorksList(Work obj) throws Exception;
 
 	public List<Work> getWorktProjectsList(Work obj) throws Exception;
+
+	public List<Work> getUnitsList() throws Exception;
 
 	/**public int getTotalRecords(Work obj, String searchParameter) throws Exception;
 

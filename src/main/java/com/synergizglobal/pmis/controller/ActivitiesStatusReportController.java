@@ -307,13 +307,13 @@ public class ActivitiesStatusReportController {
 					/*************************************************************************/		
 						
 					if(zObj.getComponentsList() != null && zObj.getComponentsList().size() > 0){
-						int rowNo = 8;
+						int rowNo = 5;
 						 rowNo++;
 				            int tempRowNo = rowNo;
 				            XSSFRow structureRow = dprSheet.createRow(rowNo++);
 					
 				            /**********************************************************************/
-							String headerString = "Activity Name^Unit^Scope^Completed^ Start ^Finish";
+							String headerString = "Activity Name^Unit^Scope^Completed^ Start Date ^Finish Date";
 					        
 					        String[] headerStringArr = headerString.split("\\^");
 					        

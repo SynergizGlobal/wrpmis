@@ -1955,7 +1955,7 @@
 
         function getHodList() {
         	$(".page-loader").show();
-        	var hod_user_id_fk = "";
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();;
         	var dy_hod_user_id_fk = $("#dy_hod_user_id_fk").val();
         	var reporting_to_id_srfk = $("#dy_hod_user_id_fk").find('option:selected').attr("name");
             if ($.trim(hod_user_id_fk) == "") {

@@ -1851,9 +1851,8 @@
 	       	}else{
 	       		$("#insurance_div").hide();
 	       	}
-            getDyHodList();
             getHodList();
-            
+            getDyHodList();
         });
         
         function getContractClosureDetails(contract_status_fk) {
@@ -1953,61 +1952,19 @@
         function removeDepartment(rowNo){
         	$("#departmentRow"+rowNo).remove();
         }
-        
-        function getDyHodList() {
-        	$(".page-loader").show();
-        	var hod_user_id_fk = $("#hod_user_id_fk").val();
-        	var dy_hod_user_id_fk = "";
-        	var reporting_to_id_srfk = $("#dy_hod_user_id_fk").find('option').attr("name");
-            if ($.trim(dy_hod_user_id_fk) == "") {
-            	$("#dy_hod_user_id_fk option:not(:first)").remove();
-            	var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: dy_hod_user_id_fk };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getDyHodList",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	   var userName = '';
-	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
-	                        	   var user = '${contractDeatils.dy_hod_user_id_fk}';
-      	                           if ($.trim(hod_user_id_fk) != '') {
-                                         $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" >' + $.trim(val.designation) + userName + '</option>');
-                                     } else {
-                                         if(val.dy_hod_user_id_fk == user){
-                                             $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
-                                	    	 $("#dy_hod_user_id_fk").select2();
-                                	    	 getHodList();
-                                         }else{
-                                             $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
-                                         }
-                                     }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
+
         function getHodList() {
         	$(".page-loader").show();
         	var hod_user_id_fk = "";
         	var dy_hod_user_id_fk = $("#dy_hod_user_id_fk").val();
-        	if($.trim(dy_hod_user_id_fk) != ''){   
-            	var reporting_to_id_srfk = $("#dy_hod_user_id_fk").find('option:selected').attr("name");
-        	}
+        	var reporting_to_id_srfk = $("#dy_hod_user_id_fk").find('option:selected').attr("name");
             if ($.trim(hod_user_id_fk) == "") {
             	$("#hod_user_id_fk option:not(:first)").attr("selected",false);
-            	var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: reporting_to_id_srfk };
+            	//var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: reporting_to_id_srfk };
+            	var myParams = {};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getHodList",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -2016,21 +1973,16 @@
  	                        	   var deptCode =  val.contract_id_code;
 	                        	   $("#contract_id_code").val(deptCode);
 	                        	   $('#department_fk').val(val.department_fk);
-	                        	   var user = '${contractDeatils.dy_hod_user_id_fk}';
-      	                           if ($.trim(dy_hod_user_id_fk) != '') {
-	      	                        	 document.querySelectorAll('#hod_user_id_fk > option').forEach((option) => {
-                                	    	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
-                                	    	 $("#hod_user_id_fk").select2();
-	                                	 })
-                                     } else {
-                                         $("#hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
-                                         if(val.hod_user_id_fk == user){
-                                        	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
-                                	    	 $("#hod_user_id_fk").select2();
-                                	    	 getDyHodList();
-                                         }
-                                     }
+	                        	   var user = '${contractDeatils.hod_user_id_fk}';
+	                        	   if(val.hod_user_id_fk == user){
+                             	   		$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
+                             	   }else{
+                             	   		$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                             	   }
                             });
+                            if($.trim(reporting_to_id_srfk) != ''){
+                            	$("#hod_user_id_fk").val(reporting_to_id_srfk);      
+                            }
                         }
                         $('.searchable').select2();
                         $(".page-loader").hide();
@@ -2041,7 +1993,41 @@
                 });
             }else{
             	  $(".page-loader").hide();
+            	  if($.trim(reporting_to_id_srfk) != ''){
+                      $("#hod_user_id_fk").val(reporting_to_id_srfk);      
+                  }
             }
+        }
+        
+        function getDyHodList() {
+        	$(".page-loader").show();
+        	$("#dy_hod_user_id_fk option:not(:first)").remove();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
+            //var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: dy_hod_user_id_fk };
+            var myParams = { hod_user_id_fk: hod_user_id_fk};
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getDyHodList",
+                data: myParams, cache: false,async:false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                           	  var userName = '';
+                     	      if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
+                     	      var user = '${contractDeatils.dy_hod_user_id_fk}';
+  	                          if(val.dy_hod_user_id_fk == user){
+                                  $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
+                     	      }else{
+                                  $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                              }
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                },error: function (jqXHR, exception) {
+ 	   			      $(".page-loader").hide();
+	   	          	  getErrorMessage(jqXHR, exception);
+	   	     	  }
+            });
         }
      
         function updateContract(){

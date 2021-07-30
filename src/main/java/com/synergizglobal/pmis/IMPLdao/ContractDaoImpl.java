@@ -2643,10 +2643,11 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getHodList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk,d.contract_id_code,u.reporting_to_id_srfk FROM user u " + 
-					"left join user u1 on u.reporting_to_id_srfk = u1.user_id " + 
-					"LEFT JOIN department d on u.department_fk = d.department " +
-					"where  u.user_type_fk = ?  ";
+			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk,d.contract_id_code,u.reporting_to_id_srfk "
+					+ "FROM user u " 
+					+ "left join user u1 on u.reporting_to_id_srfk = u1.user_id "
+					+ "LEFT JOIN department d on u.department_fk = d.department "
+					+ "where  u.user_type_fk = ?  ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_user_id_fk()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {

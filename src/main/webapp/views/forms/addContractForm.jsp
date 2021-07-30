@@ -588,16 +588,15 @@
 	    	}
 	    	M.Datepicker.init(this, options);
 	    });
-		var user_hod = '${sessionScope.USER_ID}';
+		var loggedin_user_id = '${sessionScope.USER_ID}';
         $(document).ready(function () {
         	 $('select:not(.searchable):not(.units)').formSelect();
              $('.searchable').select2();
              $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
              $('#remarks').characterCounter();
-             getDyHodList();
+
              getHodList();
-             //console.log($("#dy_hod_user_id_fk").children("option").filter(":selected").text())
-          
+             getDyHodList();
         });
      
         function getExecutivesList(num) {
@@ -674,59 +673,18 @@
         	var deptFirst = $('#'+id).val();
         	$('#department_fk').val(deptFirst);
         }
-        function getDyHodList() {
-        	$(".page-loader").show();
-        	var hod_user_id_fk = $("#hod_user_id_fk").val();
-        	var dy_hod_user_id_fk = "";
-        	var reporting_to_id_srfk = $("#dy_hod_user_id_fk").find('option').attr("name");
-            if ($.trim(dy_hod_user_id_fk) == "") {
-            	$("#dy_hod_user_id_fk option:not(:first)").remove();
-            	var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: dy_hod_user_id_fk };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getDyHodList",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	   var userName = '';
-	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
-      	                           if ($.trim(hod_user_id_fk) != '') {
-                                         $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" >' + $.trim(val.designation) + userName + '</option>');
-                                     } else {
-                                         if(val.dy_hod_user_id_fk == user_hod){
-                                             $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
-                                	    	 $("#dy_hod_user_id_fk").select2();
-                                	    	 getHodList();
-                                         }else{
-                                             $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
-                                         }
-                                     }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
+        
         function getHodList() {
         	$(".page-loader").show();
-        	var hod_user_id_fk = "";
-        	var dy_hod_user_id_fk = $("#dy_hod_user_id_fk").val();
-        	if($.trim(dy_hod_user_id_fk) != ''){   
-            	var reporting_to_id_srfk = $("#dy_hod_user_id_fk").find('option:selected').attr("name");
-        	}
-            if ($.trim(hod_user_id_fk) == "") {
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
+        	var reporting_to_id_srfk = $("#dy_hod_user_id_fk").find('option:selected').attr("name");
+        	if ($.trim(hod_user_id_fk) == "") {
             	$("#hod_user_id_fk option:not(:first)").attr("selected",false);
-            	var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: reporting_to_id_srfk };
+            	//var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: reporting_to_id_srfk };
+            	var myParams = {};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getHodList",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -735,20 +693,16 @@
  	                        	   var deptCode =  val.contract_id_code;
 	                        	   $("#contract_id_code").val(deptCode);
 	                        	   $('#department_fk').val(val.department_fk);
-      	                           if ($.trim(dy_hod_user_id_fk) != '') {
-	      	                        	 document.querySelectorAll('#hod_user_id_fk > option').forEach((option) => {
-	                               	    	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
-	                               	    	 $("#hod_user_id_fk").select2();
-	                                	 })
-                                    } else {
-                                         $("#hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
-                                         if(val.hod_user_id_fk == user_hod){
-	                                       	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
-	                               	    	 $("#hod_user_id_fk").select2();
-	                               	    	 getDyHodList();
-                                         }
-                                    }
+      	                          
+                              	   if(val.hod_user_id_fk == loggedin_user_id){
+                              	   		$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
+                              	   }else{
+                              	   		$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                              	   }
                             });
+                            if($.trim(reporting_to_id_srfk) != ''){
+                            	$("#hod_user_id_fk").val(reporting_to_id_srfk);      
+                            }
                         }
                         $('.searchable').select2();
                         $(".page-loader").hide();
@@ -758,9 +712,48 @@
     	   	     	  }
                 });
             }else{
-            	  $(".page-loader").hide();
+            	$(".page-loader").hide();
+            	if($.trim(reporting_to_id_srfk) != ''){
+                   $("#hod_user_id_fk").val(reporting_to_id_srfk);      
+                }
             }
         }
+        
+        function getDyHodList() {
+        	$(".page-loader").show();
+        	$("#dy_hod_user_id_fk option:not(:first)").remove();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
+            //var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: dy_hod_user_id_fk };
+           	var myParams = { hod_user_id_fk: hod_user_id_fk};
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getDyHodList",
+                data: myParams, cache: false,async:false,
+                success: function (data) {
+                	var flag = false;
+                    if (data.length > 0) {                    	
+                        $.each(data, function (i, val) {
+                       	   var userName = '';
+                    	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
+                           if(val.dy_hod_user_id_fk == loggedin_user_id){
+                        	    flag = true;
+                                $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
+                           }else{
+                                $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                           }
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                    if(flag){
+                    	getHodList();
+                    }
+                },error: function (jqXHR, exception) {
+ 	   			      $(".page-loader").hide();
+	   	          	  getErrorMessage(jqXHR, exception);
+	   	     	  }
+            });
+        }
+        
      
         function getWorksList(projectId) {
         	$(".page-loader").show();

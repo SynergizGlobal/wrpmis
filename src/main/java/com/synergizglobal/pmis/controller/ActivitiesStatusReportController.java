@@ -294,7 +294,7 @@ public class ActivitiesStatusReportController {
 					        cell.setCellStyle(indexWhiteStyle);
 							cell.setCellValue(structure);
 							
-							for (int i = 2; i < 6; i++) {		        	
+							for (int i = 2; i < 6; i++) {		        	 
 						        cell = deatilsRow.createCell(i);
 						        cell.setCellStyle(indexWhiteStyle);
 								cell.setCellValue("");

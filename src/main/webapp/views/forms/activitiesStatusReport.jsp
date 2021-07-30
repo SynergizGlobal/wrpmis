@@ -214,7 +214,7 @@
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
-        	var fob_id_fk = $("#fob_id_fk").val();
+        	var fob_id_fk = $("#fob_id_fk").val(); 
             if ($.trim(work_id) == "") 
             {
             	$("#work_id option:not(:first)").remove();

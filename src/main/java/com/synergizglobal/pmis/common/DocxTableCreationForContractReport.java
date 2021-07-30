@@ -713,11 +713,11 @@ public class DocxTableCreationForContractReport {
 					if(1 == columnNo) {
 						width = 230;
 					}else if(2 == columnNo) {
-						width = 1100;
+						width = 1000;
 					}else if(3 == columnNo) {
-						width = 1100;
+						width = 1000;
 					}else if(4 == columnNo) {
-						width = 900;
+						width = 1100;
 					}else if(5 == columnNo) {
 						width = 560;
 					}else if(6 == columnNo) {
@@ -866,7 +866,7 @@ public class DocxTableCreationForContractReport {
 					}else if(3 == columnNo) {
 						width = 1000;
 					}else if(4 == columnNo) {
-						width = 800;
+						width = 1100;
 					}else if(5 == columnNo) {
 						width = 560;
 					}else if(6 == columnNo) {

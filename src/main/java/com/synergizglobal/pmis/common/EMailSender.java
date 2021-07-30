@@ -906,6 +906,7 @@ public class EMailSender {
 			 MimeBodyPart mimeBodyPart2 = new MimeBodyPart();
 			 try{
 				 ds = new ByteArrayDataSource(contract_byte_array, "application/msword");
+				 
 			 }catch (Exception ioe ){			
 				 logger.error("sendEmailWithAttachment >> "+ioe.getMessage());
 			 }

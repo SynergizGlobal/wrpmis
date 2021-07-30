@@ -614,7 +614,10 @@ public class ContractReportController {
 		try{			
 
 			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
-			String report_created_date = df.format(new Date()); 
+			String report_created_date = df.format(new Date());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdfInput = new SimpleDateFormat("dd-MM-yyyy");
+			
 			
             Calendar c1 = Calendar.getInstance();
             
@@ -622,21 +625,26 @@ public class ContractReportController {
             c1.set(Calendar.DATE, 16);
             c1.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
             c1.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
-            if(getFirstDateOfMonth(new Date())==new Date() || c1.getTime()==new Date())
+            String date1=sdf.format(getFirstDateOfMonth(new Date()));
+            String date2=sdf.format(new Date());
+            String date3=sdf.format(c1.getTime());
+            
+            if((date1.compareTo(date2)==0) || (date3.compareTo(date2)==0))
             {
-		           if(getFirstDateOfMonth(new Date())==new Date())
+		           if(date1.compareTo(date2)==0)
 		           {
 		               Calendar cal = Calendar.getInstance();
 		               
 		               cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-		               String LastDate=cal.getTime().toString();
+		               String LastDate=sdfInput.format(cal.getTime());
 		         	   obj.setDate(DateParser.parse(LastDate));
 		           }
-		           if(c1.getTime()==new Date())
+		           if(date3.compareTo(date2)==0)
 		           {
 		        	   Calendar cal2 = Calendar.getInstance(); 
+		        	   cal2.set(Calendar.DATE, 15);
 		        	   cal2.add(Calendar.MONTH, 1);
-		        	   String NextMonthSameDate=cal2.getTime().toString();
+		        	   String NextMonthSameDate=sdfInput.format(cal2.getTime());
 		        	   obj.setDate(DateParser.parse(NextMonthSameDate));
 		           }
 					
@@ -685,13 +693,13 @@ public class ContractReportController {
 						String docbginsurance_file_name = "Contract-DOC-BG-and-Insurance-Validity-Report";
 		
 						String recipients = "", cc = "", bcc = CommonConstants.BCC_MAIL,
-								subject = "Contract DOC BG and Insurance Validity Report", body = "";
+								subject = "PMIS - Contract DOC, BG and Insurance Validity Report", body = "";
 		
 						recipients = service.getEmailIdsOfDepartments();
 		
 						if (!StringUtils.isEmpty(recipients)) {
 							EMailSender emailSender = new EMailSender();
-							emailSender.sendEmailWithContractReportsAttachment("swathi.sagi@synergizglobal.com", cc, bcc, subject, body,
+							emailSender.sendEmailWithContractReportsAttachment(recipients, cc, bcc, subject, body,
 									docbginsurance_file_name, file_extention, byteArray);
 						}
 						

@@ -185,7 +185,7 @@ public class UserController {
 	public List<User> getUserReportingToList(@ModelAttribute User obj) {
 		List<User> reportingToList = null;
 		try {
-			reportingToList = userService.getUserReportingToList(obj.getDepartment_fk());
+			reportingToList = userService.getUserReportingToList(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getUserReportingToList : " + e.getMessage());
@@ -347,7 +347,7 @@ public class UserController {
 			User user = userService.getUser(obj);			
 			model.addObject("usrObj", user);
 			
-			List<User> reportingToList = userService.getUserReportingToList(user.getDepartment_fk());
+			List<User> reportingToList = userService.getUserReportingToList(user);
 			model.addObject("reportingToList", reportingToList);
 			
 		} catch (Exception e) {

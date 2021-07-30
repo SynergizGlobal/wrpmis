@@ -1538,7 +1538,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			for (Alerts tObj : alert_types) {
 				 if(!StringUtils.isEmpty(tObj.getAlert_type_fk()) && tObj.getAlert_type_fk().equals("Risk")) {
-					 sendEmailNotificationWithRiskAlertsToITAmdin(tObj.getAlert_type_fk());
+					 //sendEmailNotificationWithRiskAlertsToITAmdin(tObj.getAlert_type_fk());
 				 }else {
 					 sendEmailNotificationWithContractAndIssueAlertToITAmdin(tObj.getAlert_type_fk());
 				 }
@@ -1648,7 +1648,19 @@ public class AlertsDaoImpl implements AlertsDao{
 						}
 					}
 					
-					alerts.put(lObj.getAlert_level(), allAlertsList);
+					String alert_level = lObj.getAlert_level();
+					if(!alert_type.equals(CommonConstants2.ALERT_TYPE_ISSUE)) {
+						if(alert_level.equals("Overdue")) {
+							alert_level = alert_level + " (Expenditure>Contract Value OR Validity Expired)";
+						}else if(alert_level.equals("3rd Alert")) {
+							alert_level = alert_level + " (Expenditure>95% of Contract Value OR Validity Expiry in 15 days)";
+						}else if(alert_level.equals("2nd Alert")) {
+							alert_level = alert_level + " (Expenditure>90% of Contract Value OR Validity Expiry in 30 days)";
+						}else if(alert_level.equals("1st Alert")) {
+							alert_level = alert_level + " (Expenditure>80% of Contract Value OR Validity Expiry in 60 days)";
+						}
+					}					
+					alerts.put(alert_level, allAlertsList);
 				}
 				
 				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-YYYY");
@@ -1675,7 +1687,8 @@ public class AlertsDaoImpl implements AlertsDao{
 							mail.setTemplateName("IssueAlerts.vm");
 							emailSender.sendEmailWithIssueAlerts(mail,alerts,today_date,current_year,alert_type); 
 						}else {
-							mail.setTemplateName("ContractAlerts.vm");
+							alert_type = "Contract";
+							mail.setTemplateName("ContractAlertsITAdmins.vm");
 							emailSender.sendEmailWithContractAlerts(mail,alerts,today_date,current_year,alert_type); 
 						}
 					}

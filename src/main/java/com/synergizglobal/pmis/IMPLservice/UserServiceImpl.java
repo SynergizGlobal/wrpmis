@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<User> getUserReportingToList(String department_fk) throws Exception {
-		return userDao.getUserReportingToList(department_fk);
+	public List<User> getUserReportingToList(User obj) throws Exception {
+		return userDao.getUserReportingToList(obj);
 	}
 
 	@Override

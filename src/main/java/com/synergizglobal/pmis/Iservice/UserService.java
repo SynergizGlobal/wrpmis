@@ -10,7 +10,7 @@ public interface UserService {
 
 	List<User> getUserDepartments() throws Exception;
 
-	List<User> getUserReportingToList(String department_fk) throws Exception;
+	List<User> getUserReportingToList(User obj) throws Exception;
 
 	List<User> getUsersList(User obj) throws Exception;
 

@@ -2649,7 +2649,7 @@ public class ContractDaoImpl implements ContractDao {
 					"where  u.user_type_fk = ?  ";
 			
 			int arrSize = 1;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_user_id_fk())) {
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_user_id_fk()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
 				qry = qry + " and u.user_id = ? ";
 				arrSize++;
 			}
@@ -2657,7 +2657,7 @@ public class ContractDaoImpl implements ContractDao {
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = CommonConstants.USER_TYPE_HOD;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_user_id_fk())) {
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_user_id_fk()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
 				pValues[i++] = obj.getDy_hod_user_id_fk();
 			}
 			
@@ -2678,7 +2678,7 @@ public class ContractDaoImpl implements ContractDao {
 					"where u.user_type_fk = ?  ";
 			
 			int arrSize = 1;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
 				qry = qry + " and u.reporting_to_id_srfk = ? ";
 				arrSize++;
 			}
@@ -2686,7 +2686,7 @@ public class ContractDaoImpl implements ContractDao {
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = CommonConstants.USER_TYPE_DYHOD;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
 				

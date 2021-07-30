@@ -35,7 +35,7 @@ public class CommonConstants {
 	public final static String  USER_TYPE_DYHOD = "DyHOD";
 	public final static String  USER_TYPE_MANAGEMENT = "Management";
 	public final static String  USER_TYPE_OTHERS = "Others";
-	public final static String  USER_TYPE_ID_MANAGEMENT = "MGMT";
+	public final static String  DEPARTMENT_ID_MANAGEMENT = "MGMT";
 	
 	public final static String  ISSUE_STATUS_RAISED = "Raised";
 	

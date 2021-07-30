@@ -192,7 +192,7 @@
 	                                            <th>Alert Level</th>
 	                                            <th>Reason</th>
 	                                            <th>Action Taken</th>
-	                                            <th class="no-sort">&nbsp;</th>
+	                                            <th class="no-sort">Action</th>
 	                                        </tr>
 	                                    </thead>
 	                                    <tbody>

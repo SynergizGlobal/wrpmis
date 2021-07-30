@@ -68,28 +68,28 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public List<User> getUserReportingToList(String department_fk) throws Exception {
+	public List<User> getUserReportingToList(User obj) throws Exception {
 		List<User> objsList = null;
 		try {
 			String qry = "select user_id,designation,user_name from user u where u.user_name not like '%user%' and u.pmis_key_fk not like '%SGS%' ";
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(department_fk) && department_fk.equals(CommonConstants.USER_TYPE_ID_MANAGEMENT)) {
-				qry = qry + " and department_fk = ?";
-				arrSize++;
-			}else if(!StringUtils.isEmpty(department_fk)) {
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) {
 				qry = qry + " and (department_fk = ? or department_fk = ?)";
 				arrSize++;
 				arrSize++;
-			}
+			}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and department_fk = ?";
+				arrSize++;
+			} 
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(department_fk) && department_fk.equals(CommonConstants.USER_TYPE_ID_MANAGEMENT)) {
-				pValues[i++] = department_fk;
-			}else if(!StringUtils.isEmpty(department_fk)) {
-				pValues[i++] = department_fk;
-				pValues[i++] = CommonConstants.USER_TYPE_ID_MANAGEMENT;
-			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+				pValues[i++] = CommonConstants.DEPARTMENT_ID_MANAGEMENT;
+			}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			} 
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

@@ -176,7 +176,7 @@
                                 </c:if> --%>
                                  <div class="col s6 m4 input-field">
                                      <p class="searchable_label">User Type <span class="required">*</span></p>
-                                      <select id="user_type_fk" name="user_type_fk" class="searchable validate-dropdown" >
+                                      <select id="user_type_fk" name="user_type_fk" class="searchable validate-dropdown"  onchange="getReportingToPersonsList();">
                                           <option value="">Select</option>
                                           <c:forEach var="obj" items="${types }">
                                           	<option value="${obj.user_type_fk }" <c:if test="${obj.user_type_fk eq usrObj.user_type_fk}">selected</c:if>>${obj.user_type_fk }</option>
@@ -189,7 +189,7 @@
                             <div class="row">
                                 <div class="col s6 m4 input-field offset-m2">
                                    <p class="searchable_label">Department <span class="required">*</span></p>
-                                    <select id="department_fk" name="department_fk" class="searchable validate-dropdown" onchange="getReportingToPersonsList(this.value);">
+                                    <select id="department_fk" name="department_fk" class="searchable validate-dropdown" onchange="getReportingToPersonsList();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departments }">
                                         	<option value="${obj.department }" <c:if test="${obj.department eq usrObj.department_fk}">selected</c:if>>${obj.department_name }</option>
@@ -483,10 +483,12 @@
             $('#remarks').characterCounter();
         });
         
-        function getReportingToPersonsList(department_fk){
+        function getReportingToPersonsList(){
        	  	 $(".page-loader").show(); 
      		 $("#reporting_to_id_srfk option:not(:first)").remove();
-             var myParams = { department_fk : department_fk };
+     		 var department_fk = $("#department_fk").val();
+     		 var user_type_fk = $("#user_type_fk").val();
+             var myParams = { department_fk : department_fk,user_type_fk : user_type_fk };
              $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getUserReportingToList",
                    data: myParams, cache: false,async:true,

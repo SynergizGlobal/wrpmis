@@ -740,14 +740,14 @@
 	                               	    	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
 	                               	    	 $("#hod_user_id_fk").select2();
 	                                	 })
-                                     } else {
+                                    } else {
                                          $("#hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
                                          if(val.hod_user_id_fk == user_hod){
-                                        	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
-                                	    	 $("#hod_user_id_fk").select2();
-                                	    	 getDyHodList();
+	                                       	 $('select[name="hod_user_id_fk"]').find('option[value="' + val.hod_user_id_fk + '" ]').attr("selected",true);
+	                               	    	 $("#hod_user_id_fk").select2();
+	                               	    	 getDyHodList();
                                          }
-                                     }
+                                    }
                             });
                         }
                         $('.searchable').select2();

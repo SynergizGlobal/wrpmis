@@ -54,6 +54,7 @@
 		.input-field >textarea.materialize-textarea{
 			margin-bottom:2px;
 		}
+	  
     </style>
 </head>
 <body>
@@ -217,7 +218,7 @@
                             </div>
                             <div class="row">
                                   <div class="col s12 m8 input-field offset-m2">
-									  <textarea id="description" name="description" class="materialize-textarea validate" data-length="1000">${safety.description }</textarea>                                            
+									  <textarea id="description" name="description" class="validate materialize-textarea" data-length="1000">${safety.description }</textarea>                                            
 	                                  <label for="description">Full Description<span class="required">*</span></label>
 	                                  <span id="descriptionError" class="error-msg" ></span>
                                   </div>                                    
@@ -304,12 +305,22 @@
                                     <button type="button" id="payment_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="payment_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s8 m3 input-field">
                                 <i class="material-icons prefix center-align">₹</i>
                                     <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" class="validate" value="${safety.compensation }">
                                     <label for="compensation"> Compensation </label>
                                     <span id="compensationError" class="error-msg" ></span>
                                 </div>
+                                <div class="col s4 m1 input-field pt-10">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="compensation_units" name="compensation_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }" >${obj.unit }</option>
+	                                	</c:forEach>
+                                	</select>
+                                	<span id="compensation_unitsError" class="error-msg" ></span>
+                               	</div> 
                             </div>
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
@@ -360,7 +371,7 @@
                             </div>
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${safety.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="materialize-textarea validate" data-length="1000">${safety.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
@@ -452,7 +463,7 @@
             $('#closure_date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#closure_date').click();
-            });
+            });            
             
             $('#closure_date').datepicker({
   	    	    format:'dd-mm-yyyy',
@@ -470,6 +481,10 @@
                 $('#payment_date').click();
             });             	   
             
+  	      $('.pmis-textarea').css('height',function(){
+          	this.style.height = (this.scrollHeight < 48) ? '48px' : this.scrollHeight + 'px';
+          });
+  	        
             var project_id_fk = "${safety.project_id_fk}";
             if ($.trim(project_id_fk) != '') {
                 getWorksList(project_id_fk);
@@ -832,6 +847,9 @@
 	  			 	    }else if (element.attr("id") == "corrective_measure_long_term" ){
 	  			 		     document.getElementById("corrective_measure_long_termError").innerHTML="";
 	  			 			 error.appendTo('#corrective_measure_long_termError');
+	  			 	    }else if (element.attr("id") == "compensation_units" ){
+	  			 		     document.getElementById("compensation_unitsError").innerHTML="";
+	  			 			 error.appendTo('#compensation_unitsError');
 	  			 	    }else if (element.attr("id") == "remarks" ){
     			 		     document.getElementById("remarksError").innerHTML="";
     			 			 error.appendTo('#remarksError');
@@ -1006,6 +1024,7 @@
 	         	$('#safetyFilesDiv'+no).remove();
 	         	$('#safetyFileName'+no).remove();
 	        }
+			
     </script>
 </body>
 </html>

@@ -13,23 +13,6 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
 <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
 <style>
-	/*.preloader-wrapper {
-		top: 45% !important;
-		left: 47% !important;
-	}
-	
-	 //	textarea.materialize-textarea {
-		    line-height: normal;
-		    overflow-y: hidden;
-		    padding: .8rem 0 .8rem 0;
-		    resize: none;
-		    min-height: 3rem;
-		    -webkit-box-sizing: border-box;
-		    box-sizing: border-box;
-		    max-height:100px;
-	   }
-	   //
-	 */
 	nav .menu-active, nav .menu-active.blue {
 		background-color: #f56661 !important;
 		box-shadow: 0 0 5px #bababa inset;
@@ -80,6 +63,40 @@
 	.pt-10{
 		padding-top:.6rem !important;
 	}
+	/*  textarea auto height code starts here */
+    .pmis-textarea {
+           height: inherit;
+           padding: 1rem 0 0;
+           box-sizing: border-box;
+           border: 0;
+           border-bottom: 1px solid #9e9e9e;
+           outline: none;
+           resize: none;
+           font-family: verdana;
+           font-size: 16px;
+           overflow:hidden;
+           margin-bottom:8px;
+       }
+       .pmis-textarea.valid{
+       	border-bottom: 1px solid #4CAF50;
+	    -webkit-box-shadow: 0 1px 0 0 #4caf50;
+	    box-shadow: 0 1px 0 0 #4caf50;
+       }
+       .pmis-textarea.invalid{
+       	border-bottom: 1px solid #F44336;
+	    -webkit-box-shadow: 0 1px 0 0 #f44336;
+	    box-shadow: 0 1px 0 0 #f44336;
+       }
+       .pmis-textarea.my-valid-class {
+		    color: inherit;
+		}
+       .pmis-textarea.valid.my-valid-class {
+		    color: #4caf50;
+		}
+       .pmis-textarea.invalid.my-valid-class {
+		    color: #f44336;
+		}
+     /*  textarea auto height code ends here */
 </style>
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />

@@ -302,18 +302,28 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s6 offset-m2 m4 input-field">
+                                <div class="col s12 offset-m2 m4 input-field">
                                     <input id="payment_date" name="payment_date" type="text" class="validate datepicker">
                                     <label for="payment_date">Payment Date</label>
                                     <button type="button" id="payment_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="payment_dateError" class="error-msg" ></span>
                                 </div>
-                               <div class="col s6 m4 input-field">
+                               <div class="col s8 m3 input-field">
                                		<i class="material-icons prefix center-align">₹</i>
                                     <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" class="validate">
                                     <label for="compensation"> Compensation </label>
                                     <span id="compensationError" class="error-msg" ></span>
                                 </div>
+                                <div class="col s4 m1 input-field pt-10">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="compensation_units" name="compensation_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }" >${obj.unit }</option>
+	                                	</c:forEach>
+                                	</select>
+                                	<span id="compensation_unitsError" class="error-msg" ></span>
+                               	</div> 
                              </div>
                             <div class="row">                               
                                 <div class="col s12 m8 offset-m2 input-field">
@@ -845,6 +855,9 @@
 	  			 	    }else if (element.attr("id") == "corrective_measure_long_term" ){
 	  			 		     document.getElementById("corrective_measure_long_termError").innerHTML="";
 	  			 			 error.appendTo('#corrective_measure_long_termError');
+	  			 	    }else if (element.attr("id") == "compensation_units" ){
+	  			 		     document.getElementById("compensation_unitsError").innerHTML="";
+	  			 			 error.appendTo('#compensation_unitsError');
 	  			 	    }else if (element.attr("id") == "remarks" ){
     			 		     document.getElementById("remarksError").innerHTML="";
     			 			 error.appendTo('#remarksError');

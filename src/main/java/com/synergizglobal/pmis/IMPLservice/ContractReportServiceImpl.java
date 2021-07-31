@@ -60,6 +60,10 @@ public class ContractReportServiceImpl implements ContractReportService{
 	public Map<String,List<Contract>> getContractsDocBGInsuranceForReport(Contract obj) throws Exception {
 		return dao.getContractsDocBGInsuranceForReport(obj);
 	}
+	@Override
+	public Map<String,List<Contract>> getContractsDocBGInsuranceForAutoEmailReport(Contract obj) throws Exception {
+		return dao.getContractsDocBGInsuranceForAutoEmailReport(obj);
+	}
 
 	@Override
 	public List<Contract> getContractListInContractReport(Contract obj) throws Exception {

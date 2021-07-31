@@ -24,6 +24,7 @@ public interface ContractReportService {
 	Map<String,List<Contract>> getContractsDocReport(Contract obj) throws Exception;
 
 	Map<String,List<Contract>> getContractsDocBGInsuranceForReport(Contract obj) throws Exception;
+	Map<String,List<Contract>> getContractsDocBGInsuranceForAutoEmailReport(Contract obj) throws Exception;
 	
 	List<Contract> getContractListInContractReport(Contract obj) throws Exception;
 

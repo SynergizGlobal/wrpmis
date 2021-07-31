@@ -649,7 +649,7 @@ public class ContractReportController {
 		           }
 					
 					
-					Map<String,List<Contract>> list = service.getContractsDocBGInsuranceForReport(obj);
+					Map<String,List<Contract>> list = service.getContractsDocBGInsuranceForAutoEmailReport(obj);
 					
 					boolean landscape = false;
 					WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);

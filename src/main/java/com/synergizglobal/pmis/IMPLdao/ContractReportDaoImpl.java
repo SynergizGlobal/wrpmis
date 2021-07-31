@@ -1051,6 +1051,246 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		}
 		return objsList;
 	}
+	
+	@Override
+	public Map<String,List<Contract>> getContractsDocBGInsuranceForAutoEmailReport(Contract obj) throws Exception {
+		Map<String,List<Contract>> objsList = new LinkedHashMap<String, List<Contract>>();
+		try {
+			
+			String hodQry ="select u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name "
+					+"from contract c " + 
+					"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id " +
+					"left join insurance i on i.contract_id_fk = c.contract_id " +
+					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
+					"left join project p on w.project_id_fk = p.project_id " + 
+					"left join user u on c.hod_user_id_fk = u.user_id "+
+					"left join user us on c.dy_hod_user_id_fk = us.user_id "
+					+"left join department dt on c.department_fk = dt.department "
+					+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) and c.contract_status_fk in ('In Progress','Completed') ";
+			
+			int arrSize = 0;			
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				hodQry = hodQry + " and c.contract_id = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				hodQry = hodQry + " and u.designation in (?";
+				int length = obj.getHod_designations().length;
+				if(length > 1) {
+					for(int i1 =0; i1< (length-1); i1++) {
+						hodQry = hodQry + ",?";
+						arrSize++;
+					}
+				}
+				
+				hodQry = hodQry + " ) ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				hodQry = hodQry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				hodQry = hodQry + " and c.contractor_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				hodQry = hodQry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+				hodQry = hodQry + " and (";
+				for(int i1=0; i1<3; i1++) 
+				{
+					if(i1==0)
+					{
+						hodQry = hodQry + " c.doc<= ? ";
+					}
+					if(i1==1)
+					{
+						hodQry = hodQry + " or bg.valid_upto <= ? ";
+					}
+					if(i1==2)
+					{
+						hodQry = hodQry + " or i.valid_upto <= ? ";
+					}					
+					arrSize++;
+				}
+				hodQry = hodQry + " ) ";
+			}
+			
+			hodQry = hodQry + " GROUP BY c.hod_user_id_fk";
+			hodQry = hodQry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
+
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				int length = obj.getHod_designations().length;
+				if(length >= 1) {
+					for(int j =0; j<= (length-1); j++) {
+						pValues[i++] = obj.getHod_designations()[j];
+					}
+				}
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) 
+			{
+				for(int j=0; j<3; j++) 
+				{
+					pValues[i++] = obj.getDate();
+				}
+			}
+			
+			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+			for (Contract hodObj : hodList) {		
+				
+				var conCatBGQry="(select GROUP_CONCAT(DISTINCT DATE_FORMAT(valid_upto,'%d-%b-%y') SEPARATOR '\n' ) from bank_guarantee bg where bg.contract_id_fk = c.contract_id  and bg_type_fk is not null and release_date is null)";
+				
+				var conCatQry="(select GROUP_CONCAT(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') SEPARATOR '\n' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes'))";
+				
+				var conCatDocQry="case when (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) is not null then (select DATE_FORMAT(MAX(revised_doc),'%d-%b-%y') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) else DATE_FORMAT(doc,'%d-%b-%y') end ";
+				
+
+				String qry ="select contract_short_name,contractor_name,GROUP_CONCAT(DISTINCT doc SEPARATOR '\n' ) as doc,GROUP_CONCAT(DISTINCT bg_valid_upto SEPARATOR '\n' ) as bg_valid_upto,GROUP_CONCAT(DISTINCT insurance_valid_upto SEPARATOR '\n' ) as insurance_valid_upto,GROUP_CONCAT(DISTINCT ContractAlertRemarks SEPARATOR '\n' ) as ContractAlertRemarks from (select distinct "+conCatQry+" AS insurance_valid_upto,"
+						+ "c.contract_short_name,cr.contractor_name," + 
+						conCatDocQry+" AS doc,"
+						+conCatBGQry+" AS bg_valid_upto, "
+						
+						+"GROUP_CONCAT(distinct CONCAT(replace(replace((coalesce((select CONCAT('DOC-',coalesce(remarks,'NO Data')) from alerts where alert_status='Active' and alert_type_fk = 'Contract Period' and contract_id = c.contract_id and alert_value ="
+
+					+ "(case when (cr1.action = 'Yes' and cr1.revised_doc is not null) then (CONCAT('Date of Completion : ',DATE_FORMAT(cr1.revised_doc,'%d-%b-%Y') )) " 
+					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end )),'')),'DOC-NO Data',''),'DOC-.',''),"+			
+						
+					"replace((coalesce((select distinct CONCAT('\nBG-',coalesce(remarks,'NO Data')) from alerts where alert_status='Active' and alert_type_fk = 'Bank Guarantee' and contract_id = c.contract_id and alert_value = (case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
+					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
+					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
+					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) "
++ "AND created_date = (select max(created_date) from alerts where alert_status='Active' and alert_type_fk = 'Bank Guarantee' and contract_id = c.contract_id and alert_value = (case when (bg.bg_type_fk is not null and bg.bg_number is not null) then CONCAT(bg.bg_type_fk,' ',bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
+					+ "when (bg.bg_type_fk is null and bg.bg_number is not null) then CONCAT(bg.bg_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
+					+ "when (bg.bg_type_fk is not null and bg.bg_number is null) then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
+					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ))),'')),'\nBG-NO Data','')," +
+					
+					"replace((coalesce((select CONCAT('Insurance-',coalesce(remarks,'NO Data')) from alerts where alert_status='Active' and alert_type_fk = 'Insurance' and contract_id = c.contract_id and alert_value = (case when (i.insurance_type_fk is not null and i.insurance_number is not null) then CONCAT(i.insurance_type_fk,' ',i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
+					+ "when (i.insurance_type_fk is null and i.insurance_number is not null) then CONCAT(i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
+					+ "when (i.insurance_type_fk is not null and i.insurance_number is null) then CONCAT(i.insurance_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
+					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) "
++ "AND created_date = (select max(created_date) from alerts where alert_status='Active' and alert_type_fk = 'Insurance' and contract_id = c.contract_id  and alert_value = (case when (i.insurance_type_fk is not null and i.insurance_number is not null) then CONCAT(i.insurance_type_fk,' ',i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
+					+ "when (i.insurance_type_fk is null and i.insurance_number is not null) then CONCAT(i.insurance_number, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
+					+ "when (i.insurance_type_fk is not null and i.insurance_number is null) then CONCAT(i.insurance_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
+					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ))),'')),'Insurance-NO Data',''))) AS ContractAlertRemarks "
+					
+					
+						
+						
+						+"from contract c " + 
+						"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id " +
+						"left join insurance i on i.contract_id_fk = c.contract_id " +
+						"LEFT JOIN contract_revision cr1 on cr1.contract_id_fk = c.contract_id and cr1.action = 'Yes' and cr1.revised_doc is not null "+
+						"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+						"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
+						"left join project p on w.project_id_fk = p.project_id " + 
+						"left join user u on c.hod_user_id_fk = u.user_id "+
+						"left join user us on c.dy_hod_user_id_fk = us.user_id "
+						+"left join department dt on c.department_fk = dt.department "
+						+"where contract_id is not null and c.contract_status_fk in ('In Progress','Completed') ";
+				
+				arrSize = 0;			
+	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+					qry = qry + " and c.contract_id = ? ";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
+					qry = qry + " and u.designation = ? ";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + " and c.work_id_fk = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+					qry = qry + " and c.contractor_id_fk = ?";
+					arrSize++;
+				}	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+					qry = qry + " and c.contract_status_fk = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+					qry = qry + " and (";
+					for(int i1=0; i1<3; i1++) 
+					{
+						if(i1==0)
+						{
+							qry = qry + " c.doc<= ? ";
+						}
+						if(i1==1)
+						{
+							qry = qry + " or bg.valid_upto <= ? ";
+						}
+						if(i1==2)
+						{
+							qry = qry + " or i.valid_upto <= ? ";
+						}					
+						arrSize++;
+					}
+					qry = qry + " )  ";
+				}
+				pValues = new Object[arrSize];
+				i = 0;
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+					pValues[i++] = obj.getContract_id();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
+							pValues[i++] = hodObj.getHod_designation();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] = obj.getWork_id_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+					pValues[i++] = obj.getContractor_id_fk();
+				}	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+					pValues[i++] = obj.getContract_status_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) 
+				{
+					for(int j=0; j<3; j++) 
+					{
+						pValues[i++] = obj.getDate();
+					}
+				}
+				qry=qry+" group by insurance_valid_upto,c.contract_short_name,cr.contractor_name,doc,revised_doc,bg_valid_upto ) as a ";
+				
+				if(obj.getDate()!=null && obj.getDate()!="")
+				{
+					qry=qry+"where 1=(case when (STR_TO_DATE(doc,'%d-%M-%Y')>'"+obj.getDate()+"' and STR_TO_DATE(bg_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and STR_TO_DATE(insurance_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"') then 0  WHEN (STR_TO_DATE(doc,'%d-%M-%Y')>'"+obj.getDate()+"' and insurance_valid_upto is null and bg_valid_upto is null) then 0  WHEN (STR_TO_DATE(insurance_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and doc is null and bg_valid_upto is null) then 0 WHEN (STR_TO_DATE(bg_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and insurance_valid_upto is null and doc is null) then 0  when (STR_TO_DATE(bg_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and STR_TO_DATE(doc,'%d-%M-%Y')>'"+obj.getDate()+"' and insurance_valid_upto is null) then 0 when (STR_TO_DATE(bg_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and STR_TO_DATE(insurance_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and doc is null) then 0 when (STR_TO_DATE(insurance_valid_upto,'%d-%M-%Y')>'"+obj.getDate()+"' and STR_TO_DATE(doc,'%d-%M-%Y')>'"+obj.getDate()+"' and bg_valid_upto is null) then 0 else 1 end)";
+				}
+				
+				qry = qry + " GROUP BY contractor_name,contract_short_name";
+				
+				List<Contract> insuranceList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+				objsList.put(hodObj.getHod_designation(), insuranceList);
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 
 
 	@Override

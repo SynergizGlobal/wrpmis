@@ -190,7 +190,7 @@
 			}
 		}
     </style>
-</head>
+</head> 
 
 <body>
 
@@ -239,31 +239,58 @@
 	                            </div>
 								   <input type="hidden" id="contract_id_code" name="contract_id_code"/>  
 	                                    <div class="row">
-	  										<div class="col s6 m4 input-field offset-m2">
-	  										 	<p class="searchable_label">HOD<span class="required">*</span></p>
-	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDyHodList();"  <c:if test="${sessionScope.USER_TYPE eq 'HOD'  || sessionScope.USER_TYPE eq 'DyHOD'}"> disabled  </c:if>> 
+	                                    <c:choose>
+								         <c:when test = "${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
+								         <div class="col s6 m4 input-field offset-m2">
+								            <p class="searchable_label">HOD<span class="required">*</span></p>
+	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
 	                                     		  <option value="">Select</option> 
-	                                                 <%-- <c:forEach var="obj" items="${hodList }"> 
-			                                    	  <option value="${obj.user_id }" <c:if test="${sessionScope.USER_ID eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach>  --%>  
-	                                            </select> 
-												<input type="hidden"  name="department_fk" id="department_fk"/>
-												<!-- <label for="hod_user_id_fk">HOD</label>  -->
-	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
-	                                        </div>
-	                                        <div class="col s6 m4 input-field">
-	                                        	<p class="searchable_label">Dy HOD<span class="required">*</span></p>
-	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();" <c:if test="${sessionScope.USER_TYPE eq 'DyHOD'}"> disabled  </c:if>>
+	                                     		  	<c:forEach var="obj" items="${hodList }"> 
+			                                    	  <option value="${obj.user_id }"> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                        </c:forEach> 
+	                                     	     </select> 
+	                                     	<span id="hod_user_id_fkError" class="error-msg" ></span>
+	                                     	</div>
+	                                     	 <div class="col s6 m4 input-field">
+	                                        	<p class="searchable_label">Dy HOD-s<span class="required">*</span></p>
+	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" >
 	                                                <option value="">Select</option>
-	                                                 <%--  <c:forEach var="obj" items="${dyHodList }"> 
+	                                                 <c:forEach var="obj" items="${dyHodList }"> 
 			                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach>   --%> 
+			                                         </c:forEach>   
 	                                            </select>
 												<!-- <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
 	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
 	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
-	                                    </div>
+								         </c:when>
+								         <c:otherwise>
+								           	<div class="col s6 m4 input-field offset-m2">
+	  										 	<p class="searchable_label">HOD<span class="required">*</span></p>
+	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDyHodList();"  <c:if test="${sessionScope.USER_TYPE eq 'HOD'  || sessionScope.USER_TYPE eq 'DyHOD'}"> disabled  </c:if>> 
+	                                     		  <option value="">Select</option> 
+	                                              
+	                                            </select> 
+												<input type="hidden"  name="department_fk" id="department_fk"/>
+												<!-- <label for="hod_user_id_fk">HOD</label>  -->
+	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
+	                                        </div>
+	                                        <c:if test="${sessionScope.USER_TYPE eq 'HOD'  || sessionScope.USER_TYPE eq 'DyHOD'}">  <input type="hidden" id="hodVal" name="hod_user_id_fk" />  </c:if>
+	                                       
+	                                        <div class="col s6 m4 input-field">
+	                                        	<p class="searchable_label">Dy HOD<span class="required">*</span></p>
+	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();" <c:if test="${sessionScope.USER_TYPE eq 'DyHOD'}"> disabled  </c:if>>
+	                                                <option value="">Select</option>
+	                                                 
+	                                            </select>
+												<!-- <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
+	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
+	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
+	                                        </div>
+	                                         <c:if test="${ sessionScope.USER_TYPE eq 'DyHOD'}">  <input type="hidden" id="dyHodVal" name="dy_hod_user_id_fk" />  </c:if>
+								         </c:otherwise>
+								      </c:choose>
+	                                 </div>
 	              
 	                            <div class="row"> 
 	                            	<div class="col m8 offset-m2 s12">
@@ -696,12 +723,14 @@
       	                          
                               	   if(val.hod_user_id_fk == loggedin_user_id){
                               	   		$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
+                              	   	    $("#hodVal").val(val.hod_user_id_fk);
                               	   }else{
                               	   		$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
                               	   }
                             });
                             if($.trim(reporting_to_id_srfk) != ''){
-                            	$("#hod_user_id_fk").val(reporting_to_id_srfk);      
+                            	$("#hod_user_id_fk").val(reporting_to_id_srfk);
+                            	$("#hodVal").val(reporting_to_id_srfk);
                             }
                         }
                         $('.searchable').select2();
@@ -737,6 +766,7 @@
                            if(val.dy_hod_user_id_fk == loggedin_user_id){
                         	    flag = true;
                                 $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
+                                $("#dyHodVal").val(val.dy_hod_user_id_fk);
                            }else{
                                 $("#dy_hod_user_id_fk").append('<option name="'+val.reporting_to_id_srfk+'" value="' + val.dy_hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
                            }

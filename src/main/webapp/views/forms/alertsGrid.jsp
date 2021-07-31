@@ -99,6 +99,24 @@
 		.my-valid-class {
    			 color:green;
 		}
+		
+
+
+.input-field>label 
+{
+    font-size: 1.5rem;
+
+}
+ .big-checkbox {width: 30px; height: 30px;}
+
+
+[type="checkbox"]+span:not(.lever) {
+font-size: 1.5rem;
+}
+label {
+     font-size: 1.5rem; 
+    color: #9e9e9e;
+}
     </style>
 </head>
 
@@ -219,7 +237,7 @@
                <div class="row no-mar">
                    <div class="input-field col s12 m10 offset-m1">
                        <textarea id="remarks" name="remarks"
-                           class="pmis-textarea"
+                           class="materialize-textarea"
                            data-length="1000" maxlength="1000"></textarea>
                        <label for="remarks">Action Taken</label>
                    </div>
@@ -229,21 +247,41 @@
                        <label> <input type="checkbox" id="amendment_not_required_in_contract" name="amendment_not_required_in_contract" value="Yes"/> <span> Amendment not required in contract, Stop sending this alert in mail and notifications</span> </label>
                    </div>
                </div>
+                 <div class="row no-mar" id="noAtrDiv" style="display: none;font-size:20px;text-align:center;">
+                   <div class="">
+                       <label> <input type="checkbox"  onclick="clickNoActionRead();" id="NoAc" name="NoAc" value="Yes" class="big-checkbox" /> <span>&nbsp;&nbsp;&nbsp;&nbsp;No Action Required</label>
+                   </div>
+               </div>             
+            
+               
                <div class="row no-mar">
 	               <div class="input-field col s12 m10 offset-m1">
 	               		<p class="my-error-class" id="messageError"></p>	
 	               </div>
                </div>
-               <div class="row no-mar">
-                   <div class="col s6 m5 offset-m1">
-                       <div class="center-align m-1">
-                           <button type="button" onclick="addRemarks();" style="width: 100%;"
+               	<div id="confirmBox" style="display:none;text-align:center;font-size:20px;"  class="row no-mar">
+    <span class="message"></span>
+    <span class="yes"><label><input type="radio" id="Yesc" name="rPc" style="opacity:2;position: inherit;">&nbsp;&nbsp;Yes</label></span>
+    <span class="no"><label><input type="radio" id="Noc" name="rPc" style="opacity:2;position: inherit;">&nbsp;&nbsp;No</label></span>
+	</div>
+	
+	               	<div id="cvDocBox" style="display:none;text-align:center;font-size:20px;"  class="row no-mar">
+    <span class="cvdocmessage"></span>
+    <span class="cvdocyes"><label><input type="radio" id="cvdocYesc" name="cvdocrPc" style="opacity:2;position: inherit;">&nbsp;&nbsp;Yes</label></span>
+    <span class="cvdocno"><label><input type="radio" id="cvdocNoc" name="cvdocrPc" style="opacity:2;position: inherit;">&nbsp;&nbsp;No</label></span>
+	</div>
+                <div class="row no-mar col s12 m12" style="width:100%">
+                   <div class="col s6 m6">
+                       <div class="center-align m-1" style="text-align:right;">
+                           <button type="button" onclick="addRemarks();" style="width: auto;" id="btnRmks"
                                class="btn waves-effect waves-light bg-m">Submit</button>
+                               <button type="button" onclick="addStpAlert();" style="width: auto;display:none;" id="btnStpAlert"
+                               class="btn waves-effect waves-light bg-m">Stop Alert</button>
                        </div>
                    </div>
-                   <div class="col s6 m5">
-                       <div class="center-align m-1">
-                           <button type="button" style="width: 100%;"
+                   <div class="col s6 m6">
+                       <div class="center-align m-1" style="text-align:left;">
+                           <button type="button" style="text-align:right;width: auto;"
                                class="btn waves-effect waves-light bg-s modal-close">Cancel</button>
                        </div>
                    </div>
@@ -283,7 +321,7 @@
 			</div>
 		</div>
 	</div>
-
+	
     <!-- footer  -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
     
@@ -727,13 +765,33 @@
             }
         }
         
-        function addAlertRemarks(alert_id,alert_level,alert_type_fk,remarks,amendment_not_required_in_contract){   
+        function addAlertRemarks(alert_id,alert_level,alert_type_fk,remarks,amendment_not_required_in_contract){ 
+        	$('#NoAc').prop('checked',false);
+        	
+    		$("#btnRmks").show();
+    		$("#btnStpAlert").hide();
+    		
+        	
+        	$('#Yesc').prop('checked',false);
+        	$('#Noc').prop('checked',false);
+        	$('#cvdocYesc').prop('checked',false);
+        	$('#cvdocNoc').prop('checked',false);
+        	
+        	
+    		$("#confirmBox").hide();
+    		$("#cvDocBox").hide();
+    		
         	$("#remarksModal").modal("open"); 
         	$("#messageError").html('');
         	$("#remarks").val('');
         	$("#amendment_not_required_in_contract").prop("checked", false);
         	$("#alert_id").val(alert_id);
         	$("#alert_type_fk").val(alert_type_fk);
+        	
+        	if(alert_level=="Overdue" && (alert_type_fk=="Contract Period" || alert_type_fk=="Contract Value" ))
+       		{
+        		$("#noAtrDiv").show();
+       		}
         	
         	if((alert_type_fk == 'Contract Period' || alert_type_fk == 'Contract Value') && alert_level != 'Overdue' ){
         		$("#amendment_not_required_in_contract_Div").show();
@@ -749,6 +807,90 @@
         		$("#amendment_not_required_in_contract").prop("checked", true);
         	}   
         	
+        }
+        
+        
+        function doConfirm(msg, yesFn, noFn)
+        {
+            var confirmBox = $("#confirmBox");
+            confirmBox.find(".message").text(msg);
+            confirmBox.find(".yes,.no").unbind().click(function()
+            {
+                confirmBox.hide();
+            });
+            confirmBox.find(".yes").click(yesFn);
+            confirmBox.find(".no").click(noFn);
+            confirmBox.show();
+        }      
+        
+        function docvDocConfirm(msg, yesFn, noFn)
+        {
+            var confirmBox = $("#cvDocBox");
+            confirmBox.find(".cvdocmessage").text(msg);
+            confirmBox.find(".cvdocyes,.cvdocno").unbind().click(function()
+            {
+                confirmBox.hide();
+            });
+            confirmBox.find(".cvdocyes").click(yesFn);
+            confirmBox.find(".cvdocno").click(noFn);
+            confirmBox.show();
+        }       
+        
+        function clickNoActionRead()
+        {
+        	if($('#NoAc').prop('checked')==true)
+        	{
+	        	$("#confirmBox").show();
+	            doConfirm("Is the work physically completed?", function yes()
+	            {
+	            	$('#cvdocYesc').prop('checked',false);
+	            	$('#cvdocNoc').prop('checked',false);
+	            	
+	            	$("#confirmBox").show();
+	            	$("#cvDocBox").show();
+	            	var msgShow="";
+	            	if($("#alert_type_fk").val()=="Contract Value")
+	           		{
+	            		msgShow="                              Does it required CV variation?";
+	           		}
+	            	else if($("#alert_type_fk").val()=="Contract Period")
+	           		{
+	            		msgShow="                              Does it required DOC extension?";
+	           		}
+	            	docvDocConfirm(msgShow, function yes()
+	                {
+	            		
+	                	$("#cvDocBox").hide();
+	            		$("#btnRmks").show();
+	            		$("#btnStpAlert").hide();
+	            		
+	                }, function no()
+	                {
+	                	$("#cvDocBox").show();
+	            		$("#btnRmks").hide();
+	            		$("#btnStpAlert").show();
+	                });           	
+	            	
+	            }, function no()
+	            {
+	            	$("#confirmBox").show();
+	            	$("#cvDocBox").hide();
+	            });
+        	}
+        	else
+       		{
+        		
+        		$("#btnRmks").show();
+        		$("#btnStpAlert").hide();
+        		
+            	$('#Yesc').prop('checked',false);
+            	$('#Noc').prop('checked',false);
+            	$('#cvdocYesc').prop('checked',false);
+            	$('#cvdocNoc').prop('checked',false);
+            	
+        		$("#confirmBox").hide();
+        		$("#cvDocBox").hide();
+       		}
         }
         
         function addRemarks(){
@@ -768,6 +910,24 @@
         		$("#messageError").html('Remarks required');
         	}
         }
+        
+        function addStpAlert()
+        {
+        	var remarks = $("#remarks").val();
+        	var NoAc = $("#NoAc").prop('checked');
+        	//alert(remarks +" : "+amendment_not_required_in_contract);
+        	
+        	var alert_type_fk = $("#alert_type_fk").val();
+    		$("#amendment_not_required_in_contract").prop("checked", true);
+        	
+        	if($.trim(remarks) != '' || NoAc == true){
+        		$("#messageError").html('');
+        		$(".page-loader").show();
+        		document.getElementById("remarksForm").submit();
+        	}
+        }       
+        
+        
         
         $('textarea').change(function(){
             if ($(this).val() != ""){

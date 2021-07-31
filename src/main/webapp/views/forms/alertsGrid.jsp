@@ -210,7 +210,7 @@
     <!-- Modal Structure -->
    <div id="remarksModal" class="modal">
        <div class="modal-content">
-           <h5 class="modal-header"> Add Action Taken <span
+           <h5 class="modal-header"> Action Taken <span
                    class="right modal-action modal-close"><span
                        class="material-icons">close</span></span></h5>
            <form action="<%=request.getContextPath() %>/add-alert-remarks" method="post" id="remarksForm" name="remarksForm">
@@ -220,7 +220,7 @@
                    <div class="input-field col s12 m10 offset-m1">
                        <textarea id="remarks" name="remarks"
                            class="materialize-textarea"
-                           data-length="500" maxlength="500"></textarea>
+                           data-length="1000" maxlength="1000"></textarea>
                        <label for="remarks">Action Taken</label>
                    </div>
                </div>

@@ -260,7 +260,7 @@ public class FOBDaoImpl implements FOBDao {
 							userIds = new String[]{obj.getResponsible_people_id_fk()};
 						}
 						String messageType = "FOB";
-						String redirect_url = null;
+						String redirect_url = "/get-fob?fob_id="+obj.getFob_id();
 						String message = "New FOB "+obj.getFob_name() + " & "+ obj.getFob_id() +" is adeed under contract(s) "+obj.getContract_name()+" on PMIS ";
 						 
 						Messages msgObj = new Messages();
@@ -570,7 +570,7 @@ public class FOBDaoImpl implements FOBDao {
 							userIds = new String[]{obj.getResponsible_people_id_fk()};
 						}
 						String messageType = "FOB";
-						String redirect_url = null;
+						String redirect_url = "/get-fob?fob_id="+obj.getFob_id();
 						String message = "FOB at "+obj.getFob_name() + " & "+ obj.getFob_id() +" commissioned";
 						 
 						Messages msgObj = new Messages();

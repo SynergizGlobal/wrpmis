@@ -389,7 +389,7 @@ public class FOBController {
 		return model;
 	}
 	
-	@RequestMapping(value="/get-fob",method=RequestMethod.POST)
+	@RequestMapping(value="/get-fob",method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getFOB(@ModelAttribute FOB obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {

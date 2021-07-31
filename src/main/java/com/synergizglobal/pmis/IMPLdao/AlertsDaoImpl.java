@@ -1538,7 +1538,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			for (Alerts tObj : alert_types) {
 				 if(!StringUtils.isEmpty(tObj.getAlert_type_fk()) && tObj.getAlert_type_fk().equals("Risk")) {
-					 //sendEmailNotificationWithRiskAlertsToITAmdin(tObj.getAlert_type_fk());
+					 sendEmailNotificationWithRiskAlertsToITAmdin(tObj.getAlert_type_fk());
 				 }else {
 					 sendEmailNotificationWithContractAndIssueAlertToITAmdin(tObj.getAlert_type_fk());
 				 }

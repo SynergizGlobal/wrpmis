@@ -183,9 +183,71 @@ public class ContractReportController {
 			Date date = new Date();
             String currentDate = sqlDate.format(date);
 	           
-            obj.setDate(DateParser.parse(obj.getDate()));			
+            obj.setDate(DateParser.parse(obj.getDate()));	
+            
+            DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+			String report_created_date = df.format(new Date());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdfInput = new SimpleDateFormat("dd-MM-yyyy");			
 			
-			boolean flag = generatContractDocBGInsuranceReportAutoEmail(currentDate,obj);
+            Calendar c1 = Calendar.getInstance();
+            
+            c1.set(Calendar.DATE, 16);
+            c1.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+            c1.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
+            String date1=sdf.format(getFirstDateOfMonth(new Date()));
+            String date2=sdf.format(new Date());
+            String date3=sdf.format(c1.getTime());
+            
+            if((date1.compareTo(date2)==0) || (date3.compareTo(date2)==0)){
+	            if(date1.compareTo(date2)==0){
+	               Calendar cal = Calendar.getInstance();
+	               
+	               cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+	               String LastDate=sdfInput.format(cal.getTime());
+	         	   obj.setDate(DateParser.parse(LastDate));
+	            }
+	            if(date3.compareTo(date2)==0){
+	        	   Calendar cal2 = Calendar.getInstance(); 
+	        	   cal2.set(Calendar.DATE, 15);
+	        	   cal2.add(Calendar.MONTH, 1);
+	        	   String NextMonthSameDate=sdfInput.format(cal2.getTime());
+	        	   obj.setDate(DateParser.parse(NextMonthSameDate));
+	            }
+					
+		        //obj.setDate("2021-08-31");
+            
+	            /*****************************************************************************************************************/
+	            
+	            Map<String,List<Contract>> allDeptContractsList = service.getContractsDocBGInsuranceForAutoEmailReport(obj);
+	            
+	            String recipients = service.getEmailIdsOfDepartments("CMD&DF");
+	            
+	            boolean flag1 = generatContractDocBGInsuranceReportAutoEmail(currentDate,obj,allDeptContractsList,recipients,report_created_date);
+	            
+	            /*****************************************************************************************************************/
+				
+				obj.setDepartment_fk("Engg");
+				
+				Map<String,List<Contract>> enggDeptContractslist = service.getContractsDocBGInsuranceForAutoEmailReport(obj);
+				
+				recipients = service.getEmailIdsOfDepartments("DP&CE");
+				
+				boolean flag2 = generatContractDocBGInsuranceReportAutoEmail(currentDate,obj,enggDeptContractslist,recipients,report_created_date);
+				
+				/*****************************************************************************************************************/
+				
+				obj.setDepartment_fk("'Elec','S&T'");
+				
+				Map<String,List<Contract>> ele_SAndTDeptContractslist = service.getContractsDocBGInsuranceForAutoEmailReport(obj);
+				
+				recipients = service.getEmailIdsOfDepartments("DT");
+				
+				boolean flag3 = generatContractDocBGInsuranceReportAutoEmail(currentDate,obj,ele_SAndTDeptContractslist,recipients,report_created_date);
+				
+				/*****************************************************************************************************************/
+				
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -605,111 +667,69 @@ public class ContractReportController {
 	}
 	
 	
-	public boolean generatContractDocBGInsuranceReportAutoEmail(String currentDate, Contract obj) throws Exception {
+	public boolean generatContractDocBGInsuranceReportAutoEmail(String currentDate, Contract obj, Map<String, List<Contract>> list, String recipients, String report_created_date) throws Exception {
 		//XWPFDocument document = new XWPFDocument(); 
 		//StringBuilder repositoryExcerpts = new StringBuilder(); 
 		byte[] byteArray;        
         //ObjectFactory objectFactory = new ObjectFactory();
 		boolean flag = false;
-		try{			
+		try{			           
+			boolean landscape = false;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
 
-			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
-			String report_created_date = df.format(new Date());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			SimpleDateFormat sdfInput = new SimpleDateFormat("dd-MM-yyyy");
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
+			String headerTextRight = "";
+			if(obj.getDate()!=null && obj.getDate()!="")
+			{
+				
+				headerTextRight="(Expiry by "+DateParser.parseToIndianDateFormatWithDot(obj.getDate())+")";
+			}			
 			
-            Calendar c1 = Calendar.getInstance();
-            
-            
-            c1.set(Calendar.DATE, 16);
-            c1.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
-            c1.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
-            String date1=sdf.format(getFirstDateOfMonth(new Date()));
-            String date2=sdf.format(new Date());
-            String date3=sdf.format(c1.getTime());
-            
-            if((date1.compareTo(date2)==0) || (date3.compareTo(date2)==0))
-            {
-		           if(date1.compareTo(date2)==0)
-		           {
-		               Calendar cal = Calendar.getInstance();
-		               
-		               cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-		               String LastDate=sdfInput.format(cal.getTime());
-		         	   obj.setDate(DateParser.parse(LastDate));
-		           }
-		           if(date3.compareTo(date2)==0)
-		           {
-		        	   Calendar cal2 = Calendar.getInstance(); 
-		        	   cal2.set(Calendar.DATE, 15);
-		        	   cal2.add(Calendar.MONTH, 1);
-		        	   String NextMonthSameDate=sdfInput.format(cal2.getTime());
-		        	   obj.setDate(DateParser.parse(NextMonthSameDate));
-		           }
-					
-					
-					Map<String,List<Contract>> list = service.getContractsDocBGInsuranceForAutoEmailReport(obj);
-					
-					boolean landscape = false;
-					WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
-					
-					MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
-					ObjectFactory factory = Context.getWmlObjectFactory();
-					
-					String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
-		
-					JcEnumeration imageAlignment = JcEnumeration.CENTER;
-					
-					String headerTextRight = "";
-					if(obj.getDate()!=null && obj.getDate()!="")
-					{
+			String headerTextMiddle = "Contract DOC BG and Insurance Validity Report";
+			
+			//String headerTextRight = report_created_date;
+			
+			//String headerText = "PMIS Report - Status of Contract BG";
+			
+			int tabs1 = 8;int tabs2 = 4;
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,tabs1,tabs2);
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);				 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreationForContractReport.createTableForContractDocBGInsuranceReport(wordMLPackage, mp, factory,list,report_created_date);
+	    	  
 						
-						headerTextRight="(Expiry by "+DateParser.parseToIndianDateFormatWithDot(obj.getDate())+")";
-					}			
-					
-					String headerTextMiddle = "Contract DOC BG and Insurance Validity Report";
-					
-					//String headerTextRight = report_created_date;
-					
-					//String headerText = "PMIS Report - Status of Contract BG";
-					
-					int tabs1 = 8;int tabs2 = 4;
-					
-					Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,tabs1,tabs2);
-					//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);				 
-					createHeaderReference(wordMLPackage, mp, factory, relationship);
-					relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
-					createFooterReference(wordMLPackage, mp, factory, relationship);
-					 			  
-					DocxTableCreationForContractReport.createTableForContractDocBGInsuranceReport(wordMLPackage, mp, factory,list,report_created_date);
-			    	  
-								
-					try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-						wordMLPackage.save(bos);
-						byteArray = bos.toByteArray();
-						
-						String file_extention = "docx";
-						String docbginsurance_file_name = "Contract-DOC-BG-and-Insurance-Validity-Report";
-		
-						String recipients = "", cc = "", bcc = CommonConstants.BCC_MAIL,
-								subject = "PMIS - Contract DOC, BG and Insurance Validity Report", body = "";
-		
-						recipients = service.getEmailIdsOfDepartments();
-		
-						if (!StringUtils.isEmpty(recipients)) {
-							EMailSender emailSender = new EMailSender();
-							emailSender.sendEmailWithContractReportsAttachment(recipients, cc, bcc, subject, body,
-									docbginsurance_file_name, file_extention, byteArray);
-						}
-						
-						flag = true;
-				    }catch (Exception e) {
-						e.printStackTrace();
-						logger.error("generatContractDocBGInsuranceReport >> FileNotFoundException occurs.." + e.getMessage());
-						flag = false;
-				    }	
-            }
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				
+				String file_extention = "docx";
+				String docbginsurance_file_name = "Contract-DOC-BG-and-Insurance-Validity-Report";
+
+				String cc = "", bcc = CommonConstants.BCC_MAIL,
+						subject = "PMIS - Contract DOC, BG and Insurance Validity Report", body = "";
+
+				if (!StringUtils.isEmpty(recipients)) {
+					EMailSender emailSender = new EMailSender();
+					emailSender.sendEmailWithContractReportsAttachment(recipients, cc, bcc, subject, body,
+							docbginsurance_file_name, file_extention, byteArray);
+				}
+				
+				flag = true;
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generatContractDocBGInsuranceReport >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+		    }
 		 	
 		} catch (Exception e) {
 			e.printStackTrace();

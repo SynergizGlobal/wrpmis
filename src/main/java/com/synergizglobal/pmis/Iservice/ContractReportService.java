@@ -44,5 +44,5 @@ public interface ContractReportService {
 
 	List<Contract> getKeyPersonnelForReport(Contract obj) throws Exception;
 
-	String getEmailIdsOfDepartments()throws Exception;
+	String getEmailIdsOfDepartments(String management)throws Exception;
 }

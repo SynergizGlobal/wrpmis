@@ -42,7 +42,7 @@ public interface ContractReportDao {
 
 	List<Contract> getKeyPersonnelForReport(Contract obj) throws Exception;
 
-	String getEmailIdsOfDepartments() throws Exception;
+	String getEmailIdsOfDepartments(String management) throws Exception;
 
 	Map<String, List<Contract>> getContractsDocBGInsuranceForAutoEmailReport(Contract obj) throws Exception;
 

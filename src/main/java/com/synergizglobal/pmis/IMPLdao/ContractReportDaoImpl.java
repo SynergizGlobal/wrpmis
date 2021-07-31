@@ -1071,6 +1071,15 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			int arrSize = 0;			
 
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && obj.getDepartment_fk().equals("'Elec','S&T'")) {
+				hodQry = hodQry + " and u.department_fk in (?,?)";
+				arrSize++;
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())){
+				hodQry = hodQry + " and u.department_fk = ?";
+				arrSize++;
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				hodQry = hodQry + " and c.contract_id = ? ";
 				arrSize++;
@@ -1127,6 +1136,12 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && obj.getDepartment_fk().equals("'Elec','S&T'")) {
+				pValues[i++] = "Elec";
+				pValues[i++] = "S&T";
+			}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
 			}
@@ -1210,6 +1225,14 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 				arrSize = 0;			
 	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && obj.getDepartment_fk().equals("'Elec','S&T'")) {
+					qry = qry + " and u.department_fk in (?,?)";
+					arrSize++;
+					arrSize++;
+				}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())){
+					qry = qry + " and u.department_fk = ?";
+					arrSize++;
+				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 					qry = qry + " and c.contract_id = ? ";
 					arrSize++;
@@ -1252,6 +1275,12 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				}
 				pValues = new Object[arrSize];
 				i = 0;
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && obj.getDepartment_fk().equals("'Elec','S&T'")) {
+					pValues[i++] = "Elec";
+					pValues[i++] = "S&T";
+				}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					pValues[i++] = obj.getDepartment_fk();
+				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 					pValues[i++] = obj.getContract_id();
 				}
@@ -2059,12 +2088,20 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	}
 
 	@Override
-	public String getEmailIdsOfDepartments() throws Exception {
+	public String getEmailIdsOfDepartments(String management) throws Exception {
 		String email_ids = null;
 		try {
-			String qry = "select group_concat(email_id) from user where designation in('CMD','DIR Project') OR department_fk in('Fin','Engg','Elec','S&T') and EMAIL_ID is not null order by designation ";
-			
-			email_ids = jdbcTemplate.queryForObject( qry, String.class);	
+			String qry = "";
+			if(!StringUtils.isEmpty(management) && management.equals("CMD&DF")) {
+				qry = "select group_concat(email_id) from user where designation in('CMD','DIR Finance') and EMAIL_ID is not null";
+			}else if(!StringUtils.isEmpty(management) && management.equals("DP&CE")) {
+				qry = "select group_concat(email_id) from user where designation in('CE','DIR Project') and EMAIL_ID is not null";
+			}else if(!StringUtils.isEmpty(management) && management.equals("DT")) {
+				qry = "select group_concat(email_id) from user where designation in('DIR Technical') and EMAIL_ID is not null";
+			}
+			if(!StringUtils.isEmpty(qry)) {
+				email_ids = jdbcTemplate.queryForObject( qry, String.class);	
+			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

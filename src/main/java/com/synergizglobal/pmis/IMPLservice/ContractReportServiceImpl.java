@@ -111,8 +111,8 @@ public class ContractReportServiceImpl implements ContractReportService{
 	}
 	
 	@Override
-	public String getEmailIdsOfDepartments() throws Exception {
-		return dao.getEmailIdsOfDepartments();
+	public String getEmailIdsOfDepartments(String management) throws Exception {
+		return dao.getEmailIdsOfDepartments(management);
 	}
 
 }

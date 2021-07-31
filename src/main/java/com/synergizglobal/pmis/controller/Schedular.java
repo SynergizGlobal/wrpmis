@@ -206,18 +206,14 @@ public class Schedular {
 	//@Scheduled(cron = "0 0/1 * * * *")	//  = every minute.
 	//@Scheduled(cron = "${cron.expression.send.mail.with.contract.bg.insurance.report}")
 	public void sendMailWithContractBGInsuranceReport(){
-	     try {
+		try {
 	    	 logger.error("sendMailWithContractBGInsuranceReport : Method executed at > "+new Date());
-	    	 Contract obj = new Contract();
-				SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
-				Date date = new Date();
-	            String currentDate = sqlDate.format(date);	    	 
-             boolean flag = contractReportController.generatContractDocBGInsuranceReportAutoEmail(currentDate,obj);
-	    	 logger.error("sendMailWithContractBGInsuranceReport : "+flag);
-		 } catch (Exception e) {
+	    	 contractReportController.contractReportAutoEmail();
+	    	 logger.error("sendMailWithContractBGInsuranceReport : end");
+		} catch (Exception e) {
 			 e.printStackTrace();
 			 logger.error("sendMailWithContractBGInsuranceReport() : "+e.getMessage());
-		 }
+		}
 	}
 		
 	/**********************************************************************************/

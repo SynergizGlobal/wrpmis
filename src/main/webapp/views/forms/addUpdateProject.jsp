@@ -329,7 +329,7 @@
 							<div class="row">
                               <div class="col m2 hide-on-small-only"></div>
                               <div class="col s12 m8 input-field">
-                                  <textarea id="benefits"  name="benefits" class="materialize-textarea" data-length="1000" maxlength="1000">${projectDetails.benefits }</textarea>
+                                  <textarea id="benefits"  name="benefits" class="pmis-textarea" data-length="1000" maxlength="1000">${projectDetails.benefits }</textarea>
                                   <label for="benefits">Benefits</label>
                                    <span id="benefitsError"></span>
                               </div>
@@ -337,7 +337,7 @@
 							<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" class="materialize-textarea"  maxlength="1000" data-length="1000"  name="remarks">${projectDetails.remarks }</textarea>
+                                    <textarea id="remarks" class="pmis-textarea"  maxlength="1000" data-length="1000"  name="remarks">${projectDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                      <span id="remarksError"></span>
                                 </div>

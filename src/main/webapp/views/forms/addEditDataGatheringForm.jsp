@@ -222,14 +222,14 @@
                              <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="description" name="description" class="materialize-textarea" data-length="1000">${dataGatheringDetails.description }</textarea>
+                                    <textarea id="description" name="description" class="pmis-textarea" data-length="1000">${dataGatheringDetails.description }</textarea>
                                     <label for="description">Description</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${dataGatheringDetails.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${dataGatheringDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                 </div>
                             </div>

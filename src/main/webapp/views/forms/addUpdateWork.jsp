@@ -295,7 +295,7 @@
 
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="work_name" class="materialize-textarea" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
+                                    <textarea id="work_name" class="pmis-textarea" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
                                     <label for="work_name">Work Name <span class="required">*</span></label>
                                      <span id="work_nameError"></span>
                                 </div>
@@ -599,7 +599,7 @@
                             
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="remarks" class="materialize-textarea" data-length="1000" maxlength="1000" name="remarks">${workDetails.remarks }</textarea>
+                                    <textarea id="remarks" class="pmis-textarea" data-length="1000" maxlength="1000" name="remarks">${workDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError"></span>
                                 </div>

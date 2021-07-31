@@ -187,7 +187,7 @@
                             <c:if test="${action eq 'add'}">	
      						<div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
-                                	<textarea placeholder="Sub Work" name="sub_work" id="sub_work" class='materialize-textarea'></textarea>
+                                	<textarea placeholder="Sub Work" name="sub_work" id="sub_work" class='pmis-textarea'></textarea>
                                 	<label for="sub_work">Sub Work</label>
                                 </div>	
                             </div>
@@ -195,7 +195,7 @@
 							<c:if test="${action eq 'edit'}">	
      						<div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
-                                	<textarea placeholder="Sub Work" name="sub_work" id="sub_work" class='materialize-textarea'>${zonalRailwayDetails.sub_work}</textarea>
+                                	<textarea placeholder="Sub Work" name="sub_work" id="sub_work" class='pmis-textarea'>${zonalRailwayDetails.sub_work}</textarea>
 	                                <label for="sub_work">Sub Work</label>
                                 </div>	
                             </div>

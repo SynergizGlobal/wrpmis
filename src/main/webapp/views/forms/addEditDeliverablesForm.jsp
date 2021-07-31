@@ -161,7 +161,7 @@
                             </div>
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="deliverable_description" name="deliverable_description" class="materialize-textarea"
+                                    <textarea id="deliverable_description" name="deliverable_description" class="pmis-textarea"
                                         data-length="1000">${deliverablesDetails.deliverable_description }</textarea>
                                     <label for="deliverable_description">Deliverable Description</label>
                                 </div>
@@ -241,7 +241,7 @@
 						<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${deliverablesDetails.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${deliverablesDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                 </div>
                             </div>

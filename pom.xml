@@ -202,7 +202,7 @@
 
   <build>
     <finalName>pmis</finalName>
-     <plugins>
+    <plugins>
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-war-plugin</artifactId>
@@ -212,7 +212,6 @@
                 <outputDirectory>E:\apache-tomcat-7.0.73\webapps</outputDirectory>
             </configuration>
         </plugin>
-        
         <plugin>
 	        <groupId>org.apache.maven.plugins</groupId>
 	        <artifactId>maven-resources-plugin</artifactId>
@@ -221,7 +220,6 @@
 	          <encoding>UTF-8</encoding>
 	        </configuration>
 	    </plugin>
-	    
     </plugins>
   </build>
 </project>

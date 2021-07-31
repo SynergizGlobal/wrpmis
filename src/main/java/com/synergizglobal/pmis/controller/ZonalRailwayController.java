@@ -41,6 +41,7 @@ import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.ZonalRailway;
 import com.synergizglobal.pmis.model.ZonalsPaginationObject;
 import com.synergizglobal.pmis.model.Document;
+import com.synergizglobal.pmis.model.SourceOfFund;
 import com.synergizglobal.pmis.model.ZonalRailway;
 
 @Controller
@@ -293,6 +294,9 @@ public class ZonalRailwayController {
 			List<ZonalRailway> statusList = service.getStatusListForZonalRailwayForm(obj);
 			model.addObject("statusList", statusList);
 			
+			List<ZonalRailway> unitsList = service.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
+			
 			List<ZonalRailway> usersList = service.getUserListForZonalRailwayForm(obj);
 			model.addObject("usersList", usersList);
 			
@@ -318,11 +322,15 @@ public class ZonalRailwayController {
 			List<ZonalRailway> statusList = service.getStatusListForZonalRailwayForm(obj);
 			model.addObject("statusList", statusList);
 			
-			ZonalRailway zonalRailwayDetails = service.getZonalRailway(obj);
-			model.addObject("zonalRailwayDetails", zonalRailwayDetails);
+			List<ZonalRailway> unitsList = service.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
 			
 			List<ZonalRailway> usersList = service.getUserListForZonalRailwayForm(obj);
 			model.addObject("usersList", usersList);
+			
+			ZonalRailway zonalRailwayDetails = service.getZonalRailway(obj);
+			model.addObject("zonalRailwayDetails", zonalRailwayDetails);
+			
 		
 		}catch (Exception e) {
 				e.printStackTrace();
@@ -388,44 +396,54 @@ public class ZonalRailwayController {
 			view.setViewName("redirect:/zonal-railway");
 			dataList =   service.getZonalRailwayList(zObj);
 			if(dataList != null && dataList.size() > 0){
+				int i =0;
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
 		        XSSFSheet sheet =  workBook.createSheet(WorkbookUtil.createSafeSheetName("Zonal_Contracts"));
 		        workBook.setSheetOrder(sheet.getSheetName(), 0);
 		        XSSFRow headingRow = sheet.createRow(0);
-		        headingRow.createCell((short)0).setCellValue("Contract ID");
-		        headingRow.createCell((short)1).setCellValue("Work");
-		        headingRow.createCell((short)2).setCellValue("Execution Agency");
-	            headingRow.createCell((short)3).setCellValue("Sub Work");
-	            headingRow.createCell((short)4).setCellValue("Source Of Funds");
-	            headingRow.createCell((short)5).setCellValue("Sanction Cost");
-	            headingRow.createCell((short)6).setCellValue("Latest Revised Cost");
-	            headingRow.createCell((short)7).setCellValue("Cumulative Expenditure(Finacial Year)");
-	            headingRow.createCell((short)8).setCellValue("Actual Start");
-	            headingRow.createCell((short)9).setCellValue("Expected Finish");
-	            headingRow.createCell((short)10).setCellValue("Actual Finish");
-	            headingRow.createCell((short)11).setCellValue("Completion Cost");
-	            headingRow.createCell((short)12).setCellValue("Status");
-	            headingRow.createCell((short)13).setCellValue("As On Date");
-	            headingRow.createCell((short)14).setCellValue("Responsible Person");
+		        headingRow.createCell((short)i++).setCellValue("Contract ID");
+		        headingRow.createCell((short)i++).setCellValue("Work");
+		        headingRow.createCell((short)i++).setCellValue("Execution Agency");
+	            headingRow.createCell((short)i++).setCellValue("Sub Work");
+	            headingRow.createCell((short)i++).setCellValue("Source Of Funds");
+	            headingRow.createCell((short)i++).setCellValue("Sanction Cost");
+	            headingRow.createCell((short)i++).setCellValue("Unit");
+	            headingRow.createCell((short)i++).setCellValue("Latest Revised Cost");
+	            headingRow.createCell((short)i++).setCellValue("Unit");
+	            headingRow.createCell((short)i++).setCellValue("Cumulative Expenditure(Finacial Year)");
+	            headingRow.createCell((short)i++).setCellValue("Unit");
+	            headingRow.createCell((short)i++).setCellValue("Actual Start");
+	            headingRow.createCell((short)i++).setCellValue("Expected Finish");
+	            headingRow.createCell((short)i++).setCellValue("Actual Finish");
+	            headingRow.createCell((short)i++).setCellValue("Completion Cost");
+	            headingRow.createCell((short)i++).setCellValue("Unit");
+	            headingRow.createCell((short)i++).setCellValue("Status");
+	            headingRow.createCell((short)i++).setCellValue("As On Date");
+	            headingRow.createCell((short)i++).setCellValue("Responsible Person");
 
 	            short rowNo = 1;
 	            for (ZonalRailway obj : dataList) {
+	            	int j = 0;
 	                XSSFRow row = sheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(obj.getContract_id());
-	                row.createCell((short)1).setCellValue(obj.getWork_id_fk()+"-"+obj.getWork_short_name());
-	                row.createCell((short)2).setCellValue(obj.getExecution_agency_railway_fk()+"-"+obj.getRailway_name());
-	                row.createCell((short)3).setCellValue(obj.getSub_work());
-	                row.createCell((short)4).setCellValue(obj.getSource_of_funds());
-	                row.createCell((short)5).setCellValue(obj.getSanction_cost());
-	                row.createCell((short)6).setCellValue(obj.getLatest_revised_cost());
-	                row.createCell((short)7).setCellValue(obj.getCumulative_expenditure_upto_last_finacial_year());
-	                row.createCell((short)8).setCellValue(obj.getActual_start());
-	                row.createCell((short)9).setCellValue(obj.getExpected_finish());
-	                row.createCell((short)10).setCellValue(obj.getActual_finish());
-	                row.createCell((short)11).setCellValue(obj.getCompletion_cost());
-	                row.createCell((short)12).setCellValue(obj.getStatus_fk());
-	                row.createCell((short)13).setCellValue(obj.getAs_on_date());
-	                row.createCell((short)14).setCellValue(obj.getDesignation());
+	                row.createCell((short)j++).setCellValue(obj.getContract_id());
+	                row.createCell((short)j++).setCellValue(obj.getWork_id_fk()+"-"+obj.getWork_short_name());
+	                row.createCell((short)j++).setCellValue(obj.getExecution_agency_railway_fk()+"-"+obj.getRailway_name());
+	                row.createCell((short)j++).setCellValue(obj.getSub_work());
+	                row.createCell((short)j++).setCellValue(obj.getSource_of_funds());
+	                row.createCell((short)j++).setCellValue(obj.getSanction_cost());
+	                row.createCell((short)j++).setCellValue(obj.getSanction_unit());
+	                row.createCell((short)j++).setCellValue(obj.getLatest_revised_cost());
+	                row.createCell((short)j++).setCellValue(obj.getRevised_cost_unit());
+	                row.createCell((short)j++).setCellValue(obj.getCumulative_expenditure_upto_last_finacial_year());
+	                row.createCell((short)j++).setCellValue(obj.getCumilative_unit());
+	                row.createCell((short)j++).setCellValue(obj.getActual_start());
+	                row.createCell((short)j++).setCellValue(obj.getExpected_finish());
+	                row.createCell((short)j++).setCellValue(obj.getActual_finish());
+	                row.createCell((short)j++).setCellValue(obj.getCompletion_cost());
+	                row.createCell((short)j++).setCellValue(obj.getCompletion_unit());
+	                row.createCell((short)j++).setCellValue(obj.getStatus_fk());
+	                row.createCell((short)j++).setCellValue(obj.getAs_on_date());
+	                row.createCell((short)j++).setCellValue(obj.getDesignation());
 	          
 	                rowNo++;
 	            }

@@ -54,6 +54,7 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.SafetyPaginationObject;
+import com.synergizglobal.pmis.model.SourceOfFund;
 import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.AlertsPaginationObject;
 import com.synergizglobal.pmis.model.Project;
@@ -327,6 +328,9 @@ public class SafetyController {
 			List<Safety> departmentList = safetyService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			
+			List<Safety> unitsList = safetyService.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("addSafetyForm : " + e.getMessage());
@@ -421,6 +425,9 @@ public class SafetyController {
 			List<Safety> departmentList = safetyService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			
+			List<Safety> unitsList = safetyService.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
+			
 			List<Safety> hodList = safetyService.getHODListForSafetyForm(obj);
 			model.addObject("hodList", hodList);
 			
@@ -457,6 +464,9 @@ public class SafetyController {
 			
 			List<Safety> departmentList = safetyService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
+			
+			List<Safety> unitsList = safetyService.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
 			
 			List<Safety> hodList = safetyService.getHODListForSafetyForm(obj);
 			model.addObject("hodList", hodList);
@@ -550,7 +560,7 @@ public class SafetyController {
 			            String headerString = "Safety ID^Project ID^Work ID^Contract ID^Title^Description^Date^Location^Latitude^Longitude"
 			            		+ "^Reported By^Responsible Person^Department^Category^Status^Impact^Root Cause^LTI Hours^Equipment Impact^"
 			            		+ "People Impact^Work Impact^Committee Formed^Committee Requried^Investigation Completed^Corrective Measure Short Term^"
-			            		+ "Corrective Measure long Term^Status Remark^Compensation^Payment Date^Remarks";
+			            		+ "Corrective Measure long Term^Status Remark^Compensation^Unit^Payment Date^Remarks";
 			            
 			            String[] firstHeaderStringArr = headerString.split("\\^");
 			            
@@ -676,6 +686,10 @@ public class SafetyController {
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getCompensation());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getCompensation_unit());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);

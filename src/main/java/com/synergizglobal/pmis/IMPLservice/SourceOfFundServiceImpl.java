@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.Idao.SourceOfFundDao;
 import com.synergizglobal.pmis.Iservice.SourceOfFundService;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.SourceOfFund;
 
 @Service
@@ -85,6 +86,11 @@ public class SourceOfFundServiceImpl implements SourceOfFundService{
 	public List<SourceOfFund> getSourceOfFundList(SourceOfFund obj, int startIndex, int offset, String searchParameter)
 			throws Exception {
 		return dao.getSourceOfFundList(obj,startIndex,offset,searchParameter);
+	}
+
+	@Override
+	public List<SourceOfFund> getUnitsList(SourceOfFund obj) throws Exception {
+		return dao.getUnitsList(obj);
 	}
 
 	

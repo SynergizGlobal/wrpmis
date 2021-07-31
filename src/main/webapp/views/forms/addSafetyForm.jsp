@@ -319,7 +319,7 @@
                                 	<select class="units searchable validate-dropdown" id="compensation_units" name="compensation_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" >${obj.unit }</option>
+	                                      <option value="${obj.value }">${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="compensation_unitsError" class="error-msg" ></span>
@@ -334,7 +334,7 @@
                             </div>
                              <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="corrective_measure_long_term" name="corrective_measure_long_term" class="materialize-textarea validate" data-length="1000">${safety.corrective_measure_long_term }</textarea>  
+                                    <textarea id="corrective_measure_long_term" name="corrective_measure_long_term" class="materialize-textarea validate" data-length="1000"></textarea>  
                                     <!-- <input id="corrective_measure_long_term" name="corrective_measure_long_term" type="text" class="validate"> -->
                                     <label for="corrective_measure_long_term">Corrective Measure (Long Term) </label>
                                     <span id="corrective_measure_long_termError" class="error-msg" ></span>
@@ -628,6 +628,10 @@
         function addSafety(){
     		if(validator.form()){ // validation perform
     			$(".page-loader").show();
+    			var compensation = $('#compensation').val();
+	  			if(compensation == ""){
+	  				$('#compensation_units').val("");
+	  			}
     			document.getElementById("safetyForm").submit();			
     	 	}
     	}
@@ -704,8 +708,12 @@
     				 		 required: false
     				 	  },"remarks":{
     				 		 required: false
-    				 	  }
-    				 				
+    				 	  },"compensation_units":{
+   	        		 		 required: function(element){
+   	        		             return $("#compensation").val()!="";
+   	        		         }
+   	        		 	  }	
+   				 				
     			 	},
     			   messages: {
 	    				 "project_id_fk": {
@@ -765,6 +773,8 @@
     				 	  },"corrective_measure_long_term":{
     				 		 required: 'Required'
     				 	  },"remarks":{
+    			 	  		required: 'Required'
+    				 	  },"compensation_units":{
     			 	  		required: 'Required'
     				 	  }
     			 				      

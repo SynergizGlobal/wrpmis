@@ -8,12 +8,101 @@ public class ZonalRailway {
 	cumulative_expenditure_upto_last_finacial_year, work_id,actual_start, expected_finish, actual_finish, completion_cost,sub_work, 
 	status_fk, as_on_date, progress_id, contract_id_fk, month, cum_actual_expenditure_fy_cr, cum_planned_expenditure_per, 
 	cum_actual_expenditure_cr, cum_actual_expenditure_per, cum_planned_physical_progress_per, cum_actual_physical_progress_per, 
-	progress, issue, assistance_required,user_id, user_name, designation, department_fk, reporting_to_id_srfk,responsible_person_user_fk ;
+	progress, issue, assistance_required,user_id, user_name, designation, department_fk, reporting_to_id_srfk,responsible_person_user_fk,id, unit, value,
+	sanction_cost_units,latest_revised_cost_units,cumilative_expenditure_units,completion_cost_units,sanction_unit,revised_cost_unit,cumilative_unit,completion_unit;
 	
 	private String[] progress_ids, contract_id_fks, months, cum_actual_expenditure_fy_crs, cum_planned_expenditure_pers, 
 	cum_actual_expenditure_crs, cum_actual_expenditure_pers, cum_planned_physical_progress_pers, cum_actual_physical_progress_pers, 
 	progresss, issues, assistance_requireds;
 	
+	public String getSanction_unit() {
+		return sanction_unit;
+	}
+
+	public void setSanction_unit(String sanction_unit) {
+		this.sanction_unit = sanction_unit;
+	}
+
+	public String getRevised_cost_unit() {
+		return revised_cost_unit;
+	}
+
+	public void setRevised_cost_unit(String revised_cost_unit) {
+		this.revised_cost_unit = revised_cost_unit;
+	}
+
+	public String getCumilative_unit() {
+		return cumilative_unit;
+	}
+
+	public void setCumilative_unit(String cumilative_unit) {
+		this.cumilative_unit = cumilative_unit;
+	}
+
+	public String getCompletion_unit() {
+		return completion_unit;
+	}
+
+	public void setCompletion_unit(String completion_unit) {
+		this.completion_unit = completion_unit;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public String getSanction_cost_units() {
+		return sanction_cost_units;
+	}
+
+	public void setSanction_cost_units(String sanction_cost_units) {
+		this.sanction_cost_units = sanction_cost_units;
+	}
+
+	public String getLatest_revised_cost_units() {
+		return latest_revised_cost_units;
+	}
+
+	public void setLatest_revised_cost_units(String latest_revised_cost_units) {
+		this.latest_revised_cost_units = latest_revised_cost_units;
+	}
+
+	public String getCumilative_expenditure_units() {
+		return cumilative_expenditure_units;
+	}
+
+	public void setCumilative_expenditure_units(String cumilative_expenditure_units) {
+		this.cumilative_expenditure_units = cumilative_expenditure_units;
+	}
+
+	public String getCompletion_cost_units() {
+		return completion_cost_units;
+	}
+
+	public void setCompletion_cost_units(String completion_cost_units) {
+		this.completion_cost_units = completion_cost_units;
+	}
+
 	public String getSub_work() {
 		return sub_work;
 	}

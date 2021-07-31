@@ -316,7 +316,7 @@
                                 	<select class="units searchable validate-dropdown" id="compensation_units" name="compensation_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" >${obj.unit }</option>
+	                                      <option value="${obj.value }" <c:if test="${safety.compensation_units eq obj.value }">selected</c:if> >${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="compensation_unitsError" class="error-msg" ></span>
@@ -620,6 +620,10 @@
         function updateSafety(){
     		if(validator.form()){ // validation perform
     			$(".page-loader").show();
+    			var compensation = $('#compensation').val();
+	  			if(compensation == ""){
+	  				$('#compensation_units').val("");
+	  			}
     			document.getElementById("safetyForm").submit();			
     	 	}
     	}
@@ -696,7 +700,11 @@
     				 		 required: false
     				 	  },"remarks":{
     				 		 required: false
-    				 	  }
+    				 	  },"compensation_units":{
+   	        		 		 required: function(element){
+   	        		             return $("#compensation").val()!="";
+   	        		         }
+   	        		 	  }
     				 				
     			 	},
     			   messages: {
@@ -757,6 +765,8 @@
     				 	  },"corrective_measure_long_term":{
     				 		 required: 'Required'
     				 	  },"remarks":{
+    			 	  		required: 'Required'
+    				 	  },"compensation_units":{
     			 	  		required: 'Required'
     				 	  }
     			 				      

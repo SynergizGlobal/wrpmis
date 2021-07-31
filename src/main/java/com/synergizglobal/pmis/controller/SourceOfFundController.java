@@ -42,6 +42,7 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.BudgetPaginationObject;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.SourceOfFund;
 import com.synergizglobal.pmis.model.SourceOfFundPaginationObject;
 
@@ -241,6 +242,10 @@ public class SourceOfFundController {
 			
 			List<SourceOfFund> railwaysList = sofService.getRailwaysList();
 			model.addObject("railwaysList", railwaysList);
+			
+			List<SourceOfFund> unitsList = sofService.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
+			
 		}catch (Exception e) {
 				logger.error("addFundForm : " + e.getMessage());
 		}
@@ -284,6 +289,8 @@ public class SourceOfFundController {
 			model.addObject("sourceOfFundList", sourceOfFundList);
 			List<SourceOfFund> railwaysList = sofService.getRailwaysList();
 			model.addObject("railwaysList", railwaysList);
+			List<SourceOfFund> unitsList = sofService.getUnitsList(obj);
+			model.addObject("unitsList", unitsList);
 			SourceOfFund fundDetails = sofService.getFunds(obj);
 			model.addObject("fundDetails", fundDetails);
 		}catch (Exception e) {
@@ -361,35 +368,36 @@ public class SourceOfFundController {
 		        XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Source_of_Funds"));
 		        workBook.setSheetOrder(sheet.getSheetName(), 0);
 		        XSSFRow headingRow = sheet.createRow(0);
-	            headingRow.createCell((short)0).setCellValue("Project");
-	            headingRow.createCell((short)1).setCellValue("Work");
-	            headingRow.createCell((short)2).setCellValue("Source of Fund");
-	         	headingRow.createCell((short)3).setCellValue("Railway");
-	            headingRow.createCell((short)4).setCellValue("Funding Date");
-	            headingRow.createCell((short)5).setCellValue("Fund Amount ");
-	            headingRow.createCell((short)6).setCellValue("Ledger Account");
-	            headingRow.createCell((short)7).setCellValue("Bank Account");
-	            headingRow.createCell((short)8).setCellValue("Voucher Type");
-	            headingRow.createCell((short)9).setCellValue("Voucher No");
-	            headingRow.createCell((short)10).setCellValue("Narration");
-	            headingRow.createCell((short)11).setCellValue("Remarks");
+		        int i = 0;
+	            headingRow.createCell((short)i++).setCellValue("Project");
+	            headingRow.createCell((short)i++).setCellValue("Source of Fund");
+	         	headingRow.createCell((short)i++).setCellValue("Railway");
+	            headingRow.createCell((short)i++).setCellValue("Funding Date");
+	            headingRow.createCell((short)i++).setCellValue("Fund Amount ");
+	            headingRow.createCell((short)i++).setCellValue("Unit");
+	            headingRow.createCell((short)i++).setCellValue("Ledger Account");
+	            headingRow.createCell((short)i++).setCellValue("Bank Account");
+	            headingRow.createCell((short)i++).setCellValue("Voucher Type");
+	            headingRow.createCell((short)i++).setCellValue("Voucher No");
+	            headingRow.createCell((short)i++).setCellValue("Narration");
+	            headingRow.createCell((short)i++).setCellValue("Remarks");
 	          
-
 	            short rowNo = 1;
 	            for (SourceOfFund obj : dataList) {
+	            	  int j = 0;
 	                XSSFRow row = sheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(obj.getProject_id() +" - "+obj.getProject_name());
-	                row.createCell((short)1).setCellValue(obj.getWork_id_fk() +" - "+obj.getWork_name());
-	                row.createCell((short)2).setCellValue(obj.getSource_of_funds_fk());
-	                row.createCell((short)3).setCellValue(obj.getSub_category_railway_id_fk());
-	                row.createCell((short)4).setCellValue(obj.getFunding_date());
-	                row.createCell((short)5).setCellValue(obj.getFund_amount());
-	                row.createCell((short)6).setCellValue(obj.getLedger_account());
-	                row.createCell((short)7).setCellValue(obj.getBank_account());
-	                row.createCell((short)8).setCellValue(obj.getVoucher_type());
-	                row.createCell((short)9).setCellValue(obj.getVoucher_no());
-	                row.createCell((short)10).setCellValue(obj.getNarration());
-	                row.createCell((short)11).setCellValue(obj.getRemarks());
+	                row.createCell((short)j++).setCellValue(obj.getProject_id_fk() +" - "+obj.getProject_name());
+	                row.createCell((short)j++).setCellValue(obj.getSource_of_funds_fk());
+	                row.createCell((short)j++).setCellValue(obj.getSub_category_railway_id_fk());
+	                row.createCell((short)j++).setCellValue(obj.getFunding_date());
+	                row.createCell((short)j++).setCellValue(obj.getFund_amount());
+	                row.createCell((short)j++).setCellValue(obj.getAmount_unit());
+	                row.createCell((short)j++).setCellValue(obj.getLedger_account());
+	                row.createCell((short)j++).setCellValue(obj.getBank_account());
+	                row.createCell((short)j++).setCellValue(obj.getVoucher_type());
+	                row.createCell((short)j++).setCellValue(obj.getVoucher_no());
+	                row.createCell((short)j++).setCellValue(obj.getNarration());
+	                row.createCell((short)j++).setCellValue(obj.getRemarks());
 	                rowNo++;
 	            }
 	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {

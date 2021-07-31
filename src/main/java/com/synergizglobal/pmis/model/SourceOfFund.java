@@ -8,12 +8,46 @@ public class SourceOfFund {
 	
 	private String funds_id, work_id_fk,work_id,project_id,project_id_fk,work_name,project_name, source_of_funds_fk, sub_category_railway_id_fk,railway_name, funding_date,
 					fund_amount, remarks, bank_account, voucher_type, voucher_no, narration, ledger_account,railway_id,attachment,work_short_name,
-					contract_id,contract_name,contract_short_name;
+					contract_id,contract_name,contract_short_name,unit, value,fund_amount_units,amount_unit;
 
 	private List<MultipartFile> fundFiles;
 	private List<SourceOfFund> fundFilesList;
 	private String[] fundFileNames;
 	
+
+
+	public String getAmount_unit() {
+		return amount_unit;
+	}
+
+	public void setAmount_unit(String amount_unit) {
+		this.amount_unit = amount_unit;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public String getFund_amount_units() {
+		return fund_amount_units;
+	}
+
+	public void setFund_amount_units(String fund_amount_units) {
+		this.fund_amount_units = fund_amount_units;
+	}
+
 	public List<MultipartFile> getFundFiles() {
 		return fundFiles;
 	}

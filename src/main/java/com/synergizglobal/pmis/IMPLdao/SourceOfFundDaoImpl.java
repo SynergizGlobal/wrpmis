@@ -25,6 +25,7 @@ import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Deliverables;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.SourceOfFund;
 
 @Repository
@@ -57,10 +58,11 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		List<SourceOfFund> objsList = null;
 		
 		String qry = "SELECT funds_id,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account, "
-				+ "bank_account,voucher_type,voucher_no,narration,f.remarks,f.project_id_fk,p.project_name "
+				+ "bank_account,voucher_type,voucher_no,narration,f.remarks,f.project_id_fk,p.project_name,fund_amount_units,m.unit as amount_unit  "
 				+ "from funds f "
 				+ "LEFT JOIN project p on f.project_id_fk = p.project_id  "
-				+ "LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds "
+				+ "LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds "+
+				"LEFT JOIN money_unit m on f.fund_amount_units = m.value " 
 				+ "LEFT JOIN railway r on f.sub_category_railway_id_fk = r.railway_id where funds_id is not null ";
 		int arrSize = 0;
 		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -102,10 +104,10 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO funds"
 					+ "(project_id_fk, source_of_funds_fk, sub_category_railway_id_fk, funding_date, fund_amount, "
-					+ "remarks, bank_account, voucher_type, voucher_no, narration, ledger_account,attachment)"
+					+ "remarks, bank_account, voucher_type, voucher_no, narration, ledger_account,attachment,fund_amount_units)"
 					+ "VALUES"
 					+ "(:project_id_fk,:source_of_funds_fk,:sub_category_railway_id_fk,:funding_date,:fund_amount,"
-					+ ":remarks,:bank_account,:voucher_type,:voucher_no,:narration,:ledger_account,:attachment)";
+					+ ":remarks,:bank_account,:voucher_type,:voucher_no,:narration,:ledger_account,:attachment,:fund_amount_units)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -148,7 +150,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		SourceOfFund funds = null;
 		try {
 			String qry = "SELECT funds_id,f.project_id_fk,p.project_name, source_of_funds_fk, sub_category_railway_id_fk, DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date, "+
-					"cast(fund_amount as CHAR) as fund_amount, f.remarks, bank_account, voucher_type, voucher_no,narration, ledger_account, f.attachment "
+					"cast(fund_amount as CHAR) as fund_amount, f.remarks, bank_account, voucher_type, voucher_no,narration, ledger_account, f.attachment,f.fund_amount_units "
 					+ "from funds f " + 
 					"LEFT JOIN project p on f.project_id_fk = p.project_id " + 
 					"LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds " + 
@@ -187,7 +189,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			String updateQry = "UPDATE funds set "
 					+ "source_of_funds_fk= :source_of_funds_fk, sub_category_railway_id_fk= :sub_category_railway_id_fk, "
 					+ "funding_date= :funding_date, fund_amount= :fund_amount, remarks= :remarks,bank_account= :bank_account, "
-					+ "voucher_type= :voucher_type, voucher_no= :voucher_no, narration = :narration, ledger_account= :ledger_account,attachment= :attachment  "
+					+ "voucher_type= :voucher_type, voucher_no= :voucher_no, narration = :narration, ledger_account= :ledger_account,attachment= :attachment,fund_amount_units= :fund_amount_units  "
 					+ "where funds_id= :funds_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
@@ -529,6 +531,18 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		}
 	 objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));
 		
+		return objsList;
+	}
+
+	@Override
+	public List<SourceOfFund> getUnitsList(SourceOfFund obj) throws Exception {
+		List<SourceOfFund> objsList = null;
+		try {
+			String qry = "select id, unit, value from money_unit ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
 		return objsList;
 	}
 

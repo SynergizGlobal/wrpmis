@@ -49,4 +49,6 @@ public interface SafetyDao {
 	int getTotalRecords(Safety obj, String searchParameter) throws Exception;
 
 	List<Safety> getSafetyList(Safety obj, int startIndex, int offset, String searchParameter) throws Exception;
+
+	List<Safety> getUnitsList(Safety obj) throws Exception;
 }

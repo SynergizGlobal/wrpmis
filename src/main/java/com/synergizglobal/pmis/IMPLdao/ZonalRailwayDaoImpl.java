@@ -27,6 +27,7 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Document;
+import com.synergizglobal.pmis.model.SourceOfFund;
 import com.synergizglobal.pmis.model.Training;
 import com.synergizglobal.pmis.model.ZonalRailway;
 @Repository
@@ -568,7 +569,8 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
 			String qry ="select contract_id, work_id_fk,w.work_short_name,user_name, designation,project_id_fk,project_name, execution_agency_railway_fk,railway_id, responsible_person_user_fk,railway_name, source_of_funds_fk as source_of_funds,cast(sanction_cost as CHAR) as sanction_cost,cast(latest_revised_cost as CHAR) as latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
-					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS  expected_finish,sub_work,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS  actual_finish, cast(z.completion_cost as CHAR) as completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date from zonal_railway_contracts z " + 
+					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS  expected_finish,sub_work,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS  actual_finish, cast(z.completion_cost as CHAR) as completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date"
+					+ ",sanction_cost_units,latest_revised_cost_units,cumilative_expenditure_units,completion_cost_units from zonal_railway_contracts z " + 
 					"left join work w on z.work_id_fk = w.work_id "+
 					"left join railway r on z.execution_agency_railway_fk = r.railway_id "+
 					"left join user u on z.responsible_person_user_fk = u.user_id "
@@ -629,9 +631,10 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			con.setAutoCommit(false);
 			String insertQry = "INSERT INTO zonal_railway_contracts"
 					+ "(contract_id, work_id_fk, execution_agency_railway_fk, source_of_funds_fk, sanction_cost,responsible_person_user_fk, latest_revised_cost, "
-					+ "cumulative_expenditure_upto_last_finacial_year, actual_start, expected_finish, actual_finish, completion_cost, status_fk, as_on_date,sub_work)"
+					+ "cumulative_expenditure_upto_last_finacial_year, actual_start, expected_finish, actual_finish, completion_cost, status_fk, as_on_date,sub_work,"
+					+ "sanction_cost_units,latest_revised_cost_units,cumilative_expenditure_units,completion_cost_units)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insertQry);
 			
 			int q = 1;
@@ -650,7 +653,11 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			insertStmt.setString(q++,obj.getCompletion_cost()); 
 			insertStmt.setString(q++,obj.getStatus_fk()); 
 			insertStmt.setString(q++,obj.getAs_on_date()); 
-			insertStmt.setString(q++,obj.getSub_work()); 
+			insertStmt.setString(q++,obj.getSub_work());
+			insertStmt.setString(q++,obj.getSanction_cost_units()); 
+			insertStmt.setString(q++,obj.getLatest_revised_cost_units()); 
+			insertStmt.setString(q++,obj.getCumilative_expenditure_units()); 
+			insertStmt.setString(q++,obj.getCompletion_cost_units());
 			
 			count = insertStmt.executeUpdate();
 			if(count > 0) {
@@ -795,7 +802,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			String updateQry = "UPDATE zonal_railway_contracts set "
 					+ "source_of_funds_fk = ?, sanction_cost = ?, responsible_person_user_fk = ?, latest_revised_cost = ?,"
 					+ "cumulative_expenditure_upto_last_finacial_year = ?, actual_start = ?, expected_finish = ?, actual_finish = ?, completion_cost = ?, status_fk = ?, "
-					+ "as_on_date = ?,sub_work = ? where contract_id = ?";
+					+ "as_on_date = ?,sub_work = ?,sanction_cost_units = ?,latest_revised_cost_units = ?,cumilative_expenditure_units = ?,completion_cost_units = ? where contract_id = ?";
 			
 			updateStmt = con.prepareStatement(updateQry);
 			int q = 1;
@@ -811,6 +818,10 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			updateStmt.setString(q++,obj.getStatus_fk()); 
 			updateStmt.setString(q++,obj.getAs_on_date()); 
 			updateStmt.setString(q++,obj.getSub_work()); 
+			updateStmt.setString(q++,obj.getSanction_cost_units()); 
+			updateStmt.setString(q++,obj.getLatest_revised_cost_units()); 
+			updateStmt.setString(q++,obj.getCumilative_expenditure_units()); 
+			updateStmt.setString(q++,obj.getCompletion_cost_units());
 			updateStmt.setString(q++,obj.getContract_id()); 
 			
 			int count = updateStmt.executeUpdate();
@@ -1084,8 +1095,79 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 
 	@Override
 	public List<ZonalRailway> getZonalRailwayList(ZonalRailway obj) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<ZonalRailway> objsList = null;
+		try {
+			String qry ="select contract_id, work_id_fk,w.work_short_name,u.designation,sub_work,r.railway_name, execution_agency_railway_fk, source_of_funds_fk as source_of_funds, sanction_cost, latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
+					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS expected_finish,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish, z.completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date, responsible_person_user_fk "
+					+ "sanction_cost_units,latest_revised_cost_units,cumilative_expenditure_units,completion_cost_units "
+					+ " m.unit as sanction_unit,m.unit as revised_cost_unit,m.unit as cumilative_unit,m.unit as completion_unit from zonal_railway_contracts z " + 
+					"left join work w on z.work_id_fk = w.work_id "+
+					"left join railway r on z.execution_agency_railway_fk = r.railway_id "+
+					"left join money_unit m on z.sanction_cost_units = m.value "+
+					"left join money_unit m1 on z.latest_revised_cost_units = m1.value "+
+					"left join money_unit m2 on z.cumilative_expenditure_units = m2.value "+
+					"left join money_unit m3 on z.completion_cost_units = m3.value "
+					+"left join user u on z.responsible_person_user_fk = u.user_id  where contract_id is not null  ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id_fk = ?";  
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getExecution_agency_railway_fk())) {
+				qry = qry + " and z.execution_agency_railway_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds())) {
+				qry = qry + " and source_of_funds_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}
+	
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getExecution_agency_railway_fk())) {
+				pValues[i++] = obj.getExecution_agency_railway_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds())) {
+				pValues[i++] = obj.getSource_of_funds();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));
+
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public List<ZonalRailway> getUnitsList(ZonalRailway obj) throws Exception {
+		List<ZonalRailway> objsList = null;
+		try {
+			String qry = "select id, unit, value from money_unit ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 

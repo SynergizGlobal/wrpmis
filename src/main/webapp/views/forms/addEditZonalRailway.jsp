@@ -291,7 +291,7 @@
                                 	<select class="units searchable validate-dropdown" id="sanction_cost_units" name="sanction_cost_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" >${obj.unit }</option>
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.sanction_cost_units eq obj.value }">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="sanction_cost_unitsError" class="error-msg" ></span>
@@ -308,7 +308,7 @@
                                 	<select class="units searchable validate-dropdown" id="latest_revised_cost_units" name="latest_revised_cost_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" >${obj.unit }</option>
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.latest_revised_cost_units eq obj.value }">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="latest_revised_cost_unitsError" class="error-msg" ></span>
@@ -328,7 +328,7 @@
                                 	<select class="units searchable validate-dropdown" id="cumilative_expenditure_units" name="cumilative_expenditure_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" >${obj.unit }</option>
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.cumilative_expenditure_units eq obj.value }">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="cumilative_expenditure_unitsError" class="error-msg" ></span>
@@ -345,7 +345,7 @@
                                 	<select class="units searchable validate-dropdown" id="completion_cost_units" name="completion_cost_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" >${obj.unit }</option>
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.completion_cost_units eq obj.value }">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="completion_cost_unitsError" class="error-msg" ></span>
@@ -767,7 +767,23 @@
 
         function addZonalRailway(){
         	 if(validator.form()){ // validation perform
-	        	$(".page-loader").show();	
+	        	$(".page-loader").show();
+	        	var sanction_cost = $('#sanction_cost').val();
+	        	var latest_revised_cost = $('#latest_revised_cost').val();
+	        	var cumulative_expenditure = $('#cumilative_expenditure').val();
+	        	var completion_cost = $('#completion_cost').val();
+	  			if(sanction_cost == ""){
+	  				$('#sanction_cost_units').val("");
+	  			}
+	  			if(latest_revised_cost == ""){
+	  				$('#latest_revised_cost_units').val("");
+	  			}
+	  			if(cumulative_expenditure == ""){
+	  				$('#cumilative_expenditure_units').val("");
+	  			}
+	  			if(completion_cost == ""){
+	  				$('#completion_cost_units').val("");
+	  			}
 	        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=cum_actual_expenditure_fy_crs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=cum_planned_expenditure_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -785,6 +801,22 @@
         function updateZonalRailway(){
         	if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	
+	        	var sanction_cost = $('#sanction_cost').val();
+	        	var latest_revised_cost = $('#latest_revised_cost').val();
+	        	var cumulative_expenditure = $('#cumilative_expenditure').val();
+	        	var completion_cost = $('#completion_cost').val();
+	  			if(sanction_cost == ""){
+	  				$('#sanction_cost_units').val("");
+	  			}
+	  			if(latest_revised_cost == ""){
+	  				$('#latest_revised_cost_units').val("");
+	  			}
+	  			if(cumulative_expenditure == ""){
+	  				$('#cumilative_expenditure_units').val("");
+	  			}
+	  			if(completion_cost == ""){
+	  				$('#completion_cost_units').val("");
+	  			}
 	        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=cum_actual_expenditure_fy_crs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=cum_planned_expenditure_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -819,7 +851,23 @@
 	  			 		  required: false
 	  			 	  }	,"contract_id": {
 	  			 		  required: true
-	  			 	  }		
+	  			 	  },"sanction_cost_units":{
+        		 		 required: function(element){
+        		             return $("#sanction_cost").val()!="";
+        		         }
+        		 	  },"latest_revised_cost_units":{
+        		 		 required: function(element){
+        		             return $("#latest_revised_cost").val()!="";
+        		         }
+        		 	  },"cumilative_expenditure_units":{
+        		 		 required: function(element){
+        		             return $("#cumulative_expenditure_upto_last_finacial_year").val()!="";
+        		         }
+        		 	  },"completion_cost_units":{
+        		 		 required: function(element){
+        		             return $("#completion_cost").val()!="";
+        		         }
+        		 	  }		
 	  		 	},
 	  		    messages: {
 	  		 		   "project_id_fk": {
@@ -837,6 +885,14 @@
 	  			 	  },"completion_cost": {
 	  			 		  required: 'Required'
 	  			 	  },"contract_id": {
+	  			 		  required: 'Required'
+	  			 	  },"sanction_cost_units": {
+	  			 		  required: 'Required'
+	  			 	  },"latest_revised_cost_units": {
+	  			 		  required: 'Required'
+	  			 	  },"cumilative_expenditure_units": {
+	  			 		  required: 'Required'
+	  			 	  },"completion_cost_units": {
 	  			 		  required: 'Required'
 	  			 	  }	
 		   		},

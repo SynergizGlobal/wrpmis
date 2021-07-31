@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.SourceOfFund;
 
 public interface SourceOfFundService {
@@ -33,6 +34,8 @@ public interface SourceOfFundService {
 	public int getTotalRecords(SourceOfFund obj, String searchParameter) throws Exception;
 
 	public List<SourceOfFund> getSourceOfFundList(SourceOfFund obj, int startIndex, int offset, String searchParameter) throws Exception;
+
+	public List<SourceOfFund> getUnitsList(SourceOfFund obj) throws Exception;
 
 	
 

@@ -44,4 +44,7 @@ public interface ZonalRailwayService {
 
 	public List<ZonalRailway> getZonalsList(ZonalRailway obj, int startIndex, int offset, String searchParameter) throws Exception;
 
+	public List<ZonalRailway> getUnitsList(ZonalRailway obj) throws Exception;
+
+
 }

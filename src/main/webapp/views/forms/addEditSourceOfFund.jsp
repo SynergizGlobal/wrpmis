@@ -216,13 +216,13 @@
                                 </div>
                                 <div class="col s4 m1 input-field pt-10">
                                 	<p class="searchable_label">Unit</p>
-                                	<select class="units searchable validate-dropdown" id="sanction_cost_units" name="sanction_cost_units">
+                                	<select class="units searchable validate-dropdown" id="fund_amount_units" name="fund_amount_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" >${obj.unit }</option>
-	                                	</c:forEach>
+	                                      <option value="${obj.value }" <c:if test="${fundDetails.fund_amount_units eq obj.value }">selected</c:if>>${obj.unit }</option>
+	                                	</c:forEach> 
                                 	</select>
-                                	<span id="sanction_cost_unitsError" class="error-msg" ></span>
+                                	<span id="fund_amount_unitsError" class="error-msg" ></span>
                                	</div> 
                             </div>
 
@@ -489,13 +489,21 @@
         
         function addFunds(){
         	if(validator.form()){ // validation perform
-	        	$(".page-loader").show();	    		
+	        	$(".page-loader").show();
+	        	var fund_amount = $('#fund_amount').val();
+	  			if(fund_amount == ""){
+	  				$('#fund_amount_units').val("");
+	  			}
 	   			document.getElementById("fundsForm").submit();			
   	 	 }
         }
        function updateFunds(){
     	   if(validator.form()){ // validation perform
-	        	$(".page-loader").show();	    		
+	        	$(".page-loader").show();	
+	        	var fund_amount = $('#fund_amount').val();
+	  			if(fund_amount == ""){
+	  				$('#fund_amount_units').val("");
+	  			}
 	   			document.getElementById("fundsForm").submit();	
        	}
        }	   
@@ -528,7 +536,11 @@
 	  			 		  required: false
 	  			 	  },"remarks": {
 	  			 		  required: false
-	  			 	  }	
+	  			 	  },"fund_amount_units":{
+        		 		 required: function(element){
+        		             return $("#fund_amount").val()!="";
+        		         }
+        		 	  }	
 	  		 	},
 	  		    messages: {
 	  		 		   "project_id_fk": {
@@ -555,7 +567,9 @@
 	  			 		required: 'Required'
 	  			 	  },"remarks": {
 	  			 		required: 'Required'
-	  			 	  }		
+	  			 	  },"fund_amount_units":{
+        	 	  		required: 'Required'
+        		 	  }	
 		   		},
 		   		errorPlacement:function(error, element){
 		   		 	  if(element.attr("id") == "project_id_fk" ){
@@ -594,6 +608,9 @@
 					 }else if(element.attr("id") == "remarks" ){
 					     document.getElementById("remarksError").innerHTML="";
 				 	     error.appendTo('#remarksError');
+					 }else if(element.attr("id") == "fund_amount_units" ){
+					     document.getElementById("fund_amount_unitsError").innerHTML="";
+				 	     error.appendTo('#fund_amount_unitsError');
 					 }else{
 	 					 error.insertAfter(element);
 			        } 

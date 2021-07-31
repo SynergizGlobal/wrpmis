@@ -111,4 +111,9 @@ public class ZonalRailwayServiceImpl implements ZonalRailwayService{
 		return dao.getZonalsList(obj,startIndex,offset,searchParameter);
 	}
 
+	@Override
+	public List<ZonalRailway> getUnitsList(ZonalRailway obj) throws Exception {
+		return dao.getUnitsList(obj);
+	}
+
 }

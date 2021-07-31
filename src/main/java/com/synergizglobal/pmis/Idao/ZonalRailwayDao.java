@@ -45,5 +45,7 @@ public interface ZonalRailwayDao {
 
 	public int getTotalRecords(ZonalRailway obj, java.lang.String searchParameter) throws Exception;
 
+	public List<ZonalRailway> getUnitsList(ZonalRailway obj) throws Exception;
+
 
 }

@@ -219,7 +219,7 @@
                <div class="row no-mar">
                    <div class="input-field col s12 m10 offset-m1">
                        <textarea id="remarks" name="remarks"
-                           class="materialize-textarea"
+                           class="pmis-textarea"
                            data-length="1000" maxlength="1000"></textarea>
                        <label for="remarks">Action Taken</label>
                    </div>

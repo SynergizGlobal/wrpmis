@@ -399,7 +399,7 @@
 
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="drawing_title" name="drawing_title" class="materialize-textarea" data-length="1000">${designDetails.drawing_title }</textarea>
+                                    <textarea id="drawing_title" name="drawing_title" class="pmis-textarea" data-length="1000">${designDetails.drawing_title }</textarea>
                                     <label for="drawing_title">Drawing Title <span class="required">*</span></label>
                                      <span id="drawing_titleError" class="error-msg" ></span>
                                 </div>
@@ -955,7 +955,7 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m8 input-field">
-                                        <textarea id="issue_description" name="issue_description" class="materialize-textarea"
+                                        <textarea id="issue_description" name="issue_description" class="pmis-textarea"
                                             data-length="500"></textarea>
                                         <label for="issue_description">Issue Description</label>
                                     </div>
@@ -965,7 +965,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${designDetails.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${designDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                 </div>
                             </div>

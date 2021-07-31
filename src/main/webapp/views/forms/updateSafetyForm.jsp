@@ -211,14 +211,14 @@
                             </div>
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">                                   
-                                      <textarea id="title" name="title" class="materialize-textarea validate" data-length="100">${safety.title }</textarea>
+                                      <textarea id="title" name="title" class="pmis-textarea validate" data-length="100">${safety.title }</textarea>
 	                                  <label for="title">Short Description <span class="required">*</span></label>
 	                                  <span id="titleError" class="error-msg" ></span>
                                  </div>
                             </div>
                             <div class="row">
                                   <div class="col s12 m8 input-field offset-m2">
-									  <textarea id="description" name="description" class="validate materialize-textarea" data-length="1000">${safety.description }</textarea>                                            
+									  <textarea id="description" name="description" class="validate pmis-textarea" data-length="1000">${safety.description }</textarea>                                            
 	                                  <label for="description">Full Description<span class="required">*</span></label>
 	                                  <span id="descriptionError" class="error-msg" ></span>
                                   </div>                                    
@@ -324,14 +324,14 @@
                             </div>
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="corrective_measure_short_term" name="corrective_measure_short_term" class="materialize-textarea validate" data-length="1000">${safety.corrective_measure_short_term }</textarea>  
+                                    <textarea id="corrective_measure_short_term" name="corrective_measure_short_term" class="pmis-textarea validate" data-length="1000">${safety.corrective_measure_short_term }</textarea>  
                                     <label for="corrective_measure_short_term">Corrective Measure (Short Term) </label>
                                     <span id="corrective_measure_short_termError" class="error-msg" ></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
-                               		<textarea id="corrective_measure_long_term" name="corrective_measure_long_term" class="materialize-textarea validate" data-length="1000">${safety.corrective_measure_long_term }</textarea>  
+                               		<textarea id="corrective_measure_long_term" name="corrective_measure_long_term" class="pmis-textarea validate" data-length="1000">${safety.corrective_measure_long_term }</textarea>  
                                     <label for="corrective_measure_long_term">Corrective Measure (Long Term) </label>
                                     <span id="corrective_measure_long_termError" class="error-msg" ></span>
                                 </div>
@@ -371,7 +371,7 @@
                             </div>
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea validate" data-length="1000">${safety.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="pmis-textarea validate" data-length="1000">${safety.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>

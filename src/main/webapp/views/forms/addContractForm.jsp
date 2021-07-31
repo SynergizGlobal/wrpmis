@@ -348,7 +348,7 @@
 								</div>
 	                            <div class="row">
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate materialize-textarea" ></textarea>
+	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate pmis-textarea" ></textarea>
 	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
 	                                </div>	                              
@@ -383,7 +383,7 @@
 	                            </div>
 	                            <div class="row">
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="materialize-textarea validate" data-length="1000">${contractDeatils.scope_of_contract }</textarea>
+	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="pmis-textarea validate" data-length="1000">${contractDeatils.scope_of_contract }</textarea>
 	                                    <label for="scope_of_contract">Scope of Contract</label>
 	                                 <span id="scope_of_contractError" class="error-msg" ></span>                                    
 	                                </div>
@@ -475,7 +475,7 @@
 	                         
 	                            <div class="row">
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000"></textarea>
+	                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000"></textarea>
 	                                    <label for="remarks">Remarks</label>
 	                                      <span id="remarksError" class="error-msg"></span>
 	                                </div>

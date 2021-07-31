@@ -170,7 +170,7 @@
 							<c:if test="${action eq 'edit'}">
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="address" name="address" class="materialize-textarea" data-length="1000">${contractorDetails.address }</textarea>
+                                    <textarea id="address" name="address" class="pmis-textarea" data-length="1000">${contractorDetails.address }</textarea>
                                     <label for="address">Address</label>
                                     <span id="addressError" class="error-msg" ></span>
                                 </div>
@@ -223,7 +223,7 @@
                             <div class="row">
                                <div class="col m2 hide-on-small-only"></div>
                                <div class="col s12 m8 input-field">
-                                   <textarea id="bank_address" name="bank_address" class="materialize-textarea" data-length="1000">${contractorDetails.bank_address }</textarea>
+                                   <textarea id="bank_address" name="bank_address" class="pmis-textarea" data-length="1000">${contractorDetails.bank_address }</textarea>
                                    <label for="bank_address">Bank Address</label>
                                    <span id="bank_addressError" class="error-msg" ></span>
                                </div>
@@ -232,7 +232,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${contractorDetails.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${contractorDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>

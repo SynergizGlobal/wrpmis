@@ -256,7 +256,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="narration" name="narration" class="materialize-textarea" data-length="1000">${fundDetails.narration }</textarea>
+                                    <textarea id="narration" name="narration" class="pmis-textarea" data-length="1000">${fundDetails.narration }</textarea>
                                     <label for="narration">Narration </label>
                                     <span id="narrationError" class="error-msg" ></span>
                                 </div>
@@ -316,7 +316,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${fundDetails.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${fundDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>

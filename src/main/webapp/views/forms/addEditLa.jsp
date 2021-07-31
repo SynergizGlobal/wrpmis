@@ -368,7 +368,7 @@
 
                             <div class="row">                                 
                                 <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="jm_remarks" name="jm_remarks" class="materialize-textarea"
+                                    <textarea id="jm_remarks" name="jm_remarks" class="pmis-textarea"
                                         data-length="500">${LADetails.jm_remarks }</textarea>
                                     <label for="jm_remarks"> JM Remarks</label>
                                 </div>                                 
@@ -1342,7 +1342,7 @@
                                 <div class="row">
                                      
                                     <div class="col s12 m8 input-field offset-m2">
-                                        <textarea  class="materialize-textarea" id="issue_description" name="issue_description"
+                                        <textarea  class="pmis-textarea" id="issue_description" name="issue_description"
                                             data-length="500"></textarea>
                                         <label for="issueDesc">Issue Description</label>
                                     </div>
@@ -1353,7 +1353,7 @@
 	                                <!-- row 10 -->
 	                                 
 		                                <div class="col s12 m8 input-field offset-m2">
-		                                    <textarea id="remarks" name="remarks" class="materialize-textarea" 
+		                                    <textarea id="remarks" name="remarks" class="pmis-textarea" 
 		                                        data-length="1000"> </textarea>
 		                                    <label for="remarks">Remarks</label>
 		                                </div>
@@ -1365,28 +1365,28 @@
                                  
                                  <c:if test="${LADetails.type_of_land == 'Government'}">
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" 
+	                                    <textarea id="remarks" name="remarks" class="pmis-textarea" 
 	                                        data-length="1000">${LADetails.gov_remarks } </textarea>
 	                                    <label for="remarks">Remarks</label>
 	                                </div>
                                 </c:if>
                                  <c:if test="${LADetails.type_of_land == 'Forest'}">
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" 
+	                                    <textarea id="remarks" name="remarks" class="pmis-textarea" 
 	                                        data-length="1000">${LADetails.forest_remarks } </textarea>
 	                                    <label for="remarks">Remarks</label>
 	                                </div>
                                 </c:if>
                                  <c:if test="${LADetails.type_of_land == 'Private'}">
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" 
+	                                    <textarea id="remarks" name="remarks" class="pmis-textarea" 
 	                                        data-length="1000">${LADetails.private_remarks } </textarea>
 	                                    <label for="remarks">Remarks</label>
 	                                </div>
                                 </c:if>
                                  <c:if test="${LADetails.type_of_land == 'Railway'}">
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" 
+	                                    <textarea id="remarks" name="remarks" class="pmis-textarea" 
 	                                        data-length="1000">${LADetails.railway_remarks } </textarea>
 	                                    <label for="remarks">Remarks</label>
 	                                </div>

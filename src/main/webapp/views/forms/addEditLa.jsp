@@ -79,9 +79,15 @@
         }
         .error-msg label{color:red!important;}
         
+        .pt-5 {
+		    padding-top: .3rem !important;
+		}
         @media only screen and (max-width: 768px){
 			.mt-sm-n1rem{
 				margin-top:-1rem !important;
+			}
+			.pt-5 {
+			    padding-top: 0 !important;
 			}
 		}
 		 @media only screen and (max-width: 568px){
@@ -89,6 +95,7 @@
 				width:100%;
 			}
 		}
+		
     </style>
 </head>
 
@@ -288,12 +295,22 @@
                                             class="fa fa-calendar"></i></button>
                                     <span id="submission_dateError" class="error-msg" ></span>
                                 </div>        
-                                <div class="col s12 m4 input-field">
+                                <div class="col s8 m3 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="jm_fee_amount" name="jm_fee_amount" type="number" class="validate" value="${LADetails.jm_fee_amount }" min="0.01" step="0.01">
                                     <label for="jm_fee_amount"> JM Fee Amount </label>
                                     <span id="jm_fee_amountError" class="error-msg"></span>
-                                </div>                                 
+                                </div>   
+                                <div class="col s4 m1 input-field pt-5">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="jm_fee_amount_units" name="jm_fee_amount_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }">${obj.unit }</option>
+	                                	</c:forEach>
+                                	</select>
+                                	<span id="jm_fee_amount_unitsError" class="error-msg" ></span>
+                               	</div>                               
                             </div>
 
                             <div class="row">                                 
@@ -422,13 +439,23 @@
                                         <button type="button" id="letter_for_payment__icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
-                                    <div class="col s6 m4 input-field">
+                                    <div class="col s8 m3 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
                                         <input id="amount_demanded" name="amount_demanded" type="number" value="${LADetails.amount_demanded }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="amount_demanded" class="fs-sm-67rem">Amount Demanded</label>
                                         <span id="amount_demandedError" class="error-msg"></span>
-                                    </div>                                     
+                                    </div>
+                                    <div class="col s4 m1 input-field pt-5">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units searchable validate-dropdown" id="amount_demanded_units" name="amount_demanded_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                	</c:forEach>
+	                                	</select>
+	                                	<span id="amount_demanded_unitsError" class="error-msg" ></span>
+                               		</div>                                      
                                 </div>
                                 <div class="row">                                     
                                     <div class="col s6 m4 input-field offset-m2">
@@ -457,13 +484,23 @@
                                         <button type="button" id="payment_date__icon" class="datepicker-button"><i
                                                 class="fa fa-calendar"></i></button>
                                     </div>
-                                    <div class="col s6 m4 input-field">
+                                    <div class="col s8 m3 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
                                         <input id="govt_amount_paid" name="amount_paid" type="number" value="${LADetails.amount_paid }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="govt_amount_paid"> Amount Paid</label>
                                         <span id="govt_amount_paidError" class="error-msg"></span>
-                                    </div>                                     
+                                    </div>   
+                                    <div class="col s4 m1 input-field pt-5">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units searchable validate-dropdown" id="amount_paid_units" name="amount_paid_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                	</c:forEach>
+	                                	</select>
+	                                	<span id="amount_paid_unitsError" class="error-msg" ></span>
+                               		</div>                                   
                                 </div>
                                 <div class="row">                                     
                                     <div class="col s6 m4 input-field offset-m2">
@@ -607,20 +644,40 @@
                                     </div>                                     
                                 </div>
                                 <div class="row">                                     
-                                    <div class="col s6 m4 input-field offset-m2">
+                                    <div class="col s8 m3 input-field offset-m2">
                                         <i class="material-icons prefix center-align">₹</i>
                                         <input id="forest_demanded_amount" name="forest_demanded_amount" type="number" value="${LADetails.forest_demanded_amount }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="forest_demanded_amount" class="fs-sm-8rem">Demanded Amount </label>
                                         <span id="forest_demanded_amountError" class="error-msg"></span>
                                     </div>
-                                    <div class="col s6 m4 input-field">
+                                    <div class="col s4 m1 input-field pt-5">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units searchable validate-dropdown" id="forest_demanded_amount_units" name="forest_demanded_amount_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                	</c:forEach>
+	                                	</select>
+	                                	<span id="forest_demanded_amount_unitsError" class="error-msg" ></span>
+                               		</div>   
+                                    <div class="col s8 m3 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
                                         <input id="forest_payment_amount" name="forest_payment_amount" type="number" value="${LADetails.forest_payment_amount }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="forest_payment_amount" class="fs-sm-8rem"> Payment Amount </label>
                                         <span id="forest_payment_amountError" class="error-msg"></span>
-                                    </div>                                     
+                                    </div>  
+                                    <div class="col s4 m1 input-field pt-5">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units searchable validate-dropdown" id="forest_payment_amount_units" name="forest_payment_amount_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                	</c:forEach>
+	                                	</select>
+	                                	<span id="forest_payment_amount_unitsError" class="error-msg" ></span>
+                               		</div>                                      
                                 </div>
                                 <div class="row">                                     
                                     <div class="col s6 m4 input-field offset-m2">
@@ -717,14 +774,24 @@
                                     </div>                                     
                                 </div>
                                 <div class="row">                                     
-                                    <div class="col s6 m4 input-field offset-m2">
+                                    <div class="col s8 m3 input-field offset-m2">
                                         <i class="material-icons prefix center-align">₹</i>
                                         <input id="private_basic_rate" name="basic_rate" type="number" min="0.01" step="0.01" value="${LADetails.basic_rate }"
                                             class="validate">
                                         <label for="private_basic_rate">Basic Rate </label>
                                         <span id="private_basic_rateError" class="error-msg"></span>                                      
                                     </div>
-                                    <div class="col s6 m4 input-field">
+                                 	<div class="col s4 m1 input-field pt-5">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units searchable validate-dropdown" id="basic_rate_units" name="basic_rate_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                	</c:forEach>
+	                                	</select>
+	                                	<span id="basic_rate_unitsError" class="error-msg" ></span>
+                               		</div> 
+                                    <div class="col s12 m4 input-field">
                                         <input id="private_attachment_no" name="private_attachment_no" type="text" value="${LADetails.private_attachment_no }"
                                             class="validate">
                                         <label for="private_attachment_no" class="fs-sm-8rem">Attachment Number </label>
@@ -733,36 +800,55 @@
                                 <div class="row">                                     
                                     <!-- <div class="col s12 m8 input-field">
                                         <div class="row"> -->
-                                    <div class="col s6 m4 input-field offset-m2">
+                                    <div class="col s12 m4 input-field offset-m2">
                                         <input id="private_agri_trees" name="agriculture_tree_nos" type="text" value="${LADetails.agriculture_tree_nos }"
                                             class="validate">
                                         <label for="private_agri_trees"> Agriculture tree nos</label>
                                        
                                     </div>
-                                    <div class="col s6 m4 input-field">
+                                    <div class="col s8 m3 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
                                         <input id="private_agri_tree_rate" name="agriculture_tree_rate" type="number" min="0.01" step="0.01" value="${LADetails.agriculture_tree_rate }"
                                             class="validate">
                                         <label for="private_agri_tree_rate" class="fs-sm-8rem"> Agriculture tree rate </label>
 										<span id="private_agri_tree_rateError" class="error-msg"></span>
-
-                                    </div>      
+                                    </div>  
+                                    <div class="col s4 m1 input-field pt-5">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units searchable validate-dropdown" id="agriculture_tree_rate_units" name="agriculture_tree_rate_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                	</c:forEach>
+	                                	</select>
+	                                	<span id="agriculture_tree_rate_unitsError" class="error-msg" ></span>
+                               		</div>     
                                 </div>
                                 <div class="row">                                     
                                     <!-- <div class="col s12 m8 input-field">
                                         <div class="row"> -->
-                                    <div class="col s6 m4 input-field offset-m2">
+                                    <div class="col s12 m4 input-field offset-m2">
                                         <input id="private_forest_trees" name="forest_tree_nos" type="number" value="${LADetails.forest_tree_nos }"
                                             class="validate">
                                         <label for="private_forest_trees">Forest tree nos </label>
                                     </div>
-                                    <div class="col s6 m4 input-field">
+                                    <div class="col s8 m3 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
                                         <input id="private_forest_tree_rate" name="forest_tree_rate" type="number" min="0.01" step="0.01" value="${LADetails.forest_tree_rate }"
                                             class="validate">
                                         <label for="private_forest_tree_rate" class="fs-sm-8rem"> Forest tree rate </label>
                                          <span id="private_forest_tree_rateError" class="error-msg"></span>
                                     </div>
+                                    <div class="col s4 m1 input-field pt-5">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units searchable validate-dropdown" id="forest_tree_rate_units" name="forest_tree_rate_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                	</c:forEach>
+	                                	</select>
+	                                	<span id="forest_tree_rate_unitsError" class="error-msg" ></span>
+                               		</div>  
                                 </div>                               
                                 <div class="row">                                     
                                     <div class="col s6 m4 input-field offset-m2">
@@ -977,13 +1063,23 @@
                                     </div>                                     
                                 </div>
                                 <div class="row">                                     
-                                    <div class="col s6 m4 input-field offset-m2">
+                                    <div class="col s8 m3 input-field offset-m2">
                                         <i class="material-icons prefix center-align">₹</i>
                                         <input id="private_payment_amount" name="payment_amount" type="number" value="${LADetails.payment_amount }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="private_payment_amount" class="fs-sm-8rem">Payment Amount </label>
                                         <span id="private_payment_amountError" class="error-msg"></span>                                        
                                     </div>
+                                    <div class="col s4 m1 input-field pt-5">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units searchable validate-dropdown" id="payment_amount_units" name="payment_amount_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                	</c:forEach>
+	                                	</select>
+	                                	<span id="payment_amount_unitsError" class="error-msg" ></span>
+                               		</div> 
                                     <div class="col s6 m4 input-field">
                                         <input id="private_payment_date" name="private_payment_date" type="text" value="${LADetails.private_payment_date }"
                                             class="validate datepicker">
@@ -1145,20 +1241,40 @@
                                     </div>                                     
                                 </div>
                                 <div class="row">                                     
-                                    <div class="col s6 m4 input-field offset-m2">
+                                    <div class="col s8 m3 input-field offset-m2">
                                         <i class="material-icons prefix center-align">₹</i>
                                         <input id="railway_demanded_amount" name="railway_demanded_amount" type="number" value="${LADetails.railway_demanded_amount }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="railway_demanded_amount" class="fs-sm-8rem">Demanded Amount </label>
                                         <span id="railway_demanded_amountError" class="error-msg"></span>
                                     </div>
-                                    <div class="col s6 m4 input-field">
+                                    <div class="col s4 m1 input-field pt-5">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units searchable validate-dropdown" id="railway_demanded_amount_units" name="railway_demanded_amount_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                	</c:forEach>
+	                                	</select>
+	                                	<span id="railway_demanded_amount_unitsError" class="error-msg" ></span>
+                               		</div>
+                                    <div class="col s8 m3 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
                                         <input id="railway_payment_amount" name="railway_payment_amount" type="number" value="${LADetails.railway_payment_amount }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="railway_payment_amount" class="fs-sm-8rem"> Payment Amount </label>
                                         <span id="railway_payment_amountError" class="error-msg"></span>
-                                    </div>                                     
+                                    </div>    
+                                    <div class="col s4 m1 input-field pt-5">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units searchable validate-dropdown" id="railway_payment_amount_units" name="railway_payment_amount_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                	</c:forEach>
+	                                	</select>
+	                                	<span id="railway_payment_amount_unitsError" class="error-msg" ></span>
+                               		</div>                                 
                                 </div>
                                 <div class="row">                                     
                                     <div class="col s6 offset-m2 m4 input-field">
@@ -1858,6 +1974,39 @@
 			       }else if(element.attr("id") == "jm_fee_amount" ){
 					   document.getElementById("jm_fee_amountError").innerHTML="";
 				 	   error.appendTo('#jm_fee_amountError');
+			       } else if (element.attr("id") == "jm_fee_amount_units") {
+			           document.getElementById("jm_fee_amount_unitsError").innerHTML = "";
+			           error.appendTo('#jm_fee_amount_unitsError');
+			       } else if (element.attr("id") == "basic_rate_units") {
+			           document.getElementById("basic_rate_unitsError").innerHTML = "";
+			           error.appendTo('#basic_rate_unitsError');
+			       }else if (element.attr("id") == "agriculture_tree_rate_units") {
+			           document.getElementById("agriculture_tree_rate_unitsError").innerHTML = "";
+			           error.appendTo('#agriculture_tree_rate_unitsError');
+			       }else if (element.attr("id") == "forest_tree_rate_units") {
+			           document.getElementById("forest_tree_rate_unitsError").innerHTML = "";
+			           error.appendTo('#forest_tree_rate_unitsError');
+			       }else if (element.attr("id") == "payment_amount_units") {
+			           document.getElementById("payment_amount_unitsError").innerHTML = "";
+			           error.appendTo('#payment_amount_unitsError');
+			       }else if (element.attr("id") == "forest_demanded_amount_units") {
+			           document.getElementById("forest_demanded_amount_unitsError").innerHTML = "";
+			           error.appendTo('#forest_demanded_amount_unitsError');
+			       }else if (element.attr("id") == "forest_payment_amount_units") {
+			           document.getElementById("forest_payment_amount_unitsError").innerHTML = "";
+			           error.appendTo('#forest_payment_amount_unitsError');
+			       }else if (element.attr("id") == "amount_demanded_units") {
+			           document.getElementById("amount_demanded_unitsError").innerHTML = "";
+			           error.appendTo('#amount_demanded_unitsError');
+			       }else if (element.attr("id") == "amount_paid_units") {
+			           document.getElementById("amount_paid_unitsError").innerHTML = "";
+			           error.appendTo('#amount_paid_unitsError');
+			       }else if (element.attr("id") == "railway_demanded_amount_units") {
+			           document.getElementById("railway_demanded_amount_unitsError").innerHTML = "";
+			           error.appendTo('#railway_demanded_amount_unitsError');
+			       }else if (element.attr("id") == "railway_payment_amount_units") {
+			           document.getElementById("railway_payment_amount_unitsError").innerHTML = "";
+			           error.appendTo('#railway_payment_amount_unitsError');
 			       } else{
  					error.insertAfter(element);
 			        } 

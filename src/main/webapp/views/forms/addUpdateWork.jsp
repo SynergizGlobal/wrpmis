@@ -1074,7 +1074,7 @@
     	}
   
         function updateWork(){
-        	var flag = validateContract();
+        	var flag = validateWork();
         	if(flag){
 		  		if(validator.form()){ // validation perform
 		  			$(".page-loader").show();	   
@@ -1354,7 +1354,7 @@
 	   	  $(link).css('display','none');
      }       
      
-     function validateContract(){
+     function validateWork(){
     	 var flag = true;
 	     $("input[name=latest_revised_costs]").each(function(){
 	    		var idNo = (this.id).replace('latest_revised_costs','');

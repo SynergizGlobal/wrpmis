@@ -30,6 +30,4 @@ public interface TAFinancialsDao {
 
 	public List<TAFinancials> getTAFinancialsList(TAFinancials obj, int startIndex, int offset, String searchParameter) throws Exception;
 
-	public List<TAFinancials> getUnitsList() throws Exception;
-
 }

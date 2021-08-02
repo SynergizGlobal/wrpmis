@@ -50,6 +50,7 @@ import com.synergizglobal.pmis.Iservice.ActivitiesService;
 import com.synergizglobal.pmis.Iservice.ContractService;
 import com.synergizglobal.pmis.Iservice.FOBService;
 import com.synergizglobal.pmis.Iservice.HomeService;
+import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
@@ -86,6 +87,9 @@ public class FOBController {
 	
 	@Autowired
 	ContractService contractService;
+	
+	@Autowired
+	IssueService issueService;
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -433,6 +437,11 @@ public class FOBController {
 			
 			FOB fob = fobService.getFOB(obj);
 			model.addObject("fob", fob);
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMessage_id())) {
+				boolean flag = issueService.readIssueMessage(obj.getMessage_id());
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);

@@ -28,6 +28,7 @@ import com.google.gson.GsonBuilder;
 import com.synergizglobal.pmis.Iservice.TAFinancialsService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Document;
 import com.synergizglobal.pmis.model.DocumentsPaginationObject;
 import com.synergizglobal.pmis.model.Expenditure;
@@ -222,6 +223,8 @@ public class TAFinancialsController {
 			model.addObject("worksList", worksList);
 			List<TAFinancials> contractsList = service.getContractsList();
 			model.addObject("contractsList", contractsList);
+			List<TAFinancials> unitsList = service.getUnitsList();
+			model.addObject("unitsList", unitsList);
 			
 		}catch (Exception e) {
 				logger.error("addTAFinancialsForm : " + e.getMessage());
@@ -239,6 +242,8 @@ public class TAFinancialsController {
 			model.addObject("worksList", worksList);
 			List<TAFinancials> contractsList = service.getContractsList();
 			model.addObject("contractsList", contractsList);
+			List<TAFinancials> unitsList = service.getUnitsList();
+			model.addObject("unitsList", unitsList);
 			TAFinancials taFinancialDetails = service.getTAFinancials(obj);
 			model.addObject("taFinancialDetails", taFinancialDetails);
 		

@@ -25,8 +25,10 @@
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
-
-        input::placeholder {
+		.my-error {
+   			 color:red;
+   			 font-size: .8rem;
+		}        input::placeholder {
             color: #777;
         }
         .input-field input[type="text"]::placeholder,
@@ -94,10 +96,10 @@
 		}
 		/* responsive_units styling starts */
 		.responsive_units {
-			min-width:50px;			
+			min-width:70px;			
 		}
 		.responsive_units > .select2-container{
-			max-width:50px !important;
+			max-width:70px !important;
 		}
 		/* responsive_units styling ends */
 		@media only screen and (max-width: 769px){
@@ -110,11 +112,7 @@
 				max-width:inherit !important;
 			}
 		}
-		
-		.select2-container--open >.select2-dropdown.select2-dropdown--below,
-		.select2-container--open >.select2-dropdown.select2-dropdown--above{
-			width:auto !important;
-		}
+
     </style>
 </head>
 
@@ -147,7 +145,7 @@
 						</c:if>
                         <div class="container container-no-margin">
                          <c:if test="${action eq 'add'}">	
-                            <div class="row" 0>
+                            <div class="row" >
                                 <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
@@ -188,7 +186,7 @@
                            </c:if>
                         </div>
                         <div class="row no-mar">
-                            <div class="col s12 m10 offset-m1">
+                            <div class="col s12 m12">
                                 <div class="row fixed-width">
                                     <h5 class="center-align">TA Financial Details</h5>
                                     <div class="table-inside">
@@ -211,7 +209,7 @@
 		                                       	 <c:forEach var="sObj" items="${taFinancialDetails.taFinancials }" varStatus="index"> 
                                        	 
 	                                                <tr id="financialRow${index.count }">
-	                                                    <td data-head="Month" class="input-field"> <input type="hidden" name= "IDs" id="IDs${index.count }" value="${sObj.ID }"/>
+	                                                    <td data-head="Month" class="input-field"> <input type="hidden" name= "IDs" id="IDs${index.count }" value="${sObj.id }"/>
 	                                                    <input id="months${index.count }" name="months" type="month" class="validate" value="${sObj.month }"
 	                                                            placeholder="Select Month">
 	                                                        <span id="month${index.count }sgst_tdsError" class="error-msg"></span>
@@ -224,10 +222,10 @@
 	                                                        <span id="planned_invoice${index.count }Error" class="error-msg"></span>
 	                                                    </td>
 	                                                    <td class="responsive_units">
-						                                	<select class="units validate-dropdown searchable" id="planned_invoice${index.count }_units" name="planned_invoice_unitss">
+						                                	<select class="units validate-dropdown searchable" id="planned_invoice${index.count }_units" name="planned_units">
 						                                		<option value="">Select</option>
 						                                		<c:forEach var="obj" items="${unitsList }">
-			                                    			      <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+			                                    			      <option value="${obj.value }" <c:if test="${sObj.planned_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
 			                                     			    </c:forEach>
 						                                	</select>
 					                                		<span id="planned_invoice_units${index.count }Error" class="my-error"></span>
@@ -240,10 +238,10 @@
 	                                                        <span id="actual_invoice${index.count }Error" class="error-msg"></span>
 	                                                    </td>
 	                                                    <td class="responsive_units">
-						                                	<select class="units validate-dropdown searchable" id="actual_invoices${index.count }_units" name="actual_invoices_unitss">
+						                                	<select class="units validate-dropdown searchable" id="actual_invoices${index.count }_units" name="actual_units">
 						                                		<option value="">Select</option>
 						                                		<c:forEach var="obj" items="${unitsList }">
-			                                    			      <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+			                                    			      <option value="${obj.value }" <c:if test="${sObj.actual_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
 			                                     			    </c:forEach>
 						                                	</select>
 					                                		<span id="actual_invoice_units${index.count}Error" class="my-error"></span>
@@ -255,14 +253,14 @@
 	                                                            placeholder="Payment Received">
 	                                                        <span id="payment_received${index.count }Error" class="error-msg"></span>
 	                                                    </td>
-	                                                    <td class="responsive_units">
-						                                	<select class="units validate-dropdown searchable" id="payment_receiveds${index.count }_units" name="payment_receiveds_unitss">
+	                                                    <td class="responsive_units"> 
+						                                	<select class="units validate-dropdown searchable" id="payment_receiveds${index.count }_units" name="payment_received_units">
 						                                		<option value="">Select</option>
 						                                		<c:forEach var="obj" items="${unitsList }">
-			                                    			      <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+			                                    			      <option value="${obj.value }" <c:if test="${sObj.payment_unit eq obj.value}">selected</c:if>>${obj.unit }</option>
 			                                     			    </c:forEach>
 						                                	</select>
-					                                		<span id="payment_receiveds_units${index.count}Error" class="my-error"></span>
+					                                		<span id="payment_received_units${index.count}Error" class="my-error"></span>
                                                 		</td>
 	                                                    <td class="mobile_btn_close">
 	                                                        <a onclick="removeFinancial('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
@@ -279,16 +277,16 @@
 	                                                    </td>
 	                                                    <td data-head="Planned Invoicing" class="input-field">
 	                                                        <i class="material-icons prefix center-align">₹</i>
-	                                                        <input id="planned_invoices0" type="number" step="0.01"
+	                                                        <input id="planned_invoice0" type="number" step="0.01"
 	                                                            min="0.01" class="validate" name="planneds"
 	                                                            placeholder="Planned Invoicing">
 	                                                        <span id="planned_invoice0Error" class="error-msg"></span>
 	                                                    </td>
 	                                                    <td class="responsive_units">
-														    <select class="units validate-dropdown searchable" id="planned_invoice0_units" name="planned_invoice_unitss">
+														    <select class="units validate-dropdown searchable" id="planned_invoice0_units" name="planned_units">
 														        <option value="">Select</option>
 														        <c:forEach var="obj" items="${unitsList }">
-														          <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+														          <option value="${obj.value }" >${obj.unit }</option>
 														         </c:forEach>
 														    </select>
 														    <span id="planned_invoice_units0Error" class="my-error"></span>
@@ -301,10 +299,10 @@
 	                                                        <span id="actual_invoice0Error" class="error-msg"></span>
 	                                                    </td>
 	                                                    <td class="responsive_units">
-														    <select class="units validate-dropdown searchable" id="actual_invoices0_units" name="actual_invoices_unitss">
+														    <select class="units validate-dropdown searchable" id="actual_invoices0_units" name="actual_units">
 														        <option value="">Select</option>
 														        <c:forEach var="obj" items="${unitsList }">
-														          <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+														          <option value="${obj.value }" >${obj.unit }</option>
 														         </c:forEach>
 														    </select>
 														    <span id="actual_invoice_units0Error" class="my-error"></span>
@@ -317,13 +315,13 @@
 	                                                        <span id="payment_received0Error" class="error-msg"></span>
 	                                                    </td>
 	                                                    <td class="responsive_units">
-														    <select class="units validate-dropdown searchable" id="payment_receiveds0_units" name="payment_receiveds_unitss">
+														    <select class="units validate-dropdown searchable" id="payment_receiveds0_units" name="payment_received_units">
 														        <option value="">Select</option>
 														        <c:forEach var="obj" items="${unitsList }">
-														          <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+														          <option value="${obj.value }" >${obj.unit }</option>
 														         </c:forEach>
 														    </select>
-														    <span id="payment_receiveds_units0Error" class="my-error"></span>
+														    <span id="payment_received_units0Error" class="my-error"></span>
 														</td>
 	                                                    <td class="mobile_btn_close">
 	                                                        <a onclick="removeFinancial('0');" class="btn waves-effect waves-light red t-c "> <i
@@ -337,7 +335,7 @@
 											<table class="mdl-data-table">
 		                                        <tbody id="safetyBody">                                          
 					                                    <tr>
-					  										 <td colspan="5" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addFinancialRow()"> <i
+					  										 <td colspan="8" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addFinancialRow()"> <i
 					                                                            class="fa fa-plus"></i></a>
 					                                    </tr>
 		                                        </tbody>
@@ -425,10 +423,11 @@
         function getContractsList(work_id_fk) {
         	$(".page-loader").show();
             $("#contract_id_fk option:not(:first)").remove();
+
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContractsListForFinancialsForm",
+                    url: "<%=request.getContextPath()%>/ajax/getContractsListForFinancialsForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -438,84 +437,106 @@
                                 $("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
                             });
                         }
-                        $('.searchable').select2();
                         $(".page-loader").hide();
-                    }
+                    },error: function (jqXHR, exception) {
+ 	   			      $(".page-loader").hide();
+	   	          	  getErrorMessage(jqXHR, exception);
+	   	     	  }
                 });
             }else{
             	$(".page-loader").hide();
             }
         }
-        
-        function resetWorksList(){
-        	$(".page-loader").show();        	
+      
+        function resetWorksList(workId){
+        	var projectId = '';
         	var workId = ''
-       		var contract_id_fk = $("#contract_id_fk").val();
-       		if($.trim(contract_id_fk) != ''){        			
-       		
-            	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
-       			//workId = workId.substring(3, work_id.length);
-       			projectId = workId.substring(0, 3);
-       			$("#work_id_fk").val(workId);
-       			$("#work_id_fk").select2();
-       		}
-       		
-       		if ($.trim(projectId) != "") {
-       			$("#work_id_fk option:not(:first)").remove();
-                var myParams = { project_id_fk: projectId };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForFinancialsForm",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                                var workName = '';
-                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                                if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
-                                } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
-                                }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-                });
-                $('.searchable').select2();
-            }
+           		var contract_id_fk = $("#contract_id_fk").val();
+           		if($.trim(contract_id_fk) != ''){        			
+           		
+                	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
+           			//workId = workId.substring(3, work_id.length);
+           			projectId = workId.substring(0, 3);
+           			$("#work_id_fk").val(workId);
+           			$("#work_id_fk").select2();
+           		}
        		
         }
-        
+    
+        function getErrorMessage(jqXHR, exception) {
+    	    var msg = '';
+    	    if (jqXHR.status === 0) {
+    	        msg = 'Not connect.\n Verify Network.';
+    	    } else if (jqXHR.status == 404) {
+    	        msg = 'Requested page not found. [404]';
+    	    } else if (jqXHR.status == 500) {
+    	        msg = 'Internal Server Error [500].';
+    	    } else if (exception === 'parsererror') {
+    	        msg = 'Requested JSON parse failed.';
+    	    } else if (exception === 'timeout') {
+    	        msg = 'Time out error.';
+    	    } else if (exception === 'abort') {
+    	        msg = 'Ajax request aborted.';
+    	    } else {
+    	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+    	    }
+    	    console.log(msg);
+     }
         function addFinancialRow() {
         	var rowNo = $("#rowNo").val();
             var No = Number(rowNo)+1;
             
             var html = ' <tr id="financialRow' + No + '"> <input type="hidden" name= "IDs" id="IDs'+No+'" />'+
-            '<td data-head="Month" class="input-field"> <input id="months' + No + '"  name="months" type="month" class="validate" placeholder="Select Month">' +
+            	'<td data-head="Month" class="input-field"> <input id="months' + No + '"  name="months" type="month" class="validate" placeholder="Select Month">' +
                 '<span id="month' + No + 'Error" class="error-msg"></span></td >'+
                 '<td data-head="Planned Invoicing" class="input-field"> <i class="material-icons prefix center-align">₹</i>' +
-                '<input id="planned_invoices' + No + '" type="number" step="0.01" min="0.01" class="validate" name="planneds" placeholder="Planned Invoicing">' +
+                '<input id="planned_invoice' + No + '" type="number" step="0.01" min="0.01" class="validate" name="planneds" placeholder="Planned Invoicing">' +
                 '<span id="planned_invoice' + No + 'Error" class="error-msg"></span> </td>'+
-                '<td class="responsive_units"> <select class="units validate-dropdown searchable" id="planned_invoice'+No+'_units" name="planned_invoice_unitss"> '+
-                '<option value="">Select</option> <c:forEach var="obj" items="${unitsList }"> <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option> </c:forEach> </select> '+
+                '<td class="responsive_units"> <select class="units validate-dropdown searchable" id="planned_invoice'+No+'_units" name="planned_units"> '+
+                '<option value="">Select</option>'
+	                <c:forEach var="obj" items="${unitsList }"> 
+	                	+'<option value="${obj.value }">${obj.unit }</option> '
+	                </c:forEach>
+                +'</select> '+
                 '<span id="planned_invoice_units'+No+'Error" class="my-error"></span> </td>'+
                 '<td data-head="Actual Invoicing" class="input-field"><i class="material-icons prefix center-align">₹</i><input id="actual_invoices' + No + '" type="number" step="0.01" min="0.01" class="validate" name="actuals" placeholder="Actual Invoicing">' +
                 '<span id="actual_invoice' + No + 'Error" class="error-msg"></span> </td> '+
-                '<td class="responsive_units"> <select class="units validate-dropdown searchable" id="actual_invoices' + No + '_units" name="actual_invoices_unitss"> <option value="">Select</option>'+
-                '<c:forEach var="obj" items="${unitsList }"> <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option> </c:forEach> </select>'+
-                '<span id="actual_invoice_units${index.count}Error" class="my-error"></span></td>'+
-                '<td data-head="Payment Received" class="input-field"><i class="material-icons prefix center-align">₹</i>' +
+                '<td class="responsive_units"> <select class="units validate-dropdown searchable" id="actual_invoices' + No + '_units" name="actual_units">'+
+                ' <option value="">Select</option>'
+               		 <c:forEach var="obj" items="${unitsList }"> 
+                		+'<option value="${obj.value }">${obj.unit }</option>'
+                	  </c:forEach>
+                +'</select><span id="actual_invoice_units' + No + 'Error" class="my-error"></span></td>'
+                +'<td data-head="Payment Received" class="input-field"><i class="material-icons prefix center-align">₹</i>' +
                 '<input id="payment_receiveds' + No + '" type="number" step="0.01" min="0.01" class="validate" name="payment_receiveds" placeholder="Payment Received">' +
                 '<span id="payment_received' + No + 'Error" class="error-msg"></span></td>'+
-                '<td class="responsive_units"> <select class="units validate-dropdown searchable" id="payment_receiveds' + No + '_units" name="payment_receiveds_unitss"> <option value="">Select</option>'+
-                '<c:forEach var="obj" items="${unitsList }"> <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option> </c:forEach> </select>'+
-                '<span id="payment_receiveds_units${index.count}Error" class="my-error"></span></td>'+
+                '<td class="responsive_units"> <select class="units validate-dropdown searchable" id="payment_receiveds' + No + '_units" name="payment_received_units"> '+
+                '<option value="">Select</option>'
+	                <c:forEach var="obj" items="${unitsList }"> 
+	                	+'<option value="${obj.value }">${obj.unit }</option>'
+	                </c:forEach>
+                +'</select><span id="payment_received_units' + No + 'Error" class="my-error"></span></td>'+
                 '<td class="mobile_btn_close"> <a onclick="removeFinancial('+ No +');" class="btn waves-effect waves-light red t-c "> ' +
                 '<i class="fa fa-close"></i></a></td></tr>';
                 $('#financialTableBody').append(html);
 				$("#rowNo").val(No);
 				$('.searchable').select2();
+				
+			  $('#planned_invoice'+ No +'_units').on('change', function(e){
+	            	 if($.trim($('#planned_invoice'+ No +'_units').val()) != ""){
+	            		 $('#planned_invoice_units'+No+'Error').text('');
+	            	 }
+	           });
+			  $('#actual_invoices' + No + '_units').on('change', function(e){
+	            	 if($.trim($('#actual_invoices'+ No +'_units').val()) != ""){
+	            		 $('#actual_invoice_units'+No+'Error').text('');
+	            	 }
+	           });
+			  $('#payment_receiveds'+ No +'_units').on('change', function(e){
+	            	 if($.trim($('#payment_receiveds'+ No +'_units').val()) != ""){
+	            		 $('#payment_received_units'+No+'Error').text('');
+	            	 }
+	           });
         }
         
         function removeFinancial(rowNo){
@@ -523,24 +544,36 @@
         }
         
         function addTAFinancial(){
-        	if(validator.form()){ // validation perform
-	        	$(".page-loader").show();	    		
-	        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=planneds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=actuals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=payment_receiveds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			document.getElementById("taFinancialForm").submit();	
+        	var flag = validateTAFinancial();
+        	if(flag){
+	        	if(validator.form()){ // validation perform
+		        	$(".page-loader").show();	    		
+		        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=planneds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=actuals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=planned_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=actual_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=payment_received_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=payment_receiveds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			document.getElementById("taFinancialForm").submit();	
+	        	}
         	}
         }
         
         function updateTAFinancial(){
-        	if(validator.form()){ // validation perform
-	        	$(".page-loader").show();	    		
-	        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=planneds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=actuals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=payment_receiveds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			document.getElementById("taFinancialForm").submit();	
+        	var flag = validateTAFinancial();
+        	if(flag){
+	        	if(validator.form()){ // validation perform
+		        	$(".page-loader").show();	    		
+		        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=planneds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=actuals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=planned_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=actual_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=payment_received_units]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			$('form input[name=payment_receiveds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+		  			document.getElementById("taFinancialForm").submit();	
+	        	}
         	}
         }
         
@@ -606,7 +639,98 @@
        	        $(this).valid();
        	    }
        	});
-    </script>
+           
+           
+       function validateTAFinancial(){
+		var flag = true;
+		$("input[name=planneds]").each(function(){
+			var idNo = (this.id).replace('planned_invoice','');
+			var planned_units = $('#planned_invoice'+idNo+'_units').val();
+			var planned_invoice = $("#planned_invoice"+idNo).val();
+			if($.trim(planned_invoice) == ""){$('#planned_invoice'+idNo+'_units').val("");}
+			if(idNo === ""){
+       				idNo = 0;
+       		}
+       		if($.trim(planned_units) == "" && planned_invoice != ""){
+				$('#planned_invoice_units'+idNo+'Error').text('Requried');
+				$('#planned_invoice'+idNo+'_units').slideDown(100,function(){
+					$(this).focus();
+				});
+				flag = false;
+			}
+		});
+		$("input[name=actuals]").each(function(){
+       		var idNo = (this.id).replace('actual_invoices','');
+       		var actual_invoices_units = $('#actual_invoices'+idNo+'_units').val();
+       		var actual_invoices = $("#actual_invoices"+idNo).val();
+			if($.trim(actual_invoices) == ""){$('#actual_invoices'+idNo+'_units').val("");}
+       		if(idNo === ""){
+       				idNo = 0;
+       		}
+       		if($.trim(actual_invoices_units) == "" && actual_invoices != ""){
+				$('#actual_invoice_units'+idNo+'Error').text('Requried');
+				$('#actual_invoices'+idNo+'_units').slideDown(100,function(){
+					$(this).focus();
+				});
+				flag = false;
+			}
+		});
+		$("input[name=payment_receiveds]").each(function(){                       
+       		var idNo = (this.id).replace('payment_receiveds','');
+       		var payment_received_units = $('#payment_receiveds'+idNo+'_units').val();
+       		var payment_receiveds = $("#payment_receiveds"+idNo).val();
+			if($.trim(payment_receiveds) == ""){$('#payment_receiveds'+idNo+'_units').val("");}
+       		if(idNo === ""){
+       				idNo = 0;
+       		}
+       		if( $.trim(payment_received_units) == "" && payment_receiveds != ""){
+				$('#payment_received_units'+idNo+'Error').text('Requried');
+				$('#payment_receiveds'+idNo+'_units').slideDown(100,function(){
+					$(this).focus();
+				});
+				flag = false;
+			} 
+		});
+		return flag;
+	}
+	
+	$('select[name=planned_units]').change(function(key, element){
+		$("input[name=planneds]").each(function(){
+			var idNo = (this.id).replace('planned_invoice',''); 
+       		if($.trim(this.value) == "" && $('#planned_invoice'+idNo).val() != ""){ 
+       			$('#planned_invoice_units'+idNo+'Error').text('Requried');
+			}else{
+				$('#planned_invoice_units'+idNo+'Error').text('');
+			}
+           });
+		
+	});
+	$('select[name=actual_units]').change(function(key, element){
+		
+		$("input[name=actuals]").each(function(){
+			var idNo = (this.id).replace('actual_invoices','');
+       		if($.trim(this.value) == "" && $('#actual_invoices'+idNo).val() != ""){
+       			$('#actual_invoice_units'+idNo+'Error').text('Requried');
+			}else{
+				$('#actual_invoice_units'+idNo+'Error').text('');
+			}
+           });
+		
+	});
+	$('select[name=payment_received_units]').change(function(key, element){
+		
+		$("input[name=payment_receiveds]").each(function(){
+			var idNo = (this.id).replace('payment_receiveds','');
+       		if($.trim(this.value) == "" && $('#payment_receiveds'+idNo).val() != ""){
+       			$('#payment_received_units'+idNo+'Error').text('Requried');
+       			
+			}else{
+				$('#payment_received_units'+idNo+'Error').text('');
+			}
+           });
+		
+	});
+   </script>
 
 </body>
 

@@ -393,7 +393,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		String color = "";
 		try {	
 			String qry = " select (case "  
-					+" when ((select count(*) from activities s1 where s1.scope - s1.completed <> 0 "
+					+" when ((select count(*) from activities s1 where s1.scope - IFNULL(s1.completed,0) <> 0 "
 					+ " and s1.contract_id_fk = ? and s1.structure = ? and s1.component_id = ? and s1.component = ? ";
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 						qry = qry + " and s1.line = ?";
@@ -411,7 +411,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					//	qry = qry + " and s2.section = ?";
 					//}	
 					//qry = qry + ") < CURDATE() ) > 0) then 'delayed' "  
-					+" when ((select count(*) from activities s3 where s3.completed = 0 and scope <> 0 "
+					+" when ((select count(*) from activities s3 where IFNULL(s3.completed,0) = 0 and scope <> 0 "
 					+ "and s3.contract_id_fk = ? and s3.structure = ? and s3.component_id = ? and s3.component = ? ";
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 						qry = qry + " and s3.line = ?";
@@ -483,7 +483,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		try {
 			String qry = "select activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name "
 					+ "from activities "
-					+ "where activity_id is not null and scope <> completed  "
+					+ "where activity_id is not null and scope <> IFNULL(completed,0)  "
 					+ "and component_id = ? and structure = ? and component = ? ";
 			int arrSize = 2;			
 			

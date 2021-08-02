@@ -160,7 +160,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		                    ps.setString(p++, insertList.get(i).getUnit());
 		                    ps.setString(p++, insertList.get(i).getScope());
 		                    
-		                    ps.setString(p++, insertList.get(i).getCompleted());
+		                    ps.setString(p++, !StringUtils.isEmpty(insertList.get(i).getCompleted())?insertList.get(i).getCompleted():"0");
 		                    ps.setString(p++, insertList.get(i).getWeightage());
 		                    ps.setString(p++, insertList.get(i).getComponent_details());	
 		                    ps.setString(p++, insertList.get(i).getRemarks());
@@ -188,7 +188,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			                ps.setString(p++, updateList.get(i).getUnit());
 			                ps.setString(p++, updateList.get(i).getScope());
 			                
-			                ps.setString(p++, updateList.get(i).getCompleted());
+			                ps.setString(p++, !StringUtils.isEmpty(updateList.get(i).getCompleted())?updateList.get(i).getCompleted():"0");
 			                ps.setString(p++, updateList.get(i).getWeightage());
 			                ps.setString(p++, updateList.get(i).getComponent_details());	
 			                ps.setString(p++, updateList.get(i).getRemarks());

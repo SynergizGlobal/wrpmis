@@ -171,7 +171,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		try {
 			String qry = "select s.structure as strip_chart_structure_id_fk from activities s "
 					+ "where s.structure is not null and s.structure <> '' and s.contract_id_fk = ? "
-					+ "and (select count(*) from activities s1 where s1.scope <> s1.completed and s1.contract_id_fk = ? "
+					+ "and (select count(*) from activities s1 where s1.scope <> IFNULL(s1.completed,0) and s1.contract_id_fk = ? "
 					+ "and s1.structure = s.structure) > 0 ";
 			qry = qry + "group by s.structure ";
 			

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.ProgressApprovalService;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Activity;
@@ -33,14 +35,19 @@ public class ProgressApprovalController {
 	@Autowired
 	ProgressApprovalService service;
 	
+	@Autowired
+	IssueService issueService;
+	
 	@Value("${common.error.message}")
 	public String commonError;
 	
 	@RequestMapping(value="/progress-approval-page",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView progressApprovalPage(){		
+	public ModelAndView progressApprovalPage(@ModelAttribute Activity obj){		
 		 ModelAndView model = new ModelAndView(PageConstants2.approveActivityProgress);	    
 	     try {
-	    	
+	    	if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMessage_id())) {
+				boolean flag = issueService.readIssueMessage(obj.getMessage_id());
+			}
 		 } catch (Exception e) {
 			logger.error("progressApprovalPage() : "+e.getMessage());
 		 }

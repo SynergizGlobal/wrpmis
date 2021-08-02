@@ -376,7 +376,7 @@
 	                    if (data.length > 0) {
 	                        $.each(data, function (i, val) {
 	                            var workName = '';
-	                            if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+	                            if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
 	                            $("#work_id").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
 	                        });
 	                    }
@@ -418,7 +418,7 @@
 	                    if (data.length > 0) {
 	                        $.each(data, function (i, val) {
 	                        	var contract_name = '';
-	                            if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+	                            if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
 	                            $("#contract_id").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
 	                        });
 	                    }

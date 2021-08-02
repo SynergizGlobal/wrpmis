@@ -323,7 +323,8 @@
                             </c:if>
                             
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2" id="construction_start_dateDiv" style="display: none;">
+                             	<div class="col m2 hide-on-small-only"></div>
+                                <div class="col s6 m4 input-field " id="construction_start_dateDiv" style="display: none;">
                                     <input id="construction_start_date" name="construction_start_date" type="text" class="validate datepicker" value="${fob.construction_start_date }" <c:if test="${not empty fob.construction_start_date}">disabled</c:if>>
                                     <label for="construction_start_date" class="fs-sm-8rem">Construction Start Date </label>
                                     <button type="button" id="construction_start_date_icon"><i class="fa fa-calendar"></i></button>
@@ -334,7 +335,8 @@
                                     <label for="revised_completion" class="fs-sm-8rem">Target completion Date </label>
                                     <button type="button" id="revised_completion_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="revised_completionError" class="error-msg" ></span>
-                                </div>                                
+                                </div> 
+                                <div class="col m2 hide-on-small-only"></div>                               
                             </div>
                             
 							<c:if test="${action eq 'edit'}">

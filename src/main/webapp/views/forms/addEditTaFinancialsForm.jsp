@@ -12,6 +12,7 @@
      	 <c:if test="${action eq 'edit'}">Update TA Financial - Update Forms - PMIS</c:if>
 		 <c:if test="${action eq 'add'}">Add TA Financial - Update Forms - PMIS</c:if>
     </title>
+    <link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
@@ -88,18 +89,31 @@
 			position: relative;
     		font-size: 0.85rem;
 		}
-		.m-b-2{
-			margin-bottom:2rem;
+		.select2-container--default .select2-selection--single{
+			background-color:transparent;
 		}
-		.row.no-mar{
-			margin-bottom:0
+		/* responsive_units styling starts */
+		.responsive_units {
+			min-width:50px;			
 		}
-		@media only screen and (max-width: 768px){
+		.responsive_units > .select2-container{
+			max-width:50px !important;
+		}
+		/* responsive_units styling ends */
+		@media only screen and (max-width: 769px){
 			input[type="month"]{
 				width: -webkit-fill-available;
 				height:40px;
 				box-shadow:inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff !important;
 			}
+			.responsive_units > .select2-container{
+				max-width:inherit !important;
+			}
+		}
+		
+		.select2-container--open >.select2-dropdown.select2-dropdown--below,
+		.select2-container--open >.select2-dropdown.select2-dropdown--above{
+			width:auto !important;
 		}
     </style>
 </head>
@@ -174,7 +188,7 @@
                            </c:if>
                         </div>
                         <div class="row no-mar">
-                            <div class="col s12 m8 offset-m2">
+                            <div class="col s12 m10 offset-m1">
                                 <div class="row fixed-width">
                                     <h5 class="center-align">TA Financial Details</h5>
                                     <div class="table-inside">
@@ -183,8 +197,11 @@
                                                 <tr>
                                                     <th>Month </th>
                                                     <th>Planned Invoicing </th>
+                                                    <th>Unit</th>
                                                     <th>Actual Invoicing </th>
+                                                    <th>Unit</th>
                                                     <th>Payment Received </th>
+                                                    <th>Unit</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -206,6 +223,15 @@
 	                                                            placeholder="Planned Invoicing">
 	                                                        <span id="planned_invoice${index.count }Error" class="error-msg"></span>
 	                                                    </td>
+	                                                    <td class="responsive_units">
+						                                	<select class="units validate-dropdown searchable" id="planned_invoice${index.count }_units" name="planned_invoice_unitss">
+						                                		<option value="">Select</option>
+						                                		<c:forEach var="obj" items="${unitsList }">
+			                                    			      <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+			                                     			    </c:forEach>
+						                                	</select>
+					                                		<span id="planned_invoice_units${index.count }Error" class="my-error"></span>
+                                                		</td>
 	                                                    <td data-head="Actual Invoicing" class="input-field">
 	                                                        <i class="material-icons prefix center-align">₹</i>
 	                                                        <input id="actual_invoices${index.count }" type="number" step="0.01" min="0.01" value="${sObj.actual }"
@@ -213,6 +239,15 @@
 	                                                            placeholder="Actual Invoicing">
 	                                                        <span id="actual_invoice${index.count }Error" class="error-msg"></span>
 	                                                    </td>
+	                                                    <td class="responsive_units">
+						                                	<select class="units validate-dropdown searchable" id="actual_invoices${index.count }_units" name="actual_invoices_unitss">
+						                                		<option value="">Select</option>
+						                                		<c:forEach var="obj" items="${unitsList }">
+			                                    			      <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+			                                     			    </c:forEach>
+						                                	</select>
+					                                		<span id="actual_invoice_units${index.count}Error" class="my-error"></span>
+                                                		</td>
 	                                                    <td data-head="Payment Received" class="input-field">
 	                                                        <i class="material-icons prefix center-align">₹</i>
 	                                                        <input id="payment_receiveds${index.count }" type="number" step="0.01" value="${sObj.payment_received }"
@@ -220,6 +255,15 @@
 	                                                            placeholder="Payment Received">
 	                                                        <span id="payment_received${index.count }Error" class="error-msg"></span>
 	                                                    </td>
+	                                                    <td class="responsive_units">
+						                                	<select class="units validate-dropdown searchable" id="payment_receiveds${index.count }_units" name="payment_receiveds_unitss">
+						                                		<option value="">Select</option>
+						                                		<c:forEach var="obj" items="${unitsList }">
+			                                    			      <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+			                                     			    </c:forEach>
+						                                	</select>
+					                                		<span id="payment_receiveds_units${index.count}Error" class="my-error"></span>
+                                                		</td>
 	                                                    <td class="mobile_btn_close">
 	                                                        <a onclick="removeFinancial('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
 	                                                                class="fa fa-close"></i></a>
@@ -240,6 +284,15 @@
 	                                                            placeholder="Planned Invoicing">
 	                                                        <span id="planned_invoice0Error" class="error-msg"></span>
 	                                                    </td>
+	                                                    <td class="responsive_units">
+														    <select class="units validate-dropdown searchable" id="planned_invoice0_units" name="planned_invoice_unitss">
+														        <option value="">Select</option>
+														        <c:forEach var="obj" items="${unitsList }">
+														          <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+														         </c:forEach>
+														    </select>
+														    <span id="planned_invoice_units0Error" class="my-error"></span>
+														</td>
 	                                                    <td class="input-field" data-head="Actual Invoicing">
 	                                                        <i class="material-icons prefix center-align">₹</i>
 	                                                        <input id="actual_invoices0" type="number" step="0.01" min="0.01"
@@ -247,6 +300,15 @@
 	                                                            placeholder="Actual Invoicing">
 	                                                        <span id="actual_invoice0Error" class="error-msg"></span>
 	                                                    </td>
+	                                                    <td class="responsive_units">
+														    <select class="units validate-dropdown searchable" id="actual_invoices0_units" name="actual_invoices_unitss">
+														        <option value="">Select</option>
+														        <c:forEach var="obj" items="${unitsList }">
+														          <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+														         </c:forEach>
+														    </select>
+														    <span id="actual_invoice_units0Error" class="my-error"></span>
+														</td>
 	                                                    <td class="input-field" data-head="Payment Received">
 	                                                        <i class="material-icons prefix center-align">₹</i>
 	                                                        <input id="payment_receiveds0" type="number" step="0.01"
@@ -254,6 +316,15 @@
 	                                                            placeholder="Payment Received">
 	                                                        <span id="payment_received0Error" class="error-msg"></span>
 	                                                    </td>
+	                                                    <td class="responsive_units">
+														    <select class="units validate-dropdown searchable" id="payment_receiveds0_units" name="payment_receiveds_unitss">
+														        <option value="">Select</option>
+														        <c:forEach var="obj" items="${unitsList }">
+														          <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+														         </c:forEach>
+														    </select>
+														    <span id="payment_receiveds_units0Error" class="my-error"></span>
+														</td>
 	                                                    <td class="mobile_btn_close">
 	                                                        <a onclick="removeFinancial('0');" class="btn waves-effect waves-light red t-c "> <i
 	                                                                class="fa fa-close"></i></a>
@@ -272,8 +343,8 @@
 		                                        </tbody>
                                    		   </table>
                                    		   <c:choose>
-		                                        <c:when test="${not empty taFinancials && fn:length(taFinancialDetails.taFinancials) gt 0 }">
-		                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(taFinancialDetails.taFinancials) }" />
+		                                        <c:when test="${fn:length(taFinancialDetails.taFinancials) gt 0 }">
+		                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(taFinancialDetails.taFinancials)}"/>
 		                                    	</c:when>
 		                                     	<c:otherwise>
 		                                     		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
@@ -338,7 +409,7 @@
     <script>
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
-            $('.searchable').select2();
+            $('.searchable').select2({readonly: true});
             // $('#textarea1,#textarea2,#textarea3').characterCounter();
             $("#funding_date").datepicker();
 
@@ -419,21 +490,32 @@
         function addFinancialRow() {
         	var rowNo = $("#rowNo").val();
             var No = Number(rowNo)+1;
-             
+            
             var html = ' <tr id="financialRow' + No + '"> <input type="hidden" name= "IDs" id="IDs'+No+'" />'+
             '<td data-head="Month" class="input-field"> <input id="months' + No + '"  name="months" type="month" class="validate" placeholder="Select Month">' +
                 '<span id="month' + No + 'Error" class="error-msg"></span></td >'+
                 '<td data-head="Planned Invoicing" class="input-field"> <i class="material-icons prefix center-align">₹</i>' +
                 '<input id="planned_invoices' + No + '" type="number" step="0.01" min="0.01" class="validate" name="planneds" placeholder="Planned Invoicing">' +
                 '<span id="planned_invoice' + No + 'Error" class="error-msg"></span> </td>'+
+                '<td class="responsive_units"> <select class="units validate-dropdown searchable" id="planned_invoice'+No+'_units" name="planned_invoice_unitss"> '+
+                '<option value="">Select</option> <c:forEach var="obj" items="${unitsList }"> <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option> </c:forEach> </select> '+
+                '<span id="planned_invoice_units'+No+'Error" class="my-error"></span> </td>'+
                 '<td data-head="Actual Invoicing" class="input-field"><i class="material-icons prefix center-align">₹</i><input id="actual_invoices' + No + '" type="number" step="0.01" min="0.01" class="validate" name="actuals" placeholder="Actual Invoicing">' +
-                '<span id="actual_invoice' + No + 'Error" class="error-msg"></span> </td> <td data-head="Payment Received" class="input-field"><i class="material-icons prefix center-align">₹</i>' +
+                '<span id="actual_invoice' + No + 'Error" class="error-msg"></span> </td> '+
+                '<td class="responsive_units"> <select class="units validate-dropdown searchable" id="actual_invoices' + No + '_units" name="actual_invoices_unitss"> <option value="">Select</option>'+
+                '<c:forEach var="obj" items="${unitsList }"> <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option> </c:forEach> </select>'+
+                '<span id="actual_invoice_units${index.count}Error" class="my-error"></span></td>'+
+                '<td data-head="Payment Received" class="input-field"><i class="material-icons prefix center-align">₹</i>' +
                 '<input id="payment_receiveds' + No + '" type="number" step="0.01" min="0.01" class="validate" name="payment_receiveds" placeholder="Payment Received">' +
                 '<span id="payment_received' + No + 'Error" class="error-msg"></span></td>'+
+                '<td class="responsive_units"> <select class="units validate-dropdown searchable" id="payment_receiveds' + No + '_units" name="payment_receiveds_unitss"> <option value="">Select</option>'+
+                '<c:forEach var="obj" items="${unitsList }"> <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option> </c:forEach> </select>'+
+                '<span id="payment_receiveds_units${index.count}Error" class="my-error"></span></td>'+
                 '<td class="mobile_btn_close"> <a onclick="removeFinancial('+ No +');" class="btn waves-effect waves-light red t-c "> ' +
                 '<i class="fa fa-close"></i></a></td></tr>';
                 $('#financialTableBody').append(html);
-				$("#rowNo").val(rNo);
+				$("#rowNo").val(No);
+				$('.searchable').select2();
         }
         
         function removeFinancial(rowNo){

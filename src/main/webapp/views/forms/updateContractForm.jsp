@@ -243,30 +243,30 @@
 		/* cost unit dropdown , lable and input styling ends here  */
 		
 		/* special columns of revision table css starts here  */
-		.light-blue_column{
+		/* .light-green_column {
 			background-color:#CFDBF2
 		}
-		.light-green_column{
+		.light-green_column {
 			background-color:#DFF7F4
-		}			
-		th.light-blue_column{
+		}	 */		
+		th.light-blue_column {
 			color:#444 !important;
 			background-color:#7DBCC1;
 		}	
-		th.light-green_column{
+		th.light-green_column {
 			color:#444 !important;
 			background-color:#85CAC2;
 		}
-		tr:hover td.light-blue_column{
+	/* 	tr:hover td. {
 			background-color:hsl(219, 57%, 92%)
 		}
-		tr:hover td.light-green_column{
+		tr:hover td. {
 			background-color:hsl(173, 60%, 96%)
-		}		
-		.light-blue_column input[type="number"]::placeholder ,
-		.light-green_column input[type="text"].datepicker::placeholder{
+		} */		
+		/* .  input[type="number"]::placeholder ,
+		.  input[type="text"].datepicker::placeholder{
             color: #bbb;
-        }
+        } */
         .p-h-0{
         	padding-left:0 !important;
         	padding-right:10px !important;
@@ -1247,11 +1247,11 @@
                                         <thead>
                                             <tr>
                                                 <th>Revision Number <span class="required">*</span></th>
-                                                <th class="light-blue_column">Revised Amount </th>
+                                                <th class="light-blue_column">Revised Contract Value </th>
                                                 <th class="light-blue_column">Unit</th>
                                                 <th class="light-blue_column p-h-0">Current</th>
                                                 <th class="light-green_column">Revised DOC </th>
-                                                <th class="light-green_column p-h-0">Current</th>
+                                                <th class="light-green_column  p-h-0">Current</th>
                                                 <th>Remarks </th>
                                                 <th>Action</th>
                                             </tr>
@@ -1265,12 +1265,12 @@
                                                 <td data-head="Revision Number " class="input-field"> <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" value="${revObj.revision_number }"
                                                         placeholder="Revision Number">
                                                 </td>
-                                                <td data-head="Revised Amount " class="input-field light-blue_column">
+                                                <td data-head="Revised Amount " class="input-field ">
                                                 		<i class="material-icons prefix cost left-align">₹</i>
                                                     	<input id="revised_amounts${index.count }" name="revised_amounts" min="0.01" step="0.01" type="number" onkeyup="toggleRevision('amounts', ${index.count })" class="validate" value="${revObj.revised_amount }"
                                                         placeholder="Revised Amount">
                                                  </td>
-                                                 <td class="responsive_units light-blue_column">
+                                                 <td class="responsive_units  ">
                                                    <!--  <div class="col s3 pt-14"> -->
 					                                	<select class="units validate-dropdown" id="revised_amounts_units${index.count }" name="revised_amount_unitss">
 					                                		<option value="">Select</option>
@@ -1281,7 +1281,7 @@
 					                                	<span id="units${index.count }Error" class="my-error"></span>
                                                    <!--  </div> -->
                                                 </td>
-                                                 <td data-head="Current" class="input-field light-blue_column p-h-0">	
+                                                 <td data-head="Current" class="input-field  p-h-0">	
                                                  	<p>
                                                  	<label> 
                                                   	   <input type="hidden" class="hidden_check hidden_amount" id="revision_amounts_statuss${index.count }" name="revision_amounts_statuss" value="${revObj.revision_amounts_status}" />
@@ -1291,12 +1291,12 @@
                                                 			<span></span> 
                                                 	</label></p>
                                                 </td>
-                                                <td data-head="Revised DOC " class="input-field light-green_column">
+                                                <td data-head="Revised DOC " class="input-field ">
                                                     <input id="revised_docs${index.count }" name="revised_docs" type="text" class="validate datepicker" value="${revObj.revised_doc }"
                                                        onchange="toggleRevision('docs', ${index.count })"  placeholder="Revised DOC">
                                                     <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
-                                                 <td data-head="Current" class="input-field light-green_column p-h-0">	
+                                                 <td data-head="Current" class="input-field  p-h-0">	
                                                  	<p>
                                                  	<label> 
                                                  		<input type="hidden" class="hidden_check hidden_doc" id="revision_statuss${index.count }" name="revision_statuss" value="${revObj.revision_status}" />
@@ -1385,11 +1385,11 @@
                                                 <td data-head="Revision Number " class="input-field"> <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
                                                         placeholder="Revision Number">
                                                 </td>
-                                                <td data-head="Revised Amount " class="input-field light-blue_column">
+                                                <td data-head="Revised Amount " class="input-field  ">
                                                 		<i class="material-icons prefix cost left-align">₹</i>
                                                     	<input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" onkeyup="toggleRevision('amounts', '0')"  placeholder="Revised Amount">
                                                 </td>
-                                                <td class="responsive_units light-blue_column"> 
+                                                <td class="responsive_units  "> 
                                                     <!-- div class="col s3 pt-14"> -->
 					                                	<select class="units validate-dropdown" id="revised_amounts_units0" name="revised_amount_unitss">
 					                                		<option value="">Select</option>
@@ -1400,7 +1400,7 @@
 					                                	<span id="units0Error" class="my-error"></span>
                                                     <!-- </div> -->
                                                 </td>
-                                                <td data-head="Current" class="input-field light-blue_column p-h-0">	
+                                                <td data-head="Current" class="input-field   p-h-0">	
                                                  	<p>
                                                  	<label> 
                                                  		<input type="hidden" id="revision_amounts_statuss0" name="revision_amounts_statuss" class="hidden_check hidden_amount" value="No" />
@@ -1409,12 +1409,12 @@
 	                                                	<span></span> 
                                                 	</label></p>
                                                 </td>
-                                                <td data-head="Revised DOC " class="input-field light-green_column">
+                                                <td data-head="Revised DOC " class="input-field  ">
                                                     <input id="revised_docs0" name="revised_docs" type="text" class="validate datepicker" 
                                                        onchange="toggleRevision('docs', '0' )"  placeholder="Revised DOC">
                                                    <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td> 
-                                                <td data-head="Current" class="input-field light-green_column p-h-0"><p><label><input type="hidden" id="revision_statuss0" name="revision_statuss" class="hidden_check hidden_doc" value="No" />
+                                                <td data-head="Current" class="input-field   p-h-0"><p><label><input type="hidden" id="revision_statuss0" name="revision_statuss" class="hidden_check hidden_doc" value="No" />
                                                  <input type="checkbox" id="revision_status0"  onchange="revisionChecks('docs','0')" class="revision_doc_status"  disabled />  <span></span> </label></p>
                                                  	</td>      
                                                
@@ -2733,18 +2733,18 @@
 		    var total = 0;
 		    var html = '<tr id="revRow'+rNo+'">'
 			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
-			   +'<td data-head="Revised Amount " class="input-field light-blue_column"> <i class="material-icons prefix cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
-			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" onkeyup="toggleRevision(' + '\'amounts\'' + ',' + rNo + ')"  placeholder="Revised Amount"> </td><td class="responsive_units light-blue_column"> <select class="units validate-dropdown " id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
+			   +'<td data-head="Revised Amount " class="input-field  "> <i class="material-icons prefix cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
+			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" onkeyup="toggleRevision(' + '\'amounts\'' + ',' + rNo + ')"  placeholder="Revised Amount"> </td><td class="responsive_units  "> <select class="units validate-dropdown " id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
 			   +'<option value="">Select</option>'
 			   <c:forEach var="obj" items="${unitsList }">
 		     	 +'<option value="${obj.value }">${obj.unit }</option>'
 			   </c:forEach>			  
 		       +'</select> <span id="units'+rNo+'Error" class="my-error"></span></div> </td>'
-		       +'<td data-head="Current" class="input-field light-blue_column p-h-0"> <p> <label><input type="hidden" id="revision_amounts_statuss'+rNo+'"  name="revision_amounts_statuss" class="hidden_check hidden_amount" value="No" /> '
+		       +'<td data-head="Current" class="input-field   p-h-0"> <p> <label><input type="hidden" id="revision_amounts_statuss'+rNo+'"  name="revision_amounts_statuss" class="hidden_check hidden_amount" value="No" /> '
 		       +'<input type="checkbox"  id="revision_amounts_status'+rNo+'" disabled onchange="revisionChecks(' + '\'amounts\'' + ',' + rNo + ')" class="revision_amount_status"/> <span></span> </label> </p> </td> '
-			   +'<td data-head="Revised DOC" class="input-field light-green_column"><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker" onchange="toggleRevision(' + '\'docs\'' + ',' + rNo + ')"  placeholder="Revised DOC">'
+			   +'<td data-head="Revised DOC" class="input-field  "><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker" onchange="toggleRevision(' + '\'docs\'' + ',' + rNo + ')"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
-			   +'<td data-head="Current" class="input-field light-green_column p-h-0"><p><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check hidden_doc" value="No" /><input type="checkbox" class="revision_doc_status" disabled onchange="revisionChecks(' + '\'docs\'' + ',' + rNo + ')"  id="revision_status'+rNo+'" /> <span></span> </label></p></td>'
+			   +'<td data-head="Current" class="input-field   p-h-0"><p><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check hidden_doc" value="No" /><input type="checkbox" class="revision_doc_status" disabled onchange="revisionChecks(' + '\'docs\'' + ',' + rNo + ')"  id="revision_status'+rNo+'" /> <span></span> </label></p></td>'
 			   +'<td data-head="Remarks" class="input-field"> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
 		 	   +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			   +'</tr>';

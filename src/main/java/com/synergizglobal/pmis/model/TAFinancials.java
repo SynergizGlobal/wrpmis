@@ -4,12 +4,80 @@ import java.util.List;
 
 public class TAFinancials {
 	
-	private String work_id_fk, ID,project_id_fk, work_name,contract_name,contract_id_fk,contract_short_name,work_short_name,financial_id, contract_id,month, planned, actual, ta_contract_id_fk,payment_received;
+	private String work_id_fk, ID,project_id_fk, work_name,contract_name,contract_id_fk,contract_short_name, unit, value,work_short_name,financial_id, 
+	contract_id,month, planned, actual, ta_contract_id_fk,payment_received, planned_unit,actual_unit,payment_unit;
 
-	private String[] IDs, months, planneds, actuals, payment_receiveds;
+	private String[] IDs, months, planneds, actuals, payment_receiveds, planned_units, actual_units, payment_received_units;
 	
 	private List<TAFinancials> taFinancials;
-	
+
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+
+
+	public String getPlanned_unit() {
+		return planned_unit;
+	}
+
+	public void setPlanned_unit(String planned_unit) {
+		this.planned_unit = planned_unit;
+	}
+
+	public String getActual_unit() {
+		return actual_unit;
+	}
+
+	public void setActual_unit(String actual_unit) {
+		this.actual_unit = actual_unit;
+	}
+
+	public String getPayment_unit() {
+		return payment_unit;
+	}
+
+	public void setPayment_unit(String payment_unit) {
+		this.payment_unit = payment_unit;
+	}
+
+	public String[] getPlanned_units() {
+		return planned_units;
+	}
+
+	public void setPlanned_units(String[] planned_units) {
+		this.planned_units = planned_units;
+	}
+
+	public String[] getActual_units() {
+		return actual_units;
+	}
+
+	public void setActual_units(String[] actual_units) {
+		this.actual_units = actual_units;
+	}
+
+	public String[] getPayment_received_units() {
+		return payment_received_units;
+	}
+
+	public void setPayment_received_units(String[] payment_received_units) {
+		this.payment_received_units = payment_received_units;
+	}
+
 	public String getProject_id_fk() {
 		return project_id_fk;
 	}

@@ -75,4 +75,9 @@ public class TAFinancialsServiceImpl implements TAFinancialsService{
 			throws Exception {
 		return dao.getTAFinancialsList(obj,startIndex,offset,searchParameter);
 	}
+
+	@Override
+	public List<TAFinancials> getUnitsList() throws Exception {
+		return dao.getUnitsList();
+	}
 }

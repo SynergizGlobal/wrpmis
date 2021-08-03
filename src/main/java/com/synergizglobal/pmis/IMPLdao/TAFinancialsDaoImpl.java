@@ -557,8 +557,19 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 		}
 		return objsList;
 	}
-		
 
+	@Override
+	public List<TAFinancials> getUnitsList() throws Exception {
+
+		List<TAFinancials> objsList = null;
+		try {
+			String qry = "select id, unit, value from money_unit";			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 		
 		
 		

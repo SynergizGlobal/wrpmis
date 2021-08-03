@@ -222,6 +222,8 @@ public class TAFinancialsController {
 			model.addObject("worksList", worksList);
 			List<TAFinancials> contractsList = service.getContractsList();
 			model.addObject("contractsList", contractsList);
+			List<TAFinancials> unitsList = service.getUnitsList();
+			model.addObject("unitsList", unitsList);
 			
 		}catch (Exception e) {
 				logger.error("addTAFinancialsForm : " + e.getMessage());
@@ -239,6 +241,8 @@ public class TAFinancialsController {
 			model.addObject("worksList", worksList);
 			List<TAFinancials> contractsList = service.getContractsList();
 			model.addObject("contractsList", contractsList);
+			List<TAFinancials> unitsList = service.getUnitsList();
+			model.addObject("unitsList", unitsList);
 			TAFinancials taFinancialDetails = service.getTAFinancials(obj);
 			model.addObject("taFinancialDetails", taFinancialDetails);
 		

@@ -37,10 +37,10 @@
             /* Edge */
             color: #777;
         }
-        #session-table tbody tr td{
+       /*  #session-table tbody tr td{
         	vertical-align:top;
         }
-
+ 	   */
         .datepicker-table thead tr,
         .datepicker-table thead tr:hover,
         .datepicker-table tbody tr,
@@ -81,10 +81,13 @@
         .input-field .searchable_label {
             font-size: 0.9rem;
         }
-
+		input[type="text"].timepicker{
+			font-size:1rem;
+		}		
         .timepicker~button {
             position: absolute;
-            right: 15px;
+            /* right: 15px; */
+            right: 0;
             /* top: 32px; */
             top: 12px;
             border: 0;
@@ -332,7 +335,7 @@
 						<div class="row">
 							 
 							<div class="col s12 m8 input-field offset-m2">
-								<textarea id="title" name="title" class="materialize-textarea">${trainingDetails.title }</textarea>
+								<textarea id="title" name="title" class="pmis-textarea">${trainingDetails.title }</textarea>
 								<label for="title">Title <span class="required">*</span></label>
 								<span id="titleError" class="error-msg"></span>
 							</div>
@@ -341,7 +344,7 @@
 						<div class="row">
 							 
 							<div class="col s12 m8 input-field offset-m2">
-								<textarea id="description" name="description" class="materialize-textarea">${trainingDetails.description }</textarea>
+								<textarea id="description" name="description" class="pmis-textarea">${trainingDetails.description }</textarea>
 								<label for="description">Description <span class="required">*</span></label>
 								<span id="descriptionError" class="error-msg"></span>
 							</div>
@@ -354,7 +357,7 @@
 								<!-- <input id="training_center" type="text" class="validate" style="margin-top: 10px;">
                                     <label for="training_center"> Training Center </label> -->
 								<textarea id="training_center" name="training_center"
-									class="materialize-textarea">${trainingDetails.training_center }</textarea>
+									class="pmis-textarea">${trainingDetails.training_center }</textarea>
 								<label for="training_center">Training Center</label>
 							</div>
 							 
@@ -399,7 +402,7 @@
 															onclick="showNo(this);"> Update </a>
 															<div id="session-update-modal${index.count }" class="modal">
 																<div class="modal-content">
-																	<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4>
+																	<h5 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
 
 																	<div class="row fixed-width">
 																		<div class="table-inside">
@@ -598,9 +601,9 @@
 																						<td colspan="7" ><a type="button" class="btn waves-effect waves-light bg-m t-c "
 																							onclick="addTrainingUpdateRow('${tObj.training_session_id}','${index.count }')"> <i class="fa fa-plus"></i></a>
 																					</tr>
-																					<tr>
+																					<!-- <tr>
 																						<td colspan="7" ><a type="button" class="btn waves-effect waves-light bg-m t-c modal-action modal-close">Update</a>
-																					</tr>
+																					</tr> -->
 																				</tbody>
 																			</table>
 																			<c:choose>
@@ -694,7 +697,7 @@
 														<button type="button" id="start_time_icon0"><i class="fa fa-clock-o"></i></button></div></td>
 													<td data-head="End Time"  class="input-field"><div class="pos-rel"><input id="end_times0" name="end_times" type="text" class="validate timepicker" placeholder="End Time">
 														<button type="button" id="end_time_icon0"><i class="fa fa-clock-o"></i></button></div></td>
-													<td data-head="Attendees" class="input-field" ><a href="#session-update-modal0" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a>
+													<td data-head="Attendees" class="input-field attendees-column" ><a href="#session-update-modal0" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a>
 														<div id="session-update-modal0" class="modal">
 															<div class="modal-content">
 																<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4>
@@ -926,7 +929,7 @@
 							</div>
 							<div class="row">
 								 
-								<div class="col s12 m8 input-field offset-m2"><textarea id="issue_description" name="issue_description" class="materialize-textarea" data-length="500"></textarea>
+								<div class="col s12 m8 input-field offset-m2"><textarea id="issue_description" name="issue_description" class="pmis-textarea" data-length="500"></textarea>
 									<label for="issueDesc">Issue Description</label>
 								</div>
 							</div>
@@ -936,7 +939,7 @@
 							<!-- row 10 -->
 							 
 							<div class="col s12 m8 input-field offset-m2">
-								<textarea id="remarks" class="materialize-textarea" name="remarks" id="remarks" data-length="1000">${trainingDetails.remarks }</textarea>
+								<textarea id="remarks" class="pmis-textarea" name="remarks" id="remarks" data-length="1000">${trainingDetails.remarks }</textarea>
 								<label for="remarks">Remarks</label>
 							</div>
 						</div>
@@ -1325,7 +1328,7 @@
          	  '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></div> </td>' +
           '<td data-head="End Time" class="input-field"><div class="pos-rel"><input id="end_times'+ rNo +'" name="end_times" type="text" class="validate timepicker"placeholder="End Time">' +
           	  '<button type="button" id="end_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></div></td>' +
-          '<td data-head="Attendees" class="input-field"><a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a> ' +
+          '<td data-head="Attendees" class="input-field attendees-column"><a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a> ' +
 			  '<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
 				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4> <div class="row fixed-width"><div class="table-inside">'+
 					'<table id="training-update-table'+ rNo +'" class="mdl-data-table mobile_responsible_table">'+

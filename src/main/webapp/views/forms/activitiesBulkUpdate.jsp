@@ -1127,7 +1127,7 @@
     	 $("#strip_chart_component_id").select2();
     	 
     	 $( ".dot" ).removeClass( "active" );
-     	 if($.trim(componentId) != ''){
+     	 /* if($.trim(componentId) != ''){
 	     	 componentId = componentId.replace(/\s/g, "_");
 	      	 componentId = componentId.replace(/\//g, "_");
 	      	 componentId = componentId.replace(/\./g, "_");
@@ -1139,7 +1139,7 @@
 	         var indexing=$(".dot-container").index($("#dd"+componentId));
 	        	var scrollTo=Math.round((indexing*($scroller[0].scrollWidth/childs))-childs);           
 	         $scroller.animate({'scrollLeft': scrollTo}, 1000);
-     	 }
+     	 } */
      	 
     	 $("#table_show").show();
     	 var html = '';

@@ -457,7 +457,7 @@ public class DocxTableCreation {
 						columnNo++;
 						addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
 								"ecf2ff",width);
-					}		
+					}		 
 					table.getContent().add(titleRow);
 					
 					int rNo = 1;

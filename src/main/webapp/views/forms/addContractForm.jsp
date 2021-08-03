@@ -246,13 +246,13 @@
 	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
 	                                     		  <option value="">Select</option> 
 	                                     		  	<c:forEach var="obj" items="${hodList }"> 
-			                                    	  <option value="${obj.user_id }"> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                    	  <option  deptCode="${obj.contract_id_code }" value="${obj.user_id }"> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
 			                                        </c:forEach> 
 	                                     	     </select> 
 	                                     	<span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                     	</div>
 	                                     	 <div class="col s6 m4 input-field">
-	                                        	<p class="searchable_label">Dy HOD-s<span class="required">*</span></p>
+	                                        	<p class="searchable_label">Dy HOD<span class="required">*</span></p>
 	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" >
 	                                                <option value="">Select</option>
 	                                                 <c:forEach var="obj" items="${dyHodList }"> 
@@ -616,14 +616,16 @@
 	    	M.Datepicker.init(this, options);
 	    });
 		var loggedin_user_id = '${sessionScope.USER_ID}';
+		var user_role = '${sessionScope.USER_ROLE_NAME}';   
         $(document).ready(function () {
         	 $('select:not(.searchable):not(.units)').formSelect();
-             $('.searchable').select2();
+             $('.searchable').select2(); 
              $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
              $('#remarks').characterCounter();
-
-             getHodList();
-             getDyHodList();
+			if(user_role != 'IT Admin'){
+	             getHodList();
+			}
+			 getDyHodList();
         });
      
         function getExecutivesList(num) {
@@ -720,17 +722,19 @@
  	                        	   var deptCode =  val.contract_id_code;
 	                        	   $("#contract_id_code").val(deptCode);
 	                        	   $('#department_fk').val(val.department_fk);
-      	                          
+      	                           
                               	   if(val.hod_user_id_fk == loggedin_user_id){
-                              	   		$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
+                              	   		$("#hod_user_id_fk").append('<option deptCode="' + val.contract_id_code +'" value="' + val.hod_user_id_fk + '" selected>' + $.trim(val.designation) + userName + '</option>');
                               	   	    $("#hodVal").val(val.hod_user_id_fk);
                               	   }else{
-                              	   		$("#hod_user_id_fk").append('<option value="' + val.hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
+                              	   		$("#hod_user_id_fk").append('<option deptCode="' + val.contract_id_code +'" value="' + val.hod_user_id_fk + '">' + $.trim(val.designation) + userName + '</option>');
                               	   }
                             });
                             if($.trim(reporting_to_id_srfk) != ''){
                             	$("#hod_user_id_fk").val(reporting_to_id_srfk);
                             	$("#hodVal").val(reporting_to_id_srfk);
+                            	deptCode = $("#hod_user_id_fk").find('option:selected').attr("deptCode");
+                            	$("#contract_id_code").val(deptCode);
                             }
                         }
                         $('.searchable').select2();
@@ -837,6 +841,11 @@
 	  			
 	  			var work_short_name = $("#work_id_fk").find('option:selected').attr("workShortName");
 	  			$("#work_short_name").val(work_short_name);
+	  			
+	  			var deptCode = $("#hod_user_id_fk").find('option:selected').attr("deptCode");
+	  			if(deptCode != ""){
+		  			$("#contract_id_code").val(deptCode);
+	  			}
 	  			var estimated_cost = $('#estimated_cost').val();
 	  			var awarded_cost = $('#awarded_cost').val();
 	  			if(estimated_cost == ""){

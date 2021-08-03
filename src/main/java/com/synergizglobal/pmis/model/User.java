@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class User  {
-	private String user_id,user_name,password,email_id,department_fk,designation,reporting_to_id_srfk,hod_user_id_fk,dy_hod_user_id_fk,user_role_name_fk,mobile_number,personal_contact_number,landline,extension,pmis_key_fk,remarks,user_image,keyAvailability;
+	private String user_id,user_name,password,email_id,department_fk,contract_id_code,designation,reporting_to_id_srfk,hod_user_id_fk,dy_hod_user_id_fk,user_role_name_fk,mobile_number,personal_contact_number,landline,extension,pmis_key_fk,remarks,user_image,keyAvailability;
 	private String oldPassword;
 	private String newPassword;
 	private String confirmPassword;
@@ -27,6 +27,16 @@ public class User  {
 	private String system_ipa,public_ipa;
 	
 	private String user_login_details_id;
+
+
+	public String getContract_id_code() {
+		return contract_id_code;
+	}
+
+
+	public void setContract_id_code(String contract_id_code) {
+		this.contract_id_code = contract_id_code;
+	}
 
 
 	public List<User> getDepartmentList() {

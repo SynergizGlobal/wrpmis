@@ -144,7 +144,10 @@ public class ContractDaoImpl implements ContractDao {
 	public List<User> setHodList()throws Exception{
 		List<User> objsList = null;
 		try {
-			String qry ="select user_id,user_name,designation from user where designation is not null and designation <>'' and user_type_fk = ?";
+			String qry ="select user_id,user_name,designation,department_fk,d.contract_id_code "
+					+ "from user u "
+					+ "LEFT JOIN department d on  u.department_fk = d.department "
+					+ "where designation is not null and designation <>'' and user_type_fk = ? group by user_id";
 
 			int arrSize = 1;
 			Object[] pValues = new Object[arrSize];

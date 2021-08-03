@@ -2730,16 +2730,21 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getExecutivesListForContractForm(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk,u.department_fk FROM user u " + 
-					"left join department d on u.department_fk = d.department " + 
-					"where  user_id is not null  ";
+			
+			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk "
+					+ "FROM user u " 
+					+ "left join department d on u.department_fk = d.department "
+					+ "where  user_id is not null ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and u.department_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "and user_name not like '%user%' and pmis_key_fk not like '%SGS%'";// and department_fk in('Engg','Elec','S&T') 
+			qry = qry + " and user_name not like '%user%' and pmis_key_fk not like '%SGS%'";// and department_fk in('Engg','Elec','S&T') 
+			
+			qry = qry + " ORDER BY FIELD(user_type_fk,'Management','HOD','DYHOD','Officers ( Jr./Sr. Scale )','Others'),u.designation";
+			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			//pValues[i++] = CommonConstants.USER_TYPE_HOD;

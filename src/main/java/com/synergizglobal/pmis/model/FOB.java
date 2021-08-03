@@ -9,7 +9,7 @@ public class FOB {
 	commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment,fob_detail_id,fob_id_fk,
 	detail_name,value,work_id_fk,project_id_fk,revised_completion,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost,
 	project_id,work_id,work_name,work_short_name,status,fob_file_type,fob_file_type_fk,fob_file_id,fob_details_location,fob_details_type,
-	created_date,responsible_people_id_fk,user_id,user_name,designation,department_fk,user_type,existing_work_status_fk,estimated_cost_units,completion_cost_units;
+	created_date,responsible_people_id_fk,user_id,user_name,designation,department_fk,user_type,existing_work_status_fk,estimated_cost_units,completion_cost_units,message_id;
 
 
 
@@ -524,6 +524,14 @@ public class FOB {
 
 	public void setExisting_work_status_fk(String existing_work_status_fk) {
 		this.existing_work_status_fk = existing_work_status_fk;
+	}
+
+	public String getMessage_id() {
+		return message_id;
+	}
+
+	public void setMessage_id(String message_id) {
+		this.message_id = message_id;
 	}
 	
 }

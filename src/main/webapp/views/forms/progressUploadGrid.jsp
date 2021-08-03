@@ -525,13 +525,7 @@
 			  }
 		});
         
-        $('select').change(function(){
-            if ($(this).val() != ""){
-                $(this).valid();
-            }
-        });
-        
-        $('input').change(function(){
+        $('#work_id_upload,#contract_id_fk_upload,#structure_type_fk_upload,#fob_id').change(function(){
             if ($(this).val() != ""){
                 $(this).valid();
             }
@@ -554,6 +548,7 @@
 	   		table.destroy();	   		
 	   		$.fn.dataTable.moment('DD-MMM-YYYY');
 	   		table = $('#datatable-activities').DataTable({
+	   			"order": [],
 	       		"bStateSave": true,
 	       		fixedHeader: true,
 	               "fnStateSave": function (oSettings, oData) {

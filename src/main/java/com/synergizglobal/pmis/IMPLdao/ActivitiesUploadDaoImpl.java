@@ -745,7 +745,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 				arrSize++;
 			}	
 			
-			qry = qry + " ORDER BY c.work_id_fk";
+			qry = qry + " ORDER BY ad.uploaded_on desc";
 			
 			Object[] pValues = new Object[arrSize];
 			

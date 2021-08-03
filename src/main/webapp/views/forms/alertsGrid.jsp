@@ -788,16 +788,17 @@ label {
         	$("#alert_id").val(alert_id);
         	$("#alert_type_fk").val(alert_type_fk);
         	
-        	if(alert_level=="Overdue" && (alert_type_fk=="Contract Period" || alert_type_fk=="Contract Value" ))
-       		{
+        	if(alert_level=="Overdue" && (alert_type_fk=="Contract Period" || alert_type_fk=="Contract Value" )){
         		$("#noAtrDiv").show();
+       		}else{
+       			$("#noAtrDiv").hide();
        		}
         	
-        	if((alert_type_fk == 'Contract Period' || alert_type_fk == 'Contract Value') && alert_level != 'Overdue' ){
+        	/* if((alert_type_fk == 'Contract Period' || alert_type_fk == 'Contract Value') && alert_level != 'Overdue' ){
         		$("#amendment_not_required_in_contract_Div").show();
         	}else{
         		$("#amendment_not_required_in_contract_Div").hide();
-        	}
+        	} */
         	if($.trim(remarks) != '' && $.trim(remarks) != 'null'){
         		$("#remarks").val(remarks);
         		$("#remarks").show().focus();

@@ -32,6 +32,7 @@ import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.SourceOfFund;
+import com.synergizglobal.pmis.model.TAFinancials;
 import com.synergizglobal.pmis.model.Training;
 import com.synergizglobal.pmis.model.LandAcquisition;
 
@@ -462,30 +463,30 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public LandAcquisition getLandAcquisitionForm(LandAcquisition obj) throws Exception {					
 		LandAcquisition LADetails = null;
 		try {
-			String qry = "select la_id,li.attachment, work_id_fk,w.project_id_fk,p.project_name,w.work_short_name, li.survey_number, li.village_id,c.la_category as type_of_land ,sc.la_sub_category as sub_category_of_land, li.village, taluka, dy_slr, sdo, collector, DATE_FORMAT(proposal_submission_date_to_collector,'%d-%m-%Y') AS proposal_submission_date_to_collector, cast(area_of_plot as CHAR) as area_of_plot, jm_fee_amount, cast(chainage_from as CHAR) as chainage_from,cast(chainage_to as CHAR) as chainage_to, DATE_FORMAT(jm_fee_letter_received_date,'%d-%m-%Y') AS jm_fee_letter_received_date,DATE_FORMAT(jm_fee_paid_date,'%d-%m-%Y') AS jm_fee_paid_date,DATE_FORMAT(jm_start_date,'%d-%m-%Y') AS  jm_start_date,DATE_FORMAT(jm_completion_date,'%d-%m-%Y') AS jm_completion_date, DATE_FORMAT(jm_sheet_date_to_sdo,'%d-%m-%Y') AS jm_sheet_date_to_sdo, jm_remarks, jm_approval, li.issues"
+			String qry = "select la_id,li.attachment, work_id_fk,w.project_id_fk,p.project_name,w.work_short_name, li.survey_number, li.village_id,c.la_category as type_of_land ,sc.la_sub_category as sub_category_of_land, li.village, taluka, dy_slr, sdo, collector, DATE_FORMAT(proposal_submission_date_to_collector,'%d-%m-%Y') AS proposal_submission_date_to_collector, cast(area_of_plot as CHAR) as area_of_plot, jm_fee_amount,jm_fee_amount_units, cast(chainage_from as CHAR) as chainage_from,cast(chainage_to as CHAR) as chainage_to, DATE_FORMAT(jm_fee_letter_received_date,'%d-%m-%Y') AS jm_fee_letter_received_date,DATE_FORMAT(jm_fee_paid_date,'%d-%m-%Y') AS jm_fee_paid_date,DATE_FORMAT(jm_start_date,'%d-%m-%Y') AS  jm_start_date,DATE_FORMAT(jm_completion_date,'%d-%m-%Y') AS jm_completion_date, DATE_FORMAT(jm_sheet_date_to_sdo,'%d-%m-%Y') AS jm_sheet_date_to_sdo, jm_remarks, jm_approval, li.issues"
 					
 					+ ",lg.id, lg.la_id_fk,cast(lg.area_to_be_acquired as CHAR) as area_to_be_acquired,DATE_FORMAT(lg.proposal_submission,'%d-%m-%Y') AS proposal_submission, lg.proposal_submission_status_fk, DATE_FORMAT(lg.valuation_date,'%d-%m-%Y') AS valuation_date, DATE_FORMAT(lg.letter_for_payment,'%d-%m-%Y') AS letter_for_payment,"
 					+ "lg.amount_demanded,cast(lg.lfp_status_fk as CHAR) as lfp_status_fk,DATE_FORMAT(lg.approval_for_payment,'%d-%m-%Y') AS approval_for_payment,DATE_FORMAT(lg.payment_date,'%d-%m-%Y') AS payment_date, lg.amount_paid, lg.payment_status_fk, DATE_FORMAT(lg.possession_date,'%d-%m-%Y') AS possession_date,"
-					+ "lg.possession_status_fk, lg.special_feature, cast(lg.area_acquired as CHAR) as area_acquired,lg.remarks as gov_remarks, "
+					+ "lg.possession_status_fk, lg.special_feature, cast(lg.area_acquired as CHAR) as area_acquired,lg.remarks as gov_remarks,lf.demanded_amount_units as demanded_amount_units_forest,lf.payment_amount_units as payment_amount_units_forest, "
 					
-					+ "cast(lf.area_to_be_acquired as CHAR) as forest_area_to_be_acquired, DATE_FORMAT(lf.on_line_submission,'%d-%m-%Y') AS forest_online_submission, DATE_FORMAT(lf.submission_date_to_dycfo,'%d-%m-%Y') AS forest_submission_date_to_dycfo, DATE_FORMAT(lf.submission_date_to_ccf_thane,'%d-%m-%Y') AS forest_submission_date_to_ccf_thane, "
+					+ "lg.amount_demanded_units,lg.amount_paid_units,cast(lf.area_to_be_acquired as CHAR) as forest_area_to_be_acquired, DATE_FORMAT(lf.on_line_submission,'%d-%m-%Y') AS forest_online_submission, DATE_FORMAT(lf.submission_date_to_dycfo,'%d-%m-%Y') AS forest_submission_date_to_dycfo, DATE_FORMAT(lf.submission_date_to_ccf_thane,'%d-%m-%Y') AS forest_submission_date_to_ccf_thane, "
 					+ "DATE_FORMAT(lf.submission_date_to_nodal_officer,'%d-%m-%Y') AS forest_submission_date_to_nodal_officer, DATE_FORMAT(lf.submission_date_to_revenue_secretary_mantralaya,'%d-%m-%Y') AS forest_submission_date_to_revenue_secretary_mantralaya, DATE_FORMAT(lf.submission_date_to_regional_office_nagpur,'%d-%m-%Y') AS forest_submission_date_to_regional_office_nagpur,"
 					+ " DATE_FORMAT(lf.date_of_approval_by_regional_office_nagpur,'%d-%m-%Y') AS forest_date_of_approval_by_regional_office_nagpur, DATE_FORMAT(lf.valuation_by_dycfo,'%d-%m-%Y') AS forest_valuation_by_dycfo,cast(lf.demanded_amount as CHAR) as forest_demanded_amount,cast(lf.payment_amount  as CHAR) as forest_payment_amount, DATE_FORMAT(lf.approval_for_payment,'%d-%m-%Y') AS forest_approval_for_payment"
 					+ ", DATE_FORMAT(lf.payment_date,'%d-%m-%Y') AS forest_payment_date,DATE_FORMAT(lf.possession_date,'%d-%m-%Y') AS forest_possession_date,lf.possession_status_fk as forest_possession_status_fk,"
 					+ "lf.payment_status_fk as forest_payment_status_fk,cast(lf.area_acquired as CHAR) as forest_area_acquired,lf.special_feature as forest_special_feature, lf.attachment_No as forest_attachment_No ,lf.remarks as forest_remarks"
 					
-					+ " ,cast(lr.area_to_be_acquired as CHAR) as railway_area_to_be_acquired, cast(lr.area_acquired as CHAR) as railway_area_acquired,DATE_FORMAT(lr.online_submission,'%d-%m-%Y') AS railway_online_submission,"
+					+ " ,lr.demanded_amount_units,lr.payment_amount_units as payment_amount_units_railway,cast(lr.area_to_be_acquired as CHAR) as railway_area_to_be_acquired, cast(lr.area_acquired as CHAR) as railway_area_acquired,DATE_FORMAT(lr.online_submission,'%d-%m-%Y') AS railway_online_submission,"
 					+ "DATE_FORMAT(lr.submission_date_to_DyCFO,'%d-%m-%Y') AS railway_submission_date_to_DyCFO, DATE_FORMAT(lr.submission_date_to_CCF_Thane,'%d-%m-%Y') AS railway_submission_date_to_CCF_Thane, DATE_FORMAT(lr.`submission_date_to_nodal_officer/CCF Nagpur`,'%d-%m-%Y') AS railway_submission_date_to_nodal_officer_CCF_Nagpur, "
 					+ " DATE_FORMAT(lr.submission_date_to_revenue_secretary_mantralaya,'%d-%m-%Y') AS railway_submission_date_to_revenue_secretary_mantralaya, DATE_FORMAT(lr.submission_date_to_regional_office_nagpur,'%d-%m-%Y') AS railway_submission_date_to_regional_office_nagpur, DATE_FORMAT( lr.date_of_approval_by_Rregional_Office_agpur,'%d-%m-%Y') AS railway_date_of_approval_by_Rregional_Office_agpur,"
 					+ "DATE_FORMAT(lr.valuation_by_DyCFO ,'%d-%m-%Y') AS railway_valuation_by_DyCFO, cast(lr.demanded_amount as CHAR) as railway_demanded_amount, DATE_FORMAT(lr.approval_for_payment,'%d-%m-%Y') AS railway_approval_for_payment, DATE_FORMAT(lr.payment_date,'%d-%m-%Y') AS railway_payment_date,cast(lr.payment_amount as CHAR) as railway_payment_amount, lr.payment_status as railway_payment_status, DATE_FORMAT(lr.possession_date,'%d-%m-%Y') AS railway_possession_date, lr.possession_status as railway_possession_status, "
 					+ "lr.special_feature as railway_special_feature, lr.remarks, lr.`attachment_no.` as railway_attachment_no,lr.remarks as railway_remarks, "
 					
-					+ "cast(lpa.area_to_be_acquired as CHAR) as private_area_to_be_acquired, lpa.name_of_the_owner, lpa.basic_rate,lpa.attachment_no as private_attachment_no, lpa.agriculture_tree_nos, lpa.agriculture_tree_rate, lpa.forest_tree_nos,"
+					+ "lpa.basic_rate_units,lpa.agriculture_tree_rate_units,lpa.forest_tree_rate_units,cast(lpa.area_to_be_acquired as CHAR) as private_area_to_be_acquired, lpa.name_of_the_owner, lpa.basic_rate,lpa.attachment_no as private_attachment_no, lpa.agriculture_tree_nos, lpa.agriculture_tree_rate, lpa.forest_tree_nos,"
 					+ "lpa.forest_tree_rate,DATE_FORMAT(lpa.consent_from_owner,'%d-%m-%Y') AS consent_from_owner, DATE_FORMAT(lpa.legal_search_report,'%d-%m-%Y') AS legal_search_report, DATE_FORMAT(lpa.date_of_registration,'%d-%m-%Y') AS date_of_registration, DATE_FORMAT(lpa.date_of_possession,'%d-%m-%Y') AS date_of_possession, lpa.possession_status_fk, lpa.special_feature as private_special_feature, "
 					+ "cast(lpa.area_acquired as CHAR) as private_area_acquired,cast(lpa.hundred_percent_Solatium as CHAR) as hundred_percent_Solatium,cast(lpa.extra_25_percent as CHAR) as extra_25_percent, cast(lpa.total_rate_divide_m2 as CHAR) as total_rate_divide_m2,cast(lpa.land_compensation as CHAR) as land_compensation, "
 					+ "cast(lpa.agriculture_tree_compensation as CHAR) as agriculture_tree_compensation,cast(lpa.forest_tree_compensation as CHAR) as forest_tree_compensation,cast(lpa.structure_compensation as CHAR) as structure_compensation,cast(lpa.borewell_compensation as CHAR) as borewell_compensation,cast(lpa.total_compensation as CHAR) as total_compensation,lpa.remarks as private_remarks,"
 					
-					+ "DATE_FORMAT(lpv.forest_tree_survey ,'%d-%m-%Y') AS forest_tree_survey,DATE_FORMAT(lpv.forest_tree_valuation ,'%d-%m-%Y') AS forest_tree_valuation, lpv.forest_tree_valuation_status_fk,DATE_FORMAT(lpv.horticulture_tree_survey ,'%d-%m-%Y') AS horticulture_tree_survey,DATE_FORMAT(lpv.horticulture_tree_valuation ,'%d-%m-%Y') AS horticulture_tree_valuation, "
+					+ "lpv.payment_amount_units,DATE_FORMAT(lpv.forest_tree_survey ,'%d-%m-%Y') AS forest_tree_survey,DATE_FORMAT(lpv.forest_tree_valuation ,'%d-%m-%Y') AS forest_tree_valuation, lpv.forest_tree_valuation_status_fk,DATE_FORMAT(lpv.horticulture_tree_survey ,'%d-%m-%Y') AS horticulture_tree_survey,DATE_FORMAT(lpv.horticulture_tree_valuation ,'%d-%m-%Y') AS horticulture_tree_valuation, "
 					+ "DATE_FORMAT(lpv.structure_survey ,'%d-%m-%Y') AS structure_survey,DATE_FORMAT(lpv.structure_valuation ,'%d-%m-%Y') AS structure_valuation,DATE_FORMAT(lpv.borewell_survey ,'%d-%m-%Y') AS borewell_survey,DATE_FORMAT(lpv.borewell_valuation ,'%d-%m-%Y') AS borewell_valuation, lpv.horticulture_tree_valuation_status_fk, lpv.structure_valuation_status_fk, "
 					+ "lpv.borewell_valuation_status_fk, lpv.rfp_to_adtp_status_fk, DATE_FORMAT(lpv.date_of_rfp_to_adtp ,'%d-%m-%Y') AS date_of_rfp_to_adtp,DATE_FORMAT(lpv.date_of_rate_fixation_of_land ,'%d-%m-%Y') AS date_of_rate_fixation_of_land, DATE_FORMAT(lpv.sdo_demand_for_payment ,'%d-%m-%Y') AS sdo_demand_for_payment,DATE_FORMAT(lpv.date_of_approval_for_payment ,'%d-%m-%Y') AS date_of_approval_for_payment, "
 					+ "cast(lpv.payment_amount as CHAR) as payment_amount, DATE_FORMAT(lpv.payment_date ,'%d-%m-%Y') AS private_payment_date ,lpv.remarks as private_remarks "
@@ -534,11 +535,11 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			String insertQry = "INSERT INTO la_land_identification"
 					+ "( la_id, work_id_fk, survey_number, village_id, la_sub_category_fk, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector,"
 					+ "area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, jm_start_date, jm_completion_date, "
-					+ "jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues)"
+					+ "jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues, jm_fee_amount_units)"
 					+ "VALUES"
 					+ "(:la_id, :work_id_fk, :survey_number, :village_id, :id, :village, :taluka, :dy_slr, :sdo, :collector, :proposal_submission_date_to_collector, "
 					+ ":area_of_plot, :jm_fee_amount, :chainage_from, :chainage_to, :jm_fee_letter_received_date, :jm_fee_paid_date, :jm_start_date, :jm_completion_date, "
-					+ ":jm_sheet_date_to_sdo, :jm_remarks, :jm_approval, :is_there_issue )";
+					+ ":jm_sheet_date_to_sdo, :jm_remarks, :jm_approval, :is_there_issue, :jm_fee_amount_units )";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -551,11 +552,11 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						String govInsertQry = "INSERT INTO la_government_land_acquisition"
 								+ "( la_id_fk, area_to_be_acquired, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, "
 								+ "lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk, special_feature,"
-								+ "survey_number, type_of_land, sub_category_of_land, village_id, area_acquired, remarks)"
+								+ "survey_number, type_of_land, sub_category_of_land, village_id, area_acquired, remarks, amount_demanded_units, amount_paid_units)"
 								+ "VALUES"
 								+ "(:la_id, :area_to_be_acquired, :proposal_submission, :proposal_submission_status_fk, :valuation_date, :letter_for_payment,:amount_demanded, "
 								+ " :lfp_status_fk, :approval_for_payment, :payment_date, :amount_paid, :payment_status_fk, :possession_date, :possession_status_fk, :special_feature, "
-								+ " :survey_number, :type_of_land, :sub_category_of_land, :village_id, :area_acquired, :remarks)";
+								+ " :survey_number, :type_of_land, :sub_category_of_land, :village_id, :area_acquired, :remarks, :amount_demanded_units, :amount_paid_units)";
 						 paramSource = new BeanPropertySqlParameterSource(obj);		 
 						 count = namedParamJdbcTemplate.update(govInsertQry, paramSource);	
 							
@@ -564,12 +565,12 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						 		+ "( la_id_fk, area_to_be_acquired, on_line_submission, submission_date_to_dycfo, submission_date_to_ccf_thane, submission_date_to_nodal_officer, "
 						 		+ "submission_date_to_revenue_secretary_mantralaya, submission_date_to_regional_office_nagpur, date_of_approval_by_regional_office_nagpur, valuation_by_dycfo, "
 						 		+ "demanded_amount, payment_amount, approval_for_payment, payment_date, possession_date, possession_status_fk, payment_status_fk, special_feature, survey_number,"
-						 		+ " type_of_land, sub_category_of_land, village_id, area_acquired, remarks, attachment_No, issues)"
+						 		+ " type_of_land, sub_category_of_land, village_id, area_acquired, remarks, attachment_No, issues, demanded_amount_units, payment_amount_units)"
 						 		+ "VALUES"
 						 		+ "( :la_id, :forest_area_to_be_acquired, :forest_online_submission, :forest_submission_date_to_dycfo, :forest_submission_date_to_ccf_thane, :forest_submission_date_to_nodal_officer, "
 						 		+ ":forest_submission_date_to_revenue_secretary_mantralaya, :forest_submission_date_to_regional_office_nagpur, :forest_date_of_approval_by_regional_office_nagpur, :forest_valuation_by_dycfo,"
 						 		+ ":forest_demanded_amount, :forest_payment_amount, :forest_approval_for_payment, :forest_payment_date, :forest_possession_date, :forest_possession_status_fk, :forest_payment_status_fk, :forest_special_feature, :survey_number, "
-						 		+ ":type_of_land, :sub_category_of_land, :village_id, :forest_area_acquired, :remarks, :forest_attachment_No, :is_there_issue)";
+						 		+ ":type_of_land, :sub_category_of_land, :village_id, :forest_area_acquired, :remarks, :forest_attachment_No, :is_there_issue, :demanded_amount_units_forest, :payment_amount_units_forest)";
 						 paramSource = new BeanPropertySqlParameterSource(obj);		 
 						 count = namedParamJdbcTemplate.update(forestInsertSubQry, paramSource);	
 						
@@ -579,13 +580,13 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						 		+ "submission_date_to_CCF_Thane, `submission_date_to_nodal_officer/CCF Nagpur`, submission_date_to_revenue_secretary_mantralaya, "
 						 		+ "submission_date_to_regional_office_nagpur, date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO, demanded_amount, "
 						 		+ "approval_for_payment, payment_date, payment_amount, payment_status, possession_date, possession_status, special_feature, remarks, "
-						 		+ "`attachment_no.`, Issues)"
+						 		+ "`attachment_no.`, Issues, demanded_amount_units, payment_amount_units)"
 						 		+ "VALUES"
 						 		+ "(:la_id, :survey_number, :type_of_land, :sub_category_of_land, :village_id, :railway_area_to_be_acquired, :railway_area_acquired, :railway_online_submission, :railway_submission_date_to_DyCFO, "
 						 		+ ":railway_submission_date_to_CCF_Thane, :railway_submission_date_to_nodal_officer_CCF_Nagpur, :railway_submission_date_to_revenue_secretary_mantralaya, "
 						 		+ ":railway_submission_date_to_regional_office_nagpur, :railway_date_of_approval_by_Rregional_Office_agpur, :railway_valuation_by_DyCFO, :railway_demanded_amount, "
 						 		+ ":railway_approval_for_payment, :railway_payment_date, :railway_payment_amount, :railway_payment_status, :railway_possession_date, :railway_possession_status, :railway_special_feature, :remarks, "
-						 		+ " :railway_attachment_no, :is_there_issue)";
+						 		+ " :railway_attachment_no, :is_there_issue, :demanded_amount_units, :payment_amount_units_railway)";
 						 paramSource = new BeanPropertySqlParameterSource(obj);		 
 						 count = namedParamJdbcTemplate.update(railwayInsertSubQry, paramSource);	
 							
@@ -594,12 +595,14 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						 		+ "(la_id_fk, area_to_be_acquired, name_of_the_owner, basic_rate, attachment_no, agriculture_tree_nos, agriculture_tree_rate, forest_tree_nos,"
 						 		+ " forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession, possession_status_fk, special_feature, "
 						 		+ "survey_number, type_of_land, sub_category_of_land, village_id, area_acquired, hundred_percent_Solatium, extra_25_percent, total_rate_divide_m2,"
-						 		+ " land_compensation, agriculture_tree_compensation, forest_tree_compensation, structure_compensation, borewell_compensation, total_compensation, remarks, issues)"
+						 		+ " land_compensation, agriculture_tree_compensation, forest_tree_compensation, structure_compensation, borewell_compensation, total_compensation,"
+						 		+ " remarks, issues, basic_rate_units, agriculture_tree_rate_units, forest_tree_rate_units)"
 						 		+ "VALUES"
 						 		+ "(:la_id, :private_area_to_be_acquired, :name_of_the_owner, :basic_rate, :private_attachment_no, :agriculture_tree_nos, :agriculture_tree_rate, :forest_tree_nos,"
 						 		+ " :forest_tree_rate, :consent_from_owner, :legal_search_report, :date_of_registration, :date_of_possession, :private_possession_status_fk, :private_special_feature, "
 						 		+ " :survey_number, :type_of_land, :sub_category_of_land, :village_id, :private_area_acquired, :hundred_percent_Solatium, :extra_25_percent, :total_rate_divide_m2,"
-						 		+ " :land_compensation, :agriculture_tree_compensation, :forest_tree_compensation, :structure_compensation, :borewell_compensation, :total_compensation, :remarks, :is_there_issue)";
+						 		+ " :land_compensation, :agriculture_tree_compensation, :forest_tree_compensation, :structure_compensation, :borewell_compensation, :total_compensation, :remarks,"
+						 		+ " :is_there_issue, :basic_rate_units, :agriculture_tree_rate_units, :forest_tree_rate_units)";
 						 
 						 	paramSource = new BeanPropertySqlParameterSource(obj);		 
 							count = namedParamJdbcTemplate.update(privateInsertQry, paramSource);
@@ -608,12 +611,12 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						 		+ "(la_id_fk, forest_tree_survey, forest_tree_valuation, forest_tree_valuation_status_fk, horticulture_tree_survey, horticulture_tree_valuation, "
 						 		+ "structure_survey, structure_valuation, borewell_survey, borewell_valuation, horticulture_tree_valuation_status_fk, structure_valuation_status_fk, "
 						 		+ "borewell_valuation_status_fk, rfp_to_adtp_status_fk, date_of_rfp_to_adtp, date_of_rate_fixation_of_land, sdo_demand_for_payment, "
-						 		+ "date_of_approval_for_payment, payment_amount, payment_date, survey_number, type_of_land, sub_category_of_land, village_id, remarks, issues)"
+						 		+ "date_of_approval_for_payment, payment_amount, payment_date, survey_number, type_of_land, sub_category_of_land, village_id, remarks, issues, payment_amount_units)"
 						 		+ "VALUES"
 						 		+ "(:la_id, :forest_tree_survey, :forest_tree_valuation, :forest_tree_valuation_status_fk, :horticulture_tree_survey, :horticulture_tree_valuation,"
 						 		+ " :structure_survey, :structure_valuation, :borewell_survey, :borewell_valuation, :horticulture_tree_valuation_status_fk, :structure_valuation_status_fk,"
 						 		+ " :borewell_valuation_status_fk, :rfp_to_adtp_status_fk, :date_of_rfp_to_adtp, :date_of_rate_fixation_of_land, :sdo_demand_for_payment,"
-						 		+ " :date_of_approval_for_payment, :payment_amount, :private_payment_date, :survey_number, :type_of_land, :sub_category_of_land,:village_id,:remarks, :is_there_issue)";
+						 		+ " :date_of_approval_for_payment, :payment_amount, :private_payment_date, :survey_number, :type_of_land, :sub_category_of_land,:village_id,:remarks, :is_there_issue, :payment_amount_units)";
 						 paramSource = new BeanPropertySqlParameterSource(obj);		 
 						 count = namedParamJdbcTemplate.update(privateInsertSubQry, paramSource);	
 						}
@@ -857,7 +860,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			String insertQry = "UPDATE la_land_identification SET "
 					+ "survey_number= :survey_number, village_id= :village_id, village= :village, taluka= :taluka, dy_slr= :dy_slr, sdo= :sdo, collector= :collector, proposal_submission_date_to_collector= :proposal_submission_date_to_collector,"
 					+ "area_of_plot= :area_of_plot, jm_fee_amount = :jm_fee_amount, chainage_from= :chainage_from, chainage_to= :chainage_to, jm_fee_letter_received_date= :jm_fee_letter_received_date, jm_fee_paid_date= :jm_fee_paid_date, jm_start_date= :jm_start_date, jm_completion_date= :jm_completion_date, "
-					+ "jm_sheet_date_to_sdo= :jm_sheet_date_to_sdo, jm_remarks= :jm_remarks, jm_approval= :jm_approval, issues= :is_there_issue, attachment= :attachment "
+					+ "jm_sheet_date_to_sdo= :jm_sheet_date_to_sdo, jm_remarks= :jm_remarks, jm_approval= :jm_approval, issues= :is_there_issue, attachment= :attachment, jm_fee_amount_units= :jm_fee_amount_units "
 					+ "where la_id= :la_id ";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -869,7 +872,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						String govInsertQry = "UPDATE  la_government_land_acquisition SET "
 								+ "area_to_be_acquired= :area_to_be_acquired, proposal_submission= :proposal_submission, proposal_submission_status_fk= :proposal_submission_status_fk, valuation_date= :valuation_date, letter_for_payment= :letter_for_payment, amount_demanded= :amount_demanded, "
 								+ "lfp_status_fk= :lfp_status_fk, approval_for_payment= :approval_for_payment, payment_date= :payment_date, amount_paid= :amount_paid, payment_status_fk= :payment_status_fk, possession_date= :possession_date, possession_status_fk= :possession_status_fk, special_feature= :special_feature,"
-								+ "survey_number= :survey_number,village_id= :village_id, area_acquired= :area_acquired, remarks= :remarks "
+								+ "survey_number= :survey_number,village_id= :village_id, area_acquired= :area_acquired, remarks= :remarks, amount_demanded_units= :amount_demanded_units, amount_paid_units= :amount_paid_units "
 								+ "where  la_id_fk= :la_id";
 						 paramSource = new BeanPropertySqlParameterSource(obj);		 
 						 count = namedParamJdbcTemplate.update(govInsertQry, paramSource);	
@@ -879,7 +882,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						 		+ "area_to_be_acquired= :forest_area_to_be_acquired, on_line_submission= :forest_online_submission, submission_date_to_dycfo= :forest_submission_date_to_dycfo, submission_date_to_ccf_thane= :forest_submission_date_to_ccf_thane, submission_date_to_nodal_officer= :forest_submission_date_to_nodal_officer, "
 						 		+ "submission_date_to_revenue_secretary_mantralaya= :forest_submission_date_to_revenue_secretary_mantralaya, submission_date_to_regional_office_nagpur= :forest_submission_date_to_regional_office_nagpur, date_of_approval_by_regional_office_nagpur= :forest_date_of_approval_by_regional_office_nagpur, valuation_by_dycfo= :forest_valuation_by_dycfo, "
 						 		+ "demanded_amount= :forest_demanded_amount, payment_amount= :forest_payment_amount, approval_for_payment= :forest_approval_for_payment, payment_date= :forest_payment_date, possession_date= :forest_possession_date, possession_status_fk= :forest_possession_status_fk, payment_status_fk=:forest_payment_status_fk, special_feature= :forest_special_feature, survey_number= :survey_number,"
-						 		+ "village_id= :village_id, area_acquired= :forest_area_acquired, remarks= :remarks, attachment_No= :forest_attachment_No, issues= :is_there_issue   "
+						 		+ "village_id= :village_id, area_acquired= :forest_area_acquired, remarks= :remarks, attachment_No= :forest_attachment_No, issues= :is_there_issue, demanded_amount_units= :demanded_amount_units_forest,payment_amount_units= :payment_amount_units_forest   "
 						 		+ " where la_id_fk= :la_id ";
 	
 						 paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -891,7 +894,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						 		+ "submission_date_to_CCF_Thane= :railway_submission_date_to_CCF_Thane, `submission_date_to_nodal_officer/CCF Nagpur`= :railway_submission_date_to_nodal_officer_CCF_Nagpur, submission_date_to_revenue_secretary_mantralaya= :railway_submission_date_to_revenue_secretary_mantralaya,  "
 						 		+ "submission_date_to_regional_office_nagpur= :railway_submission_date_to_regional_office_nagpur,date_of_approval_by_Rregional_Office_agpur= :railway_date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO= :railway_valuation_by_DyCFO, demanded_amount= :railway_demanded_amount, "
 						 		+ "approval_for_payment= :railway_approval_for_payment, payment_date= :railway_payment_date, payment_amount= :railway_payment_amount, payment_status= :railway_payment_status, possession_date= :railway_possession_date, possession_status= :railway_possession_status, special_feature= :railway_special_feature, remarks= :remarks, "
-						 		+ "`attachment_no.`= :railway_attachment_no, Issues= :is_there_issue  "
+						 		+ "`attachment_no.`= :railway_attachment_no, Issues= :is_there_issue,demanded_amount_units= :demanded_amount_units, payment_amount_units= :payment_amount_units_railway   "
 						 		+ "where la_id_fk= :la_id ";
 						 paramSource = new BeanPropertySqlParameterSource(obj);		 
 						 count = namedParamJdbcTemplate.update(railwayInsertSubQry, paramSource);	
@@ -901,7 +904,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						 		+ "area_to_be_acquired= :private_area_to_be_acquired, name_of_the_owner= :name_of_the_owner, basic_rate= :basic_rate, attachment_no= :private_attachment_no, agriculture_tree_nos= :agriculture_tree_nos, agriculture_tree_rate= :agriculture_tree_rate, forest_tree_nos= :forest_tree_nos,"
 						 		+ "forest_tree_rate= :forest_tree_rate, consent_from_owner= :consent_from_owner, legal_search_report= :legal_search_report, date_of_registration= :date_of_registration, date_of_possession= :date_of_possession, possession_status_fk= :private_possession_status_fk, special_feature= :private_special_feature, "
 						 		+ "survey_number= :survey_number,village_id= :village_id, area_acquired= :private_area_acquired, hundred_percent_Solatium= :hundred_percent_Solatium, extra_25_percent= :extra_25_percent, total_rate_divide_m2= :total_rate_divide_m2,"
-						 		+ "land_compensation= :land_compensation, agriculture_tree_compensation= :agriculture_tree_compensation, forest_tree_compensation= :forest_tree_compensation, structure_compensation= :structure_compensation, borewell_compensation= :borewell_compensation, total_compensation= :total_compensation, remarks= :remarks, issues= :is_there_issue "
+						 		+ "land_compensation= :land_compensation, agriculture_tree_compensation= :agriculture_tree_compensation, forest_tree_compensation= :forest_tree_compensation, structure_compensation= :structure_compensation, borewell_compensation= :borewell_compensation, "
+						 		+ "total_compensation= :total_compensation, remarks= :remarks, issues= :is_there_issue,basic_rate_units= :basic_rate_units,agriculture_tree_rate_units= :agriculture_tree_rate_units,forest_tree_rate_units= :forest_tree_rate_units  "
 						 		+ "where la_id_fk= :la_id";
 						 
 						 	paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -911,7 +915,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						 		+ " forest_tree_survey=:forest_tree_survey, forest_tree_valuation= :forest_tree_valuation, forest_tree_valuation_status_fk= :forest_tree_valuation_status_fk, horticulture_tree_survey= :horticulture_tree_survey, horticulture_tree_valuation= :horticulture_tree_valuation, "
 						 		+ "structure_survey= :structure_survey, structure_valuation= :structure_valuation, borewell_survey= :borewell_survey, borewell_valuation= :borewell_valuation, horticulture_tree_valuation_status_fk= :horticulture_tree_valuation_status_fk, structure_valuation_status_fk= :structure_valuation_status_fk, "
 						 		+ "borewell_valuation_status_fk=:borewell_valuation_status_fk, rfp_to_adtp_status_fk= :rfp_to_adtp_status_fk, date_of_rfp_to_adtp= :date_of_rfp_to_adtp, date_of_rate_fixation_of_land= :date_of_rate_fixation_of_land, sdo_demand_for_payment= :sdo_demand_for_payment, "
-						 		+ "date_of_approval_for_payment= :date_of_approval_for_payment, payment_amount= :payment_amount, payment_date= :private_payment_date, survey_number= :survey_number, type_of_land= :type_of_land, sub_category_of_land= :sub_category_of_land, village_id= :village_id, remarks= :remarks, issues= :is_there_issue "
+						 		+ "date_of_approval_for_payment= :date_of_approval_for_payment, payment_amount= :payment_amount, payment_date= :private_payment_date, survey_number= :survey_number, type_of_land= :type_of_land, sub_category_of_land= :sub_category_of_land, village_id= :village_id, remarks= :remarks, issues= :is_there_issue,payment_amount_units= :payment_amount_units  "
 						 		+ "where la_id_fk= :la_id";
 						 paramSource = new BeanPropertySqlParameterSource(obj);		 
 						 count = namedParamJdbcTemplate.update(privateInsertSubQry, paramSource);	
@@ -1044,6 +1048,18 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				pValues[i++] = obj.getSub_category_of_land();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<LandAcquisition> getUnitsList() throws Exception {
+		List<LandAcquisition> objsList = null;
+		try {
+			String qry = "select id, unit, value from money_unit";			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

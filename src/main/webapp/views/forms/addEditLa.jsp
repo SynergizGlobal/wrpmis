@@ -306,7 +306,7 @@
                                 	<select class="units searchable validate-dropdown" id="jm_fee_amount_units" name="jm_fee_amount_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }">${obj.unit }</option>
+	                                      <option value="${obj.value }"<c:if test="${LADetails.jm_fee_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="jm_fee_amount_unitsError" class="error-msg" ></span>
@@ -451,7 +451,7 @@
 	                                	<select class="units searchable validate-dropdown" id="amount_demanded_units" name="amount_demanded_units">
 	                                		<option value="">Select</option>
 	                                		<c:forEach var="obj" items="${unitsList }">
-		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                      <option value="${obj.value }"<c:if test="${LADetails.amount_demanded_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
 	                                	</select>
 	                                	<span id="amount_demanded_unitsError" class="error-msg" ></span>
@@ -496,7 +496,7 @@
 	                                	<select class="units searchable validate-dropdown" id="amount_paid_units" name="amount_paid_units">
 	                                		<option value="">Select</option>
 	                                		<c:forEach var="obj" items="${unitsList }">
-		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                      <option value="${obj.value }" <c:if test="${LADetails.amount_paid_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
 	                                	</select>
 	                                	<span id="amount_paid_unitsError" class="error-msg" ></span>
@@ -653,10 +653,10 @@
                                     </div>
                                     <div class="col s4 m1 input-field pt-5">
 	                                	<p class="searchable_label">Unit</p>
-	                                	<select class="units searchable validate-dropdown" id="forest_demanded_amount_units" name="forest_demanded_amount_units">
+	                                	<select class="units searchable validate-dropdown" id="demanded_amount_units_forest" name="demanded_amount_units_forest">
 	                                		<option value="">Select</option>
 	                                		<c:forEach var="obj" items="${unitsList }">
-		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                      <option value="${obj.value }" <c:if test="${LADetails.demanded_amount_units_forest eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
 	                                	</select>
 	                                	<span id="forest_demanded_amount_unitsError" class="error-msg" ></span>
@@ -670,10 +670,10 @@
                                     </div>  
                                     <div class="col s4 m1 input-field pt-5">
 	                                	<p class="searchable_label">Unit</p>
-	                                	<select class="units searchable validate-dropdown" id="forest_payment_amount_units" name="forest_payment_amount_units">
+	                                	<select class="units searchable validate-dropdown" id="payment_amount_units_forest" name="payment_amount_units_forest">
 	                                		<option value="">Select</option>
 	                                		<c:forEach var="obj" items="${unitsList }">
-		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                      <option value="${obj.value }" <c:if test="${LADetails.payment_amount_units_forest eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
 	                                	</select>
 	                                	<span id="forest_payment_amount_unitsError" class="error-msg" ></span>
@@ -786,7 +786,7 @@
 	                                	<select class="units searchable validate-dropdown" id="basic_rate_units" name="basic_rate_units">
 	                                		<option value="">Select</option>
 	                                		<c:forEach var="obj" items="${unitsList }">
-		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                      <option value="${obj.value }" <c:if test="${LADetails.basic_rate_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
 	                                	</select>
 	                                	<span id="basic_rate_unitsError" class="error-msg" ></span>
@@ -818,7 +818,7 @@
 	                                	<select class="units searchable validate-dropdown" id="agriculture_tree_rate_units" name="agriculture_tree_rate_units">
 	                                		<option value="">Select</option>
 	                                		<c:forEach var="obj" items="${unitsList }">
-		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                      <option value="${obj.value }" <c:if test="${LADetails.agriculture_tree_rate_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
 	                                	</select>
 	                                	<span id="agriculture_tree_rate_unitsError" class="error-msg" ></span>
@@ -844,7 +844,7 @@
 	                                	<select class="units searchable validate-dropdown" id="forest_tree_rate_units" name="forest_tree_rate_units">
 	                                		<option value="">Select</option>
 	                                		<c:forEach var="obj" items="${unitsList }">
-		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                      <option value="${obj.value }" <c:if test="${LADetails.forest_tree_rate_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
 	                                	</select>
 	                                	<span id="forest_tree_rate_unitsError" class="error-msg" ></span>
@@ -1075,7 +1075,7 @@
 	                                	<select class="units searchable validate-dropdown" id="payment_amount_units" name="payment_amount_units">
 	                                		<option value="">Select</option>
 	                                		<c:forEach var="obj" items="${unitsList }">
-		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                      <option value="${obj.value }" <c:if test="${LADetails.payment_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
 	                                	</select>
 	                                	<span id="payment_amount_unitsError" class="error-msg" ></span>
@@ -1250,10 +1250,10 @@
                                     </div>
                                     <div class="col s4 m1 input-field pt-5">
 	                                	<p class="searchable_label">Unit</p>
-	                                	<select class="units searchable validate-dropdown" id="railway_demanded_amount_units" name="railway_demanded_amount_units">
+	                                	<select class="units searchable validate-dropdown" id="demanded_amount_units" name="demanded_amount_units">
 	                                		<option value="">Select</option>
 	                                		<c:forEach var="obj" items="${unitsList }">
-		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                      <option value="${obj.value }" <c:if test="${LADetails.demanded_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
 	                                	</select>
 	                                	<span id="railway_demanded_amount_unitsError" class="error-msg" ></span>
@@ -1267,10 +1267,10 @@
                                     </div>    
                                     <div class="col s4 m1 input-field pt-5">
 	                                	<p class="searchable_label">Unit</p>
-	                                	<select class="units searchable validate-dropdown" id="railway_payment_amount_units" name="railway_payment_amount_units">
+	                                	<select class="units searchable validate-dropdown" id="payment_amount_units_railway" name="payment_amount_units_railway">
 	                                		<option value="">Select</option>
 	                                		<c:forEach var="obj" items="${unitsList }">
-		                                      <option value="${obj.value }">${obj.unit }</option>
+		                                      <option value="${obj.value }" <c:if test="${LADetails.payment_amount_units_railway eq obj.value}">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
 	                                	</select>
 	                                	<span id="railway_payment_amount_unitsError" class="error-msg" ></span>
@@ -1819,14 +1819,62 @@
         
         function addLAForm(){
         	if(validator.form()){ // validation perform
-   	        	$(".page-loader").show();	    		
+   	        	$(".page-loader").show();	   
+   	        	var amount_demanded = $('#amount_demanded').val();
+   	        	var govt_amount_paid = $('#govt_amount_paid').val();
+   	        	var forest_demanded_amount = $('#forest_demanded_amount').val();
+   	        	var forest_payment_amount = $('#forest_payment_amount').val();
+   	        	var private_basic_rate = $('#private_basic_rate').val();
+   	        	var private_agri_tree_rate = $('#private_agri_tree_rate').val();
+   	        	var private_forest_tree_rate = $('#private_forest_tree_rate').val();
+   	        	var private_payment_amount = $('#private_payment_amount').val();
+   	        	var railway_demanded_amount = $('#railway_demanded_amount').val();
+   	        	var railway_payment_amount = $('#railway_payment_amount').val();
+   	        	var jm_fee_amount = $('#jm_fee_amount').val();
+   	        	
+	  			if(jm_fee_amount == ""){$('#jm_fee_amount_units').val("");}
+	  			if(amount_demanded == ""){$('#amount_demanded_units').val("");}
+	  			if(govt_amount_paid == ""){$('#amount_paid_units').val("");}
+	  			if(forest_demanded_amount == ""){$('#demanded_amount_units_forest').val("");}
+	  			if(forest_payment_amount == ""){$('#payment_amount_units_forest').val("");}
+	  			if(private_basic_rate == ""){$('#basic_rate_units').val("");}
+	  			if(private_agri_tree_rate == ""){$('#agriculture_tree_rate_units').val("");}
+	  			if(private_forest_tree_rate == ""){$('#forest_tree_rate_units').val("");}
+	  			if(private_payment_amount == ""){$('#payment_amount_units').val("");}
+	  			if(railway_demanded_amount == ""){$('#demanded_amount_units').val("");}
+	  			if(railway_payment_amount == ""){$('#payment_amount_units_railway').val("");}
+	  			
    	  			document.getElementById("landAcquisitionForm").submit();	
         	}
         }
         
         function updateLAFrom(){
          	if(validator.form()){ // validation perform
-    	        	$(".page-loader").show();	    		
+    	        	$(".page-loader").show();	
+    	        	var amount_demanded = $('#amount_demanded').val();
+       	        	var govt_amount_paid = $('#govt_amount_paid').val();
+       	        	var forest_demanded_amount = $('#forest_demanded_amount').val();
+       	        	var forest_payment_amount = $('#forest_payment_amount').val();
+       	        	var private_basic_rate = $('#private_basic_rate').val();
+       	        	var private_agri_tree_rate = $('#private_agri_tree_rate').val();
+       	        	var private_forest_tree_rate = $('#private_forest_tree_rate').val();
+       	        	var private_payment_amount = $('#private_payment_amount').val();
+       	        	var railway_demanded_amount = $('#railway_demanded_amount').val();
+       	        	var railway_payment_amount = $('#railway_payment_amount').val();
+       	        	var jm_fee_amount = $('#jm_fee_amount').val();
+       	        	
+    	  			if(jm_fee_amount == ""){$('#jm_fee_amount_units').val("");}
+    	  			if(amount_demanded == ""){$('#amount_demanded_units').val("");}
+    	  			if(govt_amount_paid == ""){$('#amount_paid_units').val("");}
+    	  			if(forest_demanded_amount == ""){$('#demanded_amount_units_forest').val("");}
+    	  			if(forest_payment_amount == ""){$('#payment_amount_units_forest').val("");}
+    	  			if(private_basic_rate == ""){$('#basic_rate_units').val("");}
+    	  			if(private_agri_tree_rate == ""){$('#agriculture_tree_rate_units').val("");}
+    	  			if(private_forest_tree_rate == ""){$('#forest_tree_rate_units').val("");}
+    	  			if(private_payment_amount == ""){$('#payment_amount_units').val("");}
+    	  			if(railway_demanded_amount == ""){$('#demanded_amount_units').val("");}
+    	  			if(railway_payment_amount == ""){$('#payment_amount_units_railway').val("");}
+    	  			
     	  			document.getElementById("landAcquisitionForm").submit();	
          	}
          }
@@ -1886,7 +1934,51 @@
 		  			 	required: false
 	  			 	  },"govt_amount_paid":{
 		  			 	required: false
-	  			 	  }
+	  			 	  },"jm_fee_amount_units":{
+        		 		 required: function(element){
+        		             return $("#jm_fee_amount").val()!="";
+        		         }
+        		 	  },"amount_demanded_units":{
+        		 		 required: function(element){
+        		             return $("#amount_demanded").val()!="";
+        		         }
+        		 	  },"amount_paid_units":{
+        		 		 required: function(element){
+        		             return $("#govt_amount_paid ").val()!="";
+        		         }
+        		 	  },"basic_rate_units":{
+        		 		 required: function(element){
+        		             return $("#private_basic_rate").val()!="";
+        		         }
+        		 	  },"agriculture_tree_rate_units":{
+        		 		 required: function(element){
+        		             return $("#private_agri_tree_rate").val()!="";
+        		         }
+        		 	  },"forest_tree_rate_units":{
+        		 		 required: function(element){
+        		             return $("#private_forest_tree_rate").val()!="";
+        		         }
+        		 	  },"demanded_amount_units_forest":{
+        		 		 required: function(element){
+        		             return $("#forest_demanded_amount").val()!="";
+        		         }
+        		 	  },"payment_amount_units_forest":{
+        		 		 required: function(element){
+        		             return $("#forest_payment_amount").val()!="";
+        		         }
+        		 	  },"payment_amount_units_railway":{
+        		 		 required: function(element){
+        		             return $("#railway_payment_amount").val()!="";
+        		         }
+        		 	  },"demanded_amount_units":{
+        		 		 required: function(element){
+        		             return $("#railway_demanded_amount").val()!="";
+        		         }
+        		 	  },"payment_amount_units":{
+        		 		 required: function(element){
+        		             return $("#private_payment_amount").val()!="";
+        		         }
+        		 	  }
 	  		 	},
 	  		    messages: {
 	  		 		 "project_id_fk": {
@@ -1899,6 +1991,28 @@
 	  			 		required: ' This field is required'
 	  			 	  },"id": {
 	  			 		required: ' This field is required'
+	  			 	  },"jm_fee_amount_units": {
+	  			 		required: ' Rrequired'
+	  			 	  },"demanded_amount_units": {
+	  			 		required: ' Rrequired'
+	  			 	  },"payment_amount_units": {
+	  			 		required: ' Rrequired'
+	  			 	  },"amount_demanded_units": {
+	  			 		required: ' Rrequired'
+	  			 	  },"amount_paid_units": {
+	  			 		required: ' Rrequired'
+	  			 	  },"payment_amount_units_forest": {
+	  			 		required: ' Rrequired'
+	  			 	  },"basic_rate_units": {
+	  			 		required: ' Rrequired'
+	  			 	  },"agriculture_tree_rate_units": {
+	  			 		required: ' Rrequired'
+	  			 	  },"forest_tree_rate_units": {
+	  			 		required: ' Rrequired'
+	  			 	  },"demanded_amount_units_forest": {
+	  			 		required: ' Rrequired'
+	  			 	  },"payment_amount_units_railway": {
+	  			 		required: ' Rrequired'
 	  			 	  }
 		   		},
 		   		errorPlacement:function(error, element){
@@ -1989,10 +2103,10 @@
 			       }else if (element.attr("id") == "payment_amount_units") {
 			           document.getElementById("payment_amount_unitsError").innerHTML = "";
 			           error.appendTo('#payment_amount_unitsError');
-			       }else if (element.attr("id") == "forest_demanded_amount_units") {
+			       }else if (element.attr("id") == "demanded_amount_units_forest") {
 			           document.getElementById("forest_demanded_amount_unitsError").innerHTML = "";
 			           error.appendTo('#forest_demanded_amount_unitsError');
-			       }else if (element.attr("id") == "forest_payment_amount_units") {
+			       }else if (element.attr("id") == "payment_amount_units_forest") {
 			           document.getElementById("forest_payment_amount_unitsError").innerHTML = "";
 			           error.appendTo('#forest_payment_amount_unitsError');
 			       }else if (element.attr("id") == "amount_demanded_units") {
@@ -2001,10 +2115,10 @@
 			       }else if (element.attr("id") == "amount_paid_units") {
 			           document.getElementById("amount_paid_unitsError").innerHTML = "";
 			           error.appendTo('#amount_paid_unitsError');
-			       }else if (element.attr("id") == "railway_demanded_amount_units") {
+			       }else if (element.attr("id") == "demanded_amount_units") {
 			           document.getElementById("railway_demanded_amount_unitsError").innerHTML = "";
 			           error.appendTo('#railway_demanded_amount_unitsError');
-			       }else if (element.attr("id") == "railway_payment_amount_units") {
+			       }else if (element.attr("id") == "payment_amount_units_railway") {
 			           document.getElementById("railway_payment_amount_unitsError").innerHTML = "";
 			           error.appendTo('#railway_payment_amount_unitsError');
 			       } else{

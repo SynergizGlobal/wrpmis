@@ -7,11 +7,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class LandAcquisition {
 	
 	private String work_id, la_id, project_id,project_id_fk,project_name,work_id_fk,work_name,work_short_name,survey_number, la_sub_category_fk,la_sub_category,la_category,village_id,status, status_of, type_of_land, sub_category_of_land, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector, area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, 
-	jm_start_date, jm_completion_date,is_there_issue,category_id, jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues,attachment,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name,
-	
+	jm_start_date, jm_completion_date,is_there_issue,category_id, jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues,attachment,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name
+	,jm_fee_amount_units,value,unit,
 	//gov
 	id, la_id_fk, area_to_be_acquired, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk, special_feature,
-    area_acquired, remarks,gov_remarks,
+    area_acquired, remarks,gov_remarks,amount_demanded_units,amount_paid_units,
     
     //private
     name_of_the_owner,private_area_to_be_acquired,private_area_acquired, basic_rate,private_attachment_no, attachment_no, agriculture_tree_nos, agriculture_tree_rate, forest_tree_nos, forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession, 
@@ -19,21 +19,126 @@ public class LandAcquisition {
     forest_tree_survey, forest_tree_valuation, forest_tree_valuation_status_fk, horticulture_tree_survey, horticulture_tree_valuation, structure_survey,private_remarks,
     structure_valuation, borewell_survey, borewell_valuation, horticulture_tree_valuation_status_fk, structure_valuation_status_fk, borewell_valuation_status_fk, 
     rfp_to_adtp_status_fk, date_of_rfp_to_adtp, date_of_rate_fixation_of_land, sdo_demand_for_payment, date_of_approval_for_payment, payment_amount, private_payment_date
+    ,payment_amount_units,basic_rate_units,agriculture_tree_rate_units,forest_tree_rate_units
     
     //forest
     ,forest_area_to_be_acquired,forest_area_acquired, forest_online_submission, forest_submission_date_to_dycfo,  forest_submission_date_to_ccf_thane, forest_submission_date_to_nodal_officer, forest_submission_date_to_revenue_secretary_mantralaya, forest_submission_date_to_regional_office_nagpur, forest_date_of_approval_by_regional_office_nagpur, 
     forest_valuation_by_dycfo, forest_demanded_amount, forest_payment_amount,forest_survey_number,forest_remarks,
     forest_approval_for_payment, forest_payment_date, forest_possession_date, forest_possession_status_fk, forest_payment_status_fk, forest_special_feature, forest_attachment_No,
-   
+    demanded_amount_units_forest,payment_amount_units_forest,
     //railway
     railway_area_to_be_acquired,railway_remarks,  railway_online_submission,railway_area_acquired,  railway_submission_date_to_DyCFO,  railway_submission_date_to_CCF_Thane, railway_submission_date_to_nodal_officer_CCF_Nagpur, 
     railway_submission_date_to_revenue_secretary_mantralaya, railway_submission_date_to_regional_office_nagpur,  railway_date_of_approval_by_Rregional_Office_agpur,  railway_valuation_by_DyCFO, railway_demanded_amount, railway_approval_for_payment, railway_payment_date, railway_payment_amount, railway_payment_status, railway_possession_date,  railway_possession_status, railway_special_feature, railway_attachment_no
-    ;
+    ,demanded_amount_units,payment_amount_units_railway;
 	
 	private List<MultipartFile> laFiles;
 	private List<LandAcquisition> laFilesList;
 	private String[] laFileNames;
 	
+	public String getPayment_amount_units_railway() {
+		return payment_amount_units_railway;
+	}
+
+	public void setPayment_amount_units_railway(String payment_amount_units_railway) {
+		this.payment_amount_units_railway = payment_amount_units_railway;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getJm_fee_amount_units() {
+		return jm_fee_amount_units;
+	}
+
+	public void setJm_fee_amount_units(String jm_fee_amount_units) {
+		this.jm_fee_amount_units = jm_fee_amount_units;
+	}
+
+	public String getAmount_demanded_units() {
+		return amount_demanded_units;
+	}
+
+	public void setAmount_demanded_units(String amount_demanded_units) {
+		this.amount_demanded_units = amount_demanded_units;
+	}
+
+	public String getAmount_paid_units() {
+		return amount_paid_units;
+	}
+
+	public void setAmount_paid_units(String amount_paid_units) {
+		this.amount_paid_units = amount_paid_units;
+	}
+
+	public String getPayment_amount_units() {
+		return payment_amount_units;
+	}
+
+	public void setPayment_amount_units(String payment_amount_units) {
+		this.payment_amount_units = payment_amount_units;
+	}
+
+	public String getBasic_rate_units() {
+		return basic_rate_units;
+	}
+
+	public void setBasic_rate_units(String basic_rate_units) {
+		this.basic_rate_units = basic_rate_units;
+	}
+
+	public String getAgriculture_tree_rate_units() {
+		return agriculture_tree_rate_units;
+	}
+
+	public void setAgriculture_tree_rate_units(String agriculture_tree_rate_units) {
+		this.agriculture_tree_rate_units = agriculture_tree_rate_units;
+	}
+
+	public String getForest_tree_rate_units() {
+		return forest_tree_rate_units;
+	}
+
+	public void setForest_tree_rate_units(String forest_tree_rate_units) {
+		this.forest_tree_rate_units = forest_tree_rate_units;
+	}
+
+	public String getDemanded_amount_units_forest() {
+		return demanded_amount_units_forest;
+	}
+
+	public void setDemanded_amount_units_forest(String demanded_amount_units_forest) {
+		this.demanded_amount_units_forest = demanded_amount_units_forest;
+	}
+
+	public String getPayment_amount_units_forest() {
+		return payment_amount_units_forest;
+	}
+
+	public void setPayment_amount_units_forest(String payment_amount_units_forest) {
+		this.payment_amount_units_forest = payment_amount_units_forest;
+	}
+
+	public String getDemanded_amount_units() {
+		return demanded_amount_units;
+	}
+
+	public void setDemanded_amount_units(String demanded_amount_units) {
+		this.demanded_amount_units = demanded_amount_units;
+	}
+
 	public List<MultipartFile> getLaFiles() {
 		return laFiles;
 	}

@@ -42,5 +42,7 @@ public interface LandAcquisitionDao {
 
 	public int getTotalRecords(LandAcquisition obj, String searchParameter) throws Exception;
 
+	public List<LandAcquisition> getUnitsList() throws Exception;
+
 
 }

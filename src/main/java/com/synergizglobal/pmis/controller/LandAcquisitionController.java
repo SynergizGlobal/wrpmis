@@ -35,6 +35,7 @@ import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.LandAquisationPaginationObject;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.Risk;
+import com.synergizglobal.pmis.model.TAFinancials;
 import com.synergizglobal.pmis.model.Training;
 
 @Controller
@@ -302,6 +303,9 @@ public class LandAcquisitionController {
 			List<LandAcquisition> subCategorysList = service.getSubCategorysListForLAForm(obj);
 			model.addObject("subCategorysList", subCategorysList);
 			
+			List<LandAcquisition> unitsList = service.getUnitsList();
+			model.addObject("unitsList", unitsList);
+			
 		}catch (Exception e) {
 				logger.error("addLandAcquisitionForm : " + e.getMessage());
 		}
@@ -326,6 +330,9 @@ public class LandAcquisitionController {
 			
 			List<LandAcquisition> subCategorysList = service.getSubCategorysListForLAForm(obj);
 			model.addObject("subCategorysList", subCategorysList);
+			
+			List<LandAcquisition> unitsList = service.getUnitsList();
+			model.addObject("unitsList", unitsList);
 			
 			LandAcquisition LADetails = service.getLandAcquisitionForm(obj);
 			model.addObject("LADetails", LADetails);

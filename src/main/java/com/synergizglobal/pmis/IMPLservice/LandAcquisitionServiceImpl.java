@@ -106,5 +106,10 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 		return dao.getTotalRecords(obj,searchParameter);
 	}
 
+	@Override
+	public List<LandAcquisition> getUnitsList() throws Exception {
+		return dao.getUnitsList();
+	}
+
 
 }

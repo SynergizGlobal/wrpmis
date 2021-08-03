@@ -431,7 +431,7 @@
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsListForFinancialsForm",
                     data: myParams, cache: false,
-                    success: function (data) {alert("Yes"+data.length );
+                    success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_short_name = '';
@@ -442,8 +442,7 @@
                         $(".page-loader").hide();
                     },error:  function (data){
  	   			      $(".page-loader").hide();
- 	   			  alert("fail");
-	   	          	  //getErrorMessage(jqXHR, exception);
+	   	          	  getErrorMessage(jqXHR, exception);
 	   	     	  }
                 });
             }else{

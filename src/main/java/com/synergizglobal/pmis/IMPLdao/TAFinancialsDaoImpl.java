@@ -17,6 +17,7 @@ import com.synergizglobal.pmis.Idao.TAFinancialsDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.TAFinancials;
 
@@ -119,7 +120,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY work_id_fk ";
+			qry = qry + "GROUP BY contract_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -173,7 +174,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			
 				List<TAFinancials> objsList = null;
 			String qryDetails = "select ID,contract_id_fk, DATE_FORMAT(month,'%Y-%m') AS month,"
-					+ "cast(planned as CHAR) as planned,cast(actual as CHAR) as actual,cast(payment_received as CHAR) as payment_received "
+					+ "cast(planned as CHAR) as planned,cast(actual as CHAR) as actual,cast(payment_received as CHAR) as payment_received,planned_units as planned_unit,actual_units as actual_unit,payment_received_units as payment_unit "
 					+ "from ta_financials "
 					+"where contract_id_fk = ? and status = ? order by month desc";
 			
@@ -197,9 +198,9 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			String insertQry = "INSERT INTO ta_financials"
-					+ "(contract_id_fk, month, planned, actual, payment_received, status)"
+					+ "(contract_id_fk, month, planned, actual, payment_received, status, planned_units, actual_units, payment_received_units)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,?)";
+					+ "(?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insertQry);
 			
 			int	arraySize = 0;
@@ -227,6 +228,24 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 					arraySize = obj.getPayment_receiveds().length;
 				}
 			}
+			if( !StringUtils.isEmpty(obj.getPlanned_units()) && obj.getPlanned_units().length > 0) {
+				obj.setPlanned_units(CommonMethods.replaceEmptyByNullInSringArray(obj.getPlanned_units()));
+				if(arraySize < obj.getPlanned_units().length) {
+					arraySize = obj.getPlanned_units().length;
+				}
+			}
+			if( !StringUtils.isEmpty(obj.getActual_units()) && obj.getActual_units().length > 0) {
+				obj.setActual_units(CommonMethods.replaceEmptyByNullInSringArray(obj.getActual_units()));
+				if(arraySize < obj.getActual_units().length) {
+					arraySize = obj.getActual_units().length;
+				}
+			}
+			if( !StringUtils.isEmpty(obj.getPayment_received_units()) && obj.getPayment_received_units().length > 0) {
+				obj.setPayment_received_units(CommonMethods.replaceEmptyByNullInSringArray(obj.getPayment_received_units()));
+				if(arraySize < obj.getPayment_received_units().length) {
+					arraySize = obj.getPayment_received_units().length;
+				}
+			}
 			if(!StringUtils.isEmpty(obj.getMonths()) && obj.getMonths().length > 0) {
 				for (int i = 0; i < arraySize; i++) {
 					 int k = 1;
@@ -238,6 +257,9 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 						 insertStmt.setString(k++,(obj.getActuals().length > 0)?obj.getActuals()[i]:null);
 						 insertStmt.setString(k++,(obj.getPayment_receiveds().length > 0)?obj.getPayment_receiveds()[i]:null);
 						 insertStmt.setString(k++,CommonConstants.ACTIVE);
+						 insertStmt.setString(k++,(obj.getPlanned_units().length > 0)?obj.getPlanned_units()[i]:null);
+						 insertStmt.setString(k++,(obj.getActual_units().length > 0)?obj.getActual_units()[i]:null);
+						 insertStmt.setString(k++,(obj.getPayment_received_units().length > 0)?obj.getPayment_received_units()[i]:null);
 						 insertStmt.addBatch();
 					 }
 				}
@@ -275,13 +297,13 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			if(stmt != null){stmt.close();}
 			
 			String updateQry = "UPDATE ta_financials set "
-					+ "month= ?, planned= ?, actual= ?,payment_received = ?,status = ? "
+					+ "month= ?, planned= ?, actual= ?,payment_received = ?,status = ?,planned_units = ?,actual_units = ?,payment_received_units = ? "
 					+ "where ID= ?";
 			updateStmt = con.prepareStatement(updateQry);
 			
 			String insertqry = "INSERT INTO ta_financials"
-					+ "(contract_id_fk, month, planned, actual, payment_received, status)"
-					+ "VALUES(?,?,?,?,?,?)";
+					+ "(contract_id_fk, month, planned, actual, payment_received, status, planned_units, actual_units, payment_received_units)"
+					+ "VALUES(?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insertqry); 
 			int arraySize = 0; 
 			
@@ -309,6 +331,24 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 					arraySize = obj.getPayment_receiveds().length;
 				}
 			}
+			if( !StringUtils.isEmpty(obj.getPlanned_units()) && obj.getPlanned_units().length > 0) {
+				obj.setPlanned_units(CommonMethods.replaceEmptyByNullInSringArray(obj.getPlanned_units()));
+				if(arraySize < obj.getPlanned_units().length) {
+					arraySize = obj.getPlanned_units().length;
+				}
+			}
+			if( !StringUtils.isEmpty(obj.getActual_units()) && obj.getActual_units().length > 0) {
+				obj.setActual_units(CommonMethods.replaceEmptyByNullInSringArray(obj.getActual_units()));
+				if(arraySize < obj.getActual_units().length) {
+					arraySize = obj.getActual_units().length;
+				}
+			}
+			if( !StringUtils.isEmpty(obj.getPayment_received_units()) && obj.getPayment_received_units().length > 0) {
+				obj.setPayment_received_units(CommonMethods.replaceEmptyByNullInSringArray(obj.getPayment_received_units()));
+				if(arraySize < obj.getPayment_received_units().length) {
+					arraySize = obj.getPayment_received_units().length;
+				}
+			}
 			if(!StringUtils.isEmpty(obj.getMonths()) && obj.getMonths().length > 0) {
 				for (int i = 0; i < arraySize; i++) {
 					String fId = obj.getIDs()[i];
@@ -320,6 +360,9 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 						 updateStmt.setString(k++,(obj.getActuals().length > 0)?obj.getActuals()[i]:null);
 						 updateStmt.setString(k++,(obj.getPayment_receiveds().length > 0)?obj.getPayment_receiveds()[i]:null);
 						 updateStmt.setString(k++,CommonConstants.ACTIVE);
+						 updateStmt.setString(k++,(obj.getPlanned_units().length > 0)?obj.getPlanned_units()[i]:null);
+						 updateStmt.setString(k++,(obj.getActual_units().length > 0)?obj.getActual_units()[i]:null);
+						 updateStmt.setString(k++,(obj.getPayment_received_units().length > 0)?obj.getPayment_received_units()[i]:null);
 						 updateStmt.setString(k++,obj.getIDs()[i]);
 						 updateStmt.addBatch();
 	
@@ -334,6 +377,9 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 							 insertStmt.setString(t++,(obj.getActuals().length > 0)?obj.getActuals()[i]:null);
 							 insertStmt.setString(t++,(obj.getPayment_receiveds().length > 0)?obj.getPayment_receiveds()[i]:null);
 							 insertStmt.setString(t++,CommonConstants.ACTIVE);
+							 insertStmt.setString(t++,(obj.getPlanned_units().length > 0)?obj.getPlanned_units()[i]:null);
+							 insertStmt.setString(t++,(obj.getActual_units().length > 0)?obj.getActual_units()[i]:null);
+							 insertStmt.setString(t++,(obj.getPayment_received_units().length > 0)?obj.getPayment_received_units()[i]:null);
 							 insertStmt.addBatch();
 						 }
 					}
@@ -560,7 +606,6 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 
 	@Override
 	public List<TAFinancials> getUnitsList() throws Exception {
-
 		List<TAFinancials> objsList = null;
 		try {
 			String qry = "select id, unit, value from money_unit";			
@@ -570,6 +615,8 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 		}
 		return objsList;
 	}
+		
+
 		
 		
 		

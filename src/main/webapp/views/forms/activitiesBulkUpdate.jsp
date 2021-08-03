@@ -815,7 +815,7 @@
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                        var contract_name = '';
-	                        if ($.trim(val.contract_name) != '') { contract_name =  $.trim(val.contract_name) }
+	                        if ($.trim(val.contract_short_name) != '') { contract_name =  $.trim(val.contract_short_name) }
 	                        if ($.trim(id2) != '' && val.contract_id == $.trim(id2)) {
 	                        	id1 = val.contract_id;
 	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '" selected>'  + $.trim(contract_name) + '</option>');

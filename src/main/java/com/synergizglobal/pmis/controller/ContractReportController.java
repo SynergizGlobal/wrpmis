@@ -691,7 +691,7 @@ public class ContractReportController {
 				headerTextRight="(Expiry by "+DateParser.parseToIndianDateFormatWithDot(obj.getDate())+")";
 			}			
 			
-			String headerTextMiddle = "Contract DOC BG and Insurance Validity Report";
+			String headerTextMiddle = "Contract DOC, BG and Insurance Validity Report for Works in Progress";
 			
 			//String headerTextRight = report_created_date;
 			
@@ -713,10 +713,10 @@ public class ContractReportController {
 				byteArray = bos.toByteArray();
 				
 				String file_extention = "docx";
-				String docbginsurance_file_name = "Contract-DOC-BG-and-Insurance-Validity-Report";
+				String docbginsurance_file_name = "Contract-DOC-BG-and-Insurance-Validity-Report-for-Works-in-Progress";
 
 				String cc = "", bcc = CommonConstants.BCC_MAIL,
-						subject = "PMIS - Contract DOC, BG and Insurance Validity Report", body = "";
+						subject = "PMIS - Contract DOC, BG and Insurance Validity Report for Works in Progress", body = "";
 
 				if (!StringUtils.isEmpty(recipients)) {
 					EMailSender emailSender = new EMailSender();

@@ -2743,7 +2743,7 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			qry = qry + " and user_name not like '%user%' and pmis_key_fk not like '%SGS%'";// and department_fk in('Engg','Elec','S&T') 
 			
-			qry = qry + " ORDER BY FIELD(user_type_fk,'Management','HOD','DYHOD','Officers ( Jr./Sr. Scale )','Others'),u.designation";
+			qry = qry + " ORDER BY FIELD(user_type_fk,'HOD','DYHOD','Officers ( Jr./Sr. Scale )','Others'),u.designation";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

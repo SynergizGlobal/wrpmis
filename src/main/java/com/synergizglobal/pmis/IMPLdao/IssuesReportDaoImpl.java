@@ -231,7 +231,10 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				pValues[i++] = obj.getStatus_fk();
 			}*/
 			
-			hodQry = hodQry + " GROUP BY hod_user_id_fk ORDER BY u.designation";
+			hodQry = hodQry + "  and  designation in('ED/Civil','CPM/I','CPM/II','CPM/III','CPM/V','CE','GGM Civil','ED/S&T','CSTE','GM/Electrical','CEE/Project-I','CEE/Project-II','ED/Finance & Planning','FA&CAO','GM/GA&S','CPO','COM','GM/Procurement','OSD','CVO') "
+					+ "GROUP BY hod_user_id_fk ";
+			hodQry = hodQry + "  ORDER BY FIELD(designation,'ED/Civil','CPM/I','CPM/II','CPM/III','CPM/V','CE','GGM Civil','ED/S&T','CSTE','GM/Electrical','CEE/Project-I','CEE/Project-II','ED/Finance & Planning','FA&CAO','GM/GA&S','CPO','COM','GM/Procurement','OSD','CVO'),designation" ;
+			
 			
 			List<Issue> hodObjsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 			
@@ -368,8 +371,8 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 					+ "(select count(*) from issue left join contract on contract_id_fk = contract_id where hod_user_id_fk = c.hod_user_id_fk) as total_issues," 
 					+ "(select count(*) from issue left join contract on contract_id_fk = contract_id where hod_user_id_fk = c.hod_user_id_fk and status_fk = 'Closed') as closed_issues,"
 					+ "(select count(*) from issue left join contract on contract_id_fk = contract_id where hod_user_id_fk = c.hod_user_id_fk and status_fk <> 'Closed') as open_issues "
-					+ "from issue i "
-					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "from contract c "
+					//+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "where hod_user_id_fk is not null and hod_user_id_fk <> '' ";
@@ -380,7 +383,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				hodQry = hodQry + " and c.contract_id_fk = ?";
+				hodQry = hodQry + " and c.contract_id = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
@@ -402,7 +405,9 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
 			
-			hodQry = hodQry + " GROUP BY hod_user_id_fk ORDER BY u.designation";
+			hodQry = hodQry + "  and  designation in('ED/Civil','CPM/I','CPM/II','CPM/III','CPM/V','CE','GGM Civil','ED/S&T','CSTE','GM/Electrical','CEE/Project-I','CEE/Project-II','ED/Finance & Planning','FA&CAO','GM/GA&S','CPO','COM','GM/Procurement','OSD','CVO') "
+					+ "GROUP BY hod_user_id_fk ";
+			hodQry = hodQry + "  ORDER BY FIELD(designation,'ED/Civil','CPM/I','CPM/II','CPM/III','CPM/V','CE','GGM Civil','ED/S&T','CSTE','GM/Electrical','CEE/Project-I','CEE/Project-II','ED/Finance & Planning','FA&CAO','GM/GA&S','CPO','COM','GM/Procurement','OSD','CVO'),designation" ;
 			
 			objsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 			

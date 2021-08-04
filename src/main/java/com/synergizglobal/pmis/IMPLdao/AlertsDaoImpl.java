@@ -2050,7 +2050,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				arrSize++;
 			}
 			qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
-			qry = qry + " GROUP BY u.designation ORDER BY u.designation";
+			qry = qry + " GROUP BY u.designation ORDER BY u.designation asc ";
 			
 			Object[] pValues = new Object[arrSize];
 			

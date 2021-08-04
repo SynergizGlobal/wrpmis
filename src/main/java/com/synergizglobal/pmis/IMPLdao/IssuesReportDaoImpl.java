@@ -231,9 +231,8 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				pValues[i++] = obj.getStatus_fk();
 			}*/
 			
-			hodQry = hodQry + "  and  designation in('ED/Civil','CPM/I','CPM/II','CPM/III','CPM/V','CE','GGM Civil','ED/S&T','CSTE','GM/Electrical','CEE/Project-I','CEE/Project-II','ED/Finance & Planning','FA&CAO','GM/GA&S','CPO','COM','GM/Procurement','OSD','CVO') "
-					+ "GROUP BY hod_user_id_fk ";
-			hodQry = hodQry + "  ORDER BY FIELD(designation,'ED/Civil','CPM/I','CPM/II','CPM/III','CPM/V','CE','GGM Civil','ED/S&T','CSTE','GM/Electrical','CEE/Project-I','CEE/Project-II','ED/Finance & Planning','FA&CAO','GM/GA&S','CPO','COM','GM/Procurement','OSD','CVO'),designation" ;
+			hodQry = hodQry + " GROUP BY hod_user_id_fk ";
+			hodQry = hodQry + " ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO'),designation" ;
 			
 			
 			List<Issue> hodObjsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
@@ -405,9 +404,8 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
 			
-			hodQry = hodQry + "  and  designation in('ED/Civil','CPM/I','CPM/II','CPM/III','CPM/V','CE','GGM Civil','ED/S&T','CSTE','GM/Electrical','CEE/Project-I','CEE/Project-II','ED/Finance & Planning','FA&CAO','GM/GA&S','CPO','COM','GM/Procurement','OSD','CVO') "
-					+ "GROUP BY hod_user_id_fk ";
-			hodQry = hodQry + "  ORDER BY FIELD(designation,'ED/Civil','CPM/I','CPM/II','CPM/III','CPM/V','CE','GGM Civil','ED/S&T','CSTE','GM/Electrical','CEE/Project-I','CEE/Project-II','ED/Finance & Planning','FA&CAO','GM/GA&S','CPO','COM','GM/Procurement','OSD','CVO'),designation" ;
+			hodQry = hodQry + " GROUP BY hod_user_id_fk ";
+			hodQry = hodQry + " ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO'),designation" ;
 			
 			objsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 			

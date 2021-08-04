@@ -189,9 +189,9 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 		Map<String,Map<String,List<Issue>>> objsList = new LinkedHashMap<String,Map<String,List<Issue>>>();
 		try {
 			
-			String hodQry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name,hod_user_id_fk,u.designation,u.user_name as hod_name "
-					+ "from issue i "
-					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+			String hodQry = "SELECT c.contract_id,contract_name,contract_short_name,hod_user_id_fk,u.designation,u.user_name as hod_name "
+					+ "from contract c "
+					//+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "where hod_user_id_fk is not null and hod_user_id_fk <> '' ";
@@ -202,18 +202,18 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				hodQry = hodQry + " and contract_id_fk = ?";
+				hodQry = hodQry + " and contract_id = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				hodQry = hodQry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+			/*if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				hodQry = hodQry + " and status_fk <> ?";
 				arrSize++;
 			}
-			
+			*/
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -227,9 +227,9 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+			/*if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
-			}
+			}*/
 			
 			hodQry = hodQry + " GROUP BY hod_user_id_fk ORDER BY u.designation";
 			

@@ -460,6 +460,7 @@ public class DocxTableCreation {
 					}		
 					table.getContent().add(titleRow);
 					
+					if(!StringUtils.isEmpty(hodEntry.getValue()) && hodEntry.getValue().size() > 0) {
 					int rNo = 1;
 					//for (Issue pObj : pendingIssues) {
 					for (Map.Entry<String,List<Issue>> entry : hodEntry.getValue().entrySet()) {
@@ -559,7 +560,19 @@ public class DocxTableCreation {
 							}
 							rNo++;
 						}
-					}			
+					}
+				}else {
+					Tr hodTableRow = factory.createTr();
+					addTableCell(factory, wordMLPackage, hodTableRow, "NIL", boldRPr,
+							JcEnumeration.CENTER, false, null);
+					
+					for(int k = 1;k < 6;k++) {
+						addTableCell(factory, wordMLPackage, hodTableRow, "", boldRPr,
+								JcEnumeration.LEFT, false, null);
+					}				
+					table.getContent().add(hodTableRow);	
+					mergeCellsHorizontal(table, 1, 0, 6);
+				}
 					/****************************************************************************************/			
 					
 					setTableAlignFixed(factory, table, JcEnumeration.CENTER);

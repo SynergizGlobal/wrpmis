@@ -210,8 +210,11 @@
 				{
 					$("#rptName").html("DOC Report");
 					$("#nextRow").show();
+					$('#toremove').hide();
 					$("#dateDiv").show();
-					$("#contractDiv").hide();					
+					$("#contractDiv").hide();	
+					
+
 				}
 				else if(ReportNo==4)
 				{
@@ -398,7 +401,11 @@
                         		   $("#contract_status_fk").append('<option value="' + val.contract_status_fk + '">' + $.trim(val.contract_status_fk) +'</option>');
                                } */
                         	   $("#contract_status_fk").append('<option value="' + val.contract_status_fk + '">' + $.trim(val.contract_status_fk) +'</option>');
-   	                       });
+                               var name = document.querySelector("#rptName").textContent;
+                               if(name === 'DOC Report' ||name === 'BG Report' ||name === 'Insurance Report' ||name === 'DOC, BG & Insurance Report'){
+                            	   $("#contract_status_fk option[value='Closed']").remove();
+                               } 
+   	                       }); 
                        }
                        $('.searchable').select2();
                        $(".page-loader").hide();

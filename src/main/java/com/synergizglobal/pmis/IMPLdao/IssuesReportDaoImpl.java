@@ -382,7 +382,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				hodQry = hodQry + " and c.contract_id_fk = ?";
+				hodQry = hodQry + " and contract_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {

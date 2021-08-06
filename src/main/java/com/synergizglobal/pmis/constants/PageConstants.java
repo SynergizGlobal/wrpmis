@@ -95,6 +95,8 @@ public class PageConstants {
 	
 	public static final String safetyInstruction = "forms/safetyInstruction";
 	
+	public static final String contractResources = "forms/contractResources";
+	
 	public static final String manuals = "forms/manuals";
 	
 	public static final String activitiesReport = "forms/activitiesReport";

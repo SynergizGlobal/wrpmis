@@ -340,7 +340,7 @@
 								<span id="faculty_nameError" class="error-msg"></span>
 							</div>
 							<div class="col s6 m4 input-field ">
-								<input id="designation" type="text" class="validate" value="${trainingDetails.designation }"> 
+								<input id="designation" type="text" name="designation" class="validate" value="${trainingDetails.designation }"> 
 								<label for="designation">Designation</label>
 								<span id="designationError" class="error-msg"></span>
 							</div>
@@ -653,7 +653,7 @@
 																							test="${not empty tObj.trainingAttendees && fn:length(tObj.trainingAttendees) gt 0 }">
 																							<c:forEach var="dObj" items="${tObj.trainingAttendees }" varStatus="indexx">
 																								<tr id="attendeesRow${indexx.count }${index.count }">
-																									<td data-head="Department" class="input-field"><input type="hidden" disabled id="rowCounts${indexx.count }${index.count }${indexx.count }"  class="hide" />
+																									<td data-head="Department" class="input-field">
 																									<input type="hidden" name="training_session_id_fks" id="training_session_id_fks${indexx.count }${index.count }${indexx.count }"
 																										 value="${dObj.training_session_id_fk}" />
 																										<input type="hidden" name="training_attendees_ids" id="training_attendees_ids${indexx.count }${index.count }${indexx.count }"
@@ -704,24 +704,12 @@
 																											<i class="fa fa-close"></i>
 																									</a></td>
 																								</tr>
-																						<!-- 	<script>
-																									 var w = $('#attendeesTableBody${index.count } tr:last').attr("id");
-																							 			
-																									
-																									 $("#rowsCounts${index.count }").val(values);
-																									 var value = ${indexx.count }
-																									 if(value > 1){
-																							            	var lastIndex = value -1;
-																							          	    var lastRow = $('#attendeesTableBody${index.count } #rowCounts${indexx.count -1}${index.count}${index.count}').prop('disabled', true);
-																							            } 																								
-																									 $('#attendeesTableBody${index.count }  #rowCounts${indexx.count }${index.count }${indexx.count }:last').val(len);
-																									 																							
-																								</script>  -->
+																					
 																							</c:forEach>
 																						 </c:when>
 																	 					<c:otherwise>
 																							<tr id="attendeesRow0${index.count }">
-																								<td data-head="Department" class="input-field"><input type="hidden" id="rowCounts0${index.count }"  value="1" class="hide" />
+																								<td data-head="Department" class="input-field">
 																								<input type="hidden" name="training_session_id_fks" id="training_session_id_fks0${index.count }"
 																									 value="${tObj.training_session_id}" />
 																									 <input type="hidden" name="training_attendees_ids" id="training_attendees_ids0${index.count }" />
@@ -916,7 +904,7 @@
 																						 </c:when>
 																	 					<c:otherwise>
 																							<tr id="newAttendeesRow0${index.count }">
-																								<td data-head="Department" class="input-field"><input type="hidden" id="rowCounts0${index.count }" value="1" class="hide" />
+																								<td data-head="Department" class="input-field">
 																								<input type="hidden" name="training_session_id_fks" id="new_training_session_id_fks0${index.count }"
 																									 value="${tObj.training_session_id}" />
 																									 <input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids0${index.count }" />
@@ -934,7 +922,7 @@
 																											</c:forEach>                                           
 																                                        </select>                                   
 																								</td>
-																								<input type="hidden" id="rowsCounts${index.count }" name="rowsCounts"/>	
+																								<%-- <input type="hidden" id="rowsCounts${index.count }" name="rowsCounts"/>	 --%>
 																								<input type="hidden"  name="is_new_users" value="Yes"/>
 																								<td data-head="Attendee" class="input-field">																									
 																									<input id="new_attendees0${index.count }" name="attendees" type="text" class="validate" placeholder="Name">
@@ -1116,7 +1104,7 @@
 																                    <tbody id="attendeesTableBody0">
 																                        <tr id="attendeesrow0">
 																                            <td data-head="Department" class="input-field">
-																                                <input type="hidden" id="rowCounts0"  class="hide" disabled="">
+																                              
 																                                    <input type="hidden" name="training_session_id_fks" id="training_session_id_fks0"> 
 																                                    <input type="hidden"name="training_attendees_ids" id="training_attendees_ids0"> 
 																                                    <select class="searchable validate-dropdown " name="department_fks" id="department_fks0" >
@@ -1183,7 +1171,7 @@
 																			</thead>
 																			<tbody id="newAttendeesTableBody00">
 																				<tr id="newAttendeesRow00">
-																					<td data-head="Department" class="input-field"><input type="hidden" id="rowCounts00"  value="1" class="hide" />
+																					<td data-head="Department" class="input-field">
 																					<input type="hidden" name="training_attendees_ids" id="training_attendees_ids00" value="${tObj.training_session_id_fk}"/> 
 																					<select class="searchable validate-dropdown" name="department_fks" id="new_department_fks00">
 																							<option value="">Select Department</option>
@@ -1715,7 +1703,7 @@
             var rNo = Number(trainNo)+1;
         
             var html = '<tr id="attendeesRow'+rNo+'">' +
-            	   '<td data-head="Department" class="input-field"><input type="hidden" disabled id="rowCounts'+rNo+'"   class="hide" />'+
+            	   '<td data-head="Department" class="input-field">'+
 			 	   '<input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+tNo+'" value="'+trainingSessionId+'" />'+
 				   '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo +tNo+'" />'+
 	               '<select id="department_fks'+ rNo +tNo+'" name="department_fks" class="searchable validate-dropdown " >'+
@@ -1738,7 +1726,6 @@
        	     $('#department_fks' + rNo+tNo ).select2();
        	     $('#attendees' + rNo+tNo ).select2();
        	  	 $('#hod_user_id_fks' + rNo+tNo ).select2();
-       		 //$('#attendeesTableBody'+tNo+' #rowCounts'+rNo+':last').val(c)
        		 $('#required_fks'+ rNo+tNo).on('change', function(e){
                  if($(this).prop('checked'))
                  {
@@ -1776,7 +1763,7 @@
             var rNo = Number(trainNo)+1;
       
             var html = '<tr id="newAttendeesRow'+rNo+'">' +
-            '<td data-head="Department" class="input-field"><input type="hidden" id="rowCounts'+rNo+'"   class="hide" />'+
+            '<td data-head="Department" class="input-field">'+
 		 	   '<input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+tNo+'" value="'+trainingSessionId+'" />'+
 			   '<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids'+ rNo +tNo+'" />'+
             '<select id="new_department_fks'+ rNo +tNo+'" name="department_fks" class="searchable validate-dropdown " >'+
@@ -1801,7 +1788,6 @@
              $("#newTrainNo").val(rNo );
        	     $('#new_department_fks' + rNo+tNo ).select2();
        	  	 $('#new_hod_user_id_fks' + rNo+tNo ).select2();
-       		 //$('#newAttendeesTableBody'+tNo+' #rowCounts'+rNo+':last').val(c)
        		 $('#new_required_fks'+ rNo+tNo).on('change', function(e){
                  if($(this).prop('checked'))
                  {
@@ -1846,7 +1832,7 @@
 				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4> <div class="row">'+
 				 '<div class="s12 m10 offset-m1 col"><div class="row fixed-width" > <div class="table-inside"><table id="training-update-table'+ rNo +'" class="mdl-data-table val mobile_responsible_table">'+
 		         '<thead><tr><th>Department</th><th>Attendee</th><th>Nominated</th><th>Participated</th><th>Action</th></tr></thead> <tbody id="attendeesTableBody'+ rNo +'"> <tr id="attendeesRow'+ rNo +'">'+
-		         '<td data-head="Department" class="input-field"><input type="hidden" disabled id="rowCounts'+ rNo+i+'"  class="hide" />'+
+		         '<td data-head="Department" class="input-field">'+
 		         '<input type="hidden" name="training_session_id_fks" id="training_session_id_fks'+ rNo+i+'" /> <input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo+i+'" /> '+
 		         '<select class="searchable validate-dropdown" name="department_fks" id="department_fks'+ rNo+i+'"> <option value="">Select Department</option>'+
 	             <c:forEach var="obj" items="${departmentsList}"> 
@@ -1868,7 +1854,7 @@
 		         '<div class="row fixed-width"><div class="table-inside"> <table id="training-new-update-table'+ rNo +'" class="mdl-data-table mobile_responsible_table">'+
 					  '<thead><tr><th>Department</th><th>HOD</th><th>Attendee</th><th>Designation</th><th>Mobile</th><th>Nominated</th><th>Participated</th><th>Action</th></tr></thead>'+
 						'<tbody id="newAttendeesTableBody'+ rNo +'" ><tr id="newAttendeesRow'+rNo+1+'"><td data-head="Department" class="input-field">'+
-						    '<input type="hidden" id="rowCounts'+rNo +'"  value="1" class="hide" /><input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
+						    '<input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
 						    '<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids'+ rNo+i+'" />'+
 						    '<select class="searchable validate-dropdown" name="department_fks" id="new_department_fks'+ rNo+i+'">'+
 						      ' <option value="" >Select Department </option>'+

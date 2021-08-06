@@ -258,7 +258,10 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();     
-            //getResourceList();
+            $('#date_icon').click(function () {
+                event.stopPropagation();
+                $('#date').click();
+            });
         });
 		
 		function getWorksList(projectId) {

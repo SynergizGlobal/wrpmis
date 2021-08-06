@@ -161,7 +161,8 @@
        	}	
        	.button .btn.btn-left{
        		position:relative;
-       		float:left;  
+       		float:left; 
+       		margin-right:auto; 
        		border-radius: 10px 0 0 10px;   		
        	}	
        	.button .btn.btn-right{
@@ -478,7 +479,7 @@
 		                    </div> 
 	                        <div class="button">
 		                        <c:if test="${not empty pObj.projectDocs}">
-		                              <a class="btn btn-center modal-trigger" href="#documentsModal${index.count }"><i class="fa fa-download" ></i></a> 
+		                              <a class="btn btn-left modal-trigger" href="#documentsModal${index.count }"><i class="fa fa-download" ></i></a> 
 		                              <div id="documentsModal${index.count }" class="modal">
 								            <div class="modal-content">
 								                <h5 class="modal-header">${pObj.project_name } Files<span class="right modal-action modal-close"><span

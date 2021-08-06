@@ -1402,7 +1402,7 @@
 										<button type="button" onclick="updateTraining();" class="btn waves-effect waves-light bg-m">Update</button>
 									</c:if>
 									<c:if test="${action eq 'add'}"> 
-										<button type="button" onclick="addTraining();" class="btn waves-effect waves-light bg-m">Add</button>
+										<button type="button" onclick="addTraining();" class="btn waves-effect waves-light bg-m" style="min-width: 90px; ">Add</button>
 									</c:if>
 								</div>
 							</div>

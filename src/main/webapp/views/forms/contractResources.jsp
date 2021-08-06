@@ -40,7 +40,7 @@
 	       width: 100%;
 	       overflow: auto;
 	   }
-	   .error-msg{
+	   .error-msg,.error{
 	    	color:red !important;
 	   }
 	   td {
@@ -268,18 +268,14 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForDesignForm",
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForContractResourceForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
                                 if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                                if ($.trim(val.work_id_fk) != '') {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
-                                } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
-                                }
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -296,18 +292,14 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContractsListForDesignForm",
+                	url: "<%=request.getContextPath()%>/ajax/getContractsListForContractResourceForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_name = '';
                                 if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
-                                if ($.trim(val.contract_id_fk) != '') {
-                                	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
-                                } else {
                                 	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
-                                }
                             });
                         }
                         $('.searchable').select2();

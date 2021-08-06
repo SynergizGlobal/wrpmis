@@ -297,13 +297,23 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
 				for (Training session : sObj.getTrainingSessions()) {
 					List<Training> objsList = null;
-					String qryDetails = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee,ta.designation as trainee_designation, hod_user_id_fk,mobile_no, required_fk, participated_fk " + 
+					String qryDetails = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee,ta.designation as trainee_designation, required_fk, participated_fk " + 
 							"from training_attendees ta "
 							+ "LEFT JOIN department d on ta.department_fk = d.department  "
-							+"where training_id_fk = ? and  training_session_id_fk = ? ";
+							+"where training_id_fk = ? and  training_session_id_fk = ? and is_new_user is null";
 					
 					objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getTraining_id(),session.getTraining_session_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
 					session.setTrainingAttendees(objsList); 
+				}
+				for (Training sessionsNew : sObj.getTrainingSessions()) {
+					List<Training> objsList = null;
+					String qryDetails = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee,ta.designation as trainee_designation, hod_user_id_fk,mobile_no, required_fk, participated_fk " + 
+							"from training_attendees ta "
+							+ "LEFT JOIN department d on ta.department_fk = d.department  "
+							+"where training_id_fk = ? and  training_session_id_fk = ? and is_new_user = ?";
+					
+					objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getTraining_id(),sessionsNew.getTraining_session_id(),CommonConstants.YES}, new BeanPropertyRowMapper<Training>(Training.class));	
+					sessionsNew.setTrainingNewList(objsList); 
 				}
 				if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
 					for (Training session : sObj.getTrainingSessions()) {
@@ -485,6 +495,12 @@ public class TrainingDaoImpl implements TrainingDao{
 						arraySize1 = obj.getHod_user_id_fks().length;
 					}
 				}
+				if(!StringUtils.isEmpty(obj.getIs_new_users()) && obj.getIs_new_users().length > 0) {
+					obj.setIs_new_users(CommonMethods.replaceEmptyByNullInSringArray(obj.getIs_new_users()));
+					if(arraySize1 < obj.getIs_new_users().length) {
+						arraySize1 = obj.getIs_new_users().length;
+					}
+				}
 				if(!StringUtils.isEmpty(obj.getSession_nos()) && obj.getSession_nos().length > 0) {
 					for (int i = 0; i < arraySize; i++) {
 						 if( obj.getSession_nos().length > 0 && !StringUtils.isEmpty(obj.getSession_nos()[i])) {
@@ -502,8 +518,8 @@ public class TrainingDaoImpl implements TrainingDao{
 					if(insertCount.length > 0) {
 						
 						String insertQry2 = "INSERT into  training_attendees (training_id_fk,training_session_id_fk,department_fk,attendee,designation,hod_user_id_fk,mobile_no,required_fk,"
-								+"participated_fk) "
-								+"VALUES (?,?,?,?,?,?,?,?,?)";
+								+"participated_fk,is_new_user) "
+								+"VALUES (?,?,?,?,?,?,?,?,?,?)";
 						insertStmt1 = con.prepareStatement(insertQry2);
 						if (rs.next()) {
 							String sessionId = rs.getString(1);
@@ -554,7 +570,7 @@ public class TrainingDaoImpl implements TrainingDao{
 				}
 						
 						if(!StringUtils.isEmpty(obj.getDepartment_fks()) && obj.getDepartment_fks().length > 0) {
-						for (int j = 0; j < obj.getRowCounts()[i]; j++) {
+						for (int j = 0; j < obj.getRowsCounts()[i]; j++) {
 							    int k = 1;
 							    int a = r++; 
 							    if( obj.getDepartment_fks().length > 0 && !StringUtils.isEmpty(obj.getDepartment_fks()[a])) {
@@ -567,6 +583,7 @@ public class TrainingDaoImpl implements TrainingDao{
 									insertStmt1.setString(k++,(obj.getMobile_nos().length > 0)?obj.getMobile_nos()[a]:null);
 									insertStmt1.setString(k++,(obj.getRequired_fks().length > 0)?obj.getRequired_fks()[a]:null);
 								    insertStmt1.setString(k++,(obj.getParticipated_fks().length > 0)?obj.getParticipated_fks()[a]:null);
+								    insertStmt1.setString(k++,(obj.getIs_new_users().length > 0)?obj.getIs_new_users()[a]:null);
 								    insertStmt1.addBatch();
 								 }
 							}
@@ -719,6 +736,12 @@ public class TrainingDaoImpl implements TrainingDao{
 							arraySize1 = obj.getParticipated_fks().length;
 						}
 					}
+					if(!StringUtils.isEmpty(obj.getIs_new_users()) && obj.getIs_new_users().length > 0) {
+						obj.setIs_new_users(CommonMethods.replaceEmptyByNullInSringArray(obj.getIs_new_users()));
+						if(arraySize1 < obj.getIs_new_users().length) {
+							arraySize1 = obj.getIs_new_users().length;
+						}
+					}
 					for (int i = 0; i < arraySize; i++) {
 						 if( obj.getSession_nos().length > 0 && !StringUtils.isEmpty(obj.getSession_nos()[i])) {
 						    int p = 1;
@@ -736,8 +759,8 @@ public class TrainingDaoImpl implements TrainingDao{
 					if(insertCount.length > 0) {
 						
 						String insertQry2 = "INSERT into  training_attendees (training_id_fk,training_session_id_fk,department_fk,attendee,designation,hod_user_id_fk,mobile_no,required_fk,"
-								+"participated_fk) "
-								+"VALUES (?,?,?,?,?,?,?,?,?)";
+								+"participated_fk,is_new_user) "
+								+"VALUES (?,?,?,?,?,?,?,?,?,?)";
 						insertStmt1 = con.prepareStatement(insertQry2);
 						if (rs.next()) {
 							String sessionId = rs.getString(1);
@@ -745,7 +768,7 @@ public class TrainingDaoImpl implements TrainingDao{
 						}
 						
 						if(!StringUtils.isEmpty(obj.getDepartment_fks()) && obj.getDepartment_fks().length > 0) {
-							for (int j = 0; j < obj.getRowCounts()[i]; j++) {
+							for (int j = 0; j < obj.getRowsCounts()[i]; j++) {
 								    int k = 1;
 								    int a = r++; 
 								    if( obj.getDepartment_fks().length > 0 && !StringUtils.isEmpty(obj.getDepartment_fks()[a])) {
@@ -758,6 +781,7 @@ public class TrainingDaoImpl implements TrainingDao{
 										insertStmt1.setString(k++,(obj.getMobile_nos().length > 0)?obj.getMobile_nos()[a]:null);
 										insertStmt1.setString(k++,(obj.getRequired_fks().length > 0)?obj.getRequired_fks()[a]:null);
 									    insertStmt1.setString(k++,(obj.getParticipated_fks().length > 0)?obj.getParticipated_fks()[a]:null);
+									    insertStmt1.setString(k++,(obj.getIs_new_users().length > 0)?obj.getIs_new_users()[a]:null);
 									    insertStmt1.addBatch();
 								    }
 							}
@@ -1054,9 +1078,9 @@ public class TrainingDaoImpl implements TrainingDao{
 	public List<Training> getAttendeesList() throws Exception {
 		List<Training> objsList = null;
 		try {
-			String qry ="select  attendee from training_attendees where attendee <> '' " + 
+			String qry ="SELECT  user_name as attendee,designation FROM user u where user_name NOT LIKE '%User%' " + 
 					" UNION " + 
-					"SELECT user_name FROM user where user_name NOT LIKE '%User%' and user_name  <> ''";
+					"select  attendee,u.designation from training_attendees t left join user u on t.attendee = u.user_name ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());

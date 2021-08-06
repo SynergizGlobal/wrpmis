@@ -12,7 +12,7 @@ public class Training {
 	title, description, training_center, status_fk, remarks,training_attendees_id, training_id_fk, training_session_id_fk, 
 	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours,department_name,
 	is_there_issue,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name ,
-	date,session_remarks,nominated,attended,attachment,user_id,reporting_to,reporting_to_designation,trainee_designation;
+	date,session_remarks,nominated,attended,attachment,user_id,reporting_to,reporting_to_designation,trainee_designation,is_new_user;
 
 	private MultipartFile trainingFile;
 	
@@ -21,11 +21,36 @@ public class Training {
 	private MultipartFile[] trainingSessionFiles;
 	private int[] filecounts;
 	private List<Training> trainingFilesList;
+	private List<Training> trainingNewList;
 	
 	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees,trainee_designations, mobile_nos, required_fks, participated_fks,
-	training_session_ids, session_nos, start_times, end_times, remarkss,hod_user_id_fks,trainingSessionFileNames;
+	training_session_ids, session_nos, start_times, end_times, remarkss,hod_user_id_fks,trainingSessionFileNames,is_new_users;
  
-    public List<Training> getTrainingFilesList() {
+    public List<Training> getTrainingNewList() {
+		return trainingNewList;
+	}
+
+	public void setTrainingNewList(List<Training> trainingNewList) {
+		this.trainingNewList = trainingNewList;
+	}
+
+	public String getIs_new_user() {
+		return is_new_user;
+	}
+
+	public void setIs_new_user(String is_new_user) {
+		this.is_new_user = is_new_user;
+	}
+
+	public String[] getIs_new_users() {
+		return is_new_users;
+	}
+
+	public void setIs_new_users(String[] is_new_users) {
+		this.is_new_users = is_new_users;
+	}
+
+	public List<Training> getTrainingFilesList() {
 		return trainingFilesList;
 	}
 
@@ -57,7 +82,15 @@ public class Training {
 		this.attended = attended;
 	}
 
-	private int [] rowCounts,attendeesRowCount;
+	private int [] rowCounts,attendeesRowCount,rowsCounts;
+
+	public int[] getRowsCounts() {
+		return rowsCounts;
+	}
+
+	public void setRowsCounts(int[] rowsCounts) {
+		this.rowsCounts = rowsCounts;
+	}
 
 	public String getSession_remarks() {
 		return session_remarks;

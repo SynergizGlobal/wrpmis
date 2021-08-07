@@ -1279,9 +1279,8 @@
 			
 			moreFiles(fileIndex);
 		}
-	 function getAttendeesList(rowNo){
+	 function getAttendeesList(count){
 		 $(".page-loader").show();
-     	var count = Number(rowNo);
      	var department_fk = $('#department_fks'+count).val();
      
      	$("#attendees"+count+" option:not(:first)").attr("selected",false);

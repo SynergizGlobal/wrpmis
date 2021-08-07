@@ -1870,13 +1870,10 @@
          $('#fileVal' + rowNo).html(filename);
      }
      function removeTrainingAttendees(rowCount,rNo){
-    	var flag = $("#attendeesRow"+rowCount).remove();
-    	if(flag){
+    	$("#attendeesRow"+rowCount).remove();
     		 var count = $("#rowsCounts"+rNo).val();
         	 var value = (count - 1);
         	 $("#rowsCounts"+rNo).val(value)
-    	}
-    	
      }
      function removeNewTrainingAttendees(rowCount,rNo){
     	 $("#newAttendeesRow"+rowCount).remove();

@@ -34,7 +34,7 @@ public interface TrainingService {
 
 	public boolean addTraining(Training obj) throws Exception;
 
-	public List<Training> getUsersList() throws Exception;
+	public List<Training> getUsersList(Training obj) throws Exception;
 
 	public int uploadTraining(List<Training> trainingsList) throws Exception;
 
@@ -42,7 +42,7 @@ public interface TrainingService {
 
 	public List<Training> getTrainingAttendeesList(String trainingId) throws Exception;
 
-	public List<Training> getAttendeesList() throws Exception;
+	public List<Training> getAttendeesList(Training obj) throws Exception;
 
 	public int getTotalRecords(Training obj, String searchParameter) throws Exception;
 

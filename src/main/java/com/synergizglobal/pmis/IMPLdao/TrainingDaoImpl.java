@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Document;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.RiskReport;
@@ -267,7 +269,8 @@ public class TrainingDaoImpl implements TrainingDao{
 	@Override
 	public Training getTraining(Training obj) throws Exception {
 		Training sObj =null;
-		
+		Connection con = null;
+		List<Training> depList = null;
 		try {
 			String qry = "select training_id, training_type_fk, training_category_fk, faculty_name, t.designation, title, description, training_center, status_fk, remarks "
 					+ "from training t "
@@ -296,24 +299,10 @@ public class TrainingDaoImpl implements TrainingDao{
 			}
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
 				for (Training session : sObj.getTrainingSessions()) {
-					List<Training> objsList = null;
-					String qryDetails = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee,ta.designation as trainee_designation, required_fk, participated_fk " + 
-							"from training_attendees ta "
-							+ "LEFT JOIN department d on ta.department_fk = d.department  "
-							+"where training_id_fk = ? and  training_session_id_fk = ? and is_new_user is null";
-					
-					objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getTraining_id(),session.getTraining_session_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
-					session.setTrainingAttendees(objsList); 
+					session.setTrainingAttendees(getDeptList(sObj.getTraining_id(),session.getTraining_session_id(),con)); 
 				}
 				for (Training sessionsNew : sObj.getTrainingSessions()) {
-					List<Training> objsList = null;
-					String qryDetails = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee,ta.designation as trainee_designation, hod_user_id_fk,mobile_no, required_fk, participated_fk " + 
-							"from training_attendees ta "
-							+ "LEFT JOIN department d on ta.department_fk = d.department  "
-							+"where training_id_fk = ? and  training_session_id_fk = ? and is_new_user = ?";
-					
-					objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getTraining_id(),sessionsNew.getTraining_session_id(),CommonConstants.YES}, new BeanPropertyRowMapper<Training>(Training.class));	
-					sessionsNew.setTrainingNewList(objsList); 
+					sessionsNew.setTrainingNewList(getUserList(sObj.getTraining_id(),sessionsNew.getTraining_session_id(),CommonConstants.YES,con)); 
 				}
 				if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
 					for (Training session : sObj.getTrainingSessions()) {
@@ -331,6 +320,115 @@ public class TrainingDaoImpl implements TrainingDao{
 			throw new Exception(e.getMessage()); 
 		}
 		return sObj;
+	}
+
+	private List<Training> getUserList(String training_id, String training_session_id, String yes, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Training> objsList = new ArrayList<Training>();
+		Training obj = null;
+		try {
+			con = dataSource.getConnection();
+			
+			String qry = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee,ta.designation as trainee_designation, hod_user_id_fk,mobile_no, required_fk, participated_fk " + 
+					"from training_attendees ta "
+					+ "LEFT JOIN department d on ta.department_fk = d.department  "
+					+"where training_id_fk = ? and  training_session_id_fk = ? and is_new_user = ?";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, training_id);
+			stmt.setString(2, training_session_id);
+			stmt.setString(3, yes);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Training();
+				obj.setTraining_attendees_id(resultSet.getString("training_attendees_id"));
+				obj.setDepartment_name(resultSet.getString("d.department_name"));
+				obj.setTraining_id_fk(resultSet.getString("training_id_fk"));
+				obj.setTraining_session_id_fk(resultSet.getString("training_session_id_fk"));
+				obj.setDepartment_fk(resultSet.getString("department_fk"));
+				obj.setAttendee(resultSet.getString("attendee"));
+				obj.setTrainee_designation(resultSet.getString("trainee_designation"));
+				obj.setHod_user_id_fk(resultSet.getString("hod_user_id_fk"));
+				obj.setMobile_no(resultSet.getString("mobile_no"));
+				obj.setRequired_fk(resultSet.getString("required_fk"));
+				obj.setParticipated_fk(resultSet.getString("participated_fk"));
+				obj.setDepartment_fk(obj.getDepartment_fk());
+				obj.setHODsList(getUsersList(obj));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return objsList;
+	}
+
+	private List<Training> getDeptList(String training_id, String training_session_id, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Training> objsList = new ArrayList<Training>();
+		Training obj = null;
+		try {
+			con = dataSource.getConnection();
+			
+			String qry = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee,ta.designation as trainee_designation, required_fk, participated_fk " + 
+					"from training_attendees ta "
+					+ "LEFT JOIN department d on ta.department_fk = d.department  " 
+					+"where training_id_fk = ? and  training_session_id_fk = ? and is_new_user is null group by department_fk ";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, training_id);
+			stmt.setString(2, training_session_id);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Training();
+				obj.setTraining_attendees_id(resultSet.getString("training_attendees_id"));
+				obj.setDepartment_name(resultSet.getString("d.department_name"));
+				obj.setTraining_id_fk(resultSet.getString("training_id_fk"));
+				obj.setTraining_session_id_fk(resultSet.getString("training_session_id_fk"));
+				obj.setDepartment_fk(resultSet.getString("department_fk"));
+				obj.setAttendee(resultSet.getString("attendee"));
+				obj.setTrainee_designation(resultSet.getString("trainee_designation"));
+				obj.setRequired_fk(resultSet.getString("required_fk"));
+				obj.setParticipated_fk(resultSet.getString("participated_fk"));
+				obj.setDepartment_fk(obj.getDepartment_fk());
+				obj.setAttendeesList(getAttendeesList(obj));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return objsList;
+	}
+
+
+	private List<Training> getHODsList(String dept,Connection con) throws Exception {
+		List<Training> objsList = null;
+		try {
+			String qry ="select user_id as hod_user_id_fk,designation,user_name from user where user_type_fk = ? ";
+			
+			int arrSize = 1;
+			if( !StringUtils.isEmpty(dept)) {
+				qry = qry + " and department_fk = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.USER_TYPE;
+			if(!StringUtils.isEmpty(dept)) {
+				pValues[i++] = dept;
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));		
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 	@Override
@@ -860,15 +958,22 @@ public class TrainingDaoImpl implements TrainingDao{
 	}
 
 	@Override
-	public List<Training> getUsersList() throws Exception {
+	public List<Training> getUsersList(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
 			String qry ="select user_id as hod_user_id_fk,designation,user_name from user where user_type_fk = ? ";
 			
 			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and department_fk = ? ";
+				arrSize++;
+			}
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = CommonConstants.USER_TYPE;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));		
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -1075,13 +1180,29 @@ public class TrainingDaoImpl implements TrainingDao{
 	}
 
 	@Override
-	public List<Training> getAttendeesList() throws Exception {
+	public List<Training> getAttendeesList(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
-			String qry ="SELECT  user_name as attendee,designation FROM user u where user_name NOT LIKE '%User%' " + 
-					" UNION " + 
-					"select  attendee,u.designation from training_attendees t left join user u on t.attendee = u.user_name ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
+			int arrSize = 0;
+			String qry ="SELECT  user_name as attendee,designation FROM user u where user_name NOT LIKE '%User%' " ;
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+						qry = qry + " and u.department_fk = ?";
+						arrSize++;
+					}	
+					qry = qry + " UNION " + 
+					"select  attendee,u.designation from training_attendees t left join user u on t.attendee = u.user_name  where attendee <> '' ";
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+						qry = qry + " and u.department_fk = ?";
+						arrSize++;
+					}	
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				for(int j = 0; j< 2; j++) {
+					pValues[i++] = obj.getDepartment_fk();
+				}
+			}
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}

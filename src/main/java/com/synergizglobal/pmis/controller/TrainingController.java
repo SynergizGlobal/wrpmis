@@ -251,10 +251,36 @@ public class TrainingController {
 		}
 		return statusList;
 	}
+	
+	@RequestMapping(value = "/ajax/getAttendeesListForTrainingForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Training> getAttendeesList(@ModelAttribute Training obj) {
+		List<Training> statusList = null;
+		try {
+			statusList = trainingService.getAttendeesList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getAttendeesList : " + e.getMessage());
+		}
+		return statusList;
+	}
+	
+	@RequestMapping(value = "/ajax/getHODsListForTrainingForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Training> getHODsList(@ModelAttribute Training obj) {
+		List<Training> statusList = null;
+		try {
+			statusList = trainingService.getUsersList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getHODsList : " + e.getMessage());
+		}
+		return statusList;
+	}
 
 	
 	@RequestMapping(value = "/add-training-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addTrainingForm(){
+	public ModelAndView addTrainingForm(@ModelAttribute Training obj ){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditTrainingForm);
@@ -275,10 +301,10 @@ public class TrainingController {
 			List<Training> issueCatogoriesList = trainingService.getIssueCatogoriesList();
 			model.addObject("issueCatogoriesList", issueCatogoriesList);
 			
-			List<Training> usersList = trainingService.getUsersList();
+			List<Training> usersList = trainingService.getUsersList(obj);
 			model.addObject("usersList", usersList);
 			
-			List<Training> attendeesList = trainingService.getAttendeesList();
+			List<Training> attendeesList = trainingService.getAttendeesList(obj);
 			model.addObject("attendeesList", attendeesList);
 			
 		}catch (Exception e) {
@@ -312,10 +338,10 @@ public class TrainingController {
 			Training trainingDetails = trainingService.getTraining(obj);
 			model.addObject("trainingDetails", trainingDetails);
 			
-			List<Training> usersList = trainingService.getUsersList();
+			List<Training> usersList = trainingService.getUsersList(obj);
 			model.addObject("usersList", usersList);
 			
-			List<Training> attendeesList = trainingService.getAttendeesList();
+			List<Training> attendeesList = trainingService.getAttendeesList(obj);
 			model.addObject("attendeesList", attendeesList);
 			
 		

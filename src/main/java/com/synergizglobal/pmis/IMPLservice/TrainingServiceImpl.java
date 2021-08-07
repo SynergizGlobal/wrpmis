@@ -81,8 +81,8 @@ public class TrainingServiceImpl implements TrainingService{
 	}
 
 	@Override
-	public List<Training> getUsersList() throws Exception {
-		return dao.getUsersList();
+	public List<Training> getUsersList(Training obj) throws Exception {
+		return dao.getUsersList(obj);
 	}
 
 	@Override
@@ -101,8 +101,8 @@ public class TrainingServiceImpl implements TrainingService{
 	}
 
 	@Override
-	public List<Training> getAttendeesList() throws Exception {
-		return dao.getAttendeesList();
+	public List<Training> getAttendeesList(Training obj) throws Exception {
+		return dao.getAttendeesList(obj);
 	}
 
 	@Override

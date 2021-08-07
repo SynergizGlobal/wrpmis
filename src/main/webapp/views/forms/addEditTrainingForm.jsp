@@ -49,7 +49,17 @@
             border-radius: 0;
             border-bottom-width: 0;
         }
-
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
         .datepicker-table td:first-of-type,
         .datepicker-table td:last-of-type {
             padding: 0 !important;
@@ -419,219 +429,6 @@
 																<div class="modal-content">
 																	<h5 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
 
-																	<%-- <div class="row fixed-width">
-																		<div class="table-inside">
-																			<table id="training-update-table${index.count }"
-																				class="mdl-data-table val mobile_responsible_table">
-																				<thead>
-																					<tr>
-																						<th>Department</th>
-																						<th>HOD</th>
-																						<th>Attendee</th>
-																						<th>Designation</th>
-																						<th>&nbsp; Mobile No &nbsp;</th>
-																						<th>Nominated</th>
-																						<th>Participated</th>																						
-																						<th>Action</th>
-																					</tr>
-																				</thead>
-																				<tbody id="attendeesTableBody${index.count }">
-																					<c:choose>
-																						<c:when
-																							test="${not empty tObj.trainingAttendees && fn:length(tObj.trainingAttendees) gt 0 }">
-																							<c:forEach var="dObj" items="${tObj.trainingAttendees }" varStatus="indexx">
-																								<tr id="attendeesRow${indexx.count }${index.count }">
-																									<td data-head="Department" class="input-field"><input type="hidden" id="rowCounts${indexx.count }${index.count }${indexx.count }"  class="hide" />
-																									<input type="hidden" name="training_session_id_fks" id="training_session_id_fks${indexx.count }${index.count }${indexx.count }"
-																										 value="${dObj.training_session_id_fk}" />
-																										<input type="hidden" name="training_attendees_ids" id="training_attendees_ids${indexx.count }${index.count }${indexx.count }"
-																										value="${dObj.training_attendees_id }" /> 
-																										<select class="searchable validate-dropdown" name="department_fks" id="department_fks${indexx.count }${index.count }${indexx.count }">
-																											<option value="">Select Department</option>
-																											<c:forEach var="obj"
-																												items="${departmentsList}">
-																												<option value="${obj.department_fk }"
-																													<c:if test="${dObj.department_name eq obj.department_name }">selected</c:if>>${obj.department_name }</option>
-																											</c:forEach>
-																									</select> <span id="training_category_fkError" class="error-msg"></span></td>																									
-																									<td data-head="HOD" class="input-field">																											
-																                                        <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks${indexx.count }${index.count }${indexx.count }" >
-																                                            <option value="" >Select HOD</option>  
-																                                            <c:forEach var="obj" items="${usersList}">
-																												<option value="${obj.hod_user_id_fk }"<c:if test="${dObj.hod_user_id_fk eq obj.hod_user_id_fk }">selected</c:if>>${obj.designation }</option>
-																											</c:forEach>                                         
-																                                        </select>                                   
-																									</td>
-																									<td data-head="Attendee" class="input-field">
-																										<select class="searchable validate-dropdown" name="attendees" id="attendees${indexx.count }${index.count }${indexx.count }">
-																											<option value="">Select Attendee</option>
-																											<c:forEach var="obj" items="${attendeesList}">
-																												<option value="${obj.attendee }" <c:if test="${dObj.attendee eq obj.attendee }">selected</c:if>>${obj.attendee }</option>
-																											</c:forEach>
-																										 </select>
-																									</td>
-																									<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="trainee_designations${indexx.count }${index.count }${indexx.count }" name="trainee_designations" value="${dObj.trainee_designation}"></td>		
-																									<td data-head="Mobile" class="input-field"><input id="mobile_nos${indexx.count }${index.count }${indexx.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile"
-																										value="${dObj.mobile_no }"></td>
-																									<td data-head="Nominated" class="input-field">
-																										<p class="disp-init">
-																											<label><input type="hidden" name="required_fks" value ="${dObj.required_fk}" id="required_fk${indexx.count }${index.count }${indexx.count }" />
-																											  
-																											   <input type="checkbox" id="required_fks${indexx.count }${index.count }${indexx.count }"  class="required_fks" onChange="checkBox('${indexx.count }${index.count }${indexx.count }')"
-																												 <c:if test="${dObj.required_fk eq 'Yes'}">  checked</c:if> />
-																												<span></span>
-																											</label>
-																										</p>
-																									</td>
-																									<td data-head="Participated" class="input-field">
-																										<p class="disp-init">
-																											<label> <input type="hidden" name="participated_fks" value ="${dObj.participated_fk}" id="participated_fk${indexx.count }${index.count }${indexx.count }" /> 
-																											  
-																											   <input type="checkbox" id="participated_fks${indexx.count }${index.count }${indexx.count }"  class="participated_fks" onChange="checkBoxs('${indexx.count }${index.count }${indexx.count }')"
-																												 <c:if test="${dObj.participated_fk eq 'Yes'}">    checked</c:if> />
-																												<span></span>
-																											</label>
-																										</p>
-																									</td>
-																									<td class="mobile_btn_close"><a onclick="removeTrainingAttendees('${indexx.count }${index.count }${indexx.count }');prevRow('${index.count }')"
-																										class="btn waves-effect waves-light red t-c ">
-																											<i class="fa fa-close"></i>
-																									</a></td>
-																								</tr>
-																							 <script>
-																									 var w = $('#attendeesTableBody${index.count } tr:last').attr("id");
-																									 var value = ${indexx.count }
-																									 if(value > 1){
-																							            	var lastIndex = value -1;
-																							          	    var lastRow = $('#attendeesTableBody${index.count } #rowCounts${indexx.count -1}${index.count}').prop('disabled', true);
-																							            } 																								
-																									 $('#attendeesTableBody${index.count }  #rowCounts${indexx.count }${index.count }${indexx.count }:last').val(value);
-																									 
-																							/* 		 $('#department_fks${indexx.count }${index.count }').select2();
-																									 $('#attendees${indexx.count }${index.count }').select2();
-																			                       	 $('#required_fks${indexx.count }${index.count }').on('change', function(e){
-																			                             if($(this).prop('checked'))
-																			                             {
-																			                            	 //$(".req").prop('disabled', true);
-																			                                 $('#required_fk${indexx.count }${index.count }').val('Yes');
-																			                             }else{
-																			                              	  $("#required_fk${indexx.count }${index.count }").val('No')
-																			                            	  $("#required_fk${indexx.count }${index.count }").prop('checked',false).removeAttr('checked');
-																			                              }
-																			                   	    });
-																			                    	 $('#participated_fks${indexx.count }${index.count }').on('change', function(e){
-																			                             if($(this).prop('checked'))
-																			                             {
-																			                            	// $(".part").prop('disabled', true);
-																			                                 $('#participated_fk${indexx.count }${index.count }').val('Yes');
-																			                             } else{
-																			                              	  $("#participated_fk${indexx.count }${index.count }").val('No')
-																			                            	  $("#participated_fk${indexx.count }${index.count }").prop('checked',false).removeAttr('checked');;
-																			                              }
-																			                   	    }); */
-																								</script> 
-																							</c:forEach>
-																						 </c:when>
-																	 					<c:otherwise>
-																							<tr id="attendeesRow0${index.count }">
-																								<td data-head="Department" class="input-field"><input type="hidden" id="rowCounts0${index.count }"  value="1" class="hide" />
-																								<input type="hidden" name="training_session_id_fks" id="training_session_id_fks0${index.count }"
-																									 value="${tObj.training_session_id}" />
-																									 <input type="hidden" name="training_attendees_ids" id="training_attendees_ids0${index.count }" />
-																									  <select class="searchable validate-dropdown" name="department_fks" id="department_fks0${index.count }">
-																											<option value="">Select Department</option>
-																											<c:forEach var="obj" items="${departmentsList}">
-																												<option value="${obj.department_fk }">${obj.department_name }</option>
-																											</c:forEach>
-																									  </select> <span id="training_category_fkError" class="error-msg"></span></td>
-																								<td data-head="HOD" class="input-field">																											
-																                                        <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks0${index.count }" >
-																                                            <option value="" >Select HOD</option>  
-																                                             <c:forEach var="obj" items="${usersList}">
-																												<option value="${obj.hod_user_id_fk }">${obj.designation }</option>
-																											</c:forEach>                                           
-																                                        </select>                                   
-																								</td>
-																								<td data-head="Attendee" class="input-field">
-																									<select class="searchable validate-dropdown" name="attendees" id="attendees0${index.count }">
-																											<option value="">Select Attendee</option>
-																											<c:forEach var="obj" items="${attendeesList}">
-																												<option value="${obj.attendee }">${obj.attendee }</option>
-																											</c:forEach>
-																								    </select>
-																								</td>	
-																								<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="trainee_designations0${index.count }" name="trainee_designations" ></td>																							
-																								<td data-head="Mobile" class="input-field"><input id="mobile_nos0${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
-																								</td>
-																								<td data-head="Nominated" class="input-field">
-																									<p class="disp-init">
-																										<label> <input type="hidden" id="required_fk0${index.count }" name="required_fks" value="No" class="req" />
-																											<input type="checkbox" id="required_fks0${index.count }" /> <span></span>
-																										</label>
-																									</p>
-																								</td>
-																								<td data-head="Participated" class="input-field">
-																									<p class="disp-init">
-																										<label> <input type="hidden" id="participated_fk0${index.count }" name="participated_fks" value="No" class="part" /> 
-																											<input type="checkbox" id="participated_fks0${index.count }"  /> <span></span>
-																										</label>
-																									</p>
-																								</td>
-																								<td class="mobile_btn_close"><a onclick="removeTrainingAttendees('0${index.count }');"	class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>
-																							</tr>
-																							<script>
-																									
-																			                       	 $('#required_fks0${index.count }').on('change', function(e){
-																			                             if($(this).prop('checked'))
-																			                             {
-																			                            	 //$(".req").prop('disabled', true);
-																			                                 $('#required_fk0${index.count }').val('Yes');
-																			                             }else{
-																			                              	  $("#required_fk0${index.count }").val('No')
-																			                            	  $("#required_fk0${index.count }").prop('checked',false).removeAttr('checked');
-																			                              }
-																			                   	    });
-																			                    	 $('#participated_fks0${index.count }').on('change', function(e){
-																			                             if($(this).prop('checked'))
-																			                             {
-																			                            	// $(".part").prop('disabled', true);
-																			                                 $('#participated_fk0${index.count }').val('Yes');
-																			                             } else{
-																			                              	  $("#participated_fk0${index.count }").val('No')
-																			                            	  $("#participated_fk0${index.count }").prop('checked',false).removeAttr('checked');;
-																			                              }
-																			                   	    });
-																			                    	 $('#department_fks0${index.count }').select2();
-																									 $('#attendees0${index.count }').select2();
-												                            
-												                            				</script>
-																						</c:otherwise> 
-																					</c:choose>
-																				</tbody>
-																			</table>
-
-																			<table class="mdl-data-table">
-																				<tbody id="trainingUpdateBody">
-																					<tr>
-																						<td colspan="7" ><a type="button" class="btn waves-effect waves-light bg-m t-c "
-																							onclick="addTrainingUpdateRow('${tObj.training_session_id}','${index.count }')"> <i class="fa fa-plus"></i></a>
-																					</tr>
-																					<!-- <tr>
-																						<td colspan="7" ><a type="button" class="btn waves-effect waves-light bg-m t-c modal-action modal-close">Update</a>
-																					</tr> -->
-																				</tbody>
-																			</table>
-																			<c:choose>
-																				<c:when
-																					test="${not empty (tObj.trainingAttendees) && fn:length(tObj.trainingAttendees) gt 0 }">
-																					<input type="hidden" id="trainNo" name="trainNo" value="${fn:length(tObj.trainingAttendees) }" />
-																				</c:when>
-																				<c:otherwise>
-																					<input type="hidden" id="trainNo" name="trainNo" value="0" />
-																				</c:otherwise>
-																			</c:choose>
-																		</div>
-																	</div> --%>
 																	<div class="row"> 
 																	<div class="s12 m10 offset-m1 col">
 																	<div class="row fixed-width" >
@@ -652,13 +449,13 @@
 																						<c:when
 																							test="${not empty tObj.trainingAttendees && fn:length(tObj.trainingAttendees) gt 0 }">
 																							<c:forEach var="dObj" items="${tObj.trainingAttendees }" varStatus="indexx">
-																								<tr id="attendeesRow${indexx.count }${index.count }">
+																								<tr id="attendeesRow0${indexx.count }${index.count }">
 																									<td data-head="Department" class="input-field">
 																									<input type="hidden" name="training_session_id_fks" id="training_session_id_fks${indexx.count }${index.count }${indexx.count }"
 																										 value="${dObj.training_session_id_fk}" />
 																										<input type="hidden" name="training_attendees_ids" id="training_attendees_ids${indexx.count }${index.count }${indexx.count }"
 																										value="${dObj.training_attendees_id }" /> 
-																										<select class="searchable validate-dropdown" name="department_fks" id="department_fks${indexx.count }${index.count }${indexx.count }">
+																										<select class="searchable validate-dropdown" name="department_fks" id="department_fks${indexx.count }${index.count }${indexx.count }" onchange="getAttendeesList('${indexx.count }${index.count }${indexx.count }');">
 																											<option value="">Select Department</option>
 																											<c:forEach var="obj"
 																												items="${departmentsList}">
@@ -671,7 +468,7 @@
 																									<td data-head="Attendee" class="input-field attendee-dropdown">
 																										<select class="searchable validate-dropdown" name="attendees" id="attendees${indexx.count }${index.count }${indexx.count }">
 																											<option value="">Select Attendee</option>
-																											<c:forEach var="obj" items="${attendeesList}">
+																											<c:forEach var="obj" items="${dObj.attendeesList}">
 																												<option value="${obj.attendee }" <c:if test="${dObj.attendee eq obj.attendee }">selected</c:if>>${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>
 																											</c:forEach>
 																										 </select>
@@ -699,7 +496,7 @@
 																											</label>
 																										</p>
 																									</td>
-																									<td class="mobile_btn_close"><a onclick="removeTrainingAttendees('${indexx.count }${index.count }','${index.count }');"
+																									<td class="mobile_btn_close"><a onclick="removeTrainingAttendees('0${indexx.count }${index.count }','${index.count }');"
 																										class="btn waves-effect waves-light red t-c ">
 																											<i class="fa fa-close"></i>
 																									</a></td>
@@ -708,12 +505,12 @@
 																							</c:forEach>
 																						 </c:when>
 																	 					<c:otherwise>
-																							<tr id="attendeesRow0${index.count }">
+																							<tr id="attendeesRow0${index.count }" class="same"> 
 																								<td data-head="Department" class="input-field">
 																								<input type="hidden" name="training_session_id_fks" id="training_session_id_fks0${index.count }"
 																									 value="${tObj.training_session_id}" />
 																									 <input type="hidden" name="training_attendees_ids" id="training_attendees_ids0${index.count }" />
-																									  <select class="searchable validate-dropdown" name="department_fks" id="department_fks0${index.count }">
+																									  <select class="searchable validate-dropdown" name="department_fks" id="department_fks0${index.count }"  onchange="getAttendeesList('${index.count }');">
 																											<option value="">Select Department</option>
 																											<c:forEach var="obj" items="${departmentsList}">
 																												<option value="${obj.department_fk }">${obj.department_name }</option>
@@ -745,7 +542,7 @@
 																										</label>
 																									</p>
 																								</td>
-																								<td class="mobile_btn_close"><a onclick="removeTrainingAttendees('0${index.count }');"	class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>
+																								<td class="mobile_btn_close"><a onclick="removeTrainingAttendees('0${index.count }','${index.count }');"	class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>
 																							</tr>
 																							<script>
 																									
@@ -819,14 +616,14 @@
 																						<c:when
 																							test="${not empty tObj.trainingNewList && fn:length(tObj.trainingNewList) gt 0 }">
 																							<c:forEach var="dObj" items="${tObj.trainingNewList }" varStatus="indexx">
-																								<tr id="newAttendeesRow${indexx.count }${index.count }">
+																								<tr id="newAttendeesRow0${indexx.count }${index.count }">
 																								
 																									<td data-head="Department" class="input-field">
 																									<input type="hidden" name="training_session_id_fks" id="new_training_session_id_fks${indexx.count }${index.count }${indexx.count }"
 																										 value="${dObj.training_session_id_fk}" />
 																										<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids${indexx.count }${index.count }${indexx.count }"
 																										value="${dObj.training_attendees_id }" /> 
-																										<select class="searchable validate-dropdown" name="department_fks" id="new_department_fks${indexx.count }${index.count }${indexx.count }">
+																										<select class="searchable validate-dropdown" name="department_fks" id="new_department_fks${indexx.count }${index.count }${indexx.count }" onchange="getHODsList('${indexx.count }${index.count }${indexx.count }');">
 																											<option value="">Select Department</option>
 																											<c:forEach var="obj"
 																												items="${departmentsList}">
@@ -837,7 +634,7 @@
 																									<td data-head="HOD" class="input-field">																											
 																                                        <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks${indexx.count }${index.count }${indexx.count }" >
 																                                            <option value="" >Select HOD</option>  
-																                                            <c:forEach var="obj" items="${usersList}">
+																                                            <c:forEach var="obj" items="${dObj.HODsList}">
 																												<option value="${obj.hod_user_id_fk }"<c:if test="${dObj.hod_user_id_fk eq obj.hod_user_id_fk }">selected</c:if>>${obj.designation }<c:if test="${not empty obj.user_name }"> - </c:if>${obj.user_name }</option>
 																											</c:forEach>                                         
 																                                        </select>                                   
@@ -869,7 +666,7 @@
 																											</label>
 																										</p>
 																									</td>
-																									<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees('${indexx.count }${index.count }','${index.count }');"
+																									<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees('0${indexx.count }${index.count }','${index.count }');"
 																										class="btn waves-effect waves-light red t-c ">
 																											<i class="fa fa-close"></i>
 																									</a></td>
@@ -908,7 +705,7 @@
 																								<input type="hidden" name="training_session_id_fks" id="new_training_session_id_fks0${index.count }"
 																									 value="${tObj.training_session_id}" />
 																									 <input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids0${index.count }" />
-																									  <select class="searchable validate-dropdown" name="department_fks" id="new_department_fks0${index.count }">
+																									  <select class="searchable validate-dropdown" name="department_fks" id="new_department_fks0${index.count }" onchange="getHODsList('${index.count }');">
 																											<option value="">Select Department</option>
 																											<c:forEach var="obj" items="${departmentsList}">
 																												<option value="${obj.department_fk }">${obj.department_name }</option>
@@ -945,7 +742,7 @@
 																										</label>
 																									</p>
 																								</td>
-																								<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees('0${index.count }');"	class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>
+																								<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees('0${index.count }','${index.count }');"	class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>
 																							</tr>
 																							<script>
 																									 var len = $("#newAttendeesTableBody${index.count } tr").length + $("#attendeesTableBody${index.count }  tr").length
@@ -1102,12 +899,12 @@
 																                        </tr>
 																                    </thead>
 																                    <tbody id="attendeesTableBody0">
-																                        <tr id="attendeesrow0">
+																                        <tr id="attendeesRow0">
 																                            <td data-head="Department" class="input-field">
 																                              
 																                                    <input type="hidden" name="training_session_id_fks" id="training_session_id_fks0"> 
 																                                    <input type="hidden"name="training_attendees_ids" id="training_attendees_ids0"> 
-																                                    <select class="searchable validate-dropdown " name="department_fks" id="department_fks0" >
+																                                    <select class="searchable validate-dropdown " name="department_fks" id="department_fks0" onchange="getAttendeesList('0');">
 																                                   		<option value="" >Select Department</option> 
 																                                   		<c:forEach var="obj" items="${departmentsList}">
 																											<option value="${obj.department_fk }">${obj.department_name }</option>
@@ -1136,7 +933,7 @@
 																                                            id="participated_fk0"><input type="checkbox" id="participated_fks0"
 																                                            class="participated_fks" onchange="checkBoxs(0)"><span></span></label></p>
 																                            </td>
-																                            <td class="mobile_btn_close"><a onclick="removeTrainingAttendees(0);"
+																                            <td class="mobile_btn_close"><a onclick="removeTrainingAttendees(0,0);"
 																                                    class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
 																                        </tr>
 																                        
@@ -1170,10 +967,11 @@
 																				</tr>
 																			</thead>
 																			<tbody id="newAttendeesTableBody00">
+																			<input type="hidden" id="rowsCounts0" name="rowsCounts" value="2"/>
 																				<tr id="newAttendeesRow00">
 																					<td data-head="Department" class="input-field">
 																					<input type="hidden" name="training_attendees_ids" id="training_attendees_ids00" value="${tObj.training_session_id_fk}"/> 
-																					<select class="searchable validate-dropdown" name="department_fks" id="new_department_fks00">
+																					<select class="searchable validate-dropdown" name="department_fks" id="new_department_fks00" onchange="getHODsList('00');">
 																							<option value="">Select Department</option>
 																							<c:forEach var="obj" items="${departmentsList}">
 																								<option value="${obj.department_fk }">${obj.department_name }</option>
@@ -1208,7 +1006,7 @@
 																							</label>
 																						</p>
 																					</td>
-																					<input type="hidden" id="rowsCounts0" name="rowsCounts" value="2"/>
+																					
 																					<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees('00','0');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i>
 																					</a></td>
 																				</tr>
@@ -1481,6 +1279,76 @@
 			
 			moreFiles(fileIndex);
 		}
+	 function getAttendeesList(rowNo){
+		 $(".page-loader").show();
+     	var count = Number(rowNo);
+     	var department_fk = $('#department_fks'+count).val();
+     
+     	$("#attendees"+count+" option:not(:first)").attr("selected",false);
+         if ($.trim(department_fk) != "") {
+         	$("#attendees"+count+" option:not(:first)").remove();
+             var myParams = { department_fk: department_fk };
+             $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/getAttendeesListForTrainingForm",
+                 data: myParams, cache: false,
+                 success: function (data) {
+                     if (data.length > 0) {
+                         $.each(data, function (i, val) {
+                         	 var userName = '';
+	                        	   if($.trim(val.attendee) != ''){userName = " - "+ $.trim(val.attendee)}
+                              var designation = '';
+                              if ($.trim(val.designation) != '') { designation = $.trim(val.designation) }
+                             
+                             if ($.trim(val.attendee) != '') {
+                                  $("#attendees"+count).append('<option  value="' + val.attendee + '" >'  +  $.trim(designation) + $.trim(userName) + '</option>');
+                              } else {
+                                  $("#attendees"+count).append('<option  value="' + val.attendee + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
+                              }
+                         });
+                     }
+                     $(".page-loader").hide();
+                 }
+             });
+         }else{
+         	$(".page-loader").hide();
+         }
+	 }
+	 
+	 function getHODsList(count){
+		 $(".page-loader").show();
+     	//var count = Number(rowNo);
+     	var department_fk = $('#new_department_fks'+count).val();
+     
+     	$("#new_hod_user_id_fks"+count+" option:not(:first)").attr("selected",false);
+         if ($.trim(department_fk) != "") {
+         	$("#new_hod_user_id_fks"+count+" option:not(:first)").remove();
+             var myParams = { department_fk: department_fk };
+             $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/getHODsListForTrainingForm",
+                 data: myParams, cache: false,
+                 success: function (data) {
+                     if (data.length > 0) {
+                         $.each(data, function (i, val) {
+                         	 var userName = '';
+	                        	   if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
+                              var designation = '';
+                              if ($.trim(val.designation) != '') { designation = $.trim(val.designation) }
+                             
+                             if ($.trim(val.hod_user_id_fk) != '') {
+                                  $("#new_hod_user_id_fks"+count).append('<option  value="' + val.hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) + '</option>');
+                              } else {
+                                  $("#new_hod_user_id_fks"+count).append('<option  value="' + val.hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
+                              }
+                         });
+                     }
+                     $(".page-loader").hide();
+                 }
+             });
+         }else{
+         	$(".page-loader").hide();
+         }
+	 }
+	 
 	  function selectFileUpdate(no,bNo){
 		    files = $("#trainingSessionFiles"+no)[0].files;
 		    var html = "";
@@ -1706,7 +1574,7 @@
             	   '<td data-head="Department" class="input-field">'+
 			 	   '<input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+tNo+'" value="'+trainingSessionId+'" />'+
 				   '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo +tNo+'" />'+
-	               '<select id="department_fks'+ rNo +tNo+'" name="department_fks" class="searchable validate-dropdown " >'+
+	               '<select id="department_fks'+ rNo +tNo+'" name="department_fks" class="searchable validate-dropdown " onchange="getAttendeesList('+ rNo +tNo+');">'+
 	               '<option value="" >Select Department</option>'+
 		                <c:forEach var="obj" items="${departmentsList}">
 		             	  '<option value="${obj.department_fk }">${obj.department_name}</option>' +
@@ -1766,7 +1634,7 @@
             '<td data-head="Department" class="input-field">'+
 		 	   '<input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+tNo+'" value="'+trainingSessionId+'" />'+
 			   '<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids'+ rNo +tNo+'" />'+
-            '<select id="new_department_fks'+ rNo +tNo+'" name="department_fks" class="searchable validate-dropdown " >'+
+            '<select id="new_department_fks'+ rNo +tNo+'" name="department_fks" class="searchable validate-dropdown " onchange="getHODsList('+ rNo +tNo+');">'+
             '<option value="" >Select Department</option>'+
 	                <c:forEach var="obj" items="${departmentsList}">
 	             	  '<option value="${obj.department_fk }">${obj.department_name}</option>' +
@@ -1831,10 +1699,10 @@
 			  '<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
 				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4> <div class="row">'+
 				 '<div class="s12 m10 offset-m1 col"><div class="row fixed-width" > <div class="table-inside"><table id="training-update-table'+ rNo +'" class="mdl-data-table val mobile_responsible_table">'+
-		         '<thead><tr><th>Department</th><th>Attendee</th><th>Nominated</th><th>Participated</th><th>Action</th></tr></thead> <tbody id="attendeesTableBody'+ rNo +'"> <tr id="attendeesRow'+ rNo +'">'+
+		         '<thead><tr><th>Department</th><th>Attendee</th><th>Nominated</th><th>Participated</th><th>Action</th></tr></thead> <tbody id="attendeesTableBody'+ rNo +'"> <tr id="attendeesRow'+0+rNo+1+'">'+
 		         '<td data-head="Department" class="input-field">'+
 		         '<input type="hidden" name="training_session_id_fks" id="training_session_id_fks'+ rNo+i+'" /> <input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo+i+'" /> '+
-		         '<select class="searchable validate-dropdown" name="department_fks" id="department_fks'+ rNo+i+'"> <option value="">Select Department</option>'+
+		         '<select class="searchable validate-dropdown" name="department_fks" id="department_fks'+ rNo+i+'" onchange="getAttendeesList('+ rNo+i+');"> <option value="">Select Department</option>'+
 	             <c:forEach var="obj" items="${departmentsList}"> 
 	             	'<option value="${obj.department_fk }">${obj.department_name }</option>'+
 	        	 </c:forEach>
@@ -1843,20 +1711,20 @@
 		         <c:forEach var="obj" items="${attendeesList}">
 		             '<option value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
 		         </c:forEach>
-		         '</select></td><input type="hidden" id="rowsCounts'+ rNo +'"  name="rowsCounts" value="2"/><input type="hidden" name="hod_user_id_fks"/><input type="hidden" name="trainee_designations"/><input type="hidden" name="mobile_nos"/><td data-head="Nominated" class="input-field"><p class="disp-init"> <label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" /> '+
+		         '</select></td><input type="hidden" name="hod_user_id_fks"/><input type="hidden" name="trainee_designations"/><input type="hidden" name="mobile_nos"/><td data-head="Nominated" class="input-field"><p class="disp-init"> <label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" /> '+
 		         '<input type="checkbox" id="required_fks'+ rNo+i+'"  class="required_fks" onChange="checkBox('+ rNo+i+')" <c:if test="${dObj.required_fk eq 'Yes'}">  checked</c:if> />'+
 		         '<span></span></label></p></td><td data-head="Participated" class="input-field"><p class="disp-init"><label> <input type="hidden" name="participated_fks" id="participated_fk'+ rNo+i+'" />'+
 		         '<input type="checkbox" id="participated_fks'+ rNo+i+'"  class="participated_fks" onChange="checkBoxs('+ rNo+i+')" <c:if test="${dObj.participated_fk eq 'Yes'}">    checked</c:if> /><span></span>'+
-		         '</label></p></td><td class="mobile_btn_close"><a onclick="removeTrainingAttendees('+ rNo+i+','+ rNo +');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'+
+		         '</label></p></td><td class="mobile_btn_close"><a onclick="removeTrainingAttendees('+0+rNo+1+','+ rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'+
 		         '</tr></tbody></table> <input type="hidden" id="trainNo"  name="trainNo" value="0" /><table class="mdl-data-table"><tbody id="trainingUpdateBody">'+                                          
                  '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
                  '</tbody></table></div></div></div></div>'+
 		         '<div class="row fixed-width"><div class="table-inside"> <table id="training-new-update-table'+ rNo +'" class="mdl-data-table mobile_responsible_table">'+
 					  '<thead><tr><th>Department</th><th>HOD</th><th>Attendee</th><th>Designation</th><th>Mobile</th><th>Nominated</th><th>Participated</th><th>Action</th></tr></thead>'+
-						'<tbody id="newAttendeesTableBody'+ rNo +'" ><tr id="newAttendeesRow'+rNo+1+'"><td data-head="Department" class="input-field">'+
+						'<tbody id="newAttendeesTableBody'+ rNo +'" ><input type="hidden" id="rowsCounts'+ rNo +'"  name="rowsCounts" value="2"/><tr id="newAttendeesRow'+0+rNo+1+'"><td data-head="Department" class="input-field">'+
 						    '<input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
 						    '<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids'+ rNo+i+'" />'+
-						    '<select class="searchable validate-dropdown" name="department_fks" id="new_department_fks'+ rNo+i+'">'+
+						    '<select class="searchable validate-dropdown" name="department_fks" id="new_department_fks'+ rNo+i+'" onchange="getHODsList('+ rNo+i+');">'+
 						      ' <option value="" >Select Department </option>'+
 					             <c:forEach var="obj" items="${departmentsList}">
 						            '<option value="${obj.department_fk }" >${obj.department_name }</option>'+
@@ -1874,7 +1742,7 @@
 							'<td data-head="Mobile" class="input-field"><input id="new_mobile_nos'+ rNo+i+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
 			                '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="new_required_fk'+ rNo+i+'" value="No" class="req"/><input type="checkbox" id="new_required_fks'+ rNo+i+'" class="required_fks"/><span></span></label></p></td>' +
 			                '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="new_participated_fk'+ rNo+i+'" value="No" class="part"/><input type="checkbox" id="new_participated_fks'+ rNo+i+'" class="participated_fks" /><span></span></label></p></td>' +
-			                '<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees('+rNo+1+','+ rNo +');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
+			                '<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees('+0+rNo+1+','+ rNo +');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
 							'<input type="hidden" id="newTrainNo"  name="newTrainNo" value="0" /> ' +                    
 	                  		    '<table class="mdl-data-table"><tbody id="newTrainingUpdateBody">'+                                          
 	                            '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addNewTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
@@ -2013,10 +1881,13 @@
          $('#fileVal' + rowNo).html(filename);
      }
      function removeTrainingAttendees(rowNo,rNo){
-    	 $("#attendeesRow"+rowNo).remove();
-    	 var count = $("#rowsCounts"+rNo).val();
-    	 var value = (count - 1);
-    	 $("#rowsCounts"+rNo).val(value)
+    	var flag = $("#attendeesRow"+rowNo).remove();
+    	if(flag){
+    		 var count = $("#rowsCounts"+rNo).val();
+        	 var value = (count - 1);
+        	 $("#rowsCounts"+rNo).val(value)
+    	}
+    	
      }
      function removeNewTrainingAttendees(rowNo,rNo){
     	 $("#newAttendeesRow"+rowNo).remove();
@@ -2078,7 +1949,7 @@
   			 	  },"description": {
   		 		    required: true
   			 	  },"designation": {
-  		 		    required: true
+  		 		    required: false
   			 	  },"faculty_name": {
   		 		    required: true
   			 	  },"mobile_nos": {
@@ -2138,7 +2009,15 @@
 				}else{
 	 					error.insertAfter(element);
 			       } 
-	   		},submitHandler:function(form){
+	   		},invalidHandler: function (form, validator) {
+		         var errors = validator.numberOfInvalids();
+		         if (errors) {
+		             var position = validator.errorList[0].element;
+		             jQuery('html, body').animate({
+		                 scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+		             }, 1000);
+		         }
+		     },submitHandler:function(form){
 		    	form.submit();
 		    }
 		});   

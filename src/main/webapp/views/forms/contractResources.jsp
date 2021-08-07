@@ -159,42 +159,107 @@
                                                 <tbody id="resourceFormTableBody">
 													  <tr id="resourceFormTableRow0">
                                                         <td data-head="Resource Type" class="input-field">
-                                                            <select class="searchable" id="resource_type0"
+                                                            <select class="searchable" id="resource_types0"
                                                                 name="resource_types">
                                                                 <option value="Equipment" selected>Equipment</option>
                                                                 <option value="Manpower">Manpower</option>
                                                             </select>
                                                         </td>
                                                         <td data-head="Resource Name" class="input-field">
-                                                            <input id="resource_name0" type="text" class="validate"
-                                                                placeholder="Resource Name" name="resource_names">
+                                                            <input id="resource_names0" type="text" class="validate"
+                                                                placeholder="Resource Name" name="resource_names" value="Excavator">
                                                         </td>
                                                         <td data-head="Quantity" class="input-field">
-                                                        <input id="qty0" type="number" name="quantitys" min="1" step="1" class="validate" placeholder="Qty" ></td>
+                                                        <input id="quantitys0" type="number" name="quantitys" min="1" step="1" class="validate" placeholder="Qty" value="1" ></td>
                                                         <td class="mobile_btn_close">
-                                                            <a href="#" onclick="removeResource('0');" class="btn waves-effect waves-light red t-c ">
+                                                            <a href="javascript:void(0);" onclick="removeResource('0');" class="btn waves-effect waves-light red t-c ">
                                                                 <i class="fa fa-close"></i></a>
                                                         </td>
                                                     </tr>
-                                                     <tr id="resourceFormTableRow1">
-                                                        <td data-head="Resource Type" class="input-field">
-                                                            <select class="searchable" id="resource_type1"
-                                                                name="resource_types">
-                                                                <option value="Equipment" selected>Equipment</option>
-                                                                <option value="Manpower">Manpower</option>
-                                                            </select>
-                                                        </td>
-                                                        <td data-head="Resource Name" class="input-field">
-                                                            <input id="resource_name1" type="text" class="validate"
-                                                                placeholder="Resource Name" name="resource_names">
-                                                        </td>
-                                                        <td data-head="Quantity" class="input-field">
-                                                        <input id="qty1" type="number" name="quantitys" min="1" step="1" class="validate" placeholder="Qty" ></td>
-                                                        <td class="mobile_btn_close">
-                                                            <a href="#" onclick="removeResource('1');" class="btn waves-effect waves-light red t-c ">
-                                                                <i class="fa fa-close"></i></a>
-                                                        </td>
-                                                    </tr>
+                                                    <tr id="ResourceRow1">
+												<td class="input-field">
+													<select id="resource_types1" name="resource_types" class="select searchable">
+														<option value="">Type</option>
+														<option value="Equipment" selected>Equipment</option>
+														<option value="Manpower">Manpower</option>
+													</select>
+												</td>
+												<td class="input-field"><input id="resource_names1" name="resource_names" type="text" class="validate" placeholder="Name" value="JCB"></td>
+												<td class="input-field"><input id="quantitys1" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
+												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('1');"><i class="fa fa-close"></i></a></td>
+											</tr>
+											<tr id="ResourceRow2">
+												<td class="input-field">
+													<select id="resource_types2" name="resource_types" class="select searchable">
+															<option value="">Type</option>
+															<option value="Equipment" selected>Equipment</option>
+															<option value="Manpower">Manpower</option>
+													</select>
+												</td>
+												<td class="input-field"><input id="resource_names2" name="resource_names" type="text" class="validate" placeholder="Name" value="Dumper"></td>
+												<td class="input-field"><input id="quantitys2" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
+												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('2');"><i class="fa fa-close"></i></a></td>
+											</tr>
+											<tr id="ResourceRow3">
+												<td class="input-field">
+													<select id="resource_types3" name="resource_types" class="select searchable">
+														<option value="">Type</option>
+														<option value="Equipment" selected>Equipment</option>
+														<option value="Manpower">Manpower</option>
+													</select>
+												</td>
+												<td class="input-field"><input id="resource_names3" name="resource_names" type="text" class="validate" placeholder="Name" value="Grader"></td>
+												<td class="input-field"><input id="quantitys3" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
+												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('3');"><i class="fa fa-close"></i></a></td>
+											</tr>
+											<tr id="ResourceRow4">
+												<td class="input-field">
+													<select id="resource_types4" name="resource_types" class="select searchable">
+															<option value="">Type</option>
+															<option value="Equipment" selected>Equipment</option>
+															<option value="Manpower">Manpower</option>
+													</select>
+												</td>
+												<td class="input-field"><input id="resource_names4" name="resource_names" type="text" class="validate" placeholder="Name" value="Water Tanker Bowser"></td>
+												<td class="input-field"><input id="quantitys4" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
+												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('4');"><i class="fa fa-close"></i></a></td>
+											</tr>
+											<tr id="ResourceRow5">
+												<td class="input-field">
+													<select id="resource_types5" name="resource_types" class="select searchable">
+															<option value="">Type</option>
+															<option value="Equipment">Equipment</option>
+															<option value="Manpower" selected>Manpower</option>
+													</select>
+												</td>
+												<td class="input-field"><input id="resource_names5" name="resource_names" type="text" class="validate" placeholder="Name" value="Semi Skilled"></td>
+												<td class="input-field"><input id="quantitys5" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
+												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('5');"><i class="fa fa-close"></i></a></td>
+											</tr>
+											<tr id="ResourceRow6">
+												<td class="input-field">
+													<select id="resource_types6" name="resource_types" class="select searchable">
+															<option value="">Type</option>
+															<option value="Equipment">Equipment</option>
+															<option value="Manpower" selected>Manpower</option>
+													</select>
+												</td>
+												<td class="input-field"><input id="resource_names6" name="resource_names" type="text" class="validate" placeholder="Name" value="Highly Skilled"></td>
+												<td class="input-field"><input id="quantitys6" name="quantitys" type="number"  value="1" class="validate" placeholder="Qty" min="0"></td>
+												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('6');"><i class="fa fa-close"></i></a></td>
+											</tr>
+											<tr id="ResourceRow7">
+												<td class="input-field">
+												<select id="resource_types7" name="resource_types"class="select searchable">
+														<option value="">Type</option>
+														<option value="Equipment">Equipment</option>
+														<option value="Manpower" selected>Manpower</option>
+												</select>
+												</td>
+												<td class="input-field"><input id="resource_names7" name="resource_names" type="text"  class="validate" placeholder="Name" value="Unskilled"></td>
+												<td class="input-field"><input id="quantitys7" name="quantitys" type="number" class="validate" value="1" placeholder="Qty" min="0"></td>
+												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('7');"><i class="fa fa-close"></i></a></td>
+											</tr>
                                                 </tbody>
                                             </table>
                                             <table class="mdl-data-table">
@@ -205,7 +270,7 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            <input type="hidden" id="rowNo" name="rowNo" value="0" />
+                                            <input type="hidden" id="rowNo" name="rowNo" value="7" />
                                         </div>
                                     </div>
                                 </div>
@@ -363,10 +428,10 @@
             // var rowNo = $("#rowNo").val();
             var rowNo = $("#resourceFormTableBody tr").length;
             var rNo = Number(rowNo) + 1;
-            var html = '<tr id="resourceFormTableRow' + rNo + '"><td data-head="Resource Type" class="input-field"><select class="searchable" id="resource_type' + rNo + '" name="resource_types">' +
-			            '<option value="1" selected>Equipment</option> <option value="2">Manpower</option>' +
-			            '</select></td><td data-head="Resource Name" class="input-field"> <input id="resource_name' + rNo + '" type="text" class="validate" placeholder="Resource Name" name="resource_names" >' +
-			            '</td> <td data-head="Quantity" class="input-field"><input id="qty' + rNo + '" type="number" min="1" step="1" class="validate" placeholder="Qty" name="quantitys"></td> <td> <a href="#" onclick="removeResource(' + rNo + ');" class="btn waves-effect waves-light red t-c ">' +
+            var html = '<tr id="resourceFormTableRow' + rNo + '"><td data-head="Resource Type" class="input-field"><select class="searchable" id="resource_types' + rNo + '" name="resource_types">' +
+			            '<option value="">select</option><option value="Equipment">Equipment</option> <option value="Manpower">Manpower</option>' +
+			            '</select></td><td data-head="Resource Name" class="input-field"> <input id="resource_names' + rNo + '" type="text" class="validate" placeholder="Resource Name" name="resource_names" >' +
+			            '</td> <td data-head="Quantity" class="input-field"><input id="quantitys' + rNo + '" type="number" min="1" step="1" class="validate" placeholder="Qty" name="quantitys" value="1"></td> <td> <a href="#" onclick="removeResource(' + rNo + ');" class="btn waves-effect waves-light red t-c ">' +
 			            '<i class="fa fa-close"></i></a></td></tr>';
             $("#resourceFormTableBody").append(html);
             $("#rowNo").val(rNo);
@@ -381,11 +446,11 @@
     		if(validator.form()){
     			var flag = true;
             	$('select[name=resource_types').each(function(){
-            		var num = (this.id).replace('resource_type','');
+            		var num = (this.id).replace('resource_types','');
             		
-            		var resource_type = $("#resource_type"+num).val();
-     				var resource_name = $("#resource_name"+num).val();
-         	 		var quantity = $("#qty"+num).val();
+            		var resource_type = $("#resource_types"+num).val();
+     				var resource_name = $("#resource_names"+num).val(); 
+         	 		var quantity = $("#quantitys"+num).val();
          	 		if($.trim(resource_type) == '' || $.trim(resource_name) == '' || $.trim(quantity) == ''){
          	 			flag = false;
          	 		}

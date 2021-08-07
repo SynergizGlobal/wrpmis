@@ -22,11 +22,38 @@ public class Training {
 	private int[] filecounts;
 	private List<Training> trainingFilesList;
 	private List<Training> trainingNewList;
+	private List<Training> attendeesList;
+	private List<Training> HODsList;
+	private List<Training> deptList;
 	
 	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees,trainee_designations, mobile_nos, required_fks, participated_fks,
 	training_session_ids, session_nos, start_times, end_times, remarkss,hod_user_id_fks,trainingSessionFileNames,is_new_users;
  
-    public List<Training> getTrainingNewList() {
+    public List<Training> getDeptList() {
+		return deptList;
+	}
+
+	public void setDeptList(List<Training> deptList) {
+		this.deptList = deptList;
+	}
+
+	public List<Training> getAttendeesList() {
+		return attendeesList;
+	}
+
+	public void setAttendeesList(List<Training> attendeesList) {
+		this.attendeesList = attendeesList;
+	}
+
+	public List<Training> getHODsList() {
+		return HODsList;
+	}
+
+	public void setHODsList(List<Training> hODsList) {
+		HODsList = hODsList;
+	}
+
+	public List<Training> getTrainingNewList() {
 		return trainingNewList;
 	}
 

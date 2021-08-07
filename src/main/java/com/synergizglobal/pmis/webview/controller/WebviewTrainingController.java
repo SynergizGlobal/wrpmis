@@ -131,7 +131,7 @@ public class WebviewTrainingController {
 
 	
 	@RequestMapping(value = "/add-training-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addTrainingForm(){
+	public ModelAndView addTrainingForm(@ModelAttribute Training obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(MobilePageConstants2.addEditTrainingForm);
@@ -152,10 +152,10 @@ public class WebviewTrainingController {
 			List<Training> issueCatogoriesList = trainingService.getIssueCatogoriesList();
 			model.addObject("issueCatogoriesList", issueCatogoriesList);
 			
-			List<Training> usersList = trainingService.getUsersList();
+			List<Training> usersList = trainingService.getUsersList(obj);
 			model.addObject("usersList", usersList);
 			
-			List<Training> attendeesList = trainingService.getAttendeesList();
+			List<Training> attendeesList = trainingService.getAttendeesList(obj);
 			model.addObject("attendeesList", attendeesList);
 			
 		}catch (Exception e) {
@@ -189,10 +189,10 @@ public class WebviewTrainingController {
 			Training trainingDetails = trainingService.getTraining(obj);
 			model.addObject("trainingDetails", trainingDetails);
 			
-			List<Training> usersList = trainingService.getUsersList();
+			List<Training> usersList = trainingService.getUsersList(obj);
 			model.addObject("usersList", usersList);
 		
-			List<Training> attendeesList = trainingService.getAttendeesList();
+			List<Training> attendeesList = trainingService.getAttendeesList(obj);
 			model.addObject("attendeesList", attendeesList);
 			
 		}catch (Exception e) {

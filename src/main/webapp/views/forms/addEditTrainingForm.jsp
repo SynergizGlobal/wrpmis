@@ -510,7 +510,7 @@
 																								<input type="hidden" name="training_session_id_fks" id="training_session_id_fks0${index.count }"
 																									 value="${tObj.training_session_id}" />
 																									 <input type="hidden" name="training_attendees_ids" id="training_attendees_ids0${index.count }" />
-																									  <select class="searchable validate-dropdown" name="department_fks" id="department_fks0${index.count }"  onchange="getAttendeesList('${index.count }');">
+																									  <select class="searchable validate-dropdown" name="department_fks" id="department_fks0${index.count }"  onchange="getAttendeesList('0${index.count }');">
 																											<option value="">Select Department</option>
 																											<c:forEach var="obj" items="${departmentsList}">
 																												<option value="${obj.department_fk }">${obj.department_name }</option>

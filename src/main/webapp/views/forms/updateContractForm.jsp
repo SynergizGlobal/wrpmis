@@ -1830,6 +1830,7 @@
 <!--     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script> -->
 <!--     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script> -->
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>

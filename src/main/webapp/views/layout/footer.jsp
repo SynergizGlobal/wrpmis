@@ -55,11 +55,11 @@
      
      document.querySelectorAll('.pmis-textarea').forEach(function (item) {
          item.addEventListener('keyup', function (event) {
-             item.style.height = (item.scrollHeight < 44) ? '44px' : item.scrollHeight + 'px';
+             item.style.height = (item.scrollHeight < 50) ? '50px' : item.scrollHeight + 'px';
          });
          item.addEventListener('change', function (event) {			
-			   item.style.height = 0;
-			   item.style.height = item.scrollHeight + "px";
+			   item.style.height = 0;			   
+			   item.style.height = (item.scrollHeight<50) ?'50px' : (item.scrollHeight+ 'px');
 
      	});
       }); 

@@ -66,7 +66,7 @@
 	/*  textarea auto height code starts here */
     .pmis-textarea {
            height: inherit;
-           padding: 1rem 0 0;
+           padding: 1rem 0 .5rem;
            box-sizing: border-box;
            border: 0;
            border-bottom: 1px solid #9e9e9e;

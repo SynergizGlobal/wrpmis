@@ -361,7 +361,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			throw new Exception(e);
 		}
 		finally {
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, resultSet);
 		}
 		return objsList;
 	}
@@ -402,31 +402,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			throw new Exception(e);
 		}
 		finally {
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
-		}
-		return objsList;
-	}
-
-
-	private List<Training> getHODsList(String dept,Connection con) throws Exception {
-		List<Training> objsList = null;
-		try {
-			String qry ="select user_id as hod_user_id_fk,designation,user_name from user where user_type_fk = ? ";
-			
-			int arrSize = 1;
-			if( !StringUtils.isEmpty(dept)) {
-				qry = qry + " and department_fk = ? ";
-				arrSize++;
-			}
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-			pValues[i++] = CommonConstants.USER_TYPE;
-			if(!StringUtils.isEmpty(dept)) {
-				pValues[i++] = dept;
-			}
-			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));		
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, resultSet);
 		}
 		return objsList;
 	}

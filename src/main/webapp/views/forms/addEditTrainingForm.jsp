@@ -1714,7 +1714,7 @@
 		         '<input type="checkbox" id="required_fks'+ rNo+i+'"  class="required_fks" onChange="checkBox('+ rNo+i+')" <c:if test="${dObj.required_fk eq 'Yes'}">  checked</c:if> />'+
 		         '<span></span></label></p></td><td data-head="Participated" class="input-field"><p class="disp-init"><label> <input type="hidden" name="participated_fks" id="participated_fk'+ rNo+i+'" />'+
 		         '<input type="checkbox" id="participated_fks'+ rNo+i+'"  class="participated_fks" onChange="checkBoxs('+ rNo+i+')" <c:if test="${dObj.participated_fk eq 'Yes'}">    checked</c:if> /><span></span>'+
-		         '</label></p></td><td class="mobile_btn_close"><a onclick="removeTrainingAttendees('+0+rNo+1+','+ rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'+
+		         '</label></p></td><td class="mobile_btn_close"><a onclick="removeTrainingAttendees(\''+0+rNo+1+'\',\''+ rNo +'\');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'+
 		         '</tr></tbody></table> <input type="hidden" id="trainNo"  name="trainNo" value="0" /><table class="mdl-data-table"><tbody id="trainingUpdateBody">'+                                          
                  '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
                  '</tbody></table></div></div></div></div>'+
@@ -1741,7 +1741,7 @@
 							'<td data-head="Mobile" class="input-field"><input id="new_mobile_nos'+ rNo+i+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
 			                '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="new_required_fk'+ rNo+i+'" value="No" class="req"/><input type="checkbox" id="new_required_fks'+ rNo+i+'" class="required_fks"/><span></span></label></p></td>' +
 			                '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="new_participated_fk'+ rNo+i+'" value="No" class="part"/><input type="checkbox" id="new_participated_fks'+ rNo+i+'" class="participated_fks" /><span></span></label></p></td>' +
-			                '<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees('+0+rNo+1+','+ rNo +');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
+			                '<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees(\''+0+rNo+1+'\',\''+ rNo +'\');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
 							'<input type="hidden" id="newTrainNo"  name="newTrainNo" value="0" /> ' +                    
 	                  		    '<table class="mdl-data-table"><tbody id="newTrainingUpdateBody">'+                                          
 	                            '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addNewTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
@@ -1879,8 +1879,8 @@
          var filename = $('#trainingSessionFiles' + rowNo)[0].files[0].name;
          $('#fileVal' + rowNo).html(filename);
      }
-     function removeTrainingAttendees(rowNo,rNo){
-    	var flag = $("#attendeesRow"+rowNo).remove();
+     function removeTrainingAttendees(rowCount,rNo){
+    	var flag = $("#attendeesRow"+rowCount).remove();
     	if(flag){
     		 var count = $("#rowsCounts"+rNo).val();
         	 var value = (count - 1);
@@ -1888,8 +1888,8 @@
     	}
     	
      }
-     function removeNewTrainingAttendees(rowNo,rNo){
-    	 $("#newAttendeesRow"+rowNo).remove();
+     function removeNewTrainingAttendees(rowCount,rNo){
+    	 $("#newAttendeesRow"+rowCount).remove();
     	 var count = $("#rowsCounts"+rNo).val();
     	 var value = (count - 1);
     	 $("#rowsCounts"+rNo).val(value)

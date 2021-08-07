@@ -1280,7 +1280,6 @@
 			moreFiles(fileIndex);
 		}
 	 function getAttendeesList(count){
-		 $(".page-loader").show();
      	var department_fk = $('#department_fks'+count).val();
      
      	$("#attendees"+count+" option:not(:first)").attr("selected",false);
@@ -1305,19 +1304,13 @@
                               }
                          });
                      }
-                     $(".page-loader").hide();
                  }
              });
-         }else{
-         	$(".page-loader").hide();
          }
 	 }
 	 
 	 function getHODsList(count){
-		 $(".page-loader").show();
-     	//var count = Number(rowNo);
      	var department_fk = $('#new_department_fks'+count).val();
-     
      	$("#new_hod_user_id_fks"+count+" option:not(:first)").attr("selected",false);
          if ($.trim(department_fk) != "") {
          	$("#new_hod_user_id_fks"+count+" option:not(:first)").remove();
@@ -1340,11 +1333,8 @@
                               }
                          });
                      }
-                     $(".page-loader").hide();
                  }
              });
-         }else{
-         	$(".page-loader").hide();
          }
 	 }
 	 

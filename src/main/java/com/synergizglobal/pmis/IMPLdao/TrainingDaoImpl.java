@@ -377,7 +377,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			String qry = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee,ta.designation as trainee_designation, required_fk, participated_fk " + 
 					"from training_attendees ta "
 					+ "LEFT JOIN department d on ta.department_fk = d.department  " 
-					+"where training_id_fk = ? and  training_session_id_fk = ? and is_new_user is null group by department_fk ";
+					+"where training_id_fk = ? and  training_session_id_fk = ? and is_new_user is null  ";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, training_id);
 			stmt.setString(2, training_session_id);

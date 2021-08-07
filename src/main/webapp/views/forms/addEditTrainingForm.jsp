@@ -1688,7 +1688,7 @@
 			  '<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
 				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4> <div class="row">'+
 				 '<div class="s12 m10 offset-m1 col"><div class="row fixed-width" > <div class="table-inside"><table id="training-update-table'+ rNo +'" class="mdl-data-table val mobile_responsible_table">'+
-		         '<thead><tr><th>Department</th><th>Attendee</th><th>Nominated</th><th>Participated</th><th>Action</th></tr></thead> <tbody id="attendeesTableBody'+ rNo +'"> <tr id="attendeesRow'+0+rNo+1+'">'+
+		         '<thead><tr><th>Department</th><th>Attendee</th><th>Nominated</th><th>Participated</th><th>Action</th></tr></thead> <tbody id="attendeesTableBody'+ rNo +'"> <tr id="attendeesRow'+0+0+rNo+1+'">'+
 		         '<td data-head="Department" class="input-field">'+
 		         '<input type="hidden" name="training_session_id_fks" id="training_session_id_fks'+ rNo+i+'" /> <input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo+i+'" /> '+
 		         '<select class="searchable validate-dropdown" name="department_fks" id="department_fks'+ rNo+i+'" onchange="getAttendeesList('+ rNo+i+');"> <option value="">Select Department</option>'+
@@ -1704,13 +1704,13 @@
 		         '<input type="checkbox" id="required_fks'+ rNo+i+'"  class="required_fks" onChange="checkBox('+ rNo+i+')" <c:if test="${dObj.required_fk eq 'Yes'}">  checked</c:if> />'+
 		         '<span></span></label></p></td><td data-head="Participated" class="input-field"><p class="disp-init"><label> <input type="hidden" name="participated_fks" id="participated_fk'+ rNo+i+'" />'+
 		         '<input type="checkbox" id="participated_fks'+ rNo+i+'"  class="participated_fks" onChange="checkBoxs('+ rNo+i+')" <c:if test="${dObj.participated_fk eq 'Yes'}">    checked</c:if> /><span></span>'+
-		         '</label></p></td><td class="mobile_btn_close"><a onclick="removeTrainingAttendees(\''+0+rNo+1+'\',\''+ rNo +'\');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'+
+		         '</label></p></td><td class="mobile_btn_close"><a onclick="removeTrainingAttendees(\''+0+0+rNo+1+'\',\''+ rNo +'\');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'+
 		         '</tr></tbody></table> <input type="hidden" id="trainNo"  name="trainNo" value="0" /><table class="mdl-data-table"><tbody id="trainingUpdateBody">'+                                          
                  '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
                  '</tbody></table></div></div></div></div>'+
 		         '<div class="row fixed-width"><div class="table-inside"> <table id="training-new-update-table'+ rNo +'" class="mdl-data-table mobile_responsible_table">'+
 					  '<thead><tr><th>Department</th><th>HOD</th><th>Attendee</th><th>Designation</th><th>Mobile</th><th>Nominated</th><th>Participated</th><th>Action</th></tr></thead>'+
-						'<tbody id="newAttendeesTableBody'+ rNo +'" ><input type="hidden" id="rowsCounts'+ rNo +'"  name="rowsCounts" value="2"/><tr id="newAttendeesRow'+0+rNo+1+'"><td data-head="Department" class="input-field">'+
+						'<tbody id="newAttendeesTableBody'+ rNo +'" ><input type="hidden" id="rowsCounts'+ rNo +'"  name="rowsCounts" value="2"/><tr id="newAttendeesRow'+0+0+rNo+1+'"><td data-head="Department" class="input-field">'+
 						    '<input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
 						    '<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids'+ rNo+i+'" />'+
 						    '<select class="searchable validate-dropdown" name="department_fks" id="new_department_fks'+ rNo+i+'" onchange="getHODsList('+ rNo+i+');">'+
@@ -1731,7 +1731,7 @@
 							'<td data-head="Mobile" class="input-field"><input id="new_mobile_nos'+ rNo+i+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
 			                '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="new_required_fk'+ rNo+i+'" value="No" class="req"/><input type="checkbox" id="new_required_fks'+ rNo+i+'" class="required_fks"/><span></span></label></p></td>' +
 			                '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="new_participated_fk'+ rNo+i+'" value="No" class="part"/><input type="checkbox" id="new_participated_fks'+ rNo+i+'" class="participated_fks" /><span></span></label></p></td>' +
-			                '<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees(\''+0+rNo+1+'\',\''+ rNo +'\');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
+			                '<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees(\''+0+0+rNo+1+'\',\''+ rNo +'\');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
 							'<input type="hidden" id="newTrainNo"  name="newTrainNo" value="0" /> ' +                    
 	                  		    '<table class="mdl-data-table"><tbody id="newTrainingUpdateBody">'+                                          
 	                            '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addNewTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+

@@ -1175,6 +1175,20 @@ public class AlertsDaoImpl implements AlertsDao{
 							alert_level = alert_level + " (Expiry in 60 days)";
 						}
 					}
+					
+					int k = 0;
+					for (Alerts alert : allAlertsList) {
+						if(k+1 < allAlertsList.size()) {
+							Alerts tempAObj =  allAlertsList.get(k+1);
+							if(alert.getHod().equals(tempAObj.getHod()) && alert.getContract_short_name().equals(tempAObj.getContract_short_name())) {
+								alert.setRowspan("true");
+								tempAObj.setHod("");
+								tempAObj.setContract_short_name("");
+							}
+						}
+						k++;
+					}
+					
 					if(!StringUtils.isEmpty(allAlertsList) && allAlertsList.size() > 0) {
 						alerts.put(alert_level, allAlertsList);
 					}

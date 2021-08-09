@@ -2071,8 +2071,7 @@
   					$('#responsible_people_id_fks' + i + ' option[value=""]').hide();
   				}
   			}
-        	var flag = validateContract();
-        	if(flag){
+        	
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	
 	  		
@@ -2146,9 +2145,12 @@
 	  			$('form input[name=contractKeyPersonnelDesignations]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=contractKeyPersonnelMobileNos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=contractKeyPersonnelEmailIds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			
-    			document.getElementById("contractForm").submit();			
-    	 	}
+	  			var flag = validateContract();
+	        	if(flag){
+    				document.getElementById("contractForm").submit();			
+    	 		}else{
+    	        	$(".page-loader").hide();
+    	 		}
         	}
     	}
 
@@ -2307,11 +2309,11 @@
         		 	  },"remarks":{
         	 	  		required: 'Required'
         		 	  },"estimated_cost_units":{
-        	 	  		required: 'Units required'
+        	 	  		required: 'Required'
         		 	  },"awarded_cost_units":{
-        	 	  		required: 'Units required'
+        	 	  		required: 'Required'
         		 	  },"completed_cost_units":{
-        	 	  		required: 'Units required'
+        	 	  		required: 'Required'
         		 	  }
         	 				      
             },
@@ -2426,7 +2428,7 @@
                      jQuery('html, body').animate({
                          scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
                      }, 1000);
-                 }
+                 }validateContract();
              },submitHandler: function(form) {
             	 alert($('#awarded_cost').val());
         	    // do other things for a valid form

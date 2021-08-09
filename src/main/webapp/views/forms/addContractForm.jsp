@@ -1046,9 +1046,9 @@
 		   		 	  },"remarks":{
 		  	 	  		required: 'Required'
 				 	  },"estimated_cost_units":{
-        	 	  		required: 'Units required'
+        	 	  		required: 'Required'
         		 	  },"awarded_cost_units":{
-        	 	  		required: 'Units required'
+        	 	  		required: 'Required'
         		 	  }
 		   	 				      
 		       },

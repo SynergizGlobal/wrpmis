@@ -734,27 +734,121 @@ public class DocxTableCreationForContractReport {
 				}
 				table.getContent().add(titleRow);
 				int sNo = 1;
-				for (Contract cObj : hodEntry.getValue()) {	
+				int NumVal=1;
+				int Total=0;
+				int Concat=NumVal;
+				for (Contract cObj : hodEntry.getValue()) 
+				{	
 					boolean hasBgColor = false;
 					String backgroundColor = null;
-					Tr contentRow = factory.createTr();
+					String getBG=cObj.getBg_number().toString();
+
+					if(getBG.indexOf("<space>")==-1)
+					{
+						Tr contentRow = factory.createTr();
+		
+						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(NumVal), garamondRPr, JcEnumeration.CENTER,
+								hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_short_name(), garamondRPr,
+								JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(), garamondRPr,
+								JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_number(), garamondRPr, JcEnumeration.LEFT,
+								hasBgColor, backgroundColor);
+						
 	
-					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), garamondRPr, JcEnumeration.CENTER,
-							hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_short_name(), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_number(), garamondRPr, JcEnumeration.LEFT,
-							hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_value(), garamondRPr, JcEnumeration.RIGHT,
-							hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_valid_upto(), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);	
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getContractAlertRemarks(), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);						
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_value(), garamondRPr, JcEnumeration.RIGHT,
+								hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getBg_valid_upto(), garamondRPr,
+								JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getContractAlertRemarks(), garamondRPr,
+								JcEnumeration.CENTER, hasBgColor, backgroundColor);						
+						
+						table.getContent().add(contentRow);
+						Concat=Concat+1;
+						Total=Total+1;						
+
+					}
+					else
+					{
+						  var search = getBG.split("<space>");
+						  String getBG1=cObj.getBg_value().toString();
+						  var search1 = getBG1.split("<space>");
+						  String getBG2=cObj.getBg_valid_upto().toString();
+						  var search2 = getBG2.split("<space>");
+						  
+						  var SerLen1=search.length;
+						  var SerLen2=search1.length;
+						  var SerLen3=search2.length;		
+						  
+						  
+						  
+						  if(SerLen1!=SerLen2)
+						  {
+							  if(SerLen1>SerLen2)
+							  {
+								  getBG1=cObj.getBg_value().toString()+"<space>\n  ";
+								  search1 = getBG1.split("<space>");
+							  }
+							  else
+							  {
+								  getBG=cObj.getBg_number().toString()+"<space>\n  ";
+								  search = getBG.split("<space>");
+							  }
+						  }						  
+						  
+						  if(SerLen1!=SerLen3)
+						  {
+							  getBG2=cObj.getBg_valid_upto().toString()+"<space>\n  ";
+							  search2 = getBG2.split("<space>");
+						  }						  
+						  
+						  
+						  for(int i=0; i<search.length; i++)
+						  {
+								Tr contentRow1 = factory.createTr();
+								
+								addTableCell(factory, wordMLPackage, contentRow1, String.valueOf(NumVal), garamondRPr, JcEnumeration.CENTER,
+										hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow1, cObj.getContract_short_name(), garamondRPr,
+										JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow1, cObj.getContractor_name(), garamondRPr,
+										JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								
+								addTableCell(factory, wordMLPackage, contentRow1, search[i], garamondRPr, JcEnumeration.LEFT,
+										hasBgColor, backgroundColor);
+
+									addTableCell(factory, wordMLPackage, contentRow1, search1[i], garamondRPr, JcEnumeration.RIGHT,
+										hasBgColor, backgroundColor);
+								
+								addTableCell(factory, wordMLPackage, contentRow1, search2[i], garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+								addTableCell(factory, wordMLPackage, contentRow1, cObj.getContractAlertRemarks(), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);						
+								
+								table.getContent().add(contentRow1);
+						  }	
+						  Total=Total+search.length;
+						  for(int i=0; i<search.length; i++)
+						  {
+							  
+								
+								
+
+								mergeCellsVertically(table, 0,Concat, Total);
+								mergeCellsVertically(table, 1, Concat, Total);
+								mergeCellsVertically(table, 2, Concat, Total);
+								//mergeCellsVertically(table, 6, Concat,Total);
+								
+						  }
+							Concat=Concat+search.length;					  
+						  
+						  
+					}
+					NumVal=NumVal+1;
+
 					
-					table.getContent().add(contentRow);
 				}
 				
 				if (StringUtils.isEmpty(hodEntry.getValue()) || hodEntry.getValue().isEmpty()) {
@@ -882,27 +976,128 @@ public class DocxTableCreationForContractReport {
 				table.getContent().add(titleRow);
 	
 				int sNo = 1;
-				for (Contract cObj : hodEntry.getValue()) {
+				int NumVal=1;
+				int Total=0;
+				int Concat=NumVal;
+
+
+				for (Contract cObj : hodEntry.getValue()) 
+				{
 					boolean hasBgColor = false;
 					String backgroundColor = null;
-					Tr contentRow = factory.createTr();
-	
-					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), garamondRPr, JcEnumeration.CENTER,
-							hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_short_name(), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_number(), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_value(), garamondRPr,
-							JcEnumeration.RIGHT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_upto(), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow,cObj.getContractAlertRemarks(), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);					
-	
-					table.getContent().add(contentRow);
+					String getBG="";
+					if (StringUtils.isEmpty(cObj.getInsurance_number()) || cObj.getInsurance_number().isEmpty()) 
+					{
+						getBG="";
+					}
+					else
+					{
+						getBG=cObj.getInsurance_number().toString();
+					}
+					if(getBG.indexOf("<space>")==-1)
+					{
+						Tr contentRow = factory.createTr();
+		
+						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(NumVal), garamondRPr, JcEnumeration.CENTER,
+								hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_short_name(), garamondRPr,
+								JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(), garamondRPr,
+								JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_number(), garamondRPr,
+								JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_value(), garamondRPr,
+								JcEnumeration.RIGHT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_upto(), garamondRPr,
+								JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow,cObj.getContractAlertRemarks(), garamondRPr,
+								JcEnumeration.CENTER, hasBgColor, backgroundColor);					
+		
+						table.getContent().add(contentRow);
+						Concat=Concat+1;
+						Total=Total+1;
+						
+					}
+					else
+					{
+						  var search = getBG.split("<space>");
+						  String getBG1=cObj.getInsurance_value().toString();
+						  var search1 = getBG1.split("<space>");
+						  String getBG2=cObj.getInsurance_valid_upto().toString();
+						  var search2 = getBG2.split("<space>");
+						  
+						  var SerLen1=search.length;
+						  var SerLen2=search1.length;
+						  var SerLen3=search2.length;
+						  
+						  if(SerLen1!=SerLen2)
+						  {
+							  if(SerLen1>SerLen2)
+							  {
+								  getBG1=cObj.getInsurance_value().toString()+"<space>\n  ";
+								  search1 = getBG1.split("<space>");
+							  }
+							  else
+							  {
+								  getBG=cObj.getInsurance_number().toString()+"<space>\n  ";
+								  search = getBG.split("<space>");
+							  }
+						  }						  
+						  
+						  if(SerLen1!=SerLen3)
+						  {
+							  getBG2=cObj.getInsurance_valid_upto().toString()+"<space>\n  ";
+							  search2 = getBG2.split("<space>");
+						  }
+						  
+
+
+							  for(int i=0; i<search.length; i++)
+							  {
+								  Tr contentRow1 = factory.createTr();
+								  
+									addTableCell(factory, wordMLPackage, contentRow1, String.valueOf(NumVal), garamondRPr, JcEnumeration.CENTER,
+											hasBgColor, backgroundColor);
+									addTableCell(factory, wordMLPackage, contentRow1, cObj.getContract_short_name(), garamondRPr,
+											JcEnumeration.LEFT, hasBgColor, backgroundColor);
+									addTableCell(factory, wordMLPackage, contentRow1, cObj.getContractor_name(), garamondRPr,
+											JcEnumeration.LEFT, hasBgColor, backgroundColor);
+									addTableCell(factory, wordMLPackage, contentRow1, search[i], garamondRPr,
+											JcEnumeration.LEFT, hasBgColor, backgroundColor);
+									addTableCell(factory, wordMLPackage, contentRow1, search1[i], garamondRPr,
+											JcEnumeration.RIGHT, hasBgColor, backgroundColor);
+									addTableCell(factory, wordMLPackage, contentRow1, search2[i], garamondRPr,
+											JcEnumeration.CENTER, hasBgColor, backgroundColor);								
+									addTableCell(factory, wordMLPackage, contentRow1,cObj.getContractAlertRemarks(), garamondRPr,
+											JcEnumeration.CENTER, hasBgColor, backgroundColor);								  
+								  
+								  
+									table.getContent().add(contentRow1);
+
+
+							  }	
+							  Total=Total+search.length;
+							  for(int i=0; i<search.length; i++)
+							  {
+								  
+									
+									
+
+									mergeCellsVertically(table, 0,Concat, Total);
+									mergeCellsVertically(table, 1, Concat, Total);
+									mergeCellsVertically(table, 2, Concat, Total);
+									//mergeCellsVertically(table, 6, Concat,Total);
+									
+							  }
+								Concat=Concat+search.length;								  
+
+							  
+								
+
+
+							  
+						}	
+						NumVal=NumVal+1;
 				}
 				if (StringUtils.isEmpty(hodEntry.getValue()) || hodEntry.getValue().isEmpty()) {
 					boolean hasBgColor = false;

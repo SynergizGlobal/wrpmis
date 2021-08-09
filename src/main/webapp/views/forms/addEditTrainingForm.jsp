@@ -777,7 +777,7 @@
 																				</tbody>
 																			</table>
 
-																			<table class="mdl-data-table">
+																			<table class="mdl-data-table" style="margin-bottom:20px;">
 																				<tbody id="trainingUpdateBody">
 																					<tr>
 																						<td colspan="7" ><a type="button" class="btn waves-effect waves-light bg-m t-c "
@@ -797,6 +797,7 @@
 																					<input type="hidden" id="newTrainNo" name="newTrainNo" value="0" />
 																				</c:otherwise>
 																			</c:choose>
+																			<a type="button" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-floppy-o" ></i> Update</a>
 																		</div>
 																	</div> 
 																	
@@ -1038,7 +1039,7 @@
 												                            </script>
 																		<input type="hidden" id="newTrainNo" name="newTainNo"
 																			value="0" />
-																		<table class="mdl-data-table">
+																		<table class="mdl-data-table" style="margin-bottom:20px;">
 																			<tbody id="trainingUpdateBody">
 																				<tr>
 																					<td colspan="7"><a type="button" class="btn waves-effect waves-light bg-m t-c "
@@ -1046,6 +1047,7 @@
 																				</tr>
 																			</tbody>
 																		</table>
+																		<a type="button" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-floppy-o" ></i> Update</a>
 																	</div>
 																</div>
 															</div>

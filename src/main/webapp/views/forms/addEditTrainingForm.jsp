@@ -259,6 +259,16 @@
 	        	width:90% ;
 	        }	 
 		}
+		.mw-150{
+			width: 150px !important;
+		    max-width: 150px !important;
+		}
+		@media only screen and (min-width:769px){
+			.py-0{
+				padding:auto 0;
+			}
+		}
+		
     </style>
 </head>
 
@@ -439,7 +449,7 @@
 																					<tr>
 																						<th>Department</th>																						
 																						<th> &nbsp; Attendee &nbsp; </th>																						
-																						<th>Nominated</th>
+																						<th class="py-0">Nominated</th>
 																						<th>Participated</th>																						
 																						<th>Action</th>
 																					</tr>
@@ -564,8 +574,10 @@
 																			                            	  $("#participated_fk0${index.count }").prop('checked',false).removeAttr('checked');;
 																			                              }
 																			                   	    });
-																			                    	 $('#department_fks0${index.count }').select2();
-																									 $('#attendees0${index.count }').select2();
+																			                    	 $(document).ready(function(){
+																				                    	 $('#department_fks0${index.count }').select2();
+																										 $('#attendees0${index.count }').select2();																			                    		 
+																			                    	 });
 												                            
 												                            				</script>
 																						</c:otherwise> 
@@ -604,8 +616,8 @@
 																						<th>HOD</th>
 																						<th>Attendee</th>
 																						<th>Designation</th>
-																						<th>&nbsp; Mobile No &nbsp;</th>
-																						<th>Nominated</th>
+																						<th class="mw-150"> Mobile </th>
+																						<th class="py-0">Nominated</th>
 																						<th>Participated</th>																						
 																						<th>Action</th>
 																					</tr>
@@ -694,8 +706,10 @@
 																			                            	  $("#new_participated_fk0${indexx.count }${index.count }${indexx.count }").prop('checked',false).removeAttr('checked');;
 																			                              }
 																			                   	    });
-																			                    	 $('#new_department_fks0${indexx.count }${index.count }${indexx.count }').select2();
-																									 $('#new_hod_user_id_fks0${indexx.count }${index.count }${indexx.count }').select2();
+																			                    	 $(document).ready(function(){
+																				                    	 $('#new_department_fks0${indexx.count }${index.count }${indexx.count }').select2();
+																										 $('#new_hod_user_id_fks0${indexx.count }${index.count }${indexx.count }').select2();																			                    		 
+																			                    	 });
 																								</script> 
 																							</c:forEach>
 																						 </c:when>
@@ -767,9 +781,10 @@
 																			                            	  $("#new_participated_fk0${index.count }").prop('checked',false).removeAttr('checked');;
 																			                              }
 																			                   	    });
-																			                    	 $('#new_department_fks0${index.count }').select2();
-																									 $('#new_attendees0${index.count }').select2();
-																									 
+																			                    	 $(document).ready(function(){
+																				                    	 $('#new_department_fks0${index.count }').select2();
+																										 $('#new_attendees0${index.count }').select2();																			                    		 
+																			                    	 });																									 
 																									
 												                            				</script>
 																						</c:otherwise> 
@@ -797,7 +812,7 @@
 																					<input type="hidden" id="newTrainNo" name="newTrainNo" value="0" />
 																				</c:otherwise>
 																			</c:choose>
-																			<a type="button" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-floppy-o" ></i> Update</a>
+																			<a type="button" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a>
 																		</div>
 																	</div> 
 																	
@@ -894,7 +909,7 @@
 																                        <tr>
 																                            <th>Department</th>
 																                            <th>Attendee</th>
-																                            <th>Nominated</th>
+																                            <th class="py-0">Nominated</th>
 																                            <th>Participated</th>
 																                            <th>Action</th>
 																                        </tr>
@@ -961,8 +976,8 @@
 																					<th>HOD</th>
 																					<th>Attendee</th>
 																					<th>Designation</th>
-																					<th>Mobile</th>
-																					<th>Nominated</th>
+																					<th class="mw-150"> Mobile</th>
+																					<th class="py-0">Nominated</th>
 																					<th>Participated</th>
 																					<th>Action</th>
 																				</tr>
@@ -1047,7 +1062,7 @@
 																				</tr>
 																			</tbody>
 																		</table>
-																		<a type="button" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-floppy-o" ></i> Update</a>
+																		<a type="button" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a>
 																	</div>
 																</div>
 															</div>
@@ -1530,7 +1545,8 @@
         var rowNumber = null;
         function showNo(a){
         	rowNumber = a.href.split("#")[1].split("-")[2].split('modal')[1];        	
-        	console.log($('#trainingRow'+rowNumber));
+        //	console.log($('#trainingRow'+rowNumber));
+        	$('#session-update-modal'+rowNumber).removeAttr('tabindex');
         }
       /*   function prevRow(tNo){
         	 var id = $('#attendeesTableBody'+tNo+' tr .hide:last').attr('id');
@@ -1690,7 +1706,7 @@
 			  '<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
 				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4> <div class="row">'+
 				 '<div class="s12 m10 offset-m1 col"><div class="row fixed-width" > <div class="table-inside"><table id="training-update-table'+ rNo +'" class="mdl-data-table val mobile_responsible_table">'+
-		         '<thead><tr><th>Department</th><th>Attendee</th><th>Nominated</th><th>Participated</th><th>Action</th></tr></thead> <tbody id="attendeesTableBody'+ rNo +'"> <tr id="attendeesRow'+0+0+rNo+1+'">'+
+		         '<thead><tr><th>Department</th><th>Attendee</th><th class="py-0">Nominated</th><th>Participated</th><th>Action</th></tr></thead> <tbody id="attendeesTableBody'+ rNo +'"> <tr id="attendeesRow'+0+0+rNo+1+'">'+
 		         '<td data-head="Department" class="input-field">'+
 		         '<input type="hidden" name="training_session_id_fks" id="training_session_id_fks'+ rNo+i+'" /> <input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo+i+'" /> '+
 		         '<select class="searchable validate-dropdown" name="department_fks" id="department_fks'+ rNo+i+'" onchange="getAttendeesList('+ rNo+i+');"> <option value="">Select Department</option>'+
@@ -1711,7 +1727,7 @@
                  '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
                  '</tbody></table></div></div></div></div>'+
 		         '<div class="row fixed-width"><div class="table-inside"> <table id="training-new-update-table'+ rNo +'" class="mdl-data-table mobile_responsible_table">'+
-					  '<thead><tr><th>Department</th><th>HOD</th><th>Attendee</th><th>Designation</th><th>Mobile</th><th>Nominated</th><th>Participated</th><th>Action</th></tr></thead>'+
+					  '<thead><tr><th>Department</th><th>HOD</th><th>Attendee</th><th>Designation</th><th class="mw-150"> Mobile</th><th class="py-0">Nominated</th><th>Participated</th><th>Action</th></tr></thead>'+
 						'<tbody id="newAttendeesTableBody'+ rNo +'" ><input type="hidden" id="rowsCounts'+ rNo +'"  name="rowsCounts" value="2"/><tr id="newAttendeesRow'+0+0+rNo+1+'"><td data-head="Department" class="input-field">'+
 						    '<input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
 						    '<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids'+ rNo+i+'" />'+
@@ -1737,7 +1753,7 @@
 							'<input type="hidden" id="newTrainNo"  name="newTrainNo" value="0" /> ' +                    
 	                  		    '<table class="mdl-data-table"><tbody id="newTrainingUpdateBody">'+                                          
 	                            '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addNewTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
-	                          '</tbody></table></div></div></div> <a type="button" style="margin-bottom:20px;" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-floppy-o" ></i> Update</a></div> </td>'+
+	                          '</tbody></table></div></div></div> <a type="button" style="margin-bottom:20px;" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a></div> </td>'+
           '<td data-head="Remarks" class="input-field"> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
           
           '<td data-head="Attachment" class="input-field cell-disp-inb">  <div id="selectedFilesInput'+rNo+'" ><div class="file-field input-field" id="trainingSessionFilesDivs'+rNo+1+'" >' 
@@ -2032,6 +2048,19 @@
          	        $(this).valid();
          	    }
          	});
+
+            /*  function che(){
+   	            	
+	             $('[id^=end_times]').each(function(i,val){
+	            	 var idNo=Number(i+1);
+	            	 if($('#end_times'+idNo).val != ''){
+	            		 if (  !($('#start_times'+idNo).val() < $('#end_times'+idNo).val()) ){
+	 	             		alert('end time should greater than start time' + idNo);
+	 	             	}	 
+	            	 }	            	
+	             })
+             } */
+                         
  </script>
 </body>
 

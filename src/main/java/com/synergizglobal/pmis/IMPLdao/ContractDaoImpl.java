@@ -148,6 +148,8 @@ public class ContractDaoImpl implements ContractDao {
 					+ "from user u "
 					+ "LEFT JOIN department d on  u.department_fk = d.department "
 					+ "where designation is not null and designation <>'' and user_type_fk = ? group by user_id";
+			qry = qry + " ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO'),designation" ;
+
 
 			int arrSize = 1;
 			Object[] pValues = new Object[arrSize];
@@ -2171,6 +2173,7 @@ public class ContractDaoImpl implements ContractDao {
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where hod_user_id_fk is not null and hod_user_id_fk <> '' ";
+
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -2201,7 +2204,8 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + "GROUP BY c.hod_user_id_fk ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
+			qry = qry + "GROUP BY c.hod_user_id_fk ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO'),u.designation" ;
+
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -2244,6 +2248,7 @@ public class ContractDaoImpl implements ContractDao {
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where dy_hod_user_id_fk is not null and dy_hod_user_id_fk <> '' ";
+			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -2657,6 +2662,8 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and u.user_id = ? ";
 				arrSize++;
 			}
+			qry = qry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO'),u.designation" ;
+
 			//qry = qry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

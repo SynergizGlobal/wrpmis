@@ -2950,8 +2950,8 @@
 		
 		$('select[name=bg_value_unitss]').change(function(key, element){
 			$("input[name=bg_values]").each(function(){
-				var idNo = (this.id).replace('bg_value_unitss',''); 
-        		if($.trim(this.value) == "" && $('#bg_values'+idNo).val() != ""){ 
+				var idNo = (this.id).replace('bg_values',''); 
+        		if($.trim(this.value) != "" && $('#bg_values_units'+idNo).val() == ""){ 
         			$('#bg_units'+idNo+'Error').text('Requried');
 				}else{
 					$('#bg_units'+idNo+'Error').text('');
@@ -2962,8 +2962,8 @@
 		$('select[name=insurance_value_unitss]').change(function(key, element){
 			
 			$("input[name=insurance_values]").each(function(){
-				var idNo = (this.id).replace('insurance_value_unitss','');
-        		if($.trim(this.value) == "" && $('#insurance_values'+idNo).val() != ""){
+				var idNo = (this.id).replace('insurance_values','');
+        		if( ($.trim(this.value)) != "" && $('#insurance_values_units'+idNo).val() == ""){
         			$('#insurence_units'+idNo+'Error').text('Requried');
 				}else{
 					$('#insurence_units'+idNo+'Error').text('');
@@ -2974,8 +2974,8 @@
 		$('select[name=revised_amount_unitss]').change(function(key, element){
 			
 			$("input[name=revised_amounts]").each(function(){
-				var idNo = (this.id).replace('revised_amount_unitss','');
-        		if($.trim(this.value) == "" && $('#revised_amounts'+idNo).val() != ""){
+				var idNo = (this.id).replace('revised_amounts','');
+        		if($.trim(this.value) != "" && $('#revised_amounts_units'+idNo).val() == ""){
         			$('#units'+idNo+'Error').text('Requried');
         			
 				}else{

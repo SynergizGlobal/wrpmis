@@ -581,11 +581,12 @@
                         $.each(data, function (i, val) {
                         	var selectedFlag = (dy_designation == val.dy_hod_user_id)?'selected':'';
                         	if($.trim(selectedFlag) != ''){
-                        		var user_id  = '${sessionScope.USER_ID}';
-                            	var selectedFlag = (user_id == val.dy_hod_user_id)?'selected':'';
                             	if(selectedFlag == ''){
                             		var selectedFlag = (dy_designation == val.dy_hod_user_id)?'selected':'';
                         		}
+                         	}else{
+                         		var user_id  = '${sessionScope.USER_ID}';
+                            	var selectedFlag = (user_id == val.dy_hod_user_id)?'selected':'';
                          	}
                         	$("#dy_hod_designation").append('<option value="' + val.dy_hod_user_id + '" '+selectedFlag+'>' + $.trim(val.dy_hod_designation) +'</option>');
                         });
@@ -621,11 +622,12 @@
                         $.each(data, function (i, val) {
                         	var selectedFlag = (hod_designation == val.hod_user_id)?'selected':'';
                         	if($.trim(selectedFlag) != ''){
-                        		var user_id  = '${sessionScope.USER_ID}';
-                        		var selectedFlag = (user_id == val.hod_user_id)?'selected':'';
                         		if(selectedFlag == ''){
                             		var selectedFlag = (hod_designation == val.hod_user_id)?'selected':'';
                         		}
+                         	}else{
+                         		var user_id  = '${sessionScope.USER_ID}';
+                        		var selectedFlag = (user_id == val.hod_user_id)?'selected':'';
                          	}
                         	$("#designation").append('<option value="' + val.hod_user_id + '" '+selectedFlag+'>' + $.trim(val.designation) +'</option>');
                         });

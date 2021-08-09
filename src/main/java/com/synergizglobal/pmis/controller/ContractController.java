@@ -219,17 +219,17 @@ public class ContractController {
 	 * @return
 	 */
 	public List<Contract> createPaginationData(int startIndex, int offset,Contract obj, String searchParameter,HttpSession session) {
-		List<Contract> earthWorkList = null;
+		List<Contract> contractsGridkList = null;
 		try {
 			User uObj = (User) session.getAttribute("user");
 			obj.setUser_type_fk(uObj.getUser_type_fk());
 			obj.setUser_role_code(uObj.getUser_role_code());
 			obj.setUser_id(uObj.getUser_id());
-			earthWorkList = contractService.getContractsList(obj, startIndex, offset, searchParameter);
+			contractsGridkList = contractService.getContractsList(obj, startIndex, offset, searchParameter);
 		} catch (Exception e) {
 			logger.error("createPaginationData : " + e.getMessage());
 		}
-		return earthWorkList;
+		return contractsGridkList;
 	}
 	
 	

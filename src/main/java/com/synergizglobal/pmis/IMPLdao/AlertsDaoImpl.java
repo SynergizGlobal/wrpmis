@@ -2064,7 +2064,8 @@ public class AlertsDaoImpl implements AlertsDao{
 				arrSize++;
 			}
 			qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
-			qry = qry + " GROUP BY u.designation ORDER BY u.designation asc ";
+			qry = qry + " GROUP BY u.designation ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO'),u.designation" ;
+
 			
 			Object[] pValues = new Object[arrSize];
 			

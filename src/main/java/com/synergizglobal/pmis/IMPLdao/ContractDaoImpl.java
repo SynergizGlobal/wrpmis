@@ -2741,7 +2741,7 @@ public class ContractDaoImpl implements ContractDao {
 			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk "
 					+ "FROM user u " 
 					+ "left join department d on u.department_fk = d.department "
-					+ "where  user_id is not null ";
+					+ "where  user_id is not null and user_type_fk <> '' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {

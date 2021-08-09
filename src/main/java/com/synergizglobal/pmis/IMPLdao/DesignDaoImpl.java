@@ -907,7 +907,9 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getHodListFilter(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry ="select hod from design where hod is not null and hod <> '' ";
+			String qry ="select hod from design d "
+					+ " left join user u on d.hod = u.designation "
+					+ " where hod is not null and hod <> '' ";
 				
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -934,7 +936,8 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and drawing_type_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " group by hod";
+			qry = qry + " group by hod  ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO')," + 
+					" u.designation";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

@@ -45,14 +45,15 @@ public class DesignReportDaoImpl implements DesignReportDao{
 	public List<DesignReport> getHodListInDesignReport(DesignReport obj) throws Exception {
 		List<DesignReport> objsList = null;
 		try {
-			String qry = "select hod from design where hod is not null";
+			String qry = "select hod from design d left join user u on d.hod = u.designation where hod is not null group by hod";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " group by hod order by hod asc";
+			qry = qry + " group by hod  ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO')," + 
+					" u.designation";
 			
 			Object[] pValues = new Object[arrSize];
 			

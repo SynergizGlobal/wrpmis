@@ -1737,7 +1737,7 @@
 							'<input type="hidden" id="newTrainNo"  name="newTrainNo" value="0" /> ' +                    
 	                  		    '<table class="mdl-data-table"><tbody id="newTrainingUpdateBody">'+                                          
 	                            '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addNewTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
-	                          '</tbody></table></div></div></div></div> </td>'+
+	                          '</tbody></table></div></div></div> <a type="button" style="margin-bottom:20px;" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-floppy-o" ></i> Update</a></div> </td>'+
           '<td data-head="Remarks" class="input-field"> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
           
           '<td data-head="Attachment" class="input-field cell-disp-inb">  <div id="selectedFilesInput'+rNo+'" ><div class="file-field input-field" id="trainingSessionFilesDivs'+rNo+1+'" >' 

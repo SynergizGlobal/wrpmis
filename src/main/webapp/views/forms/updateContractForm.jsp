@@ -394,7 +394,7 @@
 									                <thead>
 									                    <tr>
 									                        <th style="width:22%">Department <span class="required">*</span></th>
-															<th>Select Executives <span class="required">*</span></th>
+															<th style="text-align : center;">Select Executives <span class="required">*</span></th>
 															<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}"><th style="width:8%">Action</th></c:if>
 									                    </tr>
 									                </thead>
@@ -450,7 +450,7 @@
 					                                 				<div id="container${index.count }">
 															 		<c:forEach var="tempobj" items="${departmentObj.executivesList}" varStatus="indexx" >
 															 				<input type="hidden" name="responsible_people_id_fks"  value="${tempobj.executive_user_id_fk }"  />
-															 				<input type="text"     value="${tempobj.designation} - ${tempobj.user_name}" readonly /><br>
+															 				<p >${tempobj.designation} - ${tempobj.user_name}</p><br>
 						                                          	</c:forEach>
 						                                          	</div>
 						                                          	<input type="hidden" id="filecounts${index.count }" name="filecounts">

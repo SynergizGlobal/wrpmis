@@ -2758,18 +2758,59 @@ public class ContractDaoImpl implements ContractDao {
 			    }
 				totalRecordsWithExecutives = objsList.size();
 			}
-			for (Contract cObj : objsList) {
-				if(!StringUtils.isEmpty(cObj.getDepartment_name()) && !StringUtils.isEmpty(cObj.getHod_department()) && !cObj.getDepartment_name().contains(cObj.getHod_department())) {
-					cObj.setDepartment_name(cObj.getDepartment_name() + "," +cObj.getHod_department() );
-				}else if(StringUtils.isEmpty(cObj.getDepartment_name())) {
-					cObj.setDepartment_name(cObj.getHod_department() );
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				for (Contract cObj : objsList) {
+					Contract deptObj = getDepartmentsLists(cObj);
+					if(!StringUtils.isEmpty(deptObj.getDepartment_name()) && !StringUtils.isEmpty(cObj.getHod_department()) && !deptObj.getDepartment_name().contains(cObj.getHod_department())) {
+						cObj.setDepartment_name(deptObj.getDepartment_name() + "," +cObj.getHod_department() );
+					}else if(StringUtils.isEmpty(deptObj.getDepartment_name())) {
+						cObj.setDepartment_name(cObj.getHod_department() );
+					}else {
+						cObj.setDepartment_name(deptObj.getDepartment_name() );
+					}
+				
+				}
+			}else {
+				for (Contract cObj : objsList) {
+					if(!StringUtils.isEmpty(cObj.getDepartment_name()) && !StringUtils.isEmpty(cObj.getHod_department()) && !cObj.getDepartment_name().contains(cObj.getHod_department())) {
+						cObj.setDepartment_name(cObj.getDepartment_name() + "," +cObj.getHod_department() );
+					}else if(StringUtils.isEmpty(cObj.getDepartment_name())) {
+						cObj.setDepartment_name(cObj.getHod_department() );
+					}
 				}
 			}
+		
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	private Contract getDepartmentsLists(Contract cObj) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		Contract contract = null;
+		try{
+			con = dataSource.getConnection();
+			String contract_updateQry = "SELECT id, contract_id_fk,GROUP_CONCAT(DISTINCT dt.department_name SEPARATOR ', ') as department_name FROM contract_executive ce "
+					+ " left join department dt on ce.department_id_fk = dt.department where contract_id_fk = ?  group by contract_id_fk  ";
+			stmt = con.prepareStatement(contract_updateQry);
+			stmt.setString(1, cObj.getContract_id());
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				contract = new Contract();
+				contract.setDepartment_name(resultSet.getString("department_name"));
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
+		}	
+		return contract;
+		
 	}
 
 	private List<Contract> getExecutivesList(Contract obj) throws Exception {

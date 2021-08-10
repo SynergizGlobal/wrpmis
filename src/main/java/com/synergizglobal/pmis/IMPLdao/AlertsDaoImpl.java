@@ -1216,6 +1216,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				}
 					
 				flag = true;
+				Thread.sleep(1000*10);//time is in ms (1000 ms = 1 second)
 			}
 			
 		}catch(Exception e){ 
@@ -1369,6 +1370,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				}
 					
 				flag = true;
+				Thread.sleep(1000*10);//time is in ms (1000 ms = 1 second)
 			}
 			
 		}catch(Exception e){ 
@@ -1512,6 +1514,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					}
 						
 					flag = true;
+					Thread.sleep(1000*10);//time is in ms (1000 ms = 1 second)
 				}
 			}
 			

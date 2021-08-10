@@ -768,7 +768,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					List<ActivitiesProgressReport> totalContractProgresList = new ArrayList<ActivitiesProgressReport>();
 					for (ActivitiesProgressReport contractProgressDate : contractProgressDatesList) {
 						
-						String progressQry = "select distinct ap.progress_date,ap.activity_id_fk,max(ap.completed_scope) as completed_scope,a.activity_id,a.contract_id_fk,a.structure_type_fk,a.component_id," + 
+						String progressQry = "select distinct ap.progress_date,ap.activity_id_fk,sum(ap.completed_scope) as completed_scope,a.activity_id,a.contract_id_fk,a.structure_type_fk,a.component_id," + 
 								"a.component,a.activity_name,a.structure,a.scope,a.completed,c.contract_name,c.contract_short_name," + 
 								"(a.completed - IFNULL((select sum(completed_scope) " + 
 								"from activity_progress ap1 " + 

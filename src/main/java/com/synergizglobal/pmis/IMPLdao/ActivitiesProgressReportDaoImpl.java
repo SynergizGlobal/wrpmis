@@ -774,13 +774,40 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 								"from activity_progress ap1 " + 
 								"left outer join activities a1 on ap1.activity_id_fk = a1.activity_id " + 
 								"left outer join contract c1 on a1.contract_id_fk = c1.contract_id " + 
-								"where a1.contract_id_fk = ? and ap1.progress_date > ? and a1.structure = ? and ap1.activity_id_fk = ap.activity_id_fk),0)) as cumulative_completed " + 
+								"where a1.contract_id_fk = ? and a1.structure = ? and ap1.progress_date > ? and ap1.activity_id_fk = ap.activity_id_fk),0)) as cumulative_completed " + 
 								"from activity_progress ap " + 
 								"left outer join activities a on ap.activity_id_fk = a.activity_id " + 
 								"left outer join contract c on a.contract_id_fk = c.contract_id " + 
-								"where a.contract_id_fk = ? and ap.progress_date >= ? and ap.progress_date <= ? and a.structure = ? group by a.activity_name";
+								"where a.contract_id_fk = ? and a.structure = ?";
 						
-						pValues = new Object[] {cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getStructure(),cObj.getContract_id_fk(),obj.getFrom_date(),obj.getTo_date(),contractProgressStructure.getStructure()};
+						arrSize = 5;
+						
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFrom_date()) && !StringUtils.isEmpty(obj.getTo_date())) {
+							progressQry = progressQry + " and ap.progress_date >= ? and ap.progress_date <= ?";
+							arrSize++;
+							arrSize++;
+						}else {
+							progressQry = progressQry + " and ap.progress_date = ?";
+							arrSize++;
+						}
+						
+						progressQry = progressQry + " group by a.activity_name";
+						
+						pValues = new Object[arrSize];
+						
+						i = 0;
+						pValues[i++] = cObj.getContract_id_fk();
+						pValues[i++] = contractProgressStructure.getStructure();
+						pValues[i++] = contractProgressDate.getProgress_date();
+						pValues[i++] = cObj.getContract_id_fk();
+						pValues[i++] = contractProgressStructure.getStructure();
+						
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFrom_date()) && !StringUtils.isEmpty(obj.getTo_date())) {
+							pValues[i++] = obj.getFrom_date();
+							pValues[i++] = obj.getTo_date();
+						}else {
+							pValues[i++] = obj.getFrom_date();
+						}
 						
 						List<ActivitiesProgressReport> pList = jdbcTemplate.query( progressQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 						

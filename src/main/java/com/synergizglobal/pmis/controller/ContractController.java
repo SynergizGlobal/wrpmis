@@ -176,9 +176,10 @@ public class ContractController {
 			//Search functionality: Returns filtered list based on search parameter
 			//contractList = getListBasedOnSearchParameter(searchParameter,contractList);
 
-			int totalRecords = getTotalRecords(obj, searchParameter);
+		
 
 			ContractPaginationObject personJsonObject = new ContractPaginationObject();
+			int totalRecords = getTotalRecords(obj, searchParameter);
 			//Set Total display record
 			personJsonObject.setiTotalDisplayRecords(totalRecords);
 			//Set Total record

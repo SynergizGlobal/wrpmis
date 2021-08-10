@@ -395,18 +395,19 @@
 									                    <tr>
 									                        <th style="width:22%">Department <span class="required">*</span></th>
 															<th>Select Executives <span class="required">*</span></th>
-															<th style="width:8%">Action</th>
+															<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}"><th style="width:8%">Action</th></c:if>
 									                    </tr>
 									                </thead>
 									                <tbody id="departmentTableBody">
 									                <c:choose>
 				                                        <c:when test="${not empty contractDeatils.departmentList }" >
 				                                          
-				                                		  <c:forEach var="departmentObj" items="${contractDeatils.departmentList }" varStatus="index">   
+				                                		  <c:forEach var="departmentObj" items="${contractDeatils.departmentList }" varStatus="index"> 
+				                                		    <c:choose>
+								         					<c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">  
 											                  <tr id="departmentRow${index.count }">
 											                        <td data-head="Department" class="input-field">
 											                             <select class="searchable validate-dropdown" name="department_fks" id="department_fks${index.count }"
-											                             	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD'  && sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>
 											                                id="department_fk${index.count }" onchange="getExecutivesList('${index.count }');">
 											                                	<option value="" >Select</option>  
 																		          <c:forEach var="obj" items="${departmentList }">
@@ -417,7 +418,6 @@
 											                        </td>
 											                        <td data-head="Select Executives" class="input-field h-auto">
 											                            <select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks${index.count }" onchange="fileCount('${index.count }');"
-											                            	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD'   && sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>
 											                             multiple="multiple">
 											                             <option value="" >Select</option>
 											                             <c:forEach var="obj" items="${departmentObj.responsiblePersonsList}">
@@ -440,6 +440,29 @@
 											                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
 											                        </td>
 											                    </tr>
+											                    </c:when>
+				                                 			<c:otherwise>
+				                                 			 <tr id="departmentRow${index.count }">
+					                                 			 <td>
+					                                 				<input type="text"  id="department_fk${index.count }" value="${departmentObj.department_name }"  readonly/>
+					                                 				<input type="hidden" name="department_fks" id="department_fks${index.count }"  value="${departmentObj.department_fk }"  /></td>
+					                                 			<td>
+					                                 				<div id="container${index.count }">
+															 		<c:forEach var="tempobj" items="${departmentObj.executivesList}" varStatus="indexx" >
+															 				<input type="hidden" name="responsible_people_id_fks"  value="${tempobj.executive_user_id_fk }"  />
+															 				<input type="text"     value="${tempobj.designation} - ${tempobj.user_name}" readonly /><br>
+						                                          	</c:forEach>
+						                                          	</div>
+						                                          	<input type="hidden" id="filecounts${index.count }" name="filecounts">
+														 				 <script>
+																 				var inputs = $("#container${index.count}").find($("input") );
+											                            		var len = inputs.length;
+											                            		$('#filecounts${index.count}').val(len/2);
+											                            </script>
+											                     </td>
+							                                 </tr>
+				                                 			</c:otherwise>
+				                                		 </c:choose>
 									                	</c:forEach>
                                            			</c:when>
                                              		<c:otherwise>
@@ -498,44 +521,69 @@
 								<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }"><br> </c:if>
 							<div class="row">
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea id="contract_name" name ="contract_name" class="pmis-textarea" data-length="1000">${contractDeatils.contract_name }</textarea>
+	                                    <textarea id="contract_name" name ="contract_name" class="pmis-textarea" data-length="1000"
+	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>> ${contractDeatils.contract_name }</textarea>
 	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
 	                                </div>
 	                            </div>
 	                            <div class="row">
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" value="${contractDeatils.contract_short_name }">
+	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" 
+	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
+	                                     value="${contractDeatils.contract_short_name }">
 	                                    <label for="contract_short_name">Contract Short Name</label>
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
 	                                </div>
 	                            </div>
-	
-	                            <div class="row">
-	                                <div class="col s6 m4 input-field offset-m2">
-	                                 <p class="searchable_label">Contract Type <span class="required">*</span></p>
-	                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
-	                                        <option value="" selected>Select</option>
-	                                       	   <c:forEach var="obj" items="${contract_type }">
-			                                     <option value="${obj.contract_type_fk }" <c:if test="${contractDeatils.contract_type_fk eq obj.contract_type_fk}">selected</c:if>>${obj.contract_type_fk }</option>
-			                                   </c:forEach>
-	                                    </select>                                   
-	                                     <span id="contract_type_fkError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s6 m4 input-field">
-	                                    <p class="searchable_label">Contractor Name <span class="required">*</span></p>
-	                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
-	                                        <option value="" selected>Select</option>
-	                                       	    <c:forEach var="obj" items="${contractor }">
-			                                      <option value="${obj.contractor_id_fk }" <c:if test="${contractDeatils.contractor_id_fk eq obj.contractor_id_fk}">selected</c:if>>${obj.contractor_name }</option>
-			                                    </c:forEach>
-	                                    </select>
-	                            		<span id="contractor_id_fkError" class="error-msg" ></span>                                    
-	                                </div>                             
-	                            </div>
+							<div class="row">
+								  <c:choose>
+						         	<c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
+							         
+		                                <div class="col s6 m4 input-field offset-m2">
+		                                 <p class="searchable_label">Contract Type <span class="required">*</span></p>
+		                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
+		                                        <option value="" selected>Select</option>
+		                                       	   <c:forEach var="obj" items="${contract_type }">
+				                                     <option value="${obj.contract_type_fk }" <c:if test="${contractDeatils.contract_type_fk eq obj.contract_type_fk}">selected</c:if>>${obj.contract_type_fk }</option>
+				                                   </c:forEach>
+		                                    </select>                                   
+		                                     <span id="contract_type_fkError" class="error-msg" ></span>
+		                                </div>
+		                                <div class="col s6 m4 input-field">
+		                                    <p class="searchable_label">Contractor Name <span class="required">*</span></p>
+		                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
+		                                        <option value="" selected>Select</option>
+		                                       	    <c:forEach var="obj" items="${contractor }">
+				                                      <option value="${obj.contractor_id_fk }" <c:if test="${contractDeatils.contractor_id_fk eq obj.contractor_id_fk}">selected</c:if>>${obj.contractor_name }</option>
+				                                    </c:forEach>
+		                                    </select>
+		                            		<span id="contractor_id_fkError" class="error-msg" ></span>                                    
+		                                </div>  
+		                              </c:when>
+						           <c:otherwise>
+						         	 <div class="col s6 m4 input-field offset-m2">
+		                                <input name="contract_type_fk" id="contract_type_fk" type="text" 
+	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
+	                                     value="${contractDeatils.contract_type_fk }">
+	                                    <label for="contract_type_fk">Contract Type</label>
+		                             </div>
+						         	<div class="col s6 m4 input-field">
+						         	 	<input name="contractor_id_fk" id="contractor_id_fk" type="hidden" value="${contractDeatils.contractor_id_fk }"/>
+		                                <input type="text" <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
+	                                     value="${contractDeatils.contractor_name }">
+	                                    <label for="contractor_id_fk">Contractor Name </label>                         
+		                             </div>  
+						         </c:otherwise>
+						      </c:choose>
+	                                                 
+		                     </div>
+						        
 	                            <div class="row">
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="pmis-textarea validate" data-length="1000">${contractDeatils.scope_of_contract }</textarea>
+	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="pmis-textarea validate" data-length="1000" 
+	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
+	                                    >${contractDeatils.scope_of_contract }</textarea>
 	                                    <label for="scope_of_contract">Scope of Contract</label>
 	                                    <span id="scope_of_contractError" class="error-msg" ></span>
 	                                </div>

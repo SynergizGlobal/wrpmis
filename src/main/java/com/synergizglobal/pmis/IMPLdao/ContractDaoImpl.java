@@ -2744,31 +2744,42 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				for (Contract con : objsList1) {
-			        boolean found=false;
-			        for (Contract con1 : objsList) {
-			            if ((con.getContract_id().equals(con1.getContract_id()))) {
-			                found=true;
-			                break;
-			            }
-			        }
-			        if(!found){
-			        	objsList.add(con);
-			        }
-			    }
+				if(objsList1.size() > 0) {
+					for (Contract con : objsList1) {
+				        boolean found=false;
+				        for (Contract con1 : objsList) {
+				            if ((con.getContract_id().equals(con1.getContract_id()))) {
+				                found=true;
+				                break;
+				            }
+				        }
+				        if(!found){
+				        	objsList.add(con);
+				        }
+				    }
+				}
 				totalRecordsWithExecutives = objsList.size();
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				for (Contract cObj : objsList) {
 					Contract deptObj = getDepartmentsLists(cObj);
-					if(!StringUtils.isEmpty(deptObj.getDepartment_name()) && !StringUtils.isEmpty(cObj.getHod_department()) && !deptObj.getDepartment_name().contains(cObj.getHod_department())) {
-						cObj.setDepartment_name(deptObj.getDepartment_name() + "," +cObj.getHod_department() );
-					}else if(StringUtils.isEmpty(deptObj.getDepartment_name())) {
-						cObj.setDepartment_name(cObj.getHod_department() );
+					if(!StringUtils.isEmpty(deptObj)){
+						if(!StringUtils.isEmpty(deptObj.getDepartment_name()) && !StringUtils.isEmpty(cObj.getHod_department()) && !deptObj.getDepartment_name().contains(cObj.getHod_department())) {
+							cObj.setDepartment_name(deptObj.getDepartment_name() + "," +cObj.getHod_department() );
+						}else if(StringUtils.isEmpty(deptObj.getDepartment_name())) {
+							cObj.setDepartment_name(cObj.getHod_department() );
+						}else {
+							cObj.setDepartment_name(deptObj.getDepartment_name() );
+						}
 					}else {
-						cObj.setDepartment_name(deptObj.getDepartment_name() );
+						for (Contract cObj1 : objsList) {
+							if(!StringUtils.isEmpty(cObj1.getDepartment_name()) && !StringUtils.isEmpty(cObj1.getHod_department()) && !cObj1.getDepartment_name().contains(cObj1.getHod_department())) {
+								cObj1.setDepartment_name(cObj1.getDepartment_name() + "," +cObj1.getHod_department() );
+							}else if(StringUtils.isEmpty(cObj1.getDepartment_name())) {
+								cObj1.setDepartment_name(cObj1.getHod_department() );
+							}
+						}
 					}
-				
 				}
 			}else {
 				for (Contract cObj : objsList) {

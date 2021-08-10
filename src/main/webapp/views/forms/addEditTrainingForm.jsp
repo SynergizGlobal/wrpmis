@@ -462,10 +462,10 @@
 																								<tr id="attendeesRow0${indexx.count }${index.count }">
 																									<td data-head="Department" class="input-field">
 																									<input type="hidden" name="training_session_id_fks" id="training_session_id_fks0${indexx.count }${index.count }${indexx.count }"
-																										 value="${dObj.training_session_id_fk}" />
-																										<input type="hidden" name="training_attendees_ids" id="training_attendees_ids0${indexx.count }${index.count }${indexx.count }"
+																										 value="${dObj.training_session_id_fk}"  class="no-reset"/>
+																										<input type="hidden" name="training_attendees_ids" class="no-reset" id="training_attendees_ids0${indexx.count }${index.count }${indexx.count }"
 																										value="${dObj.training_attendees_id }" /> 
-																										<select class="searchable validate-dropdown" name="department_fks" id="department_fks0${indexx.count }${index.count }${indexx.count }" onchange="getAttendeesList('0${indexx.count }${index.count }${indexx.count }');">
+																										<select class="searchable no-reset validate-dropdown" name="department_fks" id="department_fks0${indexx.count }${index.count }${indexx.count }" onchange="getAttendeesList('0${indexx.count }${index.count }${indexx.count }');">
 																											<option value="">Select Department</option>
 																											<c:forEach var="obj"
 																												items="${departmentsList}">
@@ -474,23 +474,23 @@
 																											</c:forEach>
 																									</select> <span id="training_category_fkError" class="error-msg"></span></td>
 																																															
-																									<input type="hidden"  name="is_new_users"/>
+																									<input type="hidden" name="is_new_users"/>
 																									<td data-head="Attendee" class="input-field attendee-dropdown">
-																										<select class="searchable validate-dropdown" name="attendees" id="attendees0${indexx.count }${index.count }${indexx.count }">
+																										<select class="searchable no-reset validate-dropdown" name="attendees" id="attendees0${indexx.count }${index.count }${indexx.count }">
 																											<option value="">Select Attendee</option>
 																											<c:forEach var="obj" items="${dObj.attendeesList}">
 																												<option value="${obj.attendee }" <c:if test="${dObj.attendee eq obj.attendee }">selected</c:if>>${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>
 																											</c:forEach>
 																										 </select>
 																									</td>
-																									<input type="hidden" name="hod_user_id_fks"/>
-																									<input type="hidden" name="trainee_designations"/>
-																									<input type="hidden" name="mobile_nos"/>
+																									<input type="hidden" name="hod_user_id_fks" class="no-reset"/>
+																									<input type="hidden" name="trainee_designations" class="no-reset"/>
+																									<input type="hidden" name="mobile_nos" class="no-reset"/>
 																									<td data-head="Nominated" class="input-field">
 																										<p class="disp-init">
-																											<label><input type="hidden" name="required_fks" value ="${dObj.required_fk}" id="required_fk0${indexx.count }${index.count }${indexx.count }" />
+																											<label><input type="hidden" name="required_fks" class="no-reset" value ="${dObj.required_fk}" id="required_fk0${indexx.count }${index.count }${indexx.count }" />
 																											  
-																											   <input type="checkbox" id="required_fks0${indexx.count }${index.count }${indexx.count }"  class="required_fks" onChange="checkBox('0${indexx.count }${index.count }${indexx.count }')"
+																											   <input type="checkbox" id="required_fks0${indexx.count }${index.count }${indexx.count }"  class="required_fks no-reset" onChange="checkBox('0${indexx.count }${index.count }${indexx.count }')"
 																												 <c:if test="${dObj.required_fk eq 'Yes'}">  checked</c:if> />
 																												<span></span>
 																											</label>
@@ -498,9 +498,9 @@
 																									</td>
 																									<td data-head="Participated" class="input-field">
 																										<p class="disp-init">
-																											<label> <input type="hidden" name="participated_fks" value ="${dObj.participated_fk}" id="participated_fk0${indexx.count }${index.count }${indexx.count }" /> 
+																											<label> <input type="hidden" name="participated_fks" class="no-reset" value ="${dObj.participated_fk}" id="participated_fk0${indexx.count }${index.count }${indexx.count }" /> 
 																											  
-																											   <input type="checkbox" id="participated_fks0${indexx.count }${index.count }${indexx.count }"  class="participated_fks" onChange="checkBoxs('0${indexx.count }${index.count }${indexx.count }')"
+																											   <input type="checkbox" id="participated_fks0${indexx.count }${index.count }${indexx.count }"  class="participated_fks no-reset" onChange="checkBoxs('0${indexx.count }${index.count }${indexx.count }')"
 																												 <c:if test="${dObj.participated_fk eq 'Yes'}">    checked</c:if> />
 																												<span></span>
 																											</label>
@@ -576,7 +576,7 @@
 																			                   	    });
 																			                    	 $(document).ready(function(){
 																				                    	 $('#department_fks0${index.count }').select2();
-																										 $('#attendees0${index.count }').select2();																			                    		 
+																										// $('#attendees0${index.count }').select2();																			                    		 
 																			                    	 });
 												                            
 												                            				</script>
@@ -631,11 +631,11 @@
 																								<tr id="newAttendeesRow0${indexx.count }${index.count }">
 																								
 																									<td data-head="Department" class="input-field">
-																									<input type="hidden" name="training_session_id_fks" id="new_training_session_id_fks0${indexx.count }${index.count }${indexx.count }"
+																									<input type="hidden" class="no-reset" name="training_session_id_fks" id="new_training_session_id_fks0${indexx.count }${index.count }${indexx.count }"
 																										 value="${dObj.training_session_id_fk}" />
-																										<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids0${indexx.count }${index.count }${indexx.count }"
+																										<input type="hidden" class="no-reset" name="training_attendees_ids" id="new_training_attendees_ids0${indexx.count }${index.count }${indexx.count }"
 																										value="${dObj.training_attendees_id }" /> 
-																										<select class="searchable validate-dropdown" name="department_fks" id="new_department_fks0${indexx.count }${index.count }${indexx.count }" onchange="getHODsList('0${indexx.count }${index.count }${indexx.count }');">
+																										<select class="searchable no-reset validate-dropdown" name="department_fks" id="new_department_fks0${indexx.count }${index.count }${indexx.count }" onchange="getHODsList('0${indexx.count }${index.count }${indexx.count }');">
 																											<option value="">Select Department</option>
 																											<c:forEach var="obj"
 																												items="${departmentsList}">
@@ -644,25 +644,25 @@
 																											</c:forEach>
 																									</select> <span id="new_training_category_fkError" class="error-msg"></span></td>																									
 																									<td data-head="HOD" class="input-field">																											
-																                                        <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks0${indexx.count }${index.count }${indexx.count }" >
+																                                        <select class="searchable no-reset" name="hod_user_id_fks" id="new_hod_user_id_fks0${indexx.count }${index.count }${indexx.count }" >
 																                                            <option value="" >Select HOD</option>  
 																                                            <c:forEach var="obj" items="${dObj.HODsList}">
 																												<option value="${obj.hod_user_id_fk }"<c:if test="${dObj.hod_user_id_fk eq obj.hod_user_id_fk }">selected</c:if>>${obj.designation }<c:if test="${not empty obj.user_name }"> - </c:if>${obj.user_name }</option>
 																											</c:forEach>                                         
 																                                        </select>                                   
 																									</td>
-																									<input type="hidden"  name="is_new_users" value="Yes"/>
+																									<input type="hidden"  name="is_new_users" class="no-reset" value="Yes"/>
 																									<td data-head="Attendee" class="input-field">
-																										 <input id="new_attendees0${indexx.count }${index.count }${indexx.count }" name="attendees" type="text" class="validate" placeholder="Name" value="${dObj.attendee}">
+																										 <input id="new_attendees0${indexx.count }${index.count }${indexx.count }" name="attendees" type="text" class="validate no-reset" placeholder="Name" value="${dObj.attendee}">
 																									</td>
-																									<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="trainee_designations0${indexx.count }${index.count }${indexx.count }" name="trainee_designations" value="${dObj.trainee_designation}"></td>		
-																									<td data-head="Mobile" class="input-field"><input id="new_mobile_nos0${indexx.count }${index.count }${indexx.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile"
+																									<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="trainee_designations0${indexx.count }${index.count }${indexx.count }" name="trainee_designations" value="${dObj.trainee_designation}" class="no-reset"></td>		
+																									<td data-head="Mobile" class="input-field"><input id="new_mobile_nos0${indexx.count }${index.count }${indexx.count }" name="mobile_nos" class="no-reset" type="number" class="validate" placeholder="Mobile"
 																										value="${dObj.mobile_no }"></td>
 																									<td data-head="Nominated" class="input-field">
 																										<p class="disp-init">
-																											<label><input type="hidden" name="required_fks" value ="${dObj.required_fk}" id="new_required_fk0${indexx.count }${index.count }${indexx.count }" />
+																											<label><input type="hidden" class="no-reset" name="required_fks" value ="${dObj.required_fk}" id="new_required_fk0${indexx.count }${index.count }${indexx.count }" />
 																											  
-																											   <input type="checkbox" id="new_required_fks0${indexx.count }${index.count }${indexx.count }"  class="required_fks" onChange="checkBox('0${indexx.count }${index.count }${indexx.count }')"
+																											   <input type="checkbox" id="new_required_fks0${indexx.count }${index.count }${indexx.count }"  class="required_fks no-reset" onChange="checkBox('0${indexx.count }${index.count }${indexx.count }')"
 																												 <c:if test="${dObj.required_fk eq 'Yes'}">  checked</c:if> />
 																												<span></span>
 																											</label>
@@ -670,9 +670,9 @@
 																									</td>
 																									<td data-head="Participated" class="input-field">
 																										<p class="disp-init">
-																											<label> <input type="hidden" name="participated_fks" value ="${dObj.participated_fk}" id="new_participated_fk0${indexx.count }${index.count }${indexx.count }" /> 
+																											<label> <input type="hidden" name="participated_fks" class="no-reset" value ="${dObj.participated_fk}" id="new_participated_fk0${indexx.count }${index.count }${indexx.count }" /> 
 																											  
-																											   <input type="checkbox" id="new_participated_fks0${indexx.count }${index.count }${indexx.count }"  class="participated_fks" onChange="checkBoxs('0${indexx.count }${index.count }${indexx.count }')"
+																											   <input type="checkbox" id="new_participated_fks0${indexx.count }${index.count }${indexx.count }"  class="participated_fks no-reset" onChange="checkBoxs('0${indexx.count }${index.count }${indexx.count }')"
 																												 <c:if test="${dObj.participated_fk eq 'Yes'}">    checked</c:if> />
 																												<span></span>
 																											</label>
@@ -736,8 +736,7 @@
 																								<%-- <input type="hidden" id="rowsCounts${index.count }" name="rowsCounts"/>	 --%>
 																								<input type="hidden"  name="is_new_users" value="Yes"/>
 																								<td data-head="Attendee" class="input-field">																									
-																									<input id="new_attendees0${index.count }" name="attendees" type="text" class="validate" placeholder="Name">
-																								    
+																									<input id="new_attendees0${index.count }" name="attendees" type="text" class="validate" placeholder="Name">																								    
 																								</td>	
 																								<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations0${index.count }" name="trainee_designations" ></td>																							
 																								<td data-head="Mobile" class="input-field"><input id="new_mobile_nos0${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
@@ -783,7 +782,7 @@
 																			                   	    });
 																			                    	 $(document).ready(function(){
 																				                    	 $('#new_department_fks0${index.count }').select2();
-																										 $('#new_attendees0${index.count }').select2();																			                    		 
+																										 //$('#new_attendees0${index.count }').select2();																			                    		 
 																			                    	 });																									 
 																									
 												                            				</script>
@@ -812,8 +811,14 @@
 																					<input type="hidden" id="newTrainNo" name="newTrainNo" value="0" />
 																				</c:otherwise>
 																			</c:choose>
-																			<a type="button" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a>
-																		</div>
+																			<div class="row" style="margin:0;">    
+																				<div class="col s6 m4 offset-m2 center-align">        
+																					<a type="button" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a>    
+																				</div>   
+																				<div class="col s6 m4 center-align">    
+																				    <button type="button" class="btn waves-effect waves-light t-c bg-s" onclick="resetModal(this)">Cancel</button>     
+																				</div>     
+																			</div>
 																	</div> 
 																	
 																</div>
@@ -1062,8 +1067,14 @@
 																				</tr>
 																			</tbody>
 																		</table>
-																		<a type="button" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a>
-																	</div>
+																		<div class="row" style="margin:0;">    
+																			<div class="col s6 m4 offset-m2 center-align">        
+																				<a type="button" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a>    
+																			</div>    
+																			<div class="col s6 m4 center-align">        
+																				<button type="button" class="btn waves-effect waves-light t-c bg-s" onclick="resetModal(this)">Cancel</button>  
+																			</div>     
+																		</div>
 																</div>
 															</div>
 														</div></td>
@@ -1753,7 +1764,10 @@
 							'<input type="hidden" id="newTrainNo"  name="newTrainNo" value="0" /> ' +                    
 	                  		    '<table class="mdl-data-table"><tbody id="newTrainingUpdateBody">'+                                          
 	                            '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addNewTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
-	                          '</tbody></table></div></div></div> <a type="button" style="margin-bottom:20px;" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a></div> </td>'+
+	                          '</tbody></table></div></div></div> '+
+	                          '<div class="row"> <div class="col s6 m4 offset-m2 center-align"> <a type="button" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a> </div>'+
+	                          '<div class="col s6 m4 center-align"> <button type="button" class="btn waves-effect waves-light t-c bg-s" onclick="reset(this)">Cancel</a></div> </div></td>'+
+	                         // '<a type="button" style="margin-bottom:20px;" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a></div> </td>'+
           '<td data-head="Remarks" class="input-field"> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
           
           '<td data-head="Attachment" class="input-field cell-disp-inb">  <div id="selectedFilesInput'+rNo+'" ><div class="file-field input-field" id="trainingSessionFilesDivs'+rNo+1+'" >' 
@@ -2049,17 +2063,16 @@
          	    }
          	});
 
-            /*  function che(){
-   	            	
-	             $('[id^=end_times]').each(function(i,val){
-	            	 var idNo=Number(i+1);
-	            	 if($('#end_times'+idNo).val != ''){
-	            		 if (  !($('#start_times'+idNo).val() < $('#end_times'+idNo).val()) ){
-	 	             		alert('end time should greater than start time' + idNo);
-	 	             	}	 
-	            	 }	            	
-	             })
-             } */
+         function resetModal(a){
+        	 var modalId=$(a).closest('.modal.open').attr('id');
+        	 $('#'+modalId+' input[type="text"]:not(".no-reset")').val('');
+        	 $('#'+modalId+' input[type="number"]:not(".no-reset")').val('');
+        	 $('#'+modalId+' input[name="required_fks"]:not(".no-reset")').val('No');
+        	 $('#'+modalId+' input[name="participated_fks"]:not(".no-reset")').val('No');
+        	 $('#'+modalId+' input[type="checkbox"]:not(".no-reset")').prop('checked',false);
+        	 $('#'+modalId+' select:not(".no-reset")').val('');
+        	 $('.searchable').select2();
+         }
                          
  </script>
 </body>

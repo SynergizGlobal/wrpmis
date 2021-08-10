@@ -81,7 +81,24 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				arrSize++;
 			}
 			
-			qry = qry + " group by ap.progress_id order by ap.progress_id asc";
+			qry = qry + " group by ap.progress_id ";
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getApproval_status_fk())) 
+			{
+				if(obj.getApproval_status_fk()=="Approved")
+				{
+					qry = qry + " order by approved_on desc";
+				}
+				else if(obj.getApproval_status_fk()=="Rejected")
+				{
+					qry = qry + " order by rejected_on desc";
+				}	
+				else if(obj.getApproval_status_fk()=="Pending")
+				{
+					qry = qry + " order by created_date desc";
+				}				
+			}			
+			
 			
 			Object[] pValues = new Object[arrSize];			
 			

@@ -164,7 +164,50 @@
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                             </div>
-
+                            <div style="height:20px;"></div>
+                            <div class="row">
+                                <div class="col s6 m2 input-field offset-m2">
+                                    <input id="fob_name" name="fob_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${fob.fob_name }" >
+                                    <label for="fob_name">FOB Name <span class="required">*</span></label>
+                                    <span id="fob_nameError" class="error-msg" ></span>
+                                </div>
+                           		
+                           		<div style="display:none">
+									<c:forEach var="obj" items="${fobIdCheck}" varStatus="index">
+										<input type="hidden" id="fob_id${index.count}" value="${obj.fob_id }"  class="findLengths"/>
+									</c:forEach>
+								</div>
+                           
+                                 <%-- <c:if test="${empty fob.fob_id }"> --%>
+	                                <div class="col s6 m2 input-field">
+	                                    <input id="fob_id" name="fob_id" type="text" class="validate" value="${fob.fob_id }" onkeyup="doValidate(this.value)" <c:if test="${not empty fob.fob_id}">readonly</c:if>>
+	                                    <label for="fob_id">FOB ID <span class="required">*</span></label>
+	                                    <span id="fob_idError" class="error-msg" ></span>
+	                                </div>
+                                <%-- </c:if> --%>
+                                <%-- <c:if test="${not empty fob.fob_id }">
+	                                <div class="col s12 m2 input-field">
+	                                    <label > FOB ID <span class="required">*</span>: <input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }" readonly style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+	                                    <span id="fob_idError" class="error-msg" ></span>
+	                                    <input id="fob_id" name="fob_id" type="text" class="validate" value="${fob.fob_id }" readonly>
+	                                    <label for="fob_id">FOB ID <span class="required">*</span></label>
+	                                    <span id="fob_idError" class="error-msg" ></span>
+	                                </div>
+                                </c:if> --%>
+                                <div class="col s6 m4 input-field ">
+                                    <p class="searchable_label">Work Status <span class="required">*</span></p>
+                                    <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown" onchange="openDates(this.value);">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${generalStatusList }">
+                                        	<c:if test="${obj ne 'Closed' and obj ne 'Terminated' and obj ne 'Completed'}">
+                                            	<option value="${obj }" <c:if test="${(empty fob.work_status_fk and obj eq 'Not Started') or (obj eq fob.work_status_fk)}">selected</c:if> >${obj}</option>
+                                        	</c:if>
+                                        </c:forEach>
+                                    </select>
+                                    <span id="work_status_fkError" class="error-msg" ></span>
+                                </div>
+                                <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${fob.work_status_fk }"/> 
+                           </div>
                             <%-- <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s6 m4 input-field offset-m2">
@@ -215,7 +258,7 @@
                                 <input type="hidden" id="contract_name" name="contract_name" />
                                 
                                 <div class="col s12 m4 input-field ">
-                                <p class="searchable_label">Responsible Persons</p>
+                                <p class="searchable_label">Responsible Executives</p>
                                   <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
                                   multiple="multiple" <c:if test="${fn:length(fob.responsiblePeopleList) gt 0}">disabled</c:if>>
                                    <option value="" disabled="disabled">Select</option>
@@ -231,51 +274,7 @@
                                 </div>
                             </div> 
                             <br>
-                            <div class="row">
-                                <div class="col s6 m2 input-field offset-m2">
-                                    <input id="fob_name" name="fob_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${fob.fob_name }" >
-                                    <label for="fob_name">FOB Name <span class="required">*</span></label>
-                                    <span id="fob_nameError" class="error-msg" ></span>
-                                </div>
-                           		
-                           		<div style="display:none">
-									<c:forEach var="obj" items="${fobIdCheck}" varStatus="index">
-										<input type="hidden" id="fob_id${index.count}" value="${obj.fob_id }"  class="findLengths"/>
-									</c:forEach>
-								</div>
-                           
-                                 <%-- <c:if test="${empty fob.fob_id }"> --%>
-	                                <div class="col s6 m2 input-field">
-	                                    <input id="fob_id" name="fob_id" type="text" class="validate" value="${fob.fob_id }" onkeyup="doValidate(this.value)" <c:if test="${not empty fob.fob_id}">readonly</c:if>>
-	                                    <label for="fob_id">FOB ID <span class="required">*</span></label>
-	                                    <span id="fob_idError" class="error-msg" ></span>
-	                                </div>
-                                <%-- </c:if> --%>
-                                <%-- <c:if test="${not empty fob.fob_id }">
-	                                <div class="col s12 m2 input-field">
-	                                    <label > FOB ID <span class="required">*</span>: <input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }" readonly style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
-	                                    <span id="fob_idError" class="error-msg" ></span>
-	                                    <input id="fob_id" name="fob_id" type="text" class="validate" value="${fob.fob_id }" readonly>
-	                                    <label for="fob_id">FOB ID <span class="required">*</span></label>
-	                                    <span id="fob_idError" class="error-msg" ></span>
-	                                </div>
-                                </c:if> --%>
-                                <div class="col s6 m4 input-field ">
-                                    <p class="searchable_label">Work Status <span class="required">*</span></p>
-                                    <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown" onchange="openDates(this.value);">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${generalStatusList }">
-                                        	<c:if test="${obj ne 'Closed' and obj ne 'Terminated' and obj ne 'Completed'}">
-                                            	<option value="${obj }" <c:if test="${(empty fob.work_status_fk and obj eq 'Not Started') or (obj eq fob.work_status_fk)}">selected</c:if> >${obj}</option>
-                                        	</c:if>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="work_status_fkError" class="error-msg" ></span>
-                                </div>
-                                <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${fob.work_status_fk }"/> 
-                           </div>
-
-                            <div class="row">
+                           <div class="row">
 	                            <div class="col s12 m4 input-field offset-m2">
                                     <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${fob.target_date }" <c:if test="${not empty fob.target_date}">disabled</c:if>>
                                     <label for="target_date">Original Target Date </label>

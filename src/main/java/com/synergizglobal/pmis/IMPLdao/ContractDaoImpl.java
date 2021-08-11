@@ -226,7 +226,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getContractStatusType()throws Exception{
 		List<Contract> objsList = null;
 		try {
-			String qry ="select general_status as contract_status_fk from general_status";
+			String qry ="select general_status as contract_status_fk from general_status  WHERE general_status NOT IN ('Commissioned', 'Dropped','On Hold') ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();

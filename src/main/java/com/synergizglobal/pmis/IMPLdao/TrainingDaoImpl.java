@@ -1160,31 +1160,63 @@ public class TrainingDaoImpl implements TrainingDao{
 	@Override
 	public List<Training> getAttendeesList(Training obj) throws Exception {
 		List<Training> objsList = null;
+		List<Training> objsList1 = null;
 		try {
 			int arrSize = 0;
-			String qry ="SELECT  user_name as attendee,designation FROM user u where user_name NOT LIKE '%User%' " ;
-					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-						qry = qry + " and u.department_fk = ?";
-						arrSize++;
-					}	
-					qry = qry + " UNION " + 
-					"select  attendee,u.designation from training_attendees t left join user u on t.attendee = u.user_name  where attendee <> '' ";
-					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-						qry = qry + " and u.department_fk = ?";
-						arrSize++;
-					}	
+			String qry ="select  attendee,designation from training_attendees  where attendee <> '' ";
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and department_fk = ?";
+				arrSize++;
+			}	
+			qry = qry + " GROUP BY attendee ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				for(int j = 0; j< 2; j++) {
 					pValues[i++] = obj.getDepartment_fk();
-				}
 			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	
+			objsList1 = getUsersListFrAttendees(obj);
+			if(objsList1.size() > 0) {
+				for (Training con : objsList1) {
+			        boolean found=false;
+			        for (Training con1 : objsList) {
+			            if ((con.getAttendee().equals(con1.getAttendee()))) {
+			                found=true;
+			                break;
+			            }
+			        }
+			        if(!found){
+			        	objsList.add(con);
+			        }
+			    }
+			}
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	private List<Training> getUsersListFrAttendees(Training obj) throws Exception {
+		List<Training> objsList1 = null;
+		try {
+			int arrSize = 0;
+			String qry ="SELECT  user_name as attendee,designation FROM user u where user_name NOT LIKE '%User%' " ;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and u.department_fk = ?";
+				arrSize++;
+			}	
+			qry = qry + " GROUP BY user_name ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					pValues[i++] = obj.getDepartment_fk();
+			}
+			objsList1 = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList1;
 	}
 
 	@Override

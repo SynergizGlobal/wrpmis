@@ -22,6 +22,7 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.Iservice.ContractResourceService;
 import com.synergizglobal.pmis.model.ContractResource;
+import com.synergizglobal.pmis.model.User;
 
 
 
@@ -43,6 +44,11 @@ public class ContractResourceController {
 	public ModelAndView contractResourceForm(@ModelAttribute ContractResource obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView(PageConstants.contractResources);
 		try {		
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			List<ContractResource> projectsList = service.getProjectsListForContractResourceForm(obj);
 			model.addObject("projectsList", projectsList);
 			
@@ -52,8 +58,6 @@ public class ContractResourceController {
 			List<ContractResource> contractsList = service.getContractsListForContractResourceForm(obj);
 			model.addObject("contractsList", contractsList);
 			
-			List<ContractResource> stucturesList = service.getStructuresListForContractResourceForm(obj);
-			model.addObject("stucturesList", stucturesList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("contractResourceForm : " + e.getMessage());
@@ -96,19 +100,6 @@ public class ContractResourceController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getContractsListForContractResourceForm : " + e.getMessage());
-		}
-		return objsList;
-	}
-	
-	@RequestMapping(value = "/ajax/getStructuressListForContractResourceForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<ContractResource> getStructuressListForContractResourceForm(@ModelAttribute ContractResource obj) {
-		List<ContractResource> objsList = null;
-		try {
-			objsList = service.getStructuresListForContractResourceForm(obj);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getStructuressListForContractResourceForm : " + e.getMessage());
 		}
 		return objsList;
 	}

@@ -15,8 +15,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.Idao.ContractResourceDao;
-
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.ContractResource;
 @Repository
 public class ContractResourceDaoImpl implements ContractResourceDao{
@@ -30,10 +31,46 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 	@Override
 	public List<ContractResource> getProjectsListForContractResourceForm(ContractResource obj) throws Exception {
 		List<ContractResource> objsList = null;
+		List<ContractResource> objsList1 = null;
 		try {
-			String qry = "select project_id as project_id_fk,project_name from `project` order by project_id asc";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));			
+			String qry = "select project_id as project_id_fk,project_name from `contract` c "
+					+ "LEFT OUTER JOIN `work` w ON c.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN `project` p ON w.project_id_fk = project_id where contract_id is not null  ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+			}
+			qry = qry + " group by project_id  order by project_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				objsList1 = getExecutivesList(obj);	
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));	
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				if(objsList1.size() > 0) {
+					for (ContractResource con : objsList1) {
+				        boolean found=false;
+				        for (ContractResource con1 : objsList) {
+				            if ((con.getProject_id_fk().equals(con1.getProject_id_fk()))) {
+				                found=true;
+				                break;
+				            }
+				        }
+				        if(!found){
+				        	objsList.add(con);
+				        }
+				    }
+				}
+			}
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
@@ -42,10 +79,12 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 	@Override
 	public List<ContractResource> getWorkListForContractResourceForm(ContractResource obj) throws Exception {
 		List<ContractResource> objsList = new ArrayList<ContractResource>();
+		List<ContractResource> objsList1 = null;
 		try {
 			String qry = "select work_id as work_id_fk,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "from `contract` c "
+					+ "LEFT OUTER JOIN `work` w ON c.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN `project` p ON w.project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
 			int arrSize = 0;
@@ -53,8 +92,12 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 				qry = qry + "and project_id_fk = ?";
 				arrSize++;
 			}
-			
-			qry = qry + " order by work_id asc";
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? )";
+				arrSize++;
+				arrSize++;
+			}
+			qry = qry + " group by work_id order by work_id asc";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -62,9 +105,28 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				pValues[i++] = obj.getProject_id_fk();
 			}	
-			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				objsList1 = getExecutivesList(obj);	
+			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));
-			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				if(objsList1.size() > 0) {
+					for (ContractResource con : objsList1) {
+				        boolean found=false;
+				        for (ContractResource con1 : objsList) {
+				            if ((con.getWork_id_fk().equals(con1.getWork_id_fk()))) {
+				                found=true;
+				                break;
+				            }
+				        }
+				        if(!found){
+				        	objsList.add(con);
+				        }
+				    }
+				}
+			}
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);
@@ -75,6 +137,7 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 	@Override
 	public List<ContractResource> getContractsListForContractResourceForm(ContractResource obj) throws Exception {
 		List<ContractResource> objsList = null;
+		List<ContractResource> objsList1 = null;
 		try {
 			String qry ="select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk "
 					+ "from contract "
@@ -85,6 +148,11 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? )";
+				arrSize++;
+				arrSize++;
+			}
 			qry = qry + " order by contract_id asc";
 			
 			Object[] pValues = new Object[arrSize];
@@ -93,36 +161,79 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
-				
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				objsList1 = getExecutivesList(obj);	
+			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));
-				
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				if(objsList1.size() > 0) {
+					for (ContractResource con : objsList1) {
+				        boolean found=false;
+				        for (ContractResource con1 : objsList) {
+				            if ((con.getContract_id_fk().equals(con1.getContract_id_fk()))) {
+				                found=true;
+				                break;
+				            }
+				        }
+				        if(!found){
+				        	objsList.add(con);
+				        }
+				    }
+				}
+			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
 
-	@Override
-	public List<ContractResource> getStructuresListForContractResourceForm(ContractResource obj) throws Exception {
+	private List<ContractResource> getExecutivesList(ContractResource obj) throws Exception {
 		List<ContractResource> objsList = null;
 		try {
-			String qry ="select fob_id as Structure_fk from fob "
-					+ "where fob_id is not null ";
+			String qry ="SELECT id, w.work_name,w.work_short_name,contract_id_fk,w.project_id_fk,p.project_name,c.hod_user_id_fk as hod_user_id,"
+					+ "c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_status_fk,c.dy_hod_user_id_fk as dy_hod_user_id,"
+					+ "c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk, department_id_fk as department_fk,"
+					+ " executive_user_id_fk FROM contract_executive ce "
+					+ "LEFT JOIN contract c on ce.contract_id_fk = c.contract_id "+
+					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
+					"left join project p on w.project_id_fk = p.project_id " + 
+					"left join user u on c.hod_user_id_fk = u.user_id "+
+					"left join department hoddt on u.department_fk = hoddt.department "
+					+"left join department dt on ce.department_id_fk = dt.department "+
+					"left join user us on c.dy_hod_user_id_fk = us.user_id where contract_id is not null ";
 			
-			int arrSize = 0;			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+			int arrSize = 0;
+		
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " order by fob_id asc";
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ? ";
+				arrSize++;
 			}
-				
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
+				qry = qry + " and  executive_user_id_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + " group by contract_id_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
+				pValues[i++] = obj.getUser_id();
+			}
+			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));
 				
 		}catch(Exception e){ 
@@ -131,6 +242,7 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 		return objsList;
 	}
 
+	
 	@Override
 	public boolean addResource(ContractResource obj) throws Exception {
 		boolean flag = false;
@@ -149,9 +261,9 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 			String[] resourceQuntity = obj.getQuantitys();
 
 			String insertQry = "INSERT INTO contract_resource"
-					+ "(contract_id_fk, structure_fk, date, resource_type, resource_name, quantity,created_by_user_id)"
+					+ "(contract_id_fk, date, resource_type, resource_name, quantity,created_by_user_id)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,?,?)";
+					+ "(?,?,?,?,?,?)";
 			
 			int[] counts = jdbcTemplate.batchUpdate(insertQry,
 		            new BatchPreparedStatementSetter() {			                 
@@ -159,7 +271,6 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 		                public void setValues(PreparedStatement ps, int i) throws SQLException {	
 		                	int k = 1;
 		                	ps.setString(k++, obj.getContract_id_fk());
-		                	ps.setString(k++, obj.getStructure_fk());
 		                	ps.setString(k++, obj.getDate());
 							ps.setString(k++, resourceTypes.length > 0 ?resourceTypes[i]:null);
 							ps.setString(k++, resourceNames.length > 0 ?resourceNames[i]:null);

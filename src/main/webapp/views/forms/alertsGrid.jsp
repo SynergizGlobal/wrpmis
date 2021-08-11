@@ -538,7 +538,7 @@ label {
     		$.fn.dataTable.moment('DD-MMM-YYYY');
 
     		var myParams =  "hod="
-    				+ hod + "&work_id_fk="+ work_id_fk+ "&contractor_id_fk="+ contractor_id_fk+ "&contract_id_fk="+ contract_id_fk+ "&alert_type_fk="+ alert_type_fk;
+    				+ encodeURIComponent(hod) + "&work_id_fk="+ work_id_fk+ "&contractor_id_fk="+ contractor_id_fk+ "&contract_id_fk="+ contract_id_fk+ "&alert_type_fk="+ alert_type_fk;
 
     		/***************************************************************************************************/
 

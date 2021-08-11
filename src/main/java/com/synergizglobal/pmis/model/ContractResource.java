@@ -5,11 +5,36 @@ import java.util.List;
 public class ContractResource {
 	
 	private String resource_id, contract_id_fk, structure_fk, date, resource_type, resource_name, quantity,
-	created_by_user_id, project_id,created_date,contract_name,contract_short_name,work_id,work_id_fk,work_short_name,work_name,project_id_fk,project_name;
+	created_by_user_id, project_id,created_date,contract_name,contract_short_name,work_id,work_id_fk,work_short_name,work_name,project_id_fk,project_name,
+	user_role_code,user_id,user_type_fk;
 
 	private String []  resource_ids, resource_types, resource_names, quantitys, created_by_user_ids, created_dates;
 	List<ContractResource> resourceList;
 	
+	public String getUser_type_fk() {
+		return user_type_fk;
+	}
+
+	public void setUser_type_fk(String user_type_fk) {
+		this.user_type_fk = user_type_fk;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getUser_role_code() {
+		return user_role_code;
+	}
+
+	public void setUser_role_code(String user_role_code) {
+		this.user_role_code = user_role_code;
+	}
+
 	public String getProject_id() {
 		return project_id;
 	}

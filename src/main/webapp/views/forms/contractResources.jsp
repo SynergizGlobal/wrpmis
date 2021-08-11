@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label">Work</p>
-                                    <select class="searchable" id="work_id_fk" name="work_id_fk" onchange="getContractsList(this.value);">
+                                    <select class="searchable" id="work_id_fk" name="work_id_fk" onchange="getContractsList(this.value);resetProjectsDropdowns();">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${worksList }">
                                       	   <option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
@@ -114,7 +114,7 @@
                             <div class="row ">
                                 <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Contract <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="resetWorksAndProjectsDropdowns();getStructuresList();">
+                                    <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${contractsList }">
                                       	   <option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
@@ -123,24 +123,13 @@
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <p class="searchable_label">Structure <span class="required"></span></p>
-                                    <select class="searchable validate-dropdown" id="structure_fk" name="structure_fk" >
-                                        <option value="">Select</option>
-                                       
-                                    </select>
-                                </div>
-                                <span id="structure_fkError" class="error-msg" ></span>
-                            </div>
-                            <div class="row">
-                                <div class="col s12 m4 input-field offset-m4">
                                     <input id="date" name="date" type="text" class="validate datepicker">
-                                    <label for="date">Deployment Date</label>
+                                    <label for="date">Deployment Date <span class="required">*</span></label> 
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
-                                
-                            </div> 
-
+                            </div>
+                      		<input type="hidden" name="user_id" id="user_id" />
                             <div class="row" style="margin-bottom:20px;">
                                 <div class="col s12 m8 offset-m2">
                                     <div class="row fixed-width">
@@ -328,7 +317,8 @@
                 $('#date').click();
             });
         });
-		
+        var user_id  = '${sessionScope.USER_ID}';
+		$('#user_id').val(user_id);
 		function getWorksList(projectId) {
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
@@ -393,37 +383,22 @@
        			$("#work_id_fk").val(workId);
        			$("#work_id_fk").select2();
        		}
-   
-       		
+       		$(".page-loader").hide();
         }
-        function getStructuresList(){
-        	$(".page-loader").show();
-        	var contract_id_fk = $("#contract_id_fk").val();
-            $("#structure_fk option:not(:first)").remove();
-            if ($.trim(contract_id_fk) != "") {
-                var myParams = { contract_id_fk: contract_id_fk };
-                $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getStructuressListForContractResourceForm",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                                if ($.trim(val.contract_id_fk) != '') {
-                                	$("#structure_fk").append('<option  value="' + val.structure_fk + '" selected>' + $.trim(val.structure_fk)  + '</option>');
-                                } else {
-                                	$("#structure_fk").append('<option value="' + val.structure_fk + '">' + $.trim(val.structure_fk) + '</option>');
-                                }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-                });
-            }else{
-            	$(".page-loader").hide();
-            }
+        
+        function resetProjectsDropdowns(){
+        	$(".page-loader").show();        	
+        	var projectId = '';
+       		var work_id_fk = $("#work_id_fk").val();
+       		if($.trim(work_id_fk) != ''){  
+            	projectId = work_id_fk.substring(0, 3);    
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       		}
+       		$(".page-loader").hide();
+        	
         }
-        			
+        
         function addResource() {
             // var rowNo = $("#rowNo").val();
             var rowNo = $("#resourceFormTableBody tr").length;

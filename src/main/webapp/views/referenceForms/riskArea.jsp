@@ -388,6 +388,8 @@
                 "scrollCollapse": true,
                 fixedHeader: true,
                 "sScrollX": "100%",
+                "paging":false,
+                "info":false,
                 "sScrollXInner": "100%",
                 "bScrollCollapse": true,
                 initComplete: function () {

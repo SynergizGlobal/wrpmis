@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/risk.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
@@ -41,7 +41,7 @@
 
         .modal-header {
             text-align: center;
-            background-color: #999999;
+            background-color: #007A7A;
             color: #fff;
             margin: -24px -24px 20px !important;
             padding: 1rem;
@@ -287,10 +287,10 @@
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
                                   <!--   <button
-                                        class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
+                                        class="btn waves-effect waves-light bg-s modal-action modal-close"
                                         style="width:100%">Cancel</button> -->
                                         <a href="<%=request.getContextPath()%>/risk-sub-area"
-									     class="btn waves-effect waves-light bg-s modal-action modal-close black-text" style="width: 100%">Cancel</a>
+									     class="btn waves-effect waves-light bg-s modal-action modal-close " style="width: 100%">Cancel</a>
                                 </div>
                             </div>
                         </div>
@@ -352,7 +352,7 @@
                              <div class="col s12 m6">
                                 <div class="center-align m-1">
                                   <!--   <button
-                                        class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
+                                        class="btn waves-effect waves-light bg-s modal-action modal-close "
                                         style="width:100%">Cancel</button> -->
                                         <a href="<%=request.getContextPath()%>/risk-sub-area"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>

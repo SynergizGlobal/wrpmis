@@ -215,10 +215,15 @@
 		.disp-init{
 			display:initial;
 		}
+		.fw-220{
+			width:220px ;
+			min-width:220px;
+		}
 		@media only screen and (min-width: 993px){	
 			div[id^=session-update-modal].modal.open{
-				width:72%
+				width:90%
 			}
+			
 		}
 		@media only screen and (max-width: 768px){
 			.modal:not(.datepicker-modal){
@@ -440,7 +445,7 @@
 																	<h5 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
 
 																	<div class="row"> 
-																	<div class="s12 m10 offset-m1 col">
+																	<div class="s12 m8 offset-m2 col">
 																	<div class="row fixed-width" >
 																		<div class="table-inside">
 																			<table id="training-update-table${index.count }"
@@ -616,6 +621,7 @@
 																						<th>HOD</th>
 																						<th>Attendee</th>
 																						<th>Designation</th>
+																						<th class="fw-220">Email </th>
 																						<th class="mw-150"> Mobile </th>
 																						<th class="py-0">Nominated</th>
 																						<th>Participated</th>																						
@@ -656,6 +662,7 @@
 																										 <input id="new_attendees0${indexx.count }${index.count }${indexx.count }" name="attendees" type="text" class="validate no-reset" placeholder="Name" value="${dObj.attendee}">
 																									</td>
 																									<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="trainee_designations0${indexx.count }${index.count }${indexx.count }" name="trainee_designations" value="${dObj.trainee_designation}" class="no-reset"></td>		
+																									<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="trainee_email0${indexx.count }${index.count }${indexx.count }" name="trainee_emails" value="${dObj.trainee_designation}" class="no-reset"></td>		
 																									<td data-head="Mobile" class="input-field"><input id="new_mobile_nos0${indexx.count }${index.count }${indexx.count }" name="mobile_nos" class="no-reset" type="number" class="validate" placeholder="Mobile"
 																										value="${dObj.mobile_no }"></td>
 																									<td data-head="Nominated" class="input-field">
@@ -739,6 +746,7 @@
 																									<input id="new_attendees0${index.count }" name="attendees" type="text" class="validate" placeholder="Name">																								    
 																								</td>	
 																								<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations0${index.count }" name="trainee_designations" ></td>																							
+																								<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="new_trainee_email0${index.count }" name="trainee_email" ></td>																							
 																								<td data-head="Mobile" class="input-field"><input id="new_mobile_nos0${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
 																								</td>
 																								<td data-head="Nominated" class="input-field">
@@ -906,7 +914,7 @@
 															<div class="modal-content">
 																<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4>
 																<div class="row">
-																    <div class="s12 m10 offset-m1 col">
+																    <div class="s12 m8 offset-m2 col">
 																        <div class="row fixed-width">
 																            <div class="table-inside">
 																                <table id="training-update-table0" class="mdl-data-table val mobile_responsible_table">
@@ -981,6 +989,7 @@
 																					<th>HOD</th>
 																					<th>Attendee</th>
 																					<th>Designation</th>
+																					<th class='fw-220'>Email </th>
 																					<th class="mw-150"> Mobile</th>
 																					<th class="py-0">Nominated</th>
 																					<th>Participated</th>
@@ -1010,6 +1019,7 @@
 																						 <input id="new_attendees00" name="attendees" type="text" class="validate" placeholder="Name">
 																					</td>
 																					<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations0" name="trainee_designations" ></td>
+																					<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="new_trainee_email0" name="trainee_emails" ></td>
 																					<td data-head="Mobile" class="input-field"><input id="new_mobile_nos00" name="mobile_nos" type="number" class="validate num" placeholder="Mobile">
 																					<br><span id="new_mobile_nosError" class="error-msg"></span></td>
 																					<td data-head="Nominated" class="input-field">
@@ -1716,7 +1726,7 @@
           '<td data-head="Attendees" class="input-field attendees-column"><a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a> ' +
 			  '<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
 				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4> <div class="row">'+
-				 '<div class="s12 m10 offset-m1 col"><div class="row fixed-width" > <div class="table-inside"><table id="training-update-table'+ rNo +'" class="mdl-data-table val mobile_responsible_table">'+
+				 '<div class="s12 m8 offset-m2 col"><div class="row fixed-width" > <div class="table-inside"><table id="training-update-table'+ rNo +'" class="mdl-data-table val mobile_responsible_table">'+
 		         '<thead><tr><th>Department</th><th>Attendee</th><th class="py-0">Nominated</th><th>Participated</th><th>Action</th></tr></thead> <tbody id="attendeesTableBody'+ rNo +'"> <tr id="attendeesRow'+0+0+rNo+1+'">'+
 		         '<td data-head="Department" class="input-field">'+
 		         '<input type="hidden" name="training_session_id_fks" id="training_session_id_fks'+ rNo+i+'" /> <input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo+i+'" /> '+
@@ -1738,7 +1748,7 @@
                  '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
                  '</tbody></table></div></div></div></div>'+
 		         '<div class="row fixed-width"><div class="table-inside"> <table id="training-new-update-table'+ rNo +'" class="mdl-data-table mobile_responsible_table">'+
-					  '<thead><tr><th>Department</th><th>HOD</th><th>Attendee</th><th>Designation</th><th class="mw-150"> Mobile</th><th class="py-0">Nominated</th><th>Participated</th><th>Action</th></tr></thead>'+
+					  '<thead><tr><th>Department</th><th>HOD</th><th>Attendee</th><th>Designation</th><th class="fw-220">Email</th><th class="mw-150"> Mobile</th><th class="py-0">Nominated</th><th>Participated</th><th>Action</th></tr></thead>'+
 						'<tbody id="newAttendeesTableBody'+ rNo +'" ><input type="hidden" id="rowsCounts'+ rNo +'"  name="rowsCounts" value="2"/><tr id="newAttendeesRow'+0+0+rNo+1+'"><td data-head="Department" class="input-field">'+
 						    '<input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
 						    '<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids'+ rNo+i+'" />'+
@@ -1757,6 +1767,7 @@
 			               // '</select></td>'+
 							'<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo+i+'" name="attendees" type="text" class="validate" placeholder="Name"></td>' +
 			                '<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations'+ rNo+i+'" name="trainee_designations" ></td>'+
+			                '<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="new_trainee_email'+ rNo+i+'" name="trainee_emails" ></td>'+
 							'<td data-head="Mobile" class="input-field"><input id="new_mobile_nos'+ rNo+i+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
 			                '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="new_required_fk'+ rNo+i+'" value="No" class="req"/><input type="checkbox" id="new_required_fks'+ rNo+i+'" class="required_fks"/><span></span></label></p></td>' +
 			                '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="new_participated_fk'+ rNo+i+'" value="No" class="part"/><input type="checkbox" id="new_participated_fks'+ rNo+i+'" class="participated_fks" /><span></span></label></p></td>' +

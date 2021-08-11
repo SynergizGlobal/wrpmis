@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/risk.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
@@ -37,7 +37,7 @@
 
         .modal-header {
             text-align: center;
-            background-color: #999999;
+            background-color: #007A7A;
             color: #fff;
             margin: -24px -24px 20px !important;
             padding: 1rem;
@@ -152,6 +152,7 @@
                                     <thead>
                                         <tr>
                                             <th>Risk Area</th>
+                                            <th>Risk Short Name </th>
                                             <th>Item No</th>
                                             <c:forEach var="tObj" items="${riskAreaDetails.tablesList}" >
                                             	<%--  <th>${tObj.tName } <br>(count)</th> --%>
@@ -165,28 +166,37 @@
                                     </thead>
                                     <tbody>
 										<c:forEach var="obj" items="${riskAreaDetails.dList1}" varStatus="indexs">
-											<tr><td>
-												<input type="hidden" id="areaId${indexs.count}" value="${obj.area }" class="findLengths" />
-												${obj.area }</td>
-											<td>
-												<input type="hidden" id="item_noId${indexs.count}" value="${obj.item_no }"  class="findLengths1"/>
-												${obj.item_no }</td>
-										<c:forEach var="tObj" items="${riskAreaDetails.tablesList}" varStatus="index">
-												<td><c:forEach var="cObj" items="${riskAreaDetails.countList}" >
-												<c:choose> 
-													    <c:when test="${tObj.tName eq cObj.tName }"> 
-													    		<c:choose>  
-																    <c:when test="${cObj.area eq obj.area }"> 
-																      	 ( ${cObj.count } )   
-																    </c:when>  
-																    <c:otherwise>  
-																    </c:otherwise>   
-															</c:choose>
-														</c:when>
-														<c:otherwise> 
-													   </c:otherwise>
-												</c:choose>
-												</c:forEach></td>
+											<tr>
+												<td>
+													<input type="hidden" id="areaId${indexs.count}" value="${obj.area }" class="findLengths" />
+													${obj.area }
+												</td>
+												<td>
+													<input type="hidden" id="shortNameId${indexs.count}" value="${obj.area }" class="findLengths" /> 
+													${obj.area }
+												</td>
+												<td>
+													<input type="hidden" id="item_noId${indexs.count}" value="${obj.item_no }"  class="findLengths1"/>
+													${obj.item_no }
+												</td>
+												<c:forEach var="tObj" items="${riskAreaDetails.tablesList}" varStatus="index">
+													<td>
+														<c:forEach var="cObj" items="${riskAreaDetails.countList}" >
+															<c:choose> 
+														    <c:when test="${tObj.tName eq cObj.tName }"> 
+														    		<c:choose>  
+																	    <c:when test="${cObj.area eq obj.area }"> 
+																	      	 ( ${cObj.count } )   
+																	    </c:when>  
+																	    <c:otherwise>  
+																	    </c:otherwise>   
+																</c:choose>
+															</c:when>
+															<c:otherwise> 
+														   </c:otherwise>
+													</c:choose>
+													</c:forEach>
+													</td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${riskAreaDetails.dList}" varStatus="indexx"> 
@@ -235,14 +245,19 @@
                 <h5 class="modal-header">Add Risk Area <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
-                    <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
-                        <div class="row">
+                    <div class="col m8 s12 offset-m2">
+                        <div class="row no-mar">
                             <div class="input-field col s12 m6">
                                 <input id="risk_area_text" type="text" name="area" class="validate"  onkeyup="doValidate(this.value,null)">
                                 <label for="risk_area_text">Risk Area</label>
                                 <span id="areaError" class="error-msg" ></span>
                             </div>
+                            <div class="input-field col s12 m6">
+                                <input id="risk_short_name_text" type="text" name="area" class="validate"  onkeyup="doValidate(this.value,null)">
+                                <label for="risk_short_name_text">Risk Short Name</label>
+                                <span id="shortNameError" class="error-msg" ></span>
+                            </div>
+                            </div><div class="row">
                             <div class="input-field col s12 m6">
                                 <input id="item_no" type="number" name="item_no" min="1" class="validate"  onkeyup="doValidate(null,this.value)">
                                 <label for="item_no">Item No</label>
@@ -265,12 +280,11 @@
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
                                         <a href="<%=request.getContextPath()%>/risk-area"
-									 class="btn waves-effect waves-light bg-s modal-action modal-close black-text" style="width: 100%">Cancel</a>
+									 class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
 
             </div>
@@ -284,15 +298,21 @@
                 <h5 class="modal-header bg-m">Update Risk Area <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
-                    <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
-                         <div class="row">
+                    <div class="col m8 s12 offset-m2">
+                         <div class="row no-mar">
                             <div class="input-field col s12 m6">
                                 <input id="value_new" type="text" name="value_new" class="validate">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Risk Area</label>
                                 <span id="value_newError" class="error-msg" ></span>
                             </div>
+                            <div class="input-field col s12 m6">
+                                <input id="short_value_new" type="text" name="short_value_new" class="validate">
+                                <input id="short_value_old" type="hidden" name="short_value_old"  >
+                                <label for="short_value_new">Risk Short Name</label>
+                                <span id="short_value_newError" class="error-msg" ></span>
+                            </div>
+                            </div><div class="row">
                             <div class="input-field col s12 m6">
                                 <input id="item_no_new" name="item_no_new" type="text" class="validate">
                                 <label for="item_no_new">Item No</label>
@@ -321,7 +341,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
 
             </div>
@@ -530,6 +549,9 @@
  	        	 if(element.attr("id") == "risk_area_text" ){
  				     document.getElementById("areaError").innerHTML="";
  			 	     error.appendTo('#areaError');
+ 				 }else if(element.attr("id") == "risk_short_name_text" ){
+ 				     document.getElementById("shortNameError").innerHTML="";
+ 			 	     error.appendTo('#shortNameError');
  				 }else if(element.attr("id") == "item_no" ){
  				     document.getElementById("item_noError").innerHTML="";
  			 	     error.appendTo('#item_noError');
@@ -544,13 +566,17 @@
 			 		  required: true
     			 },"item_no_new":{
 					  required: true
+    			}, "short_value_new":{
+    				required:true
     			}
 			},messages: {
 		 		 "value_new": {
 			 		  required: 'Required'
 			 	 }, "item_no_new": {
 			 		  required: 'Required'
-			 	  }
+			 	 }, "short_value_new":{
+	    				required: 'Required'
+	    		 }
 	        },errorPlacement:function(error, element){
 	        	 if(element.attr("id") == "value_new" ){
 				     document.getElementById("value_newError").innerHTML="";
@@ -563,18 +589,20 @@
     });
   
   $('input').change(function(){
-	           if ($(this).val() != ""){
-	               $(this).valid();
-	           }
+           if ($(this).val() != ""){
+               $(this).valid();
+           }
 	   });
 
 
   function updateRow(no) {
       var area = $('#areaId'+no).val();
+      var shortName = $('#shortNameId'+no).val();
       var item_no = $('#item_noId'+no).val();
       $('#value_old').val($.trim(area))
       $('#onlyUpdateModal').modal('open');
       $('#onlyUpdateModal #value_new').val($.trim(area)).focus();
+      $('#onlyUpdateModal #short_value_new').val($.trim(shortName)).focus();
       $('#onlyUpdateModal #item_no_new').val($.trim(item_no)).focus();
   }
   

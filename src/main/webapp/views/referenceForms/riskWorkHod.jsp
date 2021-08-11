@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/risk.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
@@ -35,7 +35,7 @@
 
         .modal-header {
             text-align: center;
-            background-color: #577590;
+            background-color: #007A7A;
             color: #fff;
             margin: -24px -24px 20px !important;
             padding: 1rem;

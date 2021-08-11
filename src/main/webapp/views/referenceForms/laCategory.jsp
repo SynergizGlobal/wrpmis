@@ -101,12 +101,10 @@
 					</c:if>
                     <div class="">
                         <div class="row">
-                            <div class="col m4 hide-on-small"></div>
-                            <div class="col m4 s12 center-align">
+                            <div class="col m12 s12 center-align">
                                 <a class="waves-effect waves-light btn bg-m modal-trigger t-c" href="#addUpdateModal">
                                     <i class="fa fa-plus-circle"></i> &nbsp; Add Land Acquisition Category</a>
                             </div>
-                            <div class="col m4 hide-on-small"></div>
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">

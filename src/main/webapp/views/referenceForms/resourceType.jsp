@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <title>Land Acquisition Status</title>
+    <title>Resource Type</title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -58,7 +59,7 @@
                 width: 85% !important;
             }
         }
-         .page-loader {
+        .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
 		    width: 100%;
@@ -75,8 +76,7 @@
 <body>
 
     <!-- header  starts-->
-<%--     <jsp:include page="../layout/header.jsp"></jsp:include> --%>
-
+<%-- <jsp:include page="../layout/header.jsp"></jsp:include> --%>
     <!-- header ends  -->
 
 
@@ -86,10 +86,10 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Land Acquisition Status</h6>
+                            <h6> Resource Type</h6>
                         </div>
                     </span>
-                    <c:if test="${not empty success }">
+                     <c:if test="${not empty success }">
 					        <div class="center-align m-1 close-message">	
 							   ${success}
 							</div>
@@ -103,39 +103,35 @@
                         <div class="row">
                             <div class="col m12 s12 center-align">
                                 <a class="waves-effect waves-light btn bg-m modal-trigger t-c" href="#addUpdateModal">
-                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Land Acquisition Status</a>
+                                    <i class="fa fa-plus-circle"></i> &nbsp; Add Resource Type</a>
                             </div>
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="land_acquisition_status_table" class="mdl-data-table">
+                                <table id="resource_type_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Land Acquisition Status</th>
-                                            <th>Land Acquisition Status of</th>
-                                            <c:forEach var="tObj" items="${landAcquisitionStatusDetails.tablesList}" >
+                                            <th>Resource Type</th>
+                                           <%--  <c:forEach var="tObj" items="${landAcquisitionCategoryDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
-                                            </c:forEach>
+                                            </c:forEach> --%>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${landAcquisitionStatusDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${landAcquisitionCategoryDetails.dList1}" varStatus="indexs">
 											<tr><td>
-											<input type="hidden" id="statusId${indexs.count}" value="${obj.status }" class="findLengths" /> 
-											${obj.status }</td>
-											<td>
-											<input type="hidden" id="status_ofId${indexs.count}" value="${obj.status_of }" />
-											${obj.status_of }</td>
-										<c:forEach var="tObj" items="${landAcquisitionStatusDetails.tablesList}" varStatus="index">
-												 
-												<td><c:forEach var="cObj" items="${landAcquisitionStatusDetails.countList}" >
+												<input type="hidden" id="resource_type_id${indexs.count}" value="${obj.resource_type }"  class="findLengths"/>
+												${obj.resource_type }</td>
+										<%-- 	<c:forEach var="tObj" items="${landAcquisitionCategoryDetails.tablesList}" varStatus="index">
+											 
+												<td><c:forEach var="cObj" items="${landAcquisitionCategoryDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.status eq obj.status }"> 
-																      	  ( ${cObj.count } )  
+																    <c:when test="${cObj.resource_type eq obj.resource_type }"> 
+																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
 																    </c:otherwise>   
@@ -145,21 +141,21 @@
 													   </c:otherwise>
 												</c:choose>
 												</c:forEach></td>
-                                            </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${landAcquisitionStatusDetails.dList}" varStatus="indexx"> 
-												 
+                                            </c:forEach> --%>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
+										 	<c:forEach var="oSbj"  items="${landAcquisitionCategoryDetails.dList}" varStatus="indexx"> 
 												<c:choose>  
-												    <c:when test="${oSbj.status eq obj.status }"> 
-												      	<a onclick="deleteRow('${ oSbj.status }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
-												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
+												    <c:when test="${oSbj.resource_type eq obj.resource_type }"> 
+												      	<a onclick="deleteRow('${ oSbj.resource_type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	</a>
 												    </c:when>  
-												    <c:otherwise>  
+												    <c:otherwise>
+														<a onclick="deleteRow('${ oSbj.resource_type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												    </c:otherwise>   
 												</c:choose>  
+												
  											 </c:forEach>
- 											</td></tr>											   
+ 											</td></tr>												   
  										 </c:forEach>
                                     </tbody>
                                 </table>
@@ -172,7 +168,8 @@
         </div>
 
     </div>
-	<div class="page-loader" style="display: none;">
+
+    <div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
 	      <div class="circle-clipper left">
@@ -185,31 +182,20 @@
 	    </div>
 	  </div>
 	</div>
-
     <!-- Modal Structure -->
     <div id="addUpdateModal" class="modal">
-		<form action="<%=request.getContextPath() %>/add-la-status" id="addStatusForm" name="addStatusForm" method="post" class="form-horizontal" role="form">
+		<form action="<%=request.getContextPath() %>/add-resource-type" id="resourceTypeForm" name="resourceTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header">Add Land Acquisition Status <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h5 class="modal-header">Add Resource Type <span
+                        class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
                 <div class="row">
-                    <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
+                    <div class="col m8 s12 offset-m2">
                         <div class="row">
-                            <div class="input-field col s12 m6">
-                                <input id="status_text" type="text" name="status" class="validate" onkeyup="doValidate(this.value)">
-                                <label for="status_text">Land Acquisition Status</label>
-                                 <span id="statusError" class="error-msg" ></span>
-                                
+                            <div class="input-field col s12 m12">
+                                <input id="resource_type" name="resource_type" type="text" class="validate" onkeyup="doValidate(this.value)">
+                                <label for="resource_type">Resource Type</label>
+                                <span id="resource_typeError" class="error-msg" ></span>
                             </div>
-                            <div class="input-field col s12 m6">
-                                <input id="status_of" type="text" name="status_of" class="validate" >
-                                <label for="status_of">Land Acquisition Status of</label>
-                                <span id="status_ofError" class="error-msg" ></span>
-                            </div>
-                             <div  style="text-align:center">
-                        		 <span id="DivError" class="error-msg" ></span> 
-                       		   </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
@@ -219,47 +205,33 @@
                             </div>
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                  <!--   <button
-                                        class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
-                                        style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/la-status"
+                                    <a href="<%=request.getContextPath()%>/resource-type"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
 
             </div>
-
         </form>
     </div>
     
-    <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-la-status" id=updateStatusForm name="updateStatusForm" method="post" class="form-horizontal" role="form">
+     <div id="onlyUpdateModal" class="modal">
+		 <form action="<%=request.getContextPath() %>/update-resource-type" id=updateLaCategoryForm name="updateLaCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header bg-m">Update Land Acquisition Status <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
+                <h5 class="modal-header bg-m">Update Resource Type <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
-                    <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
+                    <div class="col m8 s12 offset-m2">
                        <div class="row no-mar">
-                         <div class="input-field col s12 m6">
-                                <input id="status_new" type="text" name="status_new" class="validate" onkeyup="doValidateUpdate(this.value)">
-                                <input id="status_old" type="hidden" name="status_old"  >
-                                <label for="status_new">Land Acquisition Status</label>
-                                <span id="status_newError" class="error-msg" ></span>
+                         <div class="input-field col s12 m12">
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
+                                <input id="value_old" type="hidden" name="value_old"  >
+                                <label for="value_new">Resource Type</label>
+                                <span id="value_newError" class="error-msg" ></span>
                          </div>
-                         <div class="input-field col s12 m6">
-                                <input id="status_of_new" type="text" name="status_of_new" class="validate" >
-                                <input id="status_of_old" type="hidden" name="status_of_old"  >
-                                <label for="status_of">Land Acquisition Status of</label>
-                                <span id="status_of_newError" class="error-msg" ></span>
-                            </div>
-                            <div  style="text-align:center">
-                        		 <span id="DivUpdateError" class="error-msg" ></span> 
-                       		</div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
@@ -273,13 +245,12 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/la-status"
+                                        <a href="<%=request.getContextPath()%>/resource-type"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
 
             </div>
@@ -297,10 +268,10 @@
         </div>
     </div> -->
     <!-- footer  -->
-<%--     <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
-    
-	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="status" id="status" />
+<%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
+
+   <form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="resource_type" id="resource_type_id" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -308,25 +279,27 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 
     <script>
         $(document).ready(function () {
             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
 
-            var table = $('#land_acquisition_status_table').DataTable({
+          /*               // adding table data into table ends */
+
+            var table = $('#resource_type_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
                         className: 'mdl-data-table__cell--non-numeric',
                         targets: 'no-sort', orderable: false,
+                        /* className: "last-column", targets: [1], */
                     },
-                    { "width": "20px", "targets": [6] },
+                    { "width": "20px", "targets": [1] },
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,
-                paging: false,
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",
                 "bScrollCollapse": true,
@@ -347,12 +320,12 @@
      		   var findVal = ek[count];
      		   findVal = findVal.toLowerCase();
      		   if(findVal == value){
-     			   $('#statusError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#resource_typeError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
      		   }else{
-     			   $('#statusError').text('');
+     			   $('#resource_typeError').text('');
      			   $('#bttn').prop('disabled', false); 
      			   flag = true;
      		   }
@@ -366,7 +339,7 @@
      	   var value = value.trim();
      	   var validate = $('.findLengths').length;
      	   var count  = 0;
-     	   var valueOld = $('#status_old').val();
+     	   var valueOld = $('#value_old').val();
      	   var ek = $('.findLengths').map((_,el) => el.value).get();
      	   value = value.toLowerCase();
      	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
@@ -375,12 +348,12 @@
      		   var findVal = ek[count];
      		   if(findVal != null){ findVal = findVal.toLowerCase();}
      		   if(findVal == value){
-     			   $('#status_newError').text(print_value+' alreday exists').css('color', 'red');
+     			   $('#value_newError').text(print_value+' alreday exists').css('color', 'red');
      			   $('#bttnUpdate').prop('disabled', true);
      			   updateFlag = false;
      			   return false;
      		   }else{
-     			   $('#status_newError').text('');
+     			   $('#value_newError').text('');
      			   $('#bttnUpdate').prop('disabled', false);
      			   updateFlag = true;
      		   }
@@ -389,132 +362,113 @@
      	   }
         }
         
-    	function removeErrorMsg(){
-    		 $('#status_newError').text('');
-    		 $('#bttnUpdate').prop('disabled', false);
-    		 updateFlag = true;
-    	}
-       
-   $("#addStatusForm").submit(function (e) {
-       	 if(validator.form()){ 
-   			$(".page-loader").show();
-   			$("#addUpdateModal").modal();
-   			document.getElementById("addStatusForm").submit();	
-   		 	if(flag){
-				document.getElementById("addStatusForm").submit();	
-			 }
-			 $(".page-loader").hide();
-			 return false;
-        }
-    })
+        function removeErrorMsg(){
+   		 $('#value_newError').text('');
+   		 $('#bttnUpdate').prop('disabled', false);
+   		 updateFlag = true;
+   		}
     
-   $("#updateStatusForm").submit(function (e) {
-      	 if(validator.form()){ 
-  			$(".page-loader").show();
-  			$("#onlyUpdateModal").modal();
-  			 if(updateFlag){
-   				document.getElementById("updateStatusForm").submit();	
-   			 }
-   			 $(".page-loader").hide();
-   			 return false;
-       }
-   })
-       var validator = $('#addStatusForm').validate({
-        	 rules: {
-        		 "status": {
-    			 		  required: true
-        		 },"status_of": {
-    			 		  required: true
-        		 }
-    			},messages: {
-    		 		   "status": {
-    			 		  required: 'Required'
-    			 	  },"status_of": {
-    			 		  required: 'Required'
-    			 	  }
-    	        },errorPlacement:function(error, element){
-    	        	 if(element.attr("id") == "status_text" ){
-    				     document.getElementById("statusError").innerHTML="";
-    			 	     error.appendTo('#statusError');
-    				 }else  if(element.attr("id") == "status_of" ){
-    				     document.getElementById("status_ofError").innerHTML="";
-    			 	     error.appendTo('#status_ofError');
-    				 }
-    	        }
-        });
+        $("#resourceTypeForm").submit(function (e) {
+          	 if(validator.form()){ 
+      			$(".page-loader").show();
+      			$("#addUpdateModal").modal();
+      			document.getElementById("resourceTypeForm").submit();	
+      			if(flag){
+     				document.getElementById("resourceTypeForm").submit();	
+     			 }
+     			 $(".page-loader").hide();
+     			 return false;
+           }
+       })
         
-       var validator1 = $('#updateStatusForm').validate({
-      	 rules: {
-      		 	"status_new": {
-  			 		  required: true
-      			 },"status_of_new": {
-  			 		  required: true
-      			 }
-       
-  			},messages: {
-  		 		 "status_new": {
-  			 		  required: 'Required'
-  			 	 },"status_of_new": {
-  			 		  required: 'Required'
-  			 	 }
-  	        },errorPlacement:function(error, element){
-  	        	 if(element.attr("id") == "status_new" ){
-  				     document.getElementById("status_newError").innerHTML="";
-  			 	     error.appendTo('#status_newError');
-  			   }else if(element.attr("id") == "status_of_new" ){
-  				     document.getElementById("status_of_newError").innerHTML="";
-  			 	     error.appendTo('#status_of_newError');
-  			   }
-  	        }
-      });
-        $('input').change(function(){
-    	           if ($(this).val() != ""){
-    	               $(this).valid();
-    	           }
-    	   });
+        $("#updateLaCategoryForm").submit(function (e) {
+         	 if(validator1.form()){ 
+     			$(".page-loader").show();
+     			$("#addUpdateModal").modal();
+     			document.getElementById("updateLaCategoryForm").submit();
+     			if(updateFlag){
+     				document.getElementById("updateLaCategoryForm").submit();	
+     			 }
+     			 $(".page-loader").hide();
+     			 return false;
+          }
+      })
+          var validator = $('#resourceTypeForm').validate({
+           	 rules: {
+           		 "resource_type": {
+       			 		  required: true
+           		 }
+       			},messages: {
+       		 		   "resource_type": {
+       			 		  required: 'Required'
+       			 	  }
+       	        },errorPlacement:function(error, element){
+       	        	 if(element.attr("id") == "resource_type" ){
+       				     document.getElementById("resource_typeError").innerHTML="";
+       			 	     error.appendTo('#resource_typeError');
+       				 }
+       	        }
+           });
+          var validator1 =  $('#updateLaCategoryForm').validate({
+            	 rules: {
+            		 "value_new": {
+      			 		  required: true
+            		 }
+      			},messages: {
+      		 		   "value_new": {
+      			 		  required: 'Required'
+      			 	  }
+      	        },errorPlacement:function(error, element){
+      	        	 if(element.attr("id") == "value_new" ){
+      				     document.getElementById("value_newError").innerHTML="";
+      			 	     error.appendTo('#value_newError');
+      				 }
+      	        }
+            	
+            });
+           $('input').change(function(){
+       	           if ($(this).val() != ""){
+       	               $(this).valid();
+       	           }
+       	   });
+           function updateRow(no) {
+     	      var resource_type = $('#resource_type_id'+no).val();
+     	      $('#value_old').val($.trim(resource_type))
+     	      $('#onlyUpdateModal').modal('open');
+     	      $('#onlyUpdateModal #value_new').val($.trim(resource_type)).focus();
+     	  }
+     	  
+     	  function deleteRow(val){
+     	  	$("#resource_type_id").val(val);
+     	  	showCancelMessage();
+     		    }
+     	  	
+     	  
+     	  function showCancelMessage() {
+     	    	swal({
+     		            title: "Are you sure?",
+     		            text: "You will be able to change the status of record!",
+     		            type: "warning",
+     		            showCancelButton: true, 
+     		            confirmButtonColor: "#DD6B55",
+     		            confirmButtonText: "Yes, delete it!",
+     		            cancelButtonText: "No, cancel it!",
+     		            closeOnConfirm: false,
+     		            closeOnCancel: false
+     		        }, function (isConfirm) {
+     		            if (isConfirm) {
+     		               // swal("Deleted!", "Record has been deleted", "success");
+     		               $(".page-loader").show();
+     		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-resource-type');
+     		    	    	$('#getForm').submit();
+     		           }else {
+     		                swal("Cancelled", "Record is safe :)", "error");
+     		            }
+     		        });
+     		    }
+     	</script>
 
 
-        function updateRow(no) {
-            var status = $('#statusId'+no).val();
-            var status_of = $('#status_ofId'+no).val();
-            $('#status_old').val($.trim(status))
-            $('#status_of_old').val($.trim(status_of))
-            $('#onlyUpdateModal').modal('open');
-            $('#onlyUpdateModal #status_new').val($.trim(status)).focus();
-            $('#onlyUpdateModal #status_of_new').val($.trim(status_of)).focus();
-        }
-        
-        function deleteRow(val){
-        	$("#status").val(val);
-        	showCancelMessage(); 
-      	    }
-        	
-        
-        function showCancelMessage() {
-          	swal({
-      	            title: "Are you sure?",
-      	            text: "You will be able to change the status of record!",
-      	            type: "warning",
-      	            showCancelButton: true, 
-      	            confirmButtonColor: "#DD6B55",
-      	            confirmButtonText: "Yes, delete it!",
-      	            cancelButtonText: "No, cancel it!",
-      	            closeOnConfirm: false,
-      	            closeOnCancel: false
-      	        }, function (isConfirm) {
-      	            if (isConfirm) {
-      	               // swal("Deleted!", "Record has been deleted", "success");
-      	                $(".page-loader").show();
-      	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-la-status');
-      	    	    	$('#getForm').submit();
-      	           }else {
-      	                swal("Cancelled", "Record is safe :)", "error");
-      	            }
-      	        });
-      	    }
-      </script>
+ </body>
 
-      </body>
-
-
-  </html>
+ </html>

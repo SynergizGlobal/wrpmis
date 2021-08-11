@@ -491,6 +491,7 @@
 																									<input type="hidden" name="hod_user_id_fks" class="no-reset"/>
 																									<input type="hidden" name="trainee_designations" class="no-reset"/>
 																									<input type="hidden" name="mobile_nos" class="no-reset"/>
+																									<input type="hidden"  name="emails" class="no-reset" >
 																									<td data-head="Nominated" class="input-field">
 																										<p class="disp-init">
 																											<label><input type="hidden" name="required_fks" class="no-reset" value ="${dObj.required_fk}" id="required_fk0${indexx.count }${index.count }${indexx.count }" />
@@ -543,6 +544,7 @@
 																								<input type="hidden" name="hod_user_id_fks"/>
 																								<input type="hidden" name="trainee_designations"/>
 																								<input type="hidden" name="mobile_nos"/>
+																								<input type="hidden"  name="emails" class="no-reset" >
 																								<td data-head="Nominated" class="input-field">
 																									<p class="disp-init">
 																										<label> <input type="hidden" id="required_fk0${index.count }" name="required_fks" value="No" class="req" />
@@ -662,7 +664,7 @@
 																										 <input id="new_attendees0${indexx.count }${index.count }${indexx.count }" name="attendees" type="text" class="validate no-reset" placeholder="Name" value="${dObj.attendee}">
 																									</td>
 																									<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="trainee_designations0${indexx.count }${index.count }${indexx.count }" name="trainee_designations" value="${dObj.trainee_designation}" class="no-reset"></td>		
-																									<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="trainee_email0${indexx.count }${index.count }${indexx.count }" name="trainee_emails" value="${dObj.trainee_designation}" class="no-reset"></td>		
+																									<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="email0${indexx.count }${index.count }${indexx.count }" name="emails" value="${dObj.email}" class="no-reset"></td>		
 																									<td data-head="Mobile" class="input-field"><input id="new_mobile_nos0${indexx.count }${index.count }${indexx.count }" name="mobile_nos" class="no-reset" type="number" class="validate" placeholder="Mobile"
 																										value="${dObj.mobile_no }"></td>
 																									<td data-head="Nominated" class="input-field">
@@ -746,7 +748,7 @@
 																									<input id="new_attendees0${index.count }" name="attendees" type="text" class="validate" placeholder="Name">																								    
 																								</td>	
 																								<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations0${index.count }" name="trainee_designations" ></td>																							
-																								<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="new_trainee_email0${index.count }" name="trainee_email" ></td>																							
+																								<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="email0${index.count }" name="emails" ></td>																							
 																								<td data-head="Mobile" class="input-field"><input id="new_mobile_nos0${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
 																								</td>
 																								<td data-head="Nominated" class="input-field">
@@ -952,6 +954,7 @@
 																                                <input type="hidden" name="hod_user_id_fks"/>
 																								<input type="hidden" name="trainee_designations"/>
 																								<input type="hidden" name="mobile_nos"/>
+																								<input type="hidden"  name="emails" class="no-reset" >
 																                            <td data-head="Nominated" class="input-field">
 																                                <p class="disp-init"> <label><input type="hidden" name="required_fks"
 																                                            id="required_fk0"> <input type="checkbox" id="required_fks0"
@@ -1019,7 +1022,7 @@
 																						 <input id="new_attendees00" name="attendees" type="text" class="validate" placeholder="Name">
 																					</td>
 																					<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations0" name="trainee_designations" ></td>
-																					<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="new_trainee_email0" name="trainee_emails" ></td>
+																					<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="email0" name="emails" ></td>
 																					<td data-head="Mobile" class="input-field"><input id="new_mobile_nos00" name="mobile_nos" type="number" class="validate num" placeholder="Mobile">
 																					<br><span id="new_mobile_nosError" class="error-msg"></span></td>
 																					<td data-head="Nominated" class="input-field">
@@ -1613,7 +1616,7 @@
 						/* <c:forEach var="obj" items="${attendeesList}">
 							'<option value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
 						</c:forEach> */
-					'</select></td><input type="hidden" name="hod_user_id_fks"/><input type="hidden" name="trainee_designations"/><input type="hidden" name="mobile_nos"/>' +	                
+					'</select></td><input type="hidden" name="hod_user_id_fks"/><input type="hidden"  name="emails" class="no-reset" /><input type="hidden" name="trainee_designations"/><input type="hidden" name="mobile_nos"/>' +	                
 	                '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="required_fk'+ rNo +tNo+'" value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
 	                '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="participated_fk'+ rNo +tNo+'" value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +
 	                '<td class="mobile_btn_close"><a onclick="removeTrainingAttendees('+rNo+','+tNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
@@ -1675,7 +1678,7 @@
 				</c:forEach> */
              '</select></td>'+
              '<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate" placeholder="Name"></td>' +
-             '<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations'+ rNo +tNo+'" name="trainee_designations" ></td>'+
+             '<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations'+ rNo +tNo+'" name="trainee_designations" ></td><td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="email'+ rNo +tNo+'" name="emails" ></td>'+
              '<td data-head="Mobile" class="input-field"><input id="new_mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
              '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="new_required_fk'+ rNo +tNo+'" value="No" class="req"/><input type="checkbox" id="new_required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
              '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="new_participated_fk'+ rNo +tNo+'" value="No" class="part"/><input type="checkbox" id="new_participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +
@@ -1739,7 +1742,7 @@
 		        /*  <c:forEach var="obj" items="${attendeesList}">
 		             '<option value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
 		         </c:forEach> */
-		         '</select></td><input type="hidden" name="hod_user_id_fks"/><input type="hidden" name="trainee_designations"/><input type="hidden" name="mobile_nos"/><td data-head="Nominated" class="input-field"><p class="disp-init"> <label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" /> '+
+		         '</select></td><input type="hidden" name="hod_user_id_fks"/><input type="hidden"  name="emails" class="no-reset" /><input type="hidden" name="trainee_designations"/><input type="hidden" name="mobile_nos"/><td data-head="Nominated" class="input-field"><p class="disp-init"> <label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" /> '+
 		         '<input type="checkbox" id="required_fks'+ rNo+i+'"  class="required_fks" onChange="checkBox('+ rNo+i+')" <c:if test="${dObj.required_fk eq 'Yes'}">  checked</c:if> />'+
 		         '<span></span></label></p></td><td data-head="Participated" class="input-field"><p class="disp-init"><label> <input type="hidden" name="participated_fks" id="participated_fk'+ rNo+i+'" />'+
 		         '<input type="checkbox" id="participated_fks'+ rNo+i+'"  class="participated_fks" onChange="checkBoxs('+ rNo+i+')" <c:if test="${dObj.participated_fk eq 'Yes'}">    checked</c:if> /><span></span>'+
@@ -1767,7 +1770,7 @@
 			               // '</select></td>'+
 							'<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo+i+'" name="attendees" type="text" class="validate" placeholder="Name"></td>' +
 			                '<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations'+ rNo+i+'" name="trainee_designations" ></td>'+
-			                '<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="new_trainee_email'+ rNo+i+'" name="trainee_emails" ></td>'+
+			                '<td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="email'+ rNo+i+'" name="emails" ></td>'+
 							'<td data-head="Mobile" class="input-field"><input id="new_mobile_nos'+ rNo+i+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
 			                '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="new_required_fk'+ rNo+i+'" value="No" class="req"/><input type="checkbox" id="new_required_fks'+ rNo+i+'" class="required_fks"/><span></span></label></p></td>' +
 			                '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="new_participated_fk'+ rNo+i+'" value="No" class="part"/><input type="checkbox" id="new_participated_fks'+ rNo+i+'" class="participated_fks" /><span></span></label></p></td>' +

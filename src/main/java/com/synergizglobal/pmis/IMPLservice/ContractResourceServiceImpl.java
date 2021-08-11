@@ -33,4 +33,9 @@ public class ContractResourceServiceImpl implements ContractResourceService{
 	public boolean addResource(ContractResource obj) throws Exception {
 		return dao.addResource(obj);
 	}
+
+	@Override
+	public List<ContractResource> getResourceTypeListForContractResourceForm(ContractResource obj) throws Exception {
+		return dao.getResourceTypeListForContractResourceForm(obj);
+	}
 }

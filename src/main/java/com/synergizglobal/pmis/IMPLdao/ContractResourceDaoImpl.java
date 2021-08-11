@@ -309,4 +309,17 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 		}
 		return flag;
 	}
+
+	@Override
+	public List<ContractResource> getResourceTypeListForContractResourceForm(ContractResource obj) throws Exception {
+		List<ContractResource> objsList = null;
+		try {
+			String qry ="select resource_type from resource_type ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));	
+		}catch(Exception e){ 
+			e.printStackTrace();
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 }

@@ -94,7 +94,7 @@
                                     <select class="searchable" id="project_id_fk" name="project_id_fk" onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
-                                      	   <option value= "${ obj.project_id_fk}">${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                      	   <option value= "${obj.project_id_fk}">${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                          </c:forEach>
                                     </select>
                                      <span id="project_id_fkError" class="error-msg" ></span>
@@ -104,7 +104,7 @@
                                     <select class="searchable" id="work_id_fk" name="work_id_fk" onchange="getContractsList(this.value);resetProjectsDropdowns();">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                      	   <option value= "${obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
                                          </c:forEach>
                                     </select>
                                      <span id="work_id_fkError" class="error-msg" ></span>
@@ -117,7 +117,7 @@
                                     <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${contractsList }">
-                                      	   <option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                      	   <option workId="${obj.work_id_fk }" value= "${obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                          </c:forEach>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
@@ -150,8 +150,10 @@
                                                         <td data-head="Resource Type" class="input-field">
                                                             <select class="searchable" id="resource_types0"
                                                                 name="resource_types">
-                                                                <option value="Equipment" selected>Equipment</option>
-                                                                <option value="Manpower">Manpower</option>
+                                                                <option value="" >Select</option>  
+														          <c:forEach var="obj" items="${resourceTypeList }">
+						                                      	    <option value= "${obj.resource_type}" >${obj.resource_type}</option>
+						                                          </c:forEach>
                                                             </select>
                                                         </td>
                                                         <td data-head="Resource Name" class="input-field">
@@ -168,9 +170,10 @@
                                                     <tr id="ResourceRow1">
 												<td class="input-field">
 													<select id="resource_types1" name="resource_types" class="select searchable">
-														<option value="">Type</option>
-														<option value="Equipment" selected>Equipment</option>
-														<option value="Manpower">Manpower</option>
+														 <option value="" >Select</option>  
+												          <c:forEach var="obj" items="${resourceTypeList }">
+				                                      	    <option value= "${obj.resource_type}" >${obj.resource_type}</option>
+				                                          </c:forEach>
 													</select>
 												</td>
 												<td class="input-field"><input id="resource_names1" name="resource_names" type="text" class="validate" placeholder="Name" value="JCB"></td>
@@ -180,9 +183,10 @@
 											<tr id="ResourceRow2">
 												<td class="input-field">
 													<select id="resource_types2" name="resource_types" class="select searchable">
-															<option value="">Type</option>
-															<option value="Equipment" selected>Equipment</option>
-															<option value="Manpower">Manpower</option>
+														<option value="" >Select</option>  
+												          <c:forEach var="obj" items="${resourceTypeList }">
+				                                      	    <option value= "${obj.resource_type}" >${obj.resource_type}</option>
+				                                          </c:forEach>
 													</select>
 												</td>
 												<td class="input-field"><input id="resource_names2" name="resource_names" type="text" class="validate" placeholder="Name" value="Dumper"></td>
@@ -192,9 +196,10 @@
 											<tr id="ResourceRow3">
 												<td class="input-field">
 													<select id="resource_types3" name="resource_types" class="select searchable">
-														<option value="">Type</option>
-														<option value="Equipment" selected>Equipment</option>
-														<option value="Manpower">Manpower</option>
+														<option value="" >Select</option>  
+												          <c:forEach var="obj" items="${resourceTypeList }">
+				                                      	    <option value= "${obj.resource_type}" >${obj.resource_type}</option>
+				                                          </c:forEach>
 													</select>
 												</td>
 												<td class="input-field"><input id="resource_names3" name="resource_names" type="text" class="validate" placeholder="Name" value="Grader"></td>
@@ -204,9 +209,10 @@
 											<tr id="ResourceRow4">
 												<td class="input-field">
 													<select id="resource_types4" name="resource_types" class="select searchable">
-															<option value="">Type</option>
-															<option value="Equipment" selected>Equipment</option>
-															<option value="Manpower">Manpower</option>
+														<option value="" >Select</option>  
+												          <c:forEach var="obj" items="${resourceTypeList }">
+				                                      	    <option value= "${obj.resource_type}" >${obj.resource_type}</option>
+				                                          </c:forEach>
 													</select>
 												</td>
 												<td class="input-field"><input id="resource_names4" name="resource_names" type="text" class="validate" placeholder="Name" value="Water Tanker Bowser"></td>
@@ -216,9 +222,10 @@
 											<tr id="ResourceRow5">
 												<td class="input-field">
 													<select id="resource_types5" name="resource_types" class="select searchable">
-															<option value="">Type</option>
-															<option value="Equipment">Equipment</option>
-															<option value="Manpower" selected>Manpower</option>
+														<option value="" >Select</option>  
+												          <c:forEach var="obj" items="${resourceTypeList }">
+				                                      	    <option value= "${obj.resource_type}" >${obj.resource_type}</option>
+				                                          </c:forEach>
 													</select>
 												</td>
 												<td class="input-field"><input id="resource_names5" name="resource_names" type="text" class="validate" placeholder="Name" value="Semi Skilled"></td>
@@ -228,9 +235,10 @@
 											<tr id="ResourceRow6">
 												<td class="input-field">
 													<select id="resource_types6" name="resource_types" class="select searchable">
-															<option value="">Type</option>
-															<option value="Equipment">Equipment</option>
-															<option value="Manpower" selected>Manpower</option>
+														<option value="" >Select</option>  
+												          <c:forEach var="obj" items="${resourceTypeList }">
+				                                      	    <option value= "${obj.resource_type}" >${obj.resource_type}</option>
+				                                          </c:forEach>
 													</select>
 												</td>
 												<td class="input-field"><input id="resource_names6" name="resource_names" type="text" class="validate" placeholder="Name" value="Highly Skilled"></td>
@@ -240,10 +248,11 @@
 											<tr id="ResourceRow7">
 												<td class="input-field">
 												<select id="resource_types7" name="resource_types"class="select searchable">
-														<option value="">Type</option>
-														<option value="Equipment">Equipment</option>
-														<option value="Manpower" selected>Manpower</option>
-												</select>
+													<option value="" >Select</option>  
+												          <c:forEach var="obj" items="${resourceTypeList }">
+				                                      	    <option value= "${obj.resource_type}" >${obj.resource_type}</option>
+				                                          </c:forEach>
+													</select>
 												</td>
 												<td class="input-field"><input id="resource_names7" name="resource_names" type="text"  class="validate" placeholder="Name" value="Unskilled"></td>
 												<td class="input-field"><input id="quantitys7" name="quantitys" type="number" class="validate" value="1" placeholder="Qty" min="0"></td>
@@ -404,7 +413,10 @@
             var rowNo = $("#resourceFormTableBody tr").length;
             var rNo = Number(rowNo) + 1;
             var html = '<tr id="resourceFormTableRow' + rNo + '"><td data-head="Resource Type" class="input-field"><select class="searchable" id="resource_types' + rNo + '" name="resource_types">' +
-			            '<option value="">select</option><option value="Equipment">Equipment</option> <option value="Manpower">Manpower</option>' +
+			            '<option value="">select</option>'+
+					       <c:forEach var="obj" items="${resourceTypeList }">
+                                   	    '<option value= "${obj.resource_type}" >${obj.resource_type}</option>'+
+                           </c:forEach>
 			            '</select></td><td data-head="Resource Name" class="input-field"> <input id="resource_names' + rNo + '" type="text" class="validate" placeholder="Resource Name" name="resource_names" >' +
 			            '</td> <td data-head="Quantity" class="input-field"><input id="quantitys' + rNo + '" type="number" min="1" step="1" class="validate" placeholder="Qty" name="quantitys" value="1"></td> <td> <a href="#" onclick="removeResource(' + rNo + ');" class="btn waves-effect waves-light red t-c ">' +
 			            '<i class="fa fa-close"></i></a></td></tr>';

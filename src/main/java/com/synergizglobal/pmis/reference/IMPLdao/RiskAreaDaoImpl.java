@@ -27,7 +27,7 @@ public class RiskAreaDaoImpl implements RiskAreaDao{
 	public List<Risk> getRiskAreasList() throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry ="select area, item_no from risk_area ";
+			String qry ="select area,area_short_name, item_no from risk_area ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Risk>(Risk.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -41,7 +41,7 @@ public class RiskAreaDaoImpl implements RiskAreaDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO risk_area"
-					+ "( area, item_no) VALUES (:area, :item_no)";
+					+ "( area,area_short_name, item_no) VALUES (:area,:area_short_name, :item_no)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -61,7 +61,7 @@ public class RiskAreaDaoImpl implements RiskAreaDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select area, item_no from risk_area order by item_no ";
+			String qry ="select area,area_short_name, item_no from risk_area order by item_no ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -86,7 +86,7 @@ public class RiskAreaDaoImpl implements RiskAreaDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select area, item_no from risk_area where `area` NOT IN (?";
+					  String qry2 = "select area,area_short_name, item_no from risk_area where `area` NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
@@ -158,7 +158,7 @@ public class RiskAreaDaoImpl implements RiskAreaDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE risk_area SET `area`= :value_new,item_no= :item_no_new WHERE `area`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE risk_area SET `area`= :value_new,area_short_name= :area_short_name_new,item_no= :item_no_new WHERE `area`= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			

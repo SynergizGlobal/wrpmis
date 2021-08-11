@@ -172,8 +172,8 @@
 													${obj.area }
 												</td>
 												<td>
-													<input type="hidden" id="shortNameId${indexs.count}" value="${obj.area }" class="findLengths" /> 
-													${obj.area }
+													<input type="hidden" id="shortNameId${indexs.count}" value="${obj.area_short_name }" class="findLengths2" /> 
+													${obj.area_short_name }
 												</td>
 												<td>
 													<input type="hidden" id="item_noId${indexs.count}" value="${obj.item_no }"  class="findLengths1"/>
@@ -248,18 +248,18 @@
                     <div class="col m8 s12 offset-m2">
                         <div class="row no-mar">
                             <div class="input-field col s12 m6">
-                                <input id="risk_area_text" type="text" name="area" class="validate"  onkeyup="doValidate(this.value,null)">
+                                <input id="risk_area_text" type="text" name="area" class="validate"  onkeyup="doValidate(this.value,null,null)">
                                 <label for="risk_area_text">Risk Area</label>
                                 <span id="areaError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="risk_short_name_text" type="text" name="area" class="validate"  onkeyup="doValidate(this.value,null)">
+                                <input id="risk_short_name_text" type="text" name="area_short_name" class="validate"  onkeyup="doValidate(null,this.value,null)">
                                 <label for="risk_short_name_text">Risk Short Name</label>
                                 <span id="shortNameError" class="error-msg" ></span>
                             </div>
                             </div><div class="row">
                             <div class="input-field col s12 m6">
-                                <input id="item_no" type="number" name="item_no" min="1" class="validate"  onkeyup="doValidate(null,this.value)">
+                                <input id="item_no" type="number" name="item_no" min="1" class="validate"  onkeyup="doValidate(null,null,this.value)">
                                 <label for="item_no">Item No</label>
                                 <span id="item_noError" class="error-msg" ></span>
                             </div>
@@ -301,21 +301,22 @@
                     <div class="col m8 s12 offset-m2">
                          <div class="row no-mar">
                             <div class="input-field col s12 m6">
-                                <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(null,null,null)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Risk Area</label>
                                 <span id="value_newError" class="error-msg" ></span>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="short_value_new" type="text" name="short_value_new" class="validate">
+                                <input id="area_short_name_new" type="text" name="area_short_name_new" class="validate" onkeyup="doValidateUpdate(null,null,null)">
                                 <input id="short_value_old" type="hidden" name="short_value_old"  >
-                                <label for="short_value_new">Risk Short Name</label>
+                                <label for="area_short_name_new">Risk Short Name</label>
                                 <span id="short_value_newError" class="error-msg" ></span>
                             </div>
                             </div><div class="row">
                             <div class="input-field col s12 m6">
-                                <input id="item_no_new" name="item_no_new" type="text" class="validate">
+                                <input id="item_no_new" name="item_no_new" type="text" class="validate" onkeyup="doValidateUpdate(null,null,null)">
                                 <label for="item_no_new">Item No</label>
+                                 <input id="item_no_old" type="hidden" name="item_no_old"  >
                                 <span id="item_no_newError" class="error-msg" ></span>
                             </div>
                             <div  style="text-align:center">
@@ -395,20 +396,24 @@
             });
         });
         var flag = false; 
-        function doValidate(value,value1){
+        function doValidate(value,value1,value2){
            var value = $('#risk_area_text').val();
            var value1 = $('#item_no').val();
+           var value2 = $('#risk_short_name_text').val();
            value = value.trim();
            value1 = value1.trim();
+           value2 = value2.trim();
            var print_value = value;	
      	   var print_value2 = value1;
+     	   var print_value3 = value2;
            var ek = $('.findLengths').map((_,el) => el.value).get();
      	   var ak = $('.findLengths1').map((_,el) => el.value).get();
+     	   var bk = $('.findLengths2').map((_,el) => el.value).get();
            var s = Object.keys(ek).find(key => ek[key] === value);
            if(value != null){ value = value.toLowerCase();}
            if(value1 != null){ value1 = value1.toLowerCase();}
+           if(value2 != null){ value2 = value2.toLowerCase();}
          
-     	  
      	   var validate = $('.findLengths').length;
      	   if(validate == 0){flag = true;}
      	   var count  = 0;
@@ -416,13 +421,16 @@
      	   while(count < validate){
      		 	 var findVal = ek[count];
      			 var findVal2 = ak[count];
+     			 var findVal3 = bk[count];
      			if(findVal != null){ findVal = findVal.toLowerCase(); }
      			if(findVal2 != null){ findVal2 = findVal2.toLowerCase(); }
+     			if(findVal3 != null){ findVal3 = findVal3.toLowerCase(); }
      			
-     		   if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
-     			   $('#DivError').text('" '+print_value+' "'+' & '+'" '+print_value2+' alreday exists').css('color', 'red');
+     		   if((findVal == value && value != null) && (findVal2 == value1 && value1 != null) && (findVal3 == value2 && value2 != null)){
+     			   $('#DivError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' & '+'" '+print_value3+' "'+' alreday exists').css('color', 'red');
    				   $('#areaError').text('');
    				   $('#item_noError').text('');
+   				   $('#shortNameError').text('');
      			   $('#bttn').prop('disabled', true);
      			   flag = false;
      			   return false;
@@ -432,6 +440,8 @@
      				 $('#DivError').text('');
      				 $('#areaError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');
      				 if(findVal2 != value1 ){$('#item_noError').text('');}else{ $('#item_noError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+    				 if(findVal3 != value2 ){$('#shortNameError').text('');}else{ $('#shortNameError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');}
+    				 
      				 flag = false;
       			     return false;
      			  }else if(findVal2 == value1 ){
@@ -439,12 +449,24 @@
      				 $('#DivError').text('');
      				 $('#item_noError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');
      				 if(findVal != value ){$('#areaError').text('');}else{ $('#areaError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+    				 if(findVal3 != value2 ){$('#shortNameError').text('');}else{ $('#shortNameError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');}
+    				 
+     				 flag = false;
+      			     return false;
+     			 }else if(findVal3 == value2 ){
+     				 $('#bttn').prop('disabled', true);
+     				 $('#DivError').text('');
+     				 $('#shortNameError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal != value ){$('#areaError').text('');}else{ $('#areaError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+     				if(findVal2 != value1 ){$('#item_noError').text('');}else{ $('#item_noError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+    				 
      				 flag = false;
       			     return false;
      			  }else{
         			   $('#DivError').text('');
         			   $('#areaError').text('');
         			   $('#item_noError').text('');
+        			   $('#shortNameError').text('');
         			   $('#bttn').prop('disabled', false); 
         			   flag = true;
      			  }
@@ -455,36 +477,46 @@
      	   }
         }
         var updateFlag = true;
-        function doValidateUpdate(value,value1){
+        function doValidateUpdate(value,value1,value2){
            var value = $('#value_new').val();
            var value1 = $('#item_no_new').val();
+           var value2 = $('#area_short_name_new').val();
            value = value.trim();
            value1 = value1.trim();
+           value2 = value2.trim();
      	   var print_value = value;	
      	   var print_value2 = value1;	
+     	   var print_value3 = value2;	
      	   var validate = $('.findLengths').length;
      	   var count  = 0;
      	   var no = $('#no').val()
      	   var valueOld  = $('#value_old').val()
-           var valueOld2 = $('#user_role_code_old').val()
+           var valueOld2 = $('#item_no_old').val()
+           var valueOld3 = $('#short_value_old').val()
      	   var ek = $('.findLengths').map((_,el) => el.value).get();
      	   var ak = $('.findLengths1').map((_,el) => el.value).get();
-     	   value = value.toLowerCase();
+     	   var bk = $('.findLengths2').map((_,el) => el.value).get();
      	   value = value.toLowerCase();
      	   value1 = value1.toLowerCase();
+     	   value2 = value2.toLowerCase();
      	   var s = Object.keys(ek).find(key => ek[key] === valueOld);
      	   var s1 = Object.keys(ak).find(key => ak[key] === valueOld2);
+     	   var s2 = Object.keys(bk).find(key => bk[key] === valueOld3);
      	   delete ek[s];
      	   delete ak[s1];
+     	   delete bk[s2];
      	   while(count < validate){
      		  var findVal = ek[count];
   			  var findVal2 = ak[count];
+  			  var findVal3 = bk[count];
   			 if(findVal != null){ findVal = findVal.toLowerCase();}
   			 if(findVal2 != null){ findVal2 = findVal2.toLowerCase();}
-   		     if((findVal == value && value != null) && (findVal2 == value1 && value1 != null)){
-  				   $('#DivUpdateError').text('" '+print_value+' "'+' & '+'" '+print_value2+' alreday exists').css('color', 'red');
+  			 if(findVal3 != null){ findVal3 = findVal3.toLowerCase();}
+  			 if((findVal == value && value != null) && (findVal2 == value1 && value1 != null) && (findVal3 == value2 && value2 != null)){
+  				   $('#DivUpdateError').text('" '+print_value+' "'+' & '+'" '+print_value2+' "'+' & '+'" '+print_value3+' "'+' alreday exists').css('color', 'red');
   				   $('#value_newError').text('');
  			   	   $('#item_no_newError').text('');
+ 			   	   $('#short_value_newError').text('');
      			   $('#bttnUpdate').prop('disabled', true);
      			   updateFlag = false;
      			   return false;
@@ -494,7 +526,8 @@
       				 $('#DivUpdateError').text('');
       				 $('#value_newError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');
       				 if(findVal2 != value1 ){$('#item_no_newError').text('');}else{ $('#item_no_newError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
-     				 
+    				 if(findVal3 != value2 ){$('#short_value_newError').text('');}else{ $('#short_value_newError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');}
+    				 
       				 updateFlag = false; 
       				 $('#bttnUpdate').prop('disabled', true);
       				 return false;
@@ -502,6 +535,17 @@
      				 $('#DivUpdateError').text('');
      				 $('#item_no_newError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');
      				 if(findVal != value ){$('#value_newError').text('');}else{ $('#value_newError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+    				 if(findVal3 != value2 ){$('#short_value_newError').text('');}else{ $('#short_value_newError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');}
+    				
+     				 updateFlag = false;
+     				 $('#bttnUpdate').prop('disabled', true);
+     				 return false;
+     			 }else if(findVal3 == value2 ){
+     				 $('#DivUpdateError').text('');
+     				 $('#item_no_newError').text('" '+print_value3+' "'+' alreday exists').css('color', 'red');
+     				 if(findVal != value ){$('#value_newError').text('');}else{ $('#value_newError').text('" '+print_value+' "'+' alreday exists').css('color', 'red');}
+    				 if(findVal2 != value1 ){$('#item_no_newError').text('');}else{ $('#item_no_newError').text('" '+print_value2+' "'+' alreday exists').css('color', 'red');}
+     				 
      				 updateFlag = false;
      				 $('#bttnUpdate').prop('disabled', true);
      				 return false;
@@ -509,6 +553,7 @@
        			       $('#DivUpdateError').text('');
        			       $('#department_newError').text('');
        			   	   $('#item_no_newError').text('');
+       			       $('#short_value_newError').text('');
         			   $('#bttnUpdate').prop('disabled', false);
         			   updateFlag = true;
         			   }
@@ -538,11 +583,15 @@
  			 		  required: true
      		 },"item_no": {
  			 		  required: true
+     		 },"area_short_name": {
+ 			 		  required: true
      		 }
  			},messages: {
  		 		   "area": {
  			 		  required: 'Required'
  			 	  },"item_no": {
+ 			 		  required: 'Required'
+ 			 	  },"area_short_name": {
  			 		  required: 'Required'
  			 	  }
  	        },errorPlacement:function(error, element){
@@ -566,7 +615,7 @@
 			 		  required: true
     			 },"item_no_new":{
 					  required: true
-    			}, "short_value_new":{
+    			}, "area_short_name_new":{
     				required:true
     			}
 			},messages: {
@@ -574,7 +623,7 @@
 			 		  required: 'Required'
 			 	 }, "item_no_new": {
 			 		  required: 'Required'
-			 	 }, "short_value_new":{
+			 	 }, "area_short_name_new":{
 	    				required: 'Required'
 	    		 }
 	        },errorPlacement:function(error, element){
@@ -600,9 +649,11 @@
       var shortName = $('#shortNameId'+no).val();
       var item_no = $('#item_noId'+no).val();
       $('#value_old').val($.trim(area))
+      $('#short_value_old').val($.trim(shortName))
+      $('#item_no_old').val($.trim(item_no))
       $('#onlyUpdateModal').modal('open');
       $('#onlyUpdateModal #value_new').val($.trim(area)).focus();
-      $('#onlyUpdateModal #short_value_new').val($.trim(shortName)).focus();
+      $('#onlyUpdateModal #area_short_name_new').val($.trim(shortName)).focus();
       $('#onlyUpdateModal #item_no_new').val($.trim(item_no)).focus();
   }
   

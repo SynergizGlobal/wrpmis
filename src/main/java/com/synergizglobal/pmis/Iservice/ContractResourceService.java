@@ -14,4 +14,6 @@ public interface ContractResourceService {
 
 	boolean addResource(ContractResource obj) throws Exception;
 
+	List<ContractResource> getResourceTypeListForContractResourceForm(ContractResource obj) throws Exception;
+
 }

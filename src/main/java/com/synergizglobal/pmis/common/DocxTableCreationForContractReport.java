@@ -700,21 +700,25 @@ public class DocxTableCreationForContractReport {
 							  {
 								  getBG=getBG+"<space>\n  ";
 							  }
+							  GrLength=SerLen2;
 						  }
 						  else if(SerLen2>SerLen3)
 						  {
 							  for(int i=0; i<SerLen2-SerLen1; i++)
 							  {
 								  getBG=getBG+"<space>\n  ";
-							  }							  
+							  }	
+							  GrLength=SerLen2;
 						  }
 						  else if(SerLen3>SerLen2)
 						  {
 							  for(int i=0; i<SerLen3-SerLen1; i++)
 							  {
 								  getBG=getBG+"<space>\n  ";
-							  }							  
-						  }						  
+							  }
+							  GrLength=SerLen3;
+						  }	
+						  
 					  }					  
 					  
 					  if(SerLen2>SerLen3 && SerLen2>SerLen1)
@@ -751,20 +755,23 @@ public class DocxTableCreationForContractReport {
 							  {
 								  getBG1=getBG1+"<space>\n  ";
 							  }
+							  GrLength=SerLen3;
 						  }
 						  else if(SerLen1>SerLen3)
 						  {
 							  for(int i=0; i<SerLen1-SerLen2; i++)
 							  {
 								  getBG1=getBG1+"<space>\n  ";
-							  }							  
+							  }
+							  GrLength=SerLen1;
 						  }
 						  else if(SerLen3>SerLen1)
 						  {
 							  for(int i=0; i<SerLen3-SerLen2; i++)
 							  {
 								  getBG1=getBG1+"<space>\n  ";
-							  }							  
+							  }	
+							  GrLength=SerLen3;
 						  }						  
 					  }					  
 					  
@@ -803,20 +810,23 @@ public class DocxTableCreationForContractReport {
 							  {
 								  getBG2=getBG2+"<space>\n  ";
 							  }
+							  GrLength=SerLen2;
 						  }
 						  else if(SerLen1>SerLen2)
 						  {
 							  for(int i=0; i<SerLen1-SerLen3; i++)
 							  {
 								  getBG2=getBG2+"<space>\n  ";
-							  }							  
+							  }	
+							  GrLength=SerLen1;
 						  }
 						  else if(SerLen2>SerLen1)
 						  {
 							  for(int i=0; i<SerLen3-SerLen3; i++)
 							  {
 								  getBG2=getBG2+"<space>\n  ";
-							  }							  
+							  }
+							  GrLength=SerLen2;
 						  }						  
 					  }
 
@@ -1010,9 +1020,41 @@ public class DocxTableCreationForContractReport {
 				{	
 					boolean hasBgColor = false;
 					String backgroundColor = null;
-					String getBG=cObj.getBg_number().toString();
+					String getBG="";
+					String getBG1="";
+					String getBG2="";
+					
+					
+					if (StringUtils.isEmpty(cObj.getBg_number()) || cObj.getBg_number().isEmpty()) 
+					{
+						getBG="";
+					}
+					else
+					{
+						getBG=cObj.getBg_number().toString();
+					}					
+					
 
-					if(getBG.indexOf("<space>")==-1)
+					if (StringUtils.isEmpty(cObj.getBg_value()) || cObj.getBg_value().isEmpty()) 
+					{
+						getBG1="";
+					}
+					else
+					{
+						getBG1=cObj.getBg_value().toString();
+					}
+					
+					
+					if (StringUtils.isEmpty(cObj.getBg_valid_upto()) || cObj.getBg_valid_upto().isEmpty()) 
+					{
+						getBG2="";
+					}
+					else
+					{
+						getBG2=cObj.getBg_valid_upto().toString();
+					}
+
+					if(getBG.indexOf("<space>")==-1 && getBG1.indexOf("<space>")==-1 && getBG2.indexOf("<space>")==-1)
 					{
 						Tr contentRow = factory.createTr();
 		
@@ -1042,40 +1084,188 @@ public class DocxTableCreationForContractReport {
 					else
 					{
 						  var search = getBG.split("<space>");
-						  String getBG1=cObj.getBg_value().toString();
 						  var search1 = getBG1.split("<space>");
-						  String getBG2=cObj.getBg_valid_upto().toString();
 						  var search2 = getBG2.split("<space>");
+						  
+						  
 						  
 						  var SerLen1=search.length;
 						  var SerLen2=search1.length;
 						  var SerLen3=search2.length;		
 						  
+						  var GrLength=0;
 						  
-						  
-						  if(SerLen1!=SerLen2)
+						  if(SerLen1>SerLen2 && SerLen1>SerLen3)
 						  {
-							  if(SerLen1>SerLen2)
+							  GrLength=SerLen1;
+							  if(SerLen2==SerLen3)
 							  {
-								  getBG1=cObj.getBg_value().toString()+"<space>\n  ";
+								  for(int i=0; i<SerLen1-SerLen2; i++)
+								  {
+									  getBG1=getBG1+"<space>\n  ";
+									  getBG2=getBG2+"<space>\n  ";
+								  }
+							  }
+							  else if(SerLen2>SerLen3)
+							  {
+								  for(int i=0; i<SerLen1-SerLen2; i++)
+								  {
+									  getBG1=getBG1+"<space>\n  ";
+								  }							  
+							  }
+							  else if(SerLen3>SerLen2)
+							  {
+								  for(int i=0; i<SerLen1-SerLen3; i++)
+								  {
+									  getBG2=getBG2+"<space>\n  ";
+								  }							  
+							  }						  
+							  
+						  }
+						  else
+						  {
+							  if(SerLen2==SerLen3)
+							  {
+								  for(int i=0; i<SerLen2-SerLen1; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+								  }
+								  GrLength=SerLen2;
+							  }
+							  else if(SerLen2>SerLen3)
+							  {
+								  for(int i=0; i<SerLen2-SerLen1; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+								  }	
+								  GrLength=SerLen2;
+							  }
+							  else if(SerLen3>SerLen2)
+							  {
+								  for(int i=0; i<SerLen3-SerLen1; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+								  }
+								  GrLength=SerLen3;
+							  }	
+							  
+						  }					  
+						  
+						  if(SerLen2>SerLen3 && SerLen2>SerLen1)
+						  {
+							  GrLength=SerLen2;
+							  if(SerLen3==SerLen1)
+							  {
+								  for(int i=0; i<SerLen2-SerLen3; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+									  getBG2=getBG2+"<space>\n  ";
+								  }
+							  }
+							  else if(SerLen1>SerLen3)
+							  {
+								  for(int i=0; i<SerLen2-SerLen1; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+								  }							  
+							  }
+							  else if(SerLen3>SerLen1)
+							  {
+								  for(int i=0; i<SerLen2-SerLen3; i++)
+								  {
+									  getBG2=getBG2+"<space>\n  ";
+								  }							  
+							  }						  
+						  }	
+						  else
+						  {
+							  if(SerLen3==SerLen1)
+							  {
+								  for(int i=0; i<SerLen3-SerLen2; i++)
+								  {
+									  getBG1=getBG1+"<space>\n  ";
+								  }
+								  GrLength=SerLen3;
+							  }
+							  else if(SerLen1>SerLen3)
+							  {
+								  for(int i=0; i<SerLen1-SerLen2; i++)
+								  {
+									  getBG1=getBG1+"<space>\n  ";
+								  }
+								  GrLength=SerLen1;
+							  }
+							  else if(SerLen3>SerLen1)
+							  {
+								  for(int i=0; i<SerLen3-SerLen2; i++)
+								  {
+									  getBG1=getBG1+"<space>\n  ";
+								  }	
+								  GrLength=SerLen3;
+							  }						  
+						  }					  
+						  
+						  
+						  if(SerLen3>SerLen1 && SerLen3>SerLen2)
+						  {
+							  GrLength=SerLen3;
+							  if(SerLen2==SerLen1)
+							  {
+								  for(int i=0; i<SerLen3-SerLen2; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+									  getBG1=getBG1+"<space>\n  ";
+								  }
+							  }
+							  else if(SerLen1>SerLen2)
+							  {
+								  for(int i=0; i<SerLen3-SerLen1; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+								  }							  
+							  }
+							  else if(SerLen2>SerLen1)
+							  {
+								  for(int i=0; i<SerLen3-SerLen2; i++)
+								  {
+									  getBG2=getBG2+"<space>\n  ";
+								  }							  
+							  }						  
+						  }
+						  else
+						  {
+							  if(SerLen2==SerLen1)
+							  {
+								  for(int i=0; i<SerLen2-SerLen3; i++)
+								  {
+									  getBG2=getBG2+"<space>\n  ";
+								  }
+								  GrLength=SerLen2;
+							  }
+							  else if(SerLen1>SerLen2)
+							  {
+								  for(int i=0; i<SerLen1-SerLen3; i++)
+								  {
+									  getBG2=getBG2+"<space>\n  ";
+								  }	
+								  GrLength=SerLen1;
+							  }
+							  else if(SerLen2>SerLen1)
+							  {
+								  for(int i=0; i<SerLen3-SerLen3; i++)
+								  {
+									  getBG2=getBG2+"<space>\n  ";
+								  }
+								  GrLength=SerLen2;
+							  }						  
+						  }
+
+							  for(int i=0; i<GrLength; i++)
+							  {
+
 								  search1 = getBG1.split("<space>");
-							  }
-							  else
-							  {
-								  getBG=cObj.getBg_number().toString()+"<space>\n  ";
 								  search = getBG.split("<space>");
-							  }
-						  }						  
-						  
-						  if(SerLen1!=SerLen3)
-						  {
-							  getBG2=cObj.getBg_valid_upto().toString()+"<space>\n  ";
-							  search2 = getBG2.split("<space>");
-						  }						  
-						  
-						  
-						  for(int i=0; i<search.length; i++)
-						  {
+								  search2 = getBG2.split("<space>");
 								Tr contentRow1 = factory.createTr();
 								
 								addTableCell(factory, wordMLPackage, contentRow1, String.valueOf(NumVal), garamondRPr, JcEnumeration.CENTER,
@@ -1098,8 +1288,8 @@ public class DocxTableCreationForContractReport {
 								
 								table.getContent().add(contentRow1);
 						  }	
-						  Total=Total+search.length;
-						  for(int i=0; i<search.length; i++)
+						  Total=Total+GrLength;
+						  for(int i=0; i<GrLength; i++)
 						  {
 							  
 								
@@ -1111,7 +1301,7 @@ public class DocxTableCreationForContractReport {
 								//mergeCellsVertically(table, 6, Concat,Total);
 								
 						  }
-							Concat=Concat+search.length;					  
+							Concat=Concat+GrLength;					  
 						  
 						  
 					}
@@ -1255,6 +1445,9 @@ public class DocxTableCreationForContractReport {
 					boolean hasBgColor = false;
 					String backgroundColor = null;
 					String getBG="";
+					String getBG1="";
+					String getBG2="";
+					
 					if (StringUtils.isEmpty(cObj.getInsurance_number()) || cObj.getInsurance_number().isEmpty()) 
 					{
 						getBG="";
@@ -1262,8 +1455,29 @@ public class DocxTableCreationForContractReport {
 					else
 					{
 						getBG=cObj.getInsurance_number().toString();
+					}					
+					
+
+					if (StringUtils.isEmpty(cObj.getInsurance_value()) || cObj.getInsurance_value().isEmpty()) 
+					{
+						getBG1="";
 					}
-					if(getBG.indexOf("<space>")==-1)
+					else
+					{
+						getBG1=cObj.getInsurance_value().toString();
+					}
+					
+					
+					if (StringUtils.isEmpty(cObj.getInsurance_valid_upto()) || cObj.getInsurance_valid_upto().isEmpty()) 
+					{
+						getBG2="";
+					}
+					else
+					{
+						getBG2=cObj.getInsurance_valid_upto().toString();
+					}
+
+					if(getBG.indexOf("<space>")==-1 && getBG1.indexOf("<space>")==-1 && getBG2.indexOf("<space>")==-1)
 					{
 						Tr contentRow = factory.createTr();
 		
@@ -1290,39 +1504,190 @@ public class DocxTableCreationForContractReport {
 					else
 					{
 						  var search = getBG.split("<space>");
-						  String getBG1=cObj.getInsurance_value().toString();
 						  var search1 = getBG1.split("<space>");
-						  String getBG2=cObj.getInsurance_valid_upto().toString();
 						  var search2 = getBG2.split("<space>");
+						  
+						  
 						  
 						  var SerLen1=search.length;
 						  var SerLen2=search1.length;
-						  var SerLen3=search2.length;
+						  var SerLen3=search2.length;		
 						  
-						  if(SerLen1!=SerLen2)
-						  {
-							  if(SerLen1>SerLen2)
-							  {
-								  getBG1=cObj.getInsurance_value().toString()+"<space>\n  ";
-								  search1 = getBG1.split("<space>");
-							  }
-							  else
-							  {
-								  getBG=cObj.getInsurance_number().toString()+"<space>\n  ";
-								  search = getBG.split("<space>");
-							  }
-						  }						  
+						  var GrLength=0;
 						  
-						  if(SerLen1!=SerLen3)
+						  if(SerLen1>SerLen2 && SerLen1>SerLen3)
 						  {
-							  getBG2=cObj.getInsurance_valid_upto().toString()+"<space>\n  ";
-							  search2 = getBG2.split("<space>");
+							  GrLength=SerLen1;
+							  if(SerLen2==SerLen3)
+							  {
+								  for(int i=0; i<SerLen1-SerLen2; i++)
+								  {
+									  getBG1=getBG1+"<space>\n  ";
+									  getBG2=getBG2+"<space>\n  ";
+								  }
+							  }
+							  else if(SerLen2>SerLen3)
+							  {
+								  for(int i=0; i<SerLen1-SerLen2; i++)
+								  {
+									  getBG1=getBG1+"<space>\n  ";
+								  }							  
+							  }
+							  else if(SerLen3>SerLen2)
+							  {
+								  for(int i=0; i<SerLen1-SerLen3; i++)
+								  {
+									  getBG2=getBG2+"<space>\n  ";
+								  }							  
+							  }						  
+							  
 						  }
-						  
-
-
-							  for(int i=0; i<search.length; i++)
+						  else
+						  {
+							  if(SerLen2==SerLen3)
 							  {
+								  for(int i=0; i<SerLen2-SerLen1; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+								  }
+								  GrLength=SerLen2;
+							  }
+							  else if(SerLen2>SerLen3)
+							  {
+								  for(int i=0; i<SerLen2-SerLen1; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+								  }	
+								  GrLength=SerLen2;
+							  }
+							  else if(SerLen3>SerLen2)
+							  {
+								  for(int i=0; i<SerLen3-SerLen1; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+								  }
+								  GrLength=SerLen3;
+							  }	
+							  
+						  }					  
+						  
+						  if(SerLen2>SerLen3 && SerLen2>SerLen1)
+						  {
+							  GrLength=SerLen2;
+							  if(SerLen3==SerLen1)
+							  {
+								  for(int i=0; i<SerLen2-SerLen3; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+									  getBG2=getBG2+"<space>\n  ";
+								  }
+							  }
+							  else if(SerLen1>SerLen3)
+							  {
+								  for(int i=0; i<SerLen2-SerLen1; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+								  }							  
+							  }
+							  else if(SerLen3>SerLen1)
+							  {
+								  for(int i=0; i<SerLen2-SerLen3; i++)
+								  {
+									  getBG2=getBG2+"<space>\n  ";
+								  }							  
+							  }						  
+						  }	
+						  else
+						  {
+							  if(SerLen3==SerLen1)
+							  {
+								  for(int i=0; i<SerLen3-SerLen2; i++)
+								  {
+									  getBG1=getBG1+"<space>\n  ";
+								  }
+								  GrLength=SerLen3;
+							  }
+							  else if(SerLen1>SerLen3)
+							  {
+								  for(int i=0; i<SerLen1-SerLen2; i++)
+								  {
+									  getBG1=getBG1+"<space>\n  ";
+								  }
+								  GrLength=SerLen1;
+							  }
+							  else if(SerLen3>SerLen1)
+							  {
+								  for(int i=0; i<SerLen3-SerLen2; i++)
+								  {
+									  getBG1=getBG1+"<space>\n  ";
+								  }	
+								  GrLength=SerLen3;
+							  }						  
+						  }					  
+						  
+						  
+						  if(SerLen3>SerLen1 && SerLen3>SerLen2)
+						  {
+							  GrLength=SerLen3;
+							  if(SerLen2==SerLen1)
+							  {
+								  for(int i=0; i<SerLen3-SerLen2; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+									  getBG1=getBG1+"<space>\n  ";
+								  }
+							  }
+							  else if(SerLen1>SerLen2)
+							  {
+								  for(int i=0; i<SerLen3-SerLen1; i++)
+								  {
+									  getBG=getBG+"<space>\n  ";
+								  }							  
+							  }
+							  else if(SerLen2>SerLen1)
+							  {
+								  for(int i=0; i<SerLen3-SerLen2; i++)
+								  {
+									  getBG2=getBG2+"<space>\n  ";
+								  }							  
+							  }						  
+						  }
+						  else
+						  {
+							  if(SerLen2==SerLen1)
+							  {
+								  for(int i=0; i<SerLen2-SerLen3; i++)
+								  {
+									  getBG2=getBG2+"<space>\n  ";
+								  }
+								  GrLength=SerLen2;
+							  }
+							  else if(SerLen1>SerLen2)
+							  {
+								  for(int i=0; i<SerLen1-SerLen3; i++)
+								  {
+									  getBG2=getBG2+"<space>\n  ";
+								  }	
+								  GrLength=SerLen1;
+							  }
+							  else if(SerLen2>SerLen1)
+							  {
+								  for(int i=0; i<SerLen3-SerLen3; i++)
+								  {
+									  getBG2=getBG2+"<space>\n  ";
+								  }
+								  GrLength=SerLen2;
+							  }						  
+						  }
+
+							  for(int i=0; i<GrLength; i++)
+							  {
+
+								  search1 = getBG1.split("<space>");
+								  search = getBG.split("<space>");
+								  search2 = getBG2.split("<space>");
+								  
+								  
 								  Tr contentRow1 = factory.createTr();
 								  
 									addTableCell(factory, wordMLPackage, contentRow1, String.valueOf(NumVal), garamondRPr, JcEnumeration.CENTER,
@@ -1345,8 +1710,8 @@ public class DocxTableCreationForContractReport {
 
 
 							  }	
-							  Total=Total+search.length;
-							  for(int i=0; i<search.length; i++)
+							  Total=Total+GrLength;
+							  for(int i=0; i<GrLength; i++)
 							  {
 								  
 									
@@ -1358,7 +1723,7 @@ public class DocxTableCreationForContractReport {
 									//mergeCellsVertically(table, 6, Concat,Total);
 									
 							  }
-								Concat=Concat+search.length;								  
+							  Concat=Concat+GrLength;										  
 
 							  
 								

@@ -18,5 +18,7 @@ public interface RiskReportService {
 
 	List<RiskReport> getReductionPlanRisks(RiskReport obj) throws Exception;
 
+	List<RiskReport> getSummaryOfRiskAssessmentOfProjects() throws Exception;
+
 
 }

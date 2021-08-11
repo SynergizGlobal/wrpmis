@@ -45,5 +45,10 @@ public class RiskReportServiceImpl implements RiskReportService{
 		return dao.getReductionPlanRisks(obj);
 	}
 
+	@Override
+	public List<RiskReport> getSummaryOfRiskAssessmentOfProjects() throws Exception {
+		return dao.getSummaryOfRiskAssessmentOfProjects();
+	}
+
 
 }

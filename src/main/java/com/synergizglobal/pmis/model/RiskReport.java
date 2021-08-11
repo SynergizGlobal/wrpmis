@@ -5,11 +5,76 @@ import java.util.List;
 public class RiskReport {
 	private String risk_revision_id,work_id_fk,sub_work,risk_id,date,area,area_item_no,sub_area,sub_area_item_no,revision_id,assessment_date,
 	priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan,action_taken,atr_date,
-	work_id,work_short_name,project_id,project_name,work_name,project_id_fk,estimatedOrRevisedCost,estimatedOrRevisedDate;
+	work_id,work_short_name,project_id,project_name,work_name,project_id_fk,estimatedOrRevisedCost,estimatedOrRevisedDate,
+	last_assessment_date,risk_score,total_risk_rating,total_high_risks,total_substantial_risks,total_moderate_risks,total_priority_risks,atr_submitted;
 	
 	private List<RiskReport> areaList;
 	private List<RiskReport> subAreaList; 
 
+
+	public String getLast_assessment_date() {
+		return last_assessment_date;
+	}
+
+	public void setLast_assessment_date(String last_assessment_date) {
+		this.last_assessment_date = last_assessment_date;
+	}
+
+	public String getRisk_score() {
+		return risk_score;
+	}
+
+	public void setRisk_score(String risk_score) {
+		this.risk_score = risk_score;
+	}
+
+	public String getTotal_risk_rating() {
+		return total_risk_rating;
+	}
+
+	public void setTotal_risk_rating(String total_risk_rating) {
+		this.total_risk_rating = total_risk_rating;
+	}
+
+	public String getTotal_high_risks() {
+		return total_high_risks;
+	}
+
+	public void setTotal_high_risks(String total_high_risks) {
+		this.total_high_risks = total_high_risks;
+	}
+
+	public String getTotal_substantial_risks() {
+		return total_substantial_risks;
+	}
+
+	public void setTotal_substantial_risks(String total_substantial_risks) {
+		this.total_substantial_risks = total_substantial_risks;
+	}
+
+	public String getTotal_moderate_risks() {
+		return total_moderate_risks;
+	}
+
+	public void setTotal_moderate_risks(String total_moderate_risks) {
+		this.total_moderate_risks = total_moderate_risks;
+	}
+
+	public String getTotal_priority_risks() {
+		return total_priority_risks;
+	}
+
+	public void setTotal_priority_risks(String total_priority_risks) {
+		this.total_priority_risks = total_priority_risks;
+	}
+
+	public String getAtr_submitted() {
+		return atr_submitted;
+	}
+
+	public void setAtr_submitted(String atr_submitted) {
+		this.atr_submitted = atr_submitted;
+	}
 
 	public String getArea_item_no() {
 		return area_item_no;

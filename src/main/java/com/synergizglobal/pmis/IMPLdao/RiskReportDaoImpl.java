@@ -203,5 +203,31 @@ public class RiskReportDaoImpl implements RiskReportDao{
 		return objsList;
 	}
 
+	@Override
+	public List<RiskReport> getSummaryOfRiskAssessmentOfProjects() throws Exception {
+		List<RiskReport> objsList = null;
+		try {
+			String qry = "select r.sub_work,DATE_FORMAT(max(rr.date),'%d-%m-%Y') as last_assessment_date,rr.owner," + 
+					"(select max(probability)*max(impact) from risk_revision where risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as risk_score, " + 
+					"(select sum(probability*impact) from risk_revision where risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as total_risk_rating," + 
+					"(select count(classification) from risk_revision_view where classification = 'High' and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as total_high_risks," + 
+					"(select count(classification) from risk_revision_view where classification = 'Substantial' and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as total_substantial_risks," + 
+					"(select count(classification) from risk_revision_view where classification = 'Moderate' and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as total_moderate_risks," + 
+					"(select count(priority_fk) from risk_revision where priority_fk <> 'Accepted' and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as total_priority_risks," + 
+					"(select count(risk_revision_id_fk) from risk_action where risk_revision_id_fk in(select risk_revision_id from risk_revision where risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work))) as atr_submitted " + 
+					"from risk r " + 
+					"LEFT JOIN risk_revision rr on rr.risk_id_pk_fk = r.risk_id_pk " + 
+					"LEFT JOIN risk_work_hod rwh on rwh.sub_work = r.sub_work " + 
+					"WHERE (rwh.risk_work_completed is null or rwh.risk_work_completed = '' or rwh.risk_work_completed = 'No') group by r.sub_work";
+			
+					
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 
 }

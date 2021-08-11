@@ -1937,6 +1937,182 @@ public class DocxTableCreation {
 		setTableAlign(factory, table, JcEnumeration.CENTER);
 		t.addObject(table);
 	}
+
+
+	public static void createTableForSummaryOfRiskAssessmentOfProjectsReport(WordprocessingMLPackage wordMLPackage,
+			MainDocumentPart mp, ObjectFactory factory, List<RiskReport> summaryOfRiskAssessment) throws Exception {
+		try {
+			
+			RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
+					true, false, false, false);
+			
+			RPr contentRpr = getRPr(factory, "Calibri", "000000", "14",
+					STHint.EAST_ASIA, false, false, false, false);
+			
+			RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
+					STHint.EAST_ASIA, true, false, false, false);	
+			
+			RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
+					true, true, false, false);
+			RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+					true, false, false, false);
+			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
+					false, false, false, false);		
+			
+			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
+					true, false, false, false);
+			RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+					true, false, false, false);	
+			
+			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+					true, false, false, false);
+			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+					false, false, false, false);
+			
+			
+			/****************************************************************************/
+			Tbl table = factory.createTbl();
+			addBorders(table, "2");
+		
+			Tr titleRow = factory.createTr();		
+			List<String> tableHeader = new ArrayList<String>();
+			tableHeader.add("SN");
+			tableHeader.add("Work");
+			tableHeader.add("Owner");
+			tableHeader.add("Last \nAssessment \nDate");
+			tableHeader.add("Risk Score");
+			tableHeader.add("Total Risk\nRating"); 
+			tableHeader.add("Open Risks (nos)");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("Priority Risks (nos)");
+			tableHeader.add("");
+			int columnNo = 1;
+			for (String headerValue : tableHeader) {
+				int width = 0;
+				if(1 == columnNo) {
+					width = 100;
+				}else if(2 == columnNo) {
+					width = 1000;
+				}else if(3 == columnNo) {
+					width = 500;
+				}else if(4 == columnNo) {
+					width = 600;
+				}else if(5 == columnNo) {
+					width = 400;
+				}else if(6 == columnNo) {
+					width = 400;
+				}else if(7 == columnNo) {
+					width = 300;
+				}else if(8 == columnNo) {
+					width = 500;
+				}else if(9 == columnNo) {
+					width = 400;
+				}else if(10 == columnNo) {
+					width = 300;
+				}else if(11 == columnNo) {
+					width = 500;
+				}
+				columnNo++;
+				addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
+						"ecf2ff",width);
+			}		
+			table.getContent().add(titleRow);
+			mergeCellsHorizontal(table, 0, 6, 8);
+			mergeCellsHorizontal(table, 0, 9, 10);
+			
+			titleRow = factory.createTr();		
+			tableHeader = new ArrayList<String>();
+			
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("High");
+			tableHeader.add("Substantial");
+			tableHeader.add("Moderate");
+			tableHeader.add("Total");
+			tableHeader.add("ATR Submitted");
+			columnNo = 1;
+			for (String headerValue : tableHeader) {
+				int width = 0;
+				if(1 == columnNo) {
+					width = 100;
+				}else if(2 == columnNo) {
+					width = 1000;
+				}else if(3 == columnNo) {
+					width = 500;
+				}else if(4 == columnNo) {
+					width = 600;
+				}else if(5 == columnNo) {
+					width = 400;
+				}else if(6 == columnNo) {
+					width = 400;
+				}else if(7 == columnNo) {
+					width = 300;
+				}else if(8 == columnNo) {
+					width = 500;
+				}else if(9 == columnNo) {
+					width = 400;
+				}else if(10 == columnNo) {
+					width = 300;
+				}else if(11 == columnNo) {
+					width = 500;
+				}
+				columnNo++;
+				addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
+						"ecf2ff",width);
+			}		
+			table.getContent().add(titleRow);
+			mergeCellsVertically(table, 0, 0, 1);
+			mergeCellsVertically(table, 1, 0, 1);
+			mergeCellsVertically(table, 2, 0, 1);
+			mergeCellsVertically(table, 3, 0, 1);
+			mergeCellsVertically(table, 4, 0, 1);
+			mergeCellsVertically(table, 5, 0, 1);
+			
+			if(!StringUtils.isEmpty(summaryOfRiskAssessment) && summaryOfRiskAssessment.size() > 0) {
+				int sNo = 1;
+				for (RiskReport pObj : summaryOfRiskAssessment) {
+					Tr contentRow = factory.createTr();					
+					boolean hasBgColor = false;
+					String backgroundColor = null;
+					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getSub_work(),
+							garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getOwner(),
+							garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getLast_assessment_date(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getRisk_score(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getTotal_risk_rating(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getTotal_high_risks(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);		
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getTotal_substantial_risks(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getTotal_moderate_risks(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getTotal_priority_risks(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getAtr_submitted(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					
+					table.getContent().add(contentRow);
+				}
+			}
+			/****************************************************************************************/			
+			
+			setTableAlignFixed(factory, table, JcEnumeration.CENTER);
+			mp.addObject(table);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+	}
     
     
 

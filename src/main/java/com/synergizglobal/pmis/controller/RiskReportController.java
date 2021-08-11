@@ -275,6 +275,73 @@ public class RiskReportController {
 		return flag;
 	}
 	
+	@RequestMapping(value = "/summary-of-risk-assessment-of-projects", method = {RequestMethod.GET,RequestMethod.POST})
+	public void summaryOfRiskAssessmentOfProjects(HttpServletResponse response) {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		try{
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+						
+			List<RiskReport> summaryOfRiskAssessment = riskReportService.getSummaryOfRiskAssessmentOfProjects();
+			
+			boolean landscape = true;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+			String report_created_date = df.format(new Date()); 
+			
+			
+			String imagePath = CommonConstants2.DOCX_LOGO+"/"+"report_logo_mrvc.png";
+			
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
+			
+			String headerTextMiddle = "Summary of Risk Assessment of Projects";
+
+			String headerTextRight = report_created_date;
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);		
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerTextRight);
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreation.createTableForSummaryOfRiskAssessmentOfProjectsReport(wordMLPackage, mp, factory,summaryOfRiskAssessment);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "SummaryOfRiskAssessmentOfProjectsReport-" + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("summaryOfRiskAssessmentOfProjects >> FileNotFoundException occurs.." + e.getMessage());
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("summaryOfRiskAssessmentOfProjects >> " + e.getMessage());
+		}
+	}
+	
 	/**
 	 * Creates a WordprocessingMLPackage, using default page size and orientation.
 	 * From 2.7.1, these are read from docx4j.properties, or if not found, default

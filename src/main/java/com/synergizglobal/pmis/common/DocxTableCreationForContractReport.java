@@ -577,13 +577,59 @@ public class DocxTableCreationForContractReport {
 				}
 				table.getContent().add(titleRow);
 				int sNo = 1;
+				int NumVal=1;
+				int Total=0;
+				int Concat=NumVal;
+				int lenGr=0;
 				for (Contract cObj : hodEntry.getValue()) 
-				{	
+				{	lenGr=0;
+				
 					boolean hasBgColor = false;
 					String backgroundColor = null;
+					
+					String getBG="";
+					String getBG1="";
+					String getBG2="";
+			
+					
+					
+					if (StringUtils.isEmpty(cObj.getBg_valid_upto()) || cObj.getBg_valid_upto().isEmpty()) 
+					{
+						getBG="";
+					}
+					else
+					{
+						getBG=cObj.getBg_valid_upto().toString();
+					}					
+					
+
+					if (StringUtils.isEmpty(cObj.getInsurance_valid_upto()) || cObj.getInsurance_valid_upto().isEmpty()) 
+					{
+						getBG1="";
+					}
+					else
+					{
+						getBG1=cObj.getInsurance_valid_upto().toString();
+					}
+					
+					
+					if (StringUtils.isEmpty(cObj.getContractAlertRemarks()) || cObj.getContractAlertRemarks().isEmpty()) 
+					{
+						getBG2="";
+					}
+					else
+					{
+						getBG2=cObj.getContractAlertRemarks().toString();
+					}				
+					
+					
+					
+					if(getBG.indexOf("<space>")==-1 && getBG1.indexOf("<space>")==-1 && getBG2.indexOf("<space>")==-1)
+					{					
+					
 					Tr contentRow = factory.createTr();
 	
-					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), garamondRPr, JcEnumeration.CENTER,
+					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(NumVal), garamondRPr, JcEnumeration.CENTER,
 							hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_short_name(), garamondRPr,
 							JcEnumeration.LEFT, hasBgColor, backgroundColor);
@@ -600,11 +646,234 @@ public class DocxTableCreationForContractReport {
 					
 					table.getContent().add(contentRow);
 					
+					Concat=Concat+1;
+					Total=Total+1;
+					lenGr=1;
+					
+				}
+				else
+				{					
+					  var search = getBG.split("<space>");
+					  var search1 = getBG1.split("<space>");
+					  var search2 = getBG2.split("<space>");
+					  
+					  
+					  
+					  var SerLen1=search.length;
+					  var SerLen2=search1.length;
+					  var SerLen3=search2.length;		
+					  
+					  var GrLength=0;
+					  
+					  if(SerLen1>SerLen2 && SerLen1>SerLen3)
+					  {
+						  GrLength=SerLen1;
+						  if(SerLen2==SerLen3)
+						  {
+							  for(int i=0; i<SerLen1-SerLen2; i++)
+							  {
+								  getBG1=getBG1+"<space>\n  ";
+								  getBG2=getBG2+"<space>\n  ";
+							  }
+						  }
+						  else if(SerLen2>SerLen3)
+						  {
+							  for(int i=0; i<SerLen1-SerLen2; i++)
+							  {
+								  getBG1=getBG1+"<space>\n  ";
+							  }							  
+						  }
+						  else if(SerLen3>SerLen2)
+						  {
+							  for(int i=0; i<SerLen1-SerLen3; i++)
+							  {
+								  getBG2=getBG2+"<space>\n  ";
+							  }							  
+						  }						  
+						  
+					  }
+					  else
+					  {
+						  if(SerLen2==SerLen3)
+						  {
+							  for(int i=0; i<SerLen2-SerLen1; i++)
+							  {
+								  getBG=getBG+"<space>\n  ";
+							  }
+						  }
+						  else if(SerLen2>SerLen3)
+						  {
+							  for(int i=0; i<SerLen2-SerLen1; i++)
+							  {
+								  getBG=getBG+"<space>\n  ";
+							  }							  
+						  }
+						  else if(SerLen3>SerLen2)
+						  {
+							  for(int i=0; i<SerLen3-SerLen1; i++)
+							  {
+								  getBG=getBG+"<space>\n  ";
+							  }							  
+						  }						  
+					  }					  
+					  
+					  if(SerLen2>SerLen3 && SerLen2>SerLen1)
+					  {
+						  GrLength=SerLen2;
+						  if(SerLen3==SerLen1)
+						  {
+							  for(int i=0; i<SerLen2-SerLen3; i++)
+							  {
+								  getBG=getBG+"<space>\n  ";
+								  getBG2=getBG2+"<space>\n  ";
+							  }
+						  }
+						  else if(SerLen1>SerLen3)
+						  {
+							  for(int i=0; i<SerLen2-SerLen1; i++)
+							  {
+								  getBG=getBG+"<space>\n  ";
+							  }							  
+						  }
+						  else if(SerLen3>SerLen1)
+						  {
+							  for(int i=0; i<SerLen2-SerLen3; i++)
+							  {
+								  getBG2=getBG2+"<space>\n  ";
+							  }							  
+						  }						  
+					  }	
+					  else
+					  {
+						  if(SerLen3==SerLen1)
+						  {
+							  for(int i=0; i<SerLen3-SerLen2; i++)
+							  {
+								  getBG1=getBG1+"<space>\n  ";
+							  }
+						  }
+						  else if(SerLen1>SerLen3)
+						  {
+							  for(int i=0; i<SerLen1-SerLen2; i++)
+							  {
+								  getBG1=getBG1+"<space>\n  ";
+							  }							  
+						  }
+						  else if(SerLen3>SerLen1)
+						  {
+							  for(int i=0; i<SerLen3-SerLen2; i++)
+							  {
+								  getBG1=getBG1+"<space>\n  ";
+							  }							  
+						  }						  
+					  }					  
+					  
+					  
+					  if(SerLen3>SerLen1 && SerLen3>SerLen2)
+					  {
+						  GrLength=SerLen3;
+						  if(SerLen2==SerLen1)
+						  {
+							  for(int i=0; i<SerLen3-SerLen2; i++)
+							  {
+								  getBG=getBG+"<space>\n  ";
+								  getBG1=getBG1+"<space>\n  ";
+							  }
+						  }
+						  else if(SerLen1>SerLen2)
+						  {
+							  for(int i=0; i<SerLen3-SerLen1; i++)
+							  {
+								  getBG=getBG+"<space>\n  ";
+							  }							  
+						  }
+						  else if(SerLen2>SerLen1)
+						  {
+							  for(int i=0; i<SerLen3-SerLen2; i++)
+							  {
+								  getBG2=getBG2+"<space>\n  ";
+							  }							  
+						  }						  
+					  }
+					  else
+					  {
+						  if(SerLen2==SerLen1)
+						  {
+							  for(int i=0; i<SerLen2-SerLen3; i++)
+							  {
+								  getBG2=getBG2+"<space>\n  ";
+							  }
+						  }
+						  else if(SerLen1>SerLen2)
+						  {
+							  for(int i=0; i<SerLen1-SerLen3; i++)
+							  {
+								  getBG2=getBG2+"<space>\n  ";
+							  }							  
+						  }
+						  else if(SerLen2>SerLen1)
+						  {
+							  for(int i=0; i<SerLen3-SerLen3; i++)
+							  {
+								  getBG2=getBG2+"<space>\n  ";
+							  }							  
+						  }						  
+					  }
+
+					  lenGr=0;
+						  for(int i=0; i<GrLength; i++)
+						  {
+
+							  search1 = getBG1.split("<space>");
+							  search = getBG.split("<space>");
+							  search2 = getBG2.split("<space>");
+							  
+							  
+							  
+							  
+							  Tr contentRow1 = factory.createTr();
+							  
+								addTableCell(factory, wordMLPackage, contentRow1, String.valueOf(NumVal), garamondRPr, JcEnumeration.CENTER,
+										hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow1, cObj.getContract_short_name(), garamondRPr,
+										JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow1, cObj.getContractor_name(), garamondRPr,
+										JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow1, cObj.getDoc(), garamondRPr, JcEnumeration.CENTER,
+										hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow1, search[i], garamondRPr, JcEnumeration.CENTER,
+										hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow1, search1[i], garamondRPr, JcEnumeration.CENTER,
+										hasBgColor, backgroundColor);					
+								addTableCell(factory, wordMLPackage, contentRow1,  search2[i], garamondRPr,
+										JcEnumeration.LEFT, hasBgColor, backgroundColor);								  
+							  
+							  
+								table.getContent().add(contentRow1);
+
+
+						  }	
+						  Total=Total+GrLength;
+						  for(int i=0; i<GrLength; i++)
+						  {
+							  lenGr=1;
+								mergeCellsVertically(table, 0,Concat, Total);
+								mergeCellsVertically(table, 1, Concat, Total);
+								mergeCellsVertically(table, 2, Concat, Total);
+								mergeCellsVertically(table, 3, Concat,Total);
+								
+						  }
+							Concat=Concat+GrLength;	
+				}
+					if(lenGr==1)
+					{
+						NumVal=NumVal+1;
+					}
 				}
 				
 				if (StringUtils.isEmpty(hodEntry.getValue()) || hodEntry.getValue().isEmpty()) {
-					boolean hasBgColor = false;
-					String backgroundColor = null;
+				boolean hasBgColor1 = false;
+					String backgroundColor1 = null;
 					Tr contentRow = factory.createTr();
 
 					List<String> noDataRow = new ArrayList<String>();
@@ -615,7 +884,7 @@ public class DocxTableCreationForContractReport {
 
 					for (String headerValue : noDataRow) {
 						addTableCellAndWidth(factory, wordMLPackage, contentRow, headerValue, garamondRPr, JcEnumeration.CENTER,
-								hasBgColor, backgroundColor,0);
+								hasBgColor1, backgroundColor1,0);
 					}
 					table.getContent().add(contentRow);
 					mergeCellsHorizontal(table, 1, 0, 5);

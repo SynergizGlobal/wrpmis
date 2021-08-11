@@ -1,6 +1,5 @@
 package com.synergizglobal.pmis.IMPLdao;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,11 +8,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,12 +29,9 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
-import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.BankGuarantee;
 import com.synergizglobal.pmis.model.Contract;
-import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Insurence;
-import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.User;
 
@@ -305,6 +301,52 @@ public class ContractDaoImpl implements ContractDao {
 			
 			int arraySize = 0;
 			if(flag) {
+				
+				/*******************************************************************************************/
+				if(!StringUtils.isEmpty(contract.getResponsible_people_id_fks()) && contract.getResponsible_people_id_fks().length > 0) {
+					contract.setResponsible_people_id_fks(CommonMethods.replaceEmptyByNullInSringArray(contract.getResponsible_people_id_fks()));
+					if(arraySize < contract.getResponsible_people_id_fks().length) {
+						arraySize = contract.getResponsible_people_id_fks().length;
+					}
+				}
+				
+				if(!StringUtils.isEmpty(contract.getDepartment_fks()) && contract.getDepartment_fks().length > 0) {
+					contract.setDepartment_fks(CommonMethods.replaceEmptyByNullInSringArray(contract.getDepartment_fks()));
+					if(arraySize < contract.getDepartment_fks().length) {
+						arraySize = contract.getDepartment_fks().length;
+					}
+				}
+				
+				if(!StringUtils.isEmpty(contract.getDepartment_fks())) {
+					String file_insert_qry = "INSERT into  contract_executive (contract_id_fk, department_id_fk, executive_user_id_fk) VALUES (?,?,?)";
+					PreparedStatement multiExecutiveStmt = con.prepareStatement(file_insert_qry);
+					int len = contract.getDepartment_fks().length;
+					for(int i =0; i< len; i++) {
+						int  j = 0;
+						while ( j < contract.getFilecounts()[i] ){
+							int ffffff = contract.getFilecounts()[i];
+						    int k = 1;
+						    int a = r++;  
+						    if(i <= (len)){
+						    	String deptName = contract.getDepartment_fks()[i];
+						    	if(!StringUtils.isEmpty(deptName)) {
+									multiExecutiveStmt.setString(k++,(contract.getContract_id()));
+									multiExecutiveStmt.setString(k++,(deptName));
+									multiExecutiveStmt.setString(k++,(contract.getResponsible_people_id_fks().length > 0)?contract.getResponsible_people_id_fks()[a]:null);
+									multiExecutiveStmt.addBatch();
+						    	}
+								j++;
+						    }else{
+						    	j++;
+						    }
+						}
+					}
+					int[] insertCount = multiExecutiveStmt.executeBatch();
+					if(multiExecutiveStmt != null){multiExecutiveStmt.close();}
+				}
+				
+				/*******************************************************************************************/
+				
 				String BankG_qry = "INSERT into  bank_guarantee (bg_type_fk,issuing_bank,"
 						+"bg_number,bg_value,valid_upto,contract_id_fk,code,bg_date,release_date,bg_value_units) "
 						+"VALUES (?,?,?,?,?,?,?,?,?,?)";
@@ -386,51 +428,7 @@ public class ContractDaoImpl implements ContractDao {
 			    c = stmt.executeBatch();
 				if(stmt != null){stmt.close();}
 				
-				if(!StringUtils.isEmpty(contract.getResponsible_people_id_fks()) && contract.getResponsible_people_id_fks().length > 0) {
-					contract.setResponsible_people_id_fks(CommonMethods.replaceEmptyByNullInSringArray(contract.getResponsible_people_id_fks()));
-					if(arraySize < contract.getResponsible_people_id_fks().length) {
-						arraySize = contract.getResponsible_people_id_fks().length;
-					}
-				}
 				
-				if(!StringUtils.isEmpty(contract.getDepartment_fks()) && contract.getDepartment_fks().length > 0) {
-					contract.setDepartment_fks(CommonMethods.replaceEmptyByNullInSringArray(contract.getDepartment_fks()));
-					if(arraySize < contract.getDepartment_fks().length) {
-						arraySize = contract.getDepartment_fks().length;
-					}
-				}
-				
-				if(!StringUtils.isEmpty(contract.getDepartment_fks())) {
-					String file_insert_qry = "INSERT into  contract_executive (contract_id_fk, department_id_fk, executive_user_id_fk) VALUES (?,?,?)";
-					PreparedStatement multiExecutiveStmt = con.prepareStatement(file_insert_qry);
-					int len = contract.getDepartment_fks().length;
-					for(int i =0; i< len; i++) {
-						int  j = 0;
-						while ( j < contract.getFilecounts()[i] ) 
-						{
-							int ffffff = contract.getFilecounts()[i];
-						    int k = 1;
-						    int a = r++;  
-						    if(i <= (len))
-						    {
-						    	String deptName = contract.getDepartment_fks()[i];
-						    	if(!StringUtils.isEmpty(deptName)) {
-									multiExecutiveStmt.setString(k++,(contract.getContract_id()));
-									multiExecutiveStmt.setString(k++,(deptName));
-									multiExecutiveStmt.setString(k++,(contract.getResponsible_people_id_fks().length > 0)?contract.getResponsible_people_id_fks()[a]:null);
-									multiExecutiveStmt.addBatch();
-						    	}
-								 j++;
-						    }else 
-						    {
-						    	 j++;
-						    }
-						}
-					}
-					//if(multiExecutiveStmt != null){multiExecutiveStmt.close();}
-					int[] insertCount1 = multiExecutiveStmt.executeBatch();
-
-				}
 				
 				String Insurence_qry = "INSERT into  insurance (insurance_type_fk,issuing_agency,agency_address,"
 									+"insurance_number,insurance_value,valid_upto,remarks,contract_id_fk,revision,released_fk,insurance_value_units) "
@@ -782,14 +780,55 @@ public class ContractDaoImpl implements ContractDao {
 				
 				/**********************************************************************************************/
 				
+				con.commit();
+				
 				/********************************************************************************/
 				
 				if(!StringUtils.isEmpty(contract.getHod_user_id_fk()) && !StringUtils.isEmpty(contract.getDy_hod_user_id_fk())) {
 					NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-					String userIds[]  = {contract.getHod_user_id_fk(),contract.getDy_hod_user_id_fk()};
+					
+					int arrSize = 2;					
+					List<Contract> departments = getDepartmentList(contract_id, con);
+					for (Contract dept : departments) {
+						int size = dept.getExecutivesList().size();
+						arrSize = arrSize + size;
+					}
+					
+					String fobExecutivesQry = "select responsible_people_id_fk as executive_user_id_fk from fob_responsible_people where fob_id_fk in(select fob_id_fk from fob_contract where contract_id_fk = ? group by fob_id_fk) group by responsible_people_id_fk";
+					List<Contract> fobExecutives = jdbcTemplate.query( fobExecutivesQry,new Object[]{contract_id}, new BeanPropertyRowMapper<Contract>(Contract.class));
+					if(!StringUtils.isEmpty(fobExecutives) && fobExecutives.size() > 0) {
+						arrSize = arrSize + fobExecutives.size();
+					}
+					int i = 0;
+					String userIds[]  = new String[arrSize];
+					userIds[i++] = contract.getHod_user_id_fk();
+					userIds[i++] = contract.getDy_hod_user_id_fk();
+					for (Contract dept : departments) {
+						for (Contract exec : dept.getExecutivesList()) {
+							userIds[i++] = exec.getExecutive_user_id_fk();
+						}
+					}
+					if(!StringUtils.isEmpty(fobExecutives) && fobExecutives.size() > 0) {
+						for (Contract fobExec : fobExecutives) {
+							userIds[i++] = fobExec.getExecutive_user_id_fk();
+						}
+					}
+					
+					for(int k=0; k<userIds.length-1; k++) {
+				         for (int j=k+1; j<userIds.length; j++) {
+				            if(userIds[k] == userIds[j]) {
+				            	userIds = ArrayUtils.remove(userIds, j);
+				            }
+				         }
+				    }
+					
+					//String userIds[]  = {contract.getHod_user_id_fk(),contract.getDy_hod_user_id_fk()};
+					
 					String messageType = "Contract";
 					String redirect_url = null;
-					String message = "New contract "+contract.getContract_short_name()+" is adeed under work "+contract.getWork_short_name()+" on PMIS ";
+					String contract_name = contract.getContract_short_name();
+					if(StringUtils.isEmpty(contract_name)) {contract_name = contract.getContract_name();}
+					String message = "New contract "+contract_name+" is adeed under work "+contract.getWork_short_name()+" on PMIS ";
 					 
 					Messages msgObj = new Messages();
 					msgObj.setUser_ids(userIds);
@@ -799,9 +838,7 @@ public class ContractDaoImpl implements ContractDao {
 					messagesDao.addMessages(msgObj,template);
 				}
 				/********************************************************************************/
-			}
-			
-			con.commit();
+			}			
 		}catch(Exception e){ 
 			con.rollback();
 			e.printStackTrace();

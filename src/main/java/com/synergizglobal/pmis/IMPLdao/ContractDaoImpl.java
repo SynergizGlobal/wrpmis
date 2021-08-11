@@ -794,11 +794,6 @@ public class ContractDaoImpl implements ContractDao {
 						arrSize = arrSize + size;
 					}
 					
-					String fobExecutivesQry = "select responsible_people_id_fk as executive_user_id_fk from fob_responsible_people where fob_id_fk in(select fob_id_fk from fob_contract where contract_id_fk = ? group by fob_id_fk) group by responsible_people_id_fk";
-					List<Contract> fobExecutives = jdbcTemplate.query( fobExecutivesQry,new Object[]{contract_id}, new BeanPropertyRowMapper<Contract>(Contract.class));
-					if(!StringUtils.isEmpty(fobExecutives) && fobExecutives.size() > 0) {
-						arrSize = arrSize + fobExecutives.size();
-					}
 					int i = 0;
 					String userIds[]  = new String[arrSize];
 					userIds[i++] = contract.getHod_user_id_fk();
@@ -806,11 +801,6 @@ public class ContractDaoImpl implements ContractDao {
 					for (Contract dept : departments) {
 						for (Contract exec : dept.getExecutivesList()) {
 							userIds[i++] = exec.getExecutive_user_id_fk();
-						}
-					}
-					if(!StringUtils.isEmpty(fobExecutives) && fobExecutives.size() > 0) {
-						for (Contract fobExec : fobExecutives) {
-							userIds[i++] = fobExec.getExecutive_user_id_fk();
 						}
 					}
 					

@@ -20,6 +20,9 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.ActivitiesBulkUpdateDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.StripChart;
 @Repository
@@ -89,12 +92,59 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		}
 		return objsList;
 	}
+	
+	
+ 	private List<StripChart> getExecutivesList(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry ="SELECT id, w.work_name,w.work_short_name,f.contract_id_fk as contract_id,"
+					+ "w.project_id_fk,p.project_name,c.hod_user_id_fk as hod_user_id,u.designation,us.designation as dy_hod_designation,u.user_name,"
+					+ "c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_status_fk,c.dy_hod_user_id_fk as dy_hod_user_id,"
+					+ "c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,f.fob_id,f.fob_name,f.work_status_fk"
+					+ " FROM fob_responsible_people ce "
+					+ "LEFT JOIN fob f on f.fob_id = ce.fob_id_fk "
+					+ "LEFT JOIN contract c on c.contract_id = f.contract_id_fk "+
+					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
+					"left join project p on w.project_id_fk = p.project_id " + 
+					"left join user u on c.hod_user_id_fk = u.user_id "+
+					"left join user us on c.dy_hod_user_id_fk = us.user_id where contract_id is not null ";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and f.work_id_fk = ?";
+				arrSize++;
+			}	
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id()) && !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
+				qry = qry + " and  responsible_people_id_fk = ? ";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}	
 
 	@Override
 	public List<StripChart> getAcivitiesBulkUpdateContractsList(StripChart obj) throws Exception {
 		List<StripChart> objsList = new ArrayList<StripChart>();
+		List<StripChart> objsList1 = null;
 		try {
-			String qry = "select a.contract_id_fk as contract_id,c.work_id_fk,c.contract_name,c.contract_short_name "
+			String qry = "select distinct a.contract_id_fk as contract_id,c.work_id_fk,c.contract_name,c.contract_short_name "
 					+ "from activities a "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
 					
@@ -104,6 +154,12 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+			}			
+			
 			qry = qry + " group by a.contract_id_fk ORDER BY a.contract_id_fk ASC ";
 			
 			Object[] pValues = new Object[arrSize];
@@ -113,30 +169,29 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				objsList1 = getExecutivesList(obj);	
+			
+			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
-			
-			//List<StripChart> list = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
-			
-			/*for (StripChart contractObj : list) {
-				String structures_count_qry = "select count(*) from activities s "
-						+ "where s.fob_id_fk is not null and s.fob_id_fk <> '' and s.contract_id_fk = ? "
-						+ "and (select count(*) from activities s1 where s1.status <> ? "
-						+ "and s1.contract_id_fk = ? and s1.fob_id_fk = s.fob_id_fk) > 0 ";
-				
-				
-				arrSize = 3;			
-				pValues = new Object[arrSize];
-				i = 0;
-				pValues[i++] = contractObj.getContract_id();
-				pValues[i++] = CommonConstants2.STATUS_COMPLETED;
-				pValues[i++] = contractObj.getContract_id();
-				
-				int c = jdbcTemplate.queryForObject( structures_count_qry, pValues ,Integer.class);	
-				if(c > 0) {
-					objsList.add(contractObj);
-				}
-			}	*/
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				for (StripChart con : objsList1) {
+			        boolean found=false;
+			        for (StripChart con1 : objsList) {
+			            if ((con.getContract_id().equals(con1.getContract_id()))) {
+			                found=true;
+			                break;
+			            }
+			        }
+			        if(!found){
+			        	objsList.add(con);
+			        }
+			    }
+			}			
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return objsList;

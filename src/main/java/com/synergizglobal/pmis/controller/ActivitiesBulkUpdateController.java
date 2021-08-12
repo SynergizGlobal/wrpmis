@@ -23,6 +23,7 @@ import com.synergizglobal.pmis.Iservice.ActivitiesBulkUpdateService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.StripChart;
+import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class ActivitiesBulkUpdateController {
@@ -43,6 +44,12 @@ public class ActivitiesBulkUpdateController {
 	public ModelAndView AcivitiesBulkUpload(@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView(PageConstants.activitiesBulkUpdate);
 		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			List<StripChart> projectsList = activitiesBulkUpdateService.getAcivitiesBulkUpdateProjectsList(obj);
 			model.addObject("projectsList", projectsList);
 			
@@ -60,9 +67,13 @@ public class ActivitiesBulkUpdateController {
 	
 	@RequestMapping(value = "/ajax/getAcivitiesBulkUpdateProjectsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChart> getAcivitiesBulkUpdateProjectsList(@ModelAttribute StripChart obj){
+	public List<StripChart> getAcivitiesBulkUpdateProjectsList(@ModelAttribute StripChart obj,HttpSession session){
 		List<StripChart> projects = null;
 		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
 			projects = activitiesBulkUpdateService.getAcivitiesBulkUpdateProjectsList(obj);			
 		}catch(Exception e){
 			logger.error("getAcivitiesBulkUpdateProjectsList() : "+e.getMessage());
@@ -72,9 +83,13 @@ public class ActivitiesBulkUpdateController {
 	
 	@RequestMapping(value = "/ajax/getAcivitiesBulkUpdateWorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChart> getAcivitiesBulkUpdateWorksList(@ModelAttribute StripChart obj){
+	public List<StripChart> getAcivitiesBulkUpdateWorksList(@ModelAttribute StripChart obj,HttpSession session){
 		List<StripChart> works = null;
 		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
 			works = activitiesBulkUpdateService.getAcivitiesBulkUpdateWorksList(obj);			
 		}catch(Exception e){
 			logger.error("getAcivitiesBulkUpdateWorksList() : "+e.getMessage());
@@ -84,9 +99,13 @@ public class ActivitiesBulkUpdateController {
 	
 	@RequestMapping(value = "/ajax/getAcivitiesBulkUpdateContractsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChart> getAcivitiesBulkUpdateContractsList(@ModelAttribute StripChart obj){
+	public List<StripChart> getAcivitiesBulkUpdateContractsList(@ModelAttribute StripChart obj,HttpSession session){
 		List<StripChart> contracts = null;
 		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
 			contracts = activitiesBulkUpdateService.getAcivitiesBulkUpdateContractsList(obj);			
 		}catch(Exception e){
 			e.printStackTrace();

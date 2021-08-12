@@ -481,10 +481,10 @@
 																																															
 																									<input type="hidden" name="is_new_users"/>
 																									<td data-head="Attendee" class="input-field attendee-dropdown">
-																										<select class="searchable no-reset validate-dropdown" name="attendees" id="attendees0${indexx.count }${index.count }${indexx.count }">
+																										<select class="searchable no-reset validate-dropdown" name="attendees" id="attendees0${indexx.count }${index.count }${indexx.count }" onchange="setDepartment('0${indexx.count }${index.count }${indexx.count }');">
 																											<option value="">Select Attendee</option>
 																											<c:forEach var="obj" items="${dObj.attendeesList}">
-																												<option value="${obj.attendee }" <c:if test="${dObj.attendee eq obj.attendee }">selected</c:if>>${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>
+																												<option name="${obj.department_fk }" value="${obj.attendee }" <c:if test="${dObj.attendee eq obj.attendee }">selected</c:if>>${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>
 																											</c:forEach>
 																										 </select>
 																									</td>
@@ -534,11 +534,11 @@
 																									  </select> <span id="training_category_fkError" class="error-msg"></span></td>
 																								<input type="hidden"  name="is_new_users"/>
 																								<td data-head="Attendee" class="input-field attendee-dropdown">
-																									<select class="searchable validate-dropdown" name="attendees" id="attendees0${index.count }">
+																									<select class="searchable validate-dropdown" name="attendees" id="attendees0${index.count }" onchange="setDepartment('0${index.count }');">
 																											<option value="">Select Attendee</option>
-																										<%-- 	<c:forEach var="obj" items="${attendeesList}">
-																												<option value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>
-																											</c:forEach> --%>
+																										 	<c:forEach var="obj" items="${attendeesList}">
+																												<option name="${obj.department_fk }" value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>
+																											</c:forEach> 
 																								    </select> 
 																								</td>	
 																								<input type="hidden" name="hod_user_id_fks"/>
@@ -652,10 +652,10 @@
 																											</c:forEach>
 																									</select> <span id="new_training_category_fkError" class="error-msg"></span></td>																									
 																									<td data-head="HOD" class="input-field">																											
-																                                        <select class="searchable no-reset" name="hod_user_id_fks" id="new_hod_user_id_fks0${indexx.count }${index.count }${indexx.count }" >
+																                                        <select class="searchable no-reset" name="hod_user_id_fks" id="new_hod_user_id_fks0${indexx.count }${index.count }${indexx.count }" onchange="setHODDeptList('0${indexx.count }${index.count }${indexx.count }');">
 																                                            <option value="" >Select HOD</option>  
 																                                            <c:forEach var="obj" items="${dObj.HODsList}">
-																												<option value="${obj.hod_user_id_fk }"<c:if test="${dObj.hod_user_id_fk eq obj.hod_user_id_fk }">selected</c:if>>${obj.designation }<c:if test="${not empty obj.user_name }"> - </c:if>${obj.user_name }</option>
+																												<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }"<c:if test="${dObj.hod_user_id_fk eq obj.hod_user_id_fk }">selected</c:if>>${obj.designation }</option>
 																											</c:forEach>                                         
 																                                        </select>                                   
 																									</td>
@@ -735,11 +735,11 @@
 																											</c:forEach>
 																									  </select> <span id="new_training_category_fkError" class="error-msg"></span></td>
 																								<td data-head="HOD" class="input-field">																											
-																                                        <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks0${index.count }" >
+																                                        <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks0${index.count }" onchange="setHODDeptList('0${index.count }');">
 																                                            <option value="" >Select HOD</option>  
-																                                           <%--   <c:forEach var="obj" items="${usersList}">
-																												<option value="${obj.hod_user_id_fk }">${obj.designation }<c:if test="${not empty obj.user_name }"> - </c:if>${obj.user_name }</option>
-																											</c:forEach>  --%>                                          
+																                                        <c:forEach var="obj" items="${usersList}">
+																												<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }">${obj.designation }</option>
+																											</c:forEach>                                            
 																                                        </select>                                   
 																								</td>
 																								<%-- <input type="hidden" id="rowsCounts${index.count }" name="rowsCounts"/>	 --%>
@@ -944,11 +944,11 @@
 																                            </td><input type="hidden"  name="is_new_users"/>
 																                            <td data-head="Attendee" class="input-field attendee-dropdown">
 																                                <select class="searchable validate-dropdown " name="attendees"
-																                                    id="attendees0" >   
+																                                    id="attendees0" onchange="setDepartment(0);">   
 																                                    <option value="" >Select Attendee</option>
-																                                   <%-- <c:forEach var="obj" items="${attendeesList}">
-																										'<option value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
-																									</c:forEach>      --%>                             
+																                                   <c:forEach var="obj" items="${attendeesList}">
+																										'<option name="${obj.department_fk }" value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
+																									</c:forEach>                                  
 																                                </select>
 																                                </td>
 																                                <input type="hidden" name="hod_user_id_fks"/>
@@ -1010,11 +1010,11 @@
 																								<option value="${obj.department_fk }">${obj.department_name }</option>
 																							</c:forEach>
 																					</select> <!-- //pattern="[6-7-9]{1}[0-9]{9}" --> 
-																					<td data-head="HOD" class="input-field"> <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks00" >
+																					<td data-head="HOD" class="input-field"> <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks00" onchange="setHODDeptList('00');">
 																					<option value="" >Select HOD</option>
-																					<%--  <c:forEach var="obj" items="${usersList}">
-																							<option value="${obj.hod_user_id_fk }">${obj.designation }<c:if test="${not empty obj.user_name }"> - </c:if>${obj.user_name }</option>
-																					</c:forEach>   --%>
+																					 <c:forEach var="obj" items="${usersList}">
+																							<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }">${obj.designation }</option>
+																					</c:forEach>   
 																					</select>    
 																					</td>
 																					<input type="hidden"  name="is_new_users" value="Yes"/>
@@ -1320,12 +1320,28 @@
 			
 			moreFiles(fileIndex);
 		}
+	 
+	 function setDepartment(idNo){
+		 var attendees = $("#attendees"+idNo).val();;
+     	 var dept = $("#attendees"+idNo).find('option:selected').attr("name");
+     	 $('#department_fks'+idNo).val(dept);
+     	 $('#department_fks'+idNo).select2();
+     	 if($.trim(attendees) == ""){getAttendeesList(idNo)}
+	 }
+	 
+	 function setHODDeptList(idNo){
+		 var new_hod_user_id_fks = $("#new_hod_user_id_fks"+idNo).val();;
+     	 var dept = $("#new_hod_user_id_fks"+idNo).find('option:selected').attr("name");
+     	 $('#new_department_fks'+idNo).val(dept);
+     	 $('#new_department_fks'+idNo).select2();
+     	if($.trim(new_hod_user_id_fks) == ""){getHODsList(idNo)}
+	 }
 	 function getAttendeesList(count){
      	var department_fk = $('#department_fks'+count).val();
      
      	$("#attendees"+count+" option:not(:first)").attr("selected",false);
-         if ($.trim(department_fk) != "") {
-         	$("#attendees"+count+" option:not(:first)").remove();
+       //  if ($.trim(department_fk) != "") {
+          	$("#attendees"+count+" option:not(:first)").remove();
              var myParams = { department_fk: department_fk };
              $.ajax({
                  url: "<%=request.getContextPath()%>/ajax/getAttendeesListForTrainingForm",
@@ -1339,22 +1355,22 @@
                               if ($.trim(val.designation) != '') { designation = $.trim(val.designation)+" - " }
                              
                              if ($.trim(val.attendee) != '') {
-                                  $("#attendees"+count).append('<option  value="' + val.attendee + '" >'  +  $.trim(designation) + $.trim(userName) + '</option>');
+                                  $("#attendees"+count).append('<option name="' + val.department_fk + '" value="' + val.attendee + '" >'  +  $.trim(designation) + $.trim(userName) + '</option>');
                               } else {
-                                  $("#attendees"+count).append('<option  value="' + val.attendee + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
+                                  $("#attendees"+count).append('<option name="' + val.department_fk + '" value="' + val.attendee + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
                               }
                          });
                      }
                  }
              });
-         }
+         //}
 	 }
 	 
 	 function getHODsList(count){
      	var department_fk = $('#new_department_fks'+count).val();
      	$("#new_hod_user_id_fks"+count+" option:not(:first)").attr("selected",false);
-         if ($.trim(department_fk) != "") {
-         	$("#new_hod_user_id_fks"+count+" option:not(:first)").remove();
+     	$("#new_hod_user_id_fks"+count+" option:not(:first)").remove();
+         //if ($.trim(department_fk) != "") {
              var myParams = { department_fk: department_fk };
              $.ajax({
                  url: "<%=request.getContextPath()%>/ajax/getHODsListForTrainingForm",
@@ -1368,15 +1384,15 @@
                               if ($.trim(val.designation) != '') { designation = $.trim(val.designation) }
                              
                              if ($.trim(val.hod_user_id_fk) != '') {
-                                  $("#new_hod_user_id_fks"+count).append('<option  value="' + val.hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) + '</option>');
+                                  $("#new_hod_user_id_fks"+count).append('<option name="' + val.department_fk + '" value="' + val.hod_user_id_fk + '" >'  +  $.trim(designation)  + '</option>');
                               } else {
-                                  $("#new_hod_user_id_fks"+count).append('<option  value="' + val.hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
+                                  $("#new_hod_user_id_fks"+count).append('<option name="' + val.department_fk + '" value="' + val.hod_user_id_fk + '" >'  +  $.trim(designation)  +'</option>');
                               }
                          });
                      }
                  }
              });
-         }
+         //}
 	 }
 	 
 	  function selectFileUpdate(no,bNo){
@@ -1611,11 +1627,11 @@
 		             	  '<option value="${obj.department_fk }">${obj.department_name}</option>' +
 		                </c:forEach>
 	         	    '</select></td><input type="hidden"  name="is_new_users"/>'+
-	                '<td data-head="Attendee" class="input-field attendee-dropdown"><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo +tNo+'" >'+
+	                '<td data-head="Attendee" class="input-field attendee-dropdown"><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo +tNo+'" onchange="setDepartment('+ rNo +tNo+');">'+
 					'<option value="">Select Attendee</option>'+
-						/* <c:forEach var="obj" items="${attendeesList}">
-							'<option value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
-						</c:forEach> */
+						 <c:forEach var="obj" items="${attendeesList}">
+							'<option name="${obj.department_fk }" value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
+						</c:forEach> 
 					'</select></td><input type="hidden" name="hod_user_id_fks"/><input type="hidden"  name="emails" class="no-reset" /><input type="hidden" name="trainee_designations"/><input type="hidden" name="mobile_nos"/>' +	                
 	                '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="required_fk'+ rNo +tNo+'" value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
 	                '<td data-head="Participated" class="input-field"><p class="disp-init"><label><input type="hidden" name="participated_fks" id="participated_fk'+ rNo +tNo+'" value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +
@@ -1671,11 +1687,11 @@
 	             	  '<option value="${obj.department_fk }">${obj.department_name}</option>' +
 	                </c:forEach>
       	    '</select></td><input type="hidden"  name="is_new_users" value="Yes"/>'+
-             '<td data-head="HOD" class="input-field"> <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks'+ rNo +tNo+'" >'+
+             '<td data-head="HOD" class="input-field"> <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks'+ rNo +tNo+'" onchange="setHODDeptList('+ rNo +tNo+');">'+
              '<option value="" >Select HOD</option>'+
-             	/* <c:forEach var="obj" items="${usersList}">
-					'<option value="${obj.hod_user_id_fk }">${obj.designation }<c:if test="${not empty obj.user_name }"> - </c:if>${obj.user_name }</option>'+
-				</c:forEach> */
+             	<c:forEach var="obj" items="${usersList}">
+					'<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }">${obj.designation }</option>'+
+				</c:forEach> 
              '</select></td>'+
              '<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate" placeholder="Name"></td>' +
              '<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations'+ rNo +tNo+'" name="trainee_designations" ></td><td data-head="Email" class="input-field"> <input type="text" placeholder="Email" id="email'+ rNo +tNo+'" name="emails" ></td>'+
@@ -1738,10 +1754,10 @@
 	             	'<option value="${obj.department_fk }">${obj.department_name }</option>'+
 	        	 </c:forEach>
 		    	 '</select></td><input type="hidden"  name="is_new_users"/>'+
-		    	 '<td data-head="Attendee" class="input-field attendee-dropdown"><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo+i+'"><option value="">Select Attendee</option>'+
-		        /*  <c:forEach var="obj" items="${attendeesList}">
-		             '<option value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
-		         </c:forEach> */
+		    	 '<td data-head="Attendee" class="input-field attendee-dropdown"><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo+i+'" onchange="setDepartment('+ rNo+i+');"><option value="">Select Attendee</option>'+
+		         <c:forEach var="obj" items="${attendeesList}">
+		             '<option name="${obj.department_fk }" value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
+		         </c:forEach>
 		         '</select></td><input type="hidden" name="hod_user_id_fks"/><input type="hidden"  name="emails" class="no-reset" /><input type="hidden" name="trainee_designations"/><input type="hidden" name="mobile_nos"/><td data-head="Nominated" class="input-field"><p class="disp-init"> <label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" /> '+
 		         '<input type="checkbox" id="required_fks'+ rNo+i+'"  class="required_fks" onChange="checkBox('+ rNo+i+')" <c:if test="${dObj.required_fk eq 'Yes'}">  checked</c:if> />'+
 		         '<span></span></label></p></td><td data-head="Participated" class="input-field"><p class="disp-init"><label> <input type="hidden" name="participated_fks" id="participated_fk'+ rNo+i+'" />'+
@@ -1761,11 +1777,11 @@
 						            '<option value="${obj.department_fk }" >${obj.department_name }</option>'+
 						          </c:forEach>
 						     '</select></td>'+
-							'<td data-head="HOD" class="input-field"> <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks'+ rNo +i+'" >'+
+							'<td data-head="HOD" class="input-field"> <select class="searchable" name="hod_user_id_fks" id="new_hod_user_id_fks'+ rNo +i+'" onchange="setHODDeptList('+ rNo +i+');">'+
 							'<option value="" >Select HOD</option>'+
-			               /*  <c:forEach var="obj" items="${usersList}">
-								'<option value="${obj.hod_user_id_fk }">${obj.designation }<c:if test="${not empty obj.user_name }"> - </c:if>${obj.user_name }</option>'+
-							</c:forEach> */
+			                <c:forEach var="obj" items="${usersList}">
+								'<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }">${obj.designation }</option>'+
+							</c:forEach> 
 			                '</select> </td><input type="hidden"  name="is_new_users" value="Yes"/>'+
 			               // '</select></td>'+
 							'<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo+i+'" name="attendees" type="text" class="validate" placeholder="Name"></td>' +

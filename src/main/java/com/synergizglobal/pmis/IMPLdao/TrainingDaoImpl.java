@@ -953,7 +953,7 @@ public class TrainingDaoImpl implements TrainingDao{
 	public List<Training> getUsersList(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
-			String qry ="select user_id as hod_user_id_fk,designation,user_name from user where user_type_fk = ? ";
+			String qry ="select user_id as hod_user_id_fk,designation,department_fk,user_name from user where user_type_fk = ? ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
@@ -1181,7 +1181,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> objsList1 = null;
 		try {
 			int arrSize = 0;
-			String qry ="select  attendee,designation from training_attendees  where attendee <> '' ";
+			String qry ="select  attendee,department_fk,designation from training_attendees  where attendee <> '' ";
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and department_fk = ?";
@@ -1219,7 +1219,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> objsList1 = null;
 		try {
 			int arrSize = 0;
-			String qry ="SELECT  user_name as attendee,designation FROM user u where user_name NOT LIKE '%User%' " ;
+			String qry ="SELECT  user_name as attendee,department_fk,designation FROM user u where user_name NOT LIKE '%User%' " ;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and u.department_fk = ?";
 				arrSize++;

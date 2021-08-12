@@ -240,10 +240,11 @@
                             <div class="row">
                                 <div class="col s12 m4 input-field offset-m2">
                                 <p class="searchable_label">Contract</p>
+									<c:choose>
+								        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                 
                                  <select  class="searchable validate-dropdown" name="contract_id_fk" id="contract_id_fk" 
                                  			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();" 
-                                 			<c:if test="${fn:length(fob.contractsList) gt 0}">disabled</c:if>>
-                                  		 <option value="" disabled="disabled">Select</option>
+                                  		 <option value="">Select</option>
                                           <c:forEach var="obj" items="${contractsList}">
 									 		<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 
 										 		<c:forEach var="tempobj" items="${fob.contractsList}">
@@ -252,6 +253,21 @@
 									 		>${obj.contract_short_name }</option>
                                           </c:forEach>
                                   </select>
+                                  </c:when>
+                                  <c:otherwise>
+                                  <select  class="searchable validate-dropdown" name="contract_id_fk" id="contract_id_fk" 
+                                 			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();" disabled 
+                                  		 <option value="" disabled>Select</option>
+                                          <c:forEach var="obj" items="${contractsList}">
+									 		<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 
+										 		<c:forEach var="tempobj" items="${fob.contractsList}">
+										 			<c:if test="${tempobj.contract_id_fk eq obj.contract_id}">selected</c:if>
+	                                          	</c:forEach>
+									 		>${obj.contract_short_name }</option>
+                                          </c:forEach>
+                                  </select>                                 
+                                  </c:otherwise>
+                                  </c:choose>
                                   <span id="contract_id_fkError" class="error-msg"></span>
                                 </div>
                                 

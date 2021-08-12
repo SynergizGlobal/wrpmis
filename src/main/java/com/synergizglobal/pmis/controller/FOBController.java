@@ -63,6 +63,7 @@ import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.FOBPaginationObject;
 import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Project;
+import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.Work;
 import com.synergizglobal.pmis.reference.model.TrainingType;
 
@@ -118,9 +119,13 @@ public class FOBController {
 	}
 	@RequestMapping(value = "/ajax/getFOBList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<FOB> getFOBList(@ModelAttribute FOB obj) {
+	public List<FOB> getFOBList(@ModelAttribute FOB obj,HttpSession session) {
 		List<FOB> fobs = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
 			fobs = fobService.getFOBList(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -231,9 +236,13 @@ public class FOBController {
 	
 	@RequestMapping(value = "/ajax/getWorkStatusFilterListInFOB", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<FOB> getWorkStatusList(@ModelAttribute FOB obj) {
+	public List<FOB> getWorkStatusList(@ModelAttribute FOB obj,HttpSession session) {
 		List<FOB> workStatusList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());				
 			workStatusList = fobService.getWorkStatusList(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -244,9 +253,13 @@ public class FOBController {
 	
 	@RequestMapping(value = "/ajax/getWorksFilterListInFOB", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<FOB> getWorksListForFilter(@ModelAttribute FOB obj) {
+	public List<FOB> getWorksListForFilter(@ModelAttribute FOB obj,HttpSession session) {
 		List<FOB> worksList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());				
 			worksList = fobService.getWorksListForFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();

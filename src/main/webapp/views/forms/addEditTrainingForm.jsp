@@ -1334,9 +1334,9 @@
                      if (data.length > 0) {
                          $.each(data, function (i, val) {
                          	 var userName = '';
-	                        	   if($.trim(val.attendee) != ''){userName = " - "+ $.trim(val.attendee)}
+	                        	   if($.trim(val.attendee) != ''){userName =  $.trim(val.attendee) }
                               var designation = '';
-                              if ($.trim(val.designation) != '') { designation = $.trim(val.designation) }
+                              if ($.trim(val.designation) != '') { designation = $.trim(val.designation)+" - " }
                              
                              if ($.trim(val.attendee) != '') {
                                   $("#attendees"+count).append('<option  value="' + val.attendee + '" >'  +  $.trim(designation) + $.trim(userName) + '</option>');

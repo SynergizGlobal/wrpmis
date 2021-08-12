@@ -1181,18 +1181,19 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> objsList1 = null;
 		try {
 			int arrSize = 0;
-			String qry ="select  attendee,department_fk,designation from training_attendees  where attendee <> '' ";
-			
+			String qry ="SELECT  user_name as attendee,department_fk,designation FROM user u where user_name NOT LIKE '%User%' " ;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and department_fk = ?";
+				qry = qry + " and u.department_fk = ?";
 				arrSize++;
 			}	
-			qry = qry + " GROUP BY attendee ";
+			qry = qry + " GROUP BY user_name ";
+			qry = qry + " ORDER BY CASE WHEN  user_type_fk IS NULL THEN 1 ELSE 0 END,FIELD( user_type_fk, 'Management','HOD','DYHOD','Officers ( Jr./Sr. Scale )','Others' ),designation;";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 					pValues[i++] = obj.getDepartment_fk();
 			}
+			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	
 			objsList1 = getUsersListFrAttendees(obj);
 			if(objsList1.size() > 0) {
@@ -1219,12 +1220,17 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> objsList1 = null;
 		try {
 			int arrSize = 0;
-			String qry ="SELECT  user_name as attendee,department_fk,designation FROM user u where user_name NOT LIKE '%User%' " ;
+			String qry ="select  attendee,ta.department_fk,ta.designation from training_attendees ta "
+					+ "LEFT JOIN user u on attendee = u.user_name "
+					+ "  where attendee <> '' ";
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and u.department_fk = ?";
+				qry = qry + " and ta.department_fk = ?";
 				arrSize++;
 			}	
-			qry = qry + " GROUP BY user_name ";
+			qry = qry + " GROUP BY attendee ";
+			qry = qry + " ORDER BY CASE WHEN  user_type_fk IS NULL THEN 1 ELSE 0 END,FIELD( user_type_fk, 'Management','HOD','DYHOD','Officers ( Jr./Sr. Scale )','Others' ),u.designation";
+
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {

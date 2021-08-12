@@ -1031,7 +1031,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join alerts_user u on u.alerts_id_fk = a.alert_id " 
 					+ "left join user u2 on u.user_id_fk = u2.user_id " 
 					+ "where a.alert_status = 'Active' and count <> 0 "
-					+ "and (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' ";
+					+ "and (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(alert_type)) {
@@ -1068,7 +1068,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "left join work w on c.work_id_fk = w.work_id " 
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id " 
-						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
 				
 				arrSize = 2;
 				if(!StringUtils.isEmpty(alert_type)) {
@@ -1108,7 +1108,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							+ "left join work w on c.work_id_fk = w.work_id " 
 							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 							+ "left join user u on c.hod_user_id_fk = u.user_id " 
-							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
 					
 					arrSize = 3;
 					if(!StringUtils.isEmpty(alert_type)) {
@@ -1237,7 +1237,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left join alerts_user u on u.alerts_id_fk = a.alert_id " 
 					+ "left join user u2 on u.user_id_fk = u2.user_id " 
 					+ "where a.alert_status = 'Active' and count <> 0 "
-					+ "and (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' ";
+					+ "and (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and u2.email_id is not null and u2.email_id <> '' and a.alert_type_fk <> 'Risk' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(alert_type)) {
@@ -1274,7 +1274,7 @@ public class AlertsDaoImpl implements AlertsDao{
 						+ "left join work w on c.work_id_fk = w.work_id " 
 						+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 						+ "left join user u on c.hod_user_id_fk = u.user_id " 
-						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+						+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or amendment_not_required_in_contract = 'No') and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
 				
 				arrSize = 2;
 				if(!StringUtils.isEmpty(alert_type)) {
@@ -1314,7 +1314,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							+ "left join work w on c.work_id_fk = w.work_id " 
 							+ "left join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
 							+ "left join user u on c.hod_user_id_fk = u.user_id " 
-							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
+							+ "where (amendment_not_required_in_contract is null or amendment_not_required_in_contract = '' amendment_not_required_in_contract = 'No') and alert_level = ? and alert_status = ? and au.user_id_fk = ? and count <> 0 and a.alert_type_fk <> 'Risk' ";
 					
 					arrSize = 3;
 					if(!StringUtils.isEmpty(alert_type)) {
@@ -2259,7 +2259,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					
 			int arrSize = 1;
 			if(!"IT Admin".equals(obj.getUser_role_name())) {
-				qry = qry + " and (a.amendment_not_required_in_contract is null or a.amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and au.user_id_fk = ? ";
+				qry = qry + " and au.user_id_fk = ? ";
 				arrSize++;
 			}
 			
@@ -2333,7 +2333,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 				arrSize = 1;
 				if(!"IT Admin".equals(obj.getUser_role_name())) {
-					qry = qry + " and (a.amendment_not_required_in_contract is null or a.amendment_not_required_in_contract = '' or a.alert_level = 'Overdue') and au.user_id_fk = ? ";
+					qry = qry + " and au.user_id_fk = ? ";
 					arrSize++;
 				}
 				

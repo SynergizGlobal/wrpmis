@@ -297,7 +297,7 @@ label {
                    		
                    		<div class="row no-mar" id="contractPeriodRadio" style="display:none;">
                    			<div class="col l8 m12">
-                   				<p>Does it required DOC extension? </p>
+                   				<p>Does it require DOC extension? </p>
                    			</div>
                    			<div class="col l4 m12 right-align mob-center">                   				
 						      <label>
@@ -313,7 +313,7 @@ label {
 					   
 					   <div class="row no-mar" id="contractValueRadio" style="display:none;"> 
                    			<div class="col m12 l8">
-                   				<p>Does it required CV variation? </p>
+                   				<p>Does it require CV variation? </p>
                    			</div>
                    			<div class="col l4 m12 right-align mob-center">                   				
 						      <label>

@@ -36,7 +36,7 @@ public class TableauDashboardDaoImpl implements TableauDashboardDao {
 		try {
 			
 			connection = dataSource.getConnection();
-			String qry = "SELECT tum.dashboard_url FROM dashboard tum WHERE LOWER(tum.dashboard_name) = ?";
+			String qry = "SELECT dashboard_url FROM dashboard WHERE dashboard_url is not null and dashboard_url <> '' and LOWER(dashboard_name) = ?";
 			statement = connection.prepareStatement(qry); 
 			statement.setString(1, dashboardName);
 			resultSet = statement.executeQuery();  

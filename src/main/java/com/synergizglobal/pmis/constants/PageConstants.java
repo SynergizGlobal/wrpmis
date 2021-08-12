@@ -226,6 +226,8 @@ public class PageConstants {
 	
 	public static final String alertLevel = "referenceForms/alertLevel";
 	
+	public static final String resourceType = "referenceForms/resourceType";
+	
 	public static final String alertType = "referenceForms/alertType";
 	
 	public static final String asBuiltStatus = "referenceForms/asBuiltStatus";

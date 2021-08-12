@@ -112,20 +112,20 @@
                                     <thead>
                                         <tr>
                                             <th>Resource Type</th>
-                                           <%--  <c:forEach var="tObj" items="${landAcquisitionCategoryDetails.tablesList}" >
+                                           <c:forEach var="tObj" items="${resourceTypeDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
-                                            </c:forEach> --%>
+                                            </c:forEach> 
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${landAcquisitionCategoryDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${resourceTypeDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="resource_type_id${indexs.count}" value="${obj.resource_type }"  class="findLengths"/>
+												<input type="hidden" id="resource_type${indexs.count}" value="${obj.resource_type }"  class="findLengths"/>
 												${obj.resource_type }</td>
-										<%-- 	<c:forEach var="tObj" items="${landAcquisitionCategoryDetails.tablesList}" varStatus="index">
+										 	<c:forEach var="tObj" items="${resourceTypeDetails.tablesList}" varStatus="index">
 											 
-												<td><c:forEach var="cObj" items="${landAcquisitionCategoryDetails.countList}" >
+												<td><c:forEach var="cObj" items="${resourceTypeDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
@@ -141,16 +141,15 @@
 													   </c:otherwise>
 												</c:choose>
 												</c:forEach></td>
-                                            </c:forEach> --%>
+                                            </c:forEach> 
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${landAcquisitionCategoryDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${resourceTypeDetails.dList}" varStatus="indexx"> 
 												<c:choose>  
 												    <c:when test="${oSbj.resource_type eq obj.resource_type }"> 
 												      	<a onclick="deleteRow('${ oSbj.resource_type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	</a>
 												    </c:when>  
 												    <c:otherwise>
-														<a onclick="deleteRow('${ oSbj.resource_type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												    </c:otherwise>   
 												</c:choose>  
 												
@@ -296,7 +295,7 @@
                         targets: 'no-sort', orderable: false,
                         /* className: "last-column", targets: [1], */
                     },
-                    { "width": "20px", "targets": [1] },
+                    { "width": "20px", "targets": [2] },
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,
@@ -432,7 +431,7 @@
        	           }
        	   });
            function updateRow(no) {
-     	      var resource_type = $('#resource_type_id'+no).val();
+     	      var resource_type = $('#resource_type'+no).val();
      	      $('#value_old').val($.trim(resource_type))
      	      $('#onlyUpdateModal').modal('open');
      	      $('#onlyUpdateModal #value_new').val($.trim(resource_type)).focus();

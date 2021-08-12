@@ -44,28 +44,30 @@
                     <div class="">
 			            <form action="<%=request.getContextPath() %>/generate-resource_report" id="reportForm" name="reportForm" method="post">	                              
                        		 <div class="row no-mar">
-                                <div class="col s6 m4 l2 input-field offset-l1 pt-md-5">
+                                <div class="col s6 m4 l2 input-field offset-l3">
                                     <p class="searchable_label" style="text-align:left">Project</p>
                                     <select class="searchable validate-dropdown" id="project" name="project" onchange="getResourceReport(this.value);">
                                         <option value="">Select </option>
                                     </select>
                                     <span id="projectError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l2 input-field pt-md-5">
+                                <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label" style="text-align:left">Work</p>
                                     <select class="searchable validate-dropdown" id="sub_work" name="sub_work" onchange="getResourceReport(this.value);">
                                         <option value="">Select </option>
                                     </select>
                                     <span id="sub_workError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l2 input-field pt-md-5">
+                                <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label" style="text-align:left">Contract</p>
                                     <select class="searchable validate-dropdown" id="contract" name="contract" onchange="getResourceReport(this.value);">
                                         <option value="">Select </option>
                                     </select>
                                     <span id="contractError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l2 input-field">                                    
+                                </div>
+                           <div class="row">
+                                <div class="col s6 m4 l2 input-field offset-l3">                                    
                                     <input id="deployment_from_date" type="text" name="deployment_from_date" class="validate datepicker">
                                     <label for="deployment_from_date" class="fs-sm-8rem">Deployment From Date</label>
                                     <button type="button" id="deployment_from_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>

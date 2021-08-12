@@ -59,23 +59,30 @@
                                     <span id="sub_workError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l2 input-field">
+                                    <p class="searchable_label" style="text-align:left">HOD</p>
+                                    <select class="searchable validate-dropdown" id="hod" name="hod" onchange="getResourceReport(this.value);">
+                                        <option value="">Select </option>
+                                    </select>
+                                    <span id="hodError" class="error-msg" ></span>
+                                </div>
+                                </div>
+                           <div class="row">
+                           		<div class="col s6 m4 l2 input-field offset-l3 pt-md-5">
                                     <p class="searchable_label" style="text-align:left">Contract</p>
                                     <select class="searchable validate-dropdown" id="contract" name="contract" onchange="getResourceReport(this.value);">
                                         <option value="">Select </option>
                                     </select>
                                     <span id="contractError" class="error-msg" ></span>
                                 </div>
-                                </div>
-                           <div class="row">
-                                <div class="col s6 m4 l2 input-field offset-l3">                                    
+                                <div class="col s6 m4 l2 input-field ">                                    
                                     <input id="deployment_from_date" type="text" name="deployment_from_date" class="validate datepicker">
-                                    <label for="deployment_from_date" class="fs-sm-8rem">Deployment From Date</label>
+                                    <label for="deployment_from_date" class="fs-sm-8rem">Deployment From Date <span class="required">*</span></label>
                                     <button type="button" id="deployment_from_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="deployment_from_dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l2 input-field">                                    
                                     <input id="deployment_to_date" type="text" name="deployment_to_date" class="validate datepicker">
-                                    <label for="deployment_to_date" class="fs-sm-8rem">Deployment To Date</label>
+                                    <label for="deployment_to_date" class="fs-sm-8rem">Deployment To Date <span class="required">*</span></label>
                                     <button type="button" id="deployment_to_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="deployment_to_dateError" class="error-msg" ></span>
                                 </div>
@@ -125,6 +132,17 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
+    let date_pickers = document.querySelectorAll('.datepicker');
+    $.each(date_pickers, function(){
+    	var dt = this.value.split(/[^0-9]/);
+    	this.value = ""; 
+    	var options = {format: 'dd-mm-yyyy',autoClose:true};
+    	if(dt.length > 1){
+    		options.setDefaultDate = true,
+    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+    	}
+    	M.Datepicker.init(this, options);
+    });
       	function getErrorMessage(jqXHR, exception) {
         	    var msg = '';
         	    if (jqXHR.status === 0) {
@@ -146,7 +164,7 @@
          }
                 
         $(document).ready(function(){
-			$('.searchable').select2();
+			$('.searchable').select2();			
 		});    
         
         function getResourceReport(sub_work) {
@@ -174,32 +192,43 @@
         
         function generateReport() {
         	$("#reportForm").submit();
-		}
-        
+		}        
         
         var validator =	$('#reportForm').validate({
 			 ignore: ":hidden:not(.validate-dropdown)",
 	  		    rules: {
-	  		 		  "sub_work": {
+	  		 		  "deployment_from_date": {
 	  			 		required: true
-	  			 	  }	,"assessment_date": {
+	  			 	  }	,"deployment_to_date": {
 	  			 		required: true
 	  			 	  }	
 	  		 	},
 	  		    messages: {
-	  		 		 "sub_work": {
+	  		 		 "deployment_from_date": {
 	  			 		required: ' This field is required'
-	  			 	  },"assessment_date": {
+	  			 	  },"deployment_to_date": {
 	  			 		required: ' This field is required'
 	  			 	  }
 		   		},
 		   		errorPlacement:function(error, element){
-		   		 	if(element.attr("id") == "sub_work" ){
+		   		 	if(element.attr("id") == "project" ){
 						   document.getElementById("projectError").innerHTML="";
 					 	   error.appendTo('#projectError');
+					} else if(element.attr("id") == "sub_work" ){
+						   document.getElementById("sub_workError").innerHTML="";
+					 	   error.appendTo('#sub_workError');
+					} else if(element.attr("id") == "hod" ){
+						   document.getElementById("hodError").innerHTML="";
+					 	   error.appendTo('#hodError');
+					} else if(element.attr("id") == "contract" ){
+						   document.getElementById("contractError").innerHTML="";
+					 	   error.appendTo('#contractError');
 					} else if(element.attr("id") == "deployment_from_date" ){
 						   document.getElementById("deployment_from_dateError").innerHTML="";
 					 	   error.appendTo('#deployment_from_dateError');
+					} else if(element.attr("id") == "deployment_to_date" ){
+						   document.getElementById("deployment_to_dateError").innerHTML="";
+					 	   error.appendTo('#deployment_to_dateError');
 					} else{
 	 					error.insertAfter(element);
 			       }
@@ -224,6 +253,7 @@
         function clearFilter(){
     		$('#project').val('');
     		$('#sub_work').val('');
+    		$('#hod').val('');
     		$('#contract').val('');
     		$('#deployment_from_date').val('');
     		$('#deployment_to_date').val('');

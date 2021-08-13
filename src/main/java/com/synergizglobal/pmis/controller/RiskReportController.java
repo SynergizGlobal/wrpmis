@@ -230,7 +230,9 @@ public class RiskReportController {
 
 			String headerTextRight = report_created_date;
 			
-			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);		
+			RPr titleRpr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,titleRpr);		
 			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerTextRight);
 			createHeaderReference(wordMLPackage, mp, factory, relationship);
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
@@ -307,7 +309,8 @@ public class RiskReportController {
 
 			String headerTextRight = report_created_date;
 			
-			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);		
+			RPr titleRpr = getRPr(factory, "Calibri", "000000", "26", STHint.EAST_ASIA, true, false, false, false);
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,titleRpr);		
 			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerTextRight);
 			createHeaderReference(wordMLPackage, mp, factory, relationship);
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
@@ -582,12 +585,12 @@ public class RiskReportController {
 	public Relationship createHeaderPart(
 			WordprocessingMLPackage wordprocessingMLPackage,
 			MainDocumentPart t, ObjectFactory factory,
-			String imagePath, JcEnumeration imageAlignment, String headerTextMiddle, String headerTextRight) throws Exception {
+			String imagePath, JcEnumeration imageAlignment, String headerTextMiddle, String headerTextRight,RPr titleRPr) throws Exception {
 		HeaderPart headerPart = new HeaderPart();
 		Relationship rel = t.addTargetPart(headerPart);
 		// After addTargetPart, so image can be added properly
 		headerPart.setJaxbElement(getHdr(wordprocessingMLPackage, factory,
-				headerPart,imagePath,imageAlignment,headerTextMiddle,headerTextRight));
+				headerPart,imagePath,imageAlignment,headerTextMiddle,headerTextRight,titleRPr));
 		return rel;
 	}
 	
@@ -604,7 +607,7 @@ public class RiskReportController {
 	
 	public Hdr getHdr(WordprocessingMLPackage wordprocessingMLPackage,
 			ObjectFactory factory, HeaderPart sourcePart,
-			String imagePath, JcEnumeration imageAlignment, String headerTextMiddle, String headerTextRight) throws Exception {
+			String imagePath, JcEnumeration imageAlignment, String headerTextMiddle, String headerTextRight,RPr titleRPr) throws Exception {
 		Hdr hdr = factory.createHdr();
 		//String path = CommonConstants.DOCX_LOGO+"/docx-logo.png";
 		//String path = CommonConstants.DOCX_LOGO+"/"+"ircon-report-header.png";
@@ -663,8 +666,6 @@ public class RiskReportController {
 		
 		/*******************************************************************************/
 
-		RPr titleRpr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, true, false, false, false);
-
 		Tbl table = factory.createTbl();
 		
 		TblPr tableProps = new TblPr();
@@ -675,10 +676,10 @@ public class RiskReportController {
         table.setTblPr(tableProps);
         
 		Tr titleRow = factory.createTr();
-		addTableCell(factory, wordprocessingMLPackage, titleRow, "", titleRpr, JcEnumeration.CENTER, true, "ffffff");
-		addTableCell(factory, wordprocessingMLPackage, titleRow, headerTextMiddle, titleRpr, JcEnumeration.CENTER, true,
+		addTableCell(factory, wordprocessingMLPackage, titleRow, "", titleRPr, JcEnumeration.CENTER, true, "ffffff");
+		addTableCell(factory, wordprocessingMLPackage, titleRow, headerTextMiddle, titleRPr, JcEnumeration.CENTER, true,
 				"ffffff");
-		addTableCell(factory, wordprocessingMLPackage, titleRow, headerTextRight, titleRpr, JcEnumeration.RIGHT, true,
+		addTableCell(factory, wordprocessingMLPackage, titleRow, headerTextRight, titleRPr, JcEnumeration.RIGHT, true,
 				"ffffff");
 		table.getContent().add(titleRow);
 		setTableAlign(factory, table, JcEnumeration.CENTER);

@@ -1971,6 +1971,8 @@ public class DocxTableCreation {
 			
 			
 			/****************************************************************************/
+			addParagraph(mp, factory);
+			
 			Tbl table = factory.createTbl();
 			addBorders(table, "2");
 		

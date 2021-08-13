@@ -2707,7 +2707,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			qry = qry + " and a.alert_type_fk not in ('Issue','Risk')";
 			
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " order by u.designation,work_short_name,a.contract_id asc, alert_level desc limit ?,?";
+				//qry = qry + " order by u.designation,work_short_name,a.contract_id asc, alert_level desc limit ?,?";
+				qry = qry + " order by alert_level desc limit ?,?";
 				arrSize++;
 				arrSize++;
 			}

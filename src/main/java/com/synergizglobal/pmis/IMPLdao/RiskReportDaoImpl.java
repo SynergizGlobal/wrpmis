@@ -50,7 +50,10 @@ public class RiskReportDaoImpl implements RiskReportDao{
 	public List<RiskReport> getSubWorksListInRiskReport(RiskReport obj) throws Exception {
 		List<RiskReport> objsList = null;
 		try {
-			String qry = "select sub_work from risk group by sub_work";
+			String qry = "select r.sub_work "
+					+ "from risk r "
+					+ "LEFT JOIN risk_work_hod rwh ON r.sub_work = rwh.sub_work "
+					+ "group by sub_work ORDER BY rwh.priority asc";
 			
 			Object[] pValues = new Object[] {};
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
@@ -214,7 +217,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 					"(select count(classification) from risk_revision_view where date = max(rr.date) and classification = 'Substantial' and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as total_substantial_risks," + 
 					"(select count(classification) from risk_revision_view where date = max(rr.date) and classification = 'Moderate' and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as total_moderate_risks," + 
 					"(select count(priority_fk) from risk_revision where date = max(rr.date) and priority_fk <> 'Accepted' and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work)) as total_priority_risks," + 
-					"(select count(risk_revision_id_fk) from risk_action where date = max(rr.date) and risk_revision_id_fk in(select risk_revision_id from risk_revision where risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work))) as atr_submitted " + 
+					"(select count(risk_revision_id_fk) from risk_action where risk_revision_id_fk in(select risk_revision_id from risk_revision where date = max(rr.date) and risk_id_pk_fk in(select risk_id_pk from risk where sub_work = r.sub_work))) as atr_submitted " + 
 					"from risk r " + 
 					"LEFT JOIN risk_revision rr on rr.risk_id_pk_fk = r.risk_id_pk " + 
 					"LEFT JOIN risk_work_hod rwh on rwh.sub_work = r.sub_work " + 

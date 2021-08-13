@@ -66,9 +66,26 @@ public class RiskDaoImpl implements RiskDao{
 	public List<Risk> getSubWorksList(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "select sub_work from risk_work_hod  group by sub_work";
+			String qry = "select sub_work from risk_work_hod group by sub_work order by priority asc";
 			
 			Object[] pValues = new Object[] {};
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<Risk> getSubWorkHodFilterListInRiskAssessmnt(Risk obj) throws Exception {
+		List<Risk> objsList = null;
+		try {
+			String qry = "SELECT sub_work, hod_user_id_fk "
+					+ "from risk_work_hod "
+					+ "where hod_user_id_fk = ?";
+			qry = qry + " group by sub_work order by priority asc";
+			Object[] pValues = new Object[] {obj.getUser_id()};			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
 		}catch(Exception e){ 
@@ -387,14 +404,15 @@ public class RiskDaoImpl implements RiskDao{
 	public List<Risk> getSubWorksFilterListInRiskAssessmnt(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "SELECT sub_work,risk_area_fk from risk r " + 
+			String qry = "SELECT r.sub_work,risk_area_fk from risk r " + 
 					"LEFT JOIN risk_sub_area rs on r.sub_area_fk = rs.sub_area "+
 					"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
+					"left join risk_work_hod rwh on r.sub_work = rwh.sub_work " + 
 					//"where sub_work is not null and sub_work <> '' and priority_fk <> 'Accepted' and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
-					"where sub_work is not null and sub_work <> '' and priority_fk <> 'Accepted'";
+					"where r.sub_work is not null and r.sub_work <> '' and priority_fk <> 'Accepted'";
 					int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
-				qry = qry + " and sub_work = ?";
+				qry = qry + " and r.sub_work = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
@@ -411,7 +429,7 @@ public class RiskDaoImpl implements RiskDao{
 				arrSize++;
 			} 
 			
-			qry = qry + " group by sub_work";
+			qry = qry + " group by r.sub_work ORDER BY rwh.priority asc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
@@ -585,7 +603,7 @@ public class RiskDaoImpl implements RiskDao{
 					+ "left join risk_sub_area rsa on r.sub_area_fk = sub_area " 
 					+ "left join risk_area ra on rsa.risk_area_fk = ra.area "
 					+ "LEFT join project p on w.project_id_fk = p.project_id "
-					+ "where risk_revision_id = ?";
+					+ "where risk_revision_id = ? ORDER BY rwh.priority asc ";
 			
 			Object[] pValues = new Object[] {obj.getRisk_revision_id()};
 			sObj = (Risk)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
@@ -798,7 +816,10 @@ public class RiskDaoImpl implements RiskDao{
 	public List<Risk> getSubWorksListFromRiskUploads(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "SELECT sub_work from risk_upload group by sub_work";
+			String qry = "SELECT ru.sub_work "
+					+ "from risk_upload ru "
+					+ "LEFT JOIN risk_work_hod rwh ON ru.sub_work = rwh.sub_work "
+					+ "GROUP BY ru.sub_work ORDER BY rwh.priority asc";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Risk>(Risk.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -921,23 +942,5 @@ public class RiskDaoImpl implements RiskDao{
 		}
 		return area;
 	}
-
-	@Override
-	public List<Risk> getSubWorkHodFilterListInRiskAssessmnt(Risk obj) throws Exception {
-		List<Risk> objsList = null;
-		try {
-			String qry = "SELECT sub_work, hod_user_id_fk "
-					+ "from risk_work_hod "
-					+ "where hod_user_id_fk = ?";
-			qry = qry + " group by sub_work";
-			Object[] pValues = new Object[] {obj.getUser_id()};			
-		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
-
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-	
 
 }

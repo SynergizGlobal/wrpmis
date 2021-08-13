@@ -130,6 +130,7 @@
                                             <th>Sub Work</th>
                                             <th>Hod</th>
                                             <th>Work <br>Completed</th>
+                                            <th>Priority</th>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
@@ -156,6 +157,10 @@
 											        <span></span>
 											      </label>
 											    </p>
+											</td>
+											<td>
+												<input type="hidden" id="priority${index.count}" value="${obj.priority }" />
+												${obj.priority }
 											</td>
 										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.risk_work_hod_id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
 									    </c:forEach>
@@ -210,6 +215,11 @@
                                 <input name="sub_work" id="sub_work" type="text">
                                 <label for="sub_work">Sub Work</label>
                                  <span id="sub_workError" class="error-msg" ></span>
+                            </div>
+                            <div class="input-field col s12 m12">
+                                <input name="priority" id="priority" type="number">
+                                <label for="priority">Priority</label>
+                                 <span id="priorityError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row no-mar">
@@ -282,6 +292,11 @@
                                 <label for="sub_work_new">Sub Work</label>
                                  <span id="sub_work_newError" class="error-msg" ></span>
                             </div>
+                            <div class="input-field col s12 m12">
+                                <input name="priority" id="priority_new" type="number">
+                                <label for="priority_new">Priority</label>
+                                 <span id="priority_newError" class="error-msg" ></span>
+                            </div>
                         </div>
                         <div class="row no-mar">
                         	<div class="input-field col s6 m6">
@@ -345,6 +360,7 @@
             $('.modal').modal({ dismissible: false });
 
             var table = $('#risk_work_hod_table').DataTable({
+            	"order":[],
                 columnDefs: [
                     {
                         targets: [0],
@@ -374,10 +390,12 @@
             var sub_work = $('#sub_work'+no).val();
             var risk_work_hod_id = $('#risk_work_hod_id'+no).val();
             var risk_work_completed = $('#risk_work_completed'+no).val();
+            var priority = $('#priority'+no).val();
             $('#onlyUpdateModal').modal('open');
-            $('#update_work_id_text').val($.trim(work))
-            $('#update_hod_user_id').val($.trim(user))
-            $('#sub_work_new').val($.trim(sub_work))
+            $('#update_work_id_text').val($.trim(work));
+            $('#update_hod_user_id').val($.trim(user));
+            $('#sub_work_new').val($.trim(sub_work));
+            $('#priority_new').val($.trim(priority)).focus();
             if(risk_work_completed == "Yes")
             {
             	$('.risk_work_completed').prop('checked', true);$("#risk_work_completed_new").val("Yes");
@@ -420,6 +438,8 @@
       					  required: true
           			},"sub_work":{
           				  required: true
+          			},"priority":{
+          				  required: true
           			}
       			},messages: {
       		 		 "work_id_fk": {
@@ -428,7 +448,9 @@
       			 		  required: 'Required'
       			 	 }, "sub_work": {
       			 		  required: 'Required'
-      			 	 }
+      			 	 },"priority":{
+         				  required: 'Required'
+           			}
       	        },errorPlacement:function(error, element){
       	        	 if(element.attr("id") == "sub_work" ){
       				     document.getElementById("sub_workError").innerHTML="";
@@ -439,7 +461,10 @@
       		 	   }else if(element.attr("id") == "work_id_text" ){
         			     document.getElementById("work_id_fkError").innerHTML="";
           		 	     error.appendTo('#work_id_fkError');
-          		   }
+          		   }else if(element.attr("id") == "priority" ){
+	      			     document.getElementById("priorityError").innerHTML="";
+	      		 	     error.appendTo('#priorityError');
+	      		   }
       	        }
           });
 
@@ -452,15 +477,19 @@
     					  required: true
         			},"sub_work_new":{
    					  	  required: true
-       			}
+       				},"priority":{
+          				  required: true
+          			}
     			},messages: {
     		 		 "work_id_fk_new": {
-    			 		  required: 'Required'
+    			 		required: 'Required'
     			 	 }, "hod_user_id_fk_new": { 
-    			 		  required: 'Required'
+    			 		required: 'Required'
     			 	 }, "sub_work_new": { 
-   			 		  required: 'Required'
-   			 	  }
+   			 		  	required: 'Required'
+   			 	  	},"priority":{
+     				  	required: 'Required'
+         			}
     	        },errorPlacement:function(error, element){
     	        	 if(element.attr("id") == "update_work_id_text" ){
     				     document.getElementById("work_id_fkUpdateError").innerHTML="";
@@ -471,7 +500,10 @@
     		 	   }else if(element.attr("id") == "sub_work_new" ){
     			     document.getElementById("sub_work_newError").innerHTML="";
     		 	     error.appendTo('#sub_work_newError');
-    		 	   }
+    		 	   }else if(element.attr("id") == "priority_new" ){
+	      			     document.getElementById("priority_newError").innerHTML="";
+	      		 	     error.appendTo('#priority_newError');
+	      		   }
     	        }
         });
 

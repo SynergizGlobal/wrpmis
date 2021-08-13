@@ -37,10 +37,7 @@
             /* Edge */
             color: #777;
         }
-       /*  #session-table tbody tr td{
-        	vertical-align:top;
-        }
- 	   */
+  
         .datepicker-table thead tr,
         .datepicker-table thead tr:hover,
         .datepicker-table tbody tr,
@@ -64,7 +61,6 @@
         .datepicker-table td:last-of-type {
             padding: 0 !important;
         }
-
 
         .datepicker-table th,
         .datepicker-table td {
@@ -230,6 +226,12 @@
 	        	max-height:80%;
 	        	width:85%;
 	        }
+	        .pos-rel{
+	        	width:100%;	        
+	        }
+	        .modal .select2-container{
+	        	max-width:inherit;
+	        }	        
 	        .modal:not(.datepicker-modal).modal-header{
 	        	margin: -24px -12px 20px !important;
     			font-size: 1.4rem;

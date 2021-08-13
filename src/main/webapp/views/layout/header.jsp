@@ -97,6 +97,24 @@
 		    color: #f44336;
 		}
      /*  textarea auto height code ends here */
+     
+     @media only screen and (max-width:1400px) and (min-width:1024px) {
+     	nav ul a{
+     		padding : 0 5px;
+     		font-size:.86rem;
+     	}
+     	.notification{
+     		width:54px;     		
+     	}
+     	.notification .badge.red{
+     		right:15px;
+     	}
+     	.brand-logo img{
+     		top: 0;
+		    left: -3%;
+		    width: 9%;
+     	}
+     }
 </style>
 
 <link id="theme" rel="stylesheet" type="text/css" href="" />

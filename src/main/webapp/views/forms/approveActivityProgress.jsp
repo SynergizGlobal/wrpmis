@@ -18,9 +18,18 @@
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)"        href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)"        href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style>
+    	 .fixed-width {
+            width: 100%;
+            margin-left :auto !important;
+            margin-right :auto !important;
+        }
+        .fixed-width .table-inside {
+            width: 100%;
+            overflow: auto;
+        }
         thead th input[type="checkbox"]+span:not(.lever):before {
             border: 2px solid #fff;
         }

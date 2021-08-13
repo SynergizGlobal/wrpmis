@@ -223,15 +223,31 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	@Override
 	public List<StripChart> getAcivitiesBulkUpdateStructures(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
+		List<StripChart> objsList1 = null;
 		try {
-			String qry = "select s.structure as strip_chart_structure_id_fk from activities s "
+			String qry = "select s.structure as strip_chart_structure_id_fk from activities s inner join contract c on c.contract_id=s.contract_id_fk "
 					+ "where s.structure is not null and s.structure <> '' and s.contract_id_fk = ? "
-					+ "and (select count(*) from activities s1 where s1.scope <> IFNULL(s1.completed,0) and s1.contract_id_fk = ? "
-					+ "and s1.structure = s.structure) > 0 ";
-			qry = qry + "group by s.structure ";
+					+ "and (select count(*) from activities s1 inner join contract c1 on c1.contract_id=s1.contract_id_fk where s1.scope <> IFNULL(s1.completed,0) and s1.contract_id_fk = ? "
+					+ "and s1.structure = s.structure  ";
 			
 			
-			int arrSize = 2;			
+			int arrSize = 2;	
+			
+			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) ) > 0  and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) ";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;				
+			}
+			else
+			{
+				qry = qry + " ) > 0";
+			}
+			qry = qry + " group by s.structure ";
+			
+			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -239,6 +255,30 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			//pValues[i++] = CommonConstants2.STATUS_COMPLETED;
 			pValues[i++] = obj.getContract_id_fk();
 			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
+				objsList1 = getExecutivesList(obj);	
+			
+			}
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				for (StripChart con : objsList1) {
+			        boolean found=false;
+			        for (StripChart con1 : objsList) {
+			            if ((con.getContract_id().equals(con1.getContract_id()))) {
+			                found=true;
+			                break;
+			            }
+			        }
+			        if(!found){
+			        	objsList.add(con);
+			        }
+			    }
+			}			
+		
 			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 
 			e.printStackTrace();

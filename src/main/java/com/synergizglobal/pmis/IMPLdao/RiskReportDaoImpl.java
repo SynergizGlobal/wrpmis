@@ -222,7 +222,8 @@ public class RiskReportDaoImpl implements RiskReportDao{
 					"LEFT JOIN risk_revision rr on rr.risk_id_pk_fk = r.risk_id_pk " + 
 					"LEFT JOIN risk_work_hod rwh on rwh.sub_work = r.sub_work " + 
 					"WHERE (rwh.risk_work_completed is null or rwh.risk_work_completed = '' or rwh.risk_work_completed = 'No') group by r.sub_work "+
-					"order by max(rr.date) desc";
+					"order by rwh.priority asc ";			
+					//"order by max(rr.date) desc";
 			
 					
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));

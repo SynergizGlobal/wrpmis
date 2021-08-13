@@ -143,7 +143,7 @@
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add Data Gathering</strong></a>
 							</div>	
-							<div class="col s6 m4 l2 input-field offset-l2">
+							<div class="col s6 m4 l2 input-field offset-l1">
 								<p class="searchable_label">Project</p>
 								<select id="project_id_fk" name="project_id_fk"
 									class="searchable" onchange="addInQueProject(this.value);getDataGatheringList();">

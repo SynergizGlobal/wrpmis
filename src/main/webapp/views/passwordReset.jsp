@@ -24,6 +24,24 @@
 		    font-size: 1.35rem;
 		    cursor:pointer;
 		}
+		@media only screen and (max-device-width: 769px){
+		    .input-field input[type='password']{
+			    box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff !important;
+			    height: 40px;
+			    width: -webkit-fill-available;
+			    background-color: transparent;
+			    padding-left: 10px;
+			}
+			.input-field input[type='password']+label{
+				color:#333;
+				padding-left:10px;
+			}
+			.toggle-password{
+				top:10px;
+				right:15px;
+			}
+		}
+
   </style>
 </head>
 
@@ -57,50 +75,42 @@
                     	
                         <form action="<%=request.getContextPath()%>/change-password" id="passwordResetForm" name="passwordResetForm" method="post">
                             <div class="row">
-                                <div class="col m4 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m6 l4 offset-l4 input-field offset-m3">
                                     <input type="password" id="oldPassword" name="oldPassword" class="validate" autocomplete="off">
                                     <label for="oldPassword">Old Password</label>
                                      <span class="material-icons toggle-password old-pass">visibility_off</span>
                                     <span id="oldPasswordError" ></span>
                                 </div>
-                                <div class="col m4 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m4 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m6 l4 offset-l4 input-field offset-m3">
                                     <input type="password" id="newPassword" name="newPassword"  class="validate" autocomplete="off" step="any" pattern="^\d*(\.\d{0,2})?$">
                                     <label for="newPassword">New Password</label>
                                     <span class="material-icons toggle-password new-pass">visibility_off</span>
                                     <span id="newPasswordError" ></span>
                                 </div>
-                                <div class="col m4 hide-on-small-only"></div>
                             </div>
                            
                            <div class="row">
-                                <div class="col m4 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m6 l4 offset-l4 input-field offset-m3 ">
                                     <input type="password" id="confirmPassword" name="confirmPassword" class="validate" autocomplete="off">
                                     <label for="confirmPassword">Confirm Password</label>
                                     <span class="material-icons toggle-password conf-pass">visibility_off</span>
                                     <span id="confirmPasswordError" ></span>
                                 </div>
-                                <div class="col m4 hide-on-small-only"></div>
                             </div>
                             
                             <div class="row">
-                                <div class="col m4 hide-on-small-only"></div>
-                                <div class="col s12 m2">
+                                <div class="col s12 m3 l2 offset-m3 offset-l4 ">
                                     <div class="center-align m-1">
                                         <button type="submit" class="btn waves-effect waves-light bg-m" style="width: 100%;">Change Password</button>
                                     </div>
                                 </div>
-                                <div class="col s12 m2">
+                                <div class="col s12 m3 l2 ">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath() %>/reset-password" class="btn waves-effect waves-light bg-s" style="width: 100%;">Cancel</a>
                                     </div>
                                 </div>
-                                <div class="col m4 hide-on-small-only"></div>
                             </div>
                         </form>
                     </div>

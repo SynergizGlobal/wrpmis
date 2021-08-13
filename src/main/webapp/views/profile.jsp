@@ -149,7 +149,7 @@
 							</div>
 				  </c:if>
                     <div class="row">                   
-                        <div class="col m4 s12 center-align">
+                        <div class="col m6 l4 s12 center-align">
                             <div class="card">
                                 <div class="card-content">
                                    <!--  <span class="card-title headbg">Basic</span> -->
@@ -183,7 +183,7 @@
                             </div>
                         </div>
                         <input type="hidden"  name="user_id" id="user_id" value="${ userDetails.user_id }" />
-                        <div class="col m4 s12">
+                        <div class="col m6 l4 s12">
                             <div class="card">
                                 <div class="card-content">
                                     <span class="card-title headbg">Basic</span>
@@ -270,7 +270,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col m4 s12">
+                        <div class="col m12 l4 s12">
                             <div class="card" style="min-height: 445px;">
                                 <div class="card-content">
                                     <span class="card-title headbg">User Access</span>

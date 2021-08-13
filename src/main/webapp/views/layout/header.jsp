@@ -843,7 +843,7 @@
 
 		<li class="sub-menu"><a href="javascript:void(0);"
 			class='head-img collapsible-header'> <span
-				class="material-icons-outlined">link</span>Quick Links
+				class="material-icons-outlined">link</span> Quick Links
 		</a>
 			<ul class="dropdown-data collapsible-body second-lvl collapsible">
 				<c:forEach var="lObj" items="${webLinksList }">
@@ -855,7 +855,7 @@
 		<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
 			<li class="sub-menu"><a href="#"
 				class='head-img collapsible-header'> <span
-					class="material-icons-outlined">list_alt</span>Admin
+					class="material-icons-outlined">list_alt</span> Admin
 			</a>
 				<ul class="dropdown-data collapsible-body second-lvl collapsible">
 					<c:forEach var="form" items="${adminForms }" varStatus="index">

@@ -48,9 +48,9 @@
          	padding-right:5px !important;
          }
          @media only screen and (min-width: 768px) and (max-width: 1024px){			
-			.mb-md-2{
+			/* .mb-md-2{
 				margin-bottom:0;
-			}
+			} */
 			.fw-111{
 	        	width:30vw;
 	        	min-width:30vw;

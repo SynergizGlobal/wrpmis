@@ -5,14 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.synergizglobal.pmis.Idao.ContractResourceDao;
-import com.synergizglobal.pmis.Iservice.ContractResourceService;
+import com.synergizglobal.pmis.Idao.ContractResourceReportDao;
+import com.synergizglobal.pmis.Iservice.ContractResourceReportService;
 import com.synergizglobal.pmis.model.ContractResource;
+
 @Service
-public class ContractResourceServiceImpl implements ContractResourceService{
+public class ContractResourceReportServiceImpl implements ContractResourceReportService{
 
 	@Autowired
-	ContractResourceDao dao;
+	ContractResourceReportDao dao;
 
 	@Override
 	public List<ContractResource> getProjectsListForContractResourceForm(ContractResource obj) throws Exception {
@@ -25,18 +26,13 @@ public class ContractResourceServiceImpl implements ContractResourceService{
 	}
 
 	@Override
+	public List<ContractResource> getHODsListForContractResourceForm(ContractResource obj) throws Exception {
+		return dao.getHODsListForContractResourceForm(obj);
+	}
+
+	@Override
 	public List<ContractResource> getContractsListForContractResourceForm(ContractResource obj) throws Exception {
 		return dao.getContractsListForContractResourceForm(obj);
-	}
-
-	@Override
-	public boolean addResource(ContractResource obj) throws Exception {
-		return dao.addResource(obj);
-	}
-
-	@Override
-	public List<ContractResource> getResourceTypeListForContractResourceForm(ContractResource obj) throws Exception {
-		return dao.getResourceTypeListForContractResourceForm(obj);
 	}
 
 	@Override

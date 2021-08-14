@@ -16,4 +16,6 @@ public interface ContractResourceDao {
 
 	List<ContractResource> getResourceTypeListForContractResourceForm(ContractResource obj) throws Exception;
 
+	ContractResource getContarctResourceReportData(ContractResource obj) throws Exception;
+
 }

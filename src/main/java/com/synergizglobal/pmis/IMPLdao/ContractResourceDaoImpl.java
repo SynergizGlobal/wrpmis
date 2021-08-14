@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.Idao.ContractResourceDao;
+import com.synergizglobal.pmis.model.ActivitiesProgressReport;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.ContractResource;
 @Repository
@@ -321,5 +322,11 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 		throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	@Override
+	public ContractResource getContarctResourceReportData(ContractResource obj) throws Exception {
+
+		return obj;
 	}
 }

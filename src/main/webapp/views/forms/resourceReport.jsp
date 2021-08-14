@@ -42,26 +42,35 @@
                         </div>
                     </span>
                     <div class="">
-			            <form action="<%=request.getContextPath() %>/generate-resource_report" id="reportForm" name="reportForm" method="post">	                              
+			            <form action="<%=request.getContextPath() %>/generate-contract-resource-report" id="reportForm" name="reportForm" method="post" target="_blank">	                              
                        		 <div class="row no-mar">
                                 <div class="col s6 m4 l2 input-field offset-l3">
                                     <p class="searchable_label" style="text-align:left">Project</p>
-                                    <select class="searchable validate-dropdown" id="project" name="project" onchange="getResourceReport(this.value);">
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getWorksList(this.value);getContractsList();getHODLIst();">
                                         <option value="">Select </option>
+                                         <c:forEach var="obj" items="${projectsList }">
+                                      	   <option value= "${obj.project_id_fk}">${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                         </c:forEach>
                                     </select>
                                     <span id="projectError" class="error-msg" ></span>
-                                </div>
+                                </div> 
                                 <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label" style="text-align:left">Work</p>
-                                    <select class="searchable validate-dropdown" id="sub_work" name="sub_work" onchange="getResourceReport(this.value);">
+                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="getContractsList();resetProjectsDropdowns();getHODLIst();">
                                         <option value="">Select </option>
+                                          <c:forEach var="obj" items="${worksList }">
+                                      	   <option value= "${obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                         </c:forEach>
                                     </select>
                                     <span id="sub_workError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label" style="text-align:left">HOD</p>
-                                    <select class="searchable validate-dropdown" id="hod" name="hod" onchange="getResourceReport(this.value);">
+                                    <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="getContractsList();">
                                         <option value="">Select </option>
+                                         <c:forEach var="obj" items="${HODsList }">
+                                      	   <option value= "${obj.hod_user_id_fk}">${obj.designation}<%-- <c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name } --%></option>
+                                         </c:forEach>
                                     </select>
                                     <span id="hodError" class="error-msg" ></span>
                                 </div>
@@ -69,22 +78,25 @@
                            <div class="row">
                            		<div class="col s6 m4 l2 input-field offset-l3 pt-md-5">
                                     <p class="searchable_label" style="text-align:left">Contract</p>
-                                    <select class="searchable validate-dropdown" id="contract" name="contract" onchange="getResourceReport(this.value);">
+                                    <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="resetWorksAndProjectsDropdowns();setHODist();">
                                         <option value="">Select </option>
+                                        <c:forEach var="obj" items="${contractsList }">
+                                      	   <option workId="${obj.work_id_fk }" name="${obj.hod_user_id_fk }" value= "${obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                         </c:forEach>
                                     </select>
                                     <span id="contractError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l2 input-field ">                                    
-                                    <input id="deployment_from_date" type="text" name="deployment_from_date" class="validate datepicker">
-                                    <label for="deployment_from_date" class="fs-sm-8rem">Deployment From Date <span class="required">*</span></label>
-                                    <button type="button" id="deployment_from_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-                                    <span id="deployment_from_dateError" class="error-msg" ></span>
+                                    <input id="from_date" type="text" name="from_date" class="validate datepicker">
+                                    <label for="from_date" class="fs-sm-8rem">Deployment From Date <span class="required">*</span></label>
+                                    <button type="button" id="from_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    <span id="from_dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l2 input-field">                                    
-                                    <input id="deployment_to_date" type="text" name="deployment_to_date" class="validate datepicker">
-                                    <label for="deployment_to_date" class="fs-sm-8rem">Deployment To Date <span class="required">*</span></label>
-                                    <button type="button" id="deployment_to_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-                                    <span id="deployment_to_dateError" class="error-msg" ></span>
+                                    <input id="to_date" type="text" name="to_date" class="validate datepicker">
+                                    <label for="to_date" class="fs-sm-8rem">Deployment To Date <span class="required">*</span></label>
+                                    <button type="button" id="to_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    <span id="to_dateError" class="error-msg" ></span>
                                 </div>
                             </div>
                             <div class="row">	                                	
@@ -94,9 +106,8 @@
                                         onclick="clearFilter()">Clear Filter</button>
                                 </div>
                                 <div class="col s12 m4 l3 input-field center-align">
-                                    <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                        style="margin-top: 6px;min-width:160px%; font-weight: 600;"
-                                        onclick="generateReport()">Generate Report</button>
+                                    <button type="submit" class="btn bg-m waves-effect waves-light t-c clear-filters"
+                                        style="margin-top: 6px;min-width:160px%; font-weight: 600;">Generate Report</button>
                                 </div>
                              </div>
                         </form>
@@ -167,10 +178,127 @@
 			$('.searchable').select2();			
 		});    
         
+        function getWorksList(projectId) {
+        	$(".page-loader").show();
+            $("#work_id_fk option:not(:first)").remove();
+            $("#contract_id_fk option:not(:first)").remove();
+            if ($.trim(projectId) != "") {
+                var myParams = { project_id_fk: projectId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForContractResourceReportForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var workName = '';
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+        function getHODLIst(){
+			$(".page-loader").show();
+        	
+            $("#hod_user_id_fk option:not(:first)").remove();
+            var project_id_fk = $("#project_id_fk").val();
+            var work_id_fk = $("#work_id_fk").val();
+            if ($.trim(work_id_fk) != "" || $.trim(project_id_fk) != "") {
+                var myParams = { work_id_fk: work_id_fk, project_id_fk : project_id_fk };
+                $.ajax({
+                	url: "<%=request.getContextPath()%>/ajax/getHODSListForContractResourceReportForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                               $("#hod_user_id_fk").append('<option  value="' + val.hod_user_id_fk + '">' + $.trim(val.designation)  + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+        function getContractsList() {
+        	$(".page-loader").show();
+        	
+            $("#contract_id_fk option:not(:first)").remove();
+            var project_id_fk = $("#project_id_fk").val();
+            var work_id_fk = $("#work_id_fk").val();
+            var hod_user_id_fk = $("#hod_user_id_fk").val();
+            if ($.trim(work_id_fk) != "" || $.trim(hod_user_id_fk) != "" || $.trim(project_id_fk) != "") {
+                var myParams = { work_id_fk: work_id_fk, hod_user_id_fk : hod_user_id_fk,project_id_fk : project_id_fk };
+                $.ajax({
+                	url: "<%=request.getContextPath()%>/ajax/getContractsListForContractResourceReportForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var contract_name = '';
+                                if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
+                                	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" name="'+val.hod_user_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+        function setHODist(){
+        	$(".page-loader").show();        	
+       		var contract_id_fk = $("#contract_id_fk").val();
+       		if($.trim(contract_id_fk) != ''){  
+            	var hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("name");
+       			$("#hod_user_id_fk").val(hod_user_id_fk);
+       			$("#hod_user_id_fk").select2();
+       		}
+       		$(".page-loader").hide();
+        }
+        function resetWorksAndProjectsDropdowns(){
+        	$(".page-loader").show();        	
+        	var projectId = '';
+        	var workId = ''
+       		var contract_id_fk = $("#contract_id_fk").val();
+       		if($.trim(contract_id_fk) != ''){  
+            	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
+            	projectId = workId.substring(0, 3);    
+       			//workId = workId.substring(3, work_id.length);
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       			$("#work_id_fk").val(workId);
+       			$("#work_id_fk").select2();
+       		}
+       		$(".page-loader").hide();
+        }
+        
+        function resetProjectsDropdowns(){
+        	$(".page-loader").show();        	
+        	var projectId = '';
+       		var work_id_fk = $("#work_id_fk").val();
+       		if($.trim(work_id_fk) != ''){  
+            	projectId = work_id_fk.substring(0, 3);    
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       		}
+       		$(".page-loader").hide();
+        	
+        }
         function getResourceReport(sub_work) {
         	$(".page-loader").show();
         	var work_id = $("#report_work_id").val();
-           	$("#deployment_from_date option:not(:first)").remove();
+           	$("#from_date option:not(:first)").remove();
            	var myParams = {work_id : work_id,sub_work : sub_work}
            	$.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getResourceReport",
@@ -178,7 +306,7 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-								$("#deployment_from_date").append('<option value="' + $.trim(val.assessment_date) + '">' + $.trim(val.assessment_date)+'</option>');
+								$("#from_date").append('<option value="' + $.trim(val.assessment_date) + '">' + $.trim(val.assessment_date)+'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -190,23 +318,19 @@
             });
         }
         
-        function generateReport() {
-        	$("#reportForm").submit();
-		}        
-        
         var validator =	$('#reportForm').validate({
 			 ignore: ":hidden:not(.validate-dropdown)",
 	  		    rules: {
-	  		 		  "deployment_from_date": {
+	  		 		  "from_date": {
 	  			 		required: true
-	  			 	  }	,"deployment_to_date": {
+	  			 	  }	,"to_date": {
 	  			 		required: true
 	  			 	  }	
 	  		 	},
 	  		    messages: {
-	  		 		 "deployment_from_date": {
+	  		 		 "from_date": {
 	  			 		required: ' This field is required'
-	  			 	  },"deployment_to_date": {
+	  			 	  },"to_date": {
 	  			 		required: ' This field is required'
 	  			 	  }
 		   		},
@@ -223,12 +347,12 @@
 					} else if(element.attr("id") == "contract" ){
 						   document.getElementById("contractError").innerHTML="";
 					 	   error.appendTo('#contractError');
-					} else if(element.attr("id") == "deployment_from_date" ){
-						   document.getElementById("deployment_from_dateError").innerHTML="";
-					 	   error.appendTo('#deployment_from_dateError');
-					} else if(element.attr("id") == "deployment_to_date" ){
-						   document.getElementById("deployment_to_dateError").innerHTML="";
-					 	   error.appendTo('#deployment_to_dateError');
+					} else if(element.attr("id") == "from_date" ){
+						   document.getElementById("from_dateError").innerHTML="";
+					 	   error.appendTo('#from_dateError');
+					} else if(element.attr("id") == "to_date" ){
+						   document.getElementById("to_dateError").innerHTML="";
+					 	   error.appendTo('#to_dateError');
 					} else{
 	 					error.insertAfter(element);
 			       }
@@ -251,13 +375,14 @@
     	});
 
         function clearFilter(){
-    		$('#project').val('');
-    		$('#sub_work').val('');
-    		$('#hod').val('');
-    		$('#contract').val('');
-    		$('#deployment_from_date').val('');
-    		$('#deployment_to_date').val('');
+    		$('#project_id_fk').val('');
+    		$('#work_id_fk').val('');
+    		$('#hod_user_id_fk').val('');
+    		$('#contract_id_fk').val('');
+    		$('#from_date').val('');
+    		$('#to_date').val('');
     		$('.searchable').select2();
+    		window.location.href= "<%=request.getContextPath()%>/contract-resource-report";
     	}
     </script>
 

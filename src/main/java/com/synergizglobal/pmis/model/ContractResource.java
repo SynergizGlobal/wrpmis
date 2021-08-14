@@ -6,11 +6,112 @@ public class ContractResource {
 	
 	private String resource_id, contract_id_fk, structure_fk, date, resource_type, resource_name, quantity,
 	created_by_user_id, project_id,created_date,contract_name,contract_short_name,work_id,work_id_fk,work_short_name,work_name,project_id_fk,project_name,
-	user_role_code,user_id,user_type_fk;
+	user_role_code,user_id,user_type_fk,hod_user_id_fk,user_name,designation,from_date,to_date,count,average;
 
 	private String []  resource_ids, resource_types, resource_names, quantitys, created_by_user_ids, created_dates;
 	List<ContractResource> resourceList;
+	List<ContractResource> contarctsList;
+	List<ContractResource> datesList;
+	List<ContractResource> dataList;
+	List<ContractResource> quantityList;
+	List<ContractResource> actualDatesList;
 	
+	public List<ContractResource> getActualDatesList() {
+		return actualDatesList;
+	}
+
+	public void setActualDatesList(List<ContractResource> actualDatesList) {
+		this.actualDatesList = actualDatesList;
+	}
+
+	public String getCount() {
+		return count;
+	}
+
+	public void setCount(String count) {
+		this.count = count;
+	}
+
+	public String getAverage() {
+		return average;
+	}
+
+	public void setAverage(String average) {
+		this.average = average;
+	}
+
+	public List<ContractResource> getQuantityList() {
+		return quantityList;
+	}
+
+	public void setQuantityList(List<ContractResource> quantityList) {
+		this.quantityList = quantityList;
+	}
+
+	public List<ContractResource> getDataList() {
+		return dataList;
+	}
+
+	public void setDataList(List<ContractResource> dataList) {
+		this.dataList = dataList;
+	}
+
+	public List<ContractResource> getContarctsList() {
+		return contarctsList;
+	}
+
+	public void setContarctsList(List<ContractResource> contarctsList) {
+		this.contarctsList = contarctsList;
+	}
+
+	public List<ContractResource> getDatesList() {
+		return datesList;
+	}
+
+	public void setDatesList(List<ContractResource> datesList) {
+		this.datesList = datesList;
+	}
+
+	public String getFrom_date() {
+		return from_date;
+	}
+
+	public void setFrom_date(String from_date) {
+		this.from_date = from_date;
+	}
+
+	public String getTo_date() {
+		return to_date;
+	}
+
+	public void setTo_date(String to_date) {
+		this.to_date = to_date;
+	}
+
+	public String getHod_user_id_fk() {
+		return hod_user_id_fk;
+	}
+
+	public void setHod_user_id_fk(String hod_user_id_fk) {
+		this.hod_user_id_fk = hod_user_id_fk;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
 	public String getUser_type_fk() {
 		return user_type_fk;
 	}

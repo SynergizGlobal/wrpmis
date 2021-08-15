@@ -38,10 +38,26 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 					+ "LEFT JOIN contract c on cr.contract_id_fk = c.contract_id "
 					+ "LEFT OUTER JOIN `work` w ON c.work_id_fk = w.work_id "
 					+ "LEFT OUTER JOIN `project` p ON w.project_id_fk = project_id where contract_id is not null  ";
-			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + "and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and hod_user_id_fk = ?";
+				arrSize++;
+			}
 			qry = qry + " group by project_id  order by project_id asc";
+			Object[] pValues = new Object[arrSize];
 			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));	
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
@@ -65,6 +81,10 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 				qry = qry + "and project_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and hod_user_id_fk = ?";
+				arrSize++;
+			}
 			qry = qry + " group by work_id order by work_id asc";
 			
 			Object[] pValues = new Object[arrSize];
@@ -73,6 +93,9 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				pValues[i++] = obj.getProject_id_fk();
 			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));
 		
 		}catch(Exception e){ 
@@ -88,7 +111,7 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 	public List<ContractResource> getHODsListForContractResourceForm(ContractResource obj) throws Exception {
 		List<ContractResource> objsList = null;
 		try {
-			String qry ="select hod_user_id_fk,user_name,designation "
+			String qry ="select contract_id_fk,c.work_id_fk,hod_user_id_fk,user_name,designation "
 					+ "from contract_resource cr "
 					+ "LEFT JOIN contract c on cr.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
@@ -175,9 +198,22 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 		try {
 			String qry = "SELECT resource_id, contract_id_fk, date,contract_name,contract_short_name,work_name,work_short_name, resource_type, resource_name, quantity, created_by_user_id, created_date FROM `contract_resource` cr "
 					+ " LEFT JOIN contract c on cr.contract_id_fk = c.contract_id "
-					+ " LEFT JOIN work w on c.work_id_fk = w.work_id ";
+					+ " LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN project p on w.project_id_fk = p.project_id ";
 			int arrSize = 2;
 			qry = qry + "WHERE (date BETWEEN ? AND ? ) ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and hod_user_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
@@ -187,6 +223,15 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 			int i = 0;
 			pValues[i++] = obj.getFrom_date();
 			pValues[i++] = obj.getTo_date();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}

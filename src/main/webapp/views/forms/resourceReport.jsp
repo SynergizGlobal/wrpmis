@@ -46,7 +46,7 @@
                        		 <div class="row no-mar">
                                 <div class="col s6 m4 l2 input-field offset-l3">
                                     <p class="searchable_label" style="text-align:left">Project</p>
-                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getWorksList(this.value);getContractsList();getHODLIst();">
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getWorksList();getContractsList();getHODLIst();">
                                         <option value="">Select </option>
                                          <c:forEach var="obj" items="${projectsList }">
                                       	   <option value= "${obj.project_id_fk}">${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
@@ -56,7 +56,7 @@
                                 </div> 
                                 <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label" style="text-align:left">Work</p>
-                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="getContractsList();resetProjectsDropdowns();getHODLIst();">
+                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns();getHODLIst();getContractsList();">
                                         <option value="">Select </option>
                                           <c:forEach var="obj" items="${worksList }">
                                       	   <option value= "${obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
@@ -66,10 +66,10 @@
                                 </div>
                                 <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label" style="text-align:left">HOD</p>
-                                    <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="getContractsList();">
+                                    <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="resetWorksAndProjectsDropdowns();getContractsList();">
                                         <option value="">Select </option>
                                          <c:forEach var="obj" items="${HODsList }">
-                                      	   <option value= "${obj.hod_user_id_fk}">${obj.designation}<%-- <c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name } --%></option>
+                                      	   <option name="${obj.work_id_fk }" value= "${obj.hod_user_id_fk}">${obj.designation}<%-- <c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name } --%></option>
                                          </c:forEach>
                                     </select>
                                     <span id="hodError" class="error-msg" ></span>
@@ -178,12 +178,15 @@
 			$('.searchable').select2();			
 		});    
         
-        function getWorksList(projectId) {
+        function getWorksList() {
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
+            $("#hod_user_id_fk option:not(:first)").remove();
             $("#contract_id_fk option:not(:first)").remove();
-            if ($.trim(projectId) != "") {
-                var myParams = { project_id_fk: projectId };
+            var project_id_fk = $("#project_id_fk").val();
+            var hod_user_id_fk = $("#hod_user_id_fk").val();
+            if ($.trim(project_id_fk) != "" || $.trim(hod_user_id_fk) != "") {
+                var myParams = { project_id_fk: project_id_fk, hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorkListForContractResourceReportForm",
                     data: myParams, cache: false,
@@ -203,21 +206,51 @@
             	$(".page-loader").hide();
             }
         }
+        
+        function getProjectList() {
+        	$(".page-loader").show();
+        	$("#project_id_fk option:not(:first)").remove();
+            $("#work_id_fk option:not(:first)").remove();
+            $("#contract_id_fk option:not(:first)").remove();
+            var work_id_fk = $("#work_id_fk").val();
+            var hod_user_id_fk = $("#hod_user_id_fk").val();
+            if ($.trim(work_id_fk) != "" || $.trim(hod_user_id_fk) != "") {
+                var myParams = { work_id_fk: work_id_fk, hod_user_id_fk : hod_user_id_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getProjectsListForContractResourceReportForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var project_name = '';
+                                if ($.trim(val.project_name) != '') { project_name = ' - ' + $.trim(val.project_name) }
+                                    $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk) + $.trim(project_name) + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
         function getHODLIst(){
 			$(".page-loader").show();
         	
             $("#hod_user_id_fk option:not(:first)").remove();
             var project_id_fk = $("#project_id_fk").val();
             var work_id_fk = $("#work_id_fk").val();
-            if ($.trim(work_id_fk) != "" || $.trim(project_id_fk) != "") {
+            var hod_user_id_fk = $("#hod_user_id_fk").val();
+            if (($.trim(work_id_fk) != "" || $.trim(project_id_fk) != "") &&  $.trim(hod_user_id_fk) == "") {
                 var myParams = { work_id_fk: work_id_fk, project_id_fk : project_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getHODSListForContractResourceReportForm",
+                	url: "<%=request.getContextPath()%>/ajax/getHODSListForContractResourceReportForm", 
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                               $("#hod_user_id_fk").append('<option  value="' + val.hod_user_id_fk + '">' + $.trim(val.designation)  + '</option>');
+                               $("#hod_user_id_fk").append('<option name="'+val.work_id_fk +'"  value="' + val.hod_user_id_fk + '">' + $.trim(val.designation)  + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -271,10 +304,22 @@
         	var projectId = '';
         	var workId = ''
        		var contract_id_fk = $("#contract_id_fk").val();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
+        	if($.trim(hod_user_id_fk) != ''){
+        		contract_id_fk = "";
+        	}
        		if($.trim(contract_id_fk) != ''){  
             	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
             	projectId = workId.substring(0, 3);    
-       			//workId = workId.substring(3, work_id.length);
+       			//workId = workId.substring(3, work_id.length); 
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       			$("#work_id_fk").val(workId);
+       			$("#work_id_fk").select2();
+       		}else{
+       			workId = $("#hod_user_id_fk").find('option:selected').attr("name"); 
+       			//contract_id_fk = $("#hod_user_id_fk").find('option:selected').attr("name"); 
+       			projectId = workId.substring(0, 3);    
        			$("#project_id_fk").val(projectId);
        			$("#project_id_fk").select2();
        			$("#work_id_fk").val(workId);

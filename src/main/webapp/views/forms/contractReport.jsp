@@ -67,15 +67,24 @@
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s6 m3 input-field">
+	                                    <div class="col s6 m2 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contractor</p>
 	                                        <select id="contractor_id_fk" name="contractor_id_fk" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All </option>
 	                                        </select>
 	                                        <span id="contractor_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s6 m3 input-field">
+	                                    <div class="col s6 m2 input-field" id="CSdiv" style="display:none;">
 	                                        <p class="searchable_label" style="text-align:left">Contract Status</p>
+	                                        <select id="status" name="status" class="searchable validate-dropdown">
+	                                            <option value="">All</option>
+	                                            <option value="Open">Open</option>
+	                                            <option value="Closed">Closed</option>
+	                                        </select>
+	                                        <span id="contract_status_fkError" class="error-msg" ></span>
+	                                    </div>	                                    
+	                                    <div class="col s6 m2 input-field">
+	                                        <p class="searchable_label" style="text-align:left">Status of Work</p>
 	                                        <select id="contract_status_fk" name="contract_status_fk" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All </option>
 	                                        </select>
@@ -197,6 +206,8 @@
 				{
 					$("#rptName").html("List of Contracts");
 					$("#nextRow").hide();
+					$("#CSdiv").show();
+					
 					
 				}
 				else if(ReportNo==2)
@@ -205,6 +216,8 @@
 					$("#nextRow").show();
 					$("#dateDiv").hide();
 					$("#contractDiv").show();
+					$("#CSdiv").hide();
+
 				}
 				else if(ReportNo==3)
 				{
@@ -212,8 +225,8 @@
 					$("#nextRow").show();
 					$('#toremove').hide();
 					$("#dateDiv").show();
-					$("#contractDiv").hide();	
-					
+					$("#contractDiv").hide();
+					$("#CSdiv").hide();
 
 				}
 				else if(ReportNo==4)
@@ -221,21 +234,27 @@
 					$("#rptName").html("BG Report");
 					$("#nextRow").show();
 					$("#dateDiv").show();
-					$("#contractDiv").hide();						
+					$("#contractDiv").hide();
+					$("#CSdiv").hide();
+
 				}
 				else if(ReportNo==5)
 				{
 					$("#rptName").html("Insurance Report");
 					$("#nextRow").show();
 					$("#dateDiv").show();
-					$("#contractDiv").hide();						
+					$("#contractDiv").hide();
+					$("#CSdiv").hide();
+
 				}
 				else if(ReportNo==6)
 				{
 					$("#rptName").html("DOC, BG & Insurance Report");
 					$("#nextRow").show();
 					$("#dateDiv").show();
-					$("#contractDiv").hide();						
+					$("#contractDiv").hide();
+					$("#CSdiv").hide();
+
 				}
             
         });

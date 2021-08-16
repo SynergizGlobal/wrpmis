@@ -530,13 +530,39 @@ public class ContractReportController {
 
 			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
-			String headerTextMiddle = "List of Contracts";
+
+			String headerTextRight = "";
+			String appendHeader = "";
 			
-			//String headerTextRight = report_created_date;
-			String headerTextRight = null;
+			if(obj.getStatus()==null)
+			{
+				
+				headerTextRight="";
+				appendHeader="All";
+			}
+			if (!StringUtils.isEmpty(obj.getStatus())) 
+			{
+				String Diff=obj.getStatus();
+				String ComVal="Open";
+				String ComValCl="Closed";
+				
+				if(Diff.compareTo(ComVal)==0)
+				{
+				
+					headerTextRight="OPEN CONTRACTS";
+					appendHeader="Open";
+				}
+				else if(Diff.compareTo(ComValCl)==0)
+				{
+					
+					headerTextRight="CLOSED CONTRACTS";
+					appendHeader="Closed";
+				}
+			}
 			
-			//String headerText = "PMIS Report - Contract Details";
-			
+			String headerTextMiddle = "List of "+appendHeader+" Contracts";			
+
+
 			int tabs1 = 8;int tabs2 = 5;
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,tabs1,tabs2);
@@ -545,7 +571,7 @@ public class ContractReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForContractReport(wordMLPackage, mp, factory,list,report_created_date);
+			DocxTableCreationForContractReport.createTableForContractReport(wordMLPackage, mp, factory,list,report_created_date,obj.getStatus());
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	

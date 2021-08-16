@@ -58,7 +58,7 @@ public class DocxTableCreationForContractReport {
 
 
 	public static void createTableForContractReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, Map<String, List<Contract>> contractsData,String report_created_date) throws Exception {
+			ObjectFactory factory, Map<String, List<Contract>> contractsData,String report_created_date,String Status) throws Exception {
 
 		try {
 
@@ -87,6 +87,7 @@ public class DocxTableCreationForContractReport {
 					false, false, false, false);
 
 			int temp = 1;
+			int tempVal=0;
 			for (Map.Entry<String, List<Contract>> entry : contractsData.entrySet()) {
 				//System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
 				List<Contract> contracts = entry.getValue();
@@ -99,6 +100,8 @@ public class DocxTableCreationForContractReport {
 				//addBorders(tableHead, "0");
 				
 				/**************************************************************************/
+				
+			
 				Tr hodRow = factory.createTr();
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, keyName, calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 				addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow, "", calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
@@ -126,203 +129,542 @@ public class DocxTableCreationForContractReport {
 				
 				tableHead.getContent().add(hodRow);
 				mergeCellsHorizontal(tableHead, 0, 0, 6);
-				mergeCellsHorizontal(tableHead, 0, 7, 12);
+				mergeCellsHorizontal(tableHead, 0, 7, 13);
 				mp.addObject(tableHead);
-				/***************************************************************/
-
-				Tbl table = factory.createTbl();
-				addBorders(table, "2");
-				
-				/************************************************************************/
-				Tr titleRow0 = factory.createTr();
-				List<String> tableHeader0 = new ArrayList<String>();
-				tableHeader0.add("SN");
-				tableHeader0.add("Short name of Contract");
-				tableHeader0.add("Agency");
-				tableHeader0.add("Date of Award");
-				tableHeader0.add("Contract Value (Cr.)");
-				tableHeader0.add("");	
-				tableHeader0.add("Date of Completion");
-				tableHeader0.add("");					
-				tableHeader0.add("BG Valid Upto");
-				tableHeader0.add("Insurance Valid Upto");
-				tableHeader0.add("Expenditure (Cr.)");
-				tableHeader0.add("Physical Progress (%)");
-				tableHeader0.add("Target Date of Completion");
-				
-				int columnNo = 1;
-				for (String headerValue : tableHeader0) {
-					int width = 0;
-					if(1 == columnNo) {
-						width = 230;
-					}else if(2 == columnNo) {
-						width = 830;
-					}else if(3 == columnNo) {
-						width = 1100;
-					}else if(4 == columnNo) {
-						width = 750;
-					}else if(5 == columnNo) {
-						width = 620;
-					}else if(6 == columnNo) {
-						width = 620;
-					}else if(7 == columnNo) {
-						width = 750;
-					}else if(8 == columnNo) {
-						width = 750;
-					}
-					else if(9 == columnNo) {
-						width = 700;
-					}
-					else if(10 == columnNo) {
-						width = 700;
-					}
-					else if(11 == columnNo) {
-						width = 700;
-					}
-					else if(12 == columnNo) {
-						width = 700;
-					}
-					else if(13 == columnNo) {
-						width = 700;
-					}
-					columnNo++;
-					addTableCellAndWidth(factory, wordMLPackage, titleRow0, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
-							"ecf2ff",width);
-				}
-				table.getContent().add(titleRow0);
-
-				mergeCellsHorizontal(table, 0, 4, 5);
-				mergeCellsHorizontal(table, 0, 6, 7);
-				
-				/************************************************************************************/
-				Tr titleRow = factory.createTr();
-				List<String> tableHeader = new ArrayList<String>();
-				tableHeader.add("");
-				tableHeader.add("");
-				tableHeader.add("");
-				tableHeader.add("");
-				tableHeader.add("Awarded");
-				tableHeader.add("Revised");
-				tableHeader.add("Original");
-				tableHeader.add("Revised");
-				tableHeader.add("");
-				tableHeader.add("");
-				tableHeader.add("");
-				tableHeader.add("");
-				tableHeader.add("");
-				
-				columnNo = 1;
-				for (String headerValue : tableHeader) {
-					int width = 0;
-					if(1 == columnNo) {
-						width = 230;
-					}else if(2 == columnNo) {
-						width = 830;
-					}else if(3 == columnNo) {
-						width = 1100;
-					}else if(4 == columnNo) {
-						width = 750;
-					}else if(5 == columnNo) {
-						width = 620;
-					}else if(6 == columnNo) {
-						width = 620;
-					}else if(7 == columnNo) {
-						width = 750;
-					}else if(8 == columnNo) {
-						width = 750;
-					}
-					else if(9 == columnNo) {
-						width = 700;
-					}
-					else if(10 == columnNo) {
-						width = 700;
-					}
-					else if(11 == columnNo) {
-						width = 700;
-					}
-					else if(12 == columnNo) {
-						width = 700;
-					}
-					else if(13 == columnNo) {
-						width = 700;
-					}
-					columnNo++;
-					addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
-							"ecf2ff",width);
-				}
-				table.getContent().add(titleRow);
-				
-				mergeCellsVertically(table, 0, 0, 1);
-				mergeCellsVertically(table, 1, 0, 1);
-				mergeCellsVertically(table, 2, 0, 1);
-				mergeCellsVertically(table, 3, 0, 1);
-				
-				mergeCellsVertically(table, 8, 0, 1);
-				mergeCellsVertically(table, 9, 0, 1);
-				mergeCellsVertically(table, 10, 0, 1);
-				mergeCellsVertically(table, 11, 0, 1);				
-				mergeCellsVertically(table, 12, 0, 1);
-
-				
-				/*******************************************************************************/
-
-				int sNo = 1;
-				for (Contract cObj : contracts) 
+				if(Status!=null)
 				{
-					boolean hasBgColor = false;
-					String backgroundColor = null;
-					Tr contentRow = factory.createTr();
-
-					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_short_name(), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(), garamondRPr,
-							JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getLoa_date(), garamondRPr, JcEnumeration.CENTER,
-							hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow,cObj.getAwarded_cost(),
-							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow,cObj.getRevised_amount(),
-							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getDoc(), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getRevised_doc(), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					/***************************************************************/
+	
+					Tbl table = factory.createTbl();
+					addBorders(table, "2");
 					
+					/************************************************************************/
+					Tr titleRow0 = factory.createTr();
+					List<String> tableHeader0 = new ArrayList<String>();
+					tableHeader0.add("SN");
+					tableHeader0.add("Short name of Contract");
+					tableHeader0.add("Agency");
+					tableHeader0.add("Date of Award");
+					tableHeader0.add("Contract Value (Cr.)");
+					tableHeader0.add("");	
+					tableHeader0.add("Date of Completion");
+					tableHeader0.add("");					
+					tableHeader0.add("BG Valid Upto");
+					tableHeader0.add("Insurance Valid Upto");
+					tableHeader0.add("Expenditure (Cr.)");
+					tableHeader0.add("Physical Progress (%)");
+					tableHeader0.add("Target Date of Completion");
+					tableHeader0.add("Status of Work");
 					
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getPbg_valid_till(), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);					
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_till(), garamondRPr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getCumulative_expenditure(), garamondRPr,
-							JcEnumeration.RIGHT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getPhysicalProgress(), garamondRPr,
-							JcEnumeration.RIGHT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, cObj.getTarget_doc(), garamondRPr,
-							JcEnumeration.RIGHT, hasBgColor, backgroundColor);					
-					table.getContent().add(contentRow);
-				}
-				if (StringUtils.isEmpty(contracts) || contracts.isEmpty()) {
-					boolean hasBgColor = false;
-					String backgroundColor = null;
-					Tr contentRow = factory.createTr();
-
-					List<String> noDataRow = new ArrayList<String>();
-					noDataRow.add("Nil");
-					for (int i = 0; i < 7; i++) {
-						noDataRow.add("");
+					int columnNo = 1;
+					for (String headerValue : tableHeader0) {
+						int width = 0;
+						if(1 == columnNo) {
+							width = 230;
+						}else if(2 == columnNo) {
+							width = 830;
+						}else if(3 == columnNo) {
+							width = 1100;
+						}else if(4 == columnNo) {
+							width = 750;
+						}else if(5 == columnNo) {
+							width = 620;
+						}else if(6 == columnNo) {
+							width = 620;
+						}else if(7 == columnNo) {
+							width = 750;
+						}else if(8 == columnNo) {
+							width = 750;
+						}
+						else if(9 == columnNo) {
+							width = 760;
+						}
+						else if(10 == columnNo) {
+							width = 760;
+						}
+						else if(11 == columnNo) {
+							width = 700;
+						}
+						else if(12 == columnNo) {
+							width = 700;
+						}
+						else if(13 == columnNo) {
+							width = 750;
+						}
+						else if(14 == columnNo) {
+							width = 800;
+						}					
+						columnNo++;
+						addTableCellAndWidth(factory, wordMLPackage, titleRow0, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
+								"ecf2ff",width);
 					}
-
-					for (String headerValue : noDataRow) {
-						addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr, JcEnumeration.CENTER,
+					table.getContent().add(titleRow0);
+	
+					mergeCellsHorizontal(table, 0, 4, 5);	
+					mergeCellsHorizontal(table, 0, 6, 7);
+					
+					/************************************************************************************/
+					Tr titleRow = factory.createTr();
+					List<String> tableHeader = new ArrayList<String>();
+					tableHeader.add("");
+					tableHeader.add("");
+					tableHeader.add("");
+					tableHeader.add("");
+					tableHeader.add("Awarded");
+					tableHeader.add("Revised");
+					tableHeader.add("Original");
+					tableHeader.add("Revised");
+					tableHeader.add("");
+					tableHeader.add("");
+					tableHeader.add("");
+					tableHeader.add("");
+					tableHeader.add("");
+					tableHeader.add("");
+					
+					columnNo = 1;
+					for (String headerValue : tableHeader) {
+						int width = 0;
+						if(1 == columnNo) {
+							width = 230;
+						}else if(2 == columnNo) {
+							width = 830;
+						}else if(3 == columnNo) {
+							width = 1100;
+						}else if(4 == columnNo) {
+							width = 750;
+						}else if(5 == columnNo) {
+							width = 620;
+						}else if(6 == columnNo) {
+							width = 620;
+						}else if(7 == columnNo) {
+							width = 750;
+						}else if(8 == columnNo) {
+							width = 750;
+						}
+						else if(9 == columnNo) {
+							width = 760;
+						}
+						else if(10 == columnNo) {
+							width = 760;
+						}
+						else if(11 == columnNo) {
+							width = 700;
+						}
+						else if(12 == columnNo) {
+							width = 700;
+						}
+						else if(13 == columnNo) {
+							width = 760;
+						}
+						else if(14 == columnNo) {
+							width = 800;
+						}					
+						columnNo++;
+						addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
+								"ecf2ff",width);
+					}
+					table.getContent().add(titleRow);
+					
+					mergeCellsVertically(table, 0, 0, 1);
+					mergeCellsVertically(table, 1, 0, 1);
+					mergeCellsVertically(table, 2, 0, 1);
+					mergeCellsVertically(table, 3, 0, 1);
+					
+					mergeCellsVertically(table, 8, 0, 1);
+					mergeCellsVertically(table, 9, 0, 1);
+					mergeCellsVertically(table, 10, 0, 1);
+					mergeCellsVertically(table, 11, 0, 1);				
+					mergeCellsVertically(table, 12, 0, 1);
+					mergeCellsVertically(table, 13, 0, 1);
+	
+					
+					/*******************************************************************************/
+	
+					int sNo = 1;
+					for (Contract cObj : contracts) 
+					{
+						boolean hasBgColor = false;
+						String backgroundColor = null;
+						Tr contentRow = factory.createTr();
+	
+						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), garamondRPr,
+								JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_short_name(), garamondRPr,
+								JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(), garamondRPr,
+								JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getLoa_date(), garamondRPr, JcEnumeration.CENTER,
 								hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow,cObj.getAwarded_cost(),
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow,cObj.getRevised_amount(),
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getDoc(), garamondRPr,
+								JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getRevised_doc(), garamondRPr,
+								JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						
+						
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getPbg_valid_till(), garamondRPr,
+								JcEnumeration.CENTER, hasBgColor, backgroundColor);					
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_till(), garamondRPr,
+								JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getCumulative_expenditure(), garamondRPr,
+								JcEnumeration.RIGHT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getPhysicalProgress(), garamondRPr,
+								JcEnumeration.RIGHT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getTarget_doc(), garamondRPr,
+								JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_status_fk(), garamondRPr,
+								JcEnumeration.CENTER, hasBgColor, backgroundColor);						
+						table.getContent().add(contentRow);
 					}
-					table.getContent().add(contentRow);
-					mergeCellsHorizontal(table, 2, 0, 7);
+					if (StringUtils.isEmpty(contracts) || contracts.isEmpty()) {
+						boolean hasBgColor = false;
+						String backgroundColor = null;
+						Tr contentRow = factory.createTr();
+	
+						List<String> noDataRow = new ArrayList<String>();
+						noDataRow.add("Nil");
+						for (int i = 0; i < 7; i++) {
+							noDataRow.add("");
+						}
+	
+						for (String headerValue : noDataRow) {
+							addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr, JcEnumeration.CENTER,
+									hasBgColor, backgroundColor);
+						}
+						table.getContent().add(contentRow);
+						mergeCellsHorizontal(table, 2, 0, 7);
+					}
+					setTableAlign(factory, table, JcEnumeration.CENTER);
+					mp.addObject(table);
 				}
-				setTableAlign(factory, table, JcEnumeration.CENTER);
-				mp.addObject(table);
+				else
+				{
+					for(int i1=0;i1<2;i1++)
+					{
+					
+						/***************************************************************/
+						
+						Tbl table = factory.createTbl();
+						addBorders(table, "2");
+						
+						/************************************************************************/
+						
+						if(i1==0)
+						{
+							Tr hodRow3 = factory.createTr();
+
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "OPEN CONTRACTS", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							
+			
+							
+							tableHead.getContent().add(hodRow3);
+							mergeCellsHorizontal(tableHead, 1, 0, 13);
+							
+
+						}
+						
+						Tr titleRow0 = factory.createTr();
+						List<String> tableHeader0 = new ArrayList<String>();
+
+						if(i1==1)
+						{
+							Tr hodRow4 = factory.createTr();
+
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "CLOSED CONTRACTS", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow4, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+							
+			
+							
+							table.getContent().add(hodRow4);
+							mergeCellsHorizontal(table, 0, 0, 13);
+							
+
+						}
+						
+						
+						
+						
+						tableHeader0.add("SN");
+						tableHeader0.add("Short name of Contract");
+						tableHeader0.add("Agency");
+						tableHeader0.add("Date of Award");
+						tableHeader0.add("Contract Value (Cr.)");
+						tableHeader0.add("");	
+						tableHeader0.add("Date of Completion");
+						tableHeader0.add("");					
+						tableHeader0.add("BG Valid Upto");
+						tableHeader0.add("Insurance Valid Upto");
+						tableHeader0.add("Expenditure (Cr.)");
+						tableHeader0.add("Physical Progress (%)");
+						tableHeader0.add("Target Date of Completion");
+						tableHeader0.add("Status of Work");
+						
+						int columnNo = 1;
+						for (String headerValue : tableHeader0) {
+							int width = 0;
+							if(1 == columnNo) {
+								width = 230;
+							}else if(2 == columnNo) {
+								width = 830;
+							}else if(3 == columnNo) {
+								width = 1100;
+							}else if(4 == columnNo) {
+								width = 750;
+							}else if(5 == columnNo) {
+								width = 620;
+							}else if(6 == columnNo) {
+								width = 620;
+							}else if(7 == columnNo) {
+								width = 750;
+							}else if(8 == columnNo) {
+								width = 750;
+							}
+							else if(9 == columnNo) {
+								width = 760;
+							}
+							else if(10 == columnNo) {
+								width = 760;
+							}
+							else if(11 == columnNo) {
+								width = 700;
+							}
+							else if(12 == columnNo) {
+								width = 700;
+							}
+							else if(13 == columnNo) {
+								width = 750;
+							}
+							else if(14 == columnNo) {
+								width = 800;
+							}					
+							columnNo++;
+							addTableCellAndWidth(factory, wordMLPackage, titleRow0, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
+									"ecf2ff",width);
+						}
+						table.getContent().add(titleRow0);
+		
+						/*
+						 * mergeCellsHorizontal(table, 0, 4, 5); mergeCellsHorizontal(table, 0, 6, 7);
+						 */
+						
+						/************************************************************************************/
+						Tr titleRow = factory.createTr();
+						List<String> tableHeader = new ArrayList<String>();
+						
+						tableHeader.add("");
+						tableHeader.add("");
+						tableHeader.add("");
+						tableHeader.add("");
+						tableHeader.add("Awarded");
+						tableHeader.add("Revised");
+						tableHeader.add("Original");
+						tableHeader.add("Revised");
+						tableHeader.add("");
+						tableHeader.add("");
+						tableHeader.add("");
+						tableHeader.add("");
+						tableHeader.add("");
+						tableHeader.add("");
+						
+						
+						columnNo = 1;
+						for (String headerValue : tableHeader) {
+							int width = 0;
+							if(1 == columnNo) {
+								width = 230;
+							}else if(2 == columnNo) {
+								width = 830;
+							}else if(3 == columnNo) {
+								width = 1100;
+							}else if(4 == columnNo) {
+								width = 750;
+							}else if(5 == columnNo) {
+								width = 620;
+							}else if(6 == columnNo) {
+								width = 620;
+							}else if(7 == columnNo) {
+								width = 750;
+							}else if(8 == columnNo) {
+								width = 750;
+							}
+							else if(9 == columnNo) {
+								width = 760;
+							}
+							else if(10 == columnNo) {
+								width = 760;
+							}
+							else if(11 == columnNo) {
+								width = 700;
+							}
+							else if(12 == columnNo) {
+								width = 700;
+							}
+							else if(13 == columnNo) {
+								width = 760;
+							}
+							else if(14 == columnNo) {
+								width = 800;
+							}					
+							columnNo++;
+							addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
+									"ecf2ff",width);
+						}
+					
+						
+						
+						table.getContent().add(titleRow);
+						
+						mergeCellsVertically(table, 0, 0, 1);
+						mergeCellsVertically(table, 1, 0, 1);
+						mergeCellsVertically(table, 2, 0, 1);
+						mergeCellsVertically(table, 3, 0, 1);
+						
+						mergeCellsVertically(table, 8, 0, 1);
+						mergeCellsVertically(table, 9, 0, 1);
+						mergeCellsVertically(table, 10, 0, 1);
+						mergeCellsVertically(table, 11, 0, 1);				
+						mergeCellsVertically(table, 12, 0, 1);
+						mergeCellsVertically(table, 13, 0, 1);
+		
+						
+						/*******************************************************************************/
+		
+						int sNo = 1;
+
+						for (Contract cObj : contracts) 
+						{
+							String Diff=cObj.getStatus();
+							String ComVal="Open";
+							String ComValCl="Closed";
+							
+							if(i1==0 && (Diff.compareTo(ComVal)==0))
+							{
+								boolean hasBgColor = false;
+								String backgroundColor = null;
+								Tr contentRow = factory.createTr();
+			
+								addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_short_name(), garamondRPr,
+										JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(), garamondRPr,
+										JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getLoa_date(), garamondRPr, JcEnumeration.CENTER,
+										hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow,cObj.getAwarded_cost(),
+										garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow,cObj.getRevised_amount(),
+										garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getDoc(), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getRevised_doc(), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								
+								
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getPbg_valid_till(), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);					
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_till(), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getCumulative_expenditure(), garamondRPr,
+										JcEnumeration.RIGHT, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getPhysicalProgress(), garamondRPr,
+										JcEnumeration.RIGHT, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getTarget_doc(), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_status_fk(), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);						
+								table.getContent().add(contentRow);
+							}
+							if(i1==1 && (Diff.compareTo(ComValCl)==0))
+							{
+								boolean hasBgColor = false;
+								String backgroundColor = null;
+								Tr contentRow = factory.createTr();
+			
+								addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_short_name(), garamondRPr,
+										JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(), garamondRPr,
+										JcEnumeration.LEFT, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getLoa_date(), garamondRPr, JcEnumeration.CENTER,
+										hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow,cObj.getAwarded_cost(),
+										garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow,cObj.getRevised_amount(),
+										garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getDoc(), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getRevised_doc(), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								
+								
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getPbg_valid_till(), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);					
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_till(), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getCumulative_expenditure(), garamondRPr,
+										JcEnumeration.RIGHT, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getPhysicalProgress(), garamondRPr,
+										JcEnumeration.RIGHT, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getTarget_doc(), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);
+								addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_status_fk(), garamondRPr,
+										JcEnumeration.CENTER, hasBgColor, backgroundColor);						
+								table.getContent().add(contentRow);
+							}							
+						}
+						if (StringUtils.isEmpty(contracts) || contracts.isEmpty()) {
+							boolean hasBgColor = false;
+							String backgroundColor = null;
+							Tr contentRow = factory.createTr();
+		
+							List<String> noDataRow = new ArrayList<String>();
+							noDataRow.add("Nil");
+							for (int i = 0; i < 7; i++) {
+								noDataRow.add("");
+							}
+		
+							for (String headerValue : noDataRow) {
+								addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr, JcEnumeration.CENTER,
+										hasBgColor, backgroundColor);
+							}
+							table.getContent().add(contentRow);
+							mergeCellsHorizontal(table, 2, 0, 7);
+						}
+						setTableAlign(factory, table, JcEnumeration.CENTER);
+						mp.addObject(table);						
+					}
+				}
+				tempVal++;
 			}
 
 		} catch (Exception e) {

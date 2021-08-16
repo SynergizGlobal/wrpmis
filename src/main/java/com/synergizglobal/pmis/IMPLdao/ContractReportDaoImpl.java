@@ -528,7 +528,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						+ "(select GROUP_CONCAT(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') SEPARATOR '\n' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes')) as insurance_valid_till, "
 						+ "(select GROUP_CONCAT(DISTINCT DATE_FORMAT(valid_upto,'%d-%b-%y') SEPARATOR '\n' ) from bank_guarantee bg where bg.contract_id_fk = c.contract_id  and bg_type_fk is not null and release_date is null) as pbg_valid_till, "
 						+ "(SELECT TRUNCATE(sum(contract_per)*100,1) FROM pmis.activities_scurve where contract_id_fk = contract_id and category COLLATE utf8mb4_unicode_ci= 'Actual' COLLATE utf8mb4_unicode_ci) as PhysicalProgress,"
-						+ "DATE_FORMAT(c.target_doc,'%d-%b-%y') AS target_doc  "
+						+ "DATE_FORMAT(c.target_doc,'%d-%b-%y') AS target_doc,status  "
 						+ " from contract c "  
 						+ "left join work w on c.work_id_fk = w.work_id "  
 						+ "left join contractor cr on c.contractor_id_fk = cr.contractor_id "  
@@ -560,6 +560,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					qry = qry + " and c.contractor_id_fk = ?";
 					arrSize++;
 				}	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus())) {
+					qry = qry + " and c.status = ?";
+					arrSize++;
+				}				
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 					qry = qry + " and c.contract_status_fk = ?";
 					arrSize++;
@@ -584,7 +588,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 					pValues[i++] = obj.getContractor_id_fk();
-				}	
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus())) {
+					pValues[i++] = obj.getStatus();
+				}				
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 					pValues[i++] = obj.getContract_status_fk();
 				}

@@ -207,6 +207,15 @@
 		    left: 0;
 		    z-index: 1000;
 		}
+		.page-loader-5 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}
         .error-msg label {
             color: red !important;
         }
@@ -670,6 +679,19 @@
 	    </div>
 	  </div>
 	</div> 
+	<div class="page-loader-5" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
     
       <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>    
@@ -980,7 +1002,6 @@
                       $('.searchable').select2();
                       $(".page-loader-4").hide();
                       
-                      
                       if ($.trim(id1) != '' && $.trim(id2) != '') {
                     	  //alert("hai");
                     	  getComponentsList(id2);
@@ -1042,7 +1063,7 @@
 	function getComponentsList(structure_id){
 		 clearComponentCircle();
 		 
-     	 $(".page-loader-4").show();
+     	 $(".page-loader-5").show();
          $("#strip_chart_component option:not(:first)").remove();
          $("#strip_chart_component_id option:not(:first)").remove();
          
@@ -1063,11 +1084,11 @@
                          });
                      }
                      $('.searchable').select2();
-                     $(".page-loader-4").hide();
+                     $(".page-loader-5").hide();
                  }
              });
          }else{
-         	$(".page-loader-4").hide();
+         	$(".page-loader-5").hide();
          }        
      }
 

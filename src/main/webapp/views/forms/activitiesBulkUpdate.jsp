@@ -1140,7 +1140,7 @@
                                 // }
                                  html = html + '</div>';
                              	
-                             	$("#strip_chart_component_id").append('<option value="' + val.strip_chart_component_id + '" disabled>' + $.trim(val.strip_chart_component_id_name) + '</option>');
+                             	$("#strip_chart_component_id").append('<option value="' + val.strip_chart_component_id + '" disabled>' + $.trim(val.strip_chart_component_id) + '</option>');
                              } else {                
                              	
                              	html = html + '<div class="dot-container" id="dd'+tempId+'">'

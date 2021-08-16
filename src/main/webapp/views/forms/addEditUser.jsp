@@ -212,7 +212,7 @@
                             <div class="row">
                                 <div class="col s6 m4 input-field offset-m2">
                                     <input id="user_name" name="user_name" type="text" class="validate" value="${usrObj.user_name }">
-                                    <label for="name">Name</label>
+                                    <label for="name">Name <span class="required">*</span></label>
                                     <span id="user_nameError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field ">
@@ -224,12 +224,12 @@
                             <div class="row">
                                 <div class="col s6 m4 input-field offset-m2 ">
                                     <input id="email_id" name="email_id" type="email" class="validate" value="${usrObj.email_id }">
-                                    <label for="email_id">Email ID </label>
+                                    <label for="email_id">Email ID <span class="required">*</span></label>
                                     <span id="email_idError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field ">
                                     <input id="mobile_number" name="mobile_number" type="number" class="validate" value="${usrObj.mobile_number }">
-                                    <label for="mobile_number"> Mobile Number <span class="required">*</span></label>
+                                    <label for="mobile_number"> Mobile Number</label>
                                     <span id="mobile_numberError" class="error-msg" ></span>
                                 </div>
                             </div>        
@@ -640,13 +640,13 @@
     				 	  },"reporting_to_id_srfk": {
     				 		required: true
     				 	  },"user_name": {
-    				 		required: false
+    				 		required: true
     				 	  },"designation": {
     				 		required: true
     				 	  },"email_id": {
-    				 		required: false
-    				 	  },"mobile_number": {
     				 		required: true
+    				 	  },"mobile_number": {
+    				 		required: false
     				 	  },"landline": {
     			 		    required: false,
     			 	   	  },"extension": {

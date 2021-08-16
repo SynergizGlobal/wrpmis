@@ -301,9 +301,11 @@ public class TrainingDaoImpl implements TrainingDao{
 				for (Training session : sObj.getTrainingSessions()) {
 					session.setTrainingAttendees(getDeptList(sObj.getTraining_id(),session.getTraining_session_id(),con)); 
 				}
-				for (Training sessionsNew : sObj.getTrainingSessions()) {
-					sessionsNew.setTrainingNewList(getUserList(sObj.getTraining_id(),sessionsNew.getTraining_session_id(),CommonConstants.YES,con)); 
-				}
+				/*
+				 * for (Training sessionsNew : sObj.getTrainingSessions()) {
+				 * sessionsNew.setTrainingNewList(getUserList(sObj.getTraining_id(),sessionsNew.
+				 * getTraining_session_id(),CommonConstants.YES,con)); }
+				 */
 				if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
 					for (Training session : sObj.getTrainingSessions()) {
 						List<Training> objsList = null;
@@ -375,10 +377,10 @@ public class TrainingDaoImpl implements TrainingDao{
 		try {
 			con = dataSource.getConnection();
 			
-			String qry = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee,ta.designation as trainee_designation, required_fk, participated_fk,email " + 
+			String qry = "select training_attendees_id,d.department_name, training_id_fk,hod_user_id_fk,mobile_no, training_session_id_fk, ta.department_fk, attendee,ta.designation as designation, required_fk, participated_fk,email " + 
 					"from training_attendees ta "
 					+ "LEFT JOIN department d on ta.department_fk = d.department  " 
-					+"where training_id_fk = ? and  training_session_id_fk = ? and is_new_user is null  ";
+					+"where training_id_fk = ? and  training_session_id_fk = ?  ";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, training_id);
 			stmt.setString(2, training_session_id);
@@ -388,10 +390,12 @@ public class TrainingDaoImpl implements TrainingDao{
 				obj.setTraining_attendees_id(resultSet.getString("training_attendees_id"));
 				obj.setDepartment_name(resultSet.getString("d.department_name"));
 				obj.setTraining_id_fk(resultSet.getString("training_id_fk"));
+				obj.setHod_user_id_fk(resultSet.getString("hod_user_id_fk"));
+				obj.setMobile_no(resultSet.getString("mobile_no"));
 				obj.setTraining_session_id_fk(resultSet.getString("training_session_id_fk"));
 				obj.setDepartment_fk(resultSet.getString("department_fk"));
 				obj.setAttendee(resultSet.getString("attendee"));
-				obj.setTrainee_designation(resultSet.getString("trainee_designation"));
+				obj.setDesignation(resultSet.getString("designation"));
 				obj.setRequired_fk(resultSet.getString("required_fk"));
 				obj.setParticipated_fk(resultSet.getString("participated_fk"));
 				obj.setEmail(resultSet.getString("email"));

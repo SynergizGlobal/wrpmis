@@ -490,10 +490,10 @@
 																											</c:forEach>
 																										 </select>
 																									</td>
-																									<input type="hidden" name="hod_user_id_fks" class="no-reset"/>
-																									<input type="hidden" name="trainee_designations" class="no-reset"/>
-																									<input type="hidden" name="mobile_nos" class="no-reset"/>
-																									<input type="hidden"  name="emails" class="no-reset" >
+																									<input type="hidden" name="hod_user_id_fks" class="no-reset" value="${dObj.hod_user_id_fk}" />
+																									<input type="hidden" name="trainee_designations" class="no-reset" value="${dObj.designation}" />
+																									<input type="hidden" name="mobile_nos" class="no-reset" value="${dObj.mobile_no}"/>
+																									<input type="hidden"  name="emails" class="no-reset" value="${dObj.email}" >
 																									<td data-head="Nominated" class="input-field">
 																										<p class="disp-init">
 																											<label><input type="hidden" name="required_fks" class="no-reset" value ="${dObj.required_fk}" id="required_fk0${indexx.count }${index.count }${indexx.count }" />

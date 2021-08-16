@@ -467,7 +467,7 @@ public class TrainingController {
 				}
 				
 				XSSFRow headingRow2 = attendeesSheet.createRow(0);
-	            String headerString2 = "Training^Session No^Department^Name of attendee in the meenting^HOD^Mobile No^Required (Yes / No)^Participated (Yes / No)";
+	            String headerString2 = "Training^Session No^Department^Name of attendee in the meenting^HOD^Mobile No^E-mail^Required (Yes / No)^Participated (Yes / No)";
 	            
 	            String[] thirdHeaderStringArr = headerString2.split("\\^");
 	            
@@ -509,6 +509,10 @@ public class TrainingController {
 	                cell2 = row.createCell(a++);
 					cell2.setCellStyle(sectionStyle);
 					cell2.setCellValue(obj.getMobile_no());
+					
+					cell2 = row.createCell(a++);
+					cell2.setCellStyle(sectionStyle);
+					cell2.setCellValue(obj.getEmail());
 					
 	                cell2 = row.createCell(a++);
 					cell2.setCellStyle(sectionStyle);
@@ -753,8 +757,9 @@ public class TrainingController {
 		        headingRow2.createCell((short)3).setCellValue("Name of attendee in the meenting");
 		        headingRow2.createCell((short)4).setCellValue("HOD");
 		        headingRow2.createCell((short)5).setCellValue("Mobile No");
-		        headingRow2.createCell((short)6).setCellValue("Required (Yes / No)");
-		        headingRow2.createCell((short)7).setCellValue("Participated (Yes / No)");
+		        headingRow2.createCell((short)6).setCellValue("E-mail");
+		        headingRow2.createCell((short)7).setCellValue("Required (Yes / No)");
+		        headingRow2.createCell((short)8).setCellValue("Participated (Yes / No)");
 	            
 	        	short rowNo1 = 1;
 		        	for (Training tariningAttendees : sessionsList) { 
@@ -769,8 +774,9 @@ public class TrainingController {
 			                row3.createCell((short)3).setCellValue(aObj.getAttendee());
 			                row3.createCell((short)4).setCellValue(aObj.getDesignation());
 			                row3.createCell((short)5).setCellValue(aObj.getMobile_no());
-			                row3.createCell((short)6).setCellValue(aObj.getRequired_fk());
-			                row3.createCell((short)7).setCellValue(aObj.getParticipated_fk());
+			                row3.createCell((short)6).setCellValue(aObj.getEmail());
+			                row3.createCell((short)7).setCellValue(aObj.getRequired_fk());
+			                row3.createCell((short)8).setCellValue(aObj.getParticipated_fk());
 			          
 			                rowNo1++;
 			            }

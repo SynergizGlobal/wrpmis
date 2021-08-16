@@ -55,13 +55,11 @@ public class FOBDaoImpl implements FOBDao {
 		try {
 			String qry = "select fob_id,fob_name,f.work_id_fk,w.work_short_name,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,revised_completion,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
 					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
-					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.last_sanctioned_cost as CHAR) as last_sanctioned_cost,cast(f.completion_cost as CHAR) as completion_cost,f.work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,"
+					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.last_sanctioned_cost as CHAR) as last_sanctioned_cost,"
+					+ "cast(f.completion_cost as CHAR) as completion_cost,f.work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,"
 					+ "work_name,w.project_id_fk,p.project_name "
 					+ "from fob f "
-					+ "LEFT OUTER JOIN work w ON f.work_id_fk = w.work_id "
-					+ "LEFT OUTER JOIN contract c ON c.contract_id = f.contract_id_fk "
-					+"left join user u on c.hod_user_id_fk = u.user_id "
-					+"left join user us on c.dy_hod_user_id_fk = us.user_id "				
+					+ "LEFT OUTER JOIN work w ON f.work_id_fk = w.work_id "				
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "	
 					+ "where fob_id is not null " ;
 			int arrSize = 0;

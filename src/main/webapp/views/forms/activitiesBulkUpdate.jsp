@@ -167,6 +167,26 @@
         #dotgroup1 .dot.delayed {
             background-color: #f00;
         }
+        
+        .page-loader-1 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}
+        
+        .page-loader-2 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}
        
 		.page-loader-3 {
 		    background: #332e2ec2!important;
@@ -178,6 +198,15 @@
 		    z-index: 1000;
 		}
 
+		.page-loader-4 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}
         .error-msg label {
             color: red !important;
         }
@@ -627,6 +656,20 @@
 	    </div>
 	  </div>
 	</div> 
+	
+	<div class="page-loader-4" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
     
       <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>    
@@ -748,7 +791,7 @@
 
 	
 	function getAcivitiesBulkUpdateWorksList(projectId) { 
-		$(".page-loader").show();
+		$(".page-loader-1").show();
 		$("#contract_id_fk option:not(:first)").remove();    	
 	    $("#work_id_fk option:not(:first)").remove();
 	    
@@ -781,7 +824,7 @@
 	                    });
 	                }
 	                $('.searchable').select2();
-	                $(".page-loader").hide();
+	                $(".page-loader-1").hide();
 	                
 	                if ($.trim(id1) != '' && $.trim(id2) != '') {
 	                	getAcivitiesBulkUpdateContractsList(id2);
@@ -789,7 +832,7 @@
 	            }
 	        });
 	    }else{
-	    	$(".page-loader").hide();
+	    	$(".page-loader-1").hide();
 	    }
 	}
 	
@@ -838,7 +881,7 @@
 	}
 	
 	function resetWorksAndProjectsDropdowns(contract){
-		$(".page-loader").show();
+		$(".page-loader-1").show();
 		clearComponentCircle();
 		
 		
@@ -882,7 +925,7 @@
 	                    });
 	                }
 	                $('.searchable').select2();
-	                $(".page-loader").hide();
+	                $(".page-loader-1").hide();
 	            }
 	        });
 	        $('.searchable').select2();
@@ -906,10 +949,12 @@
      } 
 	
 	  function getAcivitiesBulkUpdateStructures(value) {
-      	  $(".page-loader-2").show();
+      	  $(".page-loader-4").show();
       	  var contract_id_fk = $("#contract_id_fk").val();
       	  var strip_chart_structure_id_fk = value;
           $("#strip_chart_structure_id_fk option:not(:first)").remove();
+          $("#strip_chart_component option:not(:first)").remove();
+          $("#strip_chart_component_id option:not(:first)").remove();
           if ($.trim(contract_id_fk) != "") {
           	var myParams = { contract_id_fk: contract_id_fk };
               $.ajax({
@@ -933,7 +978,7 @@
                           });
                       }
                       $('.searchable').select2();
-                      $(".page-loader-2").hide();
+                      $(".page-loader-4").hide();
                       
                       
                       if ($.trim(id1) != '' && $.trim(id2) != '') {
@@ -943,7 +988,7 @@
                   }
               });
           }else{
-          	$(".page-loader-2").hide();
+          	$(".page-loader-4").hide();
           }
       }
 	  
@@ -997,8 +1042,9 @@
 	function getComponentsList(structure_id){
 		 clearComponentCircle();
 		 
-     	 $(".page-loader").show();
+     	 $(".page-loader-4").show();
          $("#strip_chart_component option:not(:first)").remove();
+         $("#strip_chart_component_id option:not(:first)").remove();
          
          var contract_id_fk = $("#contract_id_fk").val();
          var structureId = $("#strip_chart_structure_id_fk").val();
@@ -1017,11 +1063,11 @@
                          });
                      }
                      $('.searchable').select2();
-                     $(".page-loader").hide();
+                     $(".page-loader-4").hide();
                  }
              });
          }else{
-         	$(".page-loader").hide();
+         	$(".page-loader-4").hide();
          }        
      }
 

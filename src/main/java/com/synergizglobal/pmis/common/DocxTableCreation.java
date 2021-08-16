@@ -1022,13 +1022,13 @@ public class DocxTableCreation {
 		
 		Tr titleRow = factory.createTr();		
 		List<String> tableHeader = new ArrayList<String>();
-		tableHeader.add("Training ID");
-		tableHeader.add("Session NO");
+		
+		
 		tableHeader.add("Title");
 		tableHeader.add("Description");
-		tableHeader.add("Training Centre");
+		tableHeader.add("Session NO");
+		tableHeader.add("Category");
 		tableHeader.add("Training Date");
-		tableHeader.add("Nominated");
 		tableHeader.add("Attended");
 		
 		for (String headerValue : tableHeader) {
@@ -1041,21 +1041,18 @@ public class DocxTableCreation {
 			boolean hasBgColor = false;
 			String backgroundColor = null;
 			Tr contentRow = factory.createTr();	
-			
-			addTableCell(factory, wordMLPackage, contentRow, aObj.getTraining_id_fk(),
-					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-			addTableCell(factory, wordMLPackage, contentRow, aObj.getSession_no(),
-					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+		
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getTitle(),
 					garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getDescription(),
 					garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-			addTableCell(factory, wordMLPackage, contentRow, aObj.getTraining_center(),
-					garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+			addTableCell(factory, wordMLPackage, contentRow, aObj.getSession_no(),
+					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+			addTableCell(factory, wordMLPackage, contentRow, aObj.getCategory(),
+					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getDate(),
 					garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-			addTableCell(factory, wordMLPackage, contentRow, aObj.getRequired_fk(),
-					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+			
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getParticipated_fk(),
 					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			

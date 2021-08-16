@@ -176,13 +176,13 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
     				+ "mobile_no, required_fk, participated_fk,user_id,u.designation as reporting_to,u.designation as reporting_to_designation,ta.designation as trainee_designation,"
     				+ "(select count(*) from training_attendees where attendee= ? and required_fk = ?) as nominated,"
     				+ "(select count(*) from training_attendees where attendee= ? and participated_fk = ?) as attended,"
-    				+ "training_center,session_no,title,description,DATE_FORMAT(start_time,'%d-%m-%Y') AS date " 
+    				+ "training_center,session_no,title,description,training_category_fk as category,DATE_FORMAT(start_time,'%d-%m-%Y') AS date " 
 					+ "from training_attendees ta "
 					+ "LEFT JOIN department d on ta.department_fk = d.department "
 					+ "LEFT JOIN user u on ta.hod_user_id_fk = u.user_id "
 					+ "LEFT JOIN training t on ta.training_id_fk = t.training_id "
 					+ "LEFT JOIN training_session ts on ta.training_session_id_fk = ts.training_session_id "
-					+ "where attendee = ? ORDER BY ta.training_id_fk,session_no ASC";
+					+ "where attendee = ? ORDER BY start_time desc";
 			Object[] pValues = new Object[] {obj.getAttendee(),CommonConstants.YES,obj.getAttendee(),CommonConstants.YES,obj.getAttendee()};
     		objsList = jdbcTemplate.query(attendeesQry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	
 			

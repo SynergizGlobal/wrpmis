@@ -433,11 +433,11 @@
         
         function getWorkStatusFilterList(work_status){
         	$(".page-loader").show();
-    	 	var contract_id_fk = $("#contract_id_fk").val();
+    	 	var work_id_fk = $("#work_id_fk").val();
     	 	var work_status_fk = $("#work_status_fk").val();
     	    if ($.trim(work_status_fk) == "") {
     	    	$("#work_status_fk option:not(:first)").remove();
-    	    	var myParams = {contract_id_fk : contract_id_fk,work_status_fk : work_status_fk};
+    	    	var myParams = {work_id_fk : work_id_fk,work_status_fk : work_status_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorkStatusFilterListInFOB",
                     data: myParams, cache: false,async: false,

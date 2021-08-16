@@ -75,10 +75,17 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				qry = qry + " and ( "
+						+ "fob_id in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
+						+ "or fob_id in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
+						+ "or fob_id in (select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ? group by fob_id_fk)) ";
+				arrSize++;
+				arrSize++;
 				arrSize++;
 				arrSize++;
 			}			
+			
+			qry = qry + " group by fob_id";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -92,12 +99,13 @@ public class FOBDaoImpl implements FOBDao {
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-				objsList1 = getExecutivesList(obj);	
-
-			}			
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				//objsList1 = getExecutivesList(obj);	
+			}		
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				if(objsList1.size() > 0) {
 					for (FOB con : objsList1) {
 				        boolean found=false;
@@ -112,7 +120,7 @@ public class FOBDaoImpl implements FOBDao {
 				        }
 				    }
 				}
-			}			
+			}		*/	
 			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -120,7 +128,7 @@ public class FOBDaoImpl implements FOBDao {
 		return objsList;
 	}
 
- 	private List<FOB> getExecutivesList(FOB obj) throws Exception {
+	/*private List<FOB> getExecutivesList(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
 			String qry ="SELECT id, w.work_name,w.work_short_name,f.contract_id_fk as contract_id,"
@@ -170,7 +178,7 @@ public class FOBDaoImpl implements FOBDao {
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
-	}
+	}*/
 	@Override
 	public boolean addFOB(FOB obj) throws Exception {
 		boolean flag = false;
@@ -689,7 +697,8 @@ public class FOBDaoImpl implements FOBDao {
 		List<FOB> objsList1 = null;
 		try {
 			String qry = "SELECT work_status_fk "
-					+ "from fob f left join contract c on c.contract_id=f.contract_id_fk where work_status_fk is not null and work_status_fk <> ''  ";
+					+ "from fob f "
+					+ "where work_status_fk is not null and work_status_fk <> ''  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
 				qry = qry + " and work_id_fk = ?";
@@ -700,11 +709,16 @@ public class FOBDaoImpl implements FOBDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				qry = qry + " and ( "
+						+ "fob_id in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
+						+ "or fob_id in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
+						+ "or fob_id in (select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ? group by fob_id_fk)) ";
+				arrSize++;
+				arrSize++;
 				arrSize++;
 				arrSize++;
 			}			
-			qry = qry + "GROUP BY work_status_fk ";
+			qry = qry + " GROUP BY work_status_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
@@ -716,11 +730,12 @@ public class FOBDaoImpl implements FOBDao {
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-				objsList1 = getExecutivesList(obj);	
-			
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				//objsList1 = getExecutivesList(obj);
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				for (FOB con : objsList1) {
 			        boolean found=false;
 			        for (FOB con1 : objsList) {
@@ -733,7 +748,7 @@ public class FOBDaoImpl implements FOBDao {
 			        	objsList.add(con);
 			        }
 			    }
-			}		    
+			}	*/	    
 		    
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -746,10 +761,10 @@ public class FOBDaoImpl implements FOBDao {
 		List<FOB> objsList = null;
 		List<FOB> objsList1 = null;
 		try {
-			String qry = "SELECT c.work_id_fk,work_name,work_short_name "
-					+ "from fob f " + 
-					"LEFT JOIN work w on f.work_id_fk = w.work_id  left join contract c on c.contract_id=f.contract_id_fk "+
-					"where c.work_id_fk is not null ";
+			String qry = "SELECT work_id_fk,work_name,work_short_name "
+					+ "from fob f "
+					+ "LEFT JOIN work w on f.work_id_fk = w.work_id "
+					+ "where work_id_fk is not null ";
 			int arrSize = 0;
 		
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
@@ -757,16 +772,21 @@ public class FOBDaoImpl implements FOBDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())){
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				qry = qry + " and ( "
+						+ "fob_id in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
+						+ "or fob_id in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
+						+ "or fob_id in (select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ? group by fob_id_fk)) ";
+				arrSize++;
+				arrSize++;
 				arrSize++;
 				arrSize++;
 			}			
 	
-			qry = qry + "GROUP BY work_id_fk ";
+			qry = qry + " GROUP BY work_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
@@ -778,11 +798,12 @@ public class FOBDaoImpl implements FOBDao {
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-				objsList1 = getExecutivesList(obj);	
-			
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				//objsList1 = getExecutivesList(obj);
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				for (FOB con : objsList1) {
 			        boolean found=false;
 			        for (FOB con1 : objsList) {
@@ -795,10 +816,10 @@ public class FOBDaoImpl implements FOBDao {
 			        	objsList.add(con);
 			        }
 			    }
-			}		    
+			}	*/	    
 		    
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

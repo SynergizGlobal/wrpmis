@@ -106,6 +106,8 @@
   <!-- footer  -->
   <jsp:include page="./layout/footer.jsp"></jsp:include>
   
+  <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
+  <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
   <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
   <script src="/pmis/resources/js/dataTables.material.min.js"></script>
   <script src="/pmis/resources/js/select2.min.js"></script>

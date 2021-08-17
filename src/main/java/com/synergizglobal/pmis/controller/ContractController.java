@@ -613,7 +613,7 @@ public class ContractController {
 			Contract contractDeatils = contractService.getContract(obj);
 			model.addObject("contractDeatils", contractDeatils);
 			
-			
+			model.addObject("contractTypeBGInsurance", obj.getContract_type_fk());
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Contract : " + e.getMessage());

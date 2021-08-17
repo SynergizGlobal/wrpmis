@@ -337,18 +337,26 @@ label {
                </div>
 				
                 <div class="row no-mar col s12 m12" style="width:100%">
-                   <div class="col s6 m6">
+                   <div class="col s5 m5">
                        <div class="center-align m-1" style="text-align:right;">
                            <button type="button" onclick="addRemarks();" style="width: auto;" id="btnRmks"
                                class="btn waves-effect waves-light bg-m">Submit</button>
-                               <button type="button" onclick="addStpAlert();" style="width: auto;display:none;" id="btnStpAlert"
+                           <button type="button" onclick="addStpAlert();" style="width: auto;display:none;" id="btnStpAlert"
                                class="btn waves-effect waves-light bg-m">Stop Alert</button>
                        </div>
                    </div>
-                   <div class="col s6 m6">
+                   <div class="col s3 m3">
                        <div class="center-align m-1" style="text-align:left;">
                            <button type="button" style="text-align:right;width: auto;"
                                class="btn waves-effect waves-light bg-s modal-close">Cancel</button>
+                       </div>
+                   </div>
+                   <div class="col s4 m4">
+                       <div class="center-align m-1" style="text-align:left;">
+                           <button type="button" onclick="getContractForm('Bank Guarantee');" style="width: auto;" id="btnBG"
+                               class="btn waves-effect waves-light bg-m">Update BG</button>
+                           <button  type="button" onclick="getContractForm('Insurance');" style="width: auto;display:none;" id="btnInsurance"
+                               class="btn waves-effect waves-light bg-m">Update Insurance</button>
                        </div>
                    </div>
                </div>
@@ -391,6 +399,11 @@ label {
     <!-- footer  -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
     
+    <form action="<%=request.getContextPath() %>/get-contract" id="contracUpdateForm" name="contracUpdateForm" method="post" >
+    	<input type="hidden" name="contract_id" id="contract_id" />
+    	<input type="hidden" name="contract_type_fk" id="contract_type_fk" />
+    </form>
+    
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
@@ -406,6 +419,11 @@ label {
 	    var email_id = '${email_id}';
 	    var user_role_name = '${user_role_name}';
 	    var user_id = '${user_id}';
+	    
+	    function getContractForm(contract_type) {
+			$("#contract_type_fk").val(contract_type);
+			$("#contracUpdateForm").submit();
+		}
     
 	    $(document).ready(function(){
 			var successMessage = '${success}';
@@ -651,10 +669,11 @@ label {
     		         		var alert_type_fk = "'"+data.alert_type_fk+"'";
     		         		var alert_id = "'"+data.alert_id+"'";
     	         			var remarks = "'"+data.remarks+"'";
+    	         			var contract_id = "'"+data.contract_id+"'";
     	         			var amendment_not_required_in_contract = "'"+data.amendment_not_required_in_contract+"'";
     	                    var actions = '-';    	                    
     	                    //if("IT" !== '${sessionScope.USER_ROLE_CODE}'){
-    	                    	actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+alert_level+','+alert_type_fk+','+remarks+','+amendment_not_required_in_contract+');" class="btn waves-effect waves-light bg-m t-c modal-trigger mob-btn">Action Taken</a>';
+    	                    	actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+alert_level+','+alert_type_fk+','+remarks+','+amendment_not_required_in_contract+','+contract_id+');" class="btn waves-effect waves-light bg-m t-c modal-trigger mob-btn">Action Taken</a>';
     	                    //}
     		            	return actions;
     		            } }
@@ -831,7 +850,7 @@ label {
             }
         }
         
-        function addAlertRemarks(alert_id,alert_level,alert_type_fk,remarks,amendment_not_required_in_contract){
+        function addAlertRemarks(alert_id,alert_level,alert_type_fk,remarks,amendment_not_required_in_contract,contract_id){
     		
     		$("#btnStpAlert").hide();
     		
@@ -856,7 +875,15 @@ label {
         	if(alert_level=="Overdue" && (alert_type_fk=="Contract Period" || alert_type_fk=="Contract Value" )){
         		$("#amendment_not_required_in_contract_Div").show();
         	}else{
-        		$("#amendment_not_required_in_contract_Div").hide();        		
+        		$("#amendment_not_required_in_contract_Div").hide(); 
+        		$("#btnBG").hide(); 
+        		$("#btnInsurance").hide(); 
+        		$("#contract_id").val(contract_id);
+        		if(alert_type_fk=="Bank Guarantee"){
+        			$("#btnBG").show(); 
+        		}else if(alert_type_fk=="Insurance"){
+        			$("#btnInsurance").show(); 
+        		}
         	} 
         	if($.trim(remarks) != '' && $.trim(remarks) != 'null'){
         		$("#remarks").val(remarks);

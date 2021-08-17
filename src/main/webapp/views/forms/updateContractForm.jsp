@@ -66,13 +66,14 @@
             width: 100%;
             margin-left:auto !important;
             margin-right:auto !important;
+            margin-bottom:0;
         }
 
         .fixed-width .table-inside {
             width: 100%;
             overflow: auto;
         }
-       
+       .row.no-mar{ margin-bottom:0;}
 	    @media only screen and (max-width: 600px) {
           .no-float-small {
               float: none !important;
@@ -272,6 +273,7 @@
         	padding-right:10px !important;
         }
 		/* special columns of revision table css ends here  */	
+		h5{margin-top:0;}
     </style>
 </head>
 
@@ -294,7 +296,25 @@
                     <!-- form start-->
 <!--                     <div class="container container-no-margin"> -->
                         <form action="<%=request.getContextPath() %>/update-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
-							<div class="container container-no-margin">
+                        	
+                        	 <div class="row">
+							    <div class="col s12 m12">
+							      <ul class="tabs tab-flex">
+							        <li class="tab"><a class="active t-c" href="#basicDetails">Basic</a></li>
+							        <li class="tab"><a class="t-c" href="#departmentDetails">Departments</a></li>
+							        <li class="tab"><a class="t-c" href="#contractDetails">Contracts Details</a></li>
+							        <li class="tab"><a class="t-c" href="#bgDetails">Bank Guarantee</a></li>
+							        <li class="tab"><a class="t-c" href="#insuranceDetails">Insurance</a></li>
+							        <li class="tab"><a class="t-c" href="#milestoneDetails">Milestones</a></li>
+							        <li class="tab"><a class="t-c" href="#documentDetails">Documents</a></li>
+							        <li class="tab"><a class="t-c" href="#revisionDetails">Revisions</a></li>
+							        <li class="tab"><a class="t-c" href="#keyPersonDetails">Key Persons</a></li>
+							        <li class="tab"><a class="t-c" href="#closureDetails" id="closureTab">Closures</a></li>
+							      </ul>
+							    </div>							    
+						   </div>
+                        	
+							<div class="container container-no-margin" id="basicDetails">
 								<div class="row" style="margin-bottom: 50px;">
 	                                <div class="col s12 m4 input-field no-box-shadow offset-m2">
 	                                    <label class="primary-text-bold ">Contract ID : <input id="contract_id" name="contract_id" type="text" value="${contractDeatils.contract_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
@@ -384,11 +404,196 @@
 	                                    </div>
 	                                </div>	
 	                            </div>
-
-							 <div class="row"> 
+							
+								<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }"><br> </c:if>
+							<div class="row">
+	                                <div class="col s12 m8 input-field offset-m2">
+	                                    <textarea id="contract_name" name ="contract_name" class="pmis-textarea" data-length="1000"
+	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>> ${contractDeatils.contract_name }</textarea>
+	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
+	                                    <span id="contract_nameError" class="error-msg" ></span>
+	                                </div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col s12 m8 input-field offset-m2">
+	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" 
+	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
+	                                     value="${contractDeatils.contract_short_name }">
+	                                    <label for="contract_short_name">Contract Short Name</label>
+	                                      <span id="contract_short_nameError" class="error-msg" ></span>
+	                                </div>
+	                            </div>
+							<div class="row">
+								  <c:choose>
+						         	<c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
+							         
+		                                <div class="col s6 m4 input-field offset-m2">
+		                                 <p class="searchable_label">Contract Type <span class="required">*</span></p>
+		                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
+		                                        <option value="" selected>Select</option>
+		                                       	   <c:forEach var="obj" items="${contract_type }">
+				                                     <option value="${obj.contract_type_fk }" <c:if test="${contractDeatils.contract_type_fk eq obj.contract_type_fk}">selected</c:if>>${obj.contract_type_fk }</option>
+				                                   </c:forEach>
+		                                    </select>                                   
+		                                     <span id="contract_type_fkError" class="error-msg" ></span>
+		                                </div>
+		                                <div class="col s6 m4 input-field">
+		                                    <p class="searchable_label">Contractor Name <span class="required">*</span></p>
+		                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
+		                                        <option value="" selected>Select</option>
+		                                       	    <c:forEach var="obj" items="${contractor }">
+				                                      <option value="${obj.contractor_id_fk }" <c:if test="${contractDeatils.contractor_id_fk eq obj.contractor_id_fk}">selected</c:if>>${obj.contractor_name }</option>
+				                                    </c:forEach>
+		                                    </select>
+		                            		<span id="contractor_id_fkError" class="error-msg" ></span>                                    
+		                                </div>  
+		                              </c:when>
+						           <c:otherwise>
+						         	 <div class="col s6 m4 input-field offset-m2">
+		                                <input name="contract_type_fk" id="contract_type_fk" type="text" 
+	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
+	                                     value="${contractDeatils.contract_type_fk }">
+	                                    <label for="contract_type_fk">Contract Type</label>
+		                             </div>
+						         	<div class="col s6 m4 input-field">
+						         	 	<input name="contractor_id_fk" id="contractor_id_fk" type="hidden" value="${contractDeatils.contractor_id_fk }"/>
+		                                <input type="text" <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
+	                                     value="${contractDeatils.contractor_name }">
+	                                    <label for="contractor_id_fk">Contractor Name </label>                         
+		                             </div>  
+						         </c:otherwise>
+						      </c:choose>
+	                                                 
+		                     </div>
+						        
+	                            <div class="row">
+	                                <div class="col s12 m8 input-field offset-m2">
+	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="pmis-textarea validate" data-length="1000" 
+	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
+	                                    >${contractDeatils.scope_of_contract }</textarea>
+	                                    <label for="scope_of_contract">Scope of Contract</label>
+	                                    <span id="scope_of_contractError" class="error-msg" ></span>
+	                                </div>
+	                             </div>
+	                        </div>
+	                        <div class="container container-no-margin" id="contractDetails">
+	                             <div class="row">
+	                                <div class="col s6 m4 input-field offset-m2">
+	                                    <input id="loa_letter_number" name="loa_letter_number" type="text" class="validate" value="${contractDeatils.loa_letter_number }">
+	                                    <label for="loa_letter_number">LOA Letter No</label>
+	                                    <span id="loa_letter_numberError" class="error-msg" ></span>
+	                                   
+	                                </div>
+	                                <div class="col s6 m4 input-field">
+	                                    <input id="loa_date" name="loa_date" type="text" class="validate datepicker" value="${contractDeatils.loa_date }">
+	                                    <label for="loa_date">LOA Date</label>
+	                                    <span id="loa_dateError" class="error-msg" ></span>
+	                                    <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
+	                                </div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col s6 m4 input-field offset-m2">
+	                                    <input id="ca_no" name="ca_no" type="text" class="validate" value="${contractDeatils.ca_no }">
+	                                    <label for="ca_no">CA No</label>
+	                                     <span id="ca_noError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s6 m4 input-field">
+	                                    <input id="ca_date" name="ca_date" type="text" class="validate datepicker" value="${contractDeatils.ca_date }">
+	                                    <label for="ca_date">CA Date</label>
+	                                     <span id="ca_dateError" class="error-msg" ></span>
+	                                    <button type="button" id="ca_date_icon"><i class="fa fa-calendar"></i></button>
+	                                </div>
+	                            </div>
+	                            <div class="row">	                                
+	                                <div class="col s12 m4 input-field offset-m2">
+	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate datepicker" value="${contractDeatils.date_of_start }">
+	                                    <label for="date_of_start">Date of Start <span class="required">*</span></label>
+	                                     <span id="date_of_startError" class="error-msg" ></span>
+	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
+	                                </div>
+	                                <div class="col s9 m3 input-field">
+	                                    <i class="material-icons prefix cost left-align">₹</i>
+	                                    <input id="estimated_cost" name="estimated_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.estimated_cost }">
+	                                    <label for="estimated_cost"> Detailed Estimated cost</label>
+	                                    <span id="estimated_costError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s3 m1 input-field pt-5">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${contractDeatils.estimated_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		    </c:forEach>
+	                                	</select>
+	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
+                                	</div>	                         
+                                </div>      
+	                           	<div class="row">
+	                                <div class="col s12 m4 input-field offset-m2">
+	                                    <input name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }" >
+	                                    <label for="doc">Original DOC</label>
+	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
+	                                     <span id="docError" class="error-msg" ></span>
+	                                </div>
+	                                   <div class="col s9 m3 input-field ">
+	                                	<i class="material-icons prefix cost left-align">₹</i>
+	                                    <input id="awarded_cost" name="awarded_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.awarded_cost }" />
+	                                    <label for="awarded_cost">Awarded cost</label>
+	                                    <span id="awarded_costError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s3 m1 input-field pt-5">
+	                                	<p class="searchable_label">Unit</p>
+	                                	<select class="units validate-dropdown" id="awarded_cost_units" name="awarded_cost_units">
+	                                		<option value="">Select</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${contractDeatils.awarded_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		    </c:forEach>
+	                                	</select>
+	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
+                                	</div>
+	                                </div>
+	                                <div class="row">
+	                                <div class="col s6 m4 input-field offset-m2">
+	                                    <input name="target_doc" id="target_doc" type="text" class="validate datepicker" value="${contractDeatils.target_doc }" >
+	                                    <label for="target_doc">Target DOC</label>
+	                                     <button type="button" id="target_doc_icon"><i class="fa fa-calendar"></i></button>
+	                                     <span id="target_docError" class="error-msg" ></span>
+	                                </div>
+	                                                             
+	                                <div class="col s6 m2 input-field">
+	                                   <p class="searchable_label">Contract Status</p>
+	                                    <select name = "_status_fk" id="_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);">
+	                                        <option value="" >Select</option>
+	                                         <option value="open">Open </option>
+	                                         <option value="closed">Closed </option>   
+	                                    </select>
+	                                     <span id="contract_status_fkError" class="error-msg" ></span>
+	                                </div>
+	                                 <div class="col s6 m2 input-field">
+	                                   <p class="searchable_label">Status of Work</p>
+	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);">
+	                                        <option value="" selected>Select</option>
+	                                           <c:forEach var="obj" items="${contract_Statustype }">
+			                                    	<option value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
+			                                    </c:forEach>
+	                                    </select>
+	                                     <span id="contract_status_fkError" class="error-msg" ></span>
+	                                </div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col s12 m8 input-field offset-m2">
+	                                    <textarea id="remarks" name ="remarks" class="pmis-textarea" data-length="1000">${contractDeatils.remarks }</textarea>
+	                                    <label for="remarks">Remarks</label>
+	                                    <span id="remarksError" class="error-msg"></span>
+	                                </div>
+	                            </div>
+	                          </div>
+	                          
+	                           <div class="container container-no-margin" id="departmentDetails">
+	                            <div class="row"> 
 	                            	<div class="col m8 offset-m2 s12">
 										<div class="row fixed-width">
-									        <h5 class="center-align">Department Details</h5>
+									      <!--   <h5 class="center-align">Department Details</h5> -->
 									        <div class="table-inside">
 									            <table id="departmentTable" class="mdl-data-table mobile_responsible_table" >
 									                <thead>
@@ -518,176 +723,7 @@
 									    </div>
 									</div>
 								</div>
-								<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }"><br> </c:if>
-							<div class="row">
-	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea id="contract_name" name ="contract_name" class="pmis-textarea" data-length="1000"
-	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>> ${contractDeatils.contract_name }</textarea>
-	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
-	                                    <span id="contract_nameError" class="error-msg" ></span>
-	                                </div>
-	                            </div>
-	                            <div class="row">
-	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" 
-	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
-	                                     value="${contractDeatils.contract_short_name }">
-	                                    <label for="contract_short_name">Contract Short Name</label>
-	                                      <span id="contract_short_nameError" class="error-msg" ></span>
-	                                </div>
-	                            </div>
-							<div class="row">
-								  <c:choose>
-						         	<c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
-							         
-		                                <div class="col s6 m4 input-field offset-m2">
-		                                 <p class="searchable_label">Contract Type <span class="required">*</span></p>
-		                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
-		                                        <option value="" selected>Select</option>
-		                                       	   <c:forEach var="obj" items="${contract_type }">
-				                                     <option value="${obj.contract_type_fk }" <c:if test="${contractDeatils.contract_type_fk eq obj.contract_type_fk}">selected</c:if>>${obj.contract_type_fk }</option>
-				                                   </c:forEach>
-		                                    </select>                                   
-		                                     <span id="contract_type_fkError" class="error-msg" ></span>
-		                                </div>
-		                                <div class="col s6 m4 input-field">
-		                                    <p class="searchable_label">Contractor Name <span class="required">*</span></p>
-		                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
-		                                        <option value="" selected>Select</option>
-		                                       	    <c:forEach var="obj" items="${contractor }">
-				                                      <option value="${obj.contractor_id_fk }" <c:if test="${contractDeatils.contractor_id_fk eq obj.contractor_id_fk}">selected</c:if>>${obj.contractor_name }</option>
-				                                    </c:forEach>
-		                                    </select>
-		                            		<span id="contractor_id_fkError" class="error-msg" ></span>                                    
-		                                </div>  
-		                              </c:when>
-						           <c:otherwise>
-						         	 <div class="col s6 m4 input-field offset-m2">
-		                                <input name="contract_type_fk" id="contract_type_fk" type="text" 
-	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
-	                                     value="${contractDeatils.contract_type_fk }">
-	                                    <label for="contract_type_fk">Contract Type</label>
-		                             </div>
-						         	<div class="col s6 m4 input-field">
-						         	 	<input name="contractor_id_fk" id="contractor_id_fk" type="hidden" value="${contractDeatils.contractor_id_fk }"/>
-		                                <input type="text" <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
-	                                     value="${contractDeatils.contractor_name }">
-	                                    <label for="contractor_id_fk">Contractor Name </label>                         
-		                             </div>  
-						         </c:otherwise>
-						      </c:choose>
-	                                                 
-		                     </div>
-						        
-	                            <div class="row">
-	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="pmis-textarea validate" data-length="1000" 
-	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
-	                                    >${contractDeatils.scope_of_contract }</textarea>
-	                                    <label for="scope_of_contract">Scope of Contract</label>
-	                                    <span id="scope_of_contractError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s6 m4 input-field offset-m2">
-	                                    <input id="loa_letter_number" name="loa_letter_number" type="text" class="validate" value="${contractDeatils.loa_letter_number }">
-	                                    <label for="loa_letter_number">LOA Letter No</label>
-	                                    <span id="loa_letter_numberError" class="error-msg" ></span>
-	                                   
-	                                </div>
-	                                <div class="col s6 m4 input-field">
-	                                    <input id="loa_date" name="loa_date" type="text" class="validate datepicker" value="${contractDeatils.loa_date }">
-	                                    <label for="loa_date">LOA Date</label>
-	                                    <span id="loa_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
-	                                </div>
-	                            </div>
-	                            <div class="row">
-	                                <div class="col s6 m4 input-field offset-m2">
-	                                    <input id="ca_no" name="ca_no" type="text" class="validate" value="${contractDeatils.ca_no }">
-	                                    <label for="ca_no">CA No</label>
-	                                     <span id="ca_noError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s6 m4 input-field">
-	                                    <input id="ca_date" name="ca_date" type="text" class="validate datepicker" value="${contractDeatils.ca_date }">
-	                                    <label for="ca_date">CA Date</label>
-	                                     <span id="ca_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="ca_date_icon"><i class="fa fa-calendar"></i></button>
-	                                </div>
-	                            </div>
-	                            <div class="row">	                                
-	                                <div class="col s12 m4 input-field offset-m2">
-	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate datepicker" value="${contractDeatils.date_of_start }">
-	                                    <label for="date_of_start">Date of Start <span class="required">*</span></label>
-	                                     <span id="date_of_startError" class="error-msg" ></span>
-	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
-	                                </div>
-	                                <div class="col s9 m3 input-field">
-	                                    <i class="material-icons prefix cost left-align">₹</i>
-	                                    <input id="estimated_cost" name="estimated_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.estimated_cost }">
-	                                    <label for="estimated_cost"> Detailed Estimated cost</label>
-	                                    <span id="estimated_costError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s3 m1 input-field pt-5">
-	                                	<p class="searchable_label">Unit</p>
-	                                	<select class="units validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
-	                                		<option value="">Select</option>
-	                                		<c:forEach var="obj" items="${unitsList }">
-                                  			   <option value="${obj.value }" <c:if test="${contractDeatils.estimated_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
-                                   		    </c:forEach>
-	                                	</select>
-	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
-                                	</div>	                         
-                                </div>      
-	                           	<div class="row">
-	                                <div class="col s12 m4 input-field offset-m2">
-	                                    <input name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }" >
-	                                    <label for="doc">Original DOC</label>
-	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
-	                                     <span id="docError" class="error-msg" ></span>
-	                                </div>
-	                                   <div class="col s9 m3 input-field ">
-	                                	<i class="material-icons prefix cost left-align">₹</i>
-	                                    <input id="awarded_cost" name="awarded_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.awarded_cost }" />
-	                                    <label for="awarded_cost">Awarded cost</label>
-	                                    <span id="awarded_costError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s3 m1 input-field pt-5">
-	                                	<p class="searchable_label">Unit</p>
-	                                	<select class="units validate-dropdown" id="awarded_cost_units" name="awarded_cost_units">
-	                                		<option value="">Select</option>
-	                                		<c:forEach var="obj" items="${unitsList }">
-                                  			   <option value="${obj.value }" <c:if test="${contractDeatils.awarded_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
-                                   		    </c:forEach>
-	                                	</select>
-	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
-                                	</div>
-	                                </div>
-	                                <div class="row">
-	                                <div class="col s6 m4 input-field offset-m2">
-	                                    <input name="target_doc" id="target_doc" type="text" class="validate datepicker" value="${contractDeatils.target_doc }" >
-	                                    <label for="target_doc">Target DOC</label>
-	                                     <button type="button" id="target_doc_icon"><i class="fa fa-calendar"></i></button>
-	                                     <span id="target_docError" class="error-msg" ></span>
-	                                </div>
-	                                                             
-	                                <div class="col s6 m4 input-field">
-	                                   <p class="searchable_label"><label>Status of Contract</label></p>
-	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);">
-	                                        <option value="" selected>Select</option>
-	                                           <c:forEach var="obj" items="${contract_Statustype }">
-			                                    	<option value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
-			                                    </c:forEach>
-	                                    </select>
-	                                     <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div>
-	                            </div>
-	                            <div class="row">
-	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea id="remarks" name ="remarks" class="pmis-textarea" data-length="1000">${contractDeatils.remarks }</textarea>
-	                                    <label for="remarks">Remarks</label>
-	                                    <span id="remarksError" class="error-msg"></span>
-	                                </div>
-	                            </div>
-	                           
+							</div>
 	                            <%-- <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
@@ -702,9 +738,10 @@
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div> --%>
-	                            <div class="row">
+	                          <div class="" id="bgDetails">
+	                           <%--  <div class="row">
                                 <div class="col m8 input-field center-align no-float-small offset-m2">
-                                    <p>Bank Guarantee Required</p>							<%-- ${contractDeatils.bg_required } --%>
+                                    <p>Bank Guarantee Required</p>							
                                     <p>
                                         <label>
                                             <input class="with-gap" name="bg_required" type="radio"  value="Yes" <c:if test="${contractDeatils.bg_required eq 'Yes'}">checked
@@ -718,11 +755,11 @@
                                         </label>
                                     </p>
                                 </div>
-                            </div>
-							</div>
+                            	</div> --%>
+							
                             <!-- bg show hide div  -->
-                            <div class="row fixed-width" id="bank_guarantee_div" style="display: none;">
-                                <h5 class="center-align">Bank Guarantee Details</h5>
+                            <div class="row fixed-width" id="bank_guarantee_div" style="/* display: none; */">
+                               <!--  <h5 class="center-align">Bank Guarantee Details</h5> -->
                                 <div class="table-inside">
                                     <table id="bankTable" class="mdl-data-table mobile_responsible_table another">
                                         <thead>
@@ -929,9 +966,9 @@
                                      </c:choose>   
                                 </div>
                             </div>
-							
-							<div class="container container-no-margin">
-	                            <div class="row">
+						</div>
+						<div class="" id="insuranceDetails">
+	                           <%--  <div class="row">
 	                                <div class="col m8 input-field center-align no-float-small offset-m2">
 	                                    <p>Insurance Required</p>
 	                                    <p>
@@ -947,11 +984,10 @@
 	                                        </label>
 	                                    </p>
 	                                </div>
-	                            </div>
-							</div>
+	                            </div> --%>
                             <!-- insurance show hide div  -->
-                            <div class="row fixed-width" id="insurance_div" style="display: none;">
-                                <h5 class="center-align">Insurance Details</h5>
+                            <div class="row fixed-width" id="insurance_div" style="/* display: none; */">
+                               <!--  <h5 class="center-align">Insurance Details</h5> -->
                                 <div class="table-inside">
                                     <table id="insurenceTable" class="mdl-data-table mobile_responsible_table another">
                                         <thead>
@@ -1166,10 +1202,11 @@
                                      </c:choose>  
                                 </div>
                             </div>
-							
-							<div class="col m8 offset-m2 s12">
+						</div>
+						<div class="row" id="milestoneDetails">
+							<div class="col m8 offset-m2 s12" >
 	                            <div class="row fixed-width">
-	                                <h5 class="center-align">Milestone Details</h5>
+	                               <!--  <h5 class="center-align">Milestone Details</h5> -->
 	                                <div class="table-inside">
 	                                    <table id="mileTable" class="mdl-data-table mobile_responsible_table">
 	                                        <thead>
@@ -1287,8 +1324,11 @@
 	                                     </c:choose>  
 	                                </div>
 	                            </div>
+	                         </div>
+	                         </div>
+	                         <div class="container container-no-margin" id="revisionDetails"> 
 	                            <div class="row fixed-width">
-                                <h5 class="center-align">Revision Details</h5>
+                                <!-- <h5 class="center-align">Revision Details</h5> -->
                                 <div class="table-inside">
 
                                     <table id="ravTable" class="mdl-data-table mobile_responsible_table">
@@ -1534,12 +1574,15 @@
                                      </c:choose>  
                                 </div>
                             </div>
-                            </div>
+                          </div>
+                            
+                         <div class="" id="keyPersonDetails">
+                         	<div class="row no-mar">
                              <!-- new code  starts-->
                             <div class="col m8 offset-m2 s12">
 	                            <div class="container">
 	                                <div class="row fixed-width">
-	                                    <h5 class="center-align">Contractor's Key Personnel</h5>
+	                                  <!--   <h5 class="center-align">Contractor's Key Personnel</h5> -->
 	                                    <div class="table-inside">
 	                                        <table class="mdl-data-table mobile_responsible_table">
 	                                            <thead>
@@ -1617,10 +1660,13 @@
 	                                    </div>
 	                                </div>
 	                            </div>
-	
-	                            <div class="col m8 s12 offset-m2" style="margin-bottom:30px">
+							</div>
+					  </div>
+				</div>
+							<div class="row" id="documentDetails">
+	                            <div class="col m8 s12 offset-m2"  >
 	                                <div class="row fixed-width">
-	                                    <h5 class="center-align">Documents</h5>
+	                                   <!--  <h5 class="center-align">Documents</h5> -->
 	                                    <div class="table-inside">
 	                                        <table class="mdl-data-table mobile_responsible_table">
 	                                            <thead>
@@ -1726,10 +1772,10 @@
 	                            </div>
 							</div>
 							
- 							<div class="container container-no-margin" id="contractClosureDetails" style="display: none;"> 
- 								<div class="row">
- 									<h5 class="center-align">Contract Closure Details</h5>
- 								</div>
+ 							<div class="container container-no-margin" id="closureDetails"> 
+ 								<div id="contractClosureDetails" style="display: none;">
+ 								<!-- 	<h5 class="center-align">Contract Closure Details</h5> 
+ 								</div>-->
  							    <div class="row">
  							 		<div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
@@ -1829,34 +1875,36 @@
 	                                </div> --%>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div> 
-	                            
-                     		 </div>
-                     		 
-                     		 <div class="container container-no-margin"> 
-                     		 	<div class="row">
-	                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
-	                                    <div class=" m-1">
-	                                        <button type="button" onclick="updateContract();" class="btn waves-effect waves-light bg-m">Update</button>
-	                                    </div>
-	                                </div>
-	                                <div class="col s6 m4 mt-brdr center-align">
-	                                    <div class=" m-1">
-	                                        <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
-	                                    </div>
-	                                </div>
 	                            </div>
-                     		 </div>
+                     		 </div>                     		 
+                     		
                         </form>
                     </div>
                     <!-- form ends  -->
                 </div>
 
-            </div>
+ 				
+           <!--  </div> -->
+            <div class="card ">
+                <div class="card-content">
+                <div class="container container-no-margin"> 
+           		 	<div class="row">
+                       <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                           <div class=" m-1">
+                               <button type="button" onclick="updateContract();" class="btn waves-effect waves-light bg-m">Update</button>
+                           </div>
+                       </div>
+                       <div class="col s6 m4 mt-brdr center-align">
+                           <div class=" m-1">
+                               <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
+                           </div>
+                       </div>
+                   </div>
+           		 </div>
+           	</div>
         </div>
-<!--     </div> -->
-
-
-
+	</div>
+</div>
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
@@ -1909,13 +1957,14 @@
         	$('select:not(.searchable):not(.units)').formSelect();
             $('.searchable').select2();
             $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
+            $('.tabs').tabs();
             $('#remarks').characterCounter();
             //getDyHodList();
             
             var contract_status_fk = '${contractDeatils.contract_status_fk}';
             getContractClosureDetails(contract_status_fk);
             
-            var bg_required = '${contractDeatils.bg_required}';
+           /*  var bg_required = '${contractDeatils.bg_required}';
             if(bg_required == 'Yes'){
 	       		$("#bank_guarantee_div").show();
 	       	}else{
@@ -1927,7 +1976,7 @@
 	       		$("#insurance_div").show();
 	       	}else{
 	       		$("#insurance_div").hide();
-	       	}
+	       	} */
             getHodList();
             getDyHodList();
         });
@@ -1935,19 +1984,21 @@
         function getContractClosureDetails(contract_status_fk) {
 			if(contract_status_fk == 'Completed' || contract_status_fk == 'Closed'){
 				$("#contractClosureDetails").show();
+				$('#closureTab').show();
 			}else{
 				$("#contractClosureDetails").hide();
+				$('#closureTab').hide();
 			}
-		}
+		} 
         
-        $('input[name=bg_required]').change(function(){
+     /*    $('input[name=bg_required]').change(function(){
 	       	var value = $( 'input[name=bg_required]:checked' ).val();
 	       	if(value == 'Yes'){
 	       		$("#bank_guarantee_div").show();
 	       	}else{
 	       		$("#bank_guarantee_div").hide();
 	       	}
-       	});
+       	}); 
         
         $('input[name=insurance_required]').change(function(){
 	       	var value = $( 'input[name=insurance_required]:checked' ).val();
@@ -1957,7 +2008,7 @@
 	       		$("#insurance_div").hide();
 	       	}
        	});
-       
+        */
         function getExecutivesList(num) {
         	$(".page-loader").show();
         	var count = Number(num);

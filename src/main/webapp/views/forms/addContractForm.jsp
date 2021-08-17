@@ -189,6 +189,10 @@
 			    white-space: break-spaces;
 			}
 		}
+		
+		h5{
+			margin-top:0;
+		}		
     </style>
 </head> 
 
@@ -211,7 +215,19 @@
                     <!-- form start-->
 <!--                     <div class="container container-no-margin"> -->
                         <form action="add-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
-                            <div class="container container-no-margin">
+                            
+                            <div class="row">
+							    <div class="col s12 m12">
+							      <ul class="tabs tab-flex">
+							        <li class="tab"><a class="active t-c" href="#basicDetails">Basic Details</a></li>
+							        <li class="tab"><a class="t-c" href="#departmentDetails">Departments Details</a></li>
+							        <li class="tab"><a class="t-c" href="#contractDetails">Contracts Details</a></li>
+							        <li class="tab"><a class="t-c" href="#documentDetails">Documents Details</a></li>
+							      </ul>
+							    </div>							    
+						   </div>
+                            
+                            <div class="container container-no-margin" id="basicDetails">
 	                            <div class="row">
 	                                <div class="col s6 m4 offset-m2 input-field">
 	                                <p class="searchable_label">Project <span class="required">*</span></p>
@@ -291,11 +307,55 @@
 								         </c:otherwise>
 								      </c:choose>
 	                                 </div>
-	              
-	                            <div class="row"> 
+	              	                           
+	                            <div class="row">
+	                                <div class="col s12 m8 input-field offset-m2">
+	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate pmis-textarea" ></textarea>
+	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
+	                                    <span id="contract_nameError" class="error-msg" ></span>
+	                                </div>	                              
+	                                <div class="col s12 m8 input-field offset-m2">
+	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" >
+	                                    <label for="contract_short_name">Contract Short Name</label>
+	                                      <span id="contract_short_nameError" class="error-msg" ></span>
+	                                </div>
+	                            </div>
+	
+	                            <div class="row">	
+	                                <div class="col s6 m4 input-field offset-m2">
+	                                 <p class="searchable_label">Contract Type <span class="required">*</span></p>
+	                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
+	                                        <option value="" selected>Select</option>
+	                                       	   <c:forEach var="obj" items="${contract_type }">
+			                                     <option value="${obj.contract_type_fk }" >${obj.contract_type_fk }</option>
+			                                   </c:forEach>
+	                                    </select>                                   
+	                                     <span id="contract_type_fkError" class="error-msg" ></span>	                                    
+	                                </div>	                                
+	                                <div class="col s6 m4 input-field">
+	                                 <p class="searchable_label">Contractor Name <span class="required">*</span></p>
+	                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
+	                                        <option value="" selected>Select</option>
+	                                       	    <c:forEach var="obj" items="${contractors }">
+			                                      <option value="${obj.contractor_id_fk }" >${obj.contractor_name }</option>
+			                                    </c:forEach>
+	                                    </select>
+	                                    <span id="contractor_id_fkError" class="error-msg" ></span>
+	                                </div>                             
+	                            </div>
+	                            <div class="row">
+	                                <div class="col s12 m8 input-field offset-m2">
+	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="pmis-textarea validate" data-length="1000">${contractDeatils.scope_of_contract }</textarea>
+	                                    <label for="scope_of_contract">Scope of Contract</label>
+	                                 <span id="scope_of_contractError" class="error-msg" ></span>                                    
+	                                </div>
+	                           </div>
+	                        </div>
+	                          <div class="container container-no-margin" id="departmentDetails">
+	                            <div class="row" > 
 	                            	<div class="col m8 offset-m2 s12">
 										<div class="row fixed-width">
-									        <h5 class="center-align">Department Details</h5>
+									        <!-- <h5 class="center-align">Department Details</h5> -->
 									        <div class="table-inside">
 									            <table id="departmentTable" class="mdl-data-table mobile_responsible_table" >
 									                <thead>
@@ -346,48 +406,10 @@
 									    </div>
 									</div>
 								</div>
-	                            <div class="row">
-	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate pmis-textarea" ></textarea>
-	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
-	                                    <span id="contract_nameError" class="error-msg" ></span>
-	                                </div>	                              
-	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" >
-	                                    <label for="contract_short_name">Contract Short Name</label>
-	                                      <span id="contract_short_nameError" class="error-msg" ></span>
-	                                </div>
-	                            </div>
-	
-	                            <div class="row">	
-	                                <div class="col s6 m4 input-field offset-m2">
-	                                 <p class="searchable_label">Contract Type <span class="required">*</span></p>
-	                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
-	                                        <option value="" selected>Select</option>
-	                                       	   <c:forEach var="obj" items="${contract_type }">
-			                                     <option value="${obj.contract_type_fk }" >${obj.contract_type_fk }</option>
-			                                   </c:forEach>
-	                                    </select>                                   
-	                                     <span id="contract_type_fkError" class="error-msg" ></span>	                                    
-	                                </div>	                                
-	                                <div class="col s6 m4 input-field">
-	                                 <p class="searchable_label">Contractor Name <span class="required">*</span></p>
-	                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
-	                                        <option value="" selected>Select</option>
-	                                       	    <c:forEach var="obj" items="${contractors }">
-			                                      <option value="${obj.contractor_id_fk }" >${obj.contractor_name }</option>
-			                                    </c:forEach>
-	                                    </select>
-	                                    <span id="contractor_id_fkError" class="error-msg" ></span>
-	                                </div>                             
-	                            </div>
-	                            <div class="row">
-	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="pmis-textarea validate" data-length="1000">${contractDeatils.scope_of_contract }</textarea>
-	                                    <label for="scope_of_contract">Scope of Contract</label>
-	                                 <span id="scope_of_contractError" class="error-msg" ></span>                                    
-	                                </div>
-	                           
+							</div>
+								
+							<div class="container container-no-margin" id="contractDetails">
+	                           <div class="row">
 	                                <div class="col s6 m4 input-field offset-m2">
 	                                    <input id="loa_letter_number" name="loa_letter_number" type="text" class="validate">
 	                                    <label for="loa_letter_number">LOA Letter No</label>
@@ -461,8 +483,8 @@
 	                                    <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="docError" class="error-msg" ></span>
 	                                </div>		                                
-	                                <div class="col s6 m4 input-field">
-	                                 <p class="searchable_label"> <label>Status of Contract</label> </p>
+	                                <div class="col s6 m2 input-field">
+	                                 <p class="searchable_label"> <label>Status of Work</label> </p>
 	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
 	                                         <option value="" selected>Select</option>
                                        		 <c:forEach var="obj" items="${contract_Statustype }">
@@ -470,6 +492,15 @@
 		                                     </c:forEach>
 	                                    </select>
 	                                    <span id="contract_status_fkError" class="error-msg" ></span>
+	                                </div> 
+	                                <div class="col s6 m2 input-field">
+	                                 <p class="searchable_label"> <label>Contract Status</label> </p>
+	                                    <select class="validate-dropdown searchable" id="status_fk" name="status_fk">
+	                                         <option value="" >Select</option>	                                         
+	                                         <option value="open">Open </option>
+	                                         <option value="closed">Closed </option>                                       		
+	                                    </select>
+	                                    <span id="status_fkError" class="error-msg" ></span>
 	                                </div>         	                                
 	                            </div>	   
 	                         
@@ -480,13 +511,13 @@
 	                                      <span id="remarksError" class="error-msg"></span>
 	                                </div>
 	                            </div>                        
+	                        </div>
 	                        
- 							<div class="container container-no-margin">
-	                           
-	
-	                            <div class=" col m8 offset-m2 s12" style="margin-bottom:30px; padding:0;">
+ 							<div class="container container-no-margin" id="documentDetails">	                           
+								<div class="row">
+	                            <div class=" col m8 offset-m2 s12" style="margin-bottom:30px; padding:0;" >
 	                                <div class="row fixed-width">
-	                                    <h5 class="center-align">Documents</h5>
+	                                    <!-- <h5 class="center-align">Documents</h5> -->
 	                                    <div class="table-inside">
 	                                        <table class="mdl-data-table mobile_responsible_table">
 	                                            <thead>
@@ -543,8 +574,18 @@
 	                                    </div>
 	                                </div>
 	                            </div>
-						
+						</div>
+							</div>
+					
+                        </form>                        
+                       
+                    <!-- form ends  -->
+                </div>
 
+            </div>
+             <div class="card ">
+                <div class="card-content">
+             		<div class="container container-no-margin">
                             <div class="row">
                                 <div class="col s6 m4 mt-brdr center-align offset-m2">
                                     <div class="m-1">
@@ -558,16 +599,10 @@
                                 </div>
                             </div>
                        </div>
-                        </form>
-                    </div>
-                    <!-- form ends  -->
-                </div>
-
+                    </div>            
             </div>
-        </div>
-<!--     </div> -->
-
-
+	</div>
+</div>
 
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -621,6 +656,7 @@
         	 $('select:not(.searchable):not(.units)').formSelect();
              $('.searchable').select2(); 
              $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
+             $('.tabs').tabs();
              $('#remarks').characterCounter();
 			if(user_role != 'IT Admin'){
 	             getHodList();

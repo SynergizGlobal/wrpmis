@@ -427,8 +427,11 @@ public class DocxTableCreationForContractReport {
 						tableHeader0.add("Target Date of Completion");
 						tableHeader0.add("Status of Work");
 						
+					
+						
 						int columnNo = 1;
-						for (String headerValue : tableHeader0) {
+						for (String headerValue : tableHeader0) 
+						{
 							int width = 0;
 							if(1 == columnNo) {
 								width = 230;
@@ -470,10 +473,6 @@ public class DocxTableCreationForContractReport {
 									"ecf2ff",width);
 						}
 						table.getContent().add(titleRow0);
-		
-						/*
-						 * mergeCellsHorizontal(table, 0, 4, 5); mergeCellsHorizontal(table, 0, 6, 7);
-						 */
 						
 						/************************************************************************************/
 						Tr titleRow = factory.createTr();
@@ -538,23 +537,48 @@ public class DocxTableCreationForContractReport {
 									"ecf2ff",width);
 						}
 					
-						
+
 						
 						table.getContent().add(titleRow);
 						
-						mergeCellsVertically(table, 0, 0, 1);
-						mergeCellsVertically(table, 1, 0, 1);
-						mergeCellsVertically(table, 2, 0, 1);
-						mergeCellsVertically(table, 3, 0, 1);
+						if(i1==0)
+						{
+							mergeCellsVertically(table, 0, 0, 1);
+							mergeCellsVertically(table, 1, 0, 1);
+							mergeCellsVertically(table, 2, 0, 1);
+							mergeCellsVertically(table, 3, 0, 1);
+							
+							mergeCellsVertically(table, 8,0, 1);
+							mergeCellsVertically(table, 9, 0, 1);
+							mergeCellsVertically(table, 10, 0, 1);
+							mergeCellsVertically(table, 11, 0, 1);				
+							mergeCellsVertically(table, 12, 0, 1);
+							mergeCellsVertically(table, 13, 0, 1);
+			
+							
+							 mergeCellsHorizontal(table, 0, 4, 5); mergeCellsHorizontal(table, 0, 6, 7);	
+						}						
 						
-						mergeCellsVertically(table, 8, 0, 1);
-						mergeCellsVertically(table, 9, 0, 1);
-						mergeCellsVertically(table, 10, 0, 1);
-						mergeCellsVertically(table, 11, 0, 1);				
-						mergeCellsVertically(table, 12, 0, 1);
-						mergeCellsVertically(table, 13, 0, 1);
+						
+						if(i1==1)
+						{
+						
+						mergeCellsVertically(table, 0, 1, 2);
+						mergeCellsVertically(table, 1, 1, 2);
+						mergeCellsVertically(table, 2, 1, 2);
+						mergeCellsVertically(table, 3, 1, 2);
+						
+						mergeCellsVertically(table, 8,1, 2);
+						mergeCellsVertically(table, 9, 1, 2);
+						mergeCellsVertically(table, 10, 1, 2);
+						mergeCellsVertically(table, 11, 1, 2);				
+						mergeCellsVertically(table, 12, 1, 2);
+						mergeCellsVertically(table, 13, 1, 2);
 		
 						
+						 mergeCellsHorizontal(table, 1, 4, 5); mergeCellsHorizontal(table, 1, 6, 7);
+						}
+						 						
 						/*******************************************************************************/
 		
 						int sNo = 1;

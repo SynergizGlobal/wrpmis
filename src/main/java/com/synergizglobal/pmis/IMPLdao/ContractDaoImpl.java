@@ -818,7 +818,9 @@ public class ContractDaoImpl implements ContractDao {
 					String redirect_url = null;
 					String contract_name = contract.getContract_short_name();
 					if(StringUtils.isEmpty(contract_name)) {contract_name = contract.getContract_name();}
-					String message = "New contract "+contract_name+" is adeed under work "+contract.getWork_short_name()+" on PMIS ";
+					String work_name = contract.getWork_short_name();
+					if(StringUtils.isEmpty(work_name)) {work_name = contract.getWork_name();}
+					String message = "New contract "+contract_name+" is added under work "+work_name+" on PMIS ";
 					 
 					Messages msgObj = new Messages();
 					msgObj.setUser_ids(userIds);
@@ -895,7 +897,7 @@ public class ContractDaoImpl implements ContractDao {
 		Contract contract = null;
 		try{
 			con = dataSource.getConnection();
-			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,"
+			String contract_updateQry = "select w.work_name,w.work_short_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,"
 									+ "c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,dt.department_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,  " 
 									+ "scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,"
 									+ "DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,"
@@ -1908,8 +1910,38 @@ public class ContractDaoImpl implements ContractDao {
 					}
 					
 					/**********************************************************************************************/
+					
+					con.commit();
+					
+					/********************************************************************************/
+					
+					if(!StringUtils.isEmpty(contract.getHod_user_id_fk()) && "Closed".equalsIgnoreCase(contract.getContract_status_fk())) {
+						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+						
+						int arrSize = 1;
+						
+						int i = 0;
+						String userIds[]  = new String[arrSize];
+						userIds[i++] = contract.getHod_user_id_fk();
+						
+						String messageType = "Contract";
+						String redirect_url = null;
+						String contract_name = contract.getContract_short_name();
+						if(StringUtils.isEmpty(contract_name)) {contract_name = contract.getContract_name();}
+						String work_name = contract.getWork_short_name();
+						if(StringUtils.isEmpty(work_name)) {work_name = contract.getWork_name();}
+						String message = "Contract "+contract_name+" has been closed under work "+work_name+" on PMIS ";
+						 
+						Messages msgObj = new Messages();
+						msgObj.setUser_ids(userIds);
+						msgObj.setMessage_type(messageType);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage(message);
+						messagesDao.addMessages(msgObj,template);
+					}
+					/********************************************************************************/
 				}
-				con.commit();
+				
 		}catch(Exception e){ 
 			con.rollback();
 			e.printStackTrace();

@@ -126,6 +126,9 @@
 			padding-left:25px;
 		}
 		/* new code for modal and its contents ends  */
+		.btn-holder .btn+.btn{
+			margin-left:20px;
+		}
 
 /* .input-field>label 
 {
@@ -336,30 +339,21 @@ label {
 	               </div>
                </div>
 				
-                <div class="row no-mar col s12 m12" style="width:100%">
-                   <div class="col s5 m5">
-                       <div class="center-align m-1" style="text-align:right;">
+                <div class="row no-mar col s12 m12 center-align btn-holder" >
                            <button type="button" onclick="addRemarks();" style="width: auto;" id="btnRmks"
                                class="btn waves-effect waves-light bg-m">Submit</button>
                            <button type="button" onclick="addStpAlert();" style="width: auto;display:none;" id="btnStpAlert"
                                class="btn waves-effect waves-light bg-m">Stop Alert</button>
-                       </div>
-                   </div>
-                   <div class="col s3 m3">
-                       <div class="center-align m-1" style="text-align:left;">
+                  
                            <button type="button" style="text-align:right;width: auto;"
                                class="btn waves-effect waves-light bg-s modal-close">Cancel</button>
-                       </div>
-                   </div>
-                   <div class="col s4 m4">
-                       <div class="center-align m-1" style="text-align:left;">
-                           <button type="button" onclick="getContractForm('Bank Guarantee');" style="width: auto;" id="btnBG"
+                  
+                           <button type="button" onclick="getContractForm('Bank Guarantee');" style="width: auto; display:none;" id="btnBG"
                                class="btn waves-effect waves-light bg-m">Update BG</button>
+                 
                            <button  type="button" onclick="getContractForm('Insurance');" style="width: auto;display:none;" id="btnInsurance"
                                class="btn waves-effect waves-light bg-m">Update Insurance</button>
-                       </div>
-                   </div>
-               </div>
+               </div> 
            </form>
        </div>
    </div>
@@ -874,6 +868,8 @@ label {
         	
         	if(alert_level=="Overdue" && (alert_type_fk=="Contract Period" || alert_type_fk=="Contract Value" )){
         		$("#amendment_not_required_in_contract_Div").show();
+        		$("#btnBG").hide(); 
+        		$("#btnInsurance").hide(); 
         	}else{
         		$("#amendment_not_required_in_contract_Div").hide(); 
         		$("#btnBG").hide(); 

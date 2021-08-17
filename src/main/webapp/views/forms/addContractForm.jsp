@@ -189,7 +189,9 @@
 			    white-space: break-spaces;
 			}
 		}
-		
+		.input-field p.searchable_label{
+        	color: #7BC2B9;
+        }
 		h5{
 			margin-top:0;
 		}		
@@ -1091,35 +1093,42 @@
 		   	  errorPlacement:
 		   	 	function(error, element){
 		   			if (element.attr("id") == "project_id_fk" ){
-		   		 		     document.getElementById("project_id_fkError").innerHTML="";
-		   		 			 error.appendTo('#project_id_fkError');
-		   		 	    }else if (element.attr("id") == "work_id_fk" ){
+	   		 		     document.getElementById("project_id_fkError").innerHTML="";
+	   		 			 error.appendTo('#project_id_fkError');
+	   		 			 focusTabBasedOnError('basicDetails','project_id_fkError'); 	 
+		   		 	}else if (element.attr("id") == "work_id_fk" ){
 		   	 		     document.getElementById("work_id_fkError").innerHTML="";
 		   	 			 error.appendTo('#work_id_fkError');  			 	
+		   	 			 focusTabBasedOnError('basicDetails','work_id_fkError');
 		   	 	    }else if (element.attr("id") == "department_fk" ){
 		   	 		     document.getElementById("department_fkError").innerHTML="";
 		   	 			 error.appendTo('#department_fkError');
 		   	 	    }else if (element.attr("id") == "contract_name" ){
 		   	 		     document.getElementById("contract_nameError").innerHTML="";
 		   	 			 error.appendTo('#contract_nameError');
+		   	 			 focusTabBasedOnError('basicDetails','contract_nameError'); 
 		   	 	    }else if (element.attr("id") == "contract_short_name" ){
 		   	 		     document.getElementById("contract_short_nameError").innerHTML="";
 		   	 			 error.appendTo('#contract_short_nameError');
 		   	 	    }else if (element.attr("id") == "contract_type_fk" ){
 		   	 		     document.getElementById("contract_type_fkError").innerHTML="";
 		   	 			 error.appendTo('#contract_type_fkError');
+		   	 			 focusTabBasedOnError('basicDetails','contract_type_fkError'); 
 		   	 	    }else if (element.attr("id") == "contractor_id_fk" ){
 		   	 		     document.getElementById("contractor_id_fkError").innerHTML="";
 		   	 			 error.appendTo('#contractor_id_fkError');
+		   	 			 focusTabBasedOnError('basicDetails','contractor_id_fkError');
 		   	 	    }else if (element.attr("id") == "scope_of_contract" ){
 		   	 		     document.getElementById("scope_of_contractError").innerHTML="";
 		   	 			 error.appendTo('#scope_of_contractError');
 		   	 	    }else if (element.attr("id") == "hod_user_id_fk" ){
 		   	 		     document.getElementById("hod_user_id_fkError").innerHTML="";
 		   	 			 error.appendTo('#hod_user_id_fkError');
+		   	 			 focusTabBasedOnError('basicDetails','hod_user_id_fkError'); 
 		   	 	    }else if (element.attr("id") == "dy_hod_user_id_fk" ){
 		   	 		     document.getElementById("dy_hod_user_id_fkError").innerHTML="";
 		   	 			 error.appendTo('#dy_hod_user_id_fkError');
+		   	 			 focusTabBasedOnError('basicDetails','dy_hod_user_id_fkError'); 
 		   	 	    }else if (element.attr("id") == "doc" ){
 		   	 		     document.getElementById("docError").innerHTML="";
 		   	 			 error.appendTo('#docError');
@@ -1186,6 +1195,18 @@
         	 	    }else if (element.attr("id") == "remarks" ){
 		  	 		     document.getElementById("remarksError").innerHTML="";
 			 			 error.appendTo('#remarksError');}
+		   			
+		   			/* function for select of tab */
+		   			function focusTabBasedOnError(tabName,idName){
+		   			 	$('.tab-flex .tab > a').removeClass('active');
+		   			 	$('.tab-flex .tab > a').each(function(){
+		   			 		$($(this).attr('href')).css('display','none');
+		   			 	});
+		    			$('[href="#'+tabName+'"]').addClass('active');
+		    			$('.tabs').tabs();
+		    			$('#'+idName).focus();
+		   			}
+		   			
 		   	 },invalidHandler: function (form, validator) {
 		         var errors = validator.numberOfInvalids();
 		         if (errors) {
@@ -1578,6 +1599,7 @@
 			    }
 				
 		});		
+			
 		
 		/* 
 		$('.revision_status_checking').each(function(i,val){

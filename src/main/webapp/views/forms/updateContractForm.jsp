@@ -73,6 +73,9 @@
             width: 100%;
             overflow: auto;
         }
+        .input-field p.searchable_label{
+        	color: #7BC2B9;
+        }
        .row.no-mar{ margin-bottom:0;}
 	    @media only screen and (max-width: 600px) {
           .no-float-small {
@@ -331,6 +334,8 @@
 	                                    <p class="searchable_label">Work <span class="required">*</span></p>
                                     	<input type="text"  value="${contractDeatils.work_id_fk} - ${contractDeatils.work_name}" readonly />
                                         <input type="hidden" name="work_id_fk" id="work_id_fk" value="${contractDeatils.work_id_fk}" readonly />
+                                    	<input type="hidden" name="work_name" value="${contractDeatils.work_name}" />
+                                    	<input type="hidden" name="work_short_name" value="${contractDeatils.work_short_name}" />
 	                                </div>	
 	                            </div>
 	                             <div class="row">
@@ -1960,7 +1965,15 @@
             $('.tabs').tabs();
             $('#remarks').characterCounter();
             //getDyHodList();
-            
+            if('${contractTypeBGInsurance}'=='Bank Guarantee'){
+            	$('.tabs a').removeClass('active');
+            	$('.tabs [href="#bgDetails"]').addClass('active');
+            	$('.tabs').tabs();
+            }else if('${contractTypeBGInsurance}'=='Insurance'){
+            	$('.tabs a').removeClass('active');
+            	$('.tabs [href="#insuranceDetails"]').addClass('active');
+            	$('.tabs').tabs();
+            }
             var contract_status_fk = '${contractDeatils.contract_status_fk}';
             getContractClosureDetails(contract_status_fk);
             
@@ -2421,24 +2434,29 @@
         			if (element.attr("id") == "project_id_fk" ){
         		 		     document.getElementById("project_id_fkError").innerHTML="";
         		 			 error.appendTo('#project_id_fkError');
+        		 			 focusTabBasedOnError('basicDetails','project_id_fkError'); 
         		 	    }else if (element.attr("id") == "work_id_fk" ){
-        	 		     document.getElementById("work_id_fkError").innerHTML="";
-        	 			 error.appendTo('#work_id_fkError');  			 	
+	        	 		     document.getElementById("work_id_fkError").innerHTML="";
+	        	 			 error.appendTo('#work_id_fkError');  	
+	        	 			 focusTabBasedOnError('basicDetails','work_id_fkError'); 
 	        	 	    }else if (element.attr("id") == "department_fk" ){
 	        	 		     document.getElementById("department_fkError").innerHTML="";
 	        	 			 error.appendTo('#department_fkError');
 	        	 	    }else if (element.attr("id") == "contract_name" ){
 	        	 		     document.getElementById("contract_nameError").innerHTML="";
 	        	 			 error.appendTo('#contract_nameError');
+	        	 			focusTabBasedOnError('basicDetails','contract_nameError');
 	        	 	    }else if (element.attr("id") == "contract_short_name" ){
 	        	 		     document.getElementById("contract_short_nameError").innerHTML="";
 	        	 			 error.appendTo('#contract_short_nameError');
 	        	 	    }else if (element.attr("id") == "contract_type_fk" ){
 	        	 		     document.getElementById("contract_type_fkError").innerHTML="";
 	        	 			 error.appendTo('#contract_type_fkError');
+	        	 			focusTabBasedOnError('basicDetails','contract_type_fkError');
 	        	 	    }else if (element.attr("id") == "contractor_id_fk" ){
 	          	 		     document.getElementById("contractor_id_fkError").innerHTML="";
 	           	 			 error.appendTo('#contractor_id_fkError');
+	           	 			focusTabBasedOnError('basicDetails','contractor_id_fkError');
 	           	 	    }else if (element.attr("id") == "scope_of_contract" ){
 	        	 		     document.getElementById("scope_of_contractError").innerHTML="";
 	        	 			 error.appendTo('#scope_of_contractError');
@@ -2458,8 +2476,9 @@
 	        	 		     document.getElementById("awarded_costError").innerHTML="";
 	        	 			 error.appendTo('#awarded_costError');
 	        	 	    }else if (element.attr("id") == "date_of_start" ){
-	        	 	    	     document.getElementById("date_of_startError").innerHTML="";
-	        	 			     error.appendTo('#date_of_startError');
+        	 	    	     document.getElementById("date_of_startError").innerHTML="";
+        	 			     error.appendTo('#date_of_startError');
+        	 			     focusTabBasedOnError('contractDetails','date_of_startError');
         		 	    }else if (element.attr("id") == "estimated_cost" ){
         		 		     document.getElementById("estimated_costError").innerHTML="";
         		 			 error.appendTo('#estimated_costError');
@@ -2520,6 +2539,17 @@
 	        	 	    }else if (element.attr("id") == "remarks" ){
 	       	 		     document.getElementById("remarksError").innerHTML="";
 	    	 			 error.appendTo('#remarksError');}
+        			
+        			function focusTabBasedOnError(tabName,idName){
+		   			 	$('.tab-flex .tab > a').removeClass('active');
+		   			 	$('.tab-flex .tab > a').each(function(){
+		   			 		$($(this).attr('href')).css('display','none');
+		   			 	});
+		    			$('[href="#'+tabName+'"]').addClass('active');
+		    			$('.tabs').tabs();
+		    			$('#'+idName).focus();
+		   			}
+        			
         	 },invalidHandler: function (form, validator) {
                  var errors = validator.numberOfInvalids();
                  if (errors) {

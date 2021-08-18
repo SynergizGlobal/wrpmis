@@ -525,8 +525,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						+ "(select remarks from contract_revision where action = 'Yes' and contract_id_fk = contract_id limit 1) as revision_remarks,"
 						
 						+ "(select cast((IFNULL(SUM(gross_work_done),0)/10000000) as CHAR) AS gross_work_done from expenditure where contract_id_fk = contract_id) as cumulative_expenditure, "
-						+ "(select GROUP_CONCAT(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') SEPARATOR '\n' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes')) as insurance_valid_till, "
-						+ "(select GROUP_CONCAT(DISTINCT DATE_FORMAT(valid_upto,'%d-%b-%y') SEPARATOR '\n' ) from bank_guarantee bg where bg.contract_id_fk = c.contract_id  and bg_type_fk is not null and release_date is null) as pbg_valid_till, "
+						+ "(select GROUP_CONCAT(DISTINCT DATE_FORMAT(i1.valid_upto,'%d-%b-%y') SEPARATOR '\n<space>' )  from insurance i1 where i1.contract_id_fk = c.contract_id  and (released_fk is null or released_fk<>'Yes')) as insurance_valid_till, "
+						+ "(select GROUP_CONCAT(DISTINCT DATE_FORMAT(valid_upto,'%d-%b-%y') SEPARATOR '\n<space>' ) from bank_guarantee bg where bg.contract_id_fk = c.contract_id  and bg_type_fk is not null and release_date is null) as pbg_valid_till, "
 						+ "(SELECT TRUNCATE(sum(contract_per)*100,1) FROM pmis.activities_scurve where contract_id_fk = contract_id and category COLLATE utf8mb4_unicode_ci= 'Actual' COLLATE utf8mb4_unicode_ci) as PhysicalProgress,"
 						+ "DATE_FORMAT(c.target_doc,'%d-%b-%y') AS target_doc,status  "
 						+ " from contract c "  

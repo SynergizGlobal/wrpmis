@@ -243,7 +243,7 @@
 									<c:choose>
 								        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                 
                                  <select  class="searchable validate-dropdown" name="contract_id_fk" id="contract_id_fk" 
-                                 			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();" 
+                                 			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();"> 
                                   		 <option value="">Select</option>
                                           <c:forEach var="obj" items="${contractsList}">
 									 		<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 
@@ -256,7 +256,7 @@
                                   </c:when>
                                   <c:otherwise>
                                   <select  class="searchable validate-dropdown" name="contract_id_fk" id="contract_id_fk" 
-                                 			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();" disabled 
+                                 			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();" >
                                   		 <option value="" disabled>Select</option>
                                           <c:forEach var="obj" items="${contractsList}">
 									 		<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 
@@ -1074,12 +1074,14 @@
    		if(!contract_id_fk.includes(",")){  
         	workId = $("#contract_id_fk").find('option:selected').attr("workId");
         	//console.log(workId);
-        	projectId = workId.substring(0, 3);    
-   			//workId = workId.substring(3, work_id.length);
-   			$("#project_id_fk").val(projectId);
+        	if(workId!=undefined)
+        		{
+	        	projectId = workId.substring(0, 3);    
+	   			//workId = workId.substring(3, work_id.length);
+	   			$("#project_id_fk").val(projectId);
+   			}
    			$("#project_id_fk").select2();
    		}
-   		
    		if ($.trim(projectId) != "") {
    			$("#work_id_fk option:not(:first)").remove();
             var myParams = { project_id_fk: projectId };
@@ -1109,7 +1111,8 @@
    		console.log(size); */
    		
    		var work_id_fk = "${fob.work_id_fk}";
-   		if($.trim(work_id_fk) == '' && $.trim(workId) != '' && hitCount == 0){
+   		if($.trim(work_id_fk) == '' && $.trim(workId) != '' && hitCount == 0)
+   		{
    			$("#contract_id_fk option:not(:first)").remove();
         	var myParams = { work_id_fk: workId };
         	//console.log(hitCount);
@@ -1141,6 +1144,7 @@
 	        
 	        hitCount = 1;
         }
+   	 $(".page-loader").hide();
    		
     }
     

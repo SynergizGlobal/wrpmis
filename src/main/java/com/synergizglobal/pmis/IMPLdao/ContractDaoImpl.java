@@ -815,7 +815,7 @@ public class ContractDaoImpl implements ContractDao {
 					//String userIds[]  = {contract.getHod_user_id_fk(),contract.getDy_hod_user_id_fk()};
 					
 					String messageType = "Contract";
-					String redirect_url = null;
+					String redirect_url = "/InfoViz/contract/contract-details/" + contract_id;
 					String contract_name = contract.getContract_short_name();
 					if(StringUtils.isEmpty(contract_name)) {contract_name = contract.getContract_name();}
 					String work_name = contract.getWork_short_name();
@@ -1925,7 +1925,7 @@ public class ContractDaoImpl implements ContractDao {
 						userIds[i++] = contract.getHod_user_id_fk();
 						
 						String messageType = "Contract";
-						String redirect_url = null;
+						String redirect_url = "/InfoViz/contract/contract-details/" + contract.getContract_id();
 						String contract_name = contract.getContract_short_name();
 						if(StringUtils.isEmpty(contract_name)) {contract_name = contract.getContract_name();}
 						String work_name = contract.getWork_short_name();

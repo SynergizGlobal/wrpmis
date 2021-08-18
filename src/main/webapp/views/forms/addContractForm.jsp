@@ -633,14 +633,7 @@
 
 
     <script>
-	   /*  $(document).on('focus', '.datepicker',function(){
-	        $(this).datepicker({
-	        	format:'dd-mm-yyyy',
-	   	    	onSelect: function () {
-	   	    	   $('.confirmation-btns .datepicker-done').click();
-	   	    	}
-	        })
-	    }); */
+	   
 	    let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
@@ -895,50 +888,9 @@
 	  			$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
 	  			$('form input[name=responsible_people_id_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			
-	  			$('form input[name=bg_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
-	  			$('form input[name=issuing_banks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=bank_addresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=bg_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=bg_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=bank_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			
-	  			$('form input[name=release_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=bg_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=codes]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=insuranceStatus]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			
-	  			$('form input[name=bg_valid_uptos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=insurance_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=issuing_agencys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=agency_addresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=insurance_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=insurance_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=insurance_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=insurence_valid_uptos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=insurence_remarks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=contract_milestones_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=milestone_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=milestone_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=milestone_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=actual_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=mile_remarks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			
-	  			$('form input[name=contract_revision_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=revision_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=revision_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=revised_amounts]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=revised_docs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=revision_remarks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=contractDocumentNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=contractDocumentFileNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=contractKeyPersonnelNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=contractKeyPersonnelDesignations]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=contractKeyPersonnelMobileNos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=contractKeyPersonnelEmailIds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			
-    			document.getElementById("contractForm").submit();			
+	  			document.getElementById("contractForm").submit();			
     	 	}
     	}
         var validator = $('#contractForm').validate({
@@ -950,9 +902,11 @@
 		   			 	required: true
 		   			  },"work_id_fk": {
 		   		 		required: true
-		   		 	  },"department_fk": {
+		   		 	  },"hod_user_id_fk": {
 		   		 		required: true
-		   		 	  },"contract_name": {
+		   		 	  },"dy_hod_user_id_fk": {
+		   	 		    required: true
+		   	 	   	  },"contract_name": {
 		   		 		required: true
 		   		 	  },"contract_short_name":{
         		 		 required: false,
@@ -963,20 +917,7 @@
 		   	 		    required: true,
 		   	 	   	  },"scope_of_contract": {
 		   	 		    required: false,
-		   	 	   	  },"hod_user_id_fk": {
-		   		 		required: true
-		   		 	  },"dy_hod_user_id_fk": {
-		   	 		    required: true
-		   	 	   	  },"doc": {
-		   		 		required: false
-   				 		//dateBefore1:"#date_of_start"
-		   		 	  },"awarded_cost": {
-		   		 		required: false
-		   		 	  },"date_of_start": {
-		   		 		required: false
-		   		 	  },"estimated_cost": {
-		   		 		required: false
-		   		 	  },"loa_letter_number": {
+		   	 	   	  },"loa_letter_number": {
 		   		 		required: false
 		   		 	  },"loa_date":{
 		   		 		 required: false
@@ -984,110 +925,61 @@
 		   	 		    required: false,
 		   	 	   	  },"ca_date": {
 		   		 		required: false
-		   		 	  },"actual_completion_date": {
-		   	 		    required: false
-		   	 	   	  },"completed_cost": {
+		   		 	  },"estimated_cost": {
 		   		 		required: false
-		   		 	  },"contract_closure_date": {
-		   		 		required: false,
-	   				 	dateBefore3:"#completion_certificate_release"
-		   		 	  },"completion_certificate_release":{
-		   		 		 required: false,
-	   				 	 dateBefore2:"#final_takeover"
-		   		 	  },"final_takeover": {
-		   	 		    required: false,
-		   	 	   	  },"final_bill_release": {
-		   		 		required: false
-		   		 	  },"defect_liability_period": {
-		   	 		    required: false
-		   	 	   	  },"retention_money_release": {
-		   		 		required: false
-		   		 	  },"pbg_release":{
-		   		 		 required: false
-		   		 	  },"contract_closure":{
-		   		 		 required: false
-		   		 	  },"contract_status_fk":{
-		   		 		 required: false
-		   		 	  },"remarks":{
-		 		 		 required: false
-				 	  },"estimated_cost_units":{
+		   		 	  },"estimated_cost_units":{
         		 		 required: function(element){
         		             return $("#estimated_cost").val()!="";
         		         }
-        		 	  },"awarded_cost_units":{
+        		 	  },"awarded_cost": {
+		   		 		required: false
+		   		 	  },"awarded_cost_units":{
         		 		 required: function(element){
         		             return $("#awarded_cost").val()!="";
         		         }
-        		 	  }
-		   		 				
+        		 	  },"doc": {
+		   		 		required: false
+		   		 	  }	
 		   	 	},
 		   	   messages: {
 		   			 "project_id_fk": {
 	   		 			required: 'Required'
 	   		 	  	 },"work_id_fk": {
 		   	 			required: 'Required'
-		   	 	  	 },"department_fk": {
+		   	 	  	 },"hod_user_id_fk": {
 		   	 			required: 'Required'
-		   	 	  	 },"contract_name": {
+		   	 	  	 },"dy_hod_user_id_fk": {
 		   	 			required: 'Required'
 		   	 	  	 },"contract_name": {
 		   	 			required: 'Required'
 		   	 	  	 },"contract_short_name": {
 		   	 			required: 'Required',
 		   	 			maxlength : 'Contract short name must be less than or equal to 100 characters'
-		   	 	  	 },"contractor_id_fk": {
+		   	 	  	 },"contract_type_fk": {
+		   	 	  		required: 'Required'
+		   		 	 },"contractor_id_fk": {
 		   	 			required: 'Required'
 		   	 	  	 },"scope_of_contract": {
 		   	 	  		required: 'Required'
-		   	 	   	 },"hod_user_id_fk": {
-		   	 			required: 'Required'
-		   	 	  	 },"dy_hod_user_id_fk": {
-		   	 			required: 'Required'
-		   	 	  	 },"doc": {
-		   	 			required: 'Required'
-		   	 	  	 },"awarded_cost": {
-				 		required: 'Required'
-				 	  },"date_of_start": {
-				 		required: 'Required'
-				 	  },"estimated_cost": {
-				 		required: 'Required'
-				 	  },"loa_letter_number": {
-				 		required: 'Required'
+		   	 	   	 },"loa_letter_number": {
+					 		required: 'Required'
 				 	  },"loa_date":{
 				 		 required: 'Required'
 				 	  },"ca_no": {
 			 		    required: 'Required',
 			 	   	  },"ca_date": {
 				 		required: 'Required'
-				 	  },"actual_completion_date": {
-			 		    required: 'Required'
-			 	   	  },"completed_cost": {
+				 	  },"estimated_cost": {
 				 		required: 'Required'
-				 	  },"contract_closure_date": {
-				 		required: 'Required'
-		   		 	  },"completion_certificate_release":{
-		   		 		 required: 'Required'
-		   		 	  },"final_takeover": {
-		   		 		 required: 'Required'
-		   	 	   	  },"final_bill_release": {
-		   	 	   		required: 'Required'
-		   		 	  },"defect_liability_period": {
-		   		 		 required: 'Required'
-		   	 	   	  },"retention_money_release": {
-		   	 	   		required: 'Required'
-		   		 	  },"pbg_release":{
-		   		 		 required: 'Required'
-		   		 	  },"contract_closure":{
-		   	 	  		required: 'Required'
-		   		 	  },"contract_status_fk":{
-		   	 	  		required: 'Required'
-		   		 	  },"remarks":{
-		  	 	  		required: 'Required'
 				 	  },"estimated_cost_units":{
         	 	  		required: 'Required'
-        		 	  },"awarded_cost_units":{
+        		 	  },"awarded_cost": {
+				 		required: 'Required'
+				 	  },"awarded_cost_units":{
         	 	  		required: 'Required'
-        		 	  }
+        		 	  },"doc": {
+		   	 			required: 'Required'
+		   	 	  	  }
 		   	 				      
 		       },
 		   	  errorPlacement:
@@ -1095,53 +987,39 @@
 		   			if (element.attr("id") == "project_id_fk" ){
 	   		 		     document.getElementById("project_id_fkError").innerHTML="";
 	   		 			 error.appendTo('#project_id_fkError');
-	   		 			 focusTabBasedOnError('basicDetails','project_id_fkError'); 	 
+	   		 			 focusTabBasedOnError('basicDetails'); 	 
 		   		 	}else if (element.attr("id") == "work_id_fk" ){
 		   	 		     document.getElementById("work_id_fkError").innerHTML="";
 		   	 			 error.appendTo('#work_id_fkError');  			 	
-		   	 			 focusTabBasedOnError('basicDetails','work_id_fkError');
-		   	 	    }else if (element.attr("id") == "department_fk" ){
-		   	 		     document.getElementById("department_fkError").innerHTML="";
-		   	 			 error.appendTo('#department_fkError');
-		   	 	    }else if (element.attr("id") == "contract_name" ){
-		   	 		     document.getElementById("contract_nameError").innerHTML="";
-		   	 			 error.appendTo('#contract_nameError');
-		   	 			 focusTabBasedOnError('basicDetails','contract_nameError'); 
-		   	 	    }else if (element.attr("id") == "contract_short_name" ){
-		   	 		     document.getElementById("contract_short_nameError").innerHTML="";
-		   	 			 error.appendTo('#contract_short_nameError');
-		   	 	    }else if (element.attr("id") == "contract_type_fk" ){
-		   	 		     document.getElementById("contract_type_fkError").innerHTML="";
-		   	 			 error.appendTo('#contract_type_fkError');
-		   	 			 focusTabBasedOnError('basicDetails','contract_type_fkError'); 
-		   	 	    }else if (element.attr("id") == "contractor_id_fk" ){
-		   	 		     document.getElementById("contractor_id_fkError").innerHTML="";
-		   	 			 error.appendTo('#contractor_id_fkError');
-		   	 			 focusTabBasedOnError('basicDetails','contractor_id_fkError');
-		   	 	    }else if (element.attr("id") == "scope_of_contract" ){
-		   	 		     document.getElementById("scope_of_contractError").innerHTML="";
-		   	 			 error.appendTo('#scope_of_contractError');
+		   	 			 focusTabBasedOnError('basicDetails');
 		   	 	    }else if (element.attr("id") == "hod_user_id_fk" ){
 		   	 		     document.getElementById("hod_user_id_fkError").innerHTML="";
 		   	 			 error.appendTo('#hod_user_id_fkError');
-		   	 			 focusTabBasedOnError('basicDetails','hod_user_id_fkError'); 
+		   	 			 focusTabBasedOnError('basicDetails'); 
 		   	 	    }else if (element.attr("id") == "dy_hod_user_id_fk" ){
 		   	 		     document.getElementById("dy_hod_user_id_fkError").innerHTML="";
 		   	 			 error.appendTo('#dy_hod_user_id_fkError');
-		   	 			 focusTabBasedOnError('basicDetails','dy_hod_user_id_fkError'); 
-		   	 	    }else if (element.attr("id") == "doc" ){
-		   	 		     document.getElementById("docError").innerHTML="";
-		   	 			 error.appendTo('#docError');
-		   	 	    }else if (element.attr("id") == "awarded_cost" ){
-		   	 		     document.getElementById("awarded_costError").innerHTML="";
-		   	 			 error.appendTo('#awarded_costError');
-		   	 	    }else if (element.attr("id") == "date_of_start" ){
-		   	 	    	     document.getElementById("date_of_startError").innerHTML="";
-		   	 			     error.appendTo('#date_of_startError');
-			 	    }else if (element.attr("id") == "estimated_cost" ){
-			 		     document.getElementById("estimated_costError").innerHTML="";
-			 			 error.appendTo('#estimated_costError');
-			 	    }else if (element.attr("id") == "loa_letter_number" ){
+		   	 			 focusTabBasedOnError('basicDetails'); 
+		   	 	    }else if (element.attr("id") == "contract_name" ){
+		   	 		     document.getElementById("contract_nameError").innerHTML="";
+		   	 			 error.appendTo('#contract_nameError');
+		   	 			 focusTabBasedOnError('basicDetails'); 
+		   	 	    }else if (element.attr("id") == "contract_short_name" ){
+		   	 		     document.getElementById("contract_short_nameError").innerHTML="";
+		   	 			 error.appendTo('#contract_short_nameError');
+		   	 		 	 focusTabBasedOnError('basicDetails');
+		   	 	    }else if (element.attr("id") == "contract_type_fk" ){
+		   	 		     document.getElementById("contract_type_fkError").innerHTML="";
+		   	 			 error.appendTo('#contract_type_fkError');
+		   	 			 focusTabBasedOnError('basicDetails'); 
+		   	 	    }else if (element.attr("id") == "contractor_id_fk" ){
+		   	 		     document.getElementById("contractor_id_fkError").innerHTML="";
+		   	 			 error.appendTo('#contractor_id_fkError');
+		   	 			 focusTabBasedOnError('basicDetails');
+		   	 	    }else if (element.attr("id") == "scope_of_contract" ){
+		   	 		     document.getElementById("scope_of_contractError").innerHTML="";
+		   	 			 error.appendTo('#scope_of_contractError');
+		   	 	    }else if (element.attr("id") == "loa_letter_number" ){
 			 		     document.getElementById("loa_letter_numberError").innerHTML="";
 			 			 error.appendTo('#loa_letter_numberError');
 			 	    }else if (element.attr("id") == "loa_date" ){
@@ -1153,61 +1031,34 @@
 			 	    }else if (element.attr("id") == "ca_date" ){
 			 		     document.getElementById("ca_dateError").innerHTML="";
 			 			 error.appendTo('#ca_dateError');
-			 	    }else if (element.attr("id") == "actual_completion_date" ){
-			 		     document.getElementById("actual_completion_dateError").innerHTML="";
-			 			 error.appendTo('#actual_completion_dateError');
-			 	    }else if (element.attr("id") == "completed_cost" ){
-			 		     document.getElementById("completed_costError").innerHTML="";
-			 			 error.appendTo('#completed_costError');
-			 	    }else if (element.attr("id") == "contract_closure_date" ){
-			 		     document.getElementById("contract_closure_dateError").innerHTML="";
-			 			 error.appendTo('#contract_closure_dateError');
-			 	    }else if (element.attr("id") == "completion_certificate_release" ){
-			 		     document.getElementById("completion_certificate_releaseError").innerHTML="";
-			 			 error.appendTo('#completion_certificate_releaseError');
-			 	    }else if (element.attr("id") == "final_takeover_client" ){
-			 		     document.getElementById("final_takeover_clientError").innerHTML="";
-			 			 error.appendTo('#final_takeover_clientError');
-			 	    }else if (element.attr("id") == "final_bill_release" ){
-			 		     document.getElementById("final_bill_releaseError").innerHTML="";
-			 			 error.appendTo('#final_bill_releaseError');
-			 	    }else if (element.attr("id") == "defect_liability_period" ){
-			 		     document.getElementById("defect_liability_periodError").innerHTML="";
-			 			 error.appendTo('#defect_liability_periodError');
-			 	    }else if (element.attr("id") == "final_retention_release" ){
-			 		     document.getElementById("final_retention_releaseError").innerHTML="";
-			 			 error.appendTo('#final_retention_releaseError');
-			 	    }else if (element.attr("name") == "pbg_release" ){
-			 		     document.getElementById("pbg_releaseError").innerHTML="";
-			 			 error.appendTo('#pbg_releaseError');
-			 	    }else if (element.attr("id") == "contract_closure" ){
-			 		     document.getElementById("ontract_closureError").innerHTML="";
-			 			 error.appendTo('#ontract_closureError');
-			 	    }else if (element.attr("id") == "contract_status_fk" ){
-		 		     document.getElementById("contract_status_fkError").innerHTML="";
-		 			 error.appendTo('#contract_status_fkError');
-		   	 	    }else if (element.attr("id") == "estimated_cost_units" ){
-       	 		     document.getElementById("estimated_cost_unitsError").innerHTML="";
-    	 			 error.appendTo('#estimated_cost_unitsError');
-        	 	    }else if (element.attr("id") == "awarded_cost_units" ){
-    	 		     document.getElementById("awarded_cost_unitsError").innerHTML="";
-    	 			 error.appendTo('#awarded_cost_unitsError');
-        	 	    }else if (element.attr("id") == "remarks" ){
-		  	 		     document.getElementById("remarksError").innerHTML="";
-			 			 error.appendTo('#remarksError');}
+			 	    }else if (element.attr("id") == "awarded_cost" ){
+		   	 		     document.getElementById("awarded_costError").innerHTML="";
+		   	 			 error.appendTo('#awarded_costError');
+		   	 	    }else if (element.attr("id") == "awarded_cost_units" ){
+	    	 		     document.getElementById("awarded_cost_unitsError").innerHTML="";
+	    	 			 error.appendTo('#awarded_cost_unitsError');
+        	 	    }else if (element.attr("id") == "estimated_cost" ){
+			 		     document.getElementById("estimated_costError").innerHTML="";
+			 			 error.appendTo('#estimated_costError');
+			 	    }else if (element.attr("id") == "estimated_cost_units" ){
+	       	 		     document.getElementById("estimated_cost_unitsError").innerHTML="";
+	    	 			 error.appendTo('#estimated_cost_unitsError');
+        	 	    }else if (element.attr("id") == "doc" ){
+		   	 		     document.getElementById("docError").innerHTML="";
+		   	 			 error.appendTo('#docError');
+		   	 	    }
 		   			
 		   			/* function for select of tab */
-		   			function focusTabBasedOnError(tabName,idName){
+		   			function focusTabBasedOnError(tabName){
 		   			 	$('.tab-flex .tab > a').removeClass('active');
 		   			 	$('.tab-flex .tab > a').each(function(){
 		   			 		$($(this).attr('href')).css('display','none');
 		   			 	});
 		    			$('[href="#'+tabName+'"]').addClass('active');
 		    			$('.tabs').tabs();
-		    			$('#'+idName).focus();
 		   			}
 		   			
-		   	 },invalidHandler: function (form, validator) {
+		   	 },invalidHandler: function (form, validator) {    			
 		         var errors = validator.numberOfInvalids();
 		         if (errors) {
 		             var position = validator.errorList[0].element;
@@ -1222,397 +1073,60 @@
 		   	  }
 		});
         
-        
-        $.validator.addMethod("dateBefore1", function(value, element) {
-            var fromDateString = $('#date_of_start').val();
-            var fromDateParts = fromDateString.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-
-            var toDateParts = value.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-            	return Date.parse(fromDate) <= Date.parse(toDate);
-            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
-            	return false;
-            }else{
-            	return true;
-            }
-            
-        }, "Planned Doc date must be after Date of start");
-    	
-    	$.validator.addMethod("dateBefore2", function(value, element) {
-            var fromDateString = $('#final_takeover').val();
-            var fromDateParts = fromDateString.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-
-            var toDateParts = value.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-         
-            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-            	return Date.parse(fromDate) <= Date.parse(toDate);
-            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
-            	return false;
-            }else{
-            	return true;
-            }
-        }, "Release of Completion Certificate date must be after Final takeover by client date");
-    	
-    	$.validator.addMethod("dateBefore3", function(value, element) {
-            var fromDateString = $('#completion_certificate_release').val(); 
-            var fromDateParts = fromDateString.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-
-            var toDateParts = value.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-         
-            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-            	return Date.parse(fromDate) <= Date.parse(toDate);
-            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
-            	return false;
-            }else{
-            	return true;
-            }
-        }, "Contract closure date date must be after Release of Completion Certificate date");
-        
-        
-        $.validator.addMethod("dateFormat",
-        	    function(value, element) {
-        	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
-        	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
-        	    	//return dtRegex.test(value);
-        	    },
-        	    //"Date format (Aug 02,2020)"
-        	    "Date format (DD-MM-YYYY)"
-        	);
-   $('select').change(function(){
-       if ($(this).val() != ""){
-           $(this).valid();
-       }
-   });
-
-   $('input').change(function(){
-       if ($(this).val() != ""){
-           $(this).valid();
-       }
-   });
-   function addBankRow(){
-		
-       var rowNo = $("#bankRowNo").val();
-       var rNo = Number(rowNo)+1;
-       var total = 0;
-       var html = '<tr id="bankRow'+rNo+'">  <td> <input id="codes'+rNo+'" type="text" class="validate" name="codes" placeholder="Code">       </td><td> <div>'
-		   +'<select  name="bg_type_fks" id="bg_type_fks'+rNo+'"  class="searchable">'	   			
-		   +'<option value="" >Select</option>'
-		 	<c:forEach var="obj" items="${bankGuaranteeTYpe }">
-		  +'<option value="${obj.bg_type_fk }">${obj.bg_type_fk }</option>'
-			</c:forEach>
-		   +'</select></div></td>'
-		   +'<td> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
-		   //+'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
-		   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
-		   +'<td class="input-field"><i class="material-icons prefix cost">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="number" min="0.01" step="0.01" class="validate"  placeholder="Amount"></td>'
-		   //+'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
-		   +'<td><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button"><i class="fa fa-calendar"></i></button>'
-		   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button"><i class="fa fa-calendar"></i></button></td>'
-		   //+'<td><input id="remarks'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
-		   +'<td><input id="release_dates'+rNo+'" name="release_dates" type="text" class="validate datepicker" placeholder="Release Date"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
-		   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-	 
-		 $('#bankTableBody').append(html);
-		 $("#bankRowNo").val(rNo);
-		 $('.searchable').select2();
-		 
-		 $("#bg_valid_uptos"+rNo).datepicker({
-      	 format:'dd-mm-yyyy',
-          onSelect: function () {
-	    	     $('.confirmation-btns .datepicker-done').click();
-	    	  }
-      });
-
-	} 
+       
+	    $('select').change(function(){
+	       if ($(this).val() != ""){
+	           $(this).valid();
+	       }
+	    });
 	
-	
-	function removeBank(rowNo){
-	$("#bankRow"+rowNo).remove();
-	}
-	
-	function addInsurenceRow(){
-		
-	 var rowNo = $("#insurenceRowNo").val();
-	 var rNo = Number(rowNo)+1;
-	 var total = 0;
-	 var html = '<tr id="insurenceRow'+rNo+'"><td> <div>'
-		   +'<select  name="insurance_type_fks" id="insurance_type_fks'+rNo+'" class="searchable" >'	   			
-		   +'<option value="" >Select</option>'
-		   <c:forEach var="obj" items="${insurance_type }">
-			  +' <option value= "${ obj.insurance_type}">${ obj.insurance_type}</option>'
-		  </c:forEach>
-		   +'</select></div></td>'
-		   +'<td> <input id="issuing_agencys'+rNo+'" name="issuing_agencys" type="text" class="validate"  placeholder="Issuing Agency"></td>'
-		   +'<td><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
-		   +'<td><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
-		   +'<td class="input-field"><i class="material-icons prefix cost">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" placeholder="Insurance Value"></td>'
-		   +'<td><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
-		   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" ><i class="fa fa-calendar"></i></button></td>'
-		   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
-		   +'<td><label> <input type="hidden" id="insuranceStatus'+rNo+'" name="insuranceStatus" value="No" /><input type="checkbox" id="insuranceStatuss'+rNo+'" /> <span></span> </label></td>'
-		   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-	
-		 $('#insurenceTableBody').append(html);
-		 $("#insurenceRowNo").val(rNo);
-		 $('.searchable').select2();
-		 $("#insurence_valid_uptos"+rNo).datepicker({
-		      	 format:'dd-mm-yyyy',
-		          onSelect: function () {
-			    	     $('.confirmation-btns .datepicker-done').click();
-			    	  }
-		 });
-		 $("#insuranceStatuss"+rNo).on('change', function(e){
-             if($(this).prop('checked'))
-             {
-            	// $(".part").prop('disabled', true);
-                 $("#insuranceStatus"+rNo).val('Yes');
-             } else{
-              	 
-            	  $("#insuranceStatus"+rNo).prop('checked',false).removeAttr('checked');
-            	  $("#insuranceStatus"+rNo).val('No')
-              }
-   	    });
-	} 
-	
-	
-	function removeInsurence(rowNo){
-	$("#insurenceRow"+rowNo).remove();
-	}
-	
-	function addMilestoneRow(){
-		
-	 var rowNo = $("#mileRowNo").val();
-	 var rNo = Number(rowNo)+1;
-	 var total = 0;
-	 var html = '<tr id="mileRow'+rNo+'">'
-	 	   +'<td><input id="milestone_ids'+rNo+'" name="milestone_ids" type="text" class="validate" placeholder="Milestone ID"></td>'
-		   +'<td><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
-		   +'<td><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
-		   +'<td><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button"><i  class="fa fa-calendar"></i></button></td>'
-		   +'<td><input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
-		   +'<td>  <input id="mile_remarks'+rNo+'" name="mile_remarks" type="text" class="validate" placeholder="Remarks"></td>'
-		   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeMilestone('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-		   +'</tr>';
-	
-		 $('#milestoneTableBody').append(html);
-		 $("#mileRowNo").val(rNo);
-		 $('.searchable').select2();
-		 $("#milestone_dates"+rNo).datepicker({
-		      	 format:'dd-mm-yyyy',
-		          onSelect: function () {
-			    	     $('.confirmation-btns .datepicker-done').click();
-			    	  }
-		      });
-		 $("#actual_dates"+rNo).datepicker({
-		      	 format:'dd-mm-yyyy',
-		          onSelect: function () {
-			    	     $('.confirmation-btns .datepicker-done').click();
-			    	  }
-		      });
-	} 
-	
-	
-	function removeMilestone(rowNo){
-		$("#mileRow"+rowNo).remove();
-	}
-	function addRevRow(){		
-		 var rowNo = $("#revRowNo").val();
-		 var rNo = Number(rowNo)+1;
-		 var total = 0;
-		 var html = '<tr id="revRow'+rNo+'">'
-			   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
-			   +'<td class="input-field"><i class="material-icons prefix cost">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"></td>'
-			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
-			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
-			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
-			   +'<td><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check" value="No" /><input type="checkbox" id="revision_status'+rNo+'" onchange="revisionChecks('+rNo+')" class="revision_status_checking"/> <span></span> </label></td>'
-			   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-			   +'</tr>';
-		
-			 $('#revTableBody').append(html);
-			 $("#revRowNo").val(rNo);
-			 $('.searchable').select2();
-			 $("#revised_docs"+rNo).datepicker({
-		      	 format:'dd-mm-yyyy',
-		          onSelect: function () {
-			    	     $('.confirmation-btns .datepicker-done').click();
-			    	  }
-		      });
-			  $("#revision_status"+rNo).on('change', function(e){
-                 if($(this).prop('checked'))
-                 {
-                	// $(".part").prop('disabled', true);
-                     $("#revision_statuss"+rNo).val('Yes');
-                 } else{
-                  	 
-                	  $("#revision_status"+rNo).prop('checked',false);
-                	  $("#revision_statuss"+rNo).val('No')
-                  }
-       	    }); 
-	} 	
-
-
-	function removeRev(rowNo){
-		$("#revRow"+rowNo).remove();
-	}
-	
-	
-	function addKeyPersonnelRow(){		
-		 var rowNo = $("#keyRowNo").val();
-		 var rNo = Number(rowNo)+1;
-		 var total = 0;
-		 var html = '<tr id="keyPersonnelRow'+rNo+'">'
-					 +'<td> <input id="contractKeyPersonnelNames'+rNo+'" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">'
-					 +'</td>'
-					 +'<td> <input id="contractKeyPersonnelDesignations'+rNo+'" name="contractKeyPersonnelDesignations" type="text" class="validate" placeholder="Name">'
-					 +'</td>'
-					 +'<td>'
-					 +'<input id="contractKeyPersonnelMobileNos'+rNo+'" name="contractKeyPersonnelMobileNos" type="number" class="validate" placeholder="Mobile No">'
-					 +'</td>'
-					 +'<td>'
-					 +'<input id="contractKeyPersonnelEmailIds'+rNo+'" name="contractKeyPersonnelEmailIds" type="text" class="validate" placeholder="Email">'
-					 +'</td>'
-					 +'<td>'
-					 +'<a href="javascript:void(0);" onclick="removeKeyPersonnel('+rNo+');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
-					 +'</td>'
-			   		 +'</tr>';
-		
-			 $('#keyPersonnelTableBody').append(html);
-			 $("#keyRowNo").val(rNo);
-	}
-	
-	function removeKeyPersonnel(rowNo){
-		$("#keyPersonnelRow"+rowNo).remove();
-	}
-
-	function addContractDocumentRow(){		
-		 var rowNo = $("#documentRowNo").val();
-		 var rNo = Number(rowNo)+1;
-		 var total = 0;
-		 var html = '<tr id="contractDocumentRow'+rNo+'">'
-					 +'<td data-head="File Type" class="input-field">'
-						+'<select  name="contract_file_types"  id="contract_file_types'+rNo+'"  class="validate-dropdown searchable">'
-							+ '<option value="" >--Select--</option>'
-						  <c:forEach var="obj" items="${contractFileTypeList}">
-				  				+ '<option value="${obj.contract_file_type }">${obj.contract_file_type}</option>'
-						  </c:forEach>
-					 + '</select></td>'
-					 +'<td data-head="Name" class="input-field"> <input id="contractDocumentNames'+rNo+'" name="contractDocumentNames" type="text" class="validate" placeholder="Name"> </td>'
-					 +'<td data-head="Attachment" class="input-field">'
-					 +'<span class="normal-btn">'
-					 +'<input type="file" id="contractDocumentFiles'+rNo+'" name="contractDocumentFiles" style="display:none" onchange="getFileName('+rNo+')" />'
-					 +'<label for="contractDocumentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
-					 +'<span id="contractDocumentFileName'+rNo+'" class="filevalue"></span>'
-					 +'</span>'
-					 +'</td>'
-					 +'<td></td>'
-					 +'<td class="mobile_btn_close">'
-					 +'<a href="javascript:void(0);" onclick="removeContractDocument('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
-					 +'</td>'
-			   		 +'</tr>';
-		
-			 $('#contractDocumentTableBody').append(html);
-			 $("#documentRowNo").val(rNo);
-			 $('.searchable').select2();
-	} 
-	function removeContractDocument(rowNo){
-		$("#contractDocumentRow"+rowNo).remove();
-	}
-	
-	
-	function getFileName(rowNo){
-		var filename = $('#contractDocumentFiles'+rowNo)[0].files[0].name;
-	    $('#contractDocumentFileName'+rowNo).html(filename);
-	}
-	
-
-	function revisionChecks(a){
-		//alert('hai');
-		/* $('input[name=revision_statuss]').each(function(j,item){
-			$("#"+item.id).val('No');
-		}); */
-		$('.revision_status_checking').each(function(i,val){
-			//$(".revision_status_checking").prop('checked',false);
-				if($('#revised_amounts'+i).val()=="" && $('#revised_docs'+i).val()==""){
-					$("#revision_status"+i).prop('checked',false);
-			    }
-				
-				if(($('#revised_amounts'+a).val()=="" && $('#revised_docs'+a).val()!="") || ($('#revised_amounts'+a).val()!="" && $('#revised_docs'+a).val()=="")){
-					//$("#revision_status"+i).prop('checked',true);
-					if($("#revision_status"+i).prop('checked')){
-						if($('#revised_amounts'+i).val()!="" && $('#revised_docs'+i).val()!=""){
-							$(".revision_status_checking").prop('checked',false);
-						}
-						//$(".hidden_check").val('No');
-						
-						$("#revision_status"+a).prop('checked',true);
-						$("#revision_statuss"+a).val('Yes');
-						if(i != a){
-							if($("#revision_status"+i).prop('checked') == true 	&& $('#revised_amounts'+i).val() !="" && $('#revised_docs'+a).val()==""){
-								$("#revision_statuss"+i).val('No');
-								$("#revision_status"+i).prop('checked',false);							
-												
-							}
-							if($("#revision_status"+i).prop('checked') == true 	&& $('#revised_docs'+i).val()!="" && $('#revised_amounts'+a).val()==""){
-								$("#revision_statuss"+i).val('No');
-								$("#revision_status"+i).prop('checked',false);							
-												 
-							}
-							if($("#revision_status"+i).prop('checked') == false && $('#revised_docs'+i).val()!="" && $('#revised_amounts'+a).val()!=""){
-								$("#revision_statuss"+i).val('No');
-												 
-							}
-							if($("#revision_status"+i).prop('checked') == false){
-								$("#revision_statuss"+i).val('No');
-												 
-							}
-						}
-						if(i == a ){
-							$("#revision_status"+i).prop('checked',true);	
-						}
-					}
-			    }
-				
-				if($('#revised_amounts'+a).val()!="" && $('#revised_docs'+a).val()!=""){
-			    	//$("#revision_status"+i).prop('checked',true);
-					if($("#revision_status"+i).prop('checked')){
-						$(".revision_status_checking").prop('checked',false);
-						$(".hidden_check").val('No');
-						$("#revision_status"+a).prop('checked',true);
-						$("#revision_statuss"+a).val('Yes');
-						//$("#revision_status"+i).prop('checked',true);
-						//if($('#revised_amounts'+a).val()!="" && $('#revised_docs'+a).val()!=""){$(".revision_status_checking").prop('checked',false);$("#revision_status"+a).prop('checked',true);}
-					}
-			    	
-			    }
-				
-		});		
+	    $('input').change(function(){
+	       if ($(this).val() != ""){
+	           $(this).valid();
+	       }
+	    });
 			
 		
-		/* 
-		$('.revision_status_checking').each(function(i,val){
-			if($(this).prop('checked')){
-				if($('#revised_amounts'+i).val()!="" && $('#revised_amounts'+i).val()!=undefined){	
-					console.log(i)
-					$("#revision_status"+i).prop('checked',true);
-				}
-			}
+		function addContractDocumentRow(){		
+			 var rowNo = $("#documentRowNo").val();
+			 var rNo = Number(rowNo)+1;
+			 var total = 0;
+			 var html = '<tr id="contractDocumentRow'+rNo+'">'
+						 +'<td data-head="File Type" class="input-field">'
+							+'<select  name="contract_file_types"  id="contract_file_types'+rNo+'"  class="validate-dropdown searchable">'
+								+ '<option value="" >--Select--</option>'
+							  <c:forEach var="obj" items="${contractFileTypeList}">
+					  				+ '<option value="${obj.contract_file_type }">${obj.contract_file_type}</option>'
+							  </c:forEach>
+						 + '</select></td>'
+						 +'<td data-head="Name" class="input-field"> <input id="contractDocumentNames'+rNo+'" name="contractDocumentNames" type="text" class="validate" placeholder="Name"> </td>'
+						 +'<td data-head="Attachment" class="input-field">'
+						 +'<span class="normal-btn">'
+						 +'<input type="file" id="contractDocumentFiles'+rNo+'" name="contractDocumentFiles" style="display:none" onchange="getFileName('+rNo+')" />'
+						 +'<label for="contractDocumentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+						 +'<span id="contractDocumentFileName'+rNo+'" class="filevalue"></span>'
+						 +'</span>'
+						 +'</td>'
+						 +'<td></td>'
+						 +'<td class="mobile_btn_close">'
+						 +'<a href="javascript:void(0);" onclick="removeContractDocument('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
+						 +'</td>'
+				   		 +'</tr>';
 			
-		}); */
-
-	}
+				 $('#contractDocumentTableBody').append(html);
+				 $("#documentRowNo").val(rNo);
+				 $('.searchable').select2();
+		} 
+		function removeContractDocument(rowNo){
+			$("#contractDocumentRow"+rowNo).remove();
+		}
+		
+		
+		function getFileName(rowNo){
+			var filename = $('#contractDocumentFiles'+rowNo)[0].files[0].name;
+		    $('#contractDocumentFileName'+rowNo).html(filename);
+		}
+	
 
     </script>
 

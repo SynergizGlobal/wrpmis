@@ -1167,8 +1167,43 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getResponsiblePeopleListForFOBForm(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
+			String qry ="";
+			if(obj.getContracts_id_fk()==null)
+			{
+			 qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
+			}
+			else
+			{
+				qry="select distinct user_id,user_name,designation,u.department_fk from contract_executive c "
+						+ "left join user u on u.user_id=c.executive_user_id_fk  ";
+			}
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContracts_id_fk())) {
+				qry = qry + " where c.contract_id_fk in (?";
+				int length = obj.getContracts_id_fk().length;
+				if(length > 1) {
+					for(int i1 =0; i1< (length-1); i1++) {
+						qry = qry + ",?";
+						arrSize++;
+					}
+				}
+				
+				qry = qry + " ) ";
+				arrSize++;
+			}			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContracts_id_fk())) {
+				int length = obj.getContracts_id_fk().length;
+				if(length >= 1) {
+					for(int j =0; j<= (length-1); j++) {
+						pValues[i++] = obj.getContracts_id_fk()[j];
+					}
+				}	
+			}		
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

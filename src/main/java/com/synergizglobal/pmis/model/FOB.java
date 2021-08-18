@@ -20,7 +20,7 @@ public class FOB {
 	private List<FOB> fobDetails;
 	private List<FOB> fobImages;
 	private String[] fob_id_fks,fobFileNames,fob_file_types,created_dates;
-	private String[] fob_detail_names,fob_detail_values,fob_file_ids;
+	private String[] fob_detail_names,fob_detail_values,fob_file_ids,contracts_id_fk;
 	
 	
 	
@@ -549,6 +549,14 @@ public class FOB {
 
 	public void setUser_type_fk(String user_type_fk) {
 		this.user_type_fk = user_type_fk;
+	}
+
+	public String[] getContracts_id_fk() {
+		return contracts_id_fk;
+	}
+
+	public void setContracts_id_fk(String[] contracts_id_fk) {
+		this.contracts_id_fk = contracts_id_fk;
 	}
 	
 }

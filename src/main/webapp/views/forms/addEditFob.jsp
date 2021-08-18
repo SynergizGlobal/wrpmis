@@ -242,7 +242,7 @@
                                 <p class="searchable_label">Contract</p>
 									<c:choose>
 								        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                 
-                                 <select  class="searchable validate-dropdown" name="contract_id_fk" id="contract_id_fk" 
+                                 <select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk" 
                                  			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();"> 
                                   		 <option value="">Select</option>
                                           <c:forEach var="obj" items="${contractsList}">
@@ -255,7 +255,7 @@
                                   </select>
                                   </c:when>
                                   <c:otherwise>
-                                  <select  class="searchable validate-dropdown" name="contract_id_fk" id="contract_id_fk" 
+                                  <select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk" 
                                  			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();" >
                                   		 <option value="" disabled>Select</option>
                                           <c:forEach var="obj" items="${contractsList}">
@@ -988,6 +988,7 @@
     	$(".page-loader").show();
         $("#work_id_fk option:not(:first)").remove();
         $("#contract_id_fk option:not(:first)").remove();
+        $("#responsible_people_id_fk option:not(:first)").remove();
 
         if ($.trim(projectId) != "") {
             var myParams = { project_id_fk: projectId };
@@ -1026,6 +1027,7 @@
     function getContractsList(work_id_fk) {
     	$(".page-loader").show();
         $("#contract_id_fk option:not(:first)").remove();
+        $("#responsible_people_id_fk option:not(:first)").remove();
         if($.trim(work_id_fk) != ''){
         	var myParams = { work_id_fk: work_id_fk };
 	        $.ajax({
@@ -1065,7 +1067,34 @@
     
     var hitCount = 0;
     function resetWorksAndProjectsDropdowns(){
-    	$(".page-loader").show();        	
+    	$("#responsible_people_id_fk option:not(:first)").remove();
+    	var user_id="";
+    	var contract_id_fk = $("#contract_id_fk").val();
+    	var myParams = {contracts_id_fk : contract_id_fk}
+    	$.ajax({
+            url: "<%=request.getContextPath()%>/ajax/getResponsiblePeopleFOBForm",
+            type:"post",
+   		   traditional: true, 
+            data: myParams, cache: false,aync:false,
+            success: function (data) {
+                if (data.length > 0) {
+                    $.each(data, function (i, val) {
+                        var user_name = '';
+                        if ($.trim(val.user_name) != '') { user_name =  $.trim(val.user_name) }
+                        if ($.trim(user_id) != '' && val.user_id == $.trim(user_id)) {
+                            $("#responsible_people_id_fk").append('<option value="' + val.user_id + '" selected>' + $.trim(val.designation) + ' - ' + $.trim(user_name) + '</option>');
+                        } else {
+                            $("#responsible_people_id_fk").append('<option value="' + val.user_id + '">' + $.trim(val.designation) + ' - ' + $.trim(user_name) + '</option>');
+                        }
+                    });
+                }
+                $('.searchable').select2();
+                $(".page-loader").hide();
+            }
+        });   	
+    	
+    	
+<%--     	$(".page-loader").show();        	
     	var projectId = '';
     	var workId = ''
    		var contract_id_fk = $("#contract_id_fk").val();
@@ -1144,7 +1173,7 @@
 	        
 	        hitCount = 1;
         }
-   	 $(".page-loader").hide();
+   	 $(".page-loader").hide(); --%>
    		
     }
     

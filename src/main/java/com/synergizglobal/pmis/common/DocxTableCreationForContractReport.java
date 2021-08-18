@@ -436,6 +436,18 @@ public class DocxTableCreationForContractReport {
 									mergeCellsVertically(table, 12, Concat,Total);
 									mergeCellsVertically(table, 13, Concat,Total);
 									
+									String R1=search[i].replace("\n  ", "");
+									String R2=search1[i].replace("\n  ", "");								
+									
+									  if(R1=="")
+									  {
+										  mergeCellsVertically(table, 8, Concat,Total);
+									  }									
+									  if(R2=="")
+									  {
+										  mergeCellsVertically(table, 9, Concat,Total);
+									  }										
+									
 							  }
 							  Concat=Concat+GrLength;								  
 						}

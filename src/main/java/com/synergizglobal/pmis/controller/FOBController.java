@@ -356,6 +356,19 @@ public class FOBController {
 		return objsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getResponsiblePeopleFOBForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FOB> getResponsiblePeopleFOBForm(@ModelAttribute FOB obj) {
+		List<FOB> objsList = null;
+		try {
+			objsList = fobService.getResponsiblePeopleListForFOBForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getResponsiblePeopleFOBForm : " + e.getMessage());
+		}
+		return objsList;
+	}	
+	
 	@RequestMapping(value = "/ajax/getContractsListForFOBForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<FOB> getContractsListForFOBForm(@ModelAttribute FOB obj,HttpSession session) {

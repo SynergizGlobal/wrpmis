@@ -277,6 +277,10 @@
         }
 		/* special columns of revision table css ends here  */	
 		h5{margin-top:0;}
+		/* .input-field input[type="text"],
+		.input-field .pmis-textarea{
+        	margin-bottom:0;
+        } */
     </style>
 </head>
 
@@ -413,7 +417,7 @@
 								<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }"><br> </c:if>
 							<div class="row">
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea id="contract_name" name ="contract_name" class="pmis-textarea" data-length="1000"
+	                                    <textarea id="contract_name" name ="contract_name" class="pmis-textarea validate-dropdown" data-length="1000"
 	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>> ${contractDeatils.contract_name }</textarea>
 	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
@@ -421,10 +425,10 @@
 	                            </div>
 	                            <div class="row">
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" 
+	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate validate-dropdown" 
 	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
 	                                     value="${contractDeatils.contract_short_name }">
-	                                    <label for="contract_short_name">Contract Short Name</label>
+	                                    <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
 	                                </div>
 	                            </div>
@@ -511,7 +515,7 @@
 	                            </div>
 	                            <div class="row">	                                
 	                                <div class="col s12 m4 input-field offset-m2">
-	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate datepicker" value="${contractDeatils.date_of_start }">
+	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate validate-dropdown datepicker" value="${contractDeatils.date_of_start }">
 	                                    <label for="date_of_start">Date of Start <span class="required">*</span></label>
 	                                     <span id="date_of_startError" class="error-msg" ></span>
 	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
@@ -1990,6 +1994,9 @@
 	       	}else{
 	       		$("#insurance_div").hide();
 	       	} */
+	      /*  	$("#myForm").submit(function () {
+	            $("#tabs").tabs("select", $("#contractForm .my-error-class").closest(".ui-tabs-panel").get(0).id);
+	        }); */
             getHodList();
             getDyHodList();
         });
@@ -2263,6 +2270,8 @@
     	 		}else{
     	        	$(".page-loader").hide();
     	 		}
+        	}else{
+        		validator;
         	}
     	}
 
@@ -2434,29 +2443,24 @@
         			if (element.attr("id") == "project_id_fk" ){
         		 		     document.getElementById("project_id_fkError").innerHTML="";
         		 			 error.appendTo('#project_id_fkError');
-        		 			 focusTabBasedOnError('basicDetails','project_id_fkError'); 
         		 	    }else if (element.attr("id") == "work_id_fk" ){
 	        	 		     document.getElementById("work_id_fkError").innerHTML="";
 	        	 			 error.appendTo('#work_id_fkError');  	
-	        	 			 focusTabBasedOnError('basicDetails','work_id_fkError'); 
 	        	 	    }else if (element.attr("id") == "department_fk" ){
 	        	 		     document.getElementById("department_fkError").innerHTML="";
 	        	 			 error.appendTo('#department_fkError');
 	        	 	    }else if (element.attr("id") == "contract_name" ){
 	        	 		     document.getElementById("contract_nameError").innerHTML="";
 	        	 			 error.appendTo('#contract_nameError');
-	        	 			focusTabBasedOnError('basicDetails','contract_nameError');
 	        	 	    }else if (element.attr("id") == "contract_short_name" ){
 	        	 		     document.getElementById("contract_short_nameError").innerHTML="";
 	        	 			 error.appendTo('#contract_short_nameError');
 	        	 	    }else if (element.attr("id") == "contract_type_fk" ){
 	        	 		     document.getElementById("contract_type_fkError").innerHTML="";
 	        	 			 error.appendTo('#contract_type_fkError');
-	        	 			focusTabBasedOnError('basicDetails','contract_type_fkError');
 	        	 	    }else if (element.attr("id") == "contractor_id_fk" ){
 	          	 		     document.getElementById("contractor_id_fkError").innerHTML="";
 	           	 			 error.appendTo('#contractor_id_fkError');
-	           	 			focusTabBasedOnError('basicDetails','contractor_id_fkError');
 	           	 	    }else if (element.attr("id") == "scope_of_contract" ){
 	        	 		     document.getElementById("scope_of_contractError").innerHTML="";
 	        	 			 error.appendTo('#scope_of_contractError');
@@ -2478,7 +2482,6 @@
 	        	 	    }else if (element.attr("id") == "date_of_start" ){
         	 	    	     document.getElementById("date_of_startError").innerHTML="";
         	 			     error.appendTo('#date_of_startError');
-        	 			     focusTabBasedOnError('contractDetails','date_of_startError');
         		 	    }else if (element.attr("id") == "estimated_cost" ){
         		 		     document.getElementById("estimated_costError").innerHTML="";
         		 			 error.appendTo('#estimated_costError');
@@ -2539,30 +2542,26 @@
 	        	 	    }else if (element.attr("id") == "remarks" ){
 	       	 		     document.getElementById("remarksError").innerHTML="";
 	    	 			 error.appendTo('#remarksError');}
-        			
-        			function focusTabBasedOnError(tabName,idName){
-		   			 	$('.tab-flex .tab > a').removeClass('active');
-		   			 	$('.tab-flex .tab > a').each(function(){
-		   			 		$($(this).attr('href')).css('display','none');
-		   			 	});
-		    			$('[href="#'+tabName+'"]').addClass('active');
-		    			$('.tabs').tabs();
-		    			$('#'+idName).focus();
-		   			}
-        			
+      
         	 },invalidHandler: function (form, validator) {
-                 var errors = validator.numberOfInvalids();
+                 var errors = validator.numberOfInvalids();                 
                  if (errors) {
                      var position = validator.errorList[0].element;
+                     var eleDivId=$(position).parentsUntil('form');
+                     var l=eleDivId.push();
+                     $('.tab-flex .tab > a').removeClass('active');
+                     $('.tab-flex .tab > a').each(function(){
+		   			 		$($(this).attr('href')).css('display','none');
+		   			 	});
+		    		 $('[href="#'+eleDivId[l-1].id+'"]').addClass('active');
+		    		 $('.tabs').tabs();
                      jQuery('html, body').animate({
                          scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
-                     }, 1000);
+                     }, 1000); 
                  }validateContract();
              },submitHandler: function(form) {
-            	 alert($('#awarded_cost').val());
-        	    // do other things for a valid form
-        	    //form.submit();
-        	    //return true;
+            	// alert($('#awarded_cost').val());
+        	   
         	  }
         });
         $.validator.addMethod("dateBeforeDOS", function(value, element) {

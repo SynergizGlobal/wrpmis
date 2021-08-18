@@ -192,6 +192,10 @@
 		.input-field p.searchable_label{
         	color: #7BC2B9;
         }
+/* 		.input-field input[type="text"],
+		.input-field .pmis-textarea{
+        	margin-bottom:0;
+        } */
 		h5{
 			margin-top:0;
 		}		
@@ -312,13 +316,13 @@
 	              	                           
 	                            <div class="row">
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate pmis-textarea" ></textarea>
+	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate validate-dropdown pmis-textarea" ></textarea>
 	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
 	                                </div>	                              
 	                                <div class="col s12 m8 input-field offset-m2">
-	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" >
-	                                    <label for="contract_short_name">Contract Short Name</label>
+	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate validate-dropdown" >
+	                                    <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
 	                                </div>
 	                            </div>
@@ -909,7 +913,7 @@
 		   	 	   	  },"contract_name": {
 		   		 		required: true
 		   		 	  },"contract_short_name":{
-        		 		 required: false,
+        		 		 required: true,
         		 		 maxlength: 100
         		 	  },"contract_type_fk": {
 		   		 		required: true
@@ -987,35 +991,27 @@
 		   			if (element.attr("id") == "project_id_fk" ){
 	   		 		     document.getElementById("project_id_fkError").innerHTML="";
 	   		 			 error.appendTo('#project_id_fkError');
-	   		 			 focusTabBasedOnError('basicDetails'); 	 
 		   		 	}else if (element.attr("id") == "work_id_fk" ){
 		   	 		     document.getElementById("work_id_fkError").innerHTML="";
 		   	 			 error.appendTo('#work_id_fkError');  			 	
-		   	 			 focusTabBasedOnError('basicDetails');
 		   	 	    }else if (element.attr("id") == "hod_user_id_fk" ){
 		   	 		     document.getElementById("hod_user_id_fkError").innerHTML="";
 		   	 			 error.appendTo('#hod_user_id_fkError');
-		   	 			 focusTabBasedOnError('basicDetails'); 
 		   	 	    }else if (element.attr("id") == "dy_hod_user_id_fk" ){
 		   	 		     document.getElementById("dy_hod_user_id_fkError").innerHTML="";
 		   	 			 error.appendTo('#dy_hod_user_id_fkError');
-		   	 			 focusTabBasedOnError('basicDetails'); 
 		   	 	    }else if (element.attr("id") == "contract_name" ){
 		   	 		     document.getElementById("contract_nameError").innerHTML="";
 		   	 			 error.appendTo('#contract_nameError');
-		   	 			 focusTabBasedOnError('basicDetails'); 
 		   	 	    }else if (element.attr("id") == "contract_short_name" ){
 		   	 		     document.getElementById("contract_short_nameError").innerHTML="";
 		   	 			 error.appendTo('#contract_short_nameError');
-		   	 		 	 focusTabBasedOnError('basicDetails');
 		   	 	    }else if (element.attr("id") == "contract_type_fk" ){
 		   	 		     document.getElementById("contract_type_fkError").innerHTML="";
 		   	 			 error.appendTo('#contract_type_fkError');
-		   	 			 focusTabBasedOnError('basicDetails'); 
 		   	 	    }else if (element.attr("id") == "contractor_id_fk" ){
 		   	 		     document.getElementById("contractor_id_fkError").innerHTML="";
 		   	 			 error.appendTo('#contractor_id_fkError');
-		   	 			 focusTabBasedOnError('basicDetails');
 		   	 	    }else if (element.attr("id") == "scope_of_contract" ){
 		   	 		     document.getElementById("scope_of_contractError").innerHTML="";
 		   	 			 error.appendTo('#scope_of_contractError');
@@ -1048,23 +1044,22 @@
 		   	 			 error.appendTo('#docError');
 		   	 	    }
 		   			
-		   			/* function for select of tab */
-		   			function focusTabBasedOnError(tabName){
-		   			 	$('.tab-flex .tab > a').removeClass('active');
-		   			 	$('.tab-flex .tab > a').each(function(){
-		   			 		$($(this).attr('href')).css('display','none');
-		   			 	});
-		    			$('[href="#'+tabName+'"]').addClass('active');
-		    			$('.tabs').tabs();
-		   			}
-		   			
+		   				   			
 		   	 },invalidHandler: function (form, validator) {    			
 		         var errors = validator.numberOfInvalids();
 		         if (errors) {
 		             var position = validator.errorList[0].element;
-		             jQuery('html, body').animate({
+		             var eleDivId=$(position).parentsUntil('form');
+                     var l=eleDivId.push();
+                     $('.tab-flex .tab > a').removeClass('active');
+                     $('.tab-flex .tab > a').each(function(){
+		   			 		$($(this).attr('href')).css('display','none');
+		   			 	});
+		    		 $('[href="#'+eleDivId[l-1].id+'"]').addClass('active');
+		    		 $('.tabs').tabs();	
+		             /* jQuery('html, body').animate({
 		                 scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
-		             }, 1000);
+		             }, 1000); */
 		         }
 		     },submitHandler: function(form) {
 		   	    // do other things for a valid form

@@ -25,7 +25,7 @@ public interface ContractDao {
 
 	public Contract getContract(Contract obj)throws Exception;
 
-	public List<Contract> getContractStatusType()throws Exception;
+	public List<Contract> getContractStatusType(Contract obj)throws Exception;
 
 	public boolean updateContract(Contract contract)throws Exception;
 
@@ -68,6 +68,8 @@ public interface ContractDao {
 	public List<Contract> getExecutivesListForContractForm(Contract obj) throws Exception;
 
 	public List<Contract> getUnitsList(Contract obj) throws Exception;
+
+	public List<Contract> getContractStatus() throws Exception;
 
 
 }

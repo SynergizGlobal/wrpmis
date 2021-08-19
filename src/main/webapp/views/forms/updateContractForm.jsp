@@ -571,19 +571,20 @@
 	                                                             
 	                                <div class="col s6 m2 input-field">
 	                                   <p class="searchable_label">Contract Status</p>
-	                                    <select name = "_status_fk" id="_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);">
+	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);getStatusLIst();">
 	                                        <option value="" >Select</option>
-	                                         <option value="open">Open </option>
-	                                         <option value="closed">Closed </option>   
+	                                          <c:forEach var="obj" items="${contract_Status }">
+		                                    	 <option value="${obj.contract_status }"<c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
+		                                     </c:forEach>     
 	                                    </select>
 	                                     <span id="contract_status_fkError" class="error-msg" ></span>
 	                                </div>
 	                                 <div class="col s6 m2 input-field">
 	                                   <p class="searchable_label">Status of Work</p>
-	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);">
+	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);setContractStatus();">
 	                                        <option value="" selected>Select</option>
 	                                           <c:forEach var="obj" items="${contract_Statustype }">
-			                                    	<option value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
+			                                    	<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
 			                                    </c:forEach>
 	                                    </select>
 	                                     <span id="contract_status_fkError" class="error-msg" ></span>
@@ -1980,7 +1981,7 @@
             }
             var contract_status_fk = '${contractDeatils.contract_status_fk}';
             getContractClosureDetails(contract_status_fk);
-            
+            setContractStatus();
            /*  var bg_required = '${contractDeatils.bg_required}';
             if(bg_required == 'Yes'){
 	       		$("#bank_guarantee_div").show();
@@ -3115,6 +3116,40 @@
 			
 		});
 		
+		function getStatusLIst(){
+		  	$(".page-loader").show();
+		  	var contract_status = $('#contract_status').val();
+            $("#contract_status_fk option:not(:first)").remove();
+            if ($.trim(contract_status) != "") {
+                var myParams = { contract_status: contract_status };
+                $.ajax({
+                	url: "<%=request.getContextPath()%>/ajax/getContractStatusLIstFormContractFom",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                $("#contract_status_fk").append('<option status="'+val.contract_status +'" value="' + val.contract_status_fk + '">' + $.trim(val.contract_status_fk) +  '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+		}
+		
+		function setContractStatus(){
+			$(".page-loader").show();        	
+			var contract_status_fk = $('#contract_status_fk').val();
+       		if($.trim(contract_status_fk) != ''){  
+       			var status = $("#contract_status_fk").find('option:selected').attr("status");
+       			$("#contract_status").val(status);
+       			$("#contract_status").select2();
+       		}
+       		$(".page-loader").hide();
+		}
 	  </script>
 
 </body>

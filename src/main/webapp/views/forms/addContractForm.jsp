@@ -489,25 +489,27 @@
 	                                    <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="docError" class="error-msg" ></span>
 	                                </div>		                                
+	                             
 	                                <div class="col s6 m2 input-field">
+	                                 <p class="searchable_label"> <label>Contract Status</label> </p>
+	                                    <select class="validate-dropdown searchable" id="contract_status" name="contract_status" onchange="getStatusLIst();">
+	                                         <option value="" >Select</option>	                                         
+	                                         <c:forEach var="obj" items="${contract_Status }">
+		                                    	 <option value="${obj.contract_status }">${obj.contract_status }</option>
+		                                     </c:forEach>                                     		
+	                                    </select>
+	                                    <span id="contract_statusError" class="error-msg" ></span>
+	                                </div>    
+	                                   <div class="col s6 m2 input-field">
 	                                 <p class="searchable_label"> <label>Status of Work</label> </p>
-	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
+	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk" onchange="setContractStatus();">
 	                                         <option value="" selected>Select</option>
                                        		 <c:forEach var="obj" items="${contract_Statustype }">
-		                                    	 <option value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started' }">selected</c:if>>${obj.contract_status_fk }</option>
+		                                    	 <option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started' }">selected</c:if>>${obj.contract_status_fk }</option>
 		                                     </c:forEach>
 	                                    </select>
 	                                    <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div> 
-	                                <div class="col s6 m2 input-field">
-	                                 <p class="searchable_label"> <label>Contract Status</label> </p>
-	                                    <select class="validate-dropdown searchable" id="status_fk" name="status_fk">
-	                                         <option value="" >Select</option>	                                         
-	                                         <option value="open">Open </option>
-	                                         <option value="closed">Closed </option>                                       		
-	                                    </select>
-	                                    <span id="status_fkError" class="error-msg" ></span>
-	                                </div>         	                                
+	                                </div>      	                                
 	                            </div>	   
 	                         
 	                            <div class="row">
@@ -661,6 +663,7 @@
 	             getHodList();
 			}
 			 getDyHodList();
+			 setContractStatus();
         });
      
         function getExecutivesList(num) {
@@ -1122,7 +1125,40 @@
 		    $('#contractDocumentFileName'+rowNo).html(filename);
 		}
 	
-
+		function getStatusLIst(){
+		  	$(".page-loader").show();
+		  	var contract_status = $('#contract_status').val();
+            $("#contract_status_fk option:not(:first)").remove();
+            if ($.trim(contract_status) != "") {
+                var myParams = { contract_status: contract_status };
+                $.ajax({
+                	url: "<%=request.getContextPath()%>/ajax/getContractStatusLIstFormContractFom",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                $("#contract_status_fk").append('<option status="'+val.contract_status +'" value="' + val.contract_status_fk + '">' + $.trim(val.contract_status_fk) +  '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+		}
+		
+		function setContractStatus(){
+			$(".page-loader").show();        	
+			var contract_status_fk = $('#contract_status_fk').val();
+       		if($.trim(contract_status_fk) != ''){  
+       			var status = $("#contract_status_fk").find('option:selected').attr("status");
+       			$("#contract_status").val(status);
+       			$("#contract_status").select2();
+       		}
+       		$(".page-loader").hide();
+		}
     </script>
 
 </body>

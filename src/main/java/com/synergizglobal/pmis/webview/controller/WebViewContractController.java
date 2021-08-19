@@ -198,10 +198,13 @@ public class WebViewContractController {
 			List<BankGuarantee> bankGuaranteeTYpe = contractService.bankGuarantee();
 			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
 			
+			List<Contract> contract_Status = contractService.getContractStatus();
+			model.addObject("contract_Status", contract_Status);
+			
 			List<Insurence> InsurenceType = contractService.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
 			
-			List<Contract> contract_Statustype = contractService.getContractStatusType();
+			List<Contract> contract_Statustype = contractService.getContractStatusType(obj);
 			model.addObject("contract_Statustype", contract_Statustype);
 		}catch (Exception e) {
 			logger.error("Contract : " + e.getMessage());
@@ -300,11 +303,13 @@ public class WebViewContractController {
 			
 			List<BankGuarantee> bankGuaranteeTYpe = contractService.bankGuarantee();
 			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
+			List<Contract> contract_Status = contractService.getContractStatus();
+			model.addObject("contract_Status", contract_Status);
 			
 			List<Insurence> InsurenceType = contractService.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
 			
-			List<Contract> contract_Statustype = contractService.getContractStatusType();
+			List<Contract> contract_Statustype = contractService.getContractStatusType(obj);
 			model.addObject("contract_Statustype", contract_Statustype);
 			
 			Contract contractDeatils = contractService.getContract(obj);
@@ -340,7 +345,9 @@ public class WebViewContractController {
 			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
 			List<Insurence> InsurenceType = contractService.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
-			List<Contract> contract_Statustype = contractService.getContractStatusType();
+			List<Contract> contract_Status = contractService.getContractStatus();
+			model.addObject("contract_Status", contract_Status);
+			List<Contract> contract_Statustype = contractService.getContractStatusType(obj);
 			model.addObject("contract_Statustype", contract_Statustype);
 			
 			obj.setContract_id(contract_id);

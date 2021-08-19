@@ -223,20 +223,6 @@ public class ContractDaoImpl implements ContractDao {
 	}
 
 	@Override
-	public List<Contract> getContractStatusType()throws Exception{
-		List<Contract> objsList = null;
-		try {
-			String qry ="select general_status as contract_status_fk from general_status  WHERE general_status NOT IN ('Commissioned', 'Dropped','On Hold') ";
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
-		}catch(Exception e){ 
-			e.printStackTrace();
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	
-	@Override
 	public boolean addContract(Contract contract)throws Exception{
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -253,8 +239,8 @@ public class ContractDaoImpl implements ContractDao {
 							+"(contract_id,work_id_fk,department_fk,contract_name,contract_short_name,contractor_id_fk,contract_type_fk,scope_of_contract,hod_user_id_fk,"
 							+ "dy_hod_user_id_fk,doc,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,actual_completion_date,completed_cost,date_of_start,"
 							+ "estimated_cost,contract_closure_date,completion_certificate_release,final_takeover,final_bill_release,defect_liability_period,"
-							+ "retention_money_release,pbg_release,contract_status_fk,bg_required,insurance_required,remarks,estimated_cost_units,awarded_cost_units)"
-							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "retention_money_release,pbg_release,contract_status_fk,bg_required,insurance_required,remarks,estimated_cost_units,awarded_cost_units,status)"
+							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(ContractQry);
 			int q = 1;
 		    int r =0;
@@ -291,6 +277,7 @@ public class ContractDaoImpl implements ContractDao {
 			stmt.setString(q++,contract.getRemarks());
 			stmt.setString(q++,contract.getEstimated_cost_units());
 			stmt.setString(q++,contract.getAwarded_cost_units());
+			stmt.setString(q++,contract.getContract_status());
 
 			count = stmt.executeUpdate();
 			
@@ -905,7 +892,7 @@ public class ContractDaoImpl implements ContractDao {
 									+ "DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,"
 									+ "DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 									+ "DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,"
-									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,DATE_FORMAT(target_doc,'%d-%m-%Y') AS target_doc,awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit " + 
+									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,DATE_FORMAT(target_doc,'%d-%m-%Y') AS target_doc,awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -969,6 +956,7 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setEstimated_cost_units(resultSet.getString("estimated_cost_units"));
 				contract.setCompleted_cost_units(resultSet.getString("completed_cost_units"));
 				contract.setUnit(resultSet.getString("unit"));
+				contract.setStatus(resultSet.getString("status"));
 
 				contract.setBankGauranree(getBankGauranree(contract.getContract_id(),con));	
 				contract.setInsurence(getInsurence(contract.getContract_id(),con));	
@@ -1296,7 +1284,7 @@ public class ContractDaoImpl implements ContractDao {
 								+"scope_of_contract = ?,hod_user_id_fk = ?,dy_hod_user_id_fk = ?,doc = ?,awarded_cost = ?,loa_letter_number = ?,loa_date = ?,ca_no = ?,ca_date = ?"
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 
 								"estimated_cost = ?,contract_closure_date = ?,completion_certificate_release = ?,final_takeover = ?,final_bill_release = ?,defect_liability_period = ?," + 
-								"retention_money_release = ?,pbg_release = ?,contract_status_fk = ?,bg_required = ?,insurance_required = ?,remarks = ?,target_doc = ?,estimated_cost_units = ?,awarded_cost_units = ?,completed_cost_units = ? "
+								"retention_money_release = ?,pbg_release = ?,contract_status_fk = ?,bg_required = ?,insurance_required = ?,remarks = ?,target_doc = ?,estimated_cost_units = ?,awarded_cost_units = ?,completed_cost_units = ?,status = ? "
 								+ "where contract_id = ?";
 				stmt = con.prepareStatement(contractUpdate_Qry);
 				int p = 1;
@@ -1335,6 +1323,7 @@ public class ContractDaoImpl implements ContractDao {
 				stmt.setString(p++,contract.getEstimated_cost_units()); 
 				stmt.setString(p++,contract.getAwarded_cost_units());
 				stmt.setString(p++,contract.getCompleted_cost_units());
+				stmt.setString(p++,contract.getContract_status());
 				stmt.setString(p++,contract.getContract_id()); 
 				count = stmt.executeUpdate();
 				if(count > 0) {
@@ -3095,6 +3084,43 @@ public class ContractDaoImpl implements ContractDao {
 		}
 		return objsList;
 	}
+
+	@Override
+	public List<Contract> getContractStatus() throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry =" select distinct contract_status from general_status ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
+		}catch(Exception e){ 
+			e.printStackTrace();
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getContractStatusType(Contract obj)throws Exception{
+		List<Contract> objsList = null;
+		try {
+			String qry ="select general_status as contract_status_fk,contract_status  from general_status  WHERE general_status NOT IN ('Commissioned', 'Dropped','On Hold') ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				qry = qry + " and contract_status = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				pValues[i++] = obj.getContract_status();
+			}
+				objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
+		}catch(Exception e){ 
+			e.printStackTrace();
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 	
 
 

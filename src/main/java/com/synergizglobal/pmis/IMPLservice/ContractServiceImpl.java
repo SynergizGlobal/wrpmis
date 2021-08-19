@@ -52,8 +52,8 @@ public class ContractServiceImpl implements ContractService{
 		return contractDao.getContract(obj);
 	}
 	@Override
-	public List<Contract> getContractStatusType()throws Exception{
-		return contractDao.getContractStatusType();
+	public List<Contract> getContractStatusType(Contract obj)throws Exception{
+		return contractDao.getContractStatusType(obj);
 	}
 	@Override
 	public boolean updateContract(Contract contract)throws Exception{
@@ -141,6 +141,10 @@ public class ContractServiceImpl implements ContractService{
 	@Override
 	public List<Contract> getUnitsList(Contract obj) throws Exception {
 		return contractDao.getUnitsList(obj);
+	}
+	@Override
+	public List<Contract> getContractStatus() throws Exception {
+		return contractDao.getContractStatus();
 	}
 	
 

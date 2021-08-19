@@ -27,7 +27,7 @@ public class GeneralStatusDaoImpl implements GeneralStatusDao{
 	public List<Safety> getGeneralStatusList() throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry ="select general_status from general_status ";
+			String qry ="select general_status,contract_status from general_status ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -41,7 +41,7 @@ public class GeneralStatusDaoImpl implements GeneralStatusDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO general_status"
-					+ "( general_status) VALUES (:general_status)";
+					+ "( general_status,contract_status) VALUES (:general_status, :contract_status)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -61,7 +61,7 @@ public class GeneralStatusDaoImpl implements GeneralStatusDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select `general_status` from general_status ";
+			String qry ="select `general_status`,contract_status from general_status ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -156,7 +156,7 @@ public class GeneralStatusDaoImpl implements GeneralStatusDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE general_status SET `general_status`= :value_new WHERE `general_status`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE general_status SET `general_status`= :value_new,contract_status = :contract_status_new WHERE `general_status`= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			

@@ -21,12 +21,28 @@ public class TrainingType {
 	login_event_type,yesorno,type,notification_type, notification_type_icon,notification_type_icon_new,type_fk_new,notification_type_new, type_fk,web_documents_category,financial_year,
 	risk_work_hod_id, work_id_fk, hod_user_id_fk,designation,work_short_name,work_id_fk_new,hod_user_id_fk_new,sub_work,sub_work_new,
 	contract_category_fk,risk_revision_id,risk_id_pk_fk, date, issue_category_fk,contract_file_type,issue_file_type,fob_file_type,contract_category_fk_new,issue_other_organization,issue_category_fk_new,project_file_type,work_file_type
-	, template_name, attachment, uploaded_on, uploaded_by;
+	, template_name, attachment, uploaded_on, uploaded_by,contract_status,contract_status_new;
     
 	List<TrainingType> tableHistoryList;
 	private MultipartFile templateFile;
 	private MultipartFile templateFileOld;
 	
+
+	public String getContract_status() {
+		return contract_status;
+	}
+
+	public void setContract_status(String contract_status) {
+		this.contract_status = contract_status;
+	}
+
+	public String getContract_status_new() {
+		return contract_status_new;
+	}
+
+	public void setContract_status_new(String contract_status_new) {
+		this.contract_status_new = contract_status_new;
+	}
 
 	public String getResource_type() {
 		return resource_type;

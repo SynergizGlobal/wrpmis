@@ -2,7 +2,15 @@ package com.synergizglobal.pmis.reference.model;
 
 public class Safety {
 	
-	private String structure_type,status,utility_alignment,general_status,manual_folders,impact,utility_category,short_description,root_cause,land_type,approval_status,document_type,priority,status_of,risk_priority,project_priority,sub_category,category,p6_wbs_category,module_name;
+	private String structure_type,status,utility_alignment,general_status,contract_status,manual_folders,impact,utility_category,short_description,root_cause,land_type,approval_status,document_type,priority,status_of,risk_priority,project_priority,sub_category,category,p6_wbs_category,module_name;
+
+	public String getContract_status() {
+		return contract_status;
+	}
+
+	public void setContract_status(String contract_status) {
+		this.contract_status = contract_status;
+	}
 
 	public String getGeneral_status() {
 		return general_status;

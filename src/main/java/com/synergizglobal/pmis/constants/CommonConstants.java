@@ -8,8 +8,8 @@ public class CommonConstants {
 	
 	UrlGenerator ugObj = new UrlGenerator();
 	
-	//public String BASE_URL = "https://infoviz.syntrackpro.com/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
-	public String BASE_URL = "http://"+ugObj.getIpAddress()+":8000/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
+	public String BASE_URL = "https://infoviz.syntrackpro.com/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
+	//public String BASE_URL = "http://"+ugObj.getIpAddress()+":8000/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
 	public final static String TABLEAU_PARAMS = "&:tabs=no&:toolbar=no";
 	
 	
@@ -59,7 +59,7 @@ public class CommonConstants {
 	public static String DIRECTORY_PATH = "C:";
 	
 	
-	/*public final static String LOGIN_BACKGROUND_IMAGE = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"resources"+File.separator+"images"+File.separator;
+	public final static String LOGIN_BACKGROUND_IMAGE = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"resources"+File.separator+"images"+File.separator;
 	public static String LOGIN_BACKGROUND_IMAGE_URL = "/pmis/resources/images/login-background.jpg";
 	public final static String CONTEXT_PATH = "http://localhost/pmis";
 	public final static String STRIPCHART_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"STRIPCHART_FILES"+File.separator;
@@ -79,7 +79,7 @@ public class CommonConstants {
 	public final static String DESIGN_UPLOADED_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development/nginx-1.9.9/html/pmis/DESIGN_UPLOADED_FILES/";
 	public final static String TEMPLATE_FILEPATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator;
 	public final static String TEMPLATE_OLD_FILEPATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"TEMPLATES_OLD"+File.separator;
-	*/
+
 	/*********** Syntract AWS ****************************************************/	
 	/*public final static String LOGIN_BACKGROUND_IMAGE = "usr/share/nginx/html/pmis/resources/images/";
 	public static String LOGIN_BACKGROUND_IMAGE_URL = "/pmis/resources/images/login-background.jpg";
@@ -104,7 +104,7 @@ public class CommonConstants {
 	*/
 	
 	/*********** MRVC Server ****************************************************/	
-	public final static String LOGIN_BACKGROUND_IMAGE = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"resources"+File.separator+"images"+File.separator;
+	/*public final static String LOGIN_BACKGROUND_IMAGE = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"resources"+File.separator+"images"+File.separator;
 	public static String LOGIN_BACKGROUND_IMAGE_URL = "/pmis/resources/images/login-background.jpg";
 	public final static String CONTEXT_PATH = "http://10.203.10.157/pmis";
 	public final static String STRIPCHART_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"STRIPCHART_FILES"+File.separator;
@@ -125,6 +125,6 @@ public class CommonConstants {
 	public final static String TEMPLATE_FILEPATH = "D:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator;
 	public final static String TEMPLATE_OLD_FILEPATH = "D:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"TEMPLATES_OLD"+File.separator;
 
-	
+	*/
 	
 }

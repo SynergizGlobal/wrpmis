@@ -617,9 +617,6 @@ public class ContractController {
 			List<Insurence> InsurenceType = contractService.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
 			
-			List<Contract> contract_Statustype = contractService.getContractStatusType(obj);
-			model.addObject("contract_Statustype", contract_Statustype);
-			
 			List<Contract> responsiblePeopleList = contractService.getResponsiblePeopleList(obj);
 			model.addObject("responsiblePeopleList", responsiblePeopleList);
 			
@@ -632,7 +629,12 @@ public class ContractController {
 			Contract contractDeatils = contractService.getContract(obj);
 			model.addObject("contractDeatils", contractDeatils);
 			
+			obj.setContract_status(contractDeatils.getStatus());
+			List<Contract> contract_Statustype = contractService.getContractStatusType(obj);
+			model.addObject("contract_Statustype", contract_Statustype);
+			
 			model.addObject("contractTypeBGInsurance", obj.getContract_type_fk());
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Contract : " + e.getMessage());

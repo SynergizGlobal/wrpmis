@@ -281,6 +281,10 @@
 		.input-field .pmis-textarea{
         	margin-bottom:0;
         } */
+        
+        [type="radio"]+span:before, [type="radio"]+span:after {
+        	left:12px!important;
+        }
     </style>
 </head>
 
@@ -571,7 +575,7 @@
 	                                                             
 	                                <div class="col s6 m2 input-field">
 	                                   <p class="searchable_label">Contract Status</p>
-	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);getStatusLIst();">
+	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getContractClosureDetails('');getStatusLIst();">
 	                                        <option value="" >Select</option>
 	                                          <c:forEach var="obj" items="${contract_Status }">
 		                                    	 <option value="${obj.contract_status }"<c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
@@ -590,6 +594,23 @@
 	                                     <span id="contract_status_fkError" class="error-msg" ></span>
 	                                </div>
 	                            </div>
+	                            <div class="row" id="contractClosureRadioBtn" style="display: none;">
+	                            	<div class="col s12 m6 input-field offset-m3">
+			                   			<div class="col l8 m12">
+			                   				<p style="text-align: right;">Contract Closed/Closure initiated? </p>
+			                   			</div>
+			                   			<div class="col l4 m12 right-align mob-center">                   				
+									      <label>
+									        <input id="contractClosureRadioYes" name="contractClosureRadio" class="with-gap" type="radio" value="yes"/>
+									        <span>Yes</span>
+									      </label>					    
+									      <label>
+									        <input id="contractClosureRadioNo" name="contractClosureRadio" class="with-gap" type="radio" value="no"/>
+									        <span>No</span>
+									      </label>							    
+			                   			</div>
+		                   			</div>
+		                   		</div> 
 	                            <div class="row">
 	                                <div class="col s12 m8 input-field offset-m2">
 	                                    <textarea id="remarks" name ="remarks" class="pmis-textarea" data-length="1000">${contractDeatils.remarks }</textarea>
@@ -2003,14 +2024,53 @@
         });
         
         function getContractClosureDetails(contract_status_fk) {
-			if(contract_status_fk == 'Completed' || contract_status_fk == 'Closed'){
+			/* if(contract_status_fk == 'Completed' || contract_status_fk == 'Closed'){
 				$("#contractClosureDetails").show();
 				$('#closureTab').show();
 			}else{
 				$("#contractClosureDetails").hide();
 				$('#closureTab').hide();
+			} */
+			var actual_completion_date = '${contractDeatils.actual_completion_date}';
+			var completed_cost = '${contractDeatils.completed_cost}';
+			var final_takeover = '${contractDeatils.final_takeover}';
+			var completion_certificate_release = '${contractDeatils.completion_certificate_release}';
+			var contract_closure_date = '${contractDeatils.contract_closure_date}';
+			var final_bill_release = '${contractDeatils.final_bill_release}';
+			var defect_liability_period = '${contractDeatils.defect_liability_period}';
+			var retention_money_release = '${contractDeatils.retention_money_release}';
+			var pbg_release = '${contractDeatils.pbg_release}';
+			
+			$("#contractClosureDetails").hide();
+			$('#closureTab').hide();
+			if(contract_status_fk == 'Completed' || contract_status_fk == 'Closed'){
+				$("#contractClosureRadioBtn").show();
+				if($.trim(actual_completion_date) != '' || $.trim(completed_cost) != '' ||$.trim(final_takeover) != '' ||$.trim(completion_certificate_release) != '' || 
+						$.trim(contract_closure_date) != '' || $.trim(final_bill_release) != '' || $.trim(defect_liability_period) != '' || $.trim(retention_money_release) != '' || 
+						$.trim(pbg_release) != ''){
+					$("#contractClosureRadioYes").prop("checked", true);
+					$("#contractClosureDetails").show();
+	 				$('#closureTab').show();
+				}else{
+					$("#contractClosureRadioNo").prop("checked", true);
+				}
+			}else{
+				$("#contractClosureRadioBtn").hide();
 			}
 		} 
+        $('input[name="contractClosureRadio"]').click(function(){
+           if ($(this).is(':checked')){
+             //alert($(this).val());
+             var selectedVal = $(this).val();
+             if(selectedVal == 'yes'){
+            	 $("#contractClosureDetails").show();
+ 				 $('#closureTab').show();
+             }else{
+            	 $("#contractClosureDetails").hide();
+ 				 $('#closureTab').hide();
+             }
+           }
+         });
         
      /*    $('input[name=bg_required]').change(function(){
 	       	var value = $( 'input[name=bg_required]:checked' ).val();

@@ -109,6 +109,10 @@ public class ContractReportServiceImpl implements ContractReportService{
 	public List<Contract> getKeyPersonnelForReport(Contract obj) throws Exception {
 		return dao.getKeyPersonnelForReport(obj);
 	}
+	@Override
+	public List<Contract> getStatusofWorkItems(Contract obj) throws Exception {
+		return dao.getStatusofWorkItems(obj);
+	}	
 	
 	@Override
 	public String getEmailIdsOfDepartments(String management) throws Exception {

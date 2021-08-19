@@ -76,7 +76,7 @@
 	                                    </div>
 	                                    <div class="col s6 m2 input-field" id="CSdiv" style="display:none;">
 	                                        <p class="searchable_label" style="text-align:left">Contract Status</p>
-	                                        <select id="status" name="status" class="searchable validate-dropdown">
+	                                        <select id="status" name="status" class="searchable validate-dropdown" onchange="getStatusofWorkItems();">
 	                                            <option value="">All</option>
 	                                            <option value="Open">Open</option>
 	                                            <option value="Closed">Closed</option>
@@ -267,6 +267,36 @@
             return vars;
         }
         
+        function getStatusofWorkItems()
+        {
+           if($("#status").val()!="")
+       	   {
+        	   var status=$("#status").val();
+        	   
+            	$("#contract_status_fk option:not(:first)").remove();
+        	 	var myParams = {status : status};
+       		   
+               $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getStatusofWorkItems",
+                   type:"post",
+	          	   traditional: true, 
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                        	   $("#contract_status_fk").append('<option value="' + val.contract_status_fk + '">' + $.trim(val.contract_status_fk) +'</option>');
+   	                       }); 
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			      $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+               });
+       	   
+       	   }
+        }
         
         
         function clearFilters(){

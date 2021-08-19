@@ -290,6 +290,19 @@ public class ContractReportController {
 		return contractorsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getStatusofWorkItems", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getStatusofWorkItems(@ModelAttribute Contract obj) {
+		List<Contract> contractorsList = null;
+		try {
+			contractorsList = service.getStatusofWorkItems(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStatusofWorkItems : " + e.getMessage());
+		}
+		return contractorsList;
+	}	
+	
 	@RequestMapping(value = "/ajax/getContractListInContractReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Contract> getContractListInContractReport(@ModelAttribute Contract obj) {
@@ -313,14 +326,102 @@ public class ContractReportController {
             String currentDate = sqlDate.format(date);
             
             obj.setDate(DateParser.parse(obj.getDate()));
+            
+			if(obj.getStatus()==null)
+			{
+				
+				boolean flag = generatContractReportForAll(response,currentDate,obj);
+
+			}
+			else
+			{
+				boolean flag = generatContractReport(response,currentDate,obj);
+			}
 	           
-			boolean flag = generatContractReport(response,currentDate,obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("generatContractReport : " + e.getMessage());
 		}
 		return model;
     }
+	
+	private boolean generatContractReportForAll(HttpServletResponse response, String currentDate, Contract obj) {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		boolean flag = false;
+		try{			
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+			String report_created_date = df.format(new Date()); 
+			
+			Map<String,List<Contract>> list = service.getContractsListForReport(obj);
+			
+			boolean landscape = true;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			
+			
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
+
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
+			
+
+			String headerTextRight = "";
+			
+			String headerTextMiddle = "List of All Contracts";			
+
+
+			int tabs1 = 8;int tabs2 = 5;
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,tabs1,tabs2);
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreationForContractReport.createTableForContractReportAll(wordMLPackage, mp, factory,list,report_created_date);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "List of Contracts Report - " + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/.csv");
+				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				response.setContentType("application/vnd.ms-excel");
+				response.setContentType("application/pdf");
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+				
+				flag = true;
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generatContractReport >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractReport >> " + e.getMessage());
+			flag = false;
+		}
+		
+		return flag;
+	}
 	
 	@RequestMapping(value = "/generate-contract-doc-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatContractDocReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
@@ -1623,6 +1724,38 @@ public class ContractReportController {
 		//headerReference.setType(HdrFtrRef.DEFAULT);
 		headerReference.setType(HdrFtrRef.FIRST);
 		sectPr.getEGHdrFtrReferences().add(headerReference);*/
+		
+		BooleanDefaultTrue value = new BooleanDefaultTrue();
+        value.setVal(Boolean.TRUE);
+        sectPr.setTitlePg(value);        
+	}
+	
+	public void createHeaderReferenceRepeatHeader(
+			WordprocessingMLPackage wordprocessingMLPackage,
+			MainDocumentPart t, ObjectFactory factory, Relationship relationship)
+			throws InvalidFormatException {
+		List<SectionWrapper> sections = wordprocessingMLPackage
+				.getDocumentModel().getSections();
+		SectPr sectPr = sections.get(sections.size() - 1).getSectPr();
+		// There is always a section wrapper, but it might not contain a sectPr
+		if (sectPr == null) {
+			sectPr = factory.createSectPr();
+			t.addObject(sectPr);
+			sections.get(sections.size() - 1).setSectPr(sectPr);
+		}
+		/*HeaderReference headerReference = factory.createHeaderReference();
+		headerReference.setId(relationship.getId());
+		headerReference.setType(HdrFtrRef.FIRST);
+		sectPr.getEGHdrFtrReferences().add(headerReference);*/
+		
+		
+		  HeaderReference headerReference = factory.createHeaderReference();
+		  headerReference = factory.createHeaderReference();
+		  headerReference.setId(relationship.getId());
+		  headerReference.setType(HdrFtrRef.DEFAULT);
+		  //headerReference.setType(HdrFtrRef.FIRST);
+		  sectPr.getEGHdrFtrReferences().add(headerReference);
+		 
 		
 		BooleanDefaultTrue value = new BooleanDefaultTrue();
         value.setVal(Boolean.TRUE);

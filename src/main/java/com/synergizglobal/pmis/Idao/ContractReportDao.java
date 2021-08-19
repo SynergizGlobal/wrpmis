@@ -46,5 +46,7 @@ public interface ContractReportDao {
 
 	Map<String, List<Contract>> getContractsDocBGInsuranceForAutoEmailReport(Contract obj) throws Exception;
 
+	List<Contract> getStatusofWorkItems(Contract obj) throws Exception;
+
 	
 }

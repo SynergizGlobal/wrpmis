@@ -1253,6 +1253,7 @@ public class DocxTableCreationForContractReport {
 					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow51, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 					addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow51, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 					
+					
 					tableHead.getContent().add(hodRow51);
 					mergeCellsHorizontal(tableHead, 0, 0, 13);	
 					}

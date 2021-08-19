@@ -20,16 +20,16 @@ public class TableauTrustedTicket {
 		UrlGenerator ugObj = new UrlGenerator();
 		String getResponseString = "";
 		
-		String postURL = "https://infoviz.syntrackpro.com/trusted"; 
+		/*String postURL = "https://infoviz.syntrackpro.com/trusted"; 
 		String username = "SynTrack"; 
 		String server = "infoviz.syntrackpro.com"; 
-		String clientIp = "www.syntrackpro.com";
+		String clientIp = "www.syntrackpro.com";*/
         
 		
-		/*String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
+		String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
 		String username = "Synergiz"; 
 		String server = ugObj.getIpAddress()+":8000";
-		String clientIp = ugObj.getIpAddress();*/
+		String clientIp = ugObj.getIpAddress();
 		 
         
         String target_site = "";//Optional

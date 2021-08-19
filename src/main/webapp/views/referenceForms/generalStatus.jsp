@@ -112,6 +112,7 @@
                                     <thead>
                                         <tr>
                                             <th>General Status</th>
+                                            <th>Contract Status</th>
                                             <c:forEach var="tObj" items="${generalStatusDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach>
@@ -123,6 +124,9 @@
 											<tr><td>
 												<input type="hidden" id="general_statusId${indexs.count}" value="${obj.general_status }" class="findLengths"/>
 												${obj.general_status }</td>
+												<td>
+												<input type="hidden" id="contract_statusId${indexs.count}" value="${obj.contract_status }" class="findLengths1"/>
+												${obj.contract_status }</td>
 											<c:forEach var="tObj" items="${generalStatusDetails.tablesList}" varStatus="index">
 											 
 												<td><c:forEach var="cObj" items="${generalStatusDetails.countList}" >
@@ -193,10 +197,15 @@
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
-                            <div class="input-field col s12 m12">
+                            <div class="input-field col s6 m6">
                                 <input id="general_status_text" type="text" name="general_status" class="validate" onkeyup="doValidate(this.value)">
                                 <label for="general_status_text">General Status</label>
                                 <span id="general_statusError" class="error-msg" ></span>
+                            </div>
+                             <div class="input-field col s6 m6">
+                                <input id="contract_status_text" type="text" name="contract_status" class="validate" >
+                                <label for="contract_status_text">Contract Status</label>
+                                <span id="contract_statusError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -231,11 +240,16 @@
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
-                         <div class="input-field col s12 m12">
+                         <div class="input-field col s6 m6">
                                 <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">General Status</label>
                                 <span id="value_newError" class="error-msg" ></span>
+                         </div>
+                         <div class="input-field col s6 m6">
+                                <input id="contract_status_new" type="text" name="contract_status_new" class="validate" >
+                                <label for="contract_status_new">Contract Status</label>
+                                <span id="contract_status_newError" class="error-msg" ></span>
                          </div>
                         </div>
                         <div class="row">
@@ -298,9 +312,9 @@
                         targets: [0],
                         className: 'mdl-data-table__cell--non-numeric',
                         targets: 'nosort', orderable: false,
-                        className: "last-column", targets: [5],
+                        className: "last-column", targets: [6],
                     },
-                    { "width": "20px", "targets": [5] },
+                    { "width": "20px", "targets": [6] },
                 ],
                 "scrollCollapse": true,
                // paging: false,
@@ -324,7 +338,7 @@
     	   var ek = $('.findLengths').map((_,el) => el.value).get();
     	   while(count < validate){
     		   var findVal = ek[count];
-    		   if(findVal == null){ findVal = findVal.toLowerCase(); }
+    		   if(findVal != null){ findVal = findVal.toLowerCase(); }
     		  
     		   if(findVal == value){
     			   $('#general_statusError').text(print_value+' alreday exists').css('color', 'red');
@@ -401,16 +415,24 @@
          	 rules: {
          		 "general_status": {
    			 		  required: true
-         		 }
+         		 },
+		         "contract_status": {
+			 		  required: true
+			 }
    			},messages: {
    		 		   "general_status": {
+   			 		  required: 'Required'
+   			 	  }, "contract_status": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
    	        	 if(element.attr("id") == "general_status_text" ){
    				     document.getElementById("general_statusError").innerHTML="";
    			 	     error.appendTo('#general_statusError');
-   				 }
+   				 }else if(element.attr("id") == "contract_status_text" ){
+ 				     document.getElementById("contract_statusError").innerHTML="";
+ 			 	     error.appendTo('#contract_statusError');
+ 				 }
    	        }
          	
          });
@@ -418,16 +440,24 @@
          	 rules: {
          		 "value_new": {
    			 		  required: true
-         		 }
+         		 },
+		         "contract_status_new": {
+				 		  required: true
+				 }
    			},messages: {
    		 		   "value_new": {
+   			 		  required: 'Required'
+   			 	  }, "contract_status_new": {
    			 		  required: 'Required'
    			 	  }
    	        },errorPlacement:function(error, element){
    	        	 if(element.attr("id") == "value_new" ){
    				     document.getElementById("value_newError").innerHTML="";
    			 	     error.appendTo('#value_newError');
-   				 }
+   				 }else if(element.attr("id") == "contract_status_new" ){
+ 				     document.getElementById("contract_status_newError").innerHTML="";
+ 			 	     error.appendTo('#contract_status_newError');
+ 				 }
    	        }
          	
          });
@@ -441,11 +471,13 @@
 
          function updateRow(no) {
      	      var general_status = $('#general_statusId'+no).val();
+     	      var contract_status = $('#contract_statusId'+no).val();
      	      $('#value_old').val($.trim(general_status))
      	      $('#onlyUpdateModal').modal('open');
      	      $('#onlyUpdateModal #value_new').val($.trim(general_status)).focus();
+     	      $('#onlyUpdateModal #contract_status_new').val($.trim(contract_status)).focus();
      	  }
-     	  
+     	   
      	  function deleteRow(val){
      	  	$("#general_status").val(val);
      	  	showCancelMessage();

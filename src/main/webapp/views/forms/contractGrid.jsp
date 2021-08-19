@@ -219,7 +219,7 @@
 									</select>
 								</div>
 								<div class="col s6 m4 l2 input-field">
-									<p class="searchable_label">Status</p>
+									<p class="searchable_label">Status of Work</p>
 									<select id="contract_status_fk" name="contract_status_fk"
 										onchange="addInQueStatus(this.value);getContractList();" class="searchable">
 										<option value="">Select</option>

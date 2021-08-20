@@ -2043,7 +2043,7 @@
 			
 			$("#contractClosureDetails").hide();
 			$('#closureTab').hide();
-			if(contract_status_fk == 'Completed' || contract_status_fk == 'Closed'){
+			if(contract_status_fk == 'Completed' || contract_status_fk == 'Commissioned' || contract_status_fk == 'Closed'){
 				$("#contractClosureRadioBtn").show();
 				if($.trim(actual_completion_date) != '' || $.trim(completed_cost) != '' ||$.trim(final_takeover) != '' ||$.trim(completion_certificate_release) != '' || 
 						$.trim(contract_closure_date) != '' || $.trim(final_bill_release) != '' || $.trim(defect_liability_period) != '' || $.trim(retention_money_release) != '' || 

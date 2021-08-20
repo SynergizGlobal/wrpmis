@@ -55,11 +55,13 @@ public class FOBDaoImpl implements FOBDao {
 		try {
 			String qry = "select fob_id,fob_name,f.work_id_fk,w.work_short_name,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,revised_completion,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
 					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
-					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.last_sanctioned_cost as CHAR) as last_sanctioned_cost,"
-					+ "cast(f.completion_cost as CHAR) as completion_cost,f.work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,"
+					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.last_sanctioned_cost as CHAR) as last_sanctioned_cost,cast(f.completion_cost as CHAR) as completion_cost,f.work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,"
 					+ "work_name,w.project_id_fk,p.project_name "
 					+ "from fob f "
-					+ "LEFT OUTER JOIN work w ON f.work_id_fk = w.work_id "				
+					+ "LEFT OUTER JOIN work w ON f.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN contract c ON c.contract_id = f.contract_id_fk "
+					+"left join user u on c.hod_user_id_fk = u.user_id "
+					+"left join user us on c.dy_hod_user_id_fk = us.user_id "				
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "	
 					+ "where fob_id is not null " ;
 			int arrSize = 0;
@@ -72,19 +74,11 @@ public class FOBDaoImpl implements FOBDao {
 				arrSize++;
 			}
 			
-			/*
-			 * if(!StringUtils.isEmpty(obj) &&
-			 * !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) { qry =
-			 * qry + " and ( " +
-			 * "fob_id in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
-			 * +
-			 * "or fob_id in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
-			 * +
-			 * "or fob_id in (select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ? group by fob_id_fk)) "
-			 * ; arrSize++; arrSize++; arrSize++; arrSize++; }
-			 */		
-			
-			qry = qry + " group by fob_id";
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+			}			
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -95,16 +89,15 @@ public class FOBDaoImpl implements FOBDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())) {
 				pValues[i++] = obj.getWork_status_fk();
 			}
-			/*
-			 * if(!StringUtils.isEmpty(obj) &&
-			 * !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-			 * pValues[i++] = obj.getUser_id(); pValues[i++] = obj.getUser_id();
-			 * pValues[i++] = obj.getUser_id(); pValues[i++] = obj.getUser_id(); //objsList1
-			 * = getExecutivesList(obj); }
-			 */		
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				objsList1 = getExecutivesList(obj);	
+
+			}			
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
-			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				if(objsList1.size() > 0) {
 					for (FOB con : objsList1) {
 				        boolean found=false;
@@ -119,7 +112,7 @@ public class FOBDaoImpl implements FOBDao {
 				        }
 				    }
 				}
-			}		*/	
+			}			
 			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -127,7 +120,7 @@ public class FOBDaoImpl implements FOBDao {
 		return objsList;
 	}
 
-	/*private List<FOB> getExecutivesList(FOB obj) throws Exception {
+ 	private List<FOB> getExecutivesList(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
 			String qry ="SELECT id, w.work_name,w.work_short_name,f.contract_id_fk as contract_id,"
@@ -177,7 +170,8 @@ public class FOBDaoImpl implements FOBDao {
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
-	}*/
+	}
+ 	
 	@Override
 	public boolean addFOB(FOB obj) throws Exception {
 		boolean flag = false;
@@ -604,24 +598,27 @@ public class FOBDaoImpl implements FOBDao {
 				count = namedParamJdbcTemplate.update(deleteContractsQry, paramSource);
 				
 				
-				if(!StringUtils.isEmpty(obj.getContract_id_fk())) {
-					String qry3 = "INSERT into fob_contract (fob_id_fk,contract_id_fk) VALUES (:fob_id_fk,:contract_id_fk)";
-					if(obj.getContract_id_fk().contains(",")) {
-						String[] ids = obj.getContract_id_fk().split(",");					
-						for (int i = 0; i < ids.length; i++) {
+				if(!StringUtils.isEmpty(obj.getContracts_id_fk())) {
+					for(int k =0; k<obj.getContracts_id_fk().length; k++) {
+						String contarctId = obj.getContracts_id_fk()[k];
+						String qry3 = "INSERT into fob_contract (fob_id_fk,contract_id_fk) VALUES (:fob_id_fk,:contract_id_fk)";
+						if(contarctId.contains(",")) {
+							String[] ids = contarctId.split(",");					
+							for (int i = 0; i < ids.length; i++) {
+								FOB fileObj = new FOB();
+								fileObj.setContract_id_fk(!StringUtils.isEmpty(ids[i])?ids[i]:null);
+								fileObj.setFob_id_fk(obj.getFob_id());
+								paramSource = new BeanPropertySqlParameterSource(fileObj);
+								namedParamJdbcTemplate.update(qry3, paramSource);
+							}			
+						}else {
 							FOB fileObj = new FOB();
-							fileObj.setContract_id_fk(!StringUtils.isEmpty(ids[i])?ids[i]:null);
+							fileObj.setContract_id_fk(contarctId);
 							fileObj.setFob_id_fk(obj.getFob_id());
 							paramSource = new BeanPropertySqlParameterSource(fileObj);
 							namedParamJdbcTemplate.update(qry3, paramSource);
-						}			
-					}else {
-						FOB fileObj = new FOB();
-						fileObj.setContract_id_fk(obj.getContract_id_fk());
-						fileObj.setFob_id_fk(obj.getFob_id());
-						paramSource = new BeanPropertySqlParameterSource(fileObj);
-						namedParamJdbcTemplate.update(qry3, paramSource);
-					}		
+						}
+					}	
 				}
 				
 				String deleteResponsiblePeopleQry = "DELETE from fob_responsible_people where fob_id_fk = :fob_id";		 
@@ -916,23 +913,23 @@ public class FOBDaoImpl implements FOBDao {
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj.getUser_id())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
-				arrSize++;
-				arrSize++;
-			}
+			/*
+			 * if(!StringUtils.isEmpty(obj.getUser_id())) { qry = qry +
+			 * " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)"; arrSize++; arrSize++; }
+			 */
 			qry = qry + " order by contract_id asc";
 			
-			Object[] pValues = new Object[arrSize];
 			
+			  Object[] pValues = new Object[arrSize];
+			 		
 			int i = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
-			if(!StringUtils.isEmpty(obj.getUser_id())) {
-				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
-			}
+			/*
+			 * if(!StringUtils.isEmpty(obj.getUser_id())) { pValues[i++] = obj.getUser_id();
+			 * pValues[i++] = obj.getUser_id(); }
+			 */
 				
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
 				
@@ -1167,43 +1164,8 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getResponsiblePeopleListForFOBForm(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry ="";
-			if(obj.getContracts_id_fk()==null)
-			{
-			 qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
-			}
-			else
-			{
-				qry="select distinct user_id,user_name,designation,u.department_fk from contract_executive c "
-						+ "left join user u on u.user_id=c.executive_user_id_fk  ";
-			}
-			
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContracts_id_fk())) {
-				qry = qry + " where c.contract_id_fk in (?";
-				int length = obj.getContracts_id_fk().length;
-				if(length > 1) {
-					for(int i1 =0; i1< (length-1); i1++) {
-						qry = qry + ",?";
-						arrSize++;
-					}
-				}
-				
-				qry = qry + " ) ";
-				arrSize++;
-			}			
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContracts_id_fk())) {
-				int length = obj.getContracts_id_fk().length;
-				if(length >= 1) {
-					for(int j =0; j<= (length-1); j++) {
-						pValues[i++] = obj.getContracts_id_fk()[j];
-					}
-				}	
-			}		
-			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));			
+			String qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

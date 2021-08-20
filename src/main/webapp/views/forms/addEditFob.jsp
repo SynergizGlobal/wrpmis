@@ -256,8 +256,8 @@
                                   </c:when>
                                   <c:otherwise>
                                   <select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk" 
-                                 			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();" >
-                                  		 <option value="" disabled>Select</option>
+                                 			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();" disabled >
+                                  		 <option value="">Select</option>
                                           <c:forEach var="obj" items="${contractsList}">
 									 		<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 
 										 		<c:forEach var="tempobj" items="${fob.contractsList}">
@@ -275,8 +275,15 @@
                                 
                                 <div class="col s12 m4 input-field ">
                                 <p class="searchable_label">Responsible Executives</p>
-                                  <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
-                                  multiple="multiple" <c:if test="${fn:length(fob.responsiblePeopleList) gt 0}">disabled</c:if>>
+<%--                                   <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
+                                  multiple="multiple" <c:if test="${fn:length(fob.responsiblePeopleList) gt 0}">disabled</c:if>> --%>
+                                  
+                                  
+ <c:choose>
+								        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                    
+                                   <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
+                                  multiple="multiple">
+                                                                   
                                    <option value="" disabled="disabled">Select</option>
                                    <c:forEach var="obj" items="${responsiblePeopleList}">
            					  			 <option value="${obj.user_id }"            					  			 
@@ -286,6 +293,25 @@
            					  			 > ${obj.designation} - ${obj.user_name}</option>
                                    </c:forEach>
                                   </select>
+                                  </c:when>
+                                  <c:otherwise>
+                                  
+                                  
+  <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
+                                  multiple="multiple" disabled>
+                                                                   
+                                   <option value="" disabled="disabled">Select</option>
+                                   <c:forEach var="obj" items="${responsiblePeopleList}">
+           					  			 <option value="${obj.user_id }"            					  			 
+           					  			 		<c:forEach var="tempobj" items="${fob.responsiblePeopleList}">
+										 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id}">selected</c:if>
+	                                          	</c:forEach>           					  			 
+           					  			 > ${obj.designation} - ${obj.user_name}</option>
+                                   </c:forEach>
+                                  </select>  
+                                  
+                                   </c:otherwise>
+                                  </c:choose>                                                                
                                      <span id="responsible_people_id_fkError" class="error-msg"></span>
                                 </div>
                             </div> 
@@ -988,7 +1014,7 @@
     	$(".page-loader").show();
         $("#work_id_fk option:not(:first)").remove();
         $("#contract_id_fk option:not(:first)").remove();
-        $("#responsible_people_id_fk option:not(:first)").remove();
+        //$("#responsible_people_id_fk option:not(:first)").remove();
 
         if ($.trim(projectId) != "") {
             var myParams = { project_id_fk: projectId };
@@ -1027,7 +1053,7 @@
     function getContractsList(work_id_fk) {
     	$(".page-loader").show();
         $("#contract_id_fk option:not(:first)").remove();
-        $("#responsible_people_id_fk option:not(:first)").remove();
+        //$("#responsible_people_id_fk option:not(:first)").remove();
         if($.trim(work_id_fk) != ''){
         	var myParams = { work_id_fk: work_id_fk };
 	        $.ajax({

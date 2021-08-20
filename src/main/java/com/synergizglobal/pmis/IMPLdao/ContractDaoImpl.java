@@ -92,12 +92,18 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and us.designation = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				qry = qry + " and c.status = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (dy_hod_user_id_fk = ? or dy_hod_user_id_fk = ? )";
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 			}
@@ -121,11 +127,15 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				pValues[i++] = obj.getContract_status();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
 				
 			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 			}
@@ -219,7 +229,6 @@ public class ContractDaoImpl implements ContractDao {
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
-	
 	}
 
 	@Override
@@ -1958,7 +1967,6 @@ public class ContractDaoImpl implements ContractDao {
 	@Override
 	public List<Contract> contractorsFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
-		List<Contract> objsList1 = null;
 		try {
 			String qry = "SELECT contractor_id_fk,cr.contractor_name "
 					+ "from contract c "+
@@ -1987,12 +1995,18 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				qry = qry + " and c.status = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 			}
@@ -2014,30 +2028,19 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				pValues[i++] = obj.getContract_status();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-				objsList1 = getExecutivesList(obj);	
-			
+				pValues[i++] = obj.getUser_id();
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				for (Contract con : objsList1) {
-			        boolean found=false;
-			        for (Contract con1 : objsList) {
-			            if ((con.getContractor_id_fk().equals(con1.getContractor_id_fk()))) {
-			                found=true;
-			                break;
-			            }
-			        }
-			        if(!found){
-			        	objsList.add(con);
-			        }
-			    }
-			}
+			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -2047,7 +2050,6 @@ public class ContractDaoImpl implements ContractDao {
 	@Override
 	public List<Contract> worksFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
-		List<Contract> objsList1 = null;
 		try {
 			String qry = "SELECT work_id_fk,w.work_name,w.work_short_name "
 					+ "from contract c " + 
@@ -2075,12 +2077,18 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				qry = qry + " and c.status = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 			}
@@ -2102,30 +2110,19 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				pValues[i++] = obj.getContract_status();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-				objsList1 = getExecutivesList(obj);	
-			
+				pValues[i++] = obj.getUser_id();
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				for (Contract con : objsList1) {
-			        boolean found=false;
-			        for (Contract con1 : objsList) {
-			            if ((con.getWork_id_fk().equals(con1.getWork_id_fk()))) {
-			                found=true;
-			                break;
-			            }
-			        }
-			        if(!found){
-			        	objsList.add(con);
-			        }
-			    }
-			}
+			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -2135,7 +2132,6 @@ public class ContractDaoImpl implements ContractDao {
 	@Override
 	public List<Contract> getProjectsFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
-		List<Contract> objsList1 = null;
 		try {
 			String qry = "SELECT project_id_fk,p.project_name "
 					+ "from contract c " + 
@@ -2163,12 +2159,18 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				qry = qry + " and c.status = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 			}
@@ -2190,30 +2192,19 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				pValues[i++] = obj.getContract_status();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-				objsList1 = getExecutivesList(obj);	
-			
+				pValues[i++] = obj.getUser_id();
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				for (Contract con : objsList1) {
-			        boolean found=false;
-			        for (Contract con1 : objsList) {
-			            if ((con.getProject_id_fk().equals(con1.getProject_id_fk()))) {
-			                found=true;
-			                break;
-			            }
-			        }
-			        if(!found){
-			        	objsList.add(con);
-			        }
-			    }
-			}
+			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -2268,7 +2259,6 @@ public class ContractDaoImpl implements ContractDao {
 	@Override
 	public List<Contract> getDesignationsFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
-		List<Contract> objsList1 = null;
 		try {
 			String qry = "SELECT c.hod_user_id_fk as hod_user_id,u.designation  "
 					+ "from contract c " + 
@@ -2298,12 +2288,19 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				qry = qry + " and c.status = ?";
+				arrSize++;
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 			}
@@ -2326,30 +2323,19 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				pValues[i++] = obj.getContract_status();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-				objsList1 = getExecutivesList(obj);	
-			
+				pValues[i++] = obj.getUser_id();
 			}	
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				for (Contract con : objsList1) {
-			        boolean found=false;
-			        for (Contract con1 : objsList) {
-			            if ((con.getDesignation().equals(con1.getDesignation()))) {
-			                found=true;
-			                break;
-			            }
-			        }
-			        if(!found){
-			        	objsList.add(con);
-			        }
-			    }
-			}
+			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -2359,7 +2345,6 @@ public class ContractDaoImpl implements ContractDao {
 	@Override
 	public List<Contract> getDyHODDesignationsFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
-		List<Contract> objsList1 = null;
 		try {
 			String qry = "SELECT c.dy_hod_user_id_fk as dy_hod_user_id,u.designation as dy_hod_designation "
 					+ "from contract c " + 
@@ -2389,12 +2374,18 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				qry = qry + " and c.status = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 			}
@@ -2416,31 +2407,18 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				pValues[i++] = obj.getContract_status();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-				objsList1 = getExecutivesList(obj);	
-			
+				pValues[i++] = obj.getUser_id();
 			}	
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
-			
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				for (Contract con : objsList1) {
-			        boolean found=false;
-			        for (Contract con1 : objsList) {
-			            if ((con.getDy_hod_user_id().equals(con1.getDy_hod_user_id()))) {
-			                found=true;
-			                break;
-			            }
-			        }
-			        if(!found){
-			        	objsList.add(con);
-			        }
-			    }
-			}
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
@@ -2449,9 +2427,90 @@ public class ContractDaoImpl implements ContractDao {
 	}
 	
 	@Override
+	public List<Contract> getContractStatusFilterListInContract(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry = "SELECT status as contract_status "
+					+ "from contract c " + 
+					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
+					"where status is not null and status <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
+				qry = qry + " and c.hod_user_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
+				qry = qry + " and c.dy_hod_user_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				qry = qry + " and c.status = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}
+			qry = qry + "GROUP BY status ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
+				pValues[i++] = obj.getDesignation();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
+				pValues[i++] = obj.getDy_hod_designation();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				pValues[i++] = obj.getContract_status();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			}	
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
 	public List<Contract> getStatusFilterListInContract(Contract obj) throws Exception {
 		List<Contract> objsList = null;
-		List<Contract> objsList1 = null;
 		try {
 			String qry = "SELECT contract_status_fk "
 					+ "from contract c " + 
@@ -2479,12 +2538,18 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.dy_hod_user_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				qry = qry + " and c.status = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				qry = qry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 			}
@@ -2506,30 +2571,19 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
+				pValues[i++] = obj.getContract_status();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-				objsList1 = getExecutivesList(obj);	
-			
+				pValues[i++] = obj.getUser_id();
 			}	
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				for (Contract con : objsList1) {
-			        boolean found=false;
-			        for (Contract con1 : objsList) {
-			            if ((con.getContract_status_fk().equals(con1.getContract_status_fk()))) {
-			                found=true;
-			                break;
-			            }
-			        }
-			        if(!found){
-			        	objsList.add(con);
-			        }
-			    }
-			}
+			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -2581,7 +2635,7 @@ public class ContractDaoImpl implements ContractDao {
 		}
 		return objsList;
 	}
-	int totalRecordsWithExecutives = 0;
+	
 	@Override
 	public int getTotalRecords(Contract obj, String searchParameter) throws Exception {
 		int totalRecords = 0;
@@ -2618,7 +2672,9 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 			}
@@ -2657,7 +2713,7 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-			
+				pValues[i++] = obj.getUser_id();
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";
@@ -2669,12 +2725,7 @@ public class ContractDaoImpl implements ContractDao {
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 			} 
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				totalRecords = totalRecordsWithExecutives;
-			}else {
-				totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
-
-			}
+			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
@@ -2686,7 +2737,6 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getContractsList(Contract obj, int startIndex, int offset, String searchParameter)
 			throws Exception {
 		List<Contract> objsList = null;
-		List<Contract> objsList1 = null;
 		try {
 			String qry ="select w.work_name,w.work_short_name, GROUP_CONCAT(DISTINCT dt.department_name SEPARATOR ', ') as department_name,hoddt.department_name as hod_department,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,tally_head  " + 
 					",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
@@ -2729,7 +2779,9 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 			}
@@ -2773,8 +2825,7 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-				objsList1 = getExecutivesList(obj);	
-
+				pValues[i++] = obj.getUser_id();	
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";
@@ -2791,23 +2842,7 @@ public class ContractDaoImpl implements ContractDao {
 				pValues[i++] = offset;
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				if(objsList1.size() > 0) {
-					for (Contract con : objsList1) {
-				        boolean found=false;
-				        for (Contract con1 : objsList) {
-				            if ((con.getContract_id().equals(con1.getContract_id()))) {
-				                found=true;
-				                break;
-				            }
-				        }
-				        if(!found){
-				        	objsList.add(con);
-				        }
-				    }
-				}
-				totalRecordsWithExecutives = objsList.size();
-			}
+						
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				for (Contract cObj : objsList) {
 					Contract deptObj = getDepartmentsLists(cObj);
@@ -2872,7 +2907,7 @@ public class ContractDaoImpl implements ContractDao {
 		
 	}
 
-	private List<Contract> getExecutivesList(Contract obj) throws Exception {
+	/*private List<Contract> getExecutivesList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
 			String qry ="SELECT id, w.work_name,w.work_short_name, GROUP_CONCAT(DISTINCT dt.department_name SEPARATOR ', ') as department_name,contract_id_fk as contract_id,"
@@ -2951,7 +2986,7 @@ public class ContractDaoImpl implements ContractDao {
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
-	}
+	}*/
 
 	@Override
 	public List<Contract> getHodList(Contract obj) throws Exception {
@@ -3102,7 +3137,8 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getContractStatusType(Contract obj)throws Exception{
 		List<Contract> objsList = null;
 		try {
-			String qry ="select general_status as contract_status_fk,contract_status  from general_status  WHERE general_status NOT IN ('Commissioned', 'Dropped','On Hold') ";
+			//String qry ="select general_status as contract_status_fk,contract_status  from general_status  WHERE general_status NOT IN ('Commissioned', 'Dropped','On Hold') ";
+			String qry ="select general_status as contract_status_fk,contract_status  from general_status  WHERE general_status NOT IN ('Terminated') ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {
 				qry = qry + " and contract_status = ? ";

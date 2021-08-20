@@ -320,6 +320,23 @@ public class ContractController {
 	}
 	
 
+	@RequestMapping(value = "/ajax/getContractStatusFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getContractStatusFilterListInContract(@ModelAttribute Contract obj,HttpSession session) {
+		List<Contract> dataList = null;  
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			dataList = contractService.getContractStatusFilterListInContract(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractStatusFilterListInContract : " + e.getMessage());
+		}
+		return dataList;
+	}
+	
 	
 	@RequestMapping(value = "/ajax/getStatusFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -565,6 +582,9 @@ public class ContractController {
 			contract.setPbg_release(DateParser.parse(contract.getPbg_release()));
 			contract.setBg_date(DateParser.parse(contract.getBg_date()));
 			contract.setRelease_date(DateParser.parse(contract.getRelease_date()));
+			
+			contract.setContract_status("Open");
+			contract.setContract_status_fk("Not Started");
 		
 			boolean flag =  contractService.addContract(contract);			
 			if(flag) {

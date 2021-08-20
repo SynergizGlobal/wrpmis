@@ -490,7 +490,7 @@
 	                                    <span id="docError" class="error-msg" ></span>
 	                                </div>		                                
 	                             
-	                                <div class="col s6 m2 input-field">
+	                                <%-- <div class="col s6 m2 input-field">
 	                                 <p class="searchable_label"> <label>Contract Status</label> </p>
 	                                    <select class="validate-dropdown searchable" id="contract_status" name="contract_status" onchange="getStatusLIst();">
 	                                         <option value="" >Select</option>	                                         
@@ -509,7 +509,7 @@
 		                                     </c:forEach>
 	                                    </select>
 	                                    <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div>      	                                
+	                                </div>       --%>	                                
 	                            </div>	   
 	                         
 	                            <div class="row">

@@ -46,6 +46,8 @@ public interface ContractService {
 	public List<Contract> getDesignationsFilterList(Contract obj) throws Exception;
 
 	public List<Contract> getDyHODDesignationsFilterList(Contract obj) throws Exception;
+	
+	public List<Contract> getContractStatusFilterListInContract(Contract obj) throws Exception;
 
 	public List<Contract> getStatusFilterListInContract(Contract obj) throws Exception;
 

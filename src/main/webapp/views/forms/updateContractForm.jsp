@@ -1296,7 +1296,7 @@
 	                                              <tr id="mileRow0"> 
 	                                              <td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids0" value=" "/>
 	                                                    <input id="milestone_ids0" name="milestone_ids" type="text" class="validate" 
-	                                                        placeholder="Milestone ID">
+	                                                        placeholder="Milestone ID" value="K-1">
 	                                                </td>                                        
 	                                                <td data-head="Milestone Name " class="input-field">
 	                                                    <input id="milestone_names0" name="milestone_names" type="text" class="validate" 
@@ -1337,9 +1337,9 @@
 	                                        </tbody>
 	                                    </table>
 	                                    <table class="mdl-data-table">
-	                                        <tbody id="milestoneTableBody">                                          
+	                                        <tbody>                                          
 	                                            <tr>
-	  										<td colspan="6" style="text-align: right;" ><a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addMilestoneRow()"> <i
+	  												<td colspan="6" style="text-align: right;" ><a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addMilestoneRow()"> <i
 	                                                            class="fa fa-plus"></i></a></td> 
 	                                             </tr>
 	                                        </tbody>
@@ -1502,7 +1502,7 @@
                                              <c:otherwise>
                                              <tr id="revRow0">
                                                 <td data-head="Revision Number " class="input-field"> <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
-                                                        placeholder="Revision Number">
+                                                        placeholder="Revision Number" value="R-1">
                                                 </td>
                                                 <td data-head="Revised Amount " class="input-field  ">
                                                 		<i class="material-icons prefix cost left-align">₹</i>
@@ -1588,9 +1588,9 @@
                                         </tbody>
                                     </table>
                                      <table class="mdl-data-table">
-                                        <tbody id="revTableBody">                                          
+                                        <tbody>                                          
                                             <tr>
-									<td colspan="6" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addRevRow()"> <i
+												<td colspan="6" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addRevRow()"> <i
                                                             class="fa fa-plus"></i></a></td>
                                               </tr>
                                         </tbody>
@@ -1811,14 +1811,14 @@
  							 		<div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${contractDeatils.actual_completion_date }">
-	                                    <label for="actual_completion_date">Actual Completed Date</label>
+	                                    <label for="actual_completion_date">Actual Completion Date</label>
 	                                    <span id="actual_completion_dateError" class="error-msg" ></span>
 	                                    <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s9 m3 input-field">
 	                                	<i class="material-icons prefix cost left-align">₹</i>
 	                                    <input id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.completed_cost }">
-	                                    <label for="completed_cost">Completed Cost</label>
+	                                    <label for="completed_cost">Completion Cost</label>
 	                                     <span id="completed_costError" class="error-msg" ></span>
 	                                </div>    
 	                                <div class="col s3 m1 input-field pt-5">
@@ -1842,7 +1842,7 @@
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }">
-	                                    <label for="completion_certificate_release">Release of Completion Certificate</label>
+	                                    <label for="completion_certificate_release">Date of issue of Completion Certificate</label>
 	                                    <button type="button" id="completion_certificate_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="completion_certificate_releaseError" class="error-msg" ></span>
 	                                </div>
@@ -1853,13 +1853,13 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker" value="${contractDeatils.contract_closure_date }">
-	                                    <label for="contract_closure_date">Contract Closure</label>
+	                                    <label for="contract_closure_date">Date of Contract Closure</label>
 	                                    <button type="button" id="contract_closure_date_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="contract_closure_dateError" class="error-msg" ></span>	                                    
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker" value="${contractDeatils.final_bill_release }">
-	                                    <label for="final_bill_release">Release of Final bill</label>
+	                                    <label for="final_bill_release">Date of Payment of Final bill</label>
 	                                    <button type="button" id="final_bill_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="final_bill_releaseError" class="error-msg" ></span>
 	                                </div>
@@ -1869,13 +1869,13 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker" value="${contractDeatils.defect_liability_period }">
-	                                    <label for="defect_liability_period">Defect Liability Period</label>
+	                                    <label for="defect_liability_period">End date of Defect Liability Period</label>
 	                                    <button type="button" id="defect_liability_period_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="final_retention_release" name="retention_money_release" type="text" class="validate datepicker" value="${contractDeatils.retention_money_release }">
-	                                    <label for="final_retention_release"> Release of Final Retention amount/BG</label>
+	                                    <label for="final_retention_release">Date of release of Final Retention BG</label>
 	                                    <button type="button" id="retention_money_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="final_retention_releaseError" class="error-msg" ></span>
 	                                </div>
@@ -1885,7 +1885,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker" value="${contractDeatils.pbg_release }">
-	                                    <label for="pbg_release">Release of PBG</label>
+	                                    <label for="pbg_release">Date of release of PBG</label>
 	                                    <button type="button" id="pbg_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="pbg_releaseError" class="error-msg" ></span>
 	                                </div>
@@ -2881,12 +2881,12 @@
 		}
 		
 		function addMilestoneRow(){
-			
+			//var rowCount = $('#milestoneTableBody tr').length;
 		    var rowNo = $("#mileRowNo").val();
 		    var rNo = Number(rowNo)+1;
 		    var total = 0;
 		    var html = '<tr id="mileRow'+rNo+'">'
-		 	   +'<td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids'+rNo+'" /><input id="milestone_ids'+rNo+'" name="milestone_ids" type="text" class="validate" placeholder="Milestone ID"></td>'
+		 	   +'<td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids'+rNo+'" /><input id="milestone_ids'+rNo+'" name="milestone_ids" type="text" class="validate" placeholder="Milestone ID" value="K-'+(rNo+1)+'"></td>'
 			   +'<td data-head="Milestone Name " class="input-field"><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
 			   +'<td data-head="Milestone Date " class="input-field"><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Actual Date " class="input-field"><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button"><i  class="fa fa-calendar"></i></button></td>'
@@ -2924,7 +2924,7 @@
 		    var rNo = Number(rowNo)+1;
 		    var total = 0;
 		    var html = '<tr id="revRow'+rNo+'">'
-			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
+			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"  value="R-'+(rNo+1)+'" /></td>'
 			   +'<td data-head="Revised Amount " class="input-field  "> <i class="material-icons prefix cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
 			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" onkeyup="toggleRevision(' + '\'amounts\'' + ',' + rNo + ')"  placeholder="Revised Amount"> </td><td class="responsive_units  "> <select class="units validate-dropdown " id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
 			   +'<option value="">Select</option>'

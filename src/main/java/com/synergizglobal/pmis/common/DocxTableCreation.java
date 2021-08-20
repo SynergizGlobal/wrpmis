@@ -934,6 +934,8 @@ public class DocxTableCreation {
 				true, false, false, false);
 		RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
 				false, false, false, false);
+		RPr garamondDateRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+				false, false, false, false);
 		
 		String employeeName = null,trainee_designation = null,department = null, reportingTo = null,nominated = null, attended = null;
 		for (Training aObj : employeeTrainings) {
@@ -1051,7 +1053,7 @@ public class DocxTableCreation {
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getCategory(),
 					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getDate(),
-					garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					garamondDateRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 			
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getParticipated_fk(),
 					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);

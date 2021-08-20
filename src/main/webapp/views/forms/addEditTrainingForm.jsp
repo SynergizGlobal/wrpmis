@@ -275,7 +275,10 @@
 				padding:auto 0;
 			}
 		}
-		
+		#msg-text{
+			text-align: left;
+			padding: 4px;
+		}
     </style>
 </head>
 
@@ -615,6 +618,7 @@
 																	</div> 
 																	</div> 
 																	</div>
+																	<p id="msg-text"><b>If name of attendee is not in list please add below</b></p> 
 																	<div class="row fixed-width">
 																		<div class="table-inside">
 																			<table id="training-new-update-table${index.count }"
@@ -828,7 +832,7 @@
 																					<a type="button" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a>    
 																				</div>   
 																				<div class="col s6 m4 center-align">    
-																				    <button type="button" class="btn waves-effect waves-light t-c bg-s" onclick="resetModal(this)">Cancel</button>     
+																				    <button type="button" class="btn waves-effect waves-light modal-close t-c bg-s" onclick="resetModal(this)">Cancel</button>     
 																				</div>     
 																			</div>
 																	</div> 
@@ -985,8 +989,9 @@
 																        </div>
 																    </div>
 																</div>
-															   	<div class="row fixed-width">
-																	<div class="table-inside">
+																<p id="msg-text"><b>If name of attendee is not in list please add below</b></p>
+															   	<div class="row fixed-width">																
+																	<div class="table-inside"> 
 																		<table id="training-new-update-table0"	class="mdl-data-table mobile_responsible_table">
 																			<thead>
 																				<tr>
@@ -1087,7 +1092,7 @@
 																				<a type="button" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a>    
 																			</div>    
 																			<div class="col s6 m4 center-align">        
-																				<button type="button" class="btn waves-effect waves-light t-c bg-s" onclick="resetModal(this)">Cancel</button>  
+																				<button type="button" class="btn waves-effect waves-light modal-close t-c bg-s" onclick="resetModal(this)">Cancel</button>  
 																			</div>     
 																		</div>
 																</div>
@@ -1767,7 +1772,7 @@
 		         '</label></p></td><td class="mobile_btn_close"><a onclick="removeTrainingAttendees(\''+0+0+rNo+1+'\',\''+ rNo +'\');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'+
 		         '</tr></tbody></table> <input type="hidden" id="trainNo"  name="trainNo" value="0" /><table class="mdl-data-table"><tbody id="trainingUpdateBody">'+                                          
                  '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
-                 '</tbody></table></div></div></div></div>'+
+                 '</tbody></table></div></div></div></div><p id="msg-text"><b>If name of attendee is not in list please add below</b></p>'+
 		         '<div class="row fixed-width"><div class="table-inside"> <table id="training-new-update-table'+ rNo +'" class="mdl-data-table mobile_responsible_table">'+
 					  '<thead><tr><th>Department</th><th>HOD</th><th>Attendee</th><th>Designation</th><th class="fw-220">Email</th><th class="mw-150"> Mobile</th><th class="py-0">Nominated</th><th>Participated</th><th>Action</th></tr></thead>'+
 						'<tbody id="newAttendeesTableBody'+ rNo +'" ><input type="hidden" id="rowsCounts'+ rNo +'"  name="rowsCounts" value="2"/><tr id="newAttendeesRow'+0+0+rNo+1+'"><td data-head="Department" class="input-field">'+
@@ -1798,7 +1803,7 @@
 	                            '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addNewTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
 	                          '</tbody></table></div></div></div> '+
 	                          '<div class="row"> <div class="col s6 m4 offset-m2 center-align"> <a type="button" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a> </div>'+
-	                          '<div class="col s6 m4 center-align"> <button type="button" class="btn waves-effect waves-light t-c bg-s" onclick="reset(this)">Cancel</a></div> </div></td>'+
+	                          '<div class="col s6 m4 center-align"> <button type="button" class="btn waves-effect waves-light modal-close t-c bg-s" onclick="resetModal(this)">Cancel</a></div> </div></td>'+
 	                         // '<a type="button" style="margin-bottom:20px;" class="btn waves-effect waves-light modal-close bg-m t-c"> Update</a></div> </td>'+
           '<td data-head="Remarks" class="input-field"> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
           

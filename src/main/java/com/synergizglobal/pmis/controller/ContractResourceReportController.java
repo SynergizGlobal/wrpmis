@@ -341,7 +341,7 @@ public class ContractResourceReportController {
 				            XSSFRow structureRow = dprSheet.createRow(rowNo);
 					
 				            /**********************************************************************/
-							String headerString = "^Contract^Resource Type^dates^Average Daily deployment";
+							String headerString = "^Resource^Resource Type^dates^Average Daily deployment";
 					        
 					        String[] headerStringArr = headerString.split("\\^");
 					        int HeaderSize = obj.getDatesList().size();

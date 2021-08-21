@@ -281,15 +281,6 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 				qry = qry + " and w.project_id_fk = ? ";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
-				qry = qry + " and c.work_id_fk = ?";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and c.contract_id = ?";
-				arrSize++;
-			}
-		
 			qry = qry + " GROUP BY w.work_id ORDER BY w.work_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
@@ -297,14 +288,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id())) {
 				pValues[i++] = obj.getProject_id();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
-				pValues[i++] = obj.getWork_id();
 			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				pValues[i++] = obj.getContract_id();
-			}
-			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 
 		}catch(Exception e){ 
@@ -318,7 +302,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qry = "SELECT c.contract_id,c.contract_name,c.contract_short_name "+
+			String qry = "SELECT w.project_id_fk as project_id,c.work_id_fk as work_id,c.contract_id,c.contract_name,c.contract_short_name "+
 					"from activities a " + 
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -335,10 +319,6 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and c.contract_id = ?";
-				arrSize++;
-			}
 			
 			qry = qry + " GROUP BY c.contract_id ORDER BY c.contract_id ASC";
 			
@@ -350,11 +330,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
 				pValues[i++] = obj.getWork_id();
-			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				pValues[i++] = obj.getContract_id();
 			}
-			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 		}catch(Exception e){ 
@@ -378,15 +354,6 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 					"where fob_id is not null and fob_id <> '' ";
 			
 			int arrSize = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id())) {
-				qry = qry + " and w.project_id_fk = ? ";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
-				qry = qry + " and c.work_id_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				qry = qry + " and c.contract_id = ?";
 				arrSize++;
@@ -397,12 +364,6 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id())) {
-				pValues[i++] = obj.getProject_id();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
-				pValues[i++] = obj.getWork_id();
-			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
 			}

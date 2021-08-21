@@ -1967,10 +1967,12 @@
 
  				
            <!--  </div> -->
+           
+            <input type="hidden" id="update_type" name="update_type" value="Update" />
+            
             <div class="card ">
                 <div class="card-content">
-                <div class="container container-no-margin"> 
-                
+                <div class="container container-no-margin">                 
            		 	<div class="row">
                        <div class="col s12 m6 mt-brdr offset-m2 center-align">
                            <div class=" m-1 d-flex"> <button type="button" onclick="prevTab()" id="prevBtn"><i class="fa fa-angle-left"></i></button>
@@ -2103,13 +2105,17 @@
 						$.trim(pbg_release) != ''){
 					if(user_type=='HOD'){					
 						$('#updateBtn').html('Close Contract');
+						$('#update_type').val('Close Contract');
 					}else if(user_type=="DyHOD"){
 						$('#updateBtn').html('Request for Contract Closure');
+						$('#update_type').val('Request for Contract Closure');
 					}else{
 						$('#updateBtn').html('Update');
+						$('#update_type').val('Update');
 					}
 				} else{
 					$('#updateBtn').html('Update');
+					$('#update_type').val('Update');
 				}
 				
 				if($.trim(actual_completion_date) != '' || $.trim(completed_cost) != '' ||$.trim(final_takeover) != '' ||$.trim(completion_certificate_release) != '' || 
@@ -3329,13 +3335,17 @@
 					$.trim(pbg_release) != ''){
 				if(user_type=='HOD'){					
 					$('#updateBtn').html('Close Contract');
+					$('#update_type').val('Close Contract');
 				}else if(user_type=="DyHOD"){
 					$('#updateBtn').html('Request for Contract Closure');
+					$('#update_type').val('Request for Contract Closure');
 				}else{
 					$('#updateBtn').html('Update');
+					$('#update_type').val('Update');
 				}
 			} else{
 				$('#updateBtn').html('Update');
+				$('#update_type').val('Update');
 			}
 		}
 	  </script>

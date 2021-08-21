@@ -28,7 +28,30 @@
         #mileTable .datepicker~button {
             top: 26px;
         }
-
+		/* utility classes starts here  */
+		.card-content p, .card-content input,.card-content textarea{
+			z-index:0;
+		} 
+		.m-b-1 {
+		    margin-bottom: 1rem;
+		}
+		.p-sticky{
+			position:sticky;
+		}
+		.z-1{
+			z-index:1;
+		}
+		.t-46{
+			top:46px;
+		}
+		.t-98{
+			top:98px;
+		}
+		.btn{
+			z-index:0;
+		}
+		
+		/* utility classes ends here  */
         .datepicker-table thead tr,
         .datepicker-table thead tr:hover,
         .datepicker-table tbody tr,
@@ -285,6 +308,34 @@
         [type="radio"]+span:before, [type="radio"]+span:after {
         	left:12px!important;
         }
+        .d-flex{
+        	display: flex;
+    		justify-content: space-around;
+        }
+                
+        #prevBtn,#nextBtn{
+        	border: none;
+		    background-color: transparent;
+		    cursor: pointer;
+		    font-weight:600;		    
+        }
+        #prevBtn >.fa,#nextBtn >.fa{
+        	font-size:2rem;
+        	font-weight:700;
+        }
+        #prevBtn[disabled],
+        #prevBtn:disabled,
+        #nextBtn[disabled],
+        #nextBtn:disabled{
+        	cursor: no-drop !important;
+        }
+        
+        .datepicker.my-valid-class.validate.invalid{        
+	        border-bottom: 1px solid #4CAF50;
+		    -webkit-box-shadow: 0 1px 0 0 #4caf50;
+		    box-shadow: 0 1px 0 0 #4caf50;
+	    }
+       
     </style>
 </head>
 
@@ -297,9 +348,9 @@
         <div class="col s12 m12">
             <div class="card ">
                 <div class="card-content">
-                    <div class="center-align">
+                    <div class="center-align p-sticky t-46 z-1">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m m-b-2">
+                            <div class="center-align p-2 bg-m m-b-1">
                                 <h6>Update Contract</h6>
                             </div>
                         </span>
@@ -308,7 +359,7 @@
 <!--                     <div class="container container-no-margin"> -->
                         <form action="<%=request.getContextPath() %>/update-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                         	
-                        	 <div class="row">
+                        	 <div class="row p-sticky t-98 z-1">
 							    <div class="col s12 m12">
 							      <ul class="tabs tab-flex">
 							        <li class="tab"><a class="active t-c" href="#basicDetails">Basic</a></li>
@@ -1248,7 +1299,7 @@
 	                                                <th>Actual Date </th>
 	                                                <th>Revision</th>
 	                                                <th>Remarks </th>
-	                                                <th>Action</th>
+	                                               <!--  <th>Action</th> -->
 	                                            </tr>
 	                                        </thead >
 	                                        <tbody id="milestoneTableBody" >
@@ -1285,9 +1336,9 @@
 	                                                    <input id="mile_remarks${index.count }" name="mile_remarks" type="text" class="validate" value="${milestonesObj.remarks }"
 	                                                        placeholder="Remarks">
 	                                                </td>
-	                                                <td class="mobile_btn_close"><a onclick="removeMilestone('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+	                                             <%--    <td class="mobile_btn_close"><a onclick="removeMilestone('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
 	                                                            class="fa fa-close"></i></a>
-	                                                </td>
+	                                                </td> --%>
 	                                            </tr>
 	                                            
 	                                             </c:forEach>
@@ -1320,9 +1371,9 @@
 	                                                    <input id="mile_remarks0" name="mile_remarks" type="text" class="validate" 
 	                                                        placeholder="Remarks">
 	                                                </td>
-	                                                <td class="mobile_btn_close"><a onclick="removeMilestone('0');" class="btn waves-effect waves-light red t-c "> <i
+	                                              <!--   <td class="mobile_btn_close"><a onclick="removeMilestone('0');" class="btn waves-effect waves-light red t-c "> <i
 	                                                            class="fa fa-close"></i></a>
-	                                                </td>
+	                                                </td> -->
 	                                            </tr>
 	                                              <script type="text/javascript">
 		                                                $("#milestone_dates0,#actual_dates0").datepicker({
@@ -1372,7 +1423,7 @@
                                                 <th class="light-green_column">Revised DOC </th>
                                                 <th class="light-green_column  p-h-0">Current</th>
                                                 <th>Remarks </th>
-                                                <th>Action</th>
+                                               <!--  <th>Action</th> -->
                                             </tr>
                                         </thead>
                                         <tbody  id="revTableBody" >
@@ -1428,9 +1479,9 @@
                                                     <input id="revision_remarks${index.count }" name="revision_remarks" type="text" class="validate" value="${revObj.remarks }"
                                                         placeholder="Remarks">
                                                 </td>
-                                                <td class="mobile_btn_close"><a onclick="removeRev('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+                                               <%--  <td class="mobile_btn_close"><a onclick="removeRev('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
-                                                </td>
+                                                </td> --%>
                                             </tr>
                                            		  <script type="text/javascript">
 	                                                $("#revised_docs${index.count }").datepicker({
@@ -1541,9 +1592,9 @@
                                                     <input id="revision_remarks0" name="revision_remarks" type="text" class="validate" 
                                                         placeholder="Remarks">
                                                 </td>
-                                                <td class="mobile_btn_close"><a onclick="removeRev('0');" class="btn waves-effect waves-light red t-c "> <i
+                                                <!-- <td class="mobile_btn_close"><a onclick="removeRev('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
-                                                </td>
+                                                </td> -->
                                             </tr>
                                               <script type="text/javascript">
 	                                                $("#revised_docs0").datepicker({
@@ -1810,21 +1861,21 @@
  							    <div class="row">
  							 		<div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${contractDeatils.actual_completion_date }">
+	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" onchange="updateBtnValueChange()" value="${contractDeatils.actual_completion_date }" readonly>
 	                                    <label for="actual_completion_date">Actual Completion Date</label>
 	                                    <span id="actual_completion_dateError" class="error-msg" ></span>
 	                                    <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s9 m3 input-field">
 	                                	<i class="material-icons prefix cost left-align">₹</i>
-	                                    <input id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.completed_cost }">
+	                                    <input id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.completed_cost }" onkeyup="updateBtnValueChange()" >
 	                                    <label for="completed_cost">Completion Cost</label>
 	                                     <span id="completed_costError" class="error-msg" ></span>
 	                                </div>    
 	                                <div class="col s3 m1 input-field pt-5">
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown" id="completed_cost_units" name="completed_cost_units">
-	                                		<option value="">Select</option>
+	                                		<!-- <option value="">Select</option> -->
 	                                		<c:forEach var="obj" items="${unitsList }">
 		                                      <option value="${obj.value }" <c:if test="${contractDeatils.completed_cost_units eq obj.value }">selected</c:if>>${obj.unit }</option>
 		                                	</c:forEach>
@@ -1835,13 +1886,13 @@
 	      						<div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>	                                
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker" value="${contractDeatils.final_takeover }">
+	                                    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker" value="${contractDeatils.final_takeover }" onchange="updateBtnValueChange()" readonly>
 	                                    <label for="final_takeover">Final Taking over by Client</label>
 	                                    <span id="final_takeoverError" class="error-msg" ></span>
 	                                    <button type="button" id="final_takeover_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }">
+	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }" onchange="updateBtnValueChange()" readonly>
 	                                    <label for="completion_certificate_release">Date of issue of Completion Certificate</label>
 	                                    <button type="button" id="completion_certificate_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="completion_certificate_releaseError" class="error-msg" ></span>
@@ -1852,13 +1903,13 @@
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker" value="${contractDeatils.contract_closure_date }">
+	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker" value="${contractDeatils.contract_closure_date }" onchange="updateBtnValueChange()" readonly>
 	                                    <label for="contract_closure_date">Date of Contract Closure</label>
 	                                    <button type="button" id="contract_closure_date_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="contract_closure_dateError" class="error-msg" ></span>	                                    
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker" value="${contractDeatils.final_bill_release }">
+	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker" value="${contractDeatils.final_bill_release }" onchange="updateBtnValueChange()" readonly>
 	                                    <label for="final_bill_release">Date of Payment of Final bill</label>
 	                                    <button type="button" id="final_bill_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="final_bill_releaseError" class="error-msg" ></span>
@@ -1868,23 +1919,23 @@
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker" value="${contractDeatils.defect_liability_period }">
+	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker" value="${contractDeatils.defect_liability_period }" onchange="updateBtnValueChange()" readonly>
 	                                    <label for="defect_liability_period">End date of Defect Liability Period</label>
 	                                    <button type="button" id="defect_liability_period_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_retention_release" name="retention_money_release" type="text" class="validate datepicker" value="${contractDeatils.retention_money_release }">
-	                                    <label for="final_retention_release">Date of release of Final Retention BG</label>
+	                                    <input id="retention_money_release" name="retention_money_release" type="text" class="validate datepicker" value="${contractDeatils.retention_money_release }" onchange="updateBtnValueChange()" readonly>
+	                                    <label for="retention_money_release">Date of release of Final Retention BG</label>
 	                                    <button type="button" id="retention_money_release_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="final_retention_releaseError" class="error-msg" ></span>
+	                                    <span id="retention_money_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker" value="${contractDeatils.pbg_release }">
+	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker" value="${contractDeatils.pbg_release }" onchange="updateBtnValueChange()" readonly>
 	                                    <label for="pbg_release">Date of release of PBG</label>
 	                                    <button type="button" id="pbg_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="pbg_releaseError" class="error-msg" ></span>
@@ -1919,13 +1970,15 @@
             <div class="card ">
                 <div class="card-content">
                 <div class="container container-no-margin"> 
+                
            		 	<div class="row">
-                       <div class="col s6 m4 mt-brdr offset-m2 center-align">
-                           <div class=" m-1">
-                               <button type="button" onclick="updateContract();" class="btn waves-effect waves-light bg-m">Update</button>
+                       <div class="col s12 m6 mt-brdr offset-m2 center-align">
+                           <div class=" m-1 d-flex"> <button type="button" onclick="prevTab()" id="prevBtn"><i class="fa fa-angle-left"></i></button>
+                               <button type="button" onclick="updateContract();" id="updateBtn" class="btn waves-effect waves-light bg-m">Update</button>
+                               <button type="button" onclick="nextTab()" id="nextBtn"><i class="fa fa-angle-right"></i></button>
                            </div>
                        </div>
-                       <div class="col s6 m4 mt-brdr center-align">
+                       <div class="col s12 m2 mt-brdr center-align">
                            <div class=" m-1">
                                <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
                            </div>
@@ -1954,10 +2007,9 @@
 	</div> 
  
 
-<!--     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script> -->
-<!--     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script> -->
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+<!--     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>  -->
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
@@ -2031,6 +2083,7 @@
 				$("#contractClosureDetails").hide();
 				$('#closureTab').hide();
 			} */
+			var user_type = '${sessionScope.USER_TYPE}';
 			var actual_completion_date = '${contractDeatils.actual_completion_date}';
 			var completed_cost = '${contractDeatils.completed_cost}';
 			var final_takeover = '${contractDeatils.final_takeover}';
@@ -2045,11 +2098,26 @@
 			$('#closureTab').hide();
 			if(contract_status_fk == 'Completed' || contract_status_fk == 'Commissioned' || contract_status_fk == 'Closed'){
 				$("#contractClosureRadioBtn").show();
+				if($.trim(actual_completion_date) != '' && $.trim(completed_cost) != '' && $.trim(final_takeover) != '' && $.trim(completion_certificate_release) != '' && 
+						$.trim(contract_closure_date) != '' && $.trim(final_bill_release) != '' && $.trim(defect_liability_period) != '' && $.trim(retention_money_release) != '' && 
+						$.trim(pbg_release) != ''){
+					if(user_type=='HOD'){					
+						$('#updateBtn').html('Close Contract');
+					}else if(user_type=="DyHOD"){
+						$('#updateBtn').html('Request for Contract Closure');
+					}else{
+						$('#updateBtn').html('Update');
+					}
+				} else{
+					$('#updateBtn').html('Update');
+				}
+				
 				if($.trim(actual_completion_date) != '' || $.trim(completed_cost) != '' ||$.trim(final_takeover) != '' ||$.trim(completion_certificate_release) != '' || 
 						$.trim(contract_closure_date) != '' || $.trim(final_bill_release) != '' || $.trim(defect_liability_period) != '' || $.trim(retention_money_release) != '' || 
 						$.trim(pbg_release) != ''){
 					$("#contractClosureRadioYes").prop("checked", true);
 					$("#contractClosureDetails").show();
+					
 	 				$('#closureTab').show();
 				}else{
 					$("#contractClosureRadioNo").prop("checked", true);
@@ -2579,9 +2647,9 @@
         		 	    }else if (element.attr("id") == "defect_liability_period" ){
         		 		     document.getElementById("defect_liability_periodError").innerHTML="";
         		 			 error.appendTo('#defect_liability_periodError');
-        		 	    }else if (element.attr("id") == "final_retention_release" ){
-        		 		     document.getElementById("final_retention_releaseError").innerHTML="";
-        		 			 error.appendTo('#final_retention_releaseError');
+        		 	    }else if (element.attr("id") == "retention_money_release" ){
+        		 		     document.getElementById("retention_money_releaseError").innerHTML="";
+        		 			 error.appendTo('#retention_money_releaseError');
         		 	    }else if (element.attr("name") == "pbg_release" ){
         		 		     document.getElementById("pbg_releaseError").innerHTML="";
         		 			 error.appendTo('#pbg_releaseError');
@@ -2892,7 +2960,7 @@
 			   +'<td data-head="Actual Date " class="input-field"><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button"><i  class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Revision" class="input-field" ><input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td data-head="Remarks " class="input-field">  <input id="mile_remarks'+rNo+'" name="mile_remarks" type="text" class="validate" placeholder="Remarks"></td>'
-		 	   +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeMilestone('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+		 	 //  +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeMilestone('+rNo+');"> <i class="fa fa-close"></i></a></td>'
 			   +'</tr>';
 		
 			 $('#milestoneTableBody').append(html);
@@ -2938,7 +3006,7 @@
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Current" class="input-field   p-h-0"><p><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check hidden_doc" value="No" /><input type="checkbox" class="revision_doc_status" disabled onchange="revisionChecks(' + '\'docs\'' + ',' + rNo + ')"  id="revision_status'+rNo+'" /> <span></span> </label></p></td>'
 			   +'<td data-head="Remarks" class="input-field"> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
-		 	   +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+		 	//   +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td>'
 			   +'</tr>';
 		
 			 $('#revTableBody').append(html);
@@ -3209,6 +3277,66 @@
        			$("#contract_status").select2();
        		}
        		$(".page-loader").hide();
+		}
+		
+		/* 	tabs previous and next btn code starts here  */
+		function prevTab(){
+			var current=$('.tabs .tab a.active');
+			if($(current).attr('href')!='#basicDetails'){
+				$('#nextBtn').attr('disabled',false);
+				$(current).removeClass('active');
+				$(current).parent().prev().find('a').addClass('active');
+				$('.tabs').tabs();	
+			}else{$('#prevBtn').attr('disabled',true);}
+					
+		}
+		function nextTab(){			
+			var current=$('.tabs .tab a.active');
+			var nextElement=$(current).parent().next().find('a');
+			if ($(nextElement).css('display')!='none'){
+				if($(current).attr('href') !='#closureDetails'){
+					$('#prevBtn').attr('disabled',false);
+					$(current).removeClass('active');
+					nextElement.addClass('active');
+					$('.tabs').tabs();					
+				}else { $('#nextBtn').attr('disabled',true);}					
+			} else{ $('#nextBtn').attr('disabled',true);}
+			
+		}
+		
+		$('.tabs .tab a').click(function(){ 
+			$('#nextBtn').attr('disabled',false);
+			$('#prevBtn').attr('disabled',false);
+		});
+		
+		
+	/* 	tabs previous and next btn code ends here  */
+	
+		function updateBtnValueChange(){
+			var user_type = '${sessionScope.USER_TYPE}';
+			var actual_completion_date = $('#actual_completion_date').val();
+			var completed_cost = $('#completed_cost').val();
+			var final_takeover = $('#final_takeover').val();
+			var completion_certificate_release = $('#completion_certificate_release').val();
+			var contract_closure_date = $('#contract_closure_date').val();
+			var final_bill_release = $('#final_bill_release').val();
+			var defect_liability_period = $('#defect_liability_period').val();
+			var retention_money_release = $('#retention_money_release').val();
+			var pbg_release = $('#pbg_release').val();
+			
+			if($.trim(actual_completion_date) != '' && $.trim(completed_cost) != '' && $.trim(final_takeover) != '' && $.trim(completion_certificate_release) != '' && 
+					$.trim(contract_closure_date) != '' && $.trim(final_bill_release) != '' && $.trim(defect_liability_period) != '' && $.trim(retention_money_release) != '' && 
+					$.trim(pbg_release) != ''){
+				if(user_type=='HOD'){					
+					$('#updateBtn').html('Close Contract');
+				}else if(user_type=="DyHOD"){
+					$('#updateBtn').html('Request for Contract Closure');
+				}else{
+					$('#updateBtn').html('Update');
+				}
+			} else{
+				$('#updateBtn').html('Update');
+			}
 		}
 	  </script>
 

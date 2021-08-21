@@ -349,10 +349,10 @@ label {
                                class="btn waves-effect waves-light bg-s modal-close">Cancel</button>
                   
                            <button type="button" onclick="getContractForm('Bank Guarantee');" style="width: auto; display:none;" id="btnBG"
-                               class="btn waves-effect waves-light bg-m">Update BG</button>
+                               class="btn waves-effect waves-light bg-m">UPDATE BG DETAILS</button>
                  
                            <button  type="button" onclick="getContractForm('Insurance');" style="width: auto;display:none;" id="btnInsurance"
-                               class="btn waves-effect waves-light bg-m">Update Insurance</button>
+                               class="btn waves-effect waves-light bg-m">UPDATE INSURANCE DETAILS</button>
                </div> 
            </form>
        </div>

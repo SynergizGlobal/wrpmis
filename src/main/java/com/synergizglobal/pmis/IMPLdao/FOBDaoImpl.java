@@ -346,7 +346,7 @@ public class FOBDaoImpl implements FOBDao {
 						}
 						String messageType = "FOB";
 						String redirect_url = "/get-fob?fob_id="+obj.getFob_id();
-						String message = "New FOB "+obj.getFob_name() + " & "+ obj.getFob_id() +" is adeed under contract(s) "+obj.getContract_name()+" on PMIS ";
+						String message = "New FOB "+obj.getFob_name() + " & "+ obj.getFob_id() +" is added under contract(s) "+obj.getContract_name()+" on PMIS ";
 						 
 						Messages msgObj = new Messages();
 						msgObj.setUser_ids(userIds);
@@ -621,6 +621,9 @@ public class FOBDaoImpl implements FOBDao {
 					}	
 				}
 				
+				String qryFOBResponsiblePeople = "select responsible_people_id_fk from fob_responsible_people where fob_id_fk = ? " ;					
+				List<String> existedResponsiblePeoples = jdbcTemplate.queryForList(qryFOBResponsiblePeople, new Object[] {obj.getFob_id() },String.class);
+				
 				String deleteResponsiblePeopleQry = "DELETE from fob_responsible_people where fob_id_fk = :fob_id";		 
 				paramSource = new BeanPropertySqlParameterSource(obj);		 
 				count = namedParamJdbcTemplate.update(deleteResponsiblePeopleQry, paramSource);
@@ -668,6 +671,35 @@ public class FOBDaoImpl implements FOBDao {
 						msgObj.setMessage(message);
 						messagesDao.addMessages(msgObj,namedParamJdbcTemplate);
 					}
+					
+					String userIds[] = new String[0];
+					if(obj.getResponsible_people_id_fk().contains(",")) {
+						userIds = obj.getResponsible_people_id_fk().split(",");
+					}else {
+						userIds = new String[]{obj.getResponsible_people_id_fk()};
+					}					
+					for (int i = 0; i < userIds.length; i++) {
+						boolean tempFlag = true;		
+						String responsible_person = userIds[i];
+						if (!StringUtils.isEmpty(existedResponsiblePeoples) && existedResponsiblePeoples.size() > 0) {	
+							if(existedResponsiblePeoples.contains(responsible_person)) {
+								tempFlag = false;
+							}
+						}
+						if(tempFlag) {
+							String newUserIds[] = new String[]{userIds[i]};
+							String messageType = "FOB";
+							String redirect_url = "/get-fob?fob_id="+obj.getFob_id();
+							String message = "New FOB "+obj.getFob_name() + " & "+ obj.getFob_id() +" is adeed under contract(s) "+obj.getContract_name()+" on PMIS ";
+							 
+							Messages msgObj = new Messages();
+							msgObj.setUser_ids(newUserIds);
+							msgObj.setMessage_type(messageType);
+							msgObj.setRedirect_url(redirect_url);
+							msgObj.setMessage(message);
+							messagesDao.addMessages(msgObj,namedParamJdbcTemplate);
+						}
+					}					
 				}
 				/********************************************************************************/
 				

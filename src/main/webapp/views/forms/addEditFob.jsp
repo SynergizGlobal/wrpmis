@@ -1243,6 +1243,11 @@
   			}if(estimated_cost == ""){
   				$('#estimated_cost_units').val("");
   			}
+  			var contract_name = $("#contract_id_fk option:selected").map(function() {
+			    return $(this).text();
+			}).get();
+			$("#contract_name").val(contract_name);
+			
   			$("#project_id_fk").attr('disabled', false);
   			$("#work_id_fk").attr('disabled', false);
   			$("#contract_id_fk").attr('disabled', false);

@@ -636,6 +636,12 @@ public class FOBController {
 		String userId = null;String userName = null;
 		try {
 			userId = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			
+			User uObj = (User) session.getAttribute("user");
+			fob.setUser_type_fk(uObj.getUser_type_fk());
+			fob.setUser_role_code(uObj.getUser_role_code());
+			fob.setUser_id(uObj.getUser_id());
+			
 			view.setViewName("redirect:/fob");
 			dataList = fobService.getFOBList(fob); 
 			revisionList = fobService.getFOBDetails(fob);

@@ -243,7 +243,7 @@
 									<c:choose>
 								        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                 
                                  <select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk" 
-                                 			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();"> 
+                                 			multiple="multiple"> 
                                   		 <option value="">Select</option>
                                           <c:forEach var="obj" items="${contractsList}">
 									 		<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 
@@ -256,7 +256,7 @@
                                   </c:when>
                                   <c:otherwise>
                                   <select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk" 
-                                 			multiple="multiple" onchange="resetWorksAndProjectsDropdowns();" disabled >
+                                 			multiple="multiple" disabled >
                                   		 <option value="">Select</option>
                                           <c:forEach var="obj" items="${contractsList}">
 									 		<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 

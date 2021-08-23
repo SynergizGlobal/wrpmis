@@ -167,7 +167,7 @@
                                  
                                 <div class="col s12 offset-m2 m8 input-field">
                                     <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
+                                    <label for="corrective_measure">Action Taken<span class="required">*</span></label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
                                 </div>
                             </div>

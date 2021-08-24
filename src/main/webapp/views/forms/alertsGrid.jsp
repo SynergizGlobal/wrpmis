@@ -348,10 +348,10 @@ label {
                            <button type="button" style="text-align:right;width: auto;"
                                class="btn waves-effect waves-light bg-s modal-close">Cancel</button>
                   
-                           <button type="button" onclick="getContractForm('Bank Guarantee');" style="width: auto; display:none;" id="btnBG"
+                           <button type="button" onclick="getContractForm('bgDetails');" style="width: auto; display:none;" id="btnBG"
                                class="btn waves-effect waves-light bg-m">UPDATE BG DETAILS</button>
                  
-                           <button  type="button" onclick="getContractForm('Insurance');" style="width: auto;display:none;" id="btnInsurance"
+                           <button  type="button" onclick="getContractForm('insuranceDetails');" style="width: auto;display:none;" id="btnInsurance"
                                class="btn waves-effect waves-light bg-m">UPDATE INSURANCE DETAILS</button>
                </div> 
            </form>
@@ -395,7 +395,7 @@ label {
     
     <form action="<%=request.getContextPath() %>/get-contract" id="contracUpdateForm" name="contracUpdateForm" method="post" >
     	<input type="hidden" name="contract_id" id="contract_id" />
-    	<input type="hidden" name="contract_type_fk" id="contract_type_fk" />
+    	<input type="hidden" name="tab_name" id="tab_name" />
     </form>
     
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -414,8 +414,8 @@ label {
 	    var user_role_name = '${user_role_name}';
 	    var user_id = '${user_id}';
 	    
-	    function getContractForm(contract_type) {
-			$("#contract_type_fk").val(contract_type);
+	    function getContractForm(tab_name) {
+			$("#tab_name").val(tab_name);
 			$("#contracUpdateForm").submit();
 		}
     

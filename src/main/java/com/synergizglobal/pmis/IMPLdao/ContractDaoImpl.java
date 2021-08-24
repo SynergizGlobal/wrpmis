@@ -1289,6 +1289,11 @@ public class ContractDaoImpl implements ContractDao {
 		try{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
+			
+			if("Close Contract".equalsIgnoreCase(contract.getUpdate_type())) {
+				contract.setContract_status("Closed");
+				contract.setContract_status_fk("Closed");
+			}
 			String contractUpdate_Qry = "UPDATE contract SET work_id_fk = ?,contract_name = ?,contract_short_name = ?,contractor_id_fk = ?,contract_type_fk = ?,"
 								+"scope_of_contract = ?,hod_user_id_fk = ?,dy_hod_user_id_fk = ?,doc = ?,awarded_cost = ?,loa_letter_number = ?,loa_date = ?,ca_no = ?,ca_date = ?"
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 
@@ -1913,7 +1918,7 @@ public class ContractDaoImpl implements ContractDao {
 					
 					/********************************************************************************/
 					
-					if(!StringUtils.isEmpty(contract.getHod_user_id_fk()) && "Closed".equalsIgnoreCase(contract.getContract_status_fk())) {
+					if(!StringUtils.isEmpty(contract.getHod_user_id_fk()) && "Request for Contract Closure".equalsIgnoreCase(contract.getUpdate_type())) {
 						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 						
 						int arrSize = 1;
@@ -1923,12 +1928,15 @@ public class ContractDaoImpl implements ContractDao {
 						userIds[i++] = contract.getHod_user_id_fk();
 						
 						String messageType = "Contract";
-						String redirect_url = "/InfoViz/contract/contract-details/" + contract.getContract_id();
+						//String redirect_url = "/InfoViz/contract/contract-details/" + contract.getContract_id();
+						String tab_name = "closureDetails";
+						String redirect_url = "/get-contract?conract_id=" + contract.getContract_id() + "&tab_name="+tab_name;
 						String contract_name = contract.getContract_short_name();
 						if(StringUtils.isEmpty(contract_name)) {contract_name = contract.getContract_name();}
 						String work_name = contract.getWork_short_name();
 						if(StringUtils.isEmpty(work_name)) {work_name = contract.getWork_name();}
-						String message = "Contract "+contract_name+" has been closed under work "+work_name+" on PMIS ";
+						//String message = "Contract "+contract_name+" has been closed under work "+work_name+" on PMIS ";
+						String message = "Request for Contract Closure "+contract_name+" under work "+work_name+" on PMIS ";
 						 
 						Messages msgObj = new Messages();
 						msgObj.setUser_ids(userIds);

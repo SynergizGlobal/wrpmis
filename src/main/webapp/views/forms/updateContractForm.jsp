@@ -2045,15 +2045,13 @@
             $('.tabs').tabs();
             $('#remarks').characterCounter();
             //getDyHodList();
-            if('${contractTypeBGInsurance}'=='Bank Guarantee'){
+            var tab_name = '${gotoTab}';
+            if($.trim(tab_name) != ''){
             	$('.tabs a').removeClass('active');
-            	$('.tabs [href="#bgDetails"]').addClass('active');
-            	$('.tabs').tabs();
-            }else if('${contractTypeBGInsurance}'=='Insurance'){
-            	$('.tabs a').removeClass('active');
-            	$('.tabs [href="#insuranceDetails"]').addClass('active');
+            	$('.tabs [href="#'+tab_name+'"]').addClass('active');
             	$('.tabs').tabs();
             }
+            
             var contract_status_fk = '${contractDeatils.contract_status_fk}';
             getContractClosureDetails(contract_status_fk);
             setContractStatus();
@@ -2341,17 +2339,17 @@
 	  			if(completed_cost == ""){
 	  				$('#completed_cost_units').val("");
 	  			}
-	  			var bg_required = $("input[name=bg_required]:checked").val();
-	  			var insurance_required = $("input[name=insurance_required]:checked").val();
+	  			//var bg_required = $("input[name=bg_required]:checked").val();
+	  			//var insurance_required = $("input[name=insurance_required]:checked").val();
 	  			var contract_status_fk = $("#contract_status_fk").val();
 	  			
-	  			if(bg_required != 'Yes'){
+	  			/* if(bg_required != 'Yes'){
 	        		$("#bank_guarantee_div").remove();
 	        	}
 	  			if(insurance_required != 'Yes'){
 	        		$("#insurance_div").remove();
-	        	}
-	        	if(contract_status_fk != 'Completed' && contract_status_fk != 'Closed'){
+	        	} */
+	        	if(contract_status_fk != 'Completed' && contract_status_fk != 'Commissioned' && contract_status_fk != 'Closed'){
 	        		$("#contractClosureDetails").remove(); 
 	        	} 
 	        	$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		

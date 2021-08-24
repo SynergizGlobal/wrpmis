@@ -653,7 +653,7 @@ public class ContractController {
 			List<Contract> contract_Statustype = contractService.getContractStatusType(obj);
 			model.addObject("contract_Statustype", contract_Statustype);
 			
-			model.addObject("contractTypeBGInsurance", obj.getContract_type_fk());
+			model.addObject("gotoTab", obj.getTab_name());
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -700,9 +700,6 @@ public class ContractController {
 			List<Insurence> InsurenceType = contractService.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
 			
-			List<Contract> contract_Statustype = contractService.getContractStatusType(obj);
-			model.addObject("contract_Statustype", contract_Statustype);
-			
 			List<Contract> contract_Status = contractService.getContractStatus();
 			model.addObject("contract_Status", contract_Status);
 			
@@ -712,6 +709,13 @@ public class ContractController {
 			obj.setContract_id(contract_id);
 			Contract contractDeatils = contractService.getContract(obj);
 			model.addObject("contractDeatils", contractDeatils);
+			
+			obj.setContract_status(contractDeatils.getStatus());
+			List<Contract> contract_Statustype = contractService.getContractStatusType(obj);
+			model.addObject("contract_Statustype", contract_Statustype);
+			
+			model.addObject("gotoTab", obj.getTab_name());
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Contract : " + e.getMessage());

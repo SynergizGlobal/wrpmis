@@ -926,7 +926,7 @@
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div> --%>
-	                          <div class=" " id="bgDetails">
+	                          <div class=" " id="bgDetails" tabindex='0'>
 	                           
 							
                             <!-- bg show hide div  -->
@@ -1155,7 +1155,7 @@
                                 </div>
                             </div>
 						</div>
-						<div class=" " id="insuranceDetails">
+						<div class=" " id="insuranceDetails" tabindex='0'>
 	                           
                             <!-- insurance show hide div  -->
                             <div class="row fixed-width " >
@@ -2146,17 +2146,24 @@
         	$('select:not(.searchable):not(.units)').formSelect();
             $('.searchable').select2();
             $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
-           // $('.tabs').tabs();
+
+			$(document).on("scroll", onScroll);
             
+            //smoothscroll
+                     
             $('#remarks').characterCounter();
             
-            var tab_name = '${gotoTab}';
+            var tab_name = '${gotoTab}';            
             if($.trim(tab_name) != ''){
             	 $('#menu-center a.t-c').each(function () {
                      $(this).removeClass('active');
                      this.blur();
-                 })
-                 $("a.t-c[href=#"+tab_name+"]").addClass('active');
+                 });            	           	 
+                 $("a[href='#"+tab_name+"']").addClass('active');
+                 var scrollPos =  $('#'+tab_name).offset().top;
+                 $(window).scrollTop(scrollPos);
+                // $("a[href='#"+tab_name+"']").click();               
+                
             }
             
             var contract_status_fk = '${contractDeatils.contract_status_fk}';
@@ -2184,29 +2191,24 @@
                        
         });
         
-        $(document).ready(function () {
-            $(document).on("scroll", onScroll);
+        $('#menu-center a.t-c').on('click', function (e) {
+            e.preventDefault();
+           // $(document).off("scroll");
             
-            //smoothscroll
-            $('#menu-center a.t-c').on('click', function (e) {
-                e.preventDefault();
-               // $(document).off("scroll");
-                
-                $('#menu-center a.t-c').each(function () {
-                    $(this).removeClass('active');
-                    this.blur();
-                })
-                $(this).addClass('active');
-              
-                var target = this.hash,
-                    menu = target;
-                $target = $(target);
-                $('html, body').stop().animate({
-                    'scrollTop': $target.offset().top-200
-                }, 500);
-            });
+            $('#menu-center a.t-c').each(function () {
+                $(this).removeClass('active');
+                this.blur();
+            })
+            $(this).addClass('active');
+          
+            var target = this.hash,
+                menu = target;
+            $target = $(target);
+            $('html, body').stop().animate({
+                'scrollTop': $target.offset().top-200
+            }, 500);
         });
-
+        	
         function onScroll(event){
             var scrollPos = $(document).scrollTop()+200;
             $('#menu-center a.t-c').each(function () {

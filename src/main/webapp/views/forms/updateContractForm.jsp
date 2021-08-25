@@ -680,7 +680,7 @@
 											                  <tr id="departmentRow${index.count }">
 											                        <td data-head="Department" class="input-field">
 											                             <select class="searchable validate-dropdown" name="department_fks" id="department_fks${index.count }"
-											                                id="department_fk${index.count }" onchange="getExecutivesList('${index.count }');">
+											                                onchange="getExecutivesList('${index.count }');">
 											                                	<option value="" >Select</option>  
 																		          <c:forEach var="obj" items="${departmentList }">
 										                                      	    <option value= "${ obj.department_fk}" <c:if test="${departmentObj.department_id_fk eq obj.department_fk}">selected</c:if>>${ obj.department_name}</option>
@@ -1956,9 +1956,9 @@
 		                <div class="container container-no-margin">                 
 		           		 	<div class="row">
 		                       <div class="col s12 m6 mt-brdr offset-m2 center-align">
-		                           <div class=" m-1 d-flex"> <button type="button" onclick="prevTab()" id="prevBtn"><i class="fa fa-angle-left"></i></button>
+		                           <div class=" m-1 d-flex"> <!-- <button type="button" onclick="prevTab()" id="prevBtn"><i class="fa fa-angle-left"></i></button> -->
 		                               <button type="button" onclick="updateContract();" id="updateBtn" class="btn waves-effect waves-light bg-m">Update</button>
-		                               <button type="button" onclick="nextTab()" id="nextBtn"><i class="fa fa-angle-right"></i></button>
+		                               <!-- <button type="button" onclick="nextTab()" id="nextBtn"><i class="fa fa-angle-right"></i></button> -->
 		                           </div>
 		                       </div>
 		                       <div class="col s12 m2 mt-brdr center-align">
@@ -3348,24 +3348,6 @@
 			}
 		}
 		
-		var tabNamesMap = new Object();
-		
-		function addContractDetailsTabName(existingValue,fieldId,contractDetailsTabName){
-			var newValue = $("#"+fieldId).val();
-			//console.log(existingValue + " == " + newValue + " ==> " + contractDetailsTabName);
-			if($.trim(existingValue) != newValue){
-				Object.keys(tabNamesMap).forEach(function (key) {
-		   			if(key.match(contractDetailsTabName)) delete tabNamesMap[key];
-		   		});
-		    	if($.trim(contractDetailsTabName) != ''){
-		    		tabNamesMap[contractDetailsTabName] = contractDetailsTabName;
-		    	}
-			}else{
-				Object.keys(tabNamesMap).forEach(function (key) {
-		   			if(key.match(contractDetailsTabName)) delete tabNamesMap[key];
-		   		});
-			}
-		}
 		
 	  </script>
 

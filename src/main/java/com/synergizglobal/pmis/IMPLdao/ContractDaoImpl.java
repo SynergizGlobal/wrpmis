@@ -1296,8 +1296,14 @@ public class ContractDaoImpl implements ContractDao {
 		boolean flag = false;
 		try{
 			
-			//Contract existingContractData = getContract(contract);			
-			//String result = compareTwoContractObjects(existingContractData,contract);
+			/*Contract existingContractData = getContract(contract);			
+			
+			List<String> changedProperties = new ArrayList<>();
+			
+			difference(existingContractData, contract, changedProperties, null);
+			System.out.println("changedProperties = " + changedProperties);
+			
+			String result = compareTwoContractObjects(existingContractData,contract);*/
 			
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
@@ -2025,16 +2031,16 @@ public class ContractDaoImpl implements ContractDao {
 	
 	}
  
-	private String compareTwoContractObjects(Contract existingContractData, Contract contract) throws Exception {
-		String result = "";
+	private List<String> compareTwoContractObjects(Contract s1, Contract s2) throws Exception {
+		List<String> changedFields = new ArrayList<String>();
 		try {
-			if(!StringUtils.isEmpty("")) {
-				
+			if (!StringUtils.isEmpty(s1.getProject_id_fk()) && !StringUtils.isEmpty(s1.getProject_id_fk()) && !s1.getProject_id_fk().equalsIgnoreCase(s2.getProject_id_fk())) {
+				changedFields.add("basicDetails");
 			}
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
-		return result;
+		return changedFields;
 	}
 
 	@Override

@@ -943,4 +943,20 @@ public class RiskDaoImpl implements RiskDao{
 		return area;
 	}
 
+	@Override
+	public Risk getLastUpdatedRiskAssessmentFile(Risk obj) throws Exception {
+		List<Risk> objsList = null;
+		Risk rObj = new Risk();
+		try {
+			String qry = "SELECT attachment from risk_upload where sub_work = ? order by uploaded_on desc limit 1";
+		    objsList = jdbcTemplate.query( qry,new Object[]{obj.getSub_work()}, new BeanPropertyRowMapper<Risk>(Risk.class));
+		    for (Risk risk : objsList) {
+		    	rObj = risk;
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return rObj;
+	}
+
 }

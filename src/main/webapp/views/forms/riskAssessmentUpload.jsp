@@ -140,27 +140,10 @@
 							<div class="row">
 								<div class="col m1 hide-on-small-only"></div>
 								<div class="col m10">
+								
 									<div class="row">
 										<div class="col m2 s12 mob-center input-field b-text">
-											<p class="mt-1">Step 1 :</p>
-										</div>
-										<div class="col m10 s12 mob-center input-field">
-											<a class="btn waves-effect waves-light bg-s t-c"
-												href="/pmis/Risk_Template.xlsx" download style="width: 100%">Click
-												here for the Risk Assessment Form</a>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col m2 s12 mob-center input-field b-text">
-											<p class="">Step 2 :</p>
-										</div>
-										<div class="col m10 s12 mob-center input-field">
-											<p class="b-text">Assess risk offline on the downloaded form</p>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col m2 s12 mob-center input-field b-text">
-											<p class="mt-2">Step 3 :</p>
+											<p class="mt-2">Step 1 :</p>
 										</div>
 										<div class="col m5 s6 mob-center input-field">
 											<p class="mt-2 b-text">Select the Work</p>
@@ -195,6 +178,30 @@
 											</div>
 										</c:if>
 									</div>
+									
+									<div class="row">
+										<div class="col m2 s12 mob-center input-field b-text">
+											<p class="mt-1">Step 2 :</p>
+										</div>
+										<div class="col m5 s12 mob-center input-field">
+											<a id="lastRiskAssessmentForm" href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c" download style="width: 100%">Click
+												here for last Risk Assessment Form</a>
+										</div>
+										<div class="col m5 s12 mob-center input-field">											
+											<a class="btn waves-effect waves-light bg-s t-c"
+												href="/pmis/Risk_Template.xlsx" download style="width: 100%">Click
+												here for blank Risk Assessment Form</a>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col m2 s12 mob-center input-field b-text">
+											<p class="">Step 3 :</p>
+										</div>
+										<div class="col m10 s12 mob-center input-field">
+											<p class="b-text">Assess risk offline on the downloaded form</p>
+										</div>
+									</div>
+									
 									<div class="row">
 										<div class="col m2 s12 mob-center input-field b-text">
 											<p class="mt-2">Step 4 :</p>
@@ -408,12 +415,16 @@
 	         // $('.tabs').tabs();
 	          
 	          $("#sub_work").change(function () {
-	              if ($("#sub_work").val() == '') {
+	        	  var sub_work = $("#sub_work").val();
+	              if (sub_work == '') {
 	                  $("#uploadRiskBtn").addClass('disabled');
+	                  $("#lastRiskAssessmentForm").attr("href", 'javascript:void(0);');
 	              } else {
 	                  $("#uploadRiskBtn").removeClass('disabled');
+	                  getLastUpdatedRiskAssessmentFile(sub_work);
 	              }
 	          });
+	          
 	          $("input[name='riskAssessmentFile']").change(function () {
 	              if ($("input[name='riskAssessmentFile']").val() == '') {
 	                  $("#uploadRisk").addClass('disabled');
@@ -429,6 +440,27 @@
 	          getSubWorksFilterList();
 	          getRiskUploadsList('');
 	      });
+	      
+	      function getLastUpdatedRiskAssessmentFile(sub_work){
+	    	  	$(".page-loader").show();
+	           	var myParams = {sub_work : sub_work};
+	           	$.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getLastUpdatedRiskAssessmentFile",
+                   data: myParams, cache: false,
+                   success: function (data) {	         
+                	  if($.trim(data.attachment) != ''){
+                		  var filePath = "<%=CommonConstants2.RISK_ASSESSMENT_UPLOADED_FILES%>"+ data.attachment;
+                		  $("#lastRiskAssessmentForm").attr("href", filePath);
+                	  }else{
+                		  $("#lastRiskAssessmentForm").attr("href", 'javascript:void(0);');
+                	  }
+                      $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+               });
+	      }
 	      
 	      $("#uploadRisk").on("click",function(){
 	    	  var flag = $("#riskUploadForm").valid();
@@ -519,7 +551,7 @@
                         var filePath = "";
                         
                         if($.trim(val.attachment) != ''){
-                        	filePath = '<a href="<%=CommonConstants2.RISK_ASSESSMENT_UPLOADED_FILES%>'+ val.attachment +'">'+val.attachment + '</a>';
+                        	filePath = '<a href="<%=CommonConstants2.RISK_ASSESSMENT_UPLOADED_FILES%>'+ val.attachment +'" download>'+val.attachment + '</a>';
                         }
                         var rowArray = []; 
                         

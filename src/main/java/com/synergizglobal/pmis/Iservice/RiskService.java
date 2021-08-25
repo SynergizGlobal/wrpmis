@@ -35,6 +35,8 @@ public interface RiskService {
 
 	public List<Risk> getSubWorkHodFilterListInRiskAssessmnt(Risk obj) throws Exception;
 	
+	public Risk getLastUpdatedRiskAssessmentFile(Risk obj) throws Exception;
+	
 	
 
 }

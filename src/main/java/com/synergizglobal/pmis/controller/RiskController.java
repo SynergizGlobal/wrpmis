@@ -698,5 +698,17 @@ public class RiskController {
 		return riskList;
 	}
 	
+	@RequestMapping(value = "/ajax/getLastUpdatedRiskAssessmentFile", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Risk getLastUpdatedRiskAssessmentFile(@ModelAttribute Risk obj) {
+		Risk risk = null;
+		try {
+			risk = riskService.getLastUpdatedRiskAssessmentFile(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getLastUpdatedRiskAssessmentFile : " + e.getMessage());
+		}
+		return risk;
+	}
 	
 }

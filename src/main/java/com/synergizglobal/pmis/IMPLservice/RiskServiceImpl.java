@@ -83,5 +83,9 @@ public class RiskServiceImpl implements RiskService{
 	public List<Risk> getSubWorkHodFilterListInRiskAssessmnt(Risk obj) throws Exception {
 		return dao.getSubWorkHodFilterListInRiskAssessmnt(obj);
 	}
+	@Override
+	public Risk getLastUpdatedRiskAssessmentFile(Risk obj) throws Exception {
+		return dao.getLastUpdatedRiskAssessmentFile(obj);
+	}
 	
 }

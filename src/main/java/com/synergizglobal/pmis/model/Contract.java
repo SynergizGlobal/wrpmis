@@ -15,7 +15,7 @@ public class Contract {
 	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till,
 	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code,contract_file_type_fk,contract_file_type,contract_file_id,
 	responsible_people_id_fk,hod_name,contract_status,dy_hod_name,PhysicalProgress,revision_amounts_status, unit, value,ContractAlertRemarks,revised_amount_units,bg_value_units,completed_cost_units,insurance_value_units,
-	awarded_cost_units,estimated_cost_units,hod_department,message_id,update_type,tab_name;
+	awarded_cost_units,estimated_cost_units,hod_department,message_id,update_type,tab_name,contract_details_types;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk;
 
@@ -1728,6 +1728,14 @@ public class Contract {
 
 	public void setTab_name(String tab_name) {
 		this.tab_name = tab_name;
+	}
+
+	public String getContract_details_types() {
+		return contract_details_types;
+	}
+
+	public void setContract_details_types(String contract_details_types) {
+		this.contract_details_types = contract_details_types;
 	}
 	
 }

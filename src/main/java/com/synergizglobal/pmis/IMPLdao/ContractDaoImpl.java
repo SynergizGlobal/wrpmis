@@ -913,7 +913,7 @@ public class ContractDaoImpl implements ContractDao {
 			stmt = con.prepareStatement(contract_updateQry);
 			stmt.setString(1, obj.getContract_id());
 			resultSet = stmt.executeQuery();
-			while(resultSet.next()) {
+			if(resultSet.next()) {
 				contract = new Contract();
 				contract.setWork_name(resultSet.getString("work_name"));
 				contract.setWork_id_fk(resultSet.getString("work_id_fk"));
@@ -978,6 +978,14 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setResponsiblePeopleList(getResponsiblePeopleList(contract.getContract_id(),con));
 				contract.setDepartmentList(getDepartmentList(contract.getContract_id(),con));
 				
+			}
+			
+			if (!StringUtils.isEmpty(obj.getMessage_id())) {
+				NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+				String msgUpdateqry = "UPDATE messages SET read_time=CURRENT_TIMESTAMP where message_id = :message_id";
+
+				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+				template.update(msgUpdateqry, paramSource);
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -1287,6 +1295,11 @@ public class ContractDaoImpl implements ContractDao {
 		int count = 0;
 		boolean flag = false;
 		try{
+			
+			Contract existingContractData = getContract(contract);
+			
+			//String result = compareTwoContractObjects(existingContractData,contract);
+			
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			
@@ -1930,13 +1943,66 @@ public class ContractDaoImpl implements ContractDao {
 						String messageType = "Contract";
 						//String redirect_url = "/InfoViz/contract/contract-details/" + contract.getContract_id();
 						String tab_name = "closureDetails";
-						String redirect_url = "/get-contract?conract_id=" + contract.getContract_id() + "&tab_name="+tab_name;
+						String redirect_url = "/get-contract?contract_id=" + contract.getContract_id() + "&tab_name="+tab_name;
 						String contract_name = contract.getContract_short_name();
 						if(StringUtils.isEmpty(contract_name)) {contract_name = contract.getContract_name();}
 						String work_name = contract.getWork_short_name();
 						if(StringUtils.isEmpty(work_name)) {work_name = contract.getWork_name();}
 						//String message = "Contract "+contract_name+" has been closed under work "+work_name+" on PMIS ";
-						String message = "Request for Contract Closure "+contract_name+" under work "+work_name+" on PMIS ";
+						String message = "Request for Contract ("+contract_name+") Closure  under work "+work_name+" on PMIS ";
+						 
+						Messages msgObj = new Messages();
+						msgObj.setUser_ids(userIds);
+						msgObj.setMessage_type(messageType);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage(message);
+						messagesDao.addMessages(msgObj,template);
+					}
+					
+					
+					if(!StringUtils.isEmpty(contract.getDy_hod_user_id_fk()) && "Update".equalsIgnoreCase(contract.getUpdate_type())) {
+						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+						
+						int arrSize = 2;					
+						List<Contract> departments = getDepartmentList(contract.getContract_id(), con);
+						for (Contract dept : departments) {
+							int size = dept.getExecutivesList().size();
+							arrSize = arrSize + size;
+						}
+						
+						int i = 0;
+						String userIds[]  = new String[arrSize];
+						//userIds[i++] = contract.getHod_user_id_fk();
+						userIds[i++] = contract.getDy_hod_user_id_fk();
+						for (Contract dept : departments) {
+							for (Contract exec : dept.getExecutivesList()) {
+								userIds[i++] = exec.getExecutive_user_id_fk();
+							}
+						}
+						
+						for(int k=0; k<userIds.length-1; k++) {
+					         for (int j=k+1; j<userIds.length; j++) {
+					            if(userIds[k] == userIds[j]) {
+					            	userIds = ArrayUtils.remove(userIds, j);
+					            }
+					         }
+					    }
+						String tab_name = "";
+						if(contract.getContract_details_types().contains(",")) {
+							String[] temp = contract.getContract_details_types().split(",");
+							tab_name = temp[0];
+						}else {
+							tab_name = contract.getContract_details_types();
+						}
+						String messageType = "Contract";
+						//String redirect_url = "/InfoViz/contract/contract-details/" + contract.getContract_id();
+						String redirect_url = "/get-contract?contract_id=" + contract.getContract_id() + "&tab_name="+tab_name;
+						String contract_name = contract.getContract_short_name();
+						if(StringUtils.isEmpty(contract_name)) {contract_name = contract.getContract_name();}
+						String work_name = contract.getWork_short_name();
+						if(StringUtils.isEmpty(work_name)) {work_name = contract.getWork_name();}
+						//String message = "Contract "+contract_name+" has been closed under work "+work_name+" on PMIS ";
+						String message = "Contract "+contract_name+" has been updated under work "+work_name+" on PMIS ";
 						 
 						Messages msgObj = new Messages();
 						msgObj.setUser_ids(userIds);
@@ -1960,6 +2026,18 @@ public class ContractDaoImpl implements ContractDao {
 	
 	}
  
+	private String compareTwoContractObjects(Contract existingContractData, Contract contract) throws Exception {
+		String result = "";
+		try {
+			if(!StringUtils.isEmpty("")) {
+				
+			}
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return result;
+	}
+
 	@Override
 	public List<Contract> getContractorsList() throws Exception {
 		List<Contract> objsList = null;

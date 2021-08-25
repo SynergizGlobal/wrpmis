@@ -2152,10 +2152,11 @@
             
             var tab_name = '${gotoTab}';
             if($.trim(tab_name) != ''){
-            	$('.tabs a').removeClass('active');
-            	$('.tabs [href="#'+tab_name+'"]').addClass('active');
-            	//$('.tabs').tabs();
-            	$('.scrollSpy').scrollSpy({scrollOffset:200});
+            	 $('#menu-center a.t-c').each(function () {
+                     $(this).removeClass('active');
+                     this.blur();
+                 })
+                 $("a.t-c[href=#"+tab_name+"]").addClass('active');
             }
             
             var contract_status_fk = '${contractDeatils.contract_status_fk}';

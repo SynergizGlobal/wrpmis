@@ -1947,14 +1947,14 @@ public class ContractDaoImpl implements ContractDao {
 						
 						String messageType = "Contract";
 						//String redirect_url = "/InfoViz/contract/contract-details/" + contract.getContract_id();
-						String tab_name = "closureDetails";
+						String tab_name = "contractClosureDetails";
 						String redirect_url = "/get-contract?contract_id=" + contract.getContract_id() + "&tab_name="+tab_name;
 						String contract_name = contract.getContract_short_name();
 						if(StringUtils.isEmpty(contract_name)) {contract_name = contract.getContract_name();}
 						String work_name = contract.getWork_short_name();
 						if(StringUtils.isEmpty(work_name)) {work_name = contract.getWork_name();}
 						//String message = "Contract "+contract_name+" has been closed under work "+work_name+" on PMIS ";
-						String message = "Request for Contract ("+contract_name+") Closure  under work "+work_name+" on PMIS ";
+						String message = "Request for Contract Closure for "+contract_name+" under work "+work_name+" on PMIS ";
 						 
 						Messages msgObj = new Messages();
 						msgObj.setUser_ids(userIds);
@@ -2007,7 +2007,7 @@ public class ContractDaoImpl implements ContractDao {
 						String work_name = contract.getWork_short_name();
 						if(StringUtils.isEmpty(work_name)) {work_name = contract.getWork_name();}
 						//String message = "Contract "+contract_name+" has been closed under work "+work_name+" on PMIS ";
-						String message = "Contract "+contract_name+" has been updated under work "+work_name+" on PMIS ";
+						String message = "Contract "+contract_name+" has been updated under work "+work_name+" on PMIS";
 						 
 						Messages msgObj = new Messages();
 						msgObj.setUser_ids(userIds);

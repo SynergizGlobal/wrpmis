@@ -1296,8 +1296,7 @@ public class ContractDaoImpl implements ContractDao {
 		boolean flag = false;
 		try{
 			
-			Contract existingContractData = getContract(contract);
-			
+			//Contract existingContractData = getContract(contract);			
 			//String result = compareTwoContractObjects(existingContractData,contract);
 			
 			con = dataSource.getConnection();
@@ -1987,16 +1986,16 @@ public class ContractDaoImpl implements ContractDao {
 					            }
 					         }
 					    }
-						String tab_name = "";
+						/*String tab_name = "";
 						if(contract.getContract_details_types().contains(",")) {
 							String[] temp = contract.getContract_details_types().split(",");
 							tab_name = temp[0];
 						}else {
 							tab_name = contract.getContract_details_types();
-						}
+						}*/
 						String messageType = "Contract";
 						//String redirect_url = "/InfoViz/contract/contract-details/" + contract.getContract_id();
-						String redirect_url = "/get-contract?contract_id=" + contract.getContract_id() + "&tab_name="+tab_name;
+						String redirect_url = "/get-contract?contract_id=" + contract.getContract_id();
 						String contract_name = contract.getContract_short_name();
 						if(StringUtils.isEmpty(contract_name)) {contract_name = contract.getContract_name();}
 						String work_name = contract.getWork_short_name();

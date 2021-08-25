@@ -1861,8 +1861,8 @@ public class ContractDaoImpl implements ContractDao {
 					for (int i = 0; i < arraySize; i++) {
 						String docFileName = null;
 						MultipartFile multipartFile = contract.getContractDocumentFiles()[i];
-						if ((null != multipartFile && !multipartFile.isEmpty())
-								|| !StringUtils.isEmpty(contract.getContractDocumentFileNames()[i])) {
+						if ((null != multipartFile && !multipartFile.isEmpty() && multipartFile.getSize() > 0)
+								|| (!StringUtils.isEmpty(contract.getContractDocumentFileNames()[i]) && !StringUtils.isEmpty(contract.getContractDocumentFileNames()[i].trim()) )) {
 							String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
 							String fileName = contract.getContractDocumentFileNames()[i];
 							DateFormat df = new SimpleDateFormat("ddMMYY-HHmm-ssSSSSSSS"); 

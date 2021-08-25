@@ -1603,7 +1603,7 @@
 	                                        </table>
 	                                        
 	                                        <table class="mdl-data-table">
-		                                        <tbody id="revTableBody">                                          
+		                                        <tbody>                                          
 		                                            <tr>
 														<td colspan="3" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addContractDocumentRow()"> <i
 		                                                            class="fa fa-plus"></i></a></td>
@@ -1767,7 +1767,7 @@
                                              <c:otherwise>
                                              <tr id="revRow0">
                                                 <td data-head="Revision Number " class="input-field"> <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
-                                                        placeholder="Revision Number" value="R-1">
+                                                        placeholder="Revision Number" value="R1">
                                                 </td>
                                                 <td data-head="Revised Amount " class="input-field  ">
                                                 		<i class="material-icons prefix cost left-align">₹</i>
@@ -1937,7 +1937,7 @@
 	                                        </table>
 	                                        
 	                                        <table class="mdl-data-table">
-		                                        <tbody id="revTableBody">                                          
+		                                        <tbody>                                          
 		                                            <tr>
 														<td colspan="4" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addKeyPersonnelRow()"> <i
 		                                                            class="fa fa-plus"></i></a></td>
@@ -3124,8 +3124,16 @@
 		    var rowNo = $("#mileRowNo").val();
 		    var rNo = Number(rowNo)+1;
 		    var total = 0;
+		    
+		    var mId = Number(rowNo);
+		    if(mId == 0){
+		    	mId = Number(rowNo) + 2;
+		    }else{
+		    	mId = Number(rowNo) + 1;
+		    }
+		    
 		    var html = '<tr id="mileRow'+rNo+'">'
-		 	   +'<td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids'+rNo+'" /><input id="milestone_ids'+rNo+'" name="milestone_ids" type="text" class="validate" placeholder="Milestone ID" value="K-'+(rNo+1)+'"></td>'
+		 	   +'<td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids'+rNo+'" /><input id="milestone_ids'+rNo+'" name="milestone_ids" type="text" class="validate" placeholder="Milestone ID" value="K-'+(mId)+'"></td>'
 			   +'<td data-head="Milestone Name " class="input-field"><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
 			   +'<td data-head="Milestone Date " class="input-field"><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Actual Date " class="input-field"><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button"><i  class="fa fa-calendar"></i></button></td>'
@@ -3162,8 +3170,15 @@
 		    var rowNo = $("#revRowNo").val();
 		    var rNo = Number(rowNo)+1;
 		    var total = 0;
+		    
+		    var rId = Number(rowNo);
+		    if(rId == 0){
+		    	rId = Number(rowNo) + 2;
+		    }else{
+		    	rId = Number(rowNo) + 1;
+		    }
 		    var html = '<tr id="revRow'+rNo+'">'
-			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"  value="R-'+(rNo+1)+'" /></td>'
+			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"  value="R'+(rId)+'" /></td>'
 			   +'<td data-head="Revised Amount " class="input-field  "> <i class="material-icons prefix cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
 			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" onkeyup="toggleRevision(' + '\'amounts\'' + ',' + rNo + ')"  placeholder="Revised Amount"> </td><td class="responsive_units  "> <select class="units validate-dropdown " id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
 			   +'<option value="">Select</option>'

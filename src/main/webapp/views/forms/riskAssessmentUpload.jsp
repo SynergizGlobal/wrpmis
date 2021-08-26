@@ -184,12 +184,12 @@
 											<p class="mt-1">Step 2 :</p>
 										</div>
 										<div class="col m5 s12 mob-center input-field">
-											<a id="lastRiskAssessmentForm" href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c" download style="width: 100%">Click
+											<a id="lastRiskAssessmentForm" href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c" download style="width: 100%;letter-spacing: 0px;text-transform: unset;">Click
 												here for last Risk Assessment Form</a>
 										</div>
 										<div class="col m5 s12 mob-center input-field">											
 											<a class="btn waves-effect waves-light bg-s t-c"
-												href="/pmis/Risk_Template.xlsx" download style="width: 100%">Click
+												href="/pmis/Risk_Template.xlsx" download style="width: 100%;letter-spacing: 0px;text-transform: unset;">Click
 												here for blank Risk Assessment Form</a>
 										</div>
 									</div>
@@ -424,6 +424,11 @@
 	                  getLastUpdatedRiskAssessmentFile(sub_work);
 	              }
 	          });
+	          
+	          var sub_work = '${resquestScope.sub_work}';
+	          if($.trim(sub_work) != ''){
+	        	  getLastUpdatedRiskAssessmentFile(sub_work);
+	          }
 	          
 	          $("input[name='riskAssessmentFile']").change(function () {
 	              if ($("input[name='riskAssessmentFile']").val() == '') {

@@ -83,7 +83,7 @@ public class RiskDaoImpl implements RiskDao{
 		try {
 			String qry = "SELECT sub_work, hod_user_id_fk "
 					+ "from risk_work_hod "
-					+ "where hod_user_id_fk = ?";
+					+ "where hod_user_id_fk = ? and (risk_work_completed = 'No' or risk_work_completed is null or risk_work_completed = '')";
 			qry = qry + " group by sub_work order by priority asc";
 			Object[] pValues = new Object[] {obj.getUser_id()};			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));

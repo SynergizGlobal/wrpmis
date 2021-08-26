@@ -150,15 +150,18 @@ public class RiskController {
 									columnName = columnName.replaceAll("[\r\n]", "");
 									String tempName = fileFormat.get(i).replaceAll("[\r\n]", "");
 									//System.out.println(columnName + " = " + tempName);									
-									if(!columnName.equals(tempName.trim()) && !columnName.contains(tempName.trim())){
-										
-				                		attributes.addFlashAttribute("error",uploadformatError);
-				                		
+									if(!columnName.equals(tempName.trim()) && !columnName.contains(tempName.trim())){				                		
 				                		msg = uploadformatError;
 										risk.setUploaded_by_user_id_fk(userId);
 										risk.setStatus("Fail");
 										risk.setRemarks(result[0]);
 										boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
+										String errMsg = uploadformatError;
+										Risk tempRisk = riskService.getLastUpdatedRiskAssessmentFile(risk);
+										if(!StringUtils.isEmpty(tempRisk) && !StringUtils.isEmpty(tempRisk.getAttachment())) {
+											errMsg = "You are attempting to submit the assessment done on an outdated Risk Assessment Form. Please download a blank assessment form at Step 2 and re-submit.";
+										}
+				                		attributes.addFlashAttribute("error",errMsg);
 										
 				                		return model;
 				                	}

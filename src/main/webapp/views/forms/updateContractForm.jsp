@@ -3125,11 +3125,11 @@
 		    var rNo = Number(rowNo)+1;
 		    var total = 0;
 		    
-		    var mId = Number(rowNo);
+		    var mId = '${fn:length(contractDeatils.milestones)}';
 		    if(mId == 0){
 		    	mId = Number(rowNo) + 2;
 		    }else{
-		    	mId = Number(rowNo) + 1;
+		    	mId = Number(rNo);
 		    }
 		    
 		    var html = '<tr id="mileRow'+rNo+'">'
@@ -3171,12 +3171,13 @@
 		    var rNo = Number(rowNo)+1;
 		    var total = 0;
 		    
-		    var rId = Number(rowNo);
+		    var rId = '${fn:length(contractDeatils.contract_revision)}';
 		    if(rId == 0){
 		    	rId = Number(rowNo) + 2;
 		    }else{
-		    	rId = Number(rowNo) + 1;
+		    	rId = Number(rNo);
 		    }
+		    
 		    var html = '<tr id="revRow'+rNo+'">'
 			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"  value="R'+(rId)+'" /></td>'
 			   +'<td data-head="Revised Amount " class="input-field  "> <i class="material-icons prefix cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '

@@ -320,7 +320,7 @@
         }
         .d-flex{
         	display: flex;
-    		justify-content: space-around;
+    		/* justify-content: space-around; */
         }
                 
         #prevBtn,#nextBtn{
@@ -2082,7 +2082,7 @@
 		                           </div>
 		                       </div>
 		                       <div class="col s12 m2 mt-brdr center-align">
-		                           <div class=" m-1">
+		                           <div class=" m-1" style="text-align: right;">
 		                               <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
 		                           </div>
 		                       </div>

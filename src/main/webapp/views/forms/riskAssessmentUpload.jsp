@@ -189,7 +189,7 @@
 			            <div class="row no-mar" >
 				            <div class="col s12 m12 center-align btn-holder">
 				            	<button type="button"  id="btnNo"
-				                    class="btn waves-effect waves-light bg-s t-c" onclick="cancelData();">No, cancel it!</button>
+				                    class="btn waves-effect waves-light bg-s t-c modal-close" onclick="cancelData();">No, cancel it!</button>
 				                <button type="button"  id="btnYes"
 				                    class="btn waves-effect waves-light bg-m t-c" onclick="submitData();">Yes, submit</button>	
 				            </div>

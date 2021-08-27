@@ -24,6 +24,9 @@
 		p a{
 			color:blue;
 		}
+		.row.no-mar{
+			margin-bottom:0;
+		}
         .input-field .searchable_label {
             font-size: 0.9rem;
         }
@@ -49,7 +52,45 @@
 		}
 		.dt-left{text-align: left!important;}
 		.dt-center{text-align: center!important;}
-          @media only screen and (max-width:769px) {    		
+		
+		.btn-holder .btn+.btn{
+			margin-left:20px;
+		} 
+		.btn.bg-s{
+			padding:0 .5rem;
+		}
+		@media screen and (max-width: 1300px) and (min-width: 1150px) {
+			.btn.bg-s{
+				font-size:1.5vmin;
+			}			
+		}    
+		@media screen and (max-width: 1149px) and (min-width: 1024px) {
+			.btn.bg-s{
+				font-size:1.28vmin;
+			}		
+			.btn.bg-s.fs-sm-8rem{
+				font-size:1.5vmin;
+			}	
+		}    
+		@media screen and (max-width: 1023px) and (min-width: 993px) {
+			.btn.bg-s{
+				font-size:1.2vmin;
+			}			
+		}    
+		@media screen and (max-width: 992px) and (min-width: 770px) {
+			.btn.bg-s.fs-sm-8rem{
+				font-size:1.5vmin;
+			}			
+		} 
+          @media only screen and (max-width:769px) { 
+			.btn.bg-s.fs-sm-8rem{
+				font-size:1.35vmin;
+			}	 		
+			
+			.btn-holder .btn+.btn{
+				margin-left:0;
+				margin-top:10px;
+			} 
 	        .dataTables_filter label{
 	        	position:relative;
 	        }
@@ -84,119 +125,21 @@
 	        .mt-2{
 				margin-top:0 !important;
 			}
-        }
-        
+        }        
+         @media only screen and (max-width: 599px) {
+	        .btn.bg-s.fs-sm-8rem {
+			    font-size: 2vmin;
+			}
+		}
+		        
          .modal-header {
             text-align: center;
-            background-color: #2E58AD;
+            background-color: #007A7A;
             color: #fff;
             margin: -24px -24px 20px !important;
             padding: 1rem;
         }
-
-        .input-field .searchable_label {
-            font-size: 0.9rem;
-        }
-
-        .last-column .btn+.btn {
-            margin-left: 15px;
-        }
-        .dataTables_filter label::after{
-         	content:'';
-         }
-         .right-btns .fa{
-         	position:relative;
-         	top:-35px;
-         }
-         .right-btns .fa+.fa{
-         	right:-10px;
-         }
-         .fw-all{
-         		width:12vw !important;
-        		max-width:12vw;
-         }
-           @media only screen and (max-width: 769px){ 
-			
-			.dataTables_scrollBody tbody tr td:last-of-type,
-			.no-sort{
-				padding:3px !important;
-				max-width: 45px;
-			}
-			.mob-btn{
-				padding:4px 12px;
-			}
-			.hideCOl{
-				display:none;
-			} 
-			.r-300{
-				width:30vw !important;
-        		max-width:30vw;
-			}
-			 .dataTables_filter label{
-	        	position:relative;
-	        }
-	        .dataTables_filter label::after{
-	        	position:absolute;
-	        	right:5px;
-	        	top:30px; 
-	        }
-	        .fw-111{
-	        	width:20vw;
-	        	min-width:20vw;
-	        	
-	        }
-	        .break{
-	        	text-align:center;
-	        	width:26vw;
-    			min-width:26vw;
-			    margin-left: auto;
-			    margin-right: auto;
-			    
-	        }
-	        .break a{
-			   word-break: break-word;
-			   height: auto;
-			   white-space: normal;
-			   line-height: inherit;
-	        }
-	        .mob-center{
-	        	text-align:center;
-	        }
-		}
-		
-		.my-error-class {
-   			 color:red;
-		}
-		.my-valid-class {
-   			 color:green;
-		}
-		
-		/* new code for modal and its contents starts  */
-		.row.no-mar{
-			margin-bottom:0;
-		}
-		.radioClass,
-		#confirmBox input[type="radio"],
-		#cvDocBox input[type="radio"] {
-			opacity:2;
-			position: inherit;
-		}		
-		#confirmBox ,#cvDocBox,#noAtrDiv {
-			text-align:center;
-			font-size: 1.25rem;
-		}		
-		.modal-content label,
-		.modal-content [type="checkbox"]+span:not(.lever) {
-		    font-size: 1.25rem; 
-		    color: #9e9e9e;
-		}
-		.modal-content [type="radio"]:not(:checked)+span, [type="radio"]:checked+span{
-			padding-left:25px;
-		}
-		/* new code for modal and its contents ends  */
-		.btn-holder .btn+.btn{
-			margin-left:20px;
-		}       
+      
         
     </style>
 </head>
@@ -213,42 +156,8 @@
                             <h6>Risk Assessment</h6>
                         </div>
                     </span>
-					<div class="row no-mar">
-						<div class="col m2 hide-on-small-only"></div>
-
-
-
-<div id="myModal" class="modal">
-       <div class="modal-content">
-           <h5 class="modal-header"> Risk Assessment 
-	           <span class="right modal-action modal-close">
-	           <span class="material-icons">close</span></span>
-           </h5>
-               <div class="row no-mar" id="amendment_not_required_in_contract_Div" style="display: block;">
-                   <div class="input-field col s12 m10 offset-m1">
-                       <p  class="center-align">
-                       		<span>The date of assessment on the Risk Assessment form is same as that of the last assessment date.</span>
-                       		<h5>Do you wish to overwrite?</h5>
-                       </p>
-                   </div>
-               </div>        
-                           
-
-				
-                <div class="row no-mar col s12 m12 center-align btn-holder" >
-                           <button type="button" style="width: auto;" id="btnNo"
-                               class="btn waves-effect waves-light bg-m" onclick="cancelData();">No, cancel it!</button>
-                           <button type="button" style="width: auto;" id="btnYes"
-                               class="btn waves-effect waves-light bg-m" onclick="submitData();">Yes, submit</button>
-                  
-               </div> 
-       </div>
-   </div>
-   
-
-					
-						
-						<div class="col m8">
+					<div class="row no-mar">					
+						<div class="col m8 offset-m2">
 							<div class="">
 								<c:if test="${not empty success }">
 									<div class="center-align m-1 close-message">${success}</div>
@@ -263,8 +172,31 @@
 								</c:if>
 							</div>
 						</div>
-						<div class="col m2 hide-on-small-only"></div>
 					</div>
+					
+				<div id="myModal" class="modal">
+			       <div class="modal-content">
+			           <h5 class="modal-header"> Risk Assessment 
+				           <span class="right modal-action modal-close">
+				           <span class="material-icons">close</span></span>
+			           </h5>
+			           <div class="row no-mar" id="amendment_not_required_in_contract_Div" style="display: block;">
+			                <div class="input-field col s12 m10 offset-m1 center-align">
+			                   <p>The date of assessment on the Risk Assessment form is same as that of the last assessment date.			                    </p>
+			                   <h5>Do you wish to overwrite ?</h5>
+			                </div>
+			            </div>       		
+			            <div class="row no-mar" >
+				            <div class="col s12 m12 center-align btn-holder">
+				            	<button type="button"  id="btnNo"
+				                    class="btn waves-effect waves-light bg-s t-c" onclick="cancelData();">No, cancel it!</button>
+				                <button type="button"  id="btnYes"
+				                    class="btn waves-effect waves-light bg-m t-c" onclick="submitData();">Yes, submit</button>	
+				            </div>
+			                		              
+			           </div> 
+			       </div>
+			   </div>
 					<div class="container container-no-margin">
 						<form
 							action="<%=request.getContextPath()%>/upload-risk-assessment"
@@ -313,36 +245,36 @@
 									</div>
 									
 									<div class="row">
-										<div class="col m2 s12 mob-center input-field b-text">
+										<div class="col l2 m2 s3 mob-center input-field b-text">
 											<p class="mt-1">Step 2 :</p>
 										</div>
-										<div class="col m5 s12 mob-center input-field">
+										<div class="col l5 m10 s9 mob-center input-field">
 											<a id="lastRiskAssessmentForm" href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c" download style="width: 100%;letter-spacing: 0px;text-transform: unset;">Click
 												here for last Risk Assessment Form</a>
 										</div>
-										<div class="col m5 s12 mob-center input-field">											
+										<div class="col l5 m10 offset-m2 s9 offset-s3 mob-center input-field">											
 											<a class="btn waves-effect waves-light bg-s t-c"
 												href="/pmis/Risk_Template.xlsx" download style="width: 100%;letter-spacing: 0px;text-transform: unset;">Click
 												here for blank Risk Assessment Form</a>
 										</div>
 									</div>
 									<div class="row">
-										<div class="col m2 s12 mob-center input-field b-text">
+										<div class="col m2 s3 mob-center input-field b-text">
 											<p class="">Step 3 :</p>
 										</div>
-										<div class="col m10 s12 mob-center input-field">
+										<div class="col m10 s9 mob-center input-field">
 											<p class="b-text">Assess risk offline on the downloaded form</p>
 										</div>
 									</div>
 									
 									<div class="row">
-										<div class="col m2 s12 mob-center input-field b-text">
+										<div class="col m2 s3 mob-center input-field b-text">
 											<p class="mt-2">Step 4 :</p>
 										</div>
-										<div class="col m5 s12 mob-center input-field ">
+										<div class="col m10 l5 s9 mob-center input-field ">
 											<p class="mt-2 b-text">Upload the Completed Risk Assessment form</p>
 										</div>
-										<div class="col m5 s12 input-field file-field">
+										<div class="col m10 offset-m2 l5 s10 offset-s2 input-field file-field">
 											<input type="hidden" id="work_short_name"
 												name="work_short_name" />
 											<!--  <div class="col s12 m6 file-field input-field"> -->
@@ -358,7 +290,7 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col m2 s6 input-field b-text">
+										<div class="col m2 s3 mob-center input-field b-text">
 											<p class="mt-1">Step 5 :</p>
 										</div>
 										<!-- <div class="col m5 s9 input-field"></div> -->
@@ -382,7 +314,7 @@
 											<p class="mt-1">Step 6 :</p>
 										</div>
 										<div class="col m10 s12 mob-center input-field">
-											<a class="btn waves-effect waves-light bg-s t-c fs-sm-67rem" onclick="openRiskATRUpdateForm();"
+											<a class="btn waves-effect waves-light bg-s t-c fs-sm-8rem" onclick="openRiskATRUpdateForm();"
 												href="javascript:void(0);" style="width: 100%;text-transform: none;">Click
 												here to update ATR on the Mitigation Plan of prioritized risks</a>
 										</div>
@@ -460,13 +392,13 @@
 	                    </span>
 	                    <div class="">
 	                        <div class="row no-mar" >
-	                                    <div class="col s6 m3 input-field offset-m4">
+	                                    <div class="col s6 offset-s1 m3 input-field offset-m4">
 	                                        <p class="searchable_label">Work</p>
 	                                        <select id="sub_workfilter" name="sub_work" class="searchable" onchange="getRiskUploadsList(this.value);">
 	                                            <option value="">Select</option>
 	                                        </select>
 	                                    </div>                                 
-	                                    <div class="col s6 m3">
+	                                    <div class="col s4 m3">
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 12px;" onclick="clearFilters()">Clear
 	                                            Filters</button>
@@ -545,9 +477,8 @@
 	      $(document).ready(function () {
 	    	  $(".modal").modal();
 	    	  if($("#checkEntryError").html()=="The date of assessment on the Risk Assessment form is same as that of the last assessment date. ")
-	    		  {
-	    		  	$("#myModal").show();
-	    		  
+	    		  {	$("#myModal").modal();
+	    		  	$("#myModal").modal('open');	    		  
 	    		  }
 	          $('select:not(.searchable)').formSelect();
 	          $('.searchable').select2();
@@ -625,7 +556,7 @@
 	      function cancelData()
 	      {
 
-	    	  $("#myModal").hide();
+	    	  $("#myModal").close();
 	      }      
 	      
         

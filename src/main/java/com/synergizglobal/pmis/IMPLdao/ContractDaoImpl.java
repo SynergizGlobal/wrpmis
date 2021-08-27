@@ -3157,7 +3157,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getResponsiblePeopleList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' ";
+			String qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and user_type_fk not in('Others') ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -3173,7 +3173,7 @@ public class ContractDaoImpl implements ContractDao {
 			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk "
 					+ "FROM user u " 
 					+ "left join department d on u.department_fk = d.department "
-					+ "where  user_id is not null and user_type_fk <> '' ";
+					+ "where  user_id is not null and user_type_fk <> ''  and u.user_type_fk not in('Others')  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {

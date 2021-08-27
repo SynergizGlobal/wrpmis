@@ -20,8 +20,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
-    <style>
- 
+    <style> 
         #ravTable .datepicker~button,
         #insurenceTable .datepicker~button,
         #bankTable .datepicker~button,

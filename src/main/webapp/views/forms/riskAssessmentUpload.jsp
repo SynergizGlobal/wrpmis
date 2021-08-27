@@ -36,18 +36,7 @@
         	word-break: break-word;
     		white-space: initial;
 		}
-	/* 	.fw-120{
-        	width:120px !important;
-        	max-width:120px;
-        }
-		.fw-200{
-        	width:200px;
-        	max-width:200px;
-        }
-        .fw-250{
-        	width:250px;
-        	max-width:250px;
-        }      */ 
+
 		.error-msg label{color:red!important;}
 		.mt-1{
 			margin-top:.5rem !important;
@@ -96,14 +85,125 @@
 				margin-top:0 !important;
 			}
         }
+        
+         .modal-header {
+            text-align: center;
+            background-color: #2E58AD;
+            color: #fff;
+            margin: -24px -24px 20px !important;
+            padding: 1rem;
+        }
+
+        .input-field .searchable_label {
+            font-size: 0.9rem;
+        }
+
+        .last-column .btn+.btn {
+            margin-left: 15px;
+        }
+        .dataTables_filter label::after{
+         	content:'';
+         }
+         .right-btns .fa{
+         	position:relative;
+         	top:-35px;
+         }
+         .right-btns .fa+.fa{
+         	right:-10px;
+         }
+         .fw-all{
+         		width:12vw !important;
+        		max-width:12vw;
+         }
+           @media only screen and (max-width: 769px){ 
+			
+			.dataTables_scrollBody tbody tr td:last-of-type,
+			.no-sort{
+				padding:3px !important;
+				max-width: 45px;
+			}
+			.mob-btn{
+				padding:4px 12px;
+			}
+			.hideCOl{
+				display:none;
+			} 
+			.r-300{
+				width:30vw !important;
+        		max-width:30vw;
+			}
+			 .dataTables_filter label{
+	        	position:relative;
+	        }
+	        .dataTables_filter label::after{
+	        	position:absolute;
+	        	right:5px;
+	        	top:30px; 
+	        }
+	        .fw-111{
+	        	width:20vw;
+	        	min-width:20vw;
+	        	
+	        }
+	        .break{
+	        	text-align:center;
+	        	width:26vw;
+    			min-width:26vw;
+			    margin-left: auto;
+			    margin-right: auto;
+			    
+	        }
+	        .break a{
+			   word-break: break-word;
+			   height: auto;
+			   white-space: normal;
+			   line-height: inherit;
+	        }
+	        .mob-center{
+	        	text-align:center;
+	        }
+		}
+		
+		.my-error-class {
+   			 color:red;
+		}
+		.my-valid-class {
+   			 color:green;
+		}
+		
+		/* new code for modal and its contents starts  */
+		.row.no-mar{
+			margin-bottom:0;
+		}
+		.radioClass,
+		#confirmBox input[type="radio"],
+		#cvDocBox input[type="radio"] {
+			opacity:2;
+			position: inherit;
+		}		
+		#confirmBox ,#cvDocBox,#noAtrDiv {
+			text-align:center;
+			font-size: 1.25rem;
+		}		
+		.modal-content label,
+		.modal-content [type="checkbox"]+span:not(.lever) {
+		    font-size: 1.25rem; 
+		    color: #9e9e9e;
+		}
+		.modal-content [type="radio"]:not(:checked)+span, [type="radio"]:checked+span{
+			padding-left:25px;
+		}
+		/* new code for modal and its contents ends  */
+		.btn-holder .btn+.btn{
+			margin-left:20px;
+		}       
+        
     </style>
 </head>
 
 <body>
     <!-- header included -->
     <jsp:include page="../layout/header.jsp"></jsp:include>
-
-
     <div class="row no-mar" >
         <div class="col s12 m12">
             <div class="card">
@@ -115,6 +215,39 @@
                     </span>
 					<div class="row no-mar">
 						<div class="col m2 hide-on-small-only"></div>
+
+
+
+<div id="myModal" class="modal">
+       <div class="modal-content">
+           <h5 class="modal-header"> Risk Assessment 
+	           <span class="right modal-action modal-close">
+	           <span class="material-icons">close</span></span>
+           </h5>
+               <div class="row no-mar" id="amendment_not_required_in_contract_Div" style="display: block;">
+                   <div class="input-field col s12 m10 offset-m1">
+                       <p  class="center-align">
+                       		<span>The date of assessment on the Risk Assessment form is same as that of the last assessment date.</span>
+                       		<h5>Do you wish to overwrite?</h5>
+                       </p>
+                   </div>
+               </div>        
+                           
+
+				
+                <div class="row no-mar col s12 m12 center-align btn-holder" >
+                           <button type="button" style="width: auto;" id="btnNo"
+                               class="btn waves-effect waves-light bg-m" onclick="cancelData();">No, cancel it!</button>
+                           <button type="button" style="width: auto;" id="btnYes"
+                               class="btn waves-effect waves-light bg-m" onclick="submitData();">Yes, submit</button>
+                  
+               </div> 
+       </div>
+   </div>
+   
+
+					
+						
 						<div class="col m8">
 							<div class="">
 								<c:if test="${not empty success }">
@@ -377,7 +510,7 @@
             </div>
         </div>
  
-    
+</div>  
     <div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
@@ -406,10 +539,16 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    
       <script>
       
 	      $(document).ready(function () {
 	    	  $(".modal").modal();
+	    	  if($("#checkEntryError").html()=="The date of assessment on the Risk Assessment form is same as that of the last assessment date. ")
+	    		  {
+	    		  	$("#myModal").show();
+	    		  
+	    		  }
 	          $('select:not(.searchable)').formSelect();
 	          $('.searchable').select2();
 	         // $('.tabs').tabs();
@@ -473,6 +612,22 @@
 	    		  $('#riskUploadForm').submit();
 	    	  }
 	      });
+	      
+	      function submitData()
+	      {
+	    	  var flag = $("#riskUploadForm").valid();
+	    	  if(flag)
+	    	  {
+	    		  $('#riskUploadForm').submit();
+	    	  }
+	      }
+	      
+	      function cancelData()
+	      {
+
+	    	  $("#myModal").hide();
+	      }      
+	      
         
        	  var validator = $('#riskUploadForm').validate({
 	    	ignore: ":hidden:not(.validate-dropdown)",

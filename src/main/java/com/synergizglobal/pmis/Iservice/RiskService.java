@@ -16,6 +16,7 @@ public interface RiskService {
 	public Risk getRiskAssessment(Risk obj) throws Exception;
 
 	public boolean updateRiskAssessment(Risk obj) throws Exception;
+	public boolean checkRiskAssessment(List<Risk> risksList) throws Exception;
 
 	public List<Risk> getRiskAssessmentList(Risk obj) throws Exception;
 

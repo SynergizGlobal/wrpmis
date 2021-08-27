@@ -441,7 +441,17 @@ public class RiskController {
 						}						
 					}
 					if(!risksList.isEmpty() && StringUtils.isEmpty(risk_rows_error) && StringUtils.isEmpty(work_mismatch)
-							&& StringUtils.isEmpty(assessment_date_error) && StringUtils.isEmpty(risk_cols_error)){
+							&& StringUtils.isEmpty(assessment_date_error) && StringUtils.isEmpty(risk_cols_error))
+					{
+						
+						boolean CheckAssessmentDate=riskService.checkRiskAssessment(risksList);
+						if(CheckAssessmentDate==true)
+						{
+							msg = "<br><span style='color:red;display:none;' id='checkEntryError'>The date of assessment on the Risk Assessment form is same as that of the last assessment date. </span> ";
+						}
+						else
+						{
+						
 						int[] arr  = riskService.uploadRiskAssessments(risksList);
 						
 						/*
@@ -450,6 +460,7 @@ public class RiskController {
 						 */
 						
 						msg =  "<span style='color:green;'>Risk Assessment uploaded successfully.</span>";
+						}
 					}
 					
 					if(!StringUtils.isEmpty(risk_owner_error)) {

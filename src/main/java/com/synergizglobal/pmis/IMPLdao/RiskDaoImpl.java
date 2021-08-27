@@ -258,6 +258,55 @@ public class RiskDaoImpl implements RiskDao{
 	}
 	
 	
+	@Override
+public boolean checkRiskAssessment(List<Risk> risksList) throws Exception {
+		Connection con = null;
+		boolean flag = false;
+		String subWork = null;
+		String assessmentDate = null;
+
+		try{
+			con = dataSource.getConnection();
+			for (Risk obj : risksList) 
+			{
+				String risk_id_pk = getRiskIdIfExists(obj.getSub_work(),obj.getSub_area_fk(),con);
+				obj.setRisk_id_pk(risk_id_pk);
+				String area_item_no = null;
+				String sub_area_item_no = null;
+				subWork = obj.getSub_work();
+				assessmentDate = obj.getDate();
+				if(!StringUtils.isEmpty(obj.getItem_no())) {
+					String[] temp = obj.getItem_no().split("\\.");
+					area_item_no = temp[0];
+					sub_area_item_no = temp[1];
+				}
+				String risk_area = getRiskArea(obj.getRisk_area_fk(),area_item_no,con);
+				String risk_sub_area = getRiskSubArea(obj.getRisk_area_fk(),obj.getSub_area_fk(),sub_area_item_no,con);
+				obj.setRisk_area_fk(risk_area);
+				obj.setSub_area_fk(risk_sub_area);
+				
+				if(!StringUtils.isEmpty(risk_id_pk)) 
+				{
+					 String revisionId = getRevisionIdIfExists(obj.getRisk_id_pk(),obj.getDate(),con);
+					 obj.setRisk_revision_id(revisionId);
+					 if(!StringUtils.isEmpty(revisionId)) 
+					 {
+						 flag=true;
+					 }
+				}
+				else
+				{
+					flag=false;
+				}
+			}
+		}
+		catch(Exception e){ 
+			con.rollback();
+			throw new Exception(e);
+		}
+		return flag;
+	}
+	
 	private String getRiskIdIfExists(String sub_work, String sub_area_fk, Connection con) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;

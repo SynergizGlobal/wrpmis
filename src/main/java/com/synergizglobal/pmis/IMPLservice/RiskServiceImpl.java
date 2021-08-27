@@ -40,6 +40,12 @@ public class RiskServiceImpl implements RiskService{
 	}
 
 	@Override
+	public boolean checkRiskAssessment(List<Risk> risksList) throws Exception
+	{
+		return dao.checkRiskAssessment(risksList);
+	}
+
+	@Override
 	public List<Risk> getRiskAssessmentList(Risk obj) throws Exception {
 		return dao.getRiskAssessmentList(obj);
 	}

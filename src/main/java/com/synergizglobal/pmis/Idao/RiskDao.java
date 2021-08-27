@@ -36,5 +36,6 @@ public interface RiskDao {
 	public List<Risk> getSubWorkHodFilterListInRiskAssessmnt(Risk obj) throws Exception;
 	
 	public Risk getLastUpdatedRiskAssessmentFile(Risk obj) throws Exception;
+	public boolean checkRiskAssessment(List<Risk> risksList) throws Exception;
 	
 }

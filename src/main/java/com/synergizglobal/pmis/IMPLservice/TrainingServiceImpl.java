@@ -29,6 +29,11 @@ public class TrainingServiceImpl implements TrainingService{
 	public List<Training> getTrainingCategorysList(Training obj) throws Exception {
 		return dao.getTrainingCategorysList(obj);
 	}
+	
+	@Override
+	public List<Training> getTrainingTitlesList(Training obj) throws Exception {
+		return dao.getTrainingTitlesList(obj);
+	}	
 
 	@Override
 	public List<Training> getStatusList(Training obj) throws Exception {

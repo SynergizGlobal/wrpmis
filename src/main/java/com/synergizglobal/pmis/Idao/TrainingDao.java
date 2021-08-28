@@ -46,5 +46,7 @@ public interface TrainingDao {
 
 	public List<Training> getTrainingsList(Training obj, int startIndex, int offset, String searchParameter) throws Exception;
 
+	public List<Training> getTrainingTitlesList(Training obj) throws Exception;
+
 
 }

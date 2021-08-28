@@ -85,6 +85,11 @@ public class TrainingDaoImpl implements TrainingDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				qry = qry + " and title = ?";
+				arrSize++;
+			}
+			
 			qry = qry + "  group by ts.training_id_fk order by ts.start_time desc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -99,6 +104,9 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				pValues[i++] = obj.getTitle();
+			}			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 			
 		}catch(Exception e){ 
@@ -126,7 +134,11 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				qry = qry + " and training_type_fk = ?";
 				arrSize++;
-			}	
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				qry = qry + " and title = ?";
+				arrSize++;
+			}			
 			qry = qry + "GROUP BY training_type_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -141,6 +153,9 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				pValues[i++] = obj.getTraining_type_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				pValues[i++] = obj.getTitle();
+			}			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -169,6 +184,10 @@ public class TrainingDaoImpl implements TrainingDao{
 				qry = qry + " and training_category_fk = ?";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				qry = qry + " and title = ?";
+				arrSize++;
+			}			
 			qry = qry + "GROUP BY training_category_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -184,12 +203,66 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_category_fk())) {
 				pValues[i++] = obj.getTraining_category_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				pValues[i++] = obj.getTitle();
+			}			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
+	
+	@Override
+	public List<Training> getTrainingTitlesList(Training obj) throws Exception {
+		List<Training> objsList = null;
+		try {
+			String qry = "SELECT distinct title from training  " + 
+					"where title is not null and title <> '' ";
+			int arrSize = 0;
+			
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
+				qry = qry + " and training_type_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_category_fk())) {
+				qry = qry + " and training_category_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				qry = qry + " and title = ?";
+				arrSize++;
+			}				
+			qry = qry + " order BY title ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
+				pValues[i++] = obj.getTraining_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_category_fk())) {
+				pValues[i++] = obj.getTraining_category_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				pValues[i++] = obj.getTitle();
+			}			
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}	
+	
 
 	@Override
 	public List<Training> getStatusList(Training obj) throws Exception {
@@ -210,6 +283,10 @@ public class TrainingDaoImpl implements TrainingDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				qry = qry + " and title = ?";
+				arrSize++;
+			}			
 			qry = qry + "GROUP BY status_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -223,6 +300,10 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				pValues[i++] = obj.getTitle();
+			}				
+			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -1268,8 +1349,12 @@ public class TrainingDaoImpl implements TrainingDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				qry = qry + " and title = ? ";
+				arrSize++;
+			}			
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (training_id like ? or training_type_fk like ? or training_category_fk like ? or title like ?"
+				qry = qry + " and (training_id like ? or training_type_fk like ? or training_category_fk like ? or description like ?"
 						+ " or faculty_name like ? or start_time like ? or end_time like ? or status_fk like ?) ";
 				arrSize++;
 				arrSize++;
@@ -1291,6 +1376,10 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				pValues[i++] = obj.getTitle();
+			}				
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
@@ -1331,11 +1420,15 @@ public class TrainingDaoImpl implements TrainingDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
-				qry = qry + " and status_fk = ?";
+				qry = qry + " and status_fk = ? ";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				qry = qry + " and title = ? ";
+				arrSize++;
+			}			
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (training_id like ? or training_type_fk like ? or training_category_fk like ? or title like ?"
+				qry = qry + " and (training_id like ? or training_type_fk like ? or training_category_fk like ? or description like ?"
 						+ " or faculty_name like ? or start_time like ? or end_time like ? or status_fk like ? )";
 				arrSize++;
 				arrSize++;
@@ -1364,6 +1457,9 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				pValues[i++] = obj.getTitle();
+			}			
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";

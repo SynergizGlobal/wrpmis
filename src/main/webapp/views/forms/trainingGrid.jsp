@@ -180,7 +180,7 @@
 									<div class="col s6 m2 input-field">
 										<p class="searchable_label">Title</p>
 										<select class="searchable" name="training_title_fk"
-											id="training_title_fk" onchange="addInQueCategory(this.value);getTraningList();">
+											id="training_title_fk" onchange="addInQueTitle(this.value);getTraningList();">
 											<option value="">Select Title</option>
 										</select>
 									</div>
@@ -211,7 +211,7 @@
 											<th class="no-sort">ID</th>
 											<th>Type &nbsp;</th>
 											<th>Category</th>
-											<th class="fw-350">Title</th>
+											<th class="fw-350">Description</th>
 											<th>Faculty</th>
 											<th>Start Date</th>
 											<th>End Date</th>
@@ -330,6 +330,7 @@
          <input type="hidden" name="training_type_fk" id="exportTraining_type_fk" />
          <input type="hidden" name="training_category_fk" id="exportTraining_category_fk" />
          <input type="hidden" name="status_fk" id="exportStatus_fk" />
+         <input type="hidden" name="training_title_fk" id="exportTraining_title_fk" />
 	 </form>
 
     <script>
@@ -363,6 +364,9 @@
   		        	  }else if($.trim(temp2[0]) == 'status_fk'){
   		        		getStatusFilterList(temp2[1]);
   		        	  }
+  		        	else if($.trim(temp2[0]) == 'training_title_fk'){
+  		        		getTrainingTitlesFilterList(temp2[1]);
+  		        	  }  		        	  
   	        	  }
   	          }
             }
@@ -377,6 +381,7 @@
         function clearFilter(){
         	$("#training_type_fk").val("");
         	$("#training_category_fk").val("");
+        	$("#training_title_fk").val("");
         	$("#status_fk").val("");
         	$('.searchable').select2();
         	window.localStorage.setItem("trainingFilters",'');
@@ -401,6 +406,15 @@
 	      	}
         }
         
+        function addInQueTitle(training_title_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('training_title_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(training_title_fk) != ''){
+            	filtersMap["training_title_fk"] = training_title_fk;
+	      	}
+        }       
+        
         function addInQueStatus(status_fk){
         	Object.keys(filtersMap).forEach(function (key) {
 	   			if(key.match('status_fk')) delete filtersMap[key];
@@ -421,11 +435,13 @@
         	$(".page-loader-2").show();
         	getTrainingTypesFilterList('');
          	getTrainingCategorysFilterList('');
+         	getTrainingTitlesFilterList('');
          	getStatusFilterList('');
          	
         	var training_type_fk = $("#training_type_fk").val();
         	var training_category_fk = $("#training_category_fk").val();
         	var status_fk = $("#status_fk").val();
+        	var title = $("#training_title_fk").val();
 
         	var filters = '';
         	Object.keys(filtersMap).forEach(function (key) {
@@ -441,7 +457,7 @@
 			$.fn.dataTable.moment('DD-MMM-YYYY');
 
 			var myParams = "training_type_fk=" + training_type_fk + "&training_category_fk="
-					+ training_category_fk +  "&status_fk=" + status_fk;
+					+ training_category_fk +  "&status_fk=" + status_fk+  "&title=" + title;
 
 			/***************************************************************************************************/
 
@@ -533,7 +549,7 @@
 			            	if($.trim(data.training_category_fk) == ''){ return '-'; }else{ return data.training_category_fk; }
 			            } },
 			            { "mData": function(data,type,row){
-			            	if($.trim(data.title) == ''){ return '-'; }else{ return data.title; }
+			            	if($.trim(data.description) == ''){ return '-'; }else{ return data.description; }
 			            } },
 			         	{ "mData": function(data,type,row){
 			            	if($.trim(data.faculty_name) == ''){ return '-'; }else{ return data.faculty_name; }
@@ -573,11 +589,13 @@
         	$(".page-loader-2").show();
         	getTrainingTypesFilterList('');
          	getTrainingCategorysFilterList('');
+         	getTrainingTitlesFilterList('');
          	getStatusFilterList('');
          	
         	var training_type_fk = $("#training_type_fk").val();
         	var training_category_fk = $("#training_category_fk").val();
         	var status_fk = $("#status_fk").val();
+        	var title = $("#training_title_fk").val();
 
         	var filters = '';
         	Object.keys(filtersMap).forEach(function (key) {
@@ -620,7 +638,7 @@
             }).rows().remove().draw();
     		
     		table.state.clear();		
-    	 	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk};
+    	 	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk,title:title};
     	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-training",
     	 		type:"POST",
 				data:myParams, cache: false,async:false,
@@ -636,7 +654,7 @@
                        	rowArray.push($.trim(val.training_id));
                        	rowArray.push($.trim(val.training_type_fk));
                        	rowArray.push($.trim(val.training_category_fk));
-                       	rowArray.push($.trim(val.title));
+                       	rowArray.push($.trim(val.description));
                        	rowArray.push($.trim(val.faculty_name));
                        	rowArray.push($.trim(val.start_time));
                        	rowArray.push($.trim(val.end_time));
@@ -669,9 +687,11 @@
          	var training_type_fk = $("#training_type_fk").val();
         	var training_category_fk = $("#training_category_fk").val();
         	var status_fk = $("#status_fk").val();
+        	var title = $("#training_title_fk").val();
+        	
              if ($.trim(training_type_fk) == "") {
              	$("#training_type_fk option:not(:first)").remove();
-             	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk};
+             	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk,title:title};
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getTrainingTypesFilterListInTraining",
                      data: myParams, cache: false,async: false,
@@ -699,6 +719,8 @@
           	var training_type_fk = $("#training_type_fk").val();
          	var training_category_fk = $("#training_category_fk").val();
          	var status_fk = $("#status_fk").val();
+         	var title = $("#training_title_fk").val();
+         	
               if ($.trim(training_category_fk) == "") {
               	$("#training_category_fk option:not(:first)").remove();
               	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk};
@@ -724,14 +746,49 @@
               }
           }
      	 
+     	 
+     	 function getTrainingTitlesFilterList(title) {
+           	$(".page-loader").show();
+           	var training_type_fk = $("#training_type_fk").val();
+          	var training_category_fk = $("#training_category_fk").val();
+          	var title = $("#training_title_fk").val();
+          	var status_fk = $("#status_fk").val();
+          	
+               if ($.trim(training_category_fk) == "") {
+               	$("#training_title_fk option:not(:first)").remove();
+               	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk,status_fk : status_fk,title:title};
+                   $.ajax({
+                       url: "<%=request.getContextPath()%>/ajax/getTrainingTitlesFilterListInTraining",
+                       data: myParams, cache: false,async: false,
+                       success: function (data) {
+                           if (data.length > 0) {
+                               $.each(data, function (i, val) {
+                             	   var selectedFlag = (title == val.title)?'selected':'';
+       	                           $("#training_title_fk").append('<option value="' + val.title + '"'+selectedFlag+'>' + $.trim(val.title)  + '</option>');
+                               });
+                           }
+                           $('.searchable').select2();
+                           $(".page-loader").hide();
+                       },error: function (jqXHR, exception) {
+        	   			      $(".page-loader").hide();
+       	   	          	  getErrorMessage(jqXHR, exception);
+       	   	     	  }
+                   });
+               }else{
+               	  $(".page-loader").hide();
+               }
+           }   	 
+     	 
      	 function getStatusFilterList(status) {
            	$(".page-loader").show();
            	var training_type_fk = $("#training_type_fk").val();
           	var training_category_fk = $("#training_category_fk").val();
           	var status_fk = $("#status_fk").val();
+          	var title = $("#training_title_fk").val();
+          	
                if ($.trim(status_fk) == "") {
                	$("#status_fk option:not(:first)").remove();
-               	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk};
+               	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk,title:title};
                    $.ajax({
                        url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInTraining",
                        data: myParams, cache: false,async: false,

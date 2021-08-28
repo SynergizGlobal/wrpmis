@@ -237,7 +237,19 @@ public class TrainingController {
 		}
 		return trainingCategorysList;
 	}
-	
+
+	@RequestMapping(value = "/ajax/getTrainingTitlesFilterListInTraining", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Training> getTrainingTitlesList(@ModelAttribute Training obj) {
+		List<Training> trainingTitlesList = null;
+		try {
+			trainingTitlesList = trainingService.getTrainingTitlesList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getTrainingTitlesList : " + e.getMessage());
+		}
+		return trainingTitlesList;
+	}
 
 	@RequestMapping(value = "/ajax/getStatusFilterListInTraining", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

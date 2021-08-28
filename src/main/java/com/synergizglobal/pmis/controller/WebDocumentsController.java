@@ -125,4 +125,72 @@ public class WebDocumentsController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/update-web-document/{document_type}", method = {RequestMethod.POST})
+	public ModelAndView updateWebDocument(@ModelAttribute WebDocuments obj,@PathVariable("document_type") String document_type,HttpSession session,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		String user_Id = null;String userName = null;
+		try {			
+			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			obj.setUploaded_by(userName);
+			
+			obj.setDate_of_issue(DateParser.parse(obj.getDate_of_issue()));
+			
+			model.setViewName("redirect:/web-documents/"+document_type);
+			
+			String documentType = null;
+			if(!StringUtils.isEmpty(document_type)){
+				documentType = capitalize(document_type.replaceAll("-", " ").toLowerCase());
+			}
+			
+			MultipartFile file = obj.getWebDocument(); 
+			if (null != file && !file.isEmpty()){
+				String saveDirectory = CommonConstants2.WEB_DOCUMENTS_FILE_SAVING_PATH ;
+				saveDirectory = saveDirectory + documentType + "/" + obj.getCategory() + "/";
+				String fileName = file.getOriginalFilename();
+				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				obj.setFile_name(fileName);
+			}else {
+				obj.setFile_name(obj.getFile_name());
+			}
+			boolean flag =  service.updateWebDocument(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Web Document updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Web Document is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Web Document is failed. Try again.");
+			logger.error("updateWebDocument : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/delete-web-document/{document_type}", method = {RequestMethod.POST})
+	public ModelAndView deleteWebDocument(@ModelAttribute WebDocuments obj,@PathVariable("document_type") String document_type,HttpSession session,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		String user_Id = null;String userName = null;
+		try {			
+			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			obj.setUploaded_by(userName);
+			
+			obj.setDate_of_issue(DateParser.parse(obj.getDate_of_issue()));
+			
+			model.setViewName("redirect:/web-documents/"+document_type);
+			
+			boolean flag =  service.deleteWebDocument(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Web Document deleted Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Deleting Web Document is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Web Document is failed. Try again.");
+			logger.error("deleteWebDocument : " + e.getMessage());
+		}
+		return model;
+	}
+	
 }

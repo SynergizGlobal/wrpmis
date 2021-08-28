@@ -103,4 +103,43 @@ public class WebDocumentsDaoImpl implements WebDocumentsDao{
 		return objsList;
 	}
 
+	@Override
+	public boolean updateWebDocument(WebDocuments obj) throws Exception {
+		boolean flag = false;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			String insertQry = "UPDATE web_documents"
+					+ " SET title=:title,file_name=:file_name,category_id_fk=:category_id_fk,date_of_issue=:date_of_issue,uploaded_by=:uploaded_by "
+					+ "WHERE id=:web_document_id";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			if(count > 0) {
+				flag = true;
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean deleteWebDocument(WebDocuments obj) throws Exception {
+		boolean flag = false;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			String insertQry = "DELETE FROM web_documents "
+					+ "WHERE id=:web_document_id";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			if(count > 0) {
+				flag = true;
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return flag;
+	}
+
 }

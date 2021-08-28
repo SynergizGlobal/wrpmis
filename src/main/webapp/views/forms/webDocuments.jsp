@@ -127,8 +127,8 @@
 											                <td><a href="#modal1${indexx.count }${index.count }" class="modal-trigger"><i class="fa fa-eye"></i></a> 
 											                    <a class="file-name" href="<%=CommonConstants2.WEB_DOCUMENTS %>${documentType }/${webDocCategory.category }/${webDoc.file_name }" download><i class="fa fa-download"></i></a>
 											                    <c:if test='${(sessionScope.USER_ROLE_CODE eq ROLE_CODE_DATA_ADMIN) or (sessionScope.USER_ROLE_CODE eq ROLE_CODE_IT_ADMIN)}'>
-											                    	<a href="#" onclick="editModal(this)"><i class="fa fa-pencil"></i></a>
-											                    	<a href="#" ><i class="fa fa-trash" onclick="deleteRow(this)"></i></a>
+											                    	<a href="#" onclick="editWebDocument('${webDoc.title}','${webDoc.category_id_fk}','${webDoc.file_name}','${webDoc.date_of_issue}','${webDoc.web_document_id}')"><i class="fa fa-pencil"></i></a>
+											                    	<a href="#" ><i class="fa fa-trash" onclick="deleteRow('${webDoc.web_document_id}')"></i></a>
 											                    </c:if> 
 											                </td>
 											                <div id="modal1${indexx.count }${index.count }" class="modal preview-modal">
@@ -227,7 +227,7 @@
 						</div>
 						<div class="col m6 s12 input-field">
 							<p class="searchable_label">Category</p>
-							<select id="category_id_fk" name="category_id_fk" class="searchable validate-dropdown" onchange="selectCategory();">
+							<select id="category_id_fk" name="category_id_fk" class="searchable validate-dropdown" onchange="selectCategory('category_id_fk','category');">
 								<option value="">Select</option>
 								<c:forEach var="obj" items="${webDocCategoriesList }">
 	                                   <option value="${obj.category_id }">${obj.category}</option>
@@ -275,36 +275,37 @@
 		<div id="update-modal" class="modal preview-modal"> 
 		<div class="modal-content">
 			<h6 class="modal-header">
-				<strong style="text-transform: capitalize;">${documentType}</strong> File Update<span class="right modal-action modal-close"><span class="material-icons">close</span></span>
+				<strong style="text-transform: capitalize;">${documentType}</strong> Update Form<span class="right modal-action modal-close"><span class="material-icons">close</span></span>
 			</h6>
 
 			<div class="container">
-			 	<form action="<%=request.getContextPath() %>/upload-web-document/${document_type}" id="updateWebDocumentForm" name="updateWebDocumentForm" method="post" enctype="multipart/form-data">
+			 	<form action="<%=request.getContextPath() %>/update-web-document/${document_type}" id="updateWebDocumentForm" name="updateWebDocumentForm" method="post" enctype="multipart/form-data">
 					<div class="row">
+						<input type="hidden" id="web_document_id" name="web_document_id" />
 						<div class="col m6 s12 input-field">
-							<input type="text" id="update_title" name="update_title" class="validate"> 
+							<input type="text" id="update_title" name="title" class="validate"> 
 							<label for="update_title">Title</label>
 							<span id="update_titleError" class="error-msg" ></span>
 						</div>
 						<div class="col m6 s12 input-field">
 							<p class="searchable_label">Category</p>
-							<select id="update_category" name="update_category" class="searchable validate-dropdown" onchange="selectCategory();">
+							<select id="update_category_id_fk" name="category_id_fk" class="searchable validate-dropdown" onchange="selectCategory('update_category_id_fk','update_category');">
 								<option value="">Select</option>
 								<c:forEach var="obj" items="${webDocCategoriesList }">
 	                                   <option value="${obj.category_id }">${obj.category}</option>
 	                            </c:forEach>
 							</select>
-							<span id="update_categoryError" class="error-msg" ></span>
+							<span id="update_category_id_fkError" class="error-msg" ></span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col m6 s12 input-field">
 							<div class="file-field">
 								<div class="btn bg-m t-t-i">
-									<span>Upload File</span> <input type="file" id="update_webDocument" name="update_webDocument">
+									<span>Upload File</span> <input type="file" id="update_webDocument" name="webDocument">
 								</div>
 								<div class="file-path-wrapper">
-									<input class="file-path validate" type="text" id="update_file_name" name="update_file_name" >
+									<input class="file-path validate" type="text" id="update_file_name" name="file_name" >
 								</div>							
 							</div>
 							<a id="update_file" href="" download></a>
@@ -312,18 +313,18 @@
 						</div>
 						<c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
 						<div class="col m6 s12 input-field">
-							<input type="text" id="update_date" name="update_date" class="validate datepicker"> 
+							<input type="text" id="update_date_of_issue" name="date_of_issue" class="validate datepicker"> 
 							<label for="update_date">Date of Issue</label>
-							<span id="update_dateError" class="error-msg" ></span>
+							<span id="update_date_of_issueError" class="error-msg" ></span>
 							<button type="button" id="update_date_icon"><i class="fa fa-calendar"></i></button>
 						</div>
 						</c:if>
 					</div>
-					<input type="hidden" id="category" name="category" />
+					<input type="hidden" id="update_category" name="category" />
 					<div class="row" style="margin-top: 15px;">
 						<div class="col s6 m6 center-align">
-							<button type="button" onclick="uploadWebDocument();" style="width: 100%;"
-								class="btn waves-effect waves-light bg-m">Upload</button>
+							<button type="button" onclick="updateWebDocument();" style="width: 100%;"
+								class="btn waves-effect waves-light bg-m">Update</button>
 						</div>
 						<div class="col s6 m6 center-align">
 							<a href="<%=request.getContextPath()%>/web-documents/${document_type}"  class="btn waves-effect waves-light bg-s modal-close"
@@ -336,6 +337,9 @@
 		</div>
 	</div>
 
+	<form action="<%=request.getContextPath() %>/delete-web-document/${document_type}" id="deleteWebDocumentForm" name="deleteWebDocumentForm" method="post">
+		<input id="delete_web_document_id" name="web_document_id" />
+	</form>
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
@@ -399,9 +403,9 @@
             });
         });
 		
-		function selectCategory(){
-			var category = $("#category_id_fk").find("option:selected").text();
-			$("#category").val(category);
+		function selectCategory(id1,id2){
+			var category = $("#"+id1).find("option:selected").text();
+			$("#"+id2).val(category);
 		}
 		
 		function uploadWebDocument(){
@@ -440,19 +444,7 @@
 		         } else if (element.attr("id") == "webDocument" ){
 					 document.getElementById("webDocumentError").innerHTML="";
 					 error.appendTo('#webDocumentError');
-		         } else if (element.attr("id") == "update_title" ){
-					 document.getElementById("update_titleError").innerHTML="";
-					 error.appendTo('#update_titleError');
-		         } else if (element.attr("id") == "update_category" ){
-					 document.getElementById("update_categoryError").innerHTML="";
-					 error.appendTo('#update_categoryError');
-		         } else if (element.attr("id") == "update_webDocument" ){
-					 document.getElementById("update_webDocumentError").innerHTML="";
-					 error.appendTo('#update_webDocumentError');
-		         } else if (element.attr("id") == "update_date" ){
-					 document.getElementById("update_dateError").innerHTML="";
-					 error.appendTo('#update_dateError');
-		         } else {
+		         }else {
 		        	 error.insertAfter(element);
 		         } 
 			       
@@ -461,56 +453,83 @@
 		    }
 		});
 		
-		function editModal(a){
-			//getting elements using current element 
-			var trElement=$(a).parentsUntil('tbody');
-			var trElement=trElement[trElement.length-1];
-			var headerElement=$(a).parentsUntil('.folder-group');
-			var headerElement=headerElement[headerElement.length-1];
-			var headerElement=$(headerElement).find('.folder-header');
-			var fileElement=$(a).parent().find('.file-name').attr('href');
-			var fileNameFromElement=fileElement.split('/');
-			fileNameFromElement=fileNameFromElement[fileNameFromElement.length-1];
-			
-			//getting values using elements 
-			var titleText=$.trim($(trElement).find('.title-text').text());
-			var dateText=$.trim($(trElement).find('.date').text());
-			var categoryText=$.trim($(headerElement).text());
-			
+		function updateWebDocument(){
+			var flag = $("#updateWebDocumentForm").valid();
+			if(flag){
+	        	$(".page-loader").show();
+	        	$("#updateWebDocumentForm").submit();
+			}
+        }
+		
+		var validator = $('#updateWebDocumentForm').validate({
+			ignore: ":hidden:not(.validate-dropdown)",
+		    rules: {
+		     		"title":{
+		     			required:true
+                	},"category_id_fk":{
+                		required:true
+                	},"file_name":{
+                		required:true
+                	}
+		    },messages: {
+		   			"title":{
+		   			  	required:'Required'
+		   			 },"category_id_fk":{
+                		required:'Required'
+	                 },"file_name":{
+                		required:'Required'
+	                 }
+		   	},errorPlacement:function(error, element){
+			     if(element.attr("id") == "update_title" ){
+					 document.getElementById("update_titleError").innerHTML="";
+					 error.appendTo('#update_titleError');
+			     } else if (element.attr("id") == "update_category_id_fk" ){
+					 document.getElementById("update_category_id_fkError").innerHTML="";
+					 error.appendTo('#update_category_id_fkError');
+		         } else if (element.attr("id") == "update_file_name" ){
+					 document.getElementById("update_webDocumentError").innerHTML="";
+					 error.appendTo('#update_webDocumentError');
+		         }else {
+		        	 error.insertAfter(element);
+		         } 
+			       
+		    },submitHandler:function(form){
+	             form.submit();
+		    }
+		});
+		
+		function editWebDocument(title,category_id_fk,file_name,date_of_issue,web_document_id){
 			//setting values to modal items
-			$('#update_title').val(titleText);
-			$('#update_date').val(dateText);
-			$("#update_category > option").each(function() {
-			    if(this.text==categoryText){
-			    	$(this).attr('selected',true);
-			    }
-			});
-			$('#update_category').select2();
-			$('#update_file').attr('href',fileElement);
-			$('#update_file').text(fileNameFromElement);
-			$('#update_file_name').val(fileNameFromElement);
-			
+			$('#web_document_id').val(web_document_id);
+			$('#update_title').val(title);	
+			$('#update_category_id_fk').val(category_id_fk)
+			$('#update_file_name').val(file_name);
+			$('#update_date_of_issue').val(date_of_issue);			
 			$('#update-modal').modal('open');
-			$('#update_title').focus();  		
+			$('#update_title').focus();  	
+			$('#update_date_of_issue').focus();
+			$('#update_category_id_fk').select2();
+			var category = $('#update_category_id_fk option:selected').text();
+			if($.trim(file_name) != ''){
+				$("#update_file").attr("href",'<%=CommonConstants2.WEB_DOCUMENTS %>${documentType }/'+category+'/'+file_name);
+				$("#update_file").text(file_name);
+			}
 		}
 		
-		function deleteRow(a){
+		function deleteRow(web_document_id){
 			swal({
 				  title: "Are you sure?",
-				  text: "You will not be able to recover this imaginary file!",
+				  text: "You want to delete this record!",
 				  type: "warning",
 				  showCancelButton: true,
 				  confirmButtonColor: "#DD6B55",
 				  confirmButtonText: "Yes, delete it!",
 				  closeOnConfirm: false,
 				  html: false
-				}, function(){
-					var trElement=$(a).parentsUntil('tbody');
-					var trElement=trElement[trElement.length-1];
-					$(trElement).remove();
-				  swal("Deleted!",
-				  "Your imaginary file has been deleted.",
-				  "success");
+				}, function(){		
+					$('#delete_web_document_id').val(web_document_id);
+					$('#deleteWebDocumentForm').submit();
+				    //swal("Deleted!","Your imaginary file has been deleted.","success");
 				});
 		}
 	</script>

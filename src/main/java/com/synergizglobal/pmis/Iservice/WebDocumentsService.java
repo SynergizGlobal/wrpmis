@@ -14,4 +14,8 @@ public interface WebDocumentsService {
 
 	List<WebDocuments> getWebDocumentCategoriesList(WebDocuments obj) throws Exception;
 
+	boolean updateWebDocument(WebDocuments obj) throws Exception;
+
+	boolean deleteWebDocument(WebDocuments obj) throws Exception;
+
 }

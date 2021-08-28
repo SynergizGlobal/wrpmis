@@ -34,4 +34,14 @@ public class WebDocumentsServiceImpl implements WebDocumentsService{
 		return dao.getWebDocumentCategoriesList(obj);
 	}
 
+	@Override
+	public boolean updateWebDocument(WebDocuments obj) throws Exception {
+		return dao.updateWebDocument(obj);
+	}
+
+	@Override
+	public boolean deleteWebDocument(WebDocuments obj) throws Exception {
+		return dao.deleteWebDocument(obj);
+	}
+
 }

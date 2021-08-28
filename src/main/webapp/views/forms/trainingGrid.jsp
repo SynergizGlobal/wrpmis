@@ -30,9 +30,9 @@
          .input-field .searchable_label{
             font-size: 0.85rem;
         }
-        .fw-370{
-        	width:370px !important;
-        	max-width:370px;
+        .fw-350{
+        	width:350px !important;
+        	max-width:350px;
         }
          .fw-90{
         	width:90px !important;
@@ -79,10 +79,16 @@
 			.hideCOl{
 				display:none;
 			}
-			.fw-370{
+			.fw-350{
 				width:30vw !important;
         		max-width:30vw;
 			 }
+			}
+			
+			.no-sort.hideCOl.sorting_asc:before,
+			.no-sort.hideCOl.sorting_asc:after{
+				opacity:0;
+				content:'';
 			}
     </style>
 </head>
@@ -153,10 +159,10 @@
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add Training</strong></a>
 								</div>
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col m8 s12 ">
+							<div class="col m1 hide-on-small-only"></div>
+							<div class="col m10 s12 ">
 								<div class="row" style="margin-bottom: 0;">
-									<div class="col s6 m3 input-field">
+									<div class="col s6 m2 input-field offset-m1">
 										<p class="searchable_label">Type</p>
 										<select class="searchable" name="training_type_fk"
 											id="training_type_fk" onchange="addInQueType(this.value);getTraningList();">
@@ -164,15 +170,21 @@
 
 										</select>
 									</div>
-									<div class="col s6 m3 input-field">
+									<div class="col s6 m2 input-field">
 										<p class="searchable_label">Category</p>
 										<select class="searchable" name="training_category_fk"
 											id="training_category_fk" onchange="addInQueCategory(this.value);getTraningList();">
 											<option value="">Select Category</option>
-
 										</select>
 									</div>
-									<div class="col s6 m3 input-field">
+									<div class="col s6 m2 input-field">
+										<p class="searchable_label">Title</p>
+										<select class="searchable" name="training_title_fk"
+											id="training_title_fk" onchange="addInQueCategory(this.value);getTraningList();">
+											<option value="">Select Title</option>
+										</select>
+									</div>
+									<div class="col s6 m2 input-field">
 										<p class="searchable_label">Status</p>
 										<select class="searchable" name="status_fk" id="status_fk"
 											onchange="addInQueStatus(this.value);getTraningList();">
@@ -180,7 +192,7 @@
 
 										</select> 
 									</div>
-									<div class="col s12 m3 center-align">
+									<div class="col s12 m2 center-align">
 										<button
 											class="btn bg-s waves-effect waves-light t-c clear-filters"
 											onclick="clearFilter();"
@@ -196,10 +208,10 @@
 								<table id="datatable-training" class="mdl-data-table">
 									<thead>
 										<tr>
-											<th>ID</th>
+											<th class="no-sort">ID</th>
 											<th>Type &nbsp;</th>
 											<th>Category</th>
-											<th class="fw-370">Title</th>
+											<th class="fw-350">Title</th>
 											<th>Faculty</th>
 											<th>Start Date</th>
 											<th>End Date</th>
@@ -494,7 +506,10 @@
 									"targets" : 'no-sort',
 									"orderable" : false,
 								} ,{targets:[0,1,4,5,6,7,8,9,10],
- 			                       className: 'hideCOl'}],
+ 			                       className: 'hideCOl no-sort'}
+								 ,{targets:[0,1,2,3,4,5,6,7,8,9,10,11],
+ 			                       className: 'no-sort'}								
+								],
 								"sScrollX" : "100%",
 								"sScrollXInner" : "100%",
 								"bScrollCollapse" : true,

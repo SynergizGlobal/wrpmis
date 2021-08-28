@@ -25,11 +25,22 @@
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/la.css">
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 	<link rel="stylesheet" href="/pmis/resources/css/document-pages.css">
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css">
 	
 	<!-- if need less code try to replace document-template css with mobile-document-template --> 
+	<style>
+		.w-12p{
+			width:12%;
+		}
+		@media screen and (min-width: 1024px){
+			.w-12p.last-column {
+			    width: 30%;
+			}
+		}
+	</style>
 
 </head>
 <body>
@@ -59,7 +70,16 @@
 					</c:if>
 					<div class="container">
 						<div class="row">
-							<div class="input-field col m10 s8">
+							<div class="input-field col 
+							<c:choose>
+    							<c:when test='${(sessionScope.USER_ROLE_CODE eq ROLE_CODE_DATA_ADMIN) or (sessionScope.USER_ROLE_CODE eq ROLE_CODE_IT_ADMIN)}'>
+									m10 s8  
+								</c:when>    
+    							<c:otherwise>
+    								m12 s12
+								</c:otherwise>
+							</c:choose>
+							">
 								<i class="material-icons prefix right-side">search</i> 
 								<input id="fileSearch" type="text" class="validate autocomplete" placeholder="Search ...">
 							</div>
@@ -71,19 +91,14 @@
 						</div>
 					
 						<div class="row folder-group">
-						 <!--  <div class="folder-group">
-						     <ul class="folder-group"> -->
 							<c:choose>   
 	                          <c:when test="${not empty webDocuments and fn:length(webDocuments) gt 0}">
 		                        <c:forEach var="webDocCategory" items="${webDocuments}" varStatus="index">     
-								  <!-- <li class="files-filter"> -->
-								  <!-- <div class="col m6 s12" class="flex-kind"> -->
 								  <div class="files-filter">
 									<div class="folder-header" id="folder${index.count }">
-										<i class="fa fa-folder open"></i> <!-- <i class="fa fa-folder-open close"></i> --> ${webDocCategory.category }
+										<i class="fa fa-folder open"></i> ${webDocCategory.category }
 									</div>
 									<div class=" folder-body">
-										<!-- <div class="files-collection"> -->
 										<div>
 										<c:choose>   
 										 <c:when test="${not empty webDocCategory.webDocumentsList and fn:length(webDocCategory.webDocumentsList) gt 0}">
@@ -96,7 +111,10 @@
 											            <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
 											            <th>Date of Issue</th>
 											            </c:if>
-											            <th class="w-8p last-column"> </th>
+											            <th class="last-column <c:choose>
+								    									<c:when test='${(sessionScope.USER_ROLE_CODE eq ROLE_CODE_DATA_ADMIN) or (sessionScope.USER_ROLE_CODE eq ROLE_CODE_IT_ADMIN)}'> w-12p </c:when>    
+										    							<c:otherwise> w-8p </c:otherwise>
+																	</c:choose> "> </th>
 											        </thead>
 											        <tbody>
 											        <c:forEach var="webDoc" items="${webDocCategory.webDocumentsList}" varStatus="indexx"> 
@@ -104,10 +122,14 @@
 											                <td>${indexx.count }</td>
 											                <td class="title-text">${webDoc.title }</td>
 											                <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
-											                <td>${webDoc.date_of_issue }</td>
+											                <td class="date">${webDoc.date_of_issue }</td>
 											                </c:if>
 											                <td><a href="#modal1${indexx.count }${index.count }" class="modal-trigger"><i class="fa fa-eye"></i></a> 
-											                    <a href="<%=CommonConstants2.WEB_DOCUMENTS %>${documentType }/${webDocCategory.category }/${webDoc.file_name }" download><i class="fa fa-download"></i></a>
+											                    <a class="file-name" href="<%=CommonConstants2.WEB_DOCUMENTS %>${documentType }/${webDocCategory.category }/${webDoc.file_name }" download><i class="fa fa-download"></i></a>
+											                    <c:if test='${(sessionScope.USER_ROLE_CODE eq ROLE_CODE_DATA_ADMIN) or (sessionScope.USER_ROLE_CODE eq ROLE_CODE_IT_ADMIN)}'>
+											                    	<a href="#" onclick="editModal(this)"><i class="fa fa-pencil"></i></a>
+											                    	<a href="#" ><i class="fa fa-trash" onclick="deleteRow(this)"></i></a>
+											                    </c:if> 
 											                </td>
 											                <div id="modal1${indexx.count }${index.count }" class="modal preview-modal">
 															    <div class="modal-content">
@@ -186,8 +208,6 @@
 			</div>
 		</div>
 	</div>
-
-  <!-- Modal Structure -->
   
 
   <!-- Modal Structure -->
@@ -251,6 +271,70 @@
 		
 		</div>
 	</div>
+	
+		<div id="update-modal" class="modal preview-modal"> 
+		<div class="modal-content">
+			<h6 class="modal-header">
+				<strong style="text-transform: capitalize;">${documentType}</strong> File Update<span class="right modal-action modal-close"><span class="material-icons">close</span></span>
+			</h6>
+
+			<div class="container">
+			 	<form action="<%=request.getContextPath() %>/upload-web-document/${document_type}" id="updateWebDocumentForm" name="updateWebDocumentForm" method="post" enctype="multipart/form-data">
+					<div class="row">
+						<div class="col m6 s12 input-field">
+							<input type="text" id="update_title" name="update_title" class="validate"> 
+							<label for="update_title">Title</label>
+							<span id="update_titleError" class="error-msg" ></span>
+						</div>
+						<div class="col m6 s12 input-field">
+							<p class="searchable_label">Category</p>
+							<select id="update_category" name="update_category" class="searchable validate-dropdown" onchange="selectCategory();">
+								<option value="">Select</option>
+								<c:forEach var="obj" items="${webDocCategoriesList }">
+	                                   <option value="${obj.category_id }">${obj.category}</option>
+	                            </c:forEach>
+							</select>
+							<span id="update_categoryError" class="error-msg" ></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col m6 s12 input-field">
+							<div class="file-field">
+								<div class="btn bg-m t-t-i">
+									<span>Upload File</span> <input type="file" id="update_webDocument" name="update_webDocument">
+								</div>
+								<div class="file-path-wrapper">
+									<input class="file-path validate" type="text" id="update_file_name" name="update_file_name" >
+								</div>							
+							</div>
+							<a id="update_file" href="" download></a>
+							<span id="update_webDocumentError" class="error-msg" ></span>
+						</div>
+						<c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
+						<div class="col m6 s12 input-field">
+							<input type="text" id="update_date" name="update_date" class="validate datepicker"> 
+							<label for="update_date">Date of Issue</label>
+							<span id="update_dateError" class="error-msg" ></span>
+							<button type="button" id="update_date_icon"><i class="fa fa-calendar"></i></button>
+						</div>
+						</c:if>
+					</div>
+					<input type="hidden" id="category" name="category" />
+					<div class="row" style="margin-top: 15px;">
+						<div class="col s6 m6 center-align">
+							<button type="button" onclick="uploadWebDocument();" style="width: 100%;"
+								class="btn waves-effect waves-light bg-m">Upload</button>
+						</div>
+						<div class="col s6 m6 center-align">
+							<a href="<%=request.getContextPath()%>/web-documents/${document_type}"  class="btn waves-effect waves-light bg-s modal-close"
+                                           style="width:100%">Cancel</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		
+		</div>
+	</div>
 
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -259,6 +343,7 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
+	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 	<script>
 	 
 		$(document).ready(function() {
@@ -268,7 +353,6 @@
 				dismissible : false,
 			});
 		
-			
 			var searchData = {};
 	            
             <c:forEach var="mObj" items="${foldersList}" varStatus="index">
@@ -279,8 +363,7 @@
                 data: searchData,
             });
             
-            $('.close-message').delay(5000).fadeOut('slow');
-            
+            $('.close-message').delay(5000).fadeOut('slow');            
             
             $('#date_of_issue_icon').click(function () {
                 event.stopPropagation();
@@ -357,6 +440,18 @@
 		         } else if (element.attr("id") == "webDocument" ){
 					 document.getElementById("webDocumentError").innerHTML="";
 					 error.appendTo('#webDocumentError');
+		         } else if (element.attr("id") == "update_title" ){
+					 document.getElementById("update_titleError").innerHTML="";
+					 error.appendTo('#update_titleError');
+		         } else if (element.attr("id") == "update_category" ){
+					 document.getElementById("update_categoryError").innerHTML="";
+					 error.appendTo('#update_categoryError');
+		         } else if (element.attr("id") == "update_webDocument" ){
+					 document.getElementById("update_webDocumentError").innerHTML="";
+					 error.appendTo('#update_webDocumentError');
+		         } else if (element.attr("id") == "update_date" ){
+					 document.getElementById("update_dateError").innerHTML="";
+					 error.appendTo('#update_dateError');
 		         } else {
 		        	 error.insertAfter(element);
 		         } 
@@ -365,6 +460,59 @@
 	             form.submit();
 		    }
 		});
+		
+		function editModal(a){
+			//getting elements using current element 
+			var trElement=$(a).parentsUntil('tbody');
+			var trElement=trElement[trElement.length-1];
+			var headerElement=$(a).parentsUntil('.folder-group');
+			var headerElement=headerElement[headerElement.length-1];
+			var headerElement=$(headerElement).find('.folder-header');
+			var fileElement=$(a).parent().find('.file-name').attr('href');
+			var fileNameFromElement=fileElement.split('/');
+			fileNameFromElement=fileNameFromElement[fileNameFromElement.length-1];
+			
+			//getting values using elements 
+			var titleText=$.trim($(trElement).find('.title-text').text());
+			var dateText=$.trim($(trElement).find('.date').text());
+			var categoryText=$.trim($(headerElement).text());
+			
+			//setting values to modal items
+			$('#update_title').val(titleText);
+			$('#update_date').val(dateText);
+			$("#update_category > option").each(function() {
+			    if(this.text==categoryText){
+			    	$(this).attr('selected',true);
+			    }
+			});
+			$('#update_category').select2();
+			$('#update_file').attr('href',fileElement);
+			$('#update_file').text(fileNameFromElement);
+			$('#update_file_name').val(fileNameFromElement);
+			
+			$('#update-modal').modal('open');
+			$('#update_title').focus();  		
+		}
+		
+		function deleteRow(a){
+			swal({
+				  title: "Are you sure?",
+				  text: "You will not be able to recover this imaginary file!",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "Yes, delete it!",
+				  closeOnConfirm: false,
+				  html: false
+				}, function(){
+					var trElement=$(a).parentsUntil('tbody');
+					var trElement=trElement[trElement.length-1];
+					$(trElement).remove();
+				  swal("Deleted!",
+				  "Your imaginary file has been deleted.",
+				  "success");
+				});
+		}
 	</script>
 </body>
 </html>

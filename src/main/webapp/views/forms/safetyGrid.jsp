@@ -84,6 +84,11 @@
 			}
 	    
 		}
+		.no-sort.sorting_asc:before,
+.no-sort.sorting_asc:after{
+    opacity:0 !important;
+    content:'' !important;
+}
     </style>
 </head>
 <body>
@@ -477,7 +482,8 @@
     							columnDefs : [ {
     								"targets" : 'no-sort',
     								"orderable" : false,
-    							},{targets: [2,3,4,5,6], className: 'hideCOl'} ],
+    							},{targets: [2,3,4,5,6], className: 'hideCOl'},{ targets: [0], className: 'no-sort'  } ],
+    							"ordering":false,
     							"sScrollX" : "100%",
     							"sScrollXInner" : "100%",
     							"bScrollCollapse" : true,

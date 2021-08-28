@@ -85,6 +85,11 @@
         	min-width:45vw;
         }
      }
+    .no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
     </style>
 </head>
 
@@ -210,7 +215,7 @@
 								<table id="zonal_railway_table" class="mdl-data-table">
 									<thead>
 										<tr>
-											<th class="fw-370">Sub Work</th>
+											<th class="fw-370 ">Sub Work</th>
 											<th>Execution <br>Agency
 											</th>
 											<th>Source <br>of Fund
@@ -474,9 +479,10 @@
    								columnDefs : [ {
    									"targets" : 'no-sort',
    									"orderable" : false,
-   								},{targets: [2,3,4,5,6,7], className: 'hideCOl'},{targets: [0], className: 'fw-111'} ],
+   								},{targets: [2,3,4,5,6,7], className: 'hideCOl'},{targets: [0], className: 'no-sort fw-111'} ],
    								"sScrollX" : "100%",
    								"sScrollXInner" : "100%",
+   								"ordering":false,
    								"bScrollCollapse" : true,
    								"language" : {
    									"info" : "_START_ - _END_ of _TOTAL_",
@@ -560,10 +566,7 @@
                     return JSON.parse(localStorage.getItem('MRVCDataTables'));
                 },
                 columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    },
+                   
                     { orderable: false, 'aTargets': ['nosort'] }
                 ],
                 "sScrollX": "100%",

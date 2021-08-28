@@ -112,6 +112,11 @@
 		        text-align: center;
 		    }
 		}
+.no-sort.sorting_asc:before,
+.no-sort.sorting_asc:after{
+    opacity:0 !important;
+    content:'' !important;
+}
     </style>
 </head>
 
@@ -459,9 +464,10 @@
 								columnDefs : [ {
 									"targets" : 'no-sort',
 									"orderable" : false,
-								} ,{ targets: [1,2,3,4], className: 'hideCOl'  },{ targets: [0], className: 'fw-25'  },{ targets: [5], className: 'fw-35'  }],
+								} ,{ targets: [1,2,3,4], className: 'hideCOl'  },{ targets: [0], className: 'fw-25 no-sort'  },{ targets: [5], className: 'fw-35'  }],
 								"sScrollX" : "100%",
 								"sScrollXInner" : "100%",
+								"ordering":false,
 								"bScrollCollapse" : true,
 								"language" : {
 									"info" : "_START_ - _END_ of _TOTAL_",

@@ -63,6 +63,11 @@
         	max-width:30vw; }
 			
 			}
+		.no-sort.sorting_asc:before,
+		.no-sort.sorting_asc:after{
+		    opacity:0 !important;
+		    content:'' !important;
+		}
     </style>
 </head>
 
@@ -390,9 +395,10 @@
     								"targets" : 'no-sort',
     								"orderable" : false,
     							},{targets:[2,3,4,5,6,7],
-    			                       className: 'hideCOl'}],
+    			                       className: 'hideCOl'},{ targets: [0], className: 'no-sort'  }],
     							"sScrollX" : "100%",
     							"sScrollXInner" : "100%",
+    							"ordering":false,
     							"bScrollCollapse" : true,
     							"language" : {
     								"info" : "_START_ - _END_ of _TOTAL_",

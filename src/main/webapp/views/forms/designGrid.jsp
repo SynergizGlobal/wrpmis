@@ -97,6 +97,11 @@
 		.right-btns:last-of-type {
 		  display:block;
 		}
+		.no-sort.sorting_asc:before,
+.no-sort.sorting_asc:after{
+    opacity:0 !important;
+    content:'' !important;
+}
     </style>
 </head>
 <body>
@@ -751,8 +756,9 @@
 												"targets" : 'no-sort',
 												"orderable" : false,
 											},{targets:[1,2,4,5,6,7],
-				 			                       className: 'hideCOl'},{ targets: [0], className: 'fw-111'  },{ targets: [0,3], className: 'fw-111'  } ],
+				 			                       className: 'hideCOl'},{ targets: [0], className: 'fw-111 no-sort'  },{ targets: [0,3], className: 'fw-111'  } ],
 											"sScrollX" : "100%",
+											"ordering":false,
 											"sScrollXInner" : "100%",
 											"bScrollCollapse" : true,
 											"language" : {

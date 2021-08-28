@@ -76,7 +76,11 @@
 	        	min-width:30vw;
 	        }
 		}
-    	
+.no-sort.sorting_asc:before,
+.no-sort.sorting_asc:after{
+    opacity:0 !important;
+    content:'' !important;
+}
     </style>
 </head>
 
@@ -529,10 +533,11 @@
     								"targets" : 'no-sort',
     								"orderable" : false,
     							},{targets:[0,2,4,5],
-	 			                       className: 'hideCOl'},{ targets: [1,3], className: 'fw-111'  }],
+	 			                       className: 'hideCOl'},{ targets: [1,3], className: 'fw-111'  },{ targets: [0], className: 'no-sort'  }],
     							"sScrollX" : "100%",
     							"sScrollXInner" : "100%",
     							"bScrollCollapse" : true,
+    							"ordering":false,
     							"language" : {
     								"info" : "_START_ - _END_ of _TOTAL_",
     								paginate : {

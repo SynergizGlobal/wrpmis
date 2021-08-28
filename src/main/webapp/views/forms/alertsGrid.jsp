@@ -145,6 +145,12 @@ label {
      font-size: 1.5rem; 
     color: #9e9e9e;
 } */
+
+.no-sort.sorting_asc:before,
+.no-sort.sorting_asc:after{
+    opacity:0 !important;
+    content:'' !important;
+}
     </style>
 </head>
 
@@ -616,8 +622,9 @@ label {
     								"orderable" : false,
     							},{targets: [0,1,2,3,6,7], className: 'hideCOl'},
     							{targets: [4,5], className: 'fw-111'},{targets: [8], className: 'break'},
-    							{targets: [0,1,2,3,4,5,6,7], className: 'fw-all'},],
+    							{targets: [0,1,2,3,4,5,6,7], className: 'fw-all'},{ targets: [0], className: 'no-sort'  }],
     							"sScrollX" : "100%",
+    							"ordering":false,
     							"sScrollXInner" : "100%",
     							"bScrollCollapse" : true,
     							"language" : {

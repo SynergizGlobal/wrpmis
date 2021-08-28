@@ -258,54 +258,36 @@ public class RiskDaoImpl implements RiskDao{
 	}
 	
 	
-	@Override
-public boolean checkRiskAssessment(List<Risk> risksList) throws Exception {
-		Connection con = null;
-		boolean flag = false;
-		String subWork = null;
-		String assessmentDate = null;
-
+@Override
+public boolean checkRiskAssessment(String subwork,String Date) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String risk_id_pk = null;
+		boolean flag=false;
+		
+			Connection con = null;
+	
 		try{
 			con = dataSource.getConnection();
-			for (Risk obj : risksList) 
+			String riskIdQry = "select * from pmis.risk r left join risk_revision p on p.risk_id_pk_fk=r.risk_id_pk where sub_work = ? and date = ? ";
+			stmt = con.prepareStatement(riskIdQry);
+			int k =1;
+			stmt.setString(k++, subwork);
+			stmt.setString(k++,  Date);
+			rs = stmt.executeQuery();  
+			if(rs.next()) 
 			{
-				String risk_id_pk = getRiskIdIfExists(obj.getSub_work(),obj.getSub_area_fk(),con);
-				obj.setRisk_id_pk(risk_id_pk);
-				String area_item_no = null;
-				String sub_area_item_no = null;
-				subWork = obj.getSub_work();
-				assessmentDate = obj.getDate();
-				if(!StringUtils.isEmpty(obj.getItem_no())) {
-					String[] temp = obj.getItem_no().split("\\.");
-					area_item_no = temp[0];
-					sub_area_item_no = temp[1];
-				}
-				String risk_area = getRiskArea(obj.getRisk_area_fk(),area_item_no,con);
-				String risk_sub_area = getRiskSubArea(obj.getRisk_area_fk(),obj.getSub_area_fk(),sub_area_item_no,con);
-				obj.setRisk_area_fk(risk_area);
-				obj.setSub_area_fk(risk_sub_area);
-				
-				if(!StringUtils.isEmpty(risk_id_pk)) 
-				{
-					 String revisionId = getRevisionIdIfExists(obj.getRisk_id_pk(),obj.getDate(),con);
-					 obj.setRisk_revision_id(revisionId);
-					 if(!StringUtils.isEmpty(revisionId)) 
-					 {
-						 flag=true;
-					 }
-				}
-				else
-				{
-					flag=false;
-				}
+				flag=true;
 			}
-		}
-		catch(Exception e){ 
-			con.rollback();
+		}catch(Exception e){ 		
+			e.printStackTrace();
 			throw new Exception(e);
 		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
 		return flag;
-	}
+}
 	
 	private String getRiskIdIfExists(String sub_work, String sub_area_fk, Connection con) throws Exception {
 		PreparedStatement stmt = null;

@@ -105,6 +105,343 @@ public class RiskController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/ajax/checkRiskAssessment", method = {RequestMethod.POST})
+	@ResponseBody
+	public String[] checkRiskAssessment(@ModelAttribute Risk obj,RedirectAttributes attributes,HttpSession session)
+	{
+		Risk risk = null;
+		List<Risk> risksList = new ArrayList<Risk>();
+		String userId = null;String userName = null;
+		Writer w = null;
+		String[] result = new String[2];
+		String msg = "";
+		String assessment_date = null;
+		try {		           
+			MultipartFile excelfile = obj.getRiskAssessmentFile();
+			
+			
+			userId = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id()); 
+			obj.setUser_designation(uObj.getDesignation());			
+			obj.setUploaded_by_user_id_fk(uObj.getUser_id());
+			
+			
+			if(!StringUtils.isEmpty(obj.getRiskAssessmentFile())){
+				MultipartFile multipartFile = obj.getRiskAssessmentFile();
+				// Creates a workbook object from the uploaded excelfile
+				if (multipartFile.getSize() > 0){					
+					XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+					// Creates a worksheet object representing the first sheet
+					int sheetsCount = workbook.getNumberOfSheets();
+					if(sheetsCount > 0) {
+						XSSFSheet risksDrawingsSheet = workbook.getSheetAt(1);
+						//System.out.println(uploadFilesSheet.getSheetName());
+						//header row
+						XSSFRow headerRow = risksDrawingsSheet.getRow(2);
+						
+						DataFormatter formatter = new DataFormatter();
+						//checking given file format
+						if(headerRow != null)
+						{
+							List<String> fileFormat = FileFormatModel.getRiskFileFormat();	
+							int noOfColumns = headerRow.getLastCellNum();
+							//if(noOfColumns == fileFormat.size()){
+								for (int i = 0; i < fileFormat.size();i++) {
+				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+									String columnName = formatter.formatCellValue(headerRow.getCell(i));
+									columnName = columnName.replaceAll("[\r\n]", "");
+									String tempName = fileFormat.get(i).replaceAll("[\r\n]", "");
+									//System.out.println(columnName + " = " + tempName);									
+									if(!columnName.equals(tempName.trim()) && !columnName.contains(tempName.trim())){				                		
+				                		msg = uploadformatError;
+				                		obj.setUploaded_by_user_id_fk(userId);
+				                		obj.setStatus("Fail");
+				                		obj.setRemarks(result[0]);
+				                		attributes.addFlashAttribute("error",msg);
+										
+				                	}
+								}
+						}
+					
+					}
+					workbook.close();
+				}
+			}			
+
+			// Creates a workbook object from the uploaded excelfile
+			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
+				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+				int sheetsCount = workbook.getNumberOfSheets();
+				if(sheetsCount > 0) {
+					XSSFSheet risksDrawingsSheet = workbook.getSheetAt(1);
+					//System.out.println(uploadFilesSheet.getSheetName());
+					//header row
+					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
+					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+					//System.out.println(uploadFilesSheet.getLastRowNum());
+					
+					String sub_work = null,item_no = null,risk_id = null,owner = null,risk_area_fk = null,risk_sub_area_fk = null,
+							date = null,probability = null,impact = null,mitigation_plan = null,priority = null,
+							responsible_person = null;
+					
+					String logged_in_user_designation = obj.getUser_designation();
+
+					String risk_owner_error = "";
+					String risk_rows_error = "";
+					String risk_cols_error = "";
+					int rowNo = 0;
+					String work_mismatch = null;
+					String assessment_date_error = null;
+					for(int j = 3; j <= risksDrawingsSheet.getLastRowNum();j++){						
+						rowNo = j+1;
+						XSSFRow row = risksDrawingsSheet.getRow(j);
+						// Sets the Read data to the model class
+						// Cell cell = row.getCell(0);
+						// String j_username = formatter.formatCellValue(row.getCell(0));
+						//System.out.println(i);
+						risk = new Risk();
+						String val = null;
+						
+						if(!StringUtils.isEmpty(row)) {	
+							String tempVal = formatter.formatCellValue(row.getCell(0)).trim();
+							int count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								sub_work = getCellDataType2(workbook,row.getCell(0));
+							}								
+							if(!StringUtils.isEmpty(sub_work)) { 
+								String tempSubWork = sub_work.replaceAll("\\&", "and");
+								risk.setSub_work(tempSubWork);
+							}
+							
+							//val = getCellDataType2(workbook,row.getCell(1));
+							tempVal = formatter.formatCellValue(row.getCell(1)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								owner = getCellDataType2(workbook,row.getCell(1));
+							}
+							if(!StringUtils.isEmpty(owner)) { risk.setOwner(owner);}
+							
+							//val = getCellDataType2(workbook,row.getCell(2));
+							tempVal = formatter.formatCellValue(row.getCell(2)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								item_no = getCellDataType2(workbook,row.getCell(2));
+							}
+							if(!StringUtils.isEmpty(item_no)) { risk.setItem_no(item_no);}
+							
+							//val = getCellDataType2(workbook,row.getCell(3));
+							tempVal = formatter.formatCellValue(row.getCell(3)).trim();	
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								risk_area_fk = getCellDataType2(workbook,row.getCell(3));
+							}
+							if(!StringUtils.isEmpty(risk_area_fk)) { risk.setRisk_area_fk(risk_area_fk);}	
+							
+							//val = getCellDataType2(workbook,row.getCell(4));
+							tempVal = formatter.formatCellValue(row.getCell(4)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								risk_sub_area_fk = getCellDataType2(workbook,row.getCell(4));
+							}
+							if(!StringUtils.isEmpty(risk_sub_area_fk)) { risk.setSub_area_fk(risk_sub_area_fk);}					
+							
+							//val = getCellDataType2(workbook,row.getCell(5));
+							tempVal = formatter.formatCellValue(row.getCell(5)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								date = getCellDataType2(workbook,row.getCell(5));
+							}
+							if(!StringUtils.isEmpty(date)) { risk.setDate(date);}								
+							
+							//val = getCellDataType2(workbook,row.getCell(6));
+							tempVal = formatter.formatCellValue(row.getCell(6)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								probability = getCellDataType2(workbook,row.getCell(6));
+							}
+							if(!StringUtils.isEmpty(probability)) { risk.setProbability(probability);}										
+							
+							//val = getCellDataType2(workbook,row.getCell(7));
+							tempVal = formatter.formatCellValue(row.getCell(7)).trim();	
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								impact = getCellDataType2(workbook,row.getCell(7));
+							}
+							if(!StringUtils.isEmpty(impact)) { risk.setImpact(impact);}
+							
+							val = getCellDataType2(workbook,row.getCell(8));
+							if(!StringUtils.isEmpty(val)) { risk.setRisk_rating(val);}
+							
+							val = getCellDataType2(workbook,row.getCell(9));
+							if(!StringUtils.isEmpty(val)) { risk.setClassification(val);}
+							
+							val = getCellDataType2(workbook,row.getCell(10));
+							if(!StringUtils.isEmpty(val)) { risk.setStatus(val);}
+							
+
+							//val = getCellDataType2(workbook,row.getCell(11));
+							tempVal = formatter.formatCellValue(row.getCell(11)).trim();								
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								priority = getCellDataType2(workbook,row.getCell(11));
+							}
+							if(!StringUtils.isEmpty(priority)) { risk.setPriority_fk(priority);}
+							
+							//val = getCellDataType2(workbook,row.getCell(12));
+							tempVal = formatter.formatCellValue(row.getCell(12)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								mitigation_plan = getCellDataType2(workbook,row.getCell(12));
+							}
+							if(!StringUtils.isEmpty(mitigation_plan)) { risk.setMitigation_plan(mitigation_plan);}
+							
+							
+							//val = getCellDataType2(workbook,row.getCell(13));
+							tempVal = formatter.formatCellValue(row.getCell(13)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								responsible_person = getCellDataType2(workbook,row.getCell(13));
+							}								
+							if(!StringUtils.isEmpty(responsible_person) && !responsible_person.equals("0.0")) { risk.setResponsible_person(responsible_person);}									
+							
+							risk.setDate(DateParser.parse(risk.getDate()));	
+							
+							assessment_date = risk.getDate();
+							
+							if(StringUtils.isEmpty(risk.getSub_work())) { 
+								risk_cols_error = "A";
+							}
+							if(StringUtils.isEmpty(risk.getOwner())) { 
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "B";
+							}
+							if(StringUtils.isEmpty(risk.getDate())) { 
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "F";
+							}
+							if(!"Accepted".equals(priority) && StringUtils.isEmpty(mitigation_plan)) {
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "M";
+							}
+							if(StringUtils.isEmpty(risk.getResponsible_person())) { 
+								risk_cols_error = risk_cols_error + (!StringUtils.isEmpty(risk_cols_error)?",":"") + "N";
+							}
+							
+							
+							if(!StringUtils.isEmpty(risk_cols_error)) { 
+								break;
+							}
+							
+							
+							if(!StringUtils.isEmpty(obj.getSub_work()) && !obj.getSub_work().equals(risk.getSub_work())) {
+								work_mismatch = "Work selected from the dropdown and on the assessment form do not match.";
+								break;
+							}
+							
+							if(!StringUtils.isEmpty(risk.getDate()) ) {
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+								
+								String startDate = risk.getDate();
+								String endDate = sdf.format(new Date());
+							    Date start = sdf.parse(startDate);
+					            Date end = sdf.parse(endDate);
+					            if (start.compareTo(end) > 0) {
+					            	assessment_date_error = "Assessment date on input form cannot be later than current date.";
+									break;
+					            }    
+								
+							}
+							
+							
+							if(!StringUtils.isEmpty(obj.getSub_work()) && obj.getSub_work().equals(risk.getSub_work())
+									&& !StringUtils.isEmpty(risk.getSub_work()) && !StringUtils.isEmpty(risk.getOwner()) 
+									&& !StringUtils.isEmpty(risk.getDate()) && !StringUtils.isEmpty(risk.getProbability()) && !StringUtils.isEmpty(risk.getImpact()) 
+									&& !StringUtils.isEmpty(risk.getPriority_fk())  && !StringUtils.isEmpty(risk.getResponsible_person()) 
+									&& (risk.getProbability().equals("1") || risk.getProbability().equals("3") || risk.getProbability().equals("5")) && (risk.getImpact().equals("1") || risk.getImpact().equals("3") || risk.getImpact().equals("5"))) {
+								
+								if(risk.getOwner().equals(logged_in_user_designation)) {
+									risksList.add(risk);
+								}else {
+									risk_owner_error = "1";
+									break;
+								}
+								
+							}else {
+								risk_rows_error = risk_rows_error + (!StringUtils.isEmpty(risk_rows_error)?",":"") + rowNo;
+							}
+							
+						}						
+					}
+					
+					if(!StringUtils.isEmpty(risk_owner_error)) {
+						risk_owner_error = "<br><span style='color:red;'>PMIS user and work owner on the assessment form do not match.</span> ";
+					}
+					if(!StringUtils.isEmpty(risk_cols_error)) {
+						risk_cols_error = "<br><span style='color:red;'>Your assessment is incomplete! Column no(s) " + risk_cols_error + " of the assessment form requires attention.</span> ";
+					}
+					if(!StringUtils.isEmpty(risk_rows_error)) {
+						risk_rows_error = "<br><span style='color:red;'>Your assessment is incomplete! Row no(s) " + risk_rows_error + " of the assessment form requires attention.</span> ";
+					}
+					
+					if(!StringUtils.isEmpty(work_mismatch)) {
+						risk_rows_error = "<br><span style='color:red;'>" + work_mismatch + "</span> ";
+					}
+					
+					if(!StringUtils.isEmpty(assessment_date_error)) {
+						risk_rows_error = "<br><span style='color:red;'>" + assessment_date_error + "</span> ";
+					}
+					
+					if(!risksList.isEmpty() && StringUtils.isEmpty(risk_rows_error) && StringUtils.isEmpty(work_mismatch)
+							&& StringUtils.isEmpty(assessment_date_error) && StringUtils.isEmpty(risk_cols_error))
+					{
+						
+						boolean CheckAssessmentDate=riskService.checkRiskAssessment(risk.getSub_work(),risk.getDate());
+						if(CheckAssessmentDate==true)
+						{
+							msg = "<br><span style='color:red;' id='checkEntryError'>The date of assessment on the Risk Assessment form is same as that of the last assessment date. </span> ";
+						}
+						else
+						{
+						
+						int[] arr  = riskService.uploadRiskAssessments(risksList);
+						
+						/*
+						 * if(arr[0] > 0) { msg = msg + arr[0] + " Risk updated successfully. "; }
+						 * if(arr[1] > 0) { msg = msg + arr[1] + " Risk added successfully. "; }
+						 */
+						
+						msg =  "<span style='color:green;'>Risk Assessment uploaded successfully.</span>";
+						}
+					}				
+					
+					msg = msg + risk_owner_error + risk_rows_error + risk_cols_error;
+					
+					result[0] = msg;
+					result[1] = assessment_date;
+				}
+				workbook.close();
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("uploadRiskAssessment() : "+e.getMessage());
+		}finally{
+		    try{
+		        if ( w != null)
+		        	w.close( );
+		    }catch ( IOException e){
+		    	e.printStackTrace();
+		    	logger.error("uploadRiskAssessment() : "+e.getMessage());
+		    }
+		}
+		
+		return result;
+
+	}
+	
 	
 	@RequestMapping(value = "/upload-risk-assessment", method = {RequestMethod.POST})
 	public ModelAndView uploadRiskAssessment(@ModelAttribute Risk risk,RedirectAttributes attributes,HttpSession session){
@@ -139,7 +476,8 @@ public class RiskController {
 						
 						DataFormatter formatter = new DataFormatter();
 						//checking given file format
-						if(headerRow != null){
+						if(headerRow != null)
+						{
 							List<String> fileFormat = FileFormatModel.getRiskFileFormat();	
 							int noOfColumns = headerRow.getLastCellNum();
 							//if(noOfColumns == fileFormat.size()){
@@ -440,17 +778,6 @@ public class RiskController {
 							
 						}						
 					}
-					if(!risksList.isEmpty() && StringUtils.isEmpty(risk_rows_error) && StringUtils.isEmpty(work_mismatch)
-							&& StringUtils.isEmpty(assessment_date_error) && StringUtils.isEmpty(risk_cols_error)){
-						int[] arr  = riskService.uploadRiskAssessments(risksList);
-						
-						/*
-						 * if(arr[0] > 0) { msg = msg + arr[0] + " Risk updated successfully. "; }
-						 * if(arr[1] > 0) { msg = msg + arr[1] + " Risk added successfully. "; }
-						 */
-						
-						msg =  "<span style='color:green;'>Risk Assessment uploaded successfully.</span>";
-					}
 					
 					if(!StringUtils.isEmpty(risk_owner_error)) {
 						risk_owner_error = "<br><span style='color:red;'>PMIS user and work owner on the assessment form do not match.</span> ";
@@ -469,6 +796,23 @@ public class RiskController {
 					if(!StringUtils.isEmpty(assessment_date_error)) {
 						risk_rows_error = "<br><span style='color:red;'>" + assessment_date_error + "</span> ";
 					}
+					
+					if(!risksList.isEmpty() && StringUtils.isEmpty(risk_rows_error) && StringUtils.isEmpty(work_mismatch)
+							&& StringUtils.isEmpty(assessment_date_error) && StringUtils.isEmpty(risk_cols_error))
+					{
+						
+
+						
+						int[] arr  = riskService.uploadRiskAssessments(risksList);
+						
+						/*
+						 * if(arr[0] > 0) { msg = msg + arr[0] + " Risk updated successfully. "; }
+						 * if(arr[1] > 0) { msg = msg + arr[1] + " Risk added successfully. "; }
+						 */
+						
+						msg =  "<span style='color:green;'>Risk Assessment uploaded successfully.</span>";
+						
+					}				
 					
 					msg = msg + risk_owner_error + risk_rows_error + risk_cols_error;
 					

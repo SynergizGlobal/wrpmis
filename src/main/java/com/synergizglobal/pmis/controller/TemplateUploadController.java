@@ -81,19 +81,20 @@ public class TemplateUploadController {
 			if (!theDir.exists()){
 			    theDir.mkdirs();
 			}
+			String commonAttachment = obj.getCommonAttachment();
 			Path oldFile  = Paths.get(CommonConstants.TEMPLATE_FILEPATH + obj.getTemplate_name()+".xlsx");
 			String renameFile = obj.getTemplate_name() +"_"+ timeStamp+"_"+renNum+renNum2+".xlsx";
-			Files.move(oldFile, oldFile.resolveSibling(CommonConstants.TEMPLATE_FILEPATH + renameFile));
+			Files.move(oldFile, oldFile.resolveSibling(CommonConstants.TEMPLATE_FILEPATH + commonAttachment));
 			
 			Path temp = Files.move
-			        (Paths.get(CommonConstants.TEMPLATE_FILEPATH + renameFile), 
-			        Paths.get(CommonConstants.TEMPLATE_OLD_FILEPATH + renameFile));
+			        (Paths.get(CommonConstants.TEMPLATE_FILEPATH + commonAttachment), 
+			        Paths.get(CommonConstants.TEMPLATE_OLD_FILEPATH + commonAttachment));
 			String fileDirectory = CommonConstants.TEMPLATE_FILEPATH ;
 			
 			String fileName = file.getOriginalFilename();
 			String fileName_new = obj.getTemplate_name()+"."+ fileName.split("\\.")[1];
 			obj.setAttachment(renameFile);
-			
+			obj.setCommonAttachment(fileName_new);
 			FileUploads.singleFileSaving(file, fileDirectory, fileName_new);
 			
 			boolean flag =  service.uploadTemplate(obj);

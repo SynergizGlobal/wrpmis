@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.TemplateUploadDao;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Training;
 import com.synergizglobal.pmis.model.Work;
@@ -33,7 +34,7 @@ public class TemplateUploadDaoImpl implements TemplateUploadDao{
 	public List<TrainingType> getTemplatesList() throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="select id, template_name, attachment, DATE_FORMAT(uploaded_on,'%d-%m-%Y') AS uploaded_on, uploaded_by,u.user_name status from upload_templates ut "
+			String qry ="select id, template_name, attachment, DATE_FORMAT(uploaded_on,'%d-%m-%Y') AS uploaded_on, uploaded_by,u.user_name, status from upload_templates ut "
 					+ "left join user u on ut.uploaded_by = u.user_id "
 					+ " where status = ?";
 			int arrSize = 1;
@@ -47,7 +48,7 @@ public class TemplateUploadDaoImpl implements TemplateUploadDao{
 				String qryDetails = "select id, template_name, attachment, DATE_FORMAT(uploaded_on,'%d-%m-%Y') AS uploaded_on,u.user_name, uploaded_by, status " + 
 						"from upload_templates ut "
 						+ "left join user u on ut.uploaded_by = u.user_id "
-						+"where  template_name = ? and status = ? ORDER BY uploaded_on asc";
+						+"where  template_name = ? and status = ? ORDER BY uploaded_on desc";
 				
 				objsList1 = jdbcTemplate.query(qryDetails, new Object[] {session.getTemplate_name(),CommonConstants.INACTIVE}, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 				session.setTableHistoryList(objsList1); 
@@ -86,7 +87,9 @@ public class TemplateUploadDaoImpl implements TemplateUploadDao{
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
-		}
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, null, null);
+		}	
 		return flag;
 	}
 
@@ -102,6 +105,7 @@ public class TemplateUploadDaoImpl implements TemplateUploadDao{
 			stmt = con.prepareStatement(deleteQry);
 			stmt.setString(1,CommonConstants.INACTIVE);
 			stmt.setString(2,obj.getId());
+			count = stmt.executeUpdate();
 			if(count > 0) {
 				flag = true;
 			}

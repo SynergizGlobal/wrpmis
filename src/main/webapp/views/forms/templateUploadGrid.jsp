@@ -57,6 +57,9 @@
         svg {
             fill: #fff;
         }
+        .my-error-class{
+			color:red!important; 
+		}
     </style>
 </head>
 
@@ -94,20 +97,20 @@
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="tabletBody">
                                     <c:forEach var="obj" items="${templatesList}" varStatus="index">
-                                        <tr>
+                                        <tr  id="${index.count }">
                                         
                                             <td>${obj.template_name }</td>
-                                            <td>${obj.uploaded_by }</td>
                                             <td>${obj.user_name }</td>
+                                            <td>${obj.uploaded_on }</td>
                                             <td>${obj.status }</td>
                                             
                                             <td class="last-column">
                                                 <a href="#addUpdateModal" class="btn bg-m waves-effect waves-light modal-trigger" id="${index.count }" onclick="uploadFunction('${obj.template_name }');" title="Upload"><i
                                                         class="fa fa-upload"></i></a>
                                                 <a  class="btn waves-effect waves-light " href="/pmis/${obj.template_name }.xlsx" download  title="Download"><i
-                                                        class="fa fa-download"></i></a>
+                                                        class="fa fa-download"></i></a><input type="hidden" id="attachmentFile${index.count }"  value="${obj.attachment}" />
                                                 <a href="#" class="btn waves-effect waves-light bg-s " title="Delete"  onclick="deleteTemplate('${obj.id }');" ><i
                                                         class="fa fa-trash"></i></a>
                                                 <a href="#history${index.count }" class="btn bg-m waves-effect waves-light modal-trigger"  
@@ -136,7 +139,7 @@
 	                                                            <c:when test = "${not empty obj.tableHistoryList}">
 	                                                              <c:forEach var="hObj" items="${obj.tableHistoryList}" varStatus="indexx">
 	                                                               <tr id="historyTableRow${index.count }${indexx.count }">
-	                                                               		<td><a  id="attachment${index.count }${indexx.count }" href="/pmis/TEMPLATES_OLD/${obj.attachment }" download title="Download">  ${hObj.template_name }</a></td>
+	                                                               		<td><a  id="attachment${index.count }${indexx.count }" href="/pmis/TEMPLATES_OLD/${hObj.attachment }" download title="Download">  ${hObj.template_name }</a></td>
 	                                                               		<td>${hObj.user_name }</td>
 	                                                               		<td>${hObj.uploaded_on }</td>
 	                                                               		<td>${hObj.status }</td>
@@ -177,12 +180,13 @@
                             <div class="file-field input-field" >
                             <div class="btn bg-m t-c">
 		                             <span>Attach File</span>
-                                <input type="file" id="templateFile" name="templateFile"  class="validate">  <!-- onchange="selectFile('1')" -->
+                                <input type="file" id="templateFile" name="templateFile"  class="validate" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">  <!-- onchange="selectFile('1')" -->
                                </div> 
                                 <div class="file-path-wrapper">
 		                            <input class="file-path validate" type="text">
 		                        </div>   
                                 <span id="template_nameError" class="error-msg" ></span>
+                                <input type="hidden" name="commonAttachment" id="attachment1" />
                             </div>
                             </div>
                         </div>
@@ -225,6 +229,7 @@
     
 	<form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="id" id="id" />
+    	
     </form>
     <script>
         $(document).ready(function () {
@@ -249,11 +254,15 @@
                 }
             });
         });
-        
+    	var trid = null;
+    	$('#tabletBody tr').click(function (event) {
+    		trid = this.id; //trying to alert id of the clicked row          
+    	  });
         function uploadTemplate() {
-        	
+		    var attachmentFile = $('#attachmentFile'+trid).val()
         	if(validator.form()){ 
      			$(".page-loader").show();
+     			$('#attachment1').val(attachmentFile)
      			$("#addUpdateModal").modal();
      			document.getElementById("templateForm").submit();	
           }
@@ -290,7 +299,36 @@
 		            }
 		        });
 	  }
-	  
+        var validator =	$('#templateForm').validate({
+			 errorClass: "my-error-class",
+			   validClass: "my-valid-class",
+	  		    rules: {
+	  		 		   "templateFile": {
+	  			 		  required: true
+	  			 	  }
+	  		 	},
+	  		    messages: {
+	  		 		   "templateFile": {
+	  			 		  required: 'Required'
+	  			 	  }	
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	  if(element.attr("id") == "templateFile" ){
+					     document.getElementById("template_nameError").innerHTML="";
+				 	     error.appendTo('#template_nameError');
+					 }else{
+	 					 error.insertAfter(element);
+			        } 
+		   		},submitHandler:function(form){
+			    	//form.submit();
+			    }
+			});   
+     
+	       $('input').change(function(){
+	           if ($(this).val() != ""){
+	               $(this).valid();
+	           }
+	       });
     </script>
 </body>
 

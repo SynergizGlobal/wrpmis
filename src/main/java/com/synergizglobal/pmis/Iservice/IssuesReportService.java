@@ -22,4 +22,8 @@ public interface IssuesReportService {
 	List<Issue> getStatusListInIssuesReport(Issue obj) throws Exception;
 
 	List<Issue> getTitlesListInIssuesReport(Issue obj) throws Exception;
+
+	List<Issue> getLocationsListInIssuesReport(Issue obj) throws Exception;
+
+	List<Issue> getCategoriesListInIssuesReport(Issue obj) throws Exception;
 }

@@ -185,6 +185,34 @@ public class IssuesReportController {
 		return objsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getLocationsListInIssuesReport", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getLocationsListInIssuesReport(@ModelAttribute Issue obj) {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getLocationsListInIssuesReport(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getLocationsListInIssuesReport : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getCategoriesListInIssuesReport", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getCategoriesListInIssuesReport(@ModelAttribute Issue obj) {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getCategoriesListInIssuesReport(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getCategoriesListInIssuesReport : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
 	@RequestMapping(value = "/ajax/getTitlesListInIssuesReport", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

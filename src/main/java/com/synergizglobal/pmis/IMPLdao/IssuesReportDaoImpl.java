@@ -235,12 +235,121 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 		}
 		return objsList;
 	}
+	
+	@Override
+	public List<Issue> getLocationsListInIssuesReport(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT location "
+					+ "from issue i "
+					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "where location is not null and location <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and c.hod_user_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY location ORDER BY location";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getCategoriesListInIssuesReport(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT category_fk "
+					+ "from issue i "
+					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "where category_fk is not null and category_fk <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and c.hod_user_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation())) {
+				qry = qry + " and location = ?";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY category_fk ORDER BY category_fk";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation())) {
+				pValues[i++] = obj.getLocation();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 
 	@Override
 	public List<Issue> getTitlesListInIssuesReport(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT issue_id,title,c.work_id_fk,contract_id_fk,status_fk,c.hod_user_id_fk "
+			String qry = "SELECT issue_id,title,c.work_id_fk,contract_id_fk,status_fk,c.hod_user_id_fk,location,category_fk "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
@@ -262,6 +371,14 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation())) {
+				qry = qry + " and location = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
+				qry = qry + " and category_fk = ?";
+				arrSize++;
+			}
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -278,7 +395,12 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
-			qry = qry + " GROUP BY title ORDER BY title";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation())) {
+				pValues[i++] = obj.getLocation();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
+				pValues[i++] = obj.getCategory_fk();
+			}
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
@@ -518,5 +640,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 		}
 		return objsList;
 	}
+
+	
 	
 }

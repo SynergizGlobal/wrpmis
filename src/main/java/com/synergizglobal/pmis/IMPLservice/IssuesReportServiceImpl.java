@@ -56,4 +56,14 @@ public class IssuesReportServiceImpl implements IssuesReportService{
 		return issueDao.getTitlesListInIssuesReport(obj);
 	}
 
+	@Override
+	public List<Issue> getLocationsListInIssuesReport(Issue obj) throws Exception {
+		return issueDao.getLocationsListInIssuesReport(obj);
+	}
+
+	@Override
+	public List<Issue> getCategoriesListInIssuesReport(Issue obj) throws Exception {
+		return issueDao.getCategoriesListInIssuesReport(obj);
+	}
+
 }

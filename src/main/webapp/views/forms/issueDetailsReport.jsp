@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <!--  <title>PMIS Report - Pending Issues</title> -->
-    <title>Issue Detail Reports - PMIS</title>
+    <title>Issue Details Reports - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -33,7 +33,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Issue Detail Report </h6>
+                            <h6>Issue Details Report </h6>
                         </div>
                     </span>
                     <div class="">
@@ -43,21 +43,21 @@
 	                                <div class="row no-mar">
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="getContractsListInIssuesReport(this.value);">
+	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="getContractsListInIssuesReport(this.value);getTitlesListInIssuesReport();">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract</p>
-	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="getHODListInIssuesReport(this.value);">
+	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="getHODListInIssuesReport(this.value);getTitlesListInIssuesReport();">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="contract_id_fkError" class="error-msg" ></span>
 	                                    </div>
 										<div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
-	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk">
+	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="getStatusListInIssuesReport();getTitlesListInIssuesReport();">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
@@ -66,17 +66,17 @@
 	                                    <div class="row">
 	                                     <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Status</p>
-	                                        <select class="searchable validate-dropdown" id="status" name="status">
+	                                        <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getTitlesListInIssuesReport();">
 	                                            <option value="">Select </option>
 	                                        </select>
-	                                        <span id="statusError" class="error-msg" ></span>
+	                                        <span id="status_fkError" class="error-msg" ></span>
 	                                    </div> 
 	                                     <div class="col s6 m4 l6 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Description</p>
-	                                        <select class="searchable validate-dropdown" id="description" name="description">
+	                                        <select class="searchable validate-dropdown" id="issue_id" name="issue_id">
 	                                            <option value="">Select </option>
 	                                        </select>
-	                                        <span id="descriptionError" class="error-msg" ></span>
+	                                        <span id="issue_idError" class="error-msg" ></span>
 	                                    </div> 
 	                                    
 	                                </div>    
@@ -90,7 +90,7 @@
 	                                     <div class="col s12 m4 l3 input-field mob-center">
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
-	                                            onclick="generateIssuesSummaryReport()">Generate Report</button>
+	                                            onclick="generateAndDownloadIssueDetailsReport()">Generate Report</button>
 	                                    </div> 
 	                                    
 	                                </div>                            
@@ -156,15 +156,17 @@
         	getWorksListInIssuesReport();
         	getContractsListInIssuesReport("");
         	getHODListInIssuesReport("");
+        	getStatusListInIssuesReport();
+        	getTitlesListInIssuesReport();
         });
         
         function getWorksListInIssuesReport() {
         	$(".page-loader").show();
            	$("#work_id_fk option:not(:first)").remove();
-           	var myParams = {status_fk : 'Closed'}
+           	var myParams = {}
            	$.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getWorksListInIssuesReport",
-                   data: myParams, cache: false,
+                   data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
@@ -187,10 +189,13 @@
         function getContractsListInIssuesReport(work_id_fk){
         	$(".page-loader").show();
            	$("#contract_id_fk option:not(:first)").remove();
-           	var myParams = {work_id_fk : work_id_fk,status_fk : 'Closed'}
+           	$("#hod_user_id_fk option:not(:first)").remove();
+           	$("#status_fk option:not(:first)").remove();
+           	$("#issue_id option:not(:first)").remove();
+           	var myParams = {work_id_fk : work_id_fk}
            	$.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getContractsListInIssuesReport",
-                   data: myParams, cache: false,
+                   data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
@@ -213,10 +218,12 @@
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
            	$("#hod_user_id_fk option:not(:first)").remove();
-           	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk,status_fk : 'Closed'}
+           	$("#status_fk option:not(:first)").remove();
+           	$("#issue_id option:not(:first)").remove();
+           	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk}
            	$.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getHODListInIssuesReport",
-                   data: myParams, cache: false,
+                   data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
@@ -232,14 +239,74 @@
             });
         }
         
-        function generatePendingIssuesReport() {
-        	//$(".page-loader").show();
-        	$('#reportForm').attr('action', '<%=request.getContextPath() %>/generate-pending-issues-report').submit();
-		}
+        function getStatusListInIssuesReport(){
+        	$(".page-loader").show();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
+           	$("#status_fk option:not(:first)").remove();
+           	$("#issue_id option:not(:first)").remove();
+           	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk,hod_user_id_fk : hod_user_id_fk}
+           	$.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getStatusListInIssuesReport",
+                   data: myParams, cache: false,async:false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                        	   $("#status_fk").append('<option value="' + $.trim(val.status_fk) + '">' + $.trim(val.status_fk) +'</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+            });
+        }
         
-        function generateIssuesSummaryReport() {
-        	//$(".page-loader").show();
-        	$('#reportForm').attr('action', '<%=request.getContextPath() %>/generate-issues-summary-report').submit();
+        function getTitlesListInIssuesReport(){
+        	$(".page-loader").show();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
+        	var status_fk = $("#status_fk").val();
+           	$("#issue_id option:not(:first)").remove();
+           	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk,hod_user_id_fk : hod_user_id_fk, status_fk : status_fk}
+           	$.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getTitlesListInIssuesReport",
+                   data: myParams, cache: false,async:false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                        	   $("#issue_id").append('<option work_id_fk="'+$.trim(val.work_id_fk)+'" contract_id_fk="'+$.trim(val.contract_id_fk)+'" status_fk="'+$.trim(val.status_fk)+'" hod_user_id_fk="'+$.trim(val.hod_user_id_fk)+'" value="' + $.trim(val.issue_id) + '">' + $.trim(val.title) +'</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+            });
+        }
+        
+        function setDropdownValues(){
+        	var work_id_fk = $("#issue_id").find('option:selected').attr("work_id_fk");
+        	var contract_id_fk = $("#issue_id").find('option:selected').attr("contract_id_fk");
+        	var hod_user_id_fk = $("#issue_id").find('option:selected').attr("hod_user_id_fk");
+        	var status_fk = $("#issue_id").find('option:selected').attr("status_fk");
+        	$('#work_id_fk').val(work_id_fk);
+        	$('#contract_id_fk').val(contract_id_fk);
+        	$('#hod_user_id_fk').val(hod_user_id_fk);
+        	$('#status_fk').val(status_fk);
+        	$('.searchable').select2();
+        }
+        
+        function generateAndDownloadIssueDetailsReport() {
+        	if(validator.form()){
+            	$('#reportForm').attr('action', '<%=request.getContextPath() %>/generate-and-download-issue-details-report').submit();
+        	}
 		}
         
         
@@ -252,6 +319,10 @@
 	  			 		required: false
 	  			 	  },"hod_user_id_fk": {
 	  			 		required: false
+	  			 	  },"status_fk": {
+	  			 		required: false
+	  			 	  },"issue_id": {
+	  			 		required: true
 	  			 	  }
 	  		 	},
 	  		    messages: {
@@ -260,6 +331,10 @@
 	  			 	  },"contract_id_fk": {
 	  			 		required: ' This field is required'
 	  			 	  },"hod_user_id_fk": {
+	  			 		required: ' This field is required'
+	  			 	  },"status_fk": {
+	  			 		required: ' This field is required'
+	  			 	  },"issue_id": {
 	  			 		required: ' This field is required'
 	  			 	  }
 		   		},
@@ -273,6 +348,12 @@
 					} else if(element.attr("id") == "hod_user_id_fk" ){
 						   document.getElementById("hod_user_id_fkError").innerHTML="";
 					 	   error.appendTo('#hod_user_id_fkError');
+					} else if(element.attr("id") == "status_fk" ){
+						   document.getElementById("status_fkError").innerHTML="";
+					 	   error.appendTo('#status_fkError');
+					} else if(element.attr("id") == "issue_id" ){
+						   document.getElementById("issue_idError").innerHTML="";
+					 	   error.appendTo('#issue_idError');
 					} else{
 	 					error.insertAfter(element);
 			        }
@@ -286,6 +367,8 @@
 		$('#work_id_fk').val('');
 		$('#contract_id_fk').val('');
 		$('#hod_user_id_fk').val('');
+		$('#status_fk').val('');
+		$('#title').val('');
 		$('.searchable').select2();
 	}
     </script>

@@ -128,18 +128,6 @@ public class IssuesReportController {
 		}
 		return model;
 	}
-	
-	@RequestMapping(value = "/issue-detail-report", method = RequestMethod.GET)
-	public ModelAndView issueDetailReport(@ModelAttribute Issue obj, HttpSession session) {
-		ModelAndView model = new ModelAndView();
-		try {
-			model.setViewName(PageConstants2.issueDetailReport);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("issuesReport : " + e.getMessage());
-		}
-		return model;
-	}
 
 	@RequestMapping(value = "/ajax/getWorksListInIssuesReport", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -179,6 +167,34 @@ public class IssuesReportController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getHODListInIssuesReport : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getStatusListInIssuesReport", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getStatusListInIssuesReport(@ModelAttribute Issue obj) {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getStatusListInIssuesReport(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStatusListInIssuesReport : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getTitlesListInIssuesReport", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getTitlesListInIssuesReport(@ModelAttribute Issue obj) {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getTitlesListInIssuesReport(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getTitlesListInIssuesReport : " + e.getMessage());
 		}
 		return objsList;
 	}

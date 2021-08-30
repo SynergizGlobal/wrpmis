@@ -122,7 +122,7 @@
 											                <td>${indexx.count }</td>
 											                <td class="title-text">${webDoc.title }</td>
 											                <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
-											                <td class="date">${webDoc.date_of_issue }</td>
+											                <td class="date">${webDoc.date_of_issue_ddmmmyy }</td>
 											                </c:if>
 											                <td><a href="#modal1${indexx.count }${index.count }" class="modal-trigger"><i class="fa fa-eye"></i></a> 
 											                    <a class="file-name" href="<%=CommonConstants2.WEB_DOCUMENTS %>${documentType }/${webDocCategory.category }/${webDoc.file_name }" download><i class="fa fa-download"></i></a>
@@ -316,7 +316,7 @@
 							<input type="text" id="update_date_of_issue" name="date_of_issue" class="validate datepicker"> 
 							<label for="update_date">Date of Issue</label>
 							<span id="update_date_of_issueError" class="error-msg" ></span>
-							<button type="button" id="update_date_icon"><i class="fa fa-calendar"></i></button>
+							<button type="button" id="update_date_of_issue_icon"><i class="fa fa-calendar"></i></button>
 						</div>
 						</c:if>
 					</div>
@@ -349,7 +349,19 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 	<script>
-	 
+	 	
+		let date_pickers = document.querySelectorAll('.datepicker');
+	    $.each(date_pickers, function(){
+	    	var dt = this.value.split(/[^0-9]/);
+	    	this.value = ""; 
+	    	var options = {format: 'dd-mm-yyyy',autoClose:true};
+	    	if(dt.length > 1){
+	    		options.setDefaultDate = true,
+	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+	    	}
+	    	M.Datepicker.init(this, options);
+	    });
+    
 		$(document).ready(function() {
 			$('.collapsible').collapsible();
 			$('.searchable').select2();
@@ -375,6 +387,20 @@
             });
             
             $('#date_of_issue').datepicker({                   
+  	    	  maxDate: new Date(),
+  	    	  format:'dd-mm-yyyy',
+  	    	  //perform click event on done button
+  	    	  onSelect: function () {
+  	    	     $('.confirmation-btns .datepicker-done').click();
+  	    	  }
+  	        });
+            
+            $('#update_date_of_issue_icon').click(function () {
+                event.stopPropagation();
+                $('#update_date_of_issue').click();
+            });
+            
+            $('#update_date_of_issue').datepicker({                   
   	    	  maxDate: new Date(),
   	    	  format:'dd-mm-yyyy',
   	    	  //perform click event on done button

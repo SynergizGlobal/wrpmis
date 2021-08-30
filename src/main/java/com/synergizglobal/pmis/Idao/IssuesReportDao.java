@@ -18,5 +18,9 @@ public interface IssuesReportDao {
 	String getEmailIdsOfHodDyHodManagement() throws Exception;
 
 	List<Issue> getIssuesSummaryData(Issue obj) throws Exception;
+	
+	List<Issue> getStatusListInIssuesReport(Issue obj) throws Exception;
+
+	List<Issue> getTitlesListInIssuesReport(Issue obj) throws Exception;
 
 }

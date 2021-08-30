@@ -186,6 +186,108 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 	}
 	
 	@Override
+	public List<Issue> getStatusListInIssuesReport(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT status_fk "
+					+ "from issue i "
+					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "where status_fk is not null and status_fk <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and c.hod_user_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			qry = qry + " GROUP BY status_fk ORDER BY status_fk";
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getTitlesListInIssuesReport(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT issue_id,title,c.work_id_fk,contract_id_fk,status_fk,c.hod_user_id_fk "
+					+ "from issue i "
+					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "where title is not null and title <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and c.hod_user_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			qry = qry + " GROUP BY title ORDER BY title";
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
 	public Map<String,Map<String,List<Issue>>> getPendingIssues(Issue obj) throws Exception {
 		Map<String,Map<String,List<Issue>>> objsList = new LinkedHashMap<String,Map<String,List<Issue>>>();
 		try {
@@ -416,4 +518,5 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 		}
 		return objsList;
 	}
+	
 }

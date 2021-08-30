@@ -101,6 +101,7 @@ import com.synergizglobal.pmis.common.DocxTableCreationForIssueDetailsReport;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.RiskReport;
 
@@ -133,6 +134,36 @@ public class IssueDetailsReportController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getIssuesDetailsReport : " + e.getMessage());
+		}
+		return model;
+     }
+	
+
+	
+	@RequestMapping(value = "/issue-details-report", method = RequestMethod.GET)
+	public ModelAndView getIssueDetailsReport() {
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants2.issueDetailsReport);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getIssueDetailsReport : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/generate-and-download-issue-details-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateAndDownloadIssueDetailsReport(@ModelAttribute Issue obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView("redirect:/issue-details-report");
+		try{            
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+			boolean flag = getIssuesDetailsReport(response,currentDate,obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateAndDownloadIssueDetailsReport : " + e.getMessage());
 		}
 		return model;
      }

@@ -1899,11 +1899,11 @@ public class DocxTableCreation {
 				addTableCell(factory, wordMLPackage, contentRow, iObj.getDesignation(),
 						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, iObj.getTotal_issues(),
-						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
 				addTableCell(factory, wordMLPackage, contentRow, iObj.getClosed_issues(),
-						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);		
 				addTableCell(factory, wordMLPackage, contentRow, iObj.getOpen_issues(),
-						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				
 				table.getContent().add(contentRow);
 				
@@ -1921,11 +1921,11 @@ public class DocxTableCreation {
 			addTableCell(factory, wordMLPackage, contentRow, "",
 					garamondBoldRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, String.valueOf(total_issues),
-					garamondBoldRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+					garamondBoldRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
 			addTableCell(factory, wordMLPackage, contentRow, String.valueOf(closed_issues),
-					garamondBoldRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
+					garamondBoldRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);		
 			addTableCell(factory, wordMLPackage, contentRow, String.valueOf(open_issues),
-					garamondBoldRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					garamondBoldRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			table.getContent().add(contentRow);
 			
 			int size = issuesCounts.size()+1;

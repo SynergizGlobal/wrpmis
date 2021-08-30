@@ -979,8 +979,8 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 		List<Risk> objsList = null;
 		Risk rObj = new Risk();
 		try {
-			String qry = "SELECT attachment from risk_upload where sub_work = ? order by uploaded_on desc limit 1";
-		    objsList = jdbcTemplate.query( qry,new Object[]{obj.getSub_work()}, new BeanPropertyRowMapper<Risk>(Risk.class));
+			String qry = "SELECT attachment from risk_upload where sub_work = ? and status = ? order by assessment_date desc,uploaded_on desc limit 1";
+		    objsList = jdbcTemplate.query( qry,new Object[]{obj.getSub_work(),"Success"}, new BeanPropertyRowMapper<Risk>(Risk.class));
 		    for (Risk risk : objsList) {
 		    	rObj = risk;
 			}

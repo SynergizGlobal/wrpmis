@@ -1223,7 +1223,7 @@ public class IssuesReportController {
 
 			List<Issue> issuesCounts = issueService.getIssuesSummaryData(obj);
 
-			boolean landscape = true;
+			boolean landscape = false;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
 
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();

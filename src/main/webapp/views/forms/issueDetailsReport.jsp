@@ -71,8 +71,22 @@
 	                                        </select>
 	                                        <span id="status_fkError" class="error-msg" ></span>
 	                                    </div> 
-	                                     <div class="col s6 m4 l6 input-field">
-	                                        <p class="searchable_label" style="text-align:left">Description</p>
+	                                    <div class="col s6 m4 l3 input-field">
+	                                        <p class="searchable_label" style="text-align:left">Location</p>
+	                                        <select class="searchable validate-dropdown" id="location" name="location" onchange="getTitlesListInIssuesReport();">
+	                                            <option value="">Select </option>
+	                                        </select>
+	                                        <span id="locationError" class="error-msg" ></span>
+	                                    </div> 
+	                                    <div class="col s6 m4 l3 input-field">
+	                                        <p class="searchable_label" style="text-align:left">Category</p>
+	                                        <select class="searchable validate-dropdown" id="category" name="category" onchange="getTitlesListInIssuesReport();">
+	                                            <option value="">Select </option>
+	                                        </select>
+	                                        <span id="categoryError" class="error-msg" ></span>
+	                                    </div> 
+	                                     <div class="col s6 m9 l9 input-field">
+	                                        <p class="searchable_label" style="text-align:left">Description <span class="required">*</span></p>
 	                                        <select class="searchable validate-dropdown" id="issue_id" name="issue_id">
 	                                            <option value="">Select </option>
 	                                        </select>
@@ -81,7 +95,7 @@
 	                                    
 	                                </div>    
 	                                <div class="row">	                                	
-	                                    <div class="col s6 m4 l3 input-field offset-l1">
+	                                    <div class="col s6 m4 l3 input-field offset-l2">
 	                                        <button class="btn bg-s waves-effect waves-light t-c" type="button"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="clearFilter()">Clear Filter</button>

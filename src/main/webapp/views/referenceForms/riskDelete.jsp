@@ -209,7 +209,7 @@
   
 	  function deleteRow(date,subWork){ 
 		if(date === "null"){
-			date = " ";
+			date = "";
 		}
 		
 	  	$("#sub_work_id").val(subWork);

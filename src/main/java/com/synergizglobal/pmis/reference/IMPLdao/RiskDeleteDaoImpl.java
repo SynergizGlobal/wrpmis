@@ -87,11 +87,16 @@ public class RiskDeleteDaoImpl implements RiskDeleteDao{
 			}
 				
 			if(count > 0) {
-				flag = true;
+				 flag = true;
+				 String temp = "sub_work="+obj.getSub_work()+"&assessment_date="+obj.getDate();
+				 
+				 String deleteRiskQry ="DELETE from messages WHERE message_type = 'Risk' and redirect_url like '%"+temp+"'";
+				 BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+				 count = namedParamJdbcTemplate.update(deleteRiskQry, paramSource);
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-		throw new Exception(e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 		return flag;
 	}

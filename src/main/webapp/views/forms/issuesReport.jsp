@@ -38,7 +38,7 @@
                     </span>
                     <div class="">
                         <div class="row no-mar">
-                            <div class="col m8 s12 offset-m2 l7 offset-l3">
+                            <div class="col m8 s12 offset-m2 l7 offset-l2">
                             	<form id="reportForm" name="reportForm" method="post">
 	                                <div class="row no-mar">
 	                                    <div class="col s6 m4 l3 input-field">
@@ -62,6 +62,13 @@
 	                                        </select>
 	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                    </div>
+	                                    <div class="col s6 m4 l3 input-field">
+	                                        <p class="searchable_label" style="text-align:left">Description</p>
+	                                        <select class="searchable validate-dropdown" id="description" name="description">
+	                                            <option value="">Select </option>
+	                                        </select>
+	                                        <span id="descriptionError" class="error-msg" ></span>
+	                                    </div>
 	                                    
 	                                </div>    
 	                                <div class="row">	                                	
@@ -79,6 +86,11 @@
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateIssuesSummaryReport()">Issues Summary</button>
+	                                    </div>
+	                                    <div class="col s12 m4 l3 input-field mob-center">
+	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
+	                                            style="margin-top: 6px; font-weight: 600;"
+	                                            onclick="generateIssuesSummaryReport()">Issue Detail Report</button>
 	                                    </div>
 	                                    
 	                                </div>                            

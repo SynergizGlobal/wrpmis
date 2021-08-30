@@ -50,7 +50,41 @@
 		}
 		.dt-left{text-align: left!important;}
 		.dt-center{text-align: center!important;}
-          @media only screen and (max-width:769px) {    		
+		
+		.btn.bg-s{
+			padding:0 .5rem;
+		}
+		@media screen and (max-width: 1300px) and (min-width: 1150px) {
+			.btn.bg-s{
+				font-size:1.5vmin;
+			}			
+		}    
+		@media screen and (max-width: 1149px) and (min-width: 1024px) {
+			.btn.bg-s{
+				font-size:1.28vmin;
+			}		
+			.btn.bg-s.fs-sm-8rem{
+				font-size:1.5vmin;
+			}	
+		}    
+		@media screen and (max-width: 1023px) and (min-width: 993px) {
+			.btn.bg-s{
+				font-size:1.2vmin;
+			}			
+		}    
+		@media screen and (max-width: 992px) and (min-width: 770px) {
+			.btn.bg-s.fs-sm-8rem{
+				font-size:1.5vmin;
+			}			
+		} 
+          @media only screen and (max-width:769px) { 
+			.btn.bg-s.fs-sm-8rem{
+				font-size:1.35vmin;
+			}	
+			.btn-holder .btn+.btn{
+				margin-left:0;
+				margin-top:10px;
+			} 
 	        .dataTables_filter label{
 	        	position:relative;
 	        }
@@ -313,36 +347,36 @@
 									</div>
 									
 									<div class="row">
-										<div class="col m2 s12 mob-center input-field b-text">
+										<div class="col l2 m2 s3 mob-center input-field b-text">
 											<p class="mt-1">Step 2 :</p>
 										</div>
-										<div class="col m5 s12 mob-center input-field">
+										<div class="col l5 m10 s9 mob-center input-field">
 											<a id="lastRiskAssessmentForm" href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c" download style="width: 100%;letter-spacing: 0px;text-transform: unset;">Click
 												here for last Risk Assessment Form</a>
 										</div>
-										<div class="col m5 s12 mob-center input-field">											
+										<div class="col l5 m10 offset-m2 s9 offset-s3 mob-center input-field">											
 											<a class="btn waves-effect waves-light bg-s t-c"
 												href="/pmis/Risk_Template.xlsx" download style="width: 100%;letter-spacing: 0px;text-transform: unset;">Click
 												here for blank Risk Assessment Form</a>
 										</div>
 									</div>
 									<div class="row">
-										<div class="col m2 s12 mob-center input-field b-text">
+										<div class="col m2 s3 mob-center input-field b-text">
 											<p class="">Step 3 :</p>
 										</div>
-										<div class="col m10 s12 mob-center input-field">
+										<div class="col m10 s9 mob-center input-field">
 											<p class="b-text">Assess risk offline on the downloaded form</p>
 										</div>
 									</div>
 									
 									<div class="row">
-										<div class="col m2 s12 mob-center input-field b-text">
+										<div class="col m2 s3 mob-center input-field b-text">
 											<p class="mt-2">Step 4 :</p>
 										</div>
-										<div class="col m5 s12 mob-center input-field ">
+										<div class="col m10 l5 s9 mob-center input-field ">
 											<p class="mt-2 b-text">Upload the Completed Risk Assessment form</p>
 										</div>
-										<div class="col m5 s12 input-field file-field">
+										<div class="col m10 offset-m2 l5 s10 offset-s2 input-field file-field">
 											<input type="hidden" id="work_short_name"
 												name="work_short_name" />
 											<!--  <div class="col s12 m6 file-field input-field"> -->
@@ -358,7 +392,7 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col m2 s6 input-field b-text">
+										<div class="col m2 s3 input-field b-text">
 											<p class="mt-1">Step 5 :</p>
 										</div>
 										<!-- <div class="col m5 s9 input-field"></div> -->
@@ -382,7 +416,7 @@
 											<p class="mt-1">Step 6 :</p>
 										</div>
 										<div class="col m10 s12 mob-center input-field">
-											<a class="btn waves-effect waves-light bg-s t-c fs-sm-67rem" onclick="openRiskATRUpdateForm();"
+											<a class="btn waves-effect waves-light bg-s t-c fs-sm-8rem" onclick="openRiskATRUpdateForm();"
 												href="javascript:void(0);" style="width: 100%;text-transform: none;">Click
 												here to update ATR on the Mitigation Plan of prioritized risks</a>
 										</div>
@@ -460,7 +494,7 @@
 	                    </span>
 	                    <div class="">
 	                        <div class="row no-mar" >
-	                                    <div class="col s6 m3 input-field offset-m4">
+	                                    <div class="col s6 m3 offset-s1 input-field offset-m4">
 	                                        <p class="searchable_label">Work</p>
 	                                        <select id="sub_workfilter" name="sub_work" class="searchable" onchange="getRiskUploadsList(this.value);">
 	                                            <option value="">Select</option>
@@ -471,7 +505,6 @@
 	                                            style="margin-top: 12px;" onclick="clearFilters()">Clear
 	                                            Filters</button>
 	                                    </div>                          
-	                            <div class="col m5 hide-on-small-only"></div>
 	                        </div>
 	
 	                        <div class="row">
@@ -747,7 +780,7 @@
                         }
                         var rowArray = []; 
                         
-                        if(window.matchMedia("(max-width: 769px)").matches){
+                    /*     if(window.matchMedia("(max-width: 769px)").matches){
                         	rowArray.push($.trim(val.sub_work));
                         	rowArray.push(filePath);
                         	rowArray.push('');
@@ -756,7 +789,7 @@
                         	rowArray.push('');
                         	rowArray.push();
                 	      	
-                		 } else{
+                		 } else{ */
                 			rowArray.push($.trim(val.sub_work));
                            	rowArray.push(filePath);
                            	rowArray.push($.trim(val.status));
@@ -764,7 +797,7 @@
                            	rowArray.push($.trim(val.assessment_date));
                            	rowArray.push($.trim(val.uploaded_by));
                            	rowArray.push($.trim(val.uploaded_on)); 
-                		 }
+                		 /* } */
                        
                         table.row.add(rowArray).draw( true );
                         		                       

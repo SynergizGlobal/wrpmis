@@ -89,7 +89,7 @@
 								</div>
 							</c:if>
 						</div>
-					
+					</div>
 						<div class="row folder-group">
 							<c:choose>   
 	                          <c:when test="${not empty webDocuments and fn:length(webDocuments) gt 0}">
@@ -186,7 +186,7 @@
 					   <!--  </ul> 
 					    </div>-->
 					  </div>
-					</div>
+			<!-- 		</div>-->	
 				</div>
 			</div>
 		</div>

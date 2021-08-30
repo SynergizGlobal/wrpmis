@@ -57,6 +57,11 @@
         	min-width:30vw;
         }
      } 
+     .no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
     </style>
 </head>
 <body>
@@ -187,7 +192,7 @@
 								<table id="datatable-users" class="mdl-data-table">
 									<thead>
 										<tr>
-											<th>ID</th>
+											<th class="no-sort">ID</th>
 											<th>Name</th>
 											<th>Designation</th>
 											<th>Department</th>

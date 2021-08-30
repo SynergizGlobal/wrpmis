@@ -71,6 +71,11 @@
 		    text-align: center;
 		}
      } 
+     .no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
      </style>
 </head>
 <body>
@@ -163,7 +168,7 @@
 										<table id="datatable-works" class="mdl-data-table">
 											<thead>
 												<tr>
-													<th>Project</th>
+													<th class="no-sort">Project</th>
 													<th>Work ID</th>
 													<th>Work Name</th>
 													<th>Sanctioned Year</th>
@@ -299,6 +304,7 @@
                 ], 
                 // "ScrollX": true,
                 "sScrollX": "100%",
+                "ordering":false,
                  "sScrollXInner": "100%",
                  "bScrollCollapse": true,
                 initComplete: function () {

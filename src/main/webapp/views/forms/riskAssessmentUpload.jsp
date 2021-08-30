@@ -232,7 +232,11 @@
 		.btn-holder .btn+.btn{
 			margin-left:20px;
 		}       
-        
+        .no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}        
     </style>
 </head>
 
@@ -512,7 +516,7 @@
 	                                <table id="datatable-risk-uploads" class="mdl-data-table">
 	                                    <thead>
 	                                        <tr>                                            
-	                                            <th class="mob-50">Work</th>											
+	                                            <th class="mob-50 no-sort">Work</th>											
 												<th class="mob-50">Uploaded File</th>
 												<th class="hideCOl">Status</th>
 												<th class="hideCOl">Remarks</th>
@@ -762,6 +766,7 @@
                 "sScrollX": "100%",
                  "sScrollXInner": "100%",
                  "bScrollCollapse": true,
+                 "ordering":false,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }

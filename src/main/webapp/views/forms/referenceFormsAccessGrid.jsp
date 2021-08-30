@@ -85,6 +85,11 @@
 	            margin-left: 10px;
 	        }
 		}
+		.no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
     </style>
 </head>
 
@@ -134,9 +139,9 @@
 	                                <table id="Reference_forms_table" class="mdl-data-table">
 	                                    <thead>
 	                                        <tr>
-	                                            <th>Name</th>
+	                                            <th class="no-sort">Name</th>
 	                                            <th>Module</th>
-	                                            <th class="nosort">Action</th>
+	                                            <th class="no-sort">Action</th>
 	                                        </tr>
 	                                    </thead>
 	                                    <tbody>
@@ -259,6 +264,7 @@
                   ],
                   // "ScrollX": true,
                   "sScrollX": "100%",
+                  "ordering":false,
                    "sScrollXInner": "100%",
                    "bScrollCollapse": true,
                   initComplete: function () {

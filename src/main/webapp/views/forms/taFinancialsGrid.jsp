@@ -72,6 +72,12 @@
         	min-width:30vw;
         }
      }  
+     .no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
+     
     </style>
 </head>
 
@@ -160,7 +166,7 @@
 								<table id="tafinancials" class="mdl-data-table">
 									<thead>
 										<tr>
-											<th class="fw-300">Work</th>
+											<th class="fw-300 no-sort">Work</th>
 											<th class="fw-300">Contract</th>
 											<th>Planned Invoicing <br> Till Date
 											</th>
@@ -367,6 +373,7 @@
    								},{targets: [2,3,4], className: 'hideCOl'},{ targets: [0,1], className: 'fw-111'  } ],
    								"sScrollX" : "100%",
    								"sScrollXInner" : "100%",
+   							 "ordering":false,
    								"bScrollCollapse" : true,
    								"language" : {
    									"info" : "_START_ - _END_ of _TOTAL_",

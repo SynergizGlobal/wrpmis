@@ -192,6 +192,12 @@
              width: 90% !important;
          }
 	}
+	.no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
+	
     </style>
 </head>
 <body>
@@ -458,6 +464,7 @@
                 ],
                 'order': [1, 'asc'],
                 "ScrollX": true,
+                "ordering":false,
                 "scrollCollapse": true,
                 "sScrollY": 400,
                 
@@ -647,6 +654,7 @@
             'order': [1, 'asc'],
             // "ScrollX": true,
             "sScrollX": "100%",
+            "ordering":false,
              "sScrollXInner": "100%",
              "bScrollCollapse": true,
             initComplete: function () {

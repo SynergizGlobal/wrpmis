@@ -62,6 +62,11 @@
 		    text-align: center;
 		}
      }
+     .no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
    </style>
 </head>
 
@@ -141,7 +146,7 @@
 										<tr>
 											<!-- <th>Contractor ID</th> 
                                              <th class="no-sort">Remarks</th> -->
-											<th>Contractor Name</th>
+											<th class="no-sort">Contractor Name</th>
 											<th>PAN Number</th>
 											<th>Specialization</th>
 											<th>Address</th>
@@ -288,6 +293,8 @@
    	    							},{targets: [1,2,3,5,6], className: 'hideCOl'} ],
    	    							"sScrollX" : "100%",
    	    							"sScrollXInner" : "100%",
+
+   	    						 "ordering":false,
    	    							"bScrollCollapse" : true,
    	    							"language" : {
    	    								"info" : "_START_ - _END_ of _TOTAL_",

@@ -123,6 +123,14 @@
         	width:110px;
         	min-width:110px;
         }
+        td:last-of-type .btn+.btn{
+        	margin-left:10px;
+        }
+         .no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
     </style>
 
 </head>
@@ -217,7 +225,7 @@
                                     <table class="mdl-data-table" id="datatable-table-pending">
                                         <thead>
                                             <tr>
-                                                <th class="nosort" style=" text-align: left; vertical-align: bottom;">
+                                                <th class="no-sort" style=" text-align: left; vertical-align: bottom;">
                                                     <p>
                                                         <label>
                                                             <input type="checkbox" name="pending_select-all"
@@ -461,12 +469,13 @@
         		table = $('#datatable-table-pending').DataTable({
         			"sort" : [],
                     columnDefs: [
-                        //{ "width": "10px", "targets": [10] },
-                        { targets: 'nosort', orderable: false, },
+                        { targets: [10], className: 'btn-holder' },
+                        { targets: 'no-sort', orderable: false, },
                         { targets: [1], className: 'fw-200'  },
                     ],
                     //'order': [1, 'asc'],
                     "ScrollX": true,
+                    "ordering":false,
                     "scrollCollapse": true,
                     //"sScrollY": 400,
                     //paging: true,

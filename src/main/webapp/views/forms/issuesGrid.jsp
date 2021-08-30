@@ -94,6 +94,11 @@
 			    text-align: left;
 			}
 		}
+		.no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
     </style> 
 </head>
 <body>
@@ -238,7 +243,7 @@
 	                                    <thead>
 	                                        <tr>
 	                                           <!--  <th>ID</th> -->
-	                                            <th class="fw-350">Contract</th>
+	                                            <th class="fw-350 no-sort">Contract</th>
 	                                            <th class="fw-200">Short Description </th>
 	                                            <th>Location</th>
 	                                            <th>Responsible <br> Person </th>
@@ -466,6 +471,7 @@
                 //"sScrollY": 400,
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",
+                "ordering":false,
                 "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });

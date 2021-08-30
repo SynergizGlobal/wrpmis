@@ -104,6 +104,11 @@
 				width:116px !important;
 	        	min-width:116px;
 		}
+		.no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
     </style>
 </head>
 
@@ -222,7 +227,7 @@
                                 <table id="land-acquisition-datatable" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th> Survey <br>Number</th>
+                                            <th class="no-sort"> Survey <br>Number</th>
                                             <th class="fs-350"> Work </th>
                                             <th> Village</th>
                                             <th> Type of Land</th>
@@ -474,6 +479,7 @@
 	   	            "sScrollX": "100%",
 	                "sScrollXInner": "100%",
 	                "bScrollCollapse": true,
+	                "ordering":false,
 	                "language": {
 	                	 "info": "_START_ - _END_ of _TOTAL_",
 	                	 paginate: {

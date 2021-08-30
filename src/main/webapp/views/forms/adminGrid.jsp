@@ -92,6 +92,11 @@
 	            margin-left: 10px;
 	        }
 		}
+		.no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
     </style>
 </head>
 
@@ -136,11 +141,11 @@
 	                                <table id="admin-grid" class="mdl-data-table">
 	                                    <thead>
 	                                        <tr>
-	                                            <th>ID</th>
+	                                            <th class="no-sort">ID</th>
 	                                            <th>Form Name</th>
 	                                            <th>Priority</th>
 	                                            <th>Status</th>
-	                                            <th class="nosort">Action</th>
+	                                            <th class="no-sort">Action</th>
 	                                        </tr>
 	                                    </thead>
 	                                    <tbody>
@@ -202,7 +207,7 @@
             $('#admin-grid').DataTable({
                 columnDefs: [
                     {
-                        targets: 'nosort', orderable: false,
+                        targets: 'no-sort', orderable: false,
                     },
                     {targets: [0,2], className: 'hideCOl'},
                     {targets: [0,1,2,3,4], className: 'fw-111'},
@@ -210,6 +215,7 @@
                 ],
                 "scrollCollapse": true,
                 "sScrollX": "100%",
+                "ordering":false,
                 "sScrollXInner": "100%",
                 "bScrollCollapse": true,
                 initComplete: function () {

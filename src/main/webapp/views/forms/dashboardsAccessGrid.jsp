@@ -86,6 +86,11 @@
 	            margin-left: 10px;
 	        }
 		}
+		.no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
     </style>
 </head>
 <body>
@@ -146,7 +151,7 @@
                                 <table id="data-table-dashboard" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Dashboard Name</th>
+                                            <th class="no-sort">Dashboard Name</th>
                                             <th>Work</th>
                                             <th>Contract</th>
                                             <th>Folder</th>
@@ -154,7 +159,7 @@
                                             <th>Dashboard Type</th>
                                             <th>Priority</th>
                                             <th>Status</th>
-                                            <th class="nosort">Action</th>
+                                            <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -254,11 +259,12 @@
                     },
                     {targets: [2,3,4,5,6,7], className: 'hideCOl'},
                     {targets: [0,1,8], className: 'fw-111'},
-                    { orderable: false, 'aTargets': ['nosort'] } 
+                    { orderable: false, 'aTargets': ['no-sort'] } 
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",
                  "sScrollXInner": "100%",
+                 "ordering":false,
                  "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });

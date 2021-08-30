@@ -89,6 +89,11 @@
 	            margin-left: 10px;
 	        }
 		}
+		.no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
     </style>
 </head>
 
@@ -145,14 +150,14 @@
                                 <table id="data-table-forms" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Module</th>
+                                            <th class="no-sort">Module</th>
                                             <th>Form</th>
                                             <th>Folder</th>
                                             <th>Web URL</th>
                                             <th>Mobile URL</th>
                                             <th>Priority</th>
                                             <th>Status</th>
-                                            <th class="nosort">Action</th>
+                                            <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -253,10 +258,11 @@
                     {targets: [2,3,4,5,6], className: 'hideCOl'},
                     {targets: [0,1,2,3,4,5,6,7], className: 'fw-111'},
                     {targets: [0,1,7], className: 'fw-111'},
-                    { orderable: false, 'aTargets': ['nosort'] }
+                    { orderable: false, 'aTargets': ['no-sort'] }
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",
+                "ordering":false,
                  "sScrollXInner": "100%",
                  "bScrollCollapse": true,
                 initComplete: function () {

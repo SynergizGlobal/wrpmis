@@ -85,6 +85,12 @@
 		    text-align: center;
 		}
      } 
+     .no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
+     
     
     </style>
 </head>
@@ -192,7 +198,7 @@
 								<table id="datatable-fob" class="mdl-data-table">
 									<thead>
 										<tr>
-											<th>Work</th>
+											<th class="no-sort">Work</th>
 											<!-- <th class="fw-400">Contract</th> -->
 											<th>FOB ID</th>
 											<th>FOB Name</th>
@@ -389,6 +395,7 @@
                 "sScrollX": "100%",
                  "sScrollXInner": "100%",
                  "bScrollCollapse": true,
+                 "ordering":false,
                  "initComplete" : function() {
   					$('.dataTables_filter input[type="search"]')
   							.attr('placeholder', 'Search')

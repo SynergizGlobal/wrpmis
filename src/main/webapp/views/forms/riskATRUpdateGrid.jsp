@@ -120,6 +120,11 @@
 	        	margin-top:14px;
 	        }
 		}
+		.no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
     </style>
 </head>
 
@@ -188,7 +193,7 @@
                                 <table id="datatable-risk" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Item No.</th>
+                                            <th class="no-sort">Item No.</th>
                                             <!-- <th>Risk Id</th> -->
                                             <th>Work</th>
                                             <th class="f-300">Area</th>
@@ -372,6 +377,7 @@
                 // "ScrollX": true,
                 "sScrollX": "100%",
                  "sScrollXInner": "100%",
+                 "ordering":false,
                  "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });

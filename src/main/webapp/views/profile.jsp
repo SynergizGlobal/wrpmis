@@ -120,6 +120,11 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
+		.no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
     </style>
 </head>
 
@@ -278,7 +283,7 @@
                                     <table id="example2" class="mdl-data-table">
                                         <thead>
                                             <tr>
-                                                <th>Access Type</th>
+                                                <th class="no-sort">Access Type</th>
                                                 <th>Value</th>
                                             </tr>
                                         </thead>
@@ -332,7 +337,7 @@
                 "searching": false,
                 columnDefs: [
                     {
-                        targets: ['_all'],
+                        targets: [],
                         className: 'mdc-data-table__cell'
                     }
                 ],
@@ -346,6 +351,7 @@
                 },
                 "ScrollX": true,
                 "scrollCollapse": true,
+                "ordering":false,
                 "sScrollY": 400,
             });
         });

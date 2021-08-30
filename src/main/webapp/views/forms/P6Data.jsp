@@ -100,6 +100,12 @@
 			display:none;
 		}			
 	 }
+	 .no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
+	 
     </style>
 </head>
 <body>
@@ -332,7 +338,7 @@
                                 <table id="datatable-p6-data" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Contract ID</th>
+                                            <th class="no-sort">Contract ID</th>
                                             <th>FOB ID</th>
                                             <th>Data Type</th>
                                             <th>Data Date </th>
@@ -647,6 +653,7 @@
 	               //"scrollCollapse": true,
 	               //"sScrollY": 400,
 	               "sScrollX": "100%",
+	               "ordering":false,
 	               "sScrollXInner": "100%",
 	               "bScrollCollapse": true,
 	               initComplete: function () {

@@ -61,7 +61,11 @@
 				width:33% !important;		
 			}
 		}
-
+.no-sort.sorting_asc:before,
+	.no-sort.sorting_asc:after{
+		opacity:0 !important;
+		content:'' !important;
+	}
     </style>
 </head>
 
@@ -222,7 +226,7 @@
                                 <table id="datatable-activities" class="mdl-data-table">
                                     <thead>
                                         <tr>                                            
-                                            <th class="fw-33p">Work</th>
+                                            <th class="fw-33p no-sort">Work</th>
 											<th class="fw-33p">Contract</th>
 											<th>Structure type</th>
 											<th class="fw-33p">Uploaded File</th>
@@ -568,6 +572,7 @@
 	               //"scrollCollapse": true,
 	               //"sScrollY": 400,
 	               "sScrollX": "100%",
+	               "ordering":false,
 	               "sScrollXInner": "100%",
 	               "bScrollCollapse": true,
 	               initComplete: function () {

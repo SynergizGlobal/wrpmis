@@ -403,18 +403,6 @@ public class RiskController {
 						{
 							msg = "<br><span style='color:red;' id='checkEntryError'>The date of assessment on the Risk Assessment form is same as that of the last assessment date. </span> ";
 						}
-						else
-						{
-						
-						int[] arr  = riskService.uploadRiskAssessments(risksList);
-						
-						/*
-						 * if(arr[0] > 0) { msg = msg + arr[0] + " Risk updated successfully. "; }
-						 * if(arr[1] > 0) { msg = msg + arr[1] + " Risk added successfully. "; }
-						 */
-						
-						msg =  "<span style='color:green;'>Risk Assessment uploaded successfully.</span>";
-						}
 					}				
 					
 					msg = msg + risk_owner_error + risk_rows_error + risk_cols_error;
@@ -449,7 +437,7 @@ public class RiskController {
 		String userId = null;String userName = null;
 		String msg = "";
 		String[] result = new String[2];
-		try {
+		try {			
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
 			
@@ -521,12 +509,12 @@ public class RiskController {
 						
 						result = uploadRiskAssessment(risk,userId,userName);
 						attributes.addFlashAttribute("success", result[0]);
+						attributes.addFlashAttribute("assessment_date", result[1]);
+						attributes.addFlashAttribute("sub_work", risk.getSub_work());
 						
 						risk.setUploaded_by_user_id_fk(userId);
 						if(result[0].contains("Risk Assessment uploaded successfully.")) {
 							risk.setStatus("Success");
-							attributes.addFlashAttribute("assessment_date", result[1]);
-							attributes.addFlashAttribute("sub_work", risk.getSub_work());
 						}else{
 							risk.setStatus("Fail");
 						}

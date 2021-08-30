@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
 	
       <style>
 		p a{
@@ -232,11 +233,7 @@
 		.btn-holder .btn+.btn{
 			margin-left:20px;
 		}       
-        .no-sort.sorting_asc:before,
-	.no-sort.sorting_asc:after{
-		opacity:0 !important;
-		content:'' !important;
-	}        
+        
     </style>
 </head>
 
@@ -273,10 +270,11 @@
 
 				
                 <div class="row no-mar col s12 m12 center-align btn-holder" >
+                		   <button type="button" style="width: auto;" id="btnYes"
+                               class="btn waves-effect waves-light bg-m" onclick="submitData();">Yes</button>
                            <button type="button" style="width: auto;" id="btnNo"
-                               class="btn waves-effect waves-light bg-m modal-close" onclick="cancelData();">No, cancel it!</button>
-                           <button type="button" style="width: auto;" id="btnYes"
-                               class="btn waves-effect waves-light bg-m" onclick="submitData();">Yes, submit</button>
+                               class="btn waves-effect waves-light bg-m modal-close" onclick="cancelData();">No</button>
+                           
                   
                </div> 
                <br><br>
@@ -355,7 +353,7 @@
 											<p class="mt-1">Step 2 :</p>
 										</div>
 										<div class="col l5 m10 s9 mob-center input-field">
-											<a id="lastRiskAssessmentForm" href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c" download style="width: 100%;letter-spacing: 0px;text-transform: unset;">Click
+											<a id="lastRiskAssessmentForm" href="javascript:noRecordFound();" class="btn waves-effect waves-light bg-s t-c" download style="width: 100%;letter-spacing: 0px;text-transform: unset;">Click
 												here for last Risk Assessment Form</a>
 										</div>
 										<div class="col l5 m10 offset-m2 s9 offset-s3 mob-center input-field">											
@@ -516,7 +514,7 @@
 	                                <table id="datatable-risk-uploads" class="mdl-data-table">
 	                                    <thead>
 	                                        <tr>                                            
-	                                            <th class="mob-50 no-sort">Work</th>											
+	                                            <th class="mob-50">Work</th>											
 												<th class="mob-50">Uploaded File</th>
 												<th class="hideCOl">Status</th>
 												<th class="hideCOl">Remarks</th>
@@ -576,7 +574,7 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-    
+    <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
    
       <script>
       
@@ -590,14 +588,14 @@
 	        	  var sub_work = $("#sub_work").val();
 	              if (sub_work == '') {
 	                  $("#uploadRiskBtn").addClass('disabled');
-	                  $("#lastRiskAssessmentForm").attr("href", 'javascript:void(0);');
+	                  $("#lastRiskAssessmentForm").attr("href", 'javascript:noRecordFound();');
 	              } else {
 	                  $("#uploadRiskBtn").removeClass('disabled');
 	                  getLastUpdatedRiskAssessmentFile(sub_work);
 	              }
 	          });
 	          
-	          var sub_work = '${resquestScope.sub_work}';
+	          var sub_work = '${sub_work}';
 	          if($.trim(sub_work) != ''){
 	        	  getLastUpdatedRiskAssessmentFile(sub_work);
 	          }
@@ -620,7 +618,10 @@
 
 	      });
 	      
-      
+      	  function noRecordFound(){
+      		  var errorMessage = "No record available. Please download a blank Risk Assessment Form.";
+      		  swal("Failed!", errorMessage, "error");
+      	  }
 	      
 	      function getLastUpdatedRiskAssessmentFile(sub_work){
 	    	  	$(".page-loader").show();
@@ -633,7 +634,7 @@
                 		  var filePath = "<%=CommonConstants2.RISK_ASSESSMENT_UPLOADED_FILES%>"+ data.attachment;
                 		  $("#lastRiskAssessmentForm").attr("href", filePath);
                 	  }else{
-                		  $("#lastRiskAssessmentForm").attr("href", 'javascript:void(0);');
+                		  $("#lastRiskAssessmentForm").attr("href", 'javascript:noRecordFound();');
                 	  }
                       $(".page-loader").hide();
                    },error: function (jqXHR, exception) {
@@ -644,6 +645,7 @@
 	      }
 	      
 	      $("#uploadRisk").on("click",function(){
+	    	  $(".page-loader-2").show();
 	    	  var flag = $("#riskUploadForm").valid();
 	    	  if(flag)
 	    	  {
@@ -674,11 +676,13 @@
 	                	   {
 	                		   	$('#riskUploadForm').submit();
 	                	   }
-	                   }
-	                   
-	                	  
+	                	   
+	                	   $(".page-loader-2").hide();
+	                   }	                	  
 	               });
-	    		  
+		           
+	    	  }else{
+	    		  $(".page-loader-2").hide();
 	    	  }
 	      });
 	      
@@ -766,7 +770,6 @@
                 "sScrollX": "100%",
                  "sScrollXInner": "100%",
                  "bScrollCollapse": true,
-                 "ordering":false,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }

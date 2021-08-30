@@ -262,22 +262,19 @@ public class RiskDaoImpl implements RiskDao{
 public boolean checkRiskAssessment(String subwork,String Date) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String risk_id_pk = null;
-		boolean flag=false;
-		
-			Connection con = null;
-	
+		boolean flag=false;		
+		Connection con = null;	
 		try{
 			con = dataSource.getConnection();
-			String riskIdQry = "select * from pmis.risk r left join risk_revision p on p.risk_id_pk_fk=r.risk_id_pk where sub_work = ? and date = ? ";
+			String riskIdQry = "select * from risk r left join risk_revision p on p.risk_id_pk_fk = r.risk_id_pk where sub_work = ? and date = ? ";
 			stmt = con.prepareStatement(riskIdQry);
-			int k =1;
+			int k = 1;
 			stmt.setString(k++, subwork);
 			stmt.setString(k++,  Date);
 			rs = stmt.executeQuery();  
 			if(rs.next()) 
 			{
-				flag=true;
+				flag = true;
 			}
 		}catch(Exception e){ 		
 			e.printStackTrace();

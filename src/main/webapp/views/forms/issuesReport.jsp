@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <!--  <title>PMIS Report - Pending Issues</title> -->
-    <title>Issues Reports - PMIS</title>
+    <title>Pending Issues Reports - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -33,12 +33,12 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Issues Report </h6>
+                            <h6>Pending Issues Report </h6>
                         </div>
                     </span>
                     <div class="">
                         <div class="row no-mar">
-                            <div class="col m8 s12 offset-m2 l7 offset-l2">
+                            <div class="col m8 s12 offset-m2 l7 offset-l3">
                             	<form id="reportForm" name="reportForm" method="post">
 	                                <div class="row no-mar">
 	                                    <div class="col s6 m4 l3 input-field">
@@ -62,17 +62,11 @@
 	                                        </select>
 	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s6 m4 l3 input-field">
-	                                        <p class="searchable_label" style="text-align:left">Description</p>
-	                                        <select class="searchable validate-dropdown" id="description" name="description">
-	                                            <option value="">Select </option>
-	                                        </select>
-	                                        <span id="descriptionError" class="error-msg" ></span>
-	                                    </div>
+	                                   
 	                                    
 	                                </div>    
 	                                <div class="row">	                                	
-	                                    <div class="col s6 m4 l3 input-field">
+	                                    <div class="col s6 m4 l3 input-field offset-l1">
 	                                        <button class="btn bg-s waves-effect waves-light t-c" type="button"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="clearFilter()">Clear Filter</button>
@@ -80,18 +74,13 @@
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
-	                                            onclick="generatePendingIssuesReport()">Pending Issues</button>
+	                                            onclick="generatePendingIssuesReport()">Generate Report</button>
 	                                    </div>
-	                                    <div class="col s12 m4 l3 input-field mob-center">
+	                                    <!--<div class="col s12 m4 l3 input-field mob-center">
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateIssuesSummaryReport()">Issues Summary</button>
-	                                    </div>
-	                                    <div class="col s12 m4 l3 input-field mob-center">
-	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px; font-weight: 600;"
-	                                            onclick="generateIssuesSummaryReport()">Issue Detail Report</button>
-	                                    </div>
+	                                    </div>		-->
 	                                    
 	                                </div>                            
                                 </form>

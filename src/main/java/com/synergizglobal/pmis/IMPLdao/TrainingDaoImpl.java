@@ -458,18 +458,26 @@ public class TrainingDaoImpl implements TrainingDao{
 		try {
 			con = dataSource.getConnection();
 			
-			String qry = "select training_attendees_id,d.department_name, training_id_fk,hod_user_id_fk,mobile_no, training_session_id_fk, ta.department_fk, attendee,ta.designation as designation, required_fk, participated_fk,email " + 
+			String qry = "select distinct * from (select distinct training_attendees_id,d.department_name, training_id_fk,hod_user_id_fk,mobile_no, training_session_id_fk, ta.department_fk, attendee,ta.designation as designation, required_fk, participated_fk,email  from training_attendees ta LEFT JOIN department d on ta.department_fk = d.department where training_id_fk = ? and required_fk='Yes' and training_session_id_fk in (select min(training_session_id_fk) from training_attendees ta LEFT JOIN department d on ta.department_fk = d.department  where training_id_fk = ? )  "
+					+ "union all select distinct training_attendees_id,d.department_name, training_id_fk,hod_user_id_fk,mobile_no, training_session_id_fk, ta.department_fk, attendee,ta.designation as designation, required_fk, participated_fk,email " + 
 					"from training_attendees ta "
 					+ "LEFT JOIN department d on ta.department_fk = d.department  " 
-					+"where training_id_fk = ? and  training_session_id_fk = ?  ";
+					+"where training_id_fk = ? and  training_session_id_fk = ?  ) as a ";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, training_id);
-			stmt.setString(2, training_session_id);
+			stmt.setString(2, training_id);
+			stmt.setString(3, training_id);
+			stmt.setString(4, training_session_id);			
+			
 			resultSet = stmt.executeQuery();
+			ArrayList<String> list=new ArrayList<String>();
 			while(resultSet.next()) {
 				obj = new Training();
+				if(list.indexOf(resultSet.getString("attendee"))==-1)
+				{
+				list.add(resultSet.getString("attendee")); 
 				obj.setTraining_attendees_id(resultSet.getString("training_attendees_id"));
-				obj.setDepartment_name(resultSet.getString("d.department_name"));
+				obj.setDepartment_name(resultSet.getString("department_name"));
 				obj.setTraining_id_fk(resultSet.getString("training_id_fk"));
 				obj.setHod_user_id_fk(resultSet.getString("hod_user_id_fk"));
 				obj.setMobile_no(resultSet.getString("mobile_no"));
@@ -483,6 +491,7 @@ public class TrainingDaoImpl implements TrainingDao{
 				obj.setDepartment_fk(obj.getDepartment_fk());
 				obj.setAttendeesList(getAttendeesList(obj));
 				objsList.add(obj);
+				}
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

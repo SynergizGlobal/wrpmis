@@ -1733,7 +1733,9 @@
         }
         
         function addSessionRow(sessionId) {
-        
+       	
+     	
+        	
       	  var rowNo = $("#rowNo").val();
           var rNo = Number(rowNo)+1;
           var trainNo = $("#trainNo").val();
@@ -1753,24 +1755,33 @@
 			  '<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
 				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4> <div class="row">'+
 				 '<div class="s12 m8 offset-m2 col"><div class="row fixed-width" > <div class="table-inside"><table id="training-update-table'+ rNo +'" class="mdl-data-table val mobile_responsible_table">'+
-		         '<thead><tr><th>Department</th><th>Attendee</th><th class="py-0">Nominated</th><th>Participated</th><th>Action</th></tr></thead> <tbody id="attendeesTableBody'+ rNo +'"> <tr id="attendeesRow'+0+0+rNo+1+'">'+
+		         '<thead><tr><th>Department</th><th>Attendee</th><th class="py-0">Nominated</th><th>Participated</th><th>Action</th></tr></thead> <tbody id="attendeesTableBody'+ rNo +'">'+
+		         <c:forEach var="dObj" items="${trainingDetails.trainingSessions[0].trainingAttendees}" varStatus="indexx">
+		         
+		         
+		         
+		         '<tr id="attendeesRow0${indexx.count }${index.count }">'+
 		         '<td data-head="Department" class="input-field">'+
 		         '<input type="hidden" name="training_session_id_fks" id="training_session_id_fks'+ rNo+i+'" /> <input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo+i+'" /> '+
-		         '<select class="searchable validate-dropdown" name="department_fks" id="department_fks'+ rNo+i+'" onchange="getAttendeesList('+ rNo+i+');"> <option value="">Select Department</option>'+
-	             <c:forEach var="obj" items="${departmentsList}"> 
-	             	'<option value="${obj.department_fk }">${obj.department_name }</option>'+
-	        	 </c:forEach>
+		         '<select class="searchable no-reset validate-dropdown" name="department_fks" id="department_fks0${indexx.count }${index.count }${indexx.count }"> <option value="">Select Department</option>'+
+		         <c:forEach var="obj" items="${departmentsList}">
+						'<option value="${obj.department_fk }" <c:if test="${dObj.department_name eq obj.department_name }">selected</c:if>>${obj.department_name }</option>'+
+					</c:forEach>
 		    	 '</select></td><input type="hidden"  name="is_new_users"/>'+
-		    	 '<td data-head="Attendee" class="input-field attendee-dropdown"><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo+i+'" onchange="setDepartment('+ rNo+i+');"><option value="">Select Attendee</option>'+
-		         <c:forEach var="obj" items="${attendeesList}">
-		             '<option name="${obj.department_fk }" value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
-		         </c:forEach>
-		         '</select></td><input type="hidden" name="hod_user_id_fks"/><input type="hidden"  name="emails" class="no-reset" /><input type="hidden" name="trainee_designations"/><input type="hidden" name="mobile_nos"/><td data-head="Nominated" class="input-field"><p class="disp-init"> <label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" /> '+
+		    	 '<td data-head="Attendee" class="input-field attendee-dropdown"><select class="searchable no-reset validate-dropdown" name="attendees" id="attendees0${indexx.count }${index.count }${indexx.count }" onchange="setDepartment('+ rNo+i+');"><option value="">Select Attendee</option>'+
+		    	 <c:forEach var="obj" items="${dObj.attendeesList}">
+					'<option name="${obj.department_fk }" value="${obj.attendee }" <c:if test="${dObj.attendee eq obj.attendee }">selected</c:if>>${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
+				</c:forEach>
+		         '</select></td><input type="hidden" name="hod_user_id_fks" class="no-reset" value="${dObj.hod_user_id_fk}" /><input type="hidden" name="trainee_designations" class="no-reset" value="${dObj.designation}" /><input type="hidden" name="mobile_nos" class="no-reset" value="${dObj.mobile_no}"/><input type="hidden"  name="emails" class="no-reset" value="${dObj.email}" ><td data-head="Nominated" class="input-field"><p class="disp-init"> <label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" /> '+
 		         '<input type="checkbox" id="required_fks'+ rNo+i+'"  class="required_fks" onChange="checkBox('+ rNo+i+')" <c:if test="${dObj.required_fk eq 'Yes'}">  checked</c:if> />'+
 		         '<span></span></label></p></td><td data-head="Participated" class="input-field"><p class="disp-init"><label> <input type="hidden" name="participated_fks" id="participated_fk'+ rNo+i+'" />'+
 		         '<input type="checkbox" id="participated_fks'+ rNo+i+'"  class="participated_fks" onChange="checkBoxs('+ rNo+i+')" <c:if test="${dObj.participated_fk eq 'Yes'}">    checked</c:if> /><span></span>'+
 		         '</label></p></td><td class="mobile_btn_close"><a onclick="removeTrainingAttendees(\''+0+0+rNo+1+'\',\''+ rNo +'\');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'+
-		         '</tr></tbody></table> <input type="hidden" id="trainNo"  name="trainNo" value="0" /><table class="mdl-data-table"><tbody id="trainingUpdateBody">'+                                          
+		         '</tr>'+
+		         
+		         
+		         </c:forEach>
+		         '</tbody></table> <input type="hidden" id="trainNo"  name="trainNo" value="0" /><table class="mdl-data-table"><tbody id="trainingUpdateBody">'+                                          
                  '<tr><td colspan="7" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
                  '</tbody></table></div></div></div></div><p id="msg-text"><b>If name of attendee is not in list please add below</b></p>'+
 		         '<div class="row fixed-width"><div class="table-inside"> <table id="training-new-update-table'+ rNo +'" class="mdl-data-table mobile_responsible_table">'+

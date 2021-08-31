@@ -458,7 +458,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		try {
 			con = dataSource.getConnection();
 			
-			String qry = "select distinct * from (select distinct training_attendees_id,d.department_name, training_id_fk,hod_user_id_fk,mobile_no, training_session_id_fk, ta.department_fk, attendee,ta.designation as designation, required_fk, participated_fk,email  from training_attendees ta LEFT JOIN department d on ta.department_fk = d.department where training_id_fk = ? and required_fk='Yes' and training_session_id_fk in (select min(training_session_id_fk) from training_attendees ta LEFT JOIN department d on ta.department_fk = d.department  where training_id_fk = ? )  "
+			String qry = "select distinct * from (select distinct training_attendees_id,d.department_name, training_id_fk,hod_user_id_fk,mobile_no, training_session_id_fk, ta.department_fk, attendee,ta.designation as designation, required_fk, participated_fk,email  from training_attendees ta LEFT JOIN department d on ta.department_fk = d.department where training_id_fk = ? and required_fk='Yes' and training_session_id_fk in (select min(training_session_id_fk) from training_attendees ta LEFT JOIN department d on ta.department_fk = d.department  where required_fk='Yes' AND training_id_fk = ? )  "
 					+ "union all select distinct training_attendees_id,d.department_name, training_id_fk,hod_user_id_fk,mobile_no, training_session_id_fk, ta.department_fk, attendee,ta.designation as designation, required_fk, participated_fk,email " + 
 					"from training_attendees ta "
 					+ "LEFT JOIN department d on ta.department_fk = d.department  " 
@@ -467,7 +467,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			stmt.setString(1, training_id);
 			stmt.setString(2, training_id);
 			stmt.setString(3, training_id);
-			stmt.setString(4, training_session_id);			
+			stmt.setString(4, training_session_id);	
 			
 			resultSet = stmt.executeQuery();
 			ArrayList<String> list=new ArrayList<String>();
@@ -1341,10 +1341,13 @@ public class TrainingDaoImpl implements TrainingDao{
 	public int getTotalRecords(Training obj, String searchParameter) throws Exception {
 		int totalRecords = 0;
 		try {
-			String qry ="select count(distinct training_id) as total_records  from training t "
+			String qry ="select count(distinct training_id) as total_records from(select training_id,training_type_fk,training_category_fk,sum(ta.required_fk = 'Yes') as nominated,sum(ta.participated_fk = 'Yes') as attended,title,faculty_name,t.designation, description, training_center, status_fk, t.remarks,"
+					+ "DATE_FORMAT(start_time,'%d-%m-%Y')  as date,DATE_FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,DATE_FORMAT(max(end_time),'%d-%m-%Y') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
+					+ " FROM training_session ts where ts.training_id_fk  = training_id group by training_id_fk) as hours "
+					+ "from training t "
 					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
 					+ "left join training_attendees ta on training_session_id = training_session_id_fk "
-					+ " where ts.training_id_fk  = training_id ";
+					+ " where 1=1 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				qry = qry + " and training_type_fk = ?";
@@ -1399,6 +1402,7 @@ public class TrainingDaoImpl implements TrainingDao{
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 			}
+			qry=qry+" group by ts.training_id_fk ) as a ";
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -1418,7 +1422,7 @@ public class TrainingDaoImpl implements TrainingDao{
 					+ "from training t "
 					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
 					+ "left join training_attendees ta on training_session_id = training_session_id_fk "
-					+ " where ts.training_id_fk  = training_id ";
+					+ " where 1=1 ";
 			int arrSize = 2;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				qry = qry + " and training_type_fk = ?";

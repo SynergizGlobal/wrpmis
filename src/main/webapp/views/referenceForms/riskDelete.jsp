@@ -25,13 +25,13 @@
             font-size: 0.85rem;
         }
 
-		.mdl-data-table td.last-column ,
+		/* .mdl-data-table td.last-column ,
 		.mdl-data-table thead th{
 		    text-align: left !important;
 		}
         .row.no-mar {
             margin-bottom: 0;
-        }
+        } */
 
         input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
@@ -39,10 +39,10 @@
 		  margin: 0;
 		}
 
-        .last-column {
+        /* .last-column {
             word-break: break-all;
             white-space: inherit;
-        }
+        } */
 
         .error {
             color: red;
@@ -54,16 +54,7 @@
                 width: 85% !important;
             }
         }
-        .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+       
 		.error-msg label{color:red!important;}
 		.dataTables_length{
 		    text-align: center;

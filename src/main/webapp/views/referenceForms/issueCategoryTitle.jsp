@@ -29,7 +29,7 @@
             color: blue;
         }
 
-        .row.no-mar {
+      /*   .row.no-mar {
             margin-bottom: 0;
         }
 
@@ -59,7 +59,7 @@
 		    left: 0;
 		    z-index: 1000;
 		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		.preloader-wrapper{top: 45%!important;left:47%!important;} */
 		.error-msg label{color:red!important;}
 
         .searchable_label {

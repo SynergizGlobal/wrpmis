@@ -28,7 +28,7 @@
         p a {
             color: blue;
         }
-		.mdl-data-table td.last-column {
+		/* .mdl-data-table td.last-column {
 		    text-align: left ;
 		}
         .row.no-mar {
@@ -45,7 +45,7 @@
 
         .last-column .btn+.btn {
             margin-left: 20px;
-        }
+        } */
         input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
 		  -webkit-appearance: none;
@@ -86,16 +86,7 @@
                 width: 85% !important;
             }
         }
-        .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+     
 		.error-msg label{color:red!important;}
 		.dataTables_length{
 		    text-align: center;

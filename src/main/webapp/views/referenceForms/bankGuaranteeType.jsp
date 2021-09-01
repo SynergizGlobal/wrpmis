@@ -16,7 +16,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <style>
@@ -28,11 +29,11 @@
             color: blue;
         }
 
-        .row.no-mar {
+       /* .row.no-mar {
             margin-bottom: 0;
         }
 
-        .modal-header {
+         .modal-header {
             text-align: center;
             background-color: #2E58AD;
             color: #fff;
@@ -50,7 +51,7 @@
         }
 		.mdl-data-table td.last-column {
 		    text-align: left;
-		}
+		} */
         @media only screen and (max-width: 600px) {
 
             .dataTables_filter input[type="search"],
@@ -58,7 +59,6 @@
                 width: 85% !important;
             }
         }
-   		.preloader-wrapper{top: 45%!important;left:47%!important;}
 		.error-msg label{color:red!important;}
     </style>
 </head>

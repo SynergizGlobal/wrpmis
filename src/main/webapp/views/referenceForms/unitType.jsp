@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
@@ -28,7 +29,7 @@
             color: blue;
         }
 
-        .row.no-mar {
+        /* .row.no-mar {
             margin-bottom: 0;
         }
 
@@ -48,7 +49,7 @@
             word-break: break-all;
             white-space: inherit;
         }
-
+ */
         @media only screen and (max-width: 600px) {
 
             .dataTables_filter input[type="search"],
@@ -56,16 +57,7 @@
                 width: 85% !important;
             }
         }
-        .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+       
 		.error-msg label{color:red!important;}
     </style>
 </head>

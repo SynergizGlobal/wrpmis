@@ -28,7 +28,7 @@
             color: blue;
         }
 
-        .row.no-mar {
+      /*   .row.no-mar {
             margin-bottom: 0;
         }
 
@@ -49,7 +49,7 @@
         .last-column {
             word-break: break-all;
             white-space: inherit;
-        }
+        } */
  		/* .mdl-data-table thead tr, .mdl-data-table tfoot tr {
 		    background-color: #7C698C !important;
 		}
@@ -78,16 +78,7 @@
                 width: 85% !important;
             }
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+         
 		.error-msg label{color:red!important;}
     </style>
 </head>

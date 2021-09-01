@@ -30,7 +30,7 @@
             color: blue;
         }
 
-        .row.no-mar {
+       /*  .row.no-mar {
             margin-bottom: 0;
         }
 		.mdl-data-table td.last-column {
@@ -51,7 +51,7 @@
         .last-column {
             word-break: break-all;
             white-space: inherit;
-        }
+        } */
 
        /*  .mdl-data-table thead tr, .mdl-data-table tfoot tr {
 		    background-color: #999999 !important;

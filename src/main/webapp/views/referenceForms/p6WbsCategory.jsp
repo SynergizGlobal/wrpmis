@@ -16,7 +16,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/p6data.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/p6data.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
@@ -28,7 +29,7 @@
         p a {
             color: blue;
         }
-		.mdl-data-table td.last-column {
+	/* 	.mdl-data-table td.last-column {
 		    text-align: left ;
 		}
         .row.no-mar {
@@ -56,7 +57,7 @@
 		}
 		.mdl-button--raised.mdl-button--colored {
 		    background-color: #004346 !important;
-		}
+		} */
 		input[type=number]:not(.browser-default):focus:not([readonly]),
 		input[type=text]:not(.browser-default):focus:not([readonly]),
 		input[type=search]:not(.browser-default):focus:not([readonly]),
@@ -79,17 +80,7 @@
                 width: 85% !important;
             }
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
-		.error-msg label{color:red!important;}
+         .error-msg label{color:red!important;}
     </style>
 </head>
 

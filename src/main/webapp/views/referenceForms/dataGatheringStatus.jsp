@@ -28,7 +28,7 @@
             color: blue;
         }
 
-        .row.no-mar {
+      /*   .row.no-mar {
             margin-bottom: 0;
         }
 
@@ -50,7 +50,7 @@
             margin: -24px -24px 20px !important;
             padding: 1rem;
         }
-
+ */
         @media only screen and (max-width: 600px) {
 
             .dataTables_filter input[type="search"],
@@ -58,16 +58,7 @@
                 width: 85% !important;
             }
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+         
 		.error-msg label{color:red!important;}
     </style>
 </head>

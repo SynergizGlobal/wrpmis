@@ -28,7 +28,7 @@
             color: blue;
         }
 
-        .row.no-mar {
+       /*  .row.no-mar {
             margin-bottom: 0;
         }
 
@@ -55,7 +55,7 @@
 		}
 		.mdl-button--raised.mdl-button--colored {
 		    background-color: #7C698C !important;
-		}
+		} */
 		input[type=number]:not(.browser-default):focus:not([readonly]),
 		input[type=text]:not(.browser-default):focus:not([readonly]),
 		input[type=search]:not(.browser-default):focus:not([readonly]),
@@ -78,16 +78,7 @@
                 width: 85% !important;
             }
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+        
 		.error-msg label{color:red!important;}
     </style>
 </head>

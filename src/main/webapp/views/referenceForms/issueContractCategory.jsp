@@ -25,12 +25,12 @@
             font-size: 0.85rem;            
     		margin-bottom: 0;
         }
-		.mdl-data-table td.last-column {
-		    text-align: left ;
-		}
         p a {
             color: blue;
         }
+		/* .mdl-data-table td.last-column {
+		    text-align: left ;
+		}
 
         .row.no-mar {
             margin-bottom: 0;
@@ -63,7 +63,7 @@
 		    left: 0;
 		    z-index: 1000;
 		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		.preloader-wrapper{top: 45%!important;left:47%!important;} */
 		.error-msg label{color:red!important;}
 		
 		 .searchable_label {

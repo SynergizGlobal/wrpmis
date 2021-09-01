@@ -29,7 +29,7 @@
             color: blue;
         }
 
-        .row.no-mar {
+      /*   .row.no-mar {
             margin-bottom: 0;
         }
 
@@ -48,7 +48,7 @@
         .last-column {
             word-break: break-all;
             white-space: inherit;
-        }
+        } */
 
         .error {
             color: red;

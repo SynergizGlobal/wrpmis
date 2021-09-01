@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
@@ -28,7 +29,7 @@
             color: blue;
         }
 
-        .row.no-mar {
+       /*  .row.no-mar {
             margin-bottom: 0;
         }
 		.mdl-data-table td.last-column {
@@ -40,7 +41,7 @@
             color: #fff;
             margin: -24px -24px 20px !important;
             padding: 1rem;
-        }
+        } */
        /*  .mdl-data-table thead tr, .mdl-data-table tfoot tr {
 		    background-color: #282130 !important;
 		}
@@ -66,16 +67,7 @@
                 width: 85% !important;
             }
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+        
 		.error-msg label{color:red!important;}
 		.select2-container.select2-container--default select2-container--open,
 		.select2-container{

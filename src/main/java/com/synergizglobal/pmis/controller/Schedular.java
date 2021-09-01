@@ -152,22 +152,6 @@ public class Schedular {
 		 }
 	}
 	
-	/*//@Scheduled(cron = "0 25 15 * * MON")
-	//@Scheduled(cron = "${cron.expression.sending.alert.mails}")
-	public void sendNotificationAlertMailsToAllByCronJob(){		
-	     String message = "Method executed every Monday. Current time is :: "+ new Date();
-	     
-	     logger.error("sendNotificationAlertMailsToAllByCronJob : "+message);	    
-	     try {
-	    	boolean flag = alertService.sendNotificationAlertMails();
-		    logger.error("sendNotificationAlertMailsToAllByCronJob >> Sending mails : "+ flag);
-		    //System.out.println("Sending mails : "+ flag); 
-		 } catch (Exception e) {
-			 e.printStackTrace();
-			logger.error("sendNotificationAlertMailsToAllByCronJob() : "+e.getMessage());
-		 }
-	}*/
-	
 	/******************************************************************************************/
 	
 	
@@ -218,19 +202,6 @@ public class Schedular {
 		
 	/**********************************************************************************/
 	
-	@RequestMapping(value="/send-mail-open-issues",method=RequestMethod.GET)
-	public ModelAndView sendMailWithOpenIssuesByManual(){
-		ModelAndView model = new ModelAndView("redirect:/home");
-	     try {
-	    	 logger.error("sendMailWithOpenIssuesByManual : Method executed at > "+new Date());
-	    	 Issue obj = new Issue();
-             boolean flag = issueReportController.sendMailWithOpenIssues(obj);
-	    	 logger.error("sendMailWithOpenIssuesByManual : "+flag);
-		 } catch (Exception e) {
-			 e.printStackTrace();
-			 logger.error("sendMailWithOpenIssuesByManual() : "+e.getMessage());
-		 }
-	     return model;
-	}
+	
 	
 }

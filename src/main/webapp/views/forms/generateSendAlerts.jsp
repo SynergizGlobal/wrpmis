@@ -49,7 +49,7 @@
 			                	<div class="card-content">                  
 			                      <div class="row no-mar">	     
 			                          <div class="col s12 m12 input-field center-align">
-			                              <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px" href="<%=request.getContextPath() %>/generate-alerts-manually"> Generate Alerts</a>
+			                              <a class="btn bg-m waves-effect waves-light t-c" style="min-width:width:100%;" href="<%=request.getContextPath() %>/generate-alerts-manually"> Generate Alerts</a>
 			                          </div>                            
 			                      </div>                  
 			                    </div>
@@ -58,24 +58,38 @@
 			                	<div class="card-content">                  
 			                      <div class="row no-mar">	     
 			                          <div class="col s12 m12 input-field center-align">
-		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px;height: auto;" href="<%=request.getContextPath() %>/send-contract-alerts-to-all"> Send Contract Alerts to All </a>
+		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:width:100%;height: auto;" href="<%=request.getContextPath() %>/send-contract-alerts-to-all"> Send Contract Alerts to All </a>
 			                          </div>                            
 			                      </div> 
 			                      <div class="row no-mar">	     
 			                          <div class="col s12 m12 input-field center-align">
-		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px;height: auto;" href="<%=request.getContextPath() %>/send-issue-alerts-to-all"> Send Issue Alerts to All </a>
+		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:width:100%;height: auto;" href="<%=request.getContextPath() %>/send-issue-alerts-to-all"> Send Issue Alerts to All </a>
 			                          </div>                            
 			                      </div>     
 			                      <div class="row no-mar">	     
 			                          <div class="col s12 m12 input-field center-align">
-		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px;" href="<%=request.getContextPath() %>/send-risk-alerts-to-all"> Send Risk Alerts to All </a>
+		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:width:100%;" href="<%=request.getContextPath() %>/send-risk-alerts-to-all"> Send Risk Alerts to All </a>
 			                          </div>                            
 			                      </div>    
 			                      <div class="row no-mar">	     
 			                          <div class="col s12 m12 input-field center-align">
-		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="min-width:160px" href="<%=request.getContextPath() %>/send-alerts-to-it-admins"> Send All Alerts to IT Admins </a>
+		                              	 <a class="btn bg-m waves-effect waves-light t-c" style="width:100%;" href="<%=request.getContextPath() %>/send-alerts-to-it-admins"> Send All Alerts to IT Admins </a>
 			                          </div>                            
-			                      </div>                   
+			                      </div>  
+			                      <c:if test="${sendOpenSummaryIssues eq 'YES' }">
+				                      <div class="row no-mar">	     
+				                          <div class="col s12 m12 input-field center-align">
+			                              	 <a class="btn bg-m waves-effect waves-light t-c" style="width:100%;height: auto;" href="<%=request.getContextPath() %>/send-mail-open-issues"> Send Open and Summary of Issues  </a>
+				                          </div>                            
+				                      </div>  
+			                      </c:if>
+			                      <c:if test="${sendContractDOCBGInsurance eq 'YES' }">
+				                      <div class="row no-mar">	     
+				                          <div class="col s12 m12 input-field center-align">
+			                              	 <a class="btn bg-m waves-effect waves-light t-c" style="width:100%;height: auto;" href="<%=request.getContextPath() %>/send-mail-contract-bg-insurance-report"> Send Contract DOC,BG and Insurance Report </a>
+				                          </div>                            
+				                      </div>   
+			                      </c:if>                
 			                    </div>
 			                </div>              
 		          		</div>

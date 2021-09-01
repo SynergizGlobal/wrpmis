@@ -39,6 +39,7 @@ import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.AlertsPaginationObject;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.BudgetPaginationObject;
+import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.User;
 
 @Controller
@@ -51,6 +52,12 @@ public class AlertsController {
 	
 	@Autowired
 	AlertsService service;
+	
+	@Autowired
+	IssuesReportController issueReportController;
+	
+	@Autowired
+	ContractReportController contractReportController;
 	
 	@Value("${common.error.message}")
 	public String commonError;	
@@ -80,6 +87,24 @@ public class AlertsController {
 	    	 
 	    	 List<Alerts> sendToList = service.getSendToListForGenerateSendAlerts();
 	    	 model.addObject("sendToList",sendToList);
+	    	 
+	    	 Date date = new Date();
+			 Calendar cal = Calendar.getInstance();
+             cal.setTime(date); // don't forget this if date is arbitrary
+            
+             SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+             String month = monthFormat.format(date).toUpperCase();
+             //int month = cal.get(Calendar.MONTH); // 0 being January
+             int year = cal.get(Calendar.YEAR);
+            
+             int day = cal.get(Calendar.DAY_OF_MONTH);  
+             if(day == 1 || day == 15 ) {
+            	 model.addObject("sendOpenSummaryIssues","YES");
+             }
+             if(day == 1 || day == 16 ) {
+            	 model.addObject("sendContractDOCBGInsurance","YES");
+             }
+            	
 		 } catch (Exception e) {
 			logger.error("generateSendAlertsFromPage() : "+e.getMessage());
 		 }
@@ -451,6 +476,59 @@ public class AlertsController {
 			logger.error("addAlertRemarks() : "+e.getMessage());
 		 }
 	     return model;
+	}
+	
+	@RequestMapping(value="/send-mail-open-issues",method=RequestMethod.GET)
+	public ModelAndView sendMailWithOpenIssuesByManual(){
+		ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");
+	     try {
+	    	 logger.error("sendMailWithOpenIssuesByManual : Method executed at > "+new Date());
+	    	 Date date = new Date();
+			 Calendar cal = Calendar.getInstance();
+             cal.setTime(date); // don't forget this if date is arbitrary
+            
+             SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+             String month = monthFormat.format(date).toUpperCase();
+             //int month = cal.get(Calendar.MONTH); // 0 being January
+             int year = cal.get(Calendar.YEAR);
+            
+             int day = cal.get(Calendar.DAY_OF_MONTH);  
+             if(day == 1 || day == 15 ) {
+		    	 Issue obj = new Issue();
+	             boolean flag = issueReportController.sendMailWithOpenIssues(obj);
+	             logger.error("sendMailWithOpenIssuesByManual : "+flag);
+             }
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			 logger.error("sendMailWithOpenIssuesByManual() : "+e.getMessage());
+		 }
+	     return model;
+	}
+	
+	@RequestMapping(value="/send-mail-contract-bg-insurance-report",method=RequestMethod.GET)
+	public ModelAndView sendMailWithContractBGInsuranceReportByManual(){
+		ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");
+		try {
+	    	 logger.error("sendMailWithContractBGInsuranceReportByManual : Method executed at > "+new Date());
+	    	 Date date = new Date();
+			 Calendar cal = Calendar.getInstance();
+             cal.setTime(date); // don't forget this if date is arbitrary
+            
+             SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+             String month = monthFormat.format(date).toUpperCase();
+             //int month = cal.get(Calendar.MONTH); // 0 being January
+             int year = cal.get(Calendar.YEAR);
+            
+             int day = cal.get(Calendar.DAY_OF_MONTH);  
+             if(day == 1 || day == 16 ) {
+            	 contractReportController.contractReportAutoEmail();
+             }
+	    	 logger.error("sendMailWithContractBGInsuranceReportByManual : end");
+		} catch (Exception e) {
+			 e.printStackTrace();
+			 logger.error("sendMailWithContractBGInsuranceReportByManual() : "+e.getMessage());
+		}
+		return model;
 	}
 	
 }

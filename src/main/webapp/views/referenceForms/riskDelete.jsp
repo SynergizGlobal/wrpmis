@@ -117,7 +117,7 @@
                      	<div class="row no-mar">
                      	 	<div class="col s12 m4 l2 offset-m2 offset-l4 input-field">
                                 <p class="searchable_label">Select Sub Work</p>
-                                <select id="sub_work" name="sub_work"  class="searchable" onchange="resetRiskLIsts();">
+                                <select id="sub_work" name="sub_work"  class="searchable" onchange="addInQueRisk(this.value);risksList();">
                                     <option value="">Select</option>	                                    
                                 </select>
                            	</div>
@@ -180,32 +180,37 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     <script>
+    
+    var filtersMap = new Object();
+    
         $(document).ready(function () { 
             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
-
-           /*  var table = $('#risk_delete_table').DataTable({
-            	"order": [],
-                columnDefs: [
-                    {
-                        targets: [1],
-                        //className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                    },
-                    { "width": "20px", "targets": [3] },
-                ],
-                "scrollCollapse": true,
-                fixedHeader: true,
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
-                }
-            }); */
-            resetRiskLIsts(); 
+            var filters = window.localStorage.getItem("riskFilters");
+            
+            if($.trim(filters) != '' && $.trim(filters) != null){
+          	  var temp = filters.split('^'); 
+          	  for(var i=0;i< temp.length;i++){
+    	        	  if($.trim(temp[i]) != '' ){
+    	        		  var temp2 = temp[i].split('=');
+    		        	  if($.trim(temp2[0]) == 'sub_work' ){
+    		        		  getSubWorkFilter(temp2[1]);
+    		        	  }
+    	        	  }
+    	          }
+              }
+            risksList();
         });
-       
+        
+        
+      function addInQueRisk(sub_work){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('sub_work')) delete filtersMap[key];
+       		});
+        	if($.trim(sub_work) != ''){
+       	    	filtersMap["sub_work"] = sub_work;
+        	}
+        }
   
 	  function deleteRow(date,subWork){ 
 		if(date === "null"){
@@ -239,12 +244,8 @@
 		            }
 		        });
 	  }
-	  
-	  function resetRiskLIsts(){
-		  risksList();
-		  getSubWorkFilter();
-	  }
-	  function getSubWorkFilter(project) {
+	
+	  function getSubWorkFilter(subWork) {
       	$(".page-loader").show();
           var sub_work = $("#sub_work").val();
   		if ($.trim(sub_work) == "") {
@@ -256,8 +257,8 @@
                   success: function (data) {
                       if (data.length > 0) {
                           $.each(data, function (i, val) {
-                          	
-  	                        $("#sub_work").append('<option value="' + val.sub_work + '">'  + val.sub_work +'</option>');
+                        	var selectedFlag = (subWork == val.sub_work)?'selected':'';
+  	                        $("#sub_work").append('<option value="' + val.sub_work + '"'+selectedFlag+'>'   + val.sub_work +'</option>');
                           });
                       }
                       $('.searchable').select2();
@@ -274,7 +275,14 @@
 	  
 	  function risksList(){
 		$(".page-loader-2").show();
+		getSubWorkFilter('');
 		var sub_work = $("#sub_work").val();
+		var filters = '';
+    	Object.keys(filtersMap).forEach(function (key) {
+    		//alert(filtersMap[key]);
+    		filters = filters + key +"="+filtersMap[key] + "^";
+    		window.localStorage.setItem("riskFilters", filters);
+			});
       	table = $('#risk_delete_table').DataTable();
   		table.destroy();
   		$.fn.dataTable.moment('DD-MMM-YYYY');
@@ -339,8 +347,9 @@
 	  }
 	  function clearFilters() {
           $('#sub_work').val("");      
-          resetRiskLIsts(); 
           $('.searchable').select2();
+          window.localStorage.setItem("riskFilters",'');
+      	  window.location.href="<%=request.getContextPath()%>/risk-delete"
       }
 	  
 </script>

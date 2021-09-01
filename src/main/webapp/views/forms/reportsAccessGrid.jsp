@@ -129,13 +129,13 @@
                         <div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col s6 m3 l2 offset-l3 input-field offset-m2">
                                 <p class="searchable_label">Select Module</p>
-                                <select id="module_name_fk" name="module_name_fk" class="searchable" onchange="getReportsList();">
+                                <select id="module_name_fk" name="module_name_fk" class="searchable" onchange="addInQueModule(this.value);getReportsList();">
                                     <option value="">Select</option>
                                 </select>
                             </div>
                             <div class="col s6 m3 l2 input-field">
                                 <p class="searchable_label">Select Status</p>
-                               <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk" onchange="getReportsList();">
+                               <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk" onchange="addInQueStatus(this.value);getReportsList();">
                                     <option value="" >Select</option>
                                 </select>
                             </div>
@@ -217,26 +217,67 @@
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 
     <script>
+    	var filtersMap = new Object();
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('.close-message').delay(3000).fadeOut('slow');
+            var filters = window.localStorage.getItem("reportFilters");
+	          
+            if($.trim(filters) != '' && $.trim(filters) != null){
+        	  var temp = filters.split('^');  
+        	  for(var i=0;i< temp.length;i++){
+ 	        	  if($.trim(temp[i]) != '' ){
+ 	        		  var temp2 = temp[i].split('=');
+ 		        	  if($.trim(temp2[0]) == 'module_name_fk' ){
+ 		        		 getModulesFilterList(temp2[1]);
+ 		        	  }else if($.trim(temp2[0]) == 'soft_delete_status_fk'){
+ 		        		 getStatusFilterList(temp2[1]);
+ 		        	  }
+ 	        	  }
+ 	          }
+            }
          	getReportsList(); 
         });
-
+        function addInQueModule(module_name_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('module_name_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(module_name_fk) != ''){
+       	    	filtersMap["module_name_fk"] = module_name_fk;
+        	}
+        }
+      
+        function addInQueStatus(soft_delete_status_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('soft_delete_status_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(soft_delete_status_fk) != ''){
+       	    	filtersMap["soft_delete_status_fk"] = soft_delete_status_fk;
+        	}
+        }
         function clearFilters() {
         	 $('#module_name_fk').val("");
              $('#soft_delete_status_fk').val("");
              $('.searchable').select2();
              getReportsList(); 
+             window.localStorage.setItem("reportFilters",'');
+          	 window.location.href= "<%=request.getContextPath()%>/reports";
         }
         
         function getReportsList(){
         	$(".page-loader-2").show();
         	var module_name_fk = $("#module_name_fk").val();
         	var soft_delete_status_fk = $("#soft_delete_status_fk").val();
-        	getModulesFilterList();
-         	getStatusFilterList();
+        	getModulesFilterList('');
+         	getStatusFilterList('');
+         	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+        		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("reportFilters", filters);
+    		});
+
          	table = $('#data-table-forms').DataTable();
          		 
        		table.destroy();
@@ -312,7 +353,7 @@
          	
        }
         
-        function getModulesFilterList() {
+        function getModulesFilterList(module) {
         	$(".page-loader").show();
             var module_name_fk = $("#module_name_fk").val();
             var soft_delete_status_fk = $("#soft_delete_status_fk").val();
@@ -321,15 +362,16 @@
             	var myParams = { module_name_fk: module_name_fk,soft_delete_status_fk: soft_delete_status_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getModulesFilterListInReport",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#module_name_fk").append('<option value="' + val.module_name_fk + '">' + $.trim(val.module_name_fk) +'</option>');
-                            });
+                            	 var selectedFlag = (module == val.module_name_fk)?'selected':'';
+  	                           $("#module_name_fk").append('<option value="' + val.module_name_fk + '"'+selectedFlag+'>' + $.trim(val.module_name_fk) +'</option>');
+                          });
                         }
                         $('.searchable').select2();
-                        $(".page-loader").hide();
+                        $(".page-loader").hide(); 
                     },error: function (jqXHR, exception) {
      	   			      $(".page-loader").hide();
     	   	          	  getErrorMessage(jqXHR, exception);
@@ -340,7 +382,7 @@
             }
         }
         
-        function getStatusFilterList() {
+        function getStatusFilterList(status) {
         	$(".page-loader").show();
             var module_name_fk = $("#module_name_fk").val();
             var soft_delete_status_fk = $("#soft_delete_status_fk").val();
@@ -349,12 +391,13 @@
             	var myParams = { module_name_fk: module_name_fk,soft_delete_status_fk: soft_delete_status_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInReport",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#soft_delete_status_fk").append('<option value="' + val.soft_delete_status_fk + '">' + $.trim(val.soft_delete_status_fk) +'</option>');
-                            });
+                            	 var selectedFlag = (status == val.soft_delete_status_fk)?'selected':'';
+  	                           $("#soft_delete_status_fk").append('<option value="' + val.soft_delete_status_fk + '"'+selectedFlag+'>' + $.trim(val.soft_delete_status_fk) +'</option>');
+                          });
                         }
                         $('.searchable').select2();
                         $(".page-loader").hide();

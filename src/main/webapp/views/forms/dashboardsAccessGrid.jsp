@@ -122,20 +122,20 @@
                         <div class="row no-mar">
                             <div class="col s6 m3 l2 input-field offset-l2 ">
                                 <p class="searchable_label">Select Module</p>
-                               <select id="module_name_fk" class="searchable" name="module_name_fk" onchange="getDashboardsList();">
+                               <select id="module_name_fk" class="searchable" name="module_name_fk" onchange="addInQueModule(this.value);getDashboardsList();">
                                     <option value="" >Select Module</option>
                                 </select>
                             </div>
                             <div class="col s6 m3 l2 input-field">
                                 <p class="searchable_label">Select Dashboard Type</p>
-                                 <select id="dashboard_type_fk" class="searchable" name="dashboard_type_fk" onchange="getDashboardsList();">
+                                 <select id="dashboard_type_fk" class="searchable" name="dashboard_type_fk" onchange="addInQueDashboardType(this.value);getDashboardsList();">
                                     <option value="" >Select Dashboard Type</option>
                                    
                                 </select>
                             </div>
                             <div class="col s6 m3 l2 input-field">
                                 <p class="searchable_label">Select Status</p>
-                                <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk" onchange="getDashboardsList();">
+                                <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk" onchange="addInQueStatus(this.value);getDashboardsList();">
                                     <option value="" >Select Status</option>
                                 </select>
                             </div>
@@ -214,10 +214,30 @@
 	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     <script>
+   		 var filtersMap = new Object();
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();         	
          	$('.close-message').delay(3000).fadeOut('slow');
+         	
+            var filters = window.localStorage.getItem("dashboardFilters");
+	          
+            if($.trim(filters) != '' && $.trim(filters) != null){
+        	  var temp = filters.split('^');  
+        	  for(var i=0;i< temp.length;i++){
+ 	        	  if($.trim(temp[i]) != '' ){
+ 	        		  var temp2 = temp[i].split('=');
+ 		        	  if($.trim(temp2[0]) == 'module_name_fk' ){
+ 		        		 getModulesFilterList(temp2[1]);
+ 		        	  }else if($.trim(temp2[0]) == 'dashboard_type_fk'){
+ 		        		 getDashboardTypesFilterList(temp2[1]);
+ 		        	  }else if($.trim(temp2[0]) == 'soft_delete_status_fk'){
+ 		        		 getStatusFilterList(temp2[1]);
+ 		        	  }
+ 	        	  }
+ 	          }
+            }
+            
          	getDashboardsList();
         });
 
@@ -227,6 +247,35 @@
             $('#soft_delete_status_fk').val("");
             $('.searchable').select2();
             getDashboardsList();
+
+        	window.localStorage.setItem("dashboardFilters",'');
+        	window.location.href= "<%=request.getContextPath()%>/dashboards";
+        }
+        
+        function addInQueModule(module_name_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('module_name_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(module_name_fk) != ''){
+       	    	filtersMap["module_name_fk"] = module_name_fk;
+        	}
+        }
+        
+        function addInQueDashboardType(dashboard_type_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('dashboard_type_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(dashboard_type_fk) != ''){
+       	    	filtersMap["dashboard_type_fk"] = dashboard_type_fk;
+        	}
+        }
+        function addInQueStatus(soft_delete_status_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('soft_delete_status_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(soft_delete_status_fk) != ''){
+       	    	filtersMap["soft_delete_status_fk"] = soft_delete_status_fk;
+        	}
         }
         
         function getDashboardsList(){
@@ -234,10 +283,16 @@
         	var module_name_fk = $("#module_name_fk").val();
         	var dashboard_type_fk = $("#dashboard_type_fk").val();
         	var soft_delete_status_fk = $("#soft_delete_status_fk").val();
-        	getModulesFilterList();
-         	getDashboardTypesFilterList();
-         	getStatusFilterList();
-         	
+        	getModulesFilterList('');
+         	getDashboardTypesFilterList('');
+         	getStatusFilterList('');
+         	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+        		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("dashboardFilters", filters);
+    		});
+
         	table = $('#data-table-dashboard').DataTable();
     		 
     		table.destroy();
@@ -329,7 +384,7 @@
              	getErrorMessage(jqXHR, exception);
          }});
        }
-        function getModulesFilterList() {
+        function getModulesFilterList(module) {
         	$(".page-loader").show();
             var module_name_fk = $("#module_name_fk").val();
             var dashboard_type_fk = $("#dashboard_type_fk").val();
@@ -339,11 +394,12 @@
             	var myParams = { module_name_fk: module_name_fk,dashboard_type_fk : dashboard_type_fk,soft_delete_status_fk: soft_delete_status_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getModulesFilterListInDashboard",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#module_name_fk").append('<option value="' + val.module_name_fk + '">' + $.trim(val.module_name_fk) +'</option>');
+                            	   var selectedFlag = (module == val.module_name_fk)?'selected':'';
+    	                           $("#module_name_fk").append('<option value="' + val.module_name_fk + '"'+selectedFlag+'>' + $.trim(val.module_name_fk) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -358,7 +414,7 @@
             }
         }
         
-        function getDashboardTypesFilterList() {
+        function getDashboardTypesFilterList(dashboard_type) {
         	$(".page-loader").show();
             var module_name_fk = $("#module_name_fk").val();
             var dashboard_type_fk = $("#dashboard_type_fk").val();
@@ -368,11 +424,12 @@
             	var myParams = { module_name_fk: module_name_fk,dashboard_type_fk : dashboard_type_fk,soft_delete_status_fk: soft_delete_status_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDashboardTypesFilterListInDashboard",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#dashboard_type_fk").append('<option value="' + val.dashboard_type_fk + '">' + $.trim(val.dashboard_type_fk) +'</option>');
+                            	   var selectedFlag = (dashboard_type == val.dashboard_type_fk)?'selected':'';
+    	                           $("#dashboard_type_fk").append('<option value="' + val.dashboard_type_fk + '"'+selectedFlag+'>' + $.trim(val.dashboard_type_fk) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -387,7 +444,7 @@
             }
         }
         
-        function getStatusFilterList() {
+        function getStatusFilterList(status) {
         	$(".page-loader").show();
             var module_name_fk = $("#module_name_fk").val();
             var dashboard_type_fk = $("#dashboard_type_fk").val();
@@ -397,11 +454,12 @@
             	var myParams = { module_name_fk: module_name_fk,dashboard_type_fk : dashboard_type_fk,soft_delete_status_fk: soft_delete_status_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInDashboard",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#soft_delete_status_fk").append('<option value="' + val.soft_delete_status_fk + '">' + $.trim(val.soft_delete_status_fk) +'</option>');
+                            	   var selectedFlag = (status == val.soft_delete_status_fk)?'selected':'';
+    	                           $("#soft_delete_status_fk").append('<option value="' + val.soft_delete_status_fk + '"'+selectedFlag+'>' + $.trim(val.soft_delete_status_fk) +'</option>');
                             });
                         }
                         $('.searchable').select2();

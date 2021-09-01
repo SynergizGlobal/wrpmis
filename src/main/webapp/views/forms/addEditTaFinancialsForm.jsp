@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/finance.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/finance.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" > 
@@ -30,13 +31,14 @@
 		.my-error {
    			 color:red;
    			 font-size: .8rem;
-		}        input::placeholder {
+		}        
+		/* input::placeholder {
             color: #777;
-        }
+        } */
         .input-field input[type="text"]::placeholder,
 		.input-field input[type="number"]::placeholder ,
 		.input-field input[type="email"] {
-		    color: #ddd;
+		    color: #777;
 		}
 
         input[type="month"] {
@@ -337,7 +339,7 @@
 											<table class="mdl-data-table">
 		                                        <tbody id="safetyBody">                                          
 					                                    <tr>
-					  										 <td colspan="8" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addFinancialRow()"> <i
+					  										 <td colspan="8" > <a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addFinancialRow()"> <i
 					                                                            class="fa fa-plus"></i></a>
 					                                    </tr>
 		                                        </tbody>

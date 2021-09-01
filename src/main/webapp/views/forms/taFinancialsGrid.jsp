@@ -16,7 +16,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/finance.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/finance.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">	
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />

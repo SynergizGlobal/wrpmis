@@ -112,7 +112,7 @@ public class AlertsController {
 	}
 	
 	@RequestMapping(value="/generate-alerts-manually",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generateAlertsManually(){		
+	public ModelAndView generateAlertsManually(RedirectAttributes attributes){		
 		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
 	    	logger.error("generateAlertsManually : start");
@@ -120,10 +120,10 @@ public class AlertsController {
             boolean flag = service.generateAterts();
             //System.out.println("End "+ new Date());
 	    	logger.error("generateAlertsManually : "+flag);
-			
+	    	attributes.addFlashAttribute("success","Alerts generated successfully");
 		 } catch (Exception e) {
-			 e.printStackTrace();
-			logger.error("generateAlertsByManual() : "+e.getMessage());
+			 attributes.addFlashAttribute("error",commonError);
+			 logger.error("generateAlertsByManual() : "+e.getMessage());
 		 }
 	     return model;
 	}
@@ -144,14 +144,14 @@ public class AlertsController {
 		    }
 			
 		 } catch (Exception e) {
-			 e.printStackTrace();
-			logger.error("sendAlertsToParticulars() : "+e.getMessage());
+			 attributes.addFlashAttribute("error",commonError);
+			 logger.error("sendAlertsToParticulars() : "+e.getMessage());
 		 }
 	     return model;
 	}
 	
 	@RequestMapping(value="/send-contract-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView sendContractAlertsToAllByManual(){		
+	public ModelAndView sendContractAlertsToAllByManual(RedirectAttributes attributes){		
 		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
 	    	   Date date = new Date();
@@ -177,7 +177,10 @@ public class AlertsController {
 				if(!StringUtils.isEmpty(alert_type)) {
 					boolean flag = service.sendEMailNotificationWithContractAlerts(alert_type);
 					logger.error("sendContractAlertsToAllByManual >> "+ alert_type +" Sent mails : "+ flag);
-				}
+					attributes.addFlashAttribute("success","Mail has been sent successfully");
+				}else {
+	        	   attributes.addFlashAttribute("error","Failed! We cannot send alerts on this day");
+	            }
 				
 	           
 				/*String alert_type = null;
@@ -188,14 +191,14 @@ public class AlertsController {
 				}*/
 			
 		 } catch (Exception e) {
-			 e.printStackTrace();
+			 attributes.addFlashAttribute("error",commonError);
 			logger.error("sendContractAlertsToAllByManual() : "+e.getMessage());
 		 }
 	     return model;
 	}
 	
 	@RequestMapping(value="/send-issue-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView sendIssueAlertsToAllByManual(){		
+	public ModelAndView sendIssueAlertsToAllByManual(RedirectAttributes attributes){		
 		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
 	    	   Date date = new Date();
@@ -212,43 +215,45 @@ public class AlertsController {
 	        	   logger.error("sendIssueAlertsToAllByManual : start");
 			       boolean flag = service.sendEMailNotificationWithIssueAlerts(alert_type);
 			       logger.error("sendIssueAlertsToAllByManual >> Sending mails : "+ flag); 
+			       attributes.addFlashAttribute("success","Mail has been sent successfully");
+	           }else {
+	        	   attributes.addFlashAttribute("error","Failed! Issue alerts send on FRIDAY only");
 	           }
 			
 		 } catch (Exception e) {
-			 e.printStackTrace();
+			 attributes.addFlashAttribute("error",commonError);
 			logger.error("sendAlertsToAllByManual() : "+e.getMessage());
 		 }
 	     return model;
 	}
 	
 	@RequestMapping(value="/send-risk-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView sendEMailNotificationWithRiskAlertsByManual(){		
+	public ModelAndView sendEMailNotificationWithRiskAlertsByManual(RedirectAttributes attributes){		
 		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
 	    	logger.error("sendEMailNotificationWithRiskAlertsByManual : start");
 		    
 		    boolean flag = service.sendEMailNotificationWithRiskAlerts();
 			logger.error("sendEMailNotificationWithRiskAlertsByManual >> Sent mails : "+ flag);
-			
+			attributes.addFlashAttribute("success","Mail has been sent successfully");
 		 } catch (Exception e) {
-			 e.printStackTrace();
+			 attributes.addFlashAttribute("error",commonError);
 			logger.error("sendEMailNotificationWithRiskAlertsByManual() : "+e.getMessage());
 		 }
 	     return model;
 	}
 	
 	@RequestMapping(value="/send-alerts-to-it-admins",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView sendEMailNotificationAlertsToITAdminsByManual(){		
+	public ModelAndView sendEMailNotificationAlertsToITAdminsByManual(RedirectAttributes attributes){		
 		 ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");	    
 	     try {
 	    	logger.error("sendEMailNotificationAlertsToITAdminsByManual : start");
 	    	 
 			boolean flag = service.sendEMailNotificationAlertsToITAdmins();
 			logger.error("sendEMailNotificationAlertsToITAdminsByManual >> Sent mails : "+ flag); 
-			//System.out.println("Sending mails : "+ flag);
-			
+			attributes.addFlashAttribute("success","Mail has been sent successfully");
 		 } catch (Exception e) {
-			 e.printStackTrace();
+			 attributes.addFlashAttribute("error",commonError);
 			logger.error("sendEMailNotificationAlertsToITAdminsByManual() : "+e.getMessage());
 		 }
 	     return model;
@@ -479,7 +484,7 @@ public class AlertsController {
 	}
 	
 	@RequestMapping(value="/send-mail-open-issues",method=RequestMethod.GET)
-	public ModelAndView sendMailWithOpenIssuesByManual(){
+	public ModelAndView sendMailWithOpenIssuesByManual(RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");
 	     try {
 	    	 logger.error("sendMailWithOpenIssuesByManual : Method executed at > "+new Date());
@@ -496,17 +501,18 @@ public class AlertsController {
              if(day == 1 || day == 15 ) {
 		    	 Issue obj = new Issue();
 	             boolean flag = issueReportController.sendMailWithOpenIssues(obj);
+	             attributes.addFlashAttribute("success","Mail has been sent successfully");
 	             logger.error("sendMailWithOpenIssuesByManual : "+flag);
              }
 		 } catch (Exception e) {
-			 e.printStackTrace();
+			 attributes.addFlashAttribute("error",commonError);
 			 logger.error("sendMailWithOpenIssuesByManual() : "+e.getMessage());
 		 }
 	     return model;
 	}
 	
 	@RequestMapping(value="/send-mail-contract-bg-insurance-report",method=RequestMethod.GET)
-	public ModelAndView sendMailWithContractBGInsuranceReportByManual(){
+	public ModelAndView sendMailWithContractBGInsuranceReportByManual(RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/generate-send-alerts-page");
 		try {
 	    	 logger.error("sendMailWithContractBGInsuranceReportByManual : Method executed at > "+new Date());
@@ -522,10 +528,11 @@ public class AlertsController {
              int day = cal.get(Calendar.DAY_OF_MONTH);  
              if(day == 1 || day == 16 ) {
             	 contractReportController.contractReportAutoEmail();
+            	 attributes.addFlashAttribute("success","Mail has been sent successfully");
              }
 	    	 logger.error("sendMailWithContractBGInsuranceReportByManual : end");
 		} catch (Exception e) {
-			 e.printStackTrace();
+			 attributes.addFlashAttribute("error",commonError);
 			 logger.error("sendMailWithContractBGInsuranceReportByManual() : "+e.getMessage());
 		}
 		return model;

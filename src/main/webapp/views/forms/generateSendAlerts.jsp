@@ -96,7 +96,25 @@
           		</div>
           		</div>
           		
-                <div class="col m7 l9 s12 ">                
+                <div class="col m7 l9 s12 ">   
+                <div class="row clearfix">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<c:if test="${not empty success }">
+							<div class="card close-message">
+				                <div class="card-content">
+				                	<div class="center-align m-1">${success}</div>
+				            	</div>
+				            </div>
+						</c:if>
+						<c:if test="${not empty error }">							
+							<div class="card close-message">
+				                <div class="card-content">
+				                	<div class="center-align m-1">${error}</div>
+				            	</div>
+				            </div>
+						</c:if>
+					</div>
+				</div>            
             	<div class="card">
 	                <div class="card-content">
 	                    <span class="card-title headbg">
@@ -104,7 +122,7 @@
 	                            <h6>Send Alerts</h6>
 	                        </div>
 	                    </span>
-	                    <div class="row clearfix">
+	                    <%-- <div class="row clearfix">
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<c:if test="${not empty success }">
 									<div class="center-align m-1 close-message">${success}</div>
@@ -113,7 +131,7 @@
 									<div class="center-align m-1 close-message">${error}</div>
 								</c:if>
 							</div>
-						</div>
+						</div> --%>
 	                    <form action="<%=request.getContextPath() %>/send-alerts-to-particulars" id="sendAlertsForm" name="sendAlertsForm" method="post">
 	                         <div class="row no-mar">
 	                         	<div class="col s12 m10 offset-m1">
@@ -199,7 +217,8 @@
     
     <script>        
         $(document).ready(function(){
-        	$('.searchable').select2();        	
+        	$('.searchable').select2();   
+        	$('.close-message').delay(10000).fadeOut('slow');
         });
         
         function clearFilter(){

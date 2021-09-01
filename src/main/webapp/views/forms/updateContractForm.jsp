@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">    
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/contract.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/contract.css">  -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
@@ -574,7 +575,7 @@
 									            <table  class="mdl-data-table" style="margin-bottom: 30px">
 			                                        <tbody>                                          
 			                                            <tr>
-			                                   				<td colspan="3" style="text-align: right;" ><a class="btn waves-effect waves-light bg-m t-c "  onclick="addDepartmentRow()"> <i class="fa fa-plus"></i></a></td>
+			                                   				<td colspan="3"  ><a class="btn waves-effect waves-light bg-m t-c "  onclick="addDepartmentRow()"> <i class="fa fa-plus"></i></a></td>
 			                                             </tr>
 			                                        </tbody>
 			                                    </table> 
@@ -783,7 +784,7 @@
 	                            <div class="row" id="contractClosureRadioBtn" style="display: none;">
 	                            	<div class="col s12 m6 input-field offset-m3">
 			                   			<div class="col l8 m12">
-			                   				<p style="text-align: right;">Contract Closed/Closure initiated? </p>
+			                   				<p >Contract Closed/Closure initiated? </p>
 			                   			</div>
 			                   			<div class="col l4 m12 right-align mob-center">                   				
 									      <label>
@@ -1135,7 +1136,7 @@
                                      <table class="mdl-data-table">
                                         <tbody id="bankTableBody">                                          
                                             <tr>
-									 			<td colspan="9" style="text-align: right;"> 
+									 			<td colspan="9" > 
 									 				<a class="btn waves-effect waves-light bg-m t-c "  onclick="addBankRow()"> 
 									 					<i class="fa fa-plus"></i>
 									 				</a>
@@ -1375,7 +1376,7 @@
                                      <table  class="mdl-data-table">
                                         <tbody id="insurenceTableBody">                                          
                                             <tr>
-                                   <td colspan="8" style="text-align: right;" ><a   class="btn waves-effect waves-light bg-m t-c "  onclick="addInsurenceRow()"> <i class="fa fa-plus"></i></a></td>
+                                   <td colspan="8"  ><a   class="btn waves-effect waves-light bg-m t-c "  onclick="addInsurenceRow()"> <i class="fa fa-plus"></i></a></td>
                                              </tr>
                                         </tbody>
                                     </table>
@@ -1495,7 +1496,7 @@
 	                                    <table class="mdl-data-table">
 	                                        <tbody>                                          
 	                                            <tr>
-	  												<td colspan="6" style="text-align: right;" ><a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addMilestoneRow()"> <i
+	  												<td colspan="6"  ><a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addMilestoneRow()"> <i
 	                                                            class="fa fa-plus"></i></a></td> 
 	                                             </tr>
 	                                        </tbody>
@@ -1604,7 +1605,7 @@
 	                                        <table class="mdl-data-table">
 		                                        <tbody>                                          
 		                                            <tr>
-														<td colspan="3" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addContractDocumentRow()"> <i
+														<td colspan="3" >	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addContractDocumentRow()"> <i
 		                                                            class="fa fa-plus"></i></a></td>
 		                                              </tr>
 		                                        </tbody>
@@ -1854,7 +1855,7 @@
                                      <table class="mdl-data-table">
                                         <tbody>                                          
                                             <tr>
-												<td colspan="6" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addRevRow()"> <i
+												<td colspan="6" >	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addRevRow()"> <i
                                                             class="fa fa-plus"></i></a></td>
                                               </tr>
                                         </tbody>
@@ -1938,7 +1939,7 @@
 	                                        <table class="mdl-data-table">
 		                                        <tbody>                                          
 		                                            <tr>
-														<td colspan="4" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addKeyPersonnelRow()"> <i
+														<td colspan="4" >	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addKeyPersonnelRow()"> <i
 		                                                            class="fa fa-plus"></i></a></td>
 		                                              </tr>
 		                                        </tbody>
@@ -2081,7 +2082,7 @@
 		                           </div>
 		                       </div>
 		                       <div class="col s12 m2 mt-brdr center-align">
-		                           <div class=" m-1" style="text-align: right;">
+		                           <div class=" m-1" >
 		                               <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
 		                           </div>
 		                       </div>

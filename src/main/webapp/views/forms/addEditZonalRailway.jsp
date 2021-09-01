@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/zonal.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/zonal.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
@@ -112,6 +113,9 @@
 			}
        }
 	
+		#zonal_railway_table tbody td{
+			vertical-align:baseline;
+		}
 
     </style>
 
@@ -534,7 +538,7 @@
 							   <table class="mdl-data-table">
                                    <tbody id="safetyBody">                                          
 	                                  <tr>
-											 <td colspan="5" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c "  onclick="addProgressRow()"> <i
+											 <td colspan="5" > <a type="button" class="btn waves-effect waves-light bg-m t-c "  onclick="addProgressRow()"> <i
 	                                                          class="fa fa-plus"></i></a>
 	                                  </tr>
                                 </tbody>
@@ -934,7 +938,7 @@
 					     document.getElementById("completion_cost_unitsError").innerHTML="";
 					     error.appendTo('#completion_cost_unitsError');
 					 }else{
-	 					 error.insertAfter(element);
+	 					 error.appendTo('#'+element.attr('id')+'+.error-msg');	 					 
 			       } 
 		   		},invalidHandler: function (form, validator) {
                     var errors = validator.numberOfInvalids();

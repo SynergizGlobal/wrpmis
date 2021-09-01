@@ -16,7 +16,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">	
 	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	 
-	<link rel="stylesheet" href="/pmis/resources/css/fob.css">
+	<!-- <link rel="stylesheet" href="/pmis/resources/css/fob.css"> -->
+	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
@@ -532,7 +533,7 @@
 								                                        </div>                             
 			                                                      	</td>
 			                                                      	<td data-head="Photo Date" class="input-field">
-		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
+		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="photo date"class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
 			                                                      	</td>
 			                                                      	<td  style="display:none;">
 			                                                      		<input type="hidden" id="fob_file_ids${index.count }" name="fob_file_ids" value="${fObj.fob_file_id }"/>
@@ -568,7 +569,7 @@
 							                                        </div>                                       
 		                                                      	</td>
 		                                                      	<td data-head="Photo Date" class="input-field">
-		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
+		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="photo date" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
 
 		                                                      	</td>
 		                                                      	<td  style="display:none;"><input type="hidden" id="fob_file_ids0" name="fob_file_ids"/></td>
@@ -585,7 +586,7 @@
 											<table class="mdl-data-table">
 												<tbody>
 													<tr>
-														<td colspan="6" style="text-align: right;"><a
+														<td colspan="6" ><a
 															type="button"
 															class="btn waves-effect waves-light bg-m t-c "
 															onclick="addFOBFileRow()"> <i
@@ -984,7 +985,7 @@
 		   +'<input class="file-path validate" type="text" id="fobFileNames'+rNo+'" name="fobFileNames">'	
 		   +'</div></td>'
 		   +'<td data-head="Photo Date" class="input-field">'
-		   +'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_'+rNo+'_icon"><i class="fa fa-calendar"></i></button></span>'
+		   +'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" placeholder="photo date" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_'+rNo+'_icon"><i class="fa fa-calendar"></i></button></span>'
 		   +'</td>'
 		   +'<td style="display:none;"><a ></a><input type="hidden" id="fob_file_ids'+rNo+'" name="fob_file_ids"/></td>'
 		   +'<td class="mobile_btn_close"><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'

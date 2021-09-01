@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">  
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/contractor.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/contractor.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
@@ -23,6 +24,9 @@
     	.error-msg label,#pan_numberError{
     		color:red!important;   
     	}
+    	.primary-text-bold {    
+		    font-size: 1rem;
+		}
     	/* Chrome, Safari, Edge, Opera */
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
@@ -152,8 +156,8 @@
 							<c:if test="${action eq 'edit'}">	
 								<div class="row">
 	                                <c:if test="${not empty contractorDetails.contractor_id }">
-	                                	<div class="col s6 m4 offset-m2">
-		                                    <label class="primary-text-bold" style="margin-top: 10px;">Contractor ID : <input id="contractor_id" name="contractor_id" type="text" value="${contractorDetails.contractor_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+	                                	<div class="col s6 m4 offset-m2" style="padding-top: 1rem;">
+		                                    <label class="primary-text-bold">Contractor ID : <input id="contractor_id" name="contractor_id" type="text" value="${contractorDetails.contractor_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
 		                                </div>
 	                                 </c:if>
 	

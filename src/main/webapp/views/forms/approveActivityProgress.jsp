@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
@@ -56,19 +57,19 @@
 
         .tabs .tab a {
             text-transform: capitalize;
-            color: blue;
+            color: #007a7a;
         }
 
         .tabs .tab a:hover,
         .tabs .tab a.active,
         .tabs .tab a:focus,
         .tabs .tab a:focus.active {
-            background-color: #e3e3f7;
-            color: blue;
+            background-color: #f2fefe;
+            color: #007a7a;
         }
 
         .tabs .indicator {
-            background-color: blue;
+            background-color: #007a7a;
         }
 
         a.bg-s.disabled>.fa {
@@ -293,7 +294,7 @@
         <!-- Page Loader starts-->
         <div class="page-loader" style="display: none;">
             <div class="preloader-wrapper big active">
-                <div class="spinner-layer spinner-blue-only">
+                <div class="spinner-layer spinner-#007a7a-only">
                     <div class="circle-clipper left">
                         <div class="circle"></div>
                     </div>
@@ -481,6 +482,19 @@
                     //paging: true,
                     initComplete: function () {
                         $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                        var input = $('.dataTables_filter input')
+    					.unbind(), self = this.api(), $searchButton = $(
+    					'<i class="fa fa-search" title="Go">')
+    					.click(function() {
+    						self.search(input.val()).draw();
+    					}), $clearButton = $(
+    							'<i class="fa fa-close" title="Reset">')
+    					.click(function() {
+    						input.val('');
+    						$searchButton.click();
+    					})
+    					$('.dataTables_filter').append( '<div class="right-btns"></div>');
+    					$('.dataTables_filter div').append( $searchButton, $clearButton);
                     }
                 }).rows().remove().draw();
         		

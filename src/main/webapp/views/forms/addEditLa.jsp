@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
@@ -29,7 +30,7 @@
         }
 
         /* change radio colors  */
-        [type="radio"]:checked+span::after,
+       /*  [type="radio"]:checked+span::after,
         [type="radio"].with-gap:checked+span::after {
             background-color: #2E58AD !important;
         }
@@ -39,9 +40,9 @@
         [type="radio"].with-gap:checked+span::after {
             border: 2px solid #2E58AD !important;
         }
-
+ */
         .primary-text-bold {
-            color: #2E58AD !important;
+            color: #007A7A !important;
             font-weight: 600
         }
 
@@ -50,7 +51,7 @@
         }
 
         .input-field .prefix.active {
-            color: #2e58ad;
+            color: #007A7A;
         }
 		input[type="number"]~.units {
 		    position: absolute;
@@ -1599,7 +1600,7 @@
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
-	    	var options = {format: 'dd-mm-yyyy'};
+	    	var options = {format: 'dd-mm-yyyy',autoClose:true};
 	    	if(dt.length > 1){
 	    		options.setDefaultDate = true,
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])

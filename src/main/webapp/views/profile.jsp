@@ -21,6 +21,7 @@
         }
 	     thead tr {
 	        background-color: #2E58AD;
+	        background-color: #007a7a;
 	     }
 	     td{
 	        word-break: break-word;

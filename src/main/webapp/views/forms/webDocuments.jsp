@@ -23,7 +23,8 @@
 	<link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/la.css">
+	<!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
+	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
@@ -35,6 +36,9 @@
 		.w-12p{
 			width:12%;
 		}
+		.modal-header {
+		    background-color: #007a7a;
+   		}
 		@media screen and (min-width: 1024px){
 			.w-12p.last-column {
 			    width: 30%;

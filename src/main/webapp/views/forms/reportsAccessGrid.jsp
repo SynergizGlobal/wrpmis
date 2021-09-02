@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
@@ -309,6 +310,19 @@
                     "bScrollCollapse": true,
                    initComplete: function () {
                        $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                       var input = $('.dataTables_filter input')
+	   					.unbind(), self = this.api(), $searchButton = $(
+	   					'<i class="fa fa-search" title="Go">')
+	   					.click(function() {
+	   						self.search(input.val()).draw();
+	   					}), $clearButton = $(
+	   							'<i class="fa fa-close" title="Reset">')
+	   					.click(function() {
+	   						input.val('');
+	   						$searchButton.click();
+	   					})
+	   					$('.dataTables_filter').append( '<div class="right-btns"></div>');
+	   					$('.dataTables_filter div').append( $searchButton, $clearButton);
                    }
                }).rows().remove().draw();
        		

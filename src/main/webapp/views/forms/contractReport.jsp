@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/contract.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/contract.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
@@ -45,7 +46,7 @@
             <div class="card">
                 <div class="card-content">
                     <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5"  style="background-color:#006699;color:#ffffff;">
+                        <div class="center-align bg-m p-2 m-b-5">
                             <h6 id="rptName">Contract Reports </h6>
                         </div>
                     </span>
@@ -107,11 +108,11 @@
 	                                </div>  
 			                        <div class="row">
 	                                    <div class="col s6 m6 input-field" style="text-align:right;">
-	                                        <button type="button" class="btn btn-primary" style="background-color:#006699;color:#ffffff;text-transform: none;" id="btnGenerateReport"
+	                                        <button type="button" class="btn btn-primary" id="btnGenerateReport"
 	                                            onclick="generateContractReport();"> Generate Report</button>
 	                                    </div>			                        
 			                            <div class="col s6 m6 input-field" style="text-align:left;">
-												<button type="button" class="btn waves-effect waves-light bg-s t-c" style="background-color:#F44336;color:#ffffff;text-transform: none;" onclick="clearFilters();">Reset</button>
+												<button type="button" class="btn waves-effect waves-light bg-s t-c" onclick="clearFilters();">Reset</button>
 			
 			                                <!--  <button class="btn waves-effect waves-light bg-s t-c"
 			                                     style="margin-top: 6px; font-weight: 600;"

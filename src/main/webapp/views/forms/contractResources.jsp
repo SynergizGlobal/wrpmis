@@ -15,8 +15,9 @@
 		Add Contract Resources - Update Forms - PMIS
 	</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
+    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
@@ -168,7 +169,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr id="ResourceRow1">
-												<td class="input-field">
+												<td class="input-field" data-head="Resource Type" >
 													<select id="resource_types1" name="resource_types" class="select searchable">
 														 <option value="" >Select</option>  
 												          <c:forEach var="obj" items="${resourceTypeList }">
@@ -176,12 +177,12 @@
 				                                          </c:forEach>
 													</select>
 												</td>
-												<td class="input-field"><input id="resource_names1" name="resource_names" type="text" class="validate" placeholder="Name" value="JCB"></td>
-												<td class="input-field"><input id="quantitys1" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
-												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('1');"><i class="fa fa-close"></i></a></td>
+												<td class="input-field" data-head="Resource Name"><input id="resource_names1" name="resource_names" type="text" class="validate" placeholder="Name" value="JCB"></td>
+												<td class="input-field" data-head="Quantity"><input id="quantitys1" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
+												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('1');"><i class="fa fa-close"></i></a></td>
 											</tr>
 											<tr id="ResourceRow2">
-												<td class="input-field">
+												<td class="input-field" data-head="Resource Type" >
 													<select id="resource_types2" name="resource_types" class="select searchable">
 														<option value="" >Select</option>  
 												          <c:forEach var="obj" items="${resourceTypeList }">
@@ -189,12 +190,12 @@
 				                                          </c:forEach>
 													</select>
 												</td>
-												<td class="input-field"><input id="resource_names2" name="resource_names" type="text" class="validate" placeholder="Name" value="Dumper"></td>
-												<td class="input-field"><input id="quantitys2" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
-												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('2');"><i class="fa fa-close"></i></a></td>
+												<td class="input-field" data-head="Resource Name"><input id="resource_names2" name="resource_names" type="text" class="validate" placeholder="Name" value="Dumper"></td>
+												<td class="input-field" data-head="Quantity"><input id="quantitys2" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
+												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('2');"><i class="fa fa-close"></i></a></td>
 											</tr>
 											<tr id="ResourceRow3">
-												<td class="input-field">
+												<td class="input-field" data-head="Resource Type" >
 													<select id="resource_types3" name="resource_types" class="select searchable">
 														<option value="" >Select</option>  
 												          <c:forEach var="obj" items="${resourceTypeList }">
@@ -202,12 +203,12 @@
 				                                          </c:forEach>
 													</select>
 												</td>
-												<td class="input-field"><input id="resource_names3" name="resource_names" type="text" class="validate" placeholder="Name" value="Grader"></td>
-												<td class="input-field"><input id="quantitys3" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
-												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('3');"><i class="fa fa-close"></i></a></td>
+												<td class="input-field" data-head="Resource Name"><input id="resource_names3" name="resource_names" type="text" class="validate" placeholder="Name" value="Grader"></td>
+												<td class="input-field" data-head="Quantity"><input id="quantitys3" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
+												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('3');"><i class="fa fa-close"></i></a></td>
 											</tr>
 											<tr id="ResourceRow4">
-												<td class="input-field">
+												<td class="input-field" data-head="Resource Type" >
 													<select id="resource_types4" name="resource_types" class="select searchable">
 														<option value="" >Select</option>  
 												          <c:forEach var="obj" items="${resourceTypeList }">
@@ -215,12 +216,12 @@
 				                                          </c:forEach>
 													</select>
 												</td>
-												<td class="input-field"><input id="resource_names4" name="resource_names" type="text" class="validate" placeholder="Name" value="Water Tanker Bowser"></td>
-												<td class="input-field"><input id="quantitys4" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
-												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('4');"><i class="fa fa-close"></i></a></td>
+												<td class="input-field" data-head="Resource Name"><input id="resource_names4" name="resource_names" type="text" class="validate" placeholder="Name" value="Water Tanker Bowser"></td>
+												<td class="input-field" data-head="Quantity"><input id="quantitys4" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
+												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('4');"><i class="fa fa-close"></i></a></td>
 											</tr>
 											<tr id="ResourceRow5">
-												<td class="input-field">
+												<td class="input-field" data-head="Resource Type" >
 													<select id="resource_types5" name="resource_types" class="select searchable">
 														<option value="" >Select</option>  
 												          <c:forEach var="obj" items="${resourceTypeList }">
@@ -228,12 +229,12 @@
 				                                          </c:forEach>
 													</select>
 												</td>
-												<td class="input-field"><input id="resource_names5" name="resource_names" type="text" class="validate" placeholder="Name" value="Semi Skilled"></td>
-												<td class="input-field"><input id="quantitys5" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
-												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('5');"><i class="fa fa-close"></i></a></td>
+												<td class="input-field" data-head="Resource Name"><input id="resource_names5" name="resource_names" type="text" class="validate" placeholder="Name" value="Semi Skilled"></td>
+												<td class="input-field" data-head="Quantity"><input id="quantitys5" name="quantitys" type="number" value="1" class="validate" placeholder="Qty" min="0"></td>
+												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('5');"><i class="fa fa-close"></i></a></td>
 											</tr>
 											<tr id="ResourceRow6">
-												<td class="input-field">
+												<td class="input-field" data-head="Resource Type" >
 													<select id="resource_types6" name="resource_types" class="select searchable">
 														<option value="" >Select</option>  
 												          <c:forEach var="obj" items="${resourceTypeList }">
@@ -241,12 +242,12 @@
 				                                          </c:forEach>
 													</select>
 												</td>
-												<td class="input-field"><input id="resource_names6" name="resource_names" type="text" class="validate" placeholder="Name" value="Highly Skilled"></td>
-												<td class="input-field"><input id="quantitys6" name="quantitys" type="number"  value="1" class="validate" placeholder="Qty" min="0"></td>
-												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('6');"><i class="fa fa-close"></i></a></td>
+												<td class="input-field" data-head="Resource Name"><input id="resource_names6" name="resource_names" type="text" class="validate" placeholder="Name" value="Highly Skilled"></td>
+												<td class="input-field" data-head="Quantity"><input id="quantitys6" name="quantitys" type="number"  value="1" class="validate" placeholder="Qty" min="0"></td>
+												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('6');"><i class="fa fa-close"></i></a></td>
 											</tr>
 											<tr id="ResourceRow7">
-												<td class="input-field">
+												<td class="input-field" data-head="Resource Type" >
 												<select id="resource_types7" name="resource_types"class="select searchable">
 													<option value="" >Select</option>  
 												          <c:forEach var="obj" items="${resourceTypeList }">
@@ -254,16 +255,16 @@
 				                                          </c:forEach>
 													</select>
 												</td>
-												<td class="input-field"><input id="resource_names7" name="resource_names" type="text"  class="validate" placeholder="Name" value="Unskilled"></td>
-												<td class="input-field"><input id="quantitys7" name="quantitys" type="number" class="validate" value="1" placeholder="Qty" min="0"></td>
-												<td><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('7');"><i class="fa fa-close"></i></a></td>
+												<td class="input-field" data-head="Resource Name"><input id="resource_names7" name="resource_names" type="text"  class="validate" placeholder="Name" value="Unskilled"></td>
+												<td class="input-field" data-head="Quantity"><input id="quantitys7" name="quantitys" type="number" class="validate" value="1" placeholder="Qty" min="0"></td>
+												<td class="mobile_btn_close"><a href="javascript:void(0);" class="btn tab waves-effect waves-light red t-c" onclick="removeResource('7');"><i class="fa fa-close"></i></a></td>
 											</tr>
                                                 </tbody>
                                             </table>
                                             <table class="mdl-data-table">
                                                 <tbody>
                                                     <tr>
-                                                        <td colspan="4"><a href="javascript:void(0);" onclick="addResource();" class="btn tab waves-effect waves-light bg-m t-c "> 
+                                                        <td colspan="4" style="text-align:center;"><a href="javascript:void(0);" onclick="addResource();" class="btn tab waves-effect waves-light bg-m t-c "> 
                                                         <i class="fa fa-plus"></i></a></td>
                                                     </tr>
                                                 </tbody>

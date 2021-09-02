@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />    
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/budget.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/budget.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />

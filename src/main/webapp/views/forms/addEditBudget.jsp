@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">     
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/budget.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/budget.css"> -->
+	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
@@ -107,7 +108,15 @@
 		td.input-field .select2-container--default{
 			display:inline-block;
 		}
-		
+		.mdl-data-table td {
+			vertical-align: baseline;
+		}
+		label.my-error-class{
+			transform: none;
+		    position: relative;
+		    font-size: .85rem;
+		    word-break: break-all;
+		}
     </style>
 </head>
 
@@ -388,7 +397,7 @@
 								 <table class="mdl-data-table">
                                        <tbody>                                          
 	                                    <tr>
-  										   <td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addBudgetRow()"> <i
+  										   <td colspan="6" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addBudgetRow()"> <i
 	                                                            class="fa fa-plus"></i></a>
 	                                    </tr>
                                        </tbody>
@@ -786,7 +795,7 @@
       
         var validator =	$('#budgetForm').validate({
 			 errorClass: "my-error-class",
-			   validClass: "my-valid-class",
+			 validClass: "my-valid-class",
 			 ignore: ":hidden:not(.validate-dropdown)",
 	  		    rules: {
 	  		 		   "project_id_fk": {

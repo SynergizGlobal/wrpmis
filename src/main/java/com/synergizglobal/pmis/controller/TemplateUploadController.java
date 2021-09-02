@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -30,7 +28,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.TemplateUploadService;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
-import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.reference.model.TrainingType;
 
@@ -48,14 +45,14 @@ public class TemplateUploadController {
 	TemplateUploadService service;
 	
 	@RequestMapping(value="/template-upload",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView TemplateUpload(HttpSession session,@ModelAttribute TrainingType obj){
+	public ModelAndView templateUpload(HttpSession session,@ModelAttribute TrainingType obj){
 		ModelAndView model = new ModelAndView(PageConstants.templateUploadGrid);
 		try {
 			List<TrainingType> templatesList = service.getTemplatesList();
 			model.addObject("templatesList", templatesList);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("TemplateUpload : " + e.getMessage());
+			logger.error("templateUpload : " + e.getMessage());
 		}
 		return model;
 	}

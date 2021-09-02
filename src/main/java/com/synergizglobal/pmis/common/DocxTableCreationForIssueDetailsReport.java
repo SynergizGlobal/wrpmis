@@ -143,7 +143,7 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	/*===========================================================*/
 		  	
 		    titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Contract name", garamondBoldRPr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Contract Name", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
 			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getContract_name(), garamondRPr,
 					JcEnumeration.LEFT, false, null);

@@ -158,7 +158,7 @@
                             
                             <div class="row">                                 
                                 <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="corrective_measure" name="corrective_measure"   class="materialize-textarea"  data-length="1000">${issue.corrective_measure }</textarea>
+                                    <textarea id="corrective_measure" name="corrective_measure"   class="pmis-textarea"  data-length="1000">${issue.corrective_measure }</textarea>
                                     <label for="corrective_measure">Action Taken<span class="required">*</span></label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
                                     <input type="hidden" name="comment" id="comment" />
@@ -530,13 +530,17 @@
             $('#corrective_measure').characterCounter();
             $('#remarks').characterCounter();  
             
-           	var txt = $("textarea#corrective_measure");
-           	txt.val( txt.val() + "\n");
+            $('#corrective_measure').css('height',function(){
+            	this.style.height = (this.scrollHeight < 50) ? '50px' : this.scrollHeight + 'px';
+            });
+            
+           	/* var txt = $("textarea#corrective_measure");
+           	txt.val( txt.val() + "\n");*/
           
            	var readOnlyLength = $('#corrective_measure').val().length;
            	var val_old = $('#value_old').val();   /*  .css("color", "#00ffff"); */
-           	var  input = document.getElementById('corrective_measure');
-          /*  	var alpha = val_old;
+           	/*var  input = document.getElementById('corrective_measure');
+            	var alpha = val_old;
            	var res = "", cls = "";
            	var t = $("#corrective_measure").text();
 
@@ -569,11 +573,27 @@
 					    ((this.selectionStart < readOnlyLength) ||
 					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
            			var text = $("textarea#corrective_measure").val();  
+           			
+           			var concatDescription=$('#corrective_measure').val()+"\n";
+	   	        	$('#corrective_measure').val(concatDescription);
+	   	        	console.log($('#corrective_measure').val())
+	   	        	var len=$('#corrective_measure').val().len();
+	   		  		$('#corrective_measure').prop('selectionEnd', len);
+	   		  		$('#corrective_measure').prop('selectionStart', len-1);
 				    return false;
 				  }
-           	})
+           	});
            	
-           	
+            $('#corrective_measure').focus(function(){
+			  var that = this;
+			  setTimeout(function(){
+				 // that.selectionStart = that.selectionEnd = 10000;
+				  var len=$(that).val().length;
+	   		  		$(that).prop('selectionEnd',len);
+	   		  		$(that).prop('selectionStart', len-1);
+			  }, 0);
+			});
+            
             $('#date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#date').click();

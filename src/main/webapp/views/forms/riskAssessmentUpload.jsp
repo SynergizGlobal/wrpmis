@@ -619,7 +619,7 @@
 	      });
 	      
       	  function noRecordFound(){
-      		    var errorMessage = "No record available. Please download a blank Risk Assessment Form.";
+      		    var errorMessage = "No record available. \nPlease download a blank Risk Assessment Form.";
       		    swal('',errorMessage);
       	  }
 	      

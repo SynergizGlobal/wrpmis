@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">     
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
@@ -240,6 +240,29 @@
         .mobile_responsible_table>tbody > tr:not(.datepicker-row) >td{
         	height:auto;
         }
+        
+  .datepicker-table thead tr,
+        .datepicker-table thead tr:hover,
+        .datepicker-table tbody tr,
+        .datepicker-table tbody tr:hover {
+            background-color: transparent !important ;
+            border-radius: 0;
+            border-bottom-width: 0;
+        }
+
+        .datepicker-table td:first-of-type,
+        .datepicker-table td:last-of-type {
+            padding: 0 !important;
+        }
+
+        .datepicker-table th,
+        .datepicker-table td {
+            padding: 0 !important;
+        }      
+ .datepicker~button {
+    bottom: 1rem;
+}        
+        
     </style>
      <style>
        
@@ -284,6 +307,9 @@
                 text-align: left;
             }
         }
+       
+        
+        
     </style>
 </head>
 <body>
@@ -547,8 +573,8 @@
                                                        <!--  <th>Component <br>ID</th>
                                                         <th>Component</th> -->
                                                         <th style="width: 350px">Activity</th>
-                                                        <th >&nbsp;Planned <br> Start</th>
-                                                        <th>&nbsp;Planned <br> Finish</th>
+                                                        <th >&nbsp;Planned Start</th>
+                                                        <th>&nbsp;Planned Finish</th>
                                                         <!-- <th>A S</th>
                                                         <th>A F</th> -->
                                                         <th>Scope</th>
@@ -719,8 +745,20 @@
 	    var structureVal = "";
         $(document).ready(function () {
             $('.searchable').select2();
-            $('#btn').prop('disabled',true);
-            $('#btn1').prop('disabled',true); 
+            
+
+            
+    		if("${sessionScope.USER_ROLE_NAME}"!='IT Admin')
+    		{
+                $('#btn').prop('disabled',true);
+                $('#btn1').prop('disabled',true); 
+    		}
+    		else
+    			{
+			        $('#btn').prop('disabled', false);  
+			        $('#btn1').prop('disabled', false); 						    			
+    			}           
+            
             var filters = window.localStorage.getItem("BulkFilters");
             
             if($.trim(filters) != '' && $.trim(filters) != null){
@@ -747,16 +785,13 @@
                 maxDate: new Date(),
               //  max: new Date(),
                 format: 'dd-mm-yyyy',
-                //perform click event on done button
-                onSelect: function () {
-                    $('.confirmation-btns .datepicker-done').click();
-                }
+                autoClose:true,
+
             });
             $('#progress_date_icon').click(function () {
                 event.stopPropagation();
                 $('#progress_date').click();
             });
-
             $('#remarks').characterCounter();
         
         });
@@ -1232,15 +1267,75 @@
  	                    	 html = '<tr id="row'+num+'">'
  	            	 			/* +'<td>' + $.trim(val.strip_chart_component_id_name) + '<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></td>'
  	            	 			+'<td>' + $.trim(val.strip_chart_component) + '</td>' */
- 	            	 			+'<td data-head="Activity" class="input-field"><div>' + $.trim(val.strip_chart_activity_name) +' ('+$.trim(val.unit_fk)+' )<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></div></td>'
- 	            	 			+'<td data-head="Planned Start" class="input-field">' + $.trim(val.planned_start) + '</td>'
- 	            	 			+'<td data-head="Planned Finish" class="input-field">' + $.trim(val.planned_finish) + '</td>'
- 	            	 			+'<td data-head="Scope" class="input-field"><span>' + $.trim(val.scope) + '</span>'
- 	            	 			+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
+ 	            	 			+'<td data-head="Activity" class="input-field"><div>' + $.trim(val.strip_chart_activity_name) +' ('+$.trim(val.unit_fk)+' )<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></div></td>';
+ 	            	 			
+	            	 			
+ 	            	 			if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
+ 	            	 				{
+		 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start_icon'+num+'" ><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
+		 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish_icon'+num+'"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
+		 	            	 			+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>'; 
+
+		 	            	            
+		 	            	 			
+ 	            	 				}
+ 	            	 			else
+ 	            	 				{
+		 	            	 			html +='<td data-head="Planned Start" class="input-field">' + $.trim(val.planned_start) + '</td>'
+		 	            	 			+'<td data-head="Planned Finish" class="input-field">' + $.trim(val.planned_finish) + '</td>'
+		 	            	 			+'<td data-head="Scope" class="input-field"><span>' + $.trim(val.scope) + '</span>';
+ 	            	 			   }
+ 	            	 			
+ 	            	 			
+ 	            	 			
+ 	            	 			html +='<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
  	            	 			+'<td data-head="Completed" class="input-field"><span>' + $.trim(val.completed) + '</span>'
  	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
  	            	 			+' <td data-head="Actual" class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'"  ><br><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
- 	                    		$("#filerList").append(html);	  
+ 	                    		$("#filerList").append(html);	
+ 	                    		
+ 	                    		
+ 	            	 			if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
+	            	 				{
+	            	 				
+	 	            	            $('#planned_start'+num).datepicker({
+	 	            	                maxDate: new Date(),
+	 	            	                format: 'dd-mm-yyyy',
+	 	            	               autoClose:true,
+	 	            	            });
+	 	            	            $('#planned_start_icon'+num).click(function () {
+	 	            	                event.stopPropagation();
+	 	            	                $('#planned_start'+num).click();
+	 	            	            });
+	 	            	            
+	 	            	            
+	 	            	            $('#planned_finish'+num).datepicker({
+	 	            	                maxDate: new Date(),
+	 	            	                format: 'dd-mm-yyyy',
+	 	            	               autoClose:true,
+	 	            	            });
+	 	            	            
+	 	            	            
+	 	            	            $('#planned_finish_icon'+num).click(function () {
+	 	            	                event.stopPropagation();
+	 	            	                $('#planned_finish'+num).click();
+	 	            	            });   
+	 	            	            
+	 	            	        	  $('#scope'+num).keypress(function(evt) {
+	 	            	        		  evt = (evt) ? evt : window.event;
+	 	            	        		  var charCode = (evt.which) ? evt.which : evt.keyCode;
+	 	            	        		  if (charCode == 8 || charCode == 37) {
+	 	            	        		    return true;
+	 	            	        		  } else if (charCode == 46 && $(this).val().indexOf('.') != -1) {
+	 	            	        		    return false;
+	 	            	        		  } else if (charCode > 31 && charCode != 46 && (charCode < 48 || charCode > 57)) {
+	 	            	        		    return false;
+	 	            	        		  }
+	 	            	        		  return true;
+	 	            	        		});
+
+	 	            	            
+	            	 				}
  	                    	 	
  	                    	 	/* $(document).on('change', '#strip_chart_component_id ,#strip_chart_activity_id', function() {  $('#filerList').empty(html); });
  	                    	 	$(document).on('click', '.clearData', function() {  $('#filerList').empty(html); }); */
@@ -1351,14 +1446,53 @@
          })           
      }
   
+     
      //update button functionality
-     function updateProgress(){
-    	 if(validator.form()){ // validation perform
+     function updateProgress()
+     {
+    	 if(validator.form())
+    	 { 
+
+    		 var num = document.getElementById("table").rows.length;
+    		 var tbleLen=num-1;
+    		 
+    		 for (var i = 0; i < tbleLen; i++) 
+    		 {
+    			 var s1=parseFloat(document.getElementById("scope"+i).value);
+    			 var s2=parseFloat(document.getElementById("completedScopes"+i).value);
+    			 
+    			 var s3=document.getElementById("planned_start"+i).value;
+    			 var s4=document.getElementById("planned_finish"+i).value;
+    			 
+    			        	if(s1<s2)
+    			        	{
+		     		    	 	alert("Scope Should be greater than or equal to Completed in row "+(i+1));
+		    		    	 	return false;
+    			        	}
+    		    			 if (process(s4) < process(s3)) 
+				        	{
+		     		    	 	alert("Planned Finish Should be greater than or equal to Planned Start in row "+(i+1));
+		    		    	 	return false;
+				        	} 
+	    			        
+    		 }
+    		 
+    		 
 	        	$(".page-loader").show();	    		
-	   			document.getElementById("ActivitiesBulkUpdateForm").submit();	
-     	}
+	   			document.getElementById("ActivitiesBulkUpdateForm").submit();
+		         
+  			
+
+
+   			 
+     	 }
      }
   
+     function process(date){
+    	   var parts = date.split("-");
+    	   var date = new Date(parts[1] + "-" + parts[0] + "-" + parts[2]);
+    	   return date.getTime();
+    	}
      var validator = $('#ActivitiesBulkUpdateForm').validate({
     	 ignore: ":hidden:not(.validate-dropdown)",
     	 rules: {

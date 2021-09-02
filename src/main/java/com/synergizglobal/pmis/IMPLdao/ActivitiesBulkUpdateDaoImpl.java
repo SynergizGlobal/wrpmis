@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -20,6 +23,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.ActivitiesBulkUpdateDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FOB;
@@ -181,7 +185,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
-						+" or contract_id in (select contract_id from contract where contract_id in(select contract_id_fk from fob_contract where fob_id_fk in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))) )";
+						+" or contract_id in (select contract_id from contract where contract_id in(select contract_id_fk from fob_contract where fob_id_fk in(select fob_id_fk from pmis.fob_responsible_people where responsible_people_id_fk = ?))) )";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -716,8 +720,8 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	public List<StripChart> getActivitiesfiltersList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select activity_id,component_id as strip_chart_component_id_name,component as strip_chart_component,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,DATE_FORMAT(planned_start,'%d-%m-%y') AS planned_start "  
-					+",DATE_FORMAT(planned_finish,'%d-%m-%y') AS planned_finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from activities  " 
+			String qry = "select activity_id,component_id as strip_chart_component_id_name,component as strip_chart_component,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,DATE_FORMAT(planned_start,'%d-%m-%Y') AS planned_start "  
+					+",DATE_FORMAT(planned_finish,'%d-%m-%Y') AS planned_finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from activities  " 
 					+ " where activity_id is not null and scope <> completed ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
@@ -841,7 +845,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			}
 			
 			
-			/*if(flag) {
+			/*if(flag) {*/
 				int arrSize =0;
 				if( !StringUtils.isEmpty(obj.getCompletedScopes()) && obj.getCompletedScopes().length > 0) {
 					obj.setCompletedScopes(CommonMethods.replaceEmptyByNullInSringArray(obj.getCompletedScopes()));
@@ -867,9 +871,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 						arrSize = obj.getActivity_ids().length;
 					}
 				}
-				for (int i = 0; i < arrSize; i++) {	
+				for (int i = 0; i < arrSize; i++) 
+				{	
 					
-					String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) + ?";	
 					
 					float scope = 0,completed=0,actual=0;
 					if(!StringUtils.isEmpty(obj.getTotalScopes()[i])) {
@@ -881,31 +885,90 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					if(!StringUtils.isEmpty(obj.getActualScopes()[i])) {
 						 actual = Float.parseFloat(obj.getActualScopes()[i]);
 					}
+					/*Date planstartDate =null;*/
+
+					String SplitStr=obj.getPlanned_start();
+					String[] StrVar=SplitStr.split(",");
 					
-					if(completed == 0) {
-						updateQry = updateQry + ", actual_start = ?";
-					}
+					String SplitStr1=obj.getPlanned_finish();
+					String[] StrVar1=SplitStr1.split(",");	
 					
 					
-					if((completed+actual) > 0 && scope == (completed+actual)) {
-						updateQry = updateQry + ", actual_finish = ?";						
-					}
-					updateQry = updateQry + " WHERE activity_id = ?";
-					updateStmt = con.prepareStatement(updateQry);
+					String SplitStr2=obj.getScope();
+					String[] StrVar2=SplitStr2.split(",");				
+					
+		
+					
+				
+					
+					if(Float.parseFloat(StrVar2[i])>=completed && StrVar1[i].compareTo(StrVar[i])>=0)
+					{
+						String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) + ?";	
 						
-					int k = 1;
-					
-					updateStmt.setString(k++, String.valueOf(actual) );	
-					
-					if(completed == 0) {
-						updateStmt.setString(k++, obj.getProgress_date() );	
+						
+						if(completed == 0) {
+							updateQry = updateQry + ", actual_start = ?";
+						}
+						
+						
+						if((completed+actual) > 0 && scope == (completed+actual)) 
+						{
+							updateQry = updateQry + ", actual_finish = ? ";						
+						}
+						
+						if(!StringUtils.isEmpty(StrVar[i])) 
+						{
+							updateQry = updateQry + ", planned_start = ? ";	
+						}
+
+						
+						if(!StringUtils.isEmpty(StrVar1[i])) 
+						{
+							updateQry = updateQry + ", planned_finish = ? ";	
+						}
+						
+						if(!StringUtils.isEmpty(scope)) 
+						{
+							updateQry = updateQry + ", scope = ? ";	
+						}							
+						
+						updateQry = updateQry + " WHERE activity_id = ? ";
+						updateStmt = con.prepareStatement(updateQry);
+							
+						int k = 1;
+						
+						updateStmt.setString(k++, String.valueOf(actual) );	
+						
+						if(completed == 0) {
+							updateStmt.setString(k++, obj.getProgress_date() );	
+						}
+						if((completed+actual) > 0 && scope == (completed+actual)) {
+							updateStmt.setString(k++, obj.getProgress_date());						
+						}
+						
+						if(!StringUtils.isEmpty(StrVar[i])) 
+						{
+							updateStmt.setString(k++, DateParser.parse(StrVar[i]) );	
+						}
+
+						
+						if(!StringUtils.isEmpty(StrVar1[i])) 
+						{
+							updateStmt.setString(k++, DateParser.parse(StrVar1[i]) );	
+						}	
+						
+						
+						if(!StringUtils.isEmpty(scope)) 
+						{
+							updateStmt.setString(k++, StrVar2[i] );
+						}						
+						
+						updateStmt.setString(k++,(obj.getActivity_ids()[i]));
+						updateStmt.executeUpdate();
+						flag=true;
 					}
-					if((completed+actual) > 0 && scope == (completed+actual)) {
-						updateStmt.setString(k++, obj.getProgress_date());						
-					}
-					updateStmt.setString(k++,(obj.getActivity_ids()[i]));
-					updateStmt.executeUpdate();
-				}*/
+				}
+				/*}*/
 				
 				/********************************************************************************/
 				if(!StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {

@@ -93,6 +93,10 @@ public class RiskDeleteDaoImpl implements RiskDeleteDao{
 				 String deleteRiskQry ="DELETE from messages WHERE message_type = 'Risk' and redirect_url like '%"+temp+"'";
 				 BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 				 count = namedParamJdbcTemplate.update(deleteRiskQry, paramSource);
+				 
+				 String deleteRiskUploadQry ="DELETE from risk_upload WHERE sub_work= :sub_work and assessment_date=:date";
+				 paramSource = new BeanPropertySqlParameterSource(obj);		 
+				 count = namedParamJdbcTemplate.update(deleteRiskUploadQry, paramSource);
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

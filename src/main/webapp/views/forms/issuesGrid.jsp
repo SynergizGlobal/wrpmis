@@ -60,6 +60,7 @@
 	        	width:100px !important;
 	        	min-width:100px !important; 
 	        }
+	        
        }
         @media only screen and (max-width: 769px){ 
 			
@@ -67,6 +68,12 @@
 			.no-sort{
 				padding:3px !important;
 				max-width: 45px;
+			}
+			td:not(.no-sort):not(:last-of-type),
+			th:not(:last-of-type),
+			th.fw-350,
+			th.fw-200{
+				width:30vw !important;
 			}
 			.mob-btn{
 				padding:0 12px;
@@ -475,6 +482,23 @@
                 "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                    var input = $('.dataTables_filter input')
+					.unbind(), self = this.api(), $searchButton = $(
+					'<i class="fa fa-search" title="Go">')
+					//.text('Go')
+					.click(function() {
+						self.search(input.val()).draw();
+					}), $clearButton = $(
+							'<i class="fa fa-close" title="Reset">')
+					//.text('X')
+					.click(function() {
+						input.val('');
+						$searchButton.click();
+					})
+					$('.dataTables_filter').append(
+							'<div class="right-btns"></div>');
+					$('.dataTables_filter div').append(
+							$searchButton, $clearButton);
                 }
             }).rows().remove().draw();
     		

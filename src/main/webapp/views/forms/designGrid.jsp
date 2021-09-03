@@ -501,7 +501,7 @@
 	                    {
 	                        targets: [0],
 	                        className: 'mdl-data-table__cell--non-numeric',
-	                        targets: 'nosort', orderable: false,
+	                        targets: 'no-sort', orderable: false,
 	                    },
 	                    //{ "width": "10px", "targets": [2] },
 	                ],
@@ -608,11 +608,12 @@
                         targets: [0, 1, 2],
                         className: 'mdl-data-table__cell--non-numeric'
                     },
-                    { orderable: false, 'aTargets': ['nosort'] }
+                    { orderable: false, 'aTargets': ['no-sort'] }
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",
                  "sScrollXInner": "100%",
+                 "ordering":false,
                  "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });

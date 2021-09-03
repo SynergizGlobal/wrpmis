@@ -224,10 +224,9 @@
 									<th class="fw-300">Work</th>
 									<th class="fw-250">Contract</th>
 									<th>Ledger Account</th>
-									<th>Contractor <br> Name
-									</th>
-									<th>Date</th>
-									<th>Vocher Type</th>
+									<th>Contractor <br> Name </th>
+									<th> &nbsp; Date &nbsp; </th>
+									<th>Voucher Type</th>
 									<th class="no-sort">Action</th>
 								</tr>
 							</thead>

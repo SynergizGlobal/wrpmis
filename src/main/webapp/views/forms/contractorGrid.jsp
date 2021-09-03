@@ -30,11 +30,23 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
+         .fw-180{
+         	width:180px;
+        	min-width:180px;
+         }
+         .fw-250{
+         	width:250px;
+        	min-width:250px;
+         }
       @media only screen and (max-width: 769px){ 
 		.dataTables_scrollBody tbody tr td:last-of-type,
 		.no-sort{
 			padding:3px !important;
 			max-width: 45px;
+		}
+		td:not(.no-sort):not(:last-of-type),
+		th:not(:last-of-type){
+			width:30vw !important;
 		}
 		.mob-btn{
 			padding:0 12px; 
@@ -149,10 +161,10 @@
 											<th class="no-sort">Contractor Name</th>
 											<th>PAN Number</th>
 											<th>Specialization</th>
-											<th>Address</th>
+											<th class="fw-250"> Address</th>
 											<th>Primary Contact</th>
 											<th>Phone Number</th>
-											<th> &nbsp; Email &nbsp;</th>
+											<th class="fw-180"> Email </th>
 											<th class="no-sort">Action</th>
 										</tr>
 									</thead>

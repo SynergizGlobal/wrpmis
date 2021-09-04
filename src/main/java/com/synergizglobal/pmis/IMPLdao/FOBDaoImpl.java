@@ -236,7 +236,7 @@ public class FOBDaoImpl implements FOBDao {
 				
 				
 					
-					String file_insert_qry = "INSERT into  fob_files ( fob_id_fk, attachment,created_date) VALUES (:fob_id,:attachment,:created_date)";
+					String file_insert_qry = "INSERT into  fob_files ( fob_id_fk, attachment,created_date,fob_file_type_fk,name) VALUES (:fob_id,:attachment,:created_date,:fob_file_type_fk,:name)";
 					
 					int arraySize = 0;
 					if (!StringUtils.isEmpty(obj.getFobFileNames()) && obj.getFobFileNames().length > 0) {
@@ -245,7 +245,18 @@ public class FOBDaoImpl implements FOBDao {
 							arraySize = obj.getFobFileNames().length;
 						}
 					}
-					
+					if (!StringUtils.isEmpty(obj.getFob_file_types()) && obj.getFob_file_types().length > 0) {
+						obj.setFob_file_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_file_types()));
+						if (arraySize < obj.getFob_file_types().length) {
+							arraySize = obj.getFob_file_types().length;
+						}
+					}
+					if (!StringUtils.isEmpty(obj.getFobDocumentNames()) && obj.getFobDocumentNames().length > 0) {
+						obj.setFobDocumentNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getFobDocumentNames()));
+						if (arraySize < obj.getFobDocumentNames().length) {
+							arraySize = obj.getFobDocumentNames().length;
+						}
+					}
 					if (!StringUtils.isEmpty(obj.getCreated_dates()) && obj.getCreated_dates().length > 0) {
 						obj.setCreated_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getCreated_dates()));
 						if (arraySize < obj.getCreated_dates().length) {
@@ -281,8 +292,15 @@ public class FOBDaoImpl implements FOBDao {
 									SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 									created_date = sqlDate.format(new Date());
 								}
+								
+								String fob_file_type_fk = obj.getFob_file_types()[i];
+								String name = obj.getFobDocumentNames()[i];
+								
 								fileObj.setCreated_date(created_date);
 								fileObj.setFob_id(obj.getFob_id());
+								fileObj.setFob_file_type_fk(fob_file_type_fk);
+								fileObj.setName(name);
+								
 								paramSource = new BeanPropertySqlParameterSource(fileObj);
 								namedParamJdbcTemplate.update(file_insert_qry, paramSource);
 							}
@@ -412,7 +430,7 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
 				List<FOB> objsList = null;
-				String qryFOBImages = "select id as fob_file_id,fob_id_fk,attachment,DATE_FORMAT(created_date,'%d-%m-%Y') as created_date from fob_files where fob_id_fk = ? " ;
+				String qryFOBImages = "select id as fob_file_id,fob_id_fk,attachment,DATE_FORMAT(created_date,'%d-%m-%Y') as created_date,fob_file_type_fk,name from fob_files where fob_id_fk = ? " ;
 				
 				objsList = jdbcTemplate.query(qryFOBImages, new Object[] {fobj.getFob_id() }, new BeanPropertyRowMapper<FOB>(FOB.class));	
 				
@@ -512,6 +530,18 @@ public class FOBDaoImpl implements FOBDao {
 						arraySize = obj.getFobFileNames().length;
 					}
 				}
+				if (!StringUtils.isEmpty(obj.getFob_file_types()) && obj.getFob_file_types().length > 0) {
+					obj.setFob_file_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_file_types()));
+					if (arraySize < obj.getFob_file_types().length) {
+						arraySize = obj.getFob_file_types().length;
+					}
+				}
+				if (!StringUtils.isEmpty(obj.getFobDocumentNames()) && obj.getFobDocumentNames().length > 0) {
+					obj.setFobDocumentNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getFobDocumentNames()));
+					if (arraySize < obj.getFobDocumentNames().length) {
+						arraySize = obj.getFobDocumentNames().length;
+					}
+				}
 				if (!StringUtils.isEmpty(obj.getCreated_dates()) && obj.getCreated_dates().length > 0) {
 					obj.setCreated_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getCreated_dates()));
 					if (arraySize < obj.getCreated_dates().length) {
@@ -545,8 +575,8 @@ public class FOBDaoImpl implements FOBDao {
 					namedParamJdbcTemplate.update(deleteFilesQry, paramSource);
 				}
 			
-				String insertFileQry = "INSERT into  fob_files ( fob_id_fk, attachment,created_date) VALUES (:fob_id,:attachment,:created_date)";
-				String updateFileQry = "UPDATE fob_files set fob_id_fk=:fob_id,attachment=:attachment,created_date=:created_date WHERE id=:fob_file_id";
+				String insertFileQry = "INSERT into  fob_files ( fob_id_fk, attachment,created_date,fob_file_type_fk,name) VALUES (:fob_id,:attachment,:created_date,:fob_file_type_fk,:name)";
+				String updateFileQry = "UPDATE fob_files set fob_id_fk=:fob_id,attachment=:attachment,created_date=:created_date,fob_file_type_fk=:fob_file_type_fk,name=:name WHERE id=:fob_file_id";
 
 					
 				for (int i = 0; i < arraySize; i++) {
@@ -577,9 +607,15 @@ public class FOBDaoImpl implements FOBDao {
 								SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 								created_date = sqlDate.format(new Date());
 							}
+							String fob_file_type_fk = obj.getFob_file_types()[i];
+							String name = obj.getFobDocumentNames()[i];
+							
 							fileObj.setCreated_date(created_date);
 							fileObj.setFob_file_id(fob_file_id);
 							fileObj.setFob_id(obj.getFob_id());
+							fileObj.setFob_file_type_fk(fob_file_type_fk);
+							fileObj.setName(name);
+							
 							paramSource = new BeanPropertySqlParameterSource(fileObj);
 							if(!StringUtils.isEmpty(fob_file_id)) {
 								namedParamJdbcTemplate.update(updateFileQry, paramSource);

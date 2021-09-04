@@ -10,7 +10,7 @@ public class FOB {
 	detail_name,value,work_id_fk,project_id_fk,revised_completion,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost,
 	project_id,work_id,work_name,work_short_name,status,fob_file_type,fob_file_type_fk,fob_file_id,fob_details_location,fob_details_type,
 	created_date,responsible_people_id_fk,user_id,user_name,designation,department_fk,user_type,existing_work_status_fk,estimated_cost_units,completion_cost_units,message_id,user_role_code,
-	user_type_fk;
+	user_type_fk,name;
 
 
 
@@ -19,7 +19,7 @@ public class FOB {
 	private List<FOB> fobFilesList,contractsList,responsiblePeopleList;
 	private List<FOB> fobDetails;
 	private List<FOB> fobImages;
-	private String[] fob_id_fks,fobFileNames,fob_file_types,created_dates;
+	private String[] fob_id_fks,fobFileNames,fob_file_types,created_dates,fobDocumentNames;
 	private String[] fob_detail_names,fob_detail_values,fob_file_ids,contracts_id_fk;
 	
 	
@@ -557,6 +557,22 @@ public class FOB {
 
 	public void setContracts_id_fk(String[] contracts_id_fk) {
 		this.contracts_id_fk = contracts_id_fk;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String[] getFobDocumentNames() {
+		return fobDocumentNames;
+	}
+
+	public void setFobDocumentNames(String[] fobDocumentNames) {
+		this.fobDocumentNames = fobDocumentNames;
 	}
 	
 }

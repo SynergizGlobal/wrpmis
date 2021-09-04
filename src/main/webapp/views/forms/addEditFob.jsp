@@ -112,6 +112,13 @@
     .mobile_responsible_table>tbody .datepicker-table tr{
         background-color: transparent;
     }
+    
+    .min-180{
+    	min-width: 180px;
+    }
+    .min-200{
+    	min-width: 200px;
+    }
     </style>
 </head>
 <body>
@@ -490,21 +497,18 @@
 								</c:if>		 --%>
 								
                              <div class="row">
-								<div class="col m8 s12 offset-m2">
+								<div class="col m10 offset-m1 s12">
 									<div class="row fixed-width"
 										style="margin-bottom: 20px; margin-top: 20px">
 										<div class="table-inside">
 											<table class="mdl-data-table update-table mobile_responsible_table" id="gallery_table">
 												<thead>
 													<tr>
-													<!-- 	<th style="width: 52%;text-align: left;">Attach Photo</th>
-														<th style="width: 30%;text-align: left;">Photo Date</th>
-														<th></th>
-														<th style="width: 8%;text-align: left;">Action</th> -->
-														
-														<th >Attach Photo</th>
-														<th>Photo Date</th>
-														<th  style="display:none;"></th>
+														<th class="min-180">File Type</th>
+														<th>Name</th>
+														<th>Attach Photo</th>
+														<th>Upload Date</th>
+														<th style="display:none;"></th>
 														<th>Action</th>
 													</tr>
 												</thead>
@@ -513,7 +517,7 @@
 														<c:when	test="${not empty fob.fobImages && fn:length(fob.fobImages) gt 0 }">
 															<c:forEach var="fObj" items="${fob.fobImages }" varStatus="index">
 																<tr id="actionRow${index.count }">
-																	<%-- <td style='display:none;'>
+																	<td data-head="File Type">
 																		<div class="input-field">
 																			<select  name="fob_file_types"  id="fob_file_types${index.count }"  class="validate-dropdown searchable">
 							                                   					 <option value="" >Select</option>
@@ -522,7 +526,10 @@
 							                                          			  </c:forEach>
 							                               					  </select>
 																		</div>
-																	</td> --%>
+																	</td>
+																	<td data-head="Name" class="input-field"> 
+																		<input id="fobDocumentNames${index.count }" name="fobDocumentNames" type="text" class="validate" placeholder="Name"  value="${fObj.name }">
+				                                                    </td>
 																	<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
 								                                        <div class="btn bg-m t-c">
 								                                            <span>Attach Photo</span>
@@ -533,7 +540,7 @@
 								                                        </div>                             
 			                                                      	</td>
 			                                                      	<td data-head="Photo Date" class="input-field">
-		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="photo date"class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
+		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="Uploaded date" value="${fObj.created_date}" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
 			                                                      	</td>
 			                                                      	<td  style="display:none;">
 			                                                      		<input type="hidden" id="fob_file_ids${index.count }" name="fob_file_ids" value="${fObj.fob_file_id }"/>
@@ -549,7 +556,7 @@
 														</c:when>
 														<c:otherwise>
 															<tr id="actionRow0">
-																<%-- <td style='display:none;'>
+																<td data-head="File Type">
 																	<div class="input-field">
 																		<select  name="fob_file_types"  id="fob_file_types0"  class="validate-dropdown searchable">
 						                                   					 <option value="" >Select</option>
@@ -558,7 +565,10 @@
 						                                          			  </c:forEach>
 						                               					  </select>
 																	</div>
-																</td> --%>
+																</td>
+																<td data-head="Name" class="input-field"> 
+																	<input id="fobDocumentNames0" name="fobDocumentNames" type="text" class="validate" placeholder="Name">
+				                                                </td>
 																<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
 							                                        <div class="btn bg-m t-c">
 							                                            <span>Attach Photo</span>
@@ -568,8 +578,8 @@
 							                                            <input class="file-path validate" type="text" id="fobFileNames0" name="fobFileNames">
 							                                        </div>                                       
 		                                                      	</td>
-		                                                      	<td data-head="Photo Date" class="input-field">
-		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="photo date" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
+		                                                      	<td data-head="Upload Date" class="input-field">
+		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="Upload date" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
 
 		                                                      	</td>
 		                                                      	<td  style="display:none;"><input type="hidden" id="fob_file_ids0" name="fob_file_ids"/></td>
@@ -968,15 +978,17 @@
 		var rowNo = $("#rowNo").val();
         var rNo = Number(rowNo)+1;
         var html = '<tr id="actionRow' + rNo + '">'
-          /*  +'<td style="display:none;"> <div class="input-field">'
+           +'<td data-head="File Type"> <div class="input-field">'
            +'<select name="fob_file_types" id="fob_file_types'+rNo+'"  class="validate-dropdown searchable" >'	   			
    		   +'<option value="" >Select</option>'
 		     <c:forEach var="obj" items="${fobFileTypesList}">
      	      +'<option value="${obj.fob_file_type }">${obj.fob_file_type}</option>'
 		     </c:forEach>
-   		   +'</select></div></td>'	  */  		  			
-		   
-   		html = html +'<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">'	
+   		   +'</select></div></td>'  		  			
+		   +'<td data-head="Name" class="input-field">'
+		   +'<input id="fobDocumentNames'+rNo+'" name="fobDocumentNames" type="text" class="validate" placeholder="Name">'
+		   +'</td>'
+   		   +'<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">'	
 		   +'<div class="btn bg-m t-c">'	
 		   +'<span>Attach Photos</span>'	
 		   +'<input type="file" id="fobFiles'+rNo+'" name="fobFiles" accept="image/*">'	
@@ -1072,8 +1084,7 @@
 	                        	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '">' +  $.trim(contract_name) + '</option>');
 	                        } */
 	                        var selectedFlag = ''
-	                        <c:forEach var="tempobj" items="${fob.contractsList}">
-	                        	
+	                        <c:forEach var="tempobj" items="${fob.contractsList}">	                        	
 	                        	if('${tempobj.contract_id_fk}' == val.contract_id){
 	                        		selectedFlag = 'selected';
 	                        	}

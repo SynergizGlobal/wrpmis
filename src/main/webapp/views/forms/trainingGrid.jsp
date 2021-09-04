@@ -22,6 +22,10 @@
         p a {
             color: blue;
         }
+        thead th.p-2{
+        	padding:inherit !important;
+        	vertical-align:inherit;
+        }
         .mdl-data-table td{
         	white-space:pre-line;
         	word-break:break-word;
@@ -40,7 +44,11 @@
         .fw-70{
         	width:80px !important;
         	max-width:80px;
-        }       
+        }     
+        .fw-50{
+        	width:70px !important;
+        	max-width:70px;
+        }   
         tbody tr td:last-of-type,thead tr th:last-of-type{
         	white-space:inherit;
         	text-align:center !important;
@@ -210,15 +218,15 @@
 								<table id="datatable-training" class="mdl-data-table">
 									<thead>
 										<tr>
-											<th class="no-sort">ID</th>
-											<th> &nbsp; Type &nbsp; </th>
+											<th class="no-sort fw-50">ID</th>
+											<th>Type &nbsp; &nbsp;</th>
 											<th>Category</th>
 											<th class="fw-300">Description</th>
 											<th class="fw-150">Faculty</th>
 											<th>Start Date</th>
 											<th>End Date &nbsp; </th>
 											<th>Hours</th>
-											<th>&nbsp; &nbsp; Status &nbsp; &nbsp;</th>
+											<th>Status &nbsp; &nbsp;</th>
 											<th class="fw-70">Nominated</th>
 											<th class="fw-70">Attended</th>
 											<th class="nosort">Action</th>
@@ -524,12 +532,12 @@
 									"targets" : 'no-sort',
 									"orderable" : false,
 								} ,{targets:[0,1,4,5,6,7,8,9,10],
- 			                       className: 'hideCOl no-sort'}
-								 ,{targets:[0,1,2,3,4,5,6,7,8,9,10,11],
- 			                       className: 'no-sort'}								
+ 			                       className: 'hideCOl'
+ 			                       }
 								],
 								"sScrollX" : "100%",
 								"sScrollXInner" : "100%",
+								"ordering":false,
 								"bScrollCollapse" : true,
 								"language" : {
 									"info" : "_START_ - _END_ of _TOTAL_",

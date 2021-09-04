@@ -30,7 +30,14 @@
         td:last-child {
             text-align: center !important;
         }
-
+		.fw-200{
+        	width:200px !important;
+        	max-width:200px;
+        }
+		.fw-300{
+        	width:300px !important;
+        	max-width:300px;
+        }
         td:last-child {
             white-space: inherit;
         }
@@ -52,6 +59,10 @@
 			.no-sort{
 				padding:3px !important;
 				max-width: 45px;
+			}
+			td:not(:last-of-type),
+			th:not(:last-of-type){
+				width:27vw !important;
 			}
 			.mob-btn{
 				padding:0 12px;
@@ -314,7 +325,8 @@
                         className: 'last-column'
                     },
                     {targets: [2,3,4,5,6,7], className: 'hideCOl'},
-                    {targets: [0,1,8], className: 'fw-111'},
+                    {targets: [0], className: 'fw-200'},
+                    {targets: [1], className: 'fw-300'},
                     { orderable: false, 'aTargets': ['no-sort'] } 
                 ],
                 // "ScrollX": true,

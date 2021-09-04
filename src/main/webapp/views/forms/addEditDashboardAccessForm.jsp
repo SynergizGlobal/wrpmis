@@ -217,20 +217,22 @@
                                             </p>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col s12 m3 input-field offset-m2">
+                                </div>                                
+                            </div>
+                            <div class="row">
+                            	<div class="col s12 m4 input-field offset-m2">
                                     <input id="priority" name="priority" type="number" class="validate" value="${dashboardDetails.priority }">
                                     <label for="priority">priority </label>
                                     <span id="priorityError" class="error-msg"></span>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 input-field">
                                     <input id="icon_path" name="icon_path" type="text" class="validate" value="${dashboardDetails.icon_path }">
                                     <label for="icon_path">Icon </label>
                                     <span id="icon_pathError" class="error-msg"></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                            </div>
+                            <div class="row" style="margin-bottom:10px;">
+                                <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label"> Status </p>
                                     <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk">
                                         <option value="">Select</option>
@@ -242,7 +244,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s12 m4 input-field offset-m2">
+                                <div class="col s12 m8 input-field offset-m2">
                                     <input id="dashboard_url" name="dashboard_url" type="text" class="validate" value="${dashboardDetails.dashboard_url }">
                                     <label for="url">Url </label>
                                     <span id="urlError" class="error-msg"></span>
@@ -251,7 +253,7 @@
                             <div class="row" style="margin-bottom: 20px;">
                                 <div class="col s12 m8 offset-m2">
                                     <div class="row fixed-width">
-                                        <h5 class="center-align">Dashboard Details</h5>
+                                        <h6 class="center-align" style="font-weight:600;">Dashboard Details</h6>
                                         <div class="table-inside">
                                             <table id="dashboard_form_table" class="mdl-data-table">
                                                 <thead>

@@ -19,18 +19,11 @@
     <link rel="stylesheet" media="screen and (max-device-width: 768px)"    href="/pmis/resources/css/mobile-form-template.css" />
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)"    href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
-    /*     .modal-header {
-            text-align: center;
-            background-color: #2E58AD;
-            color: #fff;
-            margin: -24px -24px 20px !important;
-            padding: 1rem;
-        } */
-
+   
         .input-field .searchable_label {
             font-size: 0.9rem;
         }
-
+				
         .last-column .btn+.btn {
             margin-left: 15px;
         }
@@ -44,10 +37,26 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
-         .fw-all{
+         /* .fw-all{
          		width:12vw !important;
         		max-width:12vw;
-         }
+         } */
+         /* .fw-100{
+        	width:100px !important;
+        	max-width:100px;
+        }
+         .fw-150{
+        	width:150px !important;
+        	max-width:150px;
+        }
+		.fw-200{
+        	width:200px !important;
+        	max-width:200px;
+        }
+		.fw-250{
+        	width:250px !important;
+        	max-width:250px;
+        } */
            @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
@@ -130,22 +139,6 @@
 		.btn-holder .btn+.btn{
 			margin-left:20px;
 		}
-
-/* .input-field>label 
-{
-    font-size: 1.5rem;
-
-}
- .big-checkbox {width: 30px; height: 30px;}
-
-
-[type="checkbox"]+span:not(.lever) {
-font-size: 1.5rem;
-}
-label {
-     font-size: 1.5rem; 
-    color: #9e9e9e;
-} */
 
 .no-sort.sorting_asc:before,
 .no-sort.sorting_asc:after{
@@ -241,7 +234,7 @@ label {
 	                                            <th>Work </th>
 	                                            <th>Contract </th>
 	                                            <th>Contractor </th>
-	                                            <th>Alert Type </th>
+	                                            <th>Alert Type &nbsp; </th>
 	                                            <th>Alert Level</th>
 	                                            <th>Reason</th>
 	                                            <th>Action Taken</th>
@@ -623,7 +616,9 @@ label {
     								"orderable" : false,
     							},{targets: [0,1,2,3,6,7], className: 'hideCOl'},
     							{targets: [4,5], className: 'fw-111'},{targets: [8], className: 'break'},
-    							{targets: [0,1,2,3,4,5,6,7], className: 'fw-all'},{ targets: [0], className: 'no-sort'  }],
+    							/* {targets: [0,1,2,3,4,5,6,7], className: 'fw-all'}, */{ targets: [0], className: 'no-sort fw-100'},
+    							{targets: [1,2,3], className: 'fw-200'},{targets: [6,7], className: 'fw-250'}
+    							],
     							"sScrollX" : "100%",
     							"ordering":false,
     							"sScrollXInner" : "100%",

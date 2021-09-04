@@ -30,9 +30,13 @@
             border: 1px solid #ddd;
         }
 
-        .fw-40p {
-            width: 40%;
-            max-width: 40%;
+        .fw-45p {
+            width: 45%;
+            max-width: 45%;
+        }
+        .fw-30p {
+            width: 30%;
+            max-width: 30%;
         }
 
         .fw-15p {
@@ -107,14 +111,14 @@
                     <form action="<%=request.getContextPath() %>/update-web-links" id="webLinksForm" name="webLinksForm" method="post">
                         <div class="container container-no-margin" style="margin-top:20px;margin-bottom:20px">
                             <div class="row">
-                                <div class="col m10 s12 offset-m1">
+                                <div class="col m12 s12">
                                     <div class="row fixed-width">
                                         <div class="table-inside">
                                             <table id="web-links-table" class="mdl-data-table mobile_responsible_table">
                                                 <thead>
                                                     <tr>
-                                                        <th class="fw-40p">Name</th>
-                                                        <th class="fw-40p">Link</th>
+                                                        <th class="fw-30p">Name</th>
+                                                        <th class="fw-45p">Link</th>
                                                         <th class="fw-15p">Priority</th>
                                                         <th class="no-sort">Action</th>
                                                     </tr>

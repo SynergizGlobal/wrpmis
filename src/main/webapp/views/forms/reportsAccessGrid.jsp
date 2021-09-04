@@ -29,7 +29,14 @@
         td:last-child {
             text-align: center !important;
         }
-
+		.fw-200{
+        	width:200px !important;
+        	max-width:200px;
+        }
+		.fw-150{
+        	width:150px !important;
+        	max-width:150px;
+        }
         td:last-child {
             white-space: inherit;
         }
@@ -41,10 +48,7 @@
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
-        .fw-111{
-	        	width:11vw; 
-	        	min-width:11vw;
-	    }
+       
 	     div.dataTables_wrapper div.dataTables_info {
 		    white-space: break-spaces;
 		} 
@@ -54,6 +58,10 @@
 			.no-sort{
 				padding:3px !important;
 				max-width: 45px;
+			}
+			td:not(:last-of-type),
+			th:not(:last-of-type){
+				width:30vw !important;
 			}
 			.mob-btn{
 				padding:0 12px;
@@ -300,7 +308,8 @@
                        },
                        {targets: [2,3,4,5,6], className: 'hideCOl'},
                        {targets: [0,1,2,3,4,5,6,7], className: 'fw-111'},
-                       {targets: [0,1,7], className: 'fw-111'},
+                       {targets: [0], className: 'fw-200'},
+                       {targets: [1], className: 'fw-150'},
                        { orderable: false, 'aTargets': ['no-sort'] }
                    ],
                    // "ScrollX": true,

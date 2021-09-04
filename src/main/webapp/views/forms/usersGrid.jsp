@@ -28,12 +28,24 @@
 		.row.no-mar {
             margin-bottom: 0;
         }
+        .fw-150{
+        	width:150px !important;
+        	max-width:150px;
+        }
+        .fw-200{
+        	width:200px !important;
+        	max-width:200px;
+        }
         @media only screen and (max-width: 769px){ 
 		
 		.dataTables_scrollBody tbody tr td:last-of-type,
 		.no-sort{
 			padding:3px !important;
 			max-width: 45px;
+		}
+		td:not(:last-of-type),
+		th:not(:last-of-type){
+			width:30vw !important;
 		}
 		.mob-btn{
 			padding:0 12px; 
@@ -198,11 +210,11 @@
 											<th>Designation</th>
 											<th>Department</th>
 											<th>Reporting To</th>
-											<th>User Type</th>
+											<th>User Type &nbsp; </th>
 											<th>User Role</th>
 											<th>Last Login</th>
-											<th>Last 7 days</th>
-											<th>Last 30 days</th>
+											<th>Last <br> 7 days</th>
+											<th>Last <br> 30 days</th>
 											<th class="no-sort">Action</th>
 
 										</tr>
@@ -449,8 +461,13 @@
                             targets: [2,3,4,5,6,7,8,9],
                             className: 'hideCOl'
                         }
-                        ,{ targets: [0,1], className: 'fw-111'  },
-                        { orderable: false, 'aTargets': ['nosort'] },
+                        ,{ targets: [0], 
+                        	className: 'fw-150'  
+                        }
+                        ,{ targets: [1], 
+                        	className: 'fw-200'  
+                        }
+                        ,{ orderable: false, 'aTargets': ['nosort'] },
                         { "width": "20px", "targets": [6] },
                     ],
                     // "ScrollX": true,

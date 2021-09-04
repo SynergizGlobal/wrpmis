@@ -190,7 +190,7 @@
                                  
                                 <div class="col s12 m8 offset-m2">
                                     <div class="row fixed-width">
-                                        <h5 class="center-align">Report Details</h5>
+                                        <h6 class="center-align"  style="font-weight:600;">Report Details</h6>
                                         <div class="table-inside">
                                             <table id="form_form_table" class="mdl-data-table">
                                                 <thead>

@@ -506,8 +506,8 @@
 													<tr>
 														<th class="min-180">File Type</th>
 														<th>Name</th>
-														<th>Attach Photo</th>
 														<th>Upload Date</th>
+														<th>Attachment</th>
 														<th style="display:none;"></th>
 														<th>Action</th>
 													</tr>
@@ -530,17 +530,17 @@
 																	<td data-head="Name" class="input-field"> 
 																		<input id="fobDocumentNames${index.count }" name="fobDocumentNames" type="text" class="validate" placeholder="Name"  value="${fObj.name }">
 				                                                    </td>
+			                                                      	<td data-head="Photo Date" class="input-field">
+		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="Uploaded date" value="${fObj.created_date}" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
+			                                                      	</td>
 																	<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
 								                                        <div class="btn bg-m t-c">
-								                                            <span>Attach Photo</span>
 								                                            <input type="file" id="fobFiles${index.count }" name="fobFiles" accept="image/*">
+								                                            <label for="fobFiles${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
 								                                        </div>
 								                                        <div class="file-path-wrapper">
 								                                            <input class="file-path validate" type="text" id="fobFileNames${index.count }" name="fobFileNames" value="${fObj.attachment }">
 								                                        </div>                             
-			                                                      	</td>
-			                                                      	<td data-head="Photo Date" class="input-field">
-		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="Uploaded date" value="${fObj.created_date}" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
 			                                                      	</td>
 			                                                      	<td  style="display:none;">
 			                                                      		<input type="hidden" id="fob_file_ids${index.count }" name="fob_file_ids" value="${fObj.fob_file_id }"/>
@@ -569,19 +569,19 @@
 																<td data-head="Name" class="input-field"> 
 																	<input id="fobDocumentNames0" name="fobDocumentNames" type="text" class="validate" placeholder="Name">
 				                                                </td>
+				                                                <td data-head="Upload Date" class="input-field">
+		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="Upload date" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
+																</td>
 																<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
 							                                        <div class="btn bg-m t-c">
-							                                            <span>Attach Photo</span>
 							                                            <input type="file" id="fobFiles0" name="fobFiles" accept="image/*">
+							                                            <label for="fobFiles0" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
 							                                        </div>
 							                                        <div class="file-path-wrapper">
 							                                            <input class="file-path validate" type="text" id="fobFileNames0" name="fobFileNames">
 							                                        </div>                                       
 		                                                      	</td>
-		                                                      	<td data-head="Upload Date" class="input-field">
-		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="Upload date" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
-
-		                                                      	</td>
+		                                                      	
 		                                                      	<td  style="display:none;"><input type="hidden" id="fob_file_ids0" name="fob_file_ids"/></td>
 																<td class="mobile_btn_close">
 																	<a onclick="removeActions('0');" class="btn red"> 
@@ -988,17 +988,17 @@
 		   +'<td data-head="Name" class="input-field">'
 		   +'<input id="fobDocumentNames'+rNo+'" name="fobDocumentNames" type="text" class="validate" placeholder="Name">'
 		   +'</td>'
+		   +'<td data-head="Photo Date" class="input-field">'
+		   +'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" placeholder="Upload date" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_'+rNo+'_icon"><i class="fa fa-calendar"></i></button></span>'
+		   +'</td>'
    		   +'<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">'	
 		   +'<div class="btn bg-m t-c">'	
-		   +'<span>Attach Photos</span>'	
+		   +'<label for="fobFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'	
 		   +'<input type="file" id="fobFiles'+rNo+'" name="fobFiles" accept="image/*">'	
 		   +'</div>'	
 		   +'<div class="file-path-wrapper">'	
 		   +'<input class="file-path validate" type="text" id="fobFileNames'+rNo+'" name="fobFileNames">'	
-		   +'</div></td>'
-		   +'<td data-head="Photo Date" class="input-field">'
-		   +'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" placeholder="photo date" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_'+rNo+'_icon"><i class="fa fa-calendar"></i></button></span>'
-		   +'</td>'
+		   +'</div></td>'		  
 		   +'<td style="display:none;"><a ></a><input type="hidden" id="fob_file_ids'+rNo+'" name="fob_file_ids"/></td>'
 		   +'<td class="mobile_btn_close"><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
 		   +'</tr>';

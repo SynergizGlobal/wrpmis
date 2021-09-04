@@ -82,7 +82,7 @@
 		/* cost unit dropdown , lable and input styling ends here  */
 		
 		#gallery_table .datepicker~button {
-            top: 32px;
+            top: 25px;
             right:20px;
         }
         
@@ -118,6 +118,9 @@
     }
     .min-200{
     	min-width: 200px;
+    }
+    #gallery_table .select2-container--default .select2-selection--single{
+    	background-color:transparent;
     }
     </style>
 </head>
@@ -534,7 +537,7 @@
 		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="Uploaded date" value="${fObj.created_date}" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
 			                                                      	</td>
 																	<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
-								                                        <div class="btn bg-m t-c">
+								                                        <div class="t-c">
 								                                            <input type="file" id="fobFiles${index.count }" name="fobFiles" accept="image/*">
 								                                            <label for="fobFiles${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
 								                                        </div>
@@ -573,7 +576,7 @@
 		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="Upload date" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
 																</td>
 																<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
-							                                        <div class="btn bg-m t-c">
+							                                        <div class="t-c">
 							                                            <input type="file" id="fobFiles0" name="fobFiles" accept="image/*">
 							                                            <label for="fobFiles0" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
 							                                        </div>
@@ -992,7 +995,7 @@
 		   +'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" placeholder="Upload date" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_'+rNo+'_icon"><i class="fa fa-calendar"></i></button></span>'
 		   +'</td>'
    		   +'<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">'	
-		   +'<div class="btn bg-m t-c">'	
+		   +'<div class="t-c">'	
 		   +'<label for="fobFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'	
 		   +'<input type="file" id="fobFiles'+rNo+'" name="fobFiles" accept="image/*">'	
 		   +'</div>'	

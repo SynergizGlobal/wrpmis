@@ -76,7 +76,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 				contractsQry = contractsQry + " ) ";
 				arrSize++;
 			}
-			contractsQry = contractsQry + " GROUP BY a.contract_id_fk ORDER BY a.contract_id_fk ASC";
+			contractsQry = contractsQry + " GROUP BY a.contract_id_fk ORDER BY FIELD(component,'New FOB site on PF','PF and service buildings','New Constructed FOB','New Constructed  FOB','PF sheds Under new FOB','Dismantling of old & unservicable FOB','PF s cover shed of dismantalling FOB','Station')";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id())) {
@@ -116,7 +116,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 				structureQry = structureQry + " ) ";
 				arrSize++;
 			}
-			structureQry = structureQry + " GROUP BY a.structure";
+			structureQry = structureQry + " GROUP BY a.structure ";
 			pValues = new Object[arrSize];
 			i = 0;
 			pValues[i++] = obj.getContract_id();
@@ -142,7 +142,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 					progressStructuresQry = progressStructuresQry + " and a.structure =?";
 					arrSize++;
 				}
-				progressStructuresQry = progressStructuresQry + " GROUP BY a.component ORDER BY a.component ASC";
+				progressStructuresQry = progressStructuresQry + " GROUP BY a.component ORDER BY FIELD(component,'Station') asc";
 				pValues = new Object[arrSize];
 				i = 0;
 				pValues[i++] = obj.getContract_id();
@@ -173,6 +173,8 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 						contractProgressDatesQry = contractProgressDatesQry + " and a.structure = ?";
 						arrSize++;
 					}
+					
+					contractProgressDatesQry=contractProgressDatesQry+" ORDER BY FIELD(component,'New FOB site on PF','PF and service buildings','New Constructed FOB','New Constructed  FOB','PF sheds Under new FOB','Dismantling of old & unservicable FOB','PF s cover shed of dismantalling FOB','Station')";
 					pValues = new Object[arrSize];
 					i = 0;
 					pValues[i++] = obj.getContract_id();
@@ -237,7 +239,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY p.project_id ORDER BY p.project_id ASC";
+			qry = qry + " GROUP BY p.project_id ORDER BY FIELD(a.component,'New FOB site on PF','PF and service buildings','New Constructed FOB','New Constructed  FOB','PF sheds Under new FOB','Dismantling of old & unservicable FOB','PF s cover shed of dismantalling FOB','Station')";
 			
 			Object[] pValues = new Object[arrSize];
 			

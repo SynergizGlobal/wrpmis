@@ -471,19 +471,19 @@ public class AlertsDaoImpl implements AlertsDao{
 			generateIssueAlertsByCronJob();
 			
 			
-			Date date = new Date();
+			/*Date date = new Date();
 			Calendar cal = Calendar.getInstance();
-            cal.setTime(date); // don't forget this if date is arbitrary
-            
-            SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
-            String month = monthFormat.format(date).toUpperCase();
-            //int month = cal.get(Calendar.MONTH); // 0 being January
-            int year = cal.get(Calendar.YEAR);
-            
-            int day = cal.get(Calendar.DAY_OF_MONTH);  
-            if(day != 2 && day != 4 ) {
+			cal.setTime(date); // don't forget this if date is arbitrary
+			
+			SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+			String month = monthFormat.format(date).toUpperCase();
+			//int month = cal.get(Calendar.MONTH); // 0 being January
+			int year = cal.get(Calendar.YEAR);
+			
+			int day = cal.get(Calendar.DAY_OF_MONTH);*/  
+            //if(day != 2 && day != 4 ) {
             	generateRiskMainAlertsByCronJob();
-            }
+            //}
 			
             generateMitigationAndATRRiskAlertsByCronJob();
 			
@@ -1459,35 +1459,48 @@ public class AlertsDaoImpl implements AlertsDao{
 								}
 							}							
 						}
-						SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
-			            String today_date = monthFormat.format(new Date()).toUpperCase();
+						SimpleDateFormat df = new SimpleDateFormat("dd-MMM-YYYY");
+			            String today_date = df.format(new Date()).toUpperCase();
 			            
 			            SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
 			            String current_year = yearFormat.format(new Date()).toUpperCase();			            
 						
-						String emailSubject = null;						
-						if(riskMainAlertsList.size() > 0 && !StringUtils.isEmpty(uObj.getEmail_id())) {	
-							Mail mail = new Mail();
-							mail.setMailTo(uObj.getEmail_id());
-							mail.setMailBcc(CommonConstants.BCC_MAIL);
-							mail.setTemplateName("RiskAlerts.vm");
-							if(isOverdue && !StringUtils.isEmpty(uObj.getReporting_to_email_id())) {
-								mail.setMailCc(uObj.getReporting_to_email_id());
-							}
-							if(isOverdue && "PMIS_SU_002".equals(uObj.getReporting_to_user_id())) {
-								List<String> ccmails = jdbcTemplate.queryForList("select email_id from `user` where user_id in('PMIS_SU_006','PMIS_SU_052')",String.class);
-								if(!StringUtils.isEmpty(ccmails) && ccmails.size() > 0) {
-									String ccemails = org.apache.commons.lang3.StringUtils.join(ccmails, ',');
-									mail.setMailCc(mail.getMailCc()+","+ccemails);
-								}
+						String emailSubject = null;			
 								
+						Date date = new Date();
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(date); // don't forget this if date is arbitrary
+						
+						SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+						String month = monthFormat.format(date).toUpperCase();
+						//int month = cal.get(Calendar.MONTH); // 0 being January
+						int year = cal.get(Calendar.YEAR);
+						
+						int day = cal.get(Calendar.DAY_OF_MONTH);  
+			            if(day != 2 && day != 4 ) {
+							if(riskMainAlertsList.size() > 0 && !StringUtils.isEmpty(uObj.getEmail_id())) {	
+								Mail mail = new Mail();
+								mail.setMailTo(uObj.getEmail_id());
+								mail.setMailBcc(CommonConstants.BCC_MAIL);
+								mail.setTemplateName("RiskAlerts.vm");
+								if(isOverdue && !StringUtils.isEmpty(uObj.getReporting_to_email_id())) {
+									mail.setMailCc(uObj.getReporting_to_email_id());
+								}
+								if(isOverdue && "PMIS_SU_002".equals(uObj.getReporting_to_user_id())) {
+									List<String> ccmails = jdbcTemplate.queryForList("select email_id from `user` where user_id in('PMIS_SU_006','PMIS_SU_052')",String.class);
+									if(!StringUtils.isEmpty(ccmails) && ccmails.size() > 0) {
+										String ccemails = org.apache.commons.lang3.StringUtils.join(ccmails, ',');
+										mail.setMailCc(mail.getMailCc()+","+ccemails);
+									}
+									
+								}
+								emailSubject = "PMIS Risk Assessment Due";
+								mail.setMailSubject(emailSubject);
+								logger.error("sendEMailNotificationWithRiskAlert() >>Assessment Due Sending mail to "+uObj.getEmail_id()+": Start ");	
+								emailSender.sendEmailWithRiskAlerts(mail,riskMainAlertsList,today_date,current_year); 
+								logger.error("sendEMailNotificationWithRiskAlert() >>Assessment Due Sending mail to "+uObj.getEmail_id()+": End ");
 							}
-							emailSubject = "PMIS Risk Assessment Due";
-							mail.setMailSubject(emailSubject);
-							logger.error("sendEMailNotificationWithRiskAlert() >>Assessment Due Sending mail to "+uObj.getEmail_id()+": Start ");	
-							emailSender.sendEmailWithRiskAlerts(mail,riskMainAlertsList,today_date,current_year); 
-							logger.error("sendEMailNotificationWithRiskAlert() >>Assessment Due Sending mail to "+uObj.getEmail_id()+": End ");
-						}
+			            }
 						if(riskMitigationPlanAlertsList.size() > 0 && !StringUtils.isEmpty(uObj.getEmail_id())) {
 							Mail mail = new Mail();
 							mail.setMailTo(uObj.getEmail_id());

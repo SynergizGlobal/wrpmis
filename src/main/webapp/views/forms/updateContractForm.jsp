@@ -803,14 +803,14 @@
  							    <div class="row">
  							 		<div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" onchange="updateBtnValueChange()" value="${contractDeatils.actual_completion_date }" readonly>
+	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${contractDeatils.actual_completion_date }" readonly>
 	                                    <label for="actual_completion_date">Actual Completion Date</label>
 	                                    <span id="actual_completion_dateError" class="error-msg" ></span>
 	                                    <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s9 m3 input-field">
 	                                	<i class="material-icons prefix cost left-align">₹</i>
-	                                    <input id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.completed_cost }" onkeyup="updateBtnValueChange()" >
+	                                    <input id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.completed_cost }" >
 	                                    <label for="completed_cost">Completion Cost</label>
 	                                     <span id="completed_costError" class="error-msg" ></span>
 	                                </div>    
@@ -828,13 +828,13 @@
 	      						<div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>	                                
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker" value="${contractDeatils.final_takeover }" onchange="updateBtnValueChange()" readonly>
+	                                    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker" value="${contractDeatils.final_takeover }" readonly>
 	                                    <label for="final_takeover">Final Taking over by Client</label>
 	                                    <span id="final_takeoverError" class="error-msg" ></span>
 	                                    <button type="button" id="final_takeover_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }" onchange="updateBtnValueChange()" readonly>
+	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }" readonly>
 	                                    <label for="completion_certificate_release">Date of issue of Completion Certificate</label>
 	                                    <button type="button" id="completion_certificate_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="completion_certificate_releaseError" class="error-msg" ></span>
@@ -845,13 +845,13 @@
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker" value="${contractDeatils.contract_closure_date }" onchange="updateBtnValueChange()" readonly>
-	                                    <label for="contract_closure_date">Date of Contract Closure</label>
-	                                    <button type="button" id="contract_closure_date_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="contract_closure_dateError" class="error-msg" ></span>	                                    
+	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker" value="${contractDeatils.defect_liability_period }" readonly>
+	                                    <label for="defect_liability_period">End date of Defect Liability Period</label>
+	                                    <button type="button" id="defect_liability_period_icon"><i class="fa fa-calendar"></i></button>
+	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker" value="${contractDeatils.final_bill_release }" onchange="updateBtnValueChange()" readonly>
+	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker" value="${contractDeatils.final_bill_release }" readonly>
 	                                    <label for="final_bill_release">Date of Payment of Final bill</label>
 	                                    <button type="button" id="final_bill_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="final_bill_releaseError" class="error-msg" ></span>
@@ -861,46 +861,19 @@
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker" value="${contractDeatils.defect_liability_period }" onchange="updateBtnValueChange()" readonly>
-	                                    <label for="defect_liability_period">End date of Defect Liability Period</label>
-	                                    <button type="button" id="defect_liability_period_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
+	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker" value="${contractDeatils.pbg_release }" readonly>
+	                                    <label for="pbg_release">Date of release of PBG</label>
+	                                    <button type="button" id="pbg_release_icon"><i class="fa fa-calendar"></i></button>
+	                                    <span id="pbg_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="retention_money_release" name="retention_money_release" type="text" class="validate datepicker" value="${contractDeatils.retention_money_release }" onchange="updateBtnValueChange()" readonly>
-	                                    <label for="retention_money_release">Date of release of Final Retention BG</label>
+	                                    <input id="retention_money_release" name="retention_money_release" type="text" class="validate datepicker" value="${contractDeatils.retention_money_release }" readonly>
+	                                    <label for="retention_money_release">Date of release of Final Retention</label>
 	                                    <button type="button" id="retention_money_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="retention_money_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
-	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker" value="${contractDeatils.pbg_release }" onchange="updateBtnValueChange()" readonly>
-	                                    <label for="pbg_release">Date of release of PBG</label>
-	                                    <button type="button" id="pbg_release_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="pbg_releaseError" class="error-msg" ></span>
-	                                </div>
-	                                <%-- <div class="col s12 m4 input-field">
-	                                    <input id="contract_closure" name="contract_closure" type="text" class="validate" value="${contractDeatils.contract_closure }">
-	                                    <label for="contract_closure"> Contract Closure Comment</label>
-	                                     <span id="contract_closureError" class="error-msg" ></span>
-	                                </div> --%>
-	                                <%-- <div class="col s12 m4 input-field">
-	                                   <p class="searchable_label">   <label>Status of Contract</p>
-	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable">
-	                                        <option value="" selected>Select</option>
-	                                           <c:forEach var="obj" items="${contract_Statustype }">
-			                                    	<option value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
-			                                    </c:forEach>
-	                                    </select>
-	                                     <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div> --%>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div> 
-	                            </div>
-		                   		
 	                            <div class="row">
 	                                <div class="col s12 m8 input-field offset-m2">
 	                                    <textarea id="remarks" name ="remarks" class="pmis-textarea" data-length="1000" 
@@ -909,27 +882,38 @@
 	                                    <span id="remarksError" class="error-msg"></span>
 	                                </div>
 	                            </div>
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker" value="${contractDeatils.contract_closure_date }" readonly>
+	                                    <label for="contract_closure_date">Date of Contract Closure</label>
+	                                    <button type="button" id="contract_closure_date_icon"><i class="fa fa-calendar"></i></button>
+	                                    <span id="contract_closure_dateError" class="error-msg" ></span>	                                    
+	                                </div>
+	                                
+	                                <c:if test="${sessionScope.USER_TYPE eq 'DyHOD'}">
+	                                	<div class="col s12 m4 input-field">
+				                           <div class=" m-1 d-flex center-align">
+				                               <button type="button" onclick="updateContract('Request for Contract Closure');" class="btn waves-effect waves-light bg-m">Request for Contract Closure</button>
+				                           </div>
+				                        </div>
+			                        </c:if>
+			                        <c:if test="${sessionScope.USER_TYPE eq 'HOD'}">
+			                        	<div class="col s12 m4 input-field">
+				                           <div class=" m-1 d-flex center-align">
+				                               <button type="button" onclick="updateContract('Close Contract');" class="btn waves-effect waves-light bg-m">Close Contract</button>
+				                           </div>
+				                        </div>
+			                        </c:if>			                        
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div> 
+	                            </div>
+	                            
 	                          </div>
 	                          
 	                          
-	                            <%-- <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                   <p>   <label>Status of Contract</p>
-	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable">
-	                                        <option value="" selected>Select</option>
-	                                           <c:forEach var="obj" items="${contract_Statustype }">
-			                                    	<option value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
-			                                    </c:forEach>
-	                                    </select>
-	                                     <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div> --%>
-	                          <div class=" " id="bgDetails" tabindex='0'>
-	                           
-							
-                            <!-- bg show hide div  -->
+	                          
+	                       <div class=" " id="bgDetails" tabindex='0'>
                             <div class="row fixed-width " >
                                <h5 class="center-align"><span class="div-header">Bank Guarantee Details</span></h5> 
                                  <div class="row">
@@ -1959,117 +1943,12 @@
 							</div>
 					  </div>
 				</div>							
-							
- 						<%--	<div class="container container-no-margin  " id="closureDetails"> 
- 								 <div id="contractClosureDetails" style="display: none;">
- 								<h5 class="center-align"><span class="div-header">Contract Closure Details</span></h5>  								
- 							    <div class="row">
- 							 		<div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" onchange="updateBtnValueChange()" value="${contractDeatils.actual_completion_date }" readonly>
-	                                    <label for="actual_completion_date">Actual Completion Date</label>
-	                                    <span id="actual_completion_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
-	                                </div>
-	                                <div class="col s9 m3 input-field">
-	                                	<i class="material-icons prefix cost left-align">₹</i>
-	                                    <input id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.completed_cost }" onkeyup="updateBtnValueChange()" >
-	                                    <label for="completed_cost">Completion Cost</label>
-	                                     <span id="completed_costError" class="error-msg" ></span>
-	                                </div>    
-	                                <div class="col s3 m1 input-field pt-5">
-	                                	<p class="searchable_label">Unit</p>
-	                                	<select class="units validate-dropdown" id="completed_cost_units" name="completed_cost_units">
-	                                		<!-- <option value="">Select</option> -->
-	                                		<c:forEach var="obj" items="${unitsList }">
-		                                      <option value="${obj.value }" <c:if test="${contractDeatils.completed_cost_units eq obj.value }">selected</c:if>>${obj.unit }</option>
-		                                	</c:forEach>
-	                                	</select>
-	                                	<span id="completed_cost_unitsError" class="error-msg" ></span>
-                                	</div>                          
-	                            </div> 
-	      						<div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>	                                
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker" value="${contractDeatils.final_takeover }" onchange="updateBtnValueChange()" readonly>
-	                                    <label for="final_takeover">Final Taking over by Client</label>
-	                                    <span id="final_takeoverError" class="error-msg" ></span>
-	                                    <button type="button" id="final_takeover_icon"><i class="fa fa-calendar"></i></button>
-	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }" onchange="updateBtnValueChange()" readonly>
-	                                    <label for="completion_certificate_release">Date of issue of Completion Certificate</label>
-	                                    <button type="button" id="completion_certificate_release_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="completion_certificate_releaseError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	
-	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker" value="${contractDeatils.contract_closure_date }" onchange="updateBtnValueChange()" readonly>
-	                                    <label for="contract_closure_date">Date of Contract Closure</label>
-	                                    <button type="button" id="contract_closure_date_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="contract_closure_dateError" class="error-msg" ></span>	                                    
-	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker" value="${contractDeatils.final_bill_release }" onchange="updateBtnValueChange()" readonly>
-	                                    <label for="final_bill_release">Date of Payment of Final bill</label>
-	                                    <button type="button" id="final_bill_release_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="final_bill_releaseError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker" value="${contractDeatils.defect_liability_period }" onchange="updateBtnValueChange()" readonly>
-	                                    <label for="defect_liability_period">End date of Defect Liability Period</label>
-	                                    <button type="button" id="defect_liability_period_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="retention_money_release" name="retention_money_release" type="text" class="validate datepicker" value="${contractDeatils.retention_money_release }" onchange="updateBtnValueChange()" readonly>
-	                                    <label for="retention_money_release">Date of release of Final Retention BG</label>
-	                                    <button type="button" id="retention_money_release_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="retention_money_releaseError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker" value="${contractDeatils.pbg_release }" onchange="updateBtnValueChange()" readonly>
-	                                    <label for="pbg_release">Date of release of PBG</label>
-	                                    <button type="button" id="pbg_release_icon"><i class="fa fa-calendar"></i></button>
-	                                    <span id="pbg_releaseError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="contract_closure" name="contract_closure" type="text" class="validate" value="${contractDeatils.contract_closure }">
-	                                    <label for="contract_closure"> Contract Closure Comment</label>
-	                                     <span id="contract_closureError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                   <p class="searchable_label">   <label>Status of Contract</p>
-	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable">
-	                                        <option value="" selected>Select</option>
-	                                           <c:forEach var="obj" items="${contract_Statustype }">
-			                                    	<option value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
-			                                    </c:forEach>
-	                                    </select>
-	                                     <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div> 
-	                            </div> 
-                     		 </div>   --%>                     
+						                 
                     </div>
                 </div>
-           		<!--  </div> -->
-           		
-           		<input type="hidden" id="update_type" name="update_type" value="Update"  />
-            	<!-- <input type="hidden" id="contract_details_types" name="contract_details_types" /> -->
+           		<!--  </div> -->  
+            	
+            	<input type="hidden" id="update_type" name="update_type" value="Update"  />
             	
 	            <div class="card " style="margin-bottom:5rem;">
 		                <div class="card-content">
@@ -2077,7 +1956,7 @@
 		           		 	<div class="row">
 		                       <div class="col s12 m6 mt-brdr offset-m2 center-align">
 		                           <div class=" m-1 d-flex"> <!-- <button type="button" onclick="prevTab()" id="prevBtn"><i class="fa fa-angle-left"></i></button> -->
-		                               <button type="button" onclick="updateContract();" id="updateBtn" class="btn waves-effect waves-light bg-m">Update</button>
+		                               <button type="button" onclick="updateContract('Update');" class="btn waves-effect waves-light bg-m">Update</button>
 		                               <!-- <button type="button" onclick="nextTab()" id="nextBtn"><i class="fa fa-angle-right"></i></button> -->
 		                           </div>
 		                       </div>
@@ -2246,25 +2125,7 @@
 			$("#contractClosureDetails").hide();
 			$('#closureTab').hide();
 			if(contract_status_fk == 'Completed' || contract_status_fk == 'Commissioned' || contract_status_fk == 'Closed'){
-				$("#contractClosureRadioBtn").show();
-				if($.trim(actual_completion_date) != '' && $.trim(completed_cost) != '' && $.trim(final_takeover) != '' && $.trim(completion_certificate_release) != '' && 
-						$.trim(contract_closure_date) != '' && $.trim(final_bill_release) != '' && $.trim(defect_liability_period) != '' && $.trim(retention_money_release) != '' && 
-						$.trim(pbg_release) != ''){
-					if(user_type=='HOD'){					
-						$('#updateBtn').html('Close Contract');
-						$('#update_type').val('Close Contract');
-					}else if(user_type=="DyHOD"){
-						$('#updateBtn').html('Request for Contract Closure');
-						$('#update_type').val('Request for Contract Closure');
-					}else{
-						$('#updateBtn').html('Update');
-						$('#update_type').val('Update');
-					}
-				} else{
-					$('#updateBtn').html('Update');
-					$('#update_type').val('Update');
-				}
-				
+				$("#contractClosureRadioBtn").show();				
 				if($.trim(actual_completion_date) != '' || $.trim(completed_cost) != '' ||$.trim(final_takeover) != '' ||$.trim(completion_certificate_release) != '' || 
 						$.trim(contract_closure_date) != '' || $.trim(final_bill_release) != '' || $.trim(defect_liability_period) != '' || $.trim(retention_money_release) != '' || 
 						$.trim(pbg_release) != ''){
@@ -2460,7 +2321,8 @@
             });
         }
      
-        function updateContract(){
+        function updateContract(update_type){
+        	$('#update_type').val(update_type);
         	var rowCount = $('#departmentTableBody tr').length;
         	var c = $('[name=responsible_people_id_fks]').length;
   			for(var i=1; i<= (rowCount); i++){ 
@@ -2565,7 +2427,7 @@
 	  			$('form input[name=contractKeyPersonnelEmailIds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			var flag = validateContract();
 	        	if(flag){
-    				document.getElementById("contractForm").submit();			
+    				document.getElementById("contractForm").submit();	
     	 		}else{
     	        	$(".page-loader").hide();
     	 		}

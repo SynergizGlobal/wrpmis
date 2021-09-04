@@ -25,20 +25,22 @@
         .mdl-data-table td{
         	white-space:pre-line;
         	word-break:break-word;
-        }
-    
-         .input-field .searchable_label{
+        }    
+        .input-field .searchable_label{
             font-size: 0.85rem;
         }
-        .fw-350{
-        	width:350px !important;
-        	max-width:350px;
+        .fw-300{
+        	width:300px !important;
+        	max-width:300px;
         }
-         .fw-90{
-        	width:90px !important;
-        	max-width:90px;
+        .fw-150{
+        	width:150px !important;
+        	max-width:150px;
         }
-       
+        .fw-70{
+        	width:80px !important;
+        	max-width:80px;
+        }       
         tbody tr td:last-of-type,thead tr th:last-of-type{
         	white-space:inherit;
         	text-align:center !important;
@@ -209,16 +211,16 @@
 									<thead>
 										<tr>
 											<th class="no-sort">ID</th>
-											<th>Type &nbsp;</th>
+											<th> &nbsp; Type &nbsp; </th>
 											<th>Category</th>
-											<th class="fw-350">Description</th>
-											<th>Faculty</th>
+											<th class="fw-300">Description</th>
+											<th class="fw-150">Faculty</th>
 											<th>Start Date</th>
-											<th>End Date</th>
+											<th>End Date &nbsp; </th>
 											<th>Hours</th>
-											<th>Status &nbsp; &nbsp;</th>
-											<th class="fw-90">Nominated</th>
-											<th class="fw-90">Attended</th>
+											<th>&nbsp; &nbsp; Status &nbsp; &nbsp;</th>
+											<th class="fw-70">Nominated</th>
+											<th class="fw-70">Attended</th>
 											<th class="nosort">Action</th>
 										</tr>
 									</thead>

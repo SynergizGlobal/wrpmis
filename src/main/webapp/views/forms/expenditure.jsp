@@ -33,6 +33,14 @@
     	 	width:250px !important;
     	 	max-width:250px;
     	 }
+    	 .fw-200{
+    	 	width:200px !important;
+    	 	max-width:200px;
+    	 }
+    	  .fw-150{
+    	 	width:150px !important;
+    	 	max-width:150px;
+    	 }
     	  td,th{
         	box-sizing:content-box !important;
         }
@@ -221,12 +229,12 @@
 						<table id="datatable-expenditure" class="mdl-data-table">
 							<thead>
 								<tr>
-									<th class="fw-300">Work</th>
-									<th class="fw-250">Contract</th>
-									<th>Ledger Account</th>
-									<th>Contractor <br> Name </th>
-									<th> &nbsp; Date &nbsp; </th>
-									<th>Voucher Type</th>
+									<th class="fw-250">Work</th>
+									<th class="fw-300">Contract</th>
+									<th class="fw-250">Ledger Account</th>
+									<th>Contractor Name </th>
+									<th>&nbsp; &nbsp; Date &nbsp; &nbsp;</th>
+									<th>Voucher <br> Type</th>
 									<th class="no-sort">Action</th>
 								</tr>
 							</thead>

@@ -49,9 +49,24 @@
 		    right: 15px;
 		    font: normal normal normal 14px/1 FontAwesome;
 		}
+		.fw-150{
+			width:150px !important;
+			max-width:150px;
+		}
 		.fw-200{
 			width:200px !important;
 			max-width:200px;
+		}
+		.fw-250{
+			width:250px !important;
+			max-width:250px;
+		}
+		.fw-300{
+			width:300px !important;
+			max-width:300px;
+		}
+		td.p-10i{
+			padding:10px !important;
 		}
 		label.error{color:red;}
 		@media only screen and (max-width: 769px){
@@ -227,12 +242,12 @@
                                 <table id="datatable-activities" class="mdl-data-table">
                                     <thead>
                                         <tr>                                            
-                                            <th class="fw-33p no-sort">Work</th>
-											<th class="fw-33p">Contract</th>
+                                            <th class="fw-33p no-sort fw-150">Work</th>
+											<th class="fw-33p fw-250">Contract</th>
 											<th>Structure type</th>
-											<th class="fw-33p">Uploaded File</th>
+											<th class="fw-33p fw-200">Uploaded File</th>
 											<th>Status</th>
-											<th>Remarks</th>
+											<th class="fw-250">Remarks</th>
 											<th>Uploaded by </th>
 											<th>Uploaded On</th>
                                         </tr>
@@ -567,7 +582,11 @@
 	                        targets: [2,4,5,6,7],
 	                        className: 'hideCOl'
 	                    },
-	                   { orderable: false, 'aTargets': ['nosort'] }
+	                    {
+	                        targets: [0],
+	                        className: 'p-10i'
+	                    },
+	                   { orderable: false, 'aTargets': ['no-sort'] }
 	               ],
 	               // "ScrollX": true,
 	               //"scrollCollapse": true,

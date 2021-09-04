@@ -198,7 +198,7 @@
 										<tr>
 											<th>Project</th>
 											<th class="fw-300">Work</th>
-											<th>Contract</th>
+											<th class="fw-300">Contract</th>
 											<th>Deliverables Type</th>
 											<th>Description</th>
 											<th>Status</th>

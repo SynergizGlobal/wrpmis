@@ -299,7 +299,7 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m3 input-field offset-m2">
 									<!-- <input id="financial_years" type="text" class="validate" name="financial_years" value="${projectDetails.financial_year_fk }"> -->
                                     <p class="searchable_label">Financial Year</p>
 									<select  name="financial_years"  id="financial_years"  class="validate-dropdown searchable">
@@ -310,7 +310,7 @@
                					  	</select>
                                     <span  id="financial_yearsError"> </span>
 								</div>
-								 <div class="col s6 m1 input-field">
+								 <div class="col s6 m2 input-field">
 								 	 <p class="searchable_label">Railway</p>
 									<select class="searchable validate-dropdown" id="railways" name="railways" >
 										<option value="" >Select</option>	

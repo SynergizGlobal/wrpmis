@@ -32,6 +32,11 @@
             margin-left:auto !important;
             margin-right:auto !important;
         }
+        @media only screen and (min-width: 768px){
+	        .fs-md-9r{
+	        	font-size:.9rem;
+	        }
+        }
         .my-error {
    			 color:red;
    			 font-size: .8rem;
@@ -327,7 +332,7 @@
                                 <div class="col s8 m5 l3 input-field offset-m2 offset-l2">
                        				<i class="material-icons prefix cost">₹</i>
                                     <input id="sanctioned_estimated_cost" type="number" class="validate" name="sanctioned_estimated_cost" value="${workDetails.sanctioned_estimated_cost }" min="0.01" step="0.01">
-                                    <label for="sanctioned_estimated_cost" class="active fs-sm-8rem">Sanctioned Estimated Cost</label>
+                                    <label for="sanctioned_estimated_cost" class="active fs-sm-8rem fs-md-9r">Sanctioned Estimated Cost</label>
                                     <span id="sanctioned_estimated_costError"></span>
                                 </div>
                                 <div class="col s4 m3 l1 input-field">
@@ -345,7 +350,7 @@
                                 <div class="col s8 m5 l3 input-field offset-m2 ">
                                   	<i class="material-icons prefix cost">₹</i>
                                     <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDetails.sanctioned_completion_cost }" min="0.01" step="0.01">
-                                    <label for="sanctioned_completion_cost" class="fs-sm-67rem"> Sanctioned Completion Cost</label>
+                                    <label for="sanctioned_completion_cost" class="fs-sm-67rem fs-md-9r"> Sanctioned Completion Cost</label>
                                     <span id="sanctioned_completion_costError"></span>
                                 </div>
                                 <div class="col s4 m3 l1 input-field">

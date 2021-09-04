@@ -22,19 +22,23 @@
         p a {
             color: blue;
         }
-     .input-field .searchable_label{
+     	.input-field .searchable_label{
         	font-size:0.85rem;
         } 
           td,th{
-     	box-sizing:content-box !important;
-     }
+	     	box-sizing:content-box !important;
+	     }
    		.fw-300{
     	 	width:300px !important;
     	 	max-width:300px;
     	 }
-    	 .fw-110{
-    	 	width:110px !important;
-    	 	max-width:110px;
+    	 .fw-200{
+    	 	width:200px !important;
+    	 	max-width:200px;
+    	 }
+    	 .fw-150{
+    	 	width:150px !important;
+    	 	max-width:150px;
     	 }
     	 .fw-37vw{
     	 	width:37vw !important;
@@ -57,9 +61,13 @@
           @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
-			.no-sort{
+			td.no-sort{
 				padding:3px !important;
 				max-width: 45px;
+			}
+			td:not(:last-of-type),
+			th:not(:last-of-type){
+				width:30vw;
 			}
 			.mob-btn{
 				padding:0 12px;
@@ -220,7 +228,7 @@
                                         <tr>
                                             <!-- <th>ID</th> -->
                                             <th class="fw-300">Contract</th>
-                                            <th class="fw-110">Short Description </th>
+                                            <th class="fw-200">Short Description </th>
                                             <th>Location </th>
                                             <th>Person Responsible<br> in MRVC</th>
                                             <th>Department </th>

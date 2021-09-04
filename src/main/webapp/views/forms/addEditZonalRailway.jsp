@@ -46,6 +46,11 @@
             width: 145px !important;
             background-color: transparent;
         }
+        .month::-webkit-calendar-picker-indicator{        	
+        	margin:0;
+        	padding:0;
+        }
+        
   		.error-msg label,.error{color:red!important;}
   		
         .input-field .searchable_label {

@@ -321,8 +321,8 @@
                                             <td data-head="Attachment" class="input-field cell-disp-inb">
                                               <div class="">
                                                    <input type="file" name="documentsFile" id="documentsFile0"   
-                                                            style="display:none" />
-                                                   <input name="documentsFile" id="documentsFile0" type="hidden"  onchange="getFileName('0')"/>
+                                                            style="display:none" onchange="getFileName('0')"/>
+                                                   <input name="documentsFile" id="documentsFile0" type="hidden" />
                                                    <label for="documentsFile0" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
                                                    <a id="fileVal0" class="filevalue" ></a>
                                               </div>

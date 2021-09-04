@@ -30,6 +30,14 @@
     	 	width:400px !important;
     	 	max-width:400px;
     	 }
+    	 .fw-300{
+    	 	width:300px !important;
+    	 	max-width:300px;
+    	 }
+    	 .fw-200{
+    	 	width:200px !important;
+    	 	max-width:200px;
+    	 }
          .dataTables_filter label::after{
          	content:'';
          }
@@ -51,12 +59,12 @@
          .row.no-mar{
          	margin-bottom:0;
          }
-       @media only screen and (min-width: 769px){ 
+    /*    @media only screen and (min-width: 769px){ 
         .fw-111{
         		width:30vw !important;
         		max-width:30vw;
         }
-       }
+       } */
       @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
@@ -83,7 +91,7 @@
 	        	top:30px;
 	        }
 	        .fw-111{
-	        	width:30vw;
+	        	width:30vw !important;
 	        	min-width:30vw;
 	        }
 		}
@@ -260,16 +268,13 @@
 									<table id="datatable-design" class="mdl-data-table">
 										<thead>
 											<tr>
-												<th>Contract</th>
-												<th class="fw-400">Title</th>
+												<th class="fw-200">Contract</th>
+												<th class="fw-300">Title</th>
 												<th>Structure</th>
 												<th>Drawing Type</th>
-												<th>Contractor <br>Drawing No
-												</th>
-												<th>MRVC <br>Drawing No
-												</th>
-												<th>Division <br>Drawing No
-												</th>
+												<th>Contractor <br>Drawing No </th>
+												<th>MRVC <br>Drawing No	</th>
+												<th>Division <br>Drawing No	</th>
 												<th>HQ Drawing No</th>
 												<th class="no-sort">Action</th>
 											</tr>

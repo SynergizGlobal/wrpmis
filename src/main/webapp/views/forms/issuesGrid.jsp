@@ -55,17 +55,17 @@
 	        	width:88px ;
 	        	min-width:88px;
 	   }
-	    @media only screen and (min-width: 769px){ 
+	/*     @media only screen and (min-width: 769px){ 
         	.fw-110{
 	        	width:100px !important;
 	        	min-width:100px !important; 
 	        }
 	        
-       }
+       } */
         @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
-			.no-sort{
+			td.no-sort{
 				padding:3px !important;
 				max-width: 45px;
 			}

@@ -280,11 +280,11 @@
                                                         </p>
                                                     </th>
                                                     <th class="w-250">Milestone</th>
-                                                    <th class="w-150">Activity</th>
-                                                    <th>Planned <br> Start Date</th>
-                                                    <th>Planned <br> Finish Date</th>
-                                                    <th>Actual <br> Start Date </th>
-                                                    <th>Actual <br> Finish Date</th>
+                                                    <th class="w-250">Activity</th>
+                                                    <th> Planned <br> Start Date </th>
+                                                    <th> Planned <br> Finish Date </th>
+                                                    <th> &nbsp; Actual <br> Start Date &nbsp; </th>
+                                                    <th> Actual <br> Finish Date</th>
                                                     <th>Scope</th>
                                                     <th>Completed</th>
                                                     <th class="no-sort">
@@ -347,7 +347,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col m8 s12 offset-m2">                                    
+                                <div class="col m6 s12 offset-m3">                                    
                                     <div class="row">
                                         <!-- <div class="col s12 m4">
                                                 <div class="center-align m-1">
@@ -356,16 +356,16 @@
                                                         Activities</button>
                                                 </div>
                                             </div> -->
-                                        <div class="col s6 m6 center-align">
+                                        <div class="col s6 m6 mt-brdr center-align ">
                                             <div class=" m-1">
                                                 <button type="button" id="btn"  class="btn waves-effect waves-light bg-m"
-                                                    style="width: 100%;">Update</button>
+                                                    >Update</button>
                                             </div>
                                         </div>
-                                        <div class="col s6 m6 center-align">
+                                        <div class="col s6 m6 mt-brdr center-align">
                                             <div class=" m-1">
                                                 <button type="reset" class="btn waves-effect waves-light bg-s"
-                                                    style="width: 100%;">Reset</button>
+                                                    >Reset</button>
                                             </div>
                                         </div>
                                     </div>

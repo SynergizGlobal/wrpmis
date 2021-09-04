@@ -190,10 +190,10 @@
 			    white-space: break-spaces;
 			}
 		}
-		.input-field p.searchable_label{
+	/*	.input-field p.searchable_label{
         	color: #7BC2B9;
         }
-/* 		.input-field input[type="text"],
+ 		.input-field input[type="text"],
 		.input-field .pmis-textarea{
         	margin-bottom:0;
         } */

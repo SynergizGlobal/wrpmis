@@ -39,14 +39,21 @@
          	right:-10px;
          }
          .fw-111{
-         	width:15vw !important;
-	        	min-width:15vw;
+         	width:15vw ;
+	        min-width:15vw;
          }
           .fw-100{
          	width:10vw !important;
-	        	min-width:10vw;
+	        min-width:10vw;
          }
+          .fw-300{
+    	 	width:300px !important; 
+    	 	max-width:300px;
+    	 }
           @media only screen and (max-width: 769px){ 
+          	.fw-300{
+    		 	width:27vw !important; 
+	    	 }
 			 
 			.dataTables_scrollBody tbody tr td:last-of-type,
 			.no-sort{
@@ -196,8 +203,8 @@
 								<table id="datatable-document" class="mdl-data-table">
 									<thead>
 										<tr>
-											<th>Work</th>
-											<th>Contract</th>
+											<th class="fw-300">Work</th>
+											<th class="fw-300">Contract</th>
 											<th>Priority</th>
 											<th>Document Type</th>
 											<th>Document Name</th>

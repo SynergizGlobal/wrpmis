@@ -217,11 +217,39 @@
 		}
 		@media only screen and (min-width: 993px){	
 			div[id^=session-update-modal].modal.open{
-				width:90%
-			}
-			
+				width:90%;
+			}			
+		}		
+		.date-holder{
+		    color: white;
+		    margin-top: 2rem;
+		    font-size: 2rem;
+		}
+		.date-holder >.date-text{
+		    font-size: 2.5rem;
+		    margin-top: 2rem;
 		}
 		@media only screen and (max-width: 768px){
+			.date-holder{
+			    margin-top: 1rem;
+			    font-size: 1rem;
+			    margin-bottom:2rem;
+			    text-align:center;
+			}
+			.date-holder >.date-text{
+			    font-size: 1.5rem;
+			    margin-top: 0;		
+			    margin-left:1rem;        
+			}
+			.date-holder >.date-text,
+			.date-holder >.year-text{
+			    display:inline-block; 
+			}
+			
+			.modal.datepicker-modal > .modal-content,
+			.modal.timepicker-modal > .modal-content{
+			    padding:0;  
+			}
 			.modal:not(.datepicker-modal){
 	        	max-height:80%;
 	        	width:85%;
@@ -311,14 +339,13 @@
 							<form action="<%=request.getContextPath() %>/add-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						</c:if>
 					<div class="container container-no-margin">
-						<div class="row">							 
-							<div class="col s6 offset-m2 m4 input-field">
-								<label class="primary-text-bold"></label>
-								<c:if test="${action eq 'edit'}">
-									<p class="primary-text-bold">Training ID : <span>${trainingDetails.training_id }</span></p>
-								</c:if>
-							</div>
-							<div class="col s6 m4 input-field">
+						<div class="row">	
+							<c:if test="${action eq 'edit'}">						 
+								<div class="col s6 offset-m2 m4 input-field">								
+									<p class="primary-text-bold">Training ID : <span>${trainingDetails.training_id }</span></p>								
+								</div>
+							</c:if>
+							<div class="col s6 m4 input-field <c:if test="${action eq 'add'}">offset-m2 </c:if>">
 								<p class="searchable_label">Training Type <span class="required">*</span></p>
 								<select class="searchable validate-dropdown"
 									name="training_type_fk" id="training_type_fk">

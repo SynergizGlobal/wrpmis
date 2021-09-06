@@ -27,7 +27,14 @@
         .mti-5 p{
         	margin-top:5px;
         }
-       
+        .pb-10{
+        	padding-bottom:10px;
+        }
+        @media only screen and (max-width:364px){
+			.fs-sm-67rem {
+			    font-size: .656rem !important;
+			}
+		}
 		.error-msg label{color:red!important;}
 		/* Chrome, Safari, Edge, Opera */
 		input::-webkit-outer-spin-button,
@@ -179,7 +186,7 @@
                                     </select>                                    
                                     <span id="status_fkError" class="error-msg" ></span>
                                 </div> --%>
-                                 <div class="col s6 m4 input-field mti-5">
+                                 <!-- <div class="col s6 m4 input-field mti-5">
 	                                 <p>
 									      <label>
 									        <input type="checkbox" id="committee_required" name="committee_required"/>
@@ -187,7 +194,7 @@
 									      </label>
 									      <input type="hidden" id="committee_required_fk" name="committee_required_fk" value="No"/>
 								    </p>
-							    </div>
+							    </div> -->
 							    <div class="col s6 m4 hidden input-field mti-5" id="committee_formed_div" >
 	                                 <p>
 									      <label>
@@ -256,18 +263,25 @@
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <input id="responsible_person" name="responsible_person" type="text" class="validate">
-                                    <label for="responsible_person" class="fs-sm-67rem">Person Responsible in MRVC</label>
+                                    <!-- <input id="responsible_person" name="responsible_person" type="text" class="validate">
+                                    <label for="responsible_person" class="fs-sm-67rem"></label> -->                                    
+                                    <p class="searchable_label fs-sm-67rem pb-10">Person Responsible in MRVC</p>
+                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person">
+                                		<option value="">Select</option>
+                                		<%-- <c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }">${obj.unit }</option>
+	                                	</c:forEach> --%>
+                                	</select>
                                     <span id="responsible_personError" class="error-msg" ></span>
                                 </div>
                             </div>
-                            <div class="row">
-                               <!--  <div class="col s12 m4 input-field ">
+                          <%--   <div class="row">
+                               /*  <div class="col s12 m4 input-field ">
                                     <input id="closure_date" name="closure_date" type="text" class="validate datepicker">
                                     <label for="closure_date">Closure Date</label>
                                     <button type="button" id="closure_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="closure_dateError" class="error-msg" ></span>
-                                </div> -->
+                                </div> */
                                  <div class="col s12 offset-m2 m4 input-field ">
                                     <input id="investigation_completed" name="investigation_completed" type="text" class="validate datepicker">
                                     <label for="investigation_completed">Investigation Completion Date</label>
@@ -367,7 +381,7 @@
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
                             </div>
-
+ --%>
                             <div class="row">
                                 <div class="col s6 m4 mt-brdr offset-m2">
                                     <div class="center-align m-1">
@@ -400,7 +414,7 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
-		function selectFile(no){
+		/* function selectFile(no){
 		    files = $("#safetyFiles"+no)[0].files;
 		    var html = "";
 		    for (var i = 0; i < files.length ; i++) {
@@ -435,26 +449,40 @@
 		function removeFile(no){			
 	     	$('#safetyFilesDiv'+no).remove();
 	     	$('#safetyFileName'+no).remove();
-	    } 
+	    }  */
 
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $('#remarks').characterCounter();
+            //$('#remarks').characterCounter();
+              
+            var today = new Date();
+	        var dd = today.getDate();
+	        if (dd < 10) {
+	            dd = '0' + dd;
+	        }
+	        var mm = today.getMonth() + 1;  
+	        if (mm < 10) {
+	            mm = '0' + mm;
+	        }
+	        var yyyy = today.getFullYear();
+	        var today =  yyyy+'-'+ mm +'-'+dd ;  
+	        
+            $('#date').datepicker({ 
+	   	    	format:'dd-mm-yyyy',
+	   	    	defaultDate: new Date(today),
+	   	     	setDefaultDate: true,
+	   	    	maxDate: new Date(today),
+	   	    	autoClose:true
+            });
+   	        //}).datepicker("setDate", new Date());
             
             $('#date_icon').click(function () {
                 event.stopPropagation();
                 $('#date').click();
             });
             
-            $('#date').datepicker({ 
-	   	    	format:'dd-mm-yyyy',
-	   	    	onSelect: function () {
-	   	    	   $('.confirmation-btns .datepicker-done').click();
-	   	    	}
-   	        }).datepicker("setDate", new Date());
-            
-            $('#closure_date_icon').click(function () {
+          /*   $('#closure_date_icon').click(function () {
                 event.stopPropagation();
                 $('#closure_date').click();
             });
@@ -488,9 +516,9 @@
   	    	    onSelect: function () {
   	    	       $('.confirmation-btns .datepicker-done').click();
   	    	    }
-  	        });
+  	        }); */
             
-            $('#committee_required').change(function(){
+         /*    $('#committee_required').change(function(){
                 if(this.checked){
                     $('#committee_formed_div').removeClass('hidden');
                 }else{
@@ -498,7 +526,7 @@
                     $("#committee_formed_fk").val("No");
                     $('#committee_formed').prop('checked', false);
                 }
-            });
+            }); 
             
             
             $("#committee_required").change(function(){
@@ -516,9 +544,9 @@
 	            	$("#committee_formed_fk").val("No");
 	            }
 	        });
-	        
+            */
         });
-        
+            
         function setTitle(category){
         	var short_description = $("#category_fk").find('option:selected').attr("name");
         	$("#title").val(short_description).focus();
@@ -616,10 +644,8 @@
                     }
                 });
                 $('.searchable').select2();
-            }
-       		
-        }
-        
+            }       		
+        }        
         
         $('form').on('reset', function () {
             $(".searchable").trigger("change");
@@ -635,7 +661,6 @@
     			document.getElementById("safetyForm").submit();			
     	 	}
     	}
-    	
     	
     	//Wait for the DOM to be ready
     	
@@ -676,7 +701,7 @@
     				 		required: false
     				 	  },"reported_by": {
     				 		required: false
-    				 	  },"responsible_person":{
+    				 	  },"responsible_person":{	
     				 		 required: false
     				 	  },"closure_date": {
     			 		    required: false,
@@ -776,8 +801,7 @@
     			 	  		required: 'Required'
     				 	  },"compensation_units":{
     			 	  		required: 'Required'
-    				 	  }
-    			 				      
+    				 	  }    			 				      
     		    },
     			  errorPlacement:
     			 	function(error, element){

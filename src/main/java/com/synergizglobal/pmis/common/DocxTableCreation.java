@@ -1026,7 +1026,6 @@ public class DocxTableCreation {
 		tableHeader.add("Title");
 		tableHeader.add("Description");
 		tableHeader.add("Session NO");
-		tableHeader.add("status_fk");
 		tableHeader.add("Training Date");
 		tableHeader.add("Attended");
 		
@@ -1047,8 +1046,7 @@ public class DocxTableCreation {
 					garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getSession_no(),
 					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-			addTableCell(factory, wordMLPackage, contentRow, aObj.getStatus_fk(),
-					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+			
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getDate(),
 					garamondDateRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 			

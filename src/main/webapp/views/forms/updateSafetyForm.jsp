@@ -259,7 +259,7 @@
 								    <input type="hidden" id="committee_formed_fk" name="committee_formed_fk" value="No"/>
 							    </div>
                                 <div class="col s12 m4 input-field hidden" id="committee_member_div">                                 	
-                                    <input id="committe_member_name" name="committe_member_name" type="text" class="validate" value="${safety.responsible_person }">
+                                    <input id="committe_member_name" name="committe_member_name" type="text" class="validate" value="${safety.committe_member_name }">
                                     <label for="committe_member_name">Name of Committee member</label>
                                     <span id="committe_member_nameError" class="error-msg" ></span> 
                                 </div> 
@@ -459,6 +459,8 @@
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('#remarks').characterCounter();
+            var reporting_to_id_srfk = "${safety.hod_user_id_fk }";
+            getResponsiblePersonsList(reporting_to_id_srfk);
             if(user_type == 'HOD' || user_role == 'IT Admin'){}
             else{
             	$("#status_fk option[value='Closed']").remove();
@@ -1060,7 +1062,35 @@
 	         	$('#safetyFilesDiv'+no).remove();
 	         	$('#safetyFileName'+no).remove();
 	        }
-			
+			function getResponsiblePersonsList(reporting_to_id){
+	        	$(".page-loader").show();
+	            $("#responsible_person option:not(:first)").remove();
+	            var reporting_to_id_srfk = reporting_to_id;
+	            if ($.trim(reporting_to_id_srfk) != "") {
+	                var myParams = { reporting_to_id_srfk: reporting_to_id_srfk };
+	                $.ajax({
+	                	url: "<%=request.getContextPath()%>/ajax/getResponsiblePersonsListForSafetyForm",
+	                    data: myParams, cache: false,
+	                    success: function (data) {
+	                        if (data.length > 0) {
+	                            $.each(data, function (i, val) {
+	                            	var userName = '';
+	                                if ($.trim(val.user_name) != '') { userName = ' - ' + $.trim(val.user_name) }
+	                                if(val.reporting_to_id_srfk == reporting_to_id){
+		                                $("#responsible_person").append('<option  value="' + val.designation + '" selected>' + $.trim(val.designation) + userName + '</option>');
+	                                }else{
+	                                	$("#responsible_person").append('<option  value="' + val.designation + '">' + $.trim(val.designation) + userName + '</option>');
+	                                }
+	                            });
+	                        }
+	                        $('.searchable').select2();
+	                        $(".page-loader").hide();
+	                    }
+	                });
+	            }else{
+	            	$(".page-loader").hide();
+	            }
+	        }
     </script>
 </body>
 </html>

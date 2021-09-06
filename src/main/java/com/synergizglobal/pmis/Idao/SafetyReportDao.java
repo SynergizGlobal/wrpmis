@@ -12,4 +12,6 @@ public interface SafetyReportDao {
 	List<Safety> getHODListInSafetyReport(Safety obj) throws Exception;
 
 	List<Safety> getSafetyReportData(Safety obj) throws Exception;
+
+	List<Safety> getStatusListInSafetyReport(Safety obj) throws Exception;
 }

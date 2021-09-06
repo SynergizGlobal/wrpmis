@@ -44,7 +44,14 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and s.hod_user_id_fk = ?";
+				arrSize++;
+			}
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -55,7 +62,12 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
 			qry = qry + " GROUP BY work_id_fk ";
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
@@ -68,7 +80,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 	public List<Safety> getContractsListInSafetyReport(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name "
+			String qry = "SELECT c.work_id_fk,contract_id_fk,c.contract_id,contract_name,contract_short_name "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
@@ -83,7 +95,14 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and s.hod_user_id_fk = ?";
+				arrSize++;
+			}
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -94,8 +113,65 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
 			qry = qry + " GROUP BY contract_id_fk";
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+
+	@Override
+	public List<Safety> getStatusListInSafetyReport(Safety obj) throws Exception {
+		List<Safety> objsList = null;
+		try {
+			String qry = "SELECT status_fk from safety s "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ " where status_fk is not null and status_fk <> '' ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and s.hod_user_id_fk = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
+			qry = qry + " GROUP BY status_fk";
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
@@ -113,7 +189,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u ON s.hod_user_id_fk= u.user_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "where s.hod_user_id_fk is not null and s.hod_user_id_fk <> '' ";
+					+ "where s.hod_user_id_fk is not null and s.hod_user_id_fk <> '' and designation  <> '' ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -124,7 +200,14 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and s.hod_user_id_fk = ?";
+				arrSize++;
+			}
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -135,7 +218,12 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
 			qry = qry + " GROUP BY s.hod_user_id_fk  ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO'),u.designation" ;
 
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
@@ -178,7 +266,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
-				qry = qry + " and status_fk <> ?";
+				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
 			qry = qry + " ORDER BY s.date DESC";
@@ -205,4 +293,5 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 		}
 		return objsList;
 	}
+
 }

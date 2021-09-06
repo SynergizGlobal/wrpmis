@@ -195,6 +195,19 @@ public class SafetyController {
 		return objsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getResponsiblePersonsListForSafetyForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> getResponsiblePersonsListForSafetyForm(@ModelAttribute Safety obj) {
+		List<Safety> objsList = null;
+		try {
+			objsList = safetyService.getResponsiblePersonsListForSafetyForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getResponsiblePersonsListForSafetyForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
 	@RequestMapping(value = "/ajax/getSafetyList", method = { RequestMethod.POST, RequestMethod.GET })
 	public void getSafetysList(@ModelAttribute Safety obj, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws IOException {

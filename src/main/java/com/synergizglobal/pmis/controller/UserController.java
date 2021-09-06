@@ -424,10 +424,10 @@ public class UserController {
 	            XSSFRow headingRow = sheet.createRow(0);
 	            headingRow.createCell((short)0).setCellValue("User ID");
 	            headingRow.createCell((short)1).setCellValue("User Name");
-	            headingRow.createCell((short)2).setCellValue("Department");
-	            headingRow.createCell((short)3).setCellValue("Reporting to");
-	            headingRow.createCell((short)4).setCellValue("Role");
-	            headingRow.createCell((short)5).setCellValue("Designation");
+	            headingRow.createCell((short)2).setCellValue("Designation");
+	            headingRow.createCell((short)3).setCellValue("Department");
+	            headingRow.createCell((short)4).setCellValue("Reporting to");
+	            headingRow.createCell((short)5).setCellValue("Role");
 	            headingRow.createCell((short)6).setCellValue("Email-Id");
 	            headingRow.createCell((short)7).setCellValue("Mobile Number");
 	            headingRow.createCell((short)8).setCellValue("Personal Contact Number");
@@ -440,10 +440,11 @@ public class UserController {
 	                XSSFRow row = sheet.createRow(rowNo);
 	                row.createCell((short)0).setCellValue(obj.getUser_id());
 	                row.createCell((short)1).setCellValue(obj.getUser_name());
-	                row.createCell((short)2).setCellValue(obj.getDepartment_name());
-	                row.createCell((short)3).setCellValue(obj.getReporting_to_designation());
-	                row.createCell((short)4).setCellValue(obj.getUser_role_name_fk());
-	                row.createCell((short)5).setCellValue(obj.getDesignation());
+	                row.createCell((short)2).setCellValue(obj.getDesignation());
+	                row.createCell((short)3).setCellValue(obj.getDepartment_name());
+	                row.createCell((short)4).setCellValue(obj.getReporting_to_designation());
+	                row.createCell((short)5).setCellValue(obj.getUser_role_name_fk());
+	              
 	                row.createCell((short)6).setCellValue(obj.getEmail_id());
 	                row.createCell((short)7).setCellValue(obj.getMobile_number());
 	                row.createCell((short)8).setCellValue(obj.getPersonal_contact_number());

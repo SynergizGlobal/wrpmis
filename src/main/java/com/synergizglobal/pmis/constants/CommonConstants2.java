@@ -54,7 +54,7 @@ public class CommonConstants2 {
 	public static final String USER_IMAGE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"USER_IMAGES"+File.separator;
 	public static final String DESIGN_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DESIGN_FILES"+File.separator;
 	public static final String P6_FILE_SAVING_PATH = DIRECTORY_PATH+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"P6_FILES"+File.separator;
-	public static final String DOCX_LOGO = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/resources/images";
+	public static final String DOCX_LOGO = "C:" + "/Development/nginx-1.9.9/html/pmis/resources/images";
 	public final static String WEB_DOCUMENTS_FILE_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/WEB_DOCUMENTS/";
 	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/PROJECT_GALLERY/";
 	//public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/ACTIVITY_PROGRESS_REPORTS/";

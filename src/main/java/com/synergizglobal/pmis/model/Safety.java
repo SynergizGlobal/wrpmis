@@ -9,7 +9,7 @@ public class Safety {
 	category_fk,impact_fk,root_cause_fk,status_fk,closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,
 	investigation_completed,corrective_measure_short_term,corrective_measure_long_term,compensation,payment_date,remarks,short_description,work_short_name,
 	category,impact,root_cause,status,contract_id,contract_name,work_id_fk,work_name,project_id_fk,project_name,status_remark_fk,
-	department,department_name,attachment,contract_short_name,hod_user_id_fk,designation,hod_name,contractor_name,safety_id_fk,compensation_units,id, unit, value,compensation_unit;
+	department,department_name,attachment,contract_short_name,hod_user_id_fk,designation,hod_name,reporting_to_id_srfk,user_name,contractor_name,safety_id_fk,compensation_units,id, unit, value,compensation_unit;
 
 	private MultipartFile safetyFile;
 	
@@ -18,6 +18,22 @@ public class Safety {
 	
 	private List<Safety> safetyFilesList;
 	
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getReporting_to_id_srfk() {
+		return reporting_to_id_srfk;
+	}
+
+	public void setReporting_to_id_srfk(String reporting_to_id_srfk) {
+		this.reporting_to_id_srfk = reporting_to_id_srfk;
+	}
+
 	public String getCompensation_units() {
 		return compensation_units;
 	}

@@ -99,6 +99,7 @@ import com.synergizglobal.pmis.common.DocxTableCreation;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Safety;
+import com.synergizglobal.pmis.model.StripChart;
 
 @Controller
 public class SafetyReportController {
@@ -121,7 +122,15 @@ public class SafetyReportController {
 	public ModelAndView safetysReport(@ModelAttribute Safety obj,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
-			model.setViewName(PageConstants2.safetyReport);			
+			model.setViewName(PageConstants2.safetyReport);	
+			List<Safety> contractsList = safetyService.getContractsListInSafetyReport(obj);
+			model.addObject("contractsList", contractsList);
+			List<Safety> worksList = safetyService.getWorksListInSafetyReport(obj);
+			model.addObject("worksList", worksList);
+			List<Safety> hodsList = safetyService.getHODListInSafetyReport(obj);
+			model.addObject("hodsList", hodsList);
+			List<Safety> statusList = safetyService.getStatusListInSafetyReport(obj);
+			model.addObject("statusList", statusList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("safetysReport : " + e.getMessage());
@@ -164,6 +173,18 @@ public class SafetyReportController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getHODListInSafetyReport : " + e.getMessage());
+		}
+		return objsList;
+	}
+	@RequestMapping(value = "/ajax/getStatusListInSafetyReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> getStatusListInSafetyReport(@ModelAttribute Safety obj) {
+		List<Safety> objsList = null;
+		try {
+			objsList = safetyService.getStatusListInSafetyReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStatusListInSafetyReport : " + e.getMessage());
 		}
 		return objsList;
 	}

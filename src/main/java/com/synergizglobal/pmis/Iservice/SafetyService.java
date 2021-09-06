@@ -51,4 +51,6 @@ public interface SafetyService {
 	List<Safety> getSafetyList(Safety obj, int startIndex, int offset, String searchParameter) throws Exception;
 
 	List<Safety> getUnitsList(Safety obj) throws Exception;
+
+	List<Safety> getResponsiblePersonsListForSafetyForm(Safety obj) throws Exception;
 }

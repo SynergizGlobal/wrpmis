@@ -729,9 +729,9 @@ public class DocxTableCreation {
 					
 					/*===========================================================*/
 					Tr titleTableRow = factory.createTr();		
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training ID", garamondBoldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Faculty Name", garamondBoldRPr,
 							JcEnumeration.LEFT, true, "ecf2ff");
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_id(), garamondRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getFaculty_name(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "Title", garamondBoldRPr,
 							JcEnumeration.LEFT, true, "ecf2ff");
@@ -819,8 +819,7 @@ public class DocxTableCreation {
 					List<String> tableHeader = new ArrayList<String>();
 					tableHeader.add("SNo.");
 					tableHeader.add("Name of Attendee");
-					tableHeader.add("Department");
-					tableHeader.add("Mobile");
+					tableHeader.add("Designation");
 					tableHeader.add("Reporting to");
 					
 					for (String headerValue : tableHeader) {
@@ -840,9 +839,7 @@ public class DocxTableCreation {
 								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getAttendee(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getDepartment_name(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getMobile_no(),
+						addTableCell(factory, wordMLPackage, contentRow, aObj.getTrainee_designation(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getReporting_to(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
@@ -1029,7 +1026,7 @@ public class DocxTableCreation {
 		tableHeader.add("Title");
 		tableHeader.add("Description");
 		tableHeader.add("Session NO");
-		tableHeader.add("Category");
+		tableHeader.add("status_fk");
 		tableHeader.add("Training Date");
 		tableHeader.add("Attended");
 		
@@ -1050,7 +1047,7 @@ public class DocxTableCreation {
 					garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getSession_no(),
 					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-			addTableCell(factory, wordMLPackage, contentRow, aObj.getCategory(),
+			addTableCell(factory, wordMLPackage, contentRow, aObj.getStatus_fk(),
 					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getDate(),
 					garamondDateRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
@@ -1130,9 +1127,9 @@ public class DocxTableCreation {
 					
 					/*===========================================================*/
 					Tr titleTableRow = factory.createTr();		
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training ID", garamondBoldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Faculty Name", garamondBoldRPr,
 							JcEnumeration.LEFT, true, "ecf2ff");
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_id(), garamondRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getFaculty_name(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "Title", garamondBoldRPr,
 							JcEnumeration.LEFT, true, "ecf2ff");
@@ -1236,10 +1233,8 @@ public class DocxTableCreation {
 					List<String> tableHeader = new ArrayList<String>();
 					tableHeader.add("SNo.");
 					tableHeader.add("Name of Attendee");
-					tableHeader.add("Department");
-					tableHeader.add("Mobile");
+					tableHeader.add("Designation");
 					tableHeader.add("Reporting to");
-					tableHeader.add("Nominated");
 					tableHeader.add("Attended");
 					
 					for (String headerValue : tableHeader) {
@@ -1259,14 +1254,10 @@ public class DocxTableCreation {
 								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getAttendee(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getDepartment_name(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getMobile_no(),
+						addTableCell(factory, wordMLPackage, contentRow, aObj.getTrainee_designation(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getReporting_to(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getRequired_fk(),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getParticipated_fk(),
 								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 						

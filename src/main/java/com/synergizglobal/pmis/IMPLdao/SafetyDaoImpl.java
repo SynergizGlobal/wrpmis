@@ -836,7 +836,7 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getContractsListForSafetyForm(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry ="select c.contract_id as contract_id_fk,c.contract_name,c.contract_short_name,c.work_id_fk "
+			String qry ="select c.contract_id as contract_id_fk,c.hod_user_id_fk,c.contract_name,c.contract_short_name,c.work_id_fk "
 					+ "from contract c "
 					+ "where c.contract_id is not null ";
 			
@@ -1077,6 +1077,29 @@ public class SafetyDaoImpl implements SafetyDao {
 		try {
 			String qry = "select id, unit, value from money_unit ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Safety> getResponsiblePersonsListForSafetyForm(Safety obj) throws Exception {
+		List<Safety> objsList = null;
+		try {
+			String qry = "SELECT designation,user_name FROM user where designation <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
+				qry = qry + " and reporting_to_id_srfk = ?";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY designation";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
+				pValues[i++] = obj.getReporting_to_id_srfk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

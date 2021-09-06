@@ -101,10 +101,10 @@
                             <div class="row">                                
                                 <div class="col s6 m4 input-field offset-m2">
                                 	<p class="searchable_label"> Contract <span class="required">*</span></p>
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();getResponsiblePersonsList();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${contractsList }">
-                                      	   <option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                      	   <option workId="${obj.work_id_fk }" hod_user_id="${obj.hod_user_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                          </c:forEach>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
@@ -595,7 +595,7 @@
                             $.each(data, function (i, val) {
                             	var contract_short_name = '';
                                 if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
-                                $("#contract_id_fk").append('<option  workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
+                                $("#contract_id_fk").append('<option  workId="'+val.work_id_fk +'" hod_user_id="'+val.hod_user_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -606,7 +606,31 @@
             	$(".page-loader").hide();
             }
         }
-        
+        function getResponsiblePersonsList(){
+        	$(".page-loader").show();
+            $("#responsible_person option:not(:first)").remove();
+            var reporting_to_id_srfk = $("#contract_id_fk").find('option:selected').attr("hod_user_id");
+            if ($.trim(reporting_to_id_srfk) != "") {
+                var myParams = { reporting_to_id_srfk: reporting_to_id_srfk };
+                $.ajax({
+                	url: "<%=request.getContextPath()%>/ajax/getResponsiblePersonsListForSafetyForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var userName = '';
+                                if ($.trim(val.user_name) != '') { userName = ' - ' + $.trim(val.user_name) }
+                                $("#responsible_person").append('<option  value="' + val.designation + '">' + $.trim(val.designation) + userName + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
         function resetWorksAndProjectsDropdowns(){
         	$(".page-loader").show();        	
         	var projectId = '';

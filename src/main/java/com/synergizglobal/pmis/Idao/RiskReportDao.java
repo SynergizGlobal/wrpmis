@@ -20,5 +20,6 @@ public interface RiskReportDao {
 
 	List<RiskReport> getSummaryOfRiskAssessmentOfProjects() throws Exception;
 
+	List<RiskReport> getTop5RiskAreas() throws Exception;
 
 }

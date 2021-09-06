@@ -234,5 +234,27 @@ public class RiskReportDaoImpl implements RiskReportDao{
 		return objsList;
 	}
 
+	@Override
+	public List<RiskReport> getTop5RiskAreas() throws Exception {
+		List<RiskReport> objsList = null;
+		try {
+			String qry = "select risk_area_fk as area,sub_area," 
+					+ "(select sum(probability*impact) from risk_revision "
+					+ "left join risk on risk_id_pk_fk = risk_id_pk where date = max(rr.date) and sub_work = r.sub_work and sub_area_fk = r.sub_area_fk) as total_risk_rating " 
+					+ "from risk r "
+					+ "LEFT JOIN risk_revision rr on rr.risk_id_pk_fk = r.risk_id_pk "
+					+ "left outer join risk_sub_area rsa on r.sub_area_fk = rsa.sub_area " 
+					+ "group by r.sub_area_fk,r.sub_work "
+					+ "order by total_risk_rating desc limit 5";
+			
+					
+			//objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 
 }

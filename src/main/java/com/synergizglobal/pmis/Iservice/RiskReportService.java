@@ -20,5 +20,7 @@ public interface RiskReportService {
 
 	List<RiskReport> getSummaryOfRiskAssessmentOfProjects() throws Exception;
 
+	List<RiskReport> getTop5RiskAreas() throws Exception;
+
 
 }

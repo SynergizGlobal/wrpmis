@@ -128,7 +128,8 @@
                                         <tr>
                                             <th>Work ID</th>
                                             <th>Sub Work</th>
-                                            <th>Hod</th>
+                                            <th>Short Name</th>
+                                            <th>HOD</th>
                                             <th>Work <br>Completed</th>
                                             <th>Priority</th>
                                             <th class="no-sort">Action</th>
@@ -145,6 +146,10 @@
 											<td>
 											 	${obj.sub_work }
 											 	<input type="hidden" id="sub_work${index.count}" value="${obj.sub_work }" />
+											</td>
+											<td>
+											 	${obj.work_short_name }
+											 	<input type="hidden" id="work_short_name${index.count}" value="${obj.work_short_name }" />
 											</td>
 											<td>
 												<input type="hidden" id="user${index.count}" value="${obj.hod_user_id_fk }" />
@@ -201,7 +206,7 @@
                             <div class="input-field col s12 m6">
                                 <!-- <input id="hod_user_id" type="text" class="validate">
                                 <label for="hod_user_id">Hod User ID</label> -->
-                                <p class="searchable_label">Hod User ID </p>
+                                <p class="searchable_label">HOD User ID </p>
                                 <select name="hod_user_id_fk" id="hod_user_id" class=" searchable
                                     validate-dropdown">
                                     <option value="">Select</option>
@@ -216,7 +221,12 @@
                                 <label for="sub_work">Sub Work</label>
                                  <span id="sub_workError" class="error-msg" ></span>
                             </div>
-                            <div class="input-field col s12 m12">
+                            <div class="input-field col s12 m6">
+                                <input name="work_short_name" id="work_short_name" type="text">
+                                <label for="work_short_name">Short Name</label>
+                                 <span id="work_short_nameError" class="error-msg" ></span>
+                            </div>
+                            <div class="input-field col s12 m6">
                                 <input name="priority" id="priority" type="number">
                                 <label for="priority">Priority</label>
                                  <span id="priorityError" class="error-msg" ></span>
@@ -292,7 +302,12 @@
                                 <label for="sub_work_new">Sub Work</label>
                                  <span id="sub_work_newError" class="error-msg" ></span>
                             </div>
-                            <div class="input-field col s12 m12">
+                            <div class="input-field col s12 m6">
+                                <input name="work_short_name" id="work_short_name_new" type="text">
+                                <label for="work_short_name_new">Short Name</label>
+                                 <span id="work_short_name_newError" class="error-msg" ></span>
+                            </div>
+                            <div class="input-field col s12 m6">
                                 <input name="priority" id="priority_new" type="number">
                                 <label for="priority_new">Priority</label>
                                  <span id="priority_newError" class="error-msg" ></span>
@@ -387,14 +402,16 @@
         function updateRow(no) {
             var work = $('#work'+no).val();
             var user = $('#user'+no).val();
-            var sub_work = $('#sub_work'+no).val();
+            var sub_work = $('#sub_work'+no).val();            
             var risk_work_hod_id = $('#risk_work_hod_id'+no).val();
             var risk_work_completed = $('#risk_work_completed'+no).val();
+            var work_short_name = $('#work_short_name'+no).val();
             var priority = $('#priority'+no).val();
             $('#onlyUpdateModal').modal('open');
             $('#update_work_id_text').val($.trim(work));
             $('#update_hod_user_id').val($.trim(user));
             $('#sub_work_new').val($.trim(sub_work));
+            $('#work_short_name_new').val($.trim(work_short_name)).focus();
             $('#priority_new').val($.trim(priority)).focus();
             if(risk_work_completed == "Yes")
             {
@@ -438,6 +455,8 @@
       					  required: true
           			},"sub_work":{
           				  required: true
+          			},"work_short_name":{
+          				  required: false
           			},"priority":{
           				  required: true
           			}
@@ -448,9 +467,11 @@
       			 		  required: 'Required'
       			 	 }, "sub_work": {
       			 		  required: 'Required'
-      			 	 },"priority":{
+      			 	 },"work_short_name":{
          				  required: 'Required'
-           			}
+           			 },"priority":{
+         				  required: 'Required'
+           			 }
       	        },errorPlacement:function(error, element){
       	        	 if(element.attr("id") == "sub_work" ){
       				     document.getElementById("sub_workError").innerHTML="";
@@ -461,7 +482,10 @@
       		 	   }else if(element.attr("id") == "work_id_text" ){
         			     document.getElementById("work_id_fkError").innerHTML="";
           		 	     error.appendTo('#work_id_fkError');
-          		   }else if(element.attr("id") == "priority" ){
+          		   }else if(element.attr("id") == "work_short_name" ){
+	      			     document.getElementById("work_short_nameError").innerHTML="";
+	      		 	     error.appendTo('#work_short_nameError');
+	      		   }else if(element.attr("id") == "priority" ){
 	      			     document.getElementById("priorityError").innerHTML="";
 	      		 	     error.appendTo('#priorityError');
 	      		   }
@@ -477,30 +501,37 @@
     					  required: true
         			},"sub_work_new":{
    					  	  required: true
-       				},"priority":{
+       				},"work_short_name":{
+       				      required: false
+        			},"priority":{
           				  required: true
           			}
     			},messages: {
     		 		 "work_id_fk_new": {
     			 		required: 'Required'
-    			 	 }, "hod_user_id_fk_new": { 
+    			 	 },"hod_user_id_fk_new": { 
     			 		required: 'Required'
-    			 	 }, "sub_work_new": { 
+    			 	 },"sub_work_new": { 
    			 		  	required: 'Required'
-   			 	  	},"priority":{
+   			 	  	 },"work_short_name":{
      				  	required: 'Required'
-         			}
+         			 },"priority":{
+     				  	required: 'Required'
+         			 }
     	        },errorPlacement:function(error, element){
     	        	 if(element.attr("id") == "update_work_id_text" ){
     				     document.getElementById("work_id_fkUpdateError").innerHTML="";
     			 	     error.appendTo('#work_id_fkUpdateError');
     			   }else if(element.attr("id") == "update_hod_user_id" ){
-    			     document.getElementById("hod_user_id_fkUpdateError").innerHTML="";
-    		 	     error.appendTo('#hod_user_id_fkUpdateError');
+	    			     document.getElementById("hod_user_id_fkUpdateError").innerHTML="";
+	    		 	     error.appendTo('#hod_user_id_fkUpdateError');
     		 	   }else if(element.attr("id") == "sub_work_new" ){
-    			     document.getElementById("sub_work_newError").innerHTML="";
-    		 	     error.appendTo('#sub_work_newError');
-    		 	   }else if(element.attr("id") == "priority_new" ){
+	    			     document.getElementById("sub_work_newError").innerHTML="";
+	    		 	     error.appendTo('#sub_work_newError');
+    		 	   }else if(element.attr("id") == "work_short_name_new" ){
+	      			     document.getElementById("work_short_name_newError").innerHTML="";
+	      		 	     error.appendTo('#work_short_name_newError');
+	      		   }else if(element.attr("id") == "priority_new" ){
 	      			     document.getElementById("priority_newError").innerHTML="";
 	      		 	     error.appendTo('#priority_newError');
 	      		   }

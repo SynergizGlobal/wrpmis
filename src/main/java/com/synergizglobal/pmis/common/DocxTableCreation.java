@@ -1939,7 +1939,7 @@ public class DocxTableCreation {
 
 
 	public static void createTableForSummaryOfRiskAssessmentOfProjectsReport(WordprocessingMLPackage wordMLPackage,
-			MainDocumentPart mp, ObjectFactory factory, List<RiskReport> summaryOfRiskAssessment) throws Exception {
+			MainDocumentPart mp, ObjectFactory factory, List<RiskReport> summaryOfRiskAssessment, List<RiskReport> top5RiskAreas) throws Exception {
 		try {
 			
 			RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,

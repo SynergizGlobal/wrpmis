@@ -290,6 +290,8 @@ public class RiskReportController {
 						
 			List<RiskReport> summaryOfRiskAssessment = riskReportService.getSummaryOfRiskAssessmentOfProjects();
 			
+			List<RiskReport> top5RiskAreas = riskReportService.getTop5RiskAreas();
+			
 			boolean landscape = true;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
 			
@@ -316,7 +318,7 @@ public class RiskReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreation.createTableForSummaryOfRiskAssessmentOfProjectsReport(wordMLPackage, mp, factory,summaryOfRiskAssessment);
+			DocxTableCreation.createTableForSummaryOfRiskAssessmentOfProjectsReport(wordMLPackage, mp, factory,summaryOfRiskAssessment,top5RiskAreas);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	

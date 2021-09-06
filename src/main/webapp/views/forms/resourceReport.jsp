@@ -370,14 +370,15 @@
 	  		 		  "from_date": {
 	  			 		required: true
 	  			 	  }	,"to_date": {
-	  			 		required: true
+	  			 		required: true,
+	  			 		greaterThan: "#from_date",	  			 		
 	  			 	  }	
 	  		 	},
 	  		    messages: {
 	  		 		 "from_date": {
 	  			 		required: ' This field is required'
 	  			 	  },"to_date": {
-	  			 		required: ' This field is required'
+	  			 		required: ' This field is required',	  			 		
 	  			 	  }
 		   		},
 		   		errorPlacement:function(error, element){
@@ -408,6 +409,27 @@
 			    }
 			}); 
         
+    	$.validator.addMethod("greaterThan", function(value, element) {
+            var fromDateString = $('#from_date').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+         
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	//return Date.parse(fromDate) <= Date.parse(toDate);
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+        }, "To date must be after From Date");
+    	
+    	
         $('select').change(function(){
     	    if ($(this).val() != ""){
     	        $(this).valid();

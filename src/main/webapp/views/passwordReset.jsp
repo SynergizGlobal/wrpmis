@@ -85,7 +85,7 @@
                             </div>
                             <div class="row">
                                 <div class="col s12 m6 l4 offset-l4 input-field offset-m3">
-                                    <input type="password" id="newPassword" name="newPassword"  class="validate" autocomplete="off" step="any" pattern="^\d*(\.\d{0,2})?$">
+                                    <input type="password" id="newPassword" name="newPassword"  class="validate" autocomplete="off"  pattern="^\d*(\.\d{0,2})?$">
                                     <label for="newPassword">New Password</label>
                                     <span class="material-icons toggle-password new-pass">visibility_off</span>
                                     <span id="newPasswordError" ></span>
@@ -127,6 +127,7 @@
   <!-- footer includes -->
   <jsp:include page="./layout/footer.jsp"></jsp:include>
   
+  <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
   <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
   <script src="/pmis/resources/js/dataTables.material.min.js"></script>
   <script src="/pmis/resources/js/select2.min.js"></script>

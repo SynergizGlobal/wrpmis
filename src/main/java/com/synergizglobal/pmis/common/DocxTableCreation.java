@@ -1026,7 +1026,7 @@ public class DocxTableCreation {
 		tableHeader.add("Title");
 		tableHeader.add("Description");
 		tableHeader.add("Session NO");
-		tableHeader.add("Training Date");
+		tableHeader.add("Training Date"); 
 		tableHeader.add("Attended");
 		
 		for (String headerValue : tableHeader) {

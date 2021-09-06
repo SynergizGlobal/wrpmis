@@ -262,7 +262,7 @@
                                     <input id="committe_member_name" name="committe_member_name" type="text" class="validate" value="${safety.committe_member_name }">
                                     <label for="committe_member_name">Name of Committee member</label>
                                     <span id="committe_member_nameError" class="error-msg" ></span> 
-                                </div> 
+                                </div>  
                             </div>
                             <div class="row">                             
                                  <div class="col s12 m4 input-field offset-m2">

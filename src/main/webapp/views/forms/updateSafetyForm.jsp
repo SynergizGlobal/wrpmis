@@ -179,36 +179,7 @@
                                     <span id="root_cause_fkError" class="error-msg" ></span>
                                 </div>
                             </div>
-                            <div class="row">                               
-                                <div class="col s6 m4 input-field mti-5 offset-m2">
-	                                 <p>
-									      <label>
-									        <input type="checkbox" id="committee_required" name="committee_required" <c:if test="${safety.committee_required_fk eq 'Yes'}">checked</c:if>/>
-									        <span>Committee Required</span>
-									      </label>
-									      <input type="hidden" id="committee_required_fk" name="committee_required_fk" value="No"/>
-								    </p>
-							    </div>
-							    <div class="col s6 m4 hidden input-field mti-5" id="committee_formed_div" >
-	                                 <p>
-									      <label>
-									        <input type="checkbox" id="committee_formed" name="committee_formed" <c:if test="${safety.committee_formed_fk eq 'Yes'}">checked</c:if>/>
-									        <span>Committee Formed</span>
-									      </label>
-									      
-								    </p>
-								    <input type="hidden" id="committee_formed_fk" name="committee_formed_fk" value="No"/>
-							    </div>
-                                <%-- <div class="col s12 m4 input-field">
-                                 <p class="searchable_label"> Committee formed </p>
-                                    <select id="committee_formed_fk" name="committee_formed_fk" class="searchable">
-                                        <option value="">Select</option>
-                                        <option value="Yes" <c:if test="${safety.committee_formed_fk eq 'Yes'}">selected</c:if>>Yes</option>
-                                        <option value="No" <c:if test="${safety.committee_formed_fk eq 'No'}">selected</c:if>>No</option>
-                                    </select>
-                                    <span id="committee_formed_fkError" class="error-msg" ></span>
-                                </div> --%>
-                            </div>
+                            
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">                                   
                                       <textarea id="title" name="title" class="pmis-textarea validate" data-length="100">${safety.title }</textarea>
@@ -258,13 +229,42 @@
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${safety.responsible_person }">
-                                    <label for="responsible_person" class="fs-sm-67rem">Person Responsible in MRVC</label>
+                                    <%-- <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${safety.responsible_person }">
+                                    <label for="responsible_person" class="fs-sm-67rem serchable_label">Person Responsible in MRVC</label> --%>
+                                    <p style="color: #aaa;font-size:0.85rem;" >Person Responsible in MRVC</p>
+                                    <select id="responsible_person" name="responsible_person" class="searchable">
+                                        <option value="">Select</option>
+                                    </select>
                                     <span id="responsible_personError" class="error-msg" ></span>
                                 </div>
                             </div>
-                            <div class="row">
-                             
+                            <div class="row" style="margin-bottom:10px;">                               
+                                <div class="col s6 m2 input-field mti-5 offset-m2">
+	                                 <p>
+									      <label>
+									        <input type="checkbox" id="committee_required" name="committee_required" <c:if test="${safety.committee_required_fk eq 'Yes'}">checked</c:if>/>
+									        <span>Committee Required</span>
+									      </label>
+									      <input type="hidden" id="committee_required_fk" name="committee_required_fk" value="No"/>
+								    </p>
+							    </div>
+							    <div class="col s6 m2 hidden input-field mti-5" id="committee_formed_div" >
+	                                 <p>
+									      <label>
+									        <input type="checkbox" id="committee_formed" name="committee_formed" <c:if test="${safety.committee_formed_fk eq 'Yes'}">checked</c:if>/>
+									        <span>Committee Formed</span>
+									      </label>
+									      
+								    </p>
+								    <input type="hidden" id="committee_formed_fk" name="committee_formed_fk" value="No"/>
+							    </div>
+                                <div class="col s12 m4 input-field hidden" id="committee_member_div">                                 	
+                                    <input id="committe_member_name" name="committe_member_name" type="text" class="validate" value="${safety.responsible_person }">
+                                    <label for="committe_member_name">Name of Committee member</label>
+                                    <span id="committe_member_nameError" class="error-msg" ></span> 
+                                </div> 
+                            </div>
+                            <div class="row">                             
                                  <div class="col s12 m4 input-field offset-m2">
                                     <input id="investigation_completed" name="investigation_completed" type="text" class="validate datepicker" value="${safety.investigation_completed }">
                                     <label for="investigation_completed">Investigation Completion Date</label>
@@ -297,31 +297,7 @@
                                     <span id="work_impactError" class="error-msg" ></span>
                                 </div>
                             </div>
-
-                            <div class="row">                               
-                                <div class="col s6 m4 input-field offset-m2">
-                                    <input id="payment_date" name="payment_date" type="text" class="validate datepicker" value="${safety.payment_date }">
-                                    <label for="payment_date">Payment Date</label>
-                                    <button type="button" id="payment_date_icon"><i class="fa fa-calendar"></i></button>
-                                    <span id="payment_dateError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s8 m3 input-field">
-                                <i class="material-icons prefix center-align">₹</i>
-                                    <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" class="validate" value="${safety.compensation }">
-                                    <label for="compensation"> Compensation </label>
-                                    <span id="compensationError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s4 m1 input-field pt-10">
-                                	<p class="searchable_label">Unit</p>
-                                	<select class="units searchable validate-dropdown" id="compensation_units" name="compensation_units">
-                                		<option value="">Select</option>
-                                		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" <c:if test="${safety.compensation_units eq obj.value }">selected</c:if> >${obj.unit }</option>
-	                                	</c:forEach>
-                                	</select>
-                                	<span id="compensation_unitsError" class="error-msg" ></span>
-                               	</div> 
-                            </div>
+                            
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
                                     <textarea id="corrective_measure_short_term" name="corrective_measure_short_term" class="pmis-textarea validate" data-length="1000">${safety.corrective_measure_short_term }</textarea>  
@@ -366,9 +342,9 @@
 										</c:forEach>
 									</div>
 									
-                                </div>
-                              
+                                </div>                              
                             </div>
+                            
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
                                     <textarea id="remarks" name="remarks" class="pmis-textarea validate" data-length="1000">${safety.remarks }</textarea>
@@ -376,6 +352,31 @@
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
                             </div>
+                            
+                            <div class="row">                               
+                                <div class="col s6 m4 input-field offset-m2">
+                                    <input id="payment_date" name="payment_date" type="text" class="validate datepicker" value="${safety.payment_date }">
+                                    <label for="payment_date">Payment Date</label>
+                                    <button type="button" id="payment_date_icon"><i class="fa fa-calendar"></i></button>
+                                    <span id="payment_dateError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s8 m3 input-field">
+                                <i class="material-icons prefix center-align">₹</i>
+                                    <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" class="validate" value="${safety.compensation }">
+                                    <label for="compensation"> Compensation </label>
+                                    <span id="compensationError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s4 m1 input-field pt-10">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="compensation_units" name="compensation_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }" <c:if test="${safety.compensation_units eq obj.value }">selected</c:if> >${obj.unit }</option>
+	                                	</c:forEach>
+                                	</select>
+                                	<span id="compensation_unitsError" class="error-msg" ></span>
+                               	</div> 
+                            </div>                            
 
 							 <div class="row">
 								 <div class="col s6 m4 input-field offset-m2">
@@ -425,14 +426,19 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script>
-	/* $(document).on('focus', '.datepicker',function(){
-        $(this).datepicker({
-        	format:'dd-mm-yyyy',
-   	    	onSelect: function () {
-   	    	   $('.confirmation-btns .datepicker-done').click();
-   	    	}
-        })
-    }); */
+
+    var today = new Date();
+    var dd = today.getDate();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    var mm = today.getMonth() + 1;  
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    var yyyy = today.getFullYear();
+    var today =  yyyy+'-'+ mm +'-'+dd ;  
+    
     let date_pickers = document.querySelectorAll('.datepicker');
     $.each(date_pickers, function(){
     	var dt = this.value.split(/[^0-9]/);
@@ -441,6 +447,9 @@
     	if(dt.length > 1){
     		options.setDefaultDate = true,
     		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+    		if(this.id=='date'){
+    			options.maxDate=new Date(today);
+    		}
     	}
     	M.Datepicker.init(this, options);
     });
@@ -459,7 +468,15 @@
                 event.stopPropagation();
                 $('#date').click();
             });
-                      
+            
+
+           /*  $('#date').datepicker({
+            	//maxDate: new Date(today),
+            	format: 'dd-mm-yyyy',
+            	autoClose:true
+            }); */ 
+            
+            
             $('#closure_date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#closure_date').click();
@@ -502,6 +519,15 @@
                     $('#committee_formed_div').addClass('hidden');
                     $("#committee_formed_fk").val("No");
                     $('#committee_formed').prop('checked', false);
+                }
+            });
+            $('#committee_formed').change(function(){
+                if(this.checked){
+                    $('#committee_member_div').removeClass('hidden');
+                }else{
+                    $('#committee_member_div').addClass('hidden');
+                    //$("#committee_formed_fk").val("No");
+                    //$('#committee_formed').prop('checked', false);
                 }
             });
             $("#status_fk").on("change", dateShowAndHide);

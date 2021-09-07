@@ -784,7 +784,7 @@
             $('#progress_date').datepicker({
                 maxDate: new Date(),
               //  max: new Date(),
-                format: 'dd-mm-yyyy',
+                format: 'dd-mmm-yy',
                 autoClose:true,
 
             });
@@ -1269,12 +1269,17 @@
  	            	 			+'<td>' + $.trim(val.strip_chart_component) + '</td>' */
  	            	 			+'<td data-head="Activity" class="input-field"><div>' + $.trim(val.strip_chart_activity_name) +' ('+$.trim(val.unit_fk)+' )<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></div></td>';
  	            	 			
-	            	 			
+         	 					var disDisabled="";
  	            	 			if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
  	            	 				{
-		 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start_icon'+num+'" ><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
-		 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish_icon'+num+'"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
-		 	            	 			+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>'; 
+ 	            	 					if($.trim(val.scope)==$.trim(val.completed))
+ 	            	 						{
+ 	            	 							disDisabled="disabled";
+ 	            	 						}
+				 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start_icon'+num+'" ><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
+				 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish_icon'+num+'"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
+				 	            	 			+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>';
+		 	            	 				
 
 		 	            	            
 		 	            	 			
@@ -1291,7 +1296,7 @@
  	            	 			html +='<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
  	            	 			+'<td data-head="Completed" class="input-field"><span>' + $.trim(val.completed) + '</span>'
  	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
- 	            	 			+' <td data-head="Actual" class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'"  ><br><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
+ 	            	 			+' <td data-head="Actual" class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" '+disDisabled+'><br><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
  	                    		$("#filerList").append(html);	
  	                    		
  	                    		
@@ -1300,7 +1305,7 @@
 	            	 				
 	 	            	            $('#planned_start'+num).datepicker({
 	 	            	                maxDate: new Date(),
-	 	            	                format: 'dd-mm-yyyy',
+	 	            	                format: 'dd-mmm-yy',
 	 	            	               autoClose:true,
 	 	            	            });
 	 	            	            $('#planned_start_icon'+num).click(function () {
@@ -1311,7 +1316,7 @@
 	 	            	            
 	 	            	            $('#planned_finish'+num).datepicker({
 	 	            	                maxDate: new Date(),
-	 	            	                format: 'dd-mm-yyyy',
+	 	            	                format: 'dd-mmm-yy',
 	 	            	               autoClose:true,
 	 	            	            });
 	 	            	            
@@ -1410,8 +1415,11 @@
                     	 			}
                     	 		})
 							    $("#actualScopes"+num).keyup(function(){
-							        $('#btn').prop('disabled', this.value == "" ? true : false);  
-							        $('#btn1').prop('disabled', this.value == "" ? true : false);  
+							    	if("${sessionScope.USER_ROLE_NAME}"!='IT Admin')
+							    		{
+									        $('#btn').prop('disabled', this.value == "" ? true : false);  
+									        $('#btn1').prop('disabled', this.value == "" ? true : false); 
+							    		}
 							    })
  	                     });
  	                }
@@ -1450,42 +1458,49 @@
      //update button functionality
      function updateProgress()
      {
-    	 if(validator.form())
-    	 { 
 
-    		 var num = document.getElementById("table").rows.length;
-    		 var tbleLen=num-1;
-    		 
-    		 for (var i = 0; i < tbleLen; i++) 
+			var checkValidate=0;
+     		if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
+    		{
+	    		 var num = document.getElementById("table").rows.length;
+	    		 var tbleLen=num-1;
+	    		 
+	    		 for (var i = 0; i < tbleLen; i++) 
+	    		 {
+	    			 var s1=parseFloat(document.getElementById("scope"+i).value);
+	    			 var s2=parseFloat(document.getElementById("completedScopes"+i).value);
+	    			 
+	    			 var s3=document.getElementById("planned_start"+i).value;
+	    			 var s4=document.getElementById("planned_finish"+i).value;
+	    			 
+	    			        	if(s1<s2)
+	    			        	{
+			     		    	 	alert("Scope Should be greater than or equal to Completed in row "+(i+1));
+			    		    	 	return false;
+	    			        	}
+	    		    			 if (process(s4) < process(s3)) 
+					        	{
+			     		    	 	alert("Planned Finish Should be greater than or equal to Planned Start in row "+(i+1));
+			    		    	 	return false;
+					        	} 
+	    		    			if($("#actualScopes"+i).val()!="" && $("#actualScopes"+i).val()!=0)
+    		    				{
+	    		    				checkValidate=1;
+    		    				}	    		    			 
+		    			        
+	    		 }
+    		}
+    		 if(checkValidate==0 && "${sessionScope.USER_ROLE_NAME}"=='IT Admin')
     		 {
-    			 var s1=parseFloat(document.getElementById("scope"+i).value);
-    			 var s2=parseFloat(document.getElementById("completedScopes"+i).value);
-    			 
-    			 var s3=document.getElementById("planned_start"+i).value;
-    			 var s4=document.getElementById("planned_finish"+i).value;
-    			 
-    			        	if(s1<s2)
-    			        	{
-		     		    	 	alert("Scope Should be greater than or equal to Completed in row "+(i+1));
-		    		    	 	return false;
-    			        	}
-    		    			 if (process(s4) < process(s3)) 
-				        	{
-		     		    	 	alert("Planned Finish Should be greater than or equal to Planned Start in row "+(i+1));
-		    		    	 	return false;
-				        	} 
-	    			        
+    			 var y = document.getElementById("progress_date");
+    			 y.type= "hidden";    			
     		 }
-    		 
-    		 
-	        	$(".page-loader").show();	    		
-	   			document.getElementById("ActivitiesBulkUpdateForm").submit();
-		         
-  			
-
-
-   			 
-     	 }
+        	 if(validator.form())
+        	 { 
+		        $(".page-loader").show();	    		
+		   		document.getElementById("ActivitiesBulkUpdateForm").submit();
+        	 }
+  			 
      }
   
      function process(date){

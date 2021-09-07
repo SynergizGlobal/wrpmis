@@ -7,8 +7,10 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.sql.DataSource;
 
@@ -720,9 +722,15 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	public List<StripChart> getActivitiesfiltersList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select activity_id,component_id as strip_chart_component_id_name,component as strip_chart_component,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,DATE_FORMAT(planned_start,'%d-%m-%Y') AS planned_start "  
-					+",DATE_FORMAT(planned_finish,'%d-%m-%Y') AS planned_finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from activities  " 
-					+ " where activity_id is not null and scope <> completed ";
+			String qry = "select activity_id,component_id as strip_chart_component_id_name,component as strip_chart_component,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,DATE_FORMAT(planned_start,'%d-%b-%y') AS planned_start "  
+					+",DATE_FORMAT(planned_finish,'%d-%b-%y') AS planned_finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from activities  " 
+					+ " where activity_id is not null ";
+			
+				if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))
+				{
+					qry = qry + " and scope <> completed ";
+				}			
+			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
 				qry = qry + "and component = ? ";
@@ -803,14 +811,38 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				}
 			}
 			
-			for (int i = 0; i < arraySize; i++) {				
+			for (int i = 0; i < arraySize; i++) 
+			{				
 			    int k = 1;
-			    if( obj.getActualScopes().length > 0 && !StringUtils.isEmpty(obj.getActualScopes()[i])) {
+			    if( obj.getActualScopes().length > 0 && !StringUtils.isEmpty(obj.getActualScopes()[i])) 
+			    {
+			    	
+			    	Calendar c3 = Calendar.getInstance();
+			    	String[] SplitWith3=obj.getProgress_date().split("-");
+			    	
+		            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
+		            c3.setTime(PrFormat.parse(SplitWith3[1]));
+		            c3.set(Calendar.DATE, Integer.parseInt(SplitWith3[0]));
+		            
+					DateFormat dfm3 = new SimpleDateFormat("dd-MM-yy");	
+					DateFormat rdfm3 = new SimpleDateFormat("YYYY");
+					Date Cdfm3=dfm3.parse(SplitWith3[0]+'-'+c3.get(Calendar.MONTH)+'-'+SplitWith3[2]);	
+					
+		            String gdate3=rdfm3.format(Cdfm3);
+		            
+	            
+		            
+		            c3.set(Calendar.YEAR, Integer.parseInt(gdate3));		            
+		            
+		            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		            
+		            String Prdate=df.format(c3.getTime());
+		            
 				    insertStmt.setString(k++, obj.getCreated_by_user_id_fk());
 				    insertStmt.setString(k++, obj.getRemarks());
 				    insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:null);
 				    insertStmt.setString(k++,(obj.getActivity_ids()[i]));
-				    insertStmt.setString(k++, obj.getProgress_date());
+				    insertStmt.setString(k++, Prdate);
 				    insertStmt.setString(k++, "Pending");
 				    insertStmt.addBatch();
 			    }
@@ -844,7 +876,8 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		        DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 			}
 			
-			
+			if(CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))
+			{			
 			/*if(flag) {*/
 				int arrSize =0;
 				if( !StringUtils.isEmpty(obj.getCompletedScopes()) && obj.getCompletedScopes().length > 0) {
@@ -882,8 +915,12 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					if(!StringUtils.isEmpty(obj.getCompletedScopes()[i])) {
 						 completed = Float.parseFloat(obj.getCompletedScopes()[i]);
 					}
-					if(!StringUtils.isEmpty(obj.getActualScopes()[i])) {
+					if( !StringUtils.isEmpty(obj.getActualScopes()) && obj.getActualScopes().length > 0) {
 						 actual = Float.parseFloat(obj.getActualScopes()[i]);
+					}
+					else
+					{
+						actual=0;
 					}
 					/*Date planstartDate =null;*/
 
@@ -895,25 +932,65 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					
 					
 					String SplitStr2=obj.getScope();
-					String[] StrVar2=SplitStr2.split(",");				
+					String[] StrVar2=SplitStr2.split(",");	
 					
-		
 					
-				
+					String[] SplitWith=StrVar[i].split("-");
+					String[] SplitWith1=StrVar1[i].split("-");
 					
-					if(Float.parseFloat(StrVar2[i])>=completed && StrVar1[i].compareTo(StrVar[i])>=0)
+		            Calendar c1 = Calendar.getInstance();
+		            SimpleDateFormat inputFormat = new SimpleDateFormat("MMMM");
+		            
+		            
+		            c1.setTime(inputFormat.parse(SplitWith[1]));
+		            c1.set(Calendar.DATE, Integer.parseInt(SplitWith[0]));
+
+					DateFormat dfm1 = new SimpleDateFormat("dd-MM-yy");
+					DateFormat rdfm1 = new SimpleDateFormat("YYYY");
+					Date Cdfm1=dfm1.parse(SplitWith[0]+'-'+c1.get(Calendar.MONTH)+'-'+SplitWith[2]);	
+					
+		            String gdate1=rdfm1.format(Cdfm1);
+		            
+		            c1.set(Calendar.YEAR, Integer.parseInt(gdate1));
+		            
+		            
+		            
+		            
+		            Calendar c2 = Calendar.getInstance();
+
+		            c2.setTime(inputFormat.parse(SplitWith1[1]));
+		            c2.set(Calendar.DATE, Integer.parseInt(SplitWith1[0]));
+		            
+					DateFormat dfm2 = new SimpleDateFormat("dd-MM-yy");
+					DateFormat rdfm2 = new SimpleDateFormat("YYYY");
+					Date Cdfm2=dfm2.parse(SplitWith1[0]+'-'+c2.get(Calendar.MONTH)+'-'+SplitWith1[2]);	
+					
+		            String gdate2=rdfm2.format(Cdfm2);
+		            
+		            c2.set(Calendar.YEAR, Integer.parseInt(gdate2));		            
+		            
+		            
+		            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		            
+		            String date1=sdf.format(c1.getTime());
+		            String date2=sdf.format(c2.getTime());
+					
+					if(Float.parseFloat(StrVar2[i])>=completed && date2.compareTo(date1)>=0)
 					{
 						String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) + ?";	
 						
 						
-						if(completed == 0) {
-							updateQry = updateQry + ", actual_start = ?";
-						}
-						
-						
-						if((completed+actual) > 0 && scope == (completed+actual)) 
+						if(!StringUtils.isEmpty(obj.getProgress_date())) 
 						{
-							updateQry = updateQry + ", actual_finish = ? ";						
+							if(completed == 0) {
+								updateQry = updateQry + ", actual_start = ?";
+							}
+							
+							
+							if((completed+actual) > 0 && scope == (completed+actual)) 
+							{
+								updateQry = updateQry + ", actual_finish = ? ";						
+							}
 						}
 						
 						if(!StringUtils.isEmpty(StrVar[i])) 
@@ -936,25 +1013,52 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 						updateStmt = con.prepareStatement(updateQry);
 							
 						int k = 1;
-						
 						updateStmt.setString(k++, String.valueOf(actual) );	
+
 						
-						if(completed == 0) {
-							updateStmt.setString(k++, obj.getProgress_date() );	
-						}
-						if((completed+actual) > 0 && scope == (completed+actual)) {
-							updateStmt.setString(k++, obj.getProgress_date());						
+						if(!StringUtils.isEmpty(obj.getProgress_date())) 
+						{	
+
+							
+					    	Calendar c4 = Calendar.getInstance();
+					    	String[] SplitWith4=obj.getProgress_date().split("-");
+							
+				            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
+				            c4.setTime(PrFormat.parse(SplitWith4[1]));
+				            c4.set(Calendar.DATE, Integer.parseInt(SplitWith4[0]));
+				            
+							DateFormat dfm = new SimpleDateFormat("dd-MM-yy");
+							DateFormat rdfm = new SimpleDateFormat("YYYY");
+							Date Cdfm=dfm.parse(SplitWith4[0]+'-'+c4.get(Calendar.MONTH)+'-'+SplitWith4[2]);	
+							
+				            String gdate=rdfm.format(Cdfm);
+				            
+				            c4.set(Calendar.YEAR, Integer.parseInt(gdate));		            
+				            
+				            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				            
+				            String Prdate=df.format(c4.getTime());						
+							
+						
+						
+							if(completed == 0) {
+								updateStmt.setString(k++, Prdate );	
+							}
+							if((completed+actual) > 0 && scope == (completed+actual)) 
+							{
+								updateStmt.setString(k++, Prdate);						
+							}
 						}
 						
 						if(!StringUtils.isEmpty(StrVar[i])) 
 						{
-							updateStmt.setString(k++, DateParser.parse(StrVar[i]) );	
+							updateStmt.setString(k++, DateParser.parse(date1) );	
 						}
 
 						
 						if(!StringUtils.isEmpty(StrVar1[i])) 
 						{
-							updateStmt.setString(k++, DateParser.parse(StrVar1[i]) );	
+							updateStmt.setString(k++, DateParser.parse(date2) );	
 						}	
 						
 						
@@ -968,6 +1072,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 						flag=true;
 					}
 				}
+			}
 				/*}*/
 				
 				/********************************************************************************/

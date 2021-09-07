@@ -479,7 +479,7 @@ public class TrainingController {
 				}
 				
 				XSSFRow headingRow2 = attendeesSheet.createRow(0);
-	            String headerString2 = "Training^Session No^Department^Name of attendee in the meenting^HOD^Mobile No^E-mail^Required (Yes / No)^Participated (Yes / No)";
+	            String headerString2 = "Training^Session No^Department^Name of attendee in the meenting^Designation^HOD^Mobile No^E-mail^Required (Yes / No)^Participated (Yes / No)";
 	            
 	            String[] thirdHeaderStringArr = headerString2.split("\\^");
 	            
@@ -513,6 +513,10 @@ public class TrainingController {
 	                cell2 = row.createCell(a++);
 					cell2.setCellStyle(sectionStyle);
 					cell2.setCellValue(obj.getAttendee());
+					
+	                cell2 = row.createCell(a++);
+					cell2.setCellStyle(sectionStyle);
+					cell2.setCellValue(obj.getDesignation());					
 					
 	                cell2 = row.createCell(a++);
 					cell2.setCellStyle(sectionStyle);

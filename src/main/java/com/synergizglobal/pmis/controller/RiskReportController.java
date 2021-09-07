@@ -307,8 +307,8 @@ public class RiskReportController {
 			
 			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
-			String headerTextMiddle = "Summary of Risk Assessment of Projects";
-			//String headerTextMiddle = "";
+			//String headerTextMiddle = "Summary of Risk Assessment of Projects";
+			String headerTextMiddle = "";
 
 			String headerTextRight = report_created_date;
 			

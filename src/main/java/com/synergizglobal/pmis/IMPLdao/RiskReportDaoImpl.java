@@ -248,7 +248,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 					+ "order by total_risk_rating desc limit 5";
 			
 					
-			//objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

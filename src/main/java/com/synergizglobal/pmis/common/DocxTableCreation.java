@@ -1961,8 +1961,8 @@ public class DocxTableCreation {
 			
 			
 			/****************************************************************************/
-			addParagraph(mp, factory);
-			
+			//addParagraph(mp, factory);
+			addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,calibriBold13RPr,"Summary of Risk Assessment of Projects");
 			Tbl table = factory.createTbl();
 			addBorders(table, "2");
 		

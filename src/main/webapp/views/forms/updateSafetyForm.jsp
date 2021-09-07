@@ -259,9 +259,16 @@
 								    <input type="hidden" id="committee_formed_fk" name="committee_formed_fk" value="No"/>
 							    </div>
                                 <div class="col s12 m4 input-field hidden" id="committee_member_div">                                 	
-                                    <input id="committe_member_name" name="committe_member_name" type="text" class="validate" value="${safety.committe_member_name }">
-                                    <label for="committe_member_name">Name of Committee member</label>
-                                    <span id="committe_member_nameError" class="error-msg" ></span> 
+                                   <%--  <input id="committee_member_name" name="committee_member_name" type="text" class="validate" value="${safety.committee_member_name }">
+                                    <label for="committee_member_name">Name of Committee member</label> --%>
+                                     <p style="color: #aaa;font-size:0.85rem;" >Name of Committee member</p>
+                                    <select id="committee_member_name" name="committee_member_name" class="searchable">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${usersList }"> 
+                                                    <option value="${obj.user_id }" <c:if test="${safety.committee_member_name eq obj.user_id }">selected</c:if>> ${obj.designation } - ${obj.user_name }</option>
+                                        </c:forEach> 
+                                    </select>
+                                    <span id="committee_member_nameError" class="error-msg" ></span> 
                                 </div>  
                             </div>
                             <div class="row">                             
@@ -461,6 +468,10 @@
             $('#remarks').characterCounter();
             var reporting_to_id_srfk = "${safety.hod_user_id_fk }";
             getResponsiblePersonsList(reporting_to_id_srfk);
+            
+            if($('#committee_required').is(":checked")){
+           	 $('#committee_member_div').removeClass('hidden');
+           }
             if(user_type == 'HOD' || user_role == 'IT Admin'){}
             else{
             	$("#status_fk option[value='Closed']").remove();
@@ -513,7 +524,7 @@
             if ($.trim(work_id_fk) != '') {
             	getContractsList(work_id_fk);
             }
-            
+           
             $('#committee_required').change(function(){
                 if(this.checked){
                     $('#committee_formed_div').removeClass('hidden');

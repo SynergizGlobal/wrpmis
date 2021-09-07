@@ -616,14 +616,14 @@ public class DocxTableCreation {
 			Tr titleRow = factory.createTr();		
 			List<String> tableHeader = new ArrayList<String>();
 			tableHeader.add("S\nNo");
-			tableHeader.add("Name\nof\nWork");
+			tableHeader.add("Name\nof\nWork / Contractor");
 			tableHeader.add("HOD");
-			tableHeader.add("Name of\nContractor"); 
-			tableHeader.add("Location\n/Station\n/KM.");
+			//tableHeader.add("Name of\nContractor"); 
+			tableHeader.add("Date/ Location");
 			tableHeader.add("Description");
-			tableHeader.add("Date of\nIncident");
-			tableHeader.add("Impact");			
-			tableHeader.add("Category");			
+			//tableHeader.add("Date of\nIncident");
+			tableHeader.add("Impact/\nCategory");			
+			//tableHeader.add("Category");			
 			tableHeader.add("Root\nCause");
 			tableHeader.add("Committee\n(Y/N)");			
 			tableHeader.add("Incident Status");
@@ -644,22 +644,19 @@ public class DocxTableCreation {
 				
 				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
 						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_id_fk()+" - "+pObj.getWork_short_name(),
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_short_name()+"/ \n "+pObj.getContractor_name(),
 						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
 						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getContractor_name(),
-						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getLocation(),
+				;
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getDate()+"\n "+pObj.getLocation(),
 						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
 						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getDate(),
-						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getImpact_fk(),
+								
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getImpact_fk()+"/ "+pObj.getCategory_fk(),
 						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getCategory_fk(),
-						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+			
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getRoot_cause_fk(),
 						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);					
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getCommittee_formed_fk(),

@@ -441,6 +441,9 @@ public class SafetyController {
 			List<Safety> unitsList = safetyService.getUnitsList(obj);
 			model.addObject("unitsList", unitsList);
 			
+			List<Safety> usersList = safetyService.getUersList(obj);
+			model.addObject("usersList", usersList);
+			
 			List<Safety> hodList = safetyService.getHODListForSafetyForm(obj);
 			model.addObject("hodList", hodList);
 			

@@ -9,7 +9,7 @@ public class Safety {
 	category_fk,impact_fk,root_cause_fk,status_fk,closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,
 	investigation_completed,corrective_measure_short_term,corrective_measure_long_term,compensation,payment_date,remarks,short_description,work_short_name,
 	category,impact,root_cause,status,contract_id,contract_name,work_id_fk,work_name,project_id_fk,project_name,status_remark_fk,
-	department,department_name,attachment,contract_short_name,hod_user_id_fk,committe_member_name,designation,hod_name,reporting_to_id_srfk,user_name,user_id,contractor_name,safety_id_fk,compensation_units,id, unit, value,compensation_unit;
+	department,department_name,attachment,contract_short_name,hod_user_id_fk,committee_member_name,designation,hod_name,reporting_to_id_srfk,user_name,user_id,contractor_name,safety_id_fk,compensation_units,id, unit, value,compensation_unit;
 
 	private MultipartFile safetyFile;
 	
@@ -26,12 +26,12 @@ public class Safety {
 		this.user_id = user_id;
 	}
 
-	public String getCommitte_member_name() {
-		return committe_member_name;
+	public String getCommittee_member_name() {
+		return committee_member_name;
 	}
 
-	public void setCommitte_member_name(String committe_member_name) {
-		this.committe_member_name = committe_member_name;
+	public void setCommittee_member_name(String committee_member_name) {
+		this.committee_member_name = committee_member_name;
 	}
 
 	public String getUser_name() {

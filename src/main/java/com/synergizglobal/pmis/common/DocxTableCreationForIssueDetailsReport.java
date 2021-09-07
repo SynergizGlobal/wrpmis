@@ -92,9 +92,7 @@ public class DocxTableCreationForIssueDetailsReport {
 				false, false, false, false);
 		
 		
-		/****************************************************************************/
-		
-		
+		/****************************************************************************/		
 			
 			Tbl titleTable = factory.createTbl();
 			addBorders(titleTable, "2");

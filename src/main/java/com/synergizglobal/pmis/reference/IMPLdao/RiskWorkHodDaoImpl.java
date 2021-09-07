@@ -27,7 +27,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 	public List<TrainingType> getRiskWorkHODDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		try {
-			String qry ="select risk_work_hod_id, work_id_fk,sub_work, risk_work_completed,hod_user_id_fk,u.designation,w.work_short_name,priority,wh.work_short_name "
+			String qry ="select risk_work_hod_id, work_id_fk,sub_work, risk_work_completed,hod_user_id_fk,u.designation,w.work_short_name,priority,wh.short_name "
 					+ "from risk_work_hod wh "
 					+ "left join work w on wh.work_id_fk = w.work_id "
 					+ "left join user u on wh.hod_user_id_fk = u.user_id "
@@ -74,7 +74,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 			}
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO risk_work_hod"
-					+ "( work_id_fk,sub_work, hod_user_id_fk,risk_work_completed,priority,work_short_name) VALUES (:work_id_fk,:sub_work, :hod_user_id_fk, :risk_work_completed,:priority,:work_short_name)";
+					+ "( work_id_fk,sub_work, hod_user_id_fk,risk_work_completed,priority,short_name) VALUES (:work_id_fk,:sub_work, :hod_user_id_fk, :risk_work_completed,:priority,:short_name)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -99,7 +99,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 			}
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "UPDATE risk_work_hod set "
-					+ "work_id_fk= :work_id_fk_new, hod_user_id_fk= :hod_user_id_fk_new,sub_work= :sub_work_new,risk_work_completed= :risk_work_completed_new,priority= :priority,work_short_name=:work_short_name where risk_work_hod_id = :risk_work_hod_id";
+					+ "work_id_fk= :work_id_fk_new, hod_user_id_fk= :hod_user_id_fk_new,sub_work= :sub_work_new,risk_work_completed= :risk_work_completed_new,priority= :priority,short_name=:short_name where risk_work_hod_id = :risk_work_hod_id";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			

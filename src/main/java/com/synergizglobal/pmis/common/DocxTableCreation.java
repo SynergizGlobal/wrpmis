@@ -1949,6 +1949,8 @@ public class DocxTableCreation {
 			
 			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
 					true, false, false, false);
+			RPr calibriBold13RPr = getRPr(factory, "Calibri", "000000", "26", STHint.EAST_ASIA,
+					true, false, false, false);
 			RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
 					true, false, false, false);	
 			
@@ -2099,6 +2101,47 @@ public class DocxTableCreation {
 			
 			setTableAlignFixed(factory, table, JcEnumeration.CENTER);
 			mp.addObject(table);
+			
+			/****************************************************************************/
+			
+			if(!StringUtils.isEmpty(top5RiskAreas)) {		        
+		        addPageBreak(mp);
+		        addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,calibriBold13RPr,"Top Five Risk Areas of MRVC Projects");
+		        Tbl reportTable = factory.createTbl();
+				addBorders(reportTable, "2");
+				
+				
+				titleRow = factory.createTr();		
+				tableHeader = new ArrayList<String>();
+				tableHeader.add("S NO.");
+				tableHeader.add("Area");
+				tableHeader.add("Sub Area");
+				
+				for (String headerValue : tableHeader) {
+					addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
+							JcEnumeration.CENTER, true, "ecf2ff");
+				}		
+				reportTable.getContent().add(titleRow);
+				int row = 1;
+				for (RiskReport pObj : top5RiskAreas) {
+					boolean hasBgColor = false;
+					String backgroundColor = null;
+					Tr contentRow = factory.createTr();	
+					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(row++),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getArea(),
+							garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, pObj.getSub_area(),
+							garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					
+					reportTable.getContent().add(contentRow);
+				}			
+				/****************************************************************************************/			
+				
+				setTableAlign(factory, reportTable, JcEnumeration.CENTER);
+				mp.addObject(reportTable);
+				
+			}
 		} catch (Exception e) {
 			throw new Exception(e);
 		}

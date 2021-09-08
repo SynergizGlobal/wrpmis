@@ -41,7 +41,7 @@
          		width:12vw !important;
         		max-width:12vw;
          } */
-         /* .fw-100{
+         .fw-100{
         	width:100px !important;
         	max-width:100px;
         }
@@ -56,7 +56,7 @@
 		.fw-250{
         	width:250px !important;
         	max-width:250px;
-        } */
+        } 
            @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,

@@ -472,7 +472,9 @@
                     columnDefs: [
                         { targets: [10], className: 'btn-holder' },
                         { targets: 'no-sort', orderable: false, },
-                        { targets: [1], className: 'fw-200'  },
+                        { targets: [1], className: 'fw-150'  },
+                        { targets: [2], className: 'fw-150'  },
+                        { targets: [5], className: 'fw-200'  },
                     ],
                     //'order': [1, 'asc'],
                     "ScrollX": true,

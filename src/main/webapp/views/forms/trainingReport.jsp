@@ -74,7 +74,7 @@
 	                                        <select class="searchable validate-dropdown" id="attendee" name="attendee">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${employees }">
-	                                            	<option value="${obj.attendee }">${obj.attendee } </option>
+	                                            	<option value="${obj.user_id }">${obj.user_name } </option>
 	                                            </c:forEach>
 	                                        </select>
 	                                        <span id="attendeeError" class="error-msg" ></span>

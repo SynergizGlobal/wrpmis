@@ -520,7 +520,7 @@ public class TrainingController {
 					
 	                cell2 = row.createCell(a++);
 					cell2.setCellStyle(sectionStyle);
-					cell2.setCellValue(obj.getDesignation());
+					cell2.setCellValue(obj.getHod_user_id_fk());
 					
 	                cell2 = row.createCell(a++);
 					cell2.setCellStyle(sectionStyle);

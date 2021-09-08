@@ -12,7 +12,7 @@ public class Training {
 	title, description, training_center, status_fk, remarks,training_attendees_id, training_id_fk, training_session_id_fk, 
 	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours,department_name,
 	is_there_issue,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name ,
-	date,session_remarks,nominated,attended,attachment,user_id,reporting_to,reporting_to_designation,trainee_designation,is_new_user,email;
+	date,session_remarks,nominated,attended,attachment,user_id,reporting_to,reporting_to_designation,trainee_designation,is_new_user,email,user_type_fk;
 
 	private MultipartFile trainingFile;
 	
@@ -29,7 +29,15 @@ public class Training {
 	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees,trainee_designations, mobile_nos, required_fks, participated_fks,
 	training_session_ids, session_nos, start_times, end_times, remarkss,hod_user_id_fks,trainingSessionFileNames,is_new_users,emails;
  
-    public String getEmail() {
+    public String getUser_type_fk() {
+		return user_type_fk;
+	}
+
+	public void setUser_type_fk(String user_type_fk) {
+		this.user_type_fk = user_type_fk;
+	}
+
+	public String getEmail() {
 		return email;
 	}
 

@@ -733,7 +733,7 @@
          	
               if ($.trim(training_category_fk) == "") {
               	$("#training_category_fk option:not(:first)").remove();
-              	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk};
+              	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk,title :title};
                   $.ajax({
                       url: "<%=request.getContextPath()%>/ajax/getTrainingCategorysFilterListInTraining",
                       data: myParams, cache: false,async: false,
@@ -757,23 +757,23 @@
           }
      	 
      	 
-     	 function getTrainingTitlesFilterList(title) {
+     	 function getTrainingTitlesFilterList(title_fk) {
            	$(".page-loader").show();
            	var training_type_fk = $("#training_type_fk").val();
           	var training_category_fk = $("#training_category_fk").val();
           	var title = $("#training_title_fk").val();
           	var status_fk = $("#status_fk").val();
           	
-               if ($.trim(training_category_fk) == "") {
+               if ($.trim(title) == "") {
                	$("#training_title_fk option:not(:first)").remove();
-               	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk,status_fk : status_fk,title:title};
+               	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk, title : title};
                    $.ajax({
                        url: "<%=request.getContextPath()%>/ajax/getTrainingTitlesFilterListInTraining",
                        data: myParams, cache: false,async: false,
                        success: function (data) {
                            if (data.length > 0) {
                                $.each(data, function (i, val) {
-                             	   var selectedFlag = (title == val.title)?'selected':'';
+                             	   var selectedFlag = (title_fk == val.title)?'selected':'';
        	                           $("#training_title_fk").append('<option value="' + val.title + '"'+selectedFlag+'>' + $.trim(val.title)  + '</option>');
                                });
                            }

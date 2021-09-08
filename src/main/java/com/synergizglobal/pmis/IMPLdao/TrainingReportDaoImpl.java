@@ -29,8 +29,10 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 	public List<Training> getEmployeesInTraining(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
-			String qry ="select department_fk,attendee,hod_user_id_fk,mobile_no "
-					+ "from training_attendees GROUP BY attendee ORDER BY attendee ASC";
+			String qry ="select ta.user_id,department_fk,user_name ,designation  "
+					+ "from training_attendees ta "
+					+ "LEFT JOIN user u on ta.user_id = u.user_id "
+					+ "GROUP BY ta.user_id ORDER BY ta.user_id ASC";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -148,11 +150,12 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 		    	
 		    	if(!StringUtils.isEmpty(sessonObjsList) && !sessonObjsList.isEmpty()) {
 			    	for (Training sObj : sessonObjsList) {
-			    		String attendeesQry = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee, hod_user_id_fk,"
-			    				+ "mobile_no, required_fk, participated_fk,user_id,u.designation as reporting_to,ta.designation as trainee_designation " 
+			    		String attendeesQry = "select training_attendees_id,d.department_name,u.user_name, training_id_fk, training_session_id_fk, u.department_fk,"
+			    				+ " required_fk, participated_fk,ta.user_id,u1.designation as reporting_to,u.designation as trainee_designation " 
 								+ "from training_attendees ta "
-								+ "LEFT JOIN department d on ta.department_fk = d.department "
-								+ "LEFT JOIN user u on ta.hod_user_id_fk = u.user_id "
+								+ "LEFT JOIN user u on ta.user_id = u.user_id "
+								+ "LEFT JOIN user u1 on u.reporting_to_id_srfk = u1.user_id "
+								+ "LEFT JOIN department d on u.department_fk = d.department "
 								+ "where training_id_fk = ? and  training_session_id_fk = ? ";
 						
 			    		List<Training> attendeesObjsList = jdbcTemplate.query(attendeesQry, new Object[] {sObj.getTraining_id_fk(),sObj.getTraining_session_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
@@ -172,18 +175,19 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 	public List<Training> getEmployeeTrainings(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
-			String attendeesQry = "select training_attendees_id,d.department_name, ta.training_id_fk, ta.training_session_id_fk, ta.department_fk, attendee, hod_user_id_fk,"
-    				+ "mobile_no, required_fk, participated_fk,user_id,u.designation as reporting_to,u.designation as reporting_to_designation,ta.designation as trainee_designation,"
-    				+ "(select count(*) from training_attendees where attendee= ? and required_fk = ?) as nominated,"
-    				+ "(select count(*) from training_attendees where attendee= ? and participated_fk = ?) as attended,"
+			String attendeesQry = "select training_attendees_id,d.department_name, ta.training_id_fk, ta.training_session_id_fk, u.department_fk, "
+    				+ "required_fk, participated_fk,ta.user_id, (SELECT u1.designation FROM user u join user u1 on u.reporting_to_id_srfk = u1.user_id where u.user_id = ?) as reporting_to"
+    				+ ",u.designation as reporting_to_designation,u.designation as trainee_designation,u.user_name,"
+    				+ "(select count(*) from training_attendees where user_id= ? and required_fk = ?) as nominated,"
+    				+ "(select count(*) from training_attendees where user_id= ? and participated_fk = ?) as attended,"
     				+ "training_center,session_no,title,description,training_category_fk as category,DATE_FORMAT(start_time,'%d-%m-%Y') AS date,status_fk " 
 					+ "from training_attendees ta "
-					+ "LEFT JOIN department d on ta.department_fk = d.department "
-					+ "LEFT JOIN user u on ta.hod_user_id_fk = u.user_id "
+					+ "LEFT JOIN user u on ta.user_id = u.user_id "
+					+ "LEFT JOIN department d on u.department_fk = d.department "
 					+ "LEFT JOIN training t on ta.training_id_fk = t.training_id "
 					+ "LEFT JOIN training_session ts on ta.training_session_id_fk = ts.training_session_id "
-					+ "where attendee = ? ORDER BY start_time desc";
-			Object[] pValues = new Object[] {obj.getAttendee(),CommonConstants.YES,obj.getAttendee(),CommonConstants.YES,obj.getAttendee()};
+					+ "where ta.user_id = ? ORDER BY start_time desc";
+			Object[] pValues = new Object[] {obj.getAttendee(),obj.getAttendee(),CommonConstants.YES,obj.getAttendee(),CommonConstants.YES,obj.getAttendee()};
     		objsList = jdbcTemplate.query(attendeesQry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	
 			
 		}catch(Exception e){ 
@@ -248,12 +252,13 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 		    	
 		    	if(!StringUtils.isEmpty(sessonObjsList) && !sessonObjsList.isEmpty()) {
 			    	for (Training sObj : sessonObjsList) {
-			    		String attendeesQry = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee, hod_user_id_fk,"
-			    				+ "mobile_no, required_fk, participated_fk,user_id,u.designation as reporting_to,ta.designation as trainee_designation,"
+			    		String attendeesQry = "select training_attendees_id,d.department_name,u.user_name, training_id_fk, training_session_id_fk, u.department_fk,"
+			    				+ " required_fk, participated_fk,ta.user_id,u1.designation as reporting_to,u.designation as trainee_designation,"
 			    				+ "(select count(*) from training_attendees where required_fk = ? and training_id_fk = ? and training_session_id_fk = ?) as nominated,(select count(*) from training_attendees where participated_fk = ? and training_id_fk = ? and training_session_id_fk = ?) as attended " 
 								+ "from training_attendees ta "
-								+ "LEFT JOIN department d on ta.department_fk = d.department "
-								+ "LEFT JOIN user u on ta.hod_user_id_fk = u.user_id "
+								+ "LEFT JOIN user u on ta.user_id = u.user_id "
+								+ "LEFT JOIN user u1 on u.reporting_to_id_srfk = u1.user_id "
+								+ "LEFT JOIN department d on u.department_fk = d.department "
 								+ "where training_id_fk = ? and  training_session_id_fk = ? ";
 						pValues = new Object[] {CommonConstants.YES,sObj.getTraining_id_fk(),sObj.getTraining_session_id(),CommonConstants.YES,sObj.getTraining_id_fk(),sObj.getTraining_session_id(),sObj.getTraining_id_fk(),sObj.getTraining_session_id()};
 			    		List<Training> attendeesObjsList = jdbcTemplate.query(attendeesQry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	

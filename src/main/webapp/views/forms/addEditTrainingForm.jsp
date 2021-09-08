@@ -516,7 +516,7 @@
 																										<select class="searchable no-reset validate-dropdown" name="attendees" id="attendees0${indexx.count }${index.count }${indexx.count }" onchange="setDepartment('0${indexx.count }${index.count }${indexx.count }');">
 																											<option value="">Select Attendee</option>
 																											<c:forEach var="obj" items="${dObj.attendeesList}">
-																												<option name="${obj.department_fk }" value="${obj.attendee }" <c:if test="${dObj.attendee eq obj.attendee }">selected</c:if>>${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>
+																												<option name="${obj.department_fk }" value="${obj.user_id }" <c:if test="${dObj.attendee eq obj.attendee }">selected</c:if>>${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>
 																											</c:forEach>
 																										 </select>
 																									</td>
@@ -569,7 +569,7 @@
 																									<select class="searchable validate-dropdown" name="attendees" id="attendees0${index.count }" onchange="setDepartment('0${index.count }');">
 																											<option value="">Select Attendee</option>
 																										 	<c:forEach var="obj" items="${attendeesList}">
-																												<option name="${obj.department_fk }" value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>
+																												<option name="${obj.department_fk }" value="${obj.user_id }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>
 																											</c:forEach> 
 																								    </select> 
 																								</td>	
@@ -980,7 +980,7 @@
 																                                    id="attendees0" onchange="setDepartment(0);">   
 																                                    <option value="" >Select Attendee</option>
 																                                   <c:forEach var="obj" items="${attendeesList}">
-																										'<option name="${obj.department_fk }" value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
+																										'<option name="${obj.department_fk }" value="${obj.user_id }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
 																									</c:forEach>                                  
 																                                </select>
 																                                </td>
@@ -1389,9 +1389,9 @@
                               if ($.trim(val.designation) != '') { designation = $.trim(val.designation)+" - " }
                              
                              if ($.trim(val.attendee) != '') {
-                                  $("#attendees"+count).append('<option name="' + val.department_fk + '" value="' + val.attendee + '" >'  +  $.trim(designation) + $.trim(userName) + '</option>');
+                                  $("#attendees"+count).append('<option name="' + val.department_fk + '" value="' + val.user_id + '" >'  +  $.trim(designation) + $.trim(userName) + '</option>');
                               } else {
-                                  $("#attendees"+count).append('<option name="' + val.department_fk + '" value="' + val.attendee + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
+                                  $("#attendees"+count).append('<option name="' + val.department_fk + '" value="' + val.user_id + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
                               }
                          });
                      }
@@ -1664,7 +1664,7 @@
 	                '<td data-head="Attendee" class="input-field attendee-dropdown"><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo +tNo+'" onchange="setDepartment('+ rNo +tNo+');">'+
 					'<option value="">Select Attendee</option>'+
 						 <c:forEach var="obj" items="${attendeesList}">
-							'<option name="${obj.department_fk }" value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
+							'<option name="${obj.department_fk }" value="${obj.user_id }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
 						</c:forEach> 
 					'</select></td><input type="hidden" name="hod_user_id_fks"/><input type="hidden"  name="emails" class="no-reset" /><input type="hidden" name="trainee_designations"/><input type="hidden" name="mobile_nos"/>' +	                
 	                '<td data-head="Nominated" class="input-field"><p class="disp-init"><label><input type="hidden" name="required_fks" id="required_fk'+ rNo +tNo+'" value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
@@ -1771,7 +1771,7 @@
       	  $("#rowsCounts"+rNo).val(values);
           var i = 13;
           
-          
+        /*   
           if($("#training_id").val()>0)
         	  {
           
@@ -1803,7 +1803,7 @@
 		    	 '</select></td><input type="hidden"  name="is_new_users"/>'+
 		    	 '<td data-head="Attendee" class="input-field attendee-dropdown"><select class="searchable no-reset validate-dropdown" name="attendees" id="attendees0${indexx.count }${index.count }${indexx.count }" onchange="setDepartment('+ rNo+i+');"><option value="">Select Attendee</option>'+
 		    	 <c:forEach var="obj" items="${dObj.attendeesList}">
-					'<option name="${obj.department_fk }" value="${obj.attendee }" <c:if test="${dObj.attendee eq obj.attendee }">selected</c:if>>${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
+					'<option name="${obj.department_fk }" value="${obj.user_id }" <c:if test="${dObj.attendee eq obj.attendee }">selected</c:if>>${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
 				</c:forEach>
 		         '</select></td><input type="hidden" name="hod_user_id_fks" class="no-reset" value="${dObj.hod_user_id_fk}" /><input type="hidden" name="trainee_designations" class="no-reset" value="${dObj.designation}" /><input type="hidden" name="mobile_nos" class="no-reset" value="${dObj.mobile_no}"/><input type="hidden"  name="emails" class="no-reset" value="${dObj.email}" ><td data-head="Nominated" class="input-field"><p class="disp-init"> <label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" /> '+
 		         '<input type="checkbox" id="required_fks'+ rNo+i+'"  class="required_fks" onChange="checkBox('+ rNo+i+')" <c:if test="${dObj.required_fk eq 'Yes'}">  checked</c:if> />'+
@@ -1864,7 +1864,7 @@
           
         	  }
           else
-        	  {
+        	  { */
         	  var html = '<tr id="trainingRow'+rNo+'">' +
               '<td data-head="Session No" class="input-field"><input type="hidden" name= "training_session_ids" id="training_session_ids'+rNo+'"  />'+
               ' <input id="session_nos'+ rNo +'" name="session_nos" type="text" class="validate" placeholder="Session No"> </td>' +
@@ -1886,7 +1886,7 @@
     		    	 '</select></td><input type="hidden"  name="is_new_users"/>'+
     		    	 '<td data-head="Attendee" class="input-field attendee-dropdown"><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo+i+'" onchange="setDepartment('+ rNo+i+');"><option value="">Select Attendee</option>'+
     		         <c:forEach var="obj" items="${attendeesList}">
-    		             '<option name="${obj.department_fk }" value="${obj.attendee }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
+    		             '<option name="${obj.department_fk }" value="${obj.user_id }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
     		         </c:forEach>
     		         '</select></td><input type="hidden" name="hod_user_id_fks"/><input type="hidden"  name="emails" class="no-reset" /><input type="hidden" name="trainee_designations"/><input type="hidden" name="mobile_nos"/><td data-head="Nominated" class="input-field"><p class="disp-init"> <label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" /> '+
     		         '<input type="checkbox" id="required_fks'+ rNo+i+'"  class="required_fks" onChange="checkBox('+ rNo+i+')" <c:if test="${dObj.required_fk eq 'Yes'}">  checked</c:if> />'+
@@ -1939,7 +1939,7 @@
              
               
               '<td class="mobile_btn_close right"> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';       	  
-        	  }
+        	 // }
           
           $('#trainingTableBody').append(html);
            

@@ -834,7 +834,7 @@ public class DocxTableCreation {
 						
 						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
 								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getAttendee(),
+						addTableCell(factory, wordMLPackage, contentRow, aObj.getUser_name(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getTrainee_designation(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
@@ -933,7 +933,7 @@ public class DocxTableCreation {
 		
 		String employeeName = null,trainee_designation = null,department = null, reportingTo = null,nominated = null, attended = null;
 		for (Training aObj : employeeTrainings) {
-			employeeName = aObj.getAttendee();
+			employeeName = aObj.getUser_name();
 			department = aObj.getDepartment_name();
 			reportingTo = aObj.getReporting_to();
 			nominated = aObj.getNominated();
@@ -1247,7 +1247,7 @@ public class DocxTableCreation {
 						
 						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
 								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getAttendee(),
+						addTableCell(factory, wordMLPackage, contentRow, aObj.getUser_name(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getTrainee_designation(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);

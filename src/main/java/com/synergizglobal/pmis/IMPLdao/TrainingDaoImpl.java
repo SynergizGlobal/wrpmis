@@ -1326,13 +1326,13 @@ public class TrainingDaoImpl implements TrainingDao{
 			String qry ="select  u.user_name as attendee,u.department_fk,u.designation from training_attendees ta "
 					+ "LEFT JOIN user u on ta.user_id = u.user_id  "
 					+ "LEFT JOIN department d on d.department = u.department_fk  "
-					+ "  where attendee <> '' ";
+					+ "  where u.user_name <> '' ";
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and u.department_fk = ?";
 				arrSize++;
 			}	
-			qry = qry + " GROUP BY attendee ";
+			qry = qry + " GROUP BY u.user_name ";
 			qry = qry + " ORDER BY CASE WHEN  user_type_fk IS NULL THEN 1 ELSE 0 END,FIELD( user_type_fk, 'Management','HOD','DYHOD','Officers ( Jr./Sr. Scale )','Others' ),u.designation";
 
 			Object[] pValues = new Object[arrSize];

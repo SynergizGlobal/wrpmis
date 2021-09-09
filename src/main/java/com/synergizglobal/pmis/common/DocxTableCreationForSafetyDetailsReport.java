@@ -332,13 +332,11 @@ public class DocxTableCreationForSafetyDetailsReport {
 				JcEnumeration.LEFT,  true, "ecf2ff");
 		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 				JcEnumeration.LEFT,  false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "Work Impact", garamondBoldRPr,
-				JcEnumeration.LEFT,  true, "ecf2ff");
+		
+		addTableCell(factory, wordMLPackage, titleTableRow, "LTI Hours", garamondBoldRPr,JcEnumeration.LEFT,  true, "ecf2ff");
 		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "LTI Hours", garamondBoldRPr,JcEnumeration.LEFT,  true, "ecf2ff");
-		
-
+		addTableCell(factory, wordMLPackage, titleTableRow, "Work Impact", garamondBoldRPr,JcEnumeration.LEFT,  true, "ecf2ff");
 		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 				JcEnumeration.LEFT,  false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
@@ -360,10 +358,11 @@ public class DocxTableCreationForSafetyDetailsReport {
 		  		addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getPeople_impact(), garamondRPr,JcEnumeration.LEFT, false, null);
 		  		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
-		  		addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getWork_impact(), garamondRPr,JcEnumeration.LEFT, false, null);
+		  		addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getLti_hours(), garamondRPr,JcEnumeration.LEFT, false, null);
+		  		
 		  		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
-		  		addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getLti_hours(), garamondRPr,JcEnumeration.LEFT, false, null);
+		  		addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getWork_impact(), garamondRPr,JcEnumeration.LEFT, false, null);
 		  		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 						JcEnumeration.LEFT, false, null);
 		  		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);

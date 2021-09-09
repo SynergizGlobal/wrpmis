@@ -248,11 +248,15 @@
 			
 			.modal.datepicker-modal > .modal-content,
 			.modal.timepicker-modal > .modal-content{
-			    padding:0;  
+			    padding:0 !important;  
 			}
 			.modal:not(.datepicker-modal){
 	        	max-height:80%;
 	        	width:85%;
+	        }
+	        .modal.datepicker-modal {
+	        	width:76%;
+	        	max-width:78%;
 	        }
 	        .pos-rel{
 	        	width:100%;	        
@@ -306,6 +310,18 @@
 		#msg-text{
 			text-align: left;
 			padding: 4px;
+		}
+		@media only screen and (max-width:450px){
+			.timepicker-digital-display{
+				min-height:150px;
+			}
+			.date-holder{
+			    font-size: 2rem;
+			    margin-bottom:3rem;
+			}
+			.date-holder >.date-text{
+			    font-size: 2.5rem;     
+			}
 		}
     </style>
 </head>

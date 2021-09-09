@@ -395,7 +395,8 @@
         	$("#status_fk").val("");
         	$('.searchable').select2();
         	window.localStorage.setItem("trainingFilters",'');
-        	getTraningList();
+        	//getTraningList();
+        	window.location.href= "<%=request.getContextPath()%>/training";
         }
         
         function addInQueType(training_type_fk){

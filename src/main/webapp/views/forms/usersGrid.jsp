@@ -674,7 +674,7 @@
                              $.each(data, function (i, val) {
                            	 	var designation = '';
                             	if ($.trim(val.designation) != '') { designation =  $.trim(val.designation) }  	    
-                            	var selectedFlag = (reporting_to == val.reporting_to_id_srfk)?'selected':'';
+                            	var selectedFlag = (reporting_to == val.user_id)?'selected':'';
                                	$("#reporting_to_id_srfk").append('<option value="' + val.user_id + '" '+selectedFlag+'>' + /* $.trim(val.reporting_to_name)  + */ designation +'</option>');
                              });
                          }

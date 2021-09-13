@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.TrainingReportDao;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.ContractResource;
 import com.synergizglobal.pmis.model.Training;
 @Repository
 public class TrainingReportDaoImpl implements TrainingReportDao{
@@ -31,7 +32,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 		try {
 			String qry ="select ta.user_id,department_fk,user_name ,designation  "
 					+ "from training_attendees ta "
-					+ "LEFT JOIN user u on ta.user_id = u.user_id "
+					+ "LEFT JOIN user u on ta.user_id = u.user_id where ta.user_id <> '' "
 					+ "GROUP BY ta.user_id ORDER BY ta.user_id ASC";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
@@ -48,7 +49,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 		try {
 			String qry ="select training_id,training_type_fk,training_category_fk,title,faculty_name,status_fk,designation, description, training_center, status_fk,remarks "
 					+ "from training "
-					+ "where training_id IS NOT NULL";
+					+ "where training_id IS NOT NULL and title <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				qry = qry + " and status_fk = ?";
@@ -279,5 +280,46 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+
+
+	@Override
+	public Training getEmployeeTrainingWithStatus(Training obj) throws Exception {
+		List<Training> statusList = null;
+		try {
+			String statusQry = "select training_attendees_id,d.department_name, ta.training_id_fk, ta.training_session_id_fk, u.department_fk, "
+    				+ "required_fk, participated_fk,ta.user_id, (SELECT u1.designation FROM user u join user u1 on u.reporting_to_id_srfk = u1.user_id where u.user_id = ?) as reporting_to"
+    				+ ",u.designation as reporting_to_designation,u.designation as trainee_designation,u.user_name,"
+    				+ "(select count(*) from training_attendees where user_id= ? and required_fk = ?) as nominated,"
+    				+ "(select count(*) from training_attendees where user_id= ? and participated_fk = ?) as attended,"
+    				+ "status_fk from training_attendees ta "
+					+ "LEFT JOIN user u on ta.user_id = u.user_id "
+					+ "LEFT JOIN department d on u.department_fk = d.department "
+					+ "LEFT JOIN training t on ta.training_id_fk = t.training_id "
+					+ "LEFT JOIN training_session ts on ta.training_session_id_fk = ts.training_session_id "
+					+ "where ta.user_id = ?  and status_fk in ('Completed','Scheduled') group by status_fk  order by field(status_fk,'Scheduled','Completed') ";
+			Object[] pValues = new Object[] {obj.getAttendee(),obj.getAttendee(),CommonConstants.YES,obj.getAttendee(),CommonConstants.YES,obj.getAttendee()};
+			statusList = jdbcTemplate.query(statusQry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	
+			obj.setStatusList(statusList);
+			for (Training dataList : statusList) {
+				String attendeesQry = "select training_attendees_id, participated_fk,ta.training_id_fk, ta.training_session_id_fk,"
+						+ "(select count(*) from training_attendees ta LEFT JOIN training t on ta.training_id_fk = t.training_id where user_id= ? and required_fk = ? and status_fk = ?) as nominated,"
+						+ "(select count(*) from training_attendees ta LEFT JOIN training t on ta.training_id_fk = t.training_id where user_id= ? and participated_fk = ? and status_fk = ?) as attended,"
+	    				+ "training_center,session_no,title,description,training_category_fk as category,DATE_FORMAT(start_time,'%d-%m-%Y') AS date,status_fk " 
+						+ "from training_attendees ta "
+						+ "LEFT JOIN user u on ta.user_id = u.user_id "
+						+ "LEFT JOIN training t on ta.training_id_fk = t.training_id "
+						+ "LEFT JOIN training_session ts on ta.training_session_id_fk = ts.training_session_id "
+						+ "where ta.user_id = ?  and status_fk = ?  ORDER BY start_time desc";
+				Object[] pValues1 = new Object[] {obj.getAttendee(),CommonConstants.YES,dataList.getStatus_fk(),obj.getAttendee(),CommonConstants.YES,dataList.getStatus_fk(),obj.getAttendee(),dataList.getStatus_fk()};
+				List<Training>	employeeList = jdbcTemplate.query(attendeesQry, pValues1, new BeanPropertyRowMapper<Training>(Training.class));	
+				dataList.setEmployeeReportList(employeeList);
+			}
+		
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return obj;
 	}
 }

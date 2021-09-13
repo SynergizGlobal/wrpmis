@@ -43,7 +43,7 @@
 	                                <div class="row no-mar">
 	                                    <div class="col s6 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="getHodListInDesignReport(this.value);">
+	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getHodListInDesignReport('');getDesignReport();">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
@@ -51,7 +51,7 @@
 	                                    
 	                                    <div class="col s6 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
-	                                        <select class="searchable validate-dropdown" id="hod" name="hod">
+	                                        <select class="searchable validate-dropdown" id="hod" name="hod" onchange="addInQueHOD(this.value);getDesignReport();">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="hodError" class="error-msg" ></span>
@@ -99,6 +99,8 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
+    var filtersMap = new Object();
+    var workid = "";
       	function getErrorMessage(jqXHR, exception) {
         	    var msg = '';
         	    if (jqXHR.status === 0) {
@@ -121,54 +123,122 @@
         
         
         $(document).ready(function(){
-        	getWorksListInDesignReport();
-        	getHodListInDesignReport("");
+        	getHodListInDesignReport('');
+        	   var filters = window.localStorage.getItem("designReportFilters");
+               
+               if($.trim(filters) != '' && $.trim(filters) != null){
+             	  var temp = filters.split('^'); 
+             	  for(var i=0;i< temp.length;i++){
+       	        	  if($.trim(temp[i]) != '' ){
+       	        		  var temp2 = temp[i].split('=');
+       		        	  if($.trim(temp2[0]) == 'hod' ){
+       		        		getHodListInDesignReport(temp2[1]);
+       		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+       		        		getWorksListInDesignReport(temp2[1]);
+       		        	  }
+       	        	  }
+       	          }
+                 }
+               getDesignReport();
+              
         });
         
-        function getWorksListInDesignReport() {
-        	$(".page-loader").show();
-           	$("#work_id_fk option:not(:first)").remove();
-           	var myParams = {}
-           	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getWorksListInDesignReport",
-                   data: myParams, cache: false,
-                   success: function (data) {
-                       if (data.length > 0) {
-                           $.each(data, function (i, val) {
-                           	 var workShortName = '';
-                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-   	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-                           });
-                       }
-                       $('.searchable').select2();
-                       $(".page-loader").hide();
-                   },error: function (jqXHR, exception) {
-    	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-   	   	     	  }
-            });
+        function addInQueHOD(hod){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('hod')) delete filtersMap[key];
+       		});
+        	if($.trim(hod) != ''){
+       	    	filtersMap["hod"] = hod;
+        	}
         }
         
-        function getHodListInDesignReport(work_id_fk){
+        function addInQueWork(work_id_fk){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('work_id_fk')) delete filtersMap[key];
+       	   	});
+          	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+          	}
+        } 
+        
+        function getDesignReport(){
+        	getWorksListInDesignReport('');
+        	//getHodListInDesignReport('');
+        	 workid = $('#work_id_fk').val()
+        	var work_id_fk = $('#work_id_fk').val();
+        	var hod = $('#hod').val();
+        	
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("designReportFilters", filters);
+    			});
+        	
+        }
+        function getWorksListInDesignReport(work) {
         	$(".page-loader").show();
-           	$("#hod option:not(:first)").remove();
-           	var myParams = {work_id_fk : work_id_fk}
-           	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getHodListInDesignReport",
-                   data: myParams, cache: false,
-                   success: function (data) {
-                       if (data.length > 0) {
-                           $.each(data, function (i, val) {
-                        	   $("#hod").append('<option value="' + $.trim(val.hod) + '">' + $.trim(val.hod) +'</option>');
-                           });
-                       }
-                       $('.searchable').select2();
-                       $(".page-loader").hide();
-                   },error: function (jqXHR, exception) {
-    	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-   	   	     	  }
-            });
+        	var work_id_fk = $('#work_id_fk').val();
+        	var hod = $('#hod').val();
+        	//$("#hod option:not(:first)").remove();
+        	if ($.trim(work_id_fk) == "") {
+	           	$("#work_id_fk option:not(:first)").remove();
+	           	var myParams = {}
+	           	$.ajax({
+	                   url: "<%=request.getContextPath()%>/ajax/getWorksListInDesignReport",
+	                   data: myParams, cache: false,async: false,
+	                   success: function (data) {
+	                       if (data.length > 0) {
+	                           $.each(data, function (i, val) {
+	                           	 var workShortName = '';
+	                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+	                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
+	   	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+	   	                         
+	                           });
+	                       }
+	                       $('.searchable').select2();
+	                       $(".page-loader").hide();
+	                   },error: function (jqXHR, exception) {
+	    	   			  $(".page-loader").hide();
+	   	   	          	  getErrorMessage(jqXHR, exception);
+	   	   	     	  }
+	              });
+        	}else{
+            	  $(".page-loader").hide();
+            }
+        }
+      
+        function getHodListInDesignReport(hodval){
+        	$(".page-loader").show(); 
+        	var work_id_fk = $('#work_id_fk').val();
+        	var hod = $('#hod').val();
+        	if( workid != work_id_fk){
+        		hod = "";
+        	}
+        	if ($.trim(hod) == "" ) {
+	           	$("#hod option:not(:first)").remove();
+	           	var myParams = {work_id_fk : work_id_fk}
+	           	$.ajax({
+	                   url: "<%=request.getContextPath()%>/ajax/getHodListInDesignReport",
+	                   data: myParams, cache: false,async: false,
+	                   success: function (data) {
+	                       if (data.length > 0) {
+	                           $.each(data, function (i, val) {
+	                        	   var selectedFlag = (hodval == val.hod)?'selected':'';
+	                        	   $("#hod").append('<option value="' + $.trim(val.hod) + '"'+selectedFlag+'>' + $.trim(val.hod) +'</option>');
+	                        	   i = data.length+1;
+	                           });
+	                       }
+	                       $('.searchable').select2();
+	                       $(".page-loader").hide();
+	                   },error: function (jqXHR, exception) {
+	    	   			  $(".page-loader").hide();
+	   	   	          	  getErrorMessage(jqXHR, exception);
+	   	   	     	  }
+	            });
+        	}else{
+          	  $(".page-loader").hide();
+          }
         }
         
         function generateReport() {

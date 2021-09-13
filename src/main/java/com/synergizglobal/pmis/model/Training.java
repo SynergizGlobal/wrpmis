@@ -25,11 +25,29 @@ public class Training {
 	private List<Training> attendeesList;
 	private List<Training> HODsList;
 	private List<Training> deptList;
+	private List<Training> statusList;
+	private List<Training> employeeReportList;
 	
 	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees,trainee_designations, mobile_nos, required_fks, participated_fks,
 	training_session_ids, session_nos, start_times, end_times, remarkss,hod_user_id_fks,trainingSessionFileNames,is_new_users,emails;
  
-    public String getUser_type_fk() {
+    public List<Training> getStatusList() {
+		return statusList;
+	}
+
+	public void setStatusList(List<Training> statusList) {
+		this.statusList = statusList;
+	}
+
+	public List<Training> getEmployeeReportList() {
+		return employeeReportList;
+	}
+
+	public void setEmployeeReportList(List<Training> employeeReportList) {
+		this.employeeReportList = employeeReportList;
+	}
+
+	public String getUser_type_fk() {
 		return user_type_fk;
 	}
 

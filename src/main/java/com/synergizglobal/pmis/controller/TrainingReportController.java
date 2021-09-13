@@ -83,12 +83,14 @@ import org.docx4j.wml.PPrBase.Spacing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -96,7 +98,9 @@ import com.synergizglobal.pmis.Iservice.TrainingReportService;
 import com.synergizglobal.pmis.common.DocxTableCreation;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Training;
+import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class TrainingReportController {
@@ -137,6 +141,46 @@ public class TrainingReportController {
 			logger.error("trainingReport : " + e.getMessage());
 		}
 		return model;
+	}
+	@RequestMapping(value = "/ajax/getScheduledListInTrainingReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Training> getScheduledListInTrainingReport(@ModelAttribute Training obj,HttpSession session) {
+		List<Training> scheduledTrainingTitles = null;
+		try {
+			obj.setStatus_fk("Scheduled");
+			scheduledTrainingTitles = service.getScheduledTrainingTitles(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getScheduledListInTrainingReport : " + e.getMessage());
+		}
+		return scheduledTrainingTitles;
+	}
+	
+	@RequestMapping(value = "/ajax/getEmployeesListInTrainingReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Training> getEmployeesListInTrainingReport(@ModelAttribute Training obj,HttpSession session) {
+		List<Training> employees = null;
+		try {
+			employees = service.getEmployeesInTraining(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getEmployeesListInTrainingReport : " + e.getMessage());
+		}
+		return employees;
+	}
+	
+	@RequestMapping(value = "/ajax/getCompletedListInTrainingReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Training> getCompletedListInTrainingReport(@ModelAttribute Training obj,HttpSession session) {
+		List<Training> completedTrainingTitles = null;
+		try {
+			obj.setStatus_fk("Completed");
+			completedTrainingTitles = service.getCompletedTrainingTitles(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getCompletedListInTrainingReporta : " + e.getMessage());
+		}
+		return completedTrainingTitles;
 	}
 	
 	@RequestMapping(value = "/generate-scheduled-training-report", method = {RequestMethod.GET,RequestMethod.POST})
@@ -277,6 +321,7 @@ public class TrainingReportController {
 			String report_created_date = df.format(new Date()); 
 			
 			List<Training> employeeTrainings = service.getEmployeeTrainings(obj);
+			Training employeeTraining = service.getEmployeeTrainingWithStatus(obj);
 			
 			boolean landscape = true;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
@@ -302,7 +347,7 @@ public class TrainingReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreation.createTableForEmployeeTrainingReport(wordMLPackage, mp, factory,employeeTrainings);
+			DocxTableCreation.createTableForEmployeeTrainingReport(wordMLPackage, mp, factory,employeeTrainings,employeeTraining);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	

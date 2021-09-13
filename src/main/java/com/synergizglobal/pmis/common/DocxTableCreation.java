@@ -742,7 +742,7 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Session NO", garamondBoldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Session No", garamondBoldRPr,
 							JcEnumeration.LEFT, true, "ecf2ff");
 					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getSession_no(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
@@ -899,7 +899,7 @@ public class DocxTableCreation {
 	}	
 
 	public static void createTableForEmployeeTrainingReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, List<Training> employeeTrainings) {
+			ObjectFactory factory, List<Training> employeeTrainings, Training employeeTraining) throws Exception {
 		RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
 				true, false, false, false);
 		
@@ -932,12 +932,10 @@ public class DocxTableCreation {
 				false, false, false, false);
 		
 		String employeeName = null,trainee_designation = null,department = null, reportingTo = null,nominated = null, attended = null;
-		for (Training aObj : employeeTrainings) {
+		for (Training aObj : employeeTraining.getStatusList()) {
 			employeeName = aObj.getUser_name();
 			department = aObj.getDepartment_name();
 			reportingTo = aObj.getReporting_to();
-			nominated = aObj.getNominated();
-			attended = aObj.getAttended();
 			trainee_designation = aObj.getTrainee_designation();
 			break;
 		}
@@ -946,137 +944,149 @@ public class DocxTableCreation {
 		/****************************************************************************/
 				
 					
-		Tbl titleTable = factory.createTbl();
-		addBorders(titleTable, "0");
+		
 		
 		/*===========================================================*/
-		Tr titleTableRow = factory.createTr();		
-		addTableCell(factory, wordMLPackage, titleTableRow, "Name of Employee", garamondBoldRPr,
-				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, employeeName, garamondRPr,
-				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
-				JcEnumeration.LEFT, false, null);
-	  	
-	  	addTableCell(factory, wordMLPackage, titleTableRow, "Designation", garamondBoldRPr,
-				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, trainee_designation, garamondRPr,
-				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
-				JcEnumeration.LEFT, false, null);
-		
-	  	titleTable.getContent().add(titleTableRow);		
-		mergeCellsHorizontal(titleTable, 0, 1, 2);
-		mergeCellsHorizontal(titleTable, 0, 4, 5);	
-		/*===========================================================*/
-		titleTableRow = factory.createTr();	
-		addTableCell(factory, wordMLPackage, titleTableRow, "Department", garamondBoldRPr,
-				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, department, garamondRPr,
-				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
-				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "Reporting To", garamondBoldRPr,
-				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, reportingTo, garamondRPr,
-				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
-				JcEnumeration.LEFT, false, null);
-		
-		
-	  	titleTable.getContent().add(titleTableRow);	
-		mergeCellsHorizontal(titleTable, 1, 1, 2);
-		mergeCellsHorizontal(titleTable, 1, 4, 5);
-		/*===========================================================*/
-		titleTableRow = factory.createTr();	
-		addTableCell(factory, wordMLPackage, titleTableRow, "Nominated", garamondBoldRPr,
-				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, nominated, garamondRPr,
-				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
-				JcEnumeration.LEFT, false, null);
-		
-		addTableCell(factory, wordMLPackage, titleTableRow, "Attended", garamondBoldRPr,
-				JcEnumeration.LEFT,  true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, attended, garamondRPr,
-				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
-				JcEnumeration.LEFT, false, null);
-		
-	  	titleTable.getContent().add(titleTableRow);	
-	  	mergeCellsHorizontal(titleTable, 2, 1, 2);
-		mergeCellsHorizontal(titleTable, 2, 4, 5);
-		/*===========================================================*/
-		
-		
-		setTableAlign(factory, titleTable, JcEnumeration.CENTER);
-		mp.addObject(titleTable);
-		
-		/****************************************************************/
-		Tbl table = factory.createTbl();
-		addBorders(table, "2");
-		
-		Tr titleRow = factory.createTr();		
-		List<String> tableHeader = new ArrayList<String>();
-		
-		
-		tableHeader.add("Title");
-		tableHeader.add("Description");
-		tableHeader.add("Session NO");
-		tableHeader.add("Training Date"); 
-		tableHeader.add("Attended");
-		
-		for (String headerValue : tableHeader) {
-			addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
-					JcEnumeration.CENTER, true, "ecf2ff");
-		}		
-		table.getContent().add(titleRow);
-		
-		for (Training aObj : employeeTrainings) {
-			boolean hasBgColor = false;
-			String backgroundColor = null;
-			Tr contentRow = factory.createTr();	
-		
-			addTableCell(factory, wordMLPackage, contentRow, aObj.getTitle(),
-					garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-			addTableCell(factory, wordMLPackage, contentRow, aObj.getDescription(),
-					garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-			addTableCell(factory, wordMLPackage, contentRow, aObj.getSession_no(),
-					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-			
-			addTableCell(factory, wordMLPackage, contentRow, aObj.getDate(),
-					garamondDateRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-			
-			addTableCell(factory, wordMLPackage, contentRow, aObj.getParticipated_fk(),
-					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-			
-			table.getContent().add(contentRow);
-		}
-		if(StringUtils.isEmpty(employeeTrainings) || employeeTrainings.isEmpty()) {
-			boolean hasBgColor = false;
-			String backgroundColor = null;
-			Tr contentRow = factory.createTr();	
-			
-			List<String> noDataRow = new ArrayList<String>();
-			noDataRow.add("NO TRAINING");
-			noDataRow.add("");
-			noDataRow.add("");
-			noDataRow.add("");
-			noDataRow.add("");
-			
-			for (String headerValue : noDataRow) {
-				addTableCell(factory, wordMLPackage, contentRow, headerValue, garamondRPr,
-						JcEnumeration.CENTER, hasBgColor, backgroundColor);
-			}		
-			table.getContent().add(contentRow);	
-			mergeCellsHorizontal(table, 1, 0, 4);
-		}
-		
-		setTableAlign(factory, table, JcEnumeration.CENTER);
-		mp.addObject(table);
-		
-	}
+		 for(Training statusList : employeeTraining.getStatusList()) {
+			 for (Training aObj : statusList.getEmployeeReportList()) {
+				 attended = aObj.getAttended();
+				 nominated = aObj.getNominated();
+				 break;
+			 }
+			 Tbl titleTable = factory.createTbl();
+			 addHeading(wordMLPackage, mp, factory,JcEnumeration.LEFT,calibriBoldRPr,"Status : "+statusList.getStatus_fk());
 
+				addBorders(titleTable, "0");
+			Tr titleTableRow = factory.createTr();		
+		
+			addTableCell(factory, wordMLPackage, titleTableRow, "Name of Employee", garamondBoldRPr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, employeeName, garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "Designation", garamondBoldRPr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, trainee_designation, garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			
+		  	titleTable.getContent().add(titleTableRow);		
+			mergeCellsHorizontal(titleTable, 0, 1, 2);
+			mergeCellsHorizontal(titleTable, 0, 4, 5);	
+			/*===========================================================*/
+			titleTableRow = factory.createTr();	
+			addTableCell(factory, wordMLPackage, titleTableRow, "Department", garamondBoldRPr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, department, garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "Reporting To", garamondBoldRPr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, reportingTo, garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			
+			
+		  	titleTable.getContent().add(titleTableRow);	
+			mergeCellsHorizontal(titleTable, 1, 1, 2);
+			mergeCellsHorizontal(titleTable, 1, 4, 5);
+			/*===========================================================*/
+			titleTableRow = factory.createTr();	
+			addTableCell(factory, wordMLPackage, titleTableRow, "Nominated", garamondBoldRPr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, nominated, garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			
+			addTableCell(factory, wordMLPackage, titleTableRow, "Attended", garamondBoldRPr,
+					JcEnumeration.LEFT,  true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, attended, garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, 2, 1, 2);
+			mergeCellsHorizontal(titleTable, 2, 4, 5);
+			/*===========================================================*/
+			
+			
+			setTableAlign(factory, titleTable, JcEnumeration.CENTER);
+			mp.addObject(titleTable);
+			
+			/****************************************************************/
+			Tbl table = factory.createTbl();
+			addBorders(table, "2");
+			
+			Tr titleRow = factory.createTr();		
+			List<String> tableHeader = new ArrayList<String>();
+			
+			
+			tableHeader.add("Title");
+			tableHeader.add("Description");
+			tableHeader.add("Session No");
+			tableHeader.add("Training Date"); 
+			tableHeader.add("Attended");
+			
+			for (String headerValue : tableHeader) {
+				addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
+						JcEnumeration.CENTER, true, "ecf2ff");
+			}		
+			table.getContent().add(titleRow);
+			
+			for (Training aObj : statusList.getEmployeeReportList()) {
+				boolean hasBgColor = false;
+				String backgroundColor = null;
+				Tr contentRow = factory.createTr();	
+			
+				addTableCell(factory, wordMLPackage, contentRow, aObj.getTitle(),
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, aObj.getDescription(),
+						garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, aObj.getSession_no(),
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				
+				addTableCell(factory, wordMLPackage, contentRow, aObj.getDate(),
+						garamondDateRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				
+				addTableCell(factory, wordMLPackage, contentRow, aObj.getParticipated_fk(),
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				
+				table.getContent().add(contentRow);
+			}
+			if(StringUtils.isEmpty(statusList.getEmployeeReportList()) || statusList.getEmployeeReportList().isEmpty()) {
+				boolean hasBgColor = false;
+				String backgroundColor = null;
+				Tr contentRow = factory.createTr();	
+				
+				List<String> noDataRow = new ArrayList<String>();
+				noDataRow.add("NO TRAINING");
+				noDataRow.add("");
+				noDataRow.add("");
+				noDataRow.add("");
+				noDataRow.add("");
+				
+				for (String headerValue : noDataRow) {
+					addTableCell(factory, wordMLPackage, contentRow, headerValue, garamondRPr,
+							JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				}		
+				table.getContent().add(contentRow);	
+				mergeCellsHorizontal(table, 1, 0, 4);
+			}
+			
+			setTableAlign(factory, table, JcEnumeration.CENTER);
+			mp.addObject(table);
+			
+			addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,calibriBoldRPr,"");
+			addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,calibriBoldRPr,"");
+		}
+	}
 
 	public static void createTableForCompletedTrainingReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
 			ObjectFactory factory, List<Training> completedTrainings) {
@@ -1138,7 +1148,7 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Session NO", garamondBoldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Session No", garamondBoldRPr,
 							JcEnumeration.LEFT, true, "ecf2ff");
 					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getSession_no(), garamondRPr,
 							JcEnumeration.LEFT, false, null);

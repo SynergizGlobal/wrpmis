@@ -44,4 +44,9 @@ public class TrainingReportServiceImpl implements TrainingReportService{
 		return dao.getCompletedTrainings(obj);
 	}
 
+	@Override
+	public Training getEmployeeTrainingWithStatus(Training obj) throws Exception {
+		return dao.getEmployeeTrainingWithStatus(obj);
+	}
+
 }

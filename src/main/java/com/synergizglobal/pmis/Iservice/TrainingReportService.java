@@ -18,4 +18,6 @@ public interface TrainingReportService {
 
 	List<Training> getCompletedTrainings(Training obj) throws Exception;
 
+	Training getEmployeeTrainingWithStatus(Training obj) throws Exception;
+
 }

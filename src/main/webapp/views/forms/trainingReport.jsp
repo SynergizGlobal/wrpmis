@@ -46,7 +46,7 @@
 	                                <div class="row no-mar">
 	                                    <div class="col s12 m6 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Training Title</p>
-	                                        <select class="searchable validate-dropdown" name="title">
+	                                        <select class="searchable validate-dropdown" id="title" name="title" onchange="addInQueScheduled(this.value);getTrainingReport();">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${scheduledTrainingTitles }">
 	                                            	<option value="${obj.title }">${obj.title } </option>
@@ -71,7 +71,7 @@
 	                                <div class="row no-mar">
 	                                    <div class="col s12 m6 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Employee</p>
-	                                        <select class="searchable validate-dropdown" id="attendee" name="attendee">
+	                                        <select class="searchable validate-dropdown" id="attendee" name="attendee" onchange="addInQueEmployee(this.value);getTrainingReport();">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${employees }">
 	                                            	<option value="${obj.user_id }">${obj.user_name } </option>
@@ -96,7 +96,7 @@
 	                                <div class="row no-mar">
 	                                    <div class="col s12 m6 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Training Title</p>
-	                                        <select class="searchable validate-dropdown" name="title">
+	                                        <select class="searchable validate-dropdown" id="completedTitle" name="title" onchange="addInQueCompleted(this.value);getTrainingReport();">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${completedTrainingTitles }">
 	                                            	<option value="${obj.title }">${obj.title } </option>
@@ -146,9 +146,160 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
+    var filtersMap = new Object();
+    
         $(document).ready(function(){
         	$('.searchable').select2();
+        	
+        	var filters = window.localStorage.getItem("trainingReportFilters");
+            
+            if($.trim(filters) != '' && $.trim(filters) != null){
+          	  var temp = filters.split('^'); 
+          	  for(var i=0;i< temp.length;i++){
+    	        	  if($.trim(temp[i]) != '' ){
+    	        		  var temp2 = temp[i].split('=');
+    		        	  if($.trim(temp2[0]) == 'title' ){
+    		        		getScheduledListInTrainingReport(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'attendee'){
+    		        		getEmployeesListInTrainingReport(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'completedTitle'){
+    		        		getCompletedListInTrainingReport(temp2[1]);
+    		        	  }
+    	        	  }
+    	          }
+              }
+            //getTrainingReport();
         });
+        
+        function addInQueScheduled(title){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('title')) delete filtersMap[key];
+       		});
+        	if($.trim(title) != ''){
+       	    	filtersMap["title"] = title;
+        	}
+        }
+        
+        function addInQueEmployee(attendee){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('attendee')) delete filtersMap[key];
+       	   	});
+          	if($.trim(attendee) != ''){
+            	filtersMap["attendee"] = attendee;
+          	}
+        } 
+        
+        function addInQueCompleted(completedTitle){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('completedTitle')) delete filtersMap[key];
+       	   	});
+          	if($.trim(completedTitle) != ''){
+            	filtersMap["completedTitle"] = completedTitle;
+          	}
+        } 
+        
+        function getTrainingReport(){
+        	
+        	getScheduledListInTrainingReport('');
+        	getEmployeesListInTrainingReport('');
+        	getCompletedListInTrainingReport('');
+        	var title = $('#title').val()
+        	var attendee = $('#attendee').val();
+        	var completedTitle = $('#completedTitle').val();
+        	
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("trainingReportFilters", filters);
+    			});
+        }
+        
+        function getScheduledListInTrainingReport(titleVal) {
+        	$(".page-loader").show();
+        	var title = $('#title').val();
+        	if ($.trim(title) == "") {
+	        	$("#title option:not(:first)").remove();
+	           	var myParams = {}
+	           	$.ajax({
+	                   url: "<%=request.getContextPath()%>/ajax/getScheduledListInTrainingReport",
+	                   data: myParams, cache: false,async: false,
+	                   success: function (data) {
+	                       if (data.length > 0) {
+	                           $.each(data, function (i, val) {
+	                             var selectedFlag = (titleVal == val.title)?'selected':'';
+	   	                         $("#title").append('<option value="' + val.title + '"'+selectedFlag+'>' + $.trim(val.title)  +'</option>');
+	   	                     
+	                           });
+	                       }
+	                       $('.searchable').select2();
+	                       $(".page-loader").hide();
+	                   },error: function (jqXHR, exception) {
+	    	   			  $(".page-loader").hide();
+	   	   	          	  getErrorMessage(jqXHR, exception);
+	   	   	     	  }
+	              });
+        	}else{
+          	  $(".page-loader").hide();
+          }
+        }
+        
+        function getEmployeesListInTrainingReport(attendeeVal) {
+        	$(".page-loader").show();
+        	var attendee = $('#attendee').val();
+        	if ($.trim(attendee) == "") {
+        		$("#attendee option:not(:first)").remove();
+	           	var myParams = {}
+	           	$.ajax({
+	                   url: "<%=request.getContextPath()%>/ajax/getEmployeesListInTrainingReport",
+	                   data: myParams, cache: false,async: false,
+	                   success: function (data) {
+	                       if (data.length > 0) {
+	                           $.each(data, function (i, val) {
+	                             var selectedFlag = (attendeeVal == val.user_id)?'selected':'';
+	   	                         $("#attendee").append('<option value="' + val.user_id + '"'+selectedFlag+'>' + $.trim(val.user_name)  +'</option>');
+	   	                    
+	                           });
+	                         
+	                       }
+	                       $('.searchable').select2();
+	                       $(".page-loader").hide();
+	                   },error: function (jqXHR, exception) {
+	    	   			  $(".page-loader").hide();
+	   	   	          	  getErrorMessage(jqXHR, exception);
+	   	   	     	  }
+	              });
+        	}else{
+            	  $(".page-loader").hide();
+            }
+        }
+        function getCompletedListInTrainingReport(completedTitle) {
+        	$(".page-loader").show();
+        	var title = $('#completedTitle').val();
+        	if ($.trim(title) == "") {
+        		$("#completedTitle option:not(:first)").remove();
+	           	var myParams = {}
+	           	$.ajax({
+	                   url: "<%=request.getContextPath()%>/ajax/getCompletedListInTrainingReport",
+	                   data: myParams, cache: false,async: false,
+	                   success: function (data) {
+	                       if (data.length > 0) {
+	                           $.each(data, function (i, val) {
+	                             var selectedFlag = (completedTitle == val.title)?'selected':'';
+	   	                         $("#completedTitle").append('<option value="' + val.title + '"'+selectedFlag+'>' + $.trim(val.title)  +'</option>');
+		   	                   
+		                           });
+	                       }
+	                       $('.searchable').select2();
+	                       $(".page-loader").hide();
+	                   },error: function (jqXHR, exception) {
+	    	   			  $(".page-loader").hide();
+	   	   	          	  getErrorMessage(jqXHR, exception);
+	   	   	     	  }
+	              });
+        }else{
+        	  $(".page-loader").hide();
+        }
+        }
         
         function generateScheduledTrainingReport() {
         	//$(".page-loader").show();

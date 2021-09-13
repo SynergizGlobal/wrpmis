@@ -29,27 +29,16 @@
             color: blue;
         }
 
-      /*   .row.no-mar {
-            margin-bottom: 0;
-        }
-
-        .modal-header {
-            text-align: center;
-            background-color: #007A7A;
-            color: #fff;
-            margin: -24px -24px 20px !important;
-            padding: 1rem;
-        }
-
-        .last-column .btn+.btn {
-            margin-left: 20px;
-        }
-
-        .last-column {
-            word-break: break-all;
-            white-space: inherit;
-        } */
-
+		.fixed-width {
+		  width: 100%;
+		  margin-left:auto !important;
+		  margin-right:auto !important;
+		}
+		
+		.fixed-width .table-inside {
+		  width: 100%;
+		  overflow: auto;
+		}
         .error {
             color: red;
         }
@@ -120,57 +109,60 @@
                                     <i class="fa fa-plus-circle"></i> &nbsp; Add Subwork & Responsible HOD</a>
                             </div>
                         </div>
-                        <div class="row no-mar">
-                          
+                        <div class="row no-mar">                          
                             <div class="col m12 s12">
-                                <table id="risk_work_hod_table" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Work ID</th>
-                                            <th>Sub Work</th>
-                                            <th>Short Name</th>
-                                            <th>HOD</th>
-                                            <th>Work <br>Completed</th>
-                                            <th>Priority</th>
-                                            <th class="no-sort">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    	<c:forEach var="obj" items="${workHODDetails}" varStatus="index">
-											<tr>
-											<td>
-											 	<input type="hidden" id="risk_work_hod_id${index.count}" name="risk_work_hod_id" value="${obj.risk_work_hod_id }" />
-												<input type="hidden" id="work${index.count}" value="${obj.work_id_fk }" />
-												${obj.work_id_fk }<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }
-											</td>
-											<td>
-											 	${obj.sub_work }
-											 	<input type="hidden" id="sub_work${index.count}" value="${obj.sub_work }" />
-											</td>
-											<td>
-											 	${obj.short_name }
-											 	<input type="hidden" id="short_name${index.count}" value="${obj.short_name }" />
-											</td>
-											<td>
-												<input type="hidden" id="user${index.count}" value="${obj.hod_user_id_fk }" />
-												${obj.designation }
-											</td>
-											<td> 
-												<p class="center-align">
-											      <label>
-											        <input type="checkbox" id="risk_work_completed${index.count}" name="risk_work_completed" disabled="disabled"  value="${obj.risk_work_completed }"  <c:if test="${obj.risk_work_completed eq 'Yes'}">checked</c:if> />
-											        <span></span>
-											      </label>
-											    </p>
-											</td>
-											<td>
-												<input type="hidden" id="priority${index.count}" value="${obj.priority }" />
-												${obj.priority }
-											</td>
-										<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.risk_work_hod_id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
-									    </c:forEach>
-                                    </tbody>
-                                </table>
+	                            <div class="fixed-width">
+	   								<div class="table-inside">
+		                                <table id="risk_work_hod_table" class="mdl-data-table table-responsive">
+		                                    <thead>
+		                                        <tr>
+		                                            <th>Work ID</th>
+		                                            <th>Sub Work</th>
+		                                            <th>Short Name</th>
+		                                            <th>HOD</th>
+		                                            <th>Work <br>Completed</th>
+		                                            <th>Priority</th>
+		                                            <th class="no-sort">Action</th>
+		                                        </tr>
+		                                    </thead>
+		                                    <tbody>
+		                                    	<c:forEach var="obj" items="${workHODDetails}" varStatus="index">
+													<tr>
+													<td>
+													 	<input type="hidden" id="risk_work_hod_id${index.count}" name="risk_work_hod_id" value="${obj.risk_work_hod_id }" />
+														<input type="hidden" id="work${index.count}" value="${obj.work_id_fk }" />
+														${obj.work_id_fk }<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }
+													</td>
+													<td>
+													 	${obj.sub_work }
+													 	<input type="hidden" id="sub_work${index.count}" value="${obj.sub_work }" />
+													</td>
+													<td>
+													 	${obj.short_name }
+													 	<input type="hidden" id="short_name${index.count}" value="${obj.short_name }" />
+													</td>
+													<td>
+														<input type="hidden" id="user${index.count}" value="${obj.hod_user_id_fk }" />
+														${obj.designation }
+													</td>
+													<td> 
+														<p class="center-align">
+													      <label>
+													        <input type="checkbox" id="risk_work_completed${index.count}" name="risk_work_completed" disabled="disabled"  value="${obj.risk_work_completed }"  <c:if test="${obj.risk_work_completed eq 'Yes'}">checked</c:if> />
+													        <span></span>
+													      </label>
+													    </p>
+													</td>
+													<td>
+														<input type="hidden" id="priority${index.count}" value="${obj.priority }" />
+														${obj.priority }
+													</td>
+												<td class="last-column"><a href="#onlyUpdateModal" onclick="updateRow(${index.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a onclick="deleteRow('${ obj.risk_work_hod_id }');" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
+											    </c:forEach>
+		                                    </tbody>
+		                                </table>		                                
+								    </div>
+								</div>
                             </div>
 
                         </div>
@@ -392,6 +384,11 @@
                 "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
+                    var input = $('.dataTables_filter input');
+                    self = this.api();
+                    $clearButton = $(	'<i class="fa fa-close" title="Reset">')
+                        .click(function() {		input.val(''); self.search(input.val()).draw(); 	});
+                    $('.dataTables_filter > label').append(	$clearButton); 
                 }
             });
         });

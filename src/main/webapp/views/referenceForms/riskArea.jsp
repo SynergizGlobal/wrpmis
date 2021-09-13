@@ -28,24 +28,7 @@
         p a {
             color: blue;
         }
-		/* .mdl-data-table td.last-column {
-		    text-align: left ;
-		}
-        .row.no-mar {
-            margin-bottom: 0;
-        }
-
-        .modal-header {
-            text-align: center;
-            background-color: #007A7A;
-            color: #fff;
-            margin: -24px -24px 20px !important;
-            padding: 1rem;
-        }
-
-        .last-column .btn+.btn {
-            margin-left: 20px;
-        } */
+		
         input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
 		  -webkit-appearance: none;
@@ -62,9 +45,7 @@
         .error {
             color: red;
         }
-		/* .mdl-data-table thead tr, .mdl-data-table tfoot tr {
-		    background-color: #999999 !important;
-		} */
+		
 		input[type=number]:not(.browser-default):focus:not([readonly]),
 		input[type=text]:not(.browser-default):focus:not([readonly]),
 		input[type=search]:not(.browser-default):focus:not([readonly]),
@@ -103,6 +84,7 @@
 		            text-align:center;
 		    }
 		}
+				
     </style>
 </head>
 
@@ -378,13 +360,19 @@
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,
-                "sScrollX": "100%",
+                //"sScrollX": "100%",
+                "scrollX": true,
                 "paging":false,
                 "info":false,
-                "sScrollXInner": "100%",
+                //"sScrollXInner": "100%",
                 "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
+                    var input = $('.dataTables_filter input');
+                    self = this.api();
+                    $clearButton = $(	'<i class="fa fa-close" title="Reset">')
+                        .click(function() {		input.val(''); self.search(input.val()).draw(); 	});
+                    $('.dataTables_filter > label').append(	$clearButton); 
                 }
             });
         });

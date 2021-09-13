@@ -28,29 +28,6 @@
             color: blue;
         }
 
-      /*   .row.no-mar {
-            margin-bottom: 0;
-        }
-		.mdl-data-table td.last-column {
-		    text-align: left ;
-		}
-        .modal-header {
-            text-align: center;
-            background-color: #2E58AD;
-            color: #fff;
-            margin: -24px -24px 20px !important;
-            padding: 1rem;
-        }
-
-        .last-column .btn+.btn {
-            margin-left: 20px;
-        }
-
-        .last-column {
-            word-break: break-all;
-            white-space: inherit;
-        }
- */
         @media only screen and (max-width: 600px) {
 
             .dataTables_filter input[type="search"],
@@ -303,6 +280,11 @@
                 "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
+                    var input = $('.dataTables_filter input');
+                    self = this.api();
+                    $clearButton = $(	'<i class="fa fa-close" title="Reset">')
+                        .click(function() {		input.val(''); self.search(input.val()).draw(); 	});
+                    $('.dataTables_filter > label').append(	$clearButton); 
                 }
             });
         });

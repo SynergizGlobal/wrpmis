@@ -29,37 +29,6 @@
             color: blue;
         }
 
-      /*   .row.no-mar {
-            margin-bottom: 0;
-        }
-
-        .modal-header {
-            text-align: center;
-            background-color: #007A7A;
-            color: #fff;
-            margin: -24px -24px 20px !important;
-            padding: 1rem;
-        }
-
-        .last-column .btn+.btn {
-            margin-left: 20px;
-        }
-
-        .last-column {
-            word-break: break-all;
-            white-space: inherit;
-        }
-
-        .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;} */
 		.error-msg label{color:red!important;}
 
         .searchable_label {
@@ -304,6 +273,11 @@
                 "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
+                    var input = $('.dataTables_filter input');
+                    self = this.api();
+                    $clearButton = $(	'<i class="fa fa-close" title="Reset">')
+                        .click(function() {		input.val(''); self.search(input.val()).draw(); 	});
+                    $('.dataTables_filter > label').append(	$clearButton); 
                 }
             });
         });

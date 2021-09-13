@@ -28,24 +28,6 @@
             color: blue;
         }
 
-       /* .row.no-mar {
-            margin-bottom: 0;
-        }
-		.mdl-data-table td.last-column {
-		    text-align: left ;
-		}
-        .modal-header {
-            text-align: center;
-            background-color: #05A4CC;
-            color: #fff;
-            margin: -24px -24px 20px !important;
-            padding: 1rem;
-        }
-        .mdl-data-table thead tr, 
-        .mdl-data-table tfoot tr {
-		    background-color: #05A4CC !important;
-		}
-*/
         input[type=number]:not(.browser-default):focus:not([readonly]),
         input[type=text]:not(.browser-default):focus:not([readonly]),
         input[type=search]:not(.browser-default):focus:not([readonly]),
@@ -313,6 +295,11 @@
                 "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
+                    var input = $('.dataTables_filter input');
+                    self = this.api();
+                    $clearButton = $(	'<i class="fa fa-close" title="Reset">')
+                        .click(function() {		input.val(''); self.search(input.val()).draw(); 	});
+                    $('.dataTables_filter > label').append(	$clearButton); 
                 }
             });
         });

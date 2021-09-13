@@ -30,35 +30,7 @@
             color: blue;
         }
 
-        /* .row.no-mar {
-            margin-bottom: 0;
-        }
-		.mdl-data-table td.last-column {
-		    text-align: left ;
-		}
-        .modal-header {
-            text-align: center;
-            background-color: #a2bbb2;
-            color: #fff;
-            margin: -24px -24px 20px !important;
-            padding: 1rem;
-        }
-
-        .last-column .btn+.btn {
-            margin-left: 20px;
-        }
-
-        .last-column {
-            word-break: break-all;
-            white-space: inherit;
-        }
-		.mdl-data-table thead tr, .mdl-data-table tfoot tr {
-		    background-color: #a2bbb2 !important;
-		}
-		.mdl-button--raised.mdl-button--colored {
-		    background-color: #a2bbb2 !important;
-		} */
-		 input[type=number]:not(.browser-default):focus:not([readonly]),
+		input[type=number]:not(.browser-default):focus:not([readonly]),
 		input[type=text]:not(.browser-default):focus:not([readonly]),
 		input[type=search]:not(.browser-default):focus:not([readonly]),
 		textarea.materialize-textarea:focus:not([readonly])   {
@@ -114,7 +86,7 @@
                         <div class="row">
                             <div class="col m4 hide-on-small"></div>
                             <div class="col m4 s12 center-align">
-                                <a class="waves-effect waves-light btn bg-m modal-trigger t-c black-text"
+                                <a class="waves-effect waves-light btn bg-m modal-trigger t-c "
                                     href="#addUpdateModal">
                                     <i class="fa fa-plus-circle"></i> &nbsp; Add Safety Root Cause</a>
                             </div>
@@ -197,7 +169,7 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-safety-root-cause" id="addSafetyRootForm" name="addSafetyRootForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header black-text">Add Safety Root Cause <span
+                <h5 class="modal-header ">Add Safety Root Cause <span
                         class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
@@ -213,16 +185,16 @@
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
                                     <button style="width: 100%;" id="bttn" 
-                                        class="btn waves-effect waves-light bg-m black-text">Add </button>
+                                        class="btn waves-effect waves-light bg-m ">Add </button>
                                 </div>
                             </div>
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
                                   <!--   <button
-                                        class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
+                                        class="btn waves-effect waves-light bg-s modal-action modal-close "
                                         style="width:100%">Cancel</button> -->
                                         <a href="<%=request.getContextPath()%>/safety-root-cause"
-									  class="btn waves-effect waves-light bg-s modal-action modal-close black-text" style="width: 100%">Cancel</a>
+									  class="btn waves-effect waves-light bg-s modal-action modal-close " style="width: 100%">Cancel</a>
                                 </div>
                             </div>
                         </div>
@@ -324,6 +296,11 @@
                 "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
+                    var input = $('.dataTables_filter input');
+                    self = this.api();
+                    $clearButton = $(	'<i class="fa fa-close" title="Reset">')
+                        .click(function() {		input.val(''); self.search(input.val()).draw(); 	});
+                    $('.dataTables_filter > label').append(	$clearButton); 
                 }
             });
         });

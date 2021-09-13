@@ -29,28 +29,6 @@
             color: blue;
         }
 
-       /*  .row.no-mar {
-            margin-bottom: 0;
-        }
- 
-        .mdl-data-table thead tr, .mdl-data-table tfoot tr {
-		    background-color: #282130 !important;
-		}
-		 input[type=number]:not(.browser-default):focus:not([readonly]),
-		input[type=text]:not(.browser-default):focus:not([readonly]),
-		input[type=search]:not(.browser-default):focus:not([readonly]),
-		textarea.materialize-textarea:focus:not([readonly])   {
-		    border-bottom: 1px solid #282130 !important;
-		    box-shadow: 0 1px 0 0 #282130 !important;
-		}
-		.input-field input[type=text]:not(.browser-default).validate+label::after,
-		.input-field input[type=text]:not(.browser-default):focus:not([readonly])+label ,
-		.input-field input[type=number]:not(.browser-default).validate+label::after,
-		.input-field input[type=number]:not(.browser-default):focus:not([readonly])+label ,
-		.input-field textarea.materialize-textarea:focus:not([readonly])+label       {
-		    color: #282130  !important;
-		} */
-
         @media only screen and (max-width: 600px) {
 
             .dataTables_filter input[type="search"],
@@ -99,57 +77,62 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="alert_level_table" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Alert Level</th>
-                                             <c:forEach var="tObj" items="${alertLevelDetails.tablesList}" >
-                                            	 <th>${tObj.tName } <br>(count)</th>
-                                            </c:forEach>
-                                            <th class="no-sort">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-										<c:forEach var="obj" items="${alertLevelDetails.dList1}" varStatus="indexs">
-											<tr><td>
-												<input type="hidden" id="alert_levelId${indexs.count}" value="${obj.alert_level }"  class="findLengths" />
-												${obj.alert_level }</td>
-											<c:forEach var="tObj" items="${alertLevelDetails.tablesList}" varStatus="index">
-												<td><c:forEach var="cObj" items="${alertLevelDetails.countList}" >
-												<c:choose> 
-													    <c:when test="${tObj.tName eq cObj.tName }"> 
-													    
-													    		<c:choose>  
-																    <c:when test="${cObj.alert_level eq obj.alert_level }"> 
-																      	 ( ${cObj.count } )   
-																    </c:when>  
-																    <c:otherwise>  
-																    </c:otherwise>   
-															</c:choose>
-														</c:when>
-														<c:otherwise> 
-													   </c:otherwise>
-												</c:choose>
-												</c:forEach></td>
-                                            </c:forEach>
-											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${alertLevelDetails.dList}" varStatus="indexx"> 
-												 
-												<c:choose>  
-												    <c:when test="${oSbj.alert_level eq obj.alert_level }"> 
-												      	<a onclick="deleteRow('${ oSbj.alert_level }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
-												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
-												      	</a>
-												    </c:when>  
-												    <c:otherwise>  
-												    </c:otherwise>   
-												</c:choose>  
-												
- 											 </c:forEach>
- 											</td></tr>												  
- 										  </c:forEach>
-                                    </tbody>
-                                </table>
+                            	<div class="fixed-width">
+    								<div class="table-inside">
+		                                <table id="alert_level_table" class="mdl-data-table">
+		                                    <thead>
+		                                        <tr>
+		                                            <th>Alert Level</th>
+		                                             <c:forEach var="tObj" items="${alertLevelDetails.tablesList}" >
+		                                            	 <th>${tObj.tName } <br>(count)</th>
+		                                            </c:forEach>
+		                                            <th class="no-sort">Action</th>
+		                                        </tr>
+		                                    </thead>
+		                                    <tbody>
+												<c:forEach var="obj" items="${alertLevelDetails.dList1}" varStatus="indexs">
+													<tr><td>
+														<input type="hidden" id="alert_levelId${indexs.count}" value="${obj.alert_level }"  class="findLengths" />
+														${obj.alert_level }</td>
+													<c:forEach var="tObj" items="${alertLevelDetails.tablesList}" varStatus="index">
+														<td><c:forEach var="cObj" items="${alertLevelDetails.countList}" >
+														<c:choose> 
+															    <c:when test="${tObj.tName eq cObj.tName }"> 
+															    
+															    		<c:choose>  
+																		    <c:when test="${cObj.alert_level eq obj.alert_level }"> 
+																		      	 ( ${cObj.count } )   
+																		    </c:when>  
+																		    <c:otherwise>  
+																		    </c:otherwise>   
+																	</c:choose>
+																</c:when>
+																<c:otherwise> 
+															   </c:otherwise>
+														</c:choose>
+														</c:forEach></td>
+		                                            </c:forEach>
+													<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-pencil" ></i></a>
+												 	<c:forEach var="oSbj"  items="${alertLevelDetails.dList}" varStatus="indexx"> 
+														 
+														<c:choose>  
+														    <c:when test="${oSbj.alert_level eq obj.alert_level }"> 
+														      	<a onclick="deleteRow('${ oSbj.alert_level }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+														      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
+														      	</a>
+														    </c:when>  
+														    <c:otherwise>  
+														    </c:otherwise>   
+														</c:choose>  
+														
+		 											 </c:forEach>
+		 											</td></tr>												  
+		 										  </c:forEach>
+		                                    </tbody>
+		                                </table>
+										                                
+								    </div>
+								</div>
                             </div>
 
                         </div>
@@ -301,6 +284,11 @@
                 "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
+                    var input = $('.dataTables_filter input');
+                    self = this.api();
+                    $clearButton = $(	'<i class="fa fa-close" title="Reset">')
+                        .click(function() {		input.val(''); self.search(input.val()).draw(); 	});
+                    $('.dataTables_filter > label').append(	$clearButton); 
                 }
             });
         });

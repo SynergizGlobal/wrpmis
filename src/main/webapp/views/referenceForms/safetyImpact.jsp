@@ -27,30 +27,7 @@
         p a {
             color: blue;
         }
-		/* .mdl-data-table td.last-column {
-		    text-align: left ;
-		}
-        .row.no-mar {
-            margin-bottom: 0;
-        }
-
-        .modal-header {
-            text-align: center;
-            background-color: #a2bbb2;
-            color: #fff;
-            margin: -24px -24px 20px !important;
-            padding: 1rem;
-        }
-
-        .last-column .btn+.btn {
-            margin-left: 20px;
-        }
-
-        .last-column {
-            word-break: break-all;
-            white-space: inherit;
-        }
- */
+		
         .error {
             color: red;
         }
@@ -110,7 +87,7 @@
                         <div class="row">
                             <div class="col m4 hide-on-small"></div>
                             <div class="col m4 s12 center-align">
-                                <a class="waves-effect waves-light btn bg-m modal-trigger t-c black-text"
+                                <a class="waves-effect waves-light btn bg-m modal-trigger t-c "
                                     href="#addUpdateModal">
                                     <i class="fa fa-plus-circle"></i> &nbsp; Add Safety Impact</a>
                             </div>
@@ -193,7 +170,7 @@
     <div id="addUpdateModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-safety-impact" id="addSafetyimpactForm" name="addSafetyimpactForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
-                <h5 class="modal-header black-text">Add Safety Impact <span class="right modal-action modal-close"><span
+                <h5 class="modal-header ">Add Safety Impact <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
@@ -209,13 +186,13 @@
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
                                     <button style="width: 100%;" id="bttn" 
-                                        class="btn waves-effect waves-light bg-m black-text">Add </button>
+                                        class="btn waves-effect waves-light bg-m ">Add </button>
                                 </div>
                             </div>
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
                                     <a href="<%=request.getContextPath()%>/safety-impact"
-                                        class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
+                                        class="btn waves-effect waves-light bg-s modal-action modal-close "
                                         style="width:100%">Cancel</a>
                                 </div>
                             </div>
@@ -316,6 +293,11 @@
              "bScrollCollapse": true,
              initComplete: function () {
                  $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
+                 var input = $('.dataTables_filter input');
+                 self = this.api();
+                 $clearButton = $(	'<i class="fa fa-close" title="Reset">')
+                     .click(function() {		input.val(''); self.search(input.val()).draw(); 	});
+                 $('.dataTables_filter > label').append(	$clearButton); 
              }
          });
      });

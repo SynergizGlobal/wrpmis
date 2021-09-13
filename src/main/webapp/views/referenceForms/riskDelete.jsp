@@ -23,26 +23,13 @@
     <style>
         .input-field .searchable_label {
             font-size: 0.85rem;
-        }
-
-		/* .mdl-data-table td.last-column ,
-		.mdl-data-table thead th{
-		    text-align: left !important;
-		}
-        .row.no-mar {
-            margin-bottom: 0;
-        } */
+        }		
 
         input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
 		  -webkit-appearance: none;
 		  margin: 0;
 		}
-
-        /* .last-column {
-            word-break: break-all;
-            white-space: inherit;
-        } */
 
         .error {
             color: red;
@@ -303,6 +290,11 @@
                "bScrollCollapse": true,
               initComplete: function () {
                   $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                  var input = $('.dataTables_filter input');
+                  self = this.api();
+                  $clearButton = $(	'<i class="fa fa-close" title="Reset">')
+                      .click(function() {		input.val(''); self.search(input.val()).draw(); 	});
+                  $('.dataTables_filter > label').append(	$clearButton); 
               }
           }).rows().remove().draw();
   		

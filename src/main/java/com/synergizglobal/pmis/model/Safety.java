@@ -15,9 +15,10 @@ public class Safety {
 	private MultipartFile safetyFile;
 	
 	private List<MultipartFile> safetyFiles;
-	private String[] safetyFileNames;
+	private String[] safetyFileNames,committee_member_names;
 	
 	private List<Safety> safetyFilesList;
+	private List<Safety> safetyCommitteeMembersList;
 	
 	public String getHod_designation() {
 		return hod_designation;
@@ -537,6 +538,22 @@ public class Safety {
 
 	public void setContractor_name(String contractor_name) {
 		this.contractor_name = contractor_name;
+	}
+
+	public String[] getCommittee_member_names() {
+		return committee_member_names;
+	}
+
+	public void setCommittee_member_names(String[] committee_member_names) {
+		this.committee_member_names = committee_member_names;
+	}
+
+	public List<Safety> getSafetyCommitteeMembersList() {
+		return safetyCommitteeMembersList;
+	}
+
+	public void setSafetyCommitteeMembersList(List<Safety> safetyCommitteeMembersList) {
+		this.safetyCommitteeMembersList = safetyCommitteeMembersList;
 	}
 	
 }

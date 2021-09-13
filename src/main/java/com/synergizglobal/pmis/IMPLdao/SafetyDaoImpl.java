@@ -189,8 +189,10 @@ public class SafetyDaoImpl implements SafetyDao {
 				safety_id = String.valueOf(keyHolder.getKey().intValue());
 				obj.setSafety_id(safety_id);
 				flag = true;
-				if(flag) {
-					if(!StringUtils.isEmpty(obj.getSafetyFiles()) && obj.getSafetyFiles().size() > 0) {
+				if(flag) 
+				{
+					if(!StringUtils.isEmpty(obj.getSafetyFiles()) && obj.getSafetyFiles().size() > 0) 
+					{
 						
 						String fileQry = "INSERT INTO safety_files (attachment,safety_id_fk)VALUES(:attachment,:safety_id)";
 						
@@ -210,7 +212,21 @@ public class SafetyDaoImpl implements SafetyDao {
 								template.update(fileQry, paramSource);
 							}
 						}
-					}	
+					}
+					
+					/*if(!StringUtils.isEmpty(obj.getCommittee_member_names()) && obj.getCommittee_member_names().length > 0) 
+					{
+						Safety fileCommitteeMembersObj = new Safety();
+						String fileQry = "INSERT INTO safety_committee_members (committee_member_name,safety_id_fk)VALUES(:committee_member_name,:safety_id)";
+						
+						for (int i = 0; i < obj.getCommittee_member_names().length; i++) {
+							fileCommitteeMembersObj = new Safety();
+							fileCommitteeMembersObj.setCommittee_member_name(obj.getCommittee_member_names()[i]);
+							fileCommitteeMembersObj.setSafety_id(obj.getSafety_id());
+							paramSource = new BeanPropertySqlParameterSource(fileCommitteeMembersObj);	
+							template.update(fileQry, paramSource);
+						}
+					}*/						
 				}
 			}
 			transactionManager.commit(status);
@@ -286,7 +302,12 @@ public class SafetyDaoImpl implements SafetyDao {
 				if(!StringUtils.isEmpty(objsList)) {
 					sobj.setSafetyFilesList(objsList);
 				}
-			}
+				String filesCMQry ="select id, safety_id_fk, committee_member_name from safety_committee_members where safety_id_fk = ? ";					
+				List<Safety> objsCMList = jdbcTemplate.query( filesCMQry,new Object[] {obj.getSafety_id()}, new BeanPropertyRowMapper<Safety>(Safety.class));					
+				if(!StringUtils.isEmpty(objsCMList)) {
+					sobj.setSafetyCommitteeMembersList(objsCMList);
+				}				
+			}	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -326,7 +347,6 @@ public class SafetyDaoImpl implements SafetyDao {
 						arraySize = obj.getSafetyFileNames().length;
 					}
 				}
-				
 				for (int i = 0; i < arraySize; i++) {
 					fileObj = new Safety();
 					fileObj.setAttachment(obj.getSafetyFileNames()[i]);
@@ -334,6 +354,32 @@ public class SafetyDaoImpl implements SafetyDao {
 					paramSource = new BeanPropertySqlParameterSource(fileObj);	
 					template.update(fileQry, paramSource);
 				}
+				
+				String deletecommitteeMembersQry = "delete from safety_committee_members where safety_id_fk = :safety_id";
+				
+				Safety fileCommitteeMembersObj = new Safety();
+				fileCommitteeMembersObj.setSafety_id(obj.getSafety_id());
+				paramSource = new BeanPropertySqlParameterSource(obj);	
+				template.update(deletecommitteeMembersQry, paramSource);
+				
+				String committeeMembersQry = "INSERT INTO safety_committee_members (committee_member_name,safety_id_fk)VALUES(:committee_member_name,:safety_id)";
+				
+				int arrayCMSize = 0;
+				if(!StringUtils.isEmpty(obj.getCommittee_member_names()) && obj.getCommittee_member_names().length > 0 ) {
+					obj.setCommittee_member_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getCommittee_member_names()));
+					if(arrayCMSize < obj.getCommittee_member_names().length) {
+						arrayCMSize = obj.getCommittee_member_names().length;
+					}
+				}	
+				
+				
+				for (int i = 0; i < arrayCMSize; i++) {
+					fileCommitteeMembersObj = new Safety();
+					fileCommitteeMembersObj.setCommittee_member_name(obj.getCommittee_member_names()[i]);
+					fileCommitteeMembersObj.setSafety_id(obj.getSafety_id());
+					paramSource = new BeanPropertySqlParameterSource(fileCommitteeMembersObj);	
+					template.update(committeeMembersQry, paramSource);
+				}				
 				
 				if(!StringUtils.isEmpty(obj.getSafetyFiles()) && obj.getSafetyFiles().size() > 0) {
 					List<MultipartFile> issueFiles = obj.getSafetyFiles();

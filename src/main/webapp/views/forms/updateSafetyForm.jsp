@@ -261,12 +261,16 @@
                                 <div class="col s12 m4 input-field hidden" id="committee_member_div">                                 	
                                    <%--  <input id="committee_member_name" name="committee_member_name" type="text" class="validate" value="${safety.committee_member_name }">
                                     <label for="committee_member_name">Name of Committee member</label> --%>
-                                     <p style="color: #aaa;font-size:0.85rem;" >Name of Committee member</p>
-                                    <select id="committee_member_name" name="committee_member_name" class="searchable">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${usersList }"> 
-                                                    <option value="${obj.user_id }" <c:if test="${safety.committee_member_name eq obj.user_id }">selected</c:if>> ${obj.designation } - ${obj.user_name }</option>
-                                        </c:forEach> 
+                                     <p style="color: #aaa;font-size:0.85rem;" >Name of Committee members</p>
+                                    <select id="committee_member_name" name="committee_member_names" class="searchable validate-dropdown" multiple="multiple">
+                                   <option value="" disabled="disabled">Select</option>
+                                   <c:forEach var="obj" items="${usersList}">
+           					  			 <option value="${obj.user_id }"            					  			 
+           					  			 		<c:forEach var="tempobj" items="${safety.safetyCommitteeMembersList}">
+										 			<c:if test="${tempobj.committee_member_name eq obj.user_id}">selected</c:if>
+	                                          	</c:forEach>           					  			 
+           					  			 > ${obj.designation} - ${obj.user_name}</option>
+                                   </c:forEach>
                                     </select>
                                     <span id="committee_member_nameError" class="error-msg" ></span> 
                                 </div>  

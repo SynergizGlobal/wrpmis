@@ -240,15 +240,18 @@ public class ContractResourceReportDaoImpl implements ContractResourceReportDao{
 			List<ContractResource> contractList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));
 			obj.setContarctsList(contractList);
 				
-		    String datesQry = " select DATE_ADD(?, INTERVAL (@i:=@i+1)-1 DAY)  as `date` from contract_resource,(SELECT @i:=0) gen_sub ";
+		    /*String datesQry = " select DATE_ADD(?, INTERVAL (@i:=@i+1)-1 DAY)  as `date` from ACTIVITIES,(SELECT @i:=0) gen_sub ";
 			
-			datesQry = datesQry + "where DATE_ADD(?,INTERVAL @i DAY) BETWEEN ? AND ?";
-			Object[] dValues = new Object[4];
+			datesQry = datesQry + "where DATE_ADD(?,INTERVAL @i DAY) BETWEEN ? AND ?";*/
+			
+			String datesQry ="SELECT ADDDATE(?, INTERVAL @i:=@i+1 DAY) AS date FROM (SELECT a.a FROM (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS a CROSS JOIN (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS b CROSS JOIN (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS c) a JOIN (SELECT @i := -1) r1 WHERE @i < DATEDIFF(?, ?)";			
+			
+			
+			Object[] dValues = new Object[3];
 			int j = 0;
 			dValues[j++] = obj.getFrom_date();
-			dValues[j++] = obj.getFrom_date();
-			dValues[j++] = obj.getFrom_date();
 			dValues[j++] = obj.getTo_date();
+			dValues[j++] = obj.getFrom_date();
 			
 			List<ContractResource> datesList = jdbcTemplate.query( datesQry,dValues, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));
 			obj.setDatesList(datesList);

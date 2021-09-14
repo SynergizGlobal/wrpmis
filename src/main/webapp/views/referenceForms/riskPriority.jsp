@@ -19,38 +19,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">
     <style>
-        .input-field .searchable_label {
-            font-size: 0.85rem;
-        }
-
-        p a {
-            color: blue;
-        }
-	
-		input[type=number]:not(.browser-default):focus:not([readonly]),
-		input[type=text]:not(.browser-default):focus:not([readonly]),
-		input[type=search]:not(.browser-default):focus:not([readonly]),
-		textarea.materialize-textarea:focus:not([readonly])   {
-		    border-bottom: 1px solid #999999 !important;
-		    box-shadow: 0 1px 0 0 #999999 !important;
-		}
-		.input-field input[type=text]:not(.browser-default).validate+label::after,
-		.input-field input[type=text]:not(.browser-default):focus:not([readonly])+label ,
-		.input-field input[type=number]:not(.browser-default).validate+label::after,
-		.input-field input[type=number]:not(.browser-default):focus:not([readonly])+label ,
-		.input-field textarea.materialize-textarea:focus:not([readonly])+label       {
-		    color: #999999  !important;
-		}
-        @media only screen and (max-width: 600px) {
-
-            .dataTables_filter input[type="search"],
-            div.dataTables_wrapper div.dataTables_filter input[type="search"] {
-                width: 85% !important;
-            }
-        }
-         
-		.error-msg label{color:red!important;}
 		.dataTables_length{
     		text-align: center;
 		}
@@ -309,7 +279,7 @@
                         targets: 'no-sort', orderable: false,
                         /* className: "last-column", targets: [1], */
                     },
-                    { "width": "20px", "targets": [2] },
+                    { "width": "20px", "targets": [2] }
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,

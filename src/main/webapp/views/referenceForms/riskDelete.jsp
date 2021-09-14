@@ -20,29 +20,11 @@
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
+    <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">
     <style>
-        .input-field .searchable_label {
-            font-size: 0.85rem;
-        }		
-
-        input::-webkit-outer-spin-button,
-		input::-webkit-inner-spin-button {
-		  -webkit-appearance: none;
-		  margin: 0;
-		}
-
         .error {
             color: red;
         }
-        @media only screen and (max-width: 600px) {
-
-            .dataTables_filter input[type="search"],
-            div.dataTables_wrapper div.dataTables_filter input[type="search"] {
-                width: 85% !important;
-            }
-        }
-       
-		.error-msg label{color:red!important;}
 		.dataTables_length{
 		    text-align: center;
 		}
@@ -93,7 +75,7 @@
 					</c:if>
                     <div class="">
                      	<div class="row no-mar">
-                     	 	<div class="col s12 m4 l2 offset-m2 offset-l4 input-field">
+                     	 	<div class="col s12 m4 l2 offset-m3 offset-l4 input-field">
                                 <p class="searchable_label">Select Sub Work</p>
                                 <select id="sub_work" name="sub_work"  class="searchable" onchange="addInQueRisk(this.value);risksList();">
                                     <option value="">Select</option>	                                    
@@ -287,6 +269,7 @@
               // "ScrollX": true,
               "sScrollX": "100%",
                "sScrollXInner": "100%",
+               paging:false,
                "bScrollCollapse": true,
               initComplete: function () {
                   $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });

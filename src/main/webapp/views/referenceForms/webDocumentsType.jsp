@@ -20,7 +20,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <style>
+    <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">
+    <!-- <style>
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
@@ -38,7 +39,8 @@
         }
         
 		.error-msg label{color:red!important;}
-    </style>
+    </style> -->
+    
 </head>
 
 <body>
@@ -161,13 +163,12 @@
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
-                            <div class="input-field col s12 m12">
+                            <div class="input-field col s12 m6">
                                 <input id="type_text" name="type" type="text" class="validate"  onkeyup="doValidate(this.value)">
                                 <label for="type_text">Web Documents Type</label>
                                 <span id="typeError" class="error-msg" ></span>
                             </div>
-                        </div>
-                        <div class="row">
+                      
                             <div class="col s12 m6">
                                <div class="center-align m-1">
 										<button  id="bttn"  style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
@@ -197,14 +198,13 @@
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
-                         <div class="input-field col s12 m12">
+                         <div class="input-field col s12 m6">
                                 <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Web Documents Type</label>
                                 <span id="value_newError" class="error-msg" ></span>
                          </div>
-                        </div>
-                        <div class="row">
+                        
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
                                     <button style="width: 100%;" id="bttnUpdate"
@@ -272,7 +272,7 @@
                     { "width": "20px", "targets": [1] },
                 ],
                 "scrollCollapse": true,
-                //paging: false,
+                paging: false,
                 fixedHeader: true,
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",

@@ -20,7 +20,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <style>
+    <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">
+    <!-- <style>
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
@@ -35,10 +36,9 @@
             div.dataTables_wrapper div.dataTables_filter input[type="search"] {
                 width: 85% !important;
             }
-        }
-         
+        }         
 		.error-msg label{color:red!important;}
-    </style>
+    </style> -->
 </head>
 
 <body>
@@ -293,7 +293,6 @@
                     },
                     { "width": "20px", "targets": [6] },
                 ],
-                "scrollCollapse": true,
                 fixedHeader: true,
                 paging: false,
                 "sScrollX": "100%",

@@ -20,24 +20,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">
     <style>
-        .input-field .searchable_label {
-            font-size: 0.85rem;
-        }
-
-        p a {
-            color: blue;
-        }
-
-        @media only screen and (max-width: 600px) {
-
-            .dataTables_filter input[type="search"],
-            div.dataTables_wrapper div.dataTables_filter input[type="search"] {
-                width: 85% !important;
-            }
-        }
-        
-		.error-msg label{color:red!important;}
 		.select2-container.select2-container--default select2-container--open,
 		.select2-container{
 			z-index:1093 !important;
@@ -175,7 +159,7 @@
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
-                        <div class="row">
+                        <div class="row no-mar">
                         	 <div class="col s12 m6 input-field">
                                  <p class="searchable_label">Risk Area</p>
                                  <select class="searchable validate-dropdown" name="type_fk" id="type_fk" onchange="doValidate(this.value,null)">
@@ -186,14 +170,14 @@
                                  </select>
                                  <span id="type_fkError" class="error-msg" ></span>
                             </div>
-                            <div class="input-field col s12 m12">
+                            <div class="input-field col s12 m6">
                                 <input id="category_text" name="category" type="text" class="validate" onkeyup="doValidate(null,this.value)">
                                 <label for="category_text">Web Documents Category</label>
                                 <span id="categoryError" class="error-msg" ></span>
                             </div>
                             
                         </div>
-                          <div class="row">
+                          <div class="row no-mar">
 	                             <div  style="text-align:center">
 	                        		 <span id="DivError" class="error-msg" ></span> 
 	                         	 </div>
@@ -240,7 +224,7 @@
                                  </select>
                                  <span id="risk_area_fkError" class="error-msg" ></span>
                          </div> 
-                         <div class="input-field col s12 m12">
+                         <div class="input-field col s12 m6">
                                 <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(null,null)">
                                 <input id="value_old" type="hidden" name="value_old"  >
                                 <label for="value_new">Web Documents Category</label>
@@ -325,7 +309,7 @@
                     { "width": "20px", "targets": [4] },
                 ],
                 "scrollCollapse": true,
-                //paging: false,
+                paging: false,
                 fixedHeader: true,
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",

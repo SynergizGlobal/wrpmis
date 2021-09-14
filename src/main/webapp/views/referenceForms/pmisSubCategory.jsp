@@ -20,7 +20,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
-    <style>
+    <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">
+    <!-- <style>
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
@@ -38,7 +39,7 @@
         }
         
 		.error-msg label{color:red!important;}
-    </style>
+    </style> -->
 </head>
 
 <body>
@@ -275,6 +276,7 @@
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,
+                paging:false,
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",
                 "bScrollCollapse": true,

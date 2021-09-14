@@ -21,7 +21,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
-    <style>
+    <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">
+    <!-- <style>
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
@@ -40,7 +41,7 @@
         .page-loader {
 		
 		.error-msg label{color:red!important;}
-    </style>
+    </style> -->
 </head>
 
 <body>
@@ -171,19 +172,18 @@
                 <h5 class="modal-header">Add Module <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
-                    <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
-                        <div class="row">
-                            <div class="input-field col s12 m12">
+                    <div class="col m8 s12 offset-m2">
+                       <!--  <div class="row"> -->
+                            <div class="input-field col s12 ">
                                 <input id="module_text" name="module_name" type="text" class="validate"  onkeyup="doValidate(this.value)">
                                 <label for="module_text">Module</label>
                                 <span id="module_nameError" class="error-msg" ></span>
                             </div>                            
-                        </div>
-                        <div class="row">
-                        	<div class="input-field col s12 m12">
+                        <!-- </div>
+                        <div class="row"> -->
+                        	<div class="input-field col s12">
                         		<p class="searchable_label">Incharge</p>
-                                <select id="incharge_user_id_fk" name="incharge_user_id_fk" class="">
+                                <select id="incharge_user_id_fk" name="incharge_user_id_fk" class="searchable">
                                 	<option value="">--Select--</option>
                                 	<c:forEach var="obj" items="${inchargeList}" >
                                 		<option value="${obj.user_id }">${obj.designation } - ${obj.user_name }</option>
@@ -191,7 +191,7 @@
                                 </select>
                                 
                                 <span id="incharge_user_id_fkError" class="error-msg" ></span>
-                            </div>
+                          <!--   </div> -->
                         </div>   
                         <div class="row">
                             <div class="col s12 m6">
@@ -206,12 +206,11 @@
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
                                         <a href="<%=request.getContextPath()%>/module"
-									  class="btn waves-effect waves-light bg-s modal-action modal-close black-text" style="width: 100%">Cancel</a>
+									  class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
 
             </div>
@@ -225,8 +224,7 @@
                 <h5 class="modal-header bg-m">Update Module <span class="right modal-action modal-close" onclick="removeErrorMsg()"><span
                             class="material-icons">close</span></span></h5>
                 <div class="row">
-                    <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
+                    <div class="col m8 s12 offset-m2">
                        <div class="row no-mar">
                          <div class="input-field col s12 m12">
                                 <input id="value_new" type="text" name="value_new" class="validate" onkeyup="doValidateUpdate(this.value)">
@@ -265,7 +263,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
 
             </div>
@@ -322,6 +319,7 @@
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,
+                paging:false,
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",
                 "bScrollCollapse": true,

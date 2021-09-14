@@ -19,48 +19,12 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    
+    <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">
     <style>
-        .input-field .searchable_label {
-            font-size: 0.85rem;
-            margin-bottom: 1px;
-        }
-        .select2-container--default .select2-selection--single{
-        	background-color:transparent;
-        }
-		.mdl-data-table td.last-column {
-		    text-align: left ;
-		}
-        p a {
-            color: blue;
-        }
-
-		.select2-container.select2-container--default.select2-container--open{
-			z-index:1034;
-		}
-        @media only screen and (max-width: 600px) {
-
-            .dataTables_filter input[type="search"],
-            div.dataTables_wrapper div.dataTables_filter input[type="search"] {
-                width: 85% !important;
-            }
-        }
-
-		input[type=number]:not(.browser-default):focus:not([readonly]),
-		input[type=text]:not(.browser-default):focus:not([readonly]),
-		input[type=search]:not(.browser-default):focus:not([readonly]),
-		textarea.materialize-textarea:focus:not([readonly])   {
-		    border-bottom: 1px solid #999999 !important;
-		    box-shadow: 0 1px 0 0 #999999 !important;
-		}
-       
-		.error-msg label{color:red!important;}
 		.dataTables_length{
 		    text-align: center;
-		}
-		th{    		
-    		text-transform: capitalize;    		
-		}
+		}		
+		
 		@media (min-width: 480px) and (max-width: 839px){
 		    .mdl-cell--6-col, .mdl-cell--6-col-tablet.mdl-cell--6-col-tablet {
 		        width: 100%;
@@ -348,6 +312,7 @@
                 "scrollCollapse": true,
                 fixedHeader: true,
                 "sScrollX": "100%",
+                paging:false,
                 "sScrollXInner": "100%",
                 "bScrollCollapse": true,
                 initComplete: function () {

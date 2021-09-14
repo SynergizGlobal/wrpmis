@@ -2134,13 +2134,13 @@ public class DocxTableCreation {
 				for (Map.Entry<String, List<RiskReport>> mObj : top5RiskAreas.entrySet()) {
 					int fRow = 1;
 					int tRow = 1;
-					fRow = toRow;
+					fRow = toRow;					
 					for (RiskReport pObj : mObj.getValue()) {	
 						toRow++;
 						boolean hasBgColor = false;
 						String backgroundColor = null;
 						Tr contentRow = factory.createTr();	
-						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(row++),
+						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(row),
 								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, mObj.getKey(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
@@ -2149,7 +2149,7 @@ public class DocxTableCreation {
 						reportTable.getContent().add(contentRow);
 					}
 					tRow = toRow;
-					
+					row++;
 					mergeCellsVertically(reportTable, 0, fRow, tRow);
 					mergeCellsVertically(reportTable, 1, fRow, tRow);
 				}		

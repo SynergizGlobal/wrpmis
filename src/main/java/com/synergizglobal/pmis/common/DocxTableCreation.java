@@ -1935,7 +1935,7 @@ public class DocxTableCreation {
 
 
 	public static void createTableForSummaryOfRiskAssessmentOfProjectsReport(WordprocessingMLPackage wordMLPackage,
-			MainDocumentPart mp, ObjectFactory factory, List<RiskReport> summaryOfRiskAssessment, List<RiskReport> top5RiskAreas) throws Exception {
+			MainDocumentPart mp, ObjectFactory factory, List<RiskReport> summaryOfRiskAssessment, Map<String,List<RiskReport>> top5RiskAreas) throws Exception {
 		try {
 			
 			RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
@@ -1969,7 +1969,7 @@ public class DocxTableCreation {
 			
 			/****************************************************************************/
 			//addParagraph(mp, factory);
-			//addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,calibriBold13RPr,"Summary of Risk Assessment of Projects");
+			addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,calibriBold13RPr,"Summary of Risk Assessment of Projects");
 			Tbl table = factory.createTbl();
 			addBorders(table, "2");
 		
@@ -2072,7 +2072,7 @@ public class DocxTableCreation {
 			mergeCellsVertically(table, 4, 0, 1);
 			mergeCellsVertically(table, 5, 0, 1);
 			
-			if(!StringUtils.isEmpty(summaryOfRiskAssessment) && summaryOfRiskAssessment.size() > 0) {
+			if(!StringUtils.isEmpty(summaryOfRiskAssessment) && summaryOfRiskAssessment.size() > 0) {				
 				int sNo = 1;
 				for (RiskReport pObj : summaryOfRiskAssessment) {
 					Tr contentRow = factory.createTr();					
@@ -2111,7 +2111,7 @@ public class DocxTableCreation {
 			
 			/****************************************************************************/
 			
-			if(!StringUtils.isEmpty(top5RiskAreas)) {		        
+			if(!StringUtils.isEmpty(top5RiskAreas)) {	
 		        addPageBreak(mp);
 		        addHeading(wordMLPackage, mp, factory,JcEnumeration.CENTER,calibriBold13RPr,"Top Five Risk Areas of MRVC Projects");
 		        Tbl reportTable = factory.createTbl();
@@ -2130,19 +2130,29 @@ public class DocxTableCreation {
 				}		
 				reportTable.getContent().add(titleRow);
 				int row = 1;
-				for (RiskReport pObj : top5RiskAreas) {
-					boolean hasBgColor = false;
-					String backgroundColor = null;
-					Tr contentRow = factory.createTr();	
-					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(row++),
-							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, pObj.getArea(),
-							garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-					addTableCell(factory, wordMLPackage, contentRow, pObj.getSub_area(),
-							garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				int toRow = 1;
+				for (Map.Entry<String, List<RiskReport>> mObj : top5RiskAreas.entrySet()) {
+					int fRow = 1;
+					int tRow = 1;
+					fRow = toRow;
+					for (RiskReport pObj : mObj.getValue()) {	
+						toRow++;
+						boolean hasBgColor = false;
+						String backgroundColor = null;
+						Tr contentRow = factory.createTr();	
+						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(row++),
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, mObj.getKey(),
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						addTableCell(factory, wordMLPackage, contentRow, pObj.getSub_area(),
+								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						reportTable.getContent().add(contentRow);
+					}
+					tRow = toRow;
 					
-					reportTable.getContent().add(contentRow);
-				}			
+					mergeCellsVertically(reportTable, 0, fRow, tRow);
+					mergeCellsVertically(reportTable, 1, fRow, tRow);
+				}		
 				/****************************************************************************************/			
 				
 				setTableAlign(factory, reportTable, JcEnumeration.CENTER);

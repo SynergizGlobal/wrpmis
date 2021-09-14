@@ -1,6 +1,10 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -235,25 +239,52 @@ public class RiskReportDaoImpl implements RiskReportDao{
 	}
 
 	@Override
-	public List<RiskReport> getTop5RiskAreas() throws Exception {
-		List<RiskReport> objsList = null;
+	public Map<String,List<RiskReport>> getTop5RiskAreas() throws Exception {
+		Map<String,List<RiskReport>> mObj = new LinkedHashMap<String,List<RiskReport>>();
 		try {
-			String qry = "select risk_area_fk as area,sub_area," 
-					+ "(select sum(probability*impact) from risk_revision "
-					+ "left join risk on risk_id_pk_fk = risk_id_pk where date = max(rr.date) and sub_work = r.sub_work and sub_area_fk = r.sub_area_fk) as total_risk_rating " 
-					+ "from risk r "
-					+ "LEFT JOIN risk_revision rr on rr.risk_id_pk_fk = r.risk_id_pk "
-					+ "left outer join risk_sub_area rsa on r.sub_area_fk = rsa.sub_area " 
-					+ "group by r.sub_area_fk,r.sub_work "
-					+ "order by total_risk_rating desc limit 5";
-			
+			String qry = "select area,sub_area,sum(risk_rating) as total_risk_rating " + 
+					"from " + 
+					"(select * " + 
+					"from " + 
+					"( " + 
+					"select risk_id_pk_fk,date,probability,(`rr`.`probability` * `rr`.`impact`) AS `risk_rating`,rw.sub_work,(SELECT  " + 
+					"`sa`.`risk_area_fk` " + 
+					"FROM " + 
+					"`risk_sub_area` `sa` " + 
+					"WHERE " + 
+					"(`sa`.`sub_area` = `r`.`sub_area_fk`)) AS `area`, " + 
+					"`r`.`sub_area_fk` AS `sub_area`, " + 
+					"dense_rank() over(partition by sub_work order by date desc ) as r from  risk_revision rr " + 
+					"left join risk  r  on r.risk_id_pk=rr.risk_id_pk_fk " + 
+					"left join  pmis.risk_work_hod rw on r.sub_work=rw.sub_work " + 
+					"where risk_work_completed='No' ) s " + 
+					"where r =1)ss " + 
+					"group by area,sub_area " + 
+					"order by sum(risk_rating) desc limit 10";
 					
-			//objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
+			List<RiskReport> objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
+			
+			List<String> tObjs = new ArrayList<String>();
+			for (RiskReport riskReport : objsList) {
+				if(!tObjs.contains(riskReport.getArea()) && tObjs.size() < 5) {
+					tObjs.add(riskReport.getArea());
+				}
+			}
+			
+			for (String area : tObjs) {
+				List<RiskReport> tObjs2 = new ArrayList<RiskReport>();
+				for (RiskReport riskReport : objsList) {
+					if(area.equals(riskReport.getArea())) {
+						tObjs2.add(riskReport);
+					}
+				}
+				mObj.put(area, tObjs2);
+			}			
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
-		return objsList;
+		return mObj;
 	}
 
 

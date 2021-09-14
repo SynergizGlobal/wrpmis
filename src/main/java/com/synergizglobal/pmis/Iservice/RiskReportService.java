@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
+import java.util.Map;
 
 import com.synergizglobal.pmis.model.RiskReport;
 
@@ -20,7 +21,7 @@ public interface RiskReportService {
 
 	List<RiskReport> getSummaryOfRiskAssessmentOfProjects() throws Exception;
 
-	List<RiskReport> getTop5RiskAreas() throws Exception;
+	Map<String,List<RiskReport>> getTop5RiskAreas() throws Exception;
 
 
 }

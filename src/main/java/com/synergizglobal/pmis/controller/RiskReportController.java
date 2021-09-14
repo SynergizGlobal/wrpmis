@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -290,7 +291,7 @@ public class RiskReportController {
 						
 			List<RiskReport> summaryOfRiskAssessment = riskReportService.getSummaryOfRiskAssessmentOfProjects();
 			
-			List<RiskReport> top5RiskAreas = riskReportService.getTop5RiskAreas();
+			Map<String,List<RiskReport>> top5RiskAreas = riskReportService.getTop5RiskAreas();
 			
 			boolean landscape = true;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
@@ -307,8 +308,8 @@ public class RiskReportController {
 			
 			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
-			String headerTextMiddle = "Summary of Risk Assessment of Projects";
-			//String headerTextMiddle = "";
+			//String headerTextMiddle = "Summary of Risk Assessment of Projects";
+			String headerTextMiddle = "";
 
 			String headerTextRight = report_created_date;
 			

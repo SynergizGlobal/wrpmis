@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.IMPLservice;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,7 +52,7 @@ public class RiskReportServiceImpl implements RiskReportService{
 	}
 
 	@Override
-	public List<RiskReport> getTop5RiskAreas() throws Exception {
+	public Map<String,List<RiskReport>> getTop5RiskAreas() throws Exception {
 		return dao.getTop5RiskAreas();
 	}
 

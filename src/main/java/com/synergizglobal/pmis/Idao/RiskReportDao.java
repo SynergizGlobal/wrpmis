@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.Idao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.synergizglobal.pmis.model.RiskReport;
 
@@ -20,6 +21,6 @@ public interface RiskReportDao {
 
 	List<RiskReport> getSummaryOfRiskAssessmentOfProjects() throws Exception;
 
-	List<RiskReport> getTop5RiskAreas() throws Exception;
+	Map<String,List<RiskReport>> getTop5RiskAreas() throws Exception;
 
 }

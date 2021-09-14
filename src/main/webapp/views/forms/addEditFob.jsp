@@ -50,7 +50,10 @@
 		td .btn.red{
 			z-index:0;
 		}
-		
+		.filevalue {
+            display: block;
+            margin-top: 10px;
+        }
 		.input-field>label.small{
 			font-size: 0.88rem !important;
 		}
@@ -97,7 +100,10 @@
 			.h-auto{
 				height:auto !important;
 			}
-			
+			 .filevalue {
+			    width: 200%;
+			    white-space: break-spaces;
+			}
 			td.cell-disp-inb .file-path-wrapper {
 			    visibility: visible;
 			    width: 200%;
@@ -119,7 +125,8 @@
     .min-200{
     	min-width: 200px;
     }
-    #gallery_table .select2-container--default .select2-selection--single{
+    #gallery_table .select2-container--default .select2-selection--single,
+    #fobDocumentTableBody .select2-container--default .select2-selection--single {
     	background-color:transparent;
     }
     </style>
@@ -290,11 +297,10 @@
                                   multiple="multiple" <c:if test="${fn:length(fob.responsiblePeopleList) gt 0}">disabled</c:if>> --%>
                                   
                                   
- <c:choose>
+								 <c:choose>
 								        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                    
                                    <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
                                   multiple="multiple">
-                                                                   
                                    <option value="" disabled="disabled">Select</option>
                                    <c:forEach var="obj" items="${responsiblePeopleList}">
            					  			 <option value="${obj.user_id }"            					  			 
@@ -307,8 +313,7 @@
                                   </c:when>
                                   <c:otherwise>
                                   
-                                  
-  <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
+ 								 <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
                                   multiple="multiple" disabled>
                                                                    
                                    <option value="" disabled="disabled">Select</option>
@@ -534,7 +539,7 @@
 																		<input id="fobDocumentNames${index.count }" name="fobDocumentNames" type="text" class="validate" placeholder="Name"  value="${fObj.name }">
 				                                                    </td>
 			                                                      	<td data-head="Photo Date" class="input-field">
-		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="Uploaded date" value="${fObj.created_date}" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
+		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates${index.count }" name="created_dates" placeholder="Uploaded date" value="${fObj.created_date}" class="validate datepicker" style="width:150px;" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
 			                                                      	</td>
 																	<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
 								                                        <div class="t-c">
@@ -554,7 +559,15 @@
 																			<i class="fa fa-close"></i></a>
 																	</td>
 																</tr>
-																															
+																<!-- <script>
+																	$(document).ready(function () {
+																		 $("#created_dates${index.count }").datepicker({
+																        	 format:'dd-mm-yyyy',
+																	       	 maxDate: new Date(),
+																	       	autoClose:true,
+																        });  
+																	});  
+																</script> -->									
 															</c:forEach>
 														</c:when>
 														<c:otherwise>
@@ -590,7 +603,19 @@
 																	<a onclick="removeActions('0');" class="btn red"> 
 																		<i class="fa fa-close"></i></a>
 																</td>
+																
 															</tr>
+															<script>
+																$(document).ready(function () {
+																		 $("#created_dates0").datepicker({
+																        	 format:'dd-mm-yyyy',
+																	       	 maxDate: new Date(),
+																	       	 onSelect: function () {
+																   	    	    $('.confirmation-btns .datepicker-done').click();
+																   	    	 }
+																        });  
+																 });  
+															</script>	
 														</c:otherwise>
 													</c:choose>
 													
@@ -620,7 +645,115 @@
 										</div>
 									</div>
 								</div>
-							</div>                    
+							</div>        
+							<div class="row  " id="documentDetails">
+	                            <div class="col m8 s12 offset-m2"  >
+	                                <div class="row fixed-width">
+	                                     <h5 class="center-align"><span class="div-header">Documents</span></h5> 
+	                                    <div class="table-inside">
+	                                        <table class="mdl-data-table mobile_responsible_table">
+	                                            <thead>
+	                                                <tr>
+	                                                	<th>File Type </th>
+	                                                    <th>Name </th>
+	                                                    <th style="text-align:center">Attachment</th>
+	                                                     <th> </th>
+	                                                    <th style="width:8%">Action</th>
+	                                                </tr>
+	                                            </thead>
+	                                            <tbody id="fobDocumentTableBody" >
+	                                             <c:choose>
+			                                        <c:when test="${not empty fob.fobDocuments  && fn:length(fob.fobDocuments ) gt 0 }">			                                          
+				                                        <c:forEach var="docObj" items="${fob.fobDocuments }" varStatus="index">  
+			                                                <tr id="fobDocumentRow${index.count }">
+			                                                	<td data-head="File Type " class="input-field">
+																	<select  name="fobDoc_file_types"  id="fobDoc_file_types${index.count }"  class="validate-dropdown searchable">
+					                                   					 <option value="" >--Select--</option>
+					                                         			  <c:forEach var="obj" items="${fobFileTypeList}">
+					                    					  				 <option value="${obj.fob_file_type }" <c:if test="${docObj.fob_file_type_fk eq obj.fob_file_type}">selected</c:if>>${obj.fob_file_type}</option>
+					                                          			  </c:forEach>
+					                               					  </select>
+															    </td>
+			                                                    <td data-head="Name " class="input-field"> <input id="documentNamesFob${index.count }" name="documentNamesFob" type="text" class="validate"
+			                                                            placeholder="Name" value="${docObj.name }">
+			                                                    </td>
+			                                                    <td data-head="Attachment" class="input-field">
+			                                                        <span class="normal-btn">
+			                                                            <input type="file" id="fobDocumentFiles${index.count }" name="fobDocumentFiles"
+			                                                                style="display:none" onchange="getFileName('${index.count }')" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf"/>
+			                                                            <label for="fobDocumentFiles${index.count }" class="btn bg-m"><i
+			                                                                    class="fa fa-paperclip"></i></label>
+			                                                            <input type="hidden" id="fileNamesFob${index.count }" name="fileNamesFob" value="${docObj.attachment }">
+			                                                             <span id="documentNamesFobsp${index.count }" class="filevalue"></span>
+			                                                          </span>
+			                                                    </td>
+			                                                    <td>
+			                                                     		<input type="hidden" id="fob_documents_ids${index.count }" name="fob_documents_ids" value="${docObj.fob_documents_id }"/>
+			                                                      		<a href="<%=CommonConstants2.FOB_FILES%>${docObj.fob_id_fk }/${docObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                        
+			                                                    </td>
+			                                                    <td class="mobile_btn_close">
+			                                                        <a href="javascript:void(0);" onclick="removeFobDocument('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+			                                                                class="fa fa-close"></i></a>
+			                                                    </td>
+			                                                </tr> 
+	                                                	</c:forEach>
+	                                           		</c:when>
+	                                             	<c:otherwise>
+	                                             		<tr id="fobDocumentRow0">
+	                                             			<td data-head="File Type " class="input-field">																		
+																<select  name="fobDoc_file_types"  id="fobDoc_file_types0"  class="validate-dropdown searchable">
+				                                   					 <option value="" >--Select--</option>
+				                                         			  <c:forEach var="obj" items="${fobFileTypeList}">
+				                    					  				 <option value="${obj.fob_file_type }">${obj.fob_file_type}</option>
+				                                          			  </c:forEach>
+				                               					  </select>
+															    </td>
+		                                                    <td data-head="Name " class="input-field"> <input id="documentNamesFob0" name="documentNamesFob" type="text" class="validate"
+		                                                            placeholder="Name">
+		                                                    </td>
+		                                                    <td data-head="Attachment" class="input-field">
+		                                                        <span class="normal-btn">
+		                                                            <input type="file" id="fobDocumentFiles0" name="fobDocumentFiles"
+		                                                                style="display:none" onchange="getFileName('0')" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf"/>
+		                                                            <label for="fobDocumentFiles0" class="btn bg-m"><i
+		                                                                    class="fa fa-paperclip"></i></label>
+		                                                            <input type="hidden" id="fileNamesFob0" name="fileNamesFob" >
+		                                                            <span id="documentNamesFobsp0" class="filevalue"></span>
+		                                                        </span>
+		                                                    </td>
+		                                                    <td><input type="hidden" id="fob_documents_ids0" name="fob_documents_ids" />
+		                                                    </td>
+		                                                    <td class="mobile_btn_close">
+		                                                        <a href="javascript:void(0);" onclick="removeFobDocument('0');" class="btn waves-effect waves-light red t-c "> <i
+		                                                                class="fa fa-close"></i></a>
+		                                                    </td>
+		                                                </tr>
+	                                             	</c:otherwise>
+                                            	</c:choose> 
+	                                            </tbody>
+	                                        </table>
+	                                        
+	                                        <table class="mdl-data-table">
+		                                        <tbody>                                          
+		                                            <tr>
+														<td colspan="3" >	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addFobDocumentRow()"> <i
+		                                                            class="fa fa-plus"></i></a></td>
+		                                              </tr>
+		                                        </tbody>
+		                                     </table>
+		                                   	 <c:choose>
+		                                        <c:when test="${not empty fob.fobDocuments && fn:length(fob.fobDocuments) gt 0 }">
+		                                    		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="${fn:length(fob.fobDocuments) }" />
+		                                    	</c:when>
+		                                     	<c:otherwise>
+		                                     		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="0" />
+		                                     	</c:otherwise>
+		                                     </c:choose> 
+	                                    </div>
+	                                </div>
+	                            </div>
+							</div>            
 								<%-- <c:if test="${action eq 'edit'}">
 										<c:set var="existingFOBFilesLength" value="${fn:length(fob.fobImages )}"></c:set>
 										<c:if test="${fn:length(fob.fobImages ) gt 0}">
@@ -1013,10 +1146,8 @@
         
         $("#created_dates"+rNo).datepicker({
         	 format:'dd-mm-yyyy',
-	       	 maxDate: new Date(),
-	       	 onSelect: function () {
-   	    	    $('.confirmation-btns .datepicker-done').click();
-   	    	 }
+	       	// maxDate: new Date(),
+	       	autoClose:true,
         });       
     }
 	 function removeActions(rowNo){
@@ -1692,6 +1823,50 @@
 	                $('#fobImagePreview'+rowNo).show();
 	            }
 	     }
+		 
+			function addFobDocumentRow(){		
+				 var rowNo = $("#documentRowNo").val();
+				 var rNo = Number(rowNo)+1;
+				 var total = 0;
+				 var html = '<tr id="fobDocumentRow'+rNo+'">'
+							 +'<td data-head="File Type " class="input-field">'
+									+'<select  name="fobDoc_file_types"  id="fobDoc_file_types'+rNo+'"  class="validate-dropdown searchable">'
+				    					+ '<option value="" >--Select--</option>'
+				          			  <c:forEach var="obj" items="${fobFileTypeList}">
+							  				+ '<option value="${obj.fob_file_type }">${obj.fob_file_type}</option>'
+				           			  </c:forEach>
+								+ '</select></td>'
+							 +'<td data-head="Name " class="input-field"> <input id="documentNamesFob'+rNo+'" name="documentNamesFob" type="text" class="validate" placeholder="Name"> </td>'
+							 +'<td data-head="Attachment" class="input-field">'
+							 +'<span class="normal-btn">'
+							 +'<input type="file" id="fobDocumentFiles'+rNo+'" name="fobDocumentFiles" style="display:none" onchange="getFileName('+rNo+')" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf"/>'
+							 +'<label for="fobDocumentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+							 +'<input type="hidden" id="fileNamesFob'+rNo+'" name="fileNamesFob">'
+							 +'<span id="documentNamesFobsp'+rNo+'" class="filevalue"></span>'
+							 +'</span>'
+							 +'</td>'
+							 +'<td><input type="hidden" id="fob_documents_ids'+rNo+'" name="fob_documents_ids"/></td>'
+							 +'<td class="mobile_btn_close">'
+							 +'<a href="javascript:void(0);" onclick="removeFobDocument('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
+							 +'</td>'
+					   		 +'</tr>';
+				
+					 $('#fobDocumentTableBody').append(html);
+					 $("#documentRowNo").val(rNo);
+					 $('.searchable').select2();
+			         $("#fob_file_ids0").val('');
+			} 
+			function removeFobDocument(rowNo){
+				$("#fobDocumentRow"+rowNo).remove();
+			}
+			
+			
+			function getFileName(rowNo){
+				var filename = $('#fobDocumentFiles'+rowNo)[0].files[0].name;
+			    $('#documentNamesFobsp'+rowNo).html(filename); 
+			    $('#fileNamesFob'+rowNo).val(filename);
+			}
+
 		/*  function removeMedia(link,id){
 		   	  $('#'+id).val('');
 		   	 // $(link).prev().text('');

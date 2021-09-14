@@ -323,6 +323,10 @@ public class FOBController {
 			List<FOB> unitsList = fobService.getUnitsList(obj);
 			model.addObject("unitsList", unitsList);
 			
+			List<FOB> fobFileTypeList = fobService.getFobFileTypeList(obj);
+			model.addObject("fobFileTypeList", fobFileTypeList);
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("addFOBForm : " + e.getMessage());
@@ -460,6 +464,9 @@ public class FOBController {
 			
 			List<FOB> unitsList = fobService.getUnitsList(obj);
 			model.addObject("unitsList", unitsList);
+			
+			List<FOB> fobFileTypeList = fobService.getFobFileTypeList(obj);
+			model.addObject("fobFileTypeList", fobFileTypeList);
 			
 			FOB fob = fobService.getFOB(obj);
 			model.addObject("fob", fob);

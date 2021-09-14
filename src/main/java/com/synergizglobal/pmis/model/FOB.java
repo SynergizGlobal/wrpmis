@@ -10,20 +10,85 @@ public class FOB {
 	detail_name,value,work_id_fk,project_id_fk,revised_completion,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost,
 	project_id,work_id,work_name,work_short_name,status,fob_file_type,fob_file_type_fk,fob_file_id,fob_details_location,fob_details_type,
 	created_date,responsible_people_id_fk,user_id,user_name,designation,department_fk,user_type,existing_work_status_fk,estimated_cost_units,completion_cost_units,message_id,user_role_code,
-	user_type_fk,name;
+	user_type_fk,name,fob_documents_id,fobDoc_file_type;
 
 
 
 
-	private MultipartFile[] fobFiles;
+	private MultipartFile[] fobFiles,fobDocumentFiles;
 	private List<FOB> fobFilesList,contractsList,responsiblePeopleList;
 	private List<FOB> fobDetails;
 	private List<FOB> fobImages;
-	private String[] fob_id_fks,fobFileNames,fob_file_types,created_dates,fobDocumentNames;
-	private String[] fob_detail_names,fob_detail_values,fob_file_ids,contracts_id_fk;
+	private List<FOB> fobDocuments;
+	private String[] fob_id_fks,fobFileNames,fob_file_types,created_dates,fobDocumentNames,fob_documents_ids,fobDoc_file_types;
+	private String[] fob_detail_names,fob_detail_values,fob_file_ids,contracts_id_fk,documentNamesFob,fileNamesFob;
 	
 	
 	
+	public String getFobDoc_file_type() {
+		return fobDoc_file_type;
+	}
+
+	public void setFobDoc_file_type(String fobDoc_file_type) {
+		this.fobDoc_file_type = fobDoc_file_type;
+	}
+
+	public MultipartFile[] getFobDocumentFiles() {
+		return fobDocumentFiles;
+	}
+
+	public void setFobDocumentFiles(MultipartFile[] fobDocumentFiles) {
+		this.fobDocumentFiles = fobDocumentFiles;
+	}
+
+	public String[] getFobDoc_file_types() {
+		return fobDoc_file_types;
+	}
+
+	public void setFobDoc_file_types(String[] fobDoc_file_types) {
+		this.fobDoc_file_types = fobDoc_file_types;
+	}
+
+	public String[] getDocumentNamesFob() {
+		return documentNamesFob;
+	}
+
+	public void setDocumentNamesFob(String[] documentNamesFob) {
+		this.documentNamesFob = documentNamesFob;
+	}
+
+	public String[] getFileNamesFob() {
+		return fileNamesFob;
+	}
+
+	public void setFileNamesFob(String[] fileNamesFob) {
+		this.fileNamesFob = fileNamesFob;
+	}
+
+	public String[] getFob_documents_ids() {
+		return fob_documents_ids;
+	}
+
+	public void setFob_documents_ids(String[] fob_documents_ids) {
+		this.fob_documents_ids = fob_documents_ids;
+	}
+
+	public String getFob_documents_id() {
+		return fob_documents_id;
+	}
+
+	public void setFob_documents_id(String fob_documents_id) {
+		this.fob_documents_id = fob_documents_id;
+	}
+
+	public List<FOB> getFobDocuments() {
+		return fobDocuments;
+	}
+
+	public void setFobDocuments(List<FOB> fobDocuments) {
+		this.fobDocuments = fobDocuments;
+	}
+
 	public String getUnit() {
 		return unit;
 	}

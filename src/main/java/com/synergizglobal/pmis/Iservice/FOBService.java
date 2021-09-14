@@ -52,4 +52,6 @@ public interface FOBService {
 
 	List<FOB> getUnitsList(FOB obj) throws Exception;
 
+	List<FOB> getFobFileTypeList(FOB obj) throws Exception;
+
 }

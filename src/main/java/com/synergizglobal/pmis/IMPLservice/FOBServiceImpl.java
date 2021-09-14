@@ -125,4 +125,9 @@ public class FOBServiceImpl implements FOBService {
 		return fobDao.getUnitsList(obj);
 	}
 
+	@Override
+	public List<FOB> getFobFileTypeList(FOB obj) throws Exception {
+		return fobDao.getFobFileTypeList(obj);
+	}
+
 }

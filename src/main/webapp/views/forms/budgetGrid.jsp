@@ -177,12 +177,12 @@
 												<th class='fw-300'>Work</th>
 												<th>Latest <br>Financial Year
 												</th>
-												<th  >Budget Estimate</th>
-												<th  >Budget Grant</th>
-												<th  >Reivised Estimate</th>
-												<th  >Reivised Grant</th>
-												<th  >Final Estimate</th>
-												<th  >Final Grant</th>
+												<th>Budget Estimate</th>
+												<th>Budget Grant</th>
+												<th>Reivised Estimate</th>
+												<th>Reivised Grant</th>
+												<th>Final Estimate</th>
+												<th>Final Grant</th>
 												<th class="no-sort">Action</th>
 											</tr>
 										</thead>
@@ -396,7 +396,9 @@
     								"targets" : 'no-sort',
     								"orderable" : false,
     							},{targets:[2,3,4,5,6,7],
-    			                       className: 'hideCOl'},{ targets: [0], className: 'no-sort'  }],
+    			                       className: 'hideCOl td-align-right'},{ targets: [0], className: 'no-sort'  }
+    			                       ,{ targets: [1], className: 'td-align-center'  }
+    			                ],
     							"sScrollX" : "100%",
     							"sScrollXInner" : "100%",
     							"ordering":false,

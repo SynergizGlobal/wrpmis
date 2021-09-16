@@ -804,13 +804,15 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					arraySize = obj.getActualScopes().length;
 				}
 			}
-			/*
-			 * if( !StringUtils.isEmpty(obj.getActivity_ids()) &&
-			 * obj.getActivity_ids().length > 0) {
-			 * obj.setActivity_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.
-			 * getActivity_ids())); if(arraySize < obj.getActivity_ids().length) { arraySize
-			 * = obj.getActivity_ids().length; } }
-			 */
+			
+			  if( !StringUtils.isEmpty(obj.getActivity_ids()) && obj.getActivity_ids().length > 0) 
+			  {
+				 obj.setActivity_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getActivity_ids())); if(arraySize < obj.getActivity_ids().length) 
+				 { 
+					 arraySize= obj.getActivity_ids().length; 
+				 } 
+			 }
+			 
 			
 			for (int i = 0; i < arraySize; i++) 
 			{				

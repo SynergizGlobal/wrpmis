@@ -42,22 +42,31 @@
 	                                <div class="row no-mar">
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="getContractsListInSafetyDetailsReport(this.value);getTitlesListInSafetyDetailsReport();">
+	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getContractsListInSafetyDetailsReport(this.value);getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getStatusListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport();">
 	                                            <option value="">Select </option>
+	                                            <c:forEach var="obj" items="${worksList }">
+                                                    <option  value="${obj.work_id_fk }"> <c:if test="${ empty obj.work_short_name}"> ${obj.work_id_fk } </c:if>${obj.work_short_name }</option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract</p>
-	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="getHODListInSafetyDetailsReport(this.value);getTitlesListInSafetyDetailsReport();">
+	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getHODListInSafetyDetailsReport(this.value);getStatusListInSafetyDetailsReport();getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
+	                                            <c:forEach var="obj" items="${contractsList }">
+                                                    <option workId="${obj.work_id_fk }" value="${obj.contract_id_fk }"><c:if test="${ empty obj.contract_short_name}"> ${obj.contract_id_fk } </c:if> ${obj.contract_short_name }</option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="contract_id_fkError" class="error-msg" ></span>
 	                                    </div>
 										<div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
-	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="getStatusListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();">
+	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="addInQueHOD(this.value);getStatusListInSafetyDetailsReport();getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getStatusListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
+	                                            <c:forEach var="obj" items="${hodsList }">
+                                                    <option value="${obj.hod_user_id_fk }"> ${obj.designation }</option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                    </div>
@@ -65,28 +74,37 @@
 	                                    <div class="row">
 	                                     <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Status</p>
-	                                        <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getLocationsListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();">
+	                                        <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getLocationsListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
+	                                            <c:forEach var="obj" items="${statusList }">
+                                                    <option  value="${obj.status_fk }"> ${obj.status_fk } </option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="status_fkError" class="error-msg" ></span>
 	                                    </div> 
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Location</p>
-	                                        <select class="searchable validate-dropdown" id="location" name="location" onchange="getCategoriesListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();">
+	                                        <select class="searchable validate-dropdown" id="location" name="location" onchange="addInQueLocations(this.value);getCategoriesListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
+	                                            <c:forEach var="obj" items="${locationList }">
+                                                    <option  value="${obj.location }"> ${obj.location }</option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="locationError" class="error-msg" ></span>
 	                                    </div> 
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Category</p>
-	                                        <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="getTitlesListInSafetyDetailsReport();">
+	                                        <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="addInQueCategories(this.value);getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
+	                                            <c:forEach var="obj" items="${categoryList }">
+                                                    <option  value="${obj.category_fk }"> ${obj.category_fk }</option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="category_fkError" class="error-msg" ></span>
 	                                    </div> 
 	                                     <div class="col s6 m9 l9 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Description <span class="required">*</span></p>
-	                                        <select class="searchable validate-dropdown" id="safety_id" name="safety_id">
+	                                        <select class="searchable validate-dropdown" id="safety_id" name="safety_id" onchange="addInQueTitles(this.value);getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="safety_idError" class="error-msg" ></span>
@@ -143,6 +161,7 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
+    	var filtersMap = new Object();
       	function getErrorMessage(jqXHR, exception) {
         	    var msg = '';
         	    if (jqXHR.status === 0) {
@@ -163,19 +182,120 @@
         	    console.log(msg);
          }
         
-        
+      	function clearFilter(){
+			$('#work_id_fk').val('');
+			$('#contract_id_fk').val('');
+			$('#hod_user_id_fk').val('');
+			$('#status_fk').val('');
+			$('#location').val('');
+			$('#category_fk').val('');
+			$('#safety_id').val('');
+			$('.searchable').select2();
+			window.localStorage.setItem("safetyDetailReportFilters",'');
+			window.location.href= "<%=request.getContextPath()%>/safety-detail-report"
+		}
         $(document).ready(function(){
         	$('.searchable').select2();
-        	getWorksListInSafetyDetailsReport();
-        	getContractsListInSafetyDetailsReport("");
-        	getHODListInSafetyDetailsReport("");
-        	getStatusListInSafetyDetailsReport();
-        	getLocationsListInSafetyDetailsReport();
-        	getCategoriesListInSafetyDetailsReport();
-        	getTitlesListInSafetyDetailsReport();
+        	 var filters = window.localStorage.getItem("safetyDetailReportFilters");
+             
+             if($.trim(filters) != '' && $.trim(filters) != null){
+           	  var temp = filters.split('^'); 
+           	  for(var i=0;i< temp.length;i++){
+     	        	  if($.trim(temp[i]) != '' ){
+     	        		  var temp2 = temp[i].split('=');
+     		        	  if($.trim(temp2[0]) == 'work_id_fk' ){
+     		        		 getWorksListInSafetyDetailsReport(temp2[1]);
+     		        		getContractsListInSafetyDetailsReport("");
+     		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+     		        		 getContractsListInSafetyDetailsReport(temp2[1]);
+     		        		getHODListInSafetyDetailsReport("");
+     		        		getStatusListInSafetyDetailsReport("");
+     		        		getLocationsListInSafetyDetailsReport("");
+     		        		getCategoriesListInSafetyDetailsReport("");
+     		        		getTitlesListInSafetyDetailsReport("");
+     		        	  }else if($.trim(temp2[0]) == 'hod_user_id_fk'){
+     		        		 getHODListInSafetyDetailsReport(temp2[1]);
+     		        	  }else if($.trim(temp2[0]) == 'status_fk'){
+     		        		 getStatusListInSafetyDetailsReport(temp2[1]);
+     		        	  }else if($.trim(temp2[0]) == 'location'){
+     		        		 getLocationsListInSafetyDetailsReport(temp2[1]);
+     		        	  }else if($.trim(temp2[0]) == 'category_fk'){
+     		        		 getCategoriesListInSafetyDetailsReport(temp2[1]);
+     		        	  }else if($.trim(temp2[0]) == 'safety_id'){
+     		        		 getTitlesListInSafetyDetailsReport(temp2[1]);
+     		        	  }
+     	        	  }
+     	          }
+               }
+         	/*  getWorksListInSafetyDetailsReport("");
+         	getContractsListInSafetyDetailsReport("");
+         	getHODListInSafetyDetailsReport("");
+         	getStatusListInSafetyDetailsReport("");
+         	getLocationsListInSafetyDetailsReport("");
+         	getCategoriesListInSafetyDetailsReport("");  */
+         	getSafetyDetailsReport();
         });
+        function addInQueHOD(hod_user_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('hod_user_id_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(hod_user_id_fk) != ''){
+       	    	filtersMap["hod_user_id_fk"] = hod_user_id_fk;
+        	}
+        }
         
-        function getWorksListInSafetyDetailsReport() {
+        function addInQueWork(work_id_fk){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('work_id_fk')) delete filtersMap[key];
+       	   	});
+          	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+          	}
+        } 
+        function addInQueContract(contract_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('contract_id_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(contract_id_fk) != ''){
+       	    	filtersMap["contract_id_fk"] = contract_id_fk;
+        	}
+        }
+        
+        function addInQueStatus(status_fk){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('status_fk')) delete filtersMap[key];
+       	   	});
+          	if($.trim(status_fk) != ''){
+            	filtersMap["status_fk"] = status_fk;
+          	}
+        }
+        function addInQueLocations(location){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('location')) delete filtersMap[key];
+       		});
+        	if($.trim(location) != ''){
+       	    	filtersMap["location"] = location;
+        	}
+        }
+        
+        function addInQueCategories(category_fk){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('category_fk')) delete filtersMap[key];
+       	   	});
+          	if($.trim(category_fk) != ''){
+            	filtersMap["category_fk"] = category_fk;
+          	}
+        } 
+        function addInQueTitles(safety_id){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('safety_id')) delete filtersMap[key];
+       		});
+        	if($.trim(safety_id) != ''){
+       	    	filtersMap["safety_id"] = safety_id;
+        	}
+        }
+   
+        function getWorksListInSafetyDetailsReport(work) {
         	$(".page-loader").show();
            	$("#work_id_fk option:not(:first)").remove();
            	var myParams = {}
@@ -188,7 +308,8 @@
                            	 var workShortName = '';
                              if ($.trim(val.work_short_name) != '') { workShortName = $.trim(val.work_short_name) }
                              if ($.trim(val.work_short_name) == '') { workShortName = $.trim(val.work_id_fk) }
-   	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + workShortName +'</option>');
+                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
+   	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + workShortName +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -201,7 +322,8 @@
         }
         
         
-        function getContractsListInSafetyDetailsReport(work_id_fk){
+        function getContractsListInSafetyDetailsReport(contarct){
+        	var work_id_fk = $("#work_id_fk").val();
         	$(".page-loader").show();
            	$("#contract_id_fk option:not(:first)").remove();
            	$("#hod_user_id_fk option:not(:first)").remove();
@@ -217,7 +339,8 @@
                         	   var contractShortName = '';
                                if ($.trim(val.contract_short_name) != '') { contractShortName = $.trim(val.contract_short_name) }
                                if ($.trim(val.contract_short_name) == '') { contractShortName = $.trim(val.contract_id_fk) }
-							   $("#contract_id_fk").append('<option value="' + $.trim(val.contract_id_fk) + '">' + contractShortName +'</option>');
+                               var selectedFlag = (contarct == val.contract_id_fk)?'selected':'';
+							   $("#contract_id_fk").append('<option value="' + $.trim(val.contract_id_fk) + '"'+selectedFlag+'>' + contractShortName +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -229,9 +352,10 @@
             });
         }
         
-        function getHODListInSafetyDetailsReport(contract_id_fk){
+        function getHODListInSafetyDetailsReport(hod){
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
            	$("#hod_user_id_fk option:not(:first)").remove();
            	$("#status_fk option:not(:first)").remove();
            	$("#safety_id option:not(:first)").remove();
@@ -242,7 +366,8 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                        	   $("#hod_user_id_fk").append('<option value="' + $.trim(val.hod_user_id_fk) + '">' + $.trim(val.designation) +'</option>');
+                        	   var selectedFlag = (hod == val.hod_user_id_fk)?'selected':'';
+                        	   $("#hod_user_id_fk").append('<option value="' + $.trim(val.hod_user_id_fk) + '"'+selectedFlag+'>' + $.trim(val.designation) +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -254,12 +379,12 @@
             });
         }
         
-        function getStatusListInSafetyDetailsReport(){
+        function getStatusListInSafetyDetailsReport(status){
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var hod_user_id_fk = $("#hod_user_id_fk").val();
-           	$("#status_fk option:not(:first)").remove();
+        	$("#status_fk option:not(:first)").remove();
            	$("#safety_id option:not(:first)").remove();
            	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk,hod_user_id_fk : hod_user_id_fk}
            	$.ajax({
@@ -268,7 +393,8 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                        	   $("#status_fk").append('<option value="' + $.trim(val.status_fk) + '">' + $.trim(val.status_fk) +'</option>');
+                        	   var selectedFlag = (status == val.status_fk)?'selected':'';
+                        	   $("#status_fk").append('<option value="' + $.trim(val.status_fk) + '"'+selectedFlag+'>' + $.trim(val.status_fk) +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -280,7 +406,7 @@
             });
         }
         
-        function getLocationsListInSafetyDetailsReport(){
+        function getLocationsListInSafetyDetailsReport(location){
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
@@ -294,7 +420,8 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                        	   $("#location").append('<option value="' + $.trim(val.location) + '">' + $.trim(val.location) +'</option>');
+                        	   var selectedFlag = (location == val.location)?'selected':'';
+                        	   $("#location").append('<option value="' + $.trim(val.location) + '"'+selectedFlag+'>' + $.trim(val.location) +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -306,7 +433,7 @@
             });
         }
         
-        function getCategoriesListInSafetyDetailsReport(){
+        function getCategoriesListInSafetyDetailsReport(categoy){
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
@@ -321,7 +448,8 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                        	   $("#category_fk").append('<option value="' + $.trim(val.category_fk) + '">' + $.trim(val.category_fk) +'</option>');
+                        	   var selectedFlag = (categoy == val.category_fk)?'selected':'';
+                        	   $("#category_fk").append('<option value="' + $.trim(val.category_fk) + '"'+selectedFlag+'>' + $.trim(val.category_fk) +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -333,14 +461,24 @@
             });
         }
         
-        function getTitlesListInSafetyDetailsReport(){
+        function getTitlesListInSafetyDetailsReport(title){
         	$(".page-loader").show();
+        	/* getWorksListInSafetyDetailsReport("");
+        	//getContractsListInSafetyDetailsReport("");
+        	getHODListInSafetyDetailsReport("");
+        	getStatusListInSafetyDetailsReport("");
+        	getLocationsListInSafetyDetailsReport("");
+        	getCategoriesListInSafetyDetailsReport(""); */
+        	
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var hod_user_id_fk = $("#hod_user_id_fk").val();
         	var status_fk = $("#status_fk").val();
         	var location = $("#location").val();
         	var category_fk = $("#category_fk").val();
+        	var safety_id = $("#safety_id").val();
+        	
+        
            	$("#safety_id option:not(:first)").remove();
            	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk,hod_user_id_fk : hod_user_id_fk, status_fk : status_fk,location : location,category_fk : category_fk}
            	$.ajax({
@@ -349,7 +487,8 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                        	   $("#safety_id").append('<option work_id_fk="'+$.trim(val.work_id_fk)+'" contract_id_fk="'+$.trim(val.contract_id_fk)+'" status_fk="'+$.trim(val.status_fk)+'" hod_user_id_fk="'+$.trim(val.hod_user_id_fk)+'" value="' + $.trim(val.safety_id) + '">' + $.trim(val.location) +' - '+ $.trim(val.title) +'</option>');
+                        	   var selectedFlag = (title == val.safety_id)?'selected':'';
+                        	   $("#safety_id").append('<option work_id_fk="'+$.trim(val.work_id_fk)+'" contract_id_fk="'+$.trim(val.contract_id_fk)+'" status_fk="'+$.trim(val.status_fk)+'" hod_user_id_fk="'+$.trim(val.hod_user_id_fk)+'" value="' + $.trim(val.safety_id) + '"'+selectedFlag+'>' + $.trim(val.location) +' - '+ $.trim(val.title) +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -360,7 +499,23 @@
    	   	     	  }
             });
         }
-        
+        function getSafetyDetailsReport(){
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
+        	var status_fk = $("#status_fk").val();
+        	var location = $("#location").val();
+        	var category_fk = $("#category_fk").val();
+        	var safety_id = $("#safety_id").val();
+        	
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+        		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("safetyDetailReportFilters", filters);
+    			});
+        	
+        }
         function setDropdownValues(){
         	var work_id_fk = $("#safety_id").find('option:selected').attr("work_id_fk");
         	var contract_id_fk = $("#safety_id").find('option:selected').attr("contract_id_fk");
@@ -447,17 +602,7 @@
 			    }
 			}); 
         
-			function clearFilter(){
-				$('#work_id_fk').val('');
-				$('#contract_id_fk').val('');
-				$('#hod_user_id_fk').val('');
-				$('#status_fk').val('');
-				$('#location').val('');
-				$('#category_fk').val('');
-				$('#safety_id').val('');
-				$('.searchable').select2();
-				window.location.href= "<%=request.getContextPath()%>/safety-detail-report"
-			}
+			
     </script>
 
 </body>

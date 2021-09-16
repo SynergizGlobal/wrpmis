@@ -153,6 +153,10 @@ public class SafetyDetailsReportController {
 			model.addObject("hodsList", hodsList);
 			List<Safety> statusList = safetyDetailsService.getStatusListInSafetyDetailsReport(obj);
 			model.addObject("statusList", statusList);
+			List<Safety> locationList = safetyDetailsService.getLocationsListInSafetyDetailsReport(obj);
+			model.addObject("locationList", locationList);
+			List<Safety> categoryList = safetyDetailsService.getCategoriesListInSafetyDetailsReport(obj);
+			model.addObject("categoryList", categoryList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("safetysReport : " + e.getMessage());

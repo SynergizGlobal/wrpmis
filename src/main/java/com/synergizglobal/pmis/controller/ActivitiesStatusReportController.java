@@ -80,8 +80,11 @@ public class ActivitiesStatusReportController {
 	public ModelAndView stripChartDPRReport(@ModelAttribute ActivitiesProgressReport obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView(PageConstants.activitiesStatusReport);
 		try{
-			List<ActivitiesProgressReport> contarctsList = service.getContractsListInActivities();
+			List<ActivitiesProgressReport> contarctsList = service.getContractsFilterListInActivitiesStatusReport(obj);
 			model.addObject("contarctsList", contarctsList);
+			
+			List<ActivitiesProgressReport> worksList = service.getWorksFilterListInActivitiesStatusReport(obj);
+			model.addObject("worksList", worksList);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("stripChartDPRReport : " + e.getMessage());

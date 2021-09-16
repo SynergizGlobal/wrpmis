@@ -559,7 +559,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				float completed = Float.parseFloat(aObj.getCompleted());
 				float remaining = Float.parseFloat(aObj.getRemaining_scope());
 				float actual_for_the_day = Float.parseFloat(aObj.getActual_for_the_day());
-				if((completed+actual_for_the_day) <= scope) {
+				if((completed) <= scope) {
+				/*if((completed+actual_for_the_day) <= scope) {*/
 					String updateQry = "UPDATE activities SET completed = ? + ?";	
 					int arrSize = 3;
 					

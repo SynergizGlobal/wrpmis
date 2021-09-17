@@ -136,7 +136,7 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
- 	var filters = window.localStorage.getItem("alertReportFilters");
+ 			var filters = window.localStorage.getItem("alertReportFilters");
             
             if($.trim(filters) != '' && $.trim(filters) != null){
           	  var temp = filters.split('^'); 

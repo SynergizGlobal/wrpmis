@@ -42,14 +42,14 @@
 	                                <div class="row">
 	                                    <div class="col s6 m4 l3 input-field offset-l1">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select class="searchable validate-dropdown" id="sub_work" name="sub_work" onchange="getAssessmentDateListInRiskReport(this.value);">
+	                                        <select class="searchable validate-dropdown" id="sub_work" name="sub_work" onchange="addInQueWork(this.value);getAssessmentDateListInRiskReport('');getRiskReport();">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="sub_workError" class="error-msg" ></span>
 	                                    </div>
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label">Assessment Date</p>
-	                                        <select class="searchable validate-dropdown" id="report_assessment_date" name="assessment_date">
+	                                        <select class="searchable validate-dropdown" id="report_assessment_date" name="assessment_date" onchange="addInQueDate(this.value);getRiskReport();">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="report_assessment_dateError" class="error-msg" ></span>
@@ -102,6 +102,7 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
+        var filtersMap = new Object();
       	function getErrorMessage(jqXHR, exception) {
         	    var msg = '';
         	    if (jqXHR.status === 0) {
@@ -124,22 +125,68 @@
         
         
         $(document).ready(function(){
-        	//getWorksListInRiskReport();
-        	getSubWorksListInRiskReport();
+			var filters = window.localStorage.getItem("riskReportFilters");
+            
+            if($.trim(filters) != '' && $.trim(filters) != null){
+          	  var temp = filters.split('^'); 
+          	  for(var i=0;i< temp.length;i++){
+    	        	  if($.trim(temp[i]) != '' ){
+    	        		  var temp2 = temp[i].split('=');
+    		        	  if($.trim(temp2[0]) == 'sub_work' ){
+    		        		  getSubWorksListInRiskReport(temp2[1]);
+    		        		  getAssessmentDateListInRiskReport("");
+    		        	  }else if($.trim(temp2[0]) == 'report_assessment_date'){
+    		        		  getAssessmentDateListInRiskReport(temp2[1]);
+    		        	  }
+    	        	  }
+    	          }
+              }
+            getRiskReport();  			
         });
         
+        function addInQueWork(sub_work){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('sub_work')) delete filtersMap[key];
+       	   	});
+          	if($.trim(sub_work) != ''){
+            	filtersMap["sub_work"] = sub_work;
+          	}
+        } 
+        function addInQueDate(report_assessment_date){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('report_assessment_date')) delete filtersMap[key];
+       		});
+        	if($.trim(report_assessment_date) != ''){
+       	    	filtersMap["report_assessment_date"] = report_assessment_date;
+        	}
+        }
         
-        function getSubWorksListInRiskReport(){
+       function getRiskReport(){
+    	   
+    	  	var sub_work = $("#sub_work").val();
+    	  	if(sub_work == "") { getSubWorksListInRiskReport("");}
+        	var report_assessment_date = $("#report_assessment_date").val();
+        	
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("riskReportFilters", filters);
+    			});
+    	   
+       }
+        
+        function getSubWorksListInRiskReport(work){
         	$(".page-loader").show();
            	$("#sub_work option:not(:first)").remove();
            	var myParams = {}
            	$.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getSubWorksListInRiskReport",
-                   data: myParams, cache: false,
+                   data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-								$("#sub_work").append('<option value="' + $.trim(val.sub_work) + '">' + $.trim(val.sub_work)+'</option>');
+                        	    var selectedFlag = (work == val.sub_work)?'selected':'';
+								$("#sub_work").append('<option value="' + $.trim(val.sub_work) + '"'+selectedFlag+'>' + $.trim(val.sub_work)+'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -152,18 +199,19 @@
         }
         
         
-        function getAssessmentDateListInRiskReport(sub_work) {
+        function getAssessmentDateListInRiskReport(date) {
         	$(".page-loader").show();
-        	var work_id = $("#report_work_id").val();
+        	var sub_work = $("#sub_work").val();
            	$("#report_assessment_date option:not(:first)").remove();
-           	var myParams = {work_id : work_id,sub_work : sub_work}
+           	var myParams = {sub_work : sub_work}
            	$.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getAssessmentDateListInRiskReport",
-                   data: myParams, cache: false,
+                   data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-								$("#report_assessment_date").append('<option value="' + $.trim(val.assessment_date) + '">' + $.trim(val.assessment_date)+'</option>');
+                        	    var selectedFlag = (date == val.assessment_date)?'selected':'';
+								$("#report_assessment_date").append('<option value="' + $.trim(val.assessment_date) + '"'+selectedFlag+'>' + $.trim(val.assessment_date)+'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -229,6 +277,8 @@
     		$('#sub_work').val('');
     		$('#report_assessment_date').val('');
     		$('.searchable').select2();
+    		window.localStorage.setItem("riskReportFilters",'');
+    		window.location.href= "<%=request.getContextPath()%>/risk-analysis-report"
     	}
     </script>
 

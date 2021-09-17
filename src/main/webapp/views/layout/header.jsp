@@ -758,19 +758,16 @@
 					<c:forEach var="form" items="${forms }" varStatus="index">
 						<c:if test="${empty form.formsSubMenu}">
 							<li>
-								<c:if test="${not empty form.webFormUrl}">
-									<c:if test="${form.formName eq 'Issues'}"> <%--written intentionally --%>
+								<c:if test="${not empty form.webFormUrl}">									
 										<a href="<%=request.getContextPath()%>/${form.webFormUrl }">
-											<span class="nav-label">${form.formName }</span>
-										</a>
-									</c:if>
+											<span class="nav-label">${form.formName }</span> 										</a>									
 								</c:if>
 							</li>
 						</c:if>
 						
 						<c:if test="${not empty form.formsSubMenu}">
 								<li class="sub-menu"><a href="#!" class="collapsible-header">
-										<span class="nav-label">${form.formName }</span>
+										<span class="nav-label">${form.formName }</span> 
 								</a>
 									<ul class="dropdown-data collapsible-body third-lvl">
 										<c:forEach var="subList" items="${form.formsSubMenu }">
@@ -791,10 +788,10 @@
 														</c:forEach>
 													</ul></li>
 											</c:if>
-											<li><a
+											<%-- <li><a
 												href="<%=request.getContextPath()%>/${subList.webFormUrl }">
-													<span class="nav-label">${subList.formName }</span>
-											</a></li>
+													<span class="nav-label">${subList.formName }</span> <span>not empty </span>
+											</a></li> --%>
 										</c:forEach>
 									</ul></li>
 						</c:if> 

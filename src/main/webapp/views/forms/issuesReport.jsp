@@ -75,12 +75,12 @@
 	                                    
 	                                </div>    
 	                                <div class="row">	                                	
-	                                    <div class="col s6 m4 l3 input-field offset-l1">
+	                                    <div class="col s5 m4 l3 input-field offset-l1">
 	                                        <button class="btn bg-s waves-effect waves-light t-c" type="button"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="clearFilter()">Clear Filter</button>
 	                                    </div>
-	                                    <div class="col s6 m4 l3 input-field">
+	                                    <div class="col s7 m4 l3 input-field">
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generatePendingIssuesReport()">Generate Report</button>

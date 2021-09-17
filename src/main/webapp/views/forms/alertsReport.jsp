@@ -86,10 +86,10 @@
 							</div>									
 							
 							<div class="row">	
-								<div class="col s6 m6 input-field center-align">
+								<div class="col s12 m6 input-field center-align">
 									<button type="button" class="btn waves-effect waves-light bg-s t-c" onclick="clearFilters();">Clear Filters</button>
 								</div>
-								<div class="col s6 m6 input-field center-align">
+								<div class="col s12 m6 input-field center-align">
 									<button type="submit" class="btn waves-effect waves-light bg-m t-c"><strong>Generate Contracts Alert Report </strong></button>
 								</div>
 							</div>

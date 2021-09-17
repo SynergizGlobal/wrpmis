@@ -47,7 +47,7 @@
                        		 <div class="row no-mar">
                                 <div class="col s6 m4 l2 input-field offset-l3">
                                     <p class="searchable_label" style="text-align:left">Project</p>
-                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getWorksList();getContractsList();getHODLIst();">
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="addInQueProject(this.value);getWorksList();getContractsList();getHODList();getResourceReport();">
                                         <option value="">Select </option>
                                          <c:forEach var="obj" items="${projectsList }">
                                       	   <option value= "${obj.project_id_fk}">${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
@@ -57,7 +57,7 @@
                                 </div> 
                                 <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label" style="text-align:left">Work</p>
-                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns();getHODLIst();getContractsList();">
+                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);resetProjectsDropdowns();getHODList();getContractsList();getResourceReport();">
                                         <option value="">Select </option>
                                           <c:forEach var="obj" items="${worksList }">
                                       	   <option value= "${obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label" style="text-align:left">HOD</p>
-                                    <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="resetWorksAndProjectsDropdowns();getContractsList();">
+                                    <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="addInQueHOD(this.value);resetWorksAndProjectsDropdowns();getContractsList();getResourceReport();">
                                         <option value="">Select </option>
                                          <c:forEach var="obj" items="${HODsList }">
                                       	   <option name="${obj.work_id_fk }" value= "${obj.hod_user_id_fk}">${obj.designation}<%-- <c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name } --%></option>
@@ -79,7 +79,7 @@
                            <div class="row">
                            		<div class="col s6 m4 l2 input-field offset-l3 pt-md-5">
                                     <p class="searchable_label" style="text-align:left">Contract</p>
-                                    <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="resetWorksAndProjectsDropdowns();setHODist();">
+                                    <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);resetWorksAndProjectsDropdowns();setHODList();getResourceReport();">
                                         <option value="">Select </option>
                                         <c:forEach var="obj" items="${contractsList }">
                                       	   <option workId="${obj.work_id_fk }" name="${obj.hod_user_id_fk }" value= "${obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
@@ -144,6 +144,7 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
+    var filtersMap = new Object();
     let date_pickers = document.querySelectorAll('.datepicker');
     $.each(date_pickers, function(){
     	var dt = this.value.split(/[^0-9]/);
@@ -176,27 +177,87 @@
          }
                 
         $(document).ready(function(){
-			$('.searchable').select2();			
+			$('.searchable').select2();	
+            var filters = window.localStorage.getItem("contrctResourceReportFilters");
+            
+            if($.trim(filters) != '' && $.trim(filters) != null){
+          	  var temp = filters.split('^'); 
+          	  for(var i=0;i< temp.length;i++){
+    	        	  if($.trim(temp[i]) != '' ){
+    	        		  var temp2 = temp[i].split('=');
+    		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
+    		        		  getProjectList(temp2[1]);
+    		        		  getContractsList("");
+    		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+    		        		  getWorksList(temp2[1]);
+    		        		  resetProjectsDropdowns();
+    		        		  getContractsList("");
+    		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+    		        		  getContractsList(temp2[1]);
+    		        		  getHODList("");
+    		        		  setHODList();
+    		        		  resetWorksAndProjectsDropdowns();
+    		        	  }else if($.trim(temp2[0]) == 'hod_user_id_fk'){
+    		        		  getHODList(temp2[1]);
+    		        	  }
+    	        	  }
+    	          }
+              }
 		});    
+        function addInQueWork(work_id_fk){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('work_id_fk')) delete filtersMap[key];
+       	   	});
+          	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+          	}
+        } 
+        function addInQueProject(project_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('project_id_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(project_id_fk) != ''){
+       	    	filtersMap["project_id_fk"] = project_id_fk;
+        	}
+        }
         
-        function getWorksList() {
+        function addInQueContract(contract_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('contract_id_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(contract_id_fk) != ''){
+       	    	filtersMap["contract_id_fk"] = contract_id_fk;
+        	}
+        }
+        function addInQueHOD(hod_user_id_fk){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('hod_user_id_fk')) delete filtersMap[key];
+       	   	});
+          	if($.trim(hod_user_id_fk) != ''){
+            	filtersMap["hod_user_id_fk"] = hod_user_id_fk;
+          	}
+        }
+        function getWorksList(work) {
         	$(".page-loader").show();
-            $("#work_id_fk option:not(:first)").remove();
-            $("#hod_user_id_fk option:not(:first)").remove();
-            $("#contract_id_fk option:not(:first)").remove();
+          
             var project_id_fk = $("#project_id_fk").val();
+            var work_id_fk = $("#work_id_fk").val();
             var hod_user_id_fk = $("#hod_user_id_fk").val();
-            if ($.trim(project_id_fk) != "" || $.trim(hod_user_id_fk) != "") {
+            if ($.trim(work_id_fk) == "") {
+           	    $("#work_id_fk option:not(:first)").remove();
+                $("#hod_user_id_fk option:not(:first)").remove();
+                $("#contract_id_fk option:not(:first)").remove();
                 var myParams = { project_id_fk: project_id_fk, hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorkListForContractResourceReportForm",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
                                 if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                var selectedFlag = (work == val.work_id_fk)?'selected':'';
+                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -208,24 +269,27 @@
             }
         }
         
-        function getProjectList() {
+        function getProjectList(project) {
         	$(".page-loader").show();
-        	$("#project_id_fk option:not(:first)").remove();
-            $("#work_id_fk option:not(:first)").remove();
-            $("#contract_id_fk option:not(:first)").remove();
+        
+            var project_id_fk = $("#project_id_fk").val();
             var work_id_fk = $("#work_id_fk").val();
             var hod_user_id_fk = $("#hod_user_id_fk").val();
-            if ($.trim(work_id_fk) != "" || $.trim(hod_user_id_fk) != "") {
+            if ($.trim(project_id_fk) == "" ) {
+            	$("#project_id_fk option:not(:first)").remove();
+                $("#work_id_fk option:not(:first)").remove();
+                $("#contract_id_fk option:not(:first)").remove();
                 var myParams = { work_id_fk: work_id_fk, hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getProjectsListForContractResourceReportForm",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var project_name = '';
                                 if ($.trim(val.project_name) != '') { project_name = ' - ' + $.trim(val.project_name) }
-                                    $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk) + $.trim(project_name) + '</option>');
+                                var selectedFlag = (project == val.project_id_fk)?'selected':'';
+                                $("#project_id_fk").append('<option value="' + val.project_id_fk + '"'+selectedFlag+'>' + $.trim(val.project_id_fk) + $.trim(project_name) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -236,22 +300,23 @@
             	$(".page-loader").hide();
             }
         }
-        function getHODLIst(){
+        function getHODList(hod){
 			$(".page-loader").show();
         	
-            $("#hod_user_id_fk option:not(:first)").remove();
             var project_id_fk = $("#project_id_fk").val();
             var work_id_fk = $("#work_id_fk").val();
             var hod_user_id_fk = $("#hod_user_id_fk").val();
-            if (($.trim(work_id_fk) != "" || $.trim(project_id_fk) != "") &&  $.trim(hod_user_id_fk) == "") {
+            if ($.trim(hod_user_id_fk) == "" ) {
+                $("#hod_user_id_fk option:not(:first)").remove();
                 var myParams = { work_id_fk: work_id_fk, project_id_fk : project_id_fk };
                 $.ajax({
                 	url: "<%=request.getContextPath()%>/ajax/getHODSListForContractResourceReportForm", 
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                               $("#hod_user_id_fk").append('<option name="'+val.work_id_fk +'"  value="' + val.hod_user_id_fk + '">' + $.trim(val.designation)  + '</option>');
+                               var selectedFlag = (hod == val.hod_user_id_fk)?'selected':'';
+                               $("#hod_user_id_fk").append('<option name="'+val.work_id_fk +'"  value="' + val.hod_user_id_fk + '"'+selectedFlag+'>' + $.trim(val.designation)  + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -262,24 +327,26 @@
             	$(".page-loader").hide();
             }
         }
-        function getContractsList() {
+        function getContractsList(contarct) {
         	$(".page-loader").show();
         	
-            $("#contract_id_fk option:not(:first)").remove();
             var project_id_fk = $("#project_id_fk").val();
+            var contract_id_fk = $("#contract_id_fk").val();
             var work_id_fk = $("#work_id_fk").val();
             var hod_user_id_fk = $("#hod_user_id_fk").val();
-            if ($.trim(work_id_fk) != "" || $.trim(hod_user_id_fk) != "" || $.trim(project_id_fk) != "") {
+            if ($.trim(contract_id_fk) == "" ) {
+            	$("#contract_id_fk option:not(:first)").remove();
                 var myParams = { work_id_fk: work_id_fk, hod_user_id_fk : hod_user_id_fk,project_id_fk : project_id_fk };
                 $.ajax({
                 	url: "<%=request.getContextPath()%>/ajax/getContractsListForContractResourceReportForm",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_name = '';
                                 if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
-                                	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" name="'+val.hod_user_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                var selectedFlag = (contarct == val.contract_id_fk)?'selected':'';
+                                $("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" name="'+val.hod_user_id_fk +'" value="' + val.contract_id_fk + '"'+selectedFlag+'>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -290,7 +357,7 @@
             	$(".page-loader").hide();
             }
         }
-        function setHODist(){
+        function setHODList(){
         	$(".page-loader").show();        	
        		var contract_id_fk = $("#contract_id_fk").val();
        		if($.trim(contract_id_fk) != ''){  
@@ -317,7 +384,7 @@
        			$("#project_id_fk").select2();
        			$("#work_id_fk").val(workId);
        			$("#work_id_fk").select2();
-       		}else{
+       		} else{
        			workId = $("#hod_user_id_fk").find('option:selected').attr("name"); 
        			//contract_id_fk = $("#hod_user_id_fk").find('option:selected').attr("name"); 
        			projectId = workId.substring(0, 3);    
@@ -325,7 +392,7 @@
        			$("#project_id_fk").select2();
        			$("#work_id_fk").val(workId);
        			$("#work_id_fk").select2();
-       		}
+       		} 
        		$(".page-loader").hide();
         }
         
@@ -341,7 +408,24 @@
        		$(".page-loader").hide();
         	
         }
-        function getResourceReport(sub_work) {
+        function getResourceReport(){
+        	  getProjectList("");
+           
+        	   var project_id_fk = $("#project_id_fk").val();
+               var work_id_fk = $("#work_id_fk").val();
+               var hod_user_id_fk = $("#hod_user_id_fk").val();
+               var contract_id_fk = $("#contract_id_fk").val();
+               
+           	  
+           	var filters = '';
+         	Object.keys(filtersMap).forEach(function (key) {
+         		//alert(filtersMap[key]);
+         		filters = filters + key +"="+filtersMap[key] + "^";
+         		window.localStorage.setItem("contrctResourceReportFilters", filters);
+     			});
+        }
+        
+        <%-- function getResourceReport(sub_work) {
         	$(".page-loader").show();
         	var work_id = $("#report_work_id").val();
            	$("#from_date option:not(:first)").remove();
@@ -362,7 +446,7 @@
    	   	          	  getErrorMessage(jqXHR, exception);
    	   	     	  }
             });
-        }
+        } --%>
         
         var validator =	$('#reportForm').validate({
 			 ignore: ":hidden:not(.validate-dropdown)",
@@ -450,6 +534,7 @@
     		$('#from_date').val('');
     		$('#to_date').val('');
     		$('.searchable').select2();
+    		 window.localStorage.setItem("contrctResourceReportFilters",'');
     		window.location.href= "<%=request.getContextPath()%>/contract-resource-report";
     	}
     </script>

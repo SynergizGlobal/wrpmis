@@ -43,6 +43,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ActivitiesProgressReportService;
+import com.synergizglobal.pmis.Iservice.ActivitiesStatusReportService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.ActivitiesProgressReport;
@@ -57,6 +58,9 @@ public class ActivitiesProgressReportController {
 	
 	@Autowired
 	ActivitiesProgressReportService service;
+	
+	@Autowired
+	ActivitiesStatusReportService service1;
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -77,7 +81,20 @@ public class ActivitiesProgressReportController {
 	public ModelAndView stripChartDPRReport(@ModelAttribute ActivitiesProgressReport obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView(PageConstants.activitiesReport);
 		try{
+			List<ActivitiesProgressReport> contarctsList = service1.getContractsFilterListInActivitiesStatusReport(obj);
+			model.addObject("contarctsList", contarctsList);
 			
+			List<ActivitiesProgressReport> worksList = service1.getWorksFilterListInActivitiesStatusReport(obj);
+			model.addObject("worksList", worksList);
+			
+			List<ActivitiesProgressReport> contractorsList = service.getContractorsFilterListInActivitiesReport(obj);
+			model.addObject("contractorsList", contractorsList);
+			
+			List<ActivitiesProgressReport> hodList = service.getHodFilterListInActivitiesReport(obj);
+			model.addObject("hodList", hodList);
+			
+			List<ActivitiesProgressReport> dyhodList = service.getDyhodFilterListInActivitiesReport(obj);
+			model.addObject("dyhodList", dyhodList);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("stripChartDPRReport : " + e.getMessage());

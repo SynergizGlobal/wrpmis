@@ -21,6 +21,9 @@
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
     <style>
+    @media(max-width:1280px){
+    .fs13px{font-size: 13px !important;}
+    }
 	    @media only screen and (min-width: 1200px){
 			html {
 			    font-size: 14px;
@@ -316,7 +319,7 @@
                                 <div class="col s8 m3 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="contractor_income_tax" min="0.01" step="0.01" type="number" class="validate" name="contractor_income_tax" value="${expenditureDetails.contractor_income_tax }">
-                                    <label for="contractor_income_tax">Contractor Income Tax</label>
+                                    <label for="contractor_income_tax" class="fs13px">Contractor Income Tax</label>
                                     <span id="contractor_income_taxError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s4 m1 input-field pt-10">

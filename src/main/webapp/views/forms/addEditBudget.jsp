@@ -110,6 +110,7 @@
 		}
 		.mdl-data-table td {
 			vertical-align: baseline;
+			padding: 0 1px 12px;
 		}
 		label.my-error-class{
 			transform: none;

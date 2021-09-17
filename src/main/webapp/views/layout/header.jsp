@@ -640,9 +640,8 @@
         <option>Select Work</option>
       </select>
     </li> -->
-		<%-- hidden intentionally
 		<li><a href="<%=request.getContextPath() %>/home"><span
-				class="material-icons-outlined">home</span>Home</a></li> --%>
+				class="material-icons-outlined">home</span>Home</a></li> 
 		<c:if test="${sessionScope.USER_ROLE_NAME ne 'Input User' }">
 			<li class="sub-menu"><a href="#"
 				class='head-img collapsible-header'><span
@@ -655,17 +654,15 @@
 						</c:set>
 						<c:set var="activity"
 							value="${ fn:toLowerCase(tempactivity.replaceAll(' ', '-'))}"></c:set>
-						<%-- hidden intentionally 
 						  <c:if test="${empty category.tableauSubList}">
 							<li><a
 								href="<%=request.getContextPath()%>/InfoViz/${activity }"> <span
 									style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
 									<span class="nav-label">${category.tableauDashboardName }</span>
 							</a></li>
-						</c:if> --%>
+						</c:if> 
 						<c:if test="${not empty  category.tableauSubList}">
 							<!-- Mobile 2nd level dropdown stars here -->
-							<c:if test="${category.tableauDashboardName eq 'Issues'}"> <%--written intentionally --%>
 								<li class="sub-menu"><a href="#!" class="collapsible-header">
 										<span style="padding-right: 5px;"
 										class="fa fa-${category.imagePath}"></span> <span
@@ -692,7 +689,6 @@
 										</c:forEach>
 									</ul>
 								</li>
-							</c:if>
 							<!-- Mobile 2nd level dropdown ends here -->
 						</c:if>
 
@@ -701,7 +697,6 @@
 
 				</ul></li>
 
-		<%-- 	hidden intentionally
 			<li class="sub-menu"><a href="#"
 				class='head-img collapsible-header'><span
 					class="material-icons-outlined">dashboard</span> Works</a> <!-- Mobile dropdown stars here -->
@@ -753,7 +748,7 @@
 					</c:forEach>
 					<!-- Mobile dropdown ends here -->
 
-				</ul></li> --%>
+				</ul></li>
 		</c:if>
 		<c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' }">
 			<li class="sub-menu"><a href="#"
@@ -772,41 +767,38 @@
 								</c:if>
 							</li>
 						</c:if>
-						<%-- hidden intentionally 
-						   <c:if test="${not empty form.formsSubMenu}">
-							<li class="sub-menu"><a href="#!" class="collapsible-header">
-									<span class="nav-label">${form.formName }</span>
-							</a>
-								<ul class="dropdown-data collapsible-body third-lvl">
-									<c:forEach var="subList" items="${form.formsSubMenu }">
-										<c:if test="${ empty subList.formsSubMenuLevel2}">
+						
+						<c:if test="${not empty form.formsSubMenu}">
+								<li class="sub-menu"><a href="#!" class="collapsible-header">
+										<span class="nav-label">${form.formName }</span>
+								</a>
+									<ul class="dropdown-data collapsible-body third-lvl">
+										<c:forEach var="subList" items="${form.formsSubMenu }">
+											<c:if test="${ empty subList.formsSubMenuLevel2}">
+												<li><a
+													href="<%=request.getContextPath()%>/${subList.webFormUrl }">
+														<span class="nav-label">${subList.formName }</span>
+												</a></li>
+											</c:if>
+											<c:if test="${not empty subList.formsSubMenuLevel2}">
+												<li class="sub-menu" id="tech_assist_list"><a href="#!" class="collapsible-header">
+														<span class="nav-label">${subList.formName }</span></a>
+													<ul class="dropdown-data collapsible-body fourth-lvl" id="tech_assist_ul">
+														<c:forEach var="subListLevel2" items="${subList.formsSubMenuLevel2}">
+															<li><a
+																href="<%=request.getContextPath()%>/${subListLevel2.webFormUrl }">
+																	${subListLevel2.formName } </a></li>
+														</c:forEach>
+													</ul></li>
+											</c:if>
 											<li><a
 												href="<%=request.getContextPath()%>/${subList.webFormUrl }">
 													<span class="nav-label">${subList.formName }</span>
 											</a></li>
-										</c:if>
-										<c:if test="${not empty subList.formsSubMenuLevel2}">
-											<li class="sub-menu" id="tech_assist_list"><a href="#!" class="collapsible-header">
-													<span class="nav-label">${subList.formName }</span></a>
-												<ul class="dropdown-data collapsible-body fourth-lvl" id="tech_assist_ul">
-													<c:forEach var="subListLevel2" items="${subList.formsSubMenuLevel2}">
-														<li><a
-															href="<%=request.getContextPath()%>/${subListLevel2.webFormUrl }">
-																${subListLevel2.formName } </a></li>
-													</c:forEach>
-												</ul></li>
-										</c:if>
-										<li><a
-											href="<%=request.getContextPath()%>/${subList.webFormUrl }">
-												<span class="nav-label">${subList.formName }</span>
-										</a></li>
-									</c:forEach>
-								</ul></li>
-						</c:if> --%>
-						
-											
-												
-
+										</c:forEach>
+									</ul></li>
+						</c:if> 
+		
 					</c:forEach>
 
 				</ul></li>
@@ -822,28 +814,26 @@
 				<ul class="dropdown-data collapsible-body second-lvl collapsible">
 					<c:forEach var="form" items="${reportForms }" varStatus="index">
 						<c:if test="${empty form.formsSubMenu}">
-							<c:if test="${form.formName eq 'Issues'}"> <%--written intentionally --%>
 							<li>
 								<a href="<%=request.getContextPath()%>/${form.webFormUrl }"> <span
 									class="nav-label">${form.formName }</span>
 								</a>
 							</li>
-							</c:if>
 						</c:if>
-						<%-- hidden  intentionally
+						
 						   <c:if test="${not empty form.formsSubMenu}">
-							<li class="sub-menu"><a href="#!" class="collapsible-header">
-									<span class="nav-label">${form.formName }</span>
-							</a>
-								<ul class="dropdown-data collapsible-body third-lvl">
-									<c:forEach var="subList" items="${form.formsSubMenu }">
-										<li><a
-											href="<%=request.getContextPath()%>/${subList.webFormUrl }">
-												<span class="nav-label">${subList.formName }</span>
-										</a></li>
-									</c:forEach>
-								</ul></li>
-						</c:if> --%>
+								<li class="sub-menu"><a href="#!" class="collapsible-header">
+										<span class="nav-label">${form.formName }</span>
+								</a>
+									<ul class="dropdown-data collapsible-body third-lvl">
+										<c:forEach var="subList" items="${form.formsSubMenu }">
+											<li><a
+												href="<%=request.getContextPath()%>/${subList.webFormUrl }">
+													<span class="nav-label">${subList.formName }</span>
+											</a></li>
+										</c:forEach>
+									</ul></li>
+						</c:if> 
 
 					</c:forEach>
 
@@ -852,7 +842,6 @@
 
 		<%-- <li><a href="<%=request.getContextPath()%>/manuals" class='head-img'><span
                                         class="material-icons-outlined">assignment</span> Manuals</a></li> --%>
-		<%-- hidden intentionally
 		  <li class="sub-menu"><a href="#"
 			class='head-img collapsible-header'> <span
 				class="material-icons-outlined">description</span> Documents
@@ -868,14 +857,13 @@
 							<span class="nav-label">${obj.type}</span>
 					</a></li>
 				</c:forEach>
-			</ul></li> --%>
+			</ul></li> 
 
 		<%-- <li class="blue"><a href="<%=request.getContextPath()%>/web-links"
                                         class='head-img'>
                                         <span class="material-icons-outlined">link</span> Quick Links</a>
                                     </li> --%>
 
-		<%-- hidden intentionally
 		<li class="sub-menu"><a href="javascript:void(0);"
 			class='head-img collapsible-header'> <span
 				class="material-icons-outlined">link</span> Quick Links
@@ -886,24 +874,24 @@
 							class="nav-label">${lObj.name}</span>
 					</a></li>
 				</c:forEach>
-			</ul></li> --%>
+			</ul></li> 
 		<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
-			<%-- hidden intentionally 
-			 <li class="sub-menu"><a href="#"
-				class='head-img collapsible-header'> <span
-					class="material-icons-outlined">list_alt</span> Admin
-			</a>
+			
+			 <li class="sub-menu">
+			 	<a href="#"	class='head-img collapsible-header'> 
+			 		<span class="material-icons-outlined">list_alt</span> Admin
+				</a>
 				<ul class="dropdown-data collapsible-body second-lvl collapsible">
 					<c:forEach var="form" items="${adminForms }" varStatus="index">
-						<c:if test="${empty form.formsSubMenu}">
+						<%-- <c:if test="${empty form.formsSubMenu}"> --%>
 						<li><a href="<%=request.getContextPath()%>/${form.url }">
 								<span class="nav-label">${form.form_name }</span>
 						</a></li>
-						</c:if>
+						<%-- </c:if> --%>
 					</c:forEach>
-				</ul></li> --%>
+				</ul>
+			</li> 
 		</c:if>
-		<%-- hidden intentionally 
 		  <li>
 			<!-- a class='dropdown-trigger' data-target='dropdown1'--> <a
 			href="<%=request.getContextPath() %>/home"
@@ -921,7 +909,7 @@
 				class="badge" id="messagesCountMobile">0</span> <!--span class="badge red" id="notificationCount"></span-->
 		</a>
 
-		</li> --%>
+		</li> 
 		<li class="sub-menu"><a href="#"
 			class='head-img collapsible-header'> <img
 				src="<%=CommonConstants2.USER_IMAGES %>${sessionScope.user.user_image }"

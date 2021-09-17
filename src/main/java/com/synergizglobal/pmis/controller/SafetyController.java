@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -55,6 +56,7 @@ import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.SafetyPaginationObject;
 import com.synergizglobal.pmis.model.SourceOfFund;
+import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.AlertsPaginationObject;
 import com.synergizglobal.pmis.model.Project;
@@ -393,8 +395,18 @@ public class SafetyController {
 	@RequestMapping(value="/add-safety",method=RequestMethod.POST)
 	public ModelAndView addSafety(@ModelAttribute Safety obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
+		
+		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/safety");
+			
+			user_Id = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
+			
+			User user = (User)session.getAttribute("user");
+			if(!StringUtils.isEmpty(user) && !StringUtils.isEmpty(user.getEmail_id())) {
+				obj.setReported_by_email_id(user.getEmail_id());
+			}			
 			
 			obj.setDate(DateParser.parse(obj.getDate()));			
 			obj.setClosure_date(DateParser.parse(obj.getClosure_date()));
@@ -500,8 +512,17 @@ public class SafetyController {
 	@RequestMapping(value="/update-safety",method=RequestMethod.POST)
 	public ModelAndView updateSafety(@ModelAttribute Safety obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
+		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/safety");
+
+			user_Id = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
+			
+			User user = (User)session.getAttribute("user");
+			if(!StringUtils.isEmpty(user) && !StringUtils.isEmpty(user.getEmail_id())) {
+				obj.setReported_by_email_id(user.getEmail_id());
+			}
 			
 			obj.setDate(DateParser.parse(obj.getDate()));			
 			obj.setClosure_date(DateParser.parse(obj.getClosure_date()));

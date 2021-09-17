@@ -75,6 +75,12 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                         <form action="<%=request.getContextPath() %>/update-safety" id="safetyForm" name="safetyForm" method="post" enctype="multipart/form-data">
+                        
+                         	<input id="existing_status_fk" name="existing_status_fk" type="hidden" value="${safety.existing_status_fk }"/>
+                        	<input id="existing_responsible_person" name="existing_responsible_person" type="hidden" value="${safety.responsible_person }"/>
+                        	<input id="hod_user_id_fk" name="hod_user_id_fk" type="hidden" value="${safety.hod_user_id_fk }" />
+                        	<input id="dy_hod_user_id_fk" name="dy_hod_user_id_fk" type="hidden" value="${safety.dy_hod_user_id_fk }" />                       
+                        
                         	<div class="row">
                                 <div class="col s6 offset-m2 m4 input-field">
                                    <%--  <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
@@ -1091,10 +1097,10 @@
 	                            $.each(data, function (i, val) {
 	                            	var userName = '';
 	                                if ($.trim(val.user_name) != '') { userName = ' - ' + $.trim(val.user_name) }
-	                                if(val.reporting_to_id_srfk == reporting_to_id){
-		                                $("#responsible_person").append('<option  value="' + val.designation + '" selected>' + $.trim(val.designation) + userName + '</option>');
+	                                if(val.user_id == "${safety.responsible_person}"){
+		                                $("#responsible_person").append('<option  value="' + val.user_id + '" selected>' + $.trim(val.designation) + userName + '</option>');
 	                                }else{
-	                                	$("#responsible_person").append('<option  value="' + val.designation + '">' + $.trim(val.designation) + userName + '</option>');
+	                                	$("#responsible_person").append('<option  value="' + val.user_id + '">' + $.trim(val.designation) + userName + '</option>');
 	                                }
 	                            });
 	                        }

@@ -9,8 +9,10 @@ public class Safety {
 	category_fk,impact_fk,root_cause_fk,status_fk,closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,
 	investigation_completed,corrective_measure_short_term,corrective_measure_long_term,compensation,payment_date,remarks,short_description,work_short_name,
 	category,impact,root_cause,status,contract_id,contract_name,work_id_fk,work_name,project_id_fk,project_name,status_remark_fk,
-	department,department_name,attachment,contract_short_name,hod_user_id_fk,committee_member_name,designation,hod_name,reporting_to_id_srfk,user_name,user_id,
-	contractor_name,safety_id_fk,compensation_units,id, unit, value,compensation_unit,hod_designation,dyhod_designation;
+	department,department_name,attachment,contract_short_name,hod_user_id_fk,dy_hod_user_id_fk,committee_member_name,designation,hod_name,reporting_to_id_srfk,user_name,user_id,
+	contractor_name,safety_id_fk,compensation_units,id, unit, value,compensation_unit,hod_designation,dyhod_designation,reported_by_email_id,responsible_person_email_id,existing_status_fk,
+	existing_responsible_person,existing_escalated_to,contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,responsible_person_user_id,contract_hod_email_id,
+	contract_dyhod_email_id,created_by_email_id;
 
 	private MultipartFile safetyFile;
 	
@@ -19,6 +21,8 @@ public class Safety {
 	
 	private List<Safety> safetyFilesList;
 	private List<Safety> safetyCommitteeMembersList;
+
+	private String mail_body_header;
 	
 	public String getHod_designation() {
 		return hod_designation;
@@ -554,6 +558,118 @@ public class Safety {
 
 	public void setSafetyCommitteeMembersList(List<Safety> safetyCommitteeMembersList) {
 		this.safetyCommitteeMembersList = safetyCommitteeMembersList;
+	}
+
+	public String getReported_by_email_id() {
+		return reported_by_email_id;
+	}
+
+	public void setReported_by_email_id(String reported_by_email_id) {
+		this.reported_by_email_id = reported_by_email_id;
+	}
+
+	public String getResponsible_person_email_id() {
+		return responsible_person_email_id;
+	}
+
+	public void setResponsible_person_email_id(String responsible_person_email_id) {
+		this.responsible_person_email_id = responsible_person_email_id;
+	}
+
+	public String getExisting_status_fk() {
+		return existing_status_fk;
+	}
+
+	public void setExisting_status_fk(String existing_status_fk) {
+		this.existing_status_fk = existing_status_fk;
+	}
+
+	public String getExisting_responsible_person() {
+		return existing_responsible_person;
+	}
+
+	public void setExisting_responsible_person(String existing_responsible_person) {
+		this.existing_responsible_person = existing_responsible_person;
+	}
+
+	public String getExisting_escalated_to() {
+		return existing_escalated_to;
+	}
+
+	public void setExisting_escalated_to(String existing_escalated_to) {
+		this.existing_escalated_to = existing_escalated_to;
+	}
+
+	public String getDy_hod_user_id_fk() {
+		return dy_hod_user_id_fk;
+	}
+
+	public void setDy_hod_user_id_fk(String dy_hod_user_id_fk) {
+		this.dy_hod_user_id_fk = dy_hod_user_id_fk;
+	}
+
+	public String getContract_hod_user_id() {
+		return contract_hod_user_id;
+	}
+
+	public void setContract_hod_user_id(String contract_hod_user_id) {
+		this.contract_hod_user_id = contract_hod_user_id;
+	}
+
+	public String getContract_dyhod_user_id() {
+		return contract_dyhod_user_id;
+	}
+
+	public void setContract_dyhod_user_id(String contract_dyhod_user_id) {
+		this.contract_dyhod_user_id = contract_dyhod_user_id;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getResponsible_person_user_id() {
+		return responsible_person_user_id;
+	}
+
+	public void setResponsible_person_user_id(String responsible_person_user_id) {
+		this.responsible_person_user_id = responsible_person_user_id;
+	}
+
+	public String getContract_hod_email_id() {
+		return contract_hod_email_id;
+	}
+
+	public void setContract_hod_email_id(String contract_hod_email_id) {
+		this.contract_hod_email_id = contract_hod_email_id;
+	}
+
+	public String getContract_dyhod_email_id() {
+		return contract_dyhod_email_id;
+	}
+
+	public void setContract_dyhod_email_id(String contract_dyhod_email_id) {
+		this.contract_dyhod_email_id = contract_dyhod_email_id;
+	}
+
+	public String getCreated_by_email_id() {
+		return created_by_email_id;
+	}
+
+	public void setCreated_by_email_id(String created_by_email_id) {
+		this.created_by_email_id = created_by_email_id;
+	}
+
+	public String getMail_body_header() {
+		return mail_body_header;
+	}
+
+	public void setMail_body_header(String mail_body_header) {
+		this.mail_body_header = mail_body_header;
 	}
 	
 }

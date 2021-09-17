@@ -980,8 +980,8 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					
 					if(Float.parseFloat(StrVar2[i])>=completed && date2.compareTo(date1)>=0)
 					{
-						String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) + ?";	
-						
+						//String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) + ?";	
+						String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) + ?";
 						
 						if(!StringUtils.isEmpty(obj.getProgress_date())) 
 						{

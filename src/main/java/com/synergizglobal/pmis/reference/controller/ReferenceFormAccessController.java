@@ -62,6 +62,19 @@ public class ReferenceFormAccessController {
 		}
 		return referenceFormsList;
 	}
+	
+	@RequestMapping(value = "/ajax/getModulesFilterListInReferenceForms", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<ReferenceForms> getModulesFilterListInReferenceForms(@ModelAttribute ReferenceForms obj) {
+		List<ReferenceForms> referenceFormsList = null;
+		try {
+			referenceFormsList = service.getReferenceForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getModulesFilterListInReferenceForms : " + e.getMessage());
+		}
+		return referenceFormsList;
+	}
 
 	@RequestMapping(value = "/add-reference-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addreferenceForm(){

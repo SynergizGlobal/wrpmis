@@ -43,22 +43,31 @@
 	                                <div class="row no-mar">
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="getContractsListInIssuesReport(this.value);getTitlesListInIssuesReport();">
+	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getContractsListInIssuesReport(this.value);getStatusListInIssuesReport();getLocationsListInIssuesReport();getCategoriesListInIssuesReport();getTitlesListInIssuesReport();getIssueDetailsReport();">
 	                                            <option value="">Select </option>
+	                                            <c:forEach var="obj" items="${worksList }">
+                                                    <option  value="${obj.work_id_fk }"> <c:if test="${ empty obj.work_short_name}"> ${obj.work_id_fk } </c:if>${obj.work_short_name }</option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract</p>
-	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="getHODListInIssuesReport(this.value);getTitlesListInIssuesReport();">
+	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getHODListInIssuesReport(this.value);getStatusListInIssuesReport();getLocationsListInIssuesReport();getCategoriesListInIssuesReport();getTitlesListInIssuesReport();getIssueDetailsReport();">
 	                                            <option value="">Select </option>
+	                                             <c:forEach var="obj" items="${contractsList }">
+                                                    <option workId="${obj.work_id_fk }" value="${obj.contract_id_fk }"><c:if test="${ empty obj.contract_short_name}"> ${obj.contract_id_fk } </c:if> ${obj.contract_short_name }</option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="contract_id_fkError" class="error-msg" ></span>
 	                                    </div>
 										<div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
-	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="getStatusListInIssuesReport();getTitlesListInIssuesReport();">
+	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="addInQueHOD(this.value);getStatusListInIssuesReport();getLocationsListInIssuesReport();getCategoriesListInIssuesReport();getTitlesListInIssuesReport();getIssueDetailsReport();">
 	                                            <option value="">Select </option>
+	                                            <c:forEach var="obj" items="${hodsList }">
+                                                    <option value="${obj.hod_user_id_fk }"> ${obj.designation }</option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                    </div>
@@ -66,29 +75,42 @@
 	                                    <div class="row">
 	                                     <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Status</p>
-	                                        <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getLocationsListInIssuesReport();getTitlesListInIssuesReport();">
+	                                        <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getLocationsListInIssuesReport();getCategoriesListInIssuesReport();getTitlesListInIssuesReport();getIssueDetailsReport();">
 	                                            <option value="">Select </option>
+	                                            <c:forEach var="obj" items="${statusList }">
+                                                    <option  value="${obj.status_fk }"> ${obj.status_fk } </option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="status_fkError" class="error-msg" ></span>
 	                                    </div> 
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Location</p>
-	                                        <select class="searchable validate-dropdown" id="location" name="location" onchange="getCategoriesListInIssuesReport();getTitlesListInIssuesReport();">
+	                                        <select class="searchable validate-dropdown" id="location" name="location" onchange="addInQueLocations(this.value);getCategoriesListInIssuesReport();getTitlesListInIssuesReport();getIssueDetailsReport();">
 	                                            <option value="">Select </option>
+	                                           <c:forEach var="obj" items="${locationList }">
+                                                    <option  value="${obj.location }"> ${obj.location }</option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="locationError" class="error-msg" ></span>
 	                                    </div> 
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Category</p>
-	                                        <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="getTitlesListInIssuesReport();">
+	                                        <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="addInQueCategories(this.value);getTitlesListInIssuesReport();getIssueDetailsReport();">
 	                                            <option value="">Select </option>
+	                                             <c:forEach var="obj" items="${categoryList }">
+                                                    <option  value="${obj.category_fk }"> ${obj.category_fk }</option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="category_fkError" class="error-msg" ></span>
 	                                    </div> 
 	                                     <div class="col s6 m9 l9 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Description <span class="required">*</span></p>
-	                                        <select class="searchable validate-dropdown" id="issue_id" name="issue_id">
+	                                        <select class="searchable validate-dropdown" id="issue_id" name="issue_id" onchange="addInQueTitles(this.value);getIssueDetailsReport();">
 	                                            <option value="">Select </option>
+	                                             <c:forEach var="obj" items="${titlesList }">
+                                                    <option work_id_fk="${obj.work_id_fk}" contract_id_fk="${obj.contract_id_fk}" status_fk="${obj.status_fk}"
+                                                     hod_user_id_fk="${obj.hod_user_id_fk}" value="${obj.issue_id }">${obj.issue_id} - ${obj.location} - ${obj.title }</option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="issue_idError" class="error-msg" ></span>
 	                                    </div> 
@@ -144,6 +166,7 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
+      var filtersMap = new Object();
       	function getErrorMessage(jqXHR, exception) {
         	    var msg = '';
         	    if (jqXHR.status === 0) {
@@ -167,16 +190,120 @@
         
         $(document).ready(function(){
         	$('.searchable').select2();
-        	getWorksListInIssuesReport();
-        	getContractsListInIssuesReport("");
-        	getHODListInIssuesReport("");
-        	getStatusListInIssuesReport();
-        	getLocationsListInIssuesReport();
-        	getCategoriesListInIssuesReport();
-        	getTitlesListInIssuesReport();
+		    var filters = window.localStorage.getItem("issueDetailReportFilters");
+             
+             if($.trim(filters) != '' && $.trim(filters) != null){
+           	  var temp = filters.split('^'); 
+           	  for(var i=0;i< temp.length;i++){
+     	        	  if($.trim(temp[i]) != '' ){
+     	        		  var temp2 = temp[i].split('=');
+     		        	  if($.trim(temp2[0]) == 'work_id_fk' ){
+     		        		 getWorksListInIssuesReport(temp2[1]);
+     		        		getContractsListInIssuesReport("");
+     		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+     		        		 getContractsListInIssuesReport(temp2[1]);
+     		        		getHODListInIssuesReport("");
+     		        		getStatusListInIssuesReport("");
+     		        		getLocationsListInIssuesReport("");
+     		        		getCategoriesListInIssuesReport("");
+     		        		getTitlesListInIssuesReport("");
+     		        	  }else if($.trim(temp2[0]) == 'hod_user_id_fk'){
+     		        		 getHODListInIssuesReport(temp2[1]);
+     		        	  }else if($.trim(temp2[0]) == 'status_fk'){
+     		        		 getStatusListInIssuesReport(temp2[1]);
+     		        	  }else if($.trim(temp2[0]) == 'location'){
+     		        		 getLocationsListInIssuesReport(temp2[1]);
+     		        	  }else if($.trim(temp2[0]) == 'category_fk'){
+     		        		 getCategoriesListInIssuesReport(temp2[1]);
+     		        	  }else if($.trim(temp2[0]) == 'issue_id'){
+     		        		 getTitlesListInIssuesReport(temp2[1]);
+     		        	  }
+     	        	  }
+     	          }
+               }
+             getIssueDetailsReport();
+        	
         });
+        function addInQueHOD(hod_user_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('hod_user_id_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(hod_user_id_fk) != ''){
+       	    	filtersMap["hod_user_id_fk"] = hod_user_id_fk;
+        	}
+        }
         
-        function getWorksListInIssuesReport() {
+        function addInQueWork(work_id_fk){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('work_id_fk')) delete filtersMap[key];
+       	   	});
+          	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+          	}
+        } 
+        function addInQueContract(contract_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('contract_id_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(contract_id_fk) != ''){
+       	    	filtersMap["contract_id_fk"] = contract_id_fk;
+        	}
+        }
+        
+        function addInQueStatus(status_fk){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('status_fk')) delete filtersMap[key];
+       	   	});
+          	if($.trim(status_fk) != ''){
+            	filtersMap["status_fk"] = status_fk;
+          	}
+        }
+        function addInQueLocations(location){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('location')) delete filtersMap[key];
+       		});
+        	if($.trim(location) != ''){
+       	    	filtersMap["location"] = location;
+        	}
+        }
+        
+        function addInQueCategories(category_fk){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('category_fk')) delete filtersMap[key];
+       	   	});
+          	if($.trim(category_fk) != ''){
+            	filtersMap["category_fk"] = category_fk;
+          	}
+        } 
+        function addInQueTitles(issue_id){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('issue_id')) delete filtersMap[key];
+       		});
+        	if($.trim(issue_id) != ''){
+       	    	filtersMap["issue_id"] = issue_id;
+        	}
+        }
+   
+        function getIssueDetailsReport(){
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
+        	var status_fk = $("#status_fk").val();
+        	var location = $("#location").val();
+        	var category_fk = $("#category_fk").val();
+        	var issue_id = $("#issue_id").val();
+        	
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+        		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("issueDetailReportFilters", filters);
+    			});
+        	
+        }
+        
+        
+        function getWorksListInIssuesReport(work) {
         	$(".page-loader").show();
            	$("#work_id_fk option:not(:first)").remove();
            	var myParams = {}
@@ -189,7 +316,8 @@
                            	 var workShortName = '';
                              if ($.trim(val.work_short_name) != '') { workShortName = $.trim(val.work_short_name) }
                              if ($.trim(val.work_short_name) == '') { workShortName = $.trim(val.work_id_fk) }
-   	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + workShortName +'</option>');
+                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
+   	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + workShortName +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -202,8 +330,9 @@
         }
         
         
-        function getContractsListInIssuesReport(work_id_fk){
+        function getContractsListInIssuesReport(contarct){
         	$(".page-loader").show();
+        	var work_id_fk = $("#work_id_fk").val();
            	$("#contract_id_fk option:not(:first)").remove();
            	$("#hod_user_id_fk option:not(:first)").remove();
            	$("#status_fk option:not(:first)").remove();
@@ -218,7 +347,8 @@
                         	   var contractShortName = '';
                                if ($.trim(val.contract_short_name) != '') { contractShortName = $.trim(val.contract_short_name) }
                                if ($.trim(val.contract_short_name) == '') { contractShortName = $.trim(val.contract_id_fk) }
-							   $("#contract_id_fk").append('<option value="' + $.trim(val.contract_id_fk) + '">' + contractShortName +'</option>');
+                               var selectedFlag = (contarct == val.contract_id_fk)?'selected':'';
+							   $("#contract_id_fk").append('<option value="' + $.trim(val.contract_id_fk) + '"'+selectedFlag+'>' + contractShortName +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -230,9 +360,10 @@
             });
         }
         
-        function getHODListInIssuesReport(contract_id_fk){
+        function getHODListInIssuesReport(hod){
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
            	$("#hod_user_id_fk option:not(:first)").remove();
            	$("#status_fk option:not(:first)").remove();
            	$("#issue_id option:not(:first)").remove();
@@ -243,7 +374,8 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                        	   $("#hod_user_id_fk").append('<option value="' + $.trim(val.hod_user_id_fk) + '">' + $.trim(val.designation) +'</option>');
+                        	   var selectedFlag = (hod == val.hod_user_id_fk)?'selected':'';
+                        	   $("#hod_user_id_fk").append('<option value="' + $.trim(val.hod_user_id_fk) + '"'+selectedFlag+'>' + $.trim(val.designation) +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -255,7 +387,7 @@
             });
         }
         
-        function getStatusListInIssuesReport(){
+        function getStatusListInIssuesReport(status){
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
@@ -269,7 +401,8 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                        	   $("#status_fk").append('<option value="' + $.trim(val.status_fk) + '">' + $.trim(val.status_fk) +'</option>');
+                        	   var selectedFlag = (status == val.status_fk)?'selected':'';
+                        	   $("#status_fk").append('<option value="' + $.trim(val.status_fk) + '"'+selectedFlag+'>' + $.trim(val.status_fk) +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -281,7 +414,7 @@
             });
         }
         
-        function getLocationsListInIssuesReport(){
+        function getLocationsListInIssuesReport(location){
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
@@ -295,7 +428,8 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                        	   $("#location").append('<option value="' + $.trim(val.location) + '">' + $.trim(val.location) +'</option>');
+                        	   var selectedFlag = (location == val.location)?'selected':'';
+                        	   $("#location").append('<option value="' + $.trim(val.location) + '"'+selectedFlag+'>' + $.trim(val.location) +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -307,7 +441,7 @@
             });
         }
         
-        function getCategoriesListInIssuesReport(){
+        function getCategoriesListInIssuesReport(category){
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
@@ -322,7 +456,8 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                        	   $("#category_fk").append('<option value="' + $.trim(val.category_fk) + '">' + $.trim(val.category_fk) +'</option>');
+                        	   var selectedFlag = (category == val.category_fk)?'selected':'';
+                        	   $("#category_fk").append('<option value="' + $.trim(val.category_fk) + '"'+selectedFlag+'>' + $.trim(val.category_fk) +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -334,7 +469,7 @@
             });
         }
         
-        function getTitlesListInIssuesReport(){
+        function getTitlesListInIssuesReport(title){
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
@@ -350,7 +485,8 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                        	   $("#issue_id").append('<option work_id_fk="'+$.trim(val.work_id_fk)+'" contract_id_fk="'+$.trim(val.contract_id_fk)+'" status_fk="'+$.trim(val.status_fk)+'" hod_user_id_fk="'+$.trim(val.hod_user_id_fk)+'" value="' + $.trim(val.issue_id) + '">' + $.trim(val.issue_id) +' - '+ $.trim(val.location) +' - '+ $.trim(val.title) +'</option>');
+                        	   var selectedFlag = (title == val.issue_id)?'selected':'';
+                        	   $("#issue_id").append('<option work_id_fk="'+$.trim(val.work_id_fk)+'" contract_id_fk="'+$.trim(val.contract_id_fk)+'" status_fk="'+$.trim(val.status_fk)+'" hod_user_id_fk="'+$.trim(val.hod_user_id_fk)+'" value="' + $.trim(val.issue_id) + '"'+selectedFlag+'>' + $.trim(val.issue_id) +' - '+ $.trim(val.location) +' - '+ $.trim(val.title) +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -457,6 +593,8 @@
 				$('#category_fk').val('');
 				$('#title').val('');
 				$('.searchable').select2();
+				window.localStorage.setItem("issueDetailReportFilters",'');
+				window.location.href= "<%=request.getContextPath()%>/issue-details-report"
 			}
     </script>
 

@@ -98,8 +98,11 @@ public class AlertsReportController {
 	
 	@RequestMapping(value = "/alerts-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView alertsReport(){
-		ModelAndView model = new ModelAndView(PageConstants2.alertsReport);
+		ModelAndView model = new ModelAndView();
 		try{            
+		    model = new ModelAndView(PageConstants2.alertsReport);
+			
+		
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("alertsReport : " + e.getMessage());

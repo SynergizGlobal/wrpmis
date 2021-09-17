@@ -104,6 +104,7 @@ import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.RiskReport;
+import com.synergizglobal.pmis.model.Safety;
 
 @Controller
 public class IssueDetailsReportController {
@@ -117,6 +118,8 @@ public class IssueDetailsReportController {
 	@Autowired
 	IssueDetailsService issueService;
 	
+	@Autowired
+	IssuesReportService issueService1;
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -141,10 +144,24 @@ public class IssueDetailsReportController {
 
 	
 	@RequestMapping(value = "/issue-details-report", method = RequestMethod.GET)
-	public ModelAndView getIssueDetailsReport() {
+	public ModelAndView getIssueDetailsReport(@ModelAttribute Issue obj ) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants2.issueDetailsReport);
+			List<Issue> contractsList = issueService1.getContractsListInIssuesReport(obj);
+			model.addObject("contractsList", contractsList);
+			List<Issue> worksList = issueService1.getWorksListInIssuesReport(obj);
+			model.addObject("worksList", worksList);
+			List<Issue> hodsList = issueService1.getHODListInIssuesReport(obj);
+			model.addObject("hodsList", hodsList);
+			List<Issue> statusList = issueService1.getStatusListInIssuesReport(obj);
+			model.addObject("statusList", statusList);
+			List<Issue> locationList = issueService1.getLocationsListInIssuesReport(obj);
+			model.addObject("locationList", locationList);
+			List<Issue> categoryList = issueService1.getCategoriesListInIssuesReport(obj);
+			model.addObject("categoryList", categoryList);
+			List<Issue> titlesList = issueService1.getTitlesListInIssuesReport(obj);
+			model.addObject("titlesList", titlesList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getIssueDetailsReport : " + e.getMessage());

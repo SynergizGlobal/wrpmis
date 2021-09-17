@@ -1,4 +1,4 @@
-<%@ page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+  <%@ page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -121,11 +121,11 @@
                         <div class="row no-mar">
                             <div class="col s12 m2 input-field offset-m5">
                                 <p class="searchable_label">Module</p>
-                                <select id="module_fk" name="module_fk" onchange="getModuleFilter();" class="searchable">
+                                <select id="module_fk" name="module_fk" onchange="addInQueModule(this.value);gerReferenceForms();" class="searchable">
                                     <option value="">Select</option>
-                                    <c:forEach var="obj" items="${referenceForm}">
+                                   <%--  <c:forEach var="obj" items="${referenceForm}">
                 						    <option value="${obj.module_fk }" >${obj.module_fk}</option>
-                                    </c:forEach>
+                                    </c:forEach> --%>
                                 </select>
                             </div>
                             <!-- <div class="col s12 m2">
@@ -223,23 +223,82 @@
             });
             
         }); */
+        var filtersMap = new Object();
         $(document).ready(function () {
       	   $('select:not(.searchable)').formSelect();
            $('.searchable').select2();
       	   $('.close-message').delay(3000).fadeOut('slow');
+      		
+           var filters = window.localStorage.getItem("referenceFormsFilters");
+	          
+           if($.trim(filters) != '' && $.trim(filters) != null){
+       	  var temp = filters.split('^');  
+       	  for(var i=0;i< temp.length;i++){
+	        	  if($.trim(temp[i]) != '' ){
+	        		  var temp2 = temp[i].split('=');
+		        	  if($.trim(temp2[0]) == 'module_fk' ){
+		        		  getModuleFilter(temp2[1]);
+		        	  }
+	        	  }
+	          }
+           }
+      	gerReferenceForms();
       	
-      	getModuleFilter();
        });
+        
+        function addInQueModule(module_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('module_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(module_fk) != ''){
+       	    	filtersMap["module_fk"] = module_fk;
+        	}
+        }
         function clearFilters() {
             $('#module_fk').val("");
             $('.searchable').select2();
-            getModuleFilter();
+            gerReferenceForms();
         }
         
-        function getModuleFilter(){
+        function getModuleFilter(module){
+        	$(".page-loader").show();
+            var module_name_fk = $("#module_fk").val();
+            if ($.trim(module_name_fk) == "") {
+            	$("#module_fk option:not(:first)").remove();
+            	var myParams = {};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getModulesFilterListInReferenceForms",
+                    data: myParams, cache: false,async: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	   var selectedFlag = (module == val.module_fk)?'selected':'';
+    	                           $("#module_fk").append('<option value="' + val.module_fk + '"'+selectedFlag+'>' + $.trim(val.module_fk) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        	
+        }
+        function gerReferenceForms(){
         	$(".page-loader-2").show();
         	var module_fk = $("#module_fk").val();
         	
+        	getModuleFilter('');
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+        		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("referenceFormsFilters", filters);
+    		});
       	    table = $('#Reference_forms_table').DataTable();
      		 
       		table.destroy();

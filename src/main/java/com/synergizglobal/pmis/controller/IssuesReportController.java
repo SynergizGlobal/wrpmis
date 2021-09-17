@@ -122,6 +122,13 @@ public class IssuesReportController {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants2.issuesReport);
+			obj.setStatus_fk("Closed");
+			List<Issue> contractsList = issueService.getContractsListInIssuesReport(obj);
+			model.addObject("contractsList", contractsList);
+			List<Issue> worksList = issueService.getWorksListInIssuesReport(obj);
+			model.addObject("worksList", worksList);
+			List<Issue> hodsList = issueService.getHODListInIssuesReport(obj);
+			model.addObject("hodsList", hodsList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("issuesReport : " + e.getMessage());

@@ -104,8 +104,12 @@
 	                                    </div> 
 	                                     <div class="col s6 m9 l9 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Description <span class="required">*</span></p>
-	                                        <select class="searchable validate-dropdown" id="safety_id" name="safety_id" onchange="addInQueTitles(this.value);getSafetyDetailsReport()">
+	                                        <select class="searchable validate-dropdown" id="safety_id" name="safety_id" onchange="addInQueTitles(this.value);getSafetyDetailsReport();">
 	                                            <option value="">Select </option>
+	                                            <c:forEach var="obj" items="${titlesList }">
+                                                    <option work_id_fk="${obj.work_id_fk}" contract_id_fk="${obj.contract_id_fk}" status_fk="${obj.status_fk}"
+                                                     hod_user_id_fk="${obj.hod_user_id_fk}" value="${obj.safety_id }"> ${obj.location} - ${obj.title }</option>
+                                                </c:forEach>
 	                                        </select>
 	                                        <span id="safety_idError" class="error-msg" ></span>
 	                                    </div> 
@@ -433,7 +437,7 @@
             });
         }
         
-        function getCategoriesListInSafetyDetailsReport(categoy){
+        function getCategoriesListInSafetyDetailsReport(category){
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
@@ -448,7 +452,7 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                        	   var selectedFlag = (categoy == val.category_fk)?'selected':'';
+                        	   var selectedFlag = (category == val.category_fk)?'selected':'';
                         	   $("#category_fk").append('<option value="' + $.trim(val.category_fk) + '"'+selectedFlag+'>' + $.trim(val.category_fk) +'</option>');
                            });
                        }

@@ -94,7 +94,7 @@
 	                                </div>  
 	                                <div class="row" id="nextRow" style="display:none;">
 	                                    <div class="col s6 m3 input-field" id="dateDiv">
-	                                        <input id="date" name="date" type="text" class="validate datepicker"> <label for="date"> Validity Expiry By Date</label>
+	                                        <input id="date" name="date" type="text" class="validate datepicker"> <label for="date" class="fs-sm-8rem"> Validity Expiry By Date</label>
 											<button type="button" id="date_icon" ><i class="fa fa-calendar"></i></button>
 											<span id="dateError" class="error-msg"></span>
 	                                    </div>
@@ -107,11 +107,11 @@
 	                                    </div>
 	                                </div>  
 			                        <div class="row">
-	                                    <div class="col s6 m6 input-field" style="text-align:right;">
-	                                        <button type="button" class="btn btn-primary" id="btnGenerateReport"
+	                                    <div class="col s7 m6 input-field" style="text-align:right;">
+	                                        <button type="button" class="btn btn-primary t-c" id="btnGenerateReport"
 	                                            onclick="generateContractReport();"> Generate Report</button>
 	                                    </div>			                        
-			                            <div class="col s6 m6 input-field" style="text-align:left;">
+			                            <div class="col s4 m6 input-field" style="text-align:left;">
 												<button type="button" class="btn waves-effect waves-light bg-s t-c" onclick="clearFilters();">Reset</button>
 			
 			                                <!--  <button class="btn waves-effect waves-light bg-s t-c"

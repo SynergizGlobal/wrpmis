@@ -229,7 +229,7 @@
     			});
         }
         
-        function getHodList(hod) {
+        function getHodList(hodVal) {
         	$(".page-loader").show();
 
         	var hod = $("#hod").val();
@@ -245,7 +245,7 @@
 	                success: function (data) {
 	                    if (data.length > 0) {
 	                        $.each(data, function (i, val) {
-	                           var selectedFlag = (hod == val.hod)?'selected':'';
+	                           var selectedFlag = (hodVal == val.hod)?'selected':'';
 	                           $("#hod").append('<option value="' + val.hod + '"'+selectedFlag+'>' + $.trim(val.hod)+ '</option>');
 	                        });
 	                    }

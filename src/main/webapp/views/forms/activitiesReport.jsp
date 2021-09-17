@@ -46,7 +46,7 @@
 					<!-- form start-->
 					<form action="<%=request.getContextPath() %>/generate-activities-dpr-report" id="activitiesReportForm" name="activitiesReportForm" method="post" target="_blank">
 						<div class="row">
-						<div class="col s12 m12 l7 offset-l2">
+						<div class="col s12 m12 l7 offset-l2 offset-m1">
 							<div class="row no-mar" style="margin-bottom:0;">
 								<div class="col s6 m3 l4 input-field"> 
 									<p class="searchable_label">Project</p>
@@ -70,7 +70,7 @@
 									<span id="contract_idError" class="error-msg"></span>
 								</div>	
 								</div> 
-							    <div class="row" id="nextRow">
+							    <div class="row no-mar" id="nextRow">
 									<div class="col s6 m3 l4 input-field">
 										<p class="searchable_label">Contractor</p>
 										<select class="searchable validate-dropdown" id="contractor_id" name="contractor_id" onchange="resetContractorDropDowns();">
@@ -114,10 +114,10 @@
 							</div>									
 							
 							<div class="row">	
-								<div class="col s6 m6 input-field" style="text-align:right;">
+								<div class="col s7 m6 input-field" style="text-align:right;">
 									<button type="submit" class="btn waves-effect waves-light bg-m t-c"><strong>Generate Report </strong></button>
 								</div>
-								<div class="col s6 m6 input-field" style="text-align:left;">
+								<div class="col s4 m6 input-field" style="text-align:left;">
 									<button type="button" class="btn waves-effect waves-light bg-s t-c" onclick="clearFilters();">Reset</button>
 								</div>								
 							</div>
@@ -185,7 +185,7 @@
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
-	    	var options = {format: 'dd-mm-yyyy',endDate: "today", maxDate: today};
+	    	var options = {format: 'dd-mm-yyyy',endDate: "today", maxDate: today,autoClose:true};
 	    	if(dt.length > 1){
 	    		options.setDefaultDate = true,
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])

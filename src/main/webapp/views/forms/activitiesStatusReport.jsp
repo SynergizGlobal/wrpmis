@@ -76,7 +76,7 @@
 									<span id="contract_idError" class="error-msg"></span>
 								</div>	 
 							
-							    <div class="col s6 m3 l4 input-field" id="fob_id_fk_div" style="display: none;">
+							    <div class="col s12 m3 l4 input-field" id="fob_id_fk_div" style="display: none;">
 									<p class="searchable_label">Structure</p>
 									<select class="searchable validate-dropdown" id="fob_id_fk" name="fob_id_fks" multiple="multiple"  onchange="addInQueFOB();getActivitiesList();">
 										<option value="">Select</option>	
@@ -92,10 +92,10 @@
 							</div>									
 							
 							<div class="row">	
-								<div class="col s6 m6 input-field" style="text-align:right;">
+								<div class="col s7 m6 input-field" style="text-align:right;">
 									<button type="submit" class="btn waves-effect waves-light bg-m t-c"><strong>Generate Report </strong></button>
 								</div>
-								<div class="col s6 m6 input-field" style="text-align:left;">
+								<div class="col s4 m6 input-field" style="text-align:left;">
 									<button type="button" class="btn waves-effect waves-light bg-s t-c" onClick="clearFilters();" >Reset</button>
 								</div>								
 							</div>

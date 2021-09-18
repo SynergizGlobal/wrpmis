@@ -35,7 +35,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 		List<Form>  objsList = null;
 		try {
 			String qry ="SELECT f1.form_id,f1.module_name_fk,f1.form_name,f1.parent_form_id_sr_fk,f1.web_form_url,f1.mobile_form_url,f1.priority,f1.soft_delete_status_fk,"
-					+ "f2.form_name as folder_name "
+					+ "f2.form_name as folder_name,f1.display_in_mobile "
 					+ "FROM form f1 "
 					+ "LEFT OUTER JOIN form f2 on f1.parent_form_id_sr_fk = f2.form_id "
 					+ "where f1.form_id is not null ";
@@ -173,7 +173,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 	public Form getForm(Form obj) throws Exception {
 		Form dObj = null;
 		try {
-			String qry ="SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk "
+			String qry ="SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,display_in_mobile "
 					+ "FROM form " 
 					+ "where form_id = ?" ;
 			
@@ -204,10 +204,10 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			obj.setForm_id(form_id);
 			String insertQry = "INSERT INTO form"
 					+ "( form_id,form_name,, module_name_fk, web_form_url,mobile_form_url, "
-					+ "soft_delete_status_fk)"
+					+ "soft_delete_status_fk,display_in_mobile)"
 					+ "VALUES"
 					+ "(:form_id,:form_name,:module_name_fk,:web_form_url,:mobile_form_url,"
-					+ ":soft_delete_status_fk)";
+					+ ":soft_delete_status_fk,:display_in_mobile)";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
 			if(count > 0) {
@@ -301,7 +301,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			String updateQry = "UPDATE form set "
 					+ "form_name= :form_name,"
 					+ "module_name_fk= :module_name_fk,parent_form_id_sr_fk=:parent_form_id_sr_fk, web_form_url= :web_form_url, mobile_form_url= :mobile_form_url, priority= :priority, "
-					+ "soft_delete_status_fk= :soft_delete_status_fk "
+					+ "soft_delete_status_fk= :soft_delete_status_fk,display_in_mobile=:display_in_mobile "
 					+ "where form_id= :form_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			

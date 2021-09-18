@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Report {
 	private String form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,
-	folder_name,report_access_id,form_id_fk,access_type,access_value,access_value_id,access_value_name;
+	folder_name,report_access_id,form_id_fk,access_type,access_value,access_value_id,access_value_name,display_in_mobile;
 	
 	private String[] access_types,access_values;
 	
@@ -152,6 +152,14 @@ public class Report {
 
 	public void setReport_access_id(String report_access_id) {
 		this.report_access_id = report_access_id;
+	}
+
+	public String getDisplay_in_mobile() {
+		return display_in_mobile;
+	}
+
+	public void setDisplay_in_mobile(String display_in_mobile) {
+		this.display_in_mobile = display_in_mobile;
 	}
 	
 	

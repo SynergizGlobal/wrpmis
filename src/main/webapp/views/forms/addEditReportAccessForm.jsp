@@ -183,8 +183,35 @@
                                       	    <option value= "${ obj.soft_delete_status_fk}" <c:if test="${reportDetails.soft_delete_status_fk eq obj.soft_delete_status_fk}">selected</c:if>>${obj.soft_delete_status_fk}</option>
                                           </c:forEach>
                                     </select>
-                                </div>                                 
+                                </div> 
+                                <div class="col s6 m4 input-field">
+                                   <%--  <p class="searchable_label">Display In Mobile </p>
+                                    <select id="display_in_mobile" class="searchable" name="display_in_mobile">
+                                        <option value="No" <c:if test="${reportDetails.display_in_mobile eq 'No'}">selected</c:if>>No</option>
+                                        <option value="Yes" <c:if test="${reportDetails.display_in_mobile eq 'Yes'}">selected</c:if>>Yes</option>
+                                    </select> --%>
+                                    <div class="row">
+                                        <!-- row 7 -->
+                                        <div class="col s5 m5 l6 input-field">
+                                            <p style="margin-top: 12px;" class="center-align">Mobile View ?</p>
+                                        </div>
+                                        <div class="col s7 m7 l6 input-field">
+                                            <p class="radiogroup" style="padding-bottom: 10px;padding-top: 10px;">
+                                                <label>
+                                                    <input class="with-gap" name="display_in_mobile" type="radio"
+                                                        value="Yes" <c:if test="${reportDetails.display_in_mobile == 'Yes'}">checked</c:if>/>
+                                                    <span>Yes</span>
+                                                </label> &nbsp; <label>
+                                                    <input class="with-gap" name="display_in_mobile" type="radio"
+                                                        value="No" <c:if test="${reportDetails.display_in_mobile == 'No'}">checked</c:if>  <c:if test="${empty reportDetails.display_in_mobile}">checked</c:if>/>
+                                                    <span>No</span>
+                                                </label>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>                                
                             </div>
+                            
 
                             <div class="row" style="margin-bottom: 20px;">
                                  

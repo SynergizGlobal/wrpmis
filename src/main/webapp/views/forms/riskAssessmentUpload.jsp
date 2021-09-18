@@ -82,6 +82,10 @@
 			.btn.bg-s.fs-sm-8rem{
 				font-size:1.35vmin;
 			}	
+			.card .card-content {
+			    padding-left: 10px;
+			    padding-right: 10px;
+			}
 			.btn-holder .btn+.btn{
 				margin-left:0;
 				margin-top:10px;
@@ -500,7 +504,7 @@
 	                    </span>
 	                    <div class="">
 	                        <div class="row no-mar" >
-	                                    <div class="col s6 m3 offset-s1 input-field offset-m4">
+	                                    <div class="col s6 m3 input-field offset-m4">
 	                                        <p class="searchable_label">Work</p>
 	                                        <select id="sub_workfilter" name="sub_work" class="searchable" onchange="getRiskUploadsList(this.value);">
 	                                            <option value="">Select</option>
@@ -804,26 +808,14 @@
                         if($.trim(val.attachment) != ''){
                         	filePath = '<a href="<%=CommonConstants2.RISK_ASSESSMENT_UPLOADED_FILES%>'+ val.attachment +'" download>'+val.attachment + '</a>';
                         }
-                        var rowArray = []; 
-                        
-                    /*     if(window.matchMedia("(max-width: 769px)").matches){
-                        	rowArray.push($.trim(val.sub_work));
-                        	rowArray.push(filePath);
-                        	rowArray.push('');
-                        	rowArray.push('');
-                        	rowArray.push('');
-                        	rowArray.push('');
-                        	rowArray.push();
-                	      	
-                		 } else{ */
+                        var rowArray = [];                   
                 			rowArray.push($.trim(val.sub_work));
                            	rowArray.push(filePath);
                            	rowArray.push($.trim(val.status));
                            	rowArray.push($.trim(val.remarks));
                            	rowArray.push($.trim(val.assessment_date));
                            	rowArray.push($.trim(val.uploaded_by));
-                           	rowArray.push($.trim(val.uploaded_on)); 
-                		 /* } */
+                           	rowArray.push($.trim(val.uploaded_on));                 		
                        
                         table.row.add(rowArray).draw( true );
                         		                       

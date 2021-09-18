@@ -34,7 +34,9 @@
         thead th input[type="checkbox"]+span:not(.lever):before {
             border: 2px solid #fff;
         }
-
+		.dataTables_filter label {
+		    color: transparent;
+		}
         thead th input[type="checkbox"]:checked+span:not(.lever):before {
             border-right: 2px solid #fff;
             border-bottom: 2px solid #fff;

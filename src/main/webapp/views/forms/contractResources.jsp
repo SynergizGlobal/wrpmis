@@ -125,7 +125,7 @@
                                 </div>
                                 <div class="col s6 m4 input-field">
                                     <input id="date" name="date" type="text" class="validate datepicker">
-                                    <label for="date">Deployment Date <span class="required">*</span></label> 
+                                    <label for="date" class="fs-sm-8rem">Deployment Date <span class="required">*</span></label> 
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>

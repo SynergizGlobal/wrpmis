@@ -139,6 +139,9 @@
 		.btn-holder .btn+.btn{
 			margin-left:20px;
 		}
+		.btn-holder>.btn{
+			margin-top:.7rem;
+		}
 
 .no-sort.sorting_asc:before,
 .no-sort.sorting_asc:after{

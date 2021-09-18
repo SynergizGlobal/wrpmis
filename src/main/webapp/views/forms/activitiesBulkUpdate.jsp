@@ -302,6 +302,11 @@
             background-color: #f00;
         }
 
+        @media only screen and (max-width: 768px) {
+           .fixed-width .table-inside {
+	    		overflow: hidden;
+			}
+        }
         @media only screen and (max-width: 700px) {
             .legends .col {
                 text-align: left;

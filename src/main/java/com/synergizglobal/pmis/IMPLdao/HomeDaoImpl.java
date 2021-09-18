@@ -173,7 +173,7 @@ public class HomeDaoImpl implements HomeDao {
 			connection = dataSource.getConnection();
 			//String qry = "SELECT id,form_name,web_form_url,mobile_form_url,priority,status_id FROM forms WHERE status_id = ? ";
 			
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk "
+			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM form f "
 					+ "WHERE parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
 			
@@ -207,6 +207,7 @@ public class HomeDaoImpl implements HomeDao {
 				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
 				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
+				obj.setDisplayInMobile(resultSet.getString("display_in_mobile"));
 				String parentId = resultSet.getString("parent_form_id_sr_fk");
 				List<Forms> subList = getFormsSubList(base,parentId,uObj, connection);
 				obj.setFormsSubMenu(subList);
@@ -248,7 +249,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<Forms> objsList = new ArrayList<Forms>();
 		Forms obj = null;
 		try {
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk "
+			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM form f "
 					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
 			
@@ -284,7 +285,8 @@ public class HomeDaoImpl implements HomeDao {
 				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
 				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
-				
+				obj.setDisplayInMobile(resultSet.getString("display_in_mobile"));
+
 				String parentIdLevel2 = resultSet.getString("form_id");
 				List<Forms> subList = getFormsSubListLevel2(base,parentIdLevel2,uObj, connection);
 				obj.setFormsSubMenuLevel2(subList); 
@@ -306,7 +308,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<Forms> objsList = new ArrayList<Forms>();
 		Forms obj = null;
 		try {
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk "
+			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM form f "
 					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
 			
@@ -339,6 +341,8 @@ public class HomeDaoImpl implements HomeDao {
 				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
 				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
+				obj.setDisplayInMobile(resultSet.getString("display_in_mobile"));
+
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 
@@ -367,7 +371,7 @@ public class HomeDaoImpl implements HomeDao {
 			connection = dataSource.getConnection();
 			//String qry = "SELECT id,form_name,web_form_url,mobile_form_url,priority,status_id FROM forms WHERE status_id = ? ";
 			
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk "
+			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM report_form f "
 					+ "WHERE parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
 			
@@ -400,6 +404,8 @@ public class HomeDaoImpl implements HomeDao {
 				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
 				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
+				obj.setDisplayInMobile(resultSet.getString("display_in_mobile"));
+
 				String parentId = resultSet.getString("parent_form_id_sr_fk");
 				
 				List<Forms> subList = getReportFormsSubList(base,parentId,uObj, connection);
@@ -439,7 +445,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<Forms> objsList = new ArrayList<Forms>();
 		Forms obj = null;
 		try {
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk "
+			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM report_form f "
 					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
 			
@@ -472,6 +478,8 @@ public class HomeDaoImpl implements HomeDao {
 				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
 				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
+				obj.setDisplayInMobile(resultSet.getString("display_in_mobile"));
+
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 

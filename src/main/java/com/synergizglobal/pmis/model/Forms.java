@@ -3,7 +3,7 @@ package com.synergizglobal.pmis.model;
 import java.util.List;
 
 public class Forms {
-	private String formId,formName,webFormUrl,mobileFormUrl,priority,statusId,parentId,parentName;
+	private String formId,formName,webFormUrl,mobileFormUrl,priority,statusId,parentId,parentName,displayInMobile;
 	
 	private List<Forms> formsSubMenu;
 	private List<Forms> formsSubMenuLevel2;
@@ -149,6 +149,14 @@ public class Forms {
 
 	public void setFormsSubMenuLevel2(List<Forms> formsSubMenuLevel2) {
 		this.formsSubMenuLevel2 = formsSubMenuLevel2;
+	}
+
+	public String getDisplayInMobile() {
+		return displayInMobile;
+	}
+
+	public void setDisplayInMobile(String displayInMobile) {
+		this.displayInMobile = displayInMobile;
 	}
 	
 }

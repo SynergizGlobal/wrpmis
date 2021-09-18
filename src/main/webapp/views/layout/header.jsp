@@ -138,21 +138,8 @@
 				data-target="mobile-demo" class="sidenav-trigger"> 
 					<i class="fa fa-bars"></i>
 			</a>
-			<ul class="right hide-on-med-and-down top-level-menu">
-				<%-- <c:if test="${homeHeader ne 'yes'}">
-                                        <li class="searchproject">
-                                            <select id="searchProjectId" name="searchProjectId"
-                                                onchange="getWorksListForSearch(this.value);" class="customDropdown">
-                                                <option>Select Project</option>
-                                            </select>
-                                        </li>
-                                        <li class="searchwork">
-                                            <select id="searchWorkId" name="searchWorkId"
-                                                onchange="setGlobalVariable(this.value);">
-                                                <option>Select Work</option>
-                                            </select>
-                                        </li>
-                                        </c:if> --%>
+			
+			<ul class="right hide-on-med-and-down top-level-menu" id="DesktopView">
 				<li class="blue darken-3"><a
 					href="<%=request.getContextPath() %>/home"><span
 						class="material-icons-outlined">home</span>Home</a></li>
@@ -606,7 +593,9 @@
 								password</a></li>
 						<li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
 					</ul></li>
-			</ul>
+			</ul>			
+	
+		
 		</div>
 	</div>
 	</nav>
@@ -629,133 +618,14 @@
 			</div>
 		</li>
 
-		<!-- <li>
-      <select id="mobileSearchProjectId" name="searchProjectId" onchange="getWorksListForSearch(this.value);">
-        <option>Select Project</option>
-      </select>
-    </li>
-    <li>
 
-      <select id="mobileSearchWorkId" name="searchWorkId">
-        <option>Select Work</option>
-      </select>
-    </li> -->
-		<li><a href="<%=request.getContextPath() %>/home"><span
-				class="material-icons-outlined">home</span>Home</a></li> 
-		<c:if test="${sessionScope.USER_ROLE_NAME ne 'Input User' }">
-			<li class="sub-menu"><a href="#"
-				class='head-img collapsible-header'><span
-					class="material-icons-outlined">dashboard</span> Modules</a> <!-- Mobile dropdown stars here -->
-				<ul class="dropdown-data collapsible collapsible-body second-lvl">
-					<c:forEach var="category" items="${dashboardModulesList }"
-						varStatus="index">
-						<c:set var="tempactivity"
-							value="${ fn:toLowerCase(category.tableauDashboardName.replaceAll(' - ', '_'))}">
-						</c:set>
-						<c:set var="activity"
-							value="${ fn:toLowerCase(tempactivity.replaceAll(' ', '-'))}"></c:set>
-						  <c:if test="${empty category.tableauSubList}">
-							<li><a
-								href="<%=request.getContextPath()%>/InfoViz/${activity }"> <span
-									style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-									<span class="nav-label">${category.tableauDashboardName }</span>
-							</a></li>
-						</c:if> 
-						<c:if test="${not empty  category.tableauSubList}">
-							<!-- Mobile 2nd level dropdown stars here -->
-								<li class="sub-menu"><a href="#!" class="collapsible-header">
-										<span style="padding-right: 5px;"
-										class="fa fa-${category.imagePath}"></span> <span
-										class="nav-label">${category.tableauDashboardName }</span>
-								</a>
-	
-									<ul class=" dropdown-data collapsible-body third-lvl">
-										<c:forEach var="subList" items="${category.tableauSubList }">
-											<c:set var="tempsubActivity"
-												value="${ fn:toLowerCase(subList.tableauDashboardName.replaceAll(' - ', '_'))}">
-											</c:set>
-											<c:set var="subActivity"
-												value="${ fn:toLowerCase(tempsubActivity.replaceAll(' ', '-'))}">
-											</c:set>
-											<c:set var="subActivityName"
-												value="${ subList.tableauDashboardName}"></c:set>
-											<li><a
-												href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
-													<span style="padding-right: 5px;"
-													class="fa fa-${subList.imagePath }"></span> <span
-													class="nav-label">${subList.tableauDashboardName
-	                                                                    }</span>
-											</a></li>
-										</c:forEach>
-									</ul>
-								</li>
-							<!-- Mobile 2nd level dropdown ends here -->
-						</c:if>
-
-					</c:forEach>
-					<!-- Mobile dropdown ends here -->
-
-				</ul></li>
-
-			<li class="sub-menu"><a href="#"
-				class='head-img collapsible-header'><span
-					class="material-icons-outlined">dashboard</span> Works</a> <!-- Mobile dropdown stars here -->
-				<ul class="dropdown-data collapsible collapsible-body second-lvl">
-					<c:forEach var="category" items="${dashboardProjectsList }"
-						varStatus="index">
-						<c:set var="tempactivity"
-							value="${ fn:toLowerCase(category.tableauDashboardName.replaceAll(' - ', '_'))}">
-						</c:set>
-						<c:set var="activity"
-							value="${ fn:toLowerCase(tempactivity.replaceAll(' ', '-'))}"></c:set>
-						<c:if test="${empty category.tableauSubList}">
-							<li><a
-								href="<%=request.getContextPath()%>/InfoViz/${activity }"> <span
-									style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-									<span class="nav-label">${category.tableauDashboardName }</span>
-							</a></li>
-						</c:if>
-						<c:if test="${not empty  category.tableauSubList}">
-							<!-- Mobile 2nd level dropdown stars here -->
-							<li class="sub-menu"><a href="#!" class="collapsible-header">
-									<span style="padding-right: 5px;"
-									class="fa fa-${category.imagePath}"></span> <span
-									class="nav-label">${category.tableauDashboardName }</span>
-							</a>
-
-								<ul class=" dropdown-data collapsible-body third-lvl">
-									<c:forEach var="subList" items="${category.tableauSubList }">
-										<c:set var="tempsubActivity"
-											value="${ fn:toLowerCase(subList.tableauDashboardName.replaceAll(' - ', '_'))}">
-										</c:set>
-										<c:set var="subActivity"
-											value="${ fn:toLowerCase(tempsubActivity.replaceAll(' ', '-'))}">
-										</c:set>
-										<c:set var="subActivityName"
-											value="${ subList.tableauDashboardName}"></c:set>
-										<li><a
-											href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
-												<span style="padding-right: 5px;"
-												class="fa fa-${subList.imagePath }"></span> <span
-												class="nav-label">${subList.tableauDashboardName
-                                                                    }</span>
-										</a></li>
-									</c:forEach>
-								</ul></li>
-							<!-- Mobile 2nd level dropdown ends here -->
-						</c:if>
-
-					</c:forEach>
-					<!-- Mobile dropdown ends here -->
-
-				</ul></li>
-		</c:if>
 		<c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' }">
 			<li class="sub-menu"><a href="#"
 				class='head-img collapsible-header'><span
 					class="material-icons-outlined">post_add</span> Update Forms</a>
 				<ul class="dropdown-data collapsible-body second-lvl collapsible">
 					<c:forEach var="form" items="${forms }" varStatus="index">
+					<c:if test="${form.displayInMobile eq 'Yes'}">
 						<c:if test="${empty form.formsSubMenu}">
 							<li>
 								<c:if test="${not empty form.webFormUrl}">									
@@ -771,6 +641,7 @@
 								</a>
 									<ul class="dropdown-data collapsible-body third-lvl">
 										<c:forEach var="subList" items="${form.formsSubMenu }">
+										<c:if test="${subList.displayInMobile eq 'Yes'}">
 											<c:if test="${ empty subList.formsSubMenuLevel2}">
 												<li><a
 													href="<%=request.getContextPath()%>/${subList.webFormUrl }">
@@ -788,12 +659,10 @@
 														</c:forEach>
 													</ul></li>
 											</c:if>
-											<%-- <li><a
-												href="<%=request.getContextPath()%>/${subList.webFormUrl }">
-													<span class="nav-label">${subList.formName }</span> <span>not empty </span>
-											</a></li> --%>
+										  </c:if>
 										</c:forEach>
 									</ul></li>
+						</c:if> 
 						</c:if> 
 		
 					</c:forEach>
@@ -810,6 +679,7 @@
 					class="material-icons-outlined">assignment</span> Reports</a>
 				<ul class="dropdown-data collapsible-body second-lvl collapsible">
 					<c:forEach var="form" items="${reportForms }" varStatus="index">
+					<c:if test="${form.displayInMobile eq 'Yes'}">
 						<c:if test="${empty form.formsSubMenu}">
 							<li>
 								<a href="<%=request.getContextPath()%>/${form.webFormUrl }"> <span
@@ -831,82 +701,13 @@
 										</c:forEach>
 									</ul></li>
 						</c:if> 
-
+						</c:if>
 					</c:forEach>
-
+				
 				</ul></li>
 		</c:if>
 
-		<%-- <li><a href="<%=request.getContextPath()%>/manuals" class='head-img'><span
-                                        class="material-icons-outlined">assignment</span> Manuals</a></li> --%>
-		  <li class="sub-menu"><a href="#"
-			class='head-img collapsible-header'> <span
-				class="material-icons-outlined">description</span> Documents
-		</a>
-			<ul class="dropdown-data collapsible-body second-lvl collapsible">
-				<c:forEach var="obj" items="${webDocumentTypes}">
-					<c:set var="tempWebDocType"
-						value="${ fn:toLowerCase(obj.type.replaceAll(' - ', '_'))}"></c:set>
-					<c:set var="webDocType"
-						value="${ fn:toLowerCase(tempWebDocType.replaceAll(' ', '-'))}"></c:set>
-					<li><a
-						href="<%=request.getContextPath()%>/web-documents/${webDocType}">
-							<span class="nav-label">${obj.type}</span>
-					</a></li>
-				</c:forEach>
-			</ul></li> 
-
-		<%-- <li class="blue"><a href="<%=request.getContextPath()%>/web-links"
-                                        class='head-img'>
-                                        <span class="material-icons-outlined">link</span> Quick Links</a>
-                                    </li> --%>
-
-		<li class="sub-menu"><a href="javascript:void(0);"
-			class='head-img collapsible-header'> <span
-				class="material-icons-outlined">link</span> Quick Links
-		</a>
-			<ul class="dropdown-data collapsible-body second-lvl collapsible">
-				<c:forEach var="lObj" items="${webLinksList }">
-					<li><a href="${lObj.link }" target="_blank"> <span
-							class="nav-label">${lObj.name}</span>
-					</a></li>
-				</c:forEach>
-			</ul></li> 
-		<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
-			
-			 <li class="sub-menu">
-			 	<a href="#"	class='head-img collapsible-header'> 
-			 		<span class="material-icons-outlined">list_alt</span> Admin
-				</a>
-				<ul class="dropdown-data collapsible-body second-lvl collapsible">
-					<c:forEach var="form" items="${adminForms }" varStatus="index">
-						<%-- <c:if test="${empty form.formsSubMenu}"> --%>
-						<li><a href="<%=request.getContextPath()%>/${form.url }">
-								<span class="nav-label">${form.form_name }</span>
-						</a></li>
-						<%-- </c:if> --%>
-					</c:forEach>
-				</ul>
-			</li> 
-		</c:if>
-		  <li>
-			<!-- a class='dropdown-trigger' data-target='dropdown1'--> <a
-			href="<%=request.getContextPath() %>/home"
-			data-target="notification-demo" class="sidenav-trigger"> <span
-				class="material-icons-outlined">notifications</span> Notifications <span
-				class="badge" id="notificationCountMobile">0</span> <!--span class="badge red" id="notificationCount"></span-->
-		</a>
-
-		</li>
-		<li>
-			<!-- a class='dropdown-trigger' data-target='dropdown1'--> <a
-			href="<%=request.getContextPath() %>/home"
-			data-target="messages-demo" class="sidenav-trigger"> <span
-				class="material-icons-outlined">chat_bubble</span> Messages <span
-				class="badge" id="messagesCountMobile">0</span> <!--span class="badge red" id="notificationCount"></span-->
-		</a>
-
-		</li> 
+ 
 		<li class="sub-menu"><a href="#"
 			class='head-img collapsible-header'> <img
 				src="<%=CommonConstants2.USER_IMAGES %>${sessionScope.user.user_image }"
@@ -1101,6 +902,7 @@
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<!-- <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>  -->
 	<script>
+
    			var dt=new Date();
    			//var month= dt.getMonth() >10 ? "" + dt.getMonth(): "0" + dt.getMonth(); 
    			const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
@@ -1109,6 +911,7 @@
    			document.getElementById("CurrentDate").innerHTML=todayDate;
    			
                $(document).ready(function () {
+          	   
             	   
             	   $("a[href='/pmis/contractorslist']").click(function() {
 

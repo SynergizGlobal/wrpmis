@@ -20,7 +20,7 @@
     <li><a href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">PMIS Manual <i class="fa fa-download"></i></a></li>
     	<ul >
 	        <li style="min-height: 20px;">
-	        	<a style="font-size: 14px;min-height: 20px;padding: 11px 16px;line-height: 0px;font-weight: 100;" href="/pmis/5. User Manual for Risk Module-V2.pdf" >PMIS Risk Module<i class="fa fa-download"></i></a>
+	        	<a style="font-size: 14px;min-height: 20px;padding: 11px 16px;line-height: 0px;font-weight: 100;" href="/pmis/5. User Manual for Risk Module-V2.pdf" target="_blank">PMIS Risk Module<i class="fa fa-download"></i></a>
 	        </li>
 	    </ul>
     <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li>

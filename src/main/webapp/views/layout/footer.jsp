@@ -17,10 +17,10 @@
 
   <!-- Dropdown Structure -->
   <ul id='help-dropdown' class='dropdown-content blue lighten-5'>
-    <li><a href="/pmis/PMIS User Manual Ver-1.pdf" target="_blank">PMIS Manual <i class="fa fa-download"></i></a></li>
+    <li><a href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">PMIS Manual <i class="fa fa-download"></i></a></li>
     	<ul >
 	        <li style="min-height: 20px;">
-	        	<a style="font-size: 14px;min-height: 20px;padding: 11px 16px;line-height: 0px;font-weight: 100;" href="/pmis/PMIS - Issue Module - User Manual.docx" >PMIS Issue Module<i class="fa fa-download"></i></a>
+	        	<a style="font-size: 14px;min-height: 20px;padding: 11px 16px;line-height: 0px;font-weight: 100;" href="/pmis/5. User Manual for Risk Module-V2.pdf" >PMIS Risk Module<i class="fa fa-download"></i></a>
 	        </li>
 	    </ul>
     <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li>

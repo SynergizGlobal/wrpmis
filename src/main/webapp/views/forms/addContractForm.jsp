@@ -348,7 +348,7 @@
 									            <table  class="mdl-data-table" style="margin-bottom: 20px">
 			                                        <tbody>                                          
 			                                            <tr>
-			                                   				<td colspan="3" style="text-align: right;" ><a   class="btn waves-effect waves-light bg-m t-c "  onclick="addDepartmentRow()"> <i class="fa fa-plus"></i></a></td>
+			                                   				<td colspan="3" ><a   class="btn waves-effect waves-light bg-m t-c "  onclick="addDepartmentRow()"> <i class="fa fa-plus"></i></a></td>
 			                                             </tr>
 			                                        </tbody>
 			                                    </table>
@@ -488,7 +488,7 @@
 	                            <div class=" col m10 offset-m1 s12" style="margin-bottom:30px; padding:0;">
 	                                <div class="row fixed-width">
 	                                    <h5 class="center-align">Documents</h5>
-	                                    <div class="table-inside">
+	                                    <!-- <div class="table-inside"> -->
 	                                        <table class="mdl-data-table mobile_responsible_table">
 	                                            <thead>
 	                                                <tr>
@@ -535,13 +535,13 @@
 	                                        <table class="mdl-data-table">
 		                                        <tbody id="revTableBody">                                          
 		                                            <tr>
-														<td colspan="3" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addContractDocumentRow()"> <i
+														<td colspan="3" >	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addContractDocumentRow()"> <i
 		                                                            class="fa fa-plus"></i></a></td>
 		                                              </tr>
 		                                        </tbody>
 		                                     </table>
 		                                   	 <input type="hidden" id="documentRowNo"  name="documentRowNo" value="0" />
-	                                    </div>
+	                                    <!-- </div> -->
 	                                </div>
 	                            </div>
 						</div>

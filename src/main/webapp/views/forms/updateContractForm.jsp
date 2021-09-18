@@ -232,6 +232,10 @@
 		    display: inline-block;
 		    line-height: 1.3;
 	    }
+	     .p-h-0{
+        	padding-left:0 !important;
+        	padding-right:10px !important;
+        }
 		@media only screen and (max-width: 769px){
 			.div-header{	    		   
 	    		width: 100%;			   
@@ -241,6 +245,9 @@
 			}
 			.h-auto{
 				height:auto !important;
+			}
+			.fixed-width .table-inside{
+				overflow:hidden;
 			}
 			.responsive_units > .select2-container{
 				max-width:inherit !important;
@@ -273,8 +280,11 @@
 			.input-field .prefix.cost ~ input{
 				width: calc(90% - 2rem);
 			}
-			.mobile_responsible_table.another>tbody > tr:not(.datepicker-row) >td {
+			.mobile_responsible_table.another>tbody > tr:not(.datepicker-row) >td:not(.mobile_btn_close) {
 			    width: 53%;
+			}
+			.p-h-0{
+				padding-left:18px !important;
 			}
 		}
 		.validate:focus{ scroll-behavior:smooth;}
@@ -305,10 +315,7 @@
 		.  input[type="text"].datepicker::placeholder{
             color: #bbb;
         } */
-        .p-h-0{
-        	padding-left:0 !important;
-        	padding-right:10px !important;
-        }
+       
 		/* special columns of revision table css ends here  */	
 		/* .input-field input[type="text"],
 		.input-field .pmis-textarea{

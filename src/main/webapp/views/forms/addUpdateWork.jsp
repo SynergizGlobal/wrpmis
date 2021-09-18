@@ -49,8 +49,7 @@
             overflow: auto;
         }
         .input-field p.searchable_label {
-        	font-size:0.85rem;
-        	color :#9933ff;
+        	font-size:0.85rem;        	
 		    margin-top: -4px !important;
         }
         

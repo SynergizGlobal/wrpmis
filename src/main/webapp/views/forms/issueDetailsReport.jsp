@@ -117,13 +117,13 @@
 	                                    
 	                                </div>    
 	                                <div class="row">	                                	
-	                                    <div class="col s6 m4 l3 input-field offset-l2">
+	                                    <div class="col s5 m4 l3 input-field offset-l2">
 	                                        <button class="btn bg-s waves-effect waves-light t-c" type="button"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="clearFilter()">Clear Filter</button>
 	                                    </div>
 	                                   
-	                                     <div class="col s12 m4 l3 input-field mob-center">
+	                                     <div class="col s7 m4 l3 input-field mob-center">
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateAndDownloadIssueDetailsReport()">Generate Report</button>

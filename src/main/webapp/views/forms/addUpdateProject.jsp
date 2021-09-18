@@ -348,7 +348,7 @@
 								<div class="col m8 s12 offset-m2">
 									<div class="row fixed-width"
 										style="margin-bottom: 10px; margin-top: 20px">
-										<div class="table-inside">
+										<!-- <div class="table-inside"> -->
 											<table class="mdl-data-table mobile_responsible_table">
 												<thead>
 													<tr>
@@ -447,7 +447,7 @@
 													<input type="hidden" id="imageRowNo" name="imageRowNo" value="0" />
 												</c:otherwise>
 											</c:choose>
-										</div>
+										<!-- </div> -->
 									</div>
 								</div>
 							</div>

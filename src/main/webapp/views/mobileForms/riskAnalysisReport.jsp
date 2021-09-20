@@ -4,80 +4,74 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Risk Analysis Report</title>
+    <title>Risk Analysis Report - Reports - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/risk.css">
+    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
+<link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/mobile-form-template.css">
-    <style>
- 		.input-field .searchable_label {
-            font-size: 0.9rem;
-        }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}		
-		.error-msg label{color:red!important;}
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+      <style>            		
+		.error-msg label{color:red!important;} 
     </style>
 </head>
 
 <body>
-    
+    <!-- header included -->
+    <%-- <jsp:include page="../layout/header.jsp"></jsp:include> --%>
+ 
     <div class="row">
         <div class="col s12 m12">
             <div class="card">
                 <div class="card-content">
                     <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 ">
+                        <div class="center-align bg-m p-2 m-b-5">
                             <h6>Risk Analysis Report </h6>
                         </div>
                     </span>
                     <div class="">
                         <div class="row no-mar">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12">
-                            	<form action="<%=request.getContextPath() %>/mobileappwebview/generate-risk-analysis-report" id="reportForm" name="reportForm" method="post">
-	                                <div class="row no-mar">
-	                                    <div class="col s6 m4 input-field">
+                            <div class="col l9 m10 s12 offset-m2 offset-l3">
+                            	<form action="<%=request.getContextPath() %>/generate-risk-analysis-report" id="reportForm" name="reportForm" method="post">
+	                                <div class="row">
+	                                    <div class="col s6 m4 l3 input-field offset-l1">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select class="searchable validate-dropdown" id="report_work_id" name="work_id" onchange="getAssessmentDateListInRiskReport(this.value);">
+	                                        <select class="searchable validate-dropdown" id="sub_work" name="sub_work" onchange="addInQueWork(this.value);getAssessmentDateListInRiskReport('');getRiskReport();">
 	                                            <option value="">Select </option>
 	                                        </select>
-	                                        <span id="report_work_idError" class="error-msg" ></span>
+	                                        <span id="sub_workError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s6 m4 input-field">
+	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label">Assessment Date</p>
-	                                        <select class="searchable validate-dropdown" id="report_assessment_date" name="assessment_date">
+	                                        <select class="searchable validate-dropdown" id="report_assessment_date" name="assessment_date" onchange="addInQueDate(this.value);getRiskReport();">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="report_assessment_dateError" class="error-msg" ></span>
 	                                    </div>
-	
-	                                    <div class="col s12 m4 input-field">
-	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
-	                                            onclick="generateReport()">Generate
-	                                            Report</button>
-	                                    </div>
 	                                </div>
-                                
+	                                <div class="row">	                                	
+	                                    <div class="col s5 m4 l3 input-field center-align offset-l1">
+	                                        <button class="btn bg-s waves-effect waves-light t-c" type="button"
+	                                            style="margin-top: 6px; font-weight: 600;"
+	                                            onclick="clearFilter()">Clear Filter</button>
+	                                    </div>
+	                                    <div class="col s7 m4 l3 input-field center-align">
+	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+	                                            style="margin-top: 6px;min-width:160px%; font-weight: 600;"
+	                                            onclick="generateReport()">Generate Report</button>
+	                                    </div>
+	                                </div>                                
                                 </form>
                             </div>
-
-                            <div class="col m2 hide-on-small-only"></div>
                         </div>
                     </div>
                 </div>
@@ -99,6 +93,7 @@
 	  </div>
 	</div> 
     <!-- footer included -->
+    <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -110,6 +105,7 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
+        var filtersMap = new Object();
       	function getErrorMessage(jqXHR, exception) {
         	    var msg = '';
         	    if (jqXHR.status === 0) {
@@ -132,22 +128,68 @@
         
         
         $(document).ready(function(){
-        	getWorksListInRiskReport();
+			var filters = window.localStorage.getItem("riskReportFilters");
+            
+            if($.trim(filters) != '' && $.trim(filters) != null){
+          	  var temp = filters.split('^'); 
+          	  for(var i=0;i< temp.length;i++){
+    	        	  if($.trim(temp[i]) != '' ){
+    	        		  var temp2 = temp[i].split('=');
+    		        	  if($.trim(temp2[0]) == 'sub_work' ){
+    		        		  getSubWorksListInRiskReport(temp2[1]);
+    		        		  getAssessmentDateListInRiskReport("");
+    		        	  }else if($.trim(temp2[0]) == 'report_assessment_date'){
+    		        		  getAssessmentDateListInRiskReport(temp2[1]);
+    		        	  }
+    	        	  }
+    	          }
+              }
+            getRiskReport();  			
         });
         
-        function getWorksListInRiskReport() {
+        function addInQueWork(sub_work){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('sub_work')) delete filtersMap[key];
+       	   	});
+          	if($.trim(sub_work) != ''){
+            	filtersMap["sub_work"] = sub_work;
+          	}
+        } 
+        function addInQueDate(report_assessment_date){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('report_assessment_date')) delete filtersMap[key];
+       		});
+        	if($.trim(report_assessment_date) != ''){
+       	    	filtersMap["report_assessment_date"] = report_assessment_date;
+        	}
+        }
+        
+       function getRiskReport(){
+    	   
+    	  	var sub_work = $("#sub_work").val();
+    	  	if(sub_work == "") { getSubWorksListInRiskReport("");}
+        	var report_assessment_date = $("#report_assessment_date").val();
+        	
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("riskReportFilters", filters);
+    			});
+    	   
+       }
+        
+        function getSubWorksListInRiskReport(work){
         	$(".page-loader").show();
-           	$("#report_work_id option:not(:first)").remove();
+           	$("#sub_work option:not(:first)").remove();
            	var myParams = {}
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksListInRiskReport",
-                   data: myParams, cache: false,
+                   url: "<%=request.getContextPath()%>/ajax/getSubWorksListInRiskReport",
+                   data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                           	 var workShortName = '';
-                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-   	                         $("#report_work_id").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+                        	    var selectedFlag = (work == val.sub_work)?'selected':'';
+								$("#sub_work").append('<option value="' + $.trim(val.sub_work) + '"'+selectedFlag+'>' + $.trim(val.sub_work)+'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -160,17 +202,19 @@
         }
         
         
-        function getAssessmentDateListInRiskReport(work_id) {
+        function getAssessmentDateListInRiskReport(date) {
         	$(".page-loader").show();
+        	var sub_work = $("#sub_work").val();
            	$("#report_assessment_date option:not(:first)").remove();
-           	var myParams = {work_id : work_id}
+           	var myParams = {sub_work : sub_work}
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAssessmentDateListInRiskReport",
-                   data: myParams, cache: false,
+                   url: "<%=request.getContextPath()%>/ajax/getAssessmentDateListInRiskReport",
+                   data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-								$("#report_assessment_date").append('<option value="' + $.trim(val.assessment_date) + '">' + $.trim(val.assessment_date)+'</option>');
+                        	    var selectedFlag = (date == val.assessment_date)?'selected':'';
+								$("#report_assessment_date").append('<option value="' + $.trim(val.assessment_date) + '"'+selectedFlag+'>' + $.trim(val.assessment_date)+'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -191,23 +235,23 @@
         var validator =	$('#reportForm').validate({
 			 ignore: ":hidden:not(.validate-dropdown)",
 	  		    rules: {
-	  		 		  "work_id": {
+	  		 		  "sub_work": {
 	  			 		required: true
-	  			 	  },"assessment_date": {
+	  			 	  }	,"assessment_date": {
 	  			 		required: true
 	  			 	  }	
 	  		 	},
 	  		    messages: {
-	  		 		 "work_id": {
-	  				 	required: 'This field is required',
+	  		 		 "sub_work": {
+	  			 		required: ' This field is required'
 	  			 	  },"assessment_date": {
 	  			 		required: ' This field is required'
 	  			 	  }
 		   		},
 		   		errorPlacement:function(error, element){
-		   		 	if (element.attr("id") == "report_work_id" ){
-						 document.getElementById("report_work_idError").innerHTML="";
-				 		 error.appendTo('#report_work_idError');
+		   		 	if(element.attr("id") == "sub_work" ){
+						   document.getElementById("sub_workError").innerHTML="";
+					 	   error.appendTo('#sub_workError');
 					} else if(element.attr("id") == "report_assessment_date" ){
 						   document.getElementById("report_assessment_dateError").innerHTML="";
 					 	   error.appendTo('#report_assessment_dateError');
@@ -220,7 +264,25 @@
 			    }
 			}); 
         
+        $('select').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
+        
+        $('input').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
 
+        function clearFilter(){
+    		$('#sub_work').val('');
+    		$('#report_assessment_date').val('');
+    		$('.searchable').select2();
+    		window.localStorage.setItem("riskReportFilters",'');
+    		window.location.href= "<%=request.getContextPath()%>/risk-analysis-report"
+    	}
     </script>
 
 </body>

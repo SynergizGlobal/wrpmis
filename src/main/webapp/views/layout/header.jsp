@@ -268,6 +268,7 @@
 						<ul class="second-level-menu">
 							<!-- 1st level Dropdown starts -->
 							<c:forEach var="form" items="${forms }" varStatus="index">
+							<c:if test="${(form.formName!='Design & Drawing' && form.formName!='Safety' && form.formName!='Training' && form.formName!='Land Acquisition' && form.formName!='Finance') || (sessionScope.USER_ROLE_NAME eq 'IT Admin') }">
 								<c:if test="${empty form.formsSubMenu}">
 									<li><c:if test="${not empty form.webFormUrl}">
 											<a href="<%=request.getContextPath()%>/${form.webFormUrl }">
@@ -312,7 +313,7 @@
 											<!-- 2nd level Dropdown ends -->
 										</ul></li>
 								</c:if>
-
+								</c:if>
 							</c:forEach>
 							<!-- 1st level Dropdown ends -->
 						</ul></li>

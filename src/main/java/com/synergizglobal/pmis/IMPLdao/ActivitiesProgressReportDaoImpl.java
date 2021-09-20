@@ -463,7 +463,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY c.hod_user_id_fk  ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO'),u.designation" ;
+			qry = qry + " GROUP BY c.hod_user_id_fk  ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','HOD-Elec','HOD-Engg','HOD-S&T'),u.designation" ;
 
 			
 			Object[] pValues = new Object[arrSize];

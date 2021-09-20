@@ -332,7 +332,6 @@
         
         
         function clearFilters(){
-        	$("#hod_designation option:first").remove();
         	$("#contractor_id_fk").val('');
         	$("#work_id_fk").val('');
         	$("#hod_designation").val('');
@@ -439,7 +438,7 @@
                     success: function (data) {
                         if (data.length > 0) 
                         {
-                        	$("#hod_designation").append('<option  name="hod_designations" value="">All</option>');
+                        	//$("#hod_designation").append('<option  name="hod_designations" value="">All</option>');
                             $.each(data, function (i, val) {
                             	
                             	if(designation != null ){

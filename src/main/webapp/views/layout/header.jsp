@@ -279,7 +279,7 @@
 								</c:if>
 								<c:if test="${not empty form.formsSubMenu}">
 									<li class="sub-menu"><a href="#!"> <span
-											class="nav-label">${form.formName }</span>
+											class="nav-label">${form.formName }</span>  
 									</a>
 										<ul class="third-level-menu">
 											<!-- 2nd level Dropdown starts -->

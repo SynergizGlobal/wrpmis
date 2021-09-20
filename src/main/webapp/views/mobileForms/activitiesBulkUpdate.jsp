@@ -6,25 +6,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activities Bulk Update</title>
+    <title>Activities Bulk Update - Update Forms - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">     
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
+    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">   
+    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
+<link rel="stylesheet" href="/pmis/resources/css/header-footer.css">  
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" href="/pmis/resources/css/mobile-form-template.css">
-    <link rel="stylesheet" href="/pmis/resources/css/mobile-form-template.css">
-    <link rel="stylesheet" href="/pmis/resources/css/mobile-responsive-table.css">
-    <style>       
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+     <style>
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
         .hiddendiv.common {
             width: 99vw !important;
         }
+
         [type="radio"]:checked+span::after,
         [type="radio"].with-gap:checked+span::after {
             background-color: #2E58AD !important;
         }
+
         [type="radio"]:checked+span::after,
         [type="radio"].with-gap:checked+span::before,
         [type="radio"].with-gap:checked+span::after {
@@ -34,14 +48,20 @@
             color: #2E58AD;
             font-weight: 500;
         }
+        .table-inside{
+        	margin-bottom:25px;
+        }
+
         /* dots related styling  */
 
         /* horizontal line*/
+
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
             position: relative;
         }
+
         /* selects toggle class */
 
         .radiogroup {
@@ -49,6 +69,7 @@
             padding: 5px;
             text-align: center;
         }
+
         #dotgroup1 .dotgroup-scroll {
             width: 100%;
             max-width: 100%;
@@ -56,7 +77,9 @@
             padding-top: 30px;
             overflow-x: auto;
             white-space: nowrap;
+
         }
+
         #dotgroup1 .horizontal-line {
             border: 1px solid #777;
             position: relative;
@@ -64,28 +87,32 @@
             height: 8px;
             box-shadow: 0 0 3px inset #555;
         }
+
         #dotgroup1 .dot-container {
             position: relative;
             display: inline-block;
         }
-        
         .dot-container{
 			min-width:55px;
 		}		  
 		 #component_circles .dot-container:first-of-type a{
             margin-left: -10px;
         }  
-         #component_circles .dot-container:first-of-type a~.dot-line{
-            margin-left: 30px;
-        }  
+
         #dotgroup1 .dot-line {
             width: inherit;
+            min-width:30px;
             border: 2px solid #777;
             position: absolute;
             top: 14px;
             left: -17px;
             z-index: 0;
         }
+        
+        #dotgroup1 .dot-container:first-of-type >.dot-line{
+        	left:4px;
+        }
+
         #dotgroup1 .dot {
             height: 30px;
             width: 30px;
@@ -98,49 +125,62 @@
             position: relative;
             margin: 0 12px;
         }
+
         .dot.active {
             box-shadow: 0px 0px 14px 6px #444, 0px 0px 25px 1px #777;
             border: 1px solid black !important;
         }
+
         .dot.active .project {
             font-weight: bold;
         }
+
         #dotgroup1 .project::before {
             content: none;
         }
+
         #dotgroup1 a .project.odd {
             position: relative;
             top: 30px;
             /* left: 4px; */
             font-size: 0.75rem;
         }
+
         #dotgroup1 a .project.even {
             position: relative;
             bottom: 20px;
             /* left: 4px; */
             font-size: 0.75rem;
         }
+
         #dotgroup1 .dot.not-started {
             background-color: #fff;
         }
+
         #dotgroup1 .dot.in-progress {
-            background-color:  #FFFF00;
+            background-color: #FFFF00;
         }
+
+
         #dotgroup1 .dot.completed {
             background-color: #05a705;
         }
+
+
         #dotgroup1 .dot.delayed {
             background-color: #f00;
         }
-        .page-loader {
-            background: #332e2ec2 !important;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }        
+        
+        .page-loader-1 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}
+        
         .page-loader-2 {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -150,6 +190,7 @@
 		    left: 0;
 		    z-index: 1000;
 		}
+       
 		.page-loader-3 {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -159,12 +200,31 @@
 		    left: 0;
 		    z-index: 1000;
 		}
-        .preloader-wrapper {
-            top: 45% !important;
-            left: 47% !important;
-        }
+
+		.page-loader-4 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}
+		.page-loader-5 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}
         .error-msg label {
             color: red !important;
+        }
+
+        .input-field .searchable_label {
+            font-size: .85rem;
         }
         .fixed-width {
             width: 100%;
@@ -172,6 +232,7 @@
             margin-left: auto !important;
             margin-right: auto !important;
         }
+
         thead th input[type="checkbox"]+span:not(.lever):before{
             border: 2px solid #fff;
         }
@@ -179,29 +240,39 @@
             border-right: 2px solid #fff;
             border-bottom: 2px solid #fff;
         }
+        .mobile_responsible_table>tbody > tr:not(.datepicker-row) >td{
+        	height:auto;
+        }
+        
+  .datepicker-table thead tr,
+        .datepicker-table thead tr:hover,
+        .datepicker-table tbody tr,
+        .datepicker-table tbody tr:hover {
+            background-color: transparent !important ;
+            border-radius: 0;
+            border-bottom-width: 0;
+        }
+
+        .datepicker-table td:first-of-type,
+        .datepicker-table td:last-of-type {
+            padding: 0 !important;
+        }
+
+        .datepicker-table th,
+        .datepicker-table td {
+            padding: 0 !important;
+        }      
+ .datepicker~button {
+    bottom: 1rem;
+}        
+        
     </style>
-     <style>      
-	     .input-field>label:not(.label-icon).active {
-		    -webkit-transform: translateY(-11px) ;
-		    transform: translateY(-11px) ;
-	    } 
-	    .input-field>textarea ~ label{
-	        padding-left:10px;
-	    }
-	    .input-field>textarea ~ label:not(.label-icon).active{
-	        background-color:transparent;
-	        padding-left:0;
-	    }
-	    .input-field>textarea ~ label:not(.label-icon).active {
-		    -webkit-transform: translateY(-24px) ;
-		    transform: translateY(-24px) ;
-	    } 
-	    .mb-2{
-	    	margin-bottom:2px;
-	    }
+     <style>
+       
         .legends {
             padding: 2px;
         }
+
         .box,
         .description {
             display: inline-block;
@@ -209,6 +280,7 @@
             margin-right: 3px;
             vertical-align: middle;
         }
+
         .box {
             width: 20px;
             height: 20px;
@@ -216,35 +288,41 @@
             background-color: #fff;
             border: 1px solid #ccc;
         }
+
         .box.not-started {
             background-color: #fff;
         }
+
         .box.in-progress {
-            background-color:  #FFFF00;
+            background-color: #FFFF00;
         }
+
         .box.completed {
             background-color: #05a705;
         }
+
         .box.delayed {
             background-color: #f00;
+        }
+
+        @media only screen and (max-width: 768px) {
+           .fixed-width .table-inside {
+	    		overflow: hidden;
+			}
         }
         @media only screen and (max-width: 700px) {
             .legends .col {
                 text-align: left;
             }
         }
-        .datepicker~button{
-        	top:20px;
-        }
-        #filerList td.input-field div .scopeInput{
-        	margin-bottom: -14px;
-		    width: 100%;
-		    height: 30px;
-        }
+       
+        
+        
     </style>
 </head>
 <body>
-
+    <!-- header included -->
+    <%-- <jsp:include page="../layout/header.jsp"></jsp:include> --%>
    <!-- card  -->
     <div class="row">
         <div class="col s12 m12">
@@ -252,7 +330,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
+                            <div class="center-align p-2 bg-m m-b-2">
                                 <h6>Activities Bulk Update Form</h6>
                             </div>
                         </span>
@@ -268,91 +346,197 @@
 						   ${error}
 						</div>
 				    </c:if>
-                    <form action="<%=request.getContextPath() %>/mobileappwebview/update-activities-bulk" id="ActivitiesBulkUpdateForm" name="ActivitiesBulkUpdateForm" method="post" >
+                    <form action="<%=request.getContextPath() %>/update-activities-bulk" id="ActivitiesBulkUpdateForm" name="ActivitiesBulkUpdateForm" method="post" >
                     <div class="container container-no-margin">
                         <div class="row">                          
-                                <div class="col m1 hide-on-small-only"></div>
-                                <div class="col m10 s12">
+                                <div class="col m10 s12 offset-m1">
                                     <div class="row">
                                         <div class="col m4 s6 input-field">
                                             <p class="searchable_label">Project</p>
-                                            <select class="searchable validate-dropdown" id="project_id" name="project_id"
-                                                onchange="getAcivitiesBulkUpdateWorksList(this.value);">
-                                                <option value="">Select</option>
+                                            <select class="searchable validate-dropdown" id="project_id" name="project_id" data-placeholder="Select"
+                                                onchange="addInQueProject(this.value);getAcivitiesBulkUpdateWorksList(this.value);onLoadMethod();">
+                                               <option value="" ></option> 
                                                 <c:forEach var="obj" items="${projectsList }">
-                                                    <option value="${obj.project_id }">${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                                    <option value="${obj.project_id }"><%-- ${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> --%> ${obj.project_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="project_idError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m8 s6 input-field">
                                             <p class="searchable_label">Work</p>
-                                            <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                                onchange="getAcivitiesBulkUpdateContractsList(this.value);">
-                                                <option value="">Select</option>
+                                            <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" data-placeholder="Select"
+                                                onchange="addInQueWork(this.value);getAcivitiesBulkUpdateContractsList(this.value);onLoadMethod();">
+                                                 <option value=""></option> 
                                                 <c:forEach var="obj" items="${worksList }">
-                                                    <option value="${obj.work_id }">${obj.work_id}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
+                                                    <option value="${obj.work_id }"><%-- ${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> --%> ${obj.work_short_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="work_id_fkError" class="error-msg" ></span>
-                                        </div>                                       
-                                    </div>
-                                    <div class="row" id="toggle-selects">
-                                    	<div class="col m12 s6 input-field">
-                                            <p class="searchable_label">Contract</p>
-                                            <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
-                                                onchange="resetWorksAndProjectsDropdowns();getAcivitiesBulkUpdateStructures(); getAcivitiesBulkUpdateLines(); getAcivitiesBulkUpdateSections();">
-                                                <option value="">Select</option>
+                                        </div>
+                                       <div class="col m12 s12 input-field">
+                                            <p class="searchable_label">Contract <span class="required">*</span></p>
+                                            <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" data-placeholder="Select"
+                                                onchange="addInQueContract(this.value);resetWorksAndProjectsDropdowns(null);onLoadMethod();getAcivitiesBulkUpdateStructures(); getAcivitiesBulkUpdateLines(); getAcivitiesBulkUpdateSections();">
+                                                 <option value=""></option> 
                                                 <c:forEach var="obj" items="${contractsList }">
-                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" >${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if>${obj.contract_short_name}</option>
+                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" ><%-- ${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if >--%>${obj.contract_short_name}</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="contract_id_fkError" class="error-msg" ></span>
                                         </div>
+                                    </div>
+                                    <div class="row" id="toggle-selects">
                                         <div class="col m4 s6 input-field" >
-                                            <p class="searchable_label">Structure</p>
-                                           <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk"
-                                                class="searchable validate-dropdown" onchange="getComponentIdsList();">
-                                                <option value="">Select</option>
+                                            <p class="searchable_label">Structure <span class="required">*</span></p>
+                                           <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk" data-placeholder="Select"
+                                                class="searchable validate-dropdown" onchange="getComponentsList(this.value);addInQueStructure(this.value);onLoadMethod();">
+                                                <option value=""></option>
                                             </select>
                                             <span id="strip_chart_structure_id_fkError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col m4 s6 input-field" id="strip_chart_line_id_fkDiv" style="display: none;">
+                                        <!-- <div class="col m4 s12 input-field" id="strip_chart_line_id_fkDiv" style="display: none;">
                                             <p class="searchable_label">Line</p>
                                             <select id="strip_chart_line_id_fk" name="strip_chart_line_id_fk"
                                                 class="searchable validate-dropdown" onchange="getComponentIdsList();">
                                                 <option value="">Select</option>
                                             </select>
                                         </div>
-                                        <div class="col m4 s6 input-field" id="strip_chart_section_id_fkDiv" style="display: none;">
+                                        <div class="col m4 s12 input-field" id="strip_chart_section_nameDiv" style="display: none;">
                                             <p class="searchable_label">Section</p>
-                                            <select id="strip_chart_section_id_fk" name="strip_chart_section_id_fk"
+                                            <select id="strip_chart_section_name" name="strip_chart_section_name"
                                                 class="searchable validate-dropdown" onchange="getComponentIdsList();">
                                                 <option value="">Select</option>
                                             </select>
+                                        </div> -->
+                                        
+                                        <div class="col m4 s6 input-field">
+                                            <p class="searchable_label">Component</p>
+                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component" name="strip_chart_component" onchange="getComponentIdsList(this.value);">
+                                                <option value=""></option>
+                                            </select>
+                                            <span id="strip_chart_componentError" class="error-msg" ></span>
                                         </div>
+                                        
+                                         <div class="col m4 s12 input-field">
+                                            <p class="searchable_label">Component ID</p>
+                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getAcivitiesBulkUpdateActivitiesList(this.value);">
+                                                <option value=""></option>
+                                            </select>
+                                            <span id="strip_chart_component_idError" class="error-msg" ></span>
+                                        </div>
+                                        <!-- <div class="col m4 s12 input-field">
+                                            <p class="searchable_label">Component</p>
+                                            <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 2rem;" readonly="readonly">
+                                        </div> -->
+                                        
+                                        
                                     </div>
                                     
                                     <div class="row" style="margin-bottom: 20px;display:none;" id="component_circles_row">
                                         <div class="col m12 s12" id="dotgroup1">
                                             <div class="dotgroup-scroll">
                                                 <div id="component_circles" style="padding: 10px;">
-                                                                                                
+                                                    <!-- <div class="dot-container">
+                                                        <a href="javascript:void(0);" class="dot"
+                                                            style="margin-left: 0;">
+                                                            <span class="project odd">P2P4P2P4</span></a>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot in-progress">
+                                                            <span class="project even">A2A4A2A4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot completed"><span
+                                                                class="project odd">P1P4P1P4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot delayed"><span
+                                                                class="project even">P2P4P2P4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot not-started active"><span
+                                                                class="project odd">P3A4P3A4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot in-progress">
+                                                            <span class="project even">A2A4A2A4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot completed"><span
+                                                                class="project odd">P1P4P1P4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot delayed"><span
+                                                                class="project even">P2P4P2P4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot not-started"><span
+                                                                class="project odd">P3A4P3A4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot in-progress">
+                                                            <span class="project even">A2A4A2A4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot completed"><span
+                                                                class="project odd">P1P4P1P4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot delayed"><span
+                                                                class="project even">P2P4P2P4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot not-started"><span
+                                                                class="project odd">P3A4P3A4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot in-progress">
+                                                            <span class="project even">A2A4A2A4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot completed"><span
+                                                                class="project odd">P1P4P1P4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot delayed"><span
+                                                                class="project even">P2P4P2P4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="dot-container">
+                                                        <a href="#" class="dot not-started"><span
+                                                                class="project odd">P3A4P3A4</span></a>
+                                                        <span class="dot-line"></span>
+                                                    </div> -->
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div> 
 
 									<div class="row legends" id="legends" style="display:none;">
-                                        <div class="col m4 s6 center-align">
+                                        <div class="col m4 s4 center-align">
                                             <span class="box not-started"></span>
                                             <span class="description">Not Started</span>
                                         </div>
-                                        <div class="col m4 s6 center-align">
+                                        <div class="col m4 s4 center-align">
                                             <span class="box in-progress"></span>
                                             <span class="description">In Progress</span>
                                         </div>
-                                        <div class="col m4 s6 center-align" style ="margin-top: 10px">
+                                        <div class="col m4 s4 center-align">
                                             <span class="box completed"></span>
                                             <span class="description">Completed</span>
                                         </div>
@@ -362,77 +546,54 @@
                                         </div> -->
                                     </div>
 
-                                    <div class="row">                                     
-                                        <div class="col m4 s6 input-field">
-                                            <p class="searchable_label">Component ID</p>
-                                             <select class="searchable validate-dropdown" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getComponentAndActivitiesList(this.value);">
-                                                <option value="">Select</option>
-                                            </select>
-                                            <span id="strip_chart_component_idError" class="error-msg" ></span>
-                                        </div>
-                                        <div class="col m4 s6 input-field">
-                                            <p class="searchable_label">Component</p>
-                                            <input id="strip_chart_component" name="strip_chart_component" type="text"  readonly="readonly">
-                                        </div>
-                                        <div class="col m4 s6 input-field">
-                                            <p class="searchable_label">Activity</p>
-                                            <select id="strip_chart_activity_id" name="strip_chart_activity_id"
-                                                class="searchable validate-dropdown"
-                                                onchange="getActivitiesfiltersList();">
-                                                <option value="">Select</option>
-                                            </select>
-                                            <span id="strip_chart_activity_idError" class="error-msg"></span>
-                                        </div>
-                                         <div class="col m4 s6 input-field" style="margin-top:17px;">
+									<br>
+                                    <div class="row">
+                                        <div class="col m4 s6 input-field offset-m2" style="margin-bottom: 30px;margin-top: 10px;">
                                              <input id="progress_date" name="progress_date" type="text" class="validate datepicker">
-                                             <label for="progress_date">Reporting Date</label>
+                                             <label for="progress_date">Reporting Date <span class="required">*</span></label>
                                              <button type="button" id="progress_date_icon" class="white"><i class="fa fa-calendar"></i></button>
                                               <span id="progress_dateError" class="error-msg" ></span>
                                         </div>
-                                    </div>
-
-                                   <!--  <div class="row">
-                                        <div class="col m2 hide-on-small-only"></div>
-                                        <div class="col m4 s6" style="margin-top: 10px;">
-                                            <a class="btn waves-effect bg-m" id="activities" onclick="updateActual()" style="margin-top:12px;text-transform:capitalize;padding: 0 12px;width:100%">Finish Activities</a>
+                                         <div class="col m4 s6 input-field" style="margin-bottom: 30px;margin-top: 10px;">
+                                          <div class="center-align m-3">
+                                                <button type="button" onclick="updateProgress();" id="btn1" class="btn waves-effect waves-light bg-m" >Update</button>
+                                       	  </div>
                                         </div> 
-                                       
-                                        <div class="col m2 hide-on-small-only"></div>
-                                    </div>-->
+                                        
+                                    </div>
 									<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
 									<!-- <span id="actualScopesError" class="error-msg" style="text-align:center"></span> -->
 								</div>
-								<div class="col m1 hide-on-small-only"></div>
-								
-                                <div class="row fixed-width" id="table_show" style= "/*display:none;*/ margin-top:20px; margin-bottom:20px">					 <!-- style= "display:none;" -->
+							
+                                <div class="row fixed-width " id="table_show" style= "display:none;">					 <!-- style= "display:none;" -->
                                         <div class="table-inside">
                                             <table class="mdl-data-table mobile_responsible_table" id="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>
-                                                           <!--  <p>
+                                                       <!--  <th>
+                                                            <p>
                                                                 <label>
                                                                   <input type="checkbox" name="select-all" id="select-all"/>
                                                                   <span></span>
                                                                 </label>
-                                                              </p> -->
-                                                        </th>
-                                                        <th>Component <br>ID</th>
-                                                        <th>Component</th>
-                                                        <th>Activity</th>
-                                                        <th>Planned <br> Start</th>
-                                                        <th>Planned <br> Finish</th>
+                                                              </p>
+                                                        </th> -->
+                                                       <!--  <th>Component <br>ID</th>
+                                                        <th>Component</th> -->
+                                                        <th style="width: 350px">Activity</th>
+                                                        <th >&nbsp;Planned Start</th>
+                                                        <th>&nbsp;Planned Finish</th>
                                                         <!-- <th>A S</th>
                                                         <th>A F</th> -->
                                                         <th>Scope</th>
                                                         <th>Completed</th>
-                                                        <th>Actual</th>
+                                                        <th style="width: 100px">Actual</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="filerList">
-                                                 <!-- 
+                                                <!-- 
                                                     <tr >
-                                                        <td data-head="Activity Check">
+                                                        <td>
                                                             <p>
                                                                 <label>
                                                                   <input type="checkbox" name="activity_check" id="check_1"/>
@@ -440,18 +601,19 @@
                                                                 </label>
                                                               </p>
                                                         </td>
-                                                        <td data-head="Activity Check">1</td>
-                                                        <td data-head="Activity Check">2</td>
-                                                        <td data-head="Activity Check">3</td>
-                                                        <td data-head="Activity Check">4</td>
-                                                        <td data-head="Activity Check">5</td>
-                                                        <td data-head="Activity Check"><span id="scope1">10</span></td>
-                                                        <td data-head="Activity Check"><span id="completed1">7</span></td>                                                       
-                                                        <td class="input-field" data-head="Activity Check">
-                                                            <input type="text" id="actual1" readonly placeholder="actual">
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td><span id="scope1">10</span></td>
+                                                        <td><span id="completed1">7</span></td>                                                       
+                                                        <td class="input-field">
+                                                            <input type="text" id="actual1" readonly>
                                                         </td> 
-                                                    </tr> 
-                                                   -->
+                                                    </tr> -->
+                                                  
                                                 </tbody>
                                             </table>
                                         </div>
@@ -460,27 +622,24 @@
 						</div>
 								<div class="container container-no-margin" >
 								<div class="row">
-								 <div class="col m1 hide-on-small-only"></div>
-                                <div class="col m10 s12">
+                                <div class="col m10 s12 offset-m1">
                                     <div class="row">
-                                        <div class="col m12 s12 input-field">
+                                       <!--  <div class="col m12 s12 input-field">
                                             <textarea id="remarks" name="remarks" class="materialize-textarea"
                                                 data-length="500"></textarea>
                                             <label for="remarks" class="">Remarks</label>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <input type="hidden" id="activity_id" name="activity_id" />
                                     <div class="row">
-                                        <div class="col s12 m6">
-                                            <div class="center-align m-1">
-                                                <button type="button" onclick="updateAcivities();" id="btn" class="btn waves-effect waves-light bg-m"
-                                                    style="width: 100%;" >Update</button>
+                                        <div class="col s6 m6 mt-brdr center-align">
+                                            <div class=" m-1">
+                                                <button type="button" onclick="updateProgress();" id="btn" class="btn waves-effect waves-light bg-m" >Update</button>
                                             </div>
                                         </div>
-                                        <div class="col s12 m6">
-                                            <div class="center-align m-1">
-                                                <button type="reset" onClick="window.location.reload();" class="btn waves-effect waves-light bg-s"
-                                                    style="width: 100%;">Reset</button>
+                                        <div class="col s6 m6 mt-brdr center-align">
+                                            <div class=" m-1">
+                                                <button type="reset" onClick="window.location.reload(); clearFilters();" class="btn waves-effect waves-light bg-s">Reset</button>
                                             </div>
                                         </div>
                                     </div>
@@ -540,7 +699,36 @@
 	    </div>
 	  </div>
 	</div> 
+	
+	<div class="page-loader-4" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
+	<div class="page-loader-5" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
     
+      <!-- footer included -->
+  <%--   <jsp:include page="../layout/footer.jsp"></jsp:include>     --%>
     
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -552,72 +740,129 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
-	    $(document).on('focus', '.datepicker',function(){
+	   /*  $(document).on('focus', '.datepicker',function(){
 	        $(this).datepicker({
 	        	format:'dd-mm-yyyy',
 	   	    	onSelect: function () {
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
 	        })
-	    });
+	    }); */
+	   
+	    var filtersMap = new Object();
+	    var structureVal = "";
         $(document).ready(function () {
             $('.searchable').select2();
-            $('#btn').prop('disabled',true);
-           // $('#progress_date').datepicker();
-            $('#progress_date_icon').click(function () {
-                event.stopPropagation();
-                $('#progress_date').click();
-            });
-            $('#progress_date_icon').click(function () {
-                event.stopPropagation();
-                $('#progress_date').click();
-            });
+            
 
+            
+    		if("${sessionScope.USER_ROLE_NAME}"!='IT Admin')
+    		{
+                $('#btn').prop('disabled',true);
+                $('#btn1').prop('disabled',true); 
+    		}
+    		else
+    			{
+			        $('#btn').prop('disabled', false);  
+			        $('#btn1').prop('disabled', false); 						    			
+    			}           
+            
+            var filters = window.localStorage.getItem("BulkFilters");
+            
+            if($.trim(filters) != '' && $.trim(filters) != null){
+          	  var temp = filters.split('^'); 
+          	  for(var i=0;i< temp.length;i++){
+    	        	  if($.trim(temp[i]) != '' ){
+    	        		  var temp2 = temp[i].split('=');
+    		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
+    		        		  getAcivitiesBulkUpdateWorksList(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+    		        		  getAcivitiesBulkUpdateContractsList(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+    		        		  resetWorksAndProjectsDropdowns(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'strip_chart_structure_id_fk'){
+    		        		  getAcivitiesBulkUpdateStructures(temp2[1]);
+    		        		  structureVal = temp2[1];
+    		        	  }
+    	        	  }
+    	          }
+              }
+            
+           // $('#progress_date').datepicker();
             $('#progress_date').datepicker({
                 maxDate: new Date(),
-                format: 'dd-mm-yyyy',
-                //perform click event on done button
-                onSelect: function () {
-                    $('.confirmation-btns .datepicker-done').click();
-                }
+              //  max: new Date(),
+                format: 'dd-mmm-yy',
+                autoClose:true,
+
             });
-
+            $('#progress_date_icon').click(function () {
+                event.stopPropagation();
+                $('#progress_date').click();
+            });
             $('#remarks').characterCounter();
-
+        
         });
-        // update actual function for single value with out ids
-       /*  function updateActual(){
-            $('input[name="activity_check"]').each(function(){
-                if($(this).prop('checked')){  
-                    var scope_val=parseInt($(this).parent().closest('tr').find('td:last-of-type').prev().prev().children().text());
-                    var completed_val=parseInt($(this).parent().closest('tr').find('td:last-of-type').prev().children().text());
-                    var remaining=scope_val-completed_val;
-                    var actual_val=$(this).parent().closest('tr').find('td:last-of-type').children().val(remaining);
-                }
-            })           
-        } */
-
+        function onLoadMethod(){
+	        $(".page-loader").show();
+	       
+	       
+	       	var filters = '';
+	       	Object.keys(filtersMap).forEach(function (key) {
+	       		//alert(filtersMap[key]);
+	       		filters = filters + key +"="+filtersMap[key] + "^";
+	       		window.localStorage.setItem("BulkFilters", filters);
+	   			});
+	        $(".page-loader").hide();
+       }
+        
+        function addInQueProject(project_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+       			if(key.match('project_id_fk')) delete filtersMap[key];
+       		});
+        	if($.trim(project_id_fk) != ''){
+       	    	filtersMap["project_id_fk"] = project_id_fk;
+        	}
+        }
+        
+        function addInQueWork(work_id_fk){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('work_id_fk')) delete filtersMap[key];
+       	   	});
+          	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+          	}
+        }
+        function addInQueContract(contract_id_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('contract_id_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(contract_id_fk) != ''){
+            	filtersMap["contract_id_fk"] = contract_id_fk;
+	      	}
+        }
+        function addInQueStructure(strip_chart_structure_id_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('strip_chart_structure_id_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(strip_chart_structure_id_fk) != ''){
+            	filtersMap["strip_chart_structure_id_fk"] = strip_chart_structure_id_fk;
+	      	}
+        }
        
-	// select or deselect all checkboxes 
-	$('#select-all').change(function() {
-	    var _this = this;
-	    $('input[name="activity_check"]').each(function() { 
-		    if ($(_this).is(':checked')) {
-		        $(this).prop('checked', true);
-		    } else {
-		        $(this).prop('checked', false);
-		    }
-	    });
-	});
+        function clearFilters(){
+        	window.localStorage.setItem("BulkFilters",'');
+        }
+
 	
 	function getAcivitiesBulkUpdateWorksList(projectId) { 
-		$(".page-loader").show();
+		$(".page-loader-1").show();
 		$("#contract_id_fk option:not(:first)").remove();    	
 	    $("#work_id_fk option:not(:first)").remove();
 	    
 	    $("#strip_chart_structure_id_fk option:not(:first)").remove();
 	    $("#strip_chart_line_id_fk option:not(:first)").remove();
-	    $("#strip_chart_section_id_fk option:not(:first)").remove();
+	    $("#strip_chart_section_name option:not(:first)").remove();
 		
 		$('.searchable').select2();
 		clearComponentCircle();
@@ -626,25 +871,25 @@
 	    if ($.trim(projectId) != "") {
 	        var myParams = { project_id_fk: projectId };
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateWorksList",
-	            data: myParams, cache: false,
+	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateWorksList",
+	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	            	var id1 = "";
 	                var id2 = "";
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                        var workName = '';
-	                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+	                        if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
 	                        if ($.trim(id2) != '' && val.work_id == $.trim(id2)) {
 	                        	id1 = val.work_id;
-	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(workName) + '</option>');
 	                        } else {
-	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                            $("#work_id_fk").append('<option value="' + val.work_id + '">'  + $.trim(workName) + '</option>');
 	                        }
 	                    });
 	                }
 	                $('.searchable').select2();
-	                $(".page-loader").hide();
+	                $(".page-loader-1").hide();
 	                
 	                if ($.trim(id1) != '' && $.trim(id2) != '') {
 	                	getAcivitiesBulkUpdateContractsList(id2);
@@ -652,7 +897,7 @@
 	            }
 	        });
 	    }else{
-	    	$(".page-loader").hide();
+	    	$(".page-loader-1").hide();
 	    }
 	}
 	
@@ -663,27 +908,27 @@
 	    
 	    $("#strip_chart_structure_id_fk option:not(:first)").remove();
 	    $("#strip_chart_line_id_fk option:not(:first)").remove();
-	    $("#strip_chart_section_id_fk option:not(:first)").remove();
+	    $("#strip_chart_section_name option:not(:first)").remove();
 		$('.searchable').select2();
 		clearComponentCircle();
 		
 	    if ($.trim(work_id_fk) != "") {
 	        var myParams = { work_id_fk: work_id_fk };
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateContractsList",
-	            data: myParams, cache: false,
+	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateContractsList",
+	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	            	var id1 = "";
 	            	var id2 = "";                        
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
-	                        var contract_short_name = '';
-	                        if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
+	                        var contract_name = '';
+	                        if ($.trim(val.contract_short_name) != '') { contract_name =  $.trim(val.contract_short_name) }
 	                        if ($.trim(id2) != '' && val.contract_id == $.trim(id2)) {
 	                        	id1 = val.contract_id;
-	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
+	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '" selected>'  + $.trim(contract_name) + '</option>');
 	                        } else {
-	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
+	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(contract_name) + '</option>');
 	                        }
 	                    });
 	                }
@@ -700,42 +945,52 @@
 	    }
 	}
 	
-	function resetWorksAndProjectsDropdowns(){
-		$(".page-loader").show();
+	function resetWorksAndProjectsDropdowns(contract){
+		$(".page-loader-1").show();
 		clearComponentCircle();
 		
 		
 		var projectId = '';
 		var workId = ''
+			var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
 			var contract_id_fk = $("#contract_id_fk").val();
+			if(contract_id_fk == ""){
+				contract_id_fk = contract;
+			}
 			if($.trim(contract_id_fk) != ''){        			
 				workId = $("#contract_id_fk").find('option:selected').attr("name");
+				if(workId == null){
+					workId =  contract_id_fk.substring(0, 6); 
+				}
 				projectId = workId.substring(0, 3);    
 				//workId = workId.substring(3, work_id.length);
 				$("#project_id").val(projectId);
+				$("#contract_id_fk").val(contract_id_fk);
 				$("#project_id").select2();
+				$("#contract_id_fk").select2();
 			}
 			
 			if ($.trim(projectId) != "") {
 				$("#work_id_fk option:not(:first)").remove();
 	        var myParams = { project_id_fk: projectId };
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateWorksList",
-	            data: myParams, cache: false,
+	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateWorksList",
+	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                        var workName = '';
-	                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+	                        if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
 	                        if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' +  $.trim(workName) + '</option>');
+	                            getAcivitiesBulkUpdateStructures(structureVal);
 	                        } else {
-	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' +  $.trim(workName) + '</option>');
 	                        }
 	                    });
 	                }
 	                $('.searchable').select2();
-	                $(".page-loader").hide();
+	                $(".page-loader-1").hide();
 	            }
 	        });
 	        $('.searchable').select2();
@@ -744,30 +999,32 @@
 	}
 	
     function clearComponentCircle(){        	
-     	$("#strip_chart_component").attr("readonly", false); 
+     	/* $("#strip_chart_component").attr("readonly", false); 
      	$("#strip_chart_component").val('');
-     	$("#strip_chart_component").attr("readonly", true);
+     	$("#strip_chart_component").attr("readonly", true); */
      	
-     	$("#strip_chart_component_id option:not(:first)").remove();
-     	$("#strip_chart_activity_id option:not(:first)").remove();
+     	//$("#strip_chart_component_id option:not(:first)").remove();
      	
      	$('.searchable').select2();
      	
          $("#component_circles").html('');
          $("#component_circles_row").hide();
          $("#legends").hide();  
-         $("#table_show").hide();    	
+         $("#table_show").hide(); 
      } 
 	
-	  function getAcivitiesBulkUpdateStructures() {
-      	$(".page-loader-2").show();
-      	var contract_id_fk = $("#contract_id_fk").val();
+	  function getAcivitiesBulkUpdateStructures(value) {
+      	  $(".page-loader-4").show();
+      	  var contract_id_fk = $("#contract_id_fk").val();
+      	  var strip_chart_structure_id_fk = value;
           $("#strip_chart_structure_id_fk option:not(:first)").remove();
+          $("#strip_chart_component option:not(:first)").remove();
+          $("#strip_chart_component_id option:not(:first)").remove();
           if ($.trim(contract_id_fk) != "") {
           	var myParams = { contract_id_fk: contract_id_fk };
               $.ajax({
-                  url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateStructures",
-                  data: myParams, cache: false,
+                  url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateStructures",
+                  data: myParams, cache: false,async: false,
                   success: function (data) {
                   	var id1 = "";
                   	var id2 = "";
@@ -776,22 +1033,26 @@
 	                            if ($.trim(id2) != '' && val.strip_chart_structure_id_fk == $.trim(id2)) {
 	                            	id1 = val.strip_chart_structure_id_fk;
 	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
+	                            }else if (strip_chart_structure_id_fk != null && strip_chart_structure_id_fk != "") {
+	                            	 var selectedFlag = (strip_chart_structure_id_fk != null)?'selected':'';
+	                                 $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
+	                            	 id2 = strip_chart_structure_id_fk;
 	                            } else {
 	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '">' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
 	                            }
                           });
                       }
                       $('.searchable').select2();
-                      $(".page-loader-2").hide();
-                      
+                      $(".page-loader-4").hide();
                       
                       if ($.trim(id1) != '' && $.trim(id2) != '') {
-                      	getComponentIdsList(id2);
+                    	  //alert("hai");
+                    	  getComponentsList(id2);
                       }
                   }
               });
           }else{
-          	$(".page-loader-2").hide();
+          	$(".page-loader-4").hide();
           }
       }
 	  
@@ -802,7 +1063,7 @@
 	    if ($.trim(contract_id_fk) != "") {
 	    	var myParams = { contract_id_fk: contract_id_fk};
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateLines",
+	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateLines",
 	            data: myParams, cache: false,
 	            success: function (data) {
 	                if (data.length > 0) {
@@ -821,43 +1082,78 @@
 	
 	function getAcivitiesBulkUpdateSections() {
 		var contract_id_fk = $("#contract_id_fk").val();
-	    $("#strip_chart_section_id_fk option:not(:first)").remove();
+	    $("#strip_chart_section_name option:not(:first)").remove();
 	    if ($.trim(contract_id_fk) != "") {
 	    	var myParams = { contract_id_fk: contract_id_fk};
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateSections",
+	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateSections",
 	            data: myParams, cache: false,
 	            success: function (data) {
 	                if (data.length > 0) {
-	                	$("#strip_chart_section_id_fkDiv").show();
+	                	$("#strip_chart_section_nameDiv").show();
 	                    $.each(data, function (i, val) {
-	                        $("#strip_chart_section_id_fk").append('<option value="' + val.strip_chart_section_id_fk + '">' + $.trim(val.strip_chart_section_name) + '</option>');
+	                        $("#strip_chart_section_name").append('<option value="' + val.strip_chart_section_name + '">' + $.trim(val.strip_chart_section_name) + '</option>');
 	                    });
 	                }else{
-	                	$("#strip_chart_section_id_fkDiv").hide();
+	                	$("#strip_chart_section_nameDiv").hide();
 	                }
 	                $('.searchable').select2();
 	            }
 	        });
 	    }
-	}
+	 }
+	
+	function getComponentsList(structure_id){
+		 clearComponentCircle();
+		 
+     	 $(".page-loader-5").show();
+         $("#strip_chart_component option:not(:first)").remove();
+         $("#strip_chart_component_id option:not(:first)").remove();
+         
+         var contract_id_fk = $("#contract_id_fk").val();
+         var structureId = $("#strip_chart_structure_id_fk").val();
+         var strip_chart_line_id_fk = $("#strip_chart_line_id_fk").val();
+         var strip_chart_section_name = $("#strip_chart_section_name").val();
+         var myParams = { contract_id_fk: contract_id_fk, strip_chart_structure_id_fk: structure_id, strip_chart_line_id_fk: strip_chart_line_id_fk, strip_chart_section_name: strip_chart_section_name };
+         
+         if ($.trim(structure_id) != "") {
+             $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateComponentsList",
+                 data: myParams, cache: false,
+                 success: function (data) {
+                     if (data.length > 0) {
+                         $.each(data, function (i, val) {
+                             $("#strip_chart_component").append('<option value="' + val.strip_chart_component + '">' + $.trim(val.strip_chart_component) + '</option>');
+                         });
+                     }
+                     $('.searchable').select2();
+                     $(".page-loader-5").hide();
+                 }
+             });
+         }else{
+         	$(".page-loader-5").hide();
+         }        
+     }
 
-	 function getComponentIdsList() {   
+	 function getComponentIdsList(component) {   
      	$(".page-loader-3").show();
      	
      	clearComponentCircle();
+     	
+     	$("#strip_chart_component_id option:not(:first)").remove();
          
          var contract_id_fk = $("#contract_id_fk").val();
          var structureId = $("#strip_chart_structure_id_fk").val();
          var laneId = $("#strip_chart_line_id_fk").val();
-         var sectionId = $("#strip_chart_section_id_fk").val();
-         var myParams = { contract_id_fk: contract_id_fk, strip_chart_structure_id_fk: structureId, strip_chart_line_id_fk: laneId, strip_chart_section_id_fk: sectionId };
+         var sectionId = $("#strip_chart_section_name").val();
+         
+         var myParams = { contract_id_fk: contract_id_fk, strip_chart_structure_id_fk: structureId, strip_chart_line_id_fk: laneId, strip_chart_section_name: sectionId, strip_chart_component : component };
          var html = '';
 
-         if ($.trim(contract_id_fk) != "" && $.trim(structureId) != "" ) {                
+         if ($.trim(contract_id_fk) != "" && $.trim(structureId) != "" && $.trim(component) ) {                
              $.ajax({
-                 url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateComponentIdsList",
-                 data: myParams, cache: false,
+                 url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateComponentIdsList",
+                 data: myParams, cache: false,async:false,
                  success: function (data) {
                  	var id1 = "";
                  	var id2 = "";
@@ -865,28 +1161,33 @@
                      
                      if (data.length > 0) {
                          $.each(data, function (i, val) {
-                         	var componentIdAndName = "'" + val.strip_chart_component_id + "','" +val.strip_chart_component+ "'";
+                         	 //var componentIdAndName = "'" + val.strip_chart_component_id + "','" +component+ "'";
+                         	 var componentId = "'" + val.strip_chart_component_id + "'";
                              var className = "odd";
                              if(i%2 == 0){
                              	className = "even";
                              }
+                             var tempId = val.strip_chart_component_id;
+                             tempId = tempId.replace(/\s/g, "_");
+                             tempId = tempId.replace(/\//g, "_");
+                             tempId = tempId.replace(/\./g, "_");
                              
                              var pointerEvent = "";
                              if(val.component_id_color == "completed"){
                              	pointerEvent = "pointer-events: none;";
-                             	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
-                                 + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getAcivitiesBulkUpdateActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+' clearData" >'
+                             	html = html + '<div class="dot-container" id="dd'+tempId+'">'
+                                 + '<a href="javascript:void(0);" data-some="completed" id="'+tempId+'" style="'+pointerEvent+'" onclick="getAcivitiesBulkUpdateActivitiesList('+componentId+');" class="dot '+val.component_id_color+' clearData" >'
                                  + '<span class="project '+className+'" >'+val.strip_chart_component_id+'</span></a>';
                                 // if(i != 0){
                                  	html = html + '<span class="dot-line"></span>';
                                 // }
                                  html = html + '</div>';
                              	
-                             	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" disabled>' + $.trim(val.strip_chart_component_id_name) + '</option>');
+                             	$("#strip_chart_component_id").append('<option value="' + val.strip_chart_component_id + '" disabled>' + $.trim(val.strip_chart_component_id) + '</option>');
                              } else {                
                              	
-                             	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
-                                 + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getAcivitiesBulkUpdateActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+' clearData" >'
+                             	html = html + '<div class="dot-container" id="dd'+tempId+'">'
+                                 + '<a href="javascript:void(0);" id="'+tempId+'" style="'+pointerEvent+'" onclick="getAcivitiesBulkUpdateActivitiesList('+componentId+');" class="dot '+val.component_id_color+' clearData" >'
                                  + '<span class="project '+className+'">'+val.strip_chart_component_id+'</span></a>';
                                 // if(i != 0){
                                  	html = html + '<span class="dot-line"></span>';
@@ -895,15 +1196,15 @@
                              	
                              	if ($.trim(id2) != '' && val.strip_chart_component_id == $.trim(id2)) {
                              		id1 = val.strip_chart_component_id;
- 	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" selected>' + $.trim(val.strip_chart_component_id) + '</option>');
+ 	                            	$("#strip_chart_component_id").append('<option value="' + val.strip_chart_component_id + '" selected>' + $.trim(val.strip_chart_component_id) + '</option>');
  	                            } else {
- 	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id) + '</option>');
+ 	                            	$("#strip_chart_component_id").append('<option value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id) + '</option>');
  	                            }
                              }                                
                          });
                          
                          $('.searchable').select2();
-                         getActivitiesfiltersList();
+                         getAcivitiesBulkUpdateActivitiesList('');
                      }
                      $("#component_circles").html(html);
                      $("#component_circles_row").show();
@@ -916,160 +1217,143 @@
                      
                      
                      if ($.trim(id1) != '' && $.trim(id2) != '') {
-                     	getAcivitiesBulkUpdateActivitiesList(id2,strip_chart_component);
+                     	getAcivitiesBulkUpdateActivitiesList(id2);
                      }
                  }
              });
          }else{
-         	$(".page-loader-3").hide();
-         	$("#component_circles").html(html);
+         	 $(".page-loader-3").hide();
+         	 $("#component_circles").html(html);
              $("#component_circles_row").hide();
              $('#legends').hide();
          }
      }
 	 
-	 function getAcivitiesBulkUpdateActivitiesList(componentId,componentName) {
-     	$( ".dot" ).removeClass( "active" );
-     	$( "#"+componentName ).addClass( "active" );
-     	
-     	/* $("#strip_chart_component option:not(:first)").remove();
-     	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
-     	$('.searchable').select2(); */
-     	
-     	$("#strip_chart_component").attr("readonly", false); 
-     	$("#strip_chart_component").val(componentName);
-     	$("#strip_chart_component").attr("readonly", true); 
-     	
-     	$("#strip_chart_component_id").val(componentId);
-     	$(".page-loader").show();
-         $("#strip_chart_activity_id option:not(:first)").remove();
-         
-         var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-         var strip_chart_line_id_fk = $("#strip_chart_line_id_fk").val();
-         var strip_chart_section_id_fk = $("#strip_chart_section_id_fk").val();
-         
-         if ($.trim(componentId) != "") {
-             var myParams = { strip_chart_component_id: componentId,strip_chart_component : componentName,
-             		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
-             		strip_chart_section_id_fk : strip_chart_section_id_fk };
-             $.ajax({
-                 url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateActivitiesList",
-                 data: myParams, cache: false,
-                 success: function (data) {
-                 	var id1 = "";
-                 	var id2 = "";
-                     if (data.length > 0) {
-                         $.each(data, function (i, val) {
-	                            if ($.trim(id2) != '' && val.strip_chart_activity_id == $.trim(id2)) {
-	                            	id1 = val.strip_chart_activity_id;
-	                                $("#strip_chart_activity_id").append('<option value="' + val.strip_chart_activity_id + '" selected>' + $.trim(val.strip_chart_activity_name) + '</option>');
-	                            } else {
-	                                $("#strip_chart_activity_id").append('<option value="' + val.strip_chart_activity_id + '">' + $.trim(val.strip_chart_activity_name) + '</option>');
-	                            }
-                         });
-                     }
-                     $('.searchable').select2();
-                     $(".page-loader").hide(); 
-                     getActivitiesfiltersList();
-                 }
-             });
-         }else{
-         	$(".page-loader").hide();
-         }
-     }
-	 
-	 function getComponentAndActivitiesList(componentId){
-		getActivitiesfiltersList();
-     	$( ".dot" ).removeClass( "active" );
-     	$( "#"+componentId ).addClass( "active" );
-     	
-     	var $scroller = $('.dotgroup-scroll');
-         var childs=$scroller.children().children().length;
-         var indexing=$(".dot-container").index($("#dd"+componentId));
-        	var scrollTo=Math.round((indexing*($scroller[0].scrollWidth/childs))-childs);           
-         $scroller.animate({'scrollLeft': scrollTo}, 1000);  
-                     
-     	var componentName = $("#strip_chart_component_id").find('option:selected').attr("name");
-     	
-     	/* $("#strip_chart_component option:not(:first)").remove();
-     	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
-     	$('.searchable').select2(); */
-     	$("#strip_chart_component").attr("readonly", false); 
-     	$("#strip_chart_component").val(componentName);
-     	$("#strip_chart_component").attr("readonly", true);
-     	
-     	$(".page-loader").show();
-         $("#strip_chart_activity_id option:not(:first)").remove();
-         
-         var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-         var strip_chart_line_id_fk = $("#strip_chart_line_id_fk").val();
-         var strip_chart_section_id_fk = $("#strip_chart_section_id_fk").val();
-         
-         if ($.trim(componentId) != "") {
-             var myParams = { strip_chart_component_id: componentId,strip_chart_component : componentName,
-             		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
-             		strip_chart_section_id_fk : strip_chart_section_id_fk };
-             $.ajax({
-                 url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateActivitiesList",
-                 data: myParams, cache: false,
-                 success: function (data) {
-                     if (data.length > 0) {
-                         $.each(data, function (i, val) {
-                             $("#strip_chart_activity_id").append('<option value="' + val.strip_chart_activity_id + '">' + $.trim(val.strip_chart_activity_name) + '</option>');
-                         });
-                     }
-                     $('.searchable').select2();
-                     $(".page-loader").hide();
-                 }
-             });
-         }else{
-         	$(".page-loader").hide();
-         }
-         
-        
-     }
-     
 	
-     function getActivitiesfiltersList(){
+     function getAcivitiesBulkUpdateActivitiesList(componentId){
     	 $(".page-loader").show();
+    	 
+    	 $("#strip_chart_component_id").val(componentId);
+    	 $("#strip_chart_component_id").select2();
+    	 
+    	 $( ".dot" ).removeClass( "active" );
+     	 /* if($.trim(componentId) != ''){
+	     	 componentId = componentId.replace(/\s/g, "_");
+	      	 componentId = componentId.replace(/\//g, "_");
+	      	 componentId = componentId.replace(/\./g, "_");
+	          
+	      	 $( "#"+componentId).addClass( "active" );
+	     	
+	     	 var $scroller = $('.dotgroup-scroll');
+	         var childs=$scroller.children().children().length;
+	         var indexing=$(".dot-container").index($("#dd"+componentId));
+	        	var scrollTo=Math.round((indexing*($scroller[0].scrollWidth/childs))-childs);           
+	         $scroller.animate({'scrollLeft': scrollTo}, 1000);
+     	 } */
+     	 
     	 $("#table_show").show();
     	 var html = '';
     	 $("#filerList").html('');
-    	 
-    	 $("#select-all").prop('checked', false);
-    	 
+    	
     	 var strip_chart_component_id = $("#strip_chart_component_id").val();
     	 var strip_chart_activity_id = $("#strip_chart_activity_id").val();
     	 var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
+    	 var strip_chart_component = $("#strip_chart_component").val();
     	 var contract_id_fk = $("#contract_id_fk").val();
+    	 
     	 if ($.trim(strip_chart_structure_id_fk) != "") {
- 	        var myParams = { strip_chart_component_id: strip_chart_component_id, strip_chart_activity_id: strip_chart_activity_id,strip_chart_structure_id_fk : strip_chart_structure_id_fk, contract_id_fk : contract_id_fk };
+ 	        var myParams = { strip_chart_component_id: strip_chart_component_id, strip_chart_activity_id: strip_chart_activity_id,strip_chart_structure_id_fk : strip_chart_structure_id_fk, contract_id_fk : contract_id_fk,strip_chart_component : strip_chart_component };
  	        $.ajax({
- 	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getActivitiesfiltersList",
+ 	            url: "<%=request.getContextPath()%>/ajax/getActivitiesfiltersList",
  	            data: myParams, cache: false,
  	            success: function (data) {
+ 	            	
  	                if (data.length > 0) {
  	                    $.each(data, function (i, val) {
+ 	                    	
  	                    	 var num = $('#table tbody tr').length;
- 	                    	 html = '<tr id="row'+num+'">'+
- 	                    	 	'<td><label><input type="hidden" class="check" name="activity_check" id="check_'+num+'"/><span></span></label></td>'
- 	                    		+'<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></td>'
- 	            	 			+'<td data-head="Component ID"><div>' + $.trim(val.strip_chart_component_id_name) + '</div></td>'
- 	            	 			+'<td data-head="Component"><div>' + $.trim(val.strip_chart_component) + '</div></td>'
- 	            	 			+'<td data-head="Activity"><div>' + $.trim(val.strip_chart_activity_name) + '</div></td>'
- 	            	 			+'<td data-head="Planned Start"><div>' + $.trim(val.planned_start) + '</div></td>'
- 	            	 			+'<td data-head="Planned Finish"><div>' + $.trim(val.planned_finish) + '</div></td>'
- 	            	 			+'<td data-head="Scopet"><span>' + $.trim(val.scope) + '</span>'
- 	            	 			+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
- 	            	 			+'<td data-head="Completed"><span>' + $.trim(val.completed) + '</span>'
- 	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '"  /></td>'
- 	            	 			+' <td class="input-field" data-head="Scope"><div><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" class="scopeInput"><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span><div></td></tr>';
- 	                    		$("#filerList").append(html);	  
+ 	                    	 html = '<tr id="row'+num+'">'
+ 	            	 			/* +'<td>' + $.trim(val.strip_chart_component_id_name) + '<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></td>'
+ 	            	 			+'<td>' + $.trim(val.strip_chart_component) + '</td>' */
+ 	            	 			+'<td data-head="Activity" class="input-field"><div>' + $.trim(val.strip_chart_activity_name) +' ('+$.trim(val.unit_fk)+' )<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></div></td>';
+ 	            	 			
+         	 					var disDisabled="";
+ 	            	 			if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
+ 	            	 				{
+ 	            	 					if($.trim(val.scope)==$.trim(val.completed))
+ 	            	 						{
+ 	            	 							disDisabled="readonly";
+ 	            	 						}
+				 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start_icon'+num+'" ><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
+				 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish_icon'+num+'"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
+				 	            	 			+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>';
+		 	            	 				
+
+		 	            	            
+		 	            	 			
+ 	            	 				}
+ 	            	 			else
+ 	            	 				{
+		 	            	 			html +='<td data-head="Planned Start" class="input-field">' + $.trim(val.planned_start) + '</td>'
+		 	            	 			+'<td data-head="Planned Finish" class="input-field">' + $.trim(val.planned_finish) + '</td>'
+		 	            	 			+'<td data-head="Scope" class="input-field"><span>' + $.trim(val.scope) + '</span>';
+ 	            	 			   }
+ 	            	 			
+ 	            	 			
+ 	            	 			
+ 	            	 			html +='<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
+ 	            	 			+'<td data-head="Completed" class="input-field"><span>' + $.trim(val.completed) + '</span>'
+ 	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
+ 	            	 			+' <td data-head="Actual" class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" '+disDisabled+' value="null"><br><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
+ 	                    		$("#filerList").append(html);	
+ 	                    		
+ 	                    		
+ 	            	 			if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
+	            	 				{
+	            	 				
+	 	            	            $('#planned_start'+num).datepicker({
+	 	            	                maxDate: new Date(),
+	 	            	                format: 'dd-mmm-yy',
+	 	            	               autoClose:true,
+	 	            	            });
+	 	            	            $('#planned_start_icon'+num).click(function () {
+	 	            	                event.stopPropagation();
+	 	            	                $('#planned_start'+num).click();
+	 	            	            });
+	 	            	            
+	 	            	            
+	 	            	            $('#planned_finish'+num).datepicker({
+	 	            	                maxDate: new Date(),
+	 	            	                format: 'dd-mmm-yy',
+	 	            	               autoClose:true,
+	 	            	            });
+	 	            	            
+	 	            	            
+	 	            	            $('#planned_finish_icon'+num).click(function () {
+	 	            	                event.stopPropagation();
+	 	            	                $('#planned_finish'+num).click();
+	 	            	            });   
+	 	            	            
+	 	            	        	  $('#scope'+num).keypress(function(evt) {
+	 	            	        		  evt = (evt) ? evt : window.event;
+	 	            	        		  var charCode = (evt.which) ? evt.which : evt.keyCode;
+	 	            	        		  if (charCode == 8 || charCode == 37) {
+	 	            	        		    return true;
+	 	            	        		  } else if (charCode == 46 && $(this).val().indexOf('.') != -1) {
+	 	            	        		    return false;
+	 	            	        		  } else if (charCode > 31 && charCode != 46 && (charCode < 48 || charCode > 57)) {
+	 	            	        		    return false;
+	 	            	        		  }
+	 	            	        		  return true;
+	 	            	        		});
+
+	 	            	            
+	            	 				}
  	                    	 	
  	                    	 	/* $(document).on('change', '#strip_chart_component_id ,#strip_chart_activity_id', function() {  $('#filerList').empty(html); });
  	                    	 	$(document).on('click', '.clearData', function() {  $('#filerList').empty(html); }); */
  	                    	 	
- 	                    	 	$("#check_"+num).change(function() {
+ 	                    	 	/* $("#check_"+num).change(function() {
  	                    	 		//alert("#actualScopes"+num)
  	                    	 		$("#actualScopes"+num).val('');
  	                    	 	})
@@ -1078,10 +1362,10 @@
  	                    	 		if($("#check_"+num).is(':unchecked')){
  	                    	 			$("#actualScopes"+num).val('');
  	                    	 		}
- 	                    	 	})
+ 	                    	 	}) */
  	                    	 //	var noOfBoxes = document.getElementsByClassName("check")
 	 	                    	   
-	 	                    	$("input[type='checkbox'].check").change(function(){
+	 	                    	/* $("input[type='checkbox'].check").change(function(){
 	                    		    var a = $("input[type='checkbox'].check");
 	                    		    if(a.length == a.filter(":checked").length){
 	                    		    	$("#select-all").prop('checked', true);
@@ -1089,15 +1373,15 @@
 	                    		    else {
 	                   		       	    $("#select-all").prop('checked', false);
 	                   		   		 }
-	                    		});
- 	                    	 	$("#activities").on('click', function(){
+	                    		}); */
+ 	                    	 	/* $("#activities").on('click', function(){
  	                    	 		var ans = $("#actualScopes"+num).val();
  	                    	 		if($("#check_"+num).is(':checked') && ans != ""){
  	                    	 			$("#actualScopes"+num).focus();
  	                    	 	        $("#actualScopesError").hide();
  	                    	 	        $('#btn').prop('disabled', this.value == "" ? true : false);     
  	                    	 		}
- 	                    	 	})
+ 	                    	 	}) */
  	                    	 	$("#select-all").on('change', function(){
  	                    	 		if( $("#select-all").prop('checked') ){
 	                    	 			 $('#actualScopes'+num).prop('readonly', false);
@@ -1105,23 +1389,28 @@
 	                    	 			 $('#actualScopes'+num).prop('readonly', true);
 	                    	 			 $('#actualScopesError'+num).html("");
 	                    	 			 $('#btn').prop('disabled',true);
+	                    	 			 $('#btn1').prop('disabled',true);
 	                    	 		}
  	                    	 	});
- 	                    	 	document.getElementById('check_'+num).onchange = function() {
+ 	                    	 	/* document.getElementById('check_'+num).onchange = function() {
  	                    	 		if($("#check_"+num).prop('checked') ){
  	                    	 			 $('#actualScopes'+num).prop('readonly', false);
  	                    	 		}else{
  	                    	 			 $('#actualScopes'+num).prop('readonly', true);
  	                    	 			 $('#btn').prop('disabled',true);
  	                    	 		}
- 	                    	 	};
+ 	                    	 	}; */
  	                    	 	$('#actualScopes'+num).on('keyup', function(){
  	                    	 		var actual = parseFloat($("#totalScopes"+num).val() - $("#completedScopes"+num).val())
  	                    	 		
+ 	                    	 		if(actual == $('#actualScopes'+num).val()){
+ 	                    	 			$('#actualScopesError'+num).html("");
+ 	                    	 		}
  	                    	 		if(actual < $('#actualScopes'+num).val() || $('#actualScopes'+num).val() < 0){
  	                    	 			$("#actualScopes"+num).val('');
  	                    	 			$('#actualScopesError'+num).html("< or =  '"+actual+"'");
  	                    	 			$('#btn').prop('disabled',true);
+ 	                    	 			$('#btn1').prop('disabled',true);
  	                    	 		}
  	                    	 		
  	                    	 		else{
@@ -1134,7 +1423,11 @@
                     	 			}
                     	 		})
 							    $("#actualScopes"+num).keyup(function(){
-							        $('#btn').prop('disabled', this.value == "" ? true : false);     
+							    	if("${sessionScope.USER_ROLE_NAME}"!='IT Admin')
+							    		{
+									        $('#btn').prop('disabled', this.value == "" ? true : false);  
+									        $('#btn1').prop('disabled', this.value == "" ? true : false); 
+							    		}
 							    })
  	                     });
  	                }
@@ -1160,22 +1453,69 @@
                 	 completed = 0;
                  }
                  if($.trim(scope) != '' && $.trim(completed) != '' ){
-                	 let remaining = parseInt(scope)- parseInt(completed);
+                	 let remaining = parseFloat(scope)- parseFloat(completed);
                      $('#actualScopes'+no).val(remaining);
+                    
                  }
                  
              }
          })           
      }
   
+     
      //update button functionality
-     function updateAcivities(){
-    	 if(validator.form()){ // validation perform
-	        	$(".page-loader").show();	    		
-	   			document.getElementById("ActivitiesBulkUpdateForm").submit();	
-     	}
+     function updateProgress()
+     {
+
+			var checkValidate=0;
+     		if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
+    		{
+	    		 var num = document.getElementById("table").rows.length;
+	    		 var tbleLen=num-1;
+	    		 
+	    		 for (var i = 0; i < tbleLen; i++) 
+	    		 {
+	    			 var s1=parseFloat(document.getElementById("scope"+i).value);
+	    			 var s2=parseFloat(document.getElementById("completedScopes"+i).value);
+	    			 
+	    			 var s3=document.getElementById("planned_start"+i).value;
+	    			 var s4=document.getElementById("planned_finish"+i).value;
+	    			 
+	    			        	if(s1<s2)
+	    			        	{
+			     		    	 	alert("Scope Should be greater than or equal to Completed in row "+(i+1));
+			    		    	 	return false;
+	    			        	}
+	    		    			 if (process(s4) < process(s3)) 
+					        	{
+			     		    	 	alert("Planned Finish Should be greater than or equal to Planned Start in row "+(i+1));
+			    		    	 	return false;
+					        	} 
+	    		    			if($("#actualScopes"+i).val()!="" && $("#actualScopes"+i).val()!=0)
+    		    				{
+	    		    				checkValidate=1;
+    		    				}	    		    			 
+		    			        
+	    		 }
+    		}
+    		 if(checkValidate==0 && "${sessionScope.USER_ROLE_NAME}"=='IT Admin')
+    		 {
+    			 var y = document.getElementById("progress_date");
+    			 y.type= "hidden";    			
+    		 }
+        	 if(validator.form())
+        	 { 
+		        $(".page-loader").show();	    		
+		   		document.getElementById("ActivitiesBulkUpdateForm").submit();
+        	 }
+  			 
      }
   
+     function process(date){
+    	   var parts = date.split("-");
+    	   var date = new Date(parts[1] + "-" + parts[0] + "-" + parts[2]);
+    	   return date.getTime();
+    	}
      var validator = $('#ActivitiesBulkUpdateForm').validate({
     	 ignore: ":hidden:not(.validate-dropdown)",
     	 rules: {
@@ -1190,15 +1530,15 @@
 		 	  },"strip_chart_structure_id_fk": {
 		 		required: true
 		 	  },"strip_chart_component": {
-		 		required: false
+		 		required: true
 		 	  },"strip_chart_component_id": {
 		 		required: false
 		 	  },"strip_chart_activity_id": {
 		 		required: false
 		 	  },"actualScopes": {
-		 		 required: false,
-		 				 min:0
-	   		 	  }
+		 		required: false,
+		 		min:0
+	   		  }
     	 },
             messages: {
                   "project_id": {

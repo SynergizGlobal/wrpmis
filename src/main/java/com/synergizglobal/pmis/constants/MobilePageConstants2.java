@@ -28,5 +28,21 @@ public class MobilePageConstants2 {
 		
 		public static final String alertsGrid = "mobileForms/alertsGrid";
 		public static final String notifications = "mobileForms/notifications";
+		
+		public static final String projectGrid = "mobileForms/project";
+		public static final String projectForm = "mobileForms/addEditProject";
+		
+		public static final String workGrid = "mobileForms/work";
+		public static final String workForm = "mobileForms/addEditWork";
+
+		public static final String contractorGrid = "mobileForms/contractorGrid";
+		public static final String contractorForm = "mobileForms/addEditcontractorForm";
+		
+		public static final String resourcesGrid = "mobileForms/resources";
+		
+		public static final String validateDataGrid = "mobileForms/validateData";
+		
+		public static final String p6Grid = "mobileForms/P6Data";
+
 
 }

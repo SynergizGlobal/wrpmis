@@ -417,7 +417,6 @@
         		window.localStorage.setItem("contarctReportFilters"+idNo, filters);
     			});
         	
-        	
         }
         
         function getDesignationFilterList(designation){

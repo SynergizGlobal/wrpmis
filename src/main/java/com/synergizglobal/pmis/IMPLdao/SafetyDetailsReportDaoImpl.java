@@ -415,7 +415,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "(SELECT GROUP_CONCAT( attachment SEPARATOR ',')  as attachment FROM safety_files where safety_id_fk = ?) as attachment,s.compensation_units,  "
 					+ " "
 					+ "GROUP_CONCAT(u2.user_name SEPARATOR ',') as committee_member_name from safety s "
-					+"left join safety_committee_members sc on sc.safety_id_fk=s.safety_id "
+					+ "left join safety_committee_members sc on sc.safety_id_fk=s.safety_id "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN contractor cr ON c.contractor_id_fk= cr.contractor_id  "
 					+ "LEFT OUTER JOIN department d ON c.department_fk= d.department "

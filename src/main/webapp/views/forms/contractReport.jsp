@@ -419,7 +419,6 @@
         	
         }
         
-        
         function getDesignationFilterList(designation){
         	$(".page-loader").show();
         	var contractor_id_fk = $("#contractor_id_fk").val();

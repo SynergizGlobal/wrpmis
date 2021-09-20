@@ -287,7 +287,6 @@ public class DocxTableCreationForSafetyDetailsReport {
 					addTableCell(factory, wordMLPackage, titleTableRow, "Committee Members Name", garamondBoldRPr,
 							JcEnumeration.LEFT, true, "ecf2ff");
 					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
-					
 					addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getCommittee_member_name(), garamondRPr,
 							JcEnumeration.LEFT, false, null);
 					titleTable.getContent().add(titleTableRow);	

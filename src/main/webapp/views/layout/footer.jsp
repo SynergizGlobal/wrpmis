@@ -3,7 +3,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
+	<style type="text/css">
+		.dropdown-content li>a>i{
+		    float:right;
+		    /* margin:auto; */
+		    margin: auto 10px;
+		}
+		#help-dropdown.dropdown-content {
+		    /* width: 250px !important; */
+		    width: auto !important;
+		    bottom: 31px;
+		    top: inherit !important;
+		}
+	</style>
 </head>
 <body>
 <!-- footer goes here -->
@@ -17,15 +29,16 @@
 
   <!-- Dropdown Structure -->
   <ul id='help-dropdown' class='dropdown-content blue lighten-5'>
-    <li><a href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">PMIS Manual <i class="fa fa-download"></i></a></li>
-    	<ul >
+    <li><a href="/pmis/5. User Manual for Risk Module-V2.pdf" target="_blank">User Manual for Risk Module<i class="fa fa-download"></i></a></li>
+    	<!-- <ul >
 	        <li style="min-height: 20px;">
-	        	<a style="font-size: 14px;min-height: 20px;padding: 11px 16px;line-height: 0px;font-weight: 100;" href="/pmis/5. User Manual for Risk Module-V2.pdf" target="_blank">PMIS Risk Module<i class="fa fa-download"></i></a>
+	        	<a style="font-size: 14px;min-height: 20px;padding: 11px 16px;line-height: 0px;font-weight: 100;" href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">User Manual for Issue Module & FOB<i class="fa fa-download"></i></a>
 	        </li>
-	    </ul>
+	    </ul> -->
+	    <li><a href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">User Manual for Issue Module & FOB <i class="fa fa-download"></i></a></li>
     <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li>
     <li class="divider" tabindex="-1"></li>
-    <li class="support-link"> Contact us :  <br> <a href="mailto:support_pmis@mrvc.gov.in">support_pmis@mrvc.gov.in</a></li>
+    <li class="support-link"> Contact us :  <a href="mailto:support_pmis@mrvc.gov.in" style="display: inline;">support_pmis@mrvc.gov.in</a></li>
   </ul>
     </div>
   </div>

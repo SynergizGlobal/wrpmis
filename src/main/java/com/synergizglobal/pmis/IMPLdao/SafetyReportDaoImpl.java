@@ -224,7 +224,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
-			qry = qry + " GROUP BY s.hod_user_id_fk  ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO'),u.designation" ;
+			qry = qry + " GROUP BY s.hod_user_id_fk  ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','HOD-Elec','HOD-Engg','HOD-S&T'),u.designation" ;
 
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 

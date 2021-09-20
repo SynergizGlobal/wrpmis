@@ -3,7 +3,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
+	<style type="text/css">
+		.dropdown-content li>a>i{
+		    float:right;
+		    /* margin:auto; */
+		    margin: auto 10px;
+		}
+		#help-dropdown.dropdown-content {
+		    /* width: 250px !important; */
+		    width: auto !important;
+		    bottom: 31px;
+		    top: inherit !important;
+		}
+	</style>
 </head>
 <body>
 <!-- footer goes here -->
@@ -26,7 +38,7 @@
 	    <li><a href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">User Manual for Issue Module & FOB <i class="fa fa-download"></i></a></li>
     <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li>
     <li class="divider" tabindex="-1"></li>
-    <li class="support-link"> Contact us :  <br> <a href="mailto:support_pmis@mrvc.gov.in">support_pmis@mrvc.gov.in</a></li>
+    <li class="support-link"> Contact us :  <a href="mailto:support_pmis@mrvc.gov.in" style="display: inline;">support_pmis@mrvc.gov.in</a></li>
   </ul>
     </div>
   </div>

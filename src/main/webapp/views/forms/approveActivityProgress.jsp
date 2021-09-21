@@ -535,7 +535,8 @@
         				data:myParams, cache: false,async:false,
         				success : function(data){    				
         				if(data != null && data != '' && data.length > 0){    					
-        	         		$.each(data,function(key,val){
+        	         		$.each(data,function(key,val)
+        	         				{
         	         			var progress_id = "'"+val.progress_id+"'";
         	                    var rowArray = [];   
         	                    var checkbox = '-';
@@ -563,6 +564,34 @@
         	                   	rowArray.push($.trim(actions));
         	                   	
         	                    table.row.add(rowArray).draw( true );
+        	                    $('#pending_activity_check_'+key).change(function () {
+        	                        var _this = this;
+        	                            if ($('#pending_activity_check_'+key).is(':checked')) 
+        	                            {
+        	                            	$('#pending_activity_check_'+key).prop('checked', true);
+        	                                $('#approve-btn').removeClass('disabled');
+        	                                $('#reject-btn').removeClass('disabled');
+        	                            } 
+        	                            else 
+        	                            {
+        	                            	/*var t=0;
+        	                            	
+        	                            	$('input[name="pending_activity_check"]').each(function () {
+        	                            		if ($('#pending_activity_check_'+key).is(':checked')) 
+        	                                    {
+            	                                    t++;
+        	                                    } 
+        	                                }); 
+        	                            	
+												if(t>=1)
+												{
+	            	                            	$('#pending_activity_check_'+key).prop('checked', false);
+	            	                                $('#approve-btn').addClass('disabled');
+	            	                                $('#reject-btn').addClass('disabled');
+												}*/
+        	                            }
+        	                    });       	                    
+        	                    
         	                    	                       
         					});
         	         		

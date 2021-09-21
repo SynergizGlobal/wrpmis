@@ -343,7 +343,7 @@
 			//form validations and footer related code 
 		    $(document).ready(function() {	
 		    	
-				if(window.matchMedia("(max-width: 769px)").matches)
+				/*if(window.matchMedia("(max-width: 769px)").matches)
 				{ 
 				  var elem = document.documentElement;
 				  $('html').click(function () {
@@ -351,7 +351,7 @@
 				        	elem.requestFullscreen(); 
 				        }
 				    });
-				}	    	
+				}*/    	
 		    	
 		    	$('#logoutMsg').delay(3000).fadeOut('slow');
 		    	

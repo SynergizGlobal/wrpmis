@@ -51,7 +51,7 @@
      <!-- <script src="/pmis/resources/js/theme.js"></script> -->
      <script>
      $( document ).ready(function() {
-			if(window.matchMedia("(max-width: 769px)").matches)
+			/*if(window.matchMedia("(max-width: 769px)").matches)
 			{ 
 			  var elem = document.documentElement;
 			  $('html').click(function () {
@@ -59,7 +59,7 @@
 			        	elem.requestFullscreen(); 
 			        }
 			    });
-			}
+			}*/
 			$('.dropdown-trigger').dropdown({
 		    	 coverTrigger:false,    	 
 		    	 closeOnClick: false,

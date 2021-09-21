@@ -150,6 +150,12 @@
 		    opacity:0 !important;
 		    content:'' !important;
 		}
+		
+		.modal-content label, .modal-content [type="checkbox"]+span:not(.lever) {
+		    font-size: 1rem;
+		    color: #9e9e9e;
+		}
+
     </style>
 </head>
 
@@ -255,13 +261,14 @@
                         </div>
                         <div class="row">
                             <div class="input-field col s12 m6">
-                                <p class="searchable_label">Status</p>
-                                <select class="searchable" name="status" required="required">
+                                <!-- <p class="searchable_label">Status</p> -->
+                                <select class="searchable" name="status" id="add_status" required="required">
                                     <option value="" >Select</option>
                                     <c:forEach var="obj" items="${statusList }">
                                     	<option value="${obj.status }" >${obj.status }</option>
                                     </c:forEach>
                                 </select>
+                                <label for="add_status">Status</label>
                             </div>
                             <div class="input-field col s12 m6">
                                 <input name="priority" type="number" class="validate" required="required">
@@ -304,13 +311,14 @@
                         </div>
                         <div class="row">
                             <div class="input-field col s12 m6">
-                                <p class="searchable_label">Status</p>
+                                <!-- <p class="searchable_label">Status</p> -->
                                 <select id="update_status" class="searchable" name="status" required="required">
                                     <option value="" >Select</option>
                                     <c:forEach var="obj" items="${statusList }">
                                     	<option value="${obj.status }" >${obj.status }</option>
                                     </c:forEach>
                                 </select>
+                                <label for="update_status">Status</label>
                             </div>
                             <div class="input-field col s12 m6">
                                 <input id="update_priority" name="priority" type="number" class="validate" required="required">
@@ -405,15 +413,14 @@
         	$("#addManualModal").modal("open");
         }
         
-        function getManual(manual_id,title,attachment,status,priority){
+        function getManual(manual_id,title,attachment,status,priority){         	
+        	$("#editManualModal").modal("open");        	
         	$("#manual_id").val(manual_id);
         	$("#update_status").val(status);
         	$('.searchable').formSelect();
 
          	$("#update_title").val(title).focus();
          	$("#update_priority").val(priority).focus();
-         	
-        	$("#editManualModal").modal("open");
         }
         
         function deleteManual(manual_id){

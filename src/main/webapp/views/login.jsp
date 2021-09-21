@@ -274,7 +274,8 @@
 			        	<a style="font-size: 14px;min-height: 20px;padding: 11px 16px;line-height: 0px;font-weight: 100;" href="/pmis/PMIS - Issue Module - User Manual.docx" >PMIS Issue Module<i class="fa fa-download"></i></a>
 			        </li>
 			    </ul> -->
-			    <li><a href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">User Manual for Issue Module & FOB <i class="fa fa-download"></i></a></li>
+			    <li><a href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">User Manual for Issue Module <i class="fa fa-download"></i></a></li>
+			    <li><a href="5.User Manual -Works Execution & Monitoring Module FOB-Ver-2.docx" >User Manual for FOB <i class="fa fa-download"></i></a></li>
 			    <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li>
 			    <li class="divider" tabindex="-1"></li>
 			    <li class="support-link"> Contact us : <a href="mailto:support_pmis@mrvc.gov.in" style="display: inline;">support_pmis@mrvc.gov.in</a></li>

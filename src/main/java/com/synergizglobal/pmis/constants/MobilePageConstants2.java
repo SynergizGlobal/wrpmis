@@ -6,7 +6,9 @@ public class MobilePageConstants2 {
 		public static final String activitiesProgressForm = "mobileForms/activitiesProgressForm";
 		
 		public static final String issuesGrid = "mobileForms/issueGrid";
-		public static final String issueForm = "mobileForms/issueForm";	
+		public static final String issueForm = "mobileForms/addIssueForm";	
+		public static final String addIssueForm = "mobileForms/addIssueForm";	
+		public static final String editIssueForm = "mobileForms/editIssueForm";	
 		
 		public static final String safetyGrid = "mobileForms/safetyIncidentsGrid";
 		public static final String safetyForm = "mobileForms/safetyIncidentsForm";
@@ -14,7 +16,9 @@ public class MobilePageConstants2 {
 		public static final String activitiesBulkUpdate = "mobileForms/activitiesBulkUpdate";
 		
 		public static final String contractGrid = "mobileForms/contractGrid";
-		public static final String addEditContractForm = "mobileForms/addEditContractForm";
+		public static final String addEditContractForm = "mobileForms/addContractForm";
+		public static final String addContractForm = "mobileForms/addContractForm";
+		public static final String EditContractForm = "mobileForms/editContractForm";
 		
 		public static final String designGrid = "mobileForms/designGrid";
 		public static final String addEditDesignForm = "mobileForms/addEditDesignForm";

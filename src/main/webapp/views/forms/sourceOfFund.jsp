@@ -162,7 +162,7 @@
 							<div class="col s12 m4 r-align">
 								<div class="m-1 ">
 									<a href="javascript:void(0);" onclick="exportFunds();"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i 
 											class="fa fa-cloud-download"></i> Export Data</strong></a>
 								</div>
 							</div>
@@ -307,7 +307,7 @@
  	          }
            }
          
-     	var table = $('#datatable-fund').DataTable({
+    /*  	var table = $('#datatable-fund').DataTable({
   		"bStateSave": true,
   		fixedHeader: true,
           "fnStateSave": function (oSettings, oData) {
@@ -333,7 +333,7 @@
               $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
           }
       });
-  	table.state.clear(); 
+  	table.state.clear();  */
  		
   	
   	$('.close-message').delay(3000).fadeOut('slow');
@@ -356,6 +356,8 @@
     	$('.searchable').select2();
     	window.localStorage.setItem("sourceOfFundFilters",'');
     	window.location.href = "<%=request.getContextPath()%>/source-of-funds";
+    	var table = $('#datatable-fund').DataTable();
+    	table.draw( true );
     	//getFundList();
     }
     
@@ -413,6 +415,13 @@
 								"sort" : "position",
 								//bStateSave variable you can use to save state on client cookies: set value "true" 
 								"bStateSave" : false,
+								stateSave: true,
+								 "fnStateSave": function (oSettings, oData) {
+								 	localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+								},
+								 "fnStateLoad": function (oSettings) {
+									return JSON.parse(localStorage.getItem('MRVCDataTables'));
+								 },
 								//Default: Page display length
 								"iDisplayLength" : 10,
 								"iData" : {

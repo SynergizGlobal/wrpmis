@@ -10,8 +10,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-   		 <c:if test="${action eq 'edit'}">Update Project - Update Forms - PMIS</c:if>
-		 <c:if test="${action eq 'add'}"> Add Project - Update Forms - PMIS</c:if>    
+   		 <c:if test="${action eq 'edit'}">Update Project - Update Forms - PMIS mob</c:if>
+		 <c:if test="${action eq 'add'}"> Add Project - Update Forms - PMIS mob</c:if>    
     </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">    
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
@@ -188,9 +188,9 @@
 			.mt-md-0{
 				margin-top: -14px !important;
 			} 
-			.mobile_responsible_table>tbody tr:not(.datepicker-row):not(.mobile_hide_row) {
+			/* .mobile_responsible_table>tbody tr:not(.datepicker-row):not(.mobile_hide_row) {
 			    border-bottom: 3px solid #7C698C;
-			}
+			} */
 			.mobile_responsible_table>tbody >tr:not(.datepicker-row)> td> div.btn{
 				float:none;
 				position:relative;
@@ -199,6 +199,10 @@
 			    visibility: visible;
 			    width: 200%;
 			    display: block !important;
+			}
+			.input-field textarea{
+				height:auto;
+				min-height:4rem !important;
 			}
 		}
 			.input-field>input[type='text'].datepicker ~ label:not(.label-icon).active{

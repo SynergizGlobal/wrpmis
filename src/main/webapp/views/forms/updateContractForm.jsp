@@ -2715,18 +2715,25 @@
                  var errors = validator.numberOfInvalids();                 
                  if (errors) {
                      var position = validator.errorList[0].element;
-                     var eleDivId=$(position).parentsUntil('form');
-                     var l=eleDivId.push();
+                      //  var eleDivId=$(position).parentsUntil('form');
+                     //var l=eleDivId.push();
+                     var eleDivId=$(position).parentsUntil('.card-content');
+                	 var eleId=eleDivId[eleDivId.length-1].id;     
                      $('.tab-flex .tab > a').removeClass('active');
                      $('.tab-flex .tab > a').each(function(){
-		   			 		$($(this).attr('href')).css('display','none');
-		   			 	});
-		    		 $('[href="#'+eleDivId[l-1].id+'"]').addClass('active');
+	   			 		$($(this).attr('href')).css('display','none');
+	   			 		/* if($(this).attr('href')=='#'+eleId){
+	   			 			$(this).addClass('active');
+	   			 		} */
+		   			 });
+                     //console.log($('a[href="#'+eleId+'"]').addClass('active'));
+		    		 $('#'+eleId).css('display','block');
 		    		// $('.tabs').tabs();
 		    		 
                      jQuery('html, body').animate({
-                         scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                         scrollTop:jQuery(validator.errorList[0].element).offset().top + 300
                      }, 1000); 
+		    		 $('[href="#'+eleId+'"]').addClass('active');
                  }validateContract();
              },submitHandler: function(form) {
             	// alert($('#awarded_cost').val());

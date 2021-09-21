@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project - Update Forms - PMIS</title>
+    <title>Project - Update Forms - PMIS mob</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">          
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+        <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
     <!-- <link rel="stylesheet" href="/pmis/resources/css/project.css"> -->
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
@@ -64,6 +66,7 @@
        .mdl-data-table__cell--non-numeric.mdl-data-table__cell--non-numeric {
 		    text-align: center;
 		}
+				
      } 
     </style>
 </head>
@@ -333,7 +336,7 @@
     								}
     							},
     							"bDestroy" : true,
-    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-projects?"+myParams,
+    							"sAjaxSource" : "	<%=request.getContextPath()%>/mobileappwebview/ajax/get-projects?"+myParams,
     		        "aoColumns": [
     		            { "mData": function(data,type,row){
     		            	if($.trim(data.project_id) == ''){ return '-'; }else{ return data.project_id; }
@@ -361,7 +364,7 @@
      } --%>
 	  function getProject(project_id){
 	    	$("#project_id").val(project_id);
-	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-project');
+	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/mobileappwebview/get-project');
 	    	$('#getForm').submit();
 	    }
 			function deleteProject(project_id){
@@ -384,7 +387,7 @@
 	        }, function (isConfirm) {
 	            if (isConfirm) {
 	               // swal("Deleted!", "Record has been deleted", "success");
-	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-project');
+	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/mobileappwebview/delete-project');
 	    	    	$('#getForm').submit();
 	           }else {
 	                swal("Cancelled", "Record is safe :)", "error");

@@ -314,6 +314,8 @@
          $('.searchable').select2();
          window.localStorage.setItem("dataGatheringFilters",'');
          window.location.href = "<%=request.getContextPath()%>/data-gathering";
+         var table = $('#datatable-data-gathering').DataTable();
+     	 table.draw( true );
          //getDataGatheringList();
      }
      
@@ -392,6 +394,13 @@
  							"sort" : "position",
  							//bStateSave variable you can use to save state on client cookies: set value "true" 
  							"bStateSave" : false,
+ 							 stateSave: true,
+ 							 "fnStateSave": function (oSettings, oData) {
+ 							 	localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+ 							},
+ 							 "fnStateLoad": function (oSettings) {
+ 								return JSON.parse(localStorage.getItem('MRVCDataTables'));
+ 							 },
  							//Default: Page display length
  							"iDisplayLength" : 10,
  							"iData" : {

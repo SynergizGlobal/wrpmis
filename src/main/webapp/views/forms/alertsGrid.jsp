@@ -473,6 +473,8 @@
             $('.searchable').select2();
             window.localStorage.setItem("alertsFilters",'');
             window.location.href="<%=request.getContextPath()%>/get-alerts"
+            var table = $('#notifications-table').DataTable();
+        	table.draw( true );
             //getAlerts();
         }
         function addInQueHOD(hod){
@@ -565,6 +567,13 @@
     							"sort" : "position",
     							//bStateSave variable you can use to save state on client cookies: set value "true" 
     							"bStateSave" : false,
+    							stateSave: true,
+    							 "fnStateSave": function (oSettings, oData) {
+    							 	localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+    							},
+    							 "fnStateLoad": function (oSettings) {
+    								return JSON.parse(localStorage.getItem('MRVCDataTables'));
+    							 },
     							//Default: Page display length
     							"iDisplayLength" : 10,
     							"iData" : {

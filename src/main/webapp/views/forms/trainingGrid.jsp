@@ -397,6 +397,8 @@
         	window.localStorage.setItem("trainingFilters",'');
         	//getTraningList();
         	window.location.href= "<%=request.getContextPath()%>/training";
+        	var table = $('#datatable-training').DataTable();
+        	table.draw( true );
         }
         
         function addInQueType(training_type_fk){
@@ -480,6 +482,13 @@
 								"sort" : "position",
 								//bStateSave variable you can use to save state on client cookies: set value "true" 
 								"bStateSave" : false,
+								 stateSave: true,
+								 "fnStateSave": function (oSettings, oData) {
+								 	localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+								},
+								 "fnStateLoad": function (oSettings) {
+									return JSON.parse(localStorage.getItem('MRVCDataTables'));
+								 },
 								//Default: Page display length
 								"iDisplayLength" : 10,
 								"iData" : {

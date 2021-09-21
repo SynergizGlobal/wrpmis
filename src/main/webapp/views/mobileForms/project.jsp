@@ -196,7 +196,7 @@
     	<input type="hidden" name="project_id" id="project_id" />
     </form>
     
-    <form action="<%=request.getContextPath() %>/export-project" name="exportProjectForm" id="exportProjectForm" target="_blank" method="post">	
+    <form action="<%=request.getContextPath()%>/mobileappwebview/export-project" name="exportProjectForm" id="exportProjectForm" target="_blank" method="post">	
         <input type="hidden" name="project_id" id="exportProject_id" />
 	</form>
 

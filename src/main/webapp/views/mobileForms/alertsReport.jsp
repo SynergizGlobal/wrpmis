@@ -46,7 +46,7 @@
 						</span>
 					</div>
 					<!-- form start-->
-					<form action="<%=request.getContextPath() %>/generate-contracts-alert-report" id="alertsReportForm" name="alertsReportForm" method="post" target="_blank">
+					<form action="<%=request.getContextPath()%>/mobileappwebview/generate-contracts-alert-report" id="alertsReportForm" name="alertsReportForm" method="post" target="_blank">
 						<div class="row">
 						<div class="col s12 m12 l7 offset-l2">
 							<div class="row no-mar" style="margin-bottom:0;">
@@ -178,7 +178,7 @@
         	$("#alert_type_fk").val('');
         	$('.searchable').select2();
         	window.localStorage.setItem("alertReportFilters",'');
-    		window.location.href= "<%=request.getContextPath()%>/alerts-report"
+    		window.location.href= "<%=request.getContextPath()%>/mobileappwebview/alerts-report"
         }
         function addInQueHOD(hod){
         	Object.keys(filtersMap).forEach(function (key) {
@@ -243,7 +243,7 @@
             	$("#hod option:not(:first)").remove();
             	var myParams = {hod : hod, work_id_fk : work_id_fk, alert_level : alert_level,alert_type_fk : alert_type_fk };
                 $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getHodListInAlertsReport",
+	                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getHodListInAlertsReport",
 	                data: myParams, cache: false,async:false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -275,7 +275,7 @@
             	$("#work_id_fk option:not(:first)").remove();
             	var myParams = {hod : hod, work_id_fk : work_id_fk, alert_level : alert_level,alert_type_fk : alert_type_fk};
                 $.ajax({
-	            	url: "<%=request.getContextPath()%>/ajax/getWorksListInAlertsReport",
+	            	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksListInAlertsReport",
 	                data: myParams, cache: false,async:false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -310,7 +310,7 @@
             	$("#alert_level option:not(:first)").remove();
             	var myParams = {hod : hod, work_id_fk : work_id_fk, alert_level : alert_level,alert_type_fk : alert_type_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getAlertLevelsListInAlertsReport",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAlertLevelsListInAlertsReport",
                     data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -343,7 +343,7 @@
             	$("#alert_type_fk option:not(:first)").remove();
             	var myParams = {hod : hod, work_id_fk : work_id_fk, alert_level : alert_level,alert_type_fk : alert_type_fk};
                 $.ajax({
-	            	url: "<%=request.getContextPath()%>/ajax/getAlertTypesListInAlertsReport",
+	            	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAlertTypesListInAlertsReport",
 	                data: myParams, cache: false,async:false,
 	                success: function (data) {
 	                    if (data.length > 0) {

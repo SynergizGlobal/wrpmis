@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -268,15 +269,18 @@
         	</p>
 	          <!-- Dropdown Structure -->
 			  <ul id='help-dropdown' class='dropdown-content blue lighten-5'>
-			    <li><a href="/pmis/5. User Manual for Risk Module-V2.pdf" target="_blank">User Manual for Risk Module<i class="fa fa-download"></i></a></li>
+			    <!-- <li><a href="/pmis/5. User Manual for Risk Module-V2.pdf" target="_blank">User Manual for Risk Module<i class="fa fa-download"></i></a></li> -->
 			    <!-- <ul style="padding-left: 20px;">
 			        <li style="min-height: 20px;">
 			        	<a style="font-size: 14px;min-height: 20px;padding: 11px 16px;line-height: 0px;font-weight: 100;" href="/pmis/PMIS - Issue Module - User Manual.docx" >PMIS Issue Module<i class="fa fa-download"></i></a>
 			        </li>
 			    </ul> -->
-			    <li><a href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">User Manual for Issue Module <i class="fa fa-download"></i></a></li>
-			    <li><a href="5.User Manual -Works Execution & Monitoring Module FOB-Ver-2.pdf"  target="_blank">User Manual for FOB <i class="fa fa-download"></i></a></li>
-			    <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li>
+			    <!-- <li><a href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">User Manual for Issue Module <i class="fa fa-download"></i></a></li>
+			    <li><a href="/pmis/5.User Manual -Works Execution & Monitoring Module FOB-Ver-2.pdf"  target="_blank">User Manual for FOB <i class="fa fa-download"></i></a></li>
+			    <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li> -->
+			    <c:forEach var="manualObj" items="${userManuals }">
+			    	<li><a href="<%=CommonConstants2.PMIS_MANUALS%>${manualObj.manual_id }/${manualObj.file_name }" target="_blank">${manualObj.title } <i class="fa fa-download"></i></a></li>
+			    </c:forEach>
 			    <li class="divider" tabindex="-1"></li>
 			    <li class="support-link"> Contact us : <a href="mailto:support_pmis@mrvc.gov.in" style="display: inline;">support_pmis@mrvc.gov.in</a></li>
 			  </ul>
@@ -339,7 +343,7 @@
 			//form validations and footer related code 
 		    $(document).ready(function() {	
 		    	
-				if(window.matchMedia("(max-width: 769px)").matches)
+				/*if(window.matchMedia("(max-width: 769px)").matches)
 				{ 
 				  var elem = document.documentElement;
 				  $('html').click(function () {
@@ -347,7 +351,7 @@
 				        	elem.requestFullscreen(); 
 				        }
 				    });
-				}	    	
+				}*/    	
 		    	
 		    	$('#logoutMsg').delay(3000).fadeOut('slow');
 		    	

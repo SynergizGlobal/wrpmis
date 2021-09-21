@@ -311,7 +311,7 @@
            	$("#work_id_fk option:not(:first)").remove();
            	var myParams = {}
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getWorksListInIssuesReport",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksListInIssuesReport",
                    data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -342,7 +342,7 @@
            	$("#issue_id option:not(:first)").remove();
            	var myParams = {work_id_fk : work_id_fk}
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getContractsListInIssuesReport",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsListInIssuesReport",
                    data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -372,7 +372,7 @@
            	$("#issue_id option:not(:first)").remove();
            	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk}
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getHODListInIssuesReport",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getHODListInIssuesReport",
                    data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -399,7 +399,7 @@
            	$("#issue_id option:not(:first)").remove();
            	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk,hod_user_id_fk : hod_user_id_fk}
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getStatusListInIssuesReport",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStatusListInIssuesReport",
                    data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -426,7 +426,7 @@
            	$("#location option:not(:first)").remove();
            	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk,hod_user_id_fk : hod_user_id_fk, status_fk : status_fk}
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getLocationsListInIssuesReport",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getLocationsListInIssuesReport",
                    data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -454,7 +454,7 @@
            	$("#category_fk option:not(:first)").remove();
            	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk,hod_user_id_fk : hod_user_id_fk, status_fk : status_fk, location : location}
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getCategoriesListInIssuesReport",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getCategoriesListInIssuesReport",
                    data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -483,7 +483,7 @@
            	$("#issue_id option:not(:first)").remove();
            	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk,hod_user_id_fk : hod_user_id_fk, status_fk : status_fk,location : location,category_fk : category_fk}
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getTitlesListInIssuesReport",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getTitlesListInIssuesReport",
                    data: myParams, cache: false,async:false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -515,7 +515,7 @@
         
         function generateAndDownloadIssueDetailsReport() {
         	if(validator.form()){
-            	$('#reportForm').attr('action', '<%=request.getContextPath() %>/generate-and-download-issue-details-report').submit();
+            	$('#reportForm').attr('action', '<%=request.getContextPath()%>/mobileappwebview/generate-and-download-issue-details-report').submit();
         	}
 		}
         
@@ -597,7 +597,7 @@
 				$('#title').val('');
 				$('.searchable').select2();
 				window.localStorage.setItem("issueDetailReportFilters",'');
-				window.location.href= "<%=request.getContextPath()%>/issue-details-report"
+				window.location.href= "<%=request.getContextPath()%>/mobileappwebview/issue-details-report"
 			}
     </script>
 

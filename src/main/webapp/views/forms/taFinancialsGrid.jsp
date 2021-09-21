@@ -263,6 +263,9 @@
         	$('.searchable').select2();
         	window.localStorage.setItem("taFinancialsFilters",'');
         	window.location.href="<%=request.getContextPath()%>/ta-financials";
+        	var table = $('#tafinancialst').DataTable();
+        	table.draw( true );
+
         	//getTAFinancialList();
         }
         
@@ -318,7 +321,14 @@
    								"bServerSide" : true,
    								"sort" : "position",
    								//bStateSave variable you can use to save state on client cookies: set value "true" 
-   								"bStateSave" : false,
+	   								"bStateSave" : false,
+	   							 stateSave: true,
+	   							 "fnStateSave": function (oSettings, oData) {
+	   							 	localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	   							},
+	   							 "fnStateLoad": function (oSettings) {
+	   								return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	   							 },
    								//Default: Page display length
    								"iDisplayLength" : 10,
    								"iData" : {

@@ -688,7 +688,7 @@
                                 </div>
                                 <div class="col s6 m4 mt-brdr center-align">
                                     <div class=" m-1">
-                                        <a href="<%=request.getContextPath()%>/project" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/mobileappwebview/project" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                             </div>

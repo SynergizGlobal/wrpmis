@@ -346,7 +346,7 @@
 						   ${error}
 						</div>
 				    </c:if>
-                    <form action="<%=request.getContextPath() %>/update-activities-bulk" id="ActivitiesBulkUpdateForm" name="ActivitiesBulkUpdateForm" method="post" >
+                    <form action="<%=request.getContextPath()%>/mobileappwebview/update-activities-bulk" id="ActivitiesBulkUpdateForm" name="ActivitiesBulkUpdateForm" method="post" >
                     <div class="container container-no-margin">
                         <div class="row">                          
                                 <div class="col m10 s12 offset-m1">
@@ -871,7 +871,7 @@
 	    if ($.trim(projectId) != "") {
 	        var myParams = { project_id_fk: projectId };
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateWorksList",
+	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateWorksList",
 	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	            	var id1 = "";
@@ -915,7 +915,7 @@
 	    if ($.trim(work_id_fk) != "") {
 	        var myParams = { work_id_fk: work_id_fk };
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateContractsList",
+	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateContractsList",
 	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	            	var id1 = "";
@@ -974,7 +974,7 @@
 				$("#work_id_fk option:not(:first)").remove();
 	        var myParams = { project_id_fk: projectId };
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateWorksList",
+	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateWorksList",
 	            data: myParams, cache: false,async: false,
 	            success: function (data) {
 	                if (data.length > 0) {
@@ -1023,7 +1023,7 @@
           if ($.trim(contract_id_fk) != "") {
           	var myParams = { contract_id_fk: contract_id_fk };
               $.ajax({
-                  url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateStructures",
+                  url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateStructures",
                   data: myParams, cache: false,async: false,
                   success: function (data) {
                   	var id1 = "";
@@ -1063,7 +1063,7 @@
 	    if ($.trim(contract_id_fk) != "") {
 	    	var myParams = { contract_id_fk: contract_id_fk};
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateLines",
+	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateLines",
 	            data: myParams, cache: false,
 	            success: function (data) {
 	                if (data.length > 0) {
@@ -1086,7 +1086,7 @@
 	    if ($.trim(contract_id_fk) != "") {
 	    	var myParams = { contract_id_fk: contract_id_fk};
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateSections",
+	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateSections",
 	            data: myParams, cache: false,
 	            success: function (data) {
 	                if (data.length > 0) {
@@ -1118,7 +1118,7 @@
          
          if ($.trim(structure_id) != "") {
              $.ajax({
-                 url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateComponentsList",
+                 url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateComponentsList",
                  data: myParams, cache: false,
                  success: function (data) {
                      if (data.length > 0) {
@@ -1152,7 +1152,7 @@
 
          if ($.trim(contract_id_fk) != "" && $.trim(structureId) != "" && $.trim(component) ) {                
              $.ajax({
-                 url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateComponentIdsList",
+                 url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateComponentIdsList",
                  data: myParams, cache: false,async:false,
                  success: function (data) {
                  	var id1 = "";
@@ -1264,7 +1264,7 @@
     	 if ($.trim(strip_chart_structure_id_fk) != "") {
  	        var myParams = { strip_chart_component_id: strip_chart_component_id, strip_chart_activity_id: strip_chart_activity_id,strip_chart_structure_id_fk : strip_chart_structure_id_fk, contract_id_fk : contract_id_fk,strip_chart_component : strip_chart_component };
  	        $.ajax({
- 	            url: "<%=request.getContextPath()%>/ajax/getActivitiesfiltersList",
+ 	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getActivitiesfiltersList",
  	            data: myParams, cache: false,
  	            success: function (data) {
  	            	

@@ -151,7 +151,7 @@
 
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-issue-form" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath()%>/mobileappwebview/add-issue-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Issue</strong></a>
                                 </div>
                             </div>
@@ -178,7 +178,7 @@
                     </span>
                         <div class="row no-mar">
                            <div class="col s12 hide-on-large-only mb-md-2 center-align">
-							    <a href="<%=request.getContextPath() %>/add-issue-form" class="btn waves-effect waves-light bg-s t-c">
+							    <a href="<%=request.getContextPath()%>/mobileappwebview/add-issue-form" class="btn waves-effect waves-light bg-s t-c">
 							        <strong><i class="fa fa-plus-circle"></i> Add Issue</strong></a>
 							</div>
                         <div class="col s12 m12 l10">
@@ -306,12 +306,12 @@
 	<!-- footer included -->
 	<%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	
-	<form action="<%=request.getContextPath()%>/get-issue" id="getForm" name="getForm" method="post">
+	<form action="<%=request.getContextPath()%>/mobileappwebview/get-issue" id="getForm" name="getForm" method="post">
   		<input type="hidden" name="issue_id" id="issue_id"/>
     </form>
   
   
-	<form action="<%=request.getContextPath() %>/export-issues" name="exportIssuesForm" id="exportIssuesForm" target="_blank" method="post">	
+	<form action="<%=request.getContextPath()%>/mobileappwebview/export-issues" name="exportIssuesForm" id="exportIssuesForm" target="_blank" method="post">	
         <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
         <input type="hidden" name="category_fk" id="exportCategory_fk" />
@@ -377,7 +377,7 @@
         	
         	//window.localStorage.clear();
         	window.localStorage.setItem("issueFilters",'');
-        	window.location.href = "<%=request.getContextPath()%>/issues";
+        	window.location.href = "<%=request.getContextPath()%>/mobileappwebview/issues";
         	
         	//getIssues();
         }
@@ -510,7 +510,7 @@
     	 
     	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
     	 			category_fk : category_fk, status_fk : status_fk,hod : hod };
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",
+    		$.ajax({url : "<%=request.getContextPath()%>/mobileappwebview/ajax/getIssuesList",
     				type:"POST",
     				data:myParams, cache: false,async:true,
     				success : function(data){    				
@@ -595,7 +595,7 @@
                 $("#work_id_fk option:not(:first)").remove();
          	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInIssue",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksListFilterInIssue",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -633,7 +633,7 @@
                  $("#hod option:not(:first)").remove();
          	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getHODListFilterInIssue",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getHODListFilterInIssue",
                      data: myParams, cache: false,async: false,
                      success: function (data) {
                          if (data.length > 0) {
@@ -671,7 +671,7 @@
                 $("#contract_id_fk option:not(:first)").remove();
         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInIssue",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsListFilterInIssue",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -709,7 +709,7 @@
                 $("#department_fk option:not(:first)").remove();
         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getDepartmentsListFilterInIssue",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDepartmentsListFilterInIssue",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -744,7 +744,7 @@
                  $("#category_fk option:not(:first)").remove();
          	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInIssue",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getCategoryListFilterInIssue",
                      data: myParams, cache: false,async: false,
                      success: function (data) {
                          if (data.length > 0) {
@@ -778,7 +778,7 @@
                  $("#status_fk option:not(:first)").remove();
          	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInIssue",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStatusListFilterInIssue",
                      data: myParams, cache: false,async: false,
                      success: function (data) {
                          if (data.length > 0) {

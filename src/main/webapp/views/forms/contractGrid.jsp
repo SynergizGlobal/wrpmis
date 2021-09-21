@@ -377,6 +377,9 @@
     	
     	window.localStorage.setItem("contractFilters",'');
     	window.location.href= "<%=request.getContextPath()%>/contract";
+    	
+    	var table = $('#datatable-contract').DataTable();
+    	table.draw( true );
     }
     
     function addInQueProject(project_id_fk){
@@ -479,6 +482,13 @@
 							//"sort" : "position",
 							//bStateSave variable you can use to save state on client cookies: set value "true" 
 							"bStateSave" : false,
+						   "fnStateSave": function (oSettings, oData) {
+			                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+			                },
+			                "fnStateLoad": function (oSettings) {
+			                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+			                },
+					        stateSave: true,
 							//Default: Page display length
 							"iDisplayLength" : 10,
 							"iData" : {

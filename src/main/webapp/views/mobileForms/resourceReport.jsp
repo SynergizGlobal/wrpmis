@@ -46,7 +46,7 @@
                         </div>
                     </span>
                     <div class="">
-			            <form action="<%=request.getContextPath() %>/generate-contract-resource-report" id="reportForm" name="reportForm" method="post" target="_blank">	                              
+			            <form action="<%=request.getContextPath()%>/mobileappwebview/mobileappwebview/generate-contract-resource-report" id="reportForm" name="reportForm" method="post" target="_blank">	                              
                        		 <div class="row no-mar">
                                 <div class="col s6 m4 l2 input-field offset-l3">
                                     <p class="searchable_label" style="text-align:left">Project</p>
@@ -252,7 +252,7 @@
                 $("#contract_id_fk option:not(:first)").remove();
                 var myParams = { project_id_fk: project_id_fk, hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForContractResourceReportForm",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForContractResourceReportForm",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -284,7 +284,7 @@
                 $("#contract_id_fk option:not(:first)").remove();
                 var myParams = { work_id_fk: work_id_fk, hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getProjectsListForContractResourceReportForm",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProjectsListForContractResourceReportForm",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -313,7 +313,7 @@
                 $("#hod_user_id_fk option:not(:first)").remove();
                 var myParams = { work_id_fk: work_id_fk, project_id_fk : project_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getHODSListForContractResourceReportForm", 
+                	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getHODSListForContractResourceReportForm", 
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -341,7 +341,7 @@
             	$("#contract_id_fk option:not(:first)").remove();
                 var myParams = { work_id_fk: work_id_fk, hod_user_id_fk : hod_user_id_fk,project_id_fk : project_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContractsListForContractResourceReportForm",
+                	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsListForContractResourceReportForm",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -434,7 +434,7 @@
            	$("#from_date option:not(:first)").remove();
            	var myParams = {work_id : work_id,sub_work : sub_work}
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getResourceReport",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getResourceReport",
                    data: myParams, cache: false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -538,7 +538,7 @@
     		$('#to_date').val('');
     		$('.searchable').select2();
     		 window.localStorage.setItem("contrctResourceReportFilters",'');
-    		window.location.href= "<%=request.getContextPath()%>/contract-resource-report";
+    		window.location.href= "<%=request.getContextPath()%>/mobileappwebview/contract-resource-report";
     	}
     </script>
 

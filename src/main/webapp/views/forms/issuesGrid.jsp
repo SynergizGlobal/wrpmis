@@ -462,14 +462,17 @@
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-issues').DataTable({
         		"bStateSave": true,
+        		 'stateSave': true,
+        		 "fnStateSave": function (oSettings, oData) {
+                     localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                 },
+                 "fnStateLoad": function (oSettings) {
+                     return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                 },
+                
         		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
-                columnDefs: [
+               
+                columnDefs: [ 
                     { orderable: false, 'aTargets': ['nosort'] },{targets:[2,3,4,5],
 	                       className: 'hideCOl'},{ targets: [2], className: 'fw-111'  },{ targets: [6], className: 'fw-110'  }
                 ],

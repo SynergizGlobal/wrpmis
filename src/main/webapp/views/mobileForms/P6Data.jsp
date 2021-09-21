@@ -146,7 +146,7 @@
 			                    <div class="tab col s12 head" >Add Baseline</div>   
 				                  <div class="" id="baseline" style="background-color:#fafafa">
 				                   <!--  <div style="margin-top:20px"> -->
-				                        <form action="<%=request.getContextPath() %>/upload-p6-data" name="p6UploadFrom" id="p6UploadFrom" method="post" enctype="multipart/form-data">
+				                        <form action="<%=request.getContextPath()%>/mobileappwebview/upload-p6-data" name="p6UploadFrom" id="p6UploadFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
 				                                <div class="col s12 m6 input-field">
 				                                    <p  class="searchable_label"> Contract <span class="required">*</span></p>
@@ -214,7 +214,7 @@
 				                <div class="tab col s12 head existing" >Update Existing</div>   
 			                    <div class="" id="existing" style="background-color:#f0f8ff">
 				                   <!--  <div style="margin-top:20px"> -->
-				                        <form action="<%=request.getContextPath() %>/update-p6-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
+				                        <form action="<%=request.getContextPath()%>/mobileappwebview/update-p6-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
 				                                <div class="col s12 m6 input-field">
 				                                    <p  class="searchable_label">Contract <span class="required">*</span></p>

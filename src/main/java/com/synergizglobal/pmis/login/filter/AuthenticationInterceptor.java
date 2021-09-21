@@ -17,6 +17,7 @@ import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.LoginService;
+import com.synergizglobal.pmis.Iservice.UserManualsService;
 import com.synergizglobal.pmis.Iservice.WebDocumentsService;
 import com.synergizglobal.pmis.Iservice.WebLinksService;
 import com.synergizglobal.pmis.constants.PageConstants;
@@ -27,6 +28,7 @@ import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
+import com.synergizglobal.pmis.model.UserManuals;
 import com.synergizglobal.pmis.model.WebDocuments;
 import com.synergizglobal.pmis.model.WebLinks;
 
@@ -79,6 +81,9 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	
 	@Autowired
 	IssueService issueService;
+	
+	@Autowired
+	UserManualsService userManualsService;
 	
 	@Override
     public void postHandle(HttpServletRequest request,
@@ -145,8 +150,12 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				
 				/*List<Messages> messages = service.getMessages(mObj);
 				model.addObject("messages", messages);*/
-				
 			}
+			
+			UserManuals userManual = new UserManuals();
+			userManual.setStatus("Active");
+			List<UserManuals> userManuals = userManualsService.getUserManuals(userManual);
+			model.addObject("userManuals", userManuals);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

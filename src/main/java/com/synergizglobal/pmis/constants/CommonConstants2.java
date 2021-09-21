@@ -41,6 +41,7 @@ public class CommonConstants2 {
 	public final static String ACTIVITY_PROGRESS_REPORT = "/pmis/ACTIVITY_PROGRESS_REPORTS/";
 	public final static String ACTIVITIES_UPLOAD_FILES = "/pmis/ACTIVITIES_UPLOAD_FILES/";
 	public final static String RISK_ASSESSMENT_UPLOADED_FILES = "/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";
+	public final static String PMIS_MANUALS = "/pmis/PMIS_MANUALS/";
 	
 	
 	
@@ -63,6 +64,7 @@ public class CommonConstants2 {
 	//public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/ACTIVITY_PROGRESS_REPORTS/";
 	public final static String ACTIVITIES_UPLOAD_FILE_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/ACTIVITIES_UPLOAD_FILES/";
 	public final static String RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";
+	public final static String PMIS_MANUAL_SAVING_PATH = DIRECTORY_PATH + "/Development/nginx-1.9.9/html/pmis/PMIS_MANUALS/";
 	 
 	/*********** Syntrack AWS ****************************************************/	
 	/*public final static String USER_LOGIN_REPORT_MAIL = "raviteja.reddy@synergizglobal.com";
@@ -79,7 +81,8 @@ public class CommonConstants2 {
 	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/PROJECT_GALLERY/";
 	public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/ACTIVITY_PROGRESS_REPORTS/";
 	public final static String ACTIVITIES_UPLOAD_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/ACTIVITIES_UPLOAD_FILES/";
-	public final static String RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";*/
+	public final static String RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";
+	public final static String PMIS_MANUAL_SAVING_PATH = "usr/share/nginx/html/pmis/PMIS_MANUALS/";*/
 	
 	/*********** MRVC Server ****************************************************/	
 	/* public final static String USER_LOGIN_REPORT_MAIL = "dycste2@mrvc.gov.in";
@@ -97,6 +100,6 @@ public class CommonConstants2 {
 	public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/ACTIVITY_PROGRESS_REPORTS/";
 	public final static String ACTIVITIES_UPLOAD_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/ACTIVITIES_UPLOAD_FILES/";
 	public final static String RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";
-	*/
+	public final static String PMIS_MANUAL_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/PMIS_MANUALS/";*/
 	
 }

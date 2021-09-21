@@ -35,4 +35,6 @@ public class PageConstants2 {
 	
 	public static final String alreadyLoggedIn = "alreadyLoggedIn";
 	
+	public static final String userManuals = "forms/userManuals";
+	
 }

@@ -144,10 +144,10 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                           <c:if test="${action eq 'edit'}">				                
-			                	<form action="<%=request.getContextPath() %>/update-fob" id="fobForm" name="fobForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath()%>/mobileappwebview/mobileappwebview/update-fob" id="fobForm" name="fobForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                           </c:if>
 			              <c:if test="${action eq 'add'}">				                
-			                	<form action="<%=request.getContextPath() %>/add-fob" id="fobForm" name="fobForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath()%>/mobileappwebview/mobileappwebview/add-fob" id="fobForm" name="fobForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
                             <div class="row">
                                 <div class="col s6 m4 input-field offset-m2">
@@ -789,7 +789,7 @@
                                 </div>
                                 <div class="col s6 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/fob" class="btn waves-effect waves-light bg-s" >Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/mobileappwebview/fob" class="btn waves-effect waves-light bg-s" >Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -1153,7 +1153,7 @@
         if ($.trim(projectId) != "") {
             var myParams = { project_id_fk: projectId };
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorkListForFOBForm",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForFOBForm",
                 data: myParams, cache: false,async : false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -1191,7 +1191,7 @@
         if($.trim(work_id_fk) != ''){
         	var myParams = { work_id_fk: work_id_fk };
 	        $.ajax({
-	        	url: "<%=request.getContextPath()%>/ajax/getContractsListForFOBForm",
+	        	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsListForFOBForm",
 	            data: myParams, cache: false,async:false,
 	            success: function (data) {
 	                if (data.length > 0) {
@@ -1231,7 +1231,7 @@
     	var contract_id_fk = $("#contract_id_fk").val();
     	var myParams = {contracts_id_fk : contract_id_fk}
     	$.ajax({
-            url: "<%=request.getContextPath()%>/ajax/getResponsiblePeopleFOBForm",
+            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getResponsiblePeopleFOBForm",
             type:"post",
    		   traditional: true, 
             data: myParams, cache: false,aync:false,
@@ -1274,7 +1274,7 @@
    			$("#work_id_fk option:not(:first)").remove();
             var myParams = { project_id_fk: projectId };
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorkListForFOBForm",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForFOBForm",
                 data: myParams, cache: false,aync:false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -1305,7 +1305,7 @@
         	var myParams = { work_id_fk: workId };
         	//console.log(hitCount);
 	        $.ajax({
-	        	url: "<%=request.getContextPath()%>/ajax/getContractsListForFOBForm",
+	        	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsListForFOBForm",
 	            data: myParams, cache: false,aync:false,
 	            success: function (data) {
 	                if (data.length > 0) {

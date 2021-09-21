@@ -306,7 +306,7 @@
 		<!-- footer  -->
  	<%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
  	
-	<form action="<%=request.getContextPath()%>/get-contract" id="getForm" name="getForm" method="post" >
+	<form action="<%=request.getContextPath()%>/mobileappwebview/get-contract" id="getForm" name="getForm" method="post" >
   		<input type="hidden" name="contract_id" id="contract_id"/>
     </form>
     <form action="<%=request.getContextPath() %>/export-contract" name="exportContractForm" id="exportContractForm" target="_blank" method="post">	
@@ -379,7 +379,7 @@
     	$('.searchable').select2();
     	
     	window.localStorage.setItem("contractFilters",'');
-    	window.location.href= "<%=request.getContextPath()%>/contract";
+    	window.location.href= "<%=request.getContextPath()%>/mobileappwebview/contract";
     }
     
     function addInQueProject(project_id_fk){
@@ -547,7 +547,7 @@
 								}
 							},
 							"bDestroy" : true,
-							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-contracts?"+myParams,
+							"sAjaxSource" : "	<%=request.getContextPath()%>/mobileappwebview/ajax/get-contracts?"+myParams,
 		        "aoColumns": [
 		            { "mData": function(data,type,row){
 		            	var work_short_name = '';
@@ -599,7 +599,7 @@
         	$("#dy_hod_designation option:not(:first)").remove();
     	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk, contract_status : contract_status};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getDyHODDesignationsFilterListInContract",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDyHODDesignationsFilterListInContract",
                 data: myParams, cache: false,async: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -641,7 +641,7 @@
         	$("#designation option:not(:first)").remove();
     	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk, contract_status : contract_status};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getDesignationsFilterListInContract",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDesignationsFilterListInContract",
                 data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -683,7 +683,7 @@
         	$("#contractor_id_fk option:not(:first)").remove();
     	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk, contract_status : contract_status};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInContract",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractorsFilterListInContract",
                 data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -719,7 +719,7 @@
 	        	$("#department_fk option:not(:first)").remove();
 	    	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk, contract_status : contract_status};
 	            $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getDepartmentsFilterListInContract",
+	                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDepartmentsFilterListInContract",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -752,7 +752,7 @@
 		    	$("#contract_status option:not(:first)").remove();
 			 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk, contract_status : contract_status};
 	            $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getContractStatusFilterListInContract",
+	                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractStatusFilterListInContract",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -786,7 +786,7 @@
 		    	$("#contract_status_fk option:not(:first)").remove();
 			 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk, contract_status : contract_status};
 	            $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInContract",
+	                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStatusFilterListInContract",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -820,7 +820,7 @@
 	    	$("#work_id_fk option:not(:first)").remove();
 		 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk, contract_status : contract_status};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInContract",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksFilterListInContract",
                 data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -856,7 +856,7 @@
 		    	$("#project_id_fk option:not(:first)").remove();
 			 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk, contract_status : contract_status};
 	            $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInContract",
+	                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProjectsFilterListInContract",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {

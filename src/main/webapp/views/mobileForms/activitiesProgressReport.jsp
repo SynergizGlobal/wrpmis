@@ -47,7 +47,7 @@
 						</span>
 					</div>
 					<!-- form start-->
-					<form action="<%=request.getContextPath() %>/generate-activities-dpr-report" id="activitiesReportForm" name="activitiesReportForm" method="post" target="_blank">
+					<form action="<%=request.getContextPath()%>/mobileappwebview/mobileappwebview/generate-activities-dpr-report" id="activitiesReportForm" name="activitiesReportForm" method="post" target="_blank">
 						<div class="row">
 						<div class="col s12 m12 l7 offset-l2 offset-m1">
 							<div class="row no-mar" style="margin-bottom:0;">
@@ -267,7 +267,7 @@
             $("#to_date").val('').focus();
             
             window.localStorage.setItem("activitiesReportFilters",'');
-        	window.location.href= "<%=request.getContextPath()%>/activities-progress-report";
+        	window.location.href= "<%=request.getContextPath()%>/mobileappwebview/activities-progress-report";
         }
         
         
@@ -438,7 +438,7 @@
             	$("#project_id option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInActivitiesReport",
+	                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProjectsFilterListInActivitiesReport",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -484,7 +484,7 @@
             	$("#work_id option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInActivitiesReport",
+	                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksFilterListInActivitiesReport",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -527,7 +527,7 @@
             	$("#contract_id option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-	            	url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInActivitiesReport",
+	            	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsFilterListInActivitiesReport",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -564,7 +564,7 @@
             	$("#fob_id_fk option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk :fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getFobFilterListInActivitiesReport",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getFobFilterListInActivitiesReport",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -603,7 +603,7 @@
             	$("#contractor_id option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-	            	url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInActivitiesReport",
+	            	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractorsFilterListInActivitiesReport",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -649,7 +649,7 @@
             	$("#hod option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-	            	url: "<%=request.getContextPath()%>/ajax/getHodFilterListInActivitiesReport",
+	            	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getHodFilterListInActivitiesReport",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -695,7 +695,7 @@
             	$("#dyhod option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-	            	url: "<%=request.getContextPath()%>/ajax/getDyhodFilterListInActivitiesReport",
+	            	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDyhodFilterListInActivitiesReport",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {

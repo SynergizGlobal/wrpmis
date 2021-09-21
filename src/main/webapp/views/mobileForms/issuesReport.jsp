@@ -298,12 +298,12 @@
         
         function generatePendingIssuesReport() {
         	//$(".page-loader").show();
-        	$('#reportForm').attr('action', '<%=request.getContextPath() %>/generate-pending-issues-report').submit();
+        	$('#reportForm').attr('action', '<%=request.getContextPath()%>/mobileappwebview/generate-pending-issues-report').submit();
 		}
         
         function generateIssuesSummaryReport() {
         	//$(".page-loader").show();
-        	$('#reportForm').attr('action', '<%=request.getContextPath() %>/generate-issues-summary-report').submit();
+        	$('#reportForm').attr('action', '<%=request.getContextPath()%>/mobileappwebview/generate-issues-summary-report').submit();
 		}
         
         

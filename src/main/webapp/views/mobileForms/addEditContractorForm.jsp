@@ -104,10 +104,10 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                          <c:if test="${action eq 'edit'}">				                
-			                	<form action="<%=request.getContextPath() %>/update-contractor" id="contractorForm" name="contractorForm" method="post" class="form-horizontal" role="form" >
+			                	<form action="<%=request.getContextPath()%>/mobileappwebview/update-contractor" id="contractorForm" name="contractorForm" method="post" class="form-horizontal" role="form" >
                          </c:if>
 			              <c:if test="${action eq 'add'}">				                
-			                	<form action="<%=request.getContextPath() %>/add-contractor" id="contractorForm" name="contractorForm" method="post" class="form-horizontal" role="form" >
+			                	<form action="<%=request.getContextPath()%>/mobileappwebview/add-contractor" id="contractorForm" name="contractorForm" method="post" class="form-horizontal" role="form" >
 						  </c:if>
                             <div class="row">                            
                                <!-- <div class="col s12 m4 input-field">
@@ -257,7 +257,7 @@
                                 </div>
                                 <div class="col s6 m4 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/contractor" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/mobileappwebview/contractor" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                             </div>
@@ -313,7 +313,7 @@
             if ($.trim(pan_number) != "") {
                 var myParams = { pan_number: pan_number };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getPanNumberListFormContactor",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getPanNumberListFormContactor",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {

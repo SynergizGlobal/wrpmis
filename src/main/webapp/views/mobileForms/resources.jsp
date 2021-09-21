@@ -91,7 +91,7 @@
 						</c:if>
                     <!-- form start-->
                     <div class="container no-mar">
-                        <form action="<%=request.getContextPath() %>/add-contract-resource" id="resourceForm" name="resourceForm" method="post">
+                        <form action="<%=request.getContextPath()%>/mobileappwebview/add-contract-resource" id="resourceForm" name="resourceForm" method="post">
                             <div class="row ">
                                 <div class="col s6 m4 input-field offset-m2">
                                     <p class="searchable_label">Project</p>
@@ -286,7 +286,7 @@
 							</div>
 							<div class="col s6 m4 mt-brdr center-align">
 								<div class=" m-1">
-									<a href="<%=request.getContextPath()%>/contract-resource-form"
+									<a href="<%=request.getContextPath()%>/mobileappwebview/contract-resource-form"
 										class="btn waves-effect waves-light bg-s" >Reset</a>
 								</div>
 							</div>
@@ -339,7 +339,7 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForContractResourceForm",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForContractResourceForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -363,7 +363,7 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContractsListForContractResourceForm",
+                	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsListForContractResourceForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {

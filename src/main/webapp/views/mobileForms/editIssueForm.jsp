@@ -90,7 +90,7 @@
                     </div>
                     <!-- form start-->
                     <div class="container no-mar">
-                        <form action="<%=request.getContextPath() %>/update-issue" id="issueForm" name="issueForm" method="post" enctype="multipart/form-data">
+                        <form action="<%=request.getContextPath()%>/mobileappwebview/mobileappwebview/update-issue" id="issueForm" name="issueForm" method="post" enctype="multipart/form-data">
                         	<input id="existing_status_fk" name="existing_status_fk" type="hidden" value="${issue.existing_status_fk }"/>
                         	<input id="existing_responsible_person" name="existing_responsible_person" type="hidden" value="${issue.responsible_person }"/>
                         	<input id="existing_escalated_to" name="existing_escalated_to" type="hidden" value="${issue.escalated_to }"/>
@@ -467,7 +467,7 @@
                                 </div>
                                 <div class="col s6 center-align m4 mt-brdr">
                                     <div class=" m-1">
-                                        <a href="<%=request.getContextPath() %>/issues" class="btn waves-effect waves-light bg-s " >Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/mobileappwebview/mobileappwebview/issues" class="btn waves-effect waves-light bg-s " >Cancel</a>
                                     </div>
                                 </div>
                                  
@@ -1015,7 +1015,7 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksList",
                     data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -1047,7 +1047,7 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContracts",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContracts",
                     data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -1100,7 +1100,7 @@
             
             var myParams = {};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getIssueStatusListForIssuesForm",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getIssueStatusListForIssuesForm",
                 data: myParams, cache: false,async:false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -1178,7 +1178,7 @@
             $("#responsible_person option:not(:first)").remove();
             var myParams = { department_name: department };
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getResponsiblePersonsInIssue",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getResponsiblePersonsInIssue",
                 data: myParams, cache: false,async:true,
                 success: function (data) {
                     if (data.length > 0) {

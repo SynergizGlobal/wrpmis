@@ -68,7 +68,7 @@
                     </div>
                     <!-- form start-->
                     <div class="container no-mar">
-                        <form action="<%=request.getContextPath() %>/add-issue" id="issueForm" name="issueForm" method="post" enctype="multipart/form-data">
+                        <form action="<%=request.getContextPath()%>/mobileappwebview/mobileappwebview/add-issue" id="issueForm" name="issueForm" method="post" enctype="multipart/form-data">
                             <input id="hod_user_id_fk" name="hod_user_id_fk" type="hidden" />
                         	<input id="dy_hod_user_id_fk" name="dy_hod_user_id_fk" type="hidden" />
                             <div class="row">
@@ -356,7 +356,7 @@
                                 </div>
                                 <div class="col s6 m4 mt-brdr center-align">
                                     <div class="m-1">
-                                        <a href="<%=request.getContextPath()%>/issues" class="btn waves-effect waves-light bg-s">Cancel  </a>
+                                        <a href="<%=request.getContextPath()%>/mobileappwebview/issues" class="btn waves-effect waves-light bg-s">Cancel  </a>
                                     </div>
                                 </div>
                                  
@@ -497,7 +497,7 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForIssuesForm",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForIssuesForm",
                     data: myParams, cache: false,async:true,
                     success: function (data) {
                         if (data.length > 0) {
@@ -529,7 +529,7 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContractsListForIssuesForm",
+                	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsListForIssuesForm",
                     data: myParams, cache: false,async:true,
                     success: function (data) {
                         if (data.length > 0) {
@@ -571,7 +571,7 @@
        			$("#work_id_fk option:not(:first)").remove();
                  var myParams = { project_id_fk: projectId };
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getWorkListForIssuesForm",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForIssuesForm",
                      data: myParams, cache: false,async:false,
                      success: function (data) {
                          if (data.length > 0) {
@@ -604,7 +604,7 @@
       		  $("#title option:not(:first)").remove();
               var myParams = { contract_type_fk : contract_type_fk };
               $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getIssueCategoryListForIssuesForm",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getIssueCategoryListForIssuesForm",
                     data: myParams, cache: false,async:true,
                     success: function (data) {
                         if (data.length > 0) {
@@ -627,7 +627,7 @@
      		 //$("#titles").html('');
              var myParams = { category_fk : category_fk };
              $.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getIssueTitlesListForIssuesForm",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getIssueTitlesListForIssuesForm",
                    data: myParams, cache: false,async:true,
                    success: function (data) {
                        if (data.length > 0) {
@@ -657,7 +657,7 @@
              
              var myParams = {};
              $.ajax({
-                 url: "<%=request.getContextPath()%>/ajax/getIssueStatusListForIssuesForm",
+                 url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getIssueStatusListForIssuesForm",
                  data: myParams, cache: false,async:false,
                  success: function (data) {
                      if (data.length > 0) {

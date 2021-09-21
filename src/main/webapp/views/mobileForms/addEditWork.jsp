@@ -263,10 +263,10 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                     	 <c:if test="${action eq 'edit'}">				                
-			                	<form action="<%=request.getContextPath() %>/update-work" id="workForm" name="workForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath()%>/mobileappwebview/update-work" id="workForm" name="workForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                          </c:if>
 			              <c:if test="${action eq 'add'}">				                
-			                	<form action="<%=request.getContextPath() %>/add-work" id="workForm" name="workForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath()%>/mobileappwebview/add-work" id="workForm" name="workForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
                       
                             <div class="row">
@@ -863,7 +863,7 @@
                                 </div>
                                 <div class="col s6 m4 mt-brdr center-align">
                                     <div class=" m-1">
-                                        <a  href="<%=request.getContextPath()%>/work"  class="btn waves-effect waves-light bg-s">Cancel</a>
+                                        <a  href="<%=request.getContextPath()%>/mobileappwebview/work"  class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                             </div>
@@ -912,7 +912,7 @@
 	       	$(".page-loader").show();
    	    	$("#work_status_fk option:not(:first)").remove();
                $.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getWorkStatusList",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkStatusList",
                    cache: false,async: false,
                    success: function (data) {
                       if(data != null && data != '' && data.length > 0){  

@@ -314,7 +314,7 @@
 					</div>
 					<div class="container container-no-margin">
 						<form
-							action="<%=request.getContextPath()%>/upload-risk-assessment"
+							action="<%=request.getContextPath()%>/mobileappwebview/upload-risk-assessment"
 							id="riskUploadForm" name="riskUploadForm" method="post"
 							enctype="multipart/form-data" >
 							<div class="row">
@@ -442,7 +442,7 @@
 											<!-- <p class="mt-1 center-align">In case of any Changes or Modification in information after uploading the Excel file by clicking  "submit"  . User can modify the desired information in only in " Input 4 to input 8" and upload the form again as per step 1 to Step-5.</p> 
  											<p class="mt-1 center-align">Do not make any change in Input-1 to Input -4 , else it  shall be treated as New assessment</p> -->
 											<p class="mt-1 center-align">To update ATR on the
-												Mitigation Plan of prioritized risks, go to <a href="<%=request.getContextPath()%>/risk-atr-update" target="_blank">Update Forms > Risk >
+												Mitigation Plan of prioritized risks, go to <a href="<%=request.getContextPath()%>/mobileappwebview/risk-atr-update" target="_blank">Update Forms > Risk >
 												Update ATR </a></p>
 										</div>
 									</div> --%>
@@ -456,7 +456,7 @@
                             <div class="col s12 m3 l-align"> </div>
                             <div class="col s12 m6 c-align">                            
                                 <div class="m-1">
-                                	 <form action="<%=request.getContextPath()%>/upload-risk-assessment" id="riskUploadForm" name="riskUploadForm" method="post" enctype="multipart/form-data">
+                                	 <form action="<%=request.getContextPath()%>/mobileappwebview/upload-risk-assessment" id="riskUploadForm" name="riskUploadForm" method="post" enctype="multipart/form-data">
 	                                    <div class="row">
 	                                        <div class="col s12 m4 input-field">
 	                                        	<p class="searchable_label left-align">Work</p>
@@ -573,7 +573,7 @@
     <!-- footer included -->
 <%--     <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 
-	<form action="<%=request.getContextPath()%>/risk-atr-update" id="riskATRUpdateForm" name="riskATRUpdateForm" target="_blank" method="post">
+	<form action="<%=request.getContextPath()%>/mobileappwebview/risk-atr-update" id="riskATRUpdateForm" name="riskATRUpdateForm" target="_blank" method="post">
 		<input type="hidden" id="sub_work_atr_update" name="sub_work"/>
 		<input type="hidden" id="assessment_date_atr_update" name="assessment_date"/>
 	</form>
@@ -638,7 +638,7 @@
 	    	  	$(".page-loader").show();
 	           	var myParams = {sub_work : sub_work};
 	           	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getLastUpdatedRiskAssessmentFile",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getLastUpdatedRiskAssessmentFile",
                    data: myParams, cache: false,
                    success: function (data) {	         
                 	  if($.trim(data.attachment) != ''){
@@ -666,7 +666,7 @@
 	              fd.append( "sub_work", $("#sub_work").val());
 	              
 		           	$.ajax({
-	                   url: "<%=request.getContextPath()%>/ajax/checkRiskAssessment",
+	                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/checkRiskAssessment",
 	                   method: 'post',
 	                   processData: false,
 	                   contentType: false,
@@ -802,7 +802,7 @@
     		
     		table.state.clear();		
     		var myParams = {sub_work : sub_work};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getRiskAssessmentUploadsList",type:"POST",data:myParams,success : function(data){    				
+    		$.ajax({url : "<%=request.getContextPath()%>/mobileappwebview/ajax/getRiskAssessmentUploadsList",type:"POST",data:myParams,success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
              			var risk_id_pk = "'"+val.risk_id_pk+"'";
@@ -841,7 +841,7 @@
            	$("#sub_workfilter option:not(:first)").remove();
            	var myParams = {};
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getSubWorksListFromRiskUploads",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getSubWorksListFromRiskUploads",
                    data: myParams, cache: false,
                    success: function (data) {
                        if (data.length > 0) {

@@ -311,7 +311,7 @@
         	 	var myParams = {status : status};
        		   
                $.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getStatusofWorkItems",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStatusofWorkItems",
                    type:"post",
 	          	   traditional: true, 
                    data: myParams, cache: false,async: false,
@@ -433,7 +433,7 @@
             	$("#hod_designation option").remove();
         	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getHODListInContractReport",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getHODListInContractReport",
                     type:"post",
 	          		traditional: true, 
                     data: myParams, cache: false,async: false,
@@ -482,7 +482,7 @@
             	$("#work_id_fk option:not(:first)").remove();
         	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
                 $.ajax({
-	                   url: "<%=request.getContextPath()%>/ajax/getWorksListInContractReport",
+	                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksListInContractReport",
 	                   type:"post",
 	          		   traditional: true, 
 	                   data: myParams, cache: false,async: false,
@@ -518,7 +518,7 @@
             	$("#contractor_id_fk option:not(:first)").remove();
         	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractorsListInContractReport",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractorsListInContractReport",
                     type:"post",
 	          		traditional: true, 
                     data: myParams, cache: false,async: false,
@@ -554,7 +554,7 @@
             	$("#contract_status_fk option:not(:first)").remove();
         	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
                 $.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getContractStatusListInContractReport",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractStatusListInContractReport",
                    type:"post",
 	          	   traditional: true, 
                    data: myParams, cache: false,async: false,
@@ -599,7 +599,7 @@
         	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
 
                 $.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getContractListInContractReport",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractListInContractReport",
                    type:"post",
 	          	   traditional: true, 
                    data: myParams, cache: false,async: false,
@@ -628,14 +628,14 @@
         	//$(".page-loader").show();
         	if(getUrlVars()["id"]==1)
         		{
-        			$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-report/"+getUrlVars()["id"]);
+        			$("#contractReportForm").attr("action","<%=request.getContextPath()%>/mobileappwebview/generate-contract-report/"+getUrlVars()["id"]);
         		}
         	    else if(getUrlVars()["id"]==2)
 	    		{
         	    	var contract_id = $("#contract_id").val();
                 	if($.trim(contract_id) != '')
                 	{
-    	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-detail-report/"+getUrlVars()["id"]);
+    	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/mobileappwebview/generate-contract-detail-report/"+getUrlVars()["id"]);
                     	$("#contractReportForm").submit();
                 	}
                 	else
@@ -647,19 +647,19 @@
 	    		}  
         	    else if(getUrlVars()["id"]==3)
 	    		{
-	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-doc-report/"+getUrlVars()["id"]);
+	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/mobileappwebview/generate-contract-doc-report/"+getUrlVars()["id"]);
 	    		} 
         	    else if(getUrlVars()["id"]==4)
 	    		{
-	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-bg-report/"+getUrlVars()["id"]);
+	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/mobileappwebview/generate-contract-bg-report/"+getUrlVars()["id"]);
 	    		} 
         	    else if(getUrlVars()["id"]==5)
 	    		{
-	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-insurance-report/"+getUrlVars()["id"]);
+	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/mobileappwebview/generate-contract-insurance-report/"+getUrlVars()["id"]);
 	    		} 
         	    else if(getUrlVars()["id"]==6)
 	    		{
-	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-doc-bg-insurance-report/"+getUrlVars()["id"]);
+	            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/mobileappwebview/generate-contract-doc-bg-insurance-report/"+getUrlVars()["id"]);
 	    		}  
         	if(getUrlVars()["id"]!=2)
         		{
@@ -668,12 +668,12 @@
 		}
         function generateBGReport() {
         	//$(".page-loader").show();
-        	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-bg-report");
+        	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/mobileappwebview/generate-contract-bg-report");
         	$("#contractReportForm").submit();
 		}
         function generateInsurancceReport() {
         	//$(".page-loader").show();
-        	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-insurance-report");
+        	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/mobileappwebview/generate-contract-insurance-report");
         	$("#contractReportForm").submit();
 		}
         
@@ -681,7 +681,7 @@
         	//$(".page-loader").show();
         	var contract_id = $("#contract_id").val();
         	if($.trim(contract_id) != ''){
-        		$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-detail-report");
+        		$("#contractReportForm").attr("action","<%=request.getContextPath()%>/mobileappwebview/generate-contract-detail-report");
             	$("#contractReportForm").submit();
         	}else{
         		var errorMessage = "Please select contract";

@@ -250,7 +250,7 @@
     <!-- footer included -->
   <%--   <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
     
-    <form action="<%=request.getContextPath()%>/get-risk-assessment" name="getForm" id="getForm" method="post">
+    <form action="<%=request.getContextPath()%>/mobileappwebview/get-risk-assessment" name="getForm" id="getForm" method="post">
     	<input type="hidden" name="risk_id_pk" id="risk_id_pk" />
     	<input type="hidden" name="risk_revision_id" id="risk_revision_id" />
     </form>
@@ -316,7 +316,7 @@
             //window.localStorage.clear();
             window.localStorage.setItem("riskFilters",'');
         	
-            window.location.href = "<%=request.getContextPath()%>/risk-atr-update";
+            window.location.href = "<%=request.getContextPath()%>/mobileappwebview/risk-atr-update";
             
             //getRiskList();            
         }
@@ -402,7 +402,7 @@
     		
     		table.state.clear();		
     		var myParams = {sub_work : sub_work,assessment_date : assessment_date};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getRiskAssessmentList",
+    		$.ajax({url : "<%=request.getContextPath()%>/mobileappwebview/ajax/getRiskAssessmentList",
     			type:"POST",data:myParams, cache: false,async:false,
     			success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
@@ -450,7 +450,7 @@
             	$("#sub_work option:not(:first)").remove();
             	var myParams = {sub_work : sub_work};
             	$.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getSubWorksFilterListInRiskAssessmnt",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getSubWorksFilterListInRiskAssessmnt",
                     data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -492,7 +492,7 @@
             	/*$("#assessment_date option:not(:first)").remove();*/
         		var myParams = {sub_work : sub_work,assessment_date : assessment_date};
             	$.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getAssessmentDatesFilterListInRiskAssessment",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAssessmentDatesFilterListInRiskAssessment",
                     data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {

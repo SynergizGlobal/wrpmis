@@ -557,7 +557,7 @@
                                 </div>
                                 <div class="col s6 m4 mt-brdr center-align">
                                     <div class="m-1">
-                                        <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/mobileappwebview/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                             </div>
@@ -639,7 +639,7 @@
             	
                 var myParams = { department_fk: department_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getExecutivesListForContractForm",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getExecutivesListForContractForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -710,7 +710,7 @@
             	//var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: reporting_to_id_srfk };
             	var myParams = {};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getHodList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getHodList",
                     data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -757,7 +757,7 @@
             //var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: dy_hod_user_id_fk };
            	var myParams = { hod_user_id_fk: hod_user_id_fk};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getDyHodList",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDyHodList",
                 data: myParams, cache: false,async:false,
                 success: function (data) {
                 	var flag = false;
@@ -794,7 +794,7 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForContractForm",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForContractForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {

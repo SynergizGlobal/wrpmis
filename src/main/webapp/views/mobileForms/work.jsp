@@ -228,7 +228,7 @@
     	<input type="hidden" name="work_id" id="work_id" />
     </form>
     
-	<form action="<%=request.getContextPath() %>/export-work" name="exportWorkForm" id="exportWorkForm" target="_blank" method="post">	
+	<form action="<%=request.getContextPath()%>/mobileappwebview/export-work" name="exportWorkForm" id="exportWorkForm" target="_blank" method="post">	
          <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
         
 	</form>
@@ -334,7 +334,7 @@
     		
     		table.state.clear();		
     	 	var myParams = {project_id_fk : project_id_fk};
-    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-WorksList",
+    	 	$.ajax({url : "/ajax/get-WorksList",
     			type:"POST",
     			data:myParams, cache: false,async:false,
     			success : function(data){      				
@@ -379,7 +379,7 @@
             	$("#project_id_fk option:not(:first)").remove();
             	var myParams = { project_id_fk: project_id_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInWork",
+                    url: "/ajax/getProjectsFilterListInWork",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -485,7 +485,7 @@
     								}
     							},
     							"bDestroy" : true,
-    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-works?"+myParams,
+    							"sAjaxSource" : "	/ajax/get-works?"+myParams,
     		        "aoColumns": [
     		            { "mData": function(data,type,row){
     		            	var project_name= "";
@@ -528,7 +528,7 @@
 
 	    	//$("#railway_id_fk").val(railway_id_fk);
 	    	
-	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-work');
+	    	$('#getForm').attr('action', '/get-work');
 	    	$('#getForm').submit();
 	    }
         function deleteWork(work_id){       
@@ -551,7 +551,7 @@
 	        }, function (isConfirm) {
 	            if (isConfirm) {
 	                //swal("Deleted!", "Record has been deleted", "success");
-	                $('#getForm').attr('action', '<%=request.getContextPath()%>/deleteRow');
+	                $('#getForm').attr('action', '/deleteRow');
 	    	    	$('#getForm').submit();
 	            } else {
 	                swal("Cancelled", "Record is safe :)", "error");

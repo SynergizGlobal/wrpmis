@@ -372,7 +372,7 @@
     <!-- card  -->
     <div class="row">
         <div class="col s12 m12">
-        	<form action="<%=request.getContextPath() %>/update-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+        	<form action="<%=request.getContextPath()%>/mobileappwebview/update-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
             <div class="card ">
                 <div class="card-content">
                     <div class="center-align p-sticky t-46 z-1">
@@ -1974,7 +1974,7 @@
 		                       </div>
 		                       <div class="col s12 m2 mt-brdr center-align">
 		                           <div class=" m-1" >
-		                               <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
+		                               <a href="<%=request.getContextPath()%>/mobileappwebview/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
 		                           </div>
 		                       </div>
 		                   </div>
@@ -2197,7 +2197,7 @@
             	$("#responsible_people_id_fks"+count+" option:not(:first)").remove();
                 var myParams = { department_fk: department_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getExecutivesListForContractForm",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getExecutivesListForContractForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -2266,7 +2266,7 @@
             	//var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: reporting_to_id_srfk };
             	var myParams = {};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getHodList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getHodList",
                     data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -2309,7 +2309,7 @@
             //var myParams = { hod_user_id_fk: hod_user_id_fk, dy_hod_user_id_fk: dy_hod_user_id_fk };
             var myParams = { hod_user_id_fk: hod_user_id_fk};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getDyHodList",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDyHodList",
                 data: myParams, cache: false,async:false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -3312,7 +3312,7 @@
             if ($.trim(contract_status) != "") {
                 var myParams = { contract_status: contract_status };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContractStatusLIstFormContractFom",
+                	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractStatusLIstFormContractFom",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {

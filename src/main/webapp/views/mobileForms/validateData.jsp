@@ -533,7 +533,7 @@
         	 
         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
         	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk,approval_status_fk : approval_status_fk };
-        		$.ajax({url : "<%=request.getContextPath()%>/ajax/getApprovableActivities",
+        		$.ajax({url : "<%=request.getContextPath()%>/mobileappwebview/ajax/getApprovableActivities",
         				type:"POST",
         				data:myParams, cache: false,async:false,
         				success : function(data){    				
@@ -586,7 +586,7 @@
                 if ($.trim(progress_id) != "") {
                     var myParams = {progress_id : progress_id };
                     $.ajax({
-                        url: "<%=request.getContextPath()%>/ajax/approveActivityProgress",
+                        url: "<%=request.getContextPath()%>/mobileappwebview/ajax/approveActivityProgress",
                         data: myParams, cache: false,async: false,
                         success: function (data) {
                         	if (data != null) {
@@ -646,7 +646,7 @@
                 if ($.trim(progress_id) != "") {
                     var myParams = {progress_id : progress_id };
                     $.ajax({
-                        url: "<%=request.getContextPath()%>/ajax/rejectActivityProgress",
+                        url: "<%=request.getContextPath()%>/mobileappwebview/ajax/rejectActivityProgress",
                         data: myParams, cache: false,async: false,
                         success: function (data) {
                         	
@@ -726,7 +726,7 @@
                     var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
             	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
                     $.ajax({
-                        url: "<%=request.getContextPath()%>/ajax/getWorksInApprovableActivities",
+                        url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksInApprovableActivities",
                         data: myParams, cache: false,async: false,
                         success: function (data) {
                             if (data.length > 0) {
@@ -761,7 +761,7 @@
                      var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
              	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
                      $.ajax({
-                         url: "<%=request.getContextPath()%>/ajax/getStructuresInApprovableActivities",
+                         url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStructuresInApprovableActivities",
                          data: myParams, cache: false,async: false,
                          success: function (data) {
                              if (data.length > 0) {
@@ -796,7 +796,7 @@
                     var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
             	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
                     $.ajax({
-                        url: "<%=request.getContextPath()%>/ajax/getContractsInApprovableActivities",
+                        url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsInApprovableActivities",
                         data: myParams, cache: false,async: false,
                         success: function (data) {
                             if (data.length > 0) {
@@ -831,7 +831,7 @@
                     var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
             	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
                     $.ajax({
-                        url: "<%=request.getContextPath()%>/ajax/getDepartmentsInApprovableActivities",
+                        url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDepartmentsInApprovableActivities",
                         data: myParams, cache: false,async: false,
                         success: function (data) {
                             if (data.length > 0) {
@@ -866,7 +866,7 @@
                      var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
              	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
                      $.ajax({
-                         url: "<%=request.getContextPath()%>/ajax/getUpdatedByListInApprovableActivities",
+                         url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getUpdatedByListInApprovableActivities",
                          data: myParams, cache: false,async: false,
                          success: function (data) {
                              if (data.length > 0) {
@@ -933,7 +933,7 @@
                 if ($.trim(progress_id) != "") {
                     var myParams = {progress_id : progress_id };
                     $.ajax({
-                        url: "<%=request.getContextPath()%>/ajax/approveMultipleActivityProgress",
+                        url: "<%=request.getContextPath()%>/mobileappwebview/ajax/approveMultipleActivityProgress",
                         data: myParams, cache: false,async: false,
                         success: function (data) {
                         	if (data != null) {
@@ -999,7 +999,7 @@
                 if ($.trim(progress_id) != "") {
                     var myParams = {progress_id : progress_id };
                     $.ajax({
-                        url: "<%=request.getContextPath()%>/ajax/rejectMultipleActivityProgress",
+                        url: "<%=request.getContextPath()%>/mobileappwebview/ajax/rejectMultipleActivityProgress",
                         data: myParams, cache: false,async: false,
                         success: function (data) {                        	
                         	if (data != null) {

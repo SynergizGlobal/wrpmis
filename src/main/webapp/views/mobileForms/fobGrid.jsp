@@ -117,7 +117,7 @@
 							<div class="row plr-1 center-align">								
 									<div class="col s12 m4 offset-m4">
 										<div class="m-1 c-align">
-											<a href="<%=request.getContextPath()%>/add-fob-form"
+											<a href="<%=request.getContextPath()%>/mobileappwebview/add-fob-form"
 												class="btn waves-effect waves-light bg-s t-c"> <strong><i
 													class="fa fa-plus-circle"></i> Add FOB</strong></a>
 										</div>
@@ -157,7 +157,7 @@
 
 						<div class="row no-mar">
 							<div class="col s12 hide-on-large-only mb-md-2 center-align">
-							    <a href="<%=request.getContextPath()%>/add-fob-form" class="btn waves-effect waves-light bg-s t-c"> <strong><i
+							    <a href="<%=request.getContextPath()%>/mobileappwebview/add-fob-form" class="btn waves-effect waves-light bg-s t-c"> <strong><i
 							                class="fa fa-plus-circle"></i> Add FOB</strong></a>
 							</div>
 							<div class="col s12 l6 offset-l3 m9 offset-m2">
@@ -241,12 +241,12 @@
 	<!-- footer included -->
 	<%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 
-	<form action="<%=request.getContextPath()%>/get-fob" id="getForm" name="getForm" method="post">
+	<form action="<%=request.getContextPath()%>/mobileappwebview/get-fob" id="getForm" name="getForm" method="post">
   		<input type="hidden" name="fob_id" id="fob_id"/>
     </form>
   
   
-	<form action="<%=request.getContextPath() %>/export-fobs" name="exportFOBForm" id="exportFOBForm" target="_blank" method="post">	
+	<form action="<%=request.getContextPath()%>/mobileappwebview/export-fobs" name="exportFOBForm" id="exportFOBForm" target="_blank" method="post">	
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
         <input type="hidden" name="work_status_fk" id="exportWork_status_fk" />
 	</form>
@@ -337,7 +337,7 @@
         	$("#work_status_fk").val('');
         	$(".searchable").select2();
         	window.localStorage.setItem("fobFilters",'');
-        	window.location.href="<%=request.getContextPath()%>/fob"
+        	window.location.href="<%=request.getContextPath()%>/mobileappwebview/fob"
         	//getFOBList();
         	
         }
@@ -426,7 +426,7 @@
     		table.state.clear();		
     	 
     	 	var myParams = {work_id_fk : work_id_fk, work_status_fk : work_status_fk};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFOBList",
+    		$.ajax({url : "<%=request.getContextPath()%>/mobileappwebview/ajax/getFOBList",
 	    			type:"POST",
 	    			data:myParams,cache: false,async:false,
 	    			success : function(data)
@@ -469,7 +469,7 @@
     	    	$("#work_status_fk option:not(:first)").remove();
     	    	var myParams = {work_id_fk : work_id_fk,work_status_fk : work_status_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkStatusFilterListInFOB",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkStatusFilterListInFOB",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                        if(data != null && data != '' && data.length > 0){  
@@ -498,7 +498,7 @@
     	    	$("#work_id_fk option:not(:first)").remove();
     	    	var myParams = {work_id_fk : work_id_fk,work_status_fk : work_status_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInFOB",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksFilterListInFOB",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                     	if(data != null && data != '' && data.length > 0){  
@@ -529,7 +529,7 @@
     	    	$("#contract_id_fk option:not(:first)").remove();
     	    	var myParams = {contract_id_fk : contract_id_fk,work_status_fk : work_status_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInFOB",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsFilterListInFOB",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                     	if(data != null && data != '' && data.length > 0){  
@@ -685,7 +685,7 @@
     								}
     							},
     							"bDestroy" : true,
-    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getFOBList?"+myParams,
+    							"sAjaxSource" : "	<%=request.getContextPath()%>/mobileappwebview/ajax/getFOBList?"+myParams,
     		        "aoColumns": [
     		            { "mData": function(data,type,row){
     		            	var work_short_name = '';

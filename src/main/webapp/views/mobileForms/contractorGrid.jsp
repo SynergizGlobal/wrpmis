@@ -121,7 +121,7 @@
 
 							<div class="col s12 m4">
 								<div class="m-1 c-align">
-									<a href="<%=request.getContextPath()%>/add-contractor-form"
+									<a href="<%=request.getContextPath()%>/mobileappwebview/add-contractor-form"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add Contractor</strong></a>
 								</div>
@@ -151,7 +151,7 @@
 						</span>
 						<div class="row">
 							<div class="col s12 hide-on-large-only mb-md-2 center-align">
-							    <a href="<%=request.getContextPath()%>/add-contractor-form"
+							    <a href="<%=request.getContextPath()%>/mobileappwebview/add-contractor-form"
 							        class="btn waves-effect waves-light bg-s t-c"> <strong><i
 							            class="fa fa-plus-circle"></i> Add Contractor</strong></a>
 							</div>
@@ -216,7 +216,7 @@
     	<input type="hidden" name="contractor_id" id="contractor_id" />
     </form>
      
-    <form action="<%=request.getContextPath() %>/export-contractor" name="exportContractorForm" id="exportContractorForm" target="_blank" method="post">	
+    <form action="<%=request.getContextPath()%>/mobileappwebview/export-contractor" name="exportContractorForm" id="exportContractorForm" target="_blank" method="post">	
         <input type="hidden" name="contractor_id" id="exportContractor_id" />
 	</form>
     <script>
@@ -319,7 +319,7 @@
    	    								}
    	    							},
    	    							"bDestroy" : true,
-   	    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-contractor?"+myParams,
+   	    							"sAjaxSource" : "	<%=request.getContextPath()%>/mobileappwebview/ajax/get-contractor?"+myParams,
    	    		        "aoColumns": [
    	    		            { "mData": function(data,type,row){
    	    		            	if($.trim(data.contractor_name) == ''){ return '-'; }else{ return data.contractor_name; }
@@ -356,7 +356,7 @@
         
       function getContractor(contractor_id){
 	    	$("#contractor_id").val(contractor_id);
-	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-contractor');
+	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/mobileappwebview/get-contractor');
 	    	$('#getForm').submit();
 	    }
         
@@ -380,7 +380,7 @@
 	        }, function (isConfirm) {
 	            if (isConfirm) {
 	               // swal("Deleted!", "Record has been deleted", "success");
-	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-contractor');
+	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/mobileappwebview/delete-contractor');
 	    	    	$('#getForm').submit();
 	           }else {
 	                swal("Cancelled", "Record is safe :)", "error");

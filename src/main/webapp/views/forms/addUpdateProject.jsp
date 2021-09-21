@@ -256,18 +256,18 @@
                             <div class="row">
                                
                                 <c:if test="${action eq 'edit'}">	
-                                	<div class="col s6 m4 input-field offset-m2">			                
+                                	<div class="col s6 m4 l6 input-field offset-m2">			                
 	                                     <input id="project_id" type="text" class="form-control" name="project_id" value="${projectDetails.project_id }" readonly >   
 	                               		 <label>Project ID :</label>
                                		 </div>
-                               		 <div class="col s6 m4 input-field">
+                               		 <div class="col s6 m4 l6 input-field">
 	                                    <input id=project_name type="text" class="validate" value="${projectDetails.project_name }" name="project_name">
 	                                    <label for="project_name">Project Name <span class="required">*</span></label>
 	                                    <span  id="project_nameError"> </span>
 	                                </div>
                                 </c:if>
                                 <c:if test="${action ne 'edit'}">
-	                                <div class="col s6 m8 input-field offset-m2">
+	                                <div class="col s6 m8 l12 input-field offset-m2">
 	                                    <input id=project_name type="text" class="validate" value="${projectDetails.project_name }" name="project_name">
 	                                    <label for="project_name">Project Name <span class="required">*</span></label>
 	                                    <span  id="project_nameError"> </span>
@@ -281,7 +281,7 @@
                                     <label for="pink_book_item_number">PB Item No</label>
                                     <span  id="pink_book_item_numberError"> </span>
                                 </div> --%>
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l6 input-field offset-m2">
 <!-- 									<label for="project_staus">Project Status<span class="required">*</span></label> -->
 									 <p class="searchable_label">Project Status <span class="required">*</span></p>
 									<select class="validate-dropdown searchable" name="project_status" id="project_status">
@@ -291,7 +291,7 @@
 									</select> 
 									<span id="project_statusError"></span>
 								</div>
-                                <div class="col s6 m4 input-field md-pt-2px">
+                                <div class="col s6 m4 l6 input-field md-pt-2px">
                                     <input id="plan_head_number" type="text" class="validate" value="${projectDetails.plan_head_number }" name="plan_head_number">
                                     <label for="plan_head_number" class='fs-sm-8rem'>Plan Head Number<span class="required">*</span></label>
                                     <span  id="plan_head_numberError"> </span>
@@ -299,7 +299,7 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col s6 m3 input-field offset-m2">
+                                <div class="col s6 m3 l4 input-field offset-m2">
 									<!-- <input id="financial_years" type="text" class="validate" name="financial_years" value="${projectDetails.financial_year_fk }"> -->
                                     <p class="searchable_label">Financial Year</p>
 									<select  name="financial_years"  id="financial_years"  class="validate-dropdown searchable">
@@ -310,7 +310,7 @@
                					  	</select>
                                     <span  id="financial_yearsError"> </span>
 								</div>
-								 <div class="col s6 m2 input-field">
+								 <div class="col s6 m2 l4 input-field">
 								 	 <p class="searchable_label">Railway</p>
 									<select class="searchable validate-dropdown" id="railways" name="railways" >
 										<option value="" >Select</option>	
@@ -318,7 +318,7 @@
 						                <option value="CR" <c:if test="${projectDetails.railway eq 'CR'}">selected</c:if>>CR</option>
 									</select>
 								 </div>
-                                <div class="col s6 m3 input-field md-mt-0">
+                                <div class="col s6 m3 l4 input-field md-mt-0">
                                     <input id="pink_book_item_numbers" class="validate" type="text" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }" maxlength="15"/>
                                     <label for="pink_book_item_numbers">PB Item No </label>                                   
                                     <span  id="pink_book_item_numbersError"> </span>
@@ -329,7 +329,7 @@
 
 							<div class="row">
                               <div class="col m2 hide-on-small-only"></div>
-                              <div class="col s12 m8 input-field">
+                              <div class="col s12 m8 l12 input-field">
                                   <textarea id="benefits"  name="benefits" class="pmis-textarea" data-length="1000" maxlength="1000">${projectDetails.benefits }</textarea>
                                   <label for="benefits">Benefits</label>
                                    <span id="benefitsError"></span>
@@ -337,7 +337,7 @@
 	                        </div>
 							<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 l12 input-field">
                                     <textarea id="remarks" class="pmis-textarea"  maxlength="1000" data-length="1000"  name="remarks">${projectDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                      <span id="remarksError"></span>
@@ -345,7 +345,7 @@
                             </div>
 							
 							<div class="row">
-								<div class="col m8 s12 offset-m2">
+								<div class="col l12 m8 s12 offset-m2">
 									<div class="row fixed-width"
 										style="margin-bottom: 10px; margin-top: 20px">
 										<!-- <div class="table-inside"> -->
@@ -453,7 +453,7 @@
 							</div>
 							
 							<div class="row">
-								<div class="col m8 s12 offset-m2">
+								<div class="col l12 m8 s12 offset-m2">
 									<div class="row fixed-width"
 										style="margin-bottom: 10px; margin-top: 20px">
 										<div class="table-inside">
@@ -563,7 +563,7 @@
 						
 							<c:if test="${action eq 'edit'}">
 							<div class="row">
-								<div class="col m8 s12 offset-m2">
+								<div class="col l12 m8 s12 offset-m2">
 									<div class="row fixed-width"
 										style="margin-bottom: 10px; margin-top: 20px">
 										<div class="table-inside">
@@ -672,7 +672,7 @@
 							</c:if>
 
                             <div class="row">
-                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                                <div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
                                     <div class=" m-1">
                                      <c:if test="${action eq 'edit'}">
  											<button onclick="updateProject();" class="btn waves-effect waves-light bg-m">Update</button>    
@@ -682,7 +682,7 @@
  									 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr center-align">
+                                <div class="col s6 m4 l6 mt-brdr center-align">
                                     <div class=" m-1">
                                         <a href="<%=request.getContextPath()%>/project" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>

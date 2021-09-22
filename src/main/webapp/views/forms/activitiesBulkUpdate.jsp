@@ -386,7 +386,7 @@
                                         <div class="col m4 s6 input-field" >
                                             <p class="searchable_label">Structure <span class="required">*</span></p>
                                            <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk" data-placeholder="Select"
-                                                class="searchable validate-dropdown" onchange="addInQueStructure(this.value);getComponentsList(this.value);onLoadMethod();">
+                                                class="searchable validate-dropdown" onchange="addInQueStructure(this.value);ClearComponents();getComponentsList(this.value);onLoadMethod();">
                                                 <option value=""></option>
                                             </select>
                                             <span id="strip_chart_structure_id_fkError" class="error-msg" ></span>
@@ -879,6 +879,12 @@
         function clearFilters(){
         	window.localStorage.setItem("BulkFilters",'');
         }
+        
+        function ClearComponents()
+        {
+        	glb="";
+        	glbID="";
+        }
 
 	
 	function getAcivitiesBulkUpdateWorksList(projectId) { 
@@ -1276,7 +1282,7 @@
      function getAcivitiesBulkUpdateActivitiesList(componentId){
     	 $(".page-loader").show();
     	 
-    	 $("#strip_chart_component_id").val(componentId);
+    	 //$("#strip_chart_component_id").val(componentId);
     	 $("#strip_chart_component_id").select2();
     	 
     	 $( ".dot" ).removeClass( "active" );

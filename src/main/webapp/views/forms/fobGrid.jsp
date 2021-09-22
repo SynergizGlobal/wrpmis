@@ -256,7 +256,7 @@
 	<script>
 	
 		var filtersMap = new Object();
-	
+		var pageNo = window.localStorage.getItem("fobPageNo");
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -279,54 +279,12 @@
         	
         	$('.close-message').delay(3000).fadeOut('slow');
         	
-        	getFOBList();
-        
+        	 getFOBList();
+        	 if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
+             var oTable = $('#datatable-fob').dataTable();
+             oTable.fnPageChange( pageNo );
         });
-  /*   	if(window.matchMedia("(max-width: 769px)").matches){
-        	$('tbody.web').removeAttr('id');
-            $('#mobView').css({'display':'block'});
-            $('#datatable-fob_mobile').DataTable({
-                columnDefs: [
-                    {
-                        targets: [0],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                    },
-                    { "width": "10px", "targets": [2] },
-                ],
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                "bAutoWidth": true,
-                "ordering": false, //to stop sorting option                
-                fixedHeader: true, // to change the language of data table	          
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
-          	
-        } else{
-        	$('#webView').css({'display':'block'});
-            $('#datatable-fob').DataTable({
-	                columnDefs: [
-	                    {
-	                        targets: [0],
-	                        className: 'mdl-data-table__cell--non-numeric',
-	                        targets: 'no-sort', orderable: false,
-	                    },
-	                    { "width": "10px", "targets": [4] },
-	                ],
-	                "sScrollX": "100%",
-	                "sScrollXInner": "100%",
-	                "bScrollCollapse": true,
-	                "bAutoWidth": true,
-	                "ordering": false, //to stop sorting option                
-	                fixedHeader: true, // to change the language of data table	          
-	                initComplete: function () {
-	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	                }
-	            });
-        } */
+
         function clearFilter(){
         	$("#work_id_fk").val('');
         	$("#work_status_fk").val('');
@@ -334,6 +292,8 @@
         	window.localStorage.setItem("fobFilters",'');
         	window.location.href="<%=request.getContextPath()%>/fob"
         	//getFOBList();
+        	var table = $('#datatable-fob').DataTable();
+        	table.draw( true );
         	
         }
         
@@ -377,14 +337,19 @@
     		
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-fob').DataTable({
-    			"bStateSave": true,
-        		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
+    			 "sPaginationType": "full_numbers",
+         		"bStateSave": true,  
+         		fixedHeader: true,
+               
+             	//Default: Page display length
+ 				"iDisplayLength" : 10,
+ 				"iData" : {
+ 					"start" : 52
+ 				},"iDisplayStart" : 0,
+ 				"drawCallback" : function() {
+ 					var info = table.page.info();
+ 					window.localStorage.setItem("fobPageNo", info.page);
+ 				},
                 columnDefs: [ 
                 	{targets: [2,3], className: 'hideCOl'},
                     { targets: [ 0,1,2, 3], className: 'fw-12vw'  },

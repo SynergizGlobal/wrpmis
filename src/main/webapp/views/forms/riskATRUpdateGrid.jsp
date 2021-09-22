@@ -263,6 +263,7 @@
     
     <script type="text/javascript">       
         var filtersMap = new Object();
+        var pageNo = window.localStorage.getItem("riskPageNo");
         $(document).ready(function () {
 	    	  $(".modal").modal();
 	          $('select:not(.searchable)').formSelect();
@@ -312,9 +313,9 @@
             $('.searchable').select2();
             //window.localStorage.clear();
             window.localStorage.setItem("riskFilters",'');
-        	
             window.location.href = "<%=request.getContextPath()%>/risk-atr-update";
-            
+        	var table = $('#datatable-risk').DataTable();
+        	table.draw( true );
             //getRiskList();            
         }
         
@@ -352,14 +353,19 @@
     		table.destroy();
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-risk').DataTable({
-        		"bStateSave": false,
-        		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
+    			 "sPaginationType": "full_numbers",
+           		"bStateSave": true,  
+           		fixedHeader: true,
+           		 stateSave: true,
+               	//Default: Page display length
+   				"iDisplayLength" : 10,
+   				"iData" : {
+   					"start" : 52
+   				},"iDisplayStart" : 0,
+   				"drawCallback" : function() {
+   					var info = table.page.info();
+   					window.localStorage.setItem("riskPageNo", info.page);
+   				},
                 columnDefs: [
                    
                     { "width": "20px", "targets": [6] }, { targets: [0, 1, 4, 5, 6], className: 'hideCOl'  },
@@ -424,9 +430,11 @@
                        	
                         table.row.add(rowArray).draw( true );
                         		                       
-    				});
-             		
-             		$(".page-loader-2").hide();
+    				}); 
+             		 if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
+        	         var oTable = $('#datatable-risk').dataTable();
+        	         oTable.fnPageChange( pageNo );
+             		 $(".page-loader-2").hide();
     			}else{
     				$(".page-loader-2").hide();
     			}

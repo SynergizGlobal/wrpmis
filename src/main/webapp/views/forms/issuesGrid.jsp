@@ -328,7 +328,7 @@
 	<script>
 	
 		var filtersMap = new Object();
-	
+	    var pageNo = window.localStorage.getItem("issuesPageNo");
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
         	$('.searchable').select2();    		
@@ -358,8 +358,7 @@
 	        	  }
 	          }
             }
-         
-        	getIssues();
+        	 getIssues();
         });
         
         
@@ -375,7 +374,8 @@
         	//window.localStorage.clear();
         	window.localStorage.setItem("issueFilters",'');
         	window.location.href = "<%=request.getContextPath()%>/issues";
-        	
+        	var table = $('#datatable-issues').DataTable();
+        	table.draw( true );
         	//getIssues();
         }
         
@@ -461,17 +461,19 @@
     		table.destroy();
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-issues').DataTable({
+    			"sPaginationType": "full_numbers",
         		"bStateSave": true,
-        		 'stateSave': true,
-        		 "fnStateSave": function (oSettings, oData) {
-                     localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                 },
-                 "fnStateLoad": function (oSettings) {
-                     return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                 },
-                
+        		//stateSave : true,
         		fixedHeader: true,
-               
+        		//Default: Page display length
+				"iDisplayLength" : 10,
+				"iData" : {
+					"start" : 52
+				},"iDisplayStart" : 1,
+        		"drawCallback" : function() {
+					var info = table.page.info();
+					window.localStorage.setItem("issuesPageNo", info.page);
+				},
                 columnDefs: [ 
                     { orderable: false, 'aTargets': ['nosort'] },{targets:[2,3,4,5],
 	                       className: 'hideCOl'},{ targets: [2], className: 'fw-111'  },{ targets: [6], className: 'fw-110'  }
@@ -547,8 +549,11 @@
     	                    table.row.add(rowArray).draw( true );
     	                    		                       
     					});
-    	         		
+    	         		 if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
+    	         		 var oTable = $('#datatable-issues').dataTable();
+   	                	 oTable.fnPageChange( pageNo ); 
     	         		$(".page-loader-2").hide();
+    	         		 
     	         		//$('.page-loader-2').delay(2000).fadeOut('slow');
     				}else{
     					$(".page-loader-2").hide();

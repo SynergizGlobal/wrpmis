@@ -173,19 +173,19 @@
                                     <div class="row">
                                         <div class="col s6 m4 l2 input-field offset-l1">
                                             <p class="searchable_label">Work</p>
-                                            <select id="work_id_fk" name="work_id_fk" onchange="getActivities();" class="searchable">
+                                            <select id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getActivities();" class="searchable">
 			                                   <option value="">Select</option>                                      
 			                                </select>
                                         </div>
                                         <div class="col s6 m4 l2 input-field">
                                             <p class="searchable_label">Contract</p>
-                                            <select id="contract_id_fk" name="contract_id_fk" onchange="getActivities();" class="searchable">
+                                            <select id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getActivities();" class="searchable">
                                      			<option value="" >Select</option>
                                  			</select>     
                                         </div>                                        
                                         <div class="col s6 m4 l2 input-field ">
                                             <p class="searchable_label">Structure</p>
-                                            <select id="structure" name="structure" onchange="getActivities();" class="searchable">
+                                            <select id="structure" name="structure" onchange="addInQueStructure(this.value);getActivities();" class="searchable">
                                      			<option value="" >Select</option>
                                  			</select>
                                         </div>
@@ -197,7 +197,7 @@
                                         </div> -->
                                         <div class="col s6 m4 l2 input-field">
                                             <p class="searchable_label">Updated By</p>
-                                            <select name="updated_by_user_id_fk" id="updated_by_user_id_fk" onchange="getActivities();" class="searchable">
+                                            <select name="updated_by_user_id_fk" id="updated_by_user_id_fk" onchange="addInQueUpdatedBy(this.value);getActivities();" class="searchable">
                                                 <option value="">Select</option>
                                             </select>
                                         </div>
@@ -342,6 +342,7 @@
 
         <script type="text/javascript">
         	var filtersMap = new Object();
+        	var pageNo = window.localStorage.getItem("approvePageNo");
             $(document).ready(function () {
                 $(".errMsg").hide();
                 $(".errMsgCheck").hide();
@@ -394,8 +395,11 @@
             	$(".searchable").select2();
             	
             	//window.localStorage.clear();
-            	//window.localStorage.setItem("activitiesApprovalFilters",'');            	
-            	getActivities();
+            	window.localStorage.setItem("activitiesApprovalFilters",'');  
+            	window.location.href="<%=request.getContextPath()%>/progress-approval-page"
+            	//getActivities();
+            	var table = $('#datatable-table-pending').DataTable(); 
+            	table.draw( true );
             }
             
             function addInQueStructure(structure){
@@ -471,6 +475,19 @@
         		$.fn.dataTable.moment('DD-MMM-YYYY');
         		table = $('#datatable-table-pending').DataTable({
         			"sort" : [],
+        			"sPaginationType": "full_numbers",
+            		"bStateSave": true,
+            		//stateSave : true,
+            		fixedHeader: true,
+            		//Default: Page display length
+    				"iDisplayLength" : 10,
+    				"iData" : {
+    					"start" : 52
+    				},"iDisplayStart" : 1,
+            		"drawCallback" : function() {
+    					var info = table.page.info();
+    					window.localStorage.setItem("approvePageNo", info.page);
+    				},
                     columnDefs: [
                         { targets: [10], className: 'btn-holder' },
                         { targets: 'no-sort', orderable: false, },
@@ -594,7 +611,9 @@
         	                    
         	                    	                       
         					});
-        	         		
+        	         		 if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
+        	         		 var oTable = $('#datatable-table-pending').dataTable();
+       	                	 oTable.fnPageChange( pageNo ); 
         	         		$(".page-loader-2").hide();
         				}else{
         					$(".page-loader-2").hide();

@@ -210,19 +210,19 @@
                                 <div class="row">
                                     <div class="col s6 m3 input-field">
                                         <p class="searchable_label">Work</p>
-                                        <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="getActivitiesUploadFilesList();">
+                                        <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="addInQueWork(this.value);getActivitiesUploadFilesList();">
                                             <option value="">Select</option>
                                         </select>
                                     </div>
                                     <div class="col s6 m3 input-field">
                                         <p class="searchable_label">Contract</p>
-                                        <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getActivitiesUploadFilesList();">
+                                        <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="addInQueContract(this.value);getActivitiesUploadFilesList();">
                                             <option value="">Select</option>
                                         </select>
                                     </div>
                                     <div class="col s6 m3 input-field">
                                         <p class="searchable_label">Structure Type</p>
-                                        <select id="structure_type_fk" name="structure_type_fk" class="searchable" onchange="getActivitiesUploadFilesList();">
+                                        <select id="structure_type_fk" name="structure_type_fk" class="searchable" onchange="addInQueStructure(this.value);getActivitiesUploadFilesList();" >
                                             <option value="">Select</option>
                                         </select>
                                     </div>                                  
@@ -311,18 +311,37 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script> 
 
     <script type="text/javascript">
-    
+        var filtersMap = new Object();
+	    var pageNo = window.localStorage.getItem("activitiesPageNo");
 	    $(document).ready(function () {
 	    	$('.modal').modal();
 	        $('select:not(.searchable)').formSelect();
 	        $('.searchable').select2();
-	        
+   			var filters = window.localStorage.getItem("activitiesUploadFilters");
+            
+            if($.trim(filters) != '' && $.trim(filters) != null){
+          	  var temp = filters.split('^'); 
+          	  for(var i=0;i< temp.length;i++){
+  	        	  if($.trim(temp[i]) != '' ){
+  	        		  var temp2 = temp[i].split('=');
+  		        	  if($.trim(temp2[0]) == 'work_id_fk' ){
+  		        		getWorksListFilter(temp2[1]);
+  		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+  		        		getContractsListFilter(temp2[1]);
+  		        	  }else if($.trim(temp2[0]) == 'structure_type_fk'){
+  		        		getStructureTypesListFilter(temp2[1]);
+  		        	  }
+  	        	  }
+  	            }
+              }
 	        getActivitiesUploadFilesList();
 	        
+	     
 	        getWorks();
 	        getContracts('');
 	        getStructureTypes();
 	        
+            
 	        //$('.close-message').delay(5000).fadeOut('slow');
 	    });
 	    
@@ -551,32 +570,70 @@
             }
         });
         /***************************************************************************************/
+          function addInQueWork(work_id_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('work_id_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+	      	}
+        }
         
+          function addInQueContract(contract_id_fk){
+  	      	Object.keys(filtersMap).forEach(function (key) {
+  		   		if(key.match('contract_id_fk')) delete filtersMap[key];
+  	   	   	});
+  	      	if($.trim(contract_id_fk) != ''){
+              	filtersMap["contract_id_fk"] = contract_id_fk;
+  	      	}
+          }
+          
+          function addInQueStructure(structure_type_fk){
+  	      	Object.keys(filtersMap).forEach(function (key) {
+  		   		if(key.match('structure_type_fk')) delete filtersMap[key];
+  	   	   	});
+  	      	if($.trim(structure_type_fk) != ''){
+              	filtersMap["structure_type_fk"] = structure_type_fk;
+  	      	}
+          }
         
         function getActivitiesUploadFilesList(){
         	$(".page-loader-2").show();
+        	getWorksListFilter('');
+        	getContractsListFilter('');
+        	getStructureTypesListFilter('');
+        	
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var structure_type_fk = $("#structure_type_fk").val();
         	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk,structure_type_fk : structure_type_fk} ;
         	
-        	getWorksListFilter();
-        	getContractsListFilter();
-        	getStructureTypesListFilter();
-      		 
+        
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("activitiesUploadFilters", filters);
+   			});
+        	
         	table = $('#datatable-activities').DataTable();	   		 
 	   		table.destroy();	   		
 	   		$.fn.dataTable.moment('DD-MMM-YYYY');
 	   		table = $('#datatable-activities').DataTable({
 	   			"order": [],
-	       		"bStateSave": true,
-	       		fixedHeader: true,
-	               "fnStateSave": function (oSettings, oData) {
-	                   localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	               },
-	               "fnStateLoad": function (oSettings) {
-	                   return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	               },
+	   		   "sPaginationType": "full_numbers",
+      		   "bStateSave": true,  
+      		   fixedHeader: true,
+            
+            	//Default: Page display length
+				"iDisplayLength" : 10,
+				"iData" : {
+					"start" : 52
+				},"iDisplayStart" : 0,
+				"drawCallback" : function() {
+					var info = table.page.info();
+					window.localStorage.setItem("activitiesPageNo", info.page);
+				},
 	               columnDefs: [
 	            	   {
 	                        targets: [2,4,5,6,7],
@@ -649,7 +706,9 @@
 	                        table.row.add(rowArray).draw( true );
 	                        		                       
 	    				});
-	             		
+	             		if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
+	                    var oTable = $('#datatable-activities').dataTable();
+	                    oTable.fnPageChange( pageNo );
 	             		$(".page-loader-2").hide();
 	    			}else{
 	    				$(".page-loader-2").hide();
@@ -671,11 +730,14 @@
             $('#contract_id_fk').val("");
             $('#structure_type_fk').val("");
             $('.searchable').select2();
-            getActivitiesUploadFilesList();
+            window.localStorage.setItem("activitiesUploadFilters",'');
+        	window.location.href="<%=request.getContextPath()%>/activities-upload"
+        	var table = $('#datatable-activities').DataTable();
+        	table.draw( true );
         }
       	
       	
-        function getWorksListFilter() {
+        function getWorksListFilter(work) {
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var structure_type_fk = $("#structure_type_fk").val();
@@ -687,13 +749,14 @@
                 $("#work_id_fk option:not(:first)").remove();
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInActivitiesUpload",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var work_short_name = '';
                             	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
- 	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + work_short_name +'</option>');
+                            	var selectedFlag = (work == val.work_id)?'selected':'';
+ 	                            $("#work_id_fk").append('<option value="' + val.work_id + '"'+selectedFlag+'>' + $.trim(val.work_id) + work_short_name +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -708,7 +771,7 @@
             }
         }
         
-        function getContractsListFilter() {
+        function getContractsListFilter(contract) {
        		var work_id_fk = $("#work_id_fk").val();
            	var contract_id_fk = $("#contract_id_fk").val();
            	var structure_type_fk = $("#structure_type_fk").val();
@@ -720,13 +783,14 @@
                 $("#contract_id_fk option:not(:first)").remove();
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInActivitiesUpload",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_short_name = '';
                             	if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) } 
- 	                            $("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + contract_short_name +'</option>');
+                            	var selectedFlag = (contract == val.contract_id)?'selected':'';
+ 	                            $("#contract_id_fk").append('<option value="' + val.contract_id + '"'+selectedFlag+'>' + $.trim(val.contract_id) + contract_short_name +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -741,8 +805,9 @@
             }
         }
         
-        function getFOBContractsList(contract_id_fk){
+        function getFOBContractsList(){
         	
+        	var contract_id_fk = $("#contract_id_fk").val();
         	var fob_id = $("#fob_id").val();
         	var myParams = {contract_id_fk : contract_id_fk} ;
         	$(".page-loader").show();
@@ -772,7 +837,7 @@
 	        	  $(".page-loader").hide();
 	        }
         }
-        function getStructureTypesListFilter() {
+        function getStructureTypesListFilter(fob) {
        		var work_id_fk = $("#work_id_fk").val();
            	var contract_id_fk = $("#contract_id_fk").val();
            	var structure_type_fk = $("#structure_type_fk").val();
@@ -784,11 +849,12 @@
                 $("#structure_type_fk option:not(:first)").remove();
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getStructureTypesListFilterInActivitiesUpload",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	$("#structure_type_fk").append('<option value="' + val.structure_type_fk + '">' + $.trim(val.structure_type_fk) +'</option>');
+                            	var selectedFlag = (fob == val.structure_type_fk)?'selected':'';
+                            	$("#structure_type_fk").append('<option value="' + val.structure_type_fk + '"'+selectedFlag+'>' + $.trim(val.structure_type_fk) +'</option>');
                             });
                         }
                         $('.searchable').select2();

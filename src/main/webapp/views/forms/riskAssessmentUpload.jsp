@@ -585,7 +585,7 @@
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
    
       <script>
-      
+          var pageNo = window.localStorage.getItem("risksPageNo");
 	      $(document).ready(function () 
 	    		  {
 	          $('select:not(.searchable)').formSelect();
@@ -622,7 +622,7 @@
 	          
 	          getSubWorksFilterList();
 	          getRiskUploadsList('');
-	          
+	        
 
 	      });
 	      
@@ -748,7 +748,10 @@
        	  
        	function clearFilters() {
             $('#sub_workfilter').val('');
-            getRiskUploadsList('');
+            window.localStorage.setItem("risksFilters",'');
+        	window.location.href="<%=request.getContextPath()%>/risk-assessment"
+        	var table = $('#datatable-risk-uploads').DataTable();
+        	table.draw( true );
             $('.searchable').select2();
         }
         
@@ -760,17 +763,22 @@
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-risk-uploads').DataTable({
     			"order": [],
-        		"bStateSave": false,
-        		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
+    			 "sPaginationType": "full_numbers",
+          		"bStateSave": true,  
+          		fixedHeader: true,
+          		 stateSave: true,
+              	//Default: Page display length
+  				"iDisplayLength" : 10,
+  				"iData" : {
+  					"start" : 52
+  				},"iDisplayStart" : 0,
+  				"drawCallback" : function() {
+  					var info = table.page.info();
+  					window.localStorage.setItem("risksPageNo", info.page);
+  				},
                 columnDefs: [
                    // { orderable: false, 'aTargets': ['nosort'] },
-                    { targets: [0, 1], className: 'dt-left'  }, 
+                    { targets: [0, 1], className: 'dt-left'  },  
                     { targets: [2,5,6], className: 'dt-center hideCOl'},
                     { targets: [3,4], className: 'hideCOl dt-left'},
                 ],
@@ -820,8 +828,10 @@
                         table.row.add(rowArray).draw( true );
                         		                       
     				});
-             		
-             		$(".page-loader-2").hide();
+             		 if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
+        	         var oTable = $('#datatable-risk-uploads').dataTable();
+        	         oTable.fnPageChange( pageNo );
+             		 $(".page-loader-2").hide();
     			}else{
     				$(".page-loader-2").hide();
     			}
@@ -831,7 +841,7 @@
              	getErrorMessage(jqXHR, exception);
          }});
        }
-       $(window).resize(getRiskUploadsList(sub_work));
+      // $(window).resize(getRiskUploadsList(sub_work));
                
         function getSubWorksFilterList() {
         	$(".page-loader").show();

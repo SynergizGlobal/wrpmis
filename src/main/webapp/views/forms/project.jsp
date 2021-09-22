@@ -201,6 +201,7 @@
 	</form>
 
     <script>
+   	    var pageNo = window.localStorage.getItem("projectPageNo");
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -208,9 +209,27 @@
                 coverTrigger: false,
                 closeOnClick: false,
             });
+            
+          
         	$('.close-message').delay(3000).fadeOut('slow');
-	
-		     $('#project_table').DataTable({
+        	table = $('#project_table').DataTable();
+      		 
+    		table.destroy();
+    		 
+		    table = $('#project_table').DataTable({
+		    	    "sPaginationType": "full_numbers",
+	        		"bStateSave": true,  
+	        		fixedHeader: true,
+	              
+	            	//Default: Page display length
+					"iDisplayLength" : 10,
+					"iData" : {
+						"start" : 52
+					},"iDisplayStart" : 0,
+                 "drawCallback" : function() {
+ 					var info = table.page.info();
+ 					window.localStorage.setItem("projectPageNo", info.page);
+ 				},
 	                columnDefs: [
 	                    {
 	                        targets: [0],
@@ -247,6 +266,10 @@
 									$searchButton, $clearButton);                    
 	                }
 	            });
+		        if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
+	            table = $('#project_table').DataTable();
+	            table.fnPageChange( pageNo );
+	            table.destroy();
         });
       
  		<%-- function getProjectList() {

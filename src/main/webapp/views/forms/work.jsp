@@ -229,7 +229,8 @@
 	</form>
     <script>
    	    var filtersMap = new Object();
-    
+   	    var pageNo = window.localStorage.getItem("pageNo");
+   	    
         $(document).ready(function () {
              $('.sidenav').sidenav();
              $('select:not(.searchable)').formSelect();
@@ -255,8 +256,13 @@
                 coverTrigger: false,
                 closeOnClick: false,
             });
+         
+         
+            getWorksList(); 
            
-            getWorksList();
+            if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
+            var oTable = $('#datatable-works').dataTable();
+            oTable.fnPageChange( pageNo );
         });
         
         function addInQueProject(project_id_fk){
@@ -283,30 +289,39 @@
         	table = $('#datatable-works').DataTable();
    		 
     		table.destroy();
-    		
+    		 
     		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		
     		table = $('#datatable-works').DataTable({
-        		"bStateSave": true,
+    	        "sPaginationType": "full_numbers",
+        		"bStateSave": true,  
         		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
+              
+            	//Default: Page display length
+				"iDisplayLength" : 10,
+				"iData" : {
+					"start" : 52
+				},"iDisplayStart" : 0,
+				"drawCallback" : function() {
+					var info = table.page.info();
+					window.localStorage.setItem("pageNo", info.page);
+					console.log(info.page)
+					console.log(pageNo)
+				},
                 columnDefs: [
                    
                     { orderable: false, 'aTargets': ['no-sort'] },
                     {
                         targets: [0,3,4,5,6],
                         className: 'hideCOl'
-                    },{ targets: [1,2], className: 'fw-111'  },{ targets: [0,1, 2, 3, 5, 6], className: 'fw-15vw'  },
+                    },{ targets: [1,2], className: 'fw-111'  },{ targets: [0,1, 2, 3, 5, 6], className: 'fw-15vw'  }  ,
                 ], 
-                // "ScrollX": true,
-                "sScrollX": "100%",
-                "ordering":false,
-                 "sScrollXInner": "100%",
-                 "bScrollCollapse": true,
+                // "ScrollX": true, 
+                "sScrollX" : "100%",
+				"sScrollXInner" : "100%",
+				"ordering":false,
+				"bScrollCollapse" : true,
+				
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
 		                    var input = $('.dataTables_filter input')
@@ -328,6 +343,8 @@
             }).rows().remove().draw();
     		
     		table.state.clear();		
+    		
+    	
     	 	var myParams = {project_id_fk : project_id_fk};
     	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-WorksList",
     			type:"POST",
@@ -352,8 +369,7 @@
                        	rowArray.push($.trim(actions));   	                   	
                        	
                         table.row.add(rowArray).draw( true );
-                        		                       
-    				});
+    				}); 
              		
              		$(".page-loader-2").hide();
     			}else{
@@ -362,7 +378,7 @@
     			
     		},error: function (jqXHR, exception) {
     			$(".page-loader-2").hide();
-             	getErrorMessage(jqXHR, exception);
+             	getErrorMessage(jqXHR, exception); 
          }});
        }
         

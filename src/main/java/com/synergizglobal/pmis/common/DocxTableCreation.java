@@ -963,57 +963,52 @@ public class DocxTableCreation {
 					JcEnumeration.LEFT, true, "ecf2ff");
 			addTableCell(factory, wordMLPackage, titleTableRow, employeeName, garamondRPr,
 					JcEnumeration.LEFT, false, null);
-			
-			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
-					JcEnumeration.LEFT, false, null);
 			addTableCell(factory, wordMLPackage, titleTableRow, "Designation", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, trainee_designation, garamondRPr,
-					JcEnumeration.LEFT, false, null);
 			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, trainee_designation, garamondRPr,
+					JcEnumeration.LEFT, false, null);
+		
 			
 		  	titleTable.getContent().add(titleTableRow);		
-			mergeCellsHorizontal(titleTable, 0, 1, 2);
-			mergeCellsHorizontal(titleTable, 0, 4, 5);	
+			mergeCellsHorizontal(titleTable, 0, 1, 1);
+			mergeCellsHorizontal(titleTable, 0, 2, 3);	
 			/*===========================================================*/
 			titleTableRow = factory.createTr();	
 			addTableCell(factory, wordMLPackage, titleTableRow, "Department", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
 			addTableCell(factory, wordMLPackage, titleTableRow, department, garamondRPr,
 					JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
-					JcEnumeration.LEFT, false, null);
+			
 			addTableCell(factory, wordMLPackage, titleTableRow, "Reporting To", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, reportingTo, garamondRPr,
-					JcEnumeration.LEFT, false, null);
 			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 					JcEnumeration.LEFT, false, null);
-			
+			addTableCell(factory, wordMLPackage, titleTableRow, reportingTo, garamondRPr,
+					JcEnumeration.LEFT, false, null);
 			
 		  	titleTable.getContent().add(titleTableRow);	
 			mergeCellsHorizontal(titleTable, 1, 1, 2);
-			mergeCellsHorizontal(titleTable, 1, 4, 5);
+			mergeCellsHorizontal(titleTable, 1, 2, 3);
 			/*===========================================================*/
 			titleTableRow = factory.createTr();	
 			addTableCell(factory, wordMLPackage, titleTableRow, "Nominated", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
 			addTableCell(factory, wordMLPackage, titleTableRow, nominated, garamondRPr,
 					JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
-					JcEnumeration.LEFT, false, null);
+			
 			
 			addTableCell(factory, wordMLPackage, titleTableRow, "Attended", garamondBoldRPr,
 					JcEnumeration.LEFT,  true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, titleTableRow, attended, garamondRPr,
-					JcEnumeration.LEFT, false, null);
 			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, attended, garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
 		  	titleTable.getContent().add(titleTableRow);	
-		  	mergeCellsHorizontal(titleTable, 2, 1, 2);
-			mergeCellsHorizontal(titleTable, 2, 4, 5);
+		  	mergeCellsHorizontal(titleTable, 2, 1, 1);
+			mergeCellsHorizontal(titleTable, 2, 2, 3);
 			/*===========================================================*/
 			
 			

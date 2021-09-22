@@ -475,7 +475,6 @@
         		$.fn.dataTable.moment('DD-MMM-YYYY');
         		table = $('#datatable-table-pending').DataTable({
         			"sort" : [],
-        			"sPaginationType": "full_numbers",
             		"bStateSave": true,
             		//stateSave : true,
             		fixedHeader: true,

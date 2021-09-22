@@ -353,7 +353,6 @@
     		table.destroy();
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-risk').DataTable({
-    			 "sPaginationType": "full_numbers",
            		"bStateSave": true,  
            		fixedHeader: true,
            		 stateSave: true,

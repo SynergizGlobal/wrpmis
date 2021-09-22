@@ -763,7 +763,6 @@
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-risk-uploads').DataTable({
     			"order": [],
-    			 "sPaginationType": "full_numbers",
           		"bStateSave": true,  
           		fixedHeader: true,
           		 stateSave: true,

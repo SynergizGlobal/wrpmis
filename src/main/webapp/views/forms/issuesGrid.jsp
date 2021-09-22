@@ -461,7 +461,6 @@
     		table.destroy();
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-issues').DataTable({
-    			"sPaginationType": "full_numbers",
         		"bStateSave": true,
         		//stateSave : true,
         		fixedHeader: true,

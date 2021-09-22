@@ -482,6 +482,7 @@
 							//"sort" : "position",
 							//bStateSave variable you can use to save state on client cookies: set value "true" 
 							"bStateSave" : false,
+							stateSave: true,
 							//Default: Page display length
 							"iDisplayLength" : 10,
 							"iData" : {

@@ -217,7 +217,7 @@
     		table.destroy();
     		 
 		    table = $('#project_table').DataTable({
-		    	    "sPaginationType": "full_numbers",
+		    	    
 	        		"bStateSave": true,  
 	        		fixedHeader: true,
 	              

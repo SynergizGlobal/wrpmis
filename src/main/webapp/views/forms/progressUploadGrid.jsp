@@ -621,7 +621,6 @@
 	   		$.fn.dataTable.moment('DD-MMM-YYYY');
 	   		table = $('#datatable-activities').DataTable({
 	   			"order": [],
-	   		   "sPaginationType": "full_numbers",
       		   "bStateSave": true,  
       		   fixedHeader: true,
             

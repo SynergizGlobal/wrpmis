@@ -337,7 +337,6 @@
     		
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-fob').DataTable({
-    			 "sPaginationType": "full_numbers",
          		"bStateSave": true,  
          		fixedHeader: true,
                

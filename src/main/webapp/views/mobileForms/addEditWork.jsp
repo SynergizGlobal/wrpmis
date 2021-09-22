@@ -201,9 +201,9 @@
 			.mt-md-0{
 				margin-top: -14px !important;
 			} 
-			.mobile_responsible_table>tbody tr:not(.datepicker-row):not(.mobile_hide_row) {
+			/* .mobile_responsible_table>tbody tr:not(.datepicker-row):not(.mobile_hide_row) {
 			    border-bottom: 3px solid #662E9B;
-			}
+			} */
 			.sm-w100 input{
 				width:100% !important;
 			}		

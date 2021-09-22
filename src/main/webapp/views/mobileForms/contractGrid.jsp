@@ -547,7 +547,7 @@
 								}
 							},
 							"bDestroy" : true,
-							"sAjaxSource" : "	<%=request.getContextPath()%>/mobileappwebview/ajax/get-contracts?"+myParams,
+							"sAjaxSource" : "<%=request.getContextPath()%>/mobileappwebview/ajax/get-contracts?"+myParams,
 		        "aoColumns": [
 		            { "mData": function(data,type,row){
 		            	var work_short_name = '';

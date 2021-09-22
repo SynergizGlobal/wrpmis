@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project - Update Forms - PMIS mob</title>
+    <title>Project - Update Forms - PMIS</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/pmis/resources/css/normalize.css">

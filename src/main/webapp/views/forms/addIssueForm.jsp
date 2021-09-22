@@ -245,7 +245,7 @@
                             <div class="row" id="other_organization_responsibles_holder" style="display:none;">
                                 <!-- row 6 -->
                                  
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 input-field offset-m2">
                                     <input id="other_org_resposible_person_name" name="other_org_resposible_person_name" type="text" class="validate">
                                     <label for="other_org_resposible_person_name">Responsible Person Name </label>
                                     <span id="other_org_resposible_person_nameError" class="error-msg" ></span>

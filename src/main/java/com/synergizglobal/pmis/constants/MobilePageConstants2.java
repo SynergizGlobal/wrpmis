@@ -18,7 +18,7 @@ public class MobilePageConstants2 {
 		public static final String contractGrid = "mobileForms/contractGrid";
 		public static final String addEditContractForm = "mobileForms/addContractForm";
 		public static final String addContractForm = "mobileForms/addContractForm";
-		public static final String EditContractForm = "mobileForms/editContractForm";
+		public static final String editContractForm = "mobileForms/editContractForm";
 		
 		public static final String designGrid = "mobileForms/designGrid";
 		public static final String addEditDesignForm = "mobileForms/addEditDesignForm";
@@ -38,6 +38,9 @@ public class MobilePageConstants2 {
 		
 		public static final String workGrid = "mobileForms/work";
 		public static final String workForm = "mobileForms/addEditWork";
+
+		public static final String fobGrid = "mobileForms/fobGrid";
+		public static final String fobForm = "mobileForms/addEditFob";
 
 		public static final String contractorGrid = "mobileForms/contractorGrid";
 		public static final String contractorForm = "mobileForms/addEditcontractorForm";

@@ -334,7 +334,7 @@
     		
     		table.state.clear();		
     	 	var myParams = {project_id_fk : project_id_fk};
-    	 	$.ajax({url : "/ajax/get-WorksList",
+    	 	$.ajax({url : "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksList",
     			type:"POST",
     			data:myParams, cache: false,async:false,
     			success : function(data){      				
@@ -379,7 +379,7 @@
             	$("#project_id_fk option:not(:first)").remove();
             	var myParams = { project_id_fk: project_id_fk};
                 $.ajax({
-                    url: "/ajax/getProjectsFilterListInWork",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProjectsFilterListInWork",
                     data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -401,6 +401,27 @@
             	  $(".page-loader").hide();
             }
         }
+        
+        function getErrorMessage(jqXHR, exception) {
+    	    var msg = '';
+    	    if (jqXHR.status === 0) {
+    	        msg = 'Not connect.\n Verify Network.';
+    	    } else if (jqXHR.status == 404) {
+    	        msg = 'Requested page not found. [404]';
+    	    } else if (jqXHR.status == 500) {
+    	        msg = 'Internal Server Error [500].';
+    	    } else if (exception === 'parsererror') {
+    	        msg = 'Requested JSON parse failed.';
+    	    } else if (exception === 'timeout') {
+    	        msg = 'Time out error.';
+    	    } else if (exception === 'abort') {
+    	        msg = 'Ajax request aborted.';
+    	    } else {
+    	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+    	    }
+    	    console.log(msg);
+     }
+        
     	<%-- function getWorksList() {
     		$(".page-loader-2").show();
 
@@ -528,7 +549,7 @@
 
 	    	//$("#railway_id_fk").val(railway_id_fk);
 	    	
-	    	$('#getForm').attr('action', '/get-work');
+	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/mobileappwebview/get-work');
 	    	$('#getForm').submit();
 	    }
         function deleteWork(work_id){       
@@ -551,7 +572,7 @@
 	        }, function (isConfirm) {
 	            if (isConfirm) {
 	                //swal("Deleted!", "Record has been deleted", "success");
-	                $('#getForm').attr('action', '/deleteRow');
+	                $('#getForm').attr('action', '<%=request.getContextPath()%>/mobileappwebview/deleteRow');
 	    	    	$('#getForm').submit();
 	            } else {
 	                swal("Cancelled", "Record is safe :)", "error");

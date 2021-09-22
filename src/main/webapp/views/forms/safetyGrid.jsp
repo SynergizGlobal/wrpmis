@@ -448,7 +448,7 @@
     								return JSON.parse(localStorage.getItem('MRVCDataTables'));
     							 },
     							//Default: Page display length
-    							"iDisplayLength" : 1,
+    							"iDisplayLength" : 10,
     							"iData" : {
     								"start" : 52
     							},

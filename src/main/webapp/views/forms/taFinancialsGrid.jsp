@@ -232,6 +232,14 @@
 	<form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="ID" id="ID" />
     </form>
+    
+    <script>
+	$(document).keypress(function(e){
+    if (e.which == 13){
+        $("#save_post").click();
+    }
+});
+	</script>
     <script>
     
     	var filtersMap = new Object();

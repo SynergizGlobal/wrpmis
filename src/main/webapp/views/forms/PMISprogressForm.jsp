@@ -423,7 +423,7 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-
+	
     <script>
 	    $(document).on('focus', '.datepicker',function(){
 	        $(this).datepicker({

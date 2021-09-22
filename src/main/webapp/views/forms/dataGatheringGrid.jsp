@@ -272,7 +272,14 @@
          <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
          <input type="hidden" name="status_fk" id="exportStatus_fk" />
 	</form>
-
+	
+	<script>
+	$(document).keypress(function(e){
+    if (e.which == 13){
+        $("#save_post").click();
+    }
+});
+	</script>
      <script>
      
      var filtersMap = new Object();
@@ -425,7 +432,7 @@
 
  								var input = $('.dataTables_filter input')
  										.unbind(), self = this.api(), $searchButton = $(
- 										'<i class="fa fa-search" title="Go">')
+ 										'<i class="fa fa-search" title="Go" id="save_post">')
  								//.text('Go')
  								.click(function() {
  									self.search(input.val()).draw();

@@ -455,6 +455,14 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    
+    <script>
+	$(document).keypress(function(e){
+    if (e.which == 13){
+        $("#save_post").click();
+    }
+});
+	</script>
 	<script>
 	
 		
@@ -740,7 +748,7 @@
 			
 												var input = $('.dataTables_filter input')
 														.unbind(), self = this.api(), $searchButton = $(
-														'<i class="fa fa-search" title="Go">')
+														'<i class="fa fa-search" title="Go" id="save_post">')
 												//.text('Go')
 												.click(function() {
 													self.search(input.val()).draw();

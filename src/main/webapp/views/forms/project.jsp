@@ -199,7 +199,14 @@
     <form action="<%=request.getContextPath() %>/export-project" name="exportProjectForm" id="exportProjectForm" target="_blank" method="post">	
         <input type="hidden" name="project_id" id="exportProject_id" />
 	</form>
-
+	
+	<script>
+	$(document).keypress(function(e){
+    if (e.which == 13){
+        $("#save_post").click();
+    }
+});
+	</script>
     <script>
    	    var pageNo = window.localStorage.getItem("projectPageNo");
         $(document).ready(function () {
@@ -251,7 +258,7 @@
 	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });       
 		                    var input = $('.dataTables_filter input')
 							.unbind(), self = this.api(), $searchButton = $(
-							'<i class="fa fa-search" title="Go">')
+							'<i class="fa fa-search" title="Go" id="save_post">')
 							.click(function() {
 								self.search(input.val()).draw();
 							}), $clearButton = $(

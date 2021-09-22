@@ -310,6 +310,13 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script> 
 
+    <script>
+	$(document).keypress(function(e){
+    if (e.which == 13){
+        $("#save_post").click();
+    }
+});
+	</script>
     <script type="text/javascript">
         var filtersMap = new Object();
 	    var pageNo = window.localStorage.getItem("activitiesPageNo");
@@ -655,7 +662,7 @@
 	                   $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
 	                   var input = $('.dataTables_filter input')
 						.unbind(), self = this.api(), $searchButton = $(
-						'<i class="fa fa-search" title="Go">')
+						'<i class="fa fa-search" title="Go" id="save_post">')
 						.click(function() {
 							self.search(input.val()).draw();
 						}), $clearButton = $(

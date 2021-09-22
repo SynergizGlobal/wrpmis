@@ -43,7 +43,7 @@ public class MobilePageConstants2 {
 		public static final String fobForm = "mobileForms/addEditFob";
 
 		public static final String contractorGrid = "mobileForms/contractorGrid";
-		public static final String contractorForm = "mobileForms/addEditcontractorForm";
+		public static final String contractorForm = "mobileForms/addEditContractorForm";
 		
 		public static final String resourcesGrid = "mobileForms/resources";
 		

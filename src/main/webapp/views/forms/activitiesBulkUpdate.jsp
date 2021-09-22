@@ -386,7 +386,7 @@
                                         <div class="col m4 s6 input-field" >
                                             <p class="searchable_label">Structure <span class="required">*</span></p>
                                            <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk" data-placeholder="Select"
-                                                class="searchable validate-dropdown" onchange="getComponentsList(this.value);addInQueStructure(this.value);onLoadMethod();">
+                                                class="searchable validate-dropdown" onchange="addInQueStructure(this.value);getComponentsList(this.value);onLoadMethod();">
                                                 <option value=""></option>
                                             </select>
                                             <span id="strip_chart_structure_id_fkError" class="error-msg" ></span>
@@ -408,7 +408,7 @@
                                         
                                         <div class="col m4 s6 input-field">
                                             <p class="searchable_label">Component</p>
-                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component" name="strip_chart_component" onchange="getComponentIdsList(this.value);">
+                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component" name="strip_chart_component" onchange="addInQueComponent(this.value);getComponentIdsList(this.value);onLoadMethod();">
                                                 <option value=""></option>
                                             </select>
                                             <span id="strip_chart_componentError" class="error-msg" ></span>
@@ -416,7 +416,7 @@
                                         
                                          <div class="col m4 s12 input-field">
                                             <p class="searchable_label">Component ID</p>
-                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getAcivitiesBulkUpdateActivitiesList(this.value);">
+                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component_id" name="strip_chart_component_id" onchange="addInQueComponentID(this.value);getAcivitiesBulkUpdateActivitiesList(this.value);onLoadMethod();">
                                                 <option value=""></option>
                                             </select>
                                             <span id="strip_chart_component_idError" class="error-msg" ></span>
@@ -748,6 +748,8 @@
 	   
 	    var filtersMap = new Object();
 	    var structureVal = "";
+	    var glb="";
+	    var glbID="";
         $(document).ready(function () {
             $('.searchable').select2();
             
@@ -768,7 +770,8 @@
             
             if($.trim(filters) != '' && $.trim(filters) != null){
           	  var temp = filters.split('^'); 
-          	  for(var i=0;i< temp.length;i++){
+          	  for(var i=0;i< temp.length;i++)
+          	  {
     	        	  if($.trim(temp[i]) != '' ){
     	        		  var temp2 = temp[i].split('=');
     		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
@@ -781,6 +784,14 @@
     		        		  getAcivitiesBulkUpdateStructures(temp2[1]);
     		        		  structureVal = temp2[1];
     		        	  }
+    		        	  else if($.trim(temp2[0]) == 'strip_chart_component'){
+    		        		  getComponentsList(temp2[1]);
+    		        		  glb=temp2[1];
+    		        	  }  
+    		        	  else if($.trim(temp2[0]) == 'strip_chart_component_id'){
+    		        		  getComponentIdsList(temp2[1]);
+    		        		  glbID=temp2[1];
+    		        	  }      		        	  
     	        	  }
     	          }
               }
@@ -846,6 +857,24 @@
             	filtersMap["strip_chart_structure_id_fk"] = strip_chart_structure_id_fk;
 	      	}
         }
+        
+        function addInQueComponent(strip_chart_component){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('strip_chart_component')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(strip_chart_component) != ''){
+            	filtersMap["strip_chart_component"] = strip_chart_component;
+	      	}
+        }
+        function addInQueComponentID(strip_chart_component_id){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('strip_chart_component_id')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(strip_chart_component_id) != ''){
+            	filtersMap["strip_chart_component_id"] = strip_chart_component_id;
+	      	}
+        }       
+        
        
         function clearFilters(){
         	window.localStorage.setItem("BulkFilters",'');
@@ -963,6 +992,8 @@
 				//workId = workId.substring(3, work_id.length);
 				$("#project_id").val(projectId);
 				$("#contract_id_fk").val(contract_id_fk);
+				
+			
 				$("#project_id").select2();
 				$("#contract_id_fk").select2();
 			}
@@ -1030,7 +1061,7 @@
 	                            if ($.trim(id2) != '' && val.strip_chart_structure_id_fk == $.trim(id2)) {
 	                            	id1 = val.strip_chart_structure_id_fk;
 	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
-	                            }else if (strip_chart_structure_id_fk != null && strip_chart_structure_id_fk != "") {
+	                            }else if (val.strip_chart_structure_id_fk == value) {
 	                            	 var selectedFlag = (strip_chart_structure_id_fk != null)?'selected':'';
 	                                 $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
 	                            	 id2 = strip_chart_structure_id_fk;
@@ -1042,8 +1073,8 @@
                       $('.searchable').select2();
                       $(".page-loader-4").hide();
                       
-                      if ($.trim(id1) != '' && $.trim(id2) != '') {
-                    	  //alert("hai");
+                      if (id2!='') 
+                      {
                     	  getComponentsList(id2);
                       }
                   }
@@ -1091,9 +1122,12 @@
 	                    $.each(data, function (i, val) {
 	                        $("#strip_chart_section_name").append('<option value="' + val.strip_chart_section_name + '">' + $.trim(val.strip_chart_section_name) + '</option>');
 	                    });
-	                }else{
+	                }
+	                else
+	                {
 	                	$("#strip_chart_section_nameDiv").hide();
 	                }
+	                
 	                $('.searchable').select2();
 	            }
 	        });
@@ -1102,7 +1136,6 @@
 	
 	function getComponentsList(structure_id){
 		 clearComponentCircle();
-		 
      	 $(".page-loader-5").show();
          $("#strip_chart_component option:not(:first)").remove();
          $("#strip_chart_component_id option:not(:first)").remove();
@@ -1119,12 +1152,26 @@
                  data: myParams, cache: false,
                  success: function (data) {
                      if (data.length > 0) {
-                         $.each(data, function (i, val) {
-                             $("#strip_chart_component").append('<option value="' + val.strip_chart_component + '">' + $.trim(val.strip_chart_component) + '</option>');
+                         $.each(data, function (i, val) 
+                         {
+                        	 if(val.strip_chart_component==glb)
+                        		 {
+                            			$("#strip_chart_component").append('<option value="' + val.strip_chart_component + '" selected>' + $.trim(val.strip_chart_component) + '</option>');
+                        		 }
+                        	 else
+                        		 {
+                     				$("#strip_chart_component").append('<option value="' + val.strip_chart_component + '">' + $.trim(val.strip_chart_component) + '</option>');
+                      		 
+                        		 }
                          });
                      }
                      $('.searchable').select2();
                      $(".page-loader-5").hide();
+                     
+                     if (glb!='') 
+                     {
+                    	 getComponentIdsList(glb);
+                     }                    
                  }
              });
          }else{
@@ -1190,8 +1237,7 @@
                                  	html = html + '<span class="dot-line"></span>';
                                 // }
                                  html = html + '</div>';
-                             	
-                             	if ($.trim(id2) != '' && val.strip_chart_component_id == $.trim(id2)) {
+                             	if (val.strip_chart_component_id == glbID) {
                              		id1 = val.strip_chart_component_id;
  	                            	$("#strip_chart_component_id").append('<option value="' + val.strip_chart_component_id + '" selected>' + $.trim(val.strip_chart_component_id) + '</option>');
  	                            } else {

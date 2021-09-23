@@ -266,7 +266,10 @@ public class IssueDaoImpl implements IssueDao {
 
 				qry3 = "SELECT project_id as project_id_fk,project_name " + "FROM contract "
 						+ "left join work on work_id_fk = work_id " + "left join project on project_id_fk = project_id "
-						+ "where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+						+ "where (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
+						+ "or contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
+						+ "or contract_id in(select contract_id_fk from fob_contract where fob_id_fk in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))"
+						+ ")";
 			}
 
 			Object[] pValues = new Object[0];
@@ -275,9 +278,11 @@ public class IssueDaoImpl implements IssueDao {
 					|| CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues = new Object[0];
 			} else {
-				int arrSize = 4;
+				int arrSize = 6;
 				pValues = new Object[arrSize];
 				int i = 0;
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -319,7 +324,10 @@ public class IssueDaoImpl implements IssueDao {
 				qry3 = "SELECT work_id as work_id_fk ,work_name,work_short_name,project_id_fk,project_name "
 						+ "FROM contract " + "left join work on work_id_fk = work_id "
 						+ "left join project on project_id_fk = project_id "
-						+ "where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+						+ "where (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
+						+ "or contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
+						+ "or contract_id in(select contract_id_fk from fob_contract where fob_id_fk in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))"
+						+ ")";
 			}
 
 			Object[] pValues = new Object[0];
@@ -338,7 +346,7 @@ public class IssueDaoImpl implements IssueDao {
 					pValues[i++] = obj.getProject_id_fk();
 				}
 			} else {
-				int arrSize = 4;
+				int arrSize = 6;
 				if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 					qry1 = qry1 + " and project_id_fk = ?";
 					arrSize++;
@@ -361,6 +369,8 @@ public class IssueDaoImpl implements IssueDao {
 				if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 					pValues[i++] = obj.getProject_id_fk();
 				}
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -403,7 +413,10 @@ public class IssueDaoImpl implements IssueDao {
 
 				qry3 = "SELECT contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
 						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
-						+ "FROM contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+						+ "FROM contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
+						+ "or contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
+						+ "or contract_id in(select contract_id_fk from fob_contract where fob_id_fk in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))"
+						+ ")";
 			}
 
 			Object[] pValues = new Object[0];
@@ -422,7 +435,7 @@ public class IssueDaoImpl implements IssueDao {
 					pValues[i++] = obj.getWork_id_fk();
 				}
 			} else {
-				int arrSize = 4;
+				int arrSize = 6;
 				if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 					qry1 = qry1 + " and work_id_fk = ?";
 					arrSize++;
@@ -445,6 +458,8 @@ public class IssueDaoImpl implements IssueDao {
 				if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 					pValues[i++] = obj.getWork_id_fk();
 				}
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

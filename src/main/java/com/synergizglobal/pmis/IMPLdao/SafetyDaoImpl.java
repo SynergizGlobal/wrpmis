@@ -615,11 +615,11 @@ public class SafetyDaoImpl implements SafetyDao {
 
 				if (!StringUtils.isEmpty(mailTo)) {
 					EMailSender emailSender = new EMailSender();
-					logger.error("sendEmailWithIssueStatusAlert() >> Sending mail to " + mailTo + ": Start ");
-					logger.error("sendEmailWithIssueStatusAlert() >> Sending mail CC " + mailCC + ": Start ");
+					logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail to " + mailTo + ": Start ");
+					logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail CC " + mailCC + ": Start ");
 					emailSender.sendEmailWithSafetyStatusAlert(mail, iObj, today_date, current_year);
-					logger.error("sendEmailWithIssueStatusAlert() >> Sending mail to " + mailTo + ": end ");
-					logger.error("sendEmailWithIssueStatusAlert() >> Sending mail CC " + mailCC + ": end ");
+					logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail to " + mailTo + ": end ");
+					logger.error("sendEmailWithSafetyStatusAlert() >> Sending mail CC " + mailCC + ": end ");
 				}
 			}
 		} catch (Exception e) {

@@ -60,6 +60,18 @@
 		.select2-container--default .select2-selection--single{
 			background-color:transparent;
 		}
+		@media(max-width: 2200px){
+		.add-align{position: absolute;
+   					 margin-top: -5.5em;
+   					 margin-left: 31%;}
+   		.bd-none{border: none;}
+   		 }
+    	@media(max-Width: 2000px){
+    	.add-align{margin-left:35%;}
+    	}
+    	@media(max-width: 800px){
+    	.add-align{position: relative; margin-top: 0; margin-left:0;}
+    	}
 		@media only screen and (max-width: 600px) {
 		  .images-show{
 		    justify-content: space-evenly;
@@ -429,10 +441,10 @@
 											</table>
 											<table class="mdl-data-table">
 												<tbody>
-													<tr>
+													<tr class="bd-none">
 														<td colspan="6"  ><a
 															type="button"
-															class="btn waves-effect waves-light bg-m t-c "
+															class="btn waves-effect waves-light bg-m t-c add-align"
 															onclick="addImageFileRow()"> <i
 																class="fa fa-plus"></i>
 														</a>
@@ -537,10 +549,10 @@
 											</table>
 											<table class="mdl-data-table">
 												<tbody>
-													<tr>
+													<tr  class="bd-none">
 														<td colspan="6"  ><a
 															type="button"
-															class="btn waves-effect waves-light bg-m t-c "
+															class="btn waves-effect waves-light bg-m t-c  add-align"
 															onclick="addFileRow()"> <i
 																class="fa fa-plus"></i>
 														</a>
@@ -649,7 +661,7 @@
 													<tr>
 														<td colspan="6"  ><a
 															type="button"
-															class="btn waves-effect waves-light bg-m t-c "
+															class="btn waves-effect waves-light bg-m t-c add-align"
 															onclick="addPinkBookRow()"> <i
 																class="fa fa-plus"></i>
 														</a>

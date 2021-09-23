@@ -490,7 +490,7 @@
 	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="setContractStatus();">
 	                                        <option value="" selected>Select</option>
 	                                           <c:forEach var="obj" items="${contract_Statustype }">
-	                                           		<c:if test="${obj.contract_status_fk ne 'Closed'}">
+	                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
 			                                    		<option status="${obj.contract_status }" value="${obj.contract_status_fk }" >${obj.contract_status_fk }</option>
 			                                    	</c:if>
 			                                    </c:forEach>
@@ -667,7 +667,7 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	if(val.contract_status != 'Closed'){
+                            	if(val.contract_status != 'Completed'){
                                 	$("#contract_status_fk").append('<option status="'+val.contract_status +'" value="' + val.contract_status_fk + '">' + $.trim(val.contract_status_fk) +  '</option>');
                             	}
                             });

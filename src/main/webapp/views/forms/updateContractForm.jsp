@@ -636,7 +636,7 @@
 		                                     <span id="contract_type_fkError" class="error-msg" ></span>
 		                                </div>
 		                                <div class="col s6 m4 input-field">
-		                                    <p class="searchable_label">Contractor Name <span class="required">*</span></p>
+		                                    <p class="searchable_label">Contractor Name </p>
 		                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable" >
 		                                        <option value="" selected>Select</option>
 		                                       	    <c:forEach var="obj" items="${contractor }">
@@ -2464,7 +2464,7 @@
         		 	  },"contract_type_fk": {
         		 		required: true
         		 	  },"contractor_id_fk": {
-        	 		    required: true,
+        	 		    required: false,
         	 	   	  },"scope_of_contract": {
         	 		    required: false,
         	 	   	  },"hod_user_id_fk": {

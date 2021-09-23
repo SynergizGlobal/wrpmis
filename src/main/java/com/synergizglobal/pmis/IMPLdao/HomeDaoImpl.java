@@ -883,7 +883,7 @@ public class HomeDaoImpl implements HomeDao {
 			String qry ="select message_id,message,user_id_fk,redirect_url,DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p') as created_date,created_date as created_date_24hr_format, "
 					+ "read_time,message_type "
 					+ "from messages where user_id_fk = ? "
-					+ "and (read_time is null or read_time > (NOW() - INTERVAL 7 DAY)) ";
+					+ "and (read_time is null or read_time > (NOW() - INTERVAL 3 DAY)) ";
 			int arrSize = 1;		
 			if(!StringUtils.isEmpty(mObj.getMessage_type())) {
 				qry = qry + "and message_type = ? ";
@@ -922,7 +922,7 @@ public class HomeDaoImpl implements HomeDao {
 		try {
 			String qry ="select message_type "
 					+ "from messages where user_id_fk = ? "
-					+ "and (read_time is null or read_time > (NOW() - INTERVAL 7 DAY)) "
+					+ "and (read_time is null or read_time > (NOW() - INTERVAL 3 DAY)) "
 					+ "group by message_type order by message_type ASC";
 			objsList = jdbcTemplate.query( qry,new Object[] {mObj.getUser_id_fk()}, new BeanPropertyRowMapper<Messages>(Messages.class));	
 		}catch(Exception e){ 

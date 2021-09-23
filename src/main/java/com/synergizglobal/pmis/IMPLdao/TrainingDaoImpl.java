@@ -701,7 +701,8 @@ public class TrainingDaoImpl implements TrainingDao{
 							    if( obj.getDepartment_fks().length > 0 && !StringUtils.isEmpty(obj.getDepartment_fks()[a])) 
 							    {
 							    	
-							    	if( (obj.getIs_new_users()[a]) != null) {
+							    	if( (obj.getIs_new_users()[a]) != null) 
+							    	{
 							    		String role_code = "SU";
 							    		obj.setUser_type_fk("Training");obj.setUser_name(obj.getAttendees()[a]);obj.setDepartment_fk(obj.getDepartment_fks()[a]);
 							    		obj.setEmail(obj.getEmails()[a]);obj.setMobile_no(obj.getMobile_nos()[a]); obj.setHod_user_id_fk(obj.getHod_user_id_fks()[a]);
@@ -715,7 +716,8 @@ public class TrainingDaoImpl implements TrainingDao{
 										paramSource = new BeanPropertySqlParameterSource(obj);		 
 										int userCount = namedParamJdbcTemplate.update(addUserQry, paramSource);	
 										
-							    	}else {
+							    	}else 
+							    	{
 							    		  user_id = obj.getAttendees()[a];
 							    	}
 								    insertStmt1.setString(k++,(obj.getTraining_id()));

@@ -3239,7 +3239,7 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and contract_status = ? ";
 				arrSize++;
 			}
-			qry = qry + " order by FIELD(general_status,'Commissioned','Completed','In Progress','Not Started','On Hold','Dropped','Closed')";
+			qry = qry + " order by FIELD(general_status,'Commissioned','Completed','In Progress','Not Started','On Hold','Dropped','Yet to be Awarded','Closed')";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status())) {

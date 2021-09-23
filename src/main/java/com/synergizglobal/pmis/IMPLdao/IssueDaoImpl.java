@@ -95,7 +95,11 @@ public class IssueDaoImpl implements IssueDao {
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry
-						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ?)";
+						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
+						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
+						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+				arrSize++;
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -127,6 +131,8 @@ public class IssueDaoImpl implements IssueDao {
 
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1347,7 +1353,12 @@ public class IssueDaoImpl implements IssueDao {
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry
-						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
+						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
+						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1379,6 +1390,9 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1432,7 +1446,12 @@ public class IssueDaoImpl implements IssueDao {
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry
-						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
+						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
+						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1464,6 +1483,9 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1517,7 +1539,12 @@ public class IssueDaoImpl implements IssueDao {
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry
-						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
+						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
+						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1548,6 +1575,9 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1601,7 +1631,12 @@ public class IssueDaoImpl implements IssueDao {
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry
-						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
+						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
+						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1632,6 +1667,9 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1685,7 +1723,12 @@ public class IssueDaoImpl implements IssueDao {
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry
-						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
+						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
+						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1716,6 +1759,9 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1769,7 +1815,12 @@ public class IssueDaoImpl implements IssueDao {
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry
-						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
+						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
+						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1800,6 +1851,9 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1854,7 +1908,12 @@ public class IssueDaoImpl implements IssueDao {
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry
-						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
+						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
+						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+				arrSize++;
+				arrSize++;
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1887,6 +1946,9 @@ public class IssueDaoImpl implements IssueDao {
 
 			if (!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();

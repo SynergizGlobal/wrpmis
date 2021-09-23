@@ -467,6 +467,9 @@ public class ContractController {
 			List<Insurence> InsurenceType = contractService.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
 			
+			List<Contract> contract_Status = contractService.getContractStatus();
+			model.addObject("contract_Status", contract_Status);
+			
 			List<Contract> contract_Statustype = contractService.getContractStatusType(obj);
 			model.addObject("contract_Statustype", contract_Statustype);
 			
@@ -583,8 +586,8 @@ public class ContractController {
 			contract.setBg_date(DateParser.parse(contract.getBg_date()));
 			contract.setRelease_date(DateParser.parse(contract.getRelease_date()));
 			
-			contract.setContract_status("Open");
-			contract.setContract_status_fk("Not Started");
+			//contract.setContract_status("Open");
+			//contract.setContract_status_fk("Not Started");
 		
 			boolean flag =  contractService.addContract(contract);			
 			if(flag) {

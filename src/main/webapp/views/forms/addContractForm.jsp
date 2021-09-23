@@ -382,7 +382,7 @@
 	                                     <span id="contract_type_fkError" class="error-msg" ></span>	                                    
 	                                </div>	                                
 	                                <div class="col s6 m4 input-field">
-	                                 <p class="searchable_label">Contractor Name <span class="required">*</span></p>
+	                                 <p class="searchable_label">Contractor Name</p>
 	                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
 	                                       	    <c:forEach var="obj" items="${contractors }">
@@ -466,12 +466,37 @@
                                 	
 	                            </div>
 	                            <div class="row">
-	                                <div class="col s6 m4 input-field offset-m2">
+	                                <div class="col s4 m4 input-field offset-m2">
 	                                    <input name="doc" id="doc" type="text" class="validate datepicker">
 	                                    <label for="doc">Original DOC</label>
 	                                    <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="docError" class="error-msg" ></span>
-	                                </div>		                                
+	                                </div>	
+	                                
+	                                <div class="col s4 m2 input-field">
+	                                   <p class="searchable_label">Contract Status</p>
+	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getStatusLIst();">
+	                                        <option value="" >Select</option>
+	                                          <c:forEach var="obj" items="${contract_Status }">
+	                                          	 <c:if test="${obj.contract_status ne 'Closed'}">
+		                                    	 	<option value="${obj.contract_status }">${obj.contract_status }</option>
+		                                    	 </c:if>
+		                                     </c:forEach>     
+	                                    </select>
+	                                     <span id="contract_statusError" class="error-msg" ></span>
+	                                </div>
+	                                 <div class="col s4 m2 input-field">
+	                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
+	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="setContractStatus();">
+	                                        <option value="" selected>Select</option>
+	                                           <c:forEach var="obj" items="${contract_Statustype }">
+	                                           		<c:if test="${obj.contract_status_fk ne 'Closed'}">
+			                                    		<option status="${obj.contract_status }" value="${obj.contract_status_fk }" >${obj.contract_status_fk }</option>
+			                                    	</c:if>
+			                                    </c:forEach>
+	                                    </select>
+	                                     <span id="contract_status_fkError" class="error-msg" ></span>
+	                                </div>	                                
 	                        	   	                                
 	                            </div>	   
 	                         
@@ -629,6 +654,43 @@
 			 getDyHodList();
 			 setContractStatus();
         });
+        
+        function getStatusLIst(){
+		  	$(".page-loader").show();
+		  	var contract_status = $('#contract_status').val();
+            $("#contract_status_fk option:not(:first)").remove();
+            if ($.trim(contract_status) != "") {
+                var myParams = { contract_status: contract_status };
+                $.ajax({
+                	url: "<%=request.getContextPath()%>/ajax/getContractStatusLIstFormContractFom",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	if(val.contract_status != 'Closed'){
+                                	$("#contract_status_fk").append('<option status="'+val.contract_status +'" value="' + val.contract_status_fk + '">' + $.trim(val.contract_status_fk) +  '</option>');
+                            	}
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+		}
+		
+		function setContractStatus(){
+			$(".page-loader").show();        	
+			var contract_status_fk = $('#contract_status_fk').val();
+       		if($.trim(contract_status_fk) != ''){  
+       			var status = $("#contract_status_fk").find('option:selected').attr("status");
+       			$("#contract_status").val(status);
+       			$("#contract_status").select2();
+       		}
+       		$(".page-loader").hide();
+		}
      
         function getExecutivesList(num) {
         	$(".page-loader").show();
@@ -924,7 +986,7 @@
         		 	  },"contract_type_fk": {
 		   		 		required: true
 		   		 	  },"contractor_id_fk": {
-		   	 		    required: true,
+		   	 		    required: false,
 		   	 	   	  },"scope_of_contract": {
 		   	 		    required: false,
 		   	 	   	  },"hod_user_id_fk": {
@@ -964,6 +1026,8 @@
         		         }
         		 	  },"doc": {
 		   		 		required: false
+		   		 	  },"contract_status_fk":{
+		   	 	  		required: true
 		   		 	  }	
 		   	 	},
 		   	   messages: {

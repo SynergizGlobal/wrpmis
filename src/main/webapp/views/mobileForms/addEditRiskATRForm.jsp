@@ -13,15 +13,17 @@
     </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
+<link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/risk.css">
-    <link rel="stylesheet" href="/pmis/resources/css/mobile-form-template.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/mobile-responsive-table.css">
-    <style>
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" > 
+        <style>
         textarea::placeholder {
             color: #444;
         }
@@ -34,20 +36,18 @@
         td {
             position: relative;
         }
-
-       /*  #riskReview {
+		.input-field .datepicker~button{
+			top:26px;
+		}		
+        #riskReview {
             border: 1px solid #ddd;
         }
 
-        #riskReview .datepicker~button {
-            right:5px;
-        } 
-	   */
-        #riskReview td .select2-container {
-            width: -webkit-fill-available !important;
-            /* max-width: 100%; */
-        } 
-
+       /*  #riskReview td .select2-container {
+            width: 120px;
+            max-width: 120px;
+        } */
+/*  datepicker table resetting css starts */ 
         .datepicker-table thead tr,
         .datepicker-table thead tr:hover,
         .datepicker-table tbody tr,
@@ -62,65 +62,6 @@
             padding: 0 !important;
         }
 
-        .datepicker-table th,
-        .datepicker-table td {
-            padding: 0;
-        }
-
-        .input-field .searchable_label {
-            font-size: 0.9rem;
-        }
-          .modal-header {
-            text-align: center;
-            background-color: #999999;
-            color: #fff;
-            margin: -24px -24px 20px !important;
-            padding: 1rem;
-            font-size: 24px;
-        }
-
-        .update-table {
-            border: 1px solid #ddd;
-        }
-
-       /*  table.update-table tbody td .datepicker~button {
-            top: 15px !important;
-            right: 1px;
-        } */
-
-        table.update-table tbody td .input-field {
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-         table.update-table tbody td .modal.datepicker-modal.open {
-            width: 85% !important;
-        }
-        
-       /*  .fw-60 {
-            max-width: 60px;
-            width: 60px !important;
-        }
-        .fw-110{
-        	 max-width: 100px;
-            width: 100px !important;
-        }        
-        .fw-150 {
-            max-width: 150px;
-            width: 150px !important;
-        }
-        .fw-180 {
-            max-width: 180px;
-            width: 180px !important;
-        } */
-       tbody .select2-container--default .select2-selection--single {
-        	background-color:transparent;
-        }
-         .modal:not(.datepicker-modal){
-        	max-height:90%;
-        	width:62%;
-        	min-height:75%;
-        }
-       
         .datepicker-table th, 
         .datepicker-table td,
         .mdl-data-table tbody td .datepicker-table th,
@@ -128,52 +69,52 @@
         	padding:0 !important;
         	height:44px !important;
         }
-        .mdl-data-table tbody td .datepicker-table .datepicker-row{
+          .mdl-data-table tbody td .datepicker-table .datepicker-row{
         	bottom-border:none;
         }
-        
-	    .error-msg label{color:red!important;}   
-	    .adj-5 textarea{
-	    	margin-left:5px;
-	    	margin-right:-5px;
-	    }
-	    .adj-5::before{
-	    	vertical-align:top !important;
-	    	margin-top:15px;
-	    }
-		@media only screen and (max-width: 768px){
-			.mobile_responsible_table>tbody tr:not(.datepicker-row):not(.mobile_hide_row) {
-			    border-bottom: 3px solid #999999;
-			}
-			.mobile_responsible_table tr td.input-field .datepicker~button{
-				position: relative;
-			    top: 0 ;
-			    right: 26px;
-			}
-			.mobile_responsible_table>tbody tr:not(.datepicker-row) td::before {
-				vertical-align: middle;
-			}
-			.mdl-data-table td, .mdl-data-table th{
-			    padding-left:18px;
-			}
-			.mdl-data-table td, 
-			.mdl-data-table th {
-			    padding-left: 18px;
-			    padding-right:18px;
-			}
-			.mobile_responsible_table>tbody tr:not(.datepicker-row)> td> div {
-			    display: none;
-			}
-			#riskRevisionBody .input-field>.datepicker{
-				margin-top:0;
-			}
+/*  datepicker table resetting css ends */
+
+        .input-field .searchable_label {
+            font-size: 0.9rem;
+        }
+       
+        .fw-60 {
+            max-width: 60px;
+            width: 60px !important;
+        }
+        /*  .modal:not(.datepicker-modal){
+        	max-height:90%;
+        	width:62%;
+        	min-height:75%;
+        } */               
+      
+        .input-field textarea{
+        	border:none;
+        	border-bottom:1px solid #9e9e9e;
+        	border-radius:0;
+        	height: 45px;
+        }
+        .input-field>textarea+label {
+		    margin-left: 0;
+		    padding-left: 0;
+		    background-color: transparent;
 		}
+	    .error-msg label{color:red!important;}   
+		textarea[readonly]{
+			color:#999;
+		}
+		.center-align.m-1 button.bg-m.waves-effect, 
+		.center-align.m-1 button.bg-s.waves-effect{
+			width:inherit;
+		}
+		.error-msg{color:red!important;text-align: left;}
     </style>
     
 </head>
 
 <body>
-
+    <!-- header included -->
+    <jsp:include page="../layout/header.jsp"></jsp:include>
   <!-- card  -->
       <div class="row">
         <div class="col s12 m12">
@@ -181,7 +122,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
+                            <div class="center-align p-2 bg-m m-b-2">
                                <h6>Action Taken Report </h6>
                             </div>
                         </span>
@@ -189,15 +130,15 @@
                     <!-- form start-->
 					<form action="<%=request.getContextPath() %>/mobileappwebview/update-risk-assessment" id="riskForm" name="riskForm" method="post" class="form-horizontal" role="form">
 						
-                        <div class=" container-no-margin">                          
+                        <div class="container container-no-margin">                          
                             	
-                             <div class="row">
+                            <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>                               
-                                <div class="col s6 m4 input-field">
+                                <div class="col s12 m4 input-field">
 									<p class="searchable_label">Project :</p>
 									<p>${risk.project_id_fk}- ${risk.project_name}</p>	
 							    </div> 
-                                <div class="col s6 m4 input-field"> 
+                                <div class="col s12 m4 input-field"> 
 								    <p class="searchable_label"> Work :</p>
 									<p>${risk.work_id_fk}- ${risk.work_short_name}</p></div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -206,25 +147,27 @@
                             <div class="row">
                                 <!-- row 1  -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s6 m4 input-field">
-                                    <p class="searchable_label"> Sub Work :</p>
+                                <div class="col s12 m4 input-field">
+                                    <p class="searchable_label"> Work :</p>
 									<p>${risk.sub_work}</p>
+									<input type="hidden"  name="sub_work" value="${risk.sub_work }" /> 
                                 </div>
-                                <div class="col s6 m4 input-field">
-                                     <p class="searchable_label"> Risk ID :</p>
-									 <p>${risk.risk_id }</p>
-                                </div>                                
+                                <div class="col s12 m4 input-field">
+                                     <p class="searchable_label"> Assessment Date :</p>
+									 <p>${risk.assessment_date }</p>
+									 <input type="hidden"  name="assessment_date" value="${risk.assessment_date }" /> 
+                                </div>                               
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
                             <div class="row">
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Area :</p>
 									<p>${risk.area }</p>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s12 m4 input-field">
 									<p class="searchable_label"> Sub Area :</p>
 									<p>${risk.sub_area_fk }</p>                                   	
                                 </div>
@@ -233,15 +176,37 @@
                             <div class="row">
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Owner :</p>
 									<p>${risk.owner }</p>
+									<input type="hidden"  name="owner_user_id" value="${risk.owner_user_id }" />
+									<input type="hidden"  name="reporting_to_user_id" value="${risk.reporting_to_user_id }" />
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s12 m4 input-field">
 									<p class="searchable_label"> Responsible Person :</p>
-									<p>${risk.responsible_person }</p>                                   	
+									<p>${risk.responsible_person }</p>       
+									<input type="hidden"  name="responsible_user_id" value="${risk.responsible_user_id }" />                            	
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
+                                
+                                <input type="hidden"  name="hod_user_id_fk" value="${risk.hod_user_id_fk }" />
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>                               
+                                <div class="col s12 m4 input-field">
+									<p class="searchable_label">Priority :</p>
+									<p>${risk.priority_fk}</p>	
+							    </div>                                 
+                            </div>
+                            <div class="row">
+                            	<div class="col s12 m8 input-field offset-m2"> 
+								    <%-- <p class="searchable_label"> Mitigation Plan :</p>
+									<p>${risk.mitigation_plan}</p> --%>
+									<textarea id="mitigation_plan" name="mitigation_plan" class="materialize-textarea" data-length="1000" >${risk.mitigation_plan}</textarea>
+									<label for="mitigation_plan">Mitigation Plan :</label>
+									<input type="hidden" name="mitigation_plan_old" value="${risk.mitigation_plan }" />
+								</div>
                             </div>
                        
                        <!--  </div> -->
@@ -249,31 +214,37 @@
 								<div class="col m2 hide-on-small-only"></div>
 								<div class="col m8 s12">
 									<div class="row fixed-width"
-										style="margin-bottom: 30px; margin-top: 20px">
+										style="margin-bottom: 40px; margin-top: 20px">
 										<div class="table-inside">
 											<table id="riskReview" class="mdl-data-table update-table mobile_responsible_table">
 												<thead>
 													<tr>
-														<th style="width:25%">Assessment Date</th>
+													<!-- 	<th style="width:25%">Assessment Date</th> -->
 														<th style="width:25%">ATR Date</th>
 														<th>Action Taken</th>
 														<th class="fw-60">Action</th>
 													</tr>
 												</thead>
 												<tbody id="riskRevisionBody">
+													<input type="hidden" name="atr_dates" />
+													<input type="hidden" name="atr_dates_old" />
+													<input type="hidden" name="action_takens" />
+													<input type="hidden" name="action_takens_old" />
 													<c:choose>
 														<c:when	test="${not empty risk.riskActions && fn:length(risk.riskActions) gt 0 }">
+															
 															<c:forEach var="aObj" items="${risk.riskActions }"	varStatus="index">
 																<tr id="actionRow${index.count }">																	
-					                                                <td data-head="Assessment Date" class="input-field">
+					                                                <%-- <td>
 					                                                    <select id="assessment_dates${index.count }" name="assessment_dates" class="select searchable">
 					                                                        <option value="" selected>Select</option>
 					                                                          <c:forEach var="obj" items="${assessmentDates }">
 					                                      					   <option value= "${obj.risk_revision_id}" <c:if test="${aObj.risk_revision_id_fk eq obj.risk_revision_id}">selected</c:if>>${ obj.assessment_date}</option>
 					                                        				  </c:forEach>
 					                                                    </select>
-					                                                </td>
-																	<td data-head="ATR Date" class="input-field">
+					                                                </td> --%>
+																	<td data-head="ATR Date" class="input-field" >
+																																		
 																			<input id="atr_dates${index.count }"
 																				name="atr_dates" type="text"
 																				class="validate datepicker" placeholder="ATR  Date"
@@ -282,50 +253,91 @@
 																				id="atr_date_icon${index.count }">
 																				<i class="fa fa-calendar"></i>
 																			</button>
+																		
+																			<p id="atr_dates${index.count }Error" class="error-msg" ></p>
+																		<input type="hidden" id="atr_dates_old${index.count }" name="atr_dates_old" value="${aObj.atr_date }" />
+																		
 																	</td>
-																	<td data-head="Action Taken" class="input-field adj-5">
-																		<textarea
+																	<td data-head="Action Taken" class="input-field">
+																		<textarea 
 																			id="action_takens${index.count }"
 																			name="action_takens" class="materialize-textarea"
 																			placeholder="Action Taken" style="height: 44px;">${aObj.action_taken}</textarea>
+																			<p id="action_takens${index.count }Error" class="error-msg" ></p>
+																			<textarea style="display:none;" id="action_takens_old${index.count }" name="action_takens_old" >${aObj.action_taken }</textarea>
 																	</td>
-																	<td class="mobile_btn_close"><a
-																		onclick="removeActions('${index.count }');"
-																		class="btn waves-effect waves-light red t-c "> <i
-																			class="fa fa-close"></i></a></td>
-																</tr>															
+																	<td class="mobile_btn_close">
+																	<%-- <a onclick="removeActions('${index.count }');" class="btn waves-effect waves-light red t-c "> 
+																	<i class="fa fa-close"></i></a> --%>
+																	<a onclick="removeActions('${index.count }');" style="font-size: 20px;" class="btn red"> 
+																	<i class="fa fa-close"></i></a>
+																	</td>
+																</tr>	
+																
+																<script type="text/javascript">
+														            
+														            $('#action_takens${index.count }').keyup(function(){
+														            	if($.trim($('#action_takens${index.count }').val()) == ""){
+																			$('#action_takens${index.count }Error').text('Requried');
+																		}else{
+																			$('#action_takens${index.count }Error').text('');
+																		}
+															    	});
+																</script>														
 															</c:forEach>
 														</c:when>
 														<c:otherwise>
 															<tr id="actionRow0">
-																<td data-head="Assessment Date" class="input-field">
+																<%-- <td>
 				                                                    <select id="assessment_dates0" name="assessment_dates" class="select searchable">
 				                                                        <option value="" selected>Select</option>
 				                                                          <c:forEach var="obj" items="${assessmentDates }">
 				                                      					   <option value= "${obj.risk_revision_id}" >${obj.assessment_date}</option>
 				                                        				  </c:forEach>
 				                                                    </select>
-				                                                </td>
+				                                                </td> --%>
 																<td data-head="ATR Date" class="input-field">
-																<input type="hidden" id="rowCounts0" name="rowCounts" value="1" class="hide" />
-																	<!-- <div > -->
-																		<input id="atr_dates0" name="atr_dates" type="text"
+																		<input type="hidden"
+																	id="rowCounts0" name="rowCounts"
+																	value="1" class="hide" />
+																		<input id="atr_dates0"
+																			name="atr_dates" type="text"
 																			class="validate datepicker" placeholder="ATR  Date">
 																		<button type="button"
 																			id="atr_date_icon0">
 																			<i class="fa fa-calendar"></i>
 																		</button>
-																	<!-- </div> -->
+																		
+																		<p id="atr_dates0Error" class="error-msg" ></p>
+																		<input type="hidden" id="atr_dates_old0" name="atr_dates_old" value="" />
 																</td>
-																<td data-head="Action Taken" class="input-field adj-5"><textarea id="action_takens0"
+																<td data-head="Action Taken" class="input-field"><textarea id="action_takens0"
 																		name="action_takens" class="materialize-textarea"
 																		placeholder="Action Taken" style="height: 44px;"></textarea>
+																		<p id="action_takens0Error" class="error-msg" ></p>
+																		
+																		<textarea style="display:none;" id="action_takens_old0" name="action_takens_old"></textarea>
 																</td>
-																<td class="mobile_btn_close"><a
-																	onclick="removeActions('0');"
-																	class="btn waves-effect waves-light red t-c "> <i
-																		class="fa fa-close"></i></a></td>
+																<td class="mobile_btn_close">
+																	<!-- <a onclick="removeActions('0');"
+																		class="btn waves-effect waves-light red t-c "> <i
+																		class="fa fa-close"></i></a> -->
+																		
+																		<a onclick="removeActions('0');" style="font-size: 20px;" class="btn red"> 
+																	<i class="fa fa-close"></i></a>
+																</td>
 															</tr>
+															
+															<script type="text/javascript">
+													            
+													            $('#action_takens0').keyup(function(){
+													            	if($.trim($('#action_takens0').val()) == ""){
+																		$('#action_takens0Error').text('Requried');
+																	}else{
+																		$('#action_takens0Error').text('');
+																	}
+														    	});
+															</script>
 														</c:otherwise>
 													</c:choose>
 												</tbody>
@@ -333,7 +345,7 @@
 											<table class="mdl-data-table">
 												<tbody>
 													<tr>
-														<td colspan="6" style="text-align: right;"><a
+														<td colspan="6" ><a
 															type="button"
 															class="btn waves-effect waves-light bg-m t-c "
 															onclick="addRiskRow()"> <i
@@ -358,20 +370,32 @@
 							</div>
 							
 							<input  type="hidden"   name="risk_id_pk" value="${risk.risk_id_pk }" />
+							<input  type="hidden"   name="risk_revision_id" value="${risk.risk_revision_id }" />
 							<div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
-                                   <div class="center-align m-1">
+                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                                
+                                    <!-- <div class="center-align m-1">
 										<button type="button" onclick="updateRisk();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
-								</div>
+									</div> -->
+									
+									<div class=" m-1">
+                                    	<c:if test="${risk.readonlyForm eq false }">
+                                        	<button type="button" onclick="updateRisk();" class="btn waves-effect waves-light bg-m">Update</button>
+                                        </c:if>
+                                        <c:if test="${risk.readonlyForm eq true }">
+                                        	<a style="color:red;line-height: 36px;">Not Authorized to Edit</a>
+                                        </c:if>
+                                    </div>
+                                    
                                 </div>
-                                <div class="col s12 m4">
-                                    <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/mobileappwebview/risk-atr-update" class="btn waves-effect waves-light bg-s black-text"
-                                            style="width:100%">Cancel</a>
+                                <div class="col s6 m4 mt-brdr center-align">
+                                    <div class=" m-1">
+                                        <a href="<%=request.getContextPath()%>/mobileappwebview/risk-atr-update" class="btn waves-effect waves-light bg-s"
+                                            >Cancel</a>
+                                           <!--  <a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Cancel</a>  -->
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                         </div>
                     </form>
@@ -395,6 +419,8 @@
 	    </div>
 	  </div>
 	</div> 
+    <!-- footer included -->
+    <jsp:include page="../layout/footer.jsp"></jsp:include>
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -404,44 +430,246 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
- 	  <script>
- 	   $(document).on('focus', '.datepicker',function(){
+ 	<script type="text/javascript">
+ 	
+ 	   var USER_DESIGNATION = '${sessionScope.USER_DESIGNATION}';
+ 	   
+ 	   /* $(document).on('focus', '.datepicker',function(){
            $(this).datepicker({
          	format:'dd-mm-yyyy',
     	    	onSelect: function () {
     	    	   $('.confirmation-btns .datepicker-done').click();
     	    	}
            })
+        });  */
+        
+        var year = '';
+       	var month = '';
+       	var day = '';
+       	
+        var assessment_date = '${risk.assessment_date }';
+        if($.trim(assessment_date) != '' ){
+        	var sDate = assessment_date.split("-");
+        	year = sDate[2];
+        	month = sDate[1];
+        	day = sDate[0];
+        }
+        
+        var minDate = new Date(year,month-1,day);
+        
+        var dates_arr = [];
+       	$("input[name=atr_dates]").each(function(){
+        	dates_arr.push(this.value);
         });
+        
+        let date_pickers = document.querySelectorAll('.datepicker');
+	    $.each(date_pickers, function(){
+	    	var dt = this.value.split(/[^0-9]/);
+	    	this.value = ""; 
+	    	var options = {format: 'dd-mm-yyyy',
+	    			autoClose:true,
+	    			minDate:minDate,
+	    			maxDate: new Date(),
+	    			onDraw : function() {disableDates("ondraw")},
+	    			onOpen : function() {disableDates("onopen")},
+	    			disableDayFn: function(date){
+		   	    		var string = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+		   	    		var ex_dates = [];
+		   	    		for (var i = 0; i < dates_arr.length; i++) {
+			            	 var year = '';
+			                 var month = '';
+			                 var day = '';
+			                 if($.trim(dates_arr[i]) != '' ){
+			                 	var sDate = dates_arr[i].split("-");
+			                 	year = sDate[2];
+			                 	month = sDate[1]-1;
+			                 	day = sDate[0];
+			                 	var fullDisabledDate = new Date(year,month,day),
+			                    getDisabledMonth    = fullDisabledDate.getMonth(),
+			                    getDisabledDay      = fullDisabledDate.getDate(),
+			                    getDisabledYear     = fullDisabledDate.getFullYear();
+			                 	var d = fullDisabledDate.getDate() + "-" + (fullDisabledDate.getMonth() + 1) + "-" + fullDisabledDate.getFullYear();
+			                 	ex_dates.push(d);
+			                 }
+			            }
+		   	    		
+		   	    		for (var i = 0; i < ex_dates.length; i++) {
+			   	    		if(ex_dates[i] == string){
+			   	    			return true;
+			   	    		}
+		   	    		}
+		   	    		
+			   	        //return [ ex_dates.indexOf(string) == 1 ]
+			   	    }
+	    		};
+	    	if(dt.length > 1){
+	    		options.setDefaultDate = true,
+	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+	    	}
+	    	M.Datepicker.init(this, options);
+	    });
+	    
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-           
+            
+            if('${risk.readonlyForm}' == 'true'){
+	            $("#riskForm :input").attr("disabled", true);
+	            //$("#riskForm :textarea").attr("disabled", true);	            
+	            $("#riskForm select").prop("disabled", true);	            
+            }
+           if(USER_DESIGNATION == '${risk.owner}'){
+        	   $("#mitigation_plan").prop("readonly", false); 
+           	   $('#mitigation_plan').characterCounter();            
+           } else{
+        	   $("#mitigation_plan").prop("readonly", true); 
+           }
+            
         });
         
+        function closeTab(){
+        	 window.top.close();
+        }
         
-        
-        function addRiskRow() {        	
+        function disableDates(msg) {        	
+        	var dates_arr = [];
+        	$("input[name=atr_dates]").each(function(){
+            	dates_arr.push(this.value);
+            });
+        	
+            for (var i = 0; i < dates_arr.length; i++) {
+            	 var year = '';
+                 var month = '';
+                 var day = '';
+                 if($.trim(dates_arr[i]) != '' ){
+                 	var sDate = dates_arr[i].split("-");
+                 	year = sDate[2];
+                 	month = sDate[1]-1;
+                 	day = sDate[0];
+                 	var fullDisabledDate = new Date(year,month,day),
+                    getDisabledMonth    = fullDisabledDate.getMonth(),
+                    getDisabledDay      = fullDisabledDate.getDate(),
+                    getDisabledYear     = fullDisabledDate.getFullYear();
+                    $('.datepicker-modal.open').find('button.datepicker-day-button[data-year="'+getDisabledYear+'"][data-month="'+getDisabledMonth+'"][data-day="'+getDisabledDay+'"]').parent('td').addClass('is-disabled');
+                 }
+            }
+        }
+        var idNo = "";
+        function addRiskRow() {   
+        	var dates_arr = [];
+        	$("input[name=atr_dates]").each(function(){
+            	dates_arr.push(this.value);
+            });
+        	//alert(dates_arr);
+        	/*******************************************************************/
+        	
             var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
             var html = '<tr id="actionRow' + rNo + '">'
-               +'<td data-head="Assessment Date" class="input-field">'
+            /*    +'<td> <div>'
 			   +'<select  name="assessment_dates" id="assessment_dates'+rNo+'" class="select searchable">'	   			
 			   +'<option value="" >Select</option>'
 			   <c:forEach var="obj" items="${assessmentDates }">
 				  +' <option value= "${obj.risk_revision_id}">${obj.assessment_date}</option>'
 			  </c:forEach>
-			+'</select></td>'
-			+'<td data-head="ATR Date" class="input-field"><input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'
-			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button></td>'
+			+'</select></div></td>' */
+			+'<td data-head="ATR Date" class="input-field"> <input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'
+			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button>'
+			+'<p id="atr_dates' + rNo + 'Error" class="error-msg" ></p><input type="hidden" id="atr_dates_old' + rNo +'" name="atr_dates_old" value="" /></td>'
 			+'<td data-head="Action Taken" class="input-field"><textarea id="action_takens' + rNo +'"  name="action_takens" '
-			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea></td>'
-			+'<td class="mobile_btn_close"><a onclick="removeActions(' + rNo + ');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td></tr>';
+			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea><p id="action_takens' + rNo + 'Error" class="error-msg" ></p><textarea style="display:none;" id="action_takens_old' + rNo + '" name="action_takens_old"></textarea></td>'
+			+'<td class="mobile_btn_close"><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#riskRevisionBody').append(html);
             $("#rowNo").val(rNo);
-          	
-            $("#atr_dates" + rNo).datepicker();
+          	idNo = $("#rowNo").val();
+            //$("#atr_dates" + rNo).datepicker();
+            
+            $('#atr_dates'+rNo).change(function(){
+            	if($.trim($('#atr_dates'+rNo).val()) == ""){
+					$('#atr_dates'+rNo+'Error').text('Requried');
+				}else{
+					$('#atr_dates'+rNo+'Error').text('');
+				}
+	    	});
+            
+            $('#action_takens'+rNo).keyup(function(){
+            	if($.trim($('#action_takens'+rNo).val()) == ""){
+					$('#action_takens'+rNo+'Error').text('Requried');
+				}else{
+					$('#action_takens'+rNo+'Error').text('');
+				}
+	    	});
+            
+            $('#atr_dates' + rNo).datepicker({
+            	minDate: minDate,
+            	maxDate: new Date(),
+	        	format:'dd-mm-yyyy',
+	        	autoClose:true,
+	   	    	onDraw : function() {disableDates("ondraw")},
+	   	        onOpen : function() {disableDates("onopen")},
+	   	        onSelect:function(date){
+	   	        	var dates_arr = [];
+	   	        	$("input[name=atr_dates]").each(function(){
+	   	            	dates_arr.push(this.value);
+	   	            });
+	   	        	//console.log(dates_arr.length)
+	   	            for (var i = 0; i < dates_arr.length; i++) {
+	   	            	 var year = '';
+	   	                 var month = '';
+	   	                 var day = '';
+	   	                 if($.trim(dates_arr[i]) != '' ){
+	   	                 	var sDate = dates_arr[i].split("-");
+	   	                 	year = sDate[2];
+	   	                 	month = sDate[1]-1;
+	   	                 	day = sDate[0];
+	   	                 	var fullDisabledDate = new Date(year,month,day),
+	   	                    getDisabledMonth    = fullDisabledDate.getMonth(),
+	   	                    getDisabledDay      = fullDisabledDate.getDate(),
+	   	                    getDisabledYear     = fullDisabledDate.getFullYear();
+	   	                 	//console.log(date.getDate() +" - "+date.getMonth()+" - "+date.getFullYear());
+	 	   	        		//console.log(fullDisabledDate.getDate() +" - "+fullDisabledDate.getMonth()+" - "+fullDisabledDate.getFullYear());
+	 	   	        	
+	   	                    if(date.getDate() == fullDisabledDate.getDate() && date.getMonth() == fullDisabledDate.getMonth() && date.getFullYear() == fullDisabledDate.getFullYear()){
+	   	                    	//$('.page-loader').show();
+	   	                    	//setTimeout(function(){$('#atr_dates' + rNo).val('');$('.page-loader').hide();}, 1000);
+	   	                    }
+	   	                 }
+	   	            }
+	   	        },
+	   	     	disableDayFn: function(date){
+	   	    		var string = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+	   	    		//alert(dates_arr.indexOf(string) == -1);
+	   	    		var ex_dates = [];
+	   	    		for (var i = 0; i < dates_arr.length; i++) {
+		            	 var year = '';
+		                 var month = '';
+		                 var day = '';
+		                 if($.trim(dates_arr[i]) != '' ){
+		                 	var sDate = dates_arr[i].split("-");
+		                 	year = sDate[2];
+		                 	month = sDate[1]-1;
+		                 	day = sDate[0];
+		                 	var fullDisabledDate = new Date(year,month,day),
+		                    getDisabledMonth    = fullDisabledDate.getMonth(),
+		                    getDisabledDay      = fullDisabledDate.getDate(),
+		                    getDisabledYear     = fullDisabledDate.getFullYear();
+		                 	var d = fullDisabledDate.getDate() + "-" + (fullDisabledDate.getMonth() + 1) + "-" + fullDisabledDate.getFullYear();
+		                 	ex_dates.push(d);
+		                 }
+		            }
+	   	    		
+	   	    		for (var i = 0; i < ex_dates.length; i++) {
+		   	    		if(ex_dates[i] == string){
+		   	    			//console.log(ex_dates[i] + " : " +string);
+		   	    			return true;
+		   	    		}
+	   	    		}
+	   	    		
+		   	        //return [ ex_dates.indexOf(string) == 1 ]
+		   	    }
+	        }); 
+            
             $('#atr_date_icon' + rNo).click(function () {
                 event.stopPropagation();
                 $('#atr_dates' + rNo).click();
@@ -457,22 +685,76 @@
       
         function updateRisk(){	       	
    			$(".page-loader").show();
-   			$('form input[name=atr_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   			$('form input[name=action_takens]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   			$("#riskForm").submit();	
+   			var flag = validateRisk();
+   			if(flag){
+   	   			$("#riskForm").submit();
+   			}
+   			$(".page-loader").hide();
         }
-	            
-            $('select').change(function(){
-        	    if ($(this).val() != ""){
-        	        $(this).valid();
-        	    }
-        	});
-            
-            $('input').change(function(){
-        	    if ($(this).val() != ""){
-        	        $(this).valid();
-        	    }
-        	});
+        
+        function validateRisk(){
+        	var flag = true;
+        	$("input[name=atr_dates]").each(function(){
+        		//console.log((this.id).replace('atr_dates',''));
+        		var idNo = (this.id).replace('atr_dates','');
+        		var action_taken = $("#action_takens"+idNo).val();
+        		if($.trim(this.value) == "" && $.trim(action_taken) != ""){
+					$('#'+this.id+'Error').text('Requried');
+					flag = false;
+				}else if($.trim(this.value) != "" && $.trim(action_taken) == ""){
+					$('#action_takens'+idNo+'Error').text('Requried');
+					flag = false;
+				}
+            });
+        	return flag;
+        }
+        
+	    $('input[name=atr_dates]').change(function(key, element){
+	    	$("input[name=atr_dates]").each(function(){
+        		if($.trim(this.value) == ""){
+					$('#'+this.id+'Error').text('Requried');
+				}else{
+					$('#'+this.id+'Error').text('');
+				}
+            });
+        	$("textarea[name=action_takens]").each(function(){
+        		if($.trim(this.value) == ""){
+					$('#'+this.id+'Error').text('Requried');
+				}else{
+					$('#'+this.id+'Error').text('');
+				}
+            });
+		});
+		$('textarea[name=action_takens]').change(function(){
+			$("input[name=atr_dates]").each(function(){
+        		if($.trim(this.value) == ""){
+					$('#'+this.id+'Error').text('Requried');
+				}else{
+					$('#'+this.id+'Error').text('');
+				}
+            });
+        	$("textarea[name=action_takens]").each(function(){
+        		if($.trim(this.value) == ""){
+					$('#'+this.id+'Error').text('Requried');
+				}else{
+					$('#'+this.id+'Error').text('');
+				}
+            });
+		
+		});
+	    
+	    
+        $('select').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
+        
+        $('input').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
 	            
     </script>
 

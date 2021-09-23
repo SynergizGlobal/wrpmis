@@ -50,7 +50,7 @@
 		}
 		.t-98{
 			top:98px;
-			top:52px;
+			top:56px;
 		}
 		.btn{
 			z-index:0;
@@ -291,17 +291,14 @@
 			.p-h-0{
 				padding-left:18px !important;
 			}
+			.tabs .tab{
+				height:30px;
+				line-height:28px;
+			}
 		}
 		.validate:focus{ scroll-behavior:smooth;}
 		/* cost unit dropdown , lable and input styling ends here  */
-		
-		/* special columns of revision table css starts here  */
-		/* .light-green_column {
-			background-color:#CFDBF2
-		}
-		.light-green_column {
-			background-color:#DFF7F4
-		}	 */		
+	
 		th.light-blue_column {
 			color:#444 !important;
 			background-color:#7DBCC1;
@@ -310,22 +307,6 @@
 			color:#444 !important;
 			background-color:#85CAC2;
 		}
-	/* 	tr:hover td. {
-			background-color:hsl(219, 57%, 92%)
-		}
-		tr:hover td. {
-			background-color:hsl(173, 60%, 96%)
-		} */		
-		/* .  input[type="number"]::placeholder ,
-		.  input[type="text"].datepicker::placeholder{
-            color: #bbb;
-        } */
-       
-		/* special columns of revision table css ends here  */	
-		/* .input-field input[type="text"],
-		.input-field .pmis-textarea{
-        	margin-bottom:0;
-        } */
         
         [type="radio"]+span:before, [type="radio"]+span:after {
         	left:12px!important;
@@ -360,7 +341,9 @@
 	   .tab-flex .tab a {
 	   		padding:0 .5rem;
 	   }
-	    
+	   .tab-flex{
+	   		margin-bottom:0;
+	   }
        
     </style>
 </head>
@@ -383,7 +366,7 @@
                         </span>
                     </div>
  					<!-- <div class="container container-no-margin"> -->
-                        	 <div class="row p-sticky t-98 z-1">
+                        	 <div class="row p-sticky t-98 z-1 no-mar">
 							    <div class="col s12 m12">
 							      <ul class="tabs tab-flex" id="menu-center">
 							        <li class="tab"><a class="active t-c" href="#basicDetails">Contract Managers</a></li>
@@ -1966,13 +1949,13 @@
 		                <div class="card-content">
 		                <div class="container container-no-margin">                 
 		           		 	<div class="row">
-		                       <div class="col s12 m6 mt-brdr offset-m2 center-align">
+		                       <div class="col s6 m6 mt-brdr offset-m2 center-align">
 		                           <div class=" m-1 d-flex"> <!-- <button type="button" onclick="prevTab()" id="prevBtn"><i class="fa fa-angle-left"></i></button> -->
 		                               <button type="button" onclick="updateContract('Update');" class="btn waves-effect waves-light bg-m">Update</button>
 		                               <!-- <button type="button" onclick="nextTab()" id="nextBtn"><i class="fa fa-angle-right"></i></button> -->
 		                           </div>
 		                       </div>
-		                       <div class="col s12 m2 mt-brdr center-align">
+		                       <div class="col s6 m2 mt-brdr center-align">
 		                           <div class=" m-1" >
 		                               <a href="<%=request.getContextPath()%>/mobileappwebview/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
 		                           </div>
@@ -2720,20 +2703,11 @@
                  var errors = validator.numberOfInvalids();                 
                  if (errors) {
                      var position = validator.errorList[0].element;
-                      //  var eleDivId=$(position).parentsUntil('form');
-                     //var l=eleDivId.push();
                      var eleDivId=$(position).parentsUntil('.card-content');
                 	 var eleId=eleDivId[eleDivId.length-1].id;     
-                     $('.tab-flex .tab > a').removeClass('active');
-                     $('.tab-flex .tab > a').each(function(){
-	   			 		$($(this).attr('href')).css('display','none');
-	   			 		
-		   			 });
-		    		 $('#'+eleId).css('display','block');
-		    		// $('.tabs').tabs();
 		    		 
                      jQuery('html, body').animate({
-                         scrollTop:jQuery(validator.errorList[0].element).offset().top + 30
+                         scrollTop:jQuery(validator.errorList[0].element).offset().top -100
                      }, 1000); 
 		    		 $('[href="#'+eleId+'"]').addClass('active');
                  }validateContract();
@@ -2759,23 +2733,7 @@
             	return true;
             }
         }, "Date of Start must be after LOA Date");
-       /*  
-        $('#loa_date').change(function(){
-                var fromDateString = $('#loa_date').val();
-                var fromDateParts = fromDateString.split("-");
-                var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-
-                var toDateParts = $('#date_of_start').val().split("-");
-                var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-                if($.trim(fromDateString) != '' && $.trim(toDateParts) != ''){
-                	if( Date.parse(fromDate) <= Date.parse(toDate)){
-                    	$('#date_of_startError').text("")
-                	}else{
-                		$('#date_of_startError').text("Date of Start must be after LOA Date").addClass("my-error");
-                	}
-                }
-        });
-         */
+       
         $.validator.addMethod("dateBefore1", function(value, element) {
             var fromDateString = $('#date_of_start').val();
             var fromDateParts = fromDateString.split("-");

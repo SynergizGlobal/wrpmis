@@ -475,17 +475,18 @@ public class DocxTableCreationForContractReport {
 						Tr contentRow = factory.createTr();
 	
 						List<String> noDataRow = new ArrayList<String>();
-						noDataRow.add("Nil");
-						for (int i = 0; i < 7; i++) {
-							noDataRow.add("");
+						//noDataRow.add("Nil");
+						for (int i = 0; i < 14; i++) 
+						{
+							noDataRow.add("Nil");
 						}
 	
 						for (String headerValue : noDataRow) {
-							addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr, JcEnumeration.CENTER,
+							addTableCell(factory, wordMLPackage, contentRow, headerValue, calibriBoldRPr, JcEnumeration.CENTER,
 									hasBgColor, backgroundColor);
 						}
 						table.getContent().add(contentRow);
-						mergeCellsHorizontal(table, 2, 0, 7);
+						mergeCellsHorizontal(table, 2, 0, 13);
 					}
 					setTableAlign(factory, table, JcEnumeration.CENTER);
 					mp.addObject(table);
@@ -1094,9 +1095,9 @@ public class DocxTableCreationForContractReport {
 							Tr contentRow = factory.createTr();
 		
 							List<String> noDataRow = new ArrayList<String>();
-							noDataRow.add("Nil");
-							for (int i = 0; i < 7; i++) {
-								noDataRow.add("");
+							//noDataRow.add("Nil");
+							for (int i = 0; i < 14; i++) {
+								noDataRow.add("Nil");
 							}
 		
 							for (String headerValue : noDataRow) {
@@ -1104,7 +1105,7 @@ public class DocxTableCreationForContractReport {
 										hasBgColor, backgroundColor);
 							}
 							table.getContent().add(contentRow);
-							mergeCellsHorizontal(table, 2, 0, 7);
+							mergeCellsHorizontal(table, 2, 0, 13);
 						}
 						setTableAlign(factory, table, JcEnumeration.CENTER);
 						mp.addObject(table);						

@@ -12,21 +12,21 @@
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">    
     <link rel="stylesheet" href="/pmis/resources/css/mobile-notifications.css">
 	<style>
-		.modal-header {
-			text-align: center;
-			background-color: #2E58AD;
-			color: #fff;
-			margin: -24px -24px 20px !important;
-			padding: 1rem;
+		.card .card-content {
+		    padding: 24px;
+		    border-radius: 0 0 2px 2px;
 		}
-		.row.no-mar{
-			margin-bottom:0;
+		.headbg {
+		    margin: -25px -24px 20px -24px;
 		}
 		.m-b-2{
 			margin-bottom:1rem;
+		}
+		.fs-6r{
+			font-size:6rem !important;
 		}
 	</style>
 
@@ -78,17 +78,22 @@
 	                          <c:if test="${aObj.alert_type_fk eq 'Contract Value'}">
 	                          	<c:set var="bgIcon" value="<i class='fa fa-money'></i>"></c:set>
 	                          </c:if>
-                          	  
+	                          <c:if test="${aObj.alert_type_fk eq 'Risk'}">
+	                          	<c:set var="bgIcon" value='<i class="material-icons fs-6r">error_outline</i>'></c:set>
+	                          </c:if>
+	                                                    	  
                           	  <li class="item ${bgClass }">
 	                              <a href="#">
 	                              	<span class="icon">
 	                              	 	<!-- <i class="material-icons">access_time</i> -->
 	                              	 	${bgIcon }
 	                              	 	<span class="icon-text">${aObj.alert_type_fk }</span>
-	                              	 </span>                                   
-	                                 <div>Work : ${aObj.work_short_name }</div>
-	                                 <div>Contract : ${aObj.contract_short_name }</div>
-	                                 <div>Contractor : ${aObj.contractor_name }</div>
+	                              	 </span>    
+	                              	 <c:if test="${aObj.alert_type_fk ne 'Risk'}">
+			                          	 <div>Work : ${aObj.work_short_name }</div>
+		                                 <div>Contract : ${aObj.contract_short_name }</div>
+		                                 <div>Contractor : ${aObj.contractor_name }</div>
+			                         </c:if>                          
 	                                 <div>Reason : ${aObj.alert_value }</div>
 	                              </a>
 	                          </li>

@@ -561,8 +561,6 @@ public class DocxTableCreationForContractReport {
 						}
 						
 						
-						
-						
 						tableHeader0.add("SN");
 						tableHeader0.add("Short name of Contract");
 						tableHeader0.add("Agency");

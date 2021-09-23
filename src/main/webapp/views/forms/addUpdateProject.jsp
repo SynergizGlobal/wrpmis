@@ -60,17 +60,21 @@
 		.select2-container--default .select2-selection--single{
 			background-color:transparent;
 		}
+		.select2-selection__rendered{width: 190px;}
+		.w7em{width: 7em;}
 		@media(max-width: 2200px){
+		.table-add{position: absolute;}
 		.add-align{position: absolute;
    					 margin-top: -5.5em;
-   					 margin-left: 31%;}
+   					 margin-left: 11%;}
    		.bd-none{border: none;}
    		 }
     	@media(max-Width: 2000px){
-    	.add-align{margin-left:35%;}
+    	.add-align{margin-left:18%;}
     	}
     	@media(max-width: 800px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
+    	.table-add{position: relative;}
     	}
 		@media only screen and (max-width: 600px) {
 		  .images-show{
@@ -197,7 +201,6 @@
 				margin-top: -14px !important;
 			} 
 			.mobile_responsible_table>tbody tr:not(.datepicker-row):not(.mobile_hide_row) {
-			    border-bottom: 3px solid #7C698C;
 			}
 			.mobile_responsible_table>tbody >tr:not(.datepicker-row)> td> div.btn{
 				float:none;
@@ -439,7 +442,7 @@
 													
 												</tbody>
 											</table>
-											<table class="mdl-data-table">
+											<table class="mdl-data-table table-add">
 												<tbody>
 													<tr class="bd-none">
 														<td colspan="6"  ><a
@@ -547,7 +550,7 @@
 													
 												</tbody>
 											</table>
-											<table class="mdl-data-table">
+											<table class="mdl-data-table table-add">
 												<tbody>
 													<tr  class="bd-none">
 														<td colspan="6"  ><a
@@ -656,7 +659,7 @@
 													</c:choose>
 												</tbody>
 											</table>
-											<table class="mdl-data-table">
+											<table class="mdl-data-table table-add">
 												<tbody>
 													<tr>
 														<td colspan="6"  ><a
@@ -688,16 +691,16 @@
                                 <div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
                                     <div class=" m-1">
                                      <c:if test="${action eq 'edit'}">
- 											<button onclick="updateProject();" class="btn waves-effect waves-light bg-m">Update</button>    
+ 											<button onclick="updateProject();" class="btn waves-effect waves-light bg-m w7em">Update</button>    
  									 </c:if>
                                          <c:if test="${action eq 'add'}">
- 											<button onclick="addProject();" class="btn waves-effect waves-light bg-m">Add</button>    
+ 											<button onclick="addProject();" class="btn waves-effect waves-light bg-m w7em">Add</button>    
  									 </c:if>
                                     </div>
                                 </div>
                                 <div class="col s6 m4 l6 mt-brdr center-align">
                                     <div class=" m-1">
-                                        <a href="<%=request.getContextPath()%>/project" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/project" class="btn waves-effect waves-light bg-s w7em">Cancel</a>
                                     </div>
                                 </div>
                             </div>

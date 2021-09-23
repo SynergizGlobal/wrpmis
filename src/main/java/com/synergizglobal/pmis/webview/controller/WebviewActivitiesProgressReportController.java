@@ -44,6 +44,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ActivitiesProgressReportService;
+import com.synergizglobal.pmis.Iservice.ActivitiesStatusReportService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
@@ -61,7 +62,8 @@ public class WebviewActivitiesProgressReportController {
 	
 	@Autowired
 	ActivitiesProgressReportService service;
-	
+	@Autowired
+	ActivitiesStatusReportService service1;
 	@Value("${common.error.message}")
 	public String commonError;
 	
@@ -81,7 +83,20 @@ public class WebviewActivitiesProgressReportController {
 	public ModelAndView activitiesProgressReport(@ModelAttribute ActivitiesProgressReport obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView(MobilePageConstants.activitiesProgressReport);
 		try{
+			List<ActivitiesProgressReport> contarctsList = service1.getContractsFilterListInActivitiesStatusReport(obj);
+			model.addObject("contarctsList", contarctsList);
 			
+			List<ActivitiesProgressReport> worksList = service1.getWorksFilterListInActivitiesStatusReport(obj);
+			model.addObject("worksList", worksList);
+			
+			List<ActivitiesProgressReport> contractorsList = service.getContractorsFilterListInActivitiesReport(obj);
+			model.addObject("contractorsList", contractorsList);
+			
+			List<ActivitiesProgressReport> hodList = service.getHodFilterListInActivitiesReport(obj);
+			model.addObject("hodList", hodList);
+			
+			List<ActivitiesProgressReport> dyhodList = service.getDyhodFilterListInActivitiesReport(obj);
+			model.addObject("dyhodList", dyhodList);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("activitiesProgressReport : " + e.getMessage());
@@ -168,9 +183,12 @@ public class WebviewActivitiesProgressReportController {
 	}
 	
 	@RequestMapping(value = "/generate-activities-progress-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generateActivitiesProgressReport(@ModelAttribute ActivitiesProgressReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/mobileappwebview/activities-progress-report");
+	public void generateActivitiesProgressReport(@ModelAttribute ActivitiesProgressReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
+		//ModelAndView model = new ModelAndView("redirect:/mobileappwebview/activities-progress-report");
 		try{
+			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			String report_created_date = df.format(new Date());
+			
 			String reporting_date = obj.getReporting_date();
 			//obj.setReporting_date(DateParser.parse(obj.getReporting_date()));
 			
@@ -196,7 +214,7 @@ public class WebviewActivitiesProgressReportController {
 	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
 	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
 	        
-	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Garamond";
 	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
@@ -205,7 +223,7 @@ public class WebviewActivitiesProgressReportController {
 	        
 	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        
-	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Garamond";
 	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	       
 	        /********************************************************/
@@ -222,10 +240,22 @@ public class WebviewActivitiesProgressReportController {
 			        XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(details.getContract_short_name()));
 			        workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
 			        
+			        XSSFRow dateRow = dprSheet.createRow(0);
+			        
+			        Cell cell = dateRow.createCell(2);
+			        cell.setCellStyle(whiteStyle);
+					cell.setCellValue("Date : " + report_created_date);
+			        for (int i = 3; i < 9; i++) {		        	
+				        cell = dateRow.createCell(i);
+				        cell.setCellStyle(whiteStyle);
+						cell.setCellValue("");
+					}	
+			        dprSheet.addMergedRegion(new CellRangeAddress(0, 0, 2,8));
+			        
 			        	
 			        XSSFRow mainHeadingRow = dprSheet.createRow(2);
 			        
-			        Cell cell = mainHeadingRow.createCell(2);
+			        cell = mainHeadingRow.createCell(2);
 			        cell.setCellStyle(greenStyle);
 					cell.setCellValue("Activities Progress Report ");
 			        for (int i = 3; i < 9; i++) {		        	
@@ -346,7 +376,7 @@ public class WebviewActivitiesProgressReportController {
 							}	
 							dprSheet.addMergedRegion(new CellRangeAddress(tempRowNo,tempRowNo, 3,8));
 				            /**********************************************************************/
-							String headerString = "Structure^component^Component ID^Activity^Total Scope^Progress of the day^Cumulative Completed";
+							String headerString = "Structure^component^Component ID^Activity^Total Scope^Progress For The Period^Cumulative Completed";
 					        
 					        String[] headerStringArr = headerString.split("\\^");
 					        
@@ -389,7 +419,7 @@ public class WebviewActivitiesProgressReportController {
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);
-								cell.setCellValue(Double.parseDouble(dObj.getCumulative_completed()));
+								cell.setCellValue(!StringUtils.isEmpty(dObj.getCumulative_completed())?Double.parseDouble(dObj.getCumulative_completed()):0);
 								
 						        rowNo++;
 						    }
@@ -412,31 +442,35 @@ public class WebviewActivitiesProgressReportController {
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
             Date date = new Date();
-            String fileName = "Activities_Report_"+dateFormat.format(date)+".xlsx";
+            String fileName = "Activities_Report_"+dateFormat.format(date);
             
             try{
                 /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
                 workBook.write(fos);
                 fos.flush();*/
             	
-				response.setContentType("application/.csv");
-				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-				response.setContentType("application/vnd.ms-excel");
-				response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
-				 
-				workBook.write(response.getOutputStream()); // Write workbook to response.
-				workBook.close();
-				response.getOutputStream().flush();
+               response.setContentType("application/.csv");
+ 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+ 			   response.setContentType("application/vnd.ms-excel");
+ 			   // add response header
+ 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+ 			   
+ 			    //copies all bytes from a file to an output stream
+ 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+	           workBook.close();
+ 			    //flushes output stream
+ 			    response.getOutputStream().flush();
             	
-				/*ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				workBook.write(baos);
-				byte[] bytes = baos.toByteArray();
-				
-				String saveDirectory = CommonConstants2.ACTIVITY_PROGRESS_FILE_SAVING_PATH;
-				 
-				FileUploads.bytesInFileSaving(bytes, saveDirectory, fileName);
-				
-				attributes.addFlashAttribute("progressReportPath", CommonConstants2.ACTIVITY_PROGRESS_REPORT+fileName);*/
+                
+                //attributes.addFlashAttribute("success",dataExportSucess);
+            	//response.setContentType("application/vnd.ms-excel");
+            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+            	// ...
+            	// Now populate workbook the usual way.
+            	// ...
+            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+            	//workbook.close();
             }catch(FileNotFoundException e){
                 e.printStackTrace();
                 logger.error("generateStripChartDPRReport : " + e.getMessage());
@@ -448,9 +482,9 @@ public class WebviewActivitiesProgressReportController {
             }
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("generateActivitiesProgressReport : " + e.getMessage());
+			logger.error("generateStripChartDPRReport : " + e.getMessage());
 		}
-		return model;
+		//return model;
     }
 	
 	private CellStyle cellFormating(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {
@@ -475,7 +509,7 @@ public class WebviewActivitiesProgressReportController {
 		Font font = workBook.createFont();
         //font.setColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
         font.setFontHeightInPoints((short)fontSize);  
-        font.setFontName(fontName);  //"Times New Roman"
+        font.setFontName(fontName);  //"Calibri"
         
         font.setItalic(isItalicText); 
         font.setBold(isBoldText);

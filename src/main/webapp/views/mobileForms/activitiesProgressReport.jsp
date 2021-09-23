@@ -47,7 +47,7 @@
 						</span>
 					</div>
 					<!-- form start-->
-					<form action="<%=request.getContextPath()%>/mobileappwebview/mobileappwebview/generate-activities-dpr-report" id="activitiesReportForm" name="activitiesReportForm" method="post" target="_blank">
+					<form action="<%=request.getContextPath()%>/mobileappwebview/generate-activities-dpr-report" id="activitiesReportForm" name="activitiesReportForm" method="post" target="_blank">
 						<div class="row">
 						<div class="col s12 m12 l7 offset-l2 offset-m1">
 							<div class="row no-mar" style="margin-bottom:0;">

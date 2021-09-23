@@ -623,7 +623,67 @@ public class TrainingDaoImpl implements TrainingDao{
 						arraySize = obj.getEnd_times().length;
 					}
 				}
-
+				if(!StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
+					obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
+					if(arraySize < obj.getRemarkss().length) {
+						arraySize = obj.getRemarkss().length;
+					}
+				}
+				int	arraySize1 = 0;
+				if(!StringUtils.isEmpty(obj.getDepartment_fks()) && obj.getDepartment_fks().length > 0) {
+					obj.setDepartment_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getDepartment_fks()));
+					if(arraySize1 < obj.getDepartment_fks().length) {
+						arraySize1 = obj.getDepartment_fks().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getAttendees()) && obj.getAttendees().length > 0) {
+					obj.setAttendees(CommonMethods.replaceEmptyByNullInSringArray(obj.getAttendees()));
+					if(arraySize1 < obj.getAttendees().length) {
+						arraySize1 = obj.getAttendees().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getTrainee_designations()) && obj.getTrainee_designations().length > 0) {
+					obj.setTrainee_designations(CommonMethods.replaceEmptyByNullInSringArray(obj.getTrainee_designations()));
+					if(arraySize1 < obj.getTrainee_designations().length) {
+						arraySize1 = obj.getTrainee_designations().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getMobile_nos()) && obj.getMobile_nos().length > 0) {
+					obj.setMobile_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getMobile_nos()));
+					if(arraySize1 < obj.getMobile_nos().length) {
+						arraySize1 = obj.getMobile_nos().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getRequired_fks()) && obj.getRequired_fks().length > 0) {
+					obj.setRequired_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getRequired_fks()));
+					if(arraySize1 < obj.getRequired_fks().length) {
+						arraySize1 = obj.getRequired_fks().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getParticipated_fks()) && obj.getParticipated_fks().length > 0) {
+					obj.setParticipated_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getParticipated_fks()));
+					if(arraySize1 < obj.getParticipated_fks().length) {
+						arraySize1 = obj.getParticipated_fks().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getHod_user_id_fks()) && obj.getHod_user_id_fks().length > 0) {
+					obj.setHod_user_id_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getHod_user_id_fks()));
+					if(arraySize1 < obj.getHod_user_id_fks().length) {
+						arraySize1 = obj.getHod_user_id_fks().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getIs_new_users()) && obj.getIs_new_users().length > 0) {
+					obj.setIs_new_users(CommonMethods.replaceEmptyByNullInSringArray(obj.getIs_new_users()));
+					if(arraySize1 < obj.getIs_new_users().length) {
+						arraySize1 = obj.getIs_new_users().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getEmails()) && obj.getEmails().length > 0) {
+					obj.setEmails(CommonMethods.replaceEmptyByNullInSringArray(obj.getEmails()));
+					if(arraySize1 < obj.getEmails().length) {
+						arraySize1 = obj.getEmails().length;
+					}
+				}
 				if(!StringUtils.isEmpty(obj.getSession_nos()) && obj.getSession_nos().length > 0) {
 					for (int i = 0; i < arraySize; i++) {
 						 if( obj.getSession_nos().length > 0 && !StringUtils.isEmpty(obj.getSession_nos()[i])) {
@@ -633,6 +693,7 @@ public class TrainingDaoImpl implements TrainingDao{
 							insertStmt.setString(p++,(obj.getSession_nos().length > 0)?obj.getSession_nos()[i]:null);
 						    insertStmt.setString(p++,DateParser.parseDateTime((obj.getStart_times().length > 0)?obj.getStart_times()[i]:null));
 						    insertStmt.setString(p++,DateParser.parseDateTime((obj.getEnd_times().length > 0)?obj.getEnd_times()[i]:null));
+						    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
 						    insertStmt.addBatch();
 						 }
 					int[] insertCount = insertStmt.executeBatch();
@@ -701,8 +762,7 @@ public class TrainingDaoImpl implements TrainingDao{
 							    if( obj.getDepartment_fks().length > 0 && !StringUtils.isEmpty(obj.getDepartment_fks()[a])) 
 							    {
 							    	
-							    	if( (obj.getIs_new_users()[a]) != null) 
-							    	{
+							    	if( (obj.getIs_new_users()[a]) != null) {
 							    		String role_code = "SU";
 							    		obj.setUser_type_fk("Training");obj.setUser_name(obj.getAttendees()[a]);obj.setDepartment_fk(obj.getDepartment_fks()[a]);
 							    		obj.setEmail(obj.getEmails()[a]);obj.setMobile_no(obj.getMobile_nos()[a]); obj.setHod_user_id_fk(obj.getHod_user_id_fks()[a]);
@@ -716,8 +776,7 @@ public class TrainingDaoImpl implements TrainingDao{
 										paramSource = new BeanPropertySqlParameterSource(obj);		 
 										int userCount = namedParamJdbcTemplate.update(addUserQry, paramSource);	
 										
-							    	}else 
-							    	{
+							    	}else {
 							    		  user_id = obj.getAttendees()[a];
 							    	}
 								    insertStmt1.setString(k++,(obj.getTraining_id()));

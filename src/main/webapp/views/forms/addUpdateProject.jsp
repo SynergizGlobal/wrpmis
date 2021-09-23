@@ -224,7 +224,7 @@
                                		<h6>Add Project</h6>
                                	 </c:if>
                                	 <c:if test="${action eq 'edit'}">	
-                               		<h6>Edit Project</h6>
+                               		<h6>Edit Project (${projectDetails.project_id })</h6>
                                	 </c:if>
                             </div>
                         </span>
@@ -255,24 +255,7 @@
 							
                             <div class="row">
                                
-                                <c:if test="${action eq 'edit'}">	
-                                	<div class="col s6 m4 l6 input-field offset-m2">			                
-	                                     <input id="project_id" type="text" class="form-control" name="project_id" value="${projectDetails.project_id }" readonly >   
-	                               		 <label>Project ID :</label>
-                               		 </div>
-                               		 <div class="col s6 m4 l6 input-field">
-	                                    <input id=project_name type="text" class="validate" value="${projectDetails.project_name }" name="project_name">
-	                                    <label for="project_name">Project Name <span class="required">*</span></label>
-	                                    <span  id="project_nameError"> </span>
-	                                </div>
-                                </c:if>
-                                <c:if test="${action ne 'edit'}">
-	                                <div class="col s6 m8 l12 input-field offset-m2">
-	                                    <input id=project_name type="text" class="validate" value="${projectDetails.project_name }" name="project_name">
-	                                    <label for="project_name">Project Name <span class="required">*</span></label>
-	                                    <span  id="project_nameError"> </span>
-	                                </div>
-                                </c:if>
+                               
                             </div>
 
                             <div class="row">
@@ -281,7 +264,25 @@
                                     <label for="pink_book_item_number">PB Item No</label>
                                     <span  id="pink_book_item_numberError"> </span>
                                 </div> --%>
-                                <div class="col s6 m4 l6 input-field offset-m2">
+                                 <c:if test="${action eq 'edit'}">	
+                                <!--	<div class="col s6 m4 l4 input-field offset-m2">			                
+	                                     <input id="project_id" type="text" class="form-control" name="project_id" value="${projectDetails.project_id }" readonly >   
+	                               		 <label>Project ID :</label>
+                               		 </div> --!>
+                               		 <div class="col s6 m4 l4 input-field">
+	                                    <input id=project_name type="text" class="validate" value="${projectDetails.project_name }" name="project_name">
+	                                    <label for="project_name">Project Name <span class="required">*</span></label>
+	                                    <span  id="project_nameError"> </span>
+	                                </div>
+                                </c:if>
+                                <c:if test="${action ne 'edit'}">
+	                                <div class="col s6 m4 l4 input-field">
+	                                    <input id=project_name type="text" class="validate" value="${projectDetails.project_name }" name="project_name">
+	                                    <label for="project_name">Project Name <span class="required">*</span></label>
+	                                    <span  id="project_nameError"> </span>
+	                                </div>
+                                </c:if>
+                                <div class="col s6 m4 l4 input-field">
 <!-- 									<label for="project_staus">Project Status<span class="required">*</span></label> -->
 									 <p class="searchable_label">Project Status <span class="required">*</span></p>
 									<select class="validate-dropdown searchable" name="project_status" id="project_status">
@@ -291,7 +292,7 @@
 									</select> 
 									<span id="project_statusError"></span>
 								</div>
-                                <div class="col s6 m4 l6 input-field md-pt-2px">
+                                <div class="col s12 m4 l4 input-field md-pt-2px">
                                     <input id="plan_head_number" type="text" class="validate" value="${projectDetails.plan_head_number }" name="plan_head_number">
                                     <label for="plan_head_number" class='fs-sm-8rem'>Plan Head Number<span class="required">*</span></label>
                                     <span  id="plan_head_numberError"> </span>
@@ -328,20 +329,20 @@
                             
 
 							<div class="row">
-                              <div class="col m2 hide-on-small-only"></div>
-                              <div class="col s12 m8 l12 input-field">
+                              <div class="col s12 m6 l6 input-field">
                                   <textarea id="benefits"  name="benefits" class="pmis-textarea" data-length="1000" maxlength="1000">${projectDetails.benefits }</textarea>
                                   <label for="benefits">Benefits</label>
                                    <span id="benefitsError"></span>
                               </div>
-	                        </div>
-							<div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 l12 input-field">
+                              <div class="col s12 m6 l6 input-field">
                                     <textarea id="remarks" class="pmis-textarea"  maxlength="1000" data-length="1000"  name="remarks">${projectDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                      <span id="remarksError"></span>
                                 </div>
+	                        </div>
+							<div class="row">
+                                
+                                
                             </div>
 							
 							<div class="row">

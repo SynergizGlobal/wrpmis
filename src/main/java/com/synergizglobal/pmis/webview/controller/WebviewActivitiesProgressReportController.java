@@ -182,7 +182,7 @@ public class WebviewActivitiesProgressReportController {
 		return dyhodList;
 	}
 	
-	@RequestMapping(value = "/generate-activities-progress-report", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/generate-activities-dpr-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public void generateActivitiesProgressReport(@ModelAttribute ActivitiesProgressReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
 		//ModelAndView model = new ModelAndView("redirect:/mobileappwebview/activities-progress-report");
 		try{

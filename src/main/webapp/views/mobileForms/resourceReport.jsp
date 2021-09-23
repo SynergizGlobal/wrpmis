@@ -46,7 +46,7 @@
                         </div>
                     </span>
                     <div class="">
-			            <form action="<%=request.getContextPath()%>/mobileappwebview/mobileappwebview/generate-contract-resource-report" id="reportForm" name="reportForm" method="post" target="_blank">	                              
+			            <form action="<%=request.getContextPath()%>/mobileappwebview/generate-contract-resource-report" id="reportForm" name="reportForm" method="post" target="_blank">	                              
                        		 <div class="row no-mar">
                                 <div class="col s6 m4 l2 input-field offset-l3">
                                     <p class="searchable_label" style="text-align:left">Project</p>

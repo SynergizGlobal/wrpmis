@@ -41,7 +41,7 @@
                     <div class="">
                         <div class="row no-mar">
                             <div class="col l9 m10 s12 offset-m2 offset-l3">
-                            	<form action="<%=request.getContextPath()%>/mobileappwebview/mobileappwebview/generate-risk-analysis-report" id="reportForm" name="reportForm" method="post">
+                            	<form action="<%=request.getContextPath()%>/mobileappwebview/generate-risk-analysis-report" id="reportForm" name="reportForm" method="post">
 	                                <div class="row">
 	                                    <div class="col s6 m4 l3 input-field offset-l1">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>

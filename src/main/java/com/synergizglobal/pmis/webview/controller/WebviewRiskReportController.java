@@ -5,9 +5,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +39,11 @@ import org.docx4j.relationships.Relationship;
 import org.docx4j.utils.BufferUtil;
 import org.docx4j.wml.BooleanDefaultTrue;
 import org.docx4j.wml.Br;
+import org.docx4j.wml.CTBorder;
 import org.docx4j.wml.CTSettings;
+import org.docx4j.wml.CTShd;
+import org.docx4j.wml.CTTblLayoutType;
+import org.docx4j.wml.CTVerticalJc;
 import org.docx4j.wml.Color;
 import org.docx4j.wml.Drawing;
 import org.docx4j.wml.FldChar;
@@ -55,15 +61,26 @@ import org.docx4j.wml.PPr;
 import org.docx4j.wml.R;
 import org.docx4j.wml.RFonts;
 import org.docx4j.wml.RPr;
+import org.docx4j.wml.STBorder;
 import org.docx4j.wml.STBrType;
 import org.docx4j.wml.STFldCharType;
 import org.docx4j.wml.STHint;
 import org.docx4j.wml.STPageOrientation;
+import org.docx4j.wml.STTblLayoutType;
+import org.docx4j.wml.STVerticalJc;
 import org.docx4j.wml.SectPr;
+import org.docx4j.wml.Tbl;
+import org.docx4j.wml.TblPr;
+import org.docx4j.wml.TblWidth;
+import org.docx4j.wml.Tc;
+import org.docx4j.wml.TcPr;
 import org.docx4j.wml.SectPr.PgSz;
+import org.docx4j.wml.TcPrInner.TcBorders;
 import org.docx4j.wml.Text;
+import org.docx4j.wml.Tr;
 import org.docx4j.wml.U;
 import org.docx4j.wml.UnderlineEnumeration;
+import org.docx4j.wml.PPrBase.Spacing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -81,7 +98,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.RiskReportService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.DocxTableCreation;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.MobilePageConstants;
+import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.controller.RiskReportController;
 import com.synergizglobal.pmis.model.RiskReport;
 
 @Controller
@@ -91,13 +111,12 @@ public class WebviewRiskReportController {
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
-	public static Logger logger = Logger.getLogger(WebviewRiskReportController.class);
+	public static Logger logger = Logger.getLogger(RiskReportController.class);
 	public static String[] suffixes =
 	     {  "0th",  "1st",  "2nd",  "3rd",  "4th",  "5th",  "6th",  "7th",  "8th",  "9th",
 	       "10th", "11th", "12th", "13th", "14th", "15th", "16th", "17th", "18th", "19th",
 	       "20th", "21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th",
 	       "30th", "31st" };
-	
 	
 	
 	@Autowired
@@ -133,6 +152,19 @@ public class WebviewRiskReportController {
 		return worksList;
 	}
 	
+	@RequestMapping(value = "/ajax/getSubWorksListInRiskReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<RiskReport> getSubWorksListInRiskReport(@ModelAttribute RiskReport obj) {
+		List<RiskReport> worksList = null;
+		try {
+			worksList = riskReportService.getSubWorksListInRiskReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getSubWorksListInRiskReport : " + e.getMessage());
+		}
+		return worksList;
+	}
+	
 	@RequestMapping(value = "/ajax/getAssessmentDateListInRiskReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<RiskReport> getAssessmentDateListInRiskReport(@ModelAttribute RiskReport obj) {
@@ -149,7 +181,7 @@ public class WebviewRiskReportController {
 	
 	@RequestMapping(value = "/generate-risk-analysis-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateRiskAnalysisReport(@ModelAttribute RiskReport obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView(MobilePageConstants.riskAnalysisReport);
+		ModelAndView model = new ModelAndView("redirect:/mobileappwebview/risk-analysis-report");
 		try{
             //String directory = CommonConstants.EARTH_WORK_REPORTS_FILE_SAVING_PATH;
 			
@@ -174,13 +206,12 @@ public class WebviewRiskReportController {
 		byte[] byteArray;        
         //ObjectFactory objectFactory = new ObjectFactory();
 		boolean flag = false;
-		try{			
-			
+		try{
 			
 			RiskReport reportData = riskReportService.getRiskAnalysisReportData(obj);
 			
 			List<RiskReport> prioritizationOfRisks = riskReportService.getPrioritizationOfRisks(obj);
-			
+						
 			List<RiskReport> reductionPlanRisks = riskReportService.getReductionPlanRisks(obj);
 			
 			boolean landscape = false;
@@ -189,17 +220,25 @@ public class WebviewRiskReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
-			//String imagePath = CommonConstants2.DOCX_LOGO+"/"+"mrvc.png";
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+			String report_created_date = df.format(new Date()); 
 			
-			//JcEnumeration imageAlignment = JcEnumeration.LEFT;
 			
-			//String headerTextMiddle = "No.	MRVC/W/Risk	Analysis/2019";
+			String imagePath = CommonConstants2.DOCX_LOGO+"/"+"report_logo_mrvc.png";
 			
-			//String headerTextRight = currentDate;
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
-			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);			 
-			//createHeaderReference(wordMLPackage, mp, factory, relationship);
-			Relationship relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			String headerTextMiddle = "Risk Analysis Report";
+
+			String headerTextRight = report_created_date;
+			
+			RPr titleRpr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,titleRpr);		
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerTextRight);
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
 			DocxTableCreation.createTableForRiskAnalysisReport(wordMLPackage, mp, factory,reportData,prioritizationOfRisks,reductionPlanRisks);
@@ -239,6 +278,77 @@ public class WebviewRiskReportController {
 		}
 		
 		return flag;
+	}
+	
+	@RequestMapping(value = "/summary-of-risk-assessment-of-projects", method = {RequestMethod.GET,RequestMethod.POST})
+	public void summaryOfRiskAssessmentOfProjects(HttpServletResponse response) {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		try{
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+						
+			List<RiskReport> summaryOfRiskAssessment = riskReportService.getSummaryOfRiskAssessmentOfProjects();
+			
+			Map<String,List<RiskReport>> top5RiskAreas = riskReportService.getTop5RiskAreas();
+			
+			boolean landscape = true;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+			String report_created_date = df.format(new Date()); 
+			
+			
+			String imagePath = CommonConstants2.DOCX_LOGO+"/"+"report_logo_mrvc.png";
+			
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
+			
+			//String headerTextMiddle = "Summary of Risk Assessment of Projects";
+			String headerTextMiddle = "";
+
+			String headerTextRight = report_created_date;
+			
+			RPr titleRpr = getRPr(factory, "Calibri", "000000", "26", STHint.EAST_ASIA, true, false, false, false);
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,titleRpr);		
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerTextRight);
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreation.createTableForSummaryOfRiskAssessmentOfProjectsReport(wordMLPackage, mp, factory,summaryOfRiskAssessment,top5RiskAreas);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "SummaryOfRiskAssessmentOfProjectsReport-" + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("summaryOfRiskAssessmentOfProjects >> FileNotFoundException occurs.." + e.getMessage());
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("summaryOfRiskAssessmentOfProjects >> " + e.getMessage());
+		}
 	}
 	
 	/**
@@ -481,18 +591,29 @@ public class WebviewRiskReportController {
 	public Relationship createHeaderPart(
 			WordprocessingMLPackage wordprocessingMLPackage,
 			MainDocumentPart t, ObjectFactory factory,
-			String imagePath, JcEnumeration imageAlignment, String headerTextMiddle, String headerTextRight) throws Exception {
+			String imagePath, JcEnumeration imageAlignment, String headerTextMiddle, String headerTextRight,RPr titleRPr) throws Exception {
 		HeaderPart headerPart = new HeaderPart();
 		Relationship rel = t.addTargetPart(headerPart);
 		// After addTargetPart, so image can be added properly
 		headerPart.setJaxbElement(getHdr(wordprocessingMLPackage, factory,
-				headerPart,imagePath,imageAlignment,headerTextMiddle,headerTextRight));
+				headerPart,imagePath,imageAlignment,headerTextMiddle,headerTextRight,titleRPr));
+		return rel;
+	}
+	
+	public Relationship createHeaderPart(
+			WordprocessingMLPackage wordprocessingMLPackage,
+			MainDocumentPart t, ObjectFactory factory,String headerText) throws Exception {
+		HeaderPart headerPart = new HeaderPart();
+		Relationship rel = t.addTargetPart(headerPart);
+		// After addTargetPart, so image can be added properly
+		headerPart.setJaxbElement(getHdr(wordprocessingMLPackage, factory,
+				headerPart,headerText));
 		return rel;
 	}
 	
 	public Hdr getHdr(WordprocessingMLPackage wordprocessingMLPackage,
 			ObjectFactory factory, HeaderPart sourcePart,
-			String imagePath, JcEnumeration imageAlignment, String headerTextMiddle, String headerTextRight) throws Exception {
+			String imagePath, JcEnumeration imageAlignment, String headerTextMiddle, String headerTextRight,RPr titleRPr) throws Exception {
 		Hdr hdr = factory.createHdr();
 		//String path = CommonConstants.DOCX_LOGO+"/docx-logo.png";
 		//String path = CommonConstants.DOCX_LOGO+"/"+"ircon-report-header.png";
@@ -512,18 +633,20 @@ public class WebviewRiskReportController {
 					filenameHint, id1, id2, imageAlignment);
 		}
 		
-		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+		hdr.getContent().add(p);
+		
+		/*RPr boldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				true, false, false, false);
 		
 		
 		if(!StringUtils.isEmpty(headerTextMiddle)) {
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 0; i++) {
 				R.Tab rtab = factory.createRTab();
 		        JAXBElement<org.docx4j.wml.R.Tab> rtabWrapped = factory.createRTab(rtab);
 		        r.getContent().add( rtabWrapped);
 			}			
 			p.getContent().add(r);
-
+		
 			Text txt = factory.createText();
 			txt.setValue(headerTextMiddle);
 			r = factory.createR();
@@ -533,7 +656,7 @@ public class WebviewRiskReportController {
 		}
 		
 		if(!StringUtils.isEmpty(headerTextRight)) {
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 3; i++) {
 				R.Tab rtab = factory.createRTab();
 		        JAXBElement<org.docx4j.wml.R.Tab> rtabWrapped = factory.createRTab(rtab);
 		        r.getContent().add( rtabWrapped);
@@ -545,6 +668,166 @@ public class WebviewRiskReportController {
 			r.setRPr(boldRPr);
 			p.getContent().add(r);
 		}
+		hdr.getContent().add(p);*/	
+		
+		/*******************************************************************************/
+
+		Tbl table = factory.createTbl();
+		
+		TblPr tableProps = new TblPr();
+        CTTblLayoutType tblLayoutType = new CTTblLayoutType();
+        STTblLayoutType stTblLayoutType = STTblLayoutType.FIXED;
+        tblLayoutType.setType(stTblLayoutType);
+        tableProps.setTblLayout(tblLayoutType);
+        table.setTblPr(tableProps);
+        
+		Tr titleRow = factory.createTr();
+		addTableCell(factory, wordprocessingMLPackage, titleRow, "", titleRPr, JcEnumeration.CENTER, true, "ffffff");
+		addTableCell(factory, wordprocessingMLPackage, titleRow, headerTextMiddle, titleRPr, JcEnumeration.CENTER, true,
+				"ffffff");
+		addTableCell(factory, wordprocessingMLPackage, titleRow, headerTextRight, titleRPr, JcEnumeration.RIGHT, true,
+				"ffffff");
+		table.getContent().add(titleRow);
+		setTableAlign(factory, table, JcEnumeration.CENTER);
+
+		hdr.getContent().add(table);
+		
+		return hdr;
+	}
+	
+	public void addTableCell(ObjectFactory factory, WordprocessingMLPackage wordMLPackage, Tr tableRow, String content,
+			RPr rpr, JcEnumeration jcEnumeration, boolean hasBgColor, String backgroudColor) {
+		Tc tableCell = factory.createTc();
+		P p = factory.createP();
+		setParagraphAlign(factory, p, jcEnumeration);
+		//Text t = factory.createText();
+		//t.setValue(content);
+		R run = factory.createR();
+		run.setRPr(rpr);
+
+		//run.getContent().add(t);
+
+		p.getContent().add(run);
+		if (content != null) {
+			String[] contentArr = content.split("\n");
+			Text text = factory.createText();
+			text.setSpace("preserve");
+			text.setValue(contentArr[0]);
+			run.getContent().add(text);
+
+			for (int i = 1, len = contentArr.length; i < len; i++) {
+				Br br = factory.createBr();
+				run.getContent().add(br);
+				text = factory.createText();
+				text.setSpace("preserve");
+				text.setValue(contentArr[i]);
+				run.getContent().add(text);
+			}
+		}
+
+		TcPr tcPr = tableCell.getTcPr();
+		if (tcPr == null) {
+			tcPr = factory.createTcPr();
+		}
+
+		CTVerticalJc valign = factory.createCTVerticalJc();
+		valign.setVal(STVerticalJc.CENTER);
+		tcPr.setVAlign(valign);
+
+		//Removing space in cells
+		PPr pPr = factory.createPPr();
+		Spacing spacing = new Spacing();
+		spacing.setBefore(BigInteger.TWO);
+		spacing.setAfter(BigInteger.TWO);
+		//spacing.setAfterLines(BigInteger.TEN);
+		//spacing.setBeforeLines(BigInteger.TEN);
+		pPr.setSpacing(spacing);
+
+		Jc justification = factory.createJc();
+		justification.setVal(jcEnumeration);
+		pPr.setJc(justification);
+
+		p.setPPr(pPr);
+
+		tableCell.getContent().add(p);
+		if (hasBgColor) {
+			CTShd shd = tcPr.getShd();
+			if (shd == null) {
+				shd = factory.createCTShd();
+			}
+			shd.setColor("auto");
+			shd.setFill(backgroudColor);
+			tcPr.setShd(shd);
+		}
+
+		TcBorders tcb = factory.createTcPrInnerTcBorders();
+		CTBorder ctb = factory.createCTBorder();
+		STBorder stb = STBorder.NONE;
+		ctb.setVal(stb);
+		tcb.setBottom(ctb);
+		tcb.setRight(ctb);
+		tcb.setLeft(ctb);
+		tcb.setTop(ctb);
+		tcPr.setTcBorders(tcb);
+
+		tableCell.setTcPr(tcPr);
+
+		tableRow.getContent().add(tableCell);
+	}
+
+	public static void setTableAlign(ObjectFactory factory, Tbl table, JcEnumeration jcEnumeration) {
+		TblPr tablePr = table.getTblPr();
+		if (tablePr == null) {
+			tablePr = factory.createTblPr();
+		}
+		Jc jc = tablePr.getJc();
+		if (jc == null) {
+			jc = new Jc();
+		}
+		jc.setVal(jcEnumeration);
+		tablePr.setJc(jc);
+
+		TblWidth tblwidth = factory.createTblWidth();
+		tblwidth.setW(BigInteger.valueOf(5000)); // 5000 = 100%
+		tblwidth.setType("pct");
+		tablePr.setTblW(tblwidth);
+
+		table.setTblPr(tablePr);
+	}
+	
+	public Hdr getHdr(WordprocessingMLPackage wordprocessingMLPackage,
+			ObjectFactory factory, HeaderPart sourcePart,String headerText) throws Exception {
+		Hdr hdr = factory.createHdr();
+		
+		P p = factory.createP();
+		R r = factory.createR();		
+		
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
+				true, false, false, false);
+		
+		
+		if(!StringUtils.isEmpty(headerText)) {			
+			PPr pPr = p.getPPr();
+			if (pPr == null) {
+				pPr = factory.createPPr();
+			}
+			Jc jc = pPr.getJc();
+			if (jc == null) {
+				jc = new Jc();
+			}
+			jc.setVal(JcEnumeration.RIGHT);
+			pPr.setJc(jc);
+			p.setPPr(pPr);
+
+			Text txt = factory.createText();
+			txt.setValue(headerText);
+			r = factory.createR();
+			r.getContent().add(txt);
+			r.setRPr(boldRPr);
+			p.getContent().add(r);
+		}
+		
+		
 		
 		hdr.getContent().add(p);	
 		
@@ -572,8 +855,11 @@ public class WebviewRiskReportController {
 		if (jc == null) {
 			jc = new Jc();
 		}
-		jc.setVal(jcEnumeration);
-		pPr.setJc(jc);
+		if(!org.springframework.util.StringUtils.isEmpty(jcEnumeration)) {
+			jc.setVal(jcEnumeration);
+			pPr.setJc(jc);
+		}
+		
 		p.setPPr(pPr);
 		return p;
 	}
@@ -627,7 +913,7 @@ public class WebviewRiskReportController {
 	
 	public void addEmptyParagraph(WordprocessingMLPackage wordMLPackage,
 			MainDocumentPart t, ObjectFactory factory) throws Exception {
-		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+		RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
 				true, false, false, false);
 		P paragraph = factory.createP();
 		setParagraphAlign(factory, paragraph, JcEnumeration.CENTER);
@@ -643,11 +929,11 @@ public class WebviewRiskReportController {
 	
 	public void addHeading(WordprocessingMLPackage wordMLPackage,
 			MainDocumentPart t, ObjectFactory factory,String contentValue) throws Exception {
-		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+		RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
 				true, true, false, false);
-		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
-		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
 		P paragraph = factory.createP();
@@ -727,7 +1013,7 @@ public class WebviewRiskReportController {
 	public Ftr createFooterWithPageNr(ObjectFactory factory) {
 		Ftr ftr = factory.createFtr();
 		P paragraph = factory.createP();
-		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);
 		R run = factory.createR();
 		run.setRPr(fontRPr);

@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
+import org.apache.log4j.Logger;
+
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.velocity.runtime.directive.Foreach;
@@ -37,12 +39,15 @@ import com.synergizglobal.pmis.Idao.TrainingDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Document;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.RiskReport;
 import com.synergizglobal.pmis.model.TAFinancials;
@@ -51,6 +56,8 @@ import com.synergizglobal.pmis.model.ZonalRailway;
 
 @Repository
 public class TrainingDaoImpl implements TrainingDao{
+	
+	public static Logger logger = Logger.getLogger(TrainingDaoImpl.class);
 	
 	@Autowired
 	DataSource dataSource;
@@ -593,9 +600,8 @@ public class TrainingDaoImpl implements TrainingDao{
 				paramSource = new BeanPropertySqlParameterSource(obj);		 
 				count = namedParamJdbcTemplate.update(deleteQry1, paramSource);
 				
-				String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time,"
-						+"remarks) "
-						+"VALUES (?,?,?,?,?)";
+				String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time) "
+						+"VALUES (?,?,?,?)";
 				insertStmt = con.prepareStatement(insertQry1,Statement.RETURN_GENERATED_KEYS);
 				
 				int	arraySize = 0;
@@ -617,67 +623,7 @@ public class TrainingDaoImpl implements TrainingDao{
 						arraySize = obj.getEnd_times().length;
 					}
 				}
-				if(!StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
-					obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
-					if(arraySize < obj.getRemarkss().length) {
-						arraySize = obj.getRemarkss().length;
-					}
-				}
-				int	arraySize1 = 0;
-				if(!StringUtils.isEmpty(obj.getDepartment_fks()) && obj.getDepartment_fks().length > 0) {
-					obj.setDepartment_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getDepartment_fks()));
-					if(arraySize1 < obj.getDepartment_fks().length) {
-						arraySize1 = obj.getDepartment_fks().length;
-					}
-				}
-				if(!StringUtils.isEmpty(obj.getAttendees()) && obj.getAttendees().length > 0) {
-					obj.setAttendees(CommonMethods.replaceEmptyByNullInSringArray(obj.getAttendees()));
-					if(arraySize1 < obj.getAttendees().length) {
-						arraySize1 = obj.getAttendees().length;
-					}
-				}
-				if(!StringUtils.isEmpty(obj.getTrainee_designations()) && obj.getTrainee_designations().length > 0) {
-					obj.setTrainee_designations(CommonMethods.replaceEmptyByNullInSringArray(obj.getTrainee_designations()));
-					if(arraySize1 < obj.getTrainee_designations().length) {
-						arraySize1 = obj.getTrainee_designations().length;
-					}
-				}
-				if(!StringUtils.isEmpty(obj.getMobile_nos()) && obj.getMobile_nos().length > 0) {
-					obj.setMobile_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getMobile_nos()));
-					if(arraySize1 < obj.getMobile_nos().length) {
-						arraySize1 = obj.getMobile_nos().length;
-					}
-				}
-				if(!StringUtils.isEmpty(obj.getRequired_fks()) && obj.getRequired_fks().length > 0) {
-					obj.setRequired_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getRequired_fks()));
-					if(arraySize1 < obj.getRequired_fks().length) {
-						arraySize1 = obj.getRequired_fks().length;
-					}
-				}
-				if(!StringUtils.isEmpty(obj.getParticipated_fks()) && obj.getParticipated_fks().length > 0) {
-					obj.setParticipated_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getParticipated_fks()));
-					if(arraySize1 < obj.getParticipated_fks().length) {
-						arraySize1 = obj.getParticipated_fks().length;
-					}
-				}
-				if(!StringUtils.isEmpty(obj.getHod_user_id_fks()) && obj.getHod_user_id_fks().length > 0) {
-					obj.setHod_user_id_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getHod_user_id_fks()));
-					if(arraySize1 < obj.getHod_user_id_fks().length) {
-						arraySize1 = obj.getHod_user_id_fks().length;
-					}
-				}
-				if(!StringUtils.isEmpty(obj.getIs_new_users()) && obj.getIs_new_users().length > 0) {
-					obj.setIs_new_users(CommonMethods.replaceEmptyByNullInSringArray(obj.getIs_new_users()));
-					if(arraySize1 < obj.getIs_new_users().length) {
-						arraySize1 = obj.getIs_new_users().length;
-					}
-				}
-				if(!StringUtils.isEmpty(obj.getEmails()) && obj.getEmails().length > 0) {
-					obj.setEmails(CommonMethods.replaceEmptyByNullInSringArray(obj.getEmails()));
-					if(arraySize1 < obj.getEmails().length) {
-						arraySize1 = obj.getEmails().length;
-					}
-				}
+
 				if(!StringUtils.isEmpty(obj.getSession_nos()) && obj.getSession_nos().length > 0) {
 					for (int i = 0; i < arraySize; i++) {
 						 if( obj.getSession_nos().length > 0 && !StringUtils.isEmpty(obj.getSession_nos()[i])) {
@@ -687,7 +633,6 @@ public class TrainingDaoImpl implements TrainingDao{
 							insertStmt.setString(p++,(obj.getSession_nos().length > 0)?obj.getSession_nos()[i]:null);
 						    insertStmt.setString(p++,DateParser.parseDateTime((obj.getStart_times().length > 0)?obj.getStart_times()[i]:null));
 						    insertStmt.setString(p++,DateParser.parseDateTime((obj.getEnd_times().length > 0)?obj.getEnd_times()[i]:null));
-						    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
 						    insertStmt.addBatch();
 						 }
 					int[] insertCount = insertStmt.executeBatch();
@@ -866,9 +811,9 @@ public class TrainingDaoImpl implements TrainingDao{
 			con.setAutoCommit(false);
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String qry = "INSERT INTO training (training_type_fk,training_category_fk,faculty_name,designation,title,description,training_center,"
-					+ "status_fk) "
+					+ "status_fk,remarks) "
 					+ "VALUES"
-					+ "(:training_type_fk,:training_category_fk,:faculty_name,:designation,:title,:description,:training_center,:status_fk)";
+					+ "(:training_type_fk,:training_category_fk,:faculty_name,:designation,:title,:description,:training_center,:status_fk,:remarks)";
 			
 
 			
@@ -888,9 +833,8 @@ public class TrainingDaoImpl implements TrainingDao{
 			
 			if(flag) {
 				if(!StringUtils.isEmpty(obj.getSession_nos()) && obj.getSession_nos().length > 0) {
-					String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time"
-							+",remarks) "
-							+"VALUES (?,?,?,?,?)";
+					String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time) "
+							+"VALUES (?,?,?,?)";
 					insertStmt = con.prepareStatement(insertQry1,Statement.RETURN_GENERATED_KEYS);
 					
 					int	arraySize = 0;
@@ -912,62 +856,6 @@ public class TrainingDaoImpl implements TrainingDao{
 							arraySize = obj.getEnd_times().length;
 						}
 					}
-					if(!StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
-						obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
-						if(arraySize < obj.getRemarkss().length) {
-							arraySize = obj.getRemarkss().length;
-						}
-					}
-					int	arraySize1 = 0;
-					if(!StringUtils.isEmpty(obj.getDepartment_fks()) && obj.getDepartment_fks().length > 0) {
-						obj.setDepartment_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getDepartment_fks()));
-						if(arraySize1 < obj.getDepartment_fks().length) {
-							arraySize1 = obj.getDepartment_fks().length;
-						}
-					}
-					if(!StringUtils.isEmpty(obj.getAttendees()) && obj.getAttendees().length > 0) {
-						obj.setAttendees(CommonMethods.replaceEmptyByNullInSringArray(obj.getAttendees()));
-						if(arraySize1 < obj.getAttendees().length) {
-							arraySize1 = obj.getAttendees().length;
-						}
-					}
-					if(!StringUtils.isEmpty(obj.getTrainee_designations()) && obj.getTrainee_designations().length > 0) {
-						obj.setTrainee_designations(CommonMethods.replaceEmptyByNullInSringArray(obj.getTrainee_designations()));
-						if(arraySize1 < obj.getTrainee_designations().length) {
-							arraySize1 = obj.getTrainee_designations().length;
-						}
-					}
-					
-					if(!StringUtils.isEmpty(obj.getMobile_nos()) && obj.getMobile_nos().length > 0) {
-						obj.setMobile_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getMobile_nos()));
-						if(arraySize1 < obj.getMobile_nos().length) {
-							arraySize1 = obj.getMobile_nos().length;
-						}
-					}
-					if(!StringUtils.isEmpty(obj.getRequired_fks()) && obj.getRequired_fks().length > 0) {
-						obj.setRequired_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getRequired_fks()));
-						if(arraySize1 < obj.getRequired_fks().length) {
-							arraySize1 = obj.getRequired_fks().length;
-						}
-					}
-					if(!StringUtils.isEmpty(obj.getParticipated_fks()) && obj.getParticipated_fks().length > 0) {
-						obj.setParticipated_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getParticipated_fks()));
-						if(arraySize1 < obj.getParticipated_fks().length) {
-							arraySize1 = obj.getParticipated_fks().length;
-						}
-					}
-					if(!StringUtils.isEmpty(obj.getIs_new_users()) && obj.getIs_new_users().length > 0) {
-						obj.setIs_new_users(CommonMethods.replaceEmptyByNullInSringArray(obj.getIs_new_users()));
-						if(arraySize1 < obj.getIs_new_users().length) {
-							arraySize1 = obj.getIs_new_users().length;
-						}
-					}
-					if(!StringUtils.isEmpty(obj.getEmails()) && obj.getEmails().length > 0) {
-						obj.setEmails(CommonMethods.replaceEmptyByNullInSringArray(obj.getEmails()));
-						if(arraySize1 < obj.getEmails().length) {
-							arraySize1 = obj.getEmails().length;
-						}
-					}
 					for (int i = 0; i < arraySize; i++) {
 						 if( obj.getSession_nos().length > 0 && !StringUtils.isEmpty(obj.getSession_nos()[i])) {
 						    int p = 1;
@@ -976,13 +864,13 @@ public class TrainingDaoImpl implements TrainingDao{
 							insertStmt.setString(p++,(obj.getSession_nos().length > 0)?obj.getSession_nos()[i]:null);
 						    insertStmt.setString(p++,DateParser.parseDateTime((obj.getStart_times().length > 0)?obj.getStart_times()[i]:null));
 						    insertStmt.setString(p++,DateParser.parseDateTime((obj.getEnd_times().length > 0)?obj.getEnd_times()[i]:null));
-						    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
 						    insertStmt.addBatch();
 						 }
 						   
 					int[] insertCount = insertStmt.executeBatch();
 					rs = insertStmt.getGeneratedKeys();
-					if(insertCount.length > 0) {
+					/*if(insertCount.length > 0) 
+					{
 						
 						String insertQry2 = "INSERT into  training_attendees (training_id_fk,training_session_id_fk,required_fk,participated_fk,user_id) "
 								+"VALUES (?,?,?,?,?)";
@@ -1060,7 +948,7 @@ public class TrainingDaoImpl implements TrainingDao{
 							if(insertCount1.length > 0) {
 								flag = true;
 							}
-					    }
+					    }*/
 						
 					}
 				}
@@ -1097,7 +985,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			
 		return flag;
 	}
-
+	
 	@Override
 	public List<Training> getUsersList(Training obj) throws Exception {
 		List<Training> objsList = null;

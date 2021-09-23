@@ -134,7 +134,7 @@
 
 							<div class="col s12 m4">
 								<div class="m-1 c-align">
-									<a href="<%=request.getContextPath()%>/add-training-form"
+									<a href="<%=request.getContextPath()%>/create-training"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add Training</strong></a>
 								</div>

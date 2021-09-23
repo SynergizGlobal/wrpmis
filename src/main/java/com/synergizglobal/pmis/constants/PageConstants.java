@@ -76,6 +76,7 @@ public class PageConstants {
 	
 	public static final String trainingGrid = "forms/trainingGrid";
 	public static final String addEditTrainingForm = "forms/addEditTrainingForm";
+	public static final String createUpdateTrainingForm = "forms/createUpdateTrainingForm";
 	
 	public static final String riskAssessmentUpload = "forms/riskAssessmentUpload";
 	public static final String riskATRUpdateForm = "forms/riskATRUpdateForm";

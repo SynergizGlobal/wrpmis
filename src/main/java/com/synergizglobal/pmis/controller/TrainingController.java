@@ -325,11 +325,46 @@ public class TrainingController {
 		return model;
 	 }
 	
+	@RequestMapping(value = "/create-training", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView createTraining(@ModelAttribute Training obj ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.createUpdateTrainingForm);
+			model.addObject("action", "add");
+			
+			List<Training> statusList = trainingService.getStatusList();
+			model.addObject("statusList", statusList);
+			
+			List<Training> categoriesList = trainingService.getCategoriesList();
+			model.addObject("categoriesList", categoriesList);
+			
+			List<Training> trainingTypesList = trainingService.getTrainingTypesList();
+			model.addObject("trainingTypesList", trainingTypesList);
+			
+			List<Training> departmentsList = trainingService.getDepartmentsList();
+			model.addObject("departmentsList", departmentsList);
+			
+			List<Training> issueCatogoriesList = trainingService.getIssueCatogoriesList();
+			model.addObject("issueCatogoriesList", issueCatogoriesList);
+			
+			List<Training> usersList = trainingService.getUsersList(obj);
+			model.addObject("usersList", usersList);
+			
+			List<Training> attendeesList = trainingService.getAttendeesList(obj);
+			model.addObject("attendeesList", attendeesList);
+			
+		}catch (Exception e) {
+				logger.error("addTrainingForm : " + e.getMessage());
+		}
+		return model;
+	 }	
+	
+	
 	@RequestMapping(value = "/get-training", method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView getTraining(@ModelAttribute Training obj ){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName(PageConstants.addEditTrainingForm);
+			model.setViewName(PageConstants.createUpdateTrainingForm);
 			model.addObject("action", "edit");
 			
 			List<Training> statusList = trainingService.getStatusList();

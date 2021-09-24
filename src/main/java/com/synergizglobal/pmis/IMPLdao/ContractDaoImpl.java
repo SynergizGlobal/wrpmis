@@ -1310,7 +1310,7 @@ public class ContractDaoImpl implements ContractDao {
 			
 			if("Close Contract".equalsIgnoreCase(contract.getUpdate_type())) {
 				contract.setContract_status("Closed");
-				contract.setContract_status_fk("Closed");
+				contract.setContract_status_fk("Completed");
 			}
 			String contractUpdate_Qry = "UPDATE contract SET work_id_fk = ?,contract_name = ?,contract_short_name = ?,contractor_id_fk = ?,contract_type_fk = ?,"
 								+"scope_of_contract = ?,hod_user_id_fk = ?,dy_hod_user_id_fk = ?,doc = ?,awarded_cost = ?,loa_letter_number = ?,loa_date = ?,ca_no = ?,ca_date = ?"

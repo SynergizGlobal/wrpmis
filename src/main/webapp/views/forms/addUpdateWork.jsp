@@ -32,6 +32,24 @@
             margin-left:auto !important;
             margin-right:auto !important;
         }
+        .pdtb6{padding: 6.5px 10px !important;}
+        .select2-selection__rendered{width: 190px;}
+		.w7em{width: 7em;}
+		tr{border-bottom:none;}
+		@media(max-width: 2200px){
+		.table-add{position: absolute;}
+		.add-align{position: absolute;
+   					 margin-top: -5.5em;
+   					 margin-left: 11%;}
+   		.bd-none{border: none;}
+   		 }
+    	@media(max-Width: 2000px){
+    	.add-align{margin-left:18%;}
+    	}
+    	@media(max-width: 800px){
+    	.add-align{position: relative; margin-top: 0; margin-left:0;}
+    	.table-add{position: relative;}
+    	}
         @media(max-width: 1380px){
 			.fs7rem{font-size: .7rem !important;}
 		}
@@ -39,6 +57,9 @@
 	        .fs-md-9r{
 	        	font-size:.9rem;
 	        }
+        }
+        @media(max-width: 575px){
+        .fs9px{font-size: 9px !important;}
         }
         .my-error {
    			 color:red;
@@ -198,7 +219,7 @@
 				margin-top: -14px !important;
 			} 
 			.mobile_responsible_table>tbody tr:not(.datepicker-row):not(.mobile_hide_row) {
-			    border-bottom: 3px solid #662E9B;
+			 
 			}
 			.sm-w100 input{
 				width:100% !important;
@@ -237,7 +258,7 @@
                                			 <h6>Add Work</h6>
                                	 </c:if>
                                	 <c:if test="${action eq 'edit'}">	
-                               			 <h6>Edit Work</h6>
+                               			 <h6>Edit Work (${workDetails.work_id})</h6>
                                	 </c:if>
                             </div>
                         </span>
@@ -267,10 +288,10 @@
                       
                             <div class="row">
                                 <!-- row 1  -->
-                                <div class="col s12 m8 offset-m2">
+                                <div class="col s12 m8 l12 offset-m2">
 	                                 <div class="row">
 	                                 	<c:if test="${action eq 'add'}">
-	                                 	<div class="col s6 m6 input-field">
+	                                 	<div class="col s6 m6 l4 input-field">
 		                                   <p class="searchable_label">Project : <span class="required">*</span></p>
 		                                    <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
 		                                   		  <option value="">select</option>
@@ -283,16 +304,27 @@
 		                               <input type="hidden" name ="project_name" id="project_name"/>
 		                               </c:if>
 		                               <c:if test="${action eq 'edit'}">
-			                               <div class="col s6 m6 input-field">
+			                               <div class="col s6 m6 l4 input-field">
 												<input type="text" class="form-control" value="${workDetails.project_name}" readonly >  
 												<label >Project<span class="required">*</span>:</label>			                                    
 			                                    <input type="hidden" name ="project_id_fk" id="project_id_fk" value="${workDetails.project_id_fk}"/>
 			                               </div>
-			                               <div class="col s6 m6 input-field">
+			                            <!-- <div class="col s6 m6 input-field">
 	                                   		    <input id="work_id" type="text" class="form-control" name="work_id" value="${workDetails.work_id }" readonly >  
 	                                     	    <label>Work ID :</label>
-		                               		</div>
+		                               		</div> --!>
 		                               </c:if>
+		                               
+		                                <div class="col s12 m8 l4 input-field offset-m2">
+                                    <textarea id="work_name" class="pmis-textarea" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
+                                    <label for="work_name">Work Name <span class="required">*</span></label>
+                                     <span id="work_nameError"></span>
+                                </div>
+                                <div class="col s12 m8 l4 input-field offset-m2">
+                                    <input id="work_short_name" type="text" class="validate pdtb6" name="work_short_name" value="${workDetails.work_short_name }">
+                                    <label for="work_short_name">Work Short Name<span class="required">*</span></label>
+                                     <span id="work_short_nameError"></span>
+                                </div>
 		                                                                    
 		                               <%-- <div class="col s12 m4 input-field">
 			                               <input type="text" class="validate" id="pink_book_item_number" name="pink_book_item_number" value="${workDetails.pink_book_item_number }">
@@ -305,18 +337,10 @@
                              </div>
 
                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="work_name" class="pmis-textarea" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
-                                    <label for="work_name">Work Name <span class="required">*</span></label>
-                                     <span id="work_nameError"></span>
-                                </div>
-                                <div class="col s6 m8 input-field offset-m2">
-                                    <input id="work_short_name" type="text" class="validate" name="work_short_name" value="${workDetails.work_short_name }">
-                                    <label for="work_short_name">Work Short Name<span class="required">*</span></label>
-                                     <span id="work_short_nameError"></span>
-                                </div>
-                          
-                                <div class="col s6 m4 input-field offset-m2">
+                               
+                          	</div>
+                          	<div class="row">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                        				<p class="searchable_label">Sanctioned Year</p>
                                     <select class="searchable" id="sanctioned_year_fk" name="sanctioned_year_fk">
                                         <option value="">Select</option>
@@ -326,15 +350,12 @@
                                     </select>
                                     <span id="sanctioned_yearError"></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                    <input id="completeion_period_months" type="number" class="validate" name="completeion_period_months" value="${workDetails.completeion_period_months }">
-                                   <label for="completeion_period_months">Completion Period (in Months)</label>
+                                   <label for="completeion_period_months" class="fs9px">Completion Period (in Months)</label>
                                    <span id="completeion_period_monthsError"></span>
                                 </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col s8 m5 l3 input-field offset-m2 offset-l2">
+                                <div class="col s8 m5 l3 input-field offset-m2">
                        				<i class="material-icons prefix cost">₹</i>
                                     <input id="sanctioned_estimated_cost" type="number" class="validate" name="sanctioned_estimated_cost" value="${workDetails.sanctioned_estimated_cost }" min="0.01" step="0.01">
                                     <label for="sanctioned_estimated_cost" class="active fs-sm-8rem fs-md-9r fs7rem">Sanctioned Estimated Cost</label>
@@ -351,6 +372,10 @@
                                 	<span id="sanctioned_estimated_cost_unitError" class="error-msg" ></span>
                                 	<!-- <label for="sanctioned_estimated_cost_unit">Units</label> -->
                                 </div>
+                            </div>
+                            
+                            <div class="row">
+                                
                               
                                 <div class="col s8 m5 l3 input-field offset-m2 ">
                                   	<i class="material-icons prefix cost">₹</i>
@@ -368,17 +393,14 @@
                                 	</select>
                                 	<span id="sanctioned_completion_cost_unitError" class="error-msg" ></span>
                                 </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="projected_completion" name="projected_completion" type="text" class="validate datepicker" value="${workDetails.projected_completion }">
                                     <label for="projected_completion">Target date</label>
                                     <button type="button" id="projected_completion_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="projected_completionError" class="error-msg" ></span>
                                 </div>
                                
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="projected_completion_date" type="text" class="validate datepicker" name="projected_completion_date" value="${workDetails.projected_completion_date }">
                                     <label for="projected_completion_date" class="active fs-sm-8rem">Revised completion date</label>
                                     <button type="button" id="projected_completion_date_icon"><i class="fa fa-calendar"></i></button>
@@ -386,14 +408,52 @@
                                 </div>
                             </div>
                             
+                            <div class="row">
+                               
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col s12 m4 l6 input-field offset-m2">
+                                <p class="searchable_label">Railway Agency</p>
+                                 <select  class="searchable validate-dropdown" name="railway_id_fk" id="railway_id_fk" multiple="multiple" >
+                                  		 <option value="" disabled="disabled">Select</option>
+                                          <c:forEach var="obj" items="${railwaysList}">
+                                          	<c:if test="${obj.railway_id ne 'Con' and obj.railway_id ne 'Others'}">
+										 		<option value="${obj.railway_id }" 
+											 		<c:forEach var="tempobj" items="${workDetails.railwayAgencyList}">
+											 			<c:if test="${tempobj.railway_id_fk eq obj.railway_id}">selected</c:if>
+		                                          	</c:forEach>
+										 		>${obj.railway_name}</option>
+									 		</c:if>
+                                          </c:forEach>
+                                  </select>
+                                  <span id="railway_id_fkError"></span>
+                                </div>
+                                <div class="col s12 m4 l6 input-field">
+                                <p class="searchable_label">Executed By</p>
+                                  <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk" multiple="multiple" >
+                                   <option value="" disabled="disabled">Select</option>
+                                   <c:forEach var="obj" items="${railwaysList}">
+                                   		<c:if test="${obj.railway_id ne 'Con' and obj.railway_id ne 'Others'}">
+	           					  			 <option value="${obj.railway_id }"            					  			 
+	           					  			 		<c:forEach var="tempobj" items="${workDetails.executedByList}">
+											 			<c:if test="${tempobj.executed_by_id_fk eq obj.railway_id}">selected</c:if>
+		                                          	</c:forEach>           					  			 
+	           					  			 > ${obj.railway_name}</option>
+           					  			</c:if>
+                                   </c:forEach>
+                                  </select>
+                                     <span id="executed_by_id_fkError"></span>
+                                </div>
+                            </div>
                             <div class="row">                              
-                                <div class="col s8 m3 input-field offset-m2">
+                                <div class="col s8 m3 l4 input-field offset-m2">
                                   	<i class="material-icons prefix cost">₹</i>
                                     <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="0.01" step="0.01">
                                     <label for="anticipated_cost">Anticipated cost</label>
                                     <span id="anticipated_costError"></span>
                                 </div>
-                                <div class="col s4 m1 input-field">
+                                <div class="col s4 m1 l2 input-field">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units validate-dropdown" id="anticipated_cost_unit" name="anticipated_cost_unit">
                                 		<option value="">Select</option>
@@ -415,40 +475,7 @@
                                 </c:if>                              
                             </div>
                             
-                            <div class="row">
-                                <div class="col s12 m4 input-field offset-m2">
-                                <p class="searchable_label">Railway Agency</p>
-                                 <select  class="searchable validate-dropdown" name="railway_id_fk" id="railway_id_fk" multiple="multiple" >
-                                  		 <option value="" disabled="disabled">Select</option>
-                                          <c:forEach var="obj" items="${railwaysList}">
-                                          	<c:if test="${obj.railway_id ne 'Con' and obj.railway_id ne 'Others'}">
-										 		<option value="${obj.railway_id }" 
-											 		<c:forEach var="tempobj" items="${workDetails.railwayAgencyList}">
-											 			<c:if test="${tempobj.railway_id_fk eq obj.railway_id}">selected</c:if>
-		                                          	</c:forEach>
-										 		>${obj.railway_name}</option>
-									 		</c:if>
-                                          </c:forEach>
-                                  </select>
-                                  <span id="railway_id_fkError"></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                <p class="searchable_label">Executed By</p>
-                                  <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk" multiple="multiple" >
-                                   <option value="" disabled="disabled">Select</option>
-                                   <c:forEach var="obj" items="${railwaysList}">
-                                   		<c:if test="${obj.railway_id ne 'Con' and obj.railway_id ne 'Others'}">
-	           					  			 <option value="${obj.railway_id }"            					  			 
-	           					  			 		<c:forEach var="tempobj" items="${workDetails.executedByList}">
-											 			<c:if test="${tempobj.executed_by_id_fk eq obj.railway_id}">selected</c:if>
-		                                          	</c:forEach>           					  			 
-	           					  			 > ${obj.railway_name}</option>
-           					  			</c:if>
-                                   </c:forEach>
-                                  </select>
-                                     <span id="executed_by_id_fkError"></span>
-                                </div>
-                            </div> 
+                             
                             
                             <%-- <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -501,7 +528,7 @@
                             </div> --%>
                             
                             <div class="row">
-								<div class="col m8 s12 offset-m2">
+								<div class="col l12 m8 s12 offset-m2">
 									<div class="row fixed-width"
 										style="margin-bottom: 20px; margin-top: 20px">
 										<div class="table-inside">
@@ -582,12 +609,12 @@
 													
 												</tbody>
 											</table>
-											<table class="mdl-data-table">
+											<table class="mdl-data-table table-add">
 												<tbody>
 													<tr>
 														<td colspan="5" ><a
 															type="button"
-															class="btn waves-effect waves-light bg-m t-c "
+															class="btn waves-effect waves-light bg-m t-c add-align"
 															onclick="addWorkFileRow()"> <i
 																class="fa fa-plus"></i>
 														</a>
@@ -609,7 +636,7 @@
 							</div>
                             
                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m8 l12 input-field offset-m2">
                                     <textarea id="remarks" class="pmis-textarea" data-length="1000" maxlength="1000" name="remarks">${workDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError"></span>
@@ -709,7 +736,8 @@
 	                                                        placeholder="Revision Number">
 	                                                </td>
 	                                                <td class="mobile_btn_close">
-	                                                    <a class="btn waves-effect waves-light red t-c " onclick="removeRevision('${index.count }');"> <i
+	                                                    <a class="btn 
+ waves-light red t-c " onclick="removeRevision('${index.count }');"> <i
 	                                                            class="fa fa-close"></i></a>
 	                                                </td>
 	                                            </tr>
@@ -795,10 +823,10 @@
                                         	</c:choose>
                                         </tbody>
                                     </table>
-                                     <table class="mdl-data-table">
+                                     <table class="mdl-data-table table-add">
                                         <tbody id="revTableBody">                                          
 			                                    <tr>
-			  										 <td colspan="9" > <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addRevisionRow()"> <i
+			  										 <td colspan="9" > <a type="button" class="btn waves-effect waves-light bg-m t-c add-align" onclick="addRevisionRow()"> <i
 			                                                            class="fa fa-plus"></i></a>
 			                                    </tr>
                                         </tbody>
@@ -816,7 +844,7 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col s12 m8 l4 input-field offset-m2 offset-l2">
+                                <div class="col s12 m8 l4 input-field offset-m2">
                        				<p class="searchable_label">Actual Year of Completion</p>
                                     <select id="year_of_completion" name="year_of_completion" class="searchable">
                                           <option value="">Select</option>
@@ -826,13 +854,13 @@
                                     </select>
                                     <span id="year_of_completionError"></span>
                                 </div>
-                                <div class="col s8 m5 l3 input-field offset-m2">
+                                <div class="col s8 m5 l4 input-field offset-m2">
                                 	<i class="material-icons prefix cost">₹</i>
                                     <input id="completion_cost" type="number" class="validate" name="completion_cost" value="${workDetails.completion_cost }" min="0.01" step="0.01">
                                     <label for="completion_cost" class="fs-sm-8rem">Actual Completion cost</label>
                                     <span id="completion_costError"></span>
                                 </div>
-                                <div class="col s4 m3 l1 input-field">
+                                <div class="col s4 m3 l2 input-field">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units validate-dropdown" id="completion_cost_unit" name="completion_cost_unit">
                                 		<option value="">Select</option>
@@ -847,19 +875,19 @@
                             </c:if>
 
                             <div class="row">
-                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                                <div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
                                     <div class=" m-1">
                                       <c:if test="${action eq 'edit'}">
                                        <button type="button" onclick="updateWork();" class="btn waves-effect waves-light bg-m">Update</button>
                                       </c:if>
                                     <c:if test="${action eq 'add'}">
-                                        <button type="button" onclick="addWork();" class="btn waves-effect waves-light bg-m">Add</button>
+                                        <button type="button" onclick="addWork();" class="btn waves-effect waves-light bg-m w7em">Add</button>
                                     </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr center-align">
+                                <div class="col s6 m4 l6 mt-brdr center-align">
                                     <div class=" m-1">
-                                        <a  href="<%=request.getContextPath()%>/work"  class="btn waves-effect waves-light bg-s">Cancel</a>
+                                        <a  href="<%=request.getContextPath()%>/work"  class="btn waves-effect waves-light bg-s w7em">Cancel</a>
                                     </div>
                                 </div>
                             </div>

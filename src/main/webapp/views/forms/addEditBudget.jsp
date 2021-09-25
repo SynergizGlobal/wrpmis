@@ -150,7 +150,7 @@
                     <div class="container container-no-margin">
 						   <c:if test="${action eq 'add'}">	
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l6 input-field offset-m2">
                                     <p class="searchable_label"> Project <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                  	   onchange="getWorksList(this.value);">
@@ -161,7 +161,7 @@
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l6 input-field">
                                     <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" 
                                     		onchange="resetProjectsDropdowns(this.value);">
@@ -177,11 +177,11 @@
                              <c:if test="${action eq 'edit'}">	
                               <div class="row" id="center" style="text-align:center;">
 	                            
-	                       		  <div class="col s6 m4 input-field offset-m2">
+	                       		  <div class="col s6 m4 l6 input-field offset-m2">
 										<p class="searchable_label"> Project <span class="required">*</span></p>
 	                                    <input type="text" value="${budgetDetails.project_id_fk} - ${budgetDetails.project_name}" readonly />
 								  </div> 
-								  <div class="col s6 m4 input-field"> 
+								  <div class="col s6 m4 l6 input-field"> 
 									    <p class="searchable_label"> Work <span class="required">*</span></p>
                                      	<input type="text"  value="${budgetDetails.work_id_fk} - ${budgetDetails.work_short_name}" readonly />
                                      	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${budgetDetails.work_id_fk}" readonly />
@@ -418,8 +418,7 @@
 					<div class="container container-no-margin">                           
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s6 m4 mt-brdr">
+                                <div class="col s6 m4 l6 mt-brdr">
                                    <div class="center-align m-1">
 	                                         <c:if test="${action eq 'edit'}">
 	                                           <button type="button" onclick="updateBudget();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -429,12 +428,11 @@
 											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr">
+                                <div class="col s6 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath()%>/budget" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                         
                     </div>

@@ -141,9 +141,9 @@
                                  
                                 <div class="col s12 m8 input-field offset-m2">
                                     <!-- <input id="title" name="title" type="text" class="validate">
-                                    <label for="title">Short Description <span class="required">*</span></label>
+                                    <label for="title">Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span> -->
-                                	<p class="searchable_label">Short Description <span class="required">*</span></p> 
+                                	<p class="searchable_label">Description <span class="required">*</span></p> 
                                 	<%-- <input list="titles" name="title" id="title" autocomplete="off">                                	
 									<datalist id="titles">
 									    <c:forEach var="obj" items="${issueTitlesList }">

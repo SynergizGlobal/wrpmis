@@ -33,7 +33,6 @@
             margin-right:auto !important;
         }
         .pdtb6{padding: 6.5px 10px !important;}
-        .select2-selection__rendered{width: 190px;}
 		.w7em{width: 7em;}
 		tr{border-bottom:none;}
 		@media(max-width: 2200px){
@@ -291,7 +290,7 @@
                                 <div class="col s12 m8 l12 offset-m2">
 	                                 <div class="row">
 	                                 	<c:if test="${action eq 'add'}">
-	                                 	<div class="col s6 m6 l4 input-field">
+	                                 	<div class="col s6 m6 l12 input-field">
 		                                   <p class="searchable_label">Project : <span class="required">*</span></p>
 		                                    <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
 		                                   		  <option value="">select</option>
@@ -304,7 +303,7 @@
 		                               <input type="hidden" name ="project_name" id="project_name"/>
 		                               </c:if>
 		                               <c:if test="${action eq 'edit'}">
-			                               <div class="col s6 m6 l4 input-field">
+			                               <div class="col s6 m6 l12 input-field">
 												<input type="text" class="form-control" value="${workDetails.project_name}" readonly >  
 												<label >Project<span class="required">*</span>:</label>			                                    
 			                                    <input type="hidden" name ="project_id_fk" id="project_id_fk" value="${workDetails.project_id_fk}"/>
@@ -315,12 +314,12 @@
 		                               		</div> --!>
 		                               </c:if>
 		                               
-		                                <div class="col s12 m8 l4 input-field offset-m2">
+		                                <div class="col s12 m8 l12 input-field offset-m2">
                                     <textarea id="work_name" class="pmis-textarea" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
                                     <label for="work_name">Work Name <span class="required">*</span></label>
                                      <span id="work_nameError"></span>
                                 </div>
-                                <div class="col s12 m8 l4 input-field offset-m2">
+                                <div class="col s12 m8 l12 input-field offset-m2">
                                     <input id="work_short_name" type="text" class="validate pdtb6" name="work_short_name" value="${workDetails.work_short_name }">
                                     <label for="work_short_name">Work Short Name<span class="required">*</span></label>
                                      <span id="work_short_nameError"></span>
@@ -350,11 +349,6 @@
                                     </select>
                                     <span id="sanctioned_yearError"></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
-                                   <input id="completeion_period_months" type="number" class="validate" name="completeion_period_months" value="${workDetails.completeion_period_months }">
-                                   <label for="completeion_period_months" class="fs9px">Completion Period (in Months)</label>
-                                   <span id="completeion_period_monthsError"></span>
-                                </div>
                                 <div class="col s8 m5 l3 input-field offset-m2">
                        				<i class="material-icons prefix cost">₹</i>
                                     <input id="sanctioned_estimated_cost" type="number" class="validate" name="sanctioned_estimated_cost" value="${workDetails.sanctioned_estimated_cost }" min="0.01" step="0.01">
@@ -372,12 +366,7 @@
                                 	<span id="sanctioned_estimated_cost_unitError" class="error-msg" ></span>
                                 	<!-- <label for="sanctioned_estimated_cost_unit">Units</label> -->
                                 </div>
-                            </div>
-                            
-                            <div class="row">
-                                
-                              
-                                <div class="col s8 m5 l3 input-field offset-m2 ">
+                                 <div class="col s8 m5 l3 input-field offset-m2 ">
                                   	<i class="material-icons prefix cost">₹</i>
                                     <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDetails.sanctioned_completion_cost }" min="0.01" step="0.01">
                                     <label for="sanctioned_completion_cost" class="fs-sm-67rem fs-md-9r fs7rem"> Sanctioned Completion Cost</label>
@@ -393,6 +382,17 @@
                                 	</select>
                                 	<span id="sanctioned_completion_cost_unitError" class="error-msg" ></span>
                                 </div>
+                                
+                                
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col s6 m4 l4 input-field">
+                                   <input id="completeion_period_months" type="number" class="validate" name="completeion_period_months" value="${workDetails.completeion_period_months }">
+                                   <label for="completeion_period_months" class="fs9px">Completion Period (in Months)</label>
+                                   <span id="completeion_period_monthsError"></span>
+                                </div>                             
+                               
                                  <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="projected_completion" name="projected_completion" type="text" class="validate datepicker" value="${workDetails.projected_completion }">
                                     <label for="projected_completion">Target date</label>
@@ -413,7 +413,7 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col s12 m4 l6 input-field offset-m2">
+                                <div class="col s12 m4 l4 input-field offset-m2">
                                 <p class="searchable_label">Railway Agency</p>
                                  <select  class="searchable validate-dropdown" name="railway_id_fk" id="railway_id_fk" multiple="multiple" >
                                   		 <option value="" disabled="disabled">Select</option>
@@ -429,7 +429,7 @@
                                   </select>
                                   <span id="railway_id_fkError"></span>
                                 </div>
-                                <div class="col s12 m4 l6 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                 <p class="searchable_label">Executed By</p>
                                   <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk" multiple="multiple" >
                                    <option value="" disabled="disabled">Select</option>
@@ -445,15 +445,25 @@
                                   </select>
                                      <span id="executed_by_id_fkError"></span>
                                 </div>
+                                <c:if test="${action eq 'edit'}">
+	                                <div class="col s12 m4 l4 input-field">
+	                                   <p class="searchable_label">Work Status <span class="required">*</span></p>
+	                                    <select id="work_status_fk" name="work_status_fk"  class="select searchable validate-dropdown">
+	                                        <option value="">Select</option>
+	                                    </select>
+	                                    <span id="work_status_fkError" class="error-msg" ></span>
+	                                </div> 
+	                                <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${workDetails.work_status_fk }"/> 
+                                </c:if>
                             </div>
                             <div class="row">                              
-                                <div class="col s8 m3 l4 input-field offset-m2">
+                                <div class="col s8 m3 l3 input-field offset-m2">
                                   	<i class="material-icons prefix cost">₹</i>
                                     <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDetails.anticipated_cost }" min="0.01" step="0.01">
                                     <label for="anticipated_cost">Anticipated cost</label>
                                     <span id="anticipated_costError"></span>
                                 </div>
-                                <div class="col s4 m1 l2 input-field">
+                                <div class="col s4 m1 l1 input-field">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units validate-dropdown" id="anticipated_cost_unit" name="anticipated_cost_unit">
                                 		<option value="">Select</option>
@@ -463,16 +473,7 @@
                                 	</select>
                                 	<span id="anticipated_cost_unitError" class="error-msg" ></span>
                                 </div>
-                                <c:if test="${action eq 'edit'}">
-	                                <div class="col s12 m4 input-field">
-	                                   <p class="searchable_label">Work Status <span class="required">*</span></p>
-	                                    <select id="work_status_fk" name="work_status_fk"  class="select searchable validate-dropdown">
-	                                        <option value="">Select</option>
-	                                    </select>
-	                                    <span id="work_status_fkError" class="error-msg" ></span>
-	                                </div> 
-	                                <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${workDetails.work_status_fk }"/> 
-                                </c:if>                              
+                                                              
                             </div>
                             
                              
@@ -844,7 +845,7 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col s12 m8 l4 input-field offset-m2">
+                                <div class="col s12 m8 l6 input-field offset-m2">
                        				<p class="searchable_label">Actual Year of Completion</p>
                                     <select id="year_of_completion" name="year_of_completion" class="searchable">
                                           <option value="">Select</option>
@@ -854,13 +855,13 @@
                                     </select>
                                     <span id="year_of_completionError"></span>
                                 </div>
-                                <div class="col s8 m5 l4 input-field offset-m2">
+                                <div class="col s8 m5 l5 input-field offset-m2">
                                 	<i class="material-icons prefix cost">₹</i>
                                     <input id="completion_cost" type="number" class="validate" name="completion_cost" value="${workDetails.completion_cost }" min="0.01" step="0.01">
                                     <label for="completion_cost" class="fs-sm-8rem">Actual Completion cost</label>
                                     <span id="completion_costError"></span>
                                 </div>
-                                <div class="col s4 m3 l2 input-field">
+                                <div class="col s4 m3 l1 input-field">
                                 	<p class="searchable_label">Units</p>
                                 	<select class="units validate-dropdown" id="completion_cost_unit" name="completion_cost_unit">
                                 		<option value="">Select</option>

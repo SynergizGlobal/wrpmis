@@ -91,7 +91,7 @@
                             <div class="center-align p-2 bg-m m-b-2">
                             <h6>
 	                             <c:if test="${action eq 'edit'}">
-		                              	Update Contractor
+		                              	Update Contractor (${contractorDetails.contractor_id })
 	                             </c:if>
 								 <c:if test="${action eq 'add'}"> Add Contractor</c:if>
 							 </h6>
@@ -113,12 +113,12 @@
                                   </c:if>
                                 </div> -->
                                 <c:if test="${action eq 'add'}">	
-	                                <div class="col s6 m4 input-field offset-m2">
+	                                <div class="col s6 m4 l6 input-field offset-m2">
 	                                    <input id="pan_number" name="pan_number" maxlength="10" minlength="10" type="text" class="validate" onblur="panNumberVerify()" style="text-transform:uppercase">
 	                                    <label for="pan_number">PAN Number <span class="required">*</span></label>
 	                                    <span id="pan_numberError" class="error-msg" ></span>
 	                                </div>  
-	                                <div class="col s6 m4 input-field">
+	                                <div class="col s6 m4 l6 input-field">
 	                                    <p class="searchable_label">Specialization<span class="required">*</span></p>
 	                                    <select id="contractor_specilization_fk" name="contractor_specilization_fk" class="searchable validate-dropdown">
 	                                        <option value="" selected>Select</option>
@@ -130,12 +130,12 @@
 	                                </div>
                                 </c:if> 
                                  <c:if test="${action eq 'edit'}">	
-	                                <div class="col s6 m4 input-field offset-m2">
+	                                <div class="col s6 m4 l6 input-field offset-m2">
 	                                    <input id="pan_number" name="pan_number"  maxlength="10" minlength="10" type="text" class="validate" style="text-transform:uppercase" value="${contractorDetails.pan_number }" readonly="readonly">
 	                                    <label for="pan_number">PAN Number <span class="required">*</span></label>
 	                                    <span id="pan_numberError" class="error-msg" ></span>
 	                                </div>  
-	                                <div class="col s6 m4 input-field">
+	                                <div class="col s6 m4 l6 input-field">
 	                                    <input id="contractor_specilization_fk" name="contractor_specilization_fk" type="text" class="validate" value="${contractorDetails.contractor_specilization_fk }" readonly="readonly">
 	                                    <label for="contractor_specilization_fk">Specialization <span class="required">*</span></label>
 	                                    <span id="contractor_specilization_fkError" class="error-msg" ></span>
@@ -146,7 +146,7 @@
                             </div>
                             <c:if test="${action eq 'add'}">
                             	<div class="row">
-	                                <div class="col s12 m8 input-field offset-m2">
+	                                <div class="col s12 m8 l12 input-field offset-m2">
 	                                    <input id="contractor_name" name="contractor_name" type="text" class="validate" value="${contractorDetails.contractor_name }">
 	                                    <label for="contractor_name">Contractor Name <span class="required">*</span></label>
 	                                    <span id="contractor_nameError" class="error-msg" ></span>
@@ -155,13 +155,13 @@
                             </c:if>
 							<c:if test="${action eq 'edit'}">	
 								<div class="row">
-	                                <c:if test="${not empty contractorDetails.contractor_id }">
+	                               <!-- <c:if test="${not empty contractorDetails.contractor_id }">
 	                                	<div class="col s6 m4 offset-m2" style="padding-top: 1rem;">
 		                                    <label class="primary-text-bold">Contractor ID : <input id="contractor_id" name="contractor_id" type="text" value="${contractorDetails.contractor_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
 		                                </div>
-	                                 </c:if>
+	                                 </c:if> --!>
 	
-	                                <div class="col s6 m4 input-field">
+	                                <div class="col s6 m4 l12 input-field">
 	                                    <input id="contractor_name" name="contractor_name" type="text" class="validate" value="${contractorDetails.contractor_name }" readonly="readonly">
 	                                    <label for="contractor_name">Contractor Name <span class="required">*</span></label>
 	                                    <span id="contractor_nameError" class="error-msg" ></span>
@@ -173,50 +173,52 @@
                             
 							<c:if test="${action eq 'edit'}">
                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m8 l12 input-field offset-m2">
                                     <textarea id="address" name="address" class="pmis-textarea" data-length="1000">${contractorDetails.address }</textarea>
                                     <label for="address">Address</label>
                                     <span id="addressError" class="error-msg" ></span>
                                 </div>
                             </div>
                             <div class="row">
-                                 <div class="col s6 m4 input-field offset-m2">
+                                 <div class="col s6 m4 l4 input-field offset-m2">
                                      <input id="primary_contact_name" name="primary_contact_name" type="text" class="validate" value="${contractorDetails.primary_contact_name }">
                                      <label for="primary_contact_name">Primary Contact<span class="required">*</span></label>
                                      <span id="primary_contact_nameError" class="error-msg" ></span>
                                  </div>
-                                 <div class="col s6 m4 input-field">
+                                 <div class="col s6 m4 l4 input-field">
                                      <input id="phone_number" name="phone_number" type="number" class="validate" value="${contractorDetails.phone_number }">
                                      <label for="phone_number">Phone Number<span class="required">*</span></label>
                                      <span id="phone_numberError" class="error-msg" ></span>
-                                 </div>   
-                            </div>
-							<div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                 </div>  
+                                 <div class="col s6 m4 l4 input-field offset-m2">
                                      <input id="email" name="email_id" type="text" class="validate" value="${contractorDetails.email_id }">
                                      <label for="email">Email Address</label>
                                      <span id="emailError" class="error-msg" ></span>
-                                 </div>
-                                 <div class="col s6 m4 input-field">
-		                               <input id="gst_number" name="gst_number" type="text" class="validate" value="${contractorDetails.gst_number }">
-		                               <label for="gst_number">GST Number<span class="required">*</span></label>
-		                               <span id="gst_numberError" class="error-msg" ></span>
-		                         </div>                                
+                                 </div> 
+                            </div>
+							<div class="row">
+                                
+                                                                 
                             </div>
                             <div class="row">
-                                <div class="col m8 s12 offset-m2">
+                                <div class="col l12 m8 s12 offset-m2">
                                     <div class="row">
-                                        <div class="col s6 m4 input-field">
+										<div class="col s6 m4 l4 input-field">
+		                               		<input id="gst_number" name="gst_number" type="text" class="validate" value="${contractorDetails.gst_number }">
+		                               		<label for="gst_number">GST Number<span class="required">*</span></label>
+		                               		<span id="gst_numberError" class="error-msg" ></span>
+		                         		</div>
+                                        <div class="col s6 m4 l4 input-field">
                                             <input id="bank_name" name="bank_name" type="text" class="validate" value="${contractorDetails.bank_name }">
                                             <label for="bank_name">Bank Name </label>
                                             <span id="bank_nameError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col s6 m4 input-field">
+                                        <div class="col s6 m2 l2 input-field">
                                             <input id="ifsc_code" name="ifsc_code" type="text" class="validate" value="${contractorDetails.ifsc_code }">
                                             <label for="ifsc_code"> IFSC Code </label>
                                             <span id="ifsc_codeError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col s12 m4 input-field">
+                                        <div class="col s12 m2 l2 input-field">
                                             <input id="ac_no" name="account_number" type="number" class="validate" value="${contractorDetails.account_number }">
                                             <label for="ac_no">Account No </label>
                                             <span id="ac_noError" class="error-msg" ></span>
@@ -226,7 +228,7 @@
                             </div>
                             <div class="row">
                                <div class="col m2 hide-on-small-only"></div>
-                               <div class="col s12 m8 input-field">
+                               <div class="col s12 m8 l12 input-field">
                                    <textarea id="bank_address" name="bank_address" class="pmis-textarea" data-length="1000">${contractorDetails.bank_address }</textarea>
                                    <label for="bank_address">Bank Address</label>
                                    <span id="bank_addressError" class="error-msg" ></span>
@@ -235,14 +237,14 @@
                             </c:if>                         
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 l12 input-field">
                                     <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${contractorDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s6 m4 mt-brdr offset-m2">
+                                <div class="col s6 m4 l6 mt-brdr offset-m2">
                                     <div class="center-align m-1">
 	                                         <c:if test="${action eq 'edit'}">
 	                                           <button type="button" onclick="updateContractor();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -252,7 +254,7 @@
 											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr">
+                                <div class="col s6 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath()%>/contractor" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>

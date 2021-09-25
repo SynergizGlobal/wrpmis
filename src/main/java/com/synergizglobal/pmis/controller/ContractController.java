@@ -804,7 +804,7 @@ public class ContractController {
 	            String headerString = "Work^Contract ID^Contract Name^Contract Short Name^Contractor^Department^HOD^DY HOD^Contract Type^Scope of Contract"
 	            		+ "^Tally Head^Estimated Cost^Awarded Cost^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
 	            		+ "Actual Completion Date^Completed Cost^Contract Closure Date^Completion Certificate Release^Final Takeover^Final Release^"
-	            		+ "Contract Status^Defect Liability Period^Retention Money Release^PBG Release^Contract Closure^Bank Guarantee Requried^Insurance Requried";
+	            		+ "Contract Status^Status of Work^Defect Liability Period^Retention Money Release^PBG Release^Contract Closure^Bank Guarantee Requried^Insurance Requried";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            
@@ -841,7 +841,7 @@ public class ContractController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getDepartment_name());
+					cell.setCellValue(obj.getHod_department());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -918,6 +918,10 @@ public class ContractController {
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getFinal_bill_release());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_status());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

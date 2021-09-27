@@ -651,10 +651,12 @@
                          if (data.length > 0) {
                              $.each(data, function (i, val) {                             	
                              	var selectedFlag = (hod_designation == val.designation)?'selected':'';
-                             	if($.trim(selectedFlag) != ''){
+                             	if($.trim(selectedFlag) == ''){
                              		var designation  = '${sessionScope.USER_DESIGNATION}';
                                 	selectedFlag = (designation == val.designation)?'selected':'';
                              	}
+                             	if(data.length == 1)
+                             	{selectedFlag = 'selected';} 
                             	$("#hod").append('<option value="' + val.designation + '" '+selectedFlag+'>' + $.trim(val.designation) +'</option>');
                              });
                          }

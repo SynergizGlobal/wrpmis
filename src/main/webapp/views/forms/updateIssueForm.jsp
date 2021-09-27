@@ -57,6 +57,9 @@
 		.mar{
 			margin-bottom:10px !important;
 		}
+		.input-field p.searchable_label{
+			margin-top:-11px !important;
+		}
 		@media only screen and (max-width: 769px) {
 			.mobile_responsible_table>tbody >tr:not(.datepicker-row)> td> div.btn{
 				float:none;

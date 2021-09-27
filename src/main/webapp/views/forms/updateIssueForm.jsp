@@ -150,7 +150,7 @@
                             </div>
                             <div class="row">                                 
                                 <div class="col s12 m8 input-field offset-m2">
-                                     <textarea id="title" name="title" class="materialize-textarea" data-length="1000" readonly>${issue.title }</textarea>
+                                     <textarea id="title" name="title" class="pmis-textarea" data-length="1000" readonly>${issue.title }</textarea>
                                      <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>                                 
@@ -160,7 +160,7 @@
                               <c:choose>
 							    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
                                 <div class="col s12 offset-m2 m8 input-field">
-                                    <textarea id="description" name="description" class="materialize-textarea" data-length="1000">${issue.description }</textarea>
+                                    <textarea id="description" name="description" class="pmis-textarea" data-length="1000">${issue.description }</textarea>
                                     <label for="description">Description of Issue</label>
                                     <span id="descriptionError" class="error-msg" ></span>
                                 </div>
@@ -343,7 +343,7 @@
 	                                 
 	                                <div class="col s12 m8 input-field offset-m2" >
 	                                <div id="test" data-message="${issue.remarks }" style="display: none;"></div>
-	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${issue.remarks }</textarea>
+	                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${issue.remarks }</textarea>
 	                                    <label for="remarks">Status After Escalation</label>
 	                                    <span id="remarksError" class="error-msg" ></span>
 	                                    <input type="hidden"  name="remarks_new" id="remarks_new"/>

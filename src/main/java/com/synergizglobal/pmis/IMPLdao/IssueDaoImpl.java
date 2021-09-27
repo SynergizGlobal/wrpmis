@@ -192,7 +192,7 @@ public class IssueDaoImpl implements IssueDao {
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
-		return objsList;
+		return objsList; 
 	}
 
 	@Override

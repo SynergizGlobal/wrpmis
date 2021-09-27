@@ -153,8 +153,8 @@
                                     <select class="searchable validate-dropdown" id="title" name="title">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issueTitlesList }">
-                                            <option value="${obj.short_description }" >${obj.short_description}</option>
-                                        </c:forEach>
+                                             <option value="${obj.short_description }" >${obj.short_description}</option>
+                                         </c:forEach>
                                     </select>
                                     <span id="titleError" class="error-msg" ></span>
                                     

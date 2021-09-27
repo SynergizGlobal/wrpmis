@@ -41,6 +41,9 @@
 		.input-field>textarea+label:not(.label-icon).active{
 			margin-top: 8px;
 		}
+		.input-field .select2-container--default{
+			margin-bottom:8px;
+		}
 		@media only screen and (max-width: 769px) {			
 			.mobile_responsible_table>tbody tr:not(.datepicker-row):not(.mobile_hide_row) {
 			    border-bottom: 3px solid #007A7A;
@@ -165,7 +168,7 @@
                             <div class="row">
                                  
                                 <div class="col s12 offset-m2 m8 input-field">
-                                    <textarea id="description" name="description" class="materialize-textarea" data-length="1000"></textarea>
+                                    <textarea id="description" name="description" class="pmis-textarea" data-length="1000"></textarea>
                                     <label for="description">Description of Issue</label>
                                     <span id="descriptionError" class="error-msg" ></span>
                                 </div>
@@ -173,7 +176,7 @@
                             <div class="row">
                                  
                                 <div class="col s12 offset-m2 m8 input-field">
-                                    <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000"></textarea>
+                                    <textarea id="corrective_measure" name="corrective_measure" class="pmis-textarea" data-length="1000"></textarea>
                                     <label for="corrective_measure">Action Taken<span class="required">*</span></label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
                                 </div>

@@ -41,6 +41,9 @@
 		.input-field>textarea+label:not(.label-icon).active{
 			margin-top: 8px;
 		}
+		.input-field .select2-container--default{
+			margin-bottom:8px;
+		}
 		@media only screen and (max-width: 769px) {			
 			.mobile_responsible_table>tbody tr:not(.datepicker-row):not(.mobile_hide_row) {
 			    border-bottom: 3px solid #007A7A;

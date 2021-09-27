@@ -27,6 +27,9 @@
         .input-field .searchable_label{
 			font-size:0.85rem;			
 		}
+		.input-field .select2-container--default{
+			margin-bottom:8px;
+		}
 		.input-field>.datepicker ~ label:not(.label-icon).active {
 		    -webkit-transform: translateY(-11px) scale(0.8);
 		    transform: translateY(-11px) scale(.8);		

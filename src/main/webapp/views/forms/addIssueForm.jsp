@@ -162,7 +162,14 @@
                                 </div>
                                  
                             </div>
-                            
+                            <div class="row">
+                                 
+                                <div class="col s12 offset-m2 m8 input-field">
+                                    <textarea id="description" name="description" class="materialize-textarea" data-length="1000"></textarea>
+                                    <label for="description">Description of Issue</label>
+                                    <span id="descriptionError" class="error-msg" ></span>
+                                </div>
+                            </div>
                             <div class="row">
                                  
                                 <div class="col s12 offset-m2 m8 input-field">
@@ -467,7 +474,7 @@
             $('.searchable').select2();
             $('#corrective_measure').characterCounter();
             $('#remarks').characterCounter();
-            
+            $('#description').characterCounter();
             $(".datepicker").each(function(){
            		var id = $(this).attr('id');
 				$('#'+id).datepicker({

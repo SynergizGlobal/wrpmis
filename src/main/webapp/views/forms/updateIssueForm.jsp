@@ -155,7 +155,24 @@
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>                                 
                             </div>
-                            
+                          
+                              <div class="row">
+                              <c:choose>
+							    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
+                                <div class="col s12 offset-m2 m8 input-field">
+                                    <textarea id="description" name="description" class="materialize-textarea" data-length="1000">${issue.description }</textarea>
+                                    <label for="description">Description of Issue</label>
+                                    <span id="descriptionError" class="error-msg" ></span>
+                                </div>
+                                 </c:when>
+				                 <c:otherwise>
+				                  <div class="col s12 offset-m2 m8 input-field">
+				                   <input id="description" name="description" type="text"  value=" ${issue.description }" readonly>
+                                    <label for="description">Description of Issue</label>
+                                </div>
+				                 </c:otherwise>
+				               </c:choose>
+                            </div>
                             <div class="row">                                 
                                 <div class="col s12 m8 input-field offset-m2">
                                     <textarea id="corrective_measure" name="corrective_measure"   class="pmis-textarea"  data-length="1000">${issue.corrective_measure }</textarea>
@@ -529,7 +546,7 @@
             $('.searchable').select2();
             $('#corrective_measure').characterCounter();
             $('#remarks').characterCounter();  
-            
+            $('#description').characterCounter();
             $('#corrective_measure').css('height',function(){
             	this.style.height = (this.scrollHeight < 50) ? '50px' : this.scrollHeight + 'px';
             });

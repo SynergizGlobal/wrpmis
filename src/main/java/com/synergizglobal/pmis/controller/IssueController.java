@@ -664,7 +664,7 @@ public class IssueController {
 	            XSSFRow headingRow = sheet.createRow(0);
 	            String headerString = "Issue ID^Project^Work^Contract^Short Description^Issue Pending Since^Location/Station/KM^Latitude^Longitude"
 	            		+ "^Reported By^Raised On^Responsible Person^Assigned Date^Issue Category^Issue Status^Responsible Organization^Priority^Issue/Action Taken/Remarks^"
-	            		+ "Escalated to^Escalation Date^Status After Escalation^Resolved Date";
+	            		+ "Escalated to^Escalation Date^Status After Escalation^Resolved Date^Description";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            
@@ -767,6 +767,10 @@ public class IssueController {
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getResolved_date());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getDescription());
 	                
 	                rowNo++;
 	            }

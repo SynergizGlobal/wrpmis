@@ -435,7 +435,7 @@
             $('#data_dateUpload').datepicker({
   	    	    format:'dd-mm-yyyy',
   	    	    endDate: "today",
-	           // maxDate: today,
+	            maxDate: today,
   	    	    onSelect: function () {
   	    	       $('.confirmation-btns .datepicker-done').click();
   	    	    }

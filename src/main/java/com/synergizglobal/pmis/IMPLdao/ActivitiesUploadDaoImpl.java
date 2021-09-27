@@ -776,8 +776,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 					+ "left join contract c on contract_id_fk = contract_id "
 					+ "WHERE contract_id_fk IS NOT NULL ";*/
 			
-			String qry ="SELECT fob_id,fob_name FROM fob "
-					+ "where fob_id IN (select fob_id_fk from fob_contract where contract_id_fk = ? group by fob_id_fk)";
+			String qry ="select fob_id_fk as fob_id  from fob_contract where contract_id_fk = ? group by fob_id_fk";
 			
 			/*int arrSize = 0;
 				

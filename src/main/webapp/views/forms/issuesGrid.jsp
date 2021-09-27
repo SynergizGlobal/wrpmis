@@ -646,7 +646,7 @@
          	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getHODListFilterInIssue",
-                     data: myParams, cache: false,async: false,
+                      data: myParams, cache: false,async: false,
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {                             	

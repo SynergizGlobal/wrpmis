@@ -150,7 +150,7 @@
                             </div>
                             <div class="row">                                 
                                 <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="title" name="title" class="materialize-textarea" data-length="1000" readonly>${issue.title }</textarea>
+                                     <textarea id="title" name="title" class="materialize-textarea" data-length="1000" readonly>${issue.title }</textarea>
                                      <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>                                 

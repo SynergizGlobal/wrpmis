@@ -922,6 +922,7 @@
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
@@ -1028,7 +1029,7 @@
 	     	$('#workFileNames'+no).remove();
 	    } 
 	
-	    let date_pickers = document.querySelectorAll('.datepicker');
+/* 	    let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
@@ -1039,7 +1040,7 @@
 	    	}
 	    	M.Datepicker.init(this, options);
 	    });
-
+ */
         $(document).ready(function () {
         	//$('select:not(.searchable)').formSelect();
             $('.searchable').select2();

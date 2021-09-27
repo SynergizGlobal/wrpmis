@@ -324,7 +324,7 @@
 	                            <div class="col s12 m4 input-field offset-m2">
                                     <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${fob.target_date }" <c:if test="${not empty fob.target_date}">disabled</c:if>>
                                     <label for="target_date">Original Target Date </label>
-                                    <button type="button" id="target_date_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="target_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="target_dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s8 m3 input-field">
@@ -372,13 +372,13 @@
                                 <div class="col s6 m4 input-field " id="construction_start_dateDiv" style="display: none;">
                                     <input id="construction_start_date" name="construction_start_date" type="text" class="validate datepicker" value="${fob.construction_start_date }" <c:if test="${not empty fob.construction_start_date}">disabled</c:if>>
                                     <label for="construction_start_date" class="fs-sm-8rem">Construction Start Date </label>
-                                    <button type="button" id="construction_start_date_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="construction_start_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="construction_start_dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field " id="revised_completionDiv" style="display: none;">
                                     <input id="revised_completion" name="revised_completion" type="text" class="validate datepicker" value="${fob.revised_completion }" <c:if test="${not empty fob.revised_completion}">disabled</c:if>>
                                     <label for="revised_completion" class="fs-sm-8rem">Target completion Date </label>
-                                    <button type="button" id="revised_completion_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="revised_completion_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="revised_completionError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col m2 hide-on-small-only"></div>                               
@@ -437,7 +437,7 @@
                                 <div class="col s6 m4 input-field offset-m2" id="commissioning_dateDiv" style="display: none;">
                                     <input id="commissioning_date" name="commissioning_date" type="text" class="validate datepicker" value="${fob.commissioning_date }" <c:if test="${not empty fob.commissioning_date}">disabled</c:if>>
                                     <label for="commissioning_date">Commissioning Date </label>
-                                    <button type="button" id="commissioning_date_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="commissioning_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="commissioning_dateError" class="error-msg" ></span>
                                 </div>
                             </div>
@@ -447,7 +447,7 @@
                                 <div class="col s6 m4 input-field offset-m2"  >
                                     <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${fob.actual_completion_date }" <c:if test="${not empty fob.actual_completion_date}">disabled</c:if>>
                                     <label for="actual_completion_date">Actual Completion Date </label>
-                                    <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="actual_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="actual_completion_dateError" class="error-msg" ></span>
                                 </div>
                                <%--  <c:if test="${action eq 'edit'}"> --%>
@@ -525,7 +525,7 @@
 																		<input id="fobDocumentNames${index.count }" name="fobDocumentNames" type="text" class="validate" placeholder="Name"  value="${fObj.name }">
 				                                                    </td>
 			                                                      	<td data-head="Photo Date" class="input-field">
-		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates${index.count }" name="created_dates" placeholder="Uploaded date" value="${fObj.created_date}" class="validate datepicker" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
+		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates${index.count }" name="created_dates" placeholder="Uploaded date" value="${fObj.created_date}" class="validate datepicker" /><button type="button" id="created_dates${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></span>
 			                                                      	</td>
 																	<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
 								                                        <div class="t-c">
@@ -570,7 +570,7 @@
 																	<input id="fobDocumentNames0" name="fobDocumentNames" type="text" class="validate" placeholder="Name">
 				                                                </td>
 				                                                <td data-head="Upload Date" class="input-field">
-		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="Upload date" class="validate datepicker" /><button type="button" id="created_dates_0_icon"><i class="fa fa-calendar"></i></button></span>
+		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="Upload date" class="validate datepicker" /><button type="button" id="created_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></span>
 																</td>
 																<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
 							                                        <div class="t-c">
@@ -820,12 +820,12 @@
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/pmis/resources/js/datepickerDepedency.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script type="text/javascript">
-    
-    
-    let date_pickers = document.querySelectorAll('.datepicker');
+      
+  /*   let date_pickers = document.querySelectorAll('.datepicker');
     $.each(date_pickers, function(){
     	var dt = this.value.split(/[^0-9]/);
     	this.value = ""; 
@@ -835,13 +835,13 @@
     		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
     	}
     	M.Datepicker.init(this, options);
-    });
+    }); */
     
     let constructionstartdate = document.querySelectorAll('#construction_start_date');
     $.each(constructionstartdate, function(){
     	var dt = this.value.split(/[^0-9]/);
     	this.value = ""; 
-    	var options = {format: 'dd-mm-yyyy',autoClose:true,maxDate:new Date()};
+    	var options = {format: 'dd-mm-yyyy',autoClose:true,maxDate:new Date(), onOpen:datePickerSelectAddClass};
     	if(dt.length > 1){
     		options.setDefaultDate = true,
     		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
@@ -873,7 +873,7 @@
         $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
         $('#remarks').characterCounter();
         
-        $('#date_of_approval_icon').click(function () {
+     /*    $('#date_of_approval_icon').click(function () {
             event.stopPropagation();
             $('#date_of_approval').click();
         });
@@ -903,7 +903,7 @@
             event.stopPropagation();
             $('#revised_completion').click();
         });
-        
+         */
         
                        
         var project_id_fk = "${fob.project_id_fk}";
@@ -1109,7 +1109,7 @@
 		   +'<input id="fobDocumentNames'+rNo+'" name="fobDocumentNames" type="text" class="validate" placeholder="Name">'
 		   +'</td>'
 		   +'<td data-head="Photo Date" class="input-field">'
-		   +'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" placeholder="Upload date" class="validate datepicker" /><button type="button" id="created_dates_'+rNo+'_icon"><i class="fa fa-calendar"></i></button></span>'
+		   +'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" placeholder="Upload date" class="validate datepicker" /><button type="button" id="created_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></span>'
 		   +'</td>'
    		   +'<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">'	
 		   +'<div class="t-c">'	
@@ -1127,12 +1127,12 @@
         $("#rowNo").val(rNo);          	
         
         $('.searchable').select2();
-        
+        /* 
         $("#created_dates"+rNo).datepicker({
         	 format:'dd-mm-yyyy',
-	       	// maxDate: new Date(),
-	       	autoClose:true,
-        });       
+ 	       	 autoClose:true,
+ 	       	 onOpen: datePickerSelectAddClass
+        });   */     
     }
 	 function removeActions(rowNo){
      	$("#actionRow"+rowNo).remove();

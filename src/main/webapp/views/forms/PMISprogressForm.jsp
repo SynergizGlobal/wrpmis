@@ -417,6 +417,7 @@
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
@@ -425,27 +426,27 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	
     <script>
-	    $(document).on('focus', '.datepicker',function(){
+	   /*  $(document).on('focus', '.datepicker',function(){
 	        $(this).datepicker({
 	        	format:'dd-mm-yyyy',
 	   	    	onSelect: function () {
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
 	        })
-	    });
+	    }); */
         $(document).ready(function () {
         	$(".errMsg").hide();
         	$(".errMsgCheck").hide();
             $('.searchable').select2();
            // $('#start_date,#finish_date').datepicker();
-            $('#start_date_icon').click(function () {
+          /*   $('#start_date_icon').click(function () {
                 event.stopPropagation();
                 $('#start_date').click();
             });
             $('#finish_date_icon').click(function () {
                 event.stopPropagation();
                 $('#finish_date').click();
-            });
+            }); */
             $('.tooltipped').tooltip();
              $('#datatable-table').DataTable({
             	//"sPaginationType": "full_numbers",
@@ -681,9 +682,9 @@
 	                    	var planned_start =			'<td data-head="Planned Start Date" class="input-field"><span class="nextLine">' + $.trim(val.planned_start) + '</span></td>';
 	                    	var planned_finish = 		'<td data-head="Planned Finish Date" class="input-field"><span class="nextLine">' + $.trim(val.planned_finish) + '</span></td>';
 	                    	var actual_starts =			'<td data-head="Actual Start Date " class="input-field"> <input id="actual_starts'+num+'" name="actual_starts" type="text" class="validate datepicker" placeholder="Start Date" value="' + $.trim(val.actual_start) + '">'
-                            								+'<button type="button" id="start_date_icon'+num+'" ><i class="fa fa-calendar"></i></button></td>';
+                            								+'<button type="button" id="start_date'+num+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>';
                            	var actual_finishs = 		'<td data-head="Actual Finish Date" class="input-field"> <input id="actual_finishs'+num+'" name="actual_finishs" type="text" class="validate datepicker" placeholder="Finish Date" value="' + $.trim(val.actual_finish) + '">'
-                          						  		    +'<button type="button" id="finish_date_icon'+num+'" ><i class="fa fa-calendar"></i></button></td>';
+                          						  		    +'<button type="button" id="actual_finishs'+num+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>';
                           	var totalScope = 			'<td data-head="Scope" class="input-field"><span class="nextLine">' + $.trim(val.total_scope) + '</span>'
           	 											+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.total_scope) + '" />';
           	 				var completed = 			'<td data-head="Completed" class="input-field"><span class="nextLine">' + $.trim(val.completed) + '</span>'

@@ -655,8 +655,11 @@
                              		var designation  = '${sessionScope.USER_DESIGNATION}';
                                 	selectedFlag = (designation == val.designation)?'selected':'';
                              	}
-                             	if(data.length == 1)
-                             	{selectedFlag = 'selected';} 
+                             	if('${sessionScope.USER_ROLE_NAME}' != 'IT Admin'){ 
+	                             	if(data.length == 1)
+	                             	{selectedFlag = 'selected';} 
+                             }
+                             	
                             	$("#hod").append('<option value="' + val.designation + '" '+selectedFlag+'>' + $.trim(val.designation) +'</option>');
                              });
                          }

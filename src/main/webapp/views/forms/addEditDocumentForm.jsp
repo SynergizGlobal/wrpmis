@@ -259,13 +259,13 @@
                                             <td data-head="Submission Date" class="input-field">
                                                 <input id="submission_dates${index.count }" name="submission_dates" type="text" class="validate datepicker" value="${dObj.submission_date }"
                                                     placeholder="Submission Date">
-                                                <button type="button" id="submission_1_icon${index.count }" class="w"><i
+                                                <button type="button" id="submission_dates${index.count }_icon" class="datepicker-button"><i
                                                         class="fa fa-calendar"></i></button>
                                             </td>
                                             <td data-head="Approval Date" class="input-field">
                                                 <input id="approval_dates${index.count }" name="approval_dates" type="text" class="validate datepicker" value="${dObj.approval_date }"
                                                     placeholder="Approval Date">
-                                                <button type="button" id="approval_1_icon${index.count }" class="w"><i
+                                                <button type="button" id="approval_dates${index.count}_icon" class="datepicker-button"><i
                                                         class="fa fa-calendar"></i></button>
                                             </td>
                                             <td data-head="Remarks" class="input-field">
@@ -304,14 +304,14 @@
                                             <td data-head="Submission Date" class="input-field">
                                                 <input id="submission_dates0" name="submission_dates" type="text" class="validate datepicker"
                                                     placeholder="Submission Date">
-                                                <button type="button" id="submission_1_icon0" class="w"><i
+                                                <button type="button" id="submission_dates0_icon" class="datepicker-button"><i
                                                         class="fa fa-calendar"></i></button>
                                                 </div>
                                             </td>
                                             <td data-head="Approval Date" class="input-field">
                                                 <input id="approval_dates0" name="approval_dates" type="text" class="validate datepicker"
                                                     placeholder="Approval Date">
-                                                <button type="button" id="approval_1_icon0" class="w"><i
+                                                <button type="button" id="approval_dates0_icon" class="datepicker-button"><i
                                                         class="fa fa-calendar"></i></button>
                                             </td>
                                             <td data-head="Remarks" class="input-field">
@@ -417,6 +417,7 @@
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
@@ -430,7 +431,7 @@
 	   	    	}
 	        })
 	    }); */
-	     let date_pickers = document.querySelectorAll('.datepicker');
+	   /*   let date_pickers = document.querySelectorAll('.datepicker');
         $.each(date_pickers, function(){
         	var dt = this.value.split(/[^0-9]/);
         	this.value = ""; 
@@ -440,21 +441,21 @@
         		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
         	}
         	M.Datepicker.init(this, options);
-        });
+        }); */
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
 
             // commented code placed next script tag from here 
            /*  $('#submission_1,#approval_1').datepicker(); */
-            $('#submission_1_icon').click(function () {
+        /*     $('#submission_1_icon').click(function () {
                 event.stopPropagation();
                 $('#submission_1').click();
             });
             $('#approval_1_icon').click(function () {
                 event.stopPropagation();
                 $('#approval_1').click();
-            });
+            }); */
 
             $("#myFile").change(function () {
                 filename1 = $('#myFile')[0].value;
@@ -615,8 +616,8 @@
                       	   +'<option value="${obj.status_fk }">${obj.status_fk}</option>'
                          </c:forEach>
                   	   +'</select></td>'
-    				   +'<td data-head="Submission Date" class="input-field"><input id="submission_dates'+rNo+'" name="submission_dates" type="text" class="validate datepicker" placeholder="Submission Date"><button type="button" id="submission_1_icon'+rNo+'" class="w"><i class="fa fa-calendar"></i></button></td>'
-    				   +'<td data-head="Approval Date" class="input-field"><input id="approval_dates'+rNo+'" name="approval_dates" type="text" class="validate datepicker" placeholder="Approval Date"><button type="button" id="approval_1_icon'+rNo+'" class="w"><i class="fa fa-calendar"></i></button></td>'
+    				   +'<td data-head="Submission Date" class="input-field"><input id="submission_dates'+rNo+'" name="submission_dates" type="text" class="validate datepicker" placeholder="Submission Date"><button type="button" id="submission_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
+    				   +'<td data-head="Approval Date" class="input-field"><input id="approval_dates'+rNo+'" name="approval_dates" type="text" class="validate datepicker" placeholder="Approval Date"><button type="button" id="approval_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
     				   +'<td data-head="Remarks" class="input-field"><input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
     			   	   +'<td data-head="Attachment" class="input-field cell-disp-inb"><div class=""><input type="file" name="documentsFile" id="documentsFile'+rNo+'" style="display:none" onchange="getFileName('+rNo+')"/>'
                 	   +' <label for="documentsFile'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label><a id="fileVal'+rNo+'" class="filevalue" ></a> </div>'
@@ -626,18 +627,12 @@
     				 $('#documentTableBody').append(html);
     				 $("#rowNo").val(rNo);
     				 $('.searchable').select2();
-    				  $("#submission_dates"+rNo).datepicker({
+    				/*  $("#submission_dates"+rNo).datepicker({
                       	 format:'dd-mm-yyyy',
-                          onSelect: function () {
-               	    	     $('.confirmation-btns .datepicker-done').click();
-               	    	  }
-                      });
-    				  $("#approval_dates"+rNo).datepicker({
-                       	 format:'dd-mm-yyyy',
-                           onSelect: function () {
-                	    	     $('.confirmation-btns .datepicker-done').click();
-                	    	  }
-                       });
+                      	 autoClose: true, 
+                      	 onOpen: datePickerSelectAddClass
+                      }); */
+    				  
     				  
             } 
          

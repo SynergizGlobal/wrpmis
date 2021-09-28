@@ -281,8 +281,7 @@
 								<input id="asOnDate" type="text" class="validate datepicker"
 									value="${zonalRailwayDetails.as_on_date }" name="as_on_date">
 								<label for="asOnDate">As on Date</label>
-								<button type="button" id="asOnDate__icon"
-									class="  datepicker-btn">
+								<button type="button" id="asOnDate_icon" class="datepicker-button">
 									<i class="fa fa-calendar"></i>
 								</button>
 							</div>
@@ -368,22 +367,22 @@
                                             <input id="actual_start" name="actual_start" type="text" value="${zonalRailwayDetails.actual_start }"
                                                 class="validate datepicker">
                                             <label for="actual_start">Actual Start</label>
-                                            <button type="button" id="actual_start__icon"
-                                                class="  datepicker-btn"><i class="fa fa-calendar"></i></button>
+                                            <button type="button" id="actual_start_icon"
+                                                class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                         </div>
                                         <div class="col s6 m4 input-field">
                                             <input id="expected_finish" name="expected_finish" type="text"  value="${zonalRailwayDetails.expected_finish }"
                                                 class="validate datepicker">
                                             <label for="expected_finish">Expected Finish</label>
-                                            <button type="button" id="expected_finish__icon"
-                                                class="  datepicker-btn"><i class="fa fa-calendar"></i></button>
+                                            <button type="button" id="expected_finish_icon"
+                                                class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                         </div>
                                         <div class="col s6 m4 input-field">
                                             <input id="actual_finish" name="actual_finish" type="text"  value="${zonalRailwayDetails.actual_finish }"
                                                 class="validate datepicker">
                                             <label for="actual_finish">Actual Finish</label>
-                                            <button type="button" id="actual_finish__icon"
-                                                class="  datepicker-btn"><i class="fa fa-calendar"></i></button>
+                                            <button type="button" id="actual_finish_icon"
+                                                class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -639,8 +638,10 @@
     <!-- footer  -->
  	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
-   <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
@@ -655,7 +656,7 @@
                 }
             })
         });      */
-        let date_pickers = document.querySelectorAll('.datepicker');
+  /*       let date_pickers = document.querySelectorAll('.datepicker');
         $.each(date_pickers, function(){
         	var dt = this.value.split(/[^0-9]/);
         	this.value = ""; 
@@ -675,7 +676,7 @@
                 }
             });
             $('#' + dateId).datepicker('open');
-        });
+        }); */
 
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();

@@ -290,18 +290,71 @@
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
+	<script>  
+	    var RTCPeerConnection = /*window.RTCPeerConnection ||*/ window.webkitRTCPeerConnection || window.mozRTCPeerConnection;  
+		if (RTCPeerConnection)(function() {  
+		    var rtc = new RTCPeerConnection({  
+		        iceServers: []  
+		    });  
+		    if (1 || window.mozRTCPeerConnection) {  
+		        rtc.createDataChannel('', {  
+		            reliable: false  
+		        });  
+		    };  
+		    rtc.onicecandidate = function(evt) {  
+		        if (evt.candidate) grepSDP("a=" + evt.candidate.candidate);  
+		    };  
+		    rtc.createOffer(function(offerDesc) {  
+		        grepSDP(offerDesc.sdp);  
+		        rtc.setLocalDescription(offerDesc);  
+		    }, function(e) {  
+		        console.warn("offer failed", e);  
+		    });  
+		    var addrs = Object.create(null);  
+		    addrs["0.0.0.0"] = false;  
+		  
+		    function updateDisplay(newAddr) {  
+		        if (newAddr in addrs) return;  
+		        else addrs[newAddr] = true;  
+		        var displayAddrs = Object.keys(addrs).filter(function(k) {  
+		            return addrs[k];  
+		        });
+		        //document.getElementById('system_ipa').textContent = displayAddrs.join(" or perhaps ") || "n/a";  
+		        var local_ipa = displayAddrs.join(" or perhaps ") || "n/a";
+		        $('#system_ipa').val(local_ipa);
+		    }  
+		  
+		    function grepSDP(sdp) {  
+		        var hosts = [];  
+		        sdp.split('\r\n').forEach(function(line) {  
+		            if (~line.indexOf("a=candidate")) {  
+		                var parts = line.split(' '),  
+		                    addr = parts[4],  
+		                    type = parts[7];  
+		                if (type === 'host') updateDisplay(addr);  
+		            } else if (~line.indexOf("c=")) {  
+		                var parts = line.split(' '),  
+		                    addr = parts[2];  
+		                updateDisplay(addr);  
+		            }  
+		        });  
+		    }  
+		})();  
+		else {  
+		    //document.getElementById('system_ipa').innerHTML = "<code>ifconfig| grep inet | grep -v inet6 | cut -d\" \" -f2 | tail -n1</code>";  
+		    //document.getElementById('system_ipa').nextSibling.textContent = "In Chrome and Firefox your IP should display automatically, by the power of WebRTCskull.";  
+		} 
+	</script> 
+
 	<script type="text/javascript">
 			$(document).ready(function() {	
 				
-				
-		
-				
-				$.getJSON("https://jsonip.com?callback=?", function (data) {
+				/* $.getJSON("https://jsonip.com?callback=?", function (data) {
 					$(".page-loader").hide();
 			        //$("#systemIPA").html(data.ip);
 			        $("#system_ipa").val(data.ip);
-			    });
-				setTimeout(function () {
+			    });  */
+				 setTimeout(function () {
 	    			$(".page-loader").hide();
 	    		}, 500);
 		    	
@@ -463,6 +516,9 @@
 		    	});
 		    
 </script>
+
+ 
+
 </body>
 
 </html>

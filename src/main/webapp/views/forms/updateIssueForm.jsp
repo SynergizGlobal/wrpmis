@@ -27,6 +27,9 @@
         .input-field .searchable_label{
 			font-size:0.85rem;			
 		}
+		.input-field .select2-container--default{
+			margin-bottom:8px;
+		}
 		.input-field>.datepicker ~ label:not(.label-icon).active {
 		    -webkit-transform: translateY(-11px) scale(0.8);
 		    transform: translateY(-11px) scale(.8);		
@@ -53,6 +56,9 @@
 		}
 		.mar{
 			margin-bottom:10px !important;
+		}
+		.input-field p.searchable_label{
+			margin-top:-11px !important;
 		}
 		@media only screen and (max-width: 769px) {
 			.mobile_responsible_table>tbody >tr:not(.datepicker-row)> td> div.btn{
@@ -150,12 +156,29 @@
                             </div>
                             <div class="row">                                 
                                 <div class="col s12 m8 input-field offset-m2">
-                                    <textarea id="title" name="title" class="materialize-textarea" data-length="1000" readonly>${issue.title }</textarea>
-                                    <label for="title">Short Description <span class="required">*</span></label>
+                                     <textarea id="title" name="title" class="pmis-textarea" data-length="1000" readonly>${issue.title }</textarea>
+                                     <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>                                 
                             </div>
-                            
+                          
+                              <div class="row">
+                              <c:choose>
+							    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
+                                <div class="col s12 offset-m2 m8 input-field">
+                                    <textarea id="description" name="description" class="pmis-textarea" data-length="1000">${issue.description }</textarea>
+                                    <label for="description">Description of Issue</label>
+                                    <span id="descriptionError" class="error-msg" ></span>
+                                </div>
+                                 </c:when>
+				                 <c:otherwise>
+				                  <div class="col s12 offset-m2 m8 input-field">
+				                   <input id="description" name="description" type="text"  value=" ${issue.description }" readonly>
+                                    <label for="description">Description of Issue</label>
+                                </div>
+				                 </c:otherwise>
+				               </c:choose>
+                            </div>
                             <div class="row">                                 
                                 <div class="col s12 m8 input-field offset-m2">
                                     <textarea id="corrective_measure" name="corrective_measure"   class="pmis-textarea"  data-length="1000">${issue.corrective_measure }</textarea>
@@ -326,7 +349,7 @@
 	                                 
 	                                <div class="col s12 m8 input-field offset-m2" >
 	                                <div id="test" data-message="${issue.remarks }" style="display: none;"></div>
-	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${issue.remarks }</textarea>
+	                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${issue.remarks }</textarea>
 	                                    <label for="remarks">Status After Escalation</label>
 	                                    <span id="remarksError" class="error-msg" ></span>
 	                                    <input type="hidden"  name="remarks_new" id="remarks_new"/>
@@ -529,7 +552,7 @@
             $('.searchable').select2();
             $('#corrective_measure').characterCounter();
             $('#remarks').characterCounter();  
-            
+            $('#description').characterCounter();
             $('#corrective_measure').css('height',function(){
             	this.style.height = (this.scrollHeight < 50) ? '50px' : this.scrollHeight + 'px';
             });

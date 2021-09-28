@@ -171,13 +171,13 @@
                                 <div class="col s6 m4 input-field offset-m2">
                                     <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${deliverablesDetails.target_date }">
                                     <label for="target_date">Target Date</label>
-                                    <button type="button" id="target_date_icon" ><i
+                                    <button type="button" id="target_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s6 m4 input-field ">
                                     <input id="start_date" name="start_date" type="text" class="validate datepicker" value="${deliverablesDetails.start_date }">
                                     <label for="start_date">Start Date</label>
-                                    <button type="button" id="start_date_icon" ><i
+                                    <button type="button" id="start_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                             </div>
@@ -185,7 +185,7 @@
                                 <div class="col s12 m4 input-field offset-m2">
                                     <input id="finish_date" name="finish_date" type="text" class="validate datepicker" value="${deliverablesDetails.finish_date }">
                                     <label for="finish_date">Finish Date</label>
-                                    <button type="button" id="finish_date_icon" ><i
+                                    <button type="button" id="finish_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                             </div>
@@ -291,6 +291,7 @@
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
@@ -343,7 +344,7 @@
 	     	$('#deliverableFileNames'+no).remove();
 	    } 
 
-	     let date_pickers = document.querySelectorAll('.datepicker');
+	   /*   let date_pickers = document.querySelectorAll('.datepicker');
         $.each(date_pickers, function(){
         	var dt = this.value.split(/[^0-9]/);
         	this.value = ""; 
@@ -353,13 +354,13 @@
         		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
         	}
         	M.Datepicker.init(this, options);
-        });
+        }); */
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
            // $("#target_date,#start_date,#finish_date").datepicker();
             $('#remarks').characterCounter();
-            $('#target_date_icon').click(function () {
+         /*    $('#target_date_icon').click(function () {
                 event.stopPropagation();
                 $('#target_date').click();
             });
@@ -370,7 +371,7 @@
             $('#finish_date_icon').click(function () {
                 event.stopPropagation();
                 $('#finish_date').click();
-            });
+            }); */
             var project_id_fk = "${deliverablesDetails.project_id_fk}";
             if($.trim(project_id_fk) != ''){
             	getWorksList(project_id_fk);

@@ -313,9 +313,9 @@ public class SafetyDaoImpl implements SafetyDao {
 				}
 				String redirect_url = null;
 				if ("Closed".equals(iObj.getStatus_fk())) {
-					redirect_url = "/InfoViz/safety/safety/";
+					redirect_url = "/InfoViz/safety/safety-under--revision/";
 				} else {
-					redirect_url = "/InfoViz/safety/safety/";
+					redirect_url = "/InfoViz/safety/safety-under--revision/";
 				}
 				String message_type = "Safety";
 				

@@ -387,7 +387,7 @@
 																
 																	<td data-head="Data" class="input-field">
 																			<input id="created_date${index.count }" name="created_dates" type="text" class="validate datepicker" value="${iObj.created_date }">
-										                                    <button type="button" id="created_date${index.count }_icon"><i class="fa fa-calendar"></i></button>
+										                                    <button type="button" id="created_date${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 										                                    <span id="dateError" class="error-msg" ></span>
 																	</td>
 																	<td data-head="Attach Image" class="cell-disp-inb input-field file-field">
@@ -415,8 +415,8 @@
 														<c:otherwise>
 															<tr id="imageRow0">
 																<td data-head="Data" class="input-field">
-																		<input id="created_date0" name="created_dates" type="text" class="validate datepicker">
-									                                    <button type="button" id="created_date0_icon" ><i class="fa fa-calendar"></i></button>
+																		<input id="created_date0" name="created_dates" type="text" class="validate datepicker" placeholder="date">
+									                                    <button type="button" id="created_date0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 									                                    <span id="dateError" class="error-msg" ></span>
 																</td>
 																<td data-head="Attach Image" class="cell-disp-inb input-field file-field">
@@ -734,6 +734,7 @@
 
   	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
@@ -743,7 +744,7 @@
     <script type="text/javascript">
 
 	/****************************************************************************************************/
-    let date_pickers = document.querySelectorAll('.datepicker');
+/*     let date_pickers = document.querySelectorAll('.datepicker');
         $.each(date_pickers, function(){
         	var dt = this.value.split(/[^0-9]/);
         	this.value = ""; 
@@ -754,7 +755,7 @@
         	}
         	M.Datepicker.init(this, options);
         });
-        
+         */
         function validateImage(RowNum) 
         {
             var formData = new FormData();
@@ -776,8 +777,8 @@
 	        var rNo = Number(rowNo)+1;
 	        var html = '<tr id="imageRow' + rNo + '">'	
 	        +' <td data-head="Data" class="input-field">'
-				+'<input id="created_date'+rNo+'" name="created_dates" type="text" class="validate datepicker">'
-				+'<button type="button" id="created_date'+rNo+'_icon"><i class="fa fa-calendar"></i></button>'
+				+'<input id="created_date'+rNo+'" name="created_dates" type="text" class="validate datepicker" placeholder="date">'
+				+'<button type="button" id="created_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
 	            +'<span id="dateError" class="error-msg" ></span></td>'
 	   		   +'<td data-head="Attach Image" class="cell-disp-inb input-field file-field"> '	
 			   +'<div class="btn bg-m t-c">'	
@@ -795,19 +796,14 @@
 			$('#projectImageFilesBody').append(html);
 	        $("#imageRowNo").val(rNo); 
 	       
-	    		var id = 'created_date'+rNo
+	    	 	var id = 'created_date'+rNo
 				$('#'+id).datepicker({
 					maxDate: new Date(),
 		        	format:'dd-mm-yyyy',
-		   	    	onSelect: function () {
-		   	    	   $('.confirmation-btns .datepicker-done').click();
-		   	    	}
+		        	onOpen: datePickerSelectAddClass,
+		        	autoClose: true		   	    	
 		        }).datepicker("setDate", new Date());
 				
-		        $('#'+id+'_icon').click(function () {
-	             event.stopPropagation();
-	             $('#'+id).click();
-	         });
 	    	
 	    }
     	
@@ -860,7 +856,7 @@
             $('#remarks,#benefits').characterCounter(); 
            	var dateVal=  date;
            	if(dateVal == ''){
-           	  $(".datepicker").each(function(){
+           	  /* $(".datepicker").each(function(){
              		var id = $(this).attr('id');
   				$('#'+id).datepicker({
   					maxDate: new Date(),
@@ -874,7 +870,7 @@
   	                event.stopPropagation();
   	                $('#'+id).click();
   	            });
-             	});
+             	}); */
            	}
           
         });

@@ -2342,6 +2342,21 @@
   				}
   			}
         	
+  			if($('#contract_status').val()=="Yet to be Awarded")
+  			{
+			 var y = document.getElementById("date_of_start");
+			 y.type= "hidden"; 
+			 document.getElementById("date_of_start").value=" ";
+			 
+			 var y1 = document.getElementById("doc");
+			 y1.type= "hidden";
+			 
+		        $.validator.addMethod("dateBefore1", function(value, element) {
+		            
+		        }, "");			 
+			 
+  			}
+			 
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	
 	  		

@@ -813,7 +813,7 @@
         
         function getFOBContractsList(){
         	
-        	var contract_id_fk = $("#contract_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk_upload").val();
         	var fob_id = $("#fob_id").val();
         	var myParams = {contract_id_fk : contract_id_fk} ;
         	$(".page-loader").show();

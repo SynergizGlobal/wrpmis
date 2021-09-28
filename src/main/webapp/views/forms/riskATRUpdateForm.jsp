@@ -108,6 +108,21 @@
 			width:inherit;
 		}
 		.error-msg{color:red!important;text-align: left;}
+		.w7em{width: 7em;}
+		@media(max-width: 2200px){
+		.table-add{position: absolute;}
+		.add-align{position: absolute;
+   					 margin-top: -6.5em;
+   					 margin-left: 11%;}
+   		.bd-none{border: none;}
+   		 }
+    	@media(max-Width: 2000px){
+    	.add-align{margin-left:18%;}
+    	}
+    	@media(max-width: 800px){
+    	.add-align{position: relative; margin-top: 0; margin-left:0;}
+    	.table-add{position: relative;}
+    	}
     </style>
     
 </head>
@@ -132,75 +147,70 @@
 						
                         <div class="container container-no-margin">                          
                             	
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>                               
-                                <div class="col s12 m4 input-field">
+                            <div class="row">                              
+                                <div class="col s12 m4 l6 input-field">
 									<p class="searchable_label">Project :</p>
 									<p>${risk.project_id_fk}- ${risk.project_name}</p>	
 							    </div> 
-                                <div class="col s12 m4 input-field"> 
+                                <div class="col s12 m4 l6 input-field"> 
 								    <p class="searchable_label"> Work :</p>
 									<p>${risk.work_id_fk}- ${risk.work_short_name}</p></div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                
                             </div>
                             
                             <div class="row">
                                 <!-- row 1  -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l6 input-field">
                                     <p class="searchable_label"> Work :</p>
 									<p>${risk.sub_work}</p>
 									<input type="hidden"  name="sub_work" value="${risk.sub_work }" /> 
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l6 input-field">
                                      <p class="searchable_label"> Assessment Date :</p>
 									 <p>${risk.assessment_date }</p>
 									 <input type="hidden"  name="assessment_date" value="${risk.assessment_date }" /> 
                                 </div>                               
-                                <div class="col m2 hide-on-small-only"></div>
+                                
                             </div>
                             
                             <div class="row">
                                 <!-- row 2 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l6 input-field">
                                     <p class="searchable_label"> Area :</p>
 									<p>${risk.area }</p>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l6 input-field">
 									<p class="searchable_label"> Sub Area :</p>
 									<p>${risk.sub_area_fk }</p>                                   	
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                
                             </div>
                             <div class="row">
                                 <!-- row 2 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l6 input-field">
                                     <p class="searchable_label"> Owner :</p>
 									<p>${risk.owner }</p>
 									<input type="hidden"  name="owner_user_id" value="${risk.owner_user_id }" />
 									<input type="hidden"  name="reporting_to_user_id" value="${risk.reporting_to_user_id }" />
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l6 input-field">
 									<p class="searchable_label"> Responsible Person :</p>
 									<p>${risk.responsible_person }</p>       
 									<input type="hidden"  name="responsible_user_id" value="${risk.responsible_user_id }" />                            	
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                
                                 
                                 <input type="hidden"  name="hod_user_id_fk" value="${risk.hod_user_id_fk }" />
                             </div>
                             
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>                               
-                                <div class="col s12 m4 input-field">
+                            <div class="row">                              
+                                <div class="col s12 m4 l6 input-field">
 									<p class="searchable_label">Priority :</p>
 									<p>${risk.priority_fk}</p>	
 							    </div>                                 
                             </div>
                             <div class="row">
-                            	<div class="col s12 m8 input-field offset-m2"> 
+                            	<div class="col s12 m8 l12 input-field offset-m2"> 
 								    <%-- <p class="searchable_label"> Mitigation Plan :</p>
 									<p>${risk.mitigation_plan}</p> --%>
 									<textarea id="mitigation_plan" name="mitigation_plan" class="materialize-textarea" data-length="1000" >${risk.mitigation_plan}</textarea>
@@ -211,8 +221,7 @@
                        
                        <!--  </div> -->
 							<div class="row">
-								<div class="col m2 hide-on-small-only"></div>
-								<div class="col m8 s12">
+								<div class="col m8 s12 l12">
 									<div class="row fixed-width"
 										style="margin-bottom: 40px; margin-top: 20px">
 										<div class="table-inside">
@@ -342,12 +351,12 @@
 													</c:choose>
 												</tbody>
 											</table>
-											<table class="mdl-data-table">
+											<table class="mdl-data-table table-add">
 												<tbody>
 													<tr>
 														<td colspan="6" ><a
 															type="button"
-															class="btn waves-effect waves-light bg-m t-c "
+															class="btn waves-effect waves-light bg-m t-c add-align"
 															onclick="addRiskRow()"> <i
 																class="fa fa-plus"></i>
 														</a>
@@ -372,7 +381,7 @@
 							<input  type="hidden"   name="risk_id_pk" value="${risk.risk_id_pk }" />
 							<input  type="hidden"   name="risk_revision_id" value="${risk.risk_revision_id }" />
 							<div class="row">
-                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                                <div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
                                 
                                     <!-- <div class="center-align m-1">
 										<button type="button" onclick="updateRisk();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
@@ -380,7 +389,7 @@
 									
 									<div class=" m-1">
                                     	<c:if test="${risk.readonlyForm eq false }">
-                                        	<button type="button" onclick="updateRisk();" class="btn waves-effect waves-light bg-m">Update</button>
+                                        	<button type="button" onclick="updateRisk();" class="btn waves-effect waves-light bg-m w7em">Update</button>
                                         </c:if>
                                         <c:if test="${risk.readonlyForm eq true }">
                                         	<a style="color:red;line-height: 36px;">Not Authorized to Edit</a>
@@ -388,9 +397,9 @@
                                     </div>
                                     
                                 </div>
-                                <div class="col s6 m4 mt-brdr center-align">
+                                <div class="col s6 m4 l6 mt-brdr center-align">
                                     <div class=" m-1">
-                                        <a href="<%=request.getContextPath()%>/risk-atr-update" class="btn waves-effect waves-light bg-s"
+                                        <a href="<%=request.getContextPath()%>/risk-atr-update" class="btn waves-effect waves-light bg-s w7em"
                                             >Cancel</a>
                                            <!--  <a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
                                             style="width:100%">Cancel</a>  -->

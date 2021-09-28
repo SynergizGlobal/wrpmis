@@ -327,7 +327,7 @@
 	                                <div class="col s6 offset-m2 m4 input-field">
 	                                    <%-- <input id="escalated_to" name="escalated_to" type="text" class="validate" value="${issue.escalated_to }">
 	                                    <label for="escalated_to">Escalated To </label> --%>
-	                                    <p class="searchable_label" style="margin-bottom:8px">Escalated To<span class="required">*</span></p> 
+	                                    <p class="searchable_label" >Escalated To<span class="required">*</span></p> 
 	                                    <select class="searchable browser-default" id="escalated_to" name="escalated_to">
 	                                        <option value="">Select</option>
 	                                        <c:forEach var="obj" items="${escalatedToList }">
@@ -724,20 +724,23 @@
         		$("#escalation_date").val('${issue.escalation_date}');
         		
         		var div = $('#test').data('message');
-        		$("textarea#remarks").val(div.replace("\\n","\n"));
-        		$("textarea#remarks").val( div + "\n");
-        	 	var readOnlyLength = $('#remarks').val().length;
-               	
-               	$('#remarks').on('keypress, keydown', function(event) {
-               		var $field = $(this)
-               		 if ((event.which != 37 && (event.which != 39)) &&
-    					    ((this.selectionStart < readOnlyLength) ||
-    					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
-               			var text = $("textarea#remarks").val();  
-    				    return false;
-    				  }
-               	})
-               	
+        		if(div != ""){
+        			$("textarea#remarks").val(div.replace("\\n","\n"));
+            		$("textarea#remarks").val( div + "\n");
+            	 	var readOnlyLength = $('#remarks').val().length;
+                   	
+                   	$('#remarks').on('keypress, keydown', function(event) {
+                   		var $field = $(this)
+                   		 if ((event.which != 37 && (event.which != 39)) &&
+        					    ((this.selectionStart < readOnlyLength) ||
+        					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
+                   			var text = $("textarea#remarks").val();  
+        				    return false;
+        				  }
+                   	})
+                   	
+        		}
+        		
                	var year = '',month = '',day = '';                   	
                 var escalation_date = '${issue.escalation_date}';                    
                 if($.trim(escalation_date) != '' ){
@@ -903,19 +906,22 @@
         		$("#escalated_to").val('${issue.escalated_to}');
         		$("#escalation_date").val('${issue.escalation_date}');
         		var div = $('#test').data('message');
-        		$("textarea#remarks").val(div.replace("\\n","\n"));
-        		$("textarea#remarks").val( div + "\n");
-			    var readOnlyLength = $('#remarks').val().length;
-               	
-               	$('#remarks').on('keypress, keydown', function(event) {
-               		var $field = $(this)
-               		 if ((event.which != 37 && (event.which != 39)) &&
-    					    ((this.selectionStart < readOnlyLength) ||
-    					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
-               			var text = $("textarea#remarks").val();  
-    				    return false;
-    				  }
-               	})
+        		if( div != ""){
+        			$("textarea#remarks").val(div.replace("\\n","\n"));
+            		$("textarea#remarks").val( div + "\n");
+            	 	var readOnlyLength = $('#remarks').val().length;
+                   	
+                   	$('#remarks').on('keypress, keydown', function(event) {
+                   		var $field = $(this)
+                   		 if ((event.which != 37 && (event.which != 39)) &&
+        					    ((this.selectionStart < readOnlyLength) ||
+        					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
+                   			var text = $("textarea#remarks").val();  
+        				    return false;
+        				  }
+                   	})
+                   	
+        		}
         		if($.trim('${issue.escalation_date}') != ''){
         			var year = '',month = '',day = '';                   	
                     var escalation_date = '${issue.escalation_date}';                    

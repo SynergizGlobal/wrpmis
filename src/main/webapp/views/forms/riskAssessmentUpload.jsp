@@ -203,6 +203,10 @@
 	        	text-align:center;
 	        }
 		}
+		@media(max-width: 360px){
+		
+		 .pad0p36{padding:0 !important;}
+		}
 		
 		.my-error-class {
    			 color:red;
@@ -292,7 +296,7 @@
 
 					
 						
-						<div class="col m8">
+						<div class="col m8 l12">
 							<div class="">
 								<c:if test="${not empty success }">
 									<div class="center-align m-1 close-message">${success}</div>
@@ -315,18 +319,17 @@
 							id="riskUploadForm" name="riskUploadForm" method="post"
 							enctype="multipart/form-data" >
 							<div class="row">
-								<div class="col m1 hide-on-small-only"></div>
-								<div class="col m10">
+								<div class="col m10 l12">
 								
 									<div class="row">
-										<div class="col m2 s12 mob-center input-field b-text">
+										<div class="col l2 m2 s12 mob-center input-field b-text pad0p36">
 											<p class="mt-2">Step 1 :</p>
 										</div>
-										<div class="col m5 s6 mob-center input-field">
+										<div class="col l5 m5 s6 mob-center input-field">
 											<p class="mt-2 b-text">Select the Work</p>
 										</div>
 										<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
-											<div class="col m5 s6 mob-center input-field">
+											<div class="col l5 m5 s6 mob-center input-field">
 												<p class="searchable_label left-align">Work</p>
 												<select id=sub_work name="sub_work"
 													class="searchable validate-dropdown">
@@ -357,7 +360,7 @@
 									</div>
 									
 									<div class="row">
-										<div class="col l2 m2 s3 mob-center input-field b-text">
+										<div class="col l2 m2 s3 mob-center input-field b-text pad0p36">
 											<p class="mt-1">Step 2 :</p>
 										</div>
 										<div class="col l5 m10 s9 mob-center input-field">
@@ -371,7 +374,7 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col m2 s3 mob-center input-field b-text">
+										<div class="col m2 s3 mob-center input-field b-text pad0p36">
 											<p class="">Step 3 :</p>
 										</div>
 										<div class="col m10 s9 mob-center input-field">
@@ -380,7 +383,7 @@
 									</div>
 									
 									<div class="row">
-										<div class="col m2 s3 mob-center input-field b-text">
+										<div class="col m2 s3 mob-center input-field b-text pad0p36">
 											<p class="mt-2">Step 4 :</p>
 										</div>
 										<div class="col m10 l5 s9 mob-center input-field ">
@@ -402,7 +405,7 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col m2 s3 input-field b-text">
+										<div class="col m2 s3 input-field b-text pad0p36">
 											<p class="mt-1">Step 5 :</p>
 										</div>
 										<!-- <div class="col m5 s9 input-field"></div> -->
@@ -422,7 +425,7 @@
 									</div>
 									
 									<div class="row">
-										<div class="col m2 s12 mob-center input-field b-text">
+										<div class="col m2 s12 mob-center input-field b-text pad0p36">
 											<p class="mt-1">Step 6 :</p>
 										</div>
 										<div class="col m10 s12 mob-center input-field">

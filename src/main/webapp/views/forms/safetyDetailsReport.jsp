@@ -37,10 +37,10 @@
                     </span>
                     <div class="">
                         <div class="row no-mar">
-                            <div class="col m8 s12 offset-m2 l7 offset-l3">
+                            <div class="col m8 s12 offset-m2 ">
                             	<form id="reportForm" name="reportForm" method="post">
 	                                <div class="row no-mar">
-	                                    <div class="col s6 m4 l3 input-field">
+	                                    <div class="col s6 m4  input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
 	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getContractsListInSafetyDetailsReport(this.value);getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getStatusListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport();">
 	                                            <option value="">Select </option>
@@ -50,7 +50,7 @@
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s6 m4 l3 input-field">
+	                                    <div class="col s6 m4  input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract</p>
 	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getHODListInSafetyDetailsReport(this.value);getStatusListInSafetyDetailsReport();getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
@@ -60,7 +60,7 @@
 	                                        </select>
 	                                        <span id="contract_id_fkError" class="error-msg" ></span>
 	                                    </div>
-										<div class="col s6 m4 l3 input-field">
+										<div class="col s6 m4  input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
 	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="addInQueHOD(this.value);getStatusListInSafetyDetailsReport();getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getStatusListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
@@ -72,7 +72,7 @@
 	                                    </div>
 	                                    </div>
 	                                    <div class="row">
-	                                     <div class="col s6 m4 l3 input-field">
+	                                     <div class="col s6 m4  input-field">
 	                                        <p class="searchable_label" style="text-align:left">Status</p>
 	                                        <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getLocationsListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
@@ -82,7 +82,7 @@
 	                                        </select>
 	                                        <span id="status_fkError" class="error-msg" ></span>
 	                                    </div> 
-	                                    <div class="col s6 m4 l3 input-field">
+	                                    <div class="col s6 m4  input-field">
 	                                        <p class="searchable_label" style="text-align:left">Location</p>
 	                                        <select class="searchable validate-dropdown" id="location" name="location" onchange="addInQueLocations(this.value);getCategoriesListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
@@ -92,7 +92,7 @@
 	                                        </select>
 	                                        <span id="locationError" class="error-msg" ></span>
 	                                    </div> 
-	                                    <div class="col s6 m4 l3 input-field">
+	                                    <div class="col s6 m4  input-field">
 	                                        <p class="searchable_label" style="text-align:left">Category</p>
 	                                        <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="addInQueCategories(this.value);getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
@@ -102,7 +102,7 @@
 	                                        </select>
 	                                        <span id="category_fkError" class="error-msg" ></span>
 	                                    </div> 
-	                                     <div class="col s6 m9 l9 input-field">
+	                                     <div class="col s6 m8 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Description <span class="required">*</span></p>
 	                                        <select class="searchable validate-dropdown" id="safety_id" name="safety_id" onchange="addInQueTitles(this.value);getSafetyDetailsReport();">
 	                                            <option value="">Select </option>
@@ -116,13 +116,13 @@
 	                                    
 	                                </div>    
 	                                <div class="row">	                                	
-	                                    <div class="col s6 m4 l3 input-field offset-l2">
+	                                    <div class="col s5 m4  input-field offset-m2">
 	                                        <button class="btn bg-s waves-effect waves-light t-c" type="button"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="clearFilter()">Clear Filter</button>
 	                                    </div>
 	                                   
-	                                     <div class="col s12 m4 l3 input-field mob-center">
+	                                     <div class="col s7 m4  input-field mob-center">
 	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px; font-weight: 600;"
 	                                            onclick="generateAndDownloadSafetyDetailsReport()">Generate Report</button>

@@ -568,7 +568,7 @@
         	                    if(approval_status_fk == 'Pending'){
 	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+key+'" value="'+progress_id+'" /><span></span></label></p>';
 	        	                   	
-	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+progress_id+');" class="btn"><i class="fa fa-check"></i> </a>'
+	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+progress_id+');" class="btn bg-m"><i class="fa fa-check"></i> </a>'
         	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+progress_id+');" class="btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>';
         	                   	}
         	                    

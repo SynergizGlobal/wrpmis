@@ -136,6 +136,7 @@
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
@@ -145,7 +146,7 @@
     
     <script>
     var filtersMap = new Object();
-    let date_pickers = document.querySelectorAll('.datepicker');
+/*     let date_pickers = document.querySelectorAll('.datepicker');
     $.each(date_pickers, function(){
     	var dt = this.value.split(/[^0-9]/);
     	this.value = ""; 
@@ -155,7 +156,7 @@
     		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
     	}
     	M.Datepicker.init(this, options);
-    });
+    }); */
       	function getErrorMessage(jqXHR, exception) {
         	    var msg = '';
         	    if (jqXHR.status === 0) {

@@ -615,6 +615,7 @@
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
@@ -622,15 +623,7 @@
 
 
     <script>
-	   /*  $(document).on('focus', '.datepicker',function(){
-	        $(this).datepicker({
-	        	format:'dd-mm-yyyy',
-	   	    	onSelect: function () {
-	   	    	   $('.confirmation-btns .datepicker-done').click();
-	   	    	}
-	        })
-	    }); */
-	    let date_pickers = document.querySelectorAll('.datepicker');
+	   /*  let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
@@ -640,7 +633,7 @@
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
 	    	}
 	    	M.Datepicker.init(this, options);
-	    });
+	    }); */
 		var loggedin_user_id = '${sessionScope.USER_ID}';
 		var user_role = '${sessionScope.USER_ROLE_NAME}';   
         $(document).ready(function () {

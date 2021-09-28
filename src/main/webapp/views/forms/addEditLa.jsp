@@ -292,7 +292,7 @@
                                     <input id="submission_date" name="proposal_submission_date_to_collector" type="text" value="${LADetails.proposal_submission_date_to_collector }"
                                         class="validate datepicker">
                                     <label for="submission_date">Proposal submission Date to collector</label>
-                                    <button type="button" id="submission_date__icon" class="datepicker-button"><i
+                                    <button type="button" id="submission_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="submission_dateError" class="error-msg" ></span>
                                 </div>        
@@ -330,33 +330,33 @@
                                     <input id="jm_fee_letter_received_date" name="jm_fee_letter_received_date" type="text" value="${LADetails.jm_fee_letter_received_date }"
                                         class="validate datepicker">
                                     <label for="jm_fee_letter_received_date"> JM Fee Letter received Date </label>
-                                    <button type="button" id="jm_fee_letter_received_date__icon" class="datepicker-button"><i
+                                    <button type="button" id="jm_fee_letter_received_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s6 m4 input-field">
                                     <input id="jm_fee_paid_date" name="jm_fee_paid_date" type="text" value="${LADetails.jm_fee_paid_date }"
                                         class="validate datepicker">
                                     <label for="jm_fee_paid_date">JM Fee Paid Date </label>
-                                    <button type="button" id="jm_fee_paid_date__icon" class="datepicker-button"><i
+                                    <button type="button" id="jm_fee_paid_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>                                 
                                                     
                                 <div class="col s6 m4 input-field offset-m2">
                                     <input id="jm_start_date" type="text" name="jm_start_date" class="validate datepicker" value="${LADetails.jm_start_date }">
                                     <label for="jm_start_date">JM Start Date </label>
-                                    <button type="button" id="jm_start_date__icon" class="datepicker-button"><i
+                                    <button type="button" id="jm_start_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s6 m4 input-field ">
                                     <input id="jm_completion_date" name="jm_completion_date" type="text" class="validate datepicker" value="${LADetails.jm_completion_date }">
                                     <label for="jm_completion_date" class="fs-sm-8rem"> JM Completion Date</label>
-                                    <button type="button" id="jm_completion_date__icon" class="datepicker-button"><i
+                                    <button type="button" id="jm_completion_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>  
                                  <div class="col s6 m4 input-field offset-m2">
                                     <input id="jm_sheet_date_to_sdo" name="jm_sheet_date_to_sdo" type="text" class="validate datepicker" value="${LADetails.jm_sheet_date_to_sdo }">
                                     <label for="jm_sheet_date_to_sdo" class="fs-sm-8rem">JM Sheet Date to SDO </label>
-                                    <button type="button" id="jm_sheet_date_to_sdo__icon" class="datepicker-button"><i
+                                    <button type="button" id="jm_sheet_date_to_sdo_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>                               
                             </div>
@@ -428,7 +428,7 @@
                                         <input id="proposal_submission" type="text" value="${LADetails.proposal_submission }" 
                                             name="proposal_submission" class="validate datepicker">
                                         <label for="proposal_submission">Proposal submission</label>
-                                        <button type="button" id="proposal_submission__icon"
+                                        <button type="button" id="proposal_submission_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -437,7 +437,7 @@
                                         <input id="letter_for_payment" type="text" class="validate datepicker" value="${LADetails.letter_for_payment }"
                                             name="letter_for_payment">
                                         <label for="letter_for_payment">Letter for Payment</label>
-                                        <button type="button" id="letter_for_payment__icon"
+                                        <button type="button" id="letter_for_payment_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s8 m3 input-field">
@@ -473,7 +473,7 @@
                                         <input id="approval_for_payment" type="text" value="${LADetails.approval_for_payment }"
                                             name="approval_for_payment" class="validate datepicker mt-10">
                                         <label for="approval_for_payment" class="fs-sm-8rem">Approval for Payment </label>
-                                        <button type="button" id="approval_for_payment__icon"
+                                        <button type="button" id="approval_for_payment_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -482,7 +482,7 @@
                                         <input id="payment_date" name="payment_date" type="text" value="${LADetails.payment_date }"
                                             class="validate datepicker">
                                         <label for="payment_date">Payment date </label>
-                                        <button type="button" id="payment_date__icon" class="datepicker-button"><i
+                                        <button type="button" id="payment_date_icon" class="datepicker-button"><i
                                                 class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s8 m3 input-field">
@@ -531,14 +531,14 @@
                                         <input id="possession_date" name="possession_date" type="text" value="${LADetails.possession_date }"
                                             class="validate datepicker mt-10">
                                         <label for="possession_date">Possession Date </label>
-                                        <button type="button" id="possession_date__icon"
+                                        <button type="button" id="possession_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                    
                                     <div class="col s6 m4 input-field ">
                                         <input id="valuation_date" type="text" value="${LADetails.valuation_date }"
                                             name="valuation_date" class="validate datepicker mt-10">
                                         <label for="valuation_date">Valuation Date</label>
-                                        <button type="button" id="valuation_date__icon"
+                                        <button type="button" id="valuation_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -576,14 +576,14 @@
                                         <input id="forest_online_submission" name="forest_online_submission" type="text" value="${LADetails.forest_online_submission }"
                                             class="validate datepicker">
                                         <label for="forest_online_submission"> On line Submission </label>
-                                        <button type="button" id="forest_online_submission__icon"
+                                        <button type="button" id="forest_online_submission_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s6 m4 input-field">
                                         <input id="forest_submission_dycfo" name="forest_submission_date_to_dycfo" type="text" value="${LADetails.forest_submission_date_to_dycfo }"
                                             class="validate datepicker">
                                         <label for="forest_submission_dycfo" class="fs-sm-67rem">Submission Date to DyCFO </label>
-                                        <button type="button" id="forest_submission_dycfo__icon"
+                                        <button type="button" id="forest_submission_dycfo_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -592,7 +592,7 @@
                                         <input id="forest_submission_ccf" name="forest_submission_date_to_ccf_thane" type="text" value="${LADetails.forest_submission_date_to_ccf_thane }"
                                             class="validate datepicker">
                                         <label for="forest_submission_ccf"> Submission Date to CCF Thane </label>
-                                        <button type="button" id="forest_submission_ccf__icon"
+                                        <button type="button" id="forest_submission_ccf_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m4 input-field">
@@ -601,7 +601,7 @@
                                             class="validate datepicker">
                                         <label for="forest_submission_nodal_officer"> Submission Date to Nodal
                                             Officer</label>
-                                        <button type="button" id="forest_submission_nodal_officer__icon"
+                                        <button type="button" id="forest_submission_nodal_officer_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -611,7 +611,7 @@
                                             type="text" class="validate datepicker">
                                         <label for="forest_submission_revenue_sec" class="fs-sm-8rem"> Submission Date to Revenue Secretary
                                             Mantralaya </label>
-                                        <button type="button" id="forest_submission_revenue_sec__icon"
+                                        <button type="button" id="forest_submission_revenue_sec_icon"
                                             class="datepicker-button" class="white"><i
                                                 class="fa fa-calendar"></i></button>
                                     </div>
@@ -622,7 +622,7 @@
                                         <label for="forest_submission_regional_office" class="fs-sm-8rem"> Submission Date to Regional
                                             Office Nagpur
                                         </label>
-                                        <button type="button" id="forest_submission_regional_office__icon"
+                                        <button type="button" id="forest_submission_regional_office_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -633,14 +633,14 @@
                                             class="validate datepicker">
                                         <label for="forest_approval_regional_office"> Date of Approval by Regional
                                             Office</label>
-                                        <button type="button" id="forest_approval_regional_office__icon"
+                                        <button type="button" id="forest_approval_regional_office_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m8 l4 offset-m2 input-field">
                                         <input id="forest_valuation_dycfo" name="forest_valuation_by_dycfo" type="text" value="${LADetails.forest_valuation_by_dycfo }"
                                             class="validate datepicker">
                                         <label for="forest_valuation_dycfo">Valuation by DyCFO </label>
-                                        <button type="button" id="forest_valuation_dycfo__icon"
+                                        <button type="button" id="forest_valuation_dycfo_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -685,14 +685,14 @@
                                         <input id="forest_payment_approval_date" name="forest_approval_for_payment" value="${LADetails.forest_approval_for_payment }"
                                             type="text" class="validate datepicker">
                                         <label for="forest_payment_approval_date" class="fs-sm-8rem"> Approval for Payment</label>
-                                        <button type="button" id="forest_payment_approval_date__icon"
+                                        <button type="button" id="forest_payment_approval_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s6 m4 input-field">
                                         <input id="forest_payment_date" name="forest_payment_date" type="text" value="${LADetails.forest_payment_date }"
                                             class="validate datepicker">
                                         <label for="forest_payment_date"> Payment Date </label>
-                                        <button type="button" id="forest_payment_date__icon"
+                                        <button type="button" id="forest_payment_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -701,7 +701,7 @@
                                         <input id="forest_possession_date" name="forest_possession_date" type="text" value="${LADetails.forest_possession_date }"
                                             class="validate datepicker mt-10">
                                         <label for="forest_possession_date"> Possession Date</label>
-                                        <button type="button" id="forest_possession_date__icon"
+                                        <button type="button" id="forest_possession_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s6 m4 input-field">
@@ -856,14 +856,14 @@
                                         <input id="private_owner_consent" name="consent_from_owner" type="text" value="${LADetails.consent_from_owner }"
                                             class="validate datepicker">
                                         <label for="private_owner_consent">Consent from Owner </label>
-                                        <button type="button" id="private_owner_consent__icon"
+                                        <button type="button" id="private_owner_consent_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s6 m4 input-field ">
                                         <input id="private_leagal_search_report" name="legal_search_report" value="${LADetails.legal_search_report }"
                                             type="text" class="validate datepicker">
                                         <label for="private_leagal_search_report"> Legal Search Report</label>
-                                        <button type="button" id="private_leagal_search_rport__icon"
+                                        <button type="button" id="private_leagal_search_rport_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -872,14 +872,14 @@
                                         <input id="private_registartion_date" name="date_of_registration" value="${LADetails.date_of_registration }"
                                             type="text" class="validate datepicker">
                                         <label for="private_registartion_date">Date of Registration </label>
-                                        <button type="button" id="private_registartion_date__icon"
+                                        <button type="button" id="private_registartion_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s6 m4 input-field ">
                                         <input id="private_possession_date" name="date_of_possession" type="text" value="${LADetails.date_of_possession }"
                                             class="validate datepicker">
                                         <label for="private_possession_date">Date of Possession</label>
-                                        <button type="button" id="private_possession_date__icon"
+                                        <button type="button" id="private_possession_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -906,7 +906,7 @@
                                         <input id="private_forest_tree_survey" name="forest_tree_survey" value="${LADetails.forest_tree_survey }"
                                             type="text" class="validate datepicker">
                                         <label for="private_forest_tree_survey"> Forest Tree Survey </label>
-                                        <button type="button" id="private_forest_tree_survey__icon"
+                                        <button type="button" id="private_forest_tree_survey_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -915,7 +915,7 @@
                                         <input id="private_forest_tree_valuation" name="forest_tree_valuation" value="${LADetails.forest_tree_valuation }"
                                             type="text" class="validate datepicker mt-10">
                                         <label for="private_forest_tree_valuation"> Forest Tree Valuation </label>
-                                        <button type="button" id="private_forest_tree_valuation__icon"
+                                        <button type="button" id="private_forest_tree_valuation_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s6 m4 input-field">
@@ -936,7 +936,7 @@
                                             name="horticulture_tree_survey" type="text" value="${LADetails.horticulture_tree_survey }"
                                             class="validate datepicker">
                                         <label for="private_horiculture_tree_survey" class="fs-sm-8rem"> Horticulture Tree Survey </label>
-                                        <button type="button" id="private_horiculture_tree_survey__icon"
+                                        <button type="button" id="private_horiculture_tree_survey_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m4 input-field">
@@ -945,7 +945,7 @@
                                             class="validate datepicker">
                                         <label for="private_horiculture_tree_valuation"> Horticulture Tree Valuation
                                         </label>
-                                        <button type="button" id="private_horiculture_tree_valuation__icon"
+                                        <button type="button" id="private_horiculture_tree_valuation_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -954,14 +954,14 @@
                                         <input id="private_structure_survey" name="structure_survey" type="text" value="${LADetails.structure_survey }"
                                             class="validate datepicker">
                                         <label for="private_structure_survey"> Structure Survey </label>
-                                        <button type="button" id="private_structure_survey__icon"
+                                        <button type="button" id="private_structure_survey_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s6 m4 input-field">
                                         <input id="private_structure_valuation" name="structure_valuation" value="${LADetails.structure_valuation }"
                                             type="text" class="validate datepicker">
                                         <label for="private_structure_valuation"> Structure Valuation </label>
-                                        <button type="button" id="private_structure_valuation__icon"
+                                        <button type="button" id="private_structure_valuation_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -970,14 +970,14 @@
                                         <input id="private_borewell_survey" name="borewell_survey" type="text" value="${LADetails.borewell_survey }"
                                             class="validate datepicker">
                                         <label for="private_borewell_survey"> Borewell Survey </label>
-                                        <button type="button" id="private_borewell_survey__icon"
+                                        <button type="button" id="private_borewell_survey_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s6 m4 input-field">
                                         <input id="private_borewell_valuation" name="borewell_valuation" value="${LADetails.borewell_valuation }"
                                             type="text" class="validate datepicker">
                                         <label for="private_borewell_valuation"> Borewell Valuation </label>
-                                        <button type="button" id="private_borewell_valuation__icon"
+                                        <button type="button" id="private_borewell_valuation_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -1034,14 +1034,14 @@
                                         <input id="private_rfp_adtp" name="date_of_rfp_to_adtp" type="text" value="${LADetails.date_of_rfp_to_adtp }"
                                             class="validate datepicker">
                                         <label for="private_rfp_adtp">Date of RFP to ADTP </label>
-                                        <button type="button" id="private_rfp_adtp__icon" class="datepicker-button"><i
+                                        <button type="button" id="private_rfp_adtp_icon" class="datepicker-button"><i
                                                 class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <input id="private_rate_fixation_date" name="date_of_rate_fixation_of_land" value="${LADetails.date_of_rate_fixation_of_land }"
                                             type="text" class="validate datepicker">
                                         <label for="private_rate_fixation_date"> Date of Rate Fixation of Land </label>
-                                        <button type="button" id="private_rate_fixation_date__icon"
+                                        <button type="button" id="private_rate_fixation_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -1051,7 +1051,7 @@
                                             name="sdo_demand_for_payment" type="text" value="${LADetails.sdo_demand_for_payment }"
                                             class="validate datepicker">
                                         <label for="private_sdo_payment_demand_date">SDO demand for payment </label>
-                                        <button type="button" id="private_sdo_payment_demand_date__icon"
+                                        <button type="button" id="private_sdo_payment_demand_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m4 input-field">
@@ -1059,7 +1059,7 @@
                                             type="text" class="validate datepicker">
                                         <label for="private_payment_approval_date"> Date of Approval for Payment
                                         </label>
-                                        <button type="button" id="private_payment_approval_date__icon"
+                                        <button type="button" id="private_payment_approval_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -1085,7 +1085,7 @@
                                         <input id="private_payment_date" name="private_payment_date" type="text" value="${LADetails.private_payment_date }"
                                             class="validate datepicker">
                                         <label for="private_payment_date"> Payment Date </label>
-                                        <button type="button" id="private_payment_date__icon"
+                                        <button type="button" id="private_payment_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -1173,14 +1173,14 @@
                                         <input id="railway_online_submission" type="text" value="${LADetails.railway_online_submission }"
                                             name="railway_online_submission" class="validate datepicker">
                                         <label for="railway_online_submission">Online Submission</label>
-                                        <button type="button" id="railway_online_submission__icon"
+                                        <button type="button" id="railway_online_submission_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s6 m4 input-field ">
                                         <input id="railway_submission_dycfo" type="text" name="railway_submission_date_to_DyCFO" value="${LADetails.railway_submission_date_to_DyCFO }"
                                             class="validate datepicker">
                                         <label for="railway_submission_dycfo" class="fs-sm-8rem">Submission to DyCFO</label>
-                                        <button type="button" id="railway_submission_dycfo__icon"
+                                        <button type="button" id="railway_submission_dycfo_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -1189,7 +1189,7 @@
                                         <input id="railway_submission_ccf" name="railway_submission_date_to_CCF_Thane" type="text" value="${LADetails.railway_submission_date_to_CCF_Thane }"
                                             class="validate datepicker">
                                         <label for="railway_submission_ccf"> Submission Date to CCF Thane </label>
-                                        <button type="button" id="railway_submission_ccf__icon"
+                                        <button type="button" id="railway_submission_ccf_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m4 input-field">
@@ -1198,7 +1198,7 @@
                                             class="validate datepicker">
                                         <label for="railway_submission_nodal_officer" class="fs-sm-8rem"> Submission Date to Nodal
                                             Officer / CCF Nagpur </label>
-                                        <button type="button" id="railway_submission_nodal_officer__icon"
+                                        <button type="button" id="railway_submission_nodal_officer_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -1208,7 +1208,7 @@
                                             type="text" class="validate datepicker">
                                         <label for="railway_submission_revenue_sec" class="fs-sm-8rem"> Submission Date to Revenue Secretary
                                             Mantralaya </label>
-                                        <button type="button" id="railway_submission_revenue_sec__icon"
+                                        <button type="button" id="railway_submission_revenue_sec_icon"
                                             class="datepicker-button" class="white"><i
                                                 class="fa fa-calendar"></i></button>
                                     </div>
@@ -1219,7 +1219,7 @@
                                         <label for="railway_submission_regional_office" class="fs-sm-8rem"> Submission Date to Regional
                                             Office Nagpur
                                         </label>
-                                        <button type="button" id="railway_submission_regional_office__icon" 
+                                        <button type="button" id="railway_submission_regional_office_icon" 
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -1230,14 +1230,14 @@
                                             class="validate datepicker">
                                         <label for="railway_approval_regional_office"> Date of Approval by Regional
                                             Office</label>
-                                        <button type="button" id="railway_approval_regional_office__icon"
+                                        <button type="button" id="railway_approval_regional_office_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m8 l4 offset-m2 input-field">
                                         <input id="railway_valuation_dycfo" name="railway_valuation_by_DyCFO" type="text" value="${LADetails.railway_valuation_by_DyCFO }"
                                             class="validate datepicker">
                                         <label for="railway_valuation_dycfo">Valuation by DyCFO </label>
-                                        <button type="button" id="railway_valuation_dycfo__icon"
+                                        <button type="button" id="railway_valuation_dycfo_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -1282,14 +1282,14 @@
                                         <input id="railway_payment_approval_date" name="railway_approval_for_payment" value="${LADetails.railway_approval_for_payment }"
                                             type="text" class="validate datepicker">
                                         <label for="railway_payment_approval_date" class="fs-sm-8rem"> Approval for Payment</label>
-                                        <button type="button" id="railway_payment_approval_date__icon"
+                                        <button type="button" id="railway_payment_approval_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s6 m4 input-field">
                                         <input id="railway_payment_date" name="railway_payment_date" type="text" value="${LADetails.railway_payment_date }"
                                             class="validate datepicker">
                                         <label for="railway_payment_date"> Payment Date </label>
-                                        <button type="button" id="railway_payment_date__icon"
+                                        <button type="button" id="railway_payment_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
                                 </div>
@@ -1298,7 +1298,7 @@
                                         <input id="railway_possession_date" name="railway_possession_date" type="text" value="${LADetails.railway_possession_date }"
                                             class="validate datepicker mt-10">
                                         <label for="railway_possession_date"> Possession Date</label>
-                                        <button type="button" id="railway_possession_date__icon"
+                                        <button type="button" id="railway_possession_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s6 m4 input-field">
@@ -1542,8 +1542,9 @@
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
-   <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/pmis/resources/js/datepickerDepedency.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
 	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
@@ -1596,7 +1597,7 @@
 	     	$('#laFilesDiv'+no).remove();
 	     	$('#laFileNames'+no).remove();
 	    } 
-        let date_pickers = document.querySelectorAll('.datepicker');
+      /*   let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
@@ -1606,9 +1607,9 @@
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
 	    	}
 	    	M.Datepicker.init(this, options);
-	    });
+	    }); */
 
-        $(document).on('focus', '.datepicker-button', function () {
+      /*   $(document).on('focus', '.datepicker-button', function () {
             var dateId = $(this).attr('id').split("__")[0];
             $('#' + dateId).datepicker({
             	 format: 'dd-mm-yyyy',
@@ -1616,9 +1617,9 @@
                      $('.confirmation-btns .datepicker-done').click();
                  }
             });
-            $('#' + dateId).datepicker('open');
-            
-        });
+            $('#' + dateId).datepicker('open');            
+        }); */
+	    
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();

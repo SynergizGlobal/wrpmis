@@ -95,7 +95,7 @@
 	                                <div class="row" id="nextRow" style="display:none;">
 	                                    <div class="col s6 m3 input-field" id="dateDiv">
 	                                        <input id="date" name="date" type="text" class="validate datepicker"> <label for="date" class="fs-sm-8rem"> Validity Expiry By Date</label>
-											<button type="button" id="date_icon" ><i class="fa fa-calendar"></i></button>
+											<button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 											<span id="dateError" class="error-msg"></span>
 	                                    </div>
 	                                    <div class="col s6 m3 input-field" id="contractDiv">
@@ -176,6 +176,7 @@
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
@@ -189,30 +190,26 @@
         $(document).ready(function(){
         	$('.searchable').select2();
         	
-        	
+        	/* 
         	$('#date_icon').click(function () {
                 event.stopPropagation();
                 $('#date').click();
-            });
+            }); */
             
             $('#date').datepicker({                   
   	    	  //maxDate: new Date(),
   	    	  format:'dd-mm-yyyy',
   	    	  //perform click event on done button
-  	    	  onSelect: function () {
-  	    	     $('.confirmation-btns .datepicker-done').click();
-  	    	  }
+  	    	  autoSelect:true
   	        });
             
-          
-            	var ReportNo = getUrlVars()["id"];
+   		  	var ReportNo = getUrlVars()["id"];
             	idNo = ReportNo;
 				if(ReportNo==1)
 				{
 					$("#rptName").html("List of Contracts");
 					$("#nextRow").hide();
-					$("#CSdiv").show();
-					
+					$("#CSdiv").show();					
 					
 				}
 				else if(ReportNo==2)

@@ -12,12 +12,15 @@
     <title>Upload Form</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
+    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
+   <!--  <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)"    href="/pmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)"    href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
         p a,
         td a {
@@ -37,18 +40,12 @@
         th {
             text-transform: capitalize;
         }
-
-        .modal-header {
-            text-align: center;
-            background-color: #2E58AD;
-            color: #fff;
-            margin: -24px -24px 30px !important;
-            padding: 1rem;
-        }
-
+		.mdl-data-table td > .btn~.btn{
+			margin-left: .5rem;
+		}
         .mdl-data-table tbody tr thead tr:hover {
-            background-color: #2E58AD;
-        }
+            background-color: #007a7a;
+        } 
 
         .mdl-data-table tbody tr .modal {
             min-height: 50vh;
@@ -246,11 +243,25 @@
                     },
                     { "width": "20px", "targets": [4] },
                 ],
-                "ScrollX": true,
-                "scrollCollapse": true,
-                "sScrollY": 400,
+                "sScrollX": "100%",
+                "ordering":false,
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                    var input = $('.dataTables_filter input')
+					.unbind(), self = this.api(), $searchButton = $(
+					'<i class="fa fa-search" title="Go">')
+					.click(function() {
+						self.search(input.val()).draw();
+					}), $clearButton = $(
+							'<i class="fa fa-close" title="Reset">')
+					.click(function() {
+						input.val('');
+						$searchButton.click();
+					})
+					$('.dataTables_filter').append( '<div class="right-btns"></div>');
+					$('.dataTables_filter div').append( $searchButton, $clearButton);
                 }
             });
         });

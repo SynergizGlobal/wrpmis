@@ -22,10 +22,20 @@
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)"    href="/pmis/resources/css/mobile-grid-template.css" />
     <style>
    
-        .input-field .searchable_label {
-            font-size: 0.9rem;
+        .input-field p.searchable_label {
+            font-size: 0.85rem;
+            margin-bottom:0;
+            margin-top: -10px !important;
         }
-				
+        .select2-container--default .select2-selection--single{
+        	background-color:transparent;
+        }
+        .select2-container.select2-container--default.select2-container--open{
+        	z-index:1004;
+        }
+		.last-column{
+			max-width:10rem;
+		}		
         .last-column .btn+.btn {
             margin-left: 15px;
         }
@@ -43,6 +53,7 @@
          		width:12vw !important;
         		max-width:12vw;
          } */
+         
          .fw-100{
         	width:100px !important;
         	max-width:100px;
@@ -84,10 +95,9 @@
 	        	right:5px;
 	        	top:30px; 
 	        }
-	        .fw-111{
-	        	width:20vw;
-	        	min-width:20vw;
-	        	
+	        .fw-250{
+	        	width:35% !important;
+	        	max-width:35%;
 	        }
 	        .break{
 	        	text-align:center;
@@ -200,7 +210,7 @@
                             </div>
                             <div class="col s12 m3 l2 mob-center">
                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                    style="margin-top: 10px;width: 100%;" onclick="clearFilters()">Clear
+                                    style="margin-top: 8px;width: 100%;" onclick="clearFilters()">Clear
                                     Filters</button>
                             </div>
                             <div class="col m3 l4"></div>
@@ -211,8 +221,8 @@
                                 <table id="data-table-manuals" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th class="no-sort">Title</th>
-                                            <th>Attachment</th>
+                                            <th class="no-sort fw-250">Title</th>
+                                            <th class="fw-250">Attachment</th>
                                             <th>Status</th>
                                             <th>Created Date</th>
                                             <th>Created By</th>
@@ -235,18 +245,18 @@
     <div id="addManualModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/add-user-manual" id="addForm" name="addForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
             <div class="modal-content">
-                <h5 class="modal-header ">Add Manual <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header ">Add Manual <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
-                        <div class="row">
+                        <div class="row no-mar">
                             <div class="input-field col s12 m12">
                                 <input name="title" type="text" class="validate" required="required">
                                 <label for="title">Title</label>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row no-mar">
 	                        <div class="input-field col s12 m12">
 	                            <div class="file-field input-field" >
 	                            	<div class="btn bg-m t-c">
@@ -261,14 +271,14 @@
                         </div>
                         <div class="row">
                             <div class="input-field col s12 m6">
-                                <!-- <p class="searchable_label">Status</p> -->
+                                <p class="searchable_label">Status</p> 
                                 <select class="searchable" name="status" id="add_status" required="required">
                                     <option value="" >Select</option>
                                     <c:forEach var="obj" items="${statusList }">
                                     	<option value="${obj.status }" >${obj.status }</option>
                                     </c:forEach>
                                 </select>
-                                <label for="add_status">Status</label>
+                                <!-- <label for="add_status">Status</label> -->
                             </div>
                             <div class="input-field col s12 m6">
                                 <input name="priority" type="number" class="validate" required="required">
@@ -278,12 +288,12 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" type="submit" class="btn waves-effect waves-light bg-m">Add </button>
+                                    <button type="submit" style="min-width:90px;" class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button type="button" class="btn waves-effect waves-light bg-s modal-action modal-close black-text" style="width:100%">Cancel</button>
+                                    <button type="button" class="btn waves-effect waves-light bg-s modal-action modal-close" >Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -297,28 +307,27 @@
     <div id="editManualModal" class="modal">
 		 <form action="<%=request.getContextPath() %>/update-user-manual" id="editForm" name="editForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
             <div class="modal-content">
-                <h5 class="modal-header ">Update Manual <span class="right modal-action modal-close"><span
-                            class="material-icons">close</span></span></h5>
+                <h6 class="modal-header ">Update Manual <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h6>
                 <div class="row">
-                    <div class="col m2 hide-on-small"></div>
-                    <div class="col m8 s12">
+                    <div class="col m8 s12 offset-m2">
                     	<input id="manual_id" name="manual_id" type="hidden">
-                        <div class="row">
+                        <div class="row no-mar">
                             <div class="input-field col s12 m12">
                                 <input id="update_title" name="title" type="text" class="validate" required="required">
                                 <label for="update_title">Title</label>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row no-mar">
                             <div class="input-field col s12 m6">
-                                <!-- <p class="searchable_label">Status</p> -->
+                                <p class="searchable_label">Status</p> 
                                 <select id="update_status" class="searchable" name="status" required="required">
                                     <option value="" >Select</option>
                                     <c:forEach var="obj" items="${statusList }">
                                     	<option value="${obj.status }" >${obj.status }</option>
                                     </c:forEach>
                                 </select>
-                                <label for="update_status">Status</label>
+                               <!--  <label for="update_status">Status</label> -->
                             </div>
                             <div class="input-field col s12 m6">
                                 <input id="update_priority" name="priority" type="number" class="validate" required="required">
@@ -328,17 +337,16 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" type="submit" class="btn waves-effect waves-light bg-m">Update </button>
+                                    <button type="submit" class="btn waves-effect waves-light bg-m">Update </button>
                                 </div>
                             </div>
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button type="button" class="btn waves-effect waves-light bg-s modal-action modal-close black-text" style="width:100%">Cancel</button>
+                                    <button type="button" class="btn waves-effect waves-light bg-s modal-action modal-close " >Cancel</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col m2 hide-on-small"></div>
                 </div>
             </div>
         </form>
@@ -395,8 +403,8 @@
     
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
-            $('.searchable').formSelect();
-        	$('.modal').modal();
+            $('.searchable').select2();
+        	$('.modal').modal({ dismissible: false });
             $('.close-message').delay(5000).fadeOut('slow');
             
          	getManualsList(); 
@@ -404,9 +412,8 @@
 
         function clearFilters() {
              $('#search_status').val("");
-             $('.searchable').formSelect();
+             $('.searchable').select2();
              getManualsList();
-
         }
         
         function addManual(){
@@ -417,7 +424,7 @@
         	$("#editManualModal").modal("open");        	
         	$("#manual_id").val(manual_id);
         	$("#update_status").val(status);
-        	$('.searchable').formSelect();
+        	$('#update_status').select2();
 
          	$("#update_title").val(title).focus();
          	$("#update_priority").val(priority).focus();
@@ -465,8 +472,16 @@
                 },
                 columnDefs: [
                     {
-                        targets: [4],
+                        targets: [6],
                         className: 'last-column'
+                    },
+                    {
+                        targets: [0,1],
+                        className: 'fw-250'
+                    },
+                    {
+                        targets: [2,3,4,5],
+                        className: 'hideCOl'
                     },
                     { orderable: false, 'aTargets': ['no-sort'] }
                 ],

@@ -76,7 +76,22 @@
             width: 100%;
             overflow: auto;
         }
-        
+        .w7em{width: 7em;}
+        .bd-none{border:none !important;}
+		@media(max-width: 2200px){
+		.table-add{position: absolute;}
+		.add-align{position: absolute;
+   					 margin-top: -5.8em;
+   					 margin-left: 11%;}
+   		.bd-none{border: none;}
+   		 }
+    	@media(max-Width: 2000px){
+    	.add-align{margin-left:18%;}
+    	}
+    	@media(max-width: 800px){
+    	.add-align{position: relative; margin-top: 0; margin-left:0;}
+    	.table-add{position: relative;}
+    	}
 	    @media only screen and (max-width: 600px) {
           .no-float-small {
               float: none !important;
@@ -224,7 +239,7 @@
                         <form action="add-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                             <div class="container container-no-margin">
 	                            <div class="row">
-	                                <div class="col s6 m4 offset-m2 input-field">
+	                                <div class="col s6 m4 l3 offset-m2 input-field">
 	                                <p class="searchable_label">Project <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
 	                                    onchange="getWorksList(this.value);">
@@ -235,7 +250,7 @@
 	                                    </select>                                    
 	                                     <span id="project_id_fkError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s6 m4 input-field">
+	                                <div class="col s6 m4 l3 input-field">
 	                                <p class="searchable_label">Work <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" 
 	                                    	onchange="resetProjectsDropdowns(this.value);">
@@ -245,14 +260,14 @@
 	                                         </c:forEach>
 	                                    </select>
 	                                     <span id="work_id_fkError" class="error-msg" ></span>
-	                                </div>
+	                                
 	                                <input type="hidden" id="work_short_name" name="work_short_name"/>
 	                            </div>
 								   <input type="hidden" id="contract_id_code" name="contract_id_code"/>  
-	                                    <div class="row">
+	                                    
 	                                    <c:choose>
 								         <c:when test = "${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
-								         <div class="col s6 m4 input-field offset-m2">
+								         <div class="col s6 m4 l3 input-field offset-m2">
 								            <p class="searchable_label">HOD<span class="required">*</span></p>
 	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
 	                                     		  <option value="">Select</option> 
@@ -262,7 +277,7 @@
 	                                     	     </select> 
 	                                     	<span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                     	</div>
-	                                     	 <div class="col s6 m4 input-field">
+	                                     	 <div class="col s6 m4 l3 input-field">
 	                                        	<p class="searchable_label">Dy HOD<span class="required">*</span></p>
 	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" >
 	                                                <option value="">Select</option>
@@ -304,7 +319,7 @@
 	                                 </div>
 	              
 	                            <div class="row"> 
-	                            	<div class="col m8 offset-m2 s12">
+	                            	<div class="col m8 l12 offset-m2 s12">
 										<div class="row fixed-width">
 									        <h5 class="center-align">Department Details</h5>
 									        <div class="table-inside">
@@ -345,10 +360,10 @@
 									                 
 									                </tbody>
 									            </table>
-									            <table  class="mdl-data-table" style="margin-bottom: 20px">
+									            <table  class="mdl-data-table table-add bd-none" style="margin-bottom: 20px">
 			                                        <tbody>                                          
-			                                            <tr>
-			                                   				<td colspan="3" ><a   class="btn waves-effect waves-light bg-m t-c "  onclick="addDepartmentRow()"> <i class="fa fa-plus"></i></a></td>
+			                                            <tr class="bd-none">
+			                                   				<td colspan="3" class="bd-none"><a   class="btn waves-effect waves-light bg-m t-c add-align"  onclick="addDepartmentRow()"> <i class="fa fa-plus"></i></a></td>
 			                                             </tr>
 			                                        </tbody>
 			                                    </table>
@@ -358,12 +373,12 @@
 									</div>
 								</div>
 	                            <div class="row">
-	                                <div class="col s12 m8 input-field offset-m2">
+	                                <div class="col s12 m8 l12 input-field offset-m2">
 	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate pmis-textarea" ></textarea>
 	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
 	                                </div>	                              
-	                                <div class="col s12 m8 input-field offset-m2">
+	                                <div class="col s12 m8 l12 input-field offset-m2">
 	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" >
 	                                    <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
@@ -371,7 +386,7 @@
 	                            </div>
 	
 	                            <div class="row">	
-	                                <div class="col s6 m4 input-field offset-m2">
+	                                <div class="col s6 m4 l6 input-field offset-m2">
 	                                 <p class="searchable_label">Contract Type <span class="required">*</span></p>
 	                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
@@ -381,7 +396,7 @@
 	                                    </select>                                   
 	                                     <span id="contract_type_fkError" class="error-msg" ></span>	                                    
 	                                </div>	                                
-	                                <div class="col s6 m4 input-field">
+	                                <div class="col s6 m4 l6 input-field">
 	                                 <p class="searchable_label">Contractor Name</p>
 	                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
@@ -393,18 +408,18 @@
 	                                </div>                             
 	                            </div>
 	                            <div class="row">
-	                                <div class="col s12 m8 input-field offset-m2">
+	                                <div class="col s12 m8 l12 input-field offset-m2">
 	                                    <textarea id="scope_of_contract" name="scope_of_contract" class="pmis-textarea validate" data-length="1000">${contractDeatils.scope_of_contract }</textarea>
 	                                    <label for="scope_of_contract">Scope of Contract</label>
 	                                 <span id="scope_of_contractError" class="error-msg" ></span>                                    
 	                                </div>
 	                           
-	                                <div class="col s6 m4 input-field offset-m2">
+	                                <div class="col s6 m4 l6 input-field offset-m2">
 	                                    <input id="loa_letter_number" name="loa_letter_number" type="text" class="validate">
 	                                    <label for="loa_letter_number">LOA Letter No</label>
 	                                    <span id="loa_letter_numberError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s6 m4 input-field">
+	                                <div class="col s6 m4 l6 input-field">
 	                                    <input id="loa_date" name="loa_date" type="text" class="validate datepicker">
 	                                    <label for="loa_date">LOA Date</label>
 	                                     <span id="loa_dateError" class="error-msg" ></span>
@@ -412,12 +427,12 @@
 	                                </div>
 	                            </div>
 	                            <div class="row">
-	                                <div class="col s6 m4 input-field offset-m2">
+	                                <div class="col s6 m4 l6 input-field offset-m2">
 	                                    <input id="ca_no" name="ca_no" type="text" class="validate">
 	                                    <label for="ca_no">CA No</label>
 	                                    <span id="ca_noError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s6 m4 input-field">
+	                                <div class="col s6 m4 l6 input-field">
 	                                    <input id="ca_date" name="ca_date" type="text" class="validate datepicker">
 	                                    <label for="ca_date">CA Date</label>
 	                                    <span id="ca_dateError" class="error-msg" ></span>
@@ -431,13 +446,13 @@
 	                                     <span id="date_of_startError" class="error-msg" ></span>
 	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
 	                                </div> -->
-	                                	<div class="col s9 m3 input-field offset-m2">
+	                                	<div class="col s9 m3 l4 input-field offset-m2">
 	                                    <i class="material-icons prefix cost">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" type="number" min="0.01" step="0.01" class="validate">
 	                                    <label for="estimated_cost">Detailed Estimated cost</label>
 	                                    <span id="estimated_costError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s3 m1 input-field pt-5">
+	                                <div class="col s3 m1 l2 input-field pt-5">
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
 	                                		<option value="">Select</option>
@@ -447,13 +462,13 @@
 	                                	</select>
 	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
                                 	</div>                                	
-	                                <div class="col s9 m3 input-field">
+	                                <div class="col s9 m3 l4 input-field">
 	                                	<i class="material-icons prefix cost">₹</i>
 	                                    <input id="awarded_cost" name="awarded_cost" type="number" min="0.01" step="0.01" class="validate">
 	                                    <label for="awarded_cost">Awarded cost</label>
 	                                    <span id="awarded_costError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s3 m1 input-field pt-5">
+	                                <div class="col s3 m1 l2 input-field pt-5">
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown" id="awarded_cost_units" name="awarded_cost_units">
 	                                		<option value="">Select</option>
@@ -466,14 +481,14 @@
                                 	
 	                            </div>
 	                            <div class="row">
-	                                <div class="col s4 m4 input-field offset-m2">
+	                                <div class="col s4 m4 l6 input-field offset-m2">
 	                                    <input name="doc" id="doc" type="text" class="validate datepicker">
 	                                    <label for="doc">Original DOC</label>
 	                                    <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="docError" class="error-msg" ></span>
 	                                </div>	
 	                                
-	                                <div class="col s4 m2 input-field">
+	                                <div class="col s4 m2 l2 input-field">
 	                                   <p class="searchable_label">Contract Status</p>
 	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getStatusLIst();">
 	                                        <option value="" >Select</option>
@@ -485,7 +500,7 @@
 	                                    </select>
 	                                     <span id="contract_statusError" class="error-msg" ></span>
 	                                </div>
-	                                 <div class="col s4 m2 input-field">
+	                                 <div class="col s4 m2 l4 input-field">
 	                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
 	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="setContractStatus();">
 	                                        <option value="" selected>Select</option>
@@ -501,16 +516,16 @@
 	                            </div>	   
 	                         
 	                            <div class="row">
-	                                <div class="col s12 m8 input-field offset-m2">
+	                                <div class="col s12 m8 l12 input-field offset-m2">
 	                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000"></textarea>
 	                                    <label for="remarks">Remarks</label>
 	                                      <span id="remarksError" class="error-msg"></span>
 	                                </div>
 	                            </div>                        
 	                        
- 							<div class="container container-no-margin">
+ 							<div class="table-div">
 	
-	                            <div class=" col m10 offset-m1 s12" style="margin-bottom:30px; padding:0;">
+	                            <div class=" col m10 s12 l12" style="margin-bottom:30px; padding:0;">
 	                                <div class="row fixed-width">
 	                                    <h5 class="center-align">Documents</h5>
 	                                    <!-- <div class="table-inside"> -->
@@ -557,10 +572,10 @@
 	                                            </tbody>
 	                                        </table>
 	                                        
-	                                        <table class="mdl-data-table">
-		                                        <tbody id="revTableBody">                                          
-		                                            <tr>
-														<td colspan="3" >	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addContractDocumentRow()"> <i
+	                                        <table class="mdl-data-table table-add bd-none">
+		                                        <tbody id="revTableBody" class="bd-none">                                          
+		                                            <tr class="bd-none">
+														<td colspan="3" class="bd-none">	<a type="button"  class="btn waves-effect waves-light bg-m t-c add-align"  onclick="addContractDocumentRow()"> <i
 		                                                            class="fa fa-plus"></i></a></td>
 		                                              </tr>
 		                                        </tbody>
@@ -572,12 +587,12 @@
 						</div>
 
                             <div class="row">
-                                <div class="col s6 m4 mt-brdr center-align offset-m2">
+                                <div class="col s6 m4 l6 mt-brdr center-align offset-m2">
                                     <div class="m-1">
                                         <button type="button" onclick="addContract();" class="btn waves-effect waves-light bg-m" style="min-width:90px;">Add</button>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr center-align">
+                                <div class="col s6 m4 l6 mt-brdr center-align">
                                     <div class="m-1">
                                         <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>

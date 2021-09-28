@@ -60,6 +60,21 @@
 		.input-field p.searchable_label{
 			margin-top:-11px !important;
 		}
+		.w7em{width: 7em;}
+		@media(max-width: 2200px){
+		.table-add{position: absolute;}
+		.add-align{position: absolute;
+   					 margin-top: -5.7em;
+   					 margin-left: 11%;}
+   		.bd-none{border: none;}
+   		 }
+    	@media(max-Width: 2000px){
+    	.add-align{margin-left:18%;}
+    	}
+    	@media(max-width: 800px){
+    	.add-align{position: relative; margin-top: 0; margin-left:0;}
+    	.table-add{position: relative;}
+    	}
 		@media only screen and (max-width: 769px) {
 			.mobile_responsible_table>tbody >tr:not(.datepicker-row)> td> div.btn{
 				float:none;
@@ -101,24 +116,25 @@
                         	<input id="hod_user_id_fk" name="hod_user_id_fk" type="hidden" value="${issue.hod_user_id_fk }" />
                         	<input id="dy_hod_user_id_fk" name="dy_hod_user_id_fk" type="hidden" value="${issue.dy_hod_user_id_fk }" />
                         	<div class="row">
-                                <div class="col s6 m4 input-field offset-m2">     
+                                <div class="col s6 m4 l4 input-field offset-m2">     
                                     <input type="text" class="" value="${issue.project_name }" readonly>
                                     <label for="project_id_fk"> Project</label>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div> 
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <input type="text" class="" value="${issue.work_short_name }" readonly>
                                     <label for="work_id_fk"> Work</label>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                            </div>
-
-                            <div class="row ">
-                                <div class="col s12 m8 input-field offset-m2">           
+                                <div class="col s12 m8 l4 input-field offset-m2">           
                                     <input id="contract_id_fk" name="contract_id_fk" type="text" class="" value="${issue.contract_short_name }" readonly>
                                     <label for="contract_id_fk"> Contract <span class="required">*</span></label>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
-                                </div>                                
+                                </div> 
+                            </div>
+
+                            <div class="row ">
+                                                               
                                 <%-- <div class="col s12 m4 input-field">
                                     <label for="">Issue ID : <input id="issue_id" name="issue_id" type="text" value="${issue.issue_id }" readonly  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                 </div> --%>
@@ -128,7 +144,7 @@
                             
                             <div class="row">
                                  
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                		<!-- <p class="searchable_label">Issue Category <span class="required">*</span></p>                                 
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk">
                                         <option value="">Select</option>
@@ -140,7 +156,7 @@
                                     <label for="category_fk"> Issue Category <span class="required">*</span></label>
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                 <p class="searchable_label">Issue Priority <span class="required">*</span></p> 
                                    <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
                                         <option value="">Select</option>
@@ -152,20 +168,21 @@
                                     <label for="priority_fk"> Issue Priority <span class="required">*</span></label>   --%>                               
                                     <span id="priority_fkError" class="error-msg" ></span>
                                 </div>
-                                 
-                            </div>
-                            <div class="row">                                 
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m4	 l4 input-field offset-m2">
                                      <textarea id="title" name="title" class="pmis-textarea" data-length="1000" readonly>${issue.title }</textarea>
                                      <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span>
-                                </div>                                 
+                                </div>
+                                 
+                            </div>
+                            <div class="row">                                 
+                                                                 
                             </div>
                           
                               <div class="row">
                               <c:choose>
 							    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
-                                <div class="col s12 offset-m2 m8 input-field">
+                                <div class="col s12 offset-m2 m8 l12 input-field">
                                     <textarea id="description" name="description" class="pmis-textarea" data-length="1000">${issue.description }</textarea>
                                     <label for="description">Description of Issue</label>
                                     <span id="descriptionError" class="error-msg" ></span>
@@ -180,7 +197,7 @@
 				               </c:choose>
                             </div>
                             <div class="row">                                 
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m8 l12 input-field offset-m2">
                                     <textarea id="corrective_measure" name="corrective_measure"   class="pmis-textarea"  data-length="1000">${issue.corrective_measure }</textarea>
                                     <label for="corrective_measure">Action Taken<span class="required">*</span></label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
@@ -190,16 +207,26 @@
                             </div>    
                             
                             <div class="row ">                                 
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="date" name="date" type="text" class="datepicker1" value="${issue.date }" readonly>
                                     <label for="date">Issue pending since <span class="required">*</span></label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="location" name="location" type="text" class="" value="${issue.location }" readonly>
                                     <label for="location">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 l4 input-field">
+                                   <p class="searchable_label"> Responsible Organization (Pending with)<span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk" onchange="getResponsiblePersons('')">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${railwayList }">
+                                            <option name="${obj.railway_name}" value="${obj.railway_id }" <c:if test="${obj.railway_id eq issue.zonal_railway_fk }">selected</c:if>>${obj.railway_name}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span id="zonal_railway_fkError" class="error-msg" ></span>
                                 </div>
                                  
                             </div>
@@ -222,19 +249,10 @@
                           
                             <div class="row mar">
                                  
-                                <div class="col s12 offset-m2 m8 input-field">
-                                   <p class="searchable_label"> Responsible Organization (Pending with)<span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk" onchange="getResponsiblePersons('')">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${railwayList }">
-                                            <option name="${obj.railway_name}" value="${obj.railway_id }" <c:if test="${obj.railway_id eq issue.zonal_railway_fk }">selected</c:if>>${obj.railway_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="zonal_railway_fkError" class="error-msg" ></span>
-                                </div>
+                                
                              </div> 
 							 <div class="row mar" id="other_organization_holder" style="display:none;">
-	                                <div class="col s12 m4 offset-m2 input-field" >
+	                                <div class="col s12 m4 l6 offset-m2 input-field" >
 	                                    <%-- <input id="other_organization" name="other_organization"  type="text" class="validate" value="${issue.other_organization}">
 	                                    <label for="other_organization">Organization Name (Pending with)<span class="required">*</span></label> --%>
 	                                    <p class="searchable_label">Organization Name (Pending with)<span class="required">*</span></p> 
@@ -248,7 +266,7 @@
 	                                </div>
                                </div>
                                <div class="row mar" id="department_holder" style="display:none;">
-                                 <div class="col s12 m4 input-field offset-m2" >
+                                 <div class="col s12 m4 l6 input-field offset-m2" >
                                   <p class="searchable_label"> Department Responsible (Pending with)<span class="required">*</span></p> 
                                     <select class="searchable browser-default" id="other_organizations" name="other_organization" onchange="getResponsiblePersons(this.value)">
                                         <option value="" selected>Select</option>
@@ -268,12 +286,12 @@
                             
                             <div class="row mar" id="other_organization_responsibles_holder" style="display:none;">
                                  
-                                <div class="col s12 m4 input-field offset-m2">
+                                <div class="col s12 m4 l6 input-field offset-m2">
                                     <input id="other_org_resposible_person_name" name="other_org_resposible_person_name" type="text" class="validate" value="${issue.other_org_resposible_person_name }">
                                     <label for="other_org_resposible_person_name">Responsible Person Name </label>
                                     <span id="other_org_resposible_person_nameError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l6 input-field">
                                     <input id="other_org_resposible_person_designation" name="other_org_resposible_person_designation" type="text" class="validate" value="${issue.other_org_resposible_person_designation }">
                                     <label for="other_org_resposible_person_designation" class="fs-sm-8rem">Responsible Person Designation</label>
                                     <span id="other_org_resposible_person_designationError" class="error-msg" ></span>
@@ -282,13 +300,13 @@
                             </div>
                             
                             <div class="row">
-							  <div class="col s6 offset-m2 m4 input-field">
+							  <div class="col s6 offset-m2 m4 l6 input-field">
                                     <input id="reported_by" name="reported_by" type="text" class="" value="${issue.reported_by }" readonly>
                                     <label for="reported_by">Reported by </label>
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
 				
-							  <div class="col s6 m4 input-field ">
+							  <div class="col s6 m4 l6 input-field ">
 					             <p class="searchable_label">Issue Status <span class="required">*</span></p> 
 					             <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getDetailsByStatus(this.value);">
 					                 <!-- <option value="">Select</option> -->						                 
@@ -300,14 +318,14 @@
                             <div class="row mar" id="assignDateDiv" style="display:none">
                                 <!-- row 2 -->
                                                                  
-                                <div class="col s12 m4 input-field offset-m2">
+                                <div class="col s12 m4 l6 input-field offset-m2">
 						             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" value="${issue.assigned_date }" >
 	                                    <label for="assigned_date""> Assigned Date<span class="required">*</span></label>
 	                                    <button type="button" id="assigned_date_icon"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="assigned_dateError" class="error-msg" ></span>
 						         </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l6 input-field">
                                     <p class="searchable_label" >Person Responsible In MRVC (Assigned to)<span class="required">*</span></p> 
                                     <select class="searchable browser-default" id="responsible_person" name="responsible_person">
                                         <option value="">Select</option>
@@ -324,7 +342,7 @@
                             <div>
 	                            <div class="row mar" id="escalatedDiv" style="display: none;">
 	                                 
-	                                <div class="col s6 offset-m2 m4 input-field">
+	                                <div class="col s6 offset-m2 m4 l6 input-field">
 	                                    <%-- <input id="escalated_to" name="escalated_to" type="text" class="validate" value="${issue.escalated_to }">
 	                                    <label for="escalated_to">Escalated To </label> --%>
 	                                    <p class="searchable_label" >Escalated To<span class="required">*</span></p> 
@@ -336,7 +354,7 @@
 	                                    </select>
 	                                    <span id="escalated_toError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s6 m4 input-field">
+	                                <div class="col s6 m4 l6 input-field">
 	                                    <input id="escalation_date" name="escalation_date" type="text" class="validate datepicker" value="${issue.escalation_date}">
 	                                    <label for="escalation_date"> Escalated Date<span class="required">*</span></label>
 	                                    <button type="button" id="escalation_date_icon"><i
@@ -347,7 +365,7 @@
 	                            </div>
                             	<div class="row mar" id="escalatedRemarksDiv" style="display: none;">
 	                                 
-	                                <div class="col s12 m8 input-field offset-m2" >
+	                                <div class="col s12 m8 l12 input-field offset-m2" >
 	                                <div id="test" data-message="${issue.remarks }" style="display: none;"></div>
 	                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${issue.remarks }</textarea>
 	                                    <label for="remarks">Status After Escalation</label>
@@ -359,7 +377,7 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col s12 m4 input-field offset-m2" style="margin-top:15px; display:none;" id="resolvedDiv">
+                                <div class="col s12 m4 l6 input-field offset-m2" style="margin-top:15px; display:none;" id="resolvedDiv">
                                     <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
                                     <label for="resolved_date"> Resolved Date<span class="required">*</span></label>
                                     <button type="button" id="resolved_date_icon"><i
@@ -370,7 +388,7 @@
                             <input type="hidden" name="existingAssignedPerson" id="existingAssignedPerson" />
                             <div class="row">
 								 
-								<div class="col m8 s12 offset-m2">
+								<div class="col m8 s12 l12 offset-m2">
 									<div class="row fixed-width"
 										style="margin-bottom: 20px; margin-top: 20px">
 										<div class="table-inside">
@@ -446,11 +464,11 @@
 													
 												</tbody>
 											</table>
-											<table class="mdl-data-table">
+											<table class="mdl-data-table table-add">
 												<tbody>
 													<tr >
 														<td colspan="5"><a type="button"
-															class="btn waves-effect waves-light bg-m t-c " onclick="addIssueFileRow()"> <i class="fa fa-plus"></i>
+															class="btn waves-effect waves-light bg-m t-c add-align" onclick="addIssueFileRow()"> <i class="fa fa-plus"></i>
 														</a>
 													</tr>
 												</tbody>
@@ -471,10 +489,10 @@
 
                             <div class="row no-mar">
                                  
-                                <div class="col s6 center-align offset-m2 m4 mt-brdr">
+                                <div class="col s6 center-align offset-m2 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <c:if test="${issue.status_fk ne 'Closed' and issue.readonlyForm eq false }">
-                                        	<a  onclick="updateIssue();" class="btn waves-effect waves-light bg-m" >Update </a>
+                                        	<a  onclick="updateIssue();" class="btn waves-effect waves-light bg-m w7em" >Update </a>
                                         </c:if>
                                         
                                         <c:if test="${issue.readonlyForm eq true }">
@@ -485,9 +503,9 @@
                                         </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 center-align m4 mt-brdr">
+                                <div class="col s6 center-align m4 l6 mt-brdr">
                                     <div class=" m-1">
-                                        <a href="<%=request.getContextPath() %>/issues" class="btn waves-effect waves-light bg-s " >Cancel</a>
+                                        <a href="<%=request.getContextPath() %>/issues" class="btn waves-effect waves-light bg-s w7em" >Cancel</a>
                                     </div>
                                 </div>
                                  

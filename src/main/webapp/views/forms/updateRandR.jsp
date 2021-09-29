@@ -44,7 +44,7 @@
                                     <label>Work :</label>
                                     <p>&nbsp;</p>
                                 </div>
-                                <div class="col s6 m2 input-field">
+                                <div class="col s6 m8 input-field">
                                     <label> ${obj.workName }</label>
                                     <p>&nbsp;</p>
                                 </div>

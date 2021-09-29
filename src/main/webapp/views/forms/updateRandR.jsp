@@ -207,12 +207,13 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                    <input id="paymentAmount" name="paymentAmount" type="number" class="validate" value="${obj.paymentAmount }">
-                                    <label for="payment">Payment Amount</label>
+                                    <label for="paymentAmount">Payment Amount</label>
                                     <span id="paymentAmountError"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                     <input type="text" class="datepicker" id="paymentDate" name="paymentDate" placeholder="Payment Date" value="${obj.paymentDate }">
+                                     <input type="text" class="datepicker" id="paymentDate" name="paymentDate" value="${obj.paymentDate }">
                                       <button type="button" id="paymentDateIcon"><i class='fa fa-calendar'></i></button>
+                                      <label for="paymentDate">Payment Date</label>
                                 	<span id="paymentDateError"></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -223,7 +224,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                      <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${obj.remarks }</textarea>
-                                    <label for="textarea1">Remarks</label>
+                                    <label for="remarks">Remarks</label>
                                     <span id="remarksError"></span>
                                 </div>
                             </div>
@@ -255,9 +256,11 @@
         </div>
     </div>
 
+  <jsp:include page="../layout/footer.jsp"></jsp:include>
 
   <!-- footer including -->
-  <jsp:include page="../layout/footer.jsp"></jsp:include>
+  	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	
    <script src="/mrvc/resources/js/jquery-validation-1.19.1.min.js"></script>
   <script>
 //material components initialization

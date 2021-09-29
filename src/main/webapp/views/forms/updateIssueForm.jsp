@@ -480,9 +480,9 @@
 													
 												</tbody>
 											</table>
-											<table class="mdl-data-table table-add">
+											<table class="bd-none table-add">
 												<tbody>
-													<tr >
+													<tr class="bd-none">
 														<td colspan="4"><a type="button"
 															class="btn waves-effect waves-light bg-m t-c add-align" onclick="addIssueFileRow()"> <i class="fa fa-plus"></i>
 														</a>

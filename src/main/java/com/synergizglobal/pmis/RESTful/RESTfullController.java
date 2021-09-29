@@ -210,16 +210,25 @@ public class RESTfullController {
 			infoviz = tableauDashboardService.getTableauUrlForMobile(infovizId);
 			if(!StringUtils.isEmpty(infoviz)){	
 				if(!StringUtils.isEmpty(infoviz.getTableauUrl())){
+					String server_name = "Syntrack";
+					if(infoviz.getTableauUrl().contains(".com/")) {
+						server_name = "Syntrack";
+					}else {
+						server_name = "MRVC";
+					}
+					TableauTrustedTicket tObj = new TableauTrustedTicket();
+					String trustedTokenId =  tObj.getTrustedTicket(server_name);
+					CommonConstants cObj = new CommonConstants();
+					String baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 					String[] url = {};
 					if(infoviz.getTableauUrl().contains(".com/")) {
 						url = infoviz.getTableauUrl().split(".com/");
+						baseUrl = cObj.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
 					}else {
 						url = infoviz.getTableauUrl().split(":8000/");
+						baseUrl = cObj.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					}
-					TableauTrustedTicket tObj = new TableauTrustedTicket();
-					String trustedTokenId =  tObj.getTrustedTicket();
-					CommonConstants cObj = new CommonConstants();
-					String baseUrl = cObj.BASE_URL.replace("{0}", trustedTokenId);
+					
 					String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 					infoviz.setTableauUrl(tableauUrl);
 					infoviz.setTableauTrustedToken(trustedTokenId);

@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 
 public class TableauTrustedTicket {
 	public static Logger logger = Logger.getLogger(TableauTrustedTicket.class);
-	public String getTrustedTicket() throws Exception{
+	public String getTrustedTicket(String server_name) throws Exception{
 		UrlGenerator ugObj = new UrlGenerator();
 		String getResponseString = "";
 		
@@ -24,13 +24,17 @@ public class TableauTrustedTicket {
 		String username = "SynTrack"; 
 		String server = "infoviz.syntrackpro.com"; 
 		String clientIp = "www.syntrackpro.com";
-        
-		
-		/*String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
-		String username = "Synergiz"; 
-		String server = ugObj.getIpAddress()+":8000";
-		String clientIp = ugObj.getIpAddress();*/
-		 
+		if("Syntrack".equalsIgnoreCase(server_name)) {
+			postURL = "https://infoviz.syntrackpro.com/trusted"; 
+			username = "SynTrack"; 
+			server = "infoviz.syntrackpro.com"; 
+			clientIp = "www.syntrackpro.com";
+		}else {
+			postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
+			username = "Synergiz"; 
+			server = ugObj.getIpAddress()+":8000";
+			clientIp = ugObj.getIpAddress();
+		}		 
         
         String target_site = "";//Optional
 		try {

@@ -89,6 +89,22 @@
 			    display: block !important;
 			}
 	   }
+	   .filedownload{
+		   	color: #007a7a;
+		   	color: rgb(0 122 122 / 75%);
+	    	font-size: 1.5rem;
+	   }
+	   .filedownload:hover,
+	   .filedownload:focus{
+		   	color: #007a7a;
+		   	color: rgb(0 122 122 / 100%);
+	   }
+	   .opacity-7{
+	   		opacity:.7;
+	   }
+	   .cursor-no{
+	   		cursor:no-drop !important;
+	   }
     </style>
 </head>
 <body>
@@ -397,7 +413,7 @@
 													<tr>
 														<th style="width: 30%;text-align: left;">File Type</th>
 														<th style="width: 52%;text-align: left;">Attach File</th>
-														<th style="display:none;"></th>
+														<th></th>
 														<th style="width: 8%;text-align: left;">Action</th>
 													</tr>
 												</thead>
@@ -407,7 +423,7 @@
 															<c:forEach var="iObj" items="${issue.issueFilesList }" varStatus="index">
 																<tr id="actionRow${index.count }">
 																	<td data-head="File Type" class="input-field">
-																			<select  name="issue_file_types"  id="issue_file_types${index.count }"  class="validate-dropdown searchable">
+																			<select  name="issue_file_types"  id="issue_file_types${index.count }"  class="validate-dropdown searchable" disabled>
 							                                   					 <option value="" >Select</option>
 							                                         			  <c:forEach var="obj" items="${issueFileTypes}">
 							                    					  				 <option value="${obj.issue_file_type }" <c:if test="${iObj.issue_file_type_fk eq obj.issue_file_type}">selected</c:if>>${obj.issue_file_type}</option>
@@ -415,17 +431,17 @@
 							                               					  </select>
 																	</td>
 																	<td data-head="Attach File" class="input-field file-field cell-disp-inb">
-									                                        <div class="btn bg-m t-c">
+									                                        <div class="btn bg-m t-c opacity-7">
 									                                            <span>Attach File</span>
-									                                            <input type="file" id="issueFiles${index.count }" name="issueFiles">
+									                                            <input type="file" id="issueFiles${index.count }" name="issueFiles" disabled class="cursor-no">
 									                                        </div>
 									                                        <div class="file-path-wrapper">
-									                                            <input class="file-path validate" type="text" id="issueFileNames${index.count }" name="issueFileNames" value="${iObj.file_name }">
+									                                            <input class="file-path validate grey-text" type="text" id="issueFileNames${index.count }" name="issueFileNames" value="${iObj.file_name }" >
 									                                        </div>                             
 			                                                      	</td>
-			                                                      	<td style="display:none;">
+			                                                      	<td>
 			                                                      		<input type="hidden" id="issue_file_ids${index.count }" name="issue_file_ids" value="${iObj.issue_file_id }"/>
-			                                                      		<a href="<%=CommonConstants2.ISSUE_FILES%>${iObj.issue_id }/${iObj.file_name } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                      		<a href="<%=CommonConstants2.ISSUE_FILES%>${iObj.issue_id }/${iObj.file_name } " class="filedownload waves-effect waves-light" download><i class="fa fa-arrow-down"></i></a>
 			                                                      	</td>
 																	<td class="mobile_btn_close">
 																		<a onclick="removeActions('${index.count }');" class="btn red"> 
@@ -451,9 +467,9 @@
 								                                        </div>
 								                                        <div class="file-path-wrapper">
 								                                            <input class="file-path validate" type="text" id="issueFileNames0" name="issueFileNames">
-								                                        </div>                                       
+								                                        </div>            
 		                                                      	</td>
-		                                                      	<td style="display:none;"><input type="hidden" id="issue_file_ids0" name="issue_file_ids"/></td>
+		                                                      	<td><input type="hidden" id="issue_file_ids0" name="issue_file_ids"/></td>
 																<td class="mobile_btn_close">
 																	<a onclick="removeActions('0');" class="btn red"> 
 																		<i class="fa fa-close"></i></a>
@@ -467,7 +483,7 @@
 											<table class="mdl-data-table table-add">
 												<tbody>
 													<tr >
-														<td colspan="5"><a type="button"
+														<td colspan="4"><a type="button"
 															class="btn waves-effect waves-light bg-m t-c add-align" onclick="addIssueFileRow()"> <i class="fa fa-plus"></i>
 														</a>
 													</tr>
@@ -608,19 +624,29 @@
             	 $(this).html($(this).html().replace(""+val_old+"", "<span class='red'>"+val_old+"</span>"));
             }); */
             
+
+           /* 	$('#corrective_measure').on('keypress, keydown', function(event) {
+           		var $field = $(this);
+           		 if ((event.which != 37 && (event.which != 39)) &&
+					    ((this.selectionStart < readOnlyLength) ||
+					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
+           			var text = $("textarea#corrective_measure").val();     	   	        	
+          			var concatDescription=$('#corrective_measure').val()+"\n";
+   	   	        	$('#corrective_measure').val(concatDescription);		
+	   	        	//console.log($('#corrective_measure').val())
+	   	        	/*var len=$('#corrective_measure').val().length;
+	   		  		$('#corrective_measure').prop('selectionEnd', len);
+	   		  		$('#corrective_measure').prop('selectionStart', len-1);
+				    return false;
+				  }
+           	}); */
            	$('#corrective_measure').on('keypress, keydown', function(event) {
            		var $field = $(this)
            		 if ((event.which != 37 && (event.which != 39)) &&
 					    ((this.selectionStart < readOnlyLength) ||
 					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
-           			var text = $("textarea#corrective_measure").val();  
-           			
-           			var concatDescription=$('#corrective_measure').val()+"\n";
-	   	        	$('#corrective_measure').val(concatDescription);
-	   	        	console.log($('#corrective_measure').val())
-	   	        	var len=$('#corrective_measure').val().len();
-	   		  		$('#corrective_measure').prop('selectionEnd', len);
-	   		  		$('#corrective_measure').prop('selectionStart', len-1);
+           			var text = $("textarea#corrective_measure").val(); 
+           			$("textarea#corrective_measure").val( text + "\n");
 				    return false;
 				  }
            	});
@@ -744,18 +770,29 @@
         		var div = $('#test').data('message');
         		if(div != ""){
         			$("textarea#remarks").val(div.replace("\\n","\n"));
-            		$("textarea#remarks").val( div + "\n");
+            		$("textarea#remarks").val( div );
             	 	var readOnlyLength = $('#remarks').val().length;
                    	
-                   	$('#remarks').on('keypress, keydown', function(event) {
+            	 	$('#remarks').on('keypress, keydown', function(event) {
                    		var $field = $(this)
                    		 if ((event.which != 37 && (event.which != 39)) &&
         					    ((this.selectionStart < readOnlyLength) ||
         					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
-                   			var text = $("textarea#remarks").val();  
+                   			var text = $("textarea#remarks").val(); 
+                   			$("textarea#remarks").val( text + "\n");
         				    return false;
         				  }
-                   	})
+                   	});
+                   	
+                   	$('#remarks').on('focus', function(event) {
+                   		var that = this;
+						  setTimeout(function(){
+							 // that.selectionStart = that.selectionEnd = 10000;
+							  var len=$(that).val().length;
+				   		  		$(that).prop('selectionEnd',len);
+				   		  		$(that).prop('selectionStart', len-1);
+						  }, 0);
+                   	});
                    	
         		}
         		
@@ -926,7 +963,7 @@
         		var div = $('#test').data('message');
         		if( div != ""){
         			$("textarea#remarks").val(div.replace("\\n","\n"));
-            		$("textarea#remarks").val( div + "\n");
+            		$("textarea#remarks").val( div);
             	 	var readOnlyLength = $('#remarks').val().length;
                    	
                    	$('#remarks').on('keypress, keydown', function(event) {
@@ -934,10 +971,27 @@
                    		 if ((event.which != 37 && (event.which != 39)) &&
         					    ((this.selectionStart < readOnlyLength) ||
         					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
-                   			var text = $("textarea#remarks").val();  
+                   			var text = $("textarea#remarks").val(); 
+                   			$("textarea#remarks").val( text + "\n");
         				    return false;
         				  }
-                   	})
+                   	});
+                   	
+                   	$('#remarks').on('focus', function(event) {
+                   		var that = this;
+						  setTimeout(function(){
+							 // that.selectionStart = that.selectionEnd = 10000;
+							  var len=$(that).val().length;
+				   		  		$(that).prop('selectionEnd',len);
+				   		  		$(that).prop('selectionStart', len-1);
+						  }, 0);
+                   		 /* if ((event.which != 37 && (event.which != 39)) &&
+        					    ((this.selectionStart < readOnlyLength) ||
+        					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
+                   			var text = $("textarea#remarks").val();  
+        				    return false;
+        				  } */
+                   	});
                    	
         		}
         		if($.trim('${issue.escalation_date}') != ''){
@@ -1168,10 +1222,10 @@
                              	}else 
                                 if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
-                                }else  
+                                }/* else  
                                 if ((val.status == 'Escalated') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
-                                }else 
+                                } */else 
                                 if ((val.status == 'Raised')){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                              	}
@@ -1278,6 +1332,13 @@
         		$("#escalated_to").attr('disabled', false);
         		$("#escalation_date").attr('disabled', false);
         		$("#remarks").attr('disabled', false);
+        		
+        		$('[name="issue_file_types"]').each(function(index,item){
+        			$(item).removeAttr('disabled');
+        		});
+        		$('[name="issueFiles"]').each(function(index,item){
+        			$(item).removeAttr('disabled');
+        		});
         		
     			document.getElementById("issueForm").submit();			
     	 	}
@@ -1789,7 +1850,7 @@
 				   +'<div class="file-path-wrapper">'	
 				   +'<input class="file-path validate" type="text" id="issueFileNames'+rNo+'" name="issueFileNames">'	
 				   +'</div></td>'
-				   +'<td style="display:none;"><input type="hidden" id="issue_file_ids'+rNo+'" name="issue_file_ids"/></td>'
+				   +'<td><input type="hidden" id="issue_file_ids'+rNo+'" name="issue_file_ids"/></td>'
 				   +'<td class="mobile_btn_close"><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td>'
 				   +'</tr>';
 			

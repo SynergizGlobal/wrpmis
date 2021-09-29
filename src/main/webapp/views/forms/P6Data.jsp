@@ -291,7 +291,7 @@
                                 <div class="row no-mar">
                                     <div class="col s6 m4 l2 offset-l1 input-field">
                                       <p class="searchable_label">Contract</p>
-                                        <select id="contract_id" name="contract_id" onchange="getP6ActivityDataList();" class="searchable">
+                                        <select id="contract_id" name="contract_id" onchange="addInQueContract(this.value);getP6ActivityDataList();" class="searchable">
                                             <option value="">Select</option>
                                             <%-- <c:forEach var="obj" items="${contractsListFilter }">
                                             	<option value="${obj.contract_id }">${obj.contract_name }</option>
@@ -300,7 +300,7 @@
                                     </div>
                                     <div class="col s6 m4 l2 input-field">
                                       <p class="searchable_label">FOB </p>
-                                        <select id="fob_id" name="fob_id" onchange="getP6ActivityDataList();" class="searchable">
+                                        <select id="fob_id" name="fob_id" onchange="addInQueFOB(this.value);getP6ActivityDataList();" class="searchable">
                                             <option value="">Select</option>	
                                             <%-- <c:forEach var="obj" items="${fobListFilter }">
                                             	<option value="${obj.fob_id }">${obj.fob_name }</option>
@@ -309,7 +309,7 @@
                                     </div>
                                     <div class="col s6 m4 l2 input-field">
                                     	<p class="searchable_label">Data Type</p>
-                                        <select id="upload_type" name="upload_type" onchange="getP6ActivityDataList();" class="searchable">
+                                        <select id="upload_type" name="upload_type" onchange="addInQueDataType(this.value);getP6ActivityDataList();" class="searchable">
                                             <option value="">Select</option>	
                                             <%-- <c:forEach var="obj" items="${uploadTypes }">
                                             	<option value="${obj.upload_type }">${obj.upload_type }</option>
@@ -318,7 +318,7 @@
                                     </div>              
                                     <div class="col s6 m4 l2 input-field">
                                     	<p class="searchable_label">Status</p>
-                                        <select id="status_fk" name="status_fk" onchange="getP6ActivityDataList();" class="searchable">
+                                        <select id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getP6ActivityDataList();" class="searchable">
                                             <option value="">Select</option>	
                                             <%-- <c:forEach var="obj" items="${statusList }">
                                             	<option value="${obj.soft_delete_status_fk }">${obj.soft_delete_status_fk }</option>
@@ -412,13 +412,32 @@
 	</script>
 	
     <script>
-	    
+    	var filtersMap = new Object();
+    	var pageNo = window.localStorage.getItem("p6PageNo");
         $(document).ready(function () {
         	$('#fob_id_fkUpdate').formSelect();
         	$('#fob_id_fkUpload').formSelect();
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-          
+            var filters = window.localStorage.getItem("p6Filters");
+	          
+            if($.trim(filters) != '' && $.trim(filters) != null){
+        	  var temp = filters.split('^'); 
+        	  for(var i=0;i< temp.length;i++){
+	        	  if($.trim(temp[i]) != '' ){
+	        		  var temp2 = temp[i].split('=');
+		        	   if($.trim(temp2[0]) == 'contract_id'){
+		        		   getContractsListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'fob_id'){
+		        		  getFobListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'upload_type'){
+		        		  getUploadTypesFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'status_fk'){
+		        		  getStatusListFilter(temp2[1]);
+		        	  }
+	        	  }
+	          }
+            }
             $('.tabs').tabs();
             var today = new Date();
             $('#data_dateUpdate').datepicker({
@@ -453,6 +472,7 @@
             });
 
             getP6ActivityDataList();
+           
         });
         
         function getFobList(contract_id_fk,fob_id_attr,fobHideShowId) {
@@ -621,34 +641,84 @@
 	       	$("#upload_type").val("");
 	       	$("#status_fk").val("");        	
 	       	$(".searchable").select2();
-	       	getP6ActivityDataList();
+	       	//getP6ActivityDataList();
+	       	window.localStorage.setItem("p6Filters",'');
+        	window.location.href="<%=request.getContextPath()%>/p6-data"
+        	var table = $('#datatable-p6-data').DataTable();
+        	table.draw( true );
        }
-           
+       
+       function addInQueStatus(status_fk){
+       	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('status_fk')) delete filtersMap[key];
+	   		});
+       	if($.trim(status_fk) != ''){
+      	    	filtersMap["status_fk"] = status_fk;
+       	}
+       }
+	  
+	    function addInQueDataType(upload_type){
+       	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('upload_type')) delete filtersMap[key];
+	   		});
+       	if($.trim(upload_type) != ''){
+      	    	filtersMap["upload_type"] = upload_type;
+       	}
+       }
+       
+       function addInQueFOB(fob_id){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('fob_id')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(fob_id) != ''){
+           	filtersMap["fob_id"] = fob_id;
+	      	}
+       }
+       
+       function addInQueContract(contract_id){
+       	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('contract_id')) delete filtersMap[key];
+	   		});
+       	if($.trim(contract_id) != ''){
+      	    	filtersMap["contract_id"] = contract_id;
+       	}
+       }
        function getP6ActivityDataList(){
 	       	$(".page-loader").show();
+	       	
+	    	getContractsListFilter('');
+	       	getFobListFilter('');
+	       	getUploadTypesFilter('');
+	       	getStatusListFilter('');
+	       	
 	       	var contract_id_fk = $("#contract_id").val();
 	       	var fob_id_fk = $("#fob_id").val();
 	       	var upload_type = $("#upload_type").val();
 	       	var status_fk = $("#status_fk").val();
-	       	
-	       	getContractsListFilter();
-	       	getFobListFilter();
-	       	getUploadTypesFilter();
-	       	getStatusListFilter();
+	       	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("p6Filters", filters);
+   			});
 	        	
 	        table = $('#datatable-p6-data').DataTable();	   		 
 	   		table.destroy();	   		
 	   		$.fn.dataTable.moment('DD-MMM-YYYY');
 	   		table = $('#datatable-p6-data').DataTable({
-	       		"bStateSave": true,
-	       		fixedHeader: true,
-	               "fnStateSave": function (oSettings, oData) {
-	                   localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	               },
-	               "fnStateLoad": function (oSettings) {
-	                   return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	               },
-	               columnDefs: [
+	   			"bStateSave": true,  
+         		fixedHeader: true,
+               
+             	//Default: Page display length
+ 				"iDisplayLength" : 10,
+ 				"iData" : {
+ 					"start" : 52
+ 				},"iDisplayStart" : 0,
+ 				"drawCallback" : function() {
+ 					var info = table.page.info();
+ 					window.localStorage.setItem("p6PageNo", info.page);
+ 				},
+	             columnDefs: [
 	                   
 	                   {
 	                	   targets:[2,3,4,5,6],
@@ -712,7 +782,9 @@
 	   	                    table.row.add(rowArray).draw( true );
 	   	                    		                       
 	   					});
-	   	         		
+		   	         	if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
+		   	            var oTable = $('#datatable-p6-data').dataTable();
+		   	            oTable.fnPageChange( pageNo );
 	   	         		$(".page-loader").hide();
 	   				}else{
 	   					$(".page-loader").hide();
@@ -745,7 +817,7 @@
        	    console.log(msg);
        }
      	
-       function getContractsListFilter() {
+       function getContractsListFilter(contract) {
     	   var contract_id_fk = $("#contract_id").val();
 	       var fob_id_fk = $("#fob_id").val();
 	       var upload_type = $("#upload_type").val();
@@ -758,13 +830,14 @@
                var myParams = { contract_id: contract_id_fk,fob_id : fob_id_fk,upload_type : upload_type,status_fk : status_fk };
                $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInP6",
-                   data: myParams, cache: false,
+                   data: myParams, cache: false,async: false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
 	                           var contract_name = '';
 	                           if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
-	                           $("#contract_id").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id)  + contract_name +'</option>');
+	                           var selectedFlag = (contract == val.contract_id)?'selected':''; 
+	                           $("#contract_id").append('<option value="' + val.contract_id + '"'+selectedFlag+'>' + $.trim(val.contract_id)  + contract_name +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -779,7 +852,7 @@
            }
        }
      	
-       function getFobListFilter() {
+       function getFobListFilter(fob) {
     	   var contract_id_fk = $("#contract_id").val();
 	       var fob_id_fk = $("#fob_id").val();
 	       var upload_type = $("#upload_type").val();
@@ -792,13 +865,14 @@
                var myParams = { contract_id: contract_id_fk,fob_id : fob_id_fk,upload_type : upload_type,status_fk : status_fk };
                $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getFobListFilterInP6",
-                   data: myParams, cache: false,
+                   data: myParams, cache: false,async: false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
                            		var fobName = '';
                                	if ($.trim(val.fob_name) != '') { fobName = ' - ' + $.trim(val.fob_name) }
-                              	$("#fob_id").append('<option value="' + val.fob_id + '">' + $.trim(val.fob_id)  + fobName +'</option>');
+                               	var selectedFlag = (fob == val.fob_id)?'selected':'';
+                              	$("#fob_id").append('<option value="' + val.fob_id + '"'+selectedFlag+'>' + $.trim(val.fob_id)  + fobName +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -813,7 +887,7 @@
            }
        }
        
-       function getUploadTypesFilter() {
+       function getUploadTypesFilter(uploadData) {
     	   var contract_id_fk = $("#contract_id").val();
 	       var fob_id_fk = $("#fob_id").val();
 	       var upload_type = $("#upload_type").val();
@@ -826,11 +900,12 @@
                var myParams = { contract_id: contract_id_fk,fob_id : fob_id_fk,upload_type : upload_type,status_fk : status_fk };
                $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getUploadTypesFilterInP6",
-                   data: myParams, cache: false,
+                   data: myParams, cache: false,async: false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-	                           	$("#upload_type").append('<option value="' + val.upload_type + '">' + $.trim(val.upload_type) +'</option>');
+                        	    var selectedFlag = (uploadData == val.upload_type)?'selected':'';
+	                           	$("#upload_type").append('<option value="' + val.upload_type + '"'+selectedFlag+'>' + $.trim(val.upload_type) +'</option>');
                            });
                        }
                        $('.searchable').select2();
@@ -845,7 +920,7 @@
            }
        }
        
-       function getStatusListFilter() {
+       function getStatusListFilter(status) {
     	   var contract_id_fk = $("#contract_id").val();
 	       var fob_id_fk = $("#fob_id").val();
 	       var upload_type = $("#upload_type").val();
@@ -858,11 +933,12 @@
                var myParams = { contract_id: contract_id_fk,fob_id : fob_id_fk,upload_type : upload_type,status_fk : status_fk };
                $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInP6",
-                   data: myParams, cache: false,
+                   data: myParams, cache: false,async: false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                           		$("#status_fk").append('<option value="' + val.soft_delete_status_fk + '">' + $.trim(val.soft_delete_status_fk) +'</option>');
+                        	    var selectedFlag = (status == val.soft_delete_status_fk)?'selected':'';
+                           		$("#status_fk").append('<option value="' + val.soft_delete_status_fk + '"'+selectedFlag+'>' + $.trim(val.soft_delete_status_fk) +'</option>');
                            });
                        }
                        $('.searchable').select2();

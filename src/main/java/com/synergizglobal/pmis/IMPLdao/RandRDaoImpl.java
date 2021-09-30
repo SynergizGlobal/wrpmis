@@ -19,7 +19,7 @@ import com.synergizglobal.pmis.model.RandR;
 @Repository
 public class RandRDaoImpl implements RandRDao{
 	@Autowired
-	DataSource dataSource;
+	DataSource mrvcDataSource;
 	/**
 	 * This method get RandR list
 	 * 
@@ -33,18 +33,18 @@ public class RandRDaoImpl implements RandRDao{
 		List<RandR> objsList = new ArrayList<RandR>();
 		RandR obj = null;
 		try {
-			connection = dataSource.getConnection();
+			connection = mrvcDataSource.getConnection();
 			String qry = "select r_and_r_id,work_id_fk,drawing_no,latitude,longitude,map_no,plot_no,location,sub_location,chainage_from,chainage_to,"
 					+ "affected_structure,affected_people,`phase` as phaseName,name_of_owner,identification_status_id_fk,approval_status_id_fk,house_allocated,"
 					+ "resettlement_status_id_fk,rehabilitation_status_id_fk,payment_amount,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,r.remarks,"
 					+ "work_name,"
 					+ "s1.status_name as identification_status,s2.status_name as approval_status,s3.status_name as resettlement_status,s4.status_name as rehabilitation_status "
 					+ "from r_and_r r "
-					+ "LEFT OUTER JOIN `r_and_r_work` w ON work_id_fk = work_id "					
-					+ "LEFT OUTER JOIN `r_and_r_status` s1 ON identification_status_id_fk = s1.status_id "
-					+ "LEFT OUTER JOIN `r_and_r_status` s2 ON approval_status_id_fk = s2.status_id "
-					+ "LEFT OUTER JOIN `r_and_r_status` s3 ON resettlement_status_id_fk = s3.status_id "
-					+ "LEFT OUTER JOIN `r_and_r_status` s4 ON rehabilitation_status_id_fk = s4.status_id ";
+					+ "LEFT OUTER JOIN `work` w ON work_id_fk = work_id "					
+					+ "LEFT OUTER JOIN `status` s1 ON identification_status_id_fk = s1.status_id "
+					+ "LEFT OUTER JOIN `status` s2 ON approval_status_id_fk = s2.status_id "
+					+ "LEFT OUTER JOIN `status` s3 ON resettlement_status_id_fk = s3.status_id "
+					+ "LEFT OUTER JOIN `status` s4 ON rehabilitation_status_id_fk = s4.status_id ";
 			
 			statement = connection.prepareStatement(qry);
 			resultSet = statement.executeQuery();  
@@ -126,7 +126,7 @@ public class RandRDaoImpl implements RandRDao{
 	}
 	
 	/**
-	 * This method get RandR r_and_r_status list
+	 * This method get RandR status list
 	 * 
 	 * @return type of this method is objsList that is List type object 
 	 * @throws Exception will raise an exception when abnormal termination occur
@@ -138,8 +138,8 @@ public class RandRDaoImpl implements RandRDao{
 		List<RandR> objsList = new ArrayList<RandR>();
 		RandR obj = null;
 		try {
-			connection = dataSource.getConnection();
-			String qry = "select status_id,status_name from r_and_r_status";
+			connection = mrvcDataSource.getConnection();
+			String qry = "select status_id,status_name from status";
 			
 			statement = connection.prepareStatement(qry);
 			resultSet = statement.executeQuery();  
@@ -171,18 +171,18 @@ public class RandRDaoImpl implements RandRDao{
 		ResultSet resultSet = null;
 		RandR obj = null;
 		try {
-			connection = dataSource.getConnection();
+			connection = mrvcDataSource.getConnection();
 			String qry = "select r_and_r_id,work_id_fk,drawing_no,latitude,longitude,map_no,plot_no,location,sub_location,chainage_from,chainage_to,"
 					+ "affected_structure,affected_people,`phase` as phaseName,name_of_owner,identification_status_id_fk,approval_status_id_fk,house_allocated,"
 					+ "resettlement_status_id_fk,rehabilitation_status_id_fk,payment_amount,DATE_FORMAT(payment_date,'%d-%m-%Y') AS payment_date,r.remarks,"
 					+ "work_name,"
 					+ "s1.status_name as identification_status,s2.status_name as approval_status,s3.status_name as resettlement_status,s4.status_name as rehabilitation_status "
 					+ "from r_and_r r "
-					+ "LEFT OUTER JOIN `r_and_r_work` w ON work_id_fk = work_id "					
-					+ "LEFT OUTER JOIN `r_and_r_status` s1 ON identification_status_id_fk = s1.status_id "
-					+ "LEFT OUTER JOIN `r_and_r_status` s2 ON approval_status_id_fk = s2.status_id "
-					+ "LEFT OUTER JOIN `r_and_r_status` s3 ON resettlement_status_id_fk = s3.status_id "
-					+ "LEFT OUTER JOIN `r_and_r_status` s4 ON rehabilitation_status_id_fk = s4.status_id "
+					+ "LEFT OUTER JOIN `work` w ON work_id_fk = work_id "					
+					+ "LEFT OUTER JOIN `status` s1 ON identification_status_id_fk = s1.status_id "
+					+ "LEFT OUTER JOIN `status` s2 ON approval_status_id_fk = s2.status_id "
+					+ "LEFT OUTER JOIN `status` s3 ON resettlement_status_id_fk = s3.status_id "
+					+ "LEFT OUTER JOIN `status` s4 ON rehabilitation_status_id_fk = s4.status_id "
 					+ "where r_and_r_id = ?";
 			
 			statement = connection.prepareStatement(qry);
@@ -276,7 +276,7 @@ public class RandRDaoImpl implements RandRDao{
 		ResultSet rs = null;
 		boolean flag = false;
 		try{
-			connection = dataSource.getConnection();
+			connection = mrvcDataSource.getConnection();
 			/*String qry = "UPDATE r_and_r SET identification_status_id_fk = ?,approval_status_id_fk = ?,house_allocated = ?," 
 					+"resettlement_status_id_fk = ?,rehabilitation_status_id_fk = ?,payment_amount = ?,payment_date = ?,remarks = ? "
 					+ "WHERE r_and_r_id = ?";*/
@@ -309,7 +309,7 @@ public class RandRDaoImpl implements RandRDao{
 	}
 	
 	/**
-	 * This method update RandR r_and_r_status
+	 * This method update RandR status
 	 * 
 	 * @param obj is object for the model class RandR
 	 * @return type of this method is flag that is boolean type
@@ -321,7 +321,7 @@ public class RandRDaoImpl implements RandRDao{
 		ResultSet rs = null;
 		boolean flag = false;
 		try{
-			connection = dataSource.getConnection();
+			connection = mrvcDataSource.getConnection();
 			String qry = "UPDATE r_and_r SET identification_status_id_fk = ?,approval_status_id_fk = ?," 
 					+"resettlement_status_id_fk = ?,rehabilitation_status_id_fk = ? "
 					+ "WHERE r_and_r_id = ?";

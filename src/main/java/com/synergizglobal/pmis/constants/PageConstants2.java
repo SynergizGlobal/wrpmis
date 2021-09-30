@@ -37,4 +37,17 @@ public class PageConstants2 {
 	
 	public static final String userManuals = "forms/userManuals";
 	
+	public static final String landAcquisition = "forms/LandAcquisition/landAcquisition";
+	public static final String addEditLandAcquisition = "forms/LandAcquisition/addEditLandAcquisition";
+	public static final String updateLandAcquisition = "forms/LandAcquisition/updateLandAcquisition";
+	public static final String landAcquisition1 = "forms/LandAcquisition/landAcquisition1";
+	public static final String landAcquisition2 = "forms/LandAcquisition/landAcquisition2";
+	public static final String landAcquisition3 = "forms/LandAcquisition/landAcquisition3";
+	public static final String landAcquisition4 = "forms/LandAcquisition/landAcquisition4";
+	
+	public static final String updateLandAcquisition1 = "forms/LandAcquisition/updateLandAcquisition1";
+	public static final String updateLandAcquisition2 = "forms/LandAcquisition/updateLandAcquisition2";
+	public static final String updateLandAcquisition3 = "forms/LandAcquisition/updateLandAcquisition3";
+	public static final String updateLandAcquisition4 = "forms/LandAcquisition/updateLandAcquisition4";
+	
 }

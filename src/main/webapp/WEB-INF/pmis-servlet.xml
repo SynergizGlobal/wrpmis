@@ -67,5 +67,9 @@
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
          <property name="dataSource" ref="dataSource"/>
      </bean>
+     
+     <bean id="mrvcDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+	    	<property name="jndiName" value="java:comp/env/jdbc/MRVC_DB"/>
+	 </bean>
 	 
 </beans>

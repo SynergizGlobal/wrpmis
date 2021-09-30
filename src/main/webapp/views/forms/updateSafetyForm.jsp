@@ -205,7 +205,7 @@
                                 <div class="col s6 offset-m2 m4 input-field">
                                     <input id="date" name="date" type="text" class="validate datepicker" value="${safety.date }">
                                     <label for="date"> Date <span class="required">*</span></label>
-                                    <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
@@ -285,7 +285,7 @@
                                  <div class="col s12 m4 input-field offset-m2">
                                     <input id="investigation_completed" name="investigation_completed" type="text" class="validate datepicker" value="${safety.investigation_completed }">
                                     <label for="investigation_completed">Investigation Completion Date</label>
-                                    <button type="button" id="investigation_completed_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="investigation_completed_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="investigation_completedError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
@@ -374,7 +374,7 @@
                                 <div class="col s6 m4 input-field offset-m2">
                                     <input id="payment_date" name="payment_date" type="text" class="validate datepicker" value="${safety.payment_date }">
                                     <label for="payment_date">Payment Date</label>
-                                    <button type="button" id="payment_date_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="payment_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="payment_dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s8 m3 input-field">
@@ -409,7 +409,7 @@
                                   <div class="col s6 m4 input-field hidden" id="hidden_date">
                                     <input id="closure_date" name="closure_date" type="text" class="validate datepicker" value="${safety.closure_date }">
                                     <label for="closure_date">Closure Date</label>
-                                    <button type="button" id="closure_date_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="closure_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="closure_dateError" class="error-msg" ></span>
                                 </div>
                                  
@@ -440,6 +440,7 @@
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	
+	<script src="/pmis/resources/js/datepickerDepedency.js"></script>	
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script>
@@ -456,7 +457,7 @@
     var yyyy = today.getFullYear();
     var today =  yyyy+'-'+ mm +'-'+dd ;  
     
-    let date_pickers = document.querySelectorAll('.datepicker');
+  /*   let date_pickers = document.querySelectorAll('.datepicker');
     $.each(date_pickers, function(){
     	var dt = this.value.split(/[^0-9]/);
     	this.value = ""; 
@@ -469,7 +470,7 @@
     		}
     	}
     	M.Datepicker.init(this, options);
-    });
+    }); */
 		var user_role = '${sessionScope.USER_ROLE_NAME}';
 		var user_type = '${sessionScope.USER_TYPE}';
         $(document).ready(function () {
@@ -487,10 +488,10 @@
             	$("#status_fk option[value='Closed']").remove();
             }
             dateShowAndHide();
-            $('#date_icon').click(function (event) {
+           /*  $('#date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#date').click();
-            });
+            }); */
             
 
            /*  $('#date').datepicker({
@@ -499,7 +500,7 @@
             	autoClose:true
             }); */ 
             
-            
+        /*     
             $('#closure_date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#closure_date').click();
@@ -519,7 +520,7 @@
   	        $('#payment_date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#payment_date').click();
-            });             	   
+            });   */           	   
             
   	      $('.pmis-textarea').css('height',function(){
           	this.style.height = (this.scrollHeight < 48) ? '48px' : this.scrollHeight + 'px';

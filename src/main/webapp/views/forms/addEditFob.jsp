@@ -1124,8 +1124,6 @@
         var work_id_fk = "${fob.work_id_fk}";
         if ($.trim(work_id_fk) != '') {
         	getContractsList(work_id_fk);
-        	var tableLength=$('#fobContractResponsibleTableBody > tbody > tr').length;
-        		
         }
         
         var work_status = "${fob.work_status_fk}";
@@ -1301,20 +1299,7 @@
 			 $("#fobContractRowNo").val(rNo);
 			 $('.searchable').select2();
 			 
-			 $("#contract_id_fk"+rNo+" option:not(:first)").remove();
-			 
-			 var work_id_fk = "${fob.work_id_fk}";
-			 var cloneselectbox=0;
-		        if ($.trim(work_id_fk) != '') {
-		        	cloneselectbox=1;
-		        }
-			 
-		 				$("#contract_id_fk"+cloneselectbox+" option:not(:first)").each(function()
-						 {
-		 			        var optText = $(this).text();
-		 			        var optValue = $(this).val();
-		 			       $('#contract_id_fk'+rNo).append('<option value='+optValue+'>'+optText+'</option>');
-						 });
+
    }    
     
     

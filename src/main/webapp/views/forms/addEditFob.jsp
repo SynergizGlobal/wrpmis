@@ -307,6 +307,28 @@
 											                        </td>
 											                    </tr>
 											                    </c:when>
+				                                 			<c:otherwise>
+				                                 			 <tr id="departmentRow${index.count }">
+					                                 			 <td>
+					                                 				<input type="text"  id="contract_id_fk${index.count }" value="${contractObj.contract_id_fk}"  readonly/>
+					                                 				<input type="hidden" name="contracts_id_fk" id="contract_id_fk${index.count }"  value="${contractObj.contract_id_fk }"  /></td>
+					                                 			<td>
+					                                 				<div id="container${index.count }">
+															 		<c:forEach var="tempobj" items="${fob.responsiblePeopleList}" varStatus="indexx" >
+															 				<input type="hidden" name="responsible_people_id_fks"  value="${tempobj.responsible_people_id_fk }"  />
+															 				<p >${tempobj.designation} - ${tempobj.user_name}</p><br>
+						                                          	</c:forEach>
+						                                          	</div>
+						                                          	<input type="hidden" id="filecounts${index.count }" name="filecounts">
+														 				 <script>
+																 				var inputs = $("#container${index.count}").find($("input") );
+											                            		var len = inputs.length;
+											                            		$('#filecounts${index.count}').val(len/2);
+											                            </script>
+											                     </td>
+							                                 </tr>
+				                                 			</c:otherwise>													                    
+											                    
 				                                		 </c:choose>
 									                	</c:forEach>
                                            			</c:when>

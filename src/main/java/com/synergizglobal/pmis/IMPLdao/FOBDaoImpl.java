@@ -128,9 +128,9 @@ public class FOBDaoImpl implements FOBDao {
 					+ "w.project_id_fk,p.project_name,c.hod_user_id_fk as hod_user_id,u.designation,us.designation as dy_hod_designation,u.user_name,"
 					+ "c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_status_fk,c.dy_hod_user_id_fk as dy_hod_user_id,"
 					+ "c.contract_short_name,contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,f.fob_id,f.fob_name,f.work_status_fk"
-					+ " FROM fob_responsible_people ce "
+					+ " FROM fob_contract_responsible_people ce "
 					+ "LEFT JOIN fob f on f.fob_id = ce.fob_id_fk "
-					+ "LEFT JOIN contract c on c.contract_id = f.contract_id_fk "+
+					+ "LEFT JOIN contract c on c.contract_id = ce.contract_id_fk "+
 					"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
@@ -504,7 +504,7 @@ public class FOBDaoImpl implements FOBDao {
 			
 			if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
 				List<FOB> objsList = null;
-				String qryFOBResponsiblePeople = "select responsible_people_id_fk as responsible_people_id_fk,contract_id_fk from fob_contract_responsible_people  where fob_id_fk = ?" ;
+				String qryFOBResponsiblePeople = "select responsible_people_id_fk as responsible_people_id_fk,contract_id_fk,designation,user_name from fob_contract_responsible_people r left join user u on u.user_id=r.responsible_people_id_fk where fob_id_fk = ?" ;
 				
 				objsList = jdbcTemplate.query(qryFOBResponsiblePeople, new Object[] {fobj.getFob_id() }, new BeanPropertyRowMapper<FOB>(FOB.class));	
 				

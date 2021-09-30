@@ -280,6 +280,7 @@
                                     <span  id="pink_book_item_numberError"> </span>
                                 </div> --%>
                                  <c:if test="${action eq 'edit'}">	
+                                  <input id="project_id" type="hidden" class="form-control" name="project_id" value="${projectDetails.project_id }" >   
                                 <!--	<div class="col s6 m4 l4 input-field offset-m2">			                
 	                                     <input id="project_id" type="text" class="form-control" name="project_id" value="${projectDetails.project_id }" readonly >   
 	                               		 <label>Project ID :</label>

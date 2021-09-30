@@ -89,7 +89,8 @@ public class PageConstants {
 	public static final String RandR = "forms/RandR";
 	public static final String addEditRandR = "forms/addEditRandR";
 	public static final String updateRandR = "forms/updateRandR";
-	
+	public static final String progressUpdateReport = "forms/progressUpdateReport";
+
 	/****************************** We can Remove below****************************************/	
 	public static final String riskGrid = "forms/riskGrid";
 	public static final String addEditRiskForm = "forms/addEditRiskForm";

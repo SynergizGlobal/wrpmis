@@ -130,6 +130,7 @@
 	                                </div>
                                 </c:if> 
                                  <c:if test="${action eq 'edit'}">	
+                                  <input id="contractor_id" type="hidden" class="form-control" name="contractor_id" value="${contractorDetails.contractor_id }" >   
 	                                <div class="col s6 m4 l6 input-field offset-m2">
 	                                    <input id="pan_number" name="pan_number"  maxlength="10" minlength="10" type="text" class="validate" style="text-transform:uppercase" value="${contractorDetails.pan_number }" readonly="readonly">
 	                                    <label for="pan_number">PAN Number <span class="required">*</span></label>

@@ -308,6 +308,7 @@
 												<label >Project<span class="required">*</span>:</label>			                                    
 			                                    <input type="hidden" name ="project_id_fk" id="project_id_fk" value="${workDetails.project_id_fk}"/>
 			                               </div>
+			                                 <input id="work_id" type="hidden" class="form-control" name="work_id" value="${workDetails.work_id }" >  
 			                            <!-- <div class="col s6 m6 input-field">
 	                                   		    <input id="work_id" type="text" class="form-control" name="work_id" value="${workDetails.work_id }" readonly >  
 	                                     	    <label>Work ID :</label>

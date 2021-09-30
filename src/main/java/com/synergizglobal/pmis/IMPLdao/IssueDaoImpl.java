@@ -730,7 +730,7 @@ public class IssueDaoImpl implements IssueDao {
 				String placeholders = "";
 				String issue_file_ids = "";
 				for (int i = 0; i < arraySize; i++) {
-					if(!StringUtils.isEmpty(obj.getIssue_file_ids()[i])) {
+					if(!StringUtils.isEmpty(obj.getIssue_file_ids()) && obj.getIssue_file_ids().length > 0 && !StringUtils.isEmpty(obj.getIssue_file_ids()[i])) {
 						placeholders = placeholders + "?,";
 						issue_file_ids = issue_file_ids + obj.getIssue_file_ids()[i] + ",";
 					}
@@ -741,6 +741,12 @@ public class IssueDaoImpl implements IssueDao {
 					issue_file_ids = org.apache.commons.lang3.StringUtils.chop(issue_file_ids);
 
 					String deleteFilesQry = "delete from issue_files where id not in("+issue_file_ids+") and issue_id_fk = :issue_id";
+					Issue fileObj = new Issue();
+					fileObj.setIssue_id(obj.getIssue_id());
+					paramSource = new BeanPropertySqlParameterSource(fileObj);
+					template.update(deleteFilesQry, paramSource);
+				}else {
+					String deleteFilesQry = "delete from issue_files where  issue_id_fk = :issue_id";
 					Issue fileObj = new Issue();
 					fileObj.setIssue_id(obj.getIssue_id());
 					paramSource = new BeanPropertySqlParameterSource(fileObj);
@@ -757,7 +763,10 @@ public class IssueDaoImpl implements IssueDao {
 						String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH + obj.getIssue_id()
 								+ File.separator;
 						String fileName = obj.getIssueFileNames()[i];
-						String issue_file_id = obj.getIssue_file_ids()[i];
+						String issue_file_id = null;
+						if(!StringUtils.isEmpty(obj.getIssue_file_ids()) && obj.getIssue_file_ids().length > 0) {
+							 issue_file_id = obj.getIssue_file_ids()[i];
+						}
 						if (null != multipartFile && !multipartFile.isEmpty()) {
 							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
 						}

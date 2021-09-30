@@ -1124,6 +1124,8 @@
         var work_id_fk = "${fob.work_id_fk}";
         if ($.trim(work_id_fk) != '') {
         	getContractsList(work_id_fk);
+        	var tableLength=$('#fobContractResponsibleTableBody > tbody > tr').length;
+        		
         }
         
         var work_status = "${fob.work_status_fk}";
@@ -1239,6 +1241,9 @@
    	 var rowNo = $("#fobContractRowNo").val();
 		 var rNo = Number(rowNo)+1;
 		 var no = 0;
+		 
+		 
+		 
 		 var html = '<tr id="departmentRow'+rNo+'">'
 			   +'<td data-head="Department" class="input-field">'+
 			   <c:choose>
@@ -1295,6 +1300,21 @@
 			 $('#fobContractResponsibleTableBody').append(html); 
 			 $("#fobContractRowNo").val(rNo);
 			 $('.searchable').select2();
+			 
+			 $("#contract_id_fk"+rNo+" option:not(:first)").remove();
+			 
+			 var work_id_fk = "${fob.work_id_fk}";
+			 var cloneselectbox=0;
+		        if ($.trim(work_id_fk) != '') {
+		        	cloneselectbox=1;
+		        }
+			 
+		 				$("#contract_id_fk"+cloneselectbox+" option:not(:first)").each(function()
+						 {
+		 			        var optText = $(this).text();
+		 			        var optValue = $(this).val();
+		 			       $('#contract_id_fk'+rNo).append('<option value='+optValue+'>'+optText+'</option>');
+						 });
    }    
     
     
@@ -1470,7 +1490,7 @@
     //geting contracts list    
     function getContractsList(work_id_fk) {
     	$(".page-loader").show();
-        $("#contract_id_fk option:not(:first)").remove();
+        $("#contract_id_fk0 option:not(:first)").remove();
         //$("#responsible_people_id_fk option:not(:first)").remove();
         if($.trim(work_id_fk) != ''){
         	var myParams = { work_id_fk: work_id_fk };
@@ -1494,7 +1514,7 @@
 	                        		selectedFlag = 'selected';
 	                        	}
 		                   	</c:forEach>
-		                   	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '" '+selectedFlag+'>' +  $.trim(contract_name) + '</option>');
+		                   	$("#contract_id_fk0").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id + '" '+selectedFlag+'>' +  $.trim(contract_name) + '</option>');
 	                       
 	                    });
 	                }

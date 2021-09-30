@@ -243,13 +243,145 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div> --%>
                             <br>
-                            <div class="row">
-                                <div class="col s12 m4 input-field offset-m2">
-                                <p class="searchable_label">Contract</p>
+                            
+	                         <div class="row " id="fobResponsiblePeopleDetails">
+	                            <div class="row"> 
+	                            	<div class="col m10 offset-m1 s12">
+										<div class="row fixed-width">
+									       <h5 class="center-align"><span class="div-header">Contracts</span></h5> 
+									        <div class="table-inside">
+									            <table id="fobContractResponsibleTableBody" class="mdl-data-table mobile_responsible_table" >
+									                <thead>
+									                    <tr>
+									                        <th style="width:22%">Contract <span class="required">*</span></th>
+															<th style="text-align : center;">Responsible Executives <span class="required">*</span></th>
+															<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}"><th style="width:8%">Action</th></c:if>
+									                    </tr>
+									                </thead>
+									                
+									                
+<tbody id="departmentTableBody">
+									                <c:choose>
+				                                        <c:when test="${not empty fob.contractsList }" >
+				                                          
+				                                		  <c:forEach var="contractObj" items="${fob.contractsList }" varStatus="index"> 
+				                                		  <c:set var="selVal" value="" />
+				                                		    <c:choose>
+								         					<c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">  
+											                  <tr id="departmentRow${index.count }">
+											                        <td data-head="Department" class="input-field">
+											                             <select class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk${index.count }">
+											                                	<option value="" >Select</option>  
+																		          <c:forEach var="obj" items="${contractsList }">
+
+									 													<c:set var="selVal" value="${contractObj.contract_id_fk}" /> 
+									 												
+										                                      	    <option value= "${obj.contract_id}" <c:if test="${contractObj.contract_id_fk eq obj.contract_id}">selected</c:if>>${ obj.contract_short_name}</option>
+									 											                                          </c:forEach>
+											                              </select> 
+											                              <span id="deptError${index.count }" class="my-error"></span>
+											                        </td>
+											                        <td data-head="Select Executives" class="input-field h-auto">
+											                            <select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks${index.count }" onchange="fileCount('${index.count }');"
+											                             multiple="multiple">
+											                             <option value="" disabled="disabled">Select</option>
+                                   <c:forEach var="obj" items="${responsiblePeopleList}">
+           					  			 <option value="${obj.user_id }"            					  			 
+           					  			 		<c:forEach var="tempobj" items="${fob.responsiblePeopleList}">
+										 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id and  tempobj.contract_id_fk eq selVal}">selected</c:if>
+	                                          	</c:forEach>           					  			 
+           					  			 > ${obj.designation} - ${obj.user_name}</option>
+                                   </c:forEach>
+                                   
+											                            </select>
+											                             <span id="personError${index.count }" class="my-error" ></span>
+											                            <input type="hidden" id="filecounts${index.count }" name="filecounts">
+											                            <script>
+											                            	var count = $("#responsible_people_id_fks${index.count } :selected").length;
+											                            	var s = $('#filecounts${index.count}').val(count);
+											                            </script>
+											                        </td>
+											                        <td class="mobile_btn_close">
+											                            <a onclick="removeFobContractResponsible('${index.count }');"
+											                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+											                        </td>
+											                    </tr>
+											                    </c:when>
+				                                		 </c:choose>
+									                	</c:forEach>
+                                           			</c:when>
+                                             		<c:otherwise>
+									                    <tr id="departmentRow0">
+									                        <td data-head="Department" class="input-field">
+									                             <select class="searchable validate-dropdown dept" name="contracts_id_fk" id="contract_id_fk0" 
+									                             	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD'  && sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>> 
+									                                	<option value="" >Select</option>  
+																          <c:forEach var="obj" items="${contractsList }">
+<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 
+										 		<c:forEach var="tempobj" items="${fob.contractsList}">
+										 			<c:if test="${tempobj.contract_id_fk eq obj.contract_id}">selected</c:if>
+	                                          	</c:forEach>
+									 		>${obj.contract_short_name }</option>								                                          </c:forEach>
+									                              </select>
+									                              <span id="deptError0" class="my-error"></span>
+									                              <input type="hidden" id="filecounts0" name="filecounts" value="0">
+									                        </td>
+									                        <td data-head="Select Executives" class="input-field h-auto">
+									                            <select class="searchable validate-dropdown" name="responsible_people_id_fks"  
+									                               <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD'   && sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>
+									                                id="responsible_people_id_fks0" multiple="multiple" onchange="fileCount(0);">
+									                                <option value="" >Select</option>
+			<c:forEach var="obj" items="${responsiblePeopleList}">
+           					  			 <option value="${obj.user_id }"            					  			 
+           					  			 		<c:forEach var="tempobj" items="${fob.responsiblePeopleList}">
+										 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id}">selected</c:if>
+	                                          	</c:forEach>           					  			 
+           					  			 > ${obj.designation} - ${obj.user_name}</option>
+                                   </c:forEach>						                             	
+									                            </select>
+									                            <span id="personError0" class="my-error"></span>
+									                        </td>
+									                        <td class="mobile_btn_close">
+									                            <a onclick="removeFobContractResponsible('0');"
+									                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+									                        </td>
+									                    </tr>
+									              </c:otherwise>
+                                            	</c:choose>
+									                </tbody>									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                
+									                <!-- <tbody id="fobContractResponsibleTablBody">
+<c:forEach var="departmentObj" items="${fob.contractsList }" varStatus="index"> 									                
+									                
+									                <tr>
+<td>
 									<c:choose>
 								        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                 
-                                 <select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk" 
-                                 			multiple="multiple"> 
+                                 <select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk${index.count }" > 
                                   		 <option value="">Select</option>
                                           <c:forEach var="obj" items="${contractsList}">
 									 		<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 
@@ -261,8 +393,7 @@
                                   </select>
                                   </c:when>
                                   <c:otherwise>
-                                  <select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk" 
-                                 			multiple="multiple" disabled >
+                                  <select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk${index.count }"  disabled >
                                   		 <option value="">Select</option>
                                           <c:forEach var="obj" items="${contractsList}">
 									 		<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 
@@ -274,20 +405,14 @@
                                   </select>                                 
                                   </c:otherwise>
                                   </c:choose>
-                                  <span id="contract_id_fkError" class="error-msg"></span>
-                                </div>
-                                
-                                <input type="hidden" id="contract_name" name="contract_name" />
-                                
-                                <div class="col s12 m4 input-field ">
-                                <p class="searchable_label">Responsible Executives</p>
-<%--                                   <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
-                                  multiple="multiple" <c:if test="${fn:length(fob.responsiblePeopleList) gt 0}">disabled</c:if>> --%>
+                              </td>
+                                  <td>
+
                                   
                                   
 								 <c:choose>
 								        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                    
-                                   <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
+                                   <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk${index.count }" 
                                   multiple="multiple">
                                    <option value="" disabled="disabled">Select</option>
                                    <c:forEach var="obj" items="${responsiblePeopleList}">
@@ -301,7 +426,7 @@
                                   </c:when>
                                   <c:otherwise>
                                   
- 								 <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk" 
+ 								 <select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fk${index.count }" 
                                   multiple="multiple" disabled>
                                                                    
                                    <option value="" disabled="disabled">Select</option>
@@ -317,8 +442,52 @@
                                    </c:otherwise>
                                   </c:choose>                                                                
                                      <span id="responsible_people_id_fkError" class="error-msg"></span>
-                                </div>
-                            </div> 
+								          </td>
+								          
+								          
+											                        <td class="mobile_btn_close">
+											                            <a onclick="removeFobContractResponsible('${index.count }');"
+											                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+											                        </td>								               
+									                
+													</tr>
+													
+</c:forEach>													
+													
+													</tbody> -->
+												</table>
+									            <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD'   || sessionScope.USER_TYPE eq 'DyHOD'}">
+									            <table  class="mdl-data-table" style="margin-bottom: 30px">
+			                                        <tbody>                                          
+			                                            <tr>
+			                                   				<td colspan="3"  ><a class="btn waves-effect waves-light bg-m t-c "  onclick="addFobContractRow()"> <i class="fa fa-plus"></i></a></td>
+			                                             </tr>
+			                                        </tbody>
+			                                    </table> 
+			                                    </c:if>
+			                                    <c:choose>
+				                                    <c:when test="${not empty fob.contractsList && fn:length(fob.contractsList) gt 0 }">
+				                                		<input type="hidden" id="fobContractRowNo"  name="fobContractRowNo" value="${fn:length(fob.contractsList) }" />
+				                                	</c:when>
+				                                 	<c:otherwise>
+				                                 		<input type="hidden" id="fobContractRowNo"  name="fobContractRowNo" value="0" />
+				                                 	</c:otherwise>
+				                                 </c:choose>
+                                                                
+                                  
+							                                    
+									        </div>
+									    </div>
+									</div>
+								</div>
+							</div>
+                            
+                            
+                            
+                            
+                            
+                            
+                            
                             <br>
                            <div class="row">
 	                            <div class="col s12 m4 input-field offset-m2">
@@ -868,6 +1037,25 @@
     
     
 	$(document).ready(function () {
+		
+		/*if("${(fn:length(fob.responsiblePeopleList))>0}")
+		{
+			var len="${(fn:length(fob.responsiblePeopleList))}";
+			var Arraynew="${fob.responsiblePeopleList}";
+			Arraynew=Arraynew.toString();
+			
+				for(var i=1;i<=len;i++)
+				{
+					var r=i-1;
+					if($("#contract_id_fk"+i).val()==Arraynew[r].contract_id_fk)
+					{
+						alert("Hi");
+						$("#responsible_people_id_fks"+i).val(Arraynew[r].responsible_people_id_fk);
+					}
+				}
+		}*/
+		
+		
 		$('select:not(.searchable):not(.units)').formSelect();
         $('.searchable').select2();
         $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
@@ -1017,6 +1205,83 @@
  		   count++;
  	   }
     }
+    
+    
+    function fileCount(Rno){
+    	var count = $('#responsible_people_id_fks'+Rno+' option:selected').length;
+    	$('#filecounts'+Rno).val(count)
+    }   
+    
+    
+    function addFobContractRow(){
+   	 var rowNo = $("#fobContractRowNo").val();
+		 var rNo = Number(rowNo)+1;
+		 var no = 0;
+		 var html = '<tr id="departmentRow'+rNo+'">'
+			   +'<td data-head="Department" class="input-field">'+
+			   <c:choose>
+		        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                 
+		         '<input id="filecounts'+rNo+'"  name="filecounts"  type="hidden"><select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk'+rNo+'" > '
+         		 +'<option value="">Select</option>'+
+                 <c:forEach var="obj" items="${contractsList}">
+			 		'<option workId="${obj.work_id_fk }" value="${obj.contract_id }" >${obj.contract_short_name }</option>'+
+                 </c:forEach>
+         '</select>'+
+         </c:when>
+         <c:otherwise>
+         '<input id="filecounts'+rNo+'"  name="filecounts"  type="hidden"><select  class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk'+rNo+'" disabled >'+
+         		 '<option value="">Select</option>'+
+                 <c:forEach var="obj" items="${contractsList}">
+			 		'<option workId="${obj.work_id_fk }" value="${obj.contract_id }">${obj.contract_short_name }</option>'
+                 </c:forEach>
+         +'</select>' +                               
+         </c:otherwise>
+         </c:choose>			   
+         '</td>'
+			   +'<td data-head="Select Executives" class="input-field h-auto">'+
+			   
+	
+			   <c:choose>
+		        <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">                                    
+          '<select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fks'+rNo+'" onchange="fileCount('+rNo+');"  multiple="multiple">'+
+          '<option value="" disabled="disabled">Select</option>'+
+          <c:forEach var="obj" items="${responsiblePeopleList}">
+		  			 '<option value="${obj.user_id }"> ${obj.designation} - ${obj.user_name}</option>'+
+          </c:forEach>
+        '</select>'+
+         </c:when>
+         <c:otherwise>
+         
+		 '<select  class="searchable validate-dropdown" name="responsible_people_id_fk" id="responsible_people_id_fks'+rNo+'"  onchange="fileCount('+rNo+');" multiple="multiple" disabled>'+
+                                          
+          '<option value="" disabled="disabled">Select</option>'+
+          <c:forEach var="obj" items="${responsiblePeopleList}">
+		  			 '<option value="${obj.user_id }" > ${obj.designation} - ${obj.user_name}</option>'+
+          </c:forEach>
+         '</select>'+  
+         
+          </c:otherwise>
+         </c:choose>   			   
+			   
+			   
+			   
+			   
+			   		'</td>'
+			   +'<td class="mobile_btn_close"> <a onclick="removeFobContractResponsible('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>'
+			   +'</tr>';
+		
+			 $('#fobContractResponsibleTableBody').append(html); 
+			 $("#fobContractRowNo").val(rNo);
+			 $('.searchable').select2();
+   }    
+    
+    
+    function removeFobContractResponsible(rowNo){
+    	$("#departmentRow"+rowNo).remove();
+    }   
+    
+    
+    
     function openDates(work_status) {
 		if($.trim(work_status) == 'In Progress' || $.trim(work_status) == 'On Hold' || $.trim(work_status) == 'Dropped'){
 			$("#construction_start_dateDiv").show();

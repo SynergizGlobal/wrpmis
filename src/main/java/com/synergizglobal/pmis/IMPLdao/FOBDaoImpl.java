@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.IMPLdao;
 
 import java.io.File;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -356,7 +357,7 @@ public class FOBDaoImpl implements FOBDao {
 					/********************************************************************/
 					
 					
-					if(!StringUtils.isEmpty(obj.getContracts_id_fk())) {
+					/*if(!StringUtils.isEmpty(obj.getContracts_id_fk())) {
 						for(int k =0; k<obj.getContracts_id_fk().length; k++) {
 							String contarctId = obj.getContracts_id_fk()[k];
 							String qry3 = "INSERT into fob_contract (fob_id_fk,contract_id_fk) VALUES (:fob_id_fk,:contract_id_fk)";
@@ -377,27 +378,36 @@ public class FOBDaoImpl implements FOBDao {
 								namedParamJdbcTemplate.update(qry3, paramSource);
 							}
 						}	
-					}
+					}*/
 					
-					if(!StringUtils.isEmpty(obj.getResponsible_people_id_fk())) {
-						String qry3 = "INSERT into fob_responsible_people (fob_id_fk,responsible_people_id_fk) VALUES (:fob_id_fk,:responsible_people_id_fk)";
-						if(obj.getResponsible_people_id_fk().contains(",")) {
-							String[] ids = obj.getResponsible_people_id_fk().split(",");					
-							for (int i = 0; i < ids.length; i++) {
-								FOB fileObj = new FOB();
-								fileObj.setResponsible_people_id_fk(!StringUtils.isEmpty(ids[i])?ids[i]:null);
-								fileObj.setFob_id_fk(obj.getFob_id());
-								paramSource = new BeanPropertySqlParameterSource(fileObj);
-								namedParamJdbcTemplate.update(qry3, paramSource);
+					if(!StringUtils.isEmpty(obj.getContracts_id_fk())) {
+						String qry3 = "INSERT into fob_contract_responsible_people (fob_id_fk,contract_id_fk,responsible_people_id_fk) VALUES (:fob_id_fk,:contract_id_fk,:responsible_people_id_fk)";
+						int len = obj.getContracts_id_fk().length;
+						
+							for (int i = 0; i < len; i++) 
+							{
+								int r=0;
+								for (int j = 0; j < obj.getFilecounts()[i]; j++) 
+								{
+									FOB fileObj = new FOB();
+									fileObj.setContract_id_fk(obj.getContracts_id_fk()[i]);
+									if(i==(len-1) && len>1)
+									{
+										String SplitVar[]=obj.getResponsible_people_id_fk().split(",");
+										fileObj.setResponsible_people_id_fk(SplitVar[j]);
+									}
+									else
+									{
+										fileObj.setResponsible_people_id_fk((obj.getResponsible_people_id_fks().length > 0)?obj.getResponsible_people_id_fks()[r]:null);
+									}
+									fileObj.setFob_id_fk(obj.getFob_id());
+									paramSource = new BeanPropertySqlParameterSource(fileObj);
+									namedParamJdbcTemplate.update(qry3, paramSource);
+									r++;
+								}
 							}			
-						} else {
-							FOB fileObj = new FOB();
-							fileObj.setResponsible_people_id_fk(obj.getResponsible_people_id_fk());
-							fileObj.setFob_id_fk(obj.getFob_id());
-							paramSource = new BeanPropertySqlParameterSource(fileObj);
-							namedParamJdbcTemplate.update(qry3, paramSource);
-						}		
-					}
+			
+					}	
 					
 					/********************************************************************************/
 					
@@ -494,7 +504,7 @@ public class FOBDaoImpl implements FOBDao {
 			
 			if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
 				List<FOB> objsList = null;
-				String qryFOBResponsiblePeople = "select responsible_people_id_fk from fob_responsible_people where fob_id_fk = ? " ;
+				String qryFOBResponsiblePeople = "select responsible_people_id_fk as responsible_people_id_fk,contract_id_fk from fob_contract_responsible_people  where fob_id_fk = ?" ;
 				
 				objsList = jdbcTemplate.query(qryFOBResponsiblePeople, new Object[] {fobj.getFob_id() }, new BeanPropertyRowMapper<FOB>(FOB.class));	
 				
@@ -503,7 +513,7 @@ public class FOBDaoImpl implements FOBDao {
 			
 			if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
 				List<FOB> objsList = null;
-				String qryFOBContracts = "select contract_id_fk from fob_contract where fob_id_fk = ? " ;
+				String qryFOBContracts = "select DISTINCT contract_id_fk from fob_contract_responsible_people where fob_id_fk = ? " ;
 				
 				objsList = jdbcTemplate.query(qryFOBContracts, new Object[] {fobj.getFob_id() }, new BeanPropertyRowMapper<FOB>(FOB.class));	
 				
@@ -521,7 +531,9 @@ public class FOBDaoImpl implements FOBDao {
 		boolean flag = false;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
+		Connection con = null;
 		try {
+			con=dataSource.getConnection();
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE fob set "
 					+ "fob_name = :fob_name,work_id_fk=:work_id_fk,date_of_approval = :date_of_approval,target_date = :target_date,construction_start_date = :construction_start_date,actual_completion_date = :actual_completion_date,commissioning_date = :commissioning_date,"
@@ -770,60 +782,68 @@ public class FOBDaoImpl implements FOBDao {
 				
 				/********************************************************************/
 				
-				String deleteContractsQry = "DELETE from fob_contract where fob_id_fk = :fob_id";		 
+				String deleteContractsQry = "DELETE from fob_contract_responsible_people where fob_id_fk = :fob_id";		 
 				paramSource = new BeanPropertySqlParameterSource(obj);		 
 				count = namedParamJdbcTemplate.update(deleteContractsQry, paramSource);
 				
 				
 				if(!StringUtils.isEmpty(obj.getContracts_id_fk())) {
-					for(int k =0; k<obj.getContracts_id_fk().length; k++) {
-						String contarctId = obj.getContracts_id_fk()[k];
-						String qry3 = "INSERT into fob_contract (fob_id_fk,contract_id_fk) VALUES (:fob_id_fk,:contract_id_fk)";
-						if(contarctId.contains(",")) {
-							String[] ids = contarctId.split(",");					
-							for (int i = 0; i < ids.length; i++) {
+					String qry3 = "INSERT into fob_contract_responsible_people (fob_id_fk,contract_id_fk,responsible_people_id_fk) VALUES (:fob_id_fk,:contract_id_fk,:responsible_people_id_fk)";
+					int len = obj.getContracts_id_fk().length;
+					
+						for (int i = 0; i < len; i++) 
+						{
+							int r=0;
+							for (int j = 0; j < obj.getFilecounts()[i]; j++) 
+							{
 								FOB fileObj = new FOB();
-								fileObj.setContract_id_fk(!StringUtils.isEmpty(ids[i])?ids[i]:null);
+								fileObj.setContract_id_fk(obj.getContracts_id_fk()[i]);
+								if(i==(len-1) && len>1)
+								{
+									String SplitVar[]=obj.getResponsible_people_id_fk().split(",");
+									fileObj.setResponsible_people_id_fk(SplitVar[j]);
+								}
+								else
+								{
+									fileObj.setResponsible_people_id_fk((obj.getResponsible_people_id_fks().length > 0)?obj.getResponsible_people_id_fks()[r]:null);
+								}
 								fileObj.setFob_id_fk(obj.getFob_id());
 								paramSource = new BeanPropertySqlParameterSource(fileObj);
 								namedParamJdbcTemplate.update(qry3, paramSource);
-							}			
-						}else {
-							FOB fileObj = new FOB();
-							fileObj.setContract_id_fk(contarctId);
-							fileObj.setFob_id_fk(obj.getFob_id());
-							paramSource = new BeanPropertySqlParameterSource(fileObj);
-							namedParamJdbcTemplate.update(qry3, paramSource);
-						}
-					}	
+								r++;
+							}
+						}			
+		
 				}
 				
-				String qryFOBResponsiblePeople = "select responsible_people_id_fk from fob_responsible_people where fob_id_fk = ? " ;					
+				String qryFOBResponsiblePeople = "select responsible_people_id_fk from fob_contract_responsible_people where fob_id_fk = ? " ;					
 				List<String> existedResponsiblePeoples = jdbcTemplate.queryForList(qryFOBResponsiblePeople, new Object[] {obj.getFob_id() },String.class);
 				
-				String deleteResponsiblePeopleQry = "DELETE from fob_responsible_people where fob_id_fk = :fob_id";		 
+				/*String deleteResponsiblePeopleQry = "delete from fob_contract_responsible_people where  fob_id_fk=:fob_id";		 
 				paramSource = new BeanPropertySqlParameterSource(obj);		 
 				count = namedParamJdbcTemplate.update(deleteResponsiblePeopleQry, paramSource);
-
-				if(!StringUtils.isEmpty(obj.getResponsible_people_id_fk())) {
-					String qry3 = "INSERT into fob_responsible_people (fob_id_fk,responsible_people_id_fk) VALUES (:fob_id_fk,:responsible_people_id_fk)";
-					if(obj.getResponsible_people_id_fk().contains(",")) {
-						String[] ids = obj.getResponsible_people_id_fk().split(",");					
-						for (int i = 0; i < ids.length; i++) {
-							FOB fileObj = new FOB();
-							fileObj.setResponsible_people_id_fk(!StringUtils.isEmpty(ids[i])?ids[i]:null);
-							fileObj.setFob_id_fk(obj.getFob_id());
-							paramSource = new BeanPropertySqlParameterSource(fileObj);
-							namedParamJdbcTemplate.update(qry3, paramSource);
+			
+				
+				if(!StringUtils.isEmpty(obj.getContracts_id_fk())) {
+					String qry3 = "INSERT into fob_contract_responsible_people (fob_id_fk,contract_id_fk,responsible_people_id_fk) VALUES (:fob_id_fk,:contract_id_fk,:responsible_people_id_fk)";
+					int len = obj.getContracts_id_fk().length;
+					int r=0;
+					
+						for (int i = 0; i < len; i++) 
+						{
+							for (int j = 0; j < obj.getFilecounts()[i]; j++) 
+							{
+								FOB fileObj = new FOB();
+								fileObj.setContract_id_fk(obj.getContracts_id_fk()[i]);
+								fileObj.setResponsible_people_id_fk((obj.getResponsible_people_id_fks().length > 0)?obj.getResponsible_people_id_fks()[r]:null);
+								fileObj.setFob_id_fk(obj.getFob_id());
+								paramSource = new BeanPropertySqlParameterSource(fileObj);
+								namedParamJdbcTemplate.update(qry3, paramSource);
+								r++;
+							}
 						}			
-					} else {
-						FOB fileObj = new FOB();
-						fileObj.setResponsible_people_id_fk(obj.getResponsible_people_id_fk());
-						fileObj.setFob_id_fk(obj.getFob_id());
-						paramSource = new BeanPropertySqlParameterSource(fileObj);
-						namedParamJdbcTemplate.update(qry3, paramSource);
-					}		
-				}
+		
+				}*/				
 				
 				/*********************************************************************************/
 				

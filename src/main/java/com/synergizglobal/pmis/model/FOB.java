@@ -21,8 +21,9 @@ public class FOB {
 	private List<FOB> fobImages;
 	private List<FOB> fobDocuments;
 	private String[] fob_id_fks,fobFileNames,fob_file_types,created_dates,fobDocumentNames,fob_documents_ids,fobDoc_file_types;
-	private String[] fob_detail_names,fob_detail_values,fob_file_ids,contracts_id_fk,documentNamesFob,fileNamesFob;
+	private String[] fob_detail_names,fob_detail_values,fob_file_ids,contracts_id_fk,responsible_people_id_fks,documentNamesFob,fileNamesFob;
 	
+	private int[] filecounts;
 	
 	
 	public String getFobDoc_file_type() {
@@ -638,6 +639,22 @@ public class FOB {
 
 	public void setFobDocumentNames(String[] fobDocumentNames) {
 		this.fobDocumentNames = fobDocumentNames;
+	}
+
+	public String[] getResponsible_people_id_fks() {
+		return responsible_people_id_fks;
+	}
+
+	public void setResponsible_people_id_fks(String[] responsible_people_id_fks) {
+		this.responsible_people_id_fks = responsible_people_id_fks;
+	}
+
+	public int[] getFilecounts() {
+		return filecounts;
+	}
+
+	public void setFilecounts(int[] filecounts) {
+		this.filecounts = filecounts;
 	}
 	
 }

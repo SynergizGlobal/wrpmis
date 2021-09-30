@@ -370,6 +370,7 @@
     <div class="row">
         <div class="col s12 m12">
         	<form action="<%=request.getContextPath() %>/update-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+            <input id="contract_id" name="contract_id" type="hidden" value="${contractDeatils.contract_id }">
             <div class="card ">
                 <div class="card-content">
                     <div class="center-align p-sticky t-46 z-1">

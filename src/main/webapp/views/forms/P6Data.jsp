@@ -135,7 +135,7 @@
 							</div>
 						</c:if>     
 						<div class="row">
-							<div class="col s12 l6 offset-l3  m8 offset-m2">								
+							<div class="col s12 l8 offset-l2 m8 offset-m2">								
 			                  <!--   <ul class="tabs">
 			                        <li class="tab col s6" style="background-color:#f0f8ff"><a class="active" href="#existing">Update Existing</a></li>
 			                        <li class="tab col s6" style="background-color:#fafafa"><a  href="#baseline">Add Baseline</a></li>

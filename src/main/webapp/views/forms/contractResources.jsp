@@ -90,7 +90,7 @@
                     <div class="container no-mar">
                         <form action="<%=request.getContextPath() %>/add-contract-resource" id="resourceForm" name="resourceForm" method="post">
                             <div class="row ">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l6 input-field offset-m2">
                                     <p class="searchable_label">Project</p>
                                     <select class="searchable" id="project_id_fk" name="project_id_fk" onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -100,7 +100,7 @@
                                     </select>
                                      <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l6 input-field">
                                     <p class="searchable_label">Work</p>
                                     <select class="searchable" id="work_id_fk" name="work_id_fk" onchange="getContractsList(this.value);resetProjectsDropdowns();">
                                         <option value="">Select</option>
@@ -113,7 +113,7 @@
                             </div>
 
                             <div class="row ">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l6 input-field offset-m2">
                                     <p class="searchable_label">Contract <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
@@ -123,7 +123,7 @@
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l6 input-field">
                                     <input id="date" name="date" type="text" class="validate datepicker">
                                     <label for="date" class="fs-sm-8rem">Deployment Date <span class="required">*</span></label> 
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
@@ -132,7 +132,7 @@
                             </div>
                       		<input type="hidden" name="user_id" id="user_id" />
                             <div class="row" style="margin-bottom:20px;">
-                                <div class="col s12 m8 offset-m2">
+                                <div class="col s12 m8 l12 offset-m2">
                                     <div class="row fixed-width">
                                         <h5 class="center-align">Resource Details</h5>
                                         <div class="table-inside">
@@ -276,12 +276,12 @@
                             </div>
                             <div></div>
 							<div class="row">
-								<div class="col s6 m4 mt-brdr offset-m2 center-align">
+								<div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
 									<div class=" m-1">
 								  	 <button type="button" onclick="submitResource();" class="btn waves-effect waves-light bg-m">Submit</button>
 									</div>
 							</div>
-							<div class="col s6 m4 mt-brdr center-align">
+							<div class="col s6 m4 l6 mt-brdr center-align">
 								<div class=" m-1">
 									<a href="<%=request.getContextPath()%>/contract-resource-form"
 										class="btn waves-effect waves-light bg-s" >Reset</a>

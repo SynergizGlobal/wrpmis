@@ -412,6 +412,25 @@
 	</script>
 	
     <script>
+    var datePickerSelectAddClass = function () {
+        var self = this;
+        setTimeout(function () {
+            var selector = self.el;
+            if (!selector) {
+                selector = ".datepicker"
+            }
+            $(selector).siblings(".datepicker-modal")
+                .find(".select-dropdown.dropdown-trigger")
+                .each((index, item) => {
+                    var dateDropdownID = $(item).attr("data-target");
+                    var dropdownUL = $('#' + dateDropdownID);
+                    dropdownUL.children("li").on("click", () => {
+                        datePickerSelectAddClass();
+                    });
+                    dropdownUL.addClass("datepicker-dropdown-year-month")
+                });
+        }, 500);
+    };
     	var filtersMap = new Object();
     	var pageNo = window.localStorage.getItem("p6PageNo");
         $(document).ready(function () {
@@ -444,23 +463,17 @@
   	    	    format:'dd-mm-yyyy',
 	  	    	endDate: "today",
 	            maxDate: today,
-  	    	    onSelect: function () {
-  	    	       $('.confirmation-btns .datepicker-done').click();
-  	    	    }
-  	        }).on('changeDate', function (ev) {
-                $(this).datepicker('hide');
-            });
+  	    	    autoClose:true,
+  	    	  	onOpen: datePickerSelectAddClass
+  	        });
             
             $('#data_dateUpload').datepicker({
   	    	    format:'dd-mm-yyyy',
   	    	    endDate: "today",
 	            maxDate: today,
-  	    	    onSelect: function () {
-  	    	       $('.confirmation-btns .datepicker-done').click();
-  	    	    }
-  	        }).on('changeDate', function (ev) {
-                $(this).datepicker('hide');
-            });
+	            autoClose:true,
+  	    	  	onOpen: datePickerSelectAddClass
+  	        });
             
             $('#data_dateUpdate_icon').click(function () {
                 event.stopPropagation();

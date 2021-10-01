@@ -206,7 +206,7 @@
                                 <div class="col s12 m4 input-field offset-m2">
                                     <input id="funding_date" type="text" class="validate datepicker" name="funding_date" value="${fundDetails.funding_date }">
                                     <label for="funding_date">Funding Date</label>
-                                    <button type="button" id="funding_date_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="funding_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="funding_dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s8 m3 input-field">
@@ -367,6 +367,7 @@
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>   
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
@@ -418,7 +419,7 @@
 	     	$('#fundFilesDiv'+no).remove();
 	     	$('#fundFileNames'+no).remove();
 	    } 
-	    let date_pickers = document.querySelectorAll('.datepicker');
+	/*     let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
@@ -428,7 +429,7 @@
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
 	    	}
 	    	M.Datepicker.init(this, options);
-	    });
+	    }); */
 
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
@@ -436,10 +437,10 @@
             $('#remarks,#narration').characterCounter();
           /*   $("#funding_date").datepicker(); */
 
-            $('#funding_date_icon').click(function () {
+           /*  $('#funding_date_icon').click(function () {
                 event.stopPropagation();
                 $('#funding_date').click();
-            });
+            }); */
             
             var projectId = "${fundDetails.project_id_fk}";
             if($.trim(projectId) != ''){

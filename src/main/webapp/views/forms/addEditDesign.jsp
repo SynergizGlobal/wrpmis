@@ -73,7 +73,7 @@
         }
 
         /* change radio colors  */
-        [type="radio"]:checked+span::after,
+        /* [type="radio"]:checked+span::after,
         [type="radio"].with-gap:checked+span::after {
             background-color: #2E58AD !important;
         }
@@ -82,7 +82,7 @@
         [type="radio"].with-gap:checked+span::before,
         [type="radio"].with-gap:checked+span::after {
             border: 2px solid #2E58AD !important;
-        }
+        } */
         .input-field .searchable_label {
             font-size: 0.9rem;
         }
@@ -126,8 +126,8 @@
 		.mb-md-20{
 			margin-bottom:20px !important;
 		}
-		.mt-md-0{
-			margin-top:0 !important;
+		.input-field p.mt-md-0{
+			margin-top:-4px !important;
 		}
 		.lh{
 			line-height:inherit;
@@ -410,14 +410,14 @@
                                 <div class="col s6 m4 input-field offset-m2">
                                     <input id="planned_start" name="planned_start" type="text" class="validate datepicker" value="${designDetails.planned_start }">
                                     <label for="planned_start">Planned Start </label>
-                                    <button type="button" id="planned_start_icon"><i
+                                    <button type="button" id="planned_start_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="planned_startError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
                                     <input id="planned_finish" name="planned_finish" type="text" class="validate datepicker" value="${designDetails.planned_finish }">
                                     <label for="planned_finish">Planned Finish </label>
-                                    <button type="button" id="planned_finish_icon"><i
+                                    <button type="button" id="planned_finish_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="planned_finishError" class="error-msg" ></span>
                                 </div>
@@ -455,7 +455,7 @@
                                 <div class="col s6 m4 input-field">
                                     <input id="consultant_submission" name="consultant_submission" type="text" class="validate datepicker" value="${designDetails.consultant_submission }">
                                     <label for="consultant_submission" class="fs-sm-8rem">Consultant Submission </label>
-                                    <button type="button" id="consultant_submission_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="consultant_submission_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="consultant_submissionError" class="error-msg" ></span>
                                 </div>
                             </div>
@@ -468,7 +468,7 @@
                                 <div class="col s6 m4 input-field">
                                     <input id="mrvc_reviewed" name="mrvc_reviewed" type="text" class="validate datepicker" value="${designDetails.mrvc_reviewed }">
                                     <label for="mrvc_reviewed">MRVC Reviewed </label>
-                                    <button type="button" id="mrvc_reviewed_icon"><i
+                                    <button type="button" id="mrvc_reviewed_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="mrvc_reviewedError" class="error-msg" ></span>
                                 </div>
@@ -508,14 +508,14 @@
 		                                <div class="col s6 m4 input-field" >
 		                                    <input id="submitted_to_division" name="submitted_to_division" type="text" class="validate datepicker" value="${designDetails.submitted_to_division }">
 		                                    <label for="submitted_to_division" class="fs-sm-8rem">Submitted to Division </label>
-		                                    <button type="button" id="submitted_to_division_icon"><i
+		                                    <button type="button" id="submitted_to_division_icon" class="datepicker-button"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="submitted_to_divisionError" class="error-msg" ></span>
 		                                </div>
 		                                <div class="col s6 m4 input-field" >
 		                                    <input id="divisional_approval" name="divisional_approval" type="text" class="validate datepicker" value="${designDetails.divisional_approval }">
 		                                    <label for="divisional_approval" class="fs-sm-8rem">Divisional Approval </label>
-		                                    <button type="button" id="divisional_approval_icon"><i
+		                                    <button type="button" id="divisional_approval_icon" class="datepicker-button"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="divisional_approvalError" class="error-msg" ></span>
 		                                </div>
@@ -527,14 +527,14 @@
 	                                <div class="col s12 m4 input-field offset-m2" >
 	                                    <input id="query_raised_by_division" name="query_raised_by_division" type="text" class="validate datepicker" value="${designDetails.query_raised_by_division }">
 	                                    <label for="query_raised_by_division">Query Raised By Division </label>
-	                                    <button type="button" id="query_raised_by_division_icon"><i
+	                                    <button type="button" id="query_raised_by_division_icon" class="datepicker-button"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="query_raised_by_divisionError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field" >
 	                                    <input id="query_replied_to_division" name="query_replied_to_division" type="text" class="validate datepicker" value="${designDetails.query_replied_to_division }">
 	                                    <label for="query_replied_to_division">Query Replied to  Division  </label>
-	                                    <button type="button" id="query_replied_to_division_icon"><i
+	                                    <button type="button" id="query_replied_to_division_icon" class="datepicker-button"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="query_replied_to_divisionError" class="error-msg" ></span>
 	                                </div>		                            
@@ -573,14 +573,14 @@
 		                                <div class="col s6 m4 input-field " >
 		                                    <input id="hq_submission" name="submitted_to_hq" type="text" class="validate datepicker" value="${designDetails.submitted_to_hq }">
 		                                    <label for="hq_submission" class="fs-sm-8rem">Submitted to HQ</label>
-		                                    <button type="button" id="hq_submission_icon"><i
+		                                    <button type="button" id="hq_submission_icon" class="datepicker-button"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="hq_submissionError" class="error-msg" ></span>
 		                                </div>
 		                                <div class="col s6 m4 input-field ">
 		                                    <input id="hq_approval" name="hq_approval" type="text" class="validate datepicker" value="${designDetails.hq_approval }">
 		                                    <label for="hq_approval">HQ Approval </label>
-		                                    <button type="button" id="hq_approval_icon"><i
+		                                    <button type="button" id="hq_approval_icon" class="datepicker-button"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="hq_approvalError" class="error-msg" ></span>
 		                                </div>
@@ -593,14 +593,14 @@
 	                                <div class="col s12 m4 input-field" >
 	                                    <input id="query_raised_by_hq" name="query_raised_by_hq" type="text" class="validate datepicker" value="${designDetails.query_raised_by_hq }">
 	                                    <label for="query_raised_by_hq">Query Raised By HQ </label>
-	                                    <button type="button" id="query_raised_by_hq_icon"><i
+	                                    <button type="button" id="query_raised_by_hq_icon" class="datepicker-button"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="query_raised_by_hqError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field" >
 	                                    <input id="query_replied_to_hq" name="query_replied_to_hq" type="text" class="validate datepicker" value="${designDetails.query_replied_to_hq }">
 	                                    <label for="query_replied_to_hq">Query Replied to  HQ </label>
-	                                    <button type="button" id="query_replied_to_hq_icon"><i
+	                                    <button type="button" id="query_replied_to_hq_icon" class="datepicker-button"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="query_replied_to_hqError" class="error-msg" ></span>
 	                                </div>		                            
@@ -634,14 +634,14 @@
 		                                <div class="col s6 m4 input-field offset-m2" >
 		                                    <input id="submitted_for_crs_sanction" name="submitted_for_crs_sanction" type="text" class="validate datepicker" value="${designDetails.submitted_for_crs_sanction }">
 		                                    <label for="submitted_for_crs_sanction">Submitted for CRS Sanction </label>
-		                                    <button type="button" id="submitted_for_crs_sanction_icon"><i
+		                                    <button type="button" id="submitted_for_crs_sanction_icon" class="datepicker-button"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="submitted_for_crs_sanctionError" class="error-msg" ></span>
 		                                </div>
 		                                <div class="col s6 m4 input-field ">
 		                                    <input id="query_raised_for_crs_sanction" name="query_raised_for_crs_sanction" type="text" class="validate datepicker" value="${designDetails.query_raised_for_crs_sanction }">
 		                                    <label for="query_raised_for_crs_sanction">Query Raised for CRS  Sanction </label>
-		                                    <button type="button" id="query_raised_for_crs_sanction_icon"><i
+		                                    <button type="button" id="query_raised_for_crs_sanction_icon" class="datepicker-button"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="query_raised_for_crs_sanctionError" class="error-msg" ></span>
 		                                </div>
@@ -650,14 +650,14 @@
 	                                <div class="col s6 m4 input-field offset-m2" >
 	                                    <input id="query_replied_for_crs_sanction" name="query_replied_for_crs_sanction" type="text" class="validate datepicker" value="${designDetails.query_replied_for_crs_sanction }">
 	                                    <label for="query_replied_for_crs_sanction">Query Replyied for CRS Sanction </label>
-	                                    <button type="button" id="query_replied_for_crs_sanction_icon"><i
+	                                    <button type="button" id="query_replied_for_crs_sanction_icon" class="datepicker-button"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="query_replied_for_crs_sanctionError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s6 m4 input-field" >
 	                                    <input id="crs_sanction_approved" name="crs_sanction_approved" type="text" class="validate datepicker" value="${designDetails.crs_sanction_approved }">
 	                                    <label for="crs_sanction_approved">CRS Sanction Approved </label>
-	                                    <button type="button" id="crs_sanction_approved_icon"><i
+	                                    <button type="button" id="crs_sanction_approved_icon" class="datepicker-button"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="crs_sanction_approvedError" class="error-msg" ></span>
 	                                </div>		                            
@@ -671,7 +671,7 @@
                                 <div class="col s6 m4 input-field">
                                     <input id="gfc_released" name="gfc_released" type="text" class="validate datepicker" value="${designDetails.gfc_released }">
                                     <label for="gfc_released">GFC Released </label>
-                                    <button type="button" id="gfc_released_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="gfc_released_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="gfc_releasedError" class="error-msg" ></span>
                                 </div>
                             </div>
@@ -687,9 +687,9 @@
                                     </select>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <input id="as_built_date" name="as_built_date" type="text" class="validate datepicker" style="margin-top:5px" value="${designDetails.as_built_date }">
+                                    <input id="as_built_date" name="as_built_date" type="text" class="validate datepicker" value="${designDetails.as_built_date }">
                                     <label for="as_built_date" class="fs-sm-8rem">As Built Drawing Date </label>
-                                    <button type="button" id="as_built_date_icon"><i
+                                    <button type="button" id="as_built_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="as_built_dateError" class="error-msg" ></span>
                                 </div>
@@ -725,25 +725,25 @@
 		                                                <td data-head="Consultant Submission" class="input-field">
 		                                                    <input id="consultant_submissions${index.count }" name="consultant_submissions" type="text" class="validate datepicker"
 		                                                        placeholder="Consultant Submission" value="${revObj.consultant_submission }">
-		                                                    <button type="button" id="consultant_icon${index.count }" class="white"><i
+		                                                    <button type="button" id="consultant_submissions${index.count }_icon" class="datepicker-button"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
 		                                                <td  data-head="MRVC Reviewed" class="input-field">
 		                                                    <input id="mrvc_revieweds${index.count }" name="mrvc_revieweds" type="text" class="validate datepicker"
 		                                                        placeholder="MRVC Reviewed" value="${revObj.mrvc_reviewed }">
-		                                                    <button type="button" id="mrvc_reviewed_icon${index.count }" class="white"><i
+		                                                    <button type="button" id="mrvc_revieweds${index.count }_icon" class="datepicker-button"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
 		                                                <td data-head="Divisional Approval" class="input-field">
 		                                                    <input id="divisional_approvals${index.count }" name="divisional_approvals" type="text"
 		                                                        class="validate datepicker" placeholder="Divisional Approval" value="${revObj.divisional_approval }">
-		                                                    <button type="button" id="divisional_approval_icon${index.count }" class="white"><i
+		                                                    <button type="button" id="divisional_approvals${index.count }_icon" class="white"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
 		                                                <td data-head="HQ approval" class="input-field">
 		                                                    <input id="hq_approvals${index.count }" name="hq_approvals" type="text" class="validate datepicker"
 		                                                        placeholder="HQ approval" value="${revObj.hq_approval }">
-		                                                    <button type="button" id="hq_approval_icon${index.count }" class="white"><i
+		                                                    <button type="button" id="hq_approvals${index.count }_icon" class="datepicker-button"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
 		                                                <td data-head="Revision Status" class="input-field">
@@ -774,25 +774,25 @@
 	                                                <td data-head="Consultant Submission" class="input-field">
 	                                                    <input id="consultant_submissions0" name="consultant_submissions" type="text" class="validate datepicker"
 	                                                        placeholder="Consultant Submission">
-	                                                    <button type="button" id="consultant_icon0" class="white"><i
+	                                                    <button type="button" id="consultant_submissions0_icon" class="datepicker-button"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td  data-head="MRVC Reviewed" class="input-field">
 	                                                    <input id="mrvc_revieweds0" name="mrvc_revieweds" type="text" class="validate datepicker"
 	                                                        placeholder="MRVC Reviewed">
-	                                                    <button type="button" id="mrvc_reviewed_icon0" class="white"><i
+	                                                    <button type="button" id="mrvc_revieweds0_icon" class="datepicker-button"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td data-head="Divisional Approval" class="input-field">
 	                                                    <input id="divisional_approvals0" name="divisional_approvals" type="text"
 	                                                        class="validate datepicker" placeholder="Divisional Approval">
-	                                                    <button type="button" id="divisional_approval_icon0" class="white"><i
+	                                                    <button type="button" id="divisional_approvals0_icon" class="datepicker-button"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td data-head="HQ approval" class="input-field">
 	                                                    <input id="hq_approvals0" name="hq_approvals" type="text" class="validate datepicker"
 	                                                        placeholder="HQ approval">
-	                                                    <button type="button" id="hq_approval_icon0" class="white"><i
+	                                                    <button type="button" id="hq_approvals0_icon" class="datepicker-button"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td data-head="Revision Status" class="input-field">
@@ -1022,6 +1022,7 @@
  
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
@@ -1078,7 +1079,7 @@
 	     	$('#designFileNames'+no).remove();
 	    } 
 
-	    let date_pickers = document.querySelectorAll('.datepicker');
+/* 	    let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
@@ -1088,7 +1089,7 @@
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
 	    	}
 	    	M.Datepicker.init(this, options);
-	    });
+	    }); */
 
 	    
         $(document).ready(function () {
@@ -1619,10 +1620,10 @@
 	//console.log("rowno= "+rowNo+" rno= "+rNo);
       var html ='<tr id="revisionRow'+rNo+'"> '
 		      +'<td data-head="Revision" class="input-field"> <input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
-		      +'<td data-head="Consultant Submission" class="input-field"><input id="consultant_submissions'+rNo+'" name="consultant_submissions" type="text" class="validate datepicker" placeholder="Consultant Submission"><button type="button" id="consultant_submissions_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button> </td>'
-		      +'<td data-head="MRVC Reviewed" class="input-field"><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_reviewed_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
-		      +'<td data-head="Divisional Approval" class="input-field"><input id="divisional_approvals'+rNo+'" name="divisional_approvals" type="text" class="validate datepicker" placeholder="Divisional Approval"> <button type="button" id="divisional_approval_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
-			  +'<td data-head="HQ approval" class="input-field"><input id="hq_approvals'+rNo+'" name="hq_approvals" type="text" class="validate datepicker" placeholder="HQ approval"> <button type="button" id="hq_approval_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button> </td>'
+		      +'<td data-head="Consultant Submission" class="input-field"><input id="consultant_submissions'+rNo+'" name="consultant_submissions" type="text" class="validate datepicker" placeholder="Consultant Submission"><button type="button" id="consultant_submissions'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> </td>'
+		      +'<td data-head="MRVC Reviewed" class="input-field"><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_revieweds'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
+		      +'<td data-head="Divisional Approval" class="input-field"><input id="divisional_approvals'+rNo+'" name="divisional_approvals" type="text" class="validate datepicker" placeholder="Divisional Approval"> <button type="button" id="divisional_approvals'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
+			  +'<td data-head="HQ approval" class="input-field"><input id="hq_approvals'+rNo+'" name="hq_approvals" type="text" class="validate datepicker" placeholder="HQ approval"> <button type="button" id="hq_approvals'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> </td>'
 			  +'<td data-head="Revision Status" class="input-field">'
 			  +'<select class="searchable" id="revision_status_fks'+rNo+'" name="revision_status_fks">'
 		      +'<option value="" selected>Select </option>'
@@ -1639,14 +1640,14 @@
 		      $('.searchable').select2();
 		      
 
-	            $(document).on('focus', '.datepicker',function(){
+	           /*  $(document).on('focus', '.datepicker',function(){
 			        $(this).datepicker({
 			        	format:'dd-mm-yyyy',
 			   	    	onSelect: function () {
 			   	    	   $('.confirmation-btns .datepicker-done').click();
 			   	    	}
 			        })
-			    });
+			    }); */
 	  }
 	  
 	  function removeRevision(rowNo){

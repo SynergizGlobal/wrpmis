@@ -97,7 +97,7 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry
 						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
 						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
-						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+						+ "or location in(select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -268,7 +268,7 @@ public class IssueDaoImpl implements IssueDao {
 						+ "left join work on work_id_fk = work_id " + "left join project on project_id_fk = project_id "
 						+ "where (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
 						+ "or contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
-						+ "or contract_id in(select contract_id_fk from fob_contract where fob_id_fk in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))"
+						+ "or contract_id in(select contract_id_fk from fob_contract_responsible_people where fob_id_fk in(select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ?))"
 						+ ")";
 			}
 
@@ -326,7 +326,7 @@ public class IssueDaoImpl implements IssueDao {
 						+ "left join project on project_id_fk = project_id "
 						+ "where (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
 						+ "or contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
-						+ "or contract_id in(select contract_id_fk from fob_contract where fob_id_fk in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))"
+						+ "or contract_id in(select contract_id_fk from fob_contract_responsible_people where fob_id_fk in(select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ?))"
 						+ ")";
 			}
 
@@ -415,7 +415,7 @@ public class IssueDaoImpl implements IssueDao {
 						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
 						+ "FROM contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
 						+ "or contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
-						+ "or contract_id in(select contract_id_fk from fob_contract where fob_id_fk in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))"
+						+ "or contract_id in(select contract_id_fk from fob_contract_responsible_people where fob_id_fk in(select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ?))"
 						+ ")";
 			}
 
@@ -1379,7 +1379,7 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry
 						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
 						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
-						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+						+ "or location in(select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1472,7 +1472,7 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry
 						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
 						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
-						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+						+ "or location in(select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1565,7 +1565,7 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry
 						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
 						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
-						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+						+ "or location in(select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1657,7 +1657,7 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry
 						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
 						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
-						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+						+ "or location in(select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1749,7 +1749,7 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry
 						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
 						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
-						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+						+ "or location in(select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1841,7 +1841,7 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry
 						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
 						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
-						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+						+ "or location in(select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1934,7 +1934,7 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry
 						+ " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? or created_by_user_id_fk = ? "
 						+ "or contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) "
-						+ "or location in(select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ?))";
+						+ "or location in(select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;

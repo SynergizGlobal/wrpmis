@@ -1049,6 +1049,62 @@ public class EMailSender {
 		 }
 		
 	}
+	
+	
+	public void sendOTPEmail(String recipient, int OTP) {
+		 try {
+			 // create a message
+			 MimeMessage message = new MimeMessage( getSession() );
+			 message.setFrom(new InternetAddress(mailId));
+			 
+			 if(!StringUtils.isEmpty(recipient)) {
+				 ArrayList<String> recipientsArray = new ArrayList<String>();
+				 StringTokenizer stringTokenizer = new StringTokenizer(recipient, ",");
+				 
+				 while (stringTokenizer.hasMoreTokens()) {
+					 recipientsArray.add(stringTokenizer.nextToken());
+				 }
+				 int sizeTo = recipientsArray.size();
+				 InternetAddress[] addressTo = new InternetAddress[sizeTo];
+				 for (int i = 0; i < sizeTo; i++) {
+					 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
+				 }	 
+				 message.setRecipients(Message.RecipientType.TO, addressTo);
+			 }
+
+			 String subject = "Here's your One Time Password (OTP) - Expire in 5 minutes!";
+			 String content = "One Time Password to reset your password : "+ OTP +" Note: this OTP is set to expire in 5 minutes.";
+		 
+			 
+			 message.setSubject(subject);
+			 
+			 // create and fill the first message part
+			 MimeBodyPart mimeBodyPart1 = new MimeBodyPart();
+			 mimeBodyPart1.setText(content);
+			 
+			 // Open issues attachment part
+
+			 
+			 
+			 /*****************************************************************************************/
+			 
+			 Multipart multiPart = new MimeMultipart();
+			 multiPart.addBodyPart(mimeBodyPart1);
+			 
+			 message.setContent(multiPart);
+			 
+			 // set the Date: header
+			 message.setSentDate(new Date());
+			 
+			 // send the message
+			 Transport.send(message);
+			 
+		 }catch (MessagingException mex) {
+			 mex.printStackTrace();
+			 logger.error("sendOTPEmail >> "+mex);
+		 }
+	    
+	}	
 
 	
 	public void sendEmailWithContractReportsAttachment(String recipients,String cc, String bcc, String subject, 

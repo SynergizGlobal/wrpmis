@@ -12,7 +12,7 @@ public class User  {
 	
 	private String reporting_to_name,reporting_to_designation,department,department_name,user_access_type,user_access_table,user_id_fk,user_type_fk,loginCount,
 	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_name,
-	access_value_id,access_value_name,user_role_code,last7DaysLogins,last30DaysLogins,login_event_date,login_event_type,login_event_type_fk,single_login_session_id;
+	access_value_id,access_value_name,user_role_code,last7DaysLogins,last30DaysLogins,login_event_date,login_event_type,login_event_type_fk,single_login_session_id,OTP;
 	
 	private List<User> departmentList,DesignationsList,UserLoginList;
 	
@@ -642,6 +642,16 @@ public class User  {
 
 	public void setReportingToPersonsList(List<User> reportingToPersonsList) {
 		this.reportingToPersonsList = reportingToPersonsList;
+	}
+
+
+	public String getOTP() {
+		return OTP;
+	}
+
+
+	public void setOTP(String oTP) {
+		OTP = oTP;
 	}
 	
 	

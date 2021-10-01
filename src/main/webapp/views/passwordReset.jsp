@@ -75,6 +75,7 @@
                     	<br>
                     	
                         <form action="<%=request.getContextPath()%>/change-password" id="passwordResetForm" name="passwordResetForm" method="post">
+                        	<div id="accessMsg" style="text-align:center;color:red;font-size:24px;height:20px;"></div>
                             <div class="row">
                                 <div class="col s12 m6 l4 offset-l4 input-field offset-m3">
                                     <input type="password" id="oldPassword" name="oldPassword" class="validate" autocomplete="off">
@@ -91,6 +92,7 @@
                                     <span id="newPasswordError" ></span>
                                 </div>
                             </div>
+                           <input type="hidden" id="hdnPass">
                            
                            <div class="row">
                                 <div class="col s12 m6 l4 offset-l4 input-field offset-m3 ">
@@ -101,15 +103,32 @@
                                 </div>
                             </div>
                             
-                            <div class="row">
+                            <div class="row" id="divOTP" style="text-align:center;color:red;display:none;">
+                            <br>
+                             We have sent OTP to your Email Id. Please enter the OTP here to reset your password.
+                             <br>
+                                <div class="col s12 m6 l4 offset-l4 input-field offset-m3 ">
+                                    <input class="" type="tel" maxlength="6" value="" style="width: 80%; text-align: center;" id="otpvalue">
+                                    <label for="otp">OTP</label>
+                                </div>
+                                <div class="col s12 m6 l4 offset-l4 input-field offset-m3 ">
+                                        <button type="button" class="btn waves-effect waves-light bg-m" style="width: 100%;" id="btnCheckotp" onClick="CheckOTP();">Check OTP</button>
+
+                                </div>                                
+                            </div> 
+                            <div style="text-align:center;color:red;" id="otpmessage">
+                            
+                            </div>                          
+                            
+                            <div class="row" id="divbtnchp">
                                 <div class="col s12 m3 l2 offset-m3 offset-l4 ">
                                     <div class="center-align m-1">
-                                        <button type="submit" class="btn waves-effect waves-light bg-m" style="width: 100%;">Change Password</button>
+                                        <button type="submit" class="btn waves-effect waves-light bg-m" style="width: 100%;" id="btnchange">Change Password</button>
                                     </div>
                                 </div>
                                 <div class="col s12 m3 l2 ">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath() %>/reset-password" class="btn waves-effect waves-light bg-s" style="width: 100%;">Cancel</a>
+                                        <a href="<%=request.getContextPath() %>/reset-password" class="btn waves-effect waves-light bg-s" style="width: 100%;" id="btnCancel">Cancel</a>
                                     </div>
                                 </div>
                             </div>
@@ -134,8 +153,10 @@
   <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
   
   <script type="text/javascript">
+  var glbProcess=false;
 		   //form validations
-		    $(document).ready(function() {		    	
+		    $(document).ready(function() {
+		    	checkLoggedInUserEmail();
 				 //$("#year").html(new Date().getFullYear());
 				 $('#passwordResetForm').validate({
 				    rules: {
@@ -187,7 +208,31 @@
 	                         }, 1000);
 	                     }
 	                 },submitHandler:function(form){
-				    	form.submit();
+	                	
+	                	 if(glbProcess==false)
+	                		 {
+			                	 $("#divOTP").show();
+			                	 $("#divbtnchp").hide();
+			                	 
+			                	 var OTP=generateOTP();
+			                	 $("#hdnPass").val(OTP);
+			                	 
+			                	 var myParams = { OTP: OTP };
+			                	 
+			                	 $.ajax({
+			                         url: "<%=request.getContextPath()%>/ajax/sendOTPtomail",
+			                         data: myParams, cache: false,
+			                         success: function (data) 
+			                         {
+			                             
+			                         }
+			                     });
+	                		 }
+	                	 else
+	                		 {
+	                		 	form.submit();
+	                		 }
+	                	 
 				    }
 				});  
 				 
@@ -250,6 +295,65 @@
 		    		 input.attr("type", "password");		    	 
 		    	  }	
 		    });	
+	         
+	        function CheckOTP()
+	        {
+        		if($("#hdnPass").val()!=$("#otpvalue").val())
+        		{
+        		
+        			$("#otpmessage").html("Wrong OTP");
+            	
+	        	}
+	            else
+	        	{
+            		$("#divOTP").hide();
+	            	$("#divbtnchp").show();
+	            	$("#otpmessage").hide();
+	            	$("#otpmessage").html();
+	            	glbProcess=true;
+	        	}       		
+	        }
+	        
+	        function checkLoggedInUserEmail()
+	        {
+	        
+           	 	$.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/checkLoggedInUserEmail",
+                 cache: false,
+                 success: function (data) 
+                 {
+                
+                     if(data==true)
+                     {
+                    	 
+                     
+                     }
+                     else
+                     {
+                    	 $("#accessMsg").html("You don't have Valid Email ID to reset your password. Please contact PMIS Admin.");
+                    	 
+                    	 $("#oldPassword").prop("disabled", true);
+                    	 $("#newPassword").prop("disabled", true);
+                    	 $("#confirmPassword").prop("disabled", true);
+                    	 $( ".material-icons" ).removeAttr('href');
+                    	 $("#btnCancel").prop("disabled", true);
+                    	 $("#btnchange").prop("disabled", true);
+                    	 $("#btnchange").removeAttr('href');
+                    	                  	 
+                     }
+                 }
+           	 	});
+	        }
+	        
+	        function generateOTP() {
+	            var digits = '0123456789';
+	            let OTP = '';
+	            for (let i = 0; i < 6; i++ ) {
+	                OTP += digits[Math.floor(Math.random() * 10)];
+	            }
+	            return OTP;
+	        }	        
+	        
 		</script>
 </body>
 

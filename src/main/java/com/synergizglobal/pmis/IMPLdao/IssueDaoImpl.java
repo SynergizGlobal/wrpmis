@@ -9,7 +9,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
-import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,6 +24,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.IssueDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.EMailSender;
@@ -32,9 +32,9 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Messages;
-import com.synergizglobal.pmis.model.User;
 
 @Repository
 public class IssueDaoImpl implements IssueDao {
@@ -47,6 +47,9 @@ public class IssueDaoImpl implements IssueDao {
 
 	@Autowired
 	DataSourceTransactionManager transactionManager;
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 
 	@Override
 	public List<Issue> getIssuesList(Issue obj) throws Exception {
@@ -535,7 +538,18 @@ public class IssueDaoImpl implements IssueDao {
 					}
 				}
 				
-				boolean history_flag = addIssueInHistory(obj,template);
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name("Issue");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("Added issue "+obj.getTitle());
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				
+				history_flag = addIssueInHistory(obj,template);
 
 				String issue_status = obj.getStatus_fk();
 				String reported_by_email_id = obj.getReported_by_email_id();
@@ -784,7 +798,18 @@ public class IssueDaoImpl implements IssueDao {
 					}
 				}
 				
-				boolean history_flag = addIssueInHistory(obj,template);
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name("Issue");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Updated issue "+obj.getTitle());
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				
+				history_flag = addIssueInHistory(obj,template);
 
 				String issue_id = obj.getIssue_id();
 				String issue_status = obj.getStatus_fk();

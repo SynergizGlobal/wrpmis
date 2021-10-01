@@ -753,7 +753,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			/********************************************************************************/
 			if(!StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
 				String qryUsers ="SELECT dy_hod_user_id_fk "
-						+ "FROM fob_contract "
+						+ "FROM fob_contract_responsible_people "
 						+ "left join contract on contract_id_fk = contract_id "
 						+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? group by dy_hod_user_id_fk";
 				List<String> users = jdbcTemplate.queryForList( qryUsers,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);	
@@ -795,7 +795,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 		List<String>  dy_hods = null;
 		try {
 			String qryUsers ="SELECT dy_hod_user_id_fk "
-					+ "FROM fob_contract "
+					+ "FROM fob_contract_responsible_people "
 					+ "left join contract on contract_id_fk = contract_id "
 					+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? group by dy_hod_user_id_fk";
 			dy_hods = jdbcTemplate.queryForList( qryUsers,new Object[]{structure}, String.class);

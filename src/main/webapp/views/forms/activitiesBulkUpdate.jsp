@@ -755,7 +755,7 @@
             
 
             
-    		if("${sessionScope.USER_ROLE_NAME}"!='IT Admin')
+    		/*if("${sessionScope.USER_ROLE_NAME}"!='IT Admin')
     		{
                 $('#btn').prop('disabled',true);
                 $('#btn1').prop('disabled',true); 
@@ -764,7 +764,7 @@
     			{
 			        $('#btn').prop('disabled', false);  
 			        $('#btn1').prop('disabled', false); 						    			
-    			}           
+    			}  */         
             
             var filters = window.localStorage.getItem("BulkFilters");
             
@@ -785,7 +785,7 @@
     		        		  structureVal = temp2[1];
     		        	  }
     		        	  else if($.trim(temp2[0]) == 'strip_chart_component'){
-    		        		  getComponentsList(temp2[1]);
+    		        		  //getComponentsList(temp2[1]);
     		        		  glb=temp2[1];
     		        	  }  
     		        	  else if($.trim(temp2[0]) == 'strip_chart_component_id'){
@@ -867,6 +867,7 @@
 	      	}
         }
         function addInQueComponentID(strip_chart_component_id){
+        	
 	      	Object.keys(filtersMap).forEach(function (key) {
 		   		if(key.match('strip_chart_component_id')) delete filtersMap[key];
 	   	   	});
@@ -1185,7 +1186,8 @@
          }        
      }
 
-	 function getComponentIdsList(component) {   
+	 function getComponentIdsList(component) {
+
      	$(".page-loader-3").show();
      	
      	clearComponentCircle();
@@ -1335,7 +1337,7 @@
  	            	 						}
 				 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start_icon'+num+'" ><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
 				 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish_icon'+num+'"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
-				 	            	 			+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>';
+				 	            	 			//+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>';
 		 	            	 				
 
 		 	            	            
@@ -1345,13 +1347,14 @@
  	            	 				{
 		 	            	 			html +='<td data-head="Planned Start" class="input-field">' + $.trim(val.planned_start) + '</td>'
 		 	            	 			+'<td data-head="Planned Finish" class="input-field">' + $.trim(val.planned_finish) + '</td>'
-		 	            	 			+'<td data-head="Scope" class="input-field"><span>' + $.trim(val.scope) + '</span>';
+		 	            	 			//+'<td data-head="Scope" class="input-field"><span>' + $.trim(val.scope) + '</span>';
  	            	 			   }
  	            	 			
+ 	            	 			html +='<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + Number($.trim(val.scope)) + '" size="6"></span>';
  	            	 			
  	            	 			
  	            	 			html +='<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
- 	            	 			+'<td data-head="Completed" class="input-field"><span>' + $.trim(val.completed) + '</span>'
+ 	            	 			+'<td data-head="Completed" class="input-field"><span>' + Number($.trim(val.completed)) + '</span>'
  	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
  	            	 			+' <td data-head="Actual" class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" '+disDisabled+' value="null"><br><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
  	                    		$("#filerList").append(html);	

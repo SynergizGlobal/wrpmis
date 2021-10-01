@@ -9,7 +9,7 @@ public class Activity {
 	created_date,created_by_user_id_fk,modified_date,modified_by_user_id_fk,activity_id_fk,
 	progress_id,progress_date,completed_scope,attachment_url,work_id_fk,fob_id,user_id,user_name,dyhod_user_id_fk,department_fk,updated_by_user_id_fk,
 	approved_on,rejected_on,approval_status_fk,department_name,user_role_code,updated_on,updated_by,cumulative_completed,actual_for_the_day,
-	total_scope,remaining_scope,approved_or_rejected_by,message_id;
+	total_scope,remaining_scope,approved_or_rejected_by,message_id,updated_scope;
 	
 	private String activities_data_id,uploaded_file,status,uploaded_by_user_id_fk,uploaded_on;
 	
@@ -537,6 +537,14 @@ public class Activity {
 
 	public void setMessage_id(String message_id) {
 		this.message_id = message_id;
+	}
+
+	public String getUpdated_scope() {
+		return updated_scope;
+	}
+
+	public void setUpdated_scope(String updated_scope) {
+		this.updated_scope = updated_scope;
 	}
 	
 	

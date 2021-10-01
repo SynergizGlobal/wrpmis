@@ -41,7 +41,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
 					+ "ap.created_by_user_id_fk,aph.dyhod_user_id_fk,u.user_name as updated_by,approved_or_rejected_by,"
 					+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
-					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name "
+					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name,updated_scope "
 					+ "from approvable_activity_progress_dyhod aph "
 					+ "LEFT JOIN approvable_activity_progress ap ON aph.progress_id_fk = ap.progress_id "
 					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
@@ -539,7 +539,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
 					+ "ap.created_by_user_id_fk,approved_or_rejected_by,u.user_name as updated_by,"
 					+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
-					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name "
+					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name,updated_scope "
 					+ "from approvable_activity_progress ap "
 					+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
 					+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
@@ -558,20 +558,31 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				float scope = Float.parseFloat(aObj.getScope());
 				float completed = Float.parseFloat(aObj.getCompleted());
 				float remaining = Float.parseFloat(aObj.getRemaining_scope());
-				float actual_for_the_day = Float.parseFloat(aObj.getActual_for_the_day());
-				if((completed) <= scope) {
-				/*if((completed+actual_for_the_day) <= scope) {*/
+				float actual_for_the_day = Float.parseFloat(aObj.getActual_for_the_day()==null?"0":aObj.getActual_for_the_day());
+				
+				
+				
+				if((completed+actual_for_the_day) <= scope) {
 					String updateQry = "UPDATE activities SET completed = ? + ?";	
 					int arrSize = 3;
 					
 					if(completed == 0) {
 						updateQry = updateQry + ", actual_start = ?";
 						arrSize++;
-					}				
+					}
+					
+					
 					if(scope == (completed+actual_for_the_day)) {
 						updateQry = updateQry + ", planned_finish = ?";
 						arrSize++;
-					}				
+					}	
+					
+					if(aObj.getUpdated_scope()!=null && Float.parseFloat(aObj.getUpdated_scope())>0)
+					{
+						updateQry = updateQry + ", Scope = ?";
+						arrSize++;						
+					}
+					
 					updateQry = updateQry + " WHERE activity_id = ?";
 					
 					pValues = new Object[arrSize];
@@ -584,6 +595,12 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					if(scope == (completed+actual_for_the_day)) {
 						pValues[i++] = aObj.getProgress_date();
 					}
+					
+					if(aObj.getUpdated_scope()!=null && Float.parseFloat(aObj.getUpdated_scope())>0)
+					{
+						pValues[i++] = aObj.getUpdated_scope();
+					}
+					
 					pValues[i++] = aObj.getActivity_id();
 					
 					int count = jdbcTemplate.update( updateQry, pValues);			

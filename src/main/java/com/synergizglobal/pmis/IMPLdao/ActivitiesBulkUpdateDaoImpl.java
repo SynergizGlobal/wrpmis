@@ -67,9 +67,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
-						+ "or structure in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
-						+ "or structure in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
-						+ "or structure in (select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ? group by fob_id_fk) "
+						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
+						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
+						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ? group by fob_id_fk) "
 						+ ") group by a.contract_id_fk ORDER BY a.contract_id_fk ASC "
 						+ ")";
 				arrSize++;
@@ -119,9 +119,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					int arrSize = 0;
 					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 						qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
-								+ "or structure in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
-								+ "or structure in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
-								+ "or structure in (select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ? group by fob_id_fk) "
+								+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
+								+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
+								+ "or structure in (select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ? group by fob_id_fk) "
 								+ ") group by a.contract_id_fk ORDER BY a.contract_id_fk ASC "
 								+ ")";
 						arrSize++;
@@ -187,7 +187,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
-						+" or contract_id in (select contract_id from contract where contract_id in(select contract_id_fk from fob_contract where fob_id_fk in(select fob_id_fk from pmis.fob_responsible_people where responsible_people_id_fk = ?))) )";
+						+" or contract_id in (select contract_id from contract where contract_id in(select contract_id_fk from fob_contract_responsible_people where fob_id_fk in(select fob_id_fk from pmis.fob_responsible_people where responsible_people_id_fk = ?))) )";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -212,6 +212,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				//objsList1 = getExecutivesList(obj);	
 			
 			}
+
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				for (StripChart con : objsList1) {
@@ -249,9 +250,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			int arrSize = 2;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and ( "
-						+ "structure in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
-						+ "or structure in (select fob_id_fk from fob_contract where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
-						+ "or structure in (select fob_id_fk from fob_responsible_people where responsible_people_id_fk = ? group by fob_id_fk)) ";
+						+ "structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
+						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
+						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ? group by fob_id_fk)) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -793,9 +794,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		try {
 			con = dataSource.getConnection();
 			String insertQry = "INSERT INTO approvable_activity_progress"
-					+ "(created_by_user_id_fk, remarks, completed_scope, activity_id_fk,progress_date,approval_status_fk)"
+					+ "(created_by_user_id_fk, remarks, completed_scope, activity_id_fk,progress_date,approval_status_fk,updated_scope)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,?)";
+					+ "(?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
 			int	arraySize = 0;
 			if( !StringUtils.isEmpty(obj.getActualScopes()) && obj.getActualScopes().length > 0) {
@@ -813,33 +814,38 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				 } 
 			 }
 			 
+			String[] SplitScope=obj.getScope().split(",");
 			
 			for (int i = 0; i < arraySize; i++) 
 			{				
 			    int k = 1;
-			    if( obj.getActualScopes().length > 0 && !StringUtils.isEmpty(obj.getActualScopes()[i])) 
+			    //if( obj.getActualScopes().length > 0 && !StringUtils.isEmpty(obj.getActualScopes()[i]))
+			    if( obj.getActualScopes().length > 0)
 			    {
-			    	
-			    	Calendar c3 = Calendar.getInstance();
-			    	String[] SplitWith3=obj.getProgress_date().split("-");
-			    	
-		            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
-		            c3.setTime(PrFormat.parse(SplitWith3[1]));
-		            c3.set(Calendar.DATE, Integer.parseInt(SplitWith3[0]));
+			    	String Prdate=null;
+					if(!StringUtils.isEmpty(obj.getProgress_date())) 
+					{	
+				    	Calendar c3 = Calendar.getInstance();
+				    	String[] SplitWith3=obj.getProgress_date().split("-");
+				    	
+			            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
+			            c3.setTime(PrFormat.parse(SplitWith3[1]));
+			            c3.set(Calendar.DATE, Integer.parseInt(SplitWith3[0]));
+			            
+						DateFormat dfm3 = new SimpleDateFormat("dd-MM-yy");	
+						DateFormat rdfm3 = new SimpleDateFormat("YYYY");
+						Date Cdfm3=dfm3.parse(SplitWith3[0]+'-'+c3.get(Calendar.MONTH)+'-'+SplitWith3[2]);	
+						
+			            String gdate3=rdfm3.format(Cdfm3);
+			            
 		            
-					DateFormat dfm3 = new SimpleDateFormat("dd-MM-yy");	
-					DateFormat rdfm3 = new SimpleDateFormat("YYYY");
-					Date Cdfm3=dfm3.parse(SplitWith3[0]+'-'+c3.get(Calendar.MONTH)+'-'+SplitWith3[2]);	
-					
-		            String gdate3=rdfm3.format(Cdfm3);
-		            
-	            
-		            
-		            c3.set(Calendar.YEAR, Integer.parseInt(gdate3));		            
-		            
-		            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		            
-		            String Prdate=df.format(c3.getTime());
+			            
+			            c3.set(Calendar.YEAR, Integer.parseInt(gdate3));		            
+			            
+			            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			            
+			            Prdate=df.format(c3.getTime());
+					}
 		            
 				    insertStmt.setString(k++, obj.getCreated_by_user_id_fk());
 				    insertStmt.setString(k++, obj.getRemarks());
@@ -847,6 +853,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				    insertStmt.setString(k++,(obj.getActivity_ids()[i]));
 				    insertStmt.setString(k++, Prdate);
 				    insertStmt.setString(k++, "Pending");
+				    insertStmt.setString(k++,(SplitScope[i]));
 				    insertStmt.addBatch();
 			    }
 			}
@@ -1009,10 +1016,10 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 							updateQry = updateQry + ", planned_finish = ? ";	
 						}
 						
-						if(!StringUtils.isEmpty(scope)) 
+						/*if(!StringUtils.isEmpty(scope)) 
 						{
 							updateQry = updateQry + ", scope = ? ";	
-						}							
+						}*/							
 						
 						updateQry = updateQry + " WHERE activity_id = ? ";
 						updateStmt = con.prepareStatement(updateQry);
@@ -1067,10 +1074,10 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 						}	
 						
 						
-						if(!StringUtils.isEmpty(scope)) 
+						/*if(!StringUtils.isEmpty(scope)) 
 						{
 							updateStmt.setString(k++, StrVar2[i] );
-						}						
+						}	*/					
 						
 						updateStmt.setString(k++,(obj.getActivity_ids()[i]));
 						updateStmt.executeUpdate();
@@ -1083,7 +1090,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				/********************************************************************************/
 				if(!StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
 					String qryUsers ="SELECT dy_hod_user_id_fk "
-							+ "FROM fob_contract "
+							+ "FROM fob_contract_responsible_people "
 							+ "left join contract on contract_id_fk = contract_id "
 							+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? group by dy_hod_user_id_fk";
 					List<String> users = jdbcTemplate.queryForList( qryUsers,new Object[]{obj.getStrip_chart_structure_id_fk()}, String.class);	
@@ -1125,7 +1132,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		List<String>  dy_hods = null;
 		try {
 			String qryUsers ="SELECT dy_hod_user_id_fk "
-					+ "FROM fob_contract "
+					+ "FROM fob_contract_responsible_people "
 					+ "left join contract on contract_id_fk = contract_id "
 					+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? group by dy_hod_user_id_fk";
 			dy_hods = jdbcTemplate.queryForList( qryUsers,new Object[]{structure}, String.class);

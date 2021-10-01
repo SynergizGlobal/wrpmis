@@ -243,6 +243,7 @@
                                                 <th>Component</th>
                                                 <th>Component Id</th>
                                                 <th>Activity</th>
+                                                <th>Updated Scope</th>
                                                 <th>Cumulative <br>Completed</th>
                                                 <th>Actual for<br> the day</th>
                                                 <th>Updated by</th>
@@ -578,7 +579,8 @@
         	                   	rowArray.push($.trim(val.structure));
         	                   	rowArray.push($.trim(val.component));
         	                   	rowArray.push($.trim(val.component_id));
-        	                   	rowArray.push($.trim(val.activity_name));        	                   	
+        	                   	rowArray.push($.trim(val.activity_name)); 
+        	                   	rowArray.push($.trim(val.updated_scope));
         	                   	rowArray.push($.trim(val.cumulative_completed));
         	                   	rowArray.push($.trim(val.actual_for_the_day));
         	                   	rowArray.push($.trim(val.updated_by));

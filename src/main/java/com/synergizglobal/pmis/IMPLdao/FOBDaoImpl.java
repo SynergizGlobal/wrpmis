@@ -179,7 +179,7 @@ public class FOBDaoImpl implements FOBDao {
 		List<FOB> objsList = null;
 		try {
 			
-			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk "
+			String qry ="SELECT u.user_id as user_id,u.user_name,u.designation,u.department_fk "
 					+ "FROM user u " 
 					+ "left join department d on u.department_fk = d.department "
 					+ "where  user_id is not null and user_type_fk <> ''  and u.user_type_fk not in('Others')  ";
@@ -436,6 +436,7 @@ public class FOBDaoImpl implements FOBDao {
 									{
 										String SplitVar[]=obj.getResponsible_people_id_fk().split(",");
 										fileObj.setResponsible_people_id_fk(SplitVar[j]);
+
 									}
 									else
 									{

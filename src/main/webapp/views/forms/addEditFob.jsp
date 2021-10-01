@@ -253,8 +253,8 @@
 									            <table id="fobContractResponsibleTableBody" class="mdl-data-table mobile_responsible_table" >
 									                <thead>
 									                    <tr>
-									                        <th style="width:22%">Contract <span class="required">*</span></th>
-															<th style="text-align : center;">Responsible Executives <span class="required">*</span></th>
+									                        <th style="width:50%">Contract <span class="required">*</span></th>
+															<th style="text-align : left;">Responsible Executives <span class="required">*</span></th>
 															<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}"><th style="width:8%">Action</th></c:if>
 									                    </tr>
 									                </thead>
@@ -1334,7 +1334,7 @@
                                  var designation = '';
                                  if ($.trim(val.designation) != '') { designation = $.trim(val.designation) }
 
-                                 $("#responsible_people_id_fks"+count).append('<option  value="' + val.hod_user_id_fk + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
+                                 $("#responsible_people_id_fks"+count).append('<option  value="' + val.user_id + '" >'  +  $.trim(designation) + $.trim(userName) +'</option>');
                             });
                         }
                         $(".page-loader").hide();
@@ -1552,10 +1552,21 @@
     
     
     function getContractsByRowList(row) {
+    	var workid="";
+        if($.trim("${fob.fob_id}")!= '')
+        {
+        	workid="${fob.work_id_fk}";
+        }
+        else
+       	{
+        	workid=$("#work_id_fk").val();
+       	}
+        
     	$(".page-loader").show();
         $("#contract_id_fk"+row+" option:not(:first)").remove();
-        if($.trim("${fob.fob_id}")!= ''){
-        	var myParams = { work_id_fk: "${fob.work_id_fk}" };
+        if(workid!='')
+        {
+        	var myParams = { work_id_fk: workid };
 	        $.ajax({
 	        	url: "<%=request.getContextPath()%>/ajax/getContractsListForFOBForm",
 	            data: myParams, cache: false,async:false,

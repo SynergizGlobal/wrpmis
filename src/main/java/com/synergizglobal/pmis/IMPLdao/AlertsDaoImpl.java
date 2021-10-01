@@ -25,12 +25,14 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.AlertsDao;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Alerts;
+import com.synergizglobal.pmis.model.FormHistory;
 @Repository
 public class AlertsDaoImpl implements AlertsDao{
 	
@@ -44,6 +46,9 @@ public class AlertsDaoImpl implements AlertsDao{
 	
 	@Autowired
 	DataSourceTransactionManager transactionManager;
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 
 	@Override
 	public boolean generateAterts() throws Exception {
@@ -2245,6 +2250,17 @@ public class AlertsDaoImpl implements AlertsDao{
 			int c = jdbcTemplate.update(updateQry,pValues);	
 			if(c > 0) {
 				flag = true;
+				
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name("Alerts");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Updated alert remarks: "+obj.getRemarks());
+				formHistory.setWork(obj.getWork_id());
+				formHistory.setContract(obj.getContract_id());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 			}
 		} catch (Exception e) {
 			throw new Exception(e);

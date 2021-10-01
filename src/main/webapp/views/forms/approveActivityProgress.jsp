@@ -563,14 +563,17 @@
         	         		$.each(data,function(key,val)
         	         				{
         	         			var progress_id = "'"+val.progress_id+"'";
+        	         			var work_id_fk = "'"+val.work_id_fk+"'";
+        	         			var contract_id_fk = "'"+val.contract_id_fk+"'";
+        	         			
         	                    var rowArray = [];   
         	                    var checkbox = '-';
         	                    var actions = '-';
         	                    if(approval_status_fk == 'Pending'){
 	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+key+'" value="'+progress_id+'" /><span></span></label></p>';
 	        	                   	
-	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+progress_id+');" class="btn bg-m"><i class="fa fa-check"></i> </a>'
-        	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+progress_id+');" class="btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>';
+	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn bg-m"><i class="fa fa-check"></i> </a>'
+        	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>';
         	                   	}
         	                    
 	        	         		rowArray.push(checkbox);
@@ -635,10 +638,10 @@
            	
             }
             
-			function approveActivityProgress(progress_id){
+			function approveActivityProgress(progress_id,work_id_fk,contract_id_fk){
 				$(".page-loader").show();
                 if ($.trim(progress_id) != "") {
-                    var myParams = {progress_id : progress_id };
+                    var myParams = {progress_id : progress_id,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk };
                     $.ajax({
                         url: "<%=request.getContextPath()%>/ajax/approveActivityProgress",
                         data: myParams, cache: false,async: false,
@@ -677,7 +680,7 @@
                 }
             }
 			
-			function rejectActivityProgress(progress_id){
+			function rejectActivityProgress(progress_id,work_id_fk,contract_id_fk){
 				swal({
                     title: "Are you sure You want to Reject progress of activity?",
                     text: "", 
@@ -689,16 +692,16 @@
     	            closeOnCancel: true
                 },function (isConfirm) {   
                     if (isConfirm) {
-                    	confirmRejectActivityProgress(progress_id);
+                    	confirmRejectActivityProgress(progress_id,work_id_fk,contract_id_fk);
     	            }
                 }
               );
 			}
 			
-			function confirmRejectActivityProgress(progress_id){
+			function confirmRejectActivityProgress(progress_id,work_id_fk,contract_id_fk){
 				$(".page-loader").show();
                 if ($.trim(progress_id) != "") {
-                    var myParams = {progress_id : progress_id };
+                    var myParams = {progress_id : progress_id,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk };
                     $.ajax({
                         url: "<%=request.getContextPath()%>/ajax/rejectActivityProgress",
                         data: myParams, cache: false,async: false,

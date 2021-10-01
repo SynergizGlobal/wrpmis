@@ -154,7 +154,9 @@
 							    </div> 
                                 <div class="col s12 m4 l6 input-field"> 
 								    <p class="searchable_label"> Work :</p>
-									<p>${risk.work_id_fk}- ${risk.work_short_name}</p></div>
+									<p>${risk.work_id_fk}- ${risk.work_short_name}</p>
+									<input type="hidden" id="work_id_fk" name="work_id_fk" value="${risk.work_id_fk}" />
+								</div>
                                 
                             </div>
                             

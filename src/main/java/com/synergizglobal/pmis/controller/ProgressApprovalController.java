@@ -163,8 +163,16 @@ public class ProgressApprovalController {
 		try{
 			String user_id = (String) session.getAttribute("USER_ID");
 			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
 			obj.setDyhod_user_id_fk(user_id);
 			obj.setUser_role_code(user_role_code);
+			
+			obj.setCreated_by_user_id_fk(user_id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
 			aObj = service.approveActivityProgress(obj);	
 		}catch(Exception e){
 			e.printStackTrace();
@@ -180,8 +188,16 @@ public class ProgressApprovalController {
 		try{
 			String user_id = (String) session.getAttribute("USER_ID");
 			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
 			obj.setDyhod_user_id_fk(user_id);
 			obj.setUser_role_code(user_role_code);
+			
+			obj.setCreated_by_user_id_fk(user_id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
 			aObj = service.rejectActivityProgress(obj);	
 		}catch(Exception e){
 			e.printStackTrace();
@@ -197,8 +213,16 @@ public class ProgressApprovalController {
 		try{
 			String user_id = (String) session.getAttribute("USER_ID");
 			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
 			obj.setDyhod_user_id_fk(user_id);
 			obj.setUser_role_code(user_role_code);
+			
+			obj.setCreated_by_user_id_fk(user_id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
 			aObj = service.approveMultipleActivityProgress(obj);	
 		}catch(Exception e){
 			e.printStackTrace();
@@ -214,8 +238,16 @@ public class ProgressApprovalController {
 		try{
 			String user_id = (String) session.getAttribute("USER_ID");
 			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
 			obj.setDyhod_user_id_fk(user_id);
 			obj.setUser_role_code(user_role_code);
+			
+			obj.setCreated_by_user_id_fk(user_id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
 			aObj = service.rejectMultipleActivityProgress(obj);	
 		}catch(Exception e){
 			e.printStackTrace();

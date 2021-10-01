@@ -444,6 +444,11 @@ public class WebviewRiskAssessmentController {
 		try {			
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			risk.setCreated_by_user_id_fk(userId);
+			risk.setUser_name(userName);
+			risk.setDesignation(userDesignation);
 			
 			User uObj = (User) session.getAttribute("user");
 			risk.setUser_type(uObj.getUser_type_fk());
@@ -795,7 +800,7 @@ public class WebviewRiskAssessmentController {
 						
 
 						
-						int[] arr  = riskService.uploadRiskAssessments(risksList);
+						int[] arr  = riskService.uploadRiskAssessments(risksList,risk);
 						
 						/*
 						 * if(arr[0] > 0) { msg = msg + arr[0] + " Risk updated successfully. "; }

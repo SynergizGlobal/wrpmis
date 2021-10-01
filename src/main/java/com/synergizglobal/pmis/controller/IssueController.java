@@ -389,11 +389,11 @@ public class IssueController {
 	@RequestMapping(value="/add-issue",method=RequestMethod.POST)
 	public ModelAndView addIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
-		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/issues");
-			user_Id = (String) session.getAttribute("USER_ID");
-			userName = (String) session.getAttribute("USER_NAME");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			
 			User user = (User)session.getAttribute("user");
 			if(!StringUtils.isEmpty(user) && !StringUtils.isEmpty(user.getEmail_id())) {
@@ -408,6 +408,9 @@ public class IssueController {
 				obj.setOther_organization(obj.getZonal_railway_fk() + " - " + obj.getOther_organization());
 			}
 			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
 			obj.setStatus_fk(CommonConstants.ISSUE_STATUS_RAISED);
 			
 			boolean flag = issueService.addIssue(obj);
@@ -565,11 +568,11 @@ public class IssueController {
 	@RequestMapping(value="/update-issue",method=RequestMethod.POST)
 	public ModelAndView updateIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
-		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/issues");
-			user_Id = (String) session.getAttribute("USER_ID");
-			userName = (String) session.getAttribute("USER_NAME");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			
 			User user = (User)session.getAttribute("user");
 			if(!StringUtils.isEmpty(user) && !StringUtils.isEmpty(user.getEmail_id())) {
@@ -580,6 +583,8 @@ public class IssueController {
 			obj.setEscalation_date(DateParser.parse(obj.getEscalation_date()));
 			obj.setAssigned_date(DateParser.parse(obj.getAssigned_date()));
 			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			if(!StringUtils.isEmpty(obj.getZonal_railway_fk()) && obj.getZonal_railway_fk().equals("MRVC")) {
 				obj.setOther_organization(obj.getZonal_railway_fk() + " - " + obj.getOther_organization());
 			}

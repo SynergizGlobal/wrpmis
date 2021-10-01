@@ -17,9 +17,11 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.ProgressApprovalDao;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Activity;
+import com.synergizglobal.pmis.model.FormHistory;
 @Repository
 public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 	@Autowired
@@ -30,6 +32,9 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 	
 	@Autowired
 	DataSourceTransactionManager transactionManager;
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	
 	@Override
 	public List<Activity> getApprovableActivities(Activity obj) throws Exception {
@@ -616,6 +621,17 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						
 						aObj.setMessage_flag(true);
 						aObj.setMessage("Activity progress approved.");
+						
+						FormHistory formHistory = new FormHistory();
+						formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+						formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+						formHistory.setModule_name("Validate Data");
+						formHistory.setForm_action_type("Approved");
+						formHistory.setForm_details("1 activity progres has been updated.");
+						formHistory.setWork(obj.getWork_id_fk());
+						formHistory.setContract(obj.getContract_id_fk());
+						
+						boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 					}else {
 						aObj.setMessage_flag(false);
 						aObj.setMessage("Please try again after sometime.");
@@ -644,6 +660,17 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			if(c > 0) {
 				aObj.setMessage_flag(true);
 				aObj.setMessage("Activity progress rejected.");
+				
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name("Validate Data");
+				formHistory.setForm_action_type("Rejected");
+				formHistory.setForm_details("1 activity progres has been rejected.");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 			}else {
 				aObj.setMessage_flag(false);
 				aObj.setMessage("Please try again after sometime.");
@@ -758,6 +785,17 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				aObj.setMessage_flag(true);
 				if(successCount > 0) {
 					successMessage = successMessage + successCount+ " Activities approved.";
+					
+					FormHistory formHistory = new FormHistory();
+					formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+					formHistory.setModule_name("Validate Data");
+					formHistory.setForm_action_type("Approved");
+					formHistory.setForm_details(successCount + " activity(s) progress has been approve.");
+					formHistory.setWork(obj.getWork_id_fk());
+					formHistory.setContract(obj.getContract_id_fk());
+					
+					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				}
 				if(failureCount > 0 && !StringUtils.isEmpty(successMessage)) {
 					successMessage = successMessage + "And "+failureCount+" activities failed to approve";
@@ -813,6 +851,18 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				if(c > 0) {
 					aObj.setMessage_flag(true);
 					aObj.setMessage("You are rejected "+ progress_ids.length +" activities" );
+					
+					FormHistory formHistory = new FormHistory();
+					formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+					formHistory.setModule_name("Validate Data");
+					formHistory.setForm_action_type("Rejected");
+					formHistory.setForm_details(c + " activity(s) progress has been rejected.");
+					formHistory.setWork(obj.getWork_id_fk());
+					formHistory.setContract(obj.getContract_id_fk());
+					
+					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+					
 				}else {
 					aObj.setMessage_flag(false);
 					aObj.setMessage("Please try after sometime.");

@@ -410,7 +410,7 @@ public class TableauDashboardController {
 					baseUrl = cObj.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 				}
 				
-				String tableauUrl = baseUrl + url[1]+"&contract_id="+contract_id+CommonConstants.TABLEAU_PARAMS;
+				String tableauUrl = baseUrl + url[1]+"&contract_id="+contract_id+"&contract_id_fk="+contract_id+CommonConstants.TABLEAU_PARAMS;
 				vo.setTableauUrl(tableauUrl);
 				vo.setTableauTrustedToken(trustedTokenId);
 			}

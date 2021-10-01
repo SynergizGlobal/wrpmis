@@ -341,6 +341,9 @@
 	               		<p class="my-error-class" id="messageError"></p>	
 	               </div>
                </div>
+               
+               <input type="hidden" name="work_id" id="alerts_work_id" />
+               <input type="hidden" name="contract_id" id="alerts_contract_id" />
 				
                 <div class="row no-mar col s12 m12 center-align btn-holder" >
                            <button type="button" onclick="addRemarks();" style="width: auto;" id="btnRmks"
@@ -685,11 +688,12 @@
     		         		var alert_type_fk = "'"+data.alert_type_fk+"'";
     		         		var alert_id = "'"+data.alert_id+"'";
     	         			var remarks = "'"+data.remarks+"'";
+    	         			var work_id = "'"+data.work_id+"'";
     	         			var contract_id = "'"+data.contract_id+"'";
     	         			var amendment_not_required_in_contract = "'"+data.amendment_not_required_in_contract+"'";
     	                    var actions = '-';    	                    
     	                    //if("IT" !== '${sessionScope.USER_ROLE_CODE}'){
-    	                    	actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+alert_level+','+alert_type_fk+','+remarks+','+amendment_not_required_in_contract+','+contract_id+');" class="btn waves-effect waves-light bg-m t-c modal-trigger mob-btn">Action Taken</a>';
+    	                    	actions = '<a href="javascript:void(0);"  onclick="addAlertRemarks('+alert_id+','+alert_level+','+alert_type_fk+','+remarks+','+amendment_not_required_in_contract+','+contract_id+','+work_id+');" class="btn waves-effect waves-light bg-m t-c modal-trigger mob-btn">Action Taken</a>';
     	                    //}
     		            	return actions;
     		            } }
@@ -866,7 +870,7 @@
             }
         }
         
-        function addAlertRemarks(alert_id,alert_level,alert_type_fk,remarks,amendment_not_required_in_contract,contract_id){
+        function addAlertRemarks(alert_id,alert_level,alert_type_fk,remarks,amendment_not_required_in_contract,contract_id,work_id){
     		
     		$("#btnStpAlert").hide();
     		
@@ -876,6 +880,9 @@
         	$("#amendment_not_required_in_contract").prop("checked", false);
         	$("#alert_id").val(alert_id);
         	$("#alert_type_fk").val(alert_type_fk);
+        	
+        	$("#alerts_work_id").val(work_id);
+        	$("#alerts_contract_id").val(contract_id);
        		
         	$('#contractValueRadioYes').prop('checked',false);
         	$('#contractValueRadioNo').prop('checked',false);

@@ -467,9 +467,16 @@ public class AlertsController {
 	public ModelAndView addAlertRemarks(@ModelAttribute Alerts obj,HttpSession session,RedirectAttributes attributes){		
 		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
 	     try {
-	    	 String user_Id = (String) session.getAttribute("USER_ID");
-	    	 //String userName = (String) session.getAttribute("USER_NAME");
-	    	 obj.setUser_id_fk(user_Id);
+	    	 String userId = (String) session.getAttribute("USER_ID");
+	    	 String userName = (String) session.getAttribute("USER_NAME");
+	    	 String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+	    	 
+	    	 obj.setUser_id_fk(userId);
+	    	 
+	    	 obj.setCreated_by_user_id_fk(userId);
+			 obj.setUser_name(userName);
+			 obj.setDesignation(userDesignation);
+				
 	    	 boolean flag = service.addAlertRemarks(obj);
 	    	 if(flag) {
 	    		 attributes.addFlashAttribute("success", "Remarks addedd successfully.");

@@ -22,16 +22,16 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.RiskDao;
-import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Risk;
-import com.synergizglobal.pmis.model.RiskReport;
 @Repository
 public class RiskDaoImpl implements RiskDao{
 
@@ -46,6 +46,9 @@ public class RiskDaoImpl implements RiskDao{
 	
 	@Autowired
 	MessagesDao messagesDao;
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 
 	@Override
 	public List<Risk> getWorksList(Risk obj) throws Exception {
@@ -95,7 +98,7 @@ public class RiskDaoImpl implements RiskDao{
 	}
 
 	@Override
-	public int[] uploadRiskAssessments(List<Risk> risksList) throws Exception {
+	public int[] uploadRiskAssessments(List<Risk> risksList,Risk risk) throws Exception {
 		Connection con = null;
 		PreparedStatement insertStmt1 = null;
 		PreparedStatement insertStmt = null;
@@ -240,6 +243,19 @@ public class RiskDaoImpl implements RiskDao{
 				}
 				int [] insertCount1 = insertStmt.executeBatch();*/
 				
+			}
+			
+			if(updateCount > 0) {
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(risk.getCreated_by_user_id_fk());
+				formHistory.setUser(risk.getDesignation()+" - "+risk.getUser_name());
+				formHistory.setModule_name("Risk");
+				formHistory.setForm_action_type("Assess Risk");
+				formHistory.setForm_details("Risk Assessment uploaded for "+risk.getSub_work());
+				formHistory.setWork(risk.getWork_id_fk());
+				formHistory.setSub_work(risk.getSub_work());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 
@@ -798,6 +814,18 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 				
 			}
 			
+			if(flag) {
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name("Risk");
+				formHistory.setForm_action_type("Update ATR");
+				formHistory.setForm_details("Updated ATR under "+obj.getSub_work());
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setSub_work(obj.getSub_work());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+			}
 			con.commit();
 		}catch(Exception e){ 
 			con.rollback();

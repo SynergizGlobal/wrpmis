@@ -434,12 +434,17 @@ public class RiskController {
 	@RequestMapping(value = "/upload-risk-assessment", method = {RequestMethod.POST})
 	public ModelAndView uploadRiskAssessment(@ModelAttribute Risk risk,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
-		String userId = null;String userName = null;
 		String msg = "";
 		String[] result = new String[2];
+		String userId = null;
 		try {			
 			userId = (String) session.getAttribute("USER_ID");
-			userName = (String) session.getAttribute("USER_NAME");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			risk.setCreated_by_user_id_fk(userId);
+			risk.setUser_name(userName);
+			risk.setDesignation(userDesignation);
 			
 			User uObj = (User) session.getAttribute("user");
 			risk.setUser_type(uObj.getUser_type_fk());
@@ -507,7 +512,7 @@ public class RiskController {
 	                		return model;
 						}
 						
-						result = uploadRiskAssessment(risk,userId,userName);
+						result = uploadRiskAssessment(risk,userId,userName,userDesignation);
 						attributes.addFlashAttribute("success", result[0]);
 						attributes.addFlashAttribute("assessment_date", result[1]);
 						attributes.addFlashAttribute("sub_work", risk.getSub_work());
@@ -555,7 +560,7 @@ public class RiskController {
 		return model;
 	}
 
-	private String[] uploadRiskAssessment(Risk obj, String userId, String userName)  throws Exception{
+	private String[] uploadRiskAssessment(Risk obj, String userId, String userName, String userDesignation)  throws Exception{
 		Risk risk = null;
 		List<Risk> risksList = new ArrayList<Risk>();
 		
@@ -791,7 +796,7 @@ public class RiskController {
 						
 
 						
-						int[] arr  = riskService.uploadRiskAssessments(risksList);
+						int[] arr  = riskService.uploadRiskAssessments(risksList,obj);
 						
 						/*
 						 * if(arr[0] > 0) { msg = msg + arr[0] + " Risk updated successfully. "; }
@@ -904,10 +909,17 @@ public class RiskController {
 	}
 	
 	@RequestMapping(value = "/update-risk-assessment", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView updateRiskAssessment(@ModelAttribute Risk obj,RedirectAttributes attributes){
+	public ModelAndView updateRiskAssessment(@ModelAttribute Risk obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/risk-atr-update");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			
 			boolean flag = riskService.updateRiskAssessment(obj);
 			if(flag) {

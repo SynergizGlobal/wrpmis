@@ -25,8 +25,8 @@ public class RiskServiceImpl implements RiskService{
 	}
 
 	@Override
-	public int[] uploadRiskAssessments(List<Risk> risksList) throws Exception {
-		return dao.uploadRiskAssessments(risksList);
+	public int[] uploadRiskAssessments(List<Risk> risksList,Risk obj) throws Exception {
+		return dao.uploadRiskAssessments(risksList,obj);
 	}
 
 	@Override

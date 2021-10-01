@@ -141,11 +141,13 @@
                                     <input type="text" class="" value="${issue.work_short_name }" readonly>
                                     <label for="work_id_fk"> Work</label>
                                     <span id="work_id_fkError" class="error-msg" ></span>
+                                    <input id="work_id_fk" name="work_id_fk" type="hidden" class="" value="${issue.work_id_fk }">
                                 </div>
                                 <div class="col s12 m8 l4 input-field offset-m2">           
-                                    <input id="contract_id_fk" name="contract_id_fk" type="text" class="" value="${issue.contract_short_name }" readonly>
-                                    <label for="contract_id_fk"> Contract <span class="required">*</span></label>
-                                    <span id="contract_id_fkError" class="error-msg" ></span>
+                                    <input id="contract_short_name" name="contract_short_name" type="text" class="" value="${issue.contract_short_name }" readonly>
+                                    <label for="contract_short_name"> Contract <span class="required">*</span></label>
+                                    <span id="contract_short_nameError" class="error-msg" ></span>
+                                    <input id="contract_id_fk" name="contract_id_fk" type="hidden" class="" value="${issue.contract_id_fk }">
                                 </div> 
                             </div>
 

@@ -109,7 +109,7 @@ public class ProgressUpdateReportController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 	
-	public static Logger logger = Logger.getLogger(TrainingReportController.class);	
+	public static Logger logger = Logger.getLogger(ProgressUpdateReportController.class);	
 	
 	@Autowired
 	ProgressUpdateReportService service;
@@ -236,7 +236,7 @@ public class ProgressUpdateReportController {
 	
 	@RequestMapping(value = "/generate-progress-update-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateProgressUpdateReport(@ModelAttribute ActivitiesProgressReport obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/training-report");
+		ModelAndView model = new ModelAndView("redirect:/progress-update-report");
 		try{            
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -320,13 +320,13 @@ public class ProgressUpdateReportController {
 						flag = true;
 				    }catch (Exception e) {
 						e.printStackTrace();
-						logger.error("generateCompletedTrainingsReport >> FileNotFoundException occurs.." + e.getMessage());
+						logger.error("generateProgressUpdateReport >> FileNotFoundException occurs.." + e.getMessage());
 						flag = false;
 				    }	
 				 	
 				} catch (Exception e) {
 					e.printStackTrace();
-					logger.error("generateCompletedTrainingsReport >> " + e.getMessage());
+					logger.error("generateProgressUpdateReport >> " + e.getMessage());
 					flag = false;
 				}
 				

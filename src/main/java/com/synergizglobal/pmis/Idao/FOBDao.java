@@ -51,4 +51,6 @@ public interface FOBDao {
 
 	List<FOB> getFobFileTypeList(FOB obj) throws Exception;
 
+	List<FOB> getResponsibleExecutives(FOB obj) throws Exception;
+
 }

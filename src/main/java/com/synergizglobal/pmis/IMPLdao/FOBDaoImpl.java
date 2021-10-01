@@ -173,6 +173,47 @@ public class FOBDaoImpl implements FOBDao {
 		return objsList;
 	}
  	
+ 	
+	@Override
+	public List<FOB> getResponsibleExecutives(FOB obj) throws Exception {
+		List<FOB> objsList = null;
+		try {
+			
+			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk "
+					+ "FROM user u " 
+					+ "left join department d on u.department_fk = d.department "
+					+ "where  user_id is not null and user_type_fk <> ''  and u.user_type_fk not in('Others')  ";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and u.department_fk in( select u.department_fk from contract c left join user u on u.user_id=c.hod_user_id_fk where c.contract_id= ? )";
+				arrSize++;
+			}
+			qry = qry + " and user_name not like '%user%' and pmis_key_fk not like '%SGS%'";// and department_fk in('Engg','Elec','S&T') 
+			
+			qry = qry + " ORDER BY FIELD(user_type_fk,'HOD','DYHOD','Officers ( Jr./Sr. Scale )','Others'),"
+					+ "FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','AGM Civil'," 
+					+ " 'DyCPM Civil','DyCPM III','DyCPM V','DyCE EE','DyCE Badlapur','DyCPM Pune','DyCE Proj','DyCEE I','DyCEE Projects','DyCEE PSI','DyCSTE I','DyCSTE IT','DyCSTE Projects','XEN Consultant'," 
+					+ " 'AEN Adhoc','AEN Project','AEN P-Way','AEN','Sr Manager Signal','Manager Signal','Manager Civil','Manager OHE','Manager GS','Manager Finance','Planning Manager'," 
+					+ " 'Manager Project','Manager','SSE','SSE Project','SSE Works','SSE Drg','SSE BR','SSE P-Way','SSE OHE','SPE','PE','JE','HOD-Elec','HOD-Engg','HOD-S&T')";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			//pValues[i++] = CommonConstants.USER_TYPE_HOD;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	} 	
+ 	
+ 	
+ 	
 	@Override
 	public boolean addFOB(FOB obj) throws Exception {
 		boolean flag = false;

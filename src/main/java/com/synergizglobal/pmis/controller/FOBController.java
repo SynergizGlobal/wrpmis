@@ -511,6 +511,20 @@ public class FOBController {
 		return model;
 	}
 	
+	
+	@RequestMapping(value = "/ajax/getResponsibleExecutives", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FOB> getResponsibleExecutives(@ModelAttribute FOB obj) {
+		List<FOB> dataList = null;  
+		try {
+			dataList = fobService.getResponsibleExecutives(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getResponsibleExecutives : " + e.getMessage());
+		}
+		return dataList;
+	}	
+	
 	@RequestMapping(value="/delete-fob",method=RequestMethod.POST)
 	public ModelAndView deleteFOB(@ModelAttribute FOB obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();

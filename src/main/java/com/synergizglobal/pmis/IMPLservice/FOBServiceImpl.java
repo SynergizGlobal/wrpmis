@@ -129,5 +129,10 @@ public class FOBServiceImpl implements FOBService {
 	public List<FOB> getFobFileTypeList(FOB obj) throws Exception {
 		return fobDao.getFobFileTypeList(obj);
 	}
+	
+	@Override
+	public List<FOB> getResponsibleExecutives(FOB obj) throws Exception {
+		return fobDao.getResponsibleExecutives(obj);
+	}	
 
 }

@@ -16,9 +16,9 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
+	<!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet"> -->
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-<link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+	<!-- <link rel="stylesheet" href="/pmis/resources/css/header-footer.css"> -->
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
@@ -32,7 +32,9 @@
             width: 100%;
             overflow: auto;
         }
-
+		:is(.is-disabled.is-selected) .datepicker-day-button{
+			color:#fff;
+		}
         td {
             position: relative;
         }
@@ -453,6 +455,25 @@
     	    	}
            })
         });  */
+        function datePickerSelectAddClass() {
+            var self = this;
+            setTimeout(function () {
+                var selector = self.el;
+                if (!selector) {
+                    selector = ".datepicker"
+                }
+                $(selector).siblings(".datepicker-modal")
+                    .find(".select-dropdown.dropdown-trigger")
+                    .each((index, item) => {
+                        var dateDropdownID = $(item).attr("data-target");
+                        var dropdownUL = $('#' + dateDropdownID);
+                        dropdownUL.children("li").on("click", () => {
+                            datePickerSelectAddClass();
+                        });
+                        dropdownUL.addClass("datepicker-dropdown-year-month")
+                    });
+            }, 500);
+        };
         
         var year = '';
        	var month = '';
@@ -482,7 +503,7 @@
 	    			minDate:minDate,
 	    			maxDate: new Date(),
 	    			onDraw : function() {disableDates("ondraw")},
-	    			onOpen : function() {disableDates("onopen")},
+	    			onOpen : function() {datePickerSelectAddClass();disableDates("onopen")},
 	    			disableDayFn: function(date){
 		   	    		var string = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 		   	    		var ex_dates = [];
@@ -519,6 +540,10 @@
 	    	}
 	    	M.Datepicker.init(this, options);
 	    });
+	    $('#atr_date_icon1').click(function () {
+            event.stopPropagation();
+            $('#atr_dates1').click();
+        });
 	    
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
@@ -585,7 +610,7 @@
 			  </c:forEach>
 			+'</select></div></td>' */
 			+'<td data-head="ATR Date" class="input-field"> <input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'
-			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button>'
+			+'<button type="button" id="atr_date_icon' + rNo + '" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
 			+'<p id="atr_dates' + rNo + 'Error" class="error-msg" ></p><input type="hidden" id="atr_dates_old' + rNo +'" name="atr_dates_old" value="" /></td>'
 			+'<td data-head="Action Taken" class="input-field"><textarea id="action_takens' + rNo +'"  name="action_takens" '
 			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea><p id="action_takens' + rNo + 'Error" class="error-msg" ></p><textarea style="display:none;" id="action_takens_old' + rNo + '" name="action_takens_old"></textarea></td>'
@@ -618,7 +643,7 @@
 	        	format:'dd-mm-yyyy',
 	        	autoClose:true,
 	   	    	onDraw : function() {disableDates("ondraw")},
-	   	        onOpen : function() {disableDates("onopen")},
+	   	        onOpen : function() {datePickerSelectAddClass(); disableDates("onopen")},
 	   	        onSelect:function(date){
 	   	        	var dates_arr = [];
 	   	        	$("input[name=atr_dates]").each(function(){

@@ -400,72 +400,89 @@
                         	
 							<div class="container container-no-margin  " id="basicDetails">
 							<h5 class="center-align"><span class="div-header">Contract Managers</span></h5>
-								<div class="row" style="margin-bottom: 50px;">
+								<%-- <div class="row" style="margin-bottom: 50px;">
 	                                <div class="col s12 m4 input-field no-box-shadow offset-m2">
-	                                   <!-- <label class="primary-text-bold ">Contract ID : <input id="contract_id" name="contract_id" type="text" value="${contractDeatils.contract_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label> --!>
+	                                   <label class="primary-text-bold ">Contract ID : <input id="contract_id" name="contract_id" type="text" value="${contractDeatils.contract_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
 	                                </div>
-	                            </div>
+	                            </div> --%>
 							
 	                            <div class="row"> 
 	                                <div class="col s6 m4 l3 input-field offset-m2">
-	                                	<p class="searchable_label">Project <span class="required">*</span></p>
-                               			 <input type="text"  value="${contractDeatils.project_id_fk} - ${contractDeatils.project_name}" readonly />
+                               			 <input type="text" id="project_id_fk_temp"  value="${contractDeatils.project_id_fk} - ${contractDeatils.project_name}" readonly />
+                               			 <label for="project_id_fk_temp">Project <span class="required">*</span></label>
                                       	 <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
 	                                </div>
 	                                <div class="col s6 m4 l3 input-field">
-	                                    <p class="searchable_label">Work <span class="required">*</span></p>
-                                    	<input type="text"  value="${contractDeatils.work_id_fk} - ${contractDeatils.work_name}" readonly />
+                                    	<input type="text" id="work_id_fk_temp"  value="${contractDeatils.work_id_fk} - ${contractDeatils.work_name}" readonly />
+                                    	<label for="work_id_fk_temp">Work <span class="required">*</span></label>
                                         <input type="hidden" name="work_id_fk" id="work_id_fk" value="${contractDeatils.work_id_fk}" readonly />
                                     	<input type="hidden" name="work_name" value="${contractDeatils.work_name}" />
                                     	<input type="hidden" name="work_short_name" value="${contractDeatils.work_short_name}" />
 	                                </div>	
-	                                <div class="col s6 m6 l3 input-field pdb10">
-			                                	<p class="searchable_label pd5px">HOD <span class="required">*</span></p>
-		                               			 <c:choose>
-				                                    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
-				                                		 <!-- <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDyHodList();">  -->
-				                                		 <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
-	                                     		  			<option value="">Select</option> 
-			                                                 <%-- <c:forEach var="obj" items="${hodList }"> 
-					                                    	  <option value="${obj.user_id }" <c:if test="${sessionScope.USER_ID eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-					                                        </c:forEach>  --%>  
-	                                            		</select>
-	                                            		<span id="hod_user_id_fkError" class="error-msg" ></span>
-				                                	</c:when>
-				                                 	<c:otherwise>
-				                                 		 <input type="text"  value="${contractDeatils.hod_designation }<c:if test="${not empty contractDeatils.hod_name}"> - </c:if>${contractDeatils.hod_name}"  readonly />
-		                                      	 		 <input type="hidden" name="hod_user_id_fk" id="hod_user_id_fk" value="${contractDeatils.hod_user_id_fk}" readonly />
-				                                 	</c:otherwise>
-				                                 </c:choose>
-		                               			
-			                                </div>
-			                                <div class="col s6 m6 l3 input-field pdb10">
-			                                    <p class="searchable_label pd5px">Dy HOD <span class="required">*</span></p>
-			                                    <c:choose>
-				                                    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
-				                                		  <!-- <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();"> -->
-				                                		  <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" >
-			                                                <option value="">Select</option>
-			                                                 <%--  <c:forEach var="obj" items="${dyHodList }"> 
-					                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-					                                        </c:forEach>   --%> 
-			                                              </select>
-			                                              <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
-				                                	</c:when>
-				                                 	<c:otherwise>
-				                                    	<input type="text"  value="${contractDeatils.dy_hod_designation }<c:if test="${not empty contractDeatils.dy_hod_name}"> - </c:if>${contractDeatils.dy_hod_name}" readonly />
-				                                        <input type="hidden" name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" value="${contractDeatils.dy_hod_user_id_fk}" readonly />
-				                                 	</c:otherwise>
-				                                 </c:choose>
-			                                </div>
+	                                
+	                                <div class="col s6 m2 l3 input-field">
+	                                   <p class="searchable_label">Contract Status</p>
+	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getContractClosureDetails('');getStatusLIst();">
+	                                        <option value="" >Select</option>
+	                                          <c:forEach var="obj" items="${contract_Status }">
+		                                    	 <option value="${obj.contract_status }"<c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
+		                                     </c:forEach>     
+	                                    </select>
+	                                     <span id="contract_status_fkError" class="error-msg" ></span>
+	                                </div>
+	                                 <div class="col s6 m2 l3 input-field">
+	                                   <p class="searchable_label">Status of Work</p>
+	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);setContractStatus();">
+	                                        <option value="" selected>Select</option>
+	                                           <c:forEach var="obj" items="${contract_Statustype }">
+			                                    	<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
+			                                    </c:forEach>
+	                                    </select>
+	                                     <span id="contract_status_fkError" class="error-msg" ></span>
+	                                </div>
+	                                
+	                                
 	                            </div>
-	                             <div class="row">
-	                                <div class="col s12 m8 offset-m2">
-	                                    <div class="row">	                                    
-	                                        
-	                                    </div>
-	                                </div>	
-	                            </div>
+                                <div class="row">	                                    
+                                    <div class="col s6 m4 l6 input-field offset-m2">
+                              			 <p class="searchable_label">HOD <span class="required">*</span></p>
+                            			 <c:choose>
+		                                   <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
+		                               		 <!-- <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDyHodList();"> -->
+                               		 			<select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
+                                 		  			<option value="">Select</option> 
+	                                                <%-- <c:forEach var="obj" items="${hodList }"> 
+				                                    	  <option value="${obj.user_id }" <c:if test="${sessionScope.USER_ID eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+				                                        </c:forEach>  --%>  
+                                        		</select>
+                                        		<span id="hod_user_id_fkError" class="error-msg" ></span>
+			                               	</c:when>
+		                                	<c:otherwise>
+		                                		 <input type="text"  value="${contractDeatils.hod_designation }<c:if test="${not empty contractDeatils.hod_name}"> - </c:if>${contractDeatils.hod_name}"  readonly />
+		                                   	 		 <input type="hidden" name="hod_user_id_fk" id="hod_user_id_fk" value="${contractDeatils.hod_user_id_fk}" readonly />
+		                                	</c:otherwise>
+		                                </c:choose>
+	                              </div>
+	                              <div class="col s6 m4 l6 input-field offset-m2">
+	                                  <p class="searchable_label">Dy HOD <span class="required">*</span></p>
+	                                  <c:choose>
+	                                   <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
+	                               		  <!-- <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();"> -->
+	                               		  <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" >
+	                                              <option value="">Select</option>
+	                                               <%--  <c:forEach var="obj" items="${dyHodList }"> 
+	                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+	                                        </c:forEach>   --%> 
+	                                            </select>
+	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
+		                               	</c:when>
+	                                	<c:otherwise>
+	                                   	<input type="text"  value="${contractDeatils.dy_hod_designation }<c:if test="${not empty contractDeatils.dy_hod_name}"> - </c:if>${contractDeatils.dy_hod_name}" readonly />
+	                                       <input type="hidden" name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" value="${contractDeatils.dy_hod_user_id_fk}" readonly />
+	                                	</c:otherwise>
+	                                </c:choose>
+	                              </div>
+                                </div>
 							
 								<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }"><br> </c:if>
 								
@@ -771,7 +788,7 @@
 	                                     <span id="target_docError" class="error-msg" ></span>
 	                                </div>
 	                                                             
-	                                <div class="col s6 m2 l3 input-field">
+	                                <%-- <div class="col s6 m2 l3 input-field">
 	                                   <p class="searchable_label">Contract Status</p>
 	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getContractClosureDetails('');getStatusLIst();">
 	                                        <option value="" >Select</option>
@@ -790,7 +807,7 @@
 			                                    </c:forEach>
 	                                    </select>
 	                                     <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div>
+	                                </div> --%>
 	                            </div>
 	                            <div class="row" id="contractClosureRadioBtn" style="display: none;">
 	                            	<div class="col s12 m6 input-field offset-m3">

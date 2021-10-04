@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Project {
 	private String project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_description,project_status,attachment
 	,sanctioned_estimated_cost,sanctioned_year_fk,sanctioned_completion_cost,year_of_completion,projected_completion_year,latest_revised_cost,
-	completion_cost,work_short_name,benefits,galleryFileNames,financial_year_fk,pb_item_no,project_pinkbook_id,user_id;
+	completion_cost,work_short_name,benefits,galleryFileNames,financial_year_fk,pb_item_no,project_pinkbook_id,user_id,created_by_user_id_fk,designation,user_name;
 	
 	private String id,file_name,project_id_fk,created_date,created_by,railway,project_file_type_fk,project_file_type,project_file_id;
 	
@@ -21,6 +21,30 @@ public class Project {
 
 	
 	
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
 	public List<Work> getWorkDocs() {
 		return workDocs;
 	}

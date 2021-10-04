@@ -398,10 +398,15 @@ public class FOBController {
 	@RequestMapping(value="/add-fob",method=RequestMethod.POST)
 	public ModelAndView addFOB(@ModelAttribute FOB obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
-		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/fob");
-			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			
 			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));			
 			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));			
@@ -486,10 +491,15 @@ public class FOBController {
 	@RequestMapping(value="/update-fob",method=RequestMethod.POST)
 	public ModelAndView updateFOB(@ModelAttribute FOB obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
-		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/fob");
-			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
 			
 			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));			
 			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));			

@@ -427,9 +427,18 @@ public class ContractController {
 	
 	
 	@RequestMapping(value = "/addcontract", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addContract(@ModelAttribute Contract obj){
+	public ModelAndView addContract(@ModelAttribute Contract obj,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
 			model.setViewName(PageConstants.addContract);	
 			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
 			model.addObject("projectsList", projectsList);
@@ -567,9 +576,17 @@ public class ContractController {
 	}
 	
 	@RequestMapping(value = "/add-contract", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addContract(@ModelAttribute  Contract contract,RedirectAttributes attributes){
+	public ModelAndView addContract(@ModelAttribute  Contract contract,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			contract.setCreated_by_user_id_fk(user_Id);
+			contract.setUser_name(userName);
+			contract.setDesignation(userDesignation);
+			
 			model.setViewName("redirect:/contract");
 			contract.setDoc(DateParser.parse(contract.getDoc()));
 			contract.setCa_date(DateParser.parse(contract.getCa_date()));
@@ -727,9 +744,18 @@ public class ContractController {
 	}
 	
 	@RequestMapping(value = "/update-contract", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView updateWork(@ModelAttribute Contract contract,RedirectAttributes attributes){
+	public ModelAndView updateWork(@ModelAttribute Contract contract,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			contract.setCreated_by_user_id_fk(user_Id);
+			contract.setUser_name(userName);
+			contract.setDesignation(userDesignation);
+			
 			model.setViewName("redirect:/contract");
 
 			contract.setDoc(DateParser.parse(contract.getDoc()));

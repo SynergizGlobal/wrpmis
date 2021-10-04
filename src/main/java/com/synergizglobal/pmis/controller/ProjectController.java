@@ -231,10 +231,17 @@ public class ProjectController {
 	@RequestMapping(value = "/update-project", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView updateProject(@ModelAttribute Project project,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
-		String user_Id = null;String userName = null;
 		try{
-			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			project.setCreated_by_user_id_fk(user_Id);
+			project.setUser_name(userName);
+			project.setDesignation(userDesignation);
+			
 			project.setCreated_by(userName);
+			
 			model.setViewName("redirect:/project");
 			/*
 			 * MultipartFile file = project.getProjectFile(); if (null != file &&
@@ -284,10 +291,17 @@ public class ProjectController {
 	@RequestMapping(value = "/add-project", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addProject(@ModelAttribute  Project project,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
-		String user_Id = null;String userName = null;
 		try{
-			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			project.setCreated_by_user_id_fk(user_Id);
+			project.setUser_name(userName);
+			project.setDesignation(userDesignation);
+			
 			project.setCreated_by(userName);
+			
 			model.setViewName("redirect:/project");
 			/*
 			 * MultipartFile file = project.getProjectFile(); if (null != file &&

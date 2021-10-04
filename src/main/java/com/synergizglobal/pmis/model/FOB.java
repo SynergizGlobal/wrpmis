@@ -10,7 +10,7 @@ public class FOB {
 	detail_name,value,work_id_fk,project_id_fk,revised_completion,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost,
 	project_id,work_id,work_name,work_short_name,status,fob_file_type,fob_file_type_fk,fob_file_id,fob_details_location,fob_details_type,
 	created_date,responsible_people_id_fk,user_id,user_name,designation,department_fk,user_type,existing_work_status_fk,estimated_cost_units,completion_cost_units,message_id,user_role_code,
-	user_type_fk,name,fob_documents_id,fobDoc_file_type;
+	user_type_fk,name,fob_documents_id,fobDoc_file_type,created_by_user_id_fk;
 
 
 
@@ -655,6 +655,14 @@ public class FOB {
 
 	public void setFilecounts(int[] filecounts) {
 		this.filecounts = filecounts;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
 	}
 	
 }

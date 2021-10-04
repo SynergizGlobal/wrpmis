@@ -24,6 +24,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.ContractDao;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
@@ -31,6 +32,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.BankGuarantee;
 import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Insurence;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.User;
@@ -49,6 +51,9 @@ public class ContractDaoImpl implements ContractDao {
 	
 	@Autowired
 	MessagesDao messagesDao;
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	
 	@Override
 	public List<Contract> contractList(Contract obj)throws Exception{
@@ -826,6 +831,17 @@ public class ContractDaoImpl implements ContractDao {
 					msgObj.setMessage(message);
 					messagesDao.addMessages(msgObj,template);
 				}
+				
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(contract.getCreated_by_user_id_fk());
+				formHistory.setUser(contract.getDesignation()+" - "+contract.getUser_name());
+				formHistory.setModule_name("Contract");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("New Contract "+contract.getContract_short_name()+" has been created.");
+				formHistory.setWork(contract.getWork_id_fk());
+				formHistory.setContract(contract.getContract_id());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				/********************************************************************************/
 			}			
 		}catch(Exception e){ 
@@ -2018,6 +2034,17 @@ public class ContractDaoImpl implements ContractDao {
 						messagesDao.addMessages(msgObj,template);
 					}
 					/********************************************************************************/
+					
+					FormHistory formHistory = new FormHistory();
+					formHistory.setCreated_by_user_id_fk(contract.getCreated_by_user_id_fk());
+					formHistory.setUser(contract.getDesignation()+" - "+contract.getUser_name());
+					formHistory.setModule_name("Contract");
+					formHistory.setForm_action_type("Update");
+					formHistory.setForm_details("Contract "+contract.getContract_short_name() + " has been updated.");
+					formHistory.setWork(contract.getWork_id_fk());
+					formHistory.setContract(contract.getContract_id());
+					
+					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				}
 				
 		}catch(Exception e){ 

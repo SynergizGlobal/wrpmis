@@ -23,6 +23,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.ProjectDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
@@ -30,6 +31,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Year;
@@ -48,6 +50,9 @@ public class ProjectDaoImpl implements ProjectDao {
 	
 	@Autowired
 	MessagesDao messagesDao;
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 
 	@Override
 	public List<Project> getProjectList(Project project) throws Exception {
@@ -417,6 +422,15 @@ public class ProjectDaoImpl implements ProjectDao {
 						}
 					}
 				}
+				
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(project.getCreated_by_user_id_fk());
+				formHistory.setUser(project.getDesignation()+" - "+project.getUser_name());
+				formHistory.setModule_name("Project");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("Project "+project.getProject_name() + " has been updated.");
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -597,6 +611,15 @@ public class ProjectDaoImpl implements ProjectDao {
 					messagesDao.addMessages(msgObj,template);
 				}
 				/********************************************************************************/
+				
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(project.getCreated_by_user_id_fk());
+				formHistory.setUser(project.getDesignation()+" - "+project.getUser_name());
+				formHistory.setModule_name("Project");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("New Project "+project.getProject_name() + " has been created.");
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 

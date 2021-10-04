@@ -132,6 +132,7 @@
 		.lh{
 			line-height:inherit;
 		}
+		.fs11px{font-size: 11px !important;}
 		@media only screen and (max-width: 768px){
 			/* table datepicker , select2 dropdown , table column and update , cancel buttons styling for mobile versions */
 			#revisionsTableBody tr .input-field .datepicker~button {
@@ -250,7 +251,7 @@
 						    <div class="container container-no-margin">
 						    <c:if test="${action eq 'add'}">	
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label"> Project <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                     onchange="getWorksList(this.value);">
@@ -261,7 +262,7 @@
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
@@ -272,11 +273,11 @@
                                     </select>
                                       <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                            </div>
+                            
                             </c:if>
  							<c:if test="${action eq 'edit'}">	
 	                             <div class="row">
-	                                <div class="col s6 m4 input-field offset-m2">
+	                                <div class="col s6 m4 l4 input-field offset-m2">
 	                                    <input type="text" value="${designDetails.project_id_fk}- ${designDetails.project_name}" readonly />
 								    	<label for="project_id_fk">Project <span class="required">*</span></label>
 								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="${designDetails.project_id_fk}" readonly />
@@ -286,11 +287,11 @@
 	                                	<label for="work_id_fk">Work <span class="required">*</span></label>
 	                                	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${designDetails.work_id_fk}" readonly />
 	                                </div>
-	                            </div>
+	                            
                             </c:if>
-                            <div class="row">
+                            
                                 <c:if test="${action eq 'add'}">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label">Contract <span class="required">*</span></p>
                                      <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" 
                                      	onchange="resetWorksAndProjectsDropdowns();">
@@ -303,13 +304,13 @@
                                 </div>
                                 </c:if>
                                 <c:if test="${action eq 'edit'}">
-                                	<div class="col s6 m4 input-field offset-m2"> 
+                                	<div class="col s6 m4 l4 input-field offset-m2"> 
 	                                    <input type="text" value="${designDetails.contract_id_fk}- ${designDetails.contract_short_name}" readonly />
 									    <label for="contract_id_fk"> Contract <span class="required">*</span></label>
 									    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${designDetails.contract_id_fk}" readonly />
 	                                </div>
                                 </c:if>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Department <span class="required">*</span></p>
                                      <select name="department_id_fk" id="department_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
@@ -319,10 +320,8 @@
                                     </select>
                                      <span id="department_id_fkError" class="error-msg" ></span>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                           
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label">Consultant Contract </p>
                                     <select name="consultant_contract_id_fk" id="consultant_contract_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
@@ -332,7 +331,7 @@
                                     </select>
                                      <span id="consultant_contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label fs-sm-67rem ">Proof Consultant Contract </p>
                                     <select id="proof_consultant_contract_id_fk" name="proof_consultant_contract_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
@@ -346,20 +345,17 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="hod" type="text" class="validate" name="hod" value="${designDetails.hod }">
                                     <label for="hod">HOD <span class="required">*</span></label>
                                     <span id="hodError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="dy_hod" type="text" class="validate" name="dy_hod" value="${designDetails.dy_hod }">
                                     <label for="dy_hod">Dy HOD <span class="required">*</span></label>
                                     <span id="dy_hodError" class="error-msg" ></span>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label">Prepared By <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="prepared_by_id_fk" id="prepared_by_id_fk">
                                         <option value="" selected>Select</option>
@@ -369,7 +365,11 @@
                                     </select>
                                     <span id="prepared_by_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                            </div>
+
+                            <div class="row">
+                                
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Structure <span class="required">*</span></p>
                                     <select id="structure_type_fk" name="structure_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
@@ -379,14 +379,11 @@
                                     </select>
                                     <span id="structure_type_fkError" class="error-msg" ></span>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="component" type="text" class="validate" name="component" value="${designDetails.component }">
                                     <label for="component">Component </label>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label" >Drawing Type <span class="required">*</span></p>
                                     <select id="drawing_type_fk" name="drawing_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
@@ -399,7 +396,11 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12 m8 l12 input-field offset-m2">
                                     <textarea id="drawing_title" name="drawing_title" class="pmis-textarea" data-length="1000">${designDetails.drawing_title }</textarea>
                                     <label for="drawing_title">Drawing Title <span class="required">*</span></label>
                                      <span id="drawing_titleError" class="error-msg" ></span>
@@ -407,14 +408,14 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l6 input-field offset-m2">
                                     <input id="planned_start" name="planned_start" type="text" class="validate datepicker" value="${designDetails.planned_start }">
                                     <label for="planned_start">Planned Start </label>
                                     <button type="button" id="planned_start_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="planned_startError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l6 input-field">
                                     <input id="planned_finish" name="planned_finish" type="text" class="validate datepicker" value="${designDetails.planned_finish }">
                                     <label for="planned_finish">Planned Finish </label>
                                     <button type="button" id="planned_finish_icon" class="datepicker-button"><i
@@ -424,12 +425,12 @@
                             </div>
                            <!--  newly added code starts here  -->
                              <div class="row" style="margin-bottom:20px" >
-                                <div class="col s12 m4 input-field center-align offset-m2">
+                                <div class="col s12 m4 l6 input-field center-align offset-m2">
                                     <p class="priokind">Clearance to Consultant ?   
                                     	<i class="fa fa-info-circle tooltipped" data-position="bottom" data-tooltip='If GAD for the structure is approved and handedover to consultant then  write "Yes" else "No" '></i>
                                     </p>   
                                 </div>                           
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l6 input-field">
                                     <p class="radiogroup">
                                         <label>
                                             <input class="with-gap" name="clearance_to_consultant" type="radio"
@@ -448,24 +449,21 @@
 							<!--  newly added code ends here  -->
                              
                              <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l3 input-field offset-m2">
                                     <input id="contractor_drawing_no" name="contractor_drawing_no" type="text" class="validate" value="${designDetails.contractor_drawing_no }">
                                     <label for="contractor_drawing_no" class="fs-sm-8rem">Contractor Drawing No </label>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l3 input-field">
                                     <input id="consultant_submission" name="consultant_submission" type="text" class="validate datepicker" value="${designDetails.consultant_submission }">
                                     <label for="consultant_submission" class="fs-sm-8rem">Consultant Submission </label>
                                     <button type="button" id="consultant_submission_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="consultant_submissionError" class="error-msg" ></span>
                                 </div>
-                            </div>
-                          
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l3 input-field offset-m2">
                                     <input id="mrvc_drawing_no" name="mrvc_drawing_no" type="text" class="validate" value="${designDetails.mrvc_drawing_no }">
                                     <label for="mrvc_drawing_no">MRVC Drawing No </label>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l3 input-field">
                                     <input id="mrvc_reviewed" name="mrvc_reviewed" type="text" class="validate datepicker" value="${designDetails.mrvc_reviewed }">
                                     <label for="mrvc_reviewed">MRVC Reviewed </label>
                                     <button type="button" id="mrvc_reviewed_icon" class="datepicker-button"><i
@@ -473,13 +471,16 @@
                                     <span id="mrvc_reviewedError" class="error-msg" ></span>
                                 </div>
                             </div>
+                          
+                            <div class="row">
+                                
+                            </div>
                             
-                            <div class="row mb-md-20">
-                                <div class="col m2 hide-on-small-only"></div>  
-                                <div class="col s12 m4 input-field center-align">
+                            <div class="row mb-md-20">  
+                                <div class="col s12 m4 l6 input-field center-align">
                                     <p class="priokind">Divisional submission ?</p>   
                                 </div>                           
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l6 input-field">
                                     <p class="radiogroup">
                                         <label>
                                             <input class="with-gap" name="divisional_submission_fk" type="radio"
@@ -499,20 +500,20 @@
                              
                               <div class="divisional_submission_fk" style="display:none;">
                               <div class="row">
-                                <div class="col s12 m8 offset-m2">
+                                <div class="col s12 m8 l12 offset-m2">
                                 	<div class="row">                                
-		                                <div class="col s6 m4 input-field" >
+		                                <div class="col s6 m4 l4 input-field" >
 		                                    <input id="division_drawing_no" name="division_drawing_no" type="text" class="validate" value="${designDetails.division_drawing_no }">
 		                                    <label for="division_drawing_no" class="fs-sm-8rem"> Divisional Drawing No</label>
 		                                </div>
-		                                <div class="col s6 m4 input-field" >
+		                                <div class="col s6 m4 l4 input-field" >
 		                                    <input id="submitted_to_division" name="submitted_to_division" type="text" class="validate datepicker" value="${designDetails.submitted_to_division }">
 		                                    <label for="submitted_to_division" class="fs-sm-8rem">Submitted to Division </label>
 		                                    <button type="button" id="submitted_to_division_icon" class="datepicker-button"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="submitted_to_divisionError" class="error-msg" ></span>
 		                                </div>
-		                                <div class="col s6 m4 input-field" >
+		                                <div class="col s6 m4 l4 input-field" >
 		                                    <input id="divisional_approval" name="divisional_approval" type="text" class="validate datepicker" value="${designDetails.divisional_approval }">
 		                                    <label for="divisional_approval" class="fs-sm-8rem">Divisional Approval </label>
 		                                    <button type="button" id="divisional_approval_icon" class="datepicker-button"><i
@@ -524,14 +525,14 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                </div>
                                <div class="row hide-on-med-and-down">
-	                                <div class="col s12 m4 input-field offset-m2" >
+	                                <div class="col s12 m4 l6 input-field offset-m2" >
 	                                    <input id="query_raised_by_division" name="query_raised_by_division" type="text" class="validate datepicker" value="${designDetails.query_raised_by_division }">
 	                                    <label for="query_raised_by_division">Query Raised By Division </label>
 	                                    <button type="button" id="query_raised_by_division_icon" class="datepicker-button"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="query_raised_by_divisionError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s12 m4 input-field" >
+	                                <div class="col s12 m4 l6 input-field" >
 	                                    <input id="query_replied_to_division" name="query_replied_to_division" type="text" class="validate datepicker" value="${designDetails.query_replied_to_division }">
 	                                    <label for="query_replied_to_division">Query Replied to  Division  </label>
 	                                    <button type="button" id="query_replied_to_division_icon" class="datepicker-button"><i
@@ -542,10 +543,10 @@
 							</div>
 							
                              <div class="row" style="margin-bottom:20px">
-                                <div class="col s12 m4 input-field center-align offset-m2">
+                                <div class="col s12 m4 l6 input-field center-align offset-m2">
                                     <p class="priokind">HQ submission ?</p>  
                                 </div>                               
-                                <div class="col s12 m4 input-field">                                    
+                                <div class="col s12 m4 l6 input-field">                                    
                                     <p class="radiogroup">
                                         <label>
                                             <input class="with-gap" name="hq_submission_fk" type="radio"
@@ -564,20 +565,20 @@
                                  
                             <div class="hq_submission_fk" style="display:none;">
                             <div class="row">
-                                <div class="col s12 m8 offset-m2">
+                                <div class="col s12 m8 l12 offset-m2">
                                 	<div class="row">           
-		                                <div class="col s6 m4 input-field " >
+		                                <div class="col s6 m4 l4 input-field " >
 		                                    <input id="hq_drawing_no" name="hq_drawing_no" type="text" class="validate" value="${designDetails.hq_drawing_no }">
 		                                    <label for="hq_drawing_no"> HQ Drawing No </label>
 		                                </div>
-		                                <div class="col s6 m4 input-field " >
+		                                <div class="col s6 m4 l4 input-field " >
 		                                    <input id="hq_submission" name="submitted_to_hq" type="text" class="validate datepicker" value="${designDetails.submitted_to_hq }">
 		                                    <label for="hq_submission" class="fs-sm-8rem">Submitted to HQ</label>
 		                                    <button type="button" id="hq_submission_icon" class="datepicker-button"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="hq_submissionError" class="error-msg" ></span>
 		                                </div>
-		                                <div class="col s6 m4 input-field ">
+		                                <div class="col s6 m4 l4 input-field ">
 		                                    <input id="hq_approval" name="hq_approval" type="text" class="validate datepicker" value="${designDetails.hq_approval }">
 		                                    <label for="hq_approval">HQ Approval </label>
 		                                    <button type="button" id="hq_approval_icon" class="datepicker-button"><i
@@ -588,16 +589,15 @@
 		                        </div>
                                 <div class="col m2 hide-on-small-only"></div>
                                 </div>
-                                <div class="row hide-on-med-and-down">
-                                	<div class="col m2 hide-on-small-only"></div>                                         
-	                                <div class="col s12 m4 input-field" >
+                                <div class="row hide-on-med-and-down">                                        
+	                                <div class="col s12 m4 l6 input-field" >
 	                                    <input id="query_raised_by_hq" name="query_raised_by_hq" type="text" class="validate datepicker" value="${designDetails.query_raised_by_hq }">
 	                                    <label for="query_raised_by_hq">Query Raised By HQ </label>
 	                                    <button type="button" id="query_raised_by_hq_icon" class="datepicker-button"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="query_raised_by_hqError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s12 m4 input-field" >
+	                                <div class="col s12 m4 l6 input-field" >
 	                                    <input id="query_replied_to_hq" name="query_replied_to_hq" type="text" class="validate datepicker" value="${designDetails.query_replied_to_hq }">
 	                                    <label for="query_replied_to_hq">Query Replied to  HQ </label>
 	                                    <button type="button" id="query_replied_to_hq_icon" class="datepicker-button"><i
@@ -609,10 +609,10 @@
                             </div>
                             
                             <div class="row hide-on-med-and-down" style="margin-bottom:20px">
-                            <div class="col s12 m4 input-field center-align offset-m2 ">
+                            <div class="col s12 m4 l6 input-field center-align offset-m2 ">
                                 <p class="priokind">CRS Sanction required ?</p>  
                             </div>                               
-                            <div class="col s12 m4 input-field">                                    
+                            <div class="col s12 m4 l6 input-field">                                    
                                 <p class="radiogroup">
                                     <label>
                                         <input class="with-gap" name="crs_sanction_fk" type="radio"
@@ -631,53 +631,51 @@
                         </div>
                           <div class="crs_sanction_fk" style="display:none;">
                             	<div class="row">
-		                                <div class="col s6 m4 input-field offset-m2" >
+		                                <div class="col s6 m4 l3 input-field offset-m2" >
 		                                    <input id="submitted_for_crs_sanction" name="submitted_for_crs_sanction" type="text" class="validate datepicker" value="${designDetails.submitted_for_crs_sanction }">
-		                                    <label for="submitted_for_crs_sanction">Submitted for CRS Sanction </label>
+		                                    <label for="submitted_for_crs_sanction" class="fs11px">Submitted for CRS Sanction </label>
 		                                    <button type="button" id="submitted_for_crs_sanction_icon" class="datepicker-button"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="submitted_for_crs_sanctionError" class="error-msg" ></span>
 		                                </div>
-		                                <div class="col s6 m4 input-field ">
+		                                <div class="col s6 m4 l3 input-field ">
 		                                    <input id="query_raised_for_crs_sanction" name="query_raised_for_crs_sanction" type="text" class="validate datepicker" value="${designDetails.query_raised_for_crs_sanction }">
-		                                    <label for="query_raised_for_crs_sanction">Query Raised for CRS  Sanction </label>
+		                                    <label for="query_raised_for_crs_sanction" class="fs11px">Query Raised for CRS  Sanction </label>
 		                                    <button type="button" id="query_raised_for_crs_sanction_icon" class="datepicker-button"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="query_raised_for_crs_sanctionError" class="error-msg" ></span>
 		                                </div>
-                                </div>
-                                <div class="row">
-	                                <div class="col s6 m4 input-field offset-m2" >
+		                                <div class="col s6 m4 l3 input-field offset-m2" >
 	                                    <input id="query_replied_for_crs_sanction" name="query_replied_for_crs_sanction" type="text" class="validate datepicker" value="${designDetails.query_replied_for_crs_sanction }">
-	                                    <label for="query_replied_for_crs_sanction">Query Replyied for CRS Sanction </label>
+	                                    <label for="query_replied_for_crs_sanction" class="fs11px">Query Replyied for CRS Sanction </label>
 	                                    <button type="button" id="query_replied_for_crs_sanction_icon" class="datepicker-button"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="query_replied_for_crs_sanctionError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s6 m4 input-field" >
+	                                <div class="col s6 m4 l3 input-field" >
 	                                    <input id="crs_sanction_approved" name="crs_sanction_approved" type="text" class="validate datepicker" value="${designDetails.crs_sanction_approved }">
-	                                    <label for="crs_sanction_approved">CRS Sanction Approved </label>
+	                                    <label for="crs_sanction_approved" class="fs11px">CRS Sanction Approved </label>
 	                                    <button type="button" id="crs_sanction_approved_icon" class="datepicker-button"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="crs_sanction_approvedError" class="error-msg" ></span>
-	                                </div>		                            
+	                                </div>
+                                </div>
+                                <div class="row">
+	                                		                            
                               </div>
                             </div>   
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l3 input-field offset-m2">
                                     <input id="revision" name="revision" type="text" class="validate" value="${designDetails.revision }">
                                     <label for="revision">Revision</label>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l3 input-field">
                                     <input id="gfc_released" name="gfc_released" type="text" class="validate datepicker" value="${designDetails.gfc_released }">
                                     <label for="gfc_released">GFC Released </label>
                                     <button type="button" id="gfc_released_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="gfc_releasedError" class="error-msg" ></span>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l3 input-field offset-m2">
                                     <p class="searchable_label mt-md-0 lh">As Built Drawing Status</p>
                                     <select name="as_built_status" id="as_built_status" class="searchable">
                                         <option value="" selected>Select</option>
@@ -686,13 +684,17 @@
 		                                    </c:forEach>
                                     </select>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l3 input-field">
                                     <input id="as_built_date" name="as_built_date" type="text" class="validate datepicker" value="${designDetails.as_built_date }">
                                     <label for="as_built_date" class="fs-sm-8rem">As Built Drawing Date </label>
                                     <button type="button" id="as_built_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="as_built_dateError" class="error-msg" ></span>
                                 </div>
+                            </div>
+
+                            <div class="row">
+                                
                             </div>
 		</div>
                             <!-- insurance show hide div  -->
@@ -839,7 +841,7 @@
  						<div class="container container-no-margin">
                             <div class="row" style="margin-top: 20px;">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
+                                <div class="col l12 m8 s12">
                                     <div class="row">
                                     
 		                           <div class="col s12 m6">
@@ -916,8 +918,7 @@
                             <div id="issue_yes" style="display: none;">
                                 <div class="row" style="margin-bottom:20px">
                                     <h6 class="center-align" style="color:#007A7A;font-weight:600">Issue Details </h6>
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <div class="col m8 s12">
+                                    <div class="col l12 m8 s12">
                                         <div class="row">
                                             <div class="col s12 m6 input-field issue-mar">
                                                 <p class="searchable_label">Issue Category</p>
@@ -954,8 +955,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <div class="col s12 m8 input-field">
+                                    <div class="col s12 m8 l12 input-field">
                                         <textarea id="issue_description" name="issue_description" class="pmis-textarea"
                                             data-length="500"></textarea>
                                         <label for="issue_description">Issue Description</label>
@@ -964,14 +964,13 @@
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 l12 input-field">
                                     <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${designDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s6 offset-m2 m4 mt-brdr">
+                                <div class="col s6 offset-m2 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
                                        <c:if test="${action eq 'edit'}">
 	                                       <button type="button" onclick="updateDesign();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -981,7 +980,7 @@
 	                                    </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr">
+                                <div class="col s6 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath() %>/design" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>

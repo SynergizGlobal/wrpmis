@@ -39,9 +39,15 @@
 		.modal-header {
 		    background-color: #007a7a;
    		}
+   		.modal .modal-content.datepicker-container{
+   			padding:0 !important;
+   		}
 		@media screen and (min-width: 1024px){
 			.w-12p.last-column {
 			    width: 30%;
+			}			
+			.preview-modal .datepicker-modal.open{
+				width:65%;
 			}
 		}
 	</style>
@@ -350,10 +356,11 @@
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/pmis/resources/js/datepickerDepedency.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 	<script>
-	 	
+	/*  	
 		let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
@@ -364,7 +371,7 @@
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
 	    	}
 	    	M.Datepicker.init(this, options);
-	    });
+	    }); */
     
 		$(document).ready(function() {
 			$('.collapsible').collapsible();

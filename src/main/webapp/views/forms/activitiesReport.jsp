@@ -187,21 +187,33 @@
 	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	<script>
- /*      $(document).on('focus', '.datepicker',function(){
-	        $(this).datepicker({
-	        	format:'dd-mm-yyyy',
-	   	    	onSelect: function () {
-	   	    	   $('.confirmation-btns .datepicker-done').click();
-	   	    	}
-	        })
-	    }); */
+
+	  var datePickerSelectAddClass = function () {
+        var self = this;
+        setTimeout(function () {
+            var selector = self.el;
+            if (!selector) {
+                selector = ".datepicker"
+            }
+            $(selector).siblings(".datepicker-modal")
+                .find(".select-dropdown.dropdown-trigger")
+                .each((index, item) => {
+                    var dateDropdownID = $(item).attr("data-target");
+                    var dropdownUL = $('#' + dateDropdownID);
+                    dropdownUL.children("li").on("click", () => {
+                        datePickerSelectAddClass();
+                    });
+                    dropdownUL.addClass("datepicker-dropdown-year-month")
+                });
+        }, 500);
+	  };
 	  var filtersMap = new Object();
 	  var today = new Date();
       let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
-	    	var options = {format: 'dd-mm-yyyy',endDate: "today", maxDate: today,autoClose:true};
+	    	var options = {format: 'dd-mm-yyyy', endDate: "today", maxDate: today, autoClose:true, onOpen:datePickerSelectAddClass };
 	    	if(dt.length > 1){
 	    		options.setDefaultDate = true,
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
@@ -212,7 +224,15 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            var filters = window.localStorage.getItem("activitiesReportFilters");
+            $('#from_date_icon').click(function () {
+                event.stopPropagation();
+                $('#from_date').click();
+            });
+            $('#to_date_icon').click(function () {
+                event.stopPropagation();
+                $('#to_date').click();
+            });
+			filters = window.localStorage.getItem("activitiesReportFilters");
             
             if($.trim(filters) != '' && $.trim(filters) != null){
           	  var temp = filters.split('^'); 

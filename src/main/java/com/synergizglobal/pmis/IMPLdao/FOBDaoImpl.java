@@ -26,13 +26,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.FOBDao;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FOB;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Messages;
 
 @Repository
@@ -48,6 +49,9 @@ public class FOBDaoImpl implements FOBDao {
 	
 	@Autowired
 	MessagesDao messagesDao;
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	
 	@Override
 	public List<FOB> getFOBList(FOB obj) throws Exception {
@@ -473,6 +477,15 @@ public class FOBDaoImpl implements FOBDao {
 					}
 					/********************************************************************************/
 				
+					FormHistory formHistory = new FormHistory();
+					formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+					formHistory.setModule_name("FOB");
+					formHistory.setForm_action_type("Add");
+					formHistory.setForm_details("FOB "+obj.getFob_name() + " has been created.");
+					formHistory.setWork(obj.getWork_id_fk());
+					
+					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 
@@ -943,6 +956,15 @@ public class FOBDaoImpl implements FOBDao {
 				}
 				/********************************************************************************/
 				
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name("FOB");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details("FOB "+obj.getFob_name() + " has been updated.");
+				formHistory.setWork(obj.getWork_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 

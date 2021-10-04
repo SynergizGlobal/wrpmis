@@ -729,6 +729,7 @@
     
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
@@ -737,14 +738,25 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
-	   /*  $(document).on('focus', '.datepicker',function(){
-	        $(this).datepicker({
-	        	format:'dd-mm-yyyy',
-	   	    	onSelect: function () {
-	   	    	   $('.confirmation-btns .datepicker-done').click();
-	   	    	}
-	        })
-	    }); */
+	    var datePickerSelectAddClass = function () {
+	        var self = this;
+	        setTimeout(function () {
+	            var selector = self.el;
+	            if (!selector) {
+	                selector = ".datepicker"
+	            }
+	            $(selector).siblings(".datepicker-modal")
+	                .find(".select-dropdown.dropdown-trigger")
+	                .each((index, item) => {
+	                    var dateDropdownID = $(item).attr("data-target");
+	                    var dropdownUL = $('#' + dateDropdownID);
+	                    dropdownUL.children("li").on("click", () => {
+	                        datePickerSelectAddClass();
+	                    });
+	                    dropdownUL.addClass("datepicker-dropdown-year-month")
+	                });
+	        }, 500);
+	    };
 	   
 	    var filtersMap = new Object();
 	    var structureVal = "";
@@ -802,7 +814,7 @@
               //  max: new Date(),
                 format: 'dd-mmm-yy',
                 autoClose:true,
-
+                onOpen: datePickerSelectAddClass              
             });
             $('#progress_date_icon').click(function () {
                 event.stopPropagation();

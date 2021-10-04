@@ -228,15 +228,12 @@
                                     <label for="ledger_account">Ledger Account</label>
                                     <span id="ledger_accountError" class="error-msg" ></span>
                                 </div>
-                               
-                           
-
-                            
+                                         
                              	<div class="col s12 m4 l4 input-field">
                                     <input id="date" type="text" name="date" class="validate datepicker" value="${expenditureDetails.date }">
                                     <label for="date">Date <span class="required">*</span></label>
                                     <span id="dateError" class="error-msg" ></span>
-                                    <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label">Voucher Type <span class="required">*</span></p>
@@ -514,6 +511,7 @@
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
@@ -527,8 +525,8 @@
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
 	        })
-	    }); */
-	    let date_pickers = document.querySelectorAll('.datepicker');
+	    }); 
+	  let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
@@ -538,7 +536,7 @@
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
 	    	}
 	    	M.Datepicker.init(this, options);
-	    });
+	    }); */
 
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
@@ -546,10 +544,10 @@
             $('#remarks').characterCounter();
            /*  $("#date").datepicker(); */
 
-            $('#date_icon').click(function () {
+          /*   $('#date_icon').click(function () {
                 event.stopPropagation();
                 $('#date').click();
-            });
+            }); */
             var projectId = "${expenditureDetails.project_id_fk}";
             if($.trim(projectId) != ''){
             	getWorksList(projectId);

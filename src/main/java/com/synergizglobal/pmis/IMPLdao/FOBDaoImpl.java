@@ -856,8 +856,11 @@ public class FOBDaoImpl implements FOBDao {
 								fileObj.setContract_id_fk(obj.getContracts_id_fk()[i]);
 								if(i==(len-1) && len>1)
 								{
-									String SplitVar[]=obj.getResponsible_people_id_fk().split(",");
-									fileObj.setResponsible_people_id_fk(SplitVar[j]);
+								/*
+								 * String SplitVar[]=obj.getResponsible_people_id_fk().split(",");
+								 * fileObj.setResponsible_people_id_fk(SplitVar[j]);
+								 */
+									fileObj.setResponsible_people_id_fk((obj.getResponsible_people_id_fks().length > 0)?obj.getResponsible_people_id_fks()[r]:null);
 								}
 								else
 								{

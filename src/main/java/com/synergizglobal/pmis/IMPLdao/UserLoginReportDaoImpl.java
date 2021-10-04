@@ -29,7 +29,7 @@ public class UserLoginReportDaoImpl implements UserLoginReportDao{
 					"FROM user_login_details left join user u on user_id_fk = u.user_id  " + 
 					"left join user u2 on u2.user_id = u.reporting_to_id_srfk " + 
 					"left join department on u.department_fk = department " + 
-					"where user_id_fk like 'PMIS_%' and login_date_time >= DATE(NOW()) - INTERVAL 7 DAY " + 
+					"where u.department_fk IS NOT NULL and u.department_fk <> '' and user_id_fk like 'PMIS_%' and login_date_time >= DATE(NOW()) - INTERVAL 7 DAY " + 
 					"group by department_name " + 
 					"order by department_name, u2.designation, u.designation";
 			

@@ -68,14 +68,15 @@
 							</div>
 						</c:if>
 						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message error">
+							<div class="center-align m-1 close-message error" id="oldpassworderror">
 							   ${error}
 							</div>
 						</c:if>
                     	<br>
                     	
                         <form action="<%=request.getContextPath()%>/change-password" id="passwordResetForm" name="passwordResetForm" method="post">
-                        	<div id="accessMsg" style="text-align:center;color:red;font-size:24px;height:20px;"></div>
+                        	<div id="accessMsg" style="text-align:center;color:red;font-size:24px;height:30px;"></div>
+                        	
                             <div class="row">
                                 <div class="col s12 m6 l4 offset-l4 input-field offset-m3">
                                     <input type="password" id="oldPassword" name="oldPassword" class="validate" autocomplete="off">
@@ -107,14 +108,14 @@
                             <br>
                              We have sent OTP to your Email Id. Please enter the OTP here to reset your password.
                              <br>
-                                <div class="col s12 m6 l4 offset-l4 input-field offset-m3 ">
-                                    <input class="" type="tel" maxlength="6" value="" style="width: 80%; text-align: center;" id="otpvalue">
-                                    <label for="otp">OTP</label>
+                                <div class="col s12 m6 l4 offset-l4 input-field offset-m3">
+                                    <input type="password" id="otpvalue" name="otpvalue"  maxlength="6" class="validate" autocomplete="off" >
+                                    <label for="newPassword">OTP</label>
                                 </div>
                                 <div class="col s12 m6 l4 offset-l4 input-field offset-m3 ">
                                         <button type="button" class="btn waves-effect waves-light bg-m" style="width: 100%;" id="btnCheckotp" onClick="CheckOTP();">Check OTP</button>
 
-                                </div>                                
+                                </div> 
                             </div> 
                             <div style="text-align:center;color:red;" id="otpmessage">
                             
@@ -208,30 +209,41 @@
 	                         }, 1000);
 	                     }
 	                 },submitHandler:function(form){
-	                	
-	                	 if(glbProcess==false)
-	                		 {
-			                	 $("#divOTP").show();
-			                	 $("#divbtnchp").hide();
-			                	 
-			                	 var OTP=generateOTP();
-			                	 $("#hdnPass").val(OTP);
-			                	 
-			                	 var myParams = { OTP: OTP };
-			                	 
-			                	 $.ajax({
-			                         url: "<%=request.getContextPath()%>/ajax/sendOTPtomail",
-			                         data: myParams, cache: false,
-			                         success: function (data) 
-			                         {
-			                             
-			                         }
-			                     });
-	                		 }
-	                	 else
-	                		 {
-	                		 	form.submit();
-	                		 }
+	                	if(checkLoggedInUserPassword()==true)
+	                		{
+	                			$("#accessMsg").html("");
+		                       	 $("#oldPassword").prop("readonly", true);
+		                    	 $("#newPassword").prop("readonly", true);
+		                    	 $("#confirmPassword").prop("readonly", true);	                			
+	                			
+			                	 if(glbProcess==false)
+			                		 {
+					                	 $("#divOTP").show();
+					                	 $("#divbtnchp").hide();
+					                	 
+					                	 var OTP=generateOTP();
+					                	 $("#hdnPass").val(OTP);
+					                	 
+					                	 var myParams = { OTP: OTP };
+					                	 
+					                	 $.ajax({
+					                         url: "<%=request.getContextPath()%>/ajax/sendOTPtomail",
+					                         data: myParams, cache: false,
+					                         success: function (data) 
+					                         {
+					                             
+					                         }
+					                     });
+			                		 }
+			                	 else
+			                		 {
+			                		 	form.submit();
+			                		 }
+	                	}
+	                	else
+                		{
+	                		$("#accessMsg").html("You have entered wrong old password.");
+                		}
 	                	 
 				    }
 				});  
@@ -296,6 +308,8 @@
 		    	  }	
 		    });	
 	         
+	        
+	        
 	        function CheckOTP()
 	        {
         		if($("#hdnPass").val()!=$("#otpvalue").val())
@@ -313,6 +327,27 @@
 	            	glbProcess=true;
 	        	}       		
 	        }
+	        
+	        function checkLoggedInUserPassword()
+	        {
+	        	var bool = false;
+	           	 $.ajax({
+	                 url: "<%=request.getContextPath()%>/ajax/checkLoggedInUserPassword",
+	                 data: {password:$("#oldPassword").val()},type: 'POST',
+	                 async: false,
+	                 dataType: 'json',
+	                 success: function (data) 
+	                 {
+	                	 if (data == true) {
+	                         bool = true;
+	                     }
+	                 }
+	             });
+	           	return trueOrFalse(bool);
+	        }
+	        function trueOrFalse(bool){
+	            return bool;
+	    	}
 	        
 	        function checkLoggedInUserEmail()
 	        {

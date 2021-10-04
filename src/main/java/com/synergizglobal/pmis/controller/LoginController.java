@@ -348,6 +348,22 @@ public class LoginController {
 			return false;
 		}
 		return true;
+	}
+	
+	@RequestMapping(value = "/ajax/checkLoggedInUserPassword", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public static boolean checkLoggedInUserPassword(String password,HttpSession session) 
+	{
+		boolean process=false;
+		User loginuser = (User)session.getAttribute("user");
+		if (!StringUtils.isEmpty(loginuser.getPassword())) 
+		{
+			if(loginuser.getPassword().compareTo(password)==0)
+			{
+				process=true;
+			}
+		}
+		return process;
 	}	
 	
 	/**

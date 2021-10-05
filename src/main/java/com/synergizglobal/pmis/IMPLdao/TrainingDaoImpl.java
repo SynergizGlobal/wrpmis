@@ -1057,7 +1057,7 @@ public class TrainingDaoImpl implements TrainingDao{
 				qry = qry + " and department_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','HOD-Elec','HOD-Engg','HOD-S&T'),designation" ;
+			qry = qry + " ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T'),designation" ;
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

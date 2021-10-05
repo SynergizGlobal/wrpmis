@@ -80,7 +80,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			qry = qry + " group by u.designation";
 			
-			qry = qry + " ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','HOD-Elec','HOD-Engg','HOD-S&T') ";
+			qry = qry + " ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T') ";
 			
 			
 			Object[] pValues = new Object[arrSize];
@@ -556,7 +556,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			
 			hodQry = hodQry + " GROUP BY c.hod_user_id_fk ";
-			hodQry = hodQry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','HOD-Elec','HOD-Engg','HOD-S&T')";
+			hodQry = hodQry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T')";
 			
 			
 			Object[] pValues = new Object[arrSize];
@@ -782,7 +782,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			 */
 			
 			hodQry = hodQry + " GROUP BY c.hod_user_id_fk";
-			hodQry = hodQry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','HOD-Elec','HOD-Engg','HOD-S&T')";
+			hodQry = hodQry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T')";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -973,7 +973,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			
 			hodQry = hodQry + " GROUP BY c.hod_user_id_fk";
-			hodQry = hodQry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','HOD-Elec','HOD-Engg','HOD-S&T')";
+			hodQry = hodQry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T')";
 
 			
 			Object[] pValues = new Object[arrSize];
@@ -1222,7 +1222,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			
 			hodQry = hodQry + " GROUP BY c.hod_user_id_fk";
-			hodQry = hodQry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','HOD-Elec','HOD-Engg','HOD-S&T')";
+			hodQry = hodQry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T')";
 
 			
 			Object[] pValues = new Object[arrSize];
@@ -1466,7 +1466,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			 */
 			
 			hodQry = hodQry + " GROUP BY c.hod_user_id_fk";
-			hodQry = hodQry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','HOD-Elec','HOD-Engg','HOD-S&T')";
+			hodQry = hodQry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T')";
 
 			
 			Object[] pValues = new Object[arrSize];
@@ -1648,7 +1648,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			 */
 			
 			hodQry = hodQry + " GROUP BY c.hod_user_id_fk";
-			hodQry = hodQry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','HOD-Elec','HOD-Engg','HOD-S&T')";
+			hodQry = hodQry + " ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T')";
 
 			
 			Object[] pValues = new Object[arrSize];

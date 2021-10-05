@@ -175,7 +175,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			qry = qry + " GROUP BY hod_user_id_fk  ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','HOD-Elec','HOD-Engg','HOD-S&T'),u.designation" ;
+			qry = qry + " GROUP BY hod_user_id_fk  ORDER BY FIELD(u.designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T'),u.designation" ;
 
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
@@ -457,7 +457,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			}
 			
 			hodQry = hodQry + " GROUP BY hod_user_id_fk ";
-			hodQry = hodQry + " ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','HOD-Elec','HOD-Engg','HOD-S&T'),designation" ;
+			hodQry = hodQry + " ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T'),designation" ;
 			
 			
 			List<Issue> hodObjsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
@@ -630,7 +630,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			}
 			
 			hodQry = hodQry + " GROUP BY hod_user_id_fk ";
-			hodQry = hodQry + " ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','HOD-Elec','HOD-Engg','HOD-S&T'),designation" ;
+			hodQry = hodQry + " ORDER BY FIELD(designation,'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','GGM Civil','ED S&T','CSTE','GM Electrical','CEE Project I','CEE Project II','ED Finance & Planning','FA&CAO','GM GA&S','CPO','COM','GM Procurement','OSD','CVO','Demo-HOD-Elec','Demo-HOD-Engg','Demo-HOD-S&T'),designation" ;
 			
 			objsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 			

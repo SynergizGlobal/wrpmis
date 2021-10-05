@@ -607,6 +607,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						pValues[i++] = aObj.getProgress_date();
 					}
 					
+					
 					if(scope==completed)
 					{
 						pValues[i++] = getActivityMaxProgressDate(aObj.getActivity_id());

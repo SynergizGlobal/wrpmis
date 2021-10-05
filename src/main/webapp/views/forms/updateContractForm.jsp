@@ -706,7 +706,7 @@
 	                                    <input id="loa_date" name="loa_date" type="text" class="validate datepicker" value="${contractDeatils.loa_date }">
 	                                    <label for="loa_date">LOA Date</label>
 	                                    <span id="loa_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="loa_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                            </div>
 	                            <div class="row">
@@ -720,7 +720,7 @@
 	                                    <input id="ca_date" name="ca_date" type="text" class="validate datepicker" value="${contractDeatils.ca_date }">
 	                                    <label for="ca_date">CA Date</label>
 	                                     <span id="ca_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="ca_date_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="ca_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                            </div>
 	                            <div class="row">	                                
@@ -729,7 +729,7 @@
 	                                    >
 	                                    <label for="date_of_start">Date of Start <span class="required">*</span></label>
 	                                     <span id="date_of_startError" class="error-msg" ></span>
-	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="date_of_start_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s9 m3 l4 input-field" id="estimated_cost_div">
 	                                    <i class="material-icons prefix cost left-align">₹</i>
@@ -751,7 +751,7 @@
 	                                <div class="col s12 m4 l6 input-field offset-m2" id="doc_div">
 	                                    <input name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }">
 	                                    <label for="doc">Original DOC</label>
-	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
+	                                     <button type="button" id="doc_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                     <span id="docError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s9 m3 l4 input-field " id="awarded_cost_div">
@@ -775,7 +775,7 @@
 	                                    <input name="target_doc" id="target_doc" type="text" class="validate datepicker" value="${contractDeatils.target_doc }" 
 	                                    >
 	                                    <label for="target_doc">Target DOC</label>
-	                                     <button type="button" id="target_doc_icon"><i class="fa fa-calendar"></i></button>
+	                                     <button type="button" id="target_doc_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                     <span id="target_docError" class="error-msg" ></span>
 	                                </div>
 	                                                             
@@ -824,13 +824,13 @@
 	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${contractDeatils.actual_completion_date }" readonly>
 	                                    <label for="actual_completion_date">Actual Completion Date</label>
 	                                    <span id="actual_completion_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="actual_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
 	                                    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker" value="${contractDeatils.final_takeover }" readonly>
 	                                    <label for="final_takeover">Final Taking over by Client</label>
 	                                    <span id="final_takeoverError" class="error-msg" ></span>
-	                                    <button type="button" id="final_takeover_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="final_takeover_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s9 m3 l3 input-field">
 	                                	<i class="material-icons prefix cost left-align">₹</i>
@@ -860,19 +860,19 @@
 	                                <div class="col s12 m4 l4 input-field">
 	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }" readonly>
 	                                    <label for="completion_certificate_release">Date of issue of Completion Certificate</label>
-	                                    <button type="button" id="completion_certificate_release_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="completion_certificate_release_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="completion_certificate_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
 	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker" value="${contractDeatils.defect_liability_period }" readonly>
 	                                    <label for="defect_liability_period">End date of Defect Liability Period</label>
-	                                    <button type="button" id="defect_liability_period_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="defect_liability_period_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
 	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker" value="${contractDeatils.final_bill_release }" readonly>
 	                                    <label for="final_bill_release">Date of Payment of Final bill</label>
-	                                    <button type="button" id="final_bill_release_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="final_bill_release_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="final_bill_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -881,19 +881,19 @@
 	                                <div class="col s12 m4 l4 input-field">
 	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker" value="${contractDeatils.pbg_release }" readonly>
 	                                    <label for="pbg_release">Date of release of PBG</label>
-	                                    <button type="button" id="pbg_release_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="pbg_release_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="pbg_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
 	                                    <input id="retention_money_release" name="retention_money_release" type="text" class="validate datepicker" value="${contractDeatils.retention_money_release }" readonly>
 	                                    <label for="retention_money_release">Date of release of Final Retention</label>
-	                                    <button type="button" id="retention_money_release_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="retention_money_release_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="retention_money_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
 	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker" value="${contractDeatils.contract_closure_date }" readonly>
 	                                    <label for="contract_closure_date">Date of Contract Closure</label>
-	                                    <button type="button" id="contract_closure_date_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="contract_closure_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="contract_closure_dateError" class="error-msg" ></span>	                                    
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -1018,12 +1018,12 @@
                                                <td data-head="BG / FDR Date " class="input-field">
                                                     <input id="bg_dates${index.count }" name="bg_dates" type="text" class="validate datepicker" value="${bankObj.bg_date }"
                                                         placeholder="BG /FDR Date">
-                                                         <button type="button"><i class="fa fa-calendar"></i></button>
+                                                         <button type="button" class="datepicker-button" id="bg_dates${index.count }_icon"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td data-head="Expiry Date " class="input-field">
                                                      <input id="bg_valid_uptos${index.count }" name="bg_valid_uptos" type="text" class="validate datepicker" value="${bankObj.bg_valid_upto }"
                                                         placeholder="Expiry Date">
-                                                    <button type="button"><i class="fa fa-calendar"></i></button>
+                                                    <button type="button" id="bg_valid_uptos${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <!-- <td>
                                                     <input id="remarkss${index.count }" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }"
@@ -1031,7 +1031,7 @@
                                                 </td> -->
                                                 <td data-head="Release Date" class="input-field">	<input id="release_dates${index.count }" name="release_dates" type="text" class="validate datepicker" value="${bankObj.release_date }"
                                                         placeholder="Release Date">
-                                                    <button type="button"><i class="fa fa-calendar"></i></button></td>       
+                                                    <button type="button" id="release_dates${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>       
                                                 <td class="mobile_btn_close">
                                                     <a onclick="removeBank('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -1094,12 +1094,12 @@
                                                 <td data-head="BG / FDR Date " class="input-field">
                                                     <input id="bg_dates0" name="bg_dates" type="text" class="validate datepicker"
                                                         placeholder="BG /FDR Date">
-                                                         <button type="button"><i class="fa fa-calendar"></i></button>
+                                                         <button type="button" id="bg_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td data-head="Expiry Date " class="input-field">
                                                     <input id="bg_valid_uptos0" name="bg_valid_uptos" type="text" class="validate datepicker"
                                                         placeholder="Expiry Date">
-                                                    <button type="button"><i class="fa fa-calendar"></i></button>
+                                                    <button type="button" id="bg_valid_uptos0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                <!--  <td>
                                                     <input id="remarkss0" name ="remarkss" type="text" class="validate"
@@ -1107,7 +1107,7 @@
                                                 </td> -->
                                                 <td data-head="Release Date" class="input-field">	<input id="release_dates0" name="release_dates" type="text" class="validate datepicker"
                                                         placeholder="Release Date">
-                                                    <button type="button"><i class="fa fa-calendar"></i></button>	</td>       
+                                                    <button type="button" id="release_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>	</td>       
                                                 <td class="mobile_btn_close">
                                                     <a onclick="removeBank('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -1115,7 +1115,7 @@
                                                 
                                                 
                                             </tr> 
-                                            	<script type="text/javascript">
+                                            <!-- 	<script type="text/javascript">
 	                                                $("#bg_valid_uptos0").datepicker({
 	                                                	
 	                                                 	 format:'dd-mm-yyyy',
@@ -1131,7 +1131,7 @@
 														}
 											        });
 	                                             
-                                                </script>
+                                                </script> -->
                                               </c:otherwise>
                                             </c:choose>
                                         </tbody>
@@ -1243,7 +1243,7 @@
                                                 <td data-head="Valid Upto " class="input-field">
                                                     <input id="insurence_valid_uptos${index.count }" name="insurence_valid_uptos" type="text" value="${insurenceObj.insurence_valid_upto }"
                                                         class="validate datepicker" placeholder="Valid Upto">
-                                                    <button type="button"><i class="fa fa-calendar"></i></button>
+                                                    <button type="button" id="insurence_valid_uptos${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td data-head="Remarks " class="input-field">
                                                     <input id="insurence_remarks${index.count }" name="insurence_remarks"  type="text" class="validate" value="${insurenceObj.remarks }"
@@ -1331,7 +1331,7 @@
                                                 <td data-head="Valid Upto " class="input-field">
                                                     <input id="insurence_valid_uptos0" name="insurence_valid_uptos" type="text" 
                                                         class="validate datepicker" placeholder="Valid Upto">
-                                                    <button type="button"><i class="fa fa-calendar"></i></button>
+                                                    <button type="button" id="insurence_valid_uptos0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td data-head="Remarks " class="input-field">
                                                     <input id="insurence_remarks0" name="insurence_remarks"  type="text" class="validate" 
@@ -1345,13 +1345,13 @@
                                                 </td>
                                             </tr>
                                             <script type="text/javascript">
-	                                                $("#insurence_valid_uptos0").datepicker({
+	                                              /*   $("#insurence_valid_uptos0").datepicker({
 	                                                	
 	                                                 	 format:'dd-mm-yyyy',
 	                                                     onSelect: function () {
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
-	                                                 });
+	                                                 }); */
 	                                                $('#insuranceStatus0').on('change', function(e){
 							                             if($(this).prop('checked'))
 							                             {
@@ -1430,12 +1430,12 @@
 	                                                <td data-head="Milestone Date " class="input-field">
 	                                                    <input id="milestone_dates${index.count }" name="milestone_dates" type="text" class="validate datepicker" value="${milestonesObj.milestone_date }"
 	                                                        placeholder="Milestone Date">
-	                                                    <button type="button"><i class="fa fa-calendar"></i></button>
+	                                                    <button type="button" id="milestone_dates${index.count}_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td data-head="Actual Date " class="input-field">
 	                                                    <input id="actual_dates${index.count }" name="actual_dates" type="text" class="validate datepicker" value="${milestonesObj.actual_date }"
 	                                                        placeholder="Actual Date">
-	                                                    <button type="button"><i class="fa fa-calendar"></i></button>
+	                                                    <button type="button" id="actual_dates${index.count}_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td data-head="Revision" class="input-field">
 	                                                    <input id="revisions${index.count }" name="revisions" type="text" class="validate" value="${milestonesObj.revision }"
@@ -1465,12 +1465,12 @@
 	                                                <td data-head="Milestone Date " class="input-field">
 	                                                    <input id="milestone_dates0" name="milestone_dates" type="text" class="validate datepicker" 
 	                                                        placeholder="Milestone Date">
-	                                                    <button type="button"><i class="fa fa-calendar"></i></button>
+	                                                    <button type="button" id="milestone_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td data-head="Actual Date " class="input-field">
 	                                                    <input id="actual_dates0" name="actual_dates" type="text" class="validate datepicker" 
 	                                                        placeholder="Actual Date">
-	                                                    <button type="button"><i class="fa fa-calendar"></i></button>
+	                                                    <button type="button" id="actual_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td data-head="Revision" class="input-field">
 	                                                    <input id="revisions0" name="revisions" type="text" class="validate " 
@@ -1484,14 +1484,14 @@
 	                                                            class="fa fa-close"></i></a>
 	                                                </td> -->
 	                                            </tr>
-	                                              <script type="text/javascript">
+	                                              <!-- <script type="text/javascript">
 		                                                $("#milestone_dates0,#actual_dates0").datepicker({
 		                                                 	 format:'dd-mm-yyyy',
 		                                                     onSelect: function () {
 		                                          	    	     $('.confirmation-btns .datepicker-done').click();
 		                                          	    	  }
 		                                                 });
-	                                                </script>
+	                                                </script> -->
 	                                            </c:otherwise>
 	                                            </c:choose>  
 	                                        </tbody>
@@ -1681,9 +1681,9 @@
                                                 <td data-head="Revised DOC " class="input-field ">
                                                     <input id="revised_docs${index.count }" name="revised_docs" type="text" class="validate datepicker" value="${revObj.revised_doc }"
                                                        onchange="toggleRevision('docs', ${index.count })"  placeholder="Revised DOC">
-                                                    <button type="button"><i class="fa fa-calendar"></i></button>
+                                                    <button type="button" id="revised_docs${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                                 </td>
-                                                 <td data-head="Current" class="input-field  p-h-0">	
+                                                 <td data-head="Current" class="input-field p-h-0">	
                                                  	<p>
                                                  	<label> 
                                                  		<input type="hidden" class="hidden_check hidden_doc" id="revision_statuss${index.count }" name="revision_statuss" value="${revObj.revision_status}" />
@@ -1701,13 +1701,13 @@
                                                 </td> --%>
                                             </tr>
                                            		  <script type="text/javascript">
-	                                                $("#revised_docs${index.count }").datepicker({
+	                                           /*      $("#revised_docs${index.count }").datepicker({
 	                                                	
 	                                                 	 format:'dd-mm-yyyy',
 	                                                     onSelect: function () {
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
-	                                                 });
+	                                                 }); */
 	                                                
                                                 	var amount = $('#revised_amounts${index.count }').val();
                                                 	if(amount == ""){
@@ -1799,7 +1799,7 @@
                                                 <td data-head="Revised DOC " class="input-field  ">
                                                     <input id="revised_docs0" name="revised_docs" type="text" class="validate datepicker" 
                                                        onchange="toggleRevision('docs', '0' )"  placeholder="Revised DOC">
-                                                   <button type="button"><i class="fa fa-calendar"></i></button>
+                                                   <button type="button" id="revised_docs0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                                 </td> 
                                                 <td data-head="Current" class="input-field   p-h-0"><p><label><input type="hidden" id="revision_statuss0" name="revision_statuss" class="hidden_check hidden_doc" value="No" />
                                                  <input type="checkbox" id="revision_status0"  onchange="revisionChecks('docs','0')" class="revision_doc_status"  disabled />  <span></span> </label></p>
@@ -1814,13 +1814,13 @@
                                                 </td> -->
                                             </tr>
                                               <script type="text/javascript">
-	                                                $("#revised_docs0").datepicker({
+	                                              /*   $("#revised_docs0").datepicker({
 	                                                	
 	                                                 	 format:'dd-mm-yyyy',
 	                                                     onSelect: function () {
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
-	                                                 });
+	                                                 }); */
 	                                                $('#revision_status0').on('change', function(e){
 							                             if($(this).prop('checked'))
 							                             {
@@ -2013,6 +2013,7 @@
 
 <!--     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>  -->
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
@@ -2028,7 +2029,7 @@
 	   	    	}
 	        })
 	    }); */
-	    let date_pickers = document.querySelectorAll('.datepicker');
+	 /*    let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
@@ -2038,12 +2039,12 @@
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
 	    	}
 	    	M.Datepicker.init(this, options);
-	    });
+	    }); */
     
         $(document).ready(function () {												
         	$('select:not(.searchable):not(.units)').formSelect();
             $('.searchable').select2();
-            $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
+            $('.units').select2({ dropdownCssClass : 'cost_dropdown' });
 
 			$(document).on("scroll", onScroll);
             
@@ -2060,8 +2061,7 @@
                  $("a[href='#"+tab_name+"']").addClass('active');
                  var scrollPos =  $('#'+tab_name).offset().top;
                  $(window).scrollTop(scrollPos);
-                // $("a[href='#"+tab_name+"']").click();               
-                
+                // $("a[href='#"+tab_name+"']").click();                     
             }
             
             var contract_status_fk = '${contractDeatils.contract_status_fk}';
@@ -2913,24 +2913,24 @@
   			     	 +'<option value="${obj.value }">${obj.unit }</option>'
    			    	</c:forEach>	
 				   +'</select><span id="bg_units'+rNo+'Error" class="my-error"></span></div> </td>'
-				   +'<td data-head="BG / FDR Date " class="input-field"><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button"><i class="fa fa-calendar"></i></button>'
+				   +'<td data-head="BG / FDR Date " class="input-field"><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button" id="bg_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
 				   //+'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
-				   +'<td data-head="Expiry Date " class="input-field"><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Expiry Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
+				   +'<td data-head="Expiry Date " class="input-field"><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Expiry Date"><button type="button"  id="bg_valid_uptos'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
 				   //+'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
 				   //+'<td><label> <input type="checkbox" name="bankStatus" id="bankStatus'+rNo+'" value="Inactive"/> <span></span> </label></td>'
-				   +'<td data-head="Release Date" class="input-field"><input id="release_dates'+rNo+'" name="release_dates" type="text" class="validate datepicker" placeholder="Release Date"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
+				   +'<td data-head="Release Date" class="input-field"><input id="release_dates'+rNo+'" name="release_dates" type="text" class="validate datepicker" placeholder="Release Date"> <button type="button" id="release_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
 				   +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			 
 				 $('#bankTableBody').append(html);
 				 $("#bankRowNo").val(rNo);
 				 $('.searchable').select2();
 				 $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
-				 $("#bg_valid_uptos"+rNo).datepicker({
+			/* 	 $("#bg_valid_uptos"+rNo).datepicker({
 		         	 format:'dd-mm-yyyy',
 		             onSelect: function () {
 		  	    	     $('.confirmation-btns .datepicker-done').click();
 		  	    	  }
-		         });
+		         }); */
 				 
 		             $('#bg_values_units'+rNo).on('change', function(e){
 		            	 if($.trim($('#bg_values_units'+rNo).val()) != ""){
@@ -2969,7 +2969,7 @@
 			    </c:forEach>
 			   +'</select> <span id="insurence_units'+rNo+'Error" class="my-error"></span></div> </td>' 
 			   +'<td data-head="Revision " class="input-field"><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
-			   +'<td data-head="Valid Upto " class="input-field"><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
+			   +'<td data-head="Valid Upto " class="input-field"><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" id="insurence_valid_uptos'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Remarks " class="input-field"><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
 			   +'<td data-head="Release" class="input-field"><p><label> <input type="hidden" id="insuranceStatus'+rNo+'" name="insuranceStatus" value="No" /><input type="checkbox" id="insuranceStatuss'+rNo+'" /> <span></span> </label></p></td>'
 			   +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
@@ -2978,12 +2978,12 @@
 			 $("#insurenceRowNo").val(rNo);
 			 $('.searchable').select2();
 			 $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
-			 $("#insurence_valid_uptos"+rNo).datepicker({
+	/* 		 $("#insurence_valid_uptos"+rNo).datepicker({
 			      	 format:'dd-mm-yyyy',
 			          onSelect: function () {
 				    	     $('.confirmation-btns .datepicker-done').click();
 				    	  }
-			 });
+			 }); */
 			 $("#insuranceStatuss"+rNo).on('change', function(e){
                  if($(this).prop('checked'))
                  {
@@ -3024,8 +3024,8 @@
 		    var html = '<tr id="mileRow'+rNo+'">'
 		 	   +'<td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids'+rNo+'" /><input id="milestone_ids'+rNo+'" name="milestone_ids" type="text" class="validate" placeholder="Milestone ID" value="K-'+(mId)+'"></td>'
 			   +'<td data-head="Milestone Name " class="input-field"><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
-			   +'<td data-head="Milestone Date " class="input-field"><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
-			   +'<td data-head="Actual Date " class="input-field"><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button"><i  class="fa fa-calendar"></i></button></td>'
+			   +'<td data-head="Milestone Date " class="input-field"><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button" id="milestone_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
+			   +'<td data-head="Actual Date " class="input-field"><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button" id="actual_dates'+rNo+'_icon" class="datepicker-button"><i  class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Revision" class="input-field" ><input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td data-head="Remarks " class="input-field">  <input id="mile_remarks'+rNo+'" name="mile_remarks" type="text" class="validate" placeholder="Remarks"></td>'
 		 	 //  +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeMilestone('+rNo+');"> <i class="fa fa-close"></i></a></td>'
@@ -3035,7 +3035,7 @@
 			 $("#mileRowNo").val(rNo);
 			 $('.searchable').select2();
 			 
-			 $("#milestone_dates"+rNo).datepicker({
+			/*  $("#milestone_dates"+rNo).datepicker({
 			      	 format:'dd-mm-yyyy',
 			          onSelect: function () {
 				    	     $('.confirmation-btns .datepicker-done').click();
@@ -3046,7 +3046,7 @@
 			          onSelect: function () {
 				    	     $('.confirmation-btns .datepicker-done').click();
 				    	  }
-			      });
+			      }); */
 		
 		} 
 		
@@ -3079,7 +3079,7 @@
 		       +'<td data-head="Current" class="input-field   p-h-0"> <p> <label><input type="hidden" id="revision_amounts_statuss'+rNo+'"  name="revision_amounts_statuss" class="hidden_check hidden_amount" value="No" /> '
 		       +'<input type="checkbox"  id="revision_amounts_status'+rNo+'" disabled onchange="revisionChecks(' + '\'amounts\'' + ',' + rNo + ')" class="revision_amount_status"/> <span></span> </label> </p> </td> '
 			   +'<td data-head="Revised DOC" class="input-field  "><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker" onchange="toggleRevision(' + '\'docs\'' + ',' + rNo + ')"  placeholder="Revised DOC">'
-			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
+			   +'<button type="button" id="revised_docs'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Current" class="input-field   p-h-0"><p><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check hidden_doc" value="No" /><input type="checkbox" class="revision_doc_status" disabled onchange="revisionChecks(' + '\'docs\'' + ',' + rNo + ')"  id="revision_status'+rNo+'" /> <span></span> </label></p></td>'
 			   +'<td data-head="Remarks" class="input-field"> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
 		 	//   +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td>'
@@ -3372,16 +3372,33 @@
 	        	$('#doc_div').hide();
         	}else{
         		
-        		$('#contractor_id_fk').val('${contractDeatils.contractor_id_fk}');
-            	$('#loa_letter_number').val('${contractDeatils.loa_letter_number}').focus();
-            	$('#loa_date').val('${contractDeatils.loa_date}').focus();
-            	$('#ca_no').val('${contractDeatils.ca_no}').focus();
-            	$('#ca_date').val('${contractDeatils.ca_date}').focus();
-            	$('#doc').val('${contractDeatils.doc}').focus();
-            	$('#estimated_cost').val('${contractDeatils.estimated_cost}').focus();
-            	$('#estimated_cost_units').val('${contractDeatils.estimated_cost_units}').focus();
-            	$('#awarded_cost').val('${contractDeatils.awarded_cost}').focus();
-            	$('#awarded_cost_units').val('${contractDeatils.awarded_cost_units}').focus();
+        		var contractor_id_fk='${contractDeatils.contractor_id_fk}';
+        		var loa_letter_number='${contractDeatils.loa_letter_number}';
+        		var loa_date='${contractDeatils.loa_date}';
+        		var ca_no='${contractDeatils.ca_no}';
+        		var ca_date='${contractDeatils.ca_date}';
+        		var doc='${contractDeatils.doc}';
+        		var estimated_cost='${contractDeatils.estimated_cost}';
+            	var estimated_cost_units=($.trim('${contractDeatils.estimated_cost_units}')!='')?'${contractDeatils.estimated_cost_units}':'1';
+            	var awarded_cost='${contractDeatils.awarded_cost}';
+            	var awarded_cost_units=($.trim('${contractDeatils.awarded_cost_units}')!='')?'${contractDeatils.awarded_cost_units}':'1';
+        		$('#contractor_id_fk').val(contractor_id_fk);
+            	$('#loa_letter_number').val(loa_letter_number);
+            	if(loa_letter_number!=''){$('#loa_letter_number ~ label').addClass('active');}
+            	$('#loa_date').val(loa_date);
+            	if(loa_date!=''){$('#loa_date ~ label').addClass('active');}
+            	$('#ca_no').val(ca_no);
+            	if(ca_no!=''){$('#ca_no ~ label').addClass('active');}
+            	$('#ca_date').val(ca_date);
+            	if(ca_date!=''){$('#ca_date ~ label').addClass('active');}
+            	$('#doc').val(doc);
+            	if(doc!=''){$('#doc ~ label').addClass('active');}
+            	$('#estimated_cost').val(estimated_cost);
+            	if(estimated_cost!=''){$('#estimated_cost ~ label').addClass('active');}
+            	$('#awarded_cost').val(awarded_cost);
+            	if(awarded_cost!=''){$('#awarded_cost ~ label').addClass('active');}
+            	$('#estimated_cost_units').val(estimated_cost_units).focus();
+            	$('#awarded_cost_units').val(awarded_cost_units).focus();
             	
             	$('.searchable').select2();
             	

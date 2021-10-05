@@ -729,7 +729,7 @@
     
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
+   <!--  <script src="/pmis/resources/js/datepickerDepedency.js"></script> -->
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
@@ -1378,7 +1378,8 @@
 	 	            	            $('#planned_start'+num).datepicker({
 	 	            	                maxDate: new Date(),
 	 	            	                format: 'dd-mmm-yy',
-	 	            	               autoClose:true,
+	 	            	                autoClose:true,
+	 	            	                onOpen: datePickerSelectAddClass  
 	 	            	            });
 	 	            	            $('#planned_start_icon'+num).click(function () {
 	 	            	                event.stopPropagation();
@@ -1389,7 +1390,8 @@
 	 	            	            $('#planned_finish'+num).datepicker({
 	 	            	                maxDate: new Date(),
 	 	            	                format: 'dd-mmm-yy',
-	 	            	               autoClose:true,
+	 	            	                autoClose:true,
+	 	            	                onOpen: datePickerSelectAddClass  
 	 	            	            });
 	 	            	            
 	 	            	            

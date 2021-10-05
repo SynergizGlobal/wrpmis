@@ -559,7 +559,7 @@
                                 	
 	                            </div>
 	                            <div class="row">
-	                                <div class="col s4 m4 l6 input-field offset-m2" id="doc_div">
+	                                <div class="col s12 m4 l6 input-field offset-m2" id="doc_div">
 	                                    <input name="doc" id="doc" type="text" class="validate datepicker">
 	                                    <label for="doc">Original DOC</label>
 	                                    <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>

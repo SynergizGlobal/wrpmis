@@ -16,8 +16,8 @@ public class ActivitiesUploadServiceImpl implements ActivitiesUploadService{
 
 
 	@Override
-	public int[] uploadActivities(List<Activity> activityList) throws Exception {
-		return dao.uploadActivities(activityList);
+	public int[] uploadActivities(List<Activity> activityList, Activity obj) throws Exception {
+		return dao.uploadActivities(activityList,obj);
 	}
 
 	@Override

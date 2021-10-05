@@ -148,12 +148,16 @@ public class ActivitiesUploadController {
 	public ModelAndView uploadActivities(@ModelAttribute Activity activity, RedirectAttributes attributes,
 			HttpSession session) {
 		ModelAndView model = new ModelAndView();
-		String userId = null;
-		String userName = null;
 		try {
-			userId = (String) session.getAttribute("USER_ID");
-			userName = (String) session.getAttribute("USER_NAME");
 			model.setViewName("redirect:/activities-upload");
+			
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			activity.setCreated_by_user_id_fk(userId);
+			activity.setUser_name(userName);
+			activity.setDesignation(userDesignation);
 
 			if (!StringUtils.isEmpty(activity.getUploadFile())) {
 				MultipartFile multipartFile = activity.getUploadFile();
@@ -542,7 +546,7 @@ public class ActivitiesUploadController {
 							}
 							
 							if(!StringUtils.isEmpty(activityList) && activityList.size() > 0  && StringUtils.isEmpty(contarct_and_fob_mismatch)){
-								counts  = service.uploadActivities(activityList);
+								counts  = service.uploadActivities(activityList,obj);
 								if(counts[0] > 0) {
 									message = message + "<br><span style='color:green;'>" + counts[0] + " activities added successfully.</span>";
 								}

@@ -17,9 +17,11 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.Idao.ContractResourceDao;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.model.ActivitiesProgressReport;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.ContractResource;
+import com.synergizglobal.pmis.model.FormHistory;
 @Repository
 public class ContractResourceDaoImpl implements ContractResourceDao{
 
@@ -28,6 +30,9 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 
 	@Override
 	public List<ContractResource> getProjectsListForContractResourceForm(ContractResource obj) throws Exception {
@@ -304,6 +309,17 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 		            });
 			if(counts.length > 0) {
 				flag = true;
+				
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name("Contract Resources");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("New Contract Resources are created.");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 			}
 		}catch(Exception e){ 
 			throw new Exception(e);

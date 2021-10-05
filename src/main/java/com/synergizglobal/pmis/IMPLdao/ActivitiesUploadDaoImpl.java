@@ -29,10 +29,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.ActivitiesUploadDao;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Activity;
+import com.synergizglobal.pmis.model.FormHistory;
 
 @Repository
 public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
@@ -45,7 +47,8 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 	@Autowired
 	DataSourceTransactionManager transactionManager;
 
-
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 
 	@Override
 	public List<Activity> getWorksInActivitiesUpload(Activity obj) throws Exception {
@@ -113,7 +116,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 	}
 	
 	@Override
-	public int[] uploadActivities(List<Activity> activityList) throws Exception {
+	public int[] uploadActivities(List<Activity> activityList, Activity obj) throws Exception {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -280,6 +283,17 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			
 			arr[0] = insertCounts.length;
 		    arr[1] = updateCounts.length;
+		    
+		    FormHistory formHistory = new FormHistory();
+			formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+			formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+			formHistory.setModule_name("Upload Activities");
+			formHistory.setForm_action_type("Upload");
+			formHistory.setForm_details(insertCounts.length +" Activities are inserted and "+updateCounts.length+" Activities are updated.");
+			formHistory.setWork(obj.getWork_id());
+			formHistory.setContract(obj.getContract_id());
+			
+			boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 		    
 		}catch(Exception e){ 
 			e.printStackTrace();

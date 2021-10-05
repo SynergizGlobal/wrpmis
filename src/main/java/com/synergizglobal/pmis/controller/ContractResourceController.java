@@ -43,7 +43,7 @@ public class ContractResourceController {
 	@RequestMapping(value="/contract-resource-form",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView contractResourceForm(@ModelAttribute ContractResource obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView(PageConstants.contractResources);
-		try {		
+		try {
 			User uObj = (User) session.getAttribute("user");
 			obj.setUser_type_fk(uObj.getUser_type_fk());
 			obj.setUser_role_code(uObj.getUser_role_code());
@@ -112,9 +112,18 @@ public class ContractResourceController {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName("redirect:/contract-resource-form");
-			obj.setDate(DateParser.parse(obj.getDate()));	
-			String userId = (String) session.getAttribute("USER_ID"),userName = (String) session.getAttribute("USER_NAME");
-			obj.setCreated_by_user_id(userId);
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
+			
+			obj.setDate(DateParser.parse(obj.getDate()));
+			obj.setCreated_by_user_id(user_Id);
 			boolean flag = service.addResource(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Resource added successfully");

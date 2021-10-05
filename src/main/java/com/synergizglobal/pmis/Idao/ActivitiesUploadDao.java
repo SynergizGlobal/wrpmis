@@ -6,7 +6,7 @@ import com.synergizglobal.pmis.model.Activity;
 
 public interface ActivitiesUploadDao {
 	
-	int[] uploadActivities(List<Activity> activityList) throws Exception;
+	int[] uploadActivities(List<Activity> activityList, Activity obj) throws Exception;
 	
 	List<Activity> getWorksInActivitiesUpload(Activity obj) throws Exception;
 

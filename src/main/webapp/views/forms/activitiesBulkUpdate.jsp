@@ -1546,12 +1546,18 @@
 	    			 
 	    			 var s3=document.getElementById("planned_start"+i).value;
 	    			 var s4=document.getElementById("planned_finish"+i).value;
+	    			 var s5=document.getElementById("actualScopes"+i).value;
 	    			 
 	    			        	if(s1<s2)
 	    			        	{
 			     		    	 	alert("Scope Should be greater than or equal to Completed in row "+(i+1));
 			    		    	 	return false;
 	    			        	}
+	    			        	if(s1<s2+s5)
+	    			        		{
+			     		    	 	alert("Scope Should be greater than or equal to Completed + actual in row "+(i+1));
+			    		    	 	return false;	    			        		
+	    			        		}
 	    		    			 if (process(s4) < process(s3)) 
 					        	{
 			     		    	 	alert("Planned Finish Should be greater than or equal to Planned Start in row "+(i+1));

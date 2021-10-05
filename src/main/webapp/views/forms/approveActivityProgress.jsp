@@ -243,6 +243,7 @@
                                                 <th>Component</th>
                                                 <th>Component Id</th>
                                                 <th>Activity</th>
+                                                <th>Current Scope</th>
                                                 <th>Updated Scope</th>
                                                 <th>Cumulative <br>Completed</th>
                                                 <th>Actual for<br> the day</th>
@@ -569,10 +570,21 @@
         	                    var rowArray = [];   
         	                    var checkbox = '-';
         	                    var actions = '-';
-        	                    if(approval_status_fk == 'Pending'){
-	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+key+'" value="'+progress_id+'" /><span></span></label></p>';
+        	                    if(approval_status_fk == 'Pending')
+        	                    {
+        	                    		var disabledval="";
+        	                    		if(parseFloat(val.total_scope)>=parseFloat(val.cumulative_completed)+parseFloat(val.actual_for_the_day))
+        	                    		{
+        	                    			disabledval="disabled";
+        	                    		}
+        	                    		else
+        	                    			{
+        	                    				disabledval="";
+        	                    			}
+        	                    		
+	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+key+'" value="'+progress_id+'"  '+disabledval+' /><span></span></label></p>';
 	        	                   	
-	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn bg-m"><i class="fa fa-check"></i> </a>'
+	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn bg-m" '+disabledval+'><i class="fa fa-check"></i> </a>'
         	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>';
         	                   	}
         	                    
@@ -582,7 +594,8 @@
         	                   	rowArray.push($.trim(val.structure));
         	                   	rowArray.push($.trim(val.component));
         	                   	rowArray.push($.trim(val.component_id));
-        	                   	rowArray.push($.trim(val.activity_name)); 
+        	                   	rowArray.push($.trim(val.activity_name));
+        	                   	rowArray.push($.trim(val.total_scope));
         	                   	rowArray.push($.trim(val.updated_scope));
         	                   	rowArray.push($.trim(val.cumulative_completed));
         	                   	rowArray.push($.trim(val.actual_for_the_day));
@@ -948,11 +961,21 @@
             $('#pending_select-all').change(function () {
                 var _this = this;
                 $('input[name="pending_activity_check"]').each(function () {
-                    if ($(_this).is(':checked')) {
-                        $(this).prop('checked', true);
+                    if ($(_this).is(':checked')) 
+                    {
+                    	$("input:checkbox").each(function () {
+                    		var id=$(this).attr("id");
+                    		var isDisabled =$('#'+id).is(':disabled');
+                    		if(isDisabled == false)
+                    		{
+                        		$(this).prop('checked', true);
+                    		}
+
+                    	});
                         $('#approve-btn').removeClass('disabled');
                         $('#reject-btn').removeClass('disabled');
-                    } else {
+                    } else 
+                    {
                         $(this).prop('checked', false);
                         $('#approve-btn').addClass('disabled');
                         $('#reject-btn').addClass('disabled');

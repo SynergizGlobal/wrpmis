@@ -783,7 +783,17 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		return objsList;
 	}
 
-
+	private String getScopeValue(String activity_id) throws Exception
+	{
+		String Scope="";
+		try {
+			String qry = "select scope from activities where activity_id = ?";
+			Scope = (String) jdbcTemplate.queryForObject(qry, new Object[] { activity_id }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}		
+		return Scope;
+	}
 
 	@Override
 	public boolean updateAcivitiesBulk(StripChart obj) throws Exception {
@@ -822,39 +832,57 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			    //if( obj.getActualScopes().length > 0 && !StringUtils.isEmpty(obj.getActualScopes()[i]))
 			    if( obj.getActualScopes().length > 0)
 			    {
-			    	String Prdate=null;
-					if(!StringUtils.isEmpty(obj.getProgress_date())) 
-					{	
-				    	Calendar c3 = Calendar.getInstance();
-				    	String[] SplitWith3=obj.getProgress_date().split("-");
-				    	
-			            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
-			            c3.setTime(PrFormat.parse(SplitWith3[1]));
-			            c3.set(Calendar.DATE, Integer.parseInt(SplitWith3[0]));
+			    	
+			    	String Str1=getScopeValue(obj.getActivity_ids()[i]);
+			    	String Str2[]=obj.getScope().split(",");
+			    	Float Str=Float.parseFloat(Str2[i]);
+
+			    				
+			    	if((Str1.compareTo(String.valueOf(Str))!=0) ||(obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!=""))
+			    	{
+				    	String Prdate=null;
+						if(!StringUtils.isEmpty(obj.getProgress_date())) 
+						{	
+					    	Calendar c3 = Calendar.getInstance();
+					    	String[] SplitWith3=obj.getProgress_date().split("-");
+					    	
+				            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
+				            c3.setTime(PrFormat.parse(SplitWith3[1]));
+				            c3.set(Calendar.DATE, Integer.parseInt(SplitWith3[0]));
+				            
+							DateFormat dfm3 = new SimpleDateFormat("dd-MM-yy");	
+							DateFormat rdfm3 = new SimpleDateFormat("YYYY");
+							Date Cdfm3=dfm3.parse(SplitWith3[0]+'-'+c3.get(Calendar.MONTH)+'-'+SplitWith3[2]);	
+							
+				            String gdate3=rdfm3.format(Cdfm3);
+				            
 			            
-						DateFormat dfm3 = new SimpleDateFormat("dd-MM-yy");	
-						DateFormat rdfm3 = new SimpleDateFormat("YYYY");
-						Date Cdfm3=dfm3.parse(SplitWith3[0]+'-'+c3.get(Calendar.MONTH)+'-'+SplitWith3[2]);	
-						
-			            String gdate3=rdfm3.format(Cdfm3);
+				            
+				            c3.set(Calendar.YEAR, Integer.parseInt(gdate3));		            
+				            
+				            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				            
+				            Prdate=df.format(c3.getTime());
+						}
 			            
-		            
-			            
-			            c3.set(Calendar.YEAR, Integer.parseInt(gdate3));		            
-			            
-			            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			            
-			            Prdate=df.format(c3.getTime());
-					}
-		            
-				    insertStmt.setString(k++, obj.getCreated_by_user_id_fk());
-				    insertStmt.setString(k++, obj.getRemarks());
-				    insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:null);
-				    insertStmt.setString(k++,(obj.getActivity_ids()[i]));
-				    insertStmt.setString(k++, Prdate);
-				    insertStmt.setString(k++, "Pending");
-				    insertStmt.setString(k++,(SplitScope[i]));
-				    insertStmt.addBatch();
+					    insertStmt.setString(k++, obj.getCreated_by_user_id_fk());
+					    insertStmt.setString(k++, obj.getRemarks());
+				    	insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:null);
+					    insertStmt.setString(k++,(obj.getActivity_ids()[i]));
+					    insertStmt.setString(k++, Prdate);
+					    insertStmt.setString(k++, "Pending");
+					    
+					    if(Str1.compareTo(String.valueOf(Str))!=0)
+					    {
+						    insertStmt.setString(k++,(SplitScope[i]));
+					    }
+					    else
+					    {
+						    insertStmt.setString(k++,(null));
+					    }
+					    
+					    insertStmt.addBatch();
+			    	}
 			    }
 			}
 			int[] insertCount = insertStmt.executeBatch();

@@ -612,12 +612,18 @@
 		    	  else{
 		    		  $(this).text('visibility_off');
 		    	  }
-		    	  var input = $("#password");
+		    	  var input = $("#newPassword");
 		    	  if (input.attr("type") === "password") {
 		    	    input.attr("type", "text");
 		    	  } else {
 		    	    input.attr("type", "password");
 		    	  }
+		    	  var input1 = $("#confirmPassword");
+		    	  if (input1.attr("type") === "password") {
+		    	    input1.attr("type", "text");
+		    	  } else {
+		    	    input1.attr("type", "password");
+		    	  }		    	  
 
 		    	});
 		    

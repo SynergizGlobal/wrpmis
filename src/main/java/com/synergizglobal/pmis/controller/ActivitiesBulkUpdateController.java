@@ -227,11 +227,19 @@ public class ActivitiesBulkUpdateController {
 	@RequestMapping(value = "/update-activities-bulk", method = {RequestMethod.POST})
 	public ModelAndView updateAcivitiesBulk(@ModelAttribute StripChart obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
-		String userId = null;
 		try{
 			model.setViewName("redirect:/activities-bulk-update");
-			userId = (String) session.getAttribute("USER_ID");
-			obj.setCreated_by_user_id_fk(userId);
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+
+			obj.setCreated_by_user_id_fk(user_Id);
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
 			User uObj = (User) session.getAttribute("user");
 			obj.setUser_type_fk(uObj.getUser_type_fk());
 			obj.setUser_role_code(uObj.getUser_role_code());

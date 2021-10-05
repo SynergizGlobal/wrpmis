@@ -23,12 +23,14 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ActivitiesBulkUpdateDao;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FOB;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.StripChart;
 @Repository
@@ -45,6 +47,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 
 	@Autowired
 	MessagesDao messagesDao;
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	
 	@Override
 	public List<StripChart> getAcivitiesBulkUpdateProjectsList(StripChart obj) throws Exception { 
@@ -1144,6 +1149,17 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 						messagesDao.addMessages(msgObj,template);
 					}
 				}
+				
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+				formHistory.setModule_name("Activities Bulk Update");
+				formHistory.setForm_action_type("Update");
+				formHistory.setForm_details(insertCount.length + " Activities are updated.");
+				formHistory.setWork(obj.getWork_id_fk());
+				formHistory.setContract(obj.getContract_id_fk());
+				
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				/********************************************************************************/	
 			//}
 		}catch(Exception e){ 

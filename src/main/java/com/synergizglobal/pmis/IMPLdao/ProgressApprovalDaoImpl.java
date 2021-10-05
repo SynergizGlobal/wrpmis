@@ -582,6 +582,12 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						arrSize++;
 					}	
 					
+					if(scope==completed)
+					{
+						updateQry = updateQry + ", actual_finish = ?";
+						arrSize++;
+					}					
+					
 					if(aObj.getUpdated_scope()!=null && Float.parseFloat(aObj.getUpdated_scope())>0)
 					{
 						updateQry = updateQry + ", Scope = ?";
@@ -600,6 +606,11 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					if(scope == (completed+actual_for_the_day)) {
 						pValues[i++] = aObj.getProgress_date();
 					}
+					
+					if(scope==completed)
+					{
+						pValues[i++] = getActivityMaxProgressDate(aObj.getActivity_id());
+					}					
 					
 					if(aObj.getUpdated_scope()!=null && Float.parseFloat(aObj.getUpdated_scope())>0)
 					{
@@ -748,7 +759,13 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						if(scope == (completed+actual_for_the_day)) {
 							updateQry = updateQry + ", planned_finish = ?";
 							arrSize++;
-						}				
+						}
+						if(scope==completed)
+						{
+							updateQry = updateQry + ", actual_finish = ?";
+							arrSize++;
+						}
+						
 						updateQry = updateQry + " WHERE activity_id = ?";
 						
 						Object[] pValues = new Object[arrSize];
@@ -761,6 +778,11 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						if(scope == (completed+actual_for_the_day)) {
 							pValues[i++] = activity.getProgress_date();
 						}
+						if(scope==completed)
+						{
+							pValues[i++] = getActivityMaxProgressDate(activity.getActivity_id());
+						}
+						
 						pValues[i++] = activity.getActivity_id();
 						
 						int count = jdbcTemplate.update( updateQry, pValues);			
@@ -817,6 +839,17 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		return aObj;
 	}
 
+	private String getActivityMaxProgressDate(String activity_id) throws Exception
+	{
+		String progressdate="";
+		try {
+			String qry = "select Max(progress_date) as  progress_date from activity_progress where activity_id_fk= ?";
+			progressdate = (String) jdbcTemplate.queryForObject(qry, new Object[] { activity_id }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}		
+		return progressdate;
+	}
 
 	@Override
 	public Activity rejectMultipleActivityProgress(Activity obj) throws Exception {

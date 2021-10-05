@@ -78,6 +78,25 @@
         .select2-container--default .select2-selection--single {
 		    background-color: transparent;
 		}
+		body .input-field .searchable_label {
+    			margin-top: -4px !important;
+		}
+		.w7em{width: 7em;}
+        .bd-none{border:none !important;background: transparent}
+		@media(max-width: 2200px){
+		.table-add{position: absolute;}
+		.add-align{position: absolute;
+   					 margin-top: -4.8em;
+   					 margin-left: 11%;}
+   		.bd-none{border: none;background: transparent}
+   		 }
+    	@media(max-Width: 2000px){
+    	.add-align{margin-left:19%;}
+    	}
+    	@media(max-width: 800px){
+    	.add-align{position: relative; margin-top: 0; margin-left:0;}
+    	.table-add{position: relative;}
+    	}
 		@media only screen and (max-width: 768px){
 			.input-field p.searchable_label {
 			    margin-top: -18px !important;
@@ -118,12 +137,12 @@
                         <div class="container container-no-margin">
                         	<input type="hidden" name ="dashboard_id" value="${dashboardDetails.dashboard_id }" />
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="dashboard_name" name="dashboard_name" type="text" class="validate" value="${dashboardDetails.dashboard_name }">
                                     <label for="dashboard_name">Dashboard <span class="required">*</span></label>
                                     <span id="dashboard_nameError" class="error-msg"></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Module </p>
                                     <select class="searchable" id="module_name_fk" name="module_name_fk">
                                         <option value="">Select</option>
@@ -133,9 +152,7 @@
                                     </select>
                                     <span id="moduleError" class="error-msg"></span>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label">Dashboard Type </p>
                                     <select class="searchable" id="dashboard_type_fk" name="dashboard_type_fk">
                                         <option value="">Select</option>
@@ -145,7 +162,13 @@
                                     </select>
                                     <span id="dashboard_typeError" class="error-msg"></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                            </div>
+                            <div class="row">
+                                
+                                
+                            </div>
+                            <div class="row">
+                            	<div class="col s6 m4 l4 input-field">
                                     <input list="folder_list"  id="folder" type="text" value="${dashboardDetails.folder }" >
                                     <input type="hidden" name="folder" id="folder_id" value="${dashboardDetails.parent_dashboard_id_sr_fk }"/>
                                     <label for="folder">Folder</label>
@@ -155,9 +178,7 @@
                                           </c:forEach>
                                     </datalist>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label"> Work </p>
                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
@@ -168,7 +189,7 @@
                                     </select>
                                       <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Contract</p>
                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" 
                                      	onchange="resetWorksDropdowns();">
@@ -183,7 +204,6 @@
                             
                            <%--  <c:if test="${action eq 'edit'}">	
 	                             <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field"> 
 									    <p class="searchable_label"> Work <span class="required">*</span></p>
 	                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${dashboardDetails.work_id_fk}- ${dashboardDetails.work_short_name}" readonly />
@@ -197,7 +217,7 @@
                             </c:if> --%>
                             
                             <div class="row">
-                                <div class="col s12 m8 l8 offset-l2 offset-m2">
+                                <div class="col s12 m10 l10">
                                     <div class="row">
                                         <!-- row 7 -->
                                         <div class="col s5 m5 l6 input-field">
@@ -220,19 +240,17 @@
                                 </div>                                
                             </div>
                             <div class="row">
-                            	<div class="col s12 m4 input-field offset-m2">
+                            	<div class="col s12 m4 l4 input-field offset-m2">
                                     <input id="priority" name="priority" type="number" class="validate" value="${dashboardDetails.priority }">
                                     <label for="priority">priority </label>
                                     <span id="priorityError" class="error-msg"></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="icon_path" name="icon_path" type="text" class="validate" value="${dashboardDetails.icon_path }">
                                     <label for="icon_path">Icon </label>
                                     <span id="icon_pathError" class="error-msg"></span>
                                 </div>
-                            </div>
-                            <div class="row" style="margin-bottom:10px;">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label"> Status </p>
                                     <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk">
                                         <option value="">Select</option>
@@ -242,16 +260,19 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="row" style="margin-bottom:10px;">
+                                
+                            </div>
 
                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m8 l12 input-field">
                                     <input id="dashboard_url" name="dashboard_url" type="text" class="validate" value="${dashboardDetails.dashboard_url }">
                                     <label for="url">Url </label>
                                     <span id="urlError" class="error-msg"></span>
                                 </div>
                             </div>
                             <div class="row" style="margin-bottom: 20px;">
-                                <div class="col s12 m8 offset-m2">
+                                <div class="col s12 m8 l12 offset-m2">
                                     <div class="row fixed-width">
                                         <h6 class="center-align" style="font-weight:600;">Dashboard Details</h6>
                                         <div class="table-inside">
@@ -334,12 +355,12 @@
                                                 </tbody>
                                             </table>
                                             
-                                            <table class="mdl-data-table">
+                                            <table class="mdl-data-table table-add bd-none">
 												<tbody>
-													<tr>
-														<td colspan="6" ><a
+													<tr class="bd-none">
+														<td colspan="6" class="bd-none"><a
 															type="button"
-															class="btn waves-effect waves-light bg-m t-c "
+															class="btn waves-effect waves-light bg-m t-c add-align"
 															onclick="addRow()"> <i
 																class="fa fa-plus"></i>
 														</a>
@@ -363,7 +384,7 @@
                             </div>
                             <!-- </div> -->
                             <div class="row">
-                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                                <div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
                                    <div class="m-1">
 	                                 <c:if test="${action eq 'edit'}">
 	                                    <button type="button" onclick="updateDashboard();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -373,7 +394,7 @@
 									 </c:if>
 								   </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr center-align">
+                                <div class="col s6 m4 l6 mt-brdr center-align">
                                 	<div class="m-1">
                                       <a href="<%=request.getContextPath()%>/dashboards" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>

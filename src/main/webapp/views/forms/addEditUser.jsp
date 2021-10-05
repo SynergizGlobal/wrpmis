@@ -105,6 +105,22 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
+		.w7em{width: 7em;}
+        .bd-none{border:none !important;background: transparent}
+		@media(max-width: 2200px){
+		.table-add{position: absolute;}
+		.add-align{position: absolute;
+   					 margin-top: -5.3em;
+   					 margin-left: 9%;}
+   		.bd-none{border: none;background: transparent}
+   		 }
+    	@media(max-Width: 2000px){
+    	.add-align{margin-left:17%;}
+    	}
+    	@media(max-width: 800px){
+    	.add-align{position: relative; margin-top: 0; margin-left:0;}
+    	.table-add{position: relative;}
+    	}
 		 @media only screen and (max-width:768px) {          
 			.input-field input[type="email"]{
 				box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff !important;
@@ -149,7 +165,7 @@
 						  </c:if>
                             <div class="row">
                                 <input id="user_id" name="user_id" type="hidden" value="${usrObj.user_id }">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field">
                                      <p class="searchable_label">User Role <span class="required">*</span></p>
                                       <select id="user_role_name_fk" name="user_role_name_fk" class="searchable validate-dropdown" onchange="setUserRoleCode();">
                                           <option value="">Select</option>
@@ -174,7 +190,7 @@
                                     <br><br>
                                 </div>
                                 </c:if> --%>
-                                 <div class="col s6 m4 input-field">
+                                 <div class="col s6 m4 l4 input-field">
                                      <p class="searchable_label">User Type <span class="required">*</span></p>
                                       <select id="user_type_fk" name="user_type_fk" class="searchable validate-dropdown"  onchange="getReportingToPersonsList();">
                                           <option value="">Select</option>
@@ -184,10 +200,7 @@
                                       </select> 
                                       <span id="user_type_fkError" class="error-msg" ></span>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                    <p class="searchable_label">Department <span class="required">*</span></p>
                                     <select id="department_fk" name="department_fk" class="searchable validate-dropdown" onchange="getReportingToPersonsList();">
                                         <option value="">Select</option>
@@ -197,7 +210,14 @@
                                     </select>     
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                            </div>
+
+                            <div class="row">
+                                
+                                
+							</div>
+                            <div class="row">
+                            	<div class="col s6 m4 l4 input-field">
                                    <p class="searchable_label">Reporting To <span class="required">*</span></p>
                                    <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable validate-dropdown">
                                        <option value="">Select</option>
@@ -207,60 +227,60 @@
                                    </select>   
                                    <span id="reporting_to_id_srfkError" class="error-msg" ></span>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                            
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="user_name" name="user_name" type="text" class="validate" value="${usrObj.user_name }">
                                     <label for="name">Name <span class="required">*</span></label>
                                     <span id="user_nameError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field ">
+                                <div class="col s6 m4 l4 input-field ">
                                     <input id="designation" name="designation" type="text" class="validate" value="${usrObj.designation }">
                                     <label for="designation">Designation <span class="required">*</span></label>
                                     <span id="designationError" class="error-msg" ></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2 ">
+                                <div class="col s6 m4 l4 input-field offset-m2 ">
                                     <input id="email_id" name="email_id" type="email" class="validate" value="${usrObj.email_id }">
                                     <label for="email_id">Email ID <span class="required">*</span></label>
                                     <span id="email_idError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field ">
+                                <div class="col s6 m4 l4 input-field ">
                                     <input id="mobile_number" name="mobile_number" type="number" class="validate" value="${usrObj.mobile_number }">
                                     <label for="mobile_number"> Mobile Number</label>
                                     <span id="mobile_numberError" class="error-msg" ></span>
                                 </div>
-                            </div>        
-                            
-                            <div class="row">                               
-                                <div class="col s12 m4 input-field offset-m2">
+                                <div class="col s12 m4 l4 input-field offset-m2">
                                     <input id="personal_contact_number " name="personal_contact_number" type="number" class="validate" value="${usrObj.personal_contact_number }">
                                     <label for="personal_contact_number"> Personal Contact Number </label>
                                     <span id="personal_contact_numberError" class="error-msg" ></span>
                                 </div>
+                            </div>        
+                            
+                            <div class="row">                               
+                                
                             </div>
                                               
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="landline" name="landline" type="number" class="validate" value="${usrObj.landline }">
                                     <label for="landline"> Landline </label>
                                     <span id="landlineError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="extension" name="extension" type="number" class="validate" value="${usrObj.extension }">
                                     <label for="extension">Extension</label>
                                      <span id="extensionError" class="error-msg" ></span>
                                 </div>
-                            </div>
-                            
-                             <div class="row">
-                                <div class="col s12 m4 input-field offset-m4">                                
+                                <div class="col s12 m4 l4 input-field offset-m4">                                
                                     <input id="pmis_key_fk" name="pmis_key_fk" type="text" class="validate" value="${usrObj.pmis_key_fk }">
                                     <label for="pmis_key_fk">PMIS KEY</label>
                                     <span id="pmis_key_fkError" class="error-msg" ></span>
                                 </div>
+                            </div>
+                            
+                             <div class="row">
+                                
                             </div>
                             
                            <%--  <div class="row">
@@ -284,7 +304,7 @@
                             <div class="row fixed-width">
                                 <h5 class="center-align">User Permissions</h5>
                                 <!-- <div class="table-inside"> -->
-                                <div class="col m8 s12 max-h offset-m2 " style="margin-bottom:20px;">
+                                <div class="col l12 m8 s12 max-h offset-m2 " style="margin-bottom:20px;">
                                     <table id="userPermissionsTable" class="mdl-data-table mobile_responsible_table" >
                                         <thead>
                                             <tr>
@@ -363,10 +383,10 @@
                                         </tbody>
                                     </table>
                                     
-                                    <table class="mdl-data-table">
+                                    <table class="mdl-data-table table-add bd-none">
                                         <tbody>                                          
-                                            <tr>
-                                                <td colspan="3" style="text-align: center !important;"><a href="javascript:void(0);" onclick="addUserPermissions()"class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-plus"></i></a> </td>
+                                            <tr class="bd-none">
+                                                <td colspan="3" style="text-align: center !important;" class="bd-none"><a href="javascript:void(0);" onclick="addUserPermissions()"class="btn waves-effect waves-light bg-m t-c add-align"> <i class="fa fa-plus"></i></a> </td>
 											</tr>
                                         </tbody>
                                     </table>
@@ -384,7 +404,7 @@
                             </div>
                             <div class="row">
 
-                                <!-- <div class="col m8 s12">
+                                <!-- <div class="col l12 m8 s12">
                                     <div class="file-field input-field">
                                         <div class="btn bg-m">
                                             <span>User Image</span>
@@ -396,7 +416,7 @@
                                     </div>
                                 </div> -->
                                 
-                                <div class="col m8 s12 offset-m2">
+                                <div class="col l12 m8 s12 offset-m2">
                                     <div class="file-field input-field">
                                         <div class="btn bg-m">
                                         	<c:if test="${not empty usrObj.user_image }">
@@ -417,8 +437,7 @@
                             </div>
                             <%-- <div class="row">
                                 <!-- row 10 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 l12 input-field">
                                     <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${usrObj.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
@@ -426,7 +445,7 @@
                             </div> --%>
                             
                             <div class="row">
-                                <div class="col s6 m4 mt-brdr offset-m2">
+                                <div class="col s6 m4 l6 mt-brdr offset-m2">
                                     <div class="center-align m-1">
                                         <c:if test="${action eq 'edit'}">
 	                                       <button type="button" onclick="updateUser();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -436,7 +455,7 @@
 	                                    </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr">
+                                <div class="col s6 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath()%>/users" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>

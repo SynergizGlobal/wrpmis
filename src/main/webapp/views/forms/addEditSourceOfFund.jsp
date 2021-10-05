@@ -42,6 +42,8 @@
 		.pt-10{
 			padding-top:10px !important;
 		}
+		.pl0{padding-left: 0 !important;}
+		.h2em{height: 2em !important;}
 	@media only screen and (max-width: 768px){
 			/* table datepicker , select2 dropdown , table column and update , cancel buttons styling for mobile versions */
 		
@@ -141,7 +143,7 @@
 							  </c:if>
 							 <c:if test="${action eq 'add'}">	
                               <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m4 l4 input-field pl0">
                                     <p class="searchable_label">Project <span class="required">*</span></p>
                                      <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                  	   onchange="getWorksList(this.value);">
@@ -163,24 +165,24 @@
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div> -->
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                                
+                            
                            </c:if>
+                           		
                             <c:if test="${action eq 'edit'}">	
-                              <div class="row" id="center" >
-	                       		  <div class="col s12 m8 input-field offset-m2">
+                              <div id="center" >
+	                       		  <div class="col s12 m4 l4 input-field pl0">
 										 <p class="searchable_label">Project <span class="required">*</span></p>
-	                                     <input type="text" value="${fundDetails.project_id_fk} - ${fundDetails.project_name}" readonly />
+	                                     <input type="text" class="h2em" value="${fundDetails.project_id_fk} - ${fundDetails.project_name}" readonly />
 								  </div> 
 								  <!-- <div class="col s12 m4 input-field"> 
 									    <p class="searchable_label">Work</p>
 	                                         	 	<input type="text" value="${fundDetails.work_id_fk} - ${fundDetails.work_name}" readonly />
 	                              </div> -->
-                              </div> 
+                               
                              </c:if>
                              <input type="hidden" name="funds_id" value="${fundDetails.funds_id }" />
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                             <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Source of Fund <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="source_of_funds_fk" id="source_of_funds_fk">
                                         <option value="">Select</option>
@@ -190,7 +192,9 @@
                                     </select>
                                     <span id="source_of_funds_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                            <div class="row">
+                                
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label fs-sm-67rem">Sub Category Railway <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="sub_category_railway_id_fk" id="sub_category_railway_id_fk">
                                         <option value="">Select</option>
@@ -203,19 +207,19 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s12 m4 input-field offset-m2">
+                                <div class="col s12 m4 l4 input-field">
                                     <input id="funding_date" type="text" class="validate datepicker" name="funding_date" value="${fundDetails.funding_date }">
                                     <label for="funding_date">Funding Date</label>
                                     <button type="button" id="funding_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="funding_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s8 m3 input-field">
+                                <div class="col s8 m3 l3 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="fund_amount" min="0.01" step="0.01" type="number" class="validate" name="fund_amount" value="${fundDetails.fund_amount }">
                                     <label for="fund_amount fs-sm-8rem"> Fund Amount </label>
                                     <span id="fund_amountError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s4 m1 input-field pt-10">
+                                <div class="col s4 m1 l1 input-field pt-10">
                                 	<p class="searchable_label">Unit</p>
                                 	<select class="units searchable validate-dropdown" id="fund_amount_units" name="fund_amount_units">
                                 		<option value="">Select</option>
@@ -225,29 +229,23 @@
                                 	</select>
                                 	<span id="fund_amount_unitsError" class="error-msg" ></span>
                                	</div> 
-                            </div>
-
-                            <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                               	<div class="col s6 m4 l4 input-field">
                                     <input id="voucher_type" type="text" class="validate" name="voucher_type" value="${fundDetails.voucher_type }">
                                     <label for="voucher_type">Voucher Type </label>
                                     <span id="voucher_typeError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                           
+                            <div class="col s6 m4 l4 input-field">
                                     <input id="voucher_no" type="text" class="validate" name="voucher_no" value="${fundDetails.voucher_no }">
                                     <label for="voucher_no">Voucher No </label>
                                     <span id="voucher_noError" class="error-msg" ></span>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                     <input id="bank_account" type="text" class="validate" name="bank_account" value="${fundDetails.bank_account }">
                                     <label for="bank_account">Bank Account </label>
                                     <span id="bank_accountError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                     <input id="ledger_account" type="text" class="validate" name="ledger_account" value="${fundDetails.ledger_account }">
                                     <label for="ledger_account">Ledger Account </label>
                                     <span id="ledger_accountError" class="error-msg" ></span>
@@ -255,8 +253,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 l12 input-field">
                                     <textarea id="narration" name="narration" class="pmis-textarea" data-length="1000">${fundDetails.narration }</textarea>
                                     <label for="narration">Narration </label>
                                     <span id="narrationError" class="error-msg" ></span>
@@ -264,8 +261,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
+                                <div class="col l12 m8 s12">
                                 
                                  <c:if test="${action eq 'add'}">
 			                            <div id="selectedFilesInput">
@@ -315,8 +311,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 l12 input-field">
                                     <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${fundDetails.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
@@ -324,7 +319,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s6 offset-m2 m4 mt-brdr">
+                                <div class="col s6 offset-m2 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
                                           <c:if test="${action eq 'edit'}">
 	                                           <button type="button" onclick="updateFunds();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -334,7 +329,7 @@
 										  </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr">
+                                <div class="col s6 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath()%>/source-of-funds" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>

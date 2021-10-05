@@ -573,19 +573,17 @@
         	                    if(approval_status_fk == 'Pending')
         	                    {
         	                    		var disabledval="";
+        	                    		var concat="";
         	                    		if(parseFloat(val.total_scope)>=parseFloat(val.cumulative_completed)+parseFloat(val.actual_for_the_day))
         	                    		{
         	                    			disabledval="disabled";
+        	                    		    concat='&nbsp;&nbsp;&nbsp;<a href="#" style="font-size:15px;"><span class="fa fa-info-circle fa-1x" style="color:#469408;" data-toggle="tooltip" title="Activity Scope Completed"></span></a>';
         	                    		}
-        	                    		else
-        	                    			{
-        	                    				disabledval="";
-        	                    			}
         	                    		
 	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+key+'" value="'+progress_id+'"  '+disabledval+' /><span></span></label></p>';
 	        	                   	
 	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn bg-m" '+disabledval+'><i class="fa fa-check"></i> </a>'
-        	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>';
+        	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>'+concat;
         	                   	}
         	                    
 	        	         		rowArray.push(checkbox);

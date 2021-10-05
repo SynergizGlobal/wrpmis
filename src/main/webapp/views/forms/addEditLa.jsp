@@ -273,13 +273,7 @@
                                     <label for="dy_slr">Dy SLR </label>
                                     <span id="dy_slrError" class="error-msg" ></span>
                                 </div>                                
-                            </div>
-                            <div class="row">                                 
-                                
-                                
-                            </div>
-
-                            <div class="row">
+                            
                             <div class="col s6 m4 l4 input-field">
                                     <input id="sdo" name="sdo" type="text" class="validate" value="${LADetails.sdo }">
                                     <label for="sdo"> SDO</label>
@@ -325,14 +319,7 @@
                                     <input id="chainage_from" name="chainage_from" type="text" class="validate" value="${LADetails.chainage_from }">
                                     <label for="chainage_from">Chainage From</label>
                                 </div>                               
-                            </div>
-
-                            <div class="row">                                 
-                                
-                                                                 
-                            </div>
-
-                            <div class="row"> 
+                             
                             	<div class="col s6 m4 l4 input-field">
                                     <input id="chainage_to" name="chainage_to" type="text" class="validate" value="${LADetails.chainage_to }">
                                     <label for="chainage_to"> Chainage To </label>
@@ -572,14 +559,14 @@
                             <div id="forest_div" style="display: none;">
                                 <h6 class="center-align primary-text-bold">Forest Land Details </h6>
                                <div class="row">                                     
-                                    <div class="col s12 m4 l4 input-field offset-m2">
+                                    <div class="col s6 m4 l4 input-field offset-m2">
                                         <input id="forest_area_to_be_acquired" name="forest_area_to_be_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.forest_area_to_be_acquired }"
                                             class="validate">
                                         <label for="forest_area_to_be_acquired"> Area to be Acquired </label>
                                         <span class="units">units</span>
                                         <span id="forest_area_to_be_acquiredError" class="error-msg"></span>
                                     </div>
-                                     <div class="col s12 m4 l4 input-field">
+                                     <div class="col s6 m4 l4 input-field">
                                         <input id="forest_area_acquired" name="forest_area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.forest_area_acquired }"
                                             class="validate">
                                         <label for="forest_area_acquired"> Area Acquired </label>
@@ -593,12 +580,7 @@
                                         <button type="button" id="forest_online_submission_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
-                                </div>
-                                <div class="row">                                     
-                                    
-                                                                         
-                                </div>
-                                <div class="row"> 
+                                 
                                 <div class="col s6 m4 l4 input-field">
                                         <input id="forest_submission_dycfo" name="forest_submission_date_to_dycfo" type="text" value="${LADetails.forest_submission_date_to_dycfo }"
                                             class="validate datepicker">
@@ -739,7 +721,7 @@
 											</c:forEach>
                                         </select>
                                     </div>                                   
-                                    <div class="col s6 m4 l4 input-field offset-m2">
+                                    <div class="col s6 m4 l4 input-field">
                                         <p class="searchable_label">Payment Status </p>
                                         <select class="searchable" id="forest_payment_status_fk"
                                             name="forest_payment_status_fk">
@@ -911,7 +893,7 @@
                                         <button type="button" id="private_possession_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                    
-                                    <div class="col s6 m4 l4 input-field offset-m2">
+                                    <div class="col s6 m4 l4 input-field">
                                         <p class="searchable_label">Possession Status</p>
                                         <select class="searchable" id="private_possession_status"
                                             name="private_possession_status_fk">
@@ -922,7 +904,7 @@
 											</c:forEach>
                                         </select>
                                     </div>
-                                    <div class="col s6 m4 l4 input-field ">
+                                    <div class="col s7 m4 l4 input-field ">
                                         <input id="private_special_feature" name="private_special_feature" type="text" value="${LADetails.private_special_feature }"
                                             class="validate mt-10">
                                         <label for="private_special_feature"> Special Feature </label>
@@ -1210,12 +1192,7 @@
                                         <button type="button" id="railway_online_submission_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                     
-                                </div>
-                                <div class="row">   
-                                    
-                                                                         
-                                </div>
-                                <div class="row"> 
+                                
                                 	<div class="col s6 m4 l4 input-field ">
                                         <input id="railway_submission_dycfo" type="text" name="railway_submission_date_to_DyCFO" value="${LADetails.railway_submission_date_to_DyCFO }"
                                             class="validate datepicker">

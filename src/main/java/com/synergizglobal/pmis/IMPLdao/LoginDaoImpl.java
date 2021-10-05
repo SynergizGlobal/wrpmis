@@ -175,7 +175,39 @@ public class LoginDaoImpl implements LoginDao{
 		}
 		return temp;
 	}
+	
+	
+	
+	@Override
+	public String resetPassword(User user) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String temp = null;
+		try{  
+				con = dataSource.getConnection();
 
+				String qry2 = "UPDATE user set password = ? WHERE user_id = ?";
+				
+				stmt = con.prepareStatement(qry2);
+				stmt.setString(1, user.getNewPassword());
+				stmt.setString(2, user.getUser_id());
+				
+				
+				int c = stmt.executeUpdate();  
+				if(c > 0) {
+					temp = "true";
+				}
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return temp;
+	}
+	
 
 	@Override
 	public boolean addUserLogoutDateTime(User uObj) throws SQLException {
@@ -280,6 +312,54 @@ public class LoginDaoImpl implements LoginDao{
 		}
 		return single_login_session_id;
 	}
+	
+	@Override
+	public boolean checkUserName(String UserName) throws SQLException {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		boolean process = false;
+		try{  
+			con = dataSource.getConnection();
+			
+			String updateQry = "select user_name from user WHERE user_name = ?";
+			stmt = con.prepareStatement(updateQry);
+			stmt.setString(1, UserName);	
+			rs = stmt.executeQuery(); 
+			if(rs.next()) {		
+				process=true;	
+			}
+		}catch(Exception e){ 
+			throw new SQLException(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return process;
+	}
+	
+	@Override
+	public boolean checkUserEmail(String Email) throws SQLException {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		boolean process = false;
+		try{  
+			con = dataSource.getConnection();
+			
+			String updateQry = "select email_id from user WHERE email_id = ?";
+			stmt = con.prepareStatement(updateQry);
+			stmt.setString(1, Email);	
+			rs = stmt.executeQuery(); 
+			if(rs.next()) {		
+				process=true;			
+			}
+		}catch(Exception e){ 
+			throw new SQLException(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return process;
+	}	
 
 }
 

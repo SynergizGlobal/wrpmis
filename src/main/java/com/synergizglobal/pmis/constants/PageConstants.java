@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.constants;
 public class PageConstants {
 	
 	public static final String login = "login";
+	public static final String forgotPassword = "forgotPassword";
 	public static final String passwordReset = "passwordReset";	
 	public static final String home = "home";	
 	public static final String tableauDashboard = "tableauDashboard";

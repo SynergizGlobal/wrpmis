@@ -19,6 +19,12 @@ public interface LoginDao {
 	public boolean logoutFromAllDevices(User obj) throws SQLException;
 
 	public String getSingleLoginSessionId(User obj) throws SQLException;
+
+	public boolean checkUserName(String UserName) throws SQLException;
+
+	public boolean checkUserEmail(String Email) throws SQLException;
+
+	public String resetPassword(User user) throws Exception;
 }
 
 

@@ -190,34 +190,62 @@
      			<!-- <h3 style="color: #fff;">System IP Address : <span id="systemIPA">Loading...</span></h3>
                 <h3 style="color: #fff;">Public IP Address : <span id="publicIPA">Loading...</span></h3> -->
                 
-		        <form class="col s12 m3" action="<%=request.getContextPath()%>/login" id="loginForm" name="loginForm" method="post" >
+		        <form class="col s12 m4" action="<%=request.getContextPath()%>/forgot-password" id="forgotPasswordForm" name="forgotPasswordForm" method="post" >
 		        	<div class="row homepage">
 			            <img src="/pmis/resources/images/mrvclogo.png" alt="mrvc logo" class="card-img">
-			            <h4 class="tite">Sign In</h4>
-			            <div class="input-field col offset-s1 s10">
-			              <input type="text" name="user_id" id="user_id" class="validate form-control" autocomplete="off">
-			              <label for="user_id">User Name</label>
-			            </div>
-			            <div class="input-field col offset-s1 s10">
-			              <input type="password" name="password" id="password" class="validate" autocomplete="off">
-			              <label for="password">Password</label>
-			             <!--  <i class="fa fa-eye toggle-password" style="color:#fff;">.</i> -->
-			              <span class="material-icons toggle-password">visibility_off</span>
-			            </div>
-			            <div class="msg">
-			             	<p id="message" class="error">${message}</p>
-			               	<c:if test="${not empty success}">
-			                   	<p id="logoutMsg" class="success">${success}</p>
-			               	</c:if>
-			            </div>
-			             <div class="input-field col offset-s1 s10"><a href="forgot-password" style="color:#ffffff;" id="forgotid">Forgot Password </a></div>
-			            <input type="hidden" id="system_ipa" name="system_ipa">
-			            <input type="hidden" id="public_ipa" name="public_ipa">
+				            <h4 class="tite">Forgot Password</h4>
+				            <div class="input-field col offset-s1 s10">
+				              <input type="text" name="user_id" id="user_id">
+				              <label for="user_id">User Name</label>
+				            </div>
+				            <div class="input-field col offset-s1 s10">
+				              <input type="text" name="email_id" id="email_id" >
+				              <label for="password">Confirm Email</label>
+				            </div>
+				            <div class="input-field col offset-s1 s10">
+				              <input type="password" name="newPassword" id="newPassword">
+				              <label for="password">New Password</label>
+				             <!--  <i class="fa fa-eye toggle-password" style="color:#fff;">.</i> -->
+				              <span class="material-icons toggle-password">visibility_off</span>
+				            </div>
+				            <div class="input-field col offset-s1 s10">
+				              <input type="password" name="confirmPassword" id="confirmPassword">
+				              <label for="password">Confirm New Password</label>
+				             <!--  <i class="fa fa-eye toggle-password" style="color:#fff;">.</i> -->
+				              <span class="material-icons toggle-password">visibility_off</span>
+				            </div>				            				            
+				            <div class="msg">
+				             	<p id="message" class="error">${message}</p>
+				               	<c:if test="${not empty success}">
+				                   	<p id="logoutMsg" class="success">${success}</p>
+				               	</c:if>
+				            </div>
+				             <input type="hidden" id="hdnPass">
+				            <div id="accessMsg" style="text-align:center;color:red;font-size:24px;height:30px;"></div><br><br>
+                            <div class="row input-field col offset-s1 s10" id="divOTP" style="text-align:center;color:red;display:none;">
+                            <br>
+                             We have sent OTP to your Email Id. Please enter the OTP here to reset your password.
+                             <br>
+                             
+ 				            <div class="input-field col offset-s1 s10">
+				              <input type="password" id="otpvalue" name="otpvalue"  maxlength="6">
+				              <label for="password">OTP</label>
+				            </div>
+				            
+ 				            <div class="input-field col offset-s1 s10">
+								<button type="button" class="btn waves-effect waves-light bg-m" style="width: 100%;" id="btnCheckotp" onClick="CheckOTP();">Check OTP</button>
+				            </div>				            
+                            </div> 
+                            <div class="row input-field col offset-s1 s10" style="text-align:center;color:red;" id="otpmessage">
+                            
+                            </div> 				            
+				            
+				            
 			            <div class="input-field col offset-s1 s10 text-center">
-			            	<button type="button" onclick="login();" class="btn bgb" style="width:100%">Submit</button>
+			            	<button type="button" onclick="login();" class="btn bgb" style="width:100%" id="btnSubmit">Submit</button>
 			               <!--  <input type="submit" class="btn-outline waves-effect waves-light" value="Go">
 			                <p class="for-text"><a href="javscript:void(0);" >Forgot Password ?</a></p> -->
-			            </div>
+			            </div>				            
 			        </div>
 		        
 		         </form>
@@ -292,6 +320,7 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
 	<script>  
+	  var glbProcess=false;
 	    var RTCPeerConnection = /*window.RTCPeerConnection ||*/ window.webkitRTCPeerConnection || window.mozRTCPeerConnection;  
 		if (RTCPeerConnection)(function() {  
 		    var rtc = new RTCPeerConnection({  
@@ -388,9 +417,9 @@
 			
 			function login() {
 				window.localStorage.clear();
-				var flag = $('#loginForm').valid();
+				var flag = $('#forgotPasswordForm').valid();
 				if(flag){
-					$('#loginForm').submit();
+					$('#forgotPasswordForm').submit();
 				}
 			}
 		    
@@ -423,32 +452,64 @@
 		       	 closeOnClick: false,
 		       	 aboveOrigin:true,
 		        });
+		        
+				jQuery.validator.addMethod("mypassword", function(value, element) {
+					  // allow any non-whitespace characters as the host part
+					  return this.optional( element ) || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/.test( value );
+				}, 'Password should contain minimum 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character');
 			 });
 			
 			
-		    $('#loginForm').validate({
+		    $('#forgotPasswordForm').validate({
 			    rules: {
 			     		"user_id":{
 			     			required:true
-	                	},"password":{
+	                	},"email_id":{
 	                		required:true
 	                	}
+	                	,"newPassword":{
+	                		required:true,
+	                		minlength: 8,
+	                		maxlength: 20,
+	                        mypassword: true
+	                	},"confirmPassword":{
+	                		required:true,
+	                		minlength: 8,
+	                		maxlength: 20,
+	                		equalTo: "#newPassword"
+	                	}                	
 			     	},
 			    messages: {
 			   			  "user_id":{
-			   			  	required:'Please provide Login Id & Password'
-			   			  },"password":{
-	                		required:'Please provide Login Id & Password'
-		                  }
+			   			  	required:'Please provide User Name'
+			   			  },"email_id":{
+	                		required:'Please provide Password'
+		                  },
+		                  "newPassword":{
+		                		required:'New Password Required',
+		                		minlength: "Your password must be at least 8 characters long",
+		                		maxlength: "Your password must be at most 20 characters long"
+			                  },"confirmPassword":{
+		                		required:'Confirm Password Required',
+		                		minlength: "Your password must be at least 8 characters long",
+		                		maxlength: "Your password must be at most 20 characters long",
+		                		equalTo: "Confirm password must be same as New Password"
+			                  }	                  
 			   	},errorPlacement:function(error, element){
 			   		   $("#logoutMsg").html("");
 				       if(element.attr("id") == "user_id" ){
 						 document.getElementById("message").innerHTML="";
 						 error.appendTo('#message');
-				        }else if (element.attr("id") == "password" ){
+				        }else if (element.attr("id") == "email_id" ){
 						 document.getElementById("message").innerHTML="";
 						 error.appendTo('#message');
-			             }else{error.insertAfter(element);} 
+			             }else if (element.attr("id") == "newPassword" ){
+							 document.getElementById("message").innerHTML="";
+							 error.appendTo('#message');
+				             }else if (element.attr("id") == "confirmPassword" ){
+								 document.getElementById("message").innerHTML="";
+								 error.appendTo('#message');
+					             }else{error.insertAfter(element);} 
 				       
 			    },invalidHandler: function (form, validator) {
                      var errors = validator.numberOfInvalids();
@@ -459,7 +520,52 @@
                          }, 1000);
                      }
                  },submitHandler:function(form){
-			    	 
+                	 
+			    	 	if(checkLoggedInUserName()==true)
+			    		 {
+			    	 		if(checkLoggedInUserEmail()==true)
+			    	 			{
+		                    	 	$("#user_id").prop("readonly", true);
+		                    	 	$("#email_id").prop("readonly", true);	
+		                    	 
+			                    	 $("#newPassword").prop("readonly", true);
+			                    	 $("#confirmPassword").prop("readonly", true);	  
+				                	 if(glbProcess==false)
+			                		 {
+				                		 $("#accessMsg").html("");
+				                    	 $("#divOTP").show();
+					                	 $("#btnSubmit").hide();
+					                	 
+					                	 var OTP=generateOTP();
+					                	 $("#hdnPass").val(OTP);
+					                	 
+					                	 var myParams = { OTP: OTP,Email: $("#email_id").val()};
+					                	 
+					                	 $.ajax({
+					                         url: "<%=request.getContextPath()%>/ajax/sendOTPtomailforResetPassword",
+					                         data: myParams, cache: false,
+					                         success: function (data) 
+					                         {
+					                             
+					                         }
+					                     });
+			                		 }
+				                	 else
+			                		 {
+			                		 	form.submit();
+			                		 }				                	 
+			                    	 
+		                    	 
+			    	 			}
+					    	 	else
+				    	 		{
+					    	 		$("#accessMsg").html("Email wrong");
+				    	 		}			    	 		
+			    		 }
+			    	 	else
+		    	 		{
+			    	 		$("#accessMsg").html("User Name wrong");
+		    	 		}
 			    	//const public_key="ssdkF$HUy2A#D%kd";
 			    	//$('#user_id').val(CryptoJS.AES.encrypt($('#user_id').val(),public_key)); 
 			    	//$('#password').val(CryptoJS.AES.encrypt($('#password').val(),public_key));
@@ -473,7 +579,6 @@
 			    		//jQuery('input[name="'+field.name+'"]').val(CryptoJS.AES.encrypt(jQuery('input[name="'+field.name+'"]').val(),public_key));
 			    	    //});
 			    	
-		             form.submit();
 			    }
 			});
 		    
@@ -515,6 +620,78 @@
 		    	  }
 
 		    	});
+		    
+		    
+	        function CheckOTP()
+	        {
+        		if($("#hdnPass").val()!=$("#otpvalue").val())
+        		{
+        		
+        			$("#otpmessage").html("Wrong OTP");
+            	
+	        	}
+	            else
+	        	{
+            		$("#divOTP").hide();
+	            	$("#btnSubmit").show();
+	            	$("#otpmessage").hide();
+	            	$("#otpmessage").html();
+	            	glbProcess=true;
+	        	}       		
+	        }		    
+		    
+		    
+	        function checkLoggedInUserEmail()
+	        {
+	        
+	        	var bool = false;
+	           	 $.ajax({
+	                 url: "<%=request.getContextPath()%>/ajax/checkUserEmail",
+	                 data: {Email:$("#email_id").val()},type: 'POST',
+	                 async: false,
+	                 dataType: 'json',
+	                 success: function (data) 
+	                 {
+	                	 if (data == true) {
+	                         bool = true;
+	                     }
+	                 }
+	             });
+	           	return trueOrFalse(bool);
+	        }
+	        
+	        function checkLoggedInUserName()
+	        {
+
+	        	var bool = false;
+	           	 $.ajax({
+	                 url: "<%=request.getContextPath()%>/ajax/checkLoggedInUserName",
+	                 data: {UserName:$("#user_id").val()},type: 'POST',
+	                 async: false,
+	                 dataType: 'json',
+	                 success: function (data) 
+	                 {
+	                	 if (data == true) {
+	                         bool = true;
+	                     }
+	                 }
+	             });
+	           	return trueOrFalse(bool);
+	        }	
+	        
+	        function trueOrFalse(bool){
+	            return bool;
+	    	}	        
+	        
+	        
+	        function generateOTP() {
+	            var digits = '0123456789';
+	            let OTP = '';
+	            for (let i = 0; i < 6; i++ ) {
+	                OTP += digits[Math.floor(Math.random() * 10)];
+	            }
+	            return OTP;
+	        }	  	        
 		    
 </script>
 

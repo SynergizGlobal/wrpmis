@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,6 +36,7 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.exceptions.NoKeyException;
 import com.synergizglobal.pmis.model.FOB;
+import com.synergizglobal.pmis.model.FOBGallery;
 import com.synergizglobal.pmis.model.User;
 @Controller
 public class LoginController {
@@ -246,6 +248,39 @@ public class LoginController {
 	}
 	
 	
+	@RequestMapping(value = "/forgot-password", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView forgotPassword(@ModelAttribute User user, RedirectAttributes attributes) throws Exception{
+		User userDetails = null;
+		ModelAndView model = new ModelAndView();
+		try{
+			
+			if(!StringUtils.isEmpty(user.getUser_id()) && !StringUtils.isEmpty(user.getNewPassword())){
+				if(!StringUtils.isEmpty(user)) 
+				{
+					String temp = loginService.resetPassword(user);
+					model.setViewName("redirect:/login");
+				}else
+				{
+					model.addObject("message", invalidUserName);
+					model.setViewName(PageConstants.forgotPassword);
+				}
+			}else{
+				model.setViewName(PageConstants.forgotPassword);
+			}
+		}catch(NoKeyException e){
+			logger.error("forgot password : " + e.getMessage());
+			model.addObject("message", e.getMessage());
+			model.setViewName(PageConstants.forgotPassword);
+		}catch(SQLException e){
+			logger.error("forgot password : " + e.getMessage());
+			model.addObject("message", commonError);
+			model.setViewName(PageConstants.forgotPassword);
+		}
+		return model;
+	}
+
+	
+	
 	@RequestMapping(value = "/profile", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView profile(HttpSession session){
 		ModelAndView model = new ModelAndView();
@@ -336,7 +371,18 @@ public class LoginController {
 			emailSender.sendOTPEmail(recipients,OTP);
 		}
 		return 1;
-	}	
+	}
+	
+	@RequestMapping(value = "/ajax/sendOTPtomailforResetPassword", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public static int sendOTPtomailforResetPassword(int OTP,String Email) {
+		String recipients=Email;
+		if (!StringUtils.isEmpty(recipients)) {
+			EMailSender emailSender = new EMailSender();
+			emailSender.sendOTPEmail(recipients,OTP);
+		}
+		return 1;
+	}		
 	
 	@RequestMapping(value = "/ajax/checkLoggedInUserEmail", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -349,6 +395,55 @@ public class LoginController {
 		}
 		return true;
 	}
+	
+	@RequestMapping(value = "/ajax/checkLoggedInUserName", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean checkLoggedInUserName(String UserName) 
+	{
+		boolean process=false;
+		boolean checkuser;
+		try {
+			checkuser = loginService.checkUserName(UserName);
+			
+			if (!StringUtils.isEmpty(checkuser)) 
+			{
+				if(checkuser==true)
+				{
+					process=true;
+				}
+			}			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return process;
+	}
+	
+	@RequestMapping(value = "/ajax/checkUserEmail", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean checkUserEmail(String Email)
+	{
+		boolean process=false;
+		boolean checkuser;
+		try {
+			checkuser = loginService.checkUserEmail(Email);
+			
+			if (!StringUtils.isEmpty(checkuser)) 
+			{
+				if(checkuser==true)
+				{
+					process=true;
+				}
+			}			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return process;
+	}	
+	
 	
 	@RequestMapping(value = "/ajax/checkLoggedInUserPassword", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

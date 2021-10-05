@@ -60,6 +60,22 @@ public class LoginServiceImpl implements LoginService {
 	public String getSingleLoginSessionId(User obj) throws SQLException {
 		return loginDao.getSingleLoginSessionId(obj);
 	}
+	
 
+	@Override
+	public boolean checkUserName(String UserName) throws SQLException {
+		return loginDao.checkUserName(UserName);
+	}
+	
+
+	@Override
+	public boolean checkUserEmail(String Email) throws SQLException {
+		return loginDao.checkUserEmail(Email);
+	}
+	
+	@Override
+	public String resetPassword(User user) throws Exception {
+		return loginDao.resetPassword(user);
+	}
 	
 }

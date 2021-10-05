@@ -13,9 +13,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.P6DataDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.P6Data;
 
 @Repository
@@ -26,6 +28,9 @@ public class P6DataDaoImpl implements P6DataDao {
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 
 	@Override
 	public List<P6Data> getContractsList(P6Data obj) throws Exception {
@@ -34,7 +39,7 @@ public class P6DataDaoImpl implements P6DataDao {
 			String qry ="SELECT contract_id,contract_name FROM contract ";
 			objsList = jdbcTemplate.query( qry,new BeanPropertyRowMapper<P6Data>(P6Data.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
@@ -308,6 +313,18 @@ public class P6DataDaoImpl implements P6DataDao {
 				count = count + c[i];
 			}
 			con.commit();
+			
+			FormHistory formHistory = new FormHistory();
+			formHistory.setCreated_by_user_id_fk(pobj.getCreated_by_user_id_fk());
+			formHistory.setUser(pobj.getDesignation()+" - "+pobj.getUser_name());
+			formHistory.setModule_name("P6 Data");
+			formHistory.setForm_action_type("Update");
+			formHistory.setForm_details("Data date updated and "+ count + " Activities updated successfully.");
+			//formHistory.setWork(pobj.getWork_id_fk());
+			formHistory.setContract(pobj.getContract_id_fk());
+			
+			boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+			
 		}catch(Exception e){ 
 			e.printStackTrace();
 			con.rollback();
@@ -486,6 +503,17 @@ public class P6DataDaoImpl implements P6DataDao {
 			}
 			counts = wbsCount + "," + activitiesCount;	
 			con.commit();
+			
+			FormHistory formHistory = new FormHistory();
+			formHistory.setCreated_by_user_id_fk(pobj.getCreated_by_user_id_fk());
+			formHistory.setUser(pobj.getDesignation()+" - "+pobj.getUser_name());
+			formHistory.setModule_name("P6 Data");
+			formHistory.setForm_action_type("Add");
+			formHistory.setForm_details("Data date updated and "+ counts + " WBS , Activities records added successfully.");
+			//formHistory.setWork(pobj.getWork_id_fk());
+			formHistory.setContract(pobj.getContract_id_fk());
+			
+			boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 		}catch(Exception e){ 
 			e.printStackTrace();
 			con.rollback();

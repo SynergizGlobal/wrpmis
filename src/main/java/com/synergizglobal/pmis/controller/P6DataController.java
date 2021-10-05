@@ -166,7 +166,6 @@ public class P6DataController {
 	@RequestMapping(value = "/upload-p6-data", method = {RequestMethod.POST})
 	public ModelAndView uploadP6Baseline(@ModelAttribute P6Data p6data,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
-		String userId = null;String userName = null;
 		XSSFWorkbook workbook = null;
 		XSSFSheet uploadFilesSheet = null;
 		XSSFSheet uploadFilesSheet1 = null;
@@ -174,9 +173,15 @@ public class P6DataController {
 		List<P6Data> wbsList = new ArrayList<P6Data>();
 		List<P6Data> activitiesList = new ArrayList<P6Data>();
 		try {
-			userId = (String) session.getAttribute("USER_ID");
-			userName = (String) session.getAttribute("USER_NAME");
 			model.setViewName("redirect:/p6-data");
+			
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			p6data.setCreated_by_user_id_fk(userId);
+			p6data.setUser_name(userName);
+			p6data.setDesignation(userDesignation);
 			
 			MultipartFile multipartFile = p6data.getP6dataFile();
 			// Creates a workbook object from the uploaded excelfile
@@ -386,15 +391,20 @@ public class P6DataController {
 	@RequestMapping(value = "/update-p6-activities", method = {RequestMethod.POST})
 	public ModelAndView updateP6Activities(@ModelAttribute P6Data p6data,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
-		String userId = null;String userName = null;
 		XSSFWorkbook workbook = null;
 		String fob_mismatch = null;
 		XSSFSheet uploadFilesSheet = null;
 		List<P6Data> activitiesList = new ArrayList<P6Data>();
 		try {
-			userId = (String) session.getAttribute("USER_ID");
-			userName = (String) session.getAttribute("USER_NAME");
 			model.setViewName("redirect:/p6-data");
+			
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			p6data.setCreated_by_user_id_fk(userId);
+			p6data.setUser_name(userName);
+			p6data.setDesignation(userDesignation);
 			
 			if(!StringUtils.isEmpty(p6data.getP6dataFile())){
 				MultipartFile multipartFile = p6data.getP6dataFile();

@@ -6,11 +6,36 @@ public class P6Data {
 	
 	private String p6_activity_id, p6_task_code,p6_wbs_code_fk, p6_activity_name, status_fk, baseline_start, baseline_finish, 
 	start, finish, p6_float,p6_wbs_code, contract_id_fk, fob_id_fk, p6_wbs_name, p6_wbs_parent_code, p6_wbs_category_fk,
-	p6_activity_data_id, data_date, soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk, uploaded_date,upload_type,contract_id,contract_name,fob_id,fob_name;
+	p6_activity_data_id, data_date, soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk, uploaded_date,upload_type,contract_id,
+	contract_name,fob_id,fob_name,created_by_user_id_fk,user_name,designation;
 
 	
 	private MultipartFile p6dataFile;
 	
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
 
 	public String getFob_id() {
 		return fob_id;

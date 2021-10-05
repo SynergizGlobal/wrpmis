@@ -846,7 +846,6 @@ public class ContractDaoImpl implements ContractDao {
 			}			
 		}catch(Exception e){ 
 			con.rollback();
-			e.printStackTrace();
 			throw new Exception(e);
 		}
 		finally {

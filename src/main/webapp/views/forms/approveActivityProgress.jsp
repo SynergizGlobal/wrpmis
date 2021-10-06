@@ -574,7 +574,7 @@
         	                    {
         	                    		var disabledval="";
         	                    		var concat="";
-        	                    		if(parseFloat(val.total_scope)>=parseFloat(val.cumulative_completed)+parseFloat(val.actual_for_the_day))
+        	                    		if(parseFloat(val.total_scope)<parseFloat(val.cumulative_completed)+parseFloat(val.actual_for_the_day))
         	                    		{
         	                    			disabledval="disabled";
         	                    		    concat='&nbsp;&nbsp;&nbsp;<a href="#" style="font-size:15px;"><span class="fa fa-info-circle fa-1x" style="color:#469408;" data-toggle="tooltip" title="Activity Scope Completed"></span></a>';

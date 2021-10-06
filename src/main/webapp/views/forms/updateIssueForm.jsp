@@ -226,9 +226,9 @@
                             
                             <div class="row ">                                 
                                 <div class="col s6 m4 l4 input-field offset-m2">
-                                    <input id="date" name="date" type="text" class="datepicker1" value="${issue.date }" readonly>
+                                    <input id="date" name="date" type="text" class="datepicker" value="${issue.date }" readonly>
                                     <label for="date">Issue pending since <span class="required">*</span></label>
-                                    <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
@@ -398,7 +398,7 @@
                                 <div class="col s12 m4 l6 input-field offset-m2" style="margin-top:15px; display:none;" id="resolvedDiv">
                                     <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
                                     <label for="resolved_date"> Resolved Date<span class="required">*</span></label>
-                                    <button type="button" id="resolved_date_icon"><i
+                                    <button type="button" id="resolved_date_icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="resolved_dateError" class="error-msg" ></span>
                                 </div>                                 
@@ -557,6 +557,7 @@
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	
+	<script src="/pmis/resources/js/datepickerDepedency.js"></script>	
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	
@@ -571,7 +572,7 @@
 		        });	       
 		    });
 		 */
-	    let date_pickers = document.querySelectorAll('.datepicker');
+	  /*   let date_pickers = document.querySelectorAll('.datepicker');
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
@@ -581,7 +582,7 @@
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
 	    	}
 	    	M.Datepicker.init(this, options);
-	    });
+	    }); */
 		var issueStatusFk = "";
         $(document).ready(function () {
        	  	$('select:not(.searchable)').formSelect();
@@ -647,8 +648,10 @@
            		 if ((event.which != 37 && (event.which != 39)) &&
 					    ((this.selectionStart < readOnlyLength) ||
 					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
-           			var text = $("textarea#corrective_measure").val(); 
-           			$("textarea#corrective_measure").val( text + "\n");
+           			if( !$("textarea#corrective_measure").attr('readonly') ){
+	           			var text = $("textarea#corrective_measure").val(); 
+	           			$("textarea#corrective_measure").val( text + "\n");           				
+           			}
 				    return false;
 				  }
            	});
@@ -656,26 +659,25 @@
             $('#corrective_measure').focus(function(){
 			  var that = this;
 			  setTimeout(function(){
-				 // that.selectionStart = that.selectionEnd = 10000;
 				  var len=$(that).val().length;
 	   		  		$(that).prop('selectionEnd',len);
 	   		  		$(that).prop('selectionStart', len-1);
 			  }, 0);
 			});
             
-            $('#date_icon').click(function (event) {
+            /* $('#date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#date').click();
-            });
+            }); */
            	$('#assigned_date_icon').click(function () {
                 event.stopPropagation();
                 $('#assigned_date').click();
             });
                
-            $('#resolved_date_icon').click(function (event) {
+          /*   $('#resolved_date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#resolved_date').click();
-            });
+            }); */
             $('#escalation_date_icon').click(function () {
                 event.stopPropagation();
                 $('#escalation_date').click();
@@ -812,7 +814,7 @@
         	    $.each(date_pickers, function(){
         	    	var dt = this.value.split(/[^0-9]/);
         	    	this.value = ""; 
-        	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true};
+        	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true , onOpen:datePickerSelectAddClass};
         	    	if(dt.length > 1){
         	    		options.setDefaultDate = true,
         	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
@@ -853,7 +855,7 @@
         	    $.each(date_pickers, function(){
         	    	var dt = this.value.split(/[^0-9]/);
         	    	this.value = ""; 
-        	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true};
+        	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true, onOpen:datePickerSelectAddClass};
         	    	if(dt.length > 1){
         	    		options.setDefaultDate = true,
         	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])

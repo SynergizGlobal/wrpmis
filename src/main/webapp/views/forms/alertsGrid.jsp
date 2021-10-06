@@ -265,7 +265,7 @@
            </h5>
            <form action="<%=request.getContextPath() %>/add-alert-remarks" method="post" id="remarksForm" name="remarksForm">
            	   <input type="hidden" id="alert_id" name="alert_id" />
-           	   <input type="hidden" id="alert_type_fk" name="alert_type_fk" />
+           	   <input type="hidden" id="alert_type" name="alert_type_fk" />
                <div class="row">
                    <div class="input-field col s12 m10 offset-m1">
                        <textarea id="remarks" name="remarks"
@@ -879,7 +879,7 @@
         	$("#remarks").val('');
         	$("#amendment_not_required_in_contract").prop("checked", false);
         	$("#alert_id").val(alert_id);
-        	$("#alert_type_fk").val(alert_type_fk);
+        	$("#alert_type").val(alert_type_fk);
         	
         	$("#alerts_work_id").val(work_id);
         	$("#alerts_contract_id").val(contract_id);

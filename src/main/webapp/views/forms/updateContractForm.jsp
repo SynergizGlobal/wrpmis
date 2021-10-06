@@ -391,9 +391,9 @@
 							        <li class="tab"><a class="t-c" href="#bgDetails">Bank Guarantee Details</a></li>
 							        <li class="tab"><a class="t-c" href="#insuranceDetails">Insurance Details</a></li>
 							        <li class="tab"><a class="t-c" href="#milestoneDetails">Milestone Details</a></li>
-							        <li class="tab"><a class="t-c" href="#documentDetails">Documents</a></li>
 							        <li class="tab"><a class="t-c" href="#revisionDetails">Revision Details</a></li>
 							        <li class="tab"><a class="t-c" href="#keyPersonDetails">Contractor's Key Personnel</a></li>
+							        <li class="tab"><a class="t-c" href="#documentDetails">Documents</a></li>
 							      </ul>
 							    </div>							    
 						   </div>
@@ -822,7 +822,7 @@
  							    <div class="row">
 	                                <div class="col s12 m4 l4 input-field">
 	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${contractDeatils.actual_completion_date }" readonly>
-	                                    <label for="actual_completion_date">Actual Completion Date</label>
+	                                    <label for="actual_completion_date">Actual Completion Date <span class="required">*</span></label>
 	                                    <span id="actual_completion_dateError" class="error-msg" ></span>
 	                                    <button type="button" id="actual_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
@@ -1421,7 +1421,7 @@
 	                                           		  <td data-head="Milestone ID " class="input-field">
 	                                           		    <input type ="hidden" name="contract_milestones_ids" id="contract_milestones_ids${index.count }" value="${milestonesObj.contract_milestones_id }" />
 	                                                    <input id="milestone_ids${index.count }" name="milestone_ids" type="text" class="validate" value="${milestonesObj.milestone_id }"
-	                                                        placeholder="Milestone ID ">
+	                                                        placeholder="Milestone ID " readonly>
 	                                                </td>                                 
 	                                                <td data-head="Milestone Name " class="input-field">
 	                                                    <input id="milestone_names${index.count }" name="milestone_names" type="text" class="validate" value="${milestonesObj.milestone_name }"
@@ -1456,7 +1456,7 @@
 	                                              <tr id="mileRow0"> 
 	                                              <td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids0" value=" "/>
 	                                                    <input id="milestone_ids0" name="milestone_ids" type="text" class="validate" 
-	                                                        placeholder="Milestone ID" value="K-1">
+	                                                        placeholder="Milestone ID" value="K-1" readonly>
 	                                                </td>                                        
 	                                                <td data-head="Milestone Name " class="input-field">
 	                                                    <input id="milestone_names0" name="milestone_names" type="text" class="validate" 
@@ -1517,114 +1517,7 @@
 	                            </div>
 	                         </div>
 	                         </div>
-	                         <div class="row  " id="documentDetails">
-	                            <div class="col l12 m8 s12 offset-m2"  >
-	                                <div class="row fixed-width">
-	                                     <h5 class="center-align"><span class="div-header">Documents</span></h5> 
-	                                    <div class="table-inside">
-	                                        <table class="mdl-data-table mobile_responsible_table">
-	                                            <thead>
-	                                                <tr>
-	                                                	<th>File Type </th>
-	                                                    <th>Name </th>
-	                                                    <th style="text-align:center">Attachment</th>
-	                                                     <th> </th>
-	                                                    <th style="width:8%">Action</th>
-	                                                </tr>
-	                                            </thead>
-	                                            <tbody id="contractDocumentTableBody" >
-	                                             <c:choose>
-			                                        <c:when test="${not empty contractDeatils.contractDocuments  && fn:length(contractDeatils.contractDocuments ) gt 0 }">			                                          
-				                                        <c:forEach var="docObj" items="${contractDeatils.contractDocuments }" varStatus="index">  
-			                                                <tr id="contractDocumentRow${index.count }">
-			                                                	<td data-head="File Type " class="input-field">
-																	<select  name="contract_file_types"  id="contract_file_types${index.count }"  class="validate-dropdown searchable">
-					                                   					 <option value="" >--Select--</option>
-					                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
-					                    					  				 <option value="${obj.contract_file_type }" <c:if test="${docObj.contract_file_type_fk eq obj.contract_file_type}">selected</c:if>>${obj.contract_file_type}</option>
-					                                          			  </c:forEach>
-					                               					  </select>
-															    </td>
-			                                                    <td data-head="Name " class="input-field"> <input id="contractDocumentNames${index.count }" name="contractDocumentNames" type="text" class="validate"
-			                                                            placeholder="Name" value="${docObj.name }">
-			                                                    </td>
-			                                                    <td data-head="Attachment" class="input-field">
-			                                                        <span class="normal-btn">
-			                                                            <input type="file" id="contractDocumentFiles${index.count }" name="contractDocumentFiles"
-			                                                                style="display:none" onchange="getFileName('${index.count }')"/>
-			                                                            <label for="contractDocumentFiles${index.count }" class="btn bg-m"><i
-			                                                                    class="fa fa-paperclip"></i></label>
-			                                                            <input type="hidden" id="contractDocumentFileNames${index.count }" name="contractDocumentFileNames" value="${docObj.attachment }">
-			                                                             <span id="contractDocumentFileName${index.count }" class="filevalue"></span>
-			                                                          </span>
-			                                                    </td>
-			                                                    <td>
-			                                                     		<input type="hidden" id="contract_file_ids${index.count }" name="contract_file_ids" value="${docObj.contract_file_id }"/>
-			                                                      		<a href="<%=CommonConstants2.CONTRACT_FILES%>${docObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
-			                                                        
-			                                                    </td>
-			                                                    <td class="mobile_btn_close">
-			                                                        <a href="javascript:void(0);" onclick="removeContractDocument('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
-			                                                                class="fa fa-close"></i></a>
-			                                                    </td>
-			                                                </tr> 
-	                                                	</c:forEach>
-	                                           		</c:when>
-	                                             	<c:otherwise>
-	                                             		<tr id="contractDocumentRow0">
-	                                             			<td data-head="File Type " class="input-field">																		
-																<select  name="contract_file_types"  id="contract_file_types0"  class="validate-dropdown searchable">
-				                                   					 <option value="" >--Select--</option>
-				                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
-				                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
-				                                          			  </c:forEach>
-				                               					  </select>
-															    </td>
-		                                                    <td data-head="Name " class="input-field"> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
-		                                                            placeholder="Name">
-		                                                    </td>
-		                                                    <td data-head="Attachment" class="input-field">
-		                                                        <span class="normal-btn">
-		                                                            <input type="file" id="contractDocumentFiles0" name="contractDocumentFiles"
-		                                                                style="display:none" onchange="getFileName('0')"/>
-		                                                            <label for="contractDocumentFiles0" class="btn bg-m"><i
-		                                                                    class="fa fa-paperclip"></i></label>
-		                                                            <input type="hidden" id="contractDocumentFileNames0" name="contractDocumentFileNames" value=" ">
-		                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
-		                                                        </span>
-		                                                    </td>
-		                                                    <td><input type="hidden" id="contract_file_ids0" name="contract_file_ids" value= " "/>
-		                                                    </td>
-		                                                    <td class="mobile_btn_close">
-		                                                        <a href="javascript:void(0);" onclick="removeContractDocument('0');" class="btn waves-effect waves-light red t-c "> <i
-		                                                                class="fa fa-close"></i></a>
-		                                                    </td>
-		                                                </tr>
-	                                             	</c:otherwise>
-                                            	</c:choose> 
-	                                            </tbody>
-	                                        </table>
-	                                        
-	                                        <table class="mdl-data-table">
-		                                        <tbody>                                          
-		                                            <tr>
-														<td colspan="3" >	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addContractDocumentRow()"> <i
-		                                                            class="fa fa-plus"></i></a></td>
-		                                              </tr>
-		                                        </tbody>
-		                                     </table>
-		                                   	 <c:choose>
-		                                        <c:when test="${not empty contractDeatils.contractDocuments && fn:length(contractDeatils.contractDocuments) gt 0 }">
-		                                    		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="${fn:length(contractDeatils.contractDocuments) }" />
-		                                    	</c:when>
-		                                     	<c:otherwise>
-		                                     		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="0" />
-		                                     	</c:otherwise>
-		                                     </c:choose> 
-	                                    </div>
-	                                </div>
-	                            </div>
-							</div>
+	                         
 	                         <div class="container-no-margin  " id="revisionDetails"> 
 	                            <div class="row fixed-width">
                                 <h5 class="center-align"><span class="div-header">Revision Details</span></h5>
@@ -1650,7 +1543,7 @@
                                          <c:forEach var="revObj" items="${contractDeatils.contract_revision }" varStatus="index">  
                                             <tr id="revRow${index.count }">
                                                 <td data-head="Revision Number " class="input-field"> <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" value="${revObj.revision_number }"
-                                                        placeholder="Revision Number">
+                                                        placeholder="Revision Number" readonly>
                                                 </td>
                                                 <td data-head="Revised Amount " class="input-field ">
                                                 		<i class="material-icons prefix cost left-align">₹</i>
@@ -1770,7 +1663,7 @@
                                              <c:otherwise>
                                              <tr id="revRow0">
                                                 <td data-head="Revision Number " class="input-field"> <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
-                                                        placeholder="Revision Number" value="R1">
+                                                        placeholder="Revision Number" value="R1" readonly>
                                                 </td>
                                                 <td data-head="Revised Amount " class="input-field  ">
                                                 		<i class="material-icons prefix cost left-align">₹</i>
@@ -1875,63 +1768,176 @@
                             </div>
                           </div>
                             
-                         <div class=" " id="keyPersonDetails">
-                         	<div class="row no-mar">
-                             <!-- new code  starts-->
-                            <div class="col l12 m8 offset-m2 s12">
-	                            <div class="no-mar">
+	                      <div class=" " id="keyPersonDetails">
+	                         	<div class="row no-mar">
+	                             <!-- new code  starts-->
+	                            <div class="col l12 m8 offset-m2 s12">
+		                            <div class="no-mar">
+		                                <div class="row fixed-width">
+		                                   <h5 class="center-align"><span class="div-header">Contractor's Key Personnel</span></h5> 
+		                                    <div class="table-inside">
+		                                        <table class="mdl-data-table mobile_responsible_table">
+		                                            <thead>
+		                                                <tr>
+		                                                    <th>Name </th>
+		                                                    <th>Designation </th>
+		                                                    <th>Mobile No</th>
+		                                                    <th>Email ID </th>
+		                                                    <th>Action</th>
+		                                                </tr>
+		                                            </thead>
+		                                            <tbody id="keyPersonnelTableBody">
+		                                            <c:choose>
+				                                        <c:when test="${not empty contractDeatils.contractKeyPersonnels  && fn:length(contractDeatils.contractKeyPersonnels ) gt 0 }">			                                          
+					                                        <c:forEach var="keyObj" items="${contractDeatils.contractKeyPersonnels }" varStatus="index">  
+				                                                <tr id="keyPersonnelRow${index.count }">
+				                                                    <td data-head="Name " class="input-field"> 
+				                                                    	<input id="contractKeyPersonnelNames${index.count }" name="contractKeyPersonnelNames" type="text" value="${keyObj.name }" class="validate" placeholder="Name">
+				                                                    </td>
+				                                                    <td data-head="Designation " class="input-field"> 
+				                                                    	<input id="contractKeyPersonnelDesignations${index.count }" name="contractKeyPersonnelDesignations" type="text" value="${keyObj.designation }" class="validate" placeholder="Designation">
+				                                                    </td>
+				                                                    <td data-head="Mobile No" class="input-field">
+				                                                        <input id="contractKeyPersonnelMobileNos${index.count }" name="contractKeyPersonnelMobileNos" type="number" value="${keyObj.mobile_no }" class="validate" placeholder="Mobile No">
+				                                                    </td>
+				                                                    <td data-head="Email ID " class="input-field">
+				                                                        <input id="contractKeyPersonnelEmailIds${index.count }" name="contractKeyPersonnelEmailIds" type="text" value="${keyObj.email_id }" class="validate" placeholder="Email">
+				                                                    </td>
+				                                                    <td class="mobile_btn_close">
+				                                                        <a href="javascript:void(0);" onclick="removeKeyPersonnel('${index.count }');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+				                                                    </td>
+				                                                </tr>
+			                                                </c:forEach>
+		                                           		</c:when>
+		                                             	<c:otherwise>
+		                                             		<tr id="keyPersonnelRow0">
+			                                                    <td data-head="Name " class="input-field"> 
+			                                                    	<input id="contractKeyPersonnelNames0" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">
+			                                                    </td>
+			                                                    <td data-head="Designation " class="input-field"> 
+			                                                    	<input id="contractKeyPersonnelDesignations0" name="contractKeyPersonnelDesignations" type="text" class="validate" placeholder="Designation">
+			                                                    </td>
+			                                                    <td data-head="Mobile No" class="input-field">
+			                                                        <input id="contractKeyPersonnelMobileNos0" name="contractKeyPersonnelMobileNos" type="number" class="validate" placeholder="Mobile No">
+			                                                    </td>
+			                                                    <td data-head="Email ID " class="input-field">
+			                                                        <input id="contractKeyPersonnelEmailIds0" name="contractKeyPersonnelEmailIds" type="text" class="validate" placeholder="Email">
+			                                                    </td>
+			                                                    <td class="mobile_btn_close">
+			                                                        <a href="javascript:void(0);" onclick="removeKeyPersonnel('0');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+			                                                    </td>
+			                                                </tr>
+		                                             	</c:otherwise>
+	                                            	</c:choose> 
+		                                            </tbody>
+		                                        </table>
+		                                        
+		                                        <table class="mdl-data-table">
+			                                        <tbody>                                          
+			                                            <tr>
+															<td colspan="4" >	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addKeyPersonnelRow()"> <i
+			                                                            class="fa fa-plus"></i></a></td>
+			                                              </tr>
+			                                        </tbody>
+			                                     </table>
+			                                   	 <c:choose>
+			                                        <c:when test="${not empty contractDeatils.contract_revision && fn:length(contractDeatils.contractKeyPersonnels) gt 0 }">
+			                                    		<input type="hidden" id="keyRowNo"  name="keyRowNo" value="${fn:length(contractDeatils.contractKeyPersonnels) }" />
+			                                    	</c:when>
+			                                     	<c:otherwise>
+			                                     		<input type="hidden" id="keyRowNo"  name="keyRowNo" value="0" />
+			                                     	</c:otherwise>
+			                                     </c:choose>  
+	                                   	 
+		                                    </div>
+		                                </div>
+		                            </div>
+								</div>
+						  </div>
+					</div>		
+					
+					
+						<div class="row  " id="documentDetails">
+	                            <div class="col l12 m8 s12 offset-m2"  >
 	                                <div class="row fixed-width">
-	                                   <h5 class="center-align"><span class="div-header">Contractor's Key Personnel</span></h5> 
+	                                     <h5 class="center-align"><span class="div-header">Documents</span></h5> 
 	                                    <div class="table-inside">
 	                                        <table class="mdl-data-table mobile_responsible_table">
 	                                            <thead>
 	                                                <tr>
+	                                                	<th>File Type </th>
 	                                                    <th>Name </th>
-	                                                    <th>Designation </th>
-	                                                    <th>Mobile No</th>
-	                                                    <th>Email ID </th>
-	                                                    <th>Action</th>
+	                                                    <th style="text-align:center">Attachment</th>
+	                                                     <th> </th>
+	                                                    <th style="width:8%">Action</th>
 	                                                </tr>
 	                                            </thead>
-	                                            <tbody id="keyPersonnelTableBody">
-	                                            <c:choose>
-			                                        <c:when test="${not empty contractDeatils.contractKeyPersonnels  && fn:length(contractDeatils.contractKeyPersonnels ) gt 0 }">			                                          
-				                                        <c:forEach var="keyObj" items="${contractDeatils.contractKeyPersonnels }" varStatus="index">  
-			                                                <tr id="keyPersonnelRow${index.count }">
-			                                                    <td data-head="Name " class="input-field"> 
-			                                                    	<input id="contractKeyPersonnelNames${index.count }" name="contractKeyPersonnelNames" type="text" value="${keyObj.name }" class="validate" placeholder="Name">
+	                                            <tbody id="contractDocumentTableBody" >
+	                                             <c:choose>
+			                                        <c:when test="${not empty contractDeatils.contractDocuments  && fn:length(contractDeatils.contractDocuments ) gt 0 }">			                                          
+				                                        <c:forEach var="docObj" items="${contractDeatils.contractDocuments }" varStatus="index">  
+			                                                <tr id="contractDocumentRow${index.count }">
+			                                                	<td data-head="File Type " class="input-field">
+																	<select  name="contract_file_types"  id="contract_file_types${index.count }"  class="validate-dropdown searchable">
+					                                   					 <option value="" >--Select--</option>
+					                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
+					                    					  				 <option value="${obj.contract_file_type }" <c:if test="${docObj.contract_file_type_fk eq obj.contract_file_type}">selected</c:if>>${obj.contract_file_type}</option>
+					                                          			  </c:forEach>
+					                               					  </select>
+															    </td>
+			                                                    <td data-head="Name " class="input-field"> <input id="contractDocumentNames${index.count }" name="contractDocumentNames" type="text" class="validate"
+			                                                            placeholder="Name" value="${docObj.name }">
 			                                                    </td>
-			                                                    <td data-head="Designation " class="input-field"> 
-			                                                    	<input id="contractKeyPersonnelDesignations${index.count }" name="contractKeyPersonnelDesignations" type="text" value="${keyObj.designation }" class="validate" placeholder="Designation">
+			                                                    <td data-head="Attachment" class="input-field">
+			                                                        <span class="normal-btn">
+			                                                            <input type="file" id="contractDocumentFiles${index.count }" name="contractDocumentFiles"
+			                                                                style="display:none" onchange="getFileName('${index.count }')"/>
+			                                                            <label for="contractDocumentFiles${index.count }" class="btn bg-m"><i
+			                                                                    class="fa fa-paperclip"></i></label>
+			                                                            <input type="hidden" id="contractDocumentFileNames${index.count }" name="contractDocumentFileNames" value="${docObj.attachment }">
+			                                                             <span id="contractDocumentFileName${index.count }" class="filevalue"></span>
+			                                                          </span>
 			                                                    </td>
-			                                                    <td data-head="Mobile No" class="input-field">
-			                                                        <input id="contractKeyPersonnelMobileNos${index.count }" name="contractKeyPersonnelMobileNos" type="number" value="${keyObj.mobile_no }" class="validate" placeholder="Mobile No">
-			                                                    </td>
-			                                                    <td data-head="Email ID " class="input-field">
-			                                                        <input id="contractKeyPersonnelEmailIds${index.count }" name="contractKeyPersonnelEmailIds" type="text" value="${keyObj.email_id }" class="validate" placeholder="Email">
+			                                                    <td>
+			                                                     		<input type="hidden" id="contract_file_ids${index.count }" name="contract_file_ids" value="${docObj.contract_file_id }"/>
+			                                                      		<a href="<%=CommonConstants2.CONTRACT_FILES%>${docObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+			                                                        
 			                                                    </td>
 			                                                    <td class="mobile_btn_close">
-			                                                        <a href="javascript:void(0);" onclick="removeKeyPersonnel('${index.count }');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+			                                                        <a href="javascript:void(0);" onclick="removeContractDocument('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+			                                                                class="fa fa-close"></i></a>
 			                                                    </td>
-			                                                </tr>
-		                                                </c:forEach>
+			                                                </tr> 
+	                                                	</c:forEach>
 	                                           		</c:when>
 	                                             	<c:otherwise>
-	                                             		<tr id="keyPersonnelRow0">
-		                                                    <td data-head="Name " class="input-field"> 
-		                                                    	<input id="contractKeyPersonnelNames0" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">
+	                                             		<tr id="contractDocumentRow0">
+	                                             			<td data-head="File Type " class="input-field">																		
+																<select  name="contract_file_types"  id="contract_file_types0"  class="validate-dropdown searchable">
+				                                   					 <option value="" >--Select--</option>
+				                                         			  <c:forEach var="obj" items="${contractFileTypeList}">
+				                    					  				 <option value="${obj.contract_file_type }">${obj.contract_file_type}</option>
+				                                          			  </c:forEach>
+				                               					  </select>
+															    </td>
+		                                                    <td data-head="Name " class="input-field"> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
+		                                                            placeholder="Name">
 		                                                    </td>
-		                                                    <td data-head="Designation " class="input-field"> 
-		                                                    	<input id="contractKeyPersonnelDesignations0" name="contractKeyPersonnelDesignations" type="text" class="validate" placeholder="Designation">
+		                                                    <td data-head="Attachment" class="input-field">
+		                                                        <span class="normal-btn">
+		                                                            <input type="file" id="contractDocumentFiles0" name="contractDocumentFiles"
+		                                                                style="display:none" onchange="getFileName('0')"/>
+		                                                            <label for="contractDocumentFiles0" class="btn bg-m"><i
+		                                                                    class="fa fa-paperclip"></i></label>
+		                                                            <input type="hidden" id="contractDocumentFileNames0" name="contractDocumentFileNames" value=" ">
+		                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
+		                                                        </span>
 		                                                    </td>
-		                                                    <td data-head="Mobile No" class="input-field">
-		                                                        <input id="contractKeyPersonnelMobileNos0" name="contractKeyPersonnelMobileNos" type="number" class="validate" placeholder="Mobile No">
-		                                                    </td>
-		                                                    <td data-head="Email ID " class="input-field">
-		                                                        <input id="contractKeyPersonnelEmailIds0" name="contractKeyPersonnelEmailIds" type="text" class="validate" placeholder="Email">
+		                                                    <td><input type="hidden" id="contract_file_ids0" name="contract_file_ids" value= " "/>
 		                                                    </td>
 		                                                    <td class="mobile_btn_close">
-		                                                        <a href="javascript:void(0);" onclick="removeKeyPersonnel('0');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+		                                                        <a href="javascript:void(0);" onclick="removeContractDocument('0');" class="btn waves-effect waves-light red t-c "> <i
+		                                                                class="fa fa-close"></i></a>
 		                                                    </td>
 		                                                </tr>
 	                                             	</c:otherwise>
@@ -1942,26 +1948,23 @@
 	                                        <table class="mdl-data-table">
 		                                        <tbody>                                          
 		                                            <tr>
-														<td colspan="4" >	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addKeyPersonnelRow()"> <i
+														<td colspan="3" >	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addContractDocumentRow()"> <i
 		                                                            class="fa fa-plus"></i></a></td>
 		                                              </tr>
 		                                        </tbody>
 		                                     </table>
 		                                   	 <c:choose>
-		                                        <c:when test="${not empty contractDeatils.contract_revision && fn:length(contractDeatils.contractKeyPersonnels) gt 0 }">
-		                                    		<input type="hidden" id="keyRowNo"  name="keyRowNo" value="${fn:length(contractDeatils.contractKeyPersonnels) }" />
+		                                        <c:when test="${not empty contractDeatils.contractDocuments && fn:length(contractDeatils.contractDocuments) gt 0 }">
+		                                    		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="${fn:length(contractDeatils.contractDocuments) }" />
 		                                    	</c:when>
 		                                     	<c:otherwise>
-		                                     		<input type="hidden" id="keyRowNo"  name="keyRowNo" value="0" />
+		                                     		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="0" />
 		                                     	</c:otherwise>
-		                                     </c:choose>  
-                                   	 
+		                                     </c:choose> 
 	                                    </div>
 	                                </div>
 	                            </div>
-							</div>
-					  </div>
-				</div>							
+							</div>					
 						                 
                     </div>
                 </div>
@@ -2521,7 +2524,7 @@
         	 	   	  },"ca_date": {
         		 		required: false
         		 	  },"actual_completion_date": {
-        	 		    required: false
+        	 		    required: true
         	 	   	  },"completed_cost": {
         		 		required: false
         		 	  },"contract_closure_date": {
@@ -3022,7 +3025,7 @@
 		    }
 		    
 		    var html = '<tr id="mileRow'+rNo+'">'
-		 	   +'<td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids'+rNo+'" /><input id="milestone_ids'+rNo+'" name="milestone_ids" type="text" class="validate" placeholder="Milestone ID" value="K-'+(mId)+'"></td>'
+		 	   +'<td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids'+rNo+'" /><input id="milestone_ids'+rNo+'" name="milestone_ids" type="text" class="validate" placeholder="Milestone ID" value="K-'+(mId)+'" readonly></td>'
 			   +'<td data-head="Milestone Name " class="input-field"><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
 			   +'<td data-head="Milestone Date " class="input-field"><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button" id="milestone_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Actual Date " class="input-field"><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button" id="actual_dates'+rNo+'_icon" class="datepicker-button"><i  class="fa fa-calendar"></i></button></td>'
@@ -3068,7 +3071,7 @@
 		    }
 		    
 		    var html = '<tr id="revRow'+rNo+'">'
-			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"  value="R'+(rId)+'" /></td>'
+			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"  value="R'+(rId)+'" readonly/></td>'
 			   +'<td data-head="Revised Amount " class="input-field  "> <i class="material-icons prefix cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
 			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" onkeyup="toggleRevision(' + '\'amounts\'' + ',' + rNo + ')"  placeholder="Revised Amount"> </td><td class="responsive_units  "> <select class="units validate-dropdown " id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
 			   +'<option value="">Select</option>'

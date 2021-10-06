@@ -323,7 +323,7 @@
 	                                        <option value="" >Select</option>
 	                                          <c:forEach var="obj" items="${contract_Status }">
 	                                          	 <c:if test="${obj.contract_status ne 'Closed'}">
-		                                    	 	<option value="${obj.contract_status }" <c:if test="${obj.contract_status eq 'Open'}">selected</c:if>>${obj.contract_status }</option>
+		                                    	 	<option value="${obj.contract_status }" <c:if test="${obj.contract_status eq 'Yet to be Awarded'}">selected</c:if>>${obj.contract_status }</option>
 		                                    	 </c:if>
 		                                     </c:forEach>     
 	                                    </select>
@@ -738,7 +738,8 @@
 	             getHodList();
 			}
 			 getDyHodList();
-			 setContractStatus();
+			 //setContractStatus();
+			 getStatusLIst();			 
         });
         
         function getStatusLIst(){
@@ -758,6 +759,10 @@
                             	}
                             });
                         }
+                        if(contract_status == 'Yet to be Awarded'){
+                        	$("#contract_status_fk").val('Not Started');
+                        }
+                        
                         $('.searchable').select2();
                         $(".page-loader").hide();
                     }

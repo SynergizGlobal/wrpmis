@@ -123,8 +123,16 @@
 			    font-size: 16px;
     			font-weight: 500;
 		}
-		
-		
+		.input-field.col label.active{
+			color:#eee !important;
+		}
+		label.error{
+			font-size:.9rem;
+		}
+		#divOTP span{
+			color: lightgreen;
+    		font-size: .9rem;
+		}
     </style>
 </head>
 
@@ -199,8 +207,8 @@
      			<!-- <h3 style="color: #fff;">System IP Address : <span id="systemIPA">Loading...</span></h3>
                 <h3 style="color: #fff;">Public IP Address : <span id="publicIPA">Loading...</span></h3> -->
                 
-		        <form class="col s12 m4" action="<%=request.getContextPath()%>/forgot-password" id="forgotPasswordForm" name="forgotPasswordForm" method="post" >
-		        	<div class="row homepage">
+		        <form class="col s12 m3" action="<%=request.getContextPath()%>/forgot-password" id="forgotPasswordForm" name="forgotPasswordForm" method="post" >
+		        	<div class="row homepage" style="margin-bottom:3rem;">
 			            <img src="/pmis/resources/images/mrvclogo.png" alt="mrvc logo" class="card-img">
 				            <h4 class="tite">Forgot Password</h4>
 				            <div class="input-field col offset-s1 s10">
@@ -213,13 +221,13 @@
 				            </div>
 				            <div class="input-field col offset-s1 s10">
 				              <input type="password" name="newPassword" id="newPassword">
-				              <label for="password">New Password</label>
+				              <label for="newPassword">New Password</label>
 				             <!--  <i class="fa fa-eye toggle-password" style="color:#fff;">.</i> -->
 				              <span class="material-icons toggle-password">visibility_off</span>
 				            </div>
 				            <div class="input-field col offset-s1 s10">
 				              <input type="password" name="confirmPassword" id="confirmPassword">
-				              <label for="password">Confirm New Password</label>
+				              <label for="confirmPassword">Confirm New Password</label>
 				             <!--  <i class="fa fa-eye toggle-password" style="color:#fff;">.</i> -->
 				              <span class="material-icons toggle-password1">visibility_off</span>
 				            </div>				            				            
@@ -230,23 +238,19 @@
 				               	</c:if>
 				            </div>
 				             <input type="hidden" id="hdnPass">
-				            <div id="accessMsg" style="text-align:center;color:red;font-size:24px;height:30px;"></div><br><br>
-                            <div class="row input-field col offset-s1 s10" id="divOTP" style="text-align:center;color:red;display:none;">
-                            <br>
-                             We have sent OTP to your Email Id. Please enter the OTP here to reset your password.
-                             <br>
-                             
- 				            <div class="input-field col offset-s1 s10">
-				              <input type="password" id="otpvalue" name="otpvalue"  maxlength="6">
-				              <label for="password">OTP</label>
-				            </div>
-				            
- 				            <div class="input-field col offset-s1 s10">
-								<button type="button" class="btn waves-effect waves-light bg-m" style="width: 100%;" id="btnCheckotp" onClick="CheckOTP();">Check OTP</button>
-				            </div>				            
+				            <div id="accessMsg" style="text-align:center;color:red;"></div>
+                            <div class="input-field col offset-s1 s10" id="divOTP" style="text-align:center;display:none;">                            
+	                             <span>We have sent OTP to your Email Id. Please enter the OTP here to reset your password.</span>                                                     
+	 				            <div class="input-field col s12">
+					              <input type="password" id="otpvalue" name="otpvalue"  maxlength="6">
+					              <label for="password">OTP</label>
+					            </div>
+					            
+	 				            <div class=" col s12">
+									<button type="button" class="btn waves-effect waves-light bg-m" style="width: 100%;border:none;" id="btnCheckotp" onClick="CheckOTP();">Check OTP</button>
+					            </div>				            
                             </div> 
-                            <div class="row input-field col offset-s1 s10" style="text-align:center;color:red;" id="otpmessage">
-                            
+                            <div class=" col offset-s1 s10" style="text-align:center;color:red;" id="otpmessage">                            
                             </div> 				            
 				            
 				            

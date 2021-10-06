@@ -217,7 +217,7 @@
 				            </div>
 				            <div class="input-field col offset-s1 s10">
 				              <input type="text" name="email_id" id="email_id" >
-				              <label for="password">Confirm Email</label>
+				              <label for="email_id">Confirm Email</label>
 				            </div>
 				            <div class="input-field col offset-s1 s10">
 				              <input type="password" name="newPassword" id="newPassword">
@@ -266,7 +266,7 @@
     	</div>
     	
     	<!-- Page Loader -->
-	<div class="page-loader">
+	<div class="page-loader" style="display:none; ">
 		<div class="preloader-wrapper big active">
 			<div class="spinner-layer spinner-blue-only">
 				<div class="circle-clipper left">
@@ -282,7 +282,7 @@
 		</div>
 	</div>
 	
-	<div class="page-loader-2">
+	<div class="page-loader-2" style="display:none; ">
 		<div class="preloader-wrapper big active">
 			<div class="spinner-layer spinner-blue-only">
 				<div class="circle-clipper left">
@@ -332,86 +332,10 @@
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
-	<script>  
-	  var glbProcess=false;
-	    var RTCPeerConnection = /*window.RTCPeerConnection ||*/ window.webkitRTCPeerConnection || window.mozRTCPeerConnection;  
-		if (RTCPeerConnection)(function() {  
-		    var rtc = new RTCPeerConnection({  
-		        iceServers: []  
-		    });  
-		    if (1 || window.mozRTCPeerConnection) {  
-		        rtc.createDataChannel('', {  
-		            reliable: false  
-		        });  
-		    };  
-		    rtc.onicecandidate = function(evt) {  
-		        if (evt.candidate) grepSDP("a=" + evt.candidate.candidate);  
-		    };  
-		    rtc.createOffer(function(offerDesc) {  
-		        grepSDP(offerDesc.sdp);  
-		        rtc.setLocalDescription(offerDesc);  
-		    }, function(e) {  
-		        console.warn("offer failed", e);  
-		    });  
-		    var addrs = Object.create(null);  
-		    addrs["0.0.0.0"] = false;  
-		  
-		    function updateDisplay(newAddr) {  
-		        if (newAddr in addrs) return;  
-		        else addrs[newAddr] = true;  
-		        var displayAddrs = Object.keys(addrs).filter(function(k) {  
-		            return addrs[k];  
-		        });
-		        //document.getElementById('system_ipa').textContent = displayAddrs.join(" or perhaps ") || "n/a";  
-		        var local_ipa = displayAddrs.join(" or perhaps ") || "n/a";
-		        $('#system_ipa').val(local_ipa);
-		    }  
-		  
-		    function grepSDP(sdp) {  
-		        var hosts = [];  
-		        sdp.split('\r\n').forEach(function(line) {  
-		            if (~line.indexOf("a=candidate")) {  
-		                var parts = line.split(' '),  
-		                    addr = parts[4],  
-		                    type = parts[7];  
-		                if (type === 'host') updateDisplay(addr);  
-		            } else if (~line.indexOf("c=")) {  
-		                var parts = line.split(' '),  
-		                    addr = parts[2];  
-		                updateDisplay(addr);  
-		            }  
-		        });  
-		    }  
-		})();  
-		else {  
-		    //document.getElementById('system_ipa').innerHTML = "<code>ifconfig| grep inet | grep -v inet6 | cut -d\" \" -f2 | tail -n1</code>";  
-		    //document.getElementById('system_ipa').nextSibling.textContent = "In Chrome and Firefox your IP should display automatically, by the power of WebRTCskull.";  
-		} 
-	</script> 
-
 	<script type="text/javascript">
+			var glbProcess=false;
+	
 			$(document).ready(function() {	
-				
-				/* $.getJSON("https://jsonip.com?callback=?", function (data) {
-					$(".page-loader").hide();
-			        //$("#systemIPA").html(data.ip);
-			        $("#system_ipa").val(data.ip);
-			    });  */
-				 setTimeout(function () {
-	    			$(".page-loader").hide();
-	    		}, 500);
-		    	
-		    	$.getJSON("https://api.ipify.org?format=json",  function(data) { 
-		    		$(".page-loader-2").hide();
-					//$("#publicIPA").html(data.ip); 
-		    		$("#public_ipa").val(data.ip); 
-			    }); 
-				setTimeout(function () {
-	    			$(".page-loader-2").hide();
-	    		}, 500);
-		    	
-				
-				
 		    	 if (navigator.userAgent.toLowerCase().indexOf("chrome") >= 0) {
 			       $('#user_id').on('change focus active click', function (e) {
 			            setTimeout(function () {
@@ -429,7 +353,7 @@
 
 			
 			function login() {
-				window.localStorage.clear();
+				//window.localStorage.clear();
 				var flag = $('#forgotPasswordForm').valid();
 				if(flag){
 					$('#forgotPasswordForm').submit();
@@ -437,28 +361,18 @@
 			}
 		    
 			//form validations and footer related code 
-		    $(document).ready(function() {	
-		    	
-				/*if(window.matchMedia("(max-width: 769px)").matches)
-				{ 
-				  var elem = document.documentElement;
-				  $('html').click(function () {
-				        if (elem.isFullscreen !== true) {
-				        	elem.requestFullscreen(); 
-				        }
-				    });
-				}*/    	
+		    $(document).ready(function() {
 		    	
 		    	$('#logoutMsg').delay(3000).fadeOut('slow');
 		    	
 				 $("#year").html(new Date().getFullYear());
 				 
 			        
-		        $('input').change(function(){
+		        /* $('input').change(function(){
 		    	    if ($(this).val() != ""){
 		    	        $(this).valid();
 		    	    }
-		    	});
+		    	}); */
 						
 		        $('.dropdown-trigger').dropdown({
 		       	 coverTrigger:false,    	 
@@ -479,8 +393,7 @@
 			     			required:true
 	                	},"email_id":{
 	                		required:true
-	                	}
-	                	,"newPassword":{
+	                	},"newPassword":{
 	                		required:true,
 	                		minlength: 8,
 	                		maxlength: 20,
@@ -494,35 +407,34 @@
 			     	},
 			    messages: {
 			   			  "user_id":{
-			   			  	required:'Please provide User Name'
+			   			  	required:'User ID Required'
 			   			  },"email_id":{
-	                		required:'Please provide Password'
-		                  },
-		                  "newPassword":{
-		                		required:'New Password Required',
-		                		minlength: "Your password must be at least 8 characters long",
-		                		maxlength: "Your password must be at most 20 characters long"
-			                  },"confirmPassword":{
-		                		required:'Confirm Password Required',
-		                		minlength: "Your password must be at least 8 characters long",
-		                		maxlength: "Your password must be at most 20 characters long",
-		                		equalTo: "Confirm password must be same as New Password"
-			                  }	                  
+	                		required:'Email id Required'
+		                  },"newPassword":{
+	                		required:'New Password Required',
+	                		minlength: "Your password must be at least 8 characters long",
+	                		maxlength: "Your password must be at most 20 characters long"
+		                  },"confirmPassword":{
+	                		required:'Confirm Password Required',
+	                		minlength: "Your password must be at least 8 characters long",
+	                		maxlength: "Your password must be at most 20 characters long",
+	                		equalTo: "Confirm password must be same as New Password"
+		                  }	                  
 			   	},errorPlacement:function(error, element){
 			   		   $("#logoutMsg").html("");
 				       if(element.attr("id") == "user_id" ){
-						 document.getElementById("message").innerHTML="";
-						 error.appendTo('#message');
+							 document.getElementById("message").innerHTML="";
+							 error.appendTo('#message');
 				        }else if (element.attr("id") == "email_id" ){
-						 document.getElementById("message").innerHTML="";
-						 error.appendTo('#message');
+							 document.getElementById("message").innerHTML="";
+							 error.appendTo('#message');
 			             }else if (element.attr("id") == "newPassword" ){
 							 document.getElementById("message").innerHTML="";
 							 error.appendTo('#message');
-				             }else if (element.attr("id") == "confirmPassword" ){
-								 document.getElementById("message").innerHTML="";
-								 error.appendTo('#message');
-					             }else{error.insertAfter(element);} 
+			             }else if (element.attr("id") == "confirmPassword" ){
+							 document.getElementById("message").innerHTML="";
+							 error.appendTo('#message');
+				         }else{error.insertAfter(element);} 
 				       
 			    },invalidHandler: function (form, validator) {
                      var errors = validator.numberOfInvalids();
@@ -534,7 +446,7 @@
                      }
                  },submitHandler:function(form){
                 	 
-			    	 	if(checkLoggedInUserName()==true)
+			    	 	if(checkUserId()==true)
 			    		 {
 			    	 		if(checkLoggedInUserEmail()==true)
 			    	 			{
@@ -565,7 +477,7 @@
 			                		 }
 				                	 else
 			                		 {
-			                		 	form.submit();
+				                		form.submit();
 			                		 }				                	 
 			                    	 
 		                    	 
@@ -577,7 +489,7 @@
 			    		 }
 			    	 	else
 		    	 		{
-			    	 		$("#accessMsg").html("User Name wrong");
+			    	 		$("#accessMsg").html("User ID wrong");
 		    	 		}
 			    	//const public_key="ssdkF$HUy2A#D%kd";
 			    	//$('#user_id').val(CryptoJS.AES.encrypt($('#user_id').val(),public_key)); 
@@ -675,7 +587,7 @@
 	        	var bool = false;
 	           	 $.ajax({
 	                 url: "<%=request.getContextPath()%>/ajax/checkUserEmail",
-	                 data: {Email:$("#email_id").val()},type: 'POST',
+	                 data: {email_id:$("#email_id").val()},type: 'POST',
 	                 async: false,
 	                 dataType: 'json',
 	                 success: function (data) 
@@ -688,13 +600,13 @@
 	           	return trueOrFalse(bool);
 	        }
 	        
-	        function checkLoggedInUserName()
+	        function checkUserId()
 	        {
 
 	        	var bool = false;
 	           	 $.ajax({
-	                 url: "<%=request.getContextPath()%>/ajax/checkLoggedInUserName",
-	                 data: {UserName:$("#user_id").val()},type: 'POST',
+	                 url: "<%=request.getContextPath()%>/ajax/checkUserId",
+	                 data: {user_id:$("#user_id").val()},type: 'POST',
 	                 async: false,
 	                 dataType: 'json',
 	                 success: function (data) 

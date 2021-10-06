@@ -20,7 +20,7 @@ public interface LoginDao {
 
 	public String getSingleLoginSessionId(User obj) throws SQLException;
 
-	public boolean checkUserName(String UserName) throws SQLException;
+	public boolean checkUserId(String UserName) throws SQLException;
 
 	public boolean checkUserEmail(String Email) throws SQLException;
 

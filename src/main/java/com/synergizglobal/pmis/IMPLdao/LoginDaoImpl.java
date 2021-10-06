@@ -314,7 +314,7 @@ public class LoginDaoImpl implements LoginDao{
 	}
 	
 	@Override
-	public boolean checkUserName(String UserName) throws SQLException {
+	public boolean checkUserId(String user_id) throws SQLException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -322,9 +322,9 @@ public class LoginDaoImpl implements LoginDao{
 		try{  
 			con = dataSource.getConnection();
 			
-			String updateQry = "select user_name from user WHERE user_name = ?";
+			String updateQry = "select user_id from user WHERE user_id = ?";
 			stmt = con.prepareStatement(updateQry);
-			stmt.setString(1, UserName);	
+			stmt.setString(1, user_id);	
 			rs = stmt.executeQuery(); 
 			if(rs.next()) {		
 				process=true;	

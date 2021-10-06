@@ -63,8 +63,8 @@ public class LoginServiceImpl implements LoginService {
 	
 
 	@Override
-	public boolean checkUserName(String UserName) throws SQLException {
-		return loginDao.checkUserName(UserName);
+	public boolean checkUserId(String user_id) throws SQLException {
+		return loginDao.checkUserId(user_id);
 	}
 	
 

@@ -396,52 +396,28 @@ public class LoginController {
 		return true;
 	}
 	
-	@RequestMapping(value = "/ajax/checkLoggedInUserName", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/checkUserId", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public boolean checkLoggedInUserName(String UserName) 
-	{
-		boolean process=false;
-		boolean checkuser;
+	public boolean checkUserId(String user_id) {
+		boolean flag = false;
 		try {
-			checkuser = loginService.checkUserName(UserName);
-			
-			if (!StringUtils.isEmpty(checkuser)) 
-			{
-				if(checkuser==true)
-				{
-					process=true;
-				}
-			}			
+			flag = loginService.checkUserId(user_id);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("checkUserId : " + e.getMessage());
 		}
-
-		return process;
+		return flag;
 	}
 	
 	@RequestMapping(value = "/ajax/checkUserEmail", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public boolean checkUserEmail(String Email)
-	{
-		boolean process=false;
-		boolean checkuser;
+	public boolean checkUserEmail(String email_id) {
+		boolean flag = false;
 		try {
-			checkuser = loginService.checkUserEmail(Email);
-			
-			if (!StringUtils.isEmpty(checkuser)) 
-			{
-				if(checkuser==true)
-				{
-					process=true;
-				}
-			}			
+			flag = loginService.checkUserEmail(email_id);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("checkUserEmail : " + e.getMessage());
 		}
-
-		return process;
+		return flag;
 	}	
 	
 	

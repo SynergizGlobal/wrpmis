@@ -210,6 +210,7 @@
 			                   	<p id="logoutMsg" class="success">${success}</p>
 			               	</c:if>
 			            </div>
+			             
 			            <input type="hidden" id="system_ipa" name="system_ipa">
 			            <input type="hidden" id="public_ipa" name="public_ipa">
 			            <div class="input-field col offset-s1 s10 text-center">
@@ -217,7 +218,8 @@
 			               <!--  <input type="submit" class="btn-outline waves-effect waves-light" value="Go">
 			                <p class="for-text"><a href="javscript:void(0);" >Forgot Password ?</a></p> -->
 			            </div>
-			             <div class="input-field col offset-s1 s10"><a href="forgot-password" style="color:#ffffff;" id="forgotid">Forgot Password </a></div>
+			            
+			            <div class="input-field col offset-s1 s10 text-center"><a href="<%=request.getContextPath() %>/forgot-password" style="color:#f7f7f7;">Forgot Password </a></div>
 			        </div>
 		        
 		         </form>

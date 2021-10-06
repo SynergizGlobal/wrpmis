@@ -133,6 +133,10 @@
 			color: lightgreen;
     		font-size: .9rem;
 		}
+		.error {
+		    color: #ff8484;
+		    text-shadow: 0 0 3px #444;
+		}
     </style>
 </head>
 
@@ -243,14 +247,14 @@
 	                             <span>We have sent OTP to your Email Id. Please enter the OTP here to reset your password.</span>                                                     
 	 				            <div class="input-field col s12">
 					              <input type="password" id="otpvalue" name="otpvalue"  maxlength="6">
-					              <label for="password">OTP</label>
+					              <label for="otpvalue">OTP</label>
 					            </div>
 					            
 	 				            <div class=" col s12">
 									<button type="button" class="btn waves-effect waves-light bg-m" style="width: 100%;border:none;" id="btnCheckotp" onClick="CheckOTP();">Check OTP</button>
 					            </div>				            
                             </div> 
-                            <div class=" col offset-s1 s10" style="text-align:center;color:red;" id="otpmessage">                            
+                            <div class="error col offset-s1 s10" style="text-align:center;" id="otpmessage">                            
                             </div> 				            
 				            
 				            

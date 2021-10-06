@@ -31,6 +31,9 @@
             width: 100%;
             overflow: auto;
         }
+        .mdl-data-table td, .mdl-data-table th{
+        	padding:12px 12px;
+        }
         thead th input[type="checkbox"]+span:not(.lever):before {
             border: 2px solid #fff;
         }
@@ -129,11 +132,19 @@
         td:last-of-type .btn+.btn{
         	margin-left:10px;
         }
-         .no-sort.sorting_asc:before,
-	.no-sort.sorting_asc:after{
-		opacity:0 !important;
-		content:'' !important;
-	}
+        .no-sort.sorting_asc:before,
+		.no-sort.sorting_asc:after{
+			opacity:0 !important;
+			content:'' !important;
+		}
+	 	@media only screen and (max-width: 769px){ 		
+			.mob-btn{
+				padding:0 12px; 
+			}
+			.hideCOl{
+				display:none;
+			} 
+		}
     </style>
 
 </head>
@@ -243,14 +254,14 @@
                                                 <th>Component</th>
                                                 <th>Component Id</th>
                                                 <th>Activity</th>
-                                                <th>Current Scope</th>
-                                                <th>Updated Scope</th>
+                                                <th>Current <br>Scope</th>
+                                                <th>Updated <br>Scope</th>
                                                 <th>Cumulative <br>Completed</th>
                                                 <th>Actual for<br> the day</th>
                                                 <th>Updated by</th>
                                                 <th>Updated on</th>
-                                                <th>Approved on</th>
-                                                <th>Rejected on</th>
+                                                <th>Approved <br>on</th>
+                                                <th>Rejected <br>on</th>
                                                 <th class="nosort">Action</th>
                                             </tr>
                                         </thead>
@@ -500,9 +511,9 @@
                     columnDefs: [
                         { targets: [10], className: 'btn-holder' },
                         { targets: 'no-sort', orderable: false, },
-                        { targets: [1], className: 'fw-150'  },
-                        { targets: [2], className: 'fw-150'  },
-                        { targets: [5], className: 'fw-200'  },
+                        { targets: [1,4], className: 'fw-150'  },
+                        { targets: [2], className: 'fw-120'  },
+                        { targets: [5], className: 'fw-170'  }, 
                     ],
                     //'order': [1, 'asc'],
                     "ScrollX": true,
@@ -582,8 +593,8 @@
         	                    		
 	        	                   	checkbox = '<p><label><input type="checkbox" name="pending_activity_check" class="check" id="pending_activity_check_'+key+'" value="'+progress_id+'"  '+disabledval+' /><span></span></label></p>';
 	        	                   	
-	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn bg-m" '+disabledval+'><i class="fa fa-check"></i> </a>'
-        	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>'+concat;
+	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn mob-btn bg-m" '+disabledval+'><i class="fa fa-check"></i> </a>'
+        	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn mob-btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>'+concat;
         	                   	}
         	                    
 	        	         		rowArray.push(checkbox);

@@ -944,7 +944,7 @@
                                             <span>Yes</span>
                                         </label>
                                         <label>
-                                            <input class="with-gap" name="bg_required" type="radio" value="No" <c:if test="${contractDeatils.bg_required eq 'No'}">checked
+                                            <input class="with-gap" name="bg_required" type="radio" value="No" <c:if test="${empty contractDeatils.bg_required or contractDeatils.bg_required eq 'No'}">checked
                                             </c:if> />
                                             <span>No</span>
                                         </label>
@@ -1172,7 +1172,7 @@
 	                                            <span>Yes</span>
 	                                        </label>
 	                                        <label>
-	                                            <input class="with-gap" name="insurance_required" type="radio"  value="No" <c:if test="${contractDeatils.insurance_required eq 'No'}">checked
+	                                            <input class="with-gap" name="insurance_required" type="radio"  value="No" <c:if test="${empty contractDeatils.insurance_required or contractDeatils.insurance_required eq 'No'}">checked
 	                                            </c:if> />
 	                                            <span>No</span>
 	                                        </label>

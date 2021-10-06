@@ -133,6 +133,8 @@ public class PageConstants {
 	public static final String adminGrid = "forms/adminGrid"; 
 	public static final String addEditAdminForm = "forms/addEditAdminForm";
 	
+	public static final String userActivityReport = "forms/userActivityReport";
+
 	//******************************************************************************************
 	//REFERENCE FORMS
 	public static final String trainingType = "referenceForms/trainingType";

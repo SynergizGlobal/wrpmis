@@ -42,6 +42,15 @@
 		    font-size: 1.35rem;
 		    cursor:pointer;
 		}
+		
+		.toggle-password1{
+			position: absolute;
+		    color: #f0f0f0;
+		    right: 10px;
+		    top: 14px;
+		    font-size: 1.35rem;
+		    cursor:pointer;
+		}		
 
 		@media screen and (min-width: 480px) {
 		  #support {
@@ -212,7 +221,7 @@
 				              <input type="password" name="confirmPassword" id="confirmPassword">
 				              <label for="password">Confirm New Password</label>
 				             <!--  <i class="fa fa-eye toggle-password" style="color:#fff;">.</i> -->
-				              <span class="material-icons toggle-password">visibility_off</span>
+				              <span class="material-icons toggle-password1">visibility_off</span>
 				            </div>				            				            
 				            <div class="msg">
 				             	<p id="message" class="error">${message}</p>
@@ -618,14 +627,23 @@
 		    	  } else {
 		    	    input.attr("type", "password");
 		    	  }
-		    	  var input1 = $("#confirmPassword");
-		    	  if (input1.attr("type") === "password") {
-		    	    input1.attr("type", "text");
-		    	  } else {
-		    	    input1.attr("type", "password");
-		    	  }		    	  
-
 		    	});
+		    
+		    $(".toggle-password1").on('click', function() {
+		    	 // $(this).toggleClass("fa-eye fa-eye-slash");
+		    	  if($(this).text()=='visibility_off'){
+		    		  $(this).text('visibility');
+		    	  }
+		    	  else{
+		    		  $(this).text('visibility_off');
+		    	  }
+		    	  var input = $("#confirmPassword");
+		    	  if (input.attr("type") === "password") {
+		    	    input.attr("type", "text");
+		    	  } else {
+		    	    input.attr("type", "password");
+		    	  }
+		    	});		    
 		    
 		    
 	        function CheckOTP()

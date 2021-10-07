@@ -582,14 +582,14 @@ public class IssueDaoImpl implements IssueDao {
 			}else{
 				obj.setAssigned_person_user_id_fk(obj.getDy_hod_user_id_fk());
 			}
-			/*if(!"Closed".equals(obj.getStatus_fk()) && !StringUtils.isEmpty(obj.getAssigned_person_user_id_fk()) 
+			if(!"Closed".equals(obj.getStatus_fk()) && !StringUtils.isEmpty(obj.getAssigned_person_user_id_fk()) 
 					&& obj.getAssigned_person_user_id_fk().equals(obj.getExistingAssignedPerson()) ) {
 				obj.setStatus_fk("Updated");
-			}*/
-			if(!"Closed".equals(obj.getStatus_fk()) && !StringUtils.isEmpty(obj.getResponsible_person())
+			}
+			/*if(!"Closed".equals(obj.getStatus_fk()) && !StringUtils.isEmpty(obj.getResponsible_person())
 					&& obj.getResponsible_person().equals(obj.getExisting_responsible_person()) ) {
 				obj.setStatus_fk("Updated");
-			}
+			}*/
 			if("Closed".equals(obj.getStatus_fk()) ) {
 				//obj.setStatus_fk(obj.getStatus_fk());
 				obj.setAssigned_person_user_id_fk(null);

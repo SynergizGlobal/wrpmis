@@ -73,6 +73,7 @@
             top: 25px;
             right:20px;
         }
+        .mt9px{margin-top: 9px !important}
         .w7em{width: 7em;}
         .bd-none{border:none !important;background: transparent}
 		@media(max-width: 2200px){
@@ -185,7 +186,6 @@
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                             </div>
-                            <div style="height:20px;"></div>
                             <div class="row">
                                 <div class="col s6 m2 l4 input-field offset-m2">
                                     <input id="fob_name" name="fob_name" type="text" class="validate" <c:if test="${action eq 'edit'}">readonly</c:if> value="${fob.fob_name }" >
@@ -215,7 +215,7 @@
 	                                    <span id="fob_idError" class="error-msg" ></span>
 	                                </div>
                                 </c:if> --%>
-                                <div class="col s6 m4 l4 input-field ">
+                                <div class="col s6 m4 l4 input-field mt9px">
                                     <p class="searchable_label">Work Status <span class="required">*</span></p>
                                     <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown" onchange="openDates(this.value);">
                                         <option value="">Select</option>

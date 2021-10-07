@@ -137,7 +137,7 @@
                         <div class="container container-no-margin">
                         	<input type="hidden" name ="dashboard_id" value="${dashboardDetails.dashboard_id }" />
                             <div class="row">
-                                <div class="col s6 m4 l4 input-field offset-m2">
+                                <div class="col s12 m4 l4 input-field">
                                     <input id="dashboard_name" name="dashboard_name" type="text" class="validate" value="${dashboardDetails.dashboard_name }">
                                     <label for="dashboard_name">Dashboard <span class="required">*</span></label>
                                     <span id="dashboard_nameError" class="error-msg"></span>
@@ -152,7 +152,7 @@
                                     </select>
                                     <span id="moduleError" class="error-msg"></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Dashboard Type </p>
                                     <select class="searchable" id="dashboard_type_fk" name="dashboard_type_fk">
                                         <option value="">Select</option>
@@ -168,7 +168,7 @@
                                 
                             </div>
                             <div class="row">
-                            	<div class="col s6 m4 l4 input-field">
+                            	<div class="col s12 m4 l4 input-field">
                                     <input list="folder_list"  id="folder" type="text" value="${dashboardDetails.folder }" >
                                     <input type="hidden" name="folder" id="folder_id" value="${dashboardDetails.parent_dashboard_id_sr_fk }"/>
                                     <label for="folder">Folder</label>

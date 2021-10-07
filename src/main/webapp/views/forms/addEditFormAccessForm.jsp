@@ -146,7 +146,7 @@
 					  	<input type="hidden" name ="form_id" value="${formDetails.form_id }" />
                         <div class="container container-no-margin">
                             <div class="row">
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                    <input id="form_name" name="form_name" type="text" class="validate" value="${formDetails.form_name }">
                                     <label for="form_name">Form Name <span class="required">*</span></label>
                                     <span id="form_nameError" class="error-msg"></span>
@@ -177,7 +177,7 @@
                                                                  
                             </div>
                             <div class="row">    
-                            	<div class="col s6 m4 l4 input-field">
+                            	<div class="col s12 m4 l4 input-field">
                                     <input id="priority" name="priority" type="number" class="validate" value="${formDetails.priority }">
                                     <label for="priority">priority </label>
                                     <span id="priorityError" class="error-msg"></span>
@@ -204,7 +204,7 @@
                                           </c:forEach>
                                     </select>
                                 </div>
-                                <div class="col s6 m4 l8 input-field">
+                                <div class="col s12 m4 l8 input-field">
                                     <%-- <p class="searchable_label">Display In Mobile </p>
                                     <select id="display_in_mobile" class="searchable" name="display_in_mobile">
                                         <option value="No" <c:if test="${formDetails.display_in_mobile eq 'No'}">selected</c:if>>No</option>

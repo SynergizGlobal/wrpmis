@@ -290,7 +290,7 @@
                                 <div class="col s12 m8 l12 offset-m2">
 	                                 <div class="row">
 	                                 	<c:if test="${action eq 'add'}">
-	                                 	<div class="col s6 m6 l12 input-field">
+	                                 	<div class="col s12 m6 l12 input-field">
 		                                   <p class="searchable_label">Project : <span class="required">*</span></p>
 		                                    <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
 		                                   		  <option value="">select</option>
@@ -303,7 +303,7 @@
 		                               <input type="hidden" name ="project_name" id="project_name"/>
 		                               </c:if>
 		                               <c:if test="${action eq 'edit'}">
-			                               <div class="col s6 m6 l12 input-field">
+			                               <div class="col s12 m6 l12 input-field">
 												<input type="text" class="form-control" value="${workDetails.project_name}" readonly >  
 												<label >Project<span class="required">*</span>:</label>			                                    
 			                                    <input type="hidden" name ="project_id_fk" id="project_id_fk" value="${workDetails.project_id_fk}"/>

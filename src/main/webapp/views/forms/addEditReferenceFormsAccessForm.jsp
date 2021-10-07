@@ -22,6 +22,7 @@
         .select2-container--default .select2-selection--single {
             background-color: transparent;
         }
+        .mt18px{margin-top: 18px !important;}
         @media only screen and (max-width: 768px){
 			.input-field p.searchable_label {
 			    margin-bottom: 0 !important;
@@ -61,19 +62,17 @@
                         <div class="container container-no-margin">
                         <input type="hidden"  name="reference_forms_id" value="${refrenceFormDetails.reference_forms_id }" />
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="name" name="name" type="text" class="validate" value="${refrenceFormDetails.name }">
                                     <label for="name">Name</label>
                                     <span id="nameError" class="error-msg"></span>
                                 </div>
-                                <div class="col s6 m4 input-field ">
+                                <div class="col s6 m4 l4 input-field ">
                                     <input id="form_url" name=form_url type="text" class="validate" value="${refrenceFormDetails.form_url }">
                                     <label for="url">Url </label>
                                     <span id="form_urlError" class="error-msg"></span>
                                 </div>
-                            </div>
-                            <div class="row" style="margin-bottom: 20px;">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field mt18px">
                                     <p class="searchable_label">Module </p>
                                     <select class="searchable validate-dropdown" id="module_fk" name="module_fk">
                                         <option value="">Select</option>
@@ -83,6 +82,9 @@
                                     </select>
                                     <span id="module_fkError" class="error-msg"></span>
                                 </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                                
                             </div>
 
                             <!-- </div> -->

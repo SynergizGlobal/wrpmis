@@ -210,13 +210,7 @@
                                     </select>     
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                
-                                
-							</div>
-                            <div class="row">
+                            
                             	<div class="col s6 m4 l4 input-field">
                                    <p class="searchable_label">Reporting To <span class="required">*</span></p>
                                    <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable validate-dropdown">
@@ -238,8 +232,7 @@
                                     <label for="designation">Designation <span class="required">*</span></label>
                                     <span id="designationError" class="error-msg" ></span>
                                 </div>
-                            </div>
-                            <div class="row">
+                            
                                 <div class="col s6 m4 l4 input-field offset-m2 ">
                                     <input id="email_id" name="email_id" type="email" class="validate" value="${usrObj.email_id }">
                                     <label for="email_id">Email ID <span class="required">*</span></label>

@@ -87,12 +87,31 @@
         .select2-container--default .select2-selection--single {
             background-color: transparent;
         }
-       
+        .m0{margin: 0 !important;}
+       	.bd-none{border:none !important;background: transparent}
+		@media(max-width: 2200px){
+		.table-add{position: absolute;}
+		.add-align{position: absolute;
+   					 margin-top: -4.8em;
+   					 margin-left: 11%;}
+   		.bd-none{border: none;background: transparent}
+   		 }
+    	@media(max-Width: 2000px){
+    	.add-align{margin-left:19%;}
+    	}
+    	@media(max-width: 800px){
+    	.add-align{position: relative; margin-top: 0; margin-left:0;}
+    	.table-add{position: relative;}
+    	}
+
 		@media only screen and (max-width: 768px){
 			.input-field p.searchable_label {
 			    margin-top: -16px !important;
 			    margin-bottom: 0;
 			}
+		@media(max-width: 575px){
+		.m0{margin: 1rem auto !important;}
+		}
 		}		
     </style>
 </head>
@@ -128,12 +147,12 @@
 					  	<input type="hidden" name ="form_id" value="${reportDetails.form_id }" />
                         <div class="container container-no-margin">
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s12 m4 l4 input-field m0">
                                    <input id="form_name" name="form_name" type="text" class="validate" value="${reportDetails.form_name }">
                                     <label for="form_name">Report Name <span class="required">*</span></label>
                                     <span id="form_nameError" class="error-msg"></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Module </p>
                                     <select class="searchable" id="module_name_fk" name="module_name_fk">
                                         <option value="">Select</option>
@@ -143,9 +162,7 @@
                                     </select>
                                     <span id="moduleError" class="error-msg"></span>
                                 </div>
-                            </div>
-                            <div class="row">                                 
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Folder </p>
                                     <select class="searchable" id="parent_form_id_sr_fk" name="parent_form_id_sr_fk">
                                         <option value="">Select</option>
@@ -155,19 +172,23 @@
                                     </select>
                                     <span id="moduleError" class="error-msg"></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                            </div>
+                            <div class="row">                                 
+                                
+                                                                 
+                            </div>
+                            <div class="row">
+                            	<div class="col s12 m4 l4 input-field">
                                     <input id="priority" name="priority" type="number" class="validate" value="${reportDetails.priority }">
                                     <label for="priority">priority </label>
                                     <span id="priorityError" class="error-msg"></span>
                                 </div>                                 
-                            </div>
-                            <div class="row">                                 
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="web_form_url" name="web_form_url" type="text" class="validate" value="${reportDetails.web_form_url }">
                                     <label for="web_form_url">Web Url </label>
                                     <span id="web_form_urlError" class="error-msg"></span>
                                 </div>
-                                <div class="col s6 m4 input-field ">
+                                <div class="col s6 m4 l4 input-field ">
                                     <input id="mobile_form_url" name="mobile_form_url" type="text" class="validate" value="${reportDetails.mobile_form_url }">
                                     <label for="mobile_form_url">Mobile Url </label>
                                     <span id="mobile_form_urlError" class="error-msg"></span>
@@ -175,7 +196,7 @@
                             </div>
 
                             <div class="row">                                 
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label"> Status </p>
                                     <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk">
                                         <option value="">Select</option>
@@ -184,7 +205,7 @@
                                           </c:forEach>
                                     </select>
                                 </div> 
-                                <div class="col s6 m4 input-field">
+                                <div class="col s12 m4 l8 input-field">
                                    <%--  <p class="searchable_label">Display In Mobile </p>
                                     <select id="display_in_mobile" class="searchable" name="display_in_mobile">
                                         <option value="No" <c:if test="${reportDetails.display_in_mobile eq 'No'}">selected</c:if>>No</option>
@@ -192,10 +213,10 @@
                                     </select> --%>
                                     <div class="row">
                                         <!-- row 7 -->
-                                        <div class="col s5 m5 l6 input-field">
+                                        <div class="col s5 m5 l4 input-field">
                                             <p style="margin-top: 12px;" class="center-align">Mobile View ?</p>
                                         </div>
-                                        <div class="col s7 m7 l6 input-field">
+                                        <div class="col s7 m7 l4 input-field">
                                             <p class="radiogroup" style="padding-bottom: 10px;padding-top: 10px;">
                                                 <label>
                                                     <input class="with-gap" name="display_in_mobile" type="radio"
@@ -215,7 +236,7 @@
 
                             <div class="row" style="margin-bottom: 20px;">
                                  
-                                <div class="col s12 m8 offset-m2">
+                                <div class="col s12 m8 l12 offset-m2">
                                     <div class="row fixed-width">
                                         <h6 class="center-align"  style="font-weight:600;">Report Details</h6>
                                         <div class="table-inside">
@@ -298,12 +319,12 @@
                                                 </tbody>
                                             </table>
                                             
-                                            <table class="mdl-data-table">
+                                            <table class="mdl-data-table table-add bd-none">
 												<tbody>
-													<tr>
-														<td colspan="6" ><a
+													<tr class="bd-none">
+														<td colspan="6" class="bd-none"><a
 															type="button"
-															class="btn waves-effect waves-light bg-m t-c "
+															class="btn waves-effect waves-light bg-m t-c add-align"
 															onclick="addRow()"> <i
 																class="fa fa-plus"></i>
 														</a>
@@ -328,7 +349,7 @@
                             <!-- </div> -->
                             <div class="row">
                                  
-                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                                <div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
                                     <div class=" m-1">
 	                                         <c:if test="${action eq 'edit'}">
 	                                           <button type="button" onclick="updateReport();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -338,7 +359,7 @@
 											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr center-align">
+                                <div class="col s6 m4 l6 mt-brdr center-align">
                                     <div class=" m-1">
                                         <a href="<%=request.getContextPath()%>/reports" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>

@@ -77,24 +77,24 @@
                         <div class="container container-no-margin">
                         <input type="hidden" name="admin_form_id" value="${adminDetails.admin_form_id }"   />
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l6 input-field offset-m2">
                                     <input id="form_name" name="form_name" type="text" class="validate" value="${adminDetails.form_name }">
                                     <label for="form_name">Form Name</label>
                                     <span id="form_nameError" class="error-msg"></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l6 input-field">
                                     <input id="url" name="url" type="text" class="validate"  value="${adminDetails.url }">
                                     <label for="url">Url </label>
                                     <span id="urlError" class="error-msg"></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m4 l6 input-field offset-m2">
                                     <input id="priority" name="priority" type="number" class="validate"  value="${adminDetails.priority }">
                                     <label for="priority">Priority </label>
                                     <span id="priorityError" class="error-msg"></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l6 input-field">
                                     <p class="searchable_label"> Status </p>
                                     <select id="soft_delete_status_fk" class="searchable validate-dropdown" name="soft_delete_status_fk">
                                         <option value="">Select</option>
@@ -109,7 +109,7 @@
 
                             <!-- </div> -->
                             <div class="row">
-                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                                <div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
                                    <div class=" m-1">
 	                                         <c:if test="${action eq 'edit'}">
 	                                           <button type="button" onclick="updateAdmin();"  class="btn waves-effect waves-light bg-m">Update</button>
@@ -119,7 +119,7 @@
 											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr center-align">
+                                <div class="col s6 m4 l6 mt-brdr center-align">
                                     <div class=" m-1">
                                         <a href="<%=request.getContextPath()%>/admin" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>

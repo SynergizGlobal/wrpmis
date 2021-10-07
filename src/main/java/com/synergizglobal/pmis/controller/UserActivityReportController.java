@@ -224,7 +224,7 @@ public class UserActivityReportController {
 	        CellStyle componentStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Garamond";
 	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 	        CellStyle activityNameStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 
 	        /********************************************************/
@@ -319,7 +319,7 @@ public class UserActivityReportController {
 										cell.setCellValue(dObj.getForm_details());
 										
 										cell = row.createCell(c++);
-										cell.setCellStyle(activityNameStyle);
+										cell.setCellStyle(numberStyle);
 										cell.setCellValue(dObj.getTime());
 										
 								        rowNo++;
@@ -376,7 +376,7 @@ public class UserActivityReportController {
 										cell.setCellValue(dObj.getForm_details());
 										
 										cell = row.createCell(c++);
-										cell.setCellStyle(activityNameStyle);
+										cell.setCellStyle(numberStyle);
 										cell.setCellValue(dObj.getTime());
 										
 								        rowNo++;

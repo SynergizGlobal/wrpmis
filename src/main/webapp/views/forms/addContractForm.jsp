@@ -347,7 +347,7 @@
 	                             <div class="row">	                                    
                                     <c:choose>
 								         <c:when test = "${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
-								         <div class="col s6 m6 l6 input-field offset-m2">
+								         <div class="col s6 m6 l6 input-field ">
 								            <p class="searchable_label">HOD<span class="required">*</span></p>
 	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
 	                                     		  <option value="">Select</option> 
@@ -371,7 +371,7 @@
 	                                        </div>
 								         </c:when>
 								         <c:otherwise>
-								           	<div class="col s6 m6 input-field offset-m2">
+								           	<div class="col s6 m6 input-field ">
 	  										 	<p class="searchable_label">HOD<span class="required">*</span></p>
 	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDyHodList();"  <c:if test="${sessionScope.USER_TYPE eq 'HOD'  || sessionScope.USER_TYPE eq 'DyHOD'}"> disabled  </c:if>> 
 	                                     		  <option value="">Select</option> 

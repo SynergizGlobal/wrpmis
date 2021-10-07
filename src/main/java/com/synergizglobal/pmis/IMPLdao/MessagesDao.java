@@ -1,5 +1,10 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +34,9 @@ public class MessagesDao {
 		try {
 			if(!StringUtils.isEmpty(obj.getUser_ids())) {
 				String[] user_ids = obj.getUser_ids();
-				int count = obj.getUser_ids().length;
+				String[] filtered_user_ids = Arrays.stream(user_ids).distinct().toArray(s -> new String[s]);
+				user_ids = filtered_user_ids;
+				int count = user_ids.length;
 				SqlParameterSource[] source = new SqlParameterSource[count];
 				String messageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
 						+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";

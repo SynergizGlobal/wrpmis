@@ -1985,7 +1985,7 @@ public class ContractDaoImpl implements ContractDao {
 					if(!StringUtils.isEmpty(contract.getDy_hod_user_id_fk()) && "Update".equalsIgnoreCase(contract.getUpdate_type())) {
 						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 						
-						int arrSize = 2;					
+						int arrSize = 1;					
 						List<Contract> departments = getDepartmentList(contract.getContract_id(), con);
 						for (Contract dept : departments) {
 							int size = dept.getExecutivesList().size();
@@ -2002,13 +2002,13 @@ public class ContractDaoImpl implements ContractDao {
 							}
 						}
 						
-						for(int k=0; k<userIds.length-1; k++) {
+						/*for(int k=0; k<userIds.length-1; k++) {
 					         for (int j=k+1; j<userIds.length; j++) {
 					            if(userIds[k] == userIds[j]) {
 					            	userIds = ArrayUtils.remove(userIds, j);
 					            }
 					         }
-					    }
+					    }*/
 						/*String tab_name = "";
 						if(contract.getContract_details_types().contains(",")) {
 							String[] temp = contract.getContract_details_types().split(",");

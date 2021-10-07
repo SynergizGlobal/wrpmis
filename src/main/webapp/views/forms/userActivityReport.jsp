@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label" style="text-align:left">Contract</p>
-                                    <select class="searchable validate-dropdown" id="contract" name="contract" onchange="addInQueContract(this.value);getUserList();">
+                                    <select class="searchable validate-dropdown" id="contract" name="contract" onchange="addInQueContract(this.value);getUserActivityReport();">
                                         <option value="">Select </option>
                                         <c:forEach var="obj" items="${contarctsList }">
                                       	   <option  value= "${obj.contract}">${obj.contract}</option>
@@ -193,13 +193,10 @@
     	        		  var temp2 = temp[i].split('=');
     		        	  if($.trim(temp2[0]) == 'module_name' ){
     		        		  getModuleList(temp2[1]);
-    		        		  getContractsList("");
     		        	  }else if($.trim(temp2[0]) == 'work'){
     		        		  getWorksList(temp2[1]);
-    		        		  getContractsList("");
     		        	  }else if($.trim(temp2[0]) == 'contract'){
     		        		  getContractsList(temp2[1]);
-    		        		  getUserList("");
     		        	  }else if($.trim(temp2[0]) == 'user'){
     		        		  getUserList(temp2[1]);
     		        	  }
@@ -363,7 +360,7 @@
             	$(".page-loader").hide();
             }
         }
-        function getContractsList(contarct) {
+        function getContractsList(contarctVal) {
         	$(".page-loader").show();
         	
             var module_name = $("#module_name").val();
@@ -379,8 +376,8 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                                var selectedFlag = (contarct == val.contract)?'selected':'';
-                                $("#contract").append('<option workId="'+val.work +'" name="'+val.user +'" value="' + val.contract + '"'+selectedFlag+'>' + $.trim(val.contract) + '</option>');
+                                var selectedFlag = (contarctVal == val.contract)?'selected':'';
+                                $("#contract").append('<option value="' + val.contract + '"'+selectedFlag+'>' + $.trim(val.contract) + '</option>');
                             });
                         }
                         $('.searchable').select2();

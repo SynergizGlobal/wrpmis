@@ -1,5 +1,8 @@
 package com.synergizglobal.pmis.reference.IMPLdao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -91,6 +94,9 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 	@Override
 	public boolean updateRiskWorkHOD(TrainingType obj) throws Exception {
 		boolean flag = false;
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
 			String riskCompleted = obj.getRisk_work_completed_new();
 			if(StringUtils.isEmpty(riskCompleted)) 
@@ -103,8 +109,28 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
-			if(count > 0) {
+			if(count > 0) 
+			{
 				flag = true;
+				
+				con = dataSource.getConnection();
+				String qry = "select * from risk R   "
+						+ "LEFT JOIN risk_revision rr on r.risk_id_pk=rr.risk_id_pk_fk where sub_work = ?";
+				stmt = con.prepareStatement(qry);
+				stmt.setString(1,obj.getSub_work_new());
+				rs = stmt.executeQuery();  
+				while(rs.next()) 
+				{
+				    String riskrevisionid = rs.getString(4);
+				    
+				    PreparedStatement stmtUpdate = null;
+				    
+				    String qry2 = "UPDATE risk_revision set owner = ? WHERE risk_revision_id = ?";
+				    stmtUpdate = con.prepareStatement(qry2);
+				    stmtUpdate.setString(1, getDesignation(obj.getHod_user_id_fk_new()));
+				    stmtUpdate.setString(2, riskrevisionid);
+					int c = stmtUpdate.executeUpdate();  						
+				}				
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -112,6 +138,20 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 		}
 		return flag;
 	}
+	
+	private String getDesignation(String hod_user_id) throws Exception
+	{
+		String Designation="";
+		try {
+			String qry = "select designation from user where user_id = ?";
+			Designation = (String) jdbcTemplate.queryForObject(qry, new Object[] { hod_user_id }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}		
+		return Designation;
+	}	
+	
+	
 
 	@Override
 	public boolean deleteRiskWorkHOD(TrainingType obj) throws Exception {

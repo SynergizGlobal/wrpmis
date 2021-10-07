@@ -214,46 +214,56 @@
 		        <form class="col s12 m3" action="<%=request.getContextPath()%>/forgot-password" id="forgotPasswordForm" name="forgotPasswordForm" method="post" >
 		        	<div class="row homepage" style="margin-bottom:3rem;">
 			            <img src="/pmis/resources/images/mrvclogo.png" alt="mrvc logo" class="card-img">
+
+	                         <span class="material-icons" style="background-color:#ffffff;"><a href="#" onclick="window.location.href='login'"> keyboard_backspace</a></span>
+
 				            <h4 class="tite">Forgot Password</h4>
-				            <div class="input-field col offset-s1 s10">
-				              <input type="text" name="user_id" id="user_id">
-				              <label for="user_id">User Name</label>
-				            </div>
-				            <div class="input-field col offset-s1 s10">
-				              <input type="text" name="email_id" id="email_id" >
-				              <label for="email_id">Confirm Email</label>
-				            </div>
-				            <div class="input-field col offset-s1 s10">
-				              <input type="password" name="newPassword" id="newPassword">
-				              <label for="newPassword">New Password</label>
-				             <!--  <i class="fa fa-eye toggle-password" style="color:#fff;">.</i> -->
-				              <span class="material-icons toggle-password">visibility_off</span>
-				            </div>
-				            <div class="input-field col offset-s1 s10">
-				              <input type="password" name="confirmPassword" id="confirmPassword">
-				              <label for="confirmPassword">Confirm New Password</label>
-				             <!--  <i class="fa fa-eye toggle-password" style="color:#fff;">.</i> -->
-				              <span class="material-icons toggle-password1">visibility_off</span>
-				            </div>				            				            
-				            <div class="msg">
-				             	<p id="message" class="error">${message}</p>
-				               	<c:if test="${not empty success}">
-				                   	<p id="logoutMsg" class="success">${success}</p>
-				               	</c:if>
+				            <div id="firstDiv">
+					            <div class="input-field col offset-s1 s10">
+					              <input type="text" name="user_id" id="user_id">
+					              <label for="user_id">User Name</label>
+					            </div>
+					            <div class="input-field col offset-s1 s10">
+					              <input type="text" name="email_id" id="email_id" >
+					              <label for="email_id">Confirm Email</label>
+					            </div>
+					            <div class="msg">
+					             	<p id="message" class="error">${message}</p>
+					               	<c:if test="${not empty success}">
+					                   	<p id="logoutMsg" class="success">${success}</p>
+					               	</c:if>
+					            </div>
 				            </div>
 				             <input type="hidden" id="hdnPass">
-				            <div id="accessMsg" style="text-align:center;color:red;"></div>
-                            <div class="input-field col offset-s1 s10" id="divOTP" style="text-align:center;display:none;">                            
-	                             <span>We have sent OTP to your Email Id. Please enter the OTP here to reset your password.</span>                                                     
-	 				            <div class="input-field col s12">
-					              <input type="password" id="otpvalue" name="otpvalue"  maxlength="6">
-					              <label for="otpvalue">OTP</label>
+				             
+				             <div id="divOTP" style="display:none;">
+	                            <div class="input-field col offset-s1 s10"  style="text-align:center;">                            
+		                             <span>We have sent OTP to your Email Id. Please enter the OTP here to reset your password.</span>                                                     
+		 				            <div class="input-field col s12">
+						              <input type="password" id="otpvalue" name="otpvalue"  maxlength="6">
+						              <label for="otpvalue">OTP</label>
+						            </div>
+						            
+		 				            <div class=" col s12">
+										<button type="button" class="btn waves-effect waves-light bg-m" style="width: 100%;border:none;" id="btnCheckotp" onClick="CheckOTP();">Check OTP</button>
+						            </div>				            
+	                            </div> 
+                            </div>
+                            <div id="secondDiv" style="display:none;">
+					            <div class="input-field col offset-s1 s10">
+					              <input type="password" name="newPassword" id="newPassword">
+					              <label for="newPassword">New Password</label>
+					              <span class="material-icons toggle-password">visibility_off</span>
 					            </div>
-					            
-	 				            <div class=" col s12">
-									<button type="button" class="btn waves-effect waves-light bg-m" style="width: 100%;border:none;" id="btnCheckotp" onClick="CheckOTP();">Check OTP</button>
-					            </div>				            
-                            </div> 
+					            <div class="input-field col offset-s1 s10">
+					              <input type="password" name="confirmPassword" id="confirmPassword">
+					              <label for="confirmPassword">Confirm New Password</label>
+					              <span class="material-icons toggle-password1">visibility_off</span>
+					            </div>	                            
+                            </div>
+                            
+ 				             <div id="accessMsg" style="text-align:center;color:red;"></div>
+                            
                             <div class="error col offset-s1 s10" style="text-align:center;" id="otpmessage">                            
                             </div> 				            
 				            
@@ -397,7 +407,8 @@
 			     			required:true
 	                	},"email_id":{
 	                		required:true
-	                	},"newPassword":{
+	                	}
+/* 	                	,"newPassword":{
 	                		required:true,
 	                		minlength: 8,
 	                		maxlength: 20,
@@ -407,14 +418,15 @@
 	                		minlength: 8,
 	                		maxlength: 20,
 	                		equalTo: "#newPassword"
-	                	}                	
+	                	}    */             	
 			     	},
 			    messages: {
 			   			  "user_id":{
 			   			  	required:'User ID Required'
 			   			  },"email_id":{
 	                		required:'Email id Required'
-		                  },"newPassword":{
+		                  }
+/* 			   			  ,"newPassword":{
 	                		required:'New Password Required',
 	                		minlength: "Your password must be at least 8 characters long",
 	                		maxlength: "Your password must be at most 20 characters long"
@@ -423,7 +435,7 @@
 	                		minlength: "Your password must be at least 8 characters long",
 	                		maxlength: "Your password must be at most 20 characters long",
 	                		equalTo: "Confirm password must be same as New Password"
-		                  }	                  
+		                  }	  */                 
 			   	},errorPlacement:function(error, element){
 			   		   $("#logoutMsg").html("");
 				       if(element.attr("id") == "user_id" ){
@@ -432,13 +444,15 @@
 				        }else if (element.attr("id") == "email_id" ){
 							 document.getElementById("message").innerHTML="";
 							 error.appendTo('#message');
-			             }else if (element.attr("id") == "newPassword" ){
+			             }
+				        else if (element.attr("id") == "newPassword" ){
 							 document.getElementById("message").innerHTML="";
 							 error.appendTo('#message');
 			             }else if (element.attr("id") == "confirmPassword" ){
 							 document.getElementById("message").innerHTML="";
 							 error.appendTo('#message');
-				         }else{error.insertAfter(element);} 
+				         }
+			             else{error.insertAfter(element);} 
 				       
 			    },invalidHandler: function (form, validator) {
                      var errors = validator.numberOfInvalids();
@@ -457,12 +471,13 @@
 		                    	 	$("#user_id").prop("readonly", true);
 		                    	 	$("#email_id").prop("readonly", true);	
 		                    	 
-			                    	 $("#newPassword").prop("readonly", true);
-			                    	 $("#confirmPassword").prop("readonly", true);	  
+			                    	 //$("#newPassword").prop("readonly", true);
+			                    	 //$("#confirmPassword").prop("readonly", true);	
 				                	 if(glbProcess==false)
 			                		 {
 				                		 $("#accessMsg").html("");
 				                    	 $("#divOTP").show();
+				                    	 $("#firstDiv").hide();
 					                	 $("#btnSubmit").hide();
 					                	 
 					                	 var OTP=generateOTP();
@@ -481,6 +496,31 @@
 			                		 }
 				                	 else
 			                		 {
+			                		     if($("#newPassword").val()=="")
+			                			 {
+			                		    	 $("#accessMsg").html("New Password Required");
+			                		    	 return false;
+			                			 }
+			                		     if($("#confirmPassword").val()=="")
+			                			 {
+			                		    	 $("#accessMsg").html("Confirm Password Required");
+			                		    	 return false;
+			                			 }
+				                		 if($("#newPassword").val()!=$("#confirmPassword").val())
+			                			 {
+				                			 $("#accessMsg").html("Confirm password must be same as New Password");
+				                			 return false;
+			                			 }
+				                		 if($("#newPassword").val().length<8 || $("#newPassword").val().length>20)
+			                			 {
+				                			 $("#accessMsg").html("Your password must be at least 8 characters long and at most 20 characters long");
+				                			 return false;
+			                			 }
+				                		 if($("#confirmPassword").val().length<8 || $("#confirmPassword").val().length>20)
+			                			 {
+				                			 $("#accessMsg").html("Your password must be at least 8 characters long and at most 20 characters long");
+				                			 return false;
+			                			 }					                		 
 				                		form.submit();
 			                		 }				                	 
 			                    	 
@@ -576,7 +616,9 @@
 	        	}
 	            else
 	        	{
+	            	$("#firstDiv").hide();
             		$("#divOTP").hide();
+            		$("#secondDiv").show();
 	            	$("#btnSubmit").show();
 	            	$("#otpmessage").hide();
 	            	$("#otpmessage").html();

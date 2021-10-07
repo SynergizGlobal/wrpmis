@@ -259,6 +259,7 @@ public class LoginController {
 				{
 					String temp = loginService.resetPassword(user);
 					model.setViewName("redirect:/login");
+					attributes.addFlashAttribute("success", "Your password changed successfully..");
 				}else
 				{
 					model.addObject("message", invalidUserName);

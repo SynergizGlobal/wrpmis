@@ -490,17 +490,19 @@
         var minDate = new Date(year,month-1,day);
         
         var dates_arr = [];
+        var format_dates_arr = [];
        	$("input[name=atr_dates]").each(function(){
         	dates_arr.push(this.value);
         });
         
         let date_pickers = document.querySelectorAll('.datepicker');
+        //var cnt=1;
 	    $.each(date_pickers, function(){
 	    	var dt = this.value.split(/[^0-9]/);
 	    	this.value = ""; 
 	    	var options = {format: 'dd-mm-yyyy',
 	    			autoClose:true,
-	    			minDate:minDate,
+	    			minDate:minDate,//new Date(convert(dates_arr[cnt])),
 	    			maxDate: new Date(),
 	    			onDraw : function() {disableDates("ondraw")},
 	    			onOpen : function() {datePickerSelectAddClass();disableDates("onopen")},
@@ -539,11 +541,21 @@
 	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
 	    	}
 	    	M.Datepicker.init(this, options);
+	    	//cnt++;
 	    });
 	    $('#atr_date_icon1').click(function () {
             event.stopPropagation();
             $('#atr_dates1').click();
         });
+	    
+	    
+	    function convert(date){
+	    	  var datearray = date.split("-");
+	    	  var newdate = datearray[2] + '-' + datearray[1] + '-' + datearray[0];
+	    	  return newdate;
+	    	  
+	    	}
+	    
 	    
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
@@ -638,7 +650,7 @@
 	    	});
             
             $('#atr_dates' + rNo).datepicker({
-            	minDate: minDate,
+            	minDate:new Date(convert(dates_arr[1])),
             	maxDate: new Date(),
 	        	format:'dd-mm-yyyy',
 	        	autoClose:true,

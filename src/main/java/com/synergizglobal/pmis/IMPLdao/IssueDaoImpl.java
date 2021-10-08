@@ -930,7 +930,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 						template.update(issueMessageQry, paramSource);
 					}
-					if (!StringUtils.isEmpty(hod_user_id)) {
+					if (!StringUtils.isEmpty(hod_user_id) && !(created_by_user_id.contentEquals(hod_user_id))) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(hod_user_id);
 						msgObj.setMessage(message2);
@@ -939,7 +939,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 						template.update(issueMessageQry, paramSource);
 					}
-					if (!StringUtils.isEmpty(created_by_user_id)) {
+					if (!StringUtils.isEmpty(created_by_user_id) && !(created_by_user_id.contentEquals(dy_hod_user_id))) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(created_by_user_id);
 						msgObj.setMessage(message2);
@@ -969,7 +969,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 						template.update(issueMessageQry, paramSource);
 					}
-					if (!StringUtils.isEmpty(responsible_person_user_id)) {
+					if (!StringUtils.isEmpty(responsible_person_user_id) && !(responsible_person_user_id.contentEquals(dy_hod_user_id))) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(responsible_person_user_id);
 						msgObj.setMessage(message1);
@@ -1000,7 +1000,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 						template.update(issueMessageQry, paramSource);
 					}
-					if (!StringUtils.isEmpty(dy_hod_user_id)) {
+					if (!StringUtils.isEmpty(dy_hod_user_id) && !(responsible_person_user_id.contentEquals(dy_hod_user_id))) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message3);
@@ -1031,7 +1031,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 						template.update(issueMessageQry, paramSource);
 					}
-					if (!StringUtils.isEmpty(dy_hod_user_id)) {
+					if (!StringUtils.isEmpty(dy_hod_user_id) && !(responsible_person_user_id.contentEquals(dy_hod_user_id))) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message3);
@@ -1062,7 +1062,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 						template.update(issueMessageQry, paramSource);
 					}
-					if (!StringUtils.isEmpty(hod_user_id)) {
+					if (!StringUtils.isEmpty(hod_user_id) && !(escalated_to_user_id.contentEquals(hod_user_id))) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(hod_user_id);
 						msgObj.setMessage(message2);
@@ -1071,7 +1071,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 						template.update(issueMessageQry, paramSource);
 					}
-					if (!StringUtils.isEmpty(dy_hod_user_id)) {
+					if (!StringUtils.isEmpty(dy_hod_user_id) && !(responsible_person_user_id.contentEquals(dy_hod_user_id))) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message2);
@@ -1102,7 +1102,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 						template.update(issueMessageQry, paramSource);
 					}
-					if (!StringUtils.isEmpty(hod_user_id)) {
+					if (!StringUtils.isEmpty(hod_user_id) && !(escalated_to_user_id.contentEquals(hod_user_id))) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(hod_user_id);
 						msgObj.setMessage(message3);
@@ -1111,7 +1111,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 						template.update(issueMessageQry, paramSource);
 					}
-					if (!StringUtils.isEmpty(dy_hod_user_id)) {
+					if (!StringUtils.isEmpty(dy_hod_user_id) && !(responsible_person_user_id.contentEquals(dy_hod_user_id))) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message3);
@@ -1142,7 +1142,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 						template.update(issueMessageQry, paramSource);
 					}
-					if (!StringUtils.isEmpty(hod_user_id)) {
+					if (!StringUtils.isEmpty(hod_user_id) && !(escalated_to_user_id.contentEquals(hod_user_id))) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(hod_user_id);
 						msgObj.setMessage(message3);
@@ -1151,7 +1151,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 						template.update(issueMessageQry, paramSource);
 					}
-					if (!StringUtils.isEmpty(dy_hod_user_id)) {
+					if (!StringUtils.isEmpty(dy_hod_user_id) && !(responsible_person_user_id.contentEquals(dy_hod_user_id))) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message3);
@@ -1164,7 +1164,7 @@ public class IssueDaoImpl implements IssueDao {
 
 				if (!StringUtils.isEmpty(iObj.getStatus_fk()) && "Closed".equals(iObj.getStatus_fk())
 						&& !iObj.getStatus_fk().equals(existing_status_fk)) {
-					if (!StringUtils.isEmpty(hod_user_id)) {
+					if (!StringUtils.isEmpty(hod_user_id) && !(escalated_to_user_id.contentEquals(hod_user_id))) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(hod_user_id);
 						msgObj.setMessage(message2);
@@ -1173,7 +1173,7 @@ public class IssueDaoImpl implements IssueDao {
 						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 						template.update(issueMessageQry, paramSource);
 					}
-					if (!StringUtils.isEmpty(dy_hod_user_id)) {
+					if (!StringUtils.isEmpty(dy_hod_user_id) && !(responsible_person_user_id.contentEquals(dy_hod_user_id))) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(dy_hod_user_id);
 						msgObj.setMessage(message2);

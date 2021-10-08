@@ -122,8 +122,8 @@ public class CommonConstants {
 	public final static String TRAINING_SESSION_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"TRAINING_SESSIONS"+File.separator;
 	public final static String LAND_ACQUISITION_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"LAND_ACQUISITION_FILES"+File.separator;
 	public final static String DESIGN_UPLOADED_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/DESIGN_UPLOADED_FILES/";
-	public final static String TEMPLATE_FILEPATH = "D:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator;
-	public final static String TEMPLATE_OLD_FILEPATH = "D:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"TEMPLATES_OLD"+File.separator;
+	public final static String TEMPLATE_FILEPATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator;
+	public final static String TEMPLATE_OLD_FILEPATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"TEMPLATES_OLD"+File.separator;
 
 	*/
 	

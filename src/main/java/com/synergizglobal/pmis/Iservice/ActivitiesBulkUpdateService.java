@@ -15,6 +15,8 @@ public interface ActivitiesBulkUpdateService {
 	public List<StripChart> getAcivitiesBulkUpdateContractsList(StripChart obj) throws Exception;
 
 	public List<StripChart> getAcivitiesBulkUpdateStructures(StripChart obj) throws Exception;
+	public List<StripChart> getAcivitiesBulkUpdateInProgressStructures(StripChart obj) throws Exception;
+
 
 	public List<StripChart> getAcivitiesBulkUpdateLines(StripChart obj) throws Exception;
 

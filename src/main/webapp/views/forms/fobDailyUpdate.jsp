@@ -733,7 +733,7 @@
           if ($.trim(contract_id_fk) != "") {
           	var myParams = { contract_id_fk: contract_id_fk };
               $.ajax({
-                  url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateStructures",
+                  url: "<%=request.getContextPath()%>/ajax/getAcivitiesBulkUpdateInProgressStructures",
                   data: myParams, cache: false,async: false,
                   success: function (data) {
                   	var id1 = "";

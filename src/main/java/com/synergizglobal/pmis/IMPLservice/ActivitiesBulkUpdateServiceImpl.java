@@ -38,6 +38,11 @@ public class ActivitiesBulkUpdateServiceImpl implements ActivitiesBulkUpdateServ
 	public List<StripChart> getAcivitiesBulkUpdateStructures(StripChart obj) throws Exception {
 		return dao.getAcivitiesBulkUpdateStructures(obj);
 	}
+	
+	@Override
+	public List<StripChart> getAcivitiesBulkUpdateInProgressStructures(StripChart obj) throws Exception {
+		return dao.getAcivitiesBulkUpdateInProgressStructures(obj);
+	}	
 
 	@Override
 	public List<StripChart> getAcivitiesBulkUpdateLines(StripChart obj) throws Exception {

@@ -291,6 +291,52 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		}
 		return objsList;
 	}
+	
+	
+	@Override
+	public List<StripChart> getAcivitiesBulkUpdateInProgressStructures(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		List<StripChart> objsList1 = null;
+		try {
+			String qry = "SELECT s.structure as strip_chart_structure_id_fk "
+					+ "FROM activities s "
+					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
+					+ "LEFT JOIN fob f ON f.fob_id = s.structure "
+					+ "WHERE s.structure is not null and f.work_status_fk='In Progress' AND s.structure <> '' AND s.contract_id_fk = ? "
+					+ "AND (select count(*) from activities WHERE scope <> IFNULL(completed,0) and contract_id_fk = ? AND structure = s.structure ) > 0 ";
+			int arrSize = 2;
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and ( "
+						+ "structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
+						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
+						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ? group by fob_id_fk)) ";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			
+			qry = qry + " group by s.structure ";			
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = obj.getContract_id_fk();
+			pValues[i++] = obj.getContract_id_fk();
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			}	
+		
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}	
 
 	@Override
 	public List<StripChart> getAcivitiesBulkUpdateLines(StripChart obj) throws Exception {

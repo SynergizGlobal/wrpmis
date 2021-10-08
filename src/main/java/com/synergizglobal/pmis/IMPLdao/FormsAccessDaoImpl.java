@@ -203,7 +203,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			String form_id = getformId(con);
 			obj.setForm_id(form_id);
 			String insertQry = "INSERT INTO form"
-					+ "( form_id,form_name,, module_name_fk, web_form_url,mobile_form_url, "
+					+ "( form_id,form_name, module_name_fk, web_form_url,mobile_form_url, "
 					+ "soft_delete_status_fk,display_in_mobile)"
 					+ "VALUES"
 					+ "(:form_id,:form_name,:module_name_fk,:web_form_url,:mobile_form_url,"

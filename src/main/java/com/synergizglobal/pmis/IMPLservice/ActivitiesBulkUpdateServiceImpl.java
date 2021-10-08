@@ -78,5 +78,10 @@ public class ActivitiesBulkUpdateServiceImpl implements ActivitiesBulkUpdateServ
 	public boolean updateAcivitiesBulk(StripChart obj) throws Exception {
 		return dao.updateAcivitiesBulk(obj);
 	}
+	
+	@Override
+	public boolean insertFOBDailyUpdate(StripChart obj) throws Exception {
+		return dao.insertFOBDailyUpdate(obj);
+	}	
 
 }

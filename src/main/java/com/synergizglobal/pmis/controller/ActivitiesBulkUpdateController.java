@@ -63,7 +63,31 @@ public class ActivitiesBulkUpdateController {
 		}
 		return model;
 	}
-
+	
+	
+	@RequestMapping(value = "/fobdaily-update", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView fobDailyUpdate(@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(PageConstants.fobDailyUpdate);
+		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
+			List<StripChart> projectsList = activitiesBulkUpdateService.getAcivitiesBulkUpdateProjectsList(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<StripChart> worksList = activitiesBulkUpdateService.getAcivitiesBulkUpdateWorksList(obj);
+			model.addObject("worksList", worksList);
+			List<StripChart> contractsList = activitiesBulkUpdateService.getAcivitiesBulkUpdateContractsList(obj);
+			model.addObject("contractsList", contractsList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("AcivitiesBulkUpload : " + e.getMessage());
+		}
+		return model;
+	}
 	
 	@RequestMapping(value = "/ajax/getAcivitiesBulkUpdateProjectsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -258,5 +282,41 @@ public class ActivitiesBulkUpdateController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/insert-fob-daily-update", method = {RequestMethod.POST})
+	public ModelAndView insertFOBDailyUpdate(@ModelAttribute StripChart obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/fobdaily-update");
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+
+			obj.setCreated_by_user_id_fk(user_Id);
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
+			//obj.setProgress_date(DateParser.parse(obj.getProgress_date()));
+			boolean flag =  activitiesBulkUpdateService.insertFOBDailyUpdate(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "FOB Daily Update Inserted Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating FOB Daily Update are failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating FOB Daily Update are failed. Try again.");
+			logger.error("insertFOBDailyUpdate : " + e.getMessage());
+		}
+		return model;
+	}	
+	
 }
 

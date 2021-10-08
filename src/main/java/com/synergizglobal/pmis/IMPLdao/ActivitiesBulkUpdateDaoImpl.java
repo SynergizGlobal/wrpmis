@@ -21,6 +21,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Idao.ActivitiesBulkUpdateDao;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
@@ -33,6 +38,7 @@ import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.StripChart;
+import com.synergizglobal.pmis.model.User;
 @Repository
 public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	
@@ -799,7 +805,64 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		}		
 		return Scope;
 	}
-
+	
+	
+	@Override
+	public boolean insertFOBDailyUpdate(StripChart obj) throws Exception 
+	{
+		Connection con = null;
+		PreparedStatement stmt = null;
+		boolean flag = false;
+		try {
+			con = dataSource.getConnection();
+			String insertQry = "INSERT INTO fobdailyupdate (contract_id_fk,structure,reporting_date,remarks,created_date,created_by_user_id_fk)"  
+					+ " VALUES (?,?,?,?,CURRENT_TIMESTAMP,?)";
+			stmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+			int p = 1;
+			
+	    	String Prdate=null;
+			if(!StringUtils.isEmpty(obj.getProgress_date())) 
+			{	
+		    	Calendar c3 = Calendar.getInstance();
+		    	String[] SplitWith3=obj.getProgress_date().split("-");
+		    	
+	            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
+	            c3.setTime(PrFormat.parse(SplitWith3[1]));
+	            c3.set(Calendar.DATE, Integer.parseInt(SplitWith3[0]));
+	            
+				DateFormat dfm3 = new SimpleDateFormat("dd-MM-yy");	
+				DateFormat rdfm3 = new SimpleDateFormat("YYYY");
+				Date Cdfm3=dfm3.parse(SplitWith3[0]+'-'+c3.get(Calendar.MONTH)+'-'+SplitWith3[2]);	
+				
+	            String gdate3=rdfm3.format(Cdfm3);
+	            
+            
+	            
+	            c3.set(Calendar.YEAR, Integer.parseInt(gdate3));		            
+	            
+	            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	            
+	            Prdate=df.format(c3.getTime());
+			}
+			
+			stmt.setString(p++,obj.getContract_id_fk());
+			stmt.setString(p++,obj.getStrip_chart_structure_id_fk());
+			stmt.setString(p++,Prdate);
+			stmt.setString(p++,obj.getRemarks());
+			stmt.setString(p++,obj.getCreated_by_user_id_fk());
+			
+			int c = stmt.executeUpdate();
+			if (c > 0) {
+				flag=true;	
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return flag;
+	}	
+	
+	
+	
 	@Override
 	public boolean updateAcivitiesBulk(StripChart obj) throws Exception {
 		Connection con = null;

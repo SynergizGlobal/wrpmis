@@ -846,9 +846,10 @@ public class FOBDaoImpl implements FOBDao {
 					String qry3 = "INSERT into fob_contract_responsible_people (fob_id_fk,contract_id_fk,responsible_people_id_fk) VALUES (:fob_id_fk,:contract_id_fk,:responsible_people_id_fk)";
 					int len = obj.getContracts_id_fk().length;
 					
+					    int r=0;
 						for (int i = 0; i < len; i++) 
 						{
-							int r=0;
+							
 							for (int j = 0; j < obj.getFilecounts()[i]; j++) 
 							{
 								FOB fileObj = new FOB();

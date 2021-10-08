@@ -240,7 +240,7 @@
 	                            <div class="input-field col offset-s1 s10"  style="text-align:center;">                            
 		                             <span>We have sent OTP to your Email Id. Please enter the OTP here to reset your password.</span>                                                     
 		 				            <div class="input-field col s12">
-						              <input type="password" id="otpvalue" name="otpvalue"  maxlength="6">
+						              <input type="text" id="otpvalue" name="otpvalue"  maxlength="6">
 						              <label for="otpvalue">OTP</label>
 						            </div>
 						            

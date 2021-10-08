@@ -63,6 +63,7 @@ public class PageConstants {
 	
 	public static final String progressBulkUpdate = "forms/progressBulkUpdate";
 	public static final String activitiesBulkUpdate = "forms/activitiesBulkUpdate";
+	public static final String fobDailyUpdate = "forms/fobDailyUpdate";
 	
 	public static final String documentGrid = "forms/documentGrid";
 	public static final String addEditDocumentForm = "forms/addEditDocumentForm";

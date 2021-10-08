@@ -41,6 +41,14 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }   
+         .no-wrap{
+         	white-space:nowrap;
+         }
+         @media only screen and (max-width: 1366px) and (min-width:1023px){ 
+         	tbody td{
+         		padding:12px 10px !important;
+         	}
+         }
            @media only screen and (max-width: 769px){ 
 			
 			.dataTables_scrollBody tbody tr td:last-of-type,
@@ -248,13 +256,13 @@
 							<table id="datatable-contract" class="mdl-data-table">
 								<thead>
 									<tr>
-										<th class="no-sort fw-150">Work</th>
+										<th class="no-sort fw-250">Work</th>
 										<th class="no-sort">Contract ID</th>
 										<th class="no-sort fw-250">Contract Name</th>
 										<th class="no-sort">Contractor Name</th>
 										<th class="no-sort">Department</th>
-										<th class="no-sort">HOD</th>
-										<th class="no-sort">Dy HOD</th>
+										<th class="no-sort fw-150">HOD</th>
+										<th class="no-sort fw-150">Dy HOD</th>
 										<th class="no-sort">Action</th>
 									</tr>
 								</thead>
@@ -549,8 +557,11 @@
 							columnDefs : [ {
 								"targets" : 'no-sort',
 								"orderable" : false,
-							},{targets:[0,3,4,5,6],
-			                       className: 'hideCOl'},{ targets: [1], className: 'fw-1'  },{ targets: [2], className: 'fw-2'  } ],
+							},
+							 { targets:[0,3,4,5,6], className: 'hideCOl'},
+			                 { targets: [1], className: 'fw-1 no-wrap'},
+			                 { targets: [2], className: 'fw-2'  }                
+			                ],
 							"sScrollX" : "100%",
 							"sScrollXInner" : "100%",
 							"bScrollCollapse" : true,

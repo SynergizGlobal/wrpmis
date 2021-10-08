@@ -397,14 +397,14 @@
                                  <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="projected_completion" name="projected_completion" type="text" class="validate datepicker" value="${workDetails.projected_completion }">
                                     <label for="projected_completion">Target date</label>
-                                    <button type="button" id="projected_completion_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="projected_completion_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="projected_completionError" class="error-msg" ></span>
                                 </div>
                                
                                 <div class="col s6 m4 l4 input-field">
                                     <input id="projected_completion_date" type="text" class="validate datepicker" name="projected_completion_date" value="${workDetails.projected_completion_date }">
                                     <label for="projected_completion_date" class="active fs-sm-8rem">Revised completion date</label>
-                                    <button type="button" id="projected_completion_date_icon"><i class="fa fa-calendar"></i></button>
+                                    <button type="button" id="projected_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="projected_completion_dateError"></span>
                                 </div>
                             </div>
@@ -934,8 +934,6 @@
     
     /**************************************************************************************************************/
     
-    
-    
         function getWorkStatusList(work_status_fk){
 	       	$(".page-loader").show();
    	    	$("#work_status_fk option:not(:first)").remove();
@@ -1051,7 +1049,7 @@
             $('#work_name').characterCounter();
             $('#remarks').characterCounter();
             // $(".datepicker").datepicker();          
-            $('#sanctioned_year_icon').click(function () {
+          /*   $('#sanctioned_year_icon').click(function () {
                 event.stopPropagation();
                 $('#sanctioned_year').click();
             });
@@ -1078,7 +1076,7 @@
             $('#projected_completion_date').datepicker({
 	        	 format: 'dd-mm-yyyy',
 	        	 autoClose:true
-	        });
+	        }); */
             var work_status_fk = '${workDetails.work_status_fk}';
 
       		getWorkStatusList(work_status_fk);

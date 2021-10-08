@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.IssueDao;
 import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.common.Mail;
@@ -582,8 +583,8 @@ public class IssueDaoImpl implements IssueDao {
 			}else{
 				obj.setAssigned_person_user_id_fk(obj.getDy_hod_user_id_fk());
 			}
-			if(!"Closed".equals(obj.getStatus_fk()) && !StringUtils.isEmpty(obj.getAssigned_person_user_id_fk()) 
-					&& obj.getAssigned_person_user_id_fk().equals(obj.getExistingAssignedPerson()) ) {
+			if(!StringUtils.isEmpty(obj.getStatus_fk()) 
+					&& obj.getStatus_fk().equals(obj.getExisting_status_fk()) ) {
 				obj.setStatus_fk("Updated");
 			}
 			/*if(!"Closed".equals(obj.getStatus_fk()) && !StringUtils.isEmpty(obj.getResponsible_person())
@@ -711,6 +712,11 @@ public class IssueDaoImpl implements IssueDao {
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
+			String priority = obj.getPriority_fk();
+			String status_fk = obj.getStatus_fk();
+			obj.setStatus_fk("");obj.setPriority_fk("");
+			Issue issue = getIssue(obj);
+			obj.setStatus_fk(status_fk);obj.setPriority_fk(priority);
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 			String qry = "UPDATE issue SET "
 					+ "title=:title,date=:date,location=:location,reported_by=:reported_by,responsible_person=:responsible_person,"
@@ -813,8 +819,27 @@ public class IssueDaoImpl implements IssueDao {
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				
-				history_flag = addIssueInHistory(obj,template);
-
+				if(!StringUtils.isEmpty(issue)){
+					issue.setDate(DateParser.parse(issue.getDate()));
+					issue.setResolved_date(DateParser.parse(issue.getResolved_date()));
+					issue.setEscalation_date(DateParser.parse(issue.getEscalation_date()));
+					issue.setAssigned_date(DateParser.parse(issue.getAssigned_date()));
+					if(((!StringUtils.isEmpty(obj.getDescription())) && !obj.getDescription().equals(issue.getDescription())) 
+							|| ((!StringUtils.isEmpty(obj.getPriority_fk()) && !obj.getPriority_fk().equals(issue.getPriority_fk()))) 
+							|| ((!StringUtils.isEmpty(obj.getCorrective_measure()) && !obj.getCorrective_measure().equals(issue.getCorrective_measure())))
+							 || ((!StringUtils.isEmpty(obj.getZonal_railway_fk()) && !obj.getZonal_railway_fk().equals(issue.getZonal_railway_fk()))) 
+							 || ((!StringUtils.isEmpty(obj.getOther_organization()) && !obj.getOther_organization().equals(issue.getOther_organization())))
+							 || ((!StringUtils.isEmpty(obj.getOther_org_resposible_person_name()) && !obj.getOther_org_resposible_person_name().equals(issue.getOther_org_resposible_person_name()))) 
+							 || ((!StringUtils.isEmpty(obj.getOther_org_resposible_person_designation()) && !obj.getOther_org_resposible_person_designation().equals(issue.getOther_org_resposible_person_designation())))
+							 || ((!StringUtils.isEmpty(obj.getStatus_fk()) && !obj.getStatus_fk().equals(issue.getStatus_fk()))) 
+							 || ((!StringUtils.isEmpty(obj.getDate()) && !obj.getDate().equals(issue.getDate())))
+							 || ((!StringUtils.isEmpty(obj.getAssigned_date()) && !obj.getAssigned_date().equals(issue.getAssigned_date())))
+							 || ((!StringUtils.isEmpty(obj.getEscalation_date()) && !obj.getEscalation_date().equals(issue.getEscalation_date())))
+							 || ((!StringUtils.isEmpty(obj.getEscalated_to()) && !obj.getEscalated_to().equals(issue.getEscalated_to())))
+							 || ((!StringUtils.isEmpty(obj.getResponsible_person()) && !obj.getResponsible_person().equals(issue.getResponsible_person())))) {
+						history_flag = addIssueInHistory(obj,template);
+					}
+				}
 				String issue_id = obj.getIssue_id();
 				String issue_status = obj.getStatus_fk();
 				String existing_status_fk = obj.getExisting_status_fk();

@@ -141,7 +141,7 @@
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
+    <!-- <script src="/pmis/resources/js/datepickerDepedency.js"></script> -->
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
@@ -151,17 +151,49 @@
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     <script>
     var filtersMap = new Object();
+    var datePickerSelectAddClass = function () {
+        var self = this;
+        setTimeout(function () {
+            var selector = self.el;
+            if (!selector) {
+                selector = ".datepicker"
+            }
+            $(selector).siblings(".datepicker-modal")
+                .find(".select-dropdown.dropdown-trigger")
+                .each((index, item) => {
+                    var dateDropdownID = $(item).attr("data-target");
+                    var dropdownUL = $('#' + dateDropdownID);
+                    dropdownUL.children("li").on("click", () => {
+                        datePickerSelectAddClass();
+                    });
+                    dropdownUL.addClass("datepicker-dropdown-year-month")
+                });
+        }, 500);
+    };
+    
     let date_pickers = document.querySelectorAll('.datepicker');
     $.each(date_pickers, function(){
     	var dt = this.value.split(/[^0-9]/);
     	this.value = ""; 
-    	var options = {format: 'dd-mm-yyyy',autoClose:true};
+      	var options ;
+    	if($(this).attr('id')=='to_date'){
+    		options = {format: 'dd-mm-yyyy',autoClose:true,onOpen: datePickerSelectAddClass,maxDate: new Date()};
+    	}
+    	else{
+    		options = {format: 'dd-mm-yyyy',autoClose:true,onOpen: datePickerSelectAddClass};
+    	}
     	if(dt.length > 1){
     		options.setDefaultDate = true,
     		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
     	}
     	M.Datepicker.init(this, options);
     }); 
+    $(document).on('focus', '.datepicker-button', function () {
+        var dateId = $(this).attr('id').split("_i")[0];
+        $('#' + dateId).datepicker('open');
+    });
+    //let date_pickers = document.querySelectorAll('#to_date');
+   
       	function getErrorMessage(jqXHR, exception) {
         	    var msg = '';
         	    if (jqXHR.status === 0) {

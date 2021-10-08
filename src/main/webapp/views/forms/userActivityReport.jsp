@@ -175,13 +175,7 @@
     $.each(date_pickers, function(){
     	var dt = this.value.split(/[^0-9]/);
     	this.value = ""; 
-      	var options ;
-    	if($(this).attr('id')=='to_date'){
-    		options = {format: 'dd-mm-yyyy',autoClose:true,onOpen: datePickerSelectAddClass,maxDate: new Date()};
-    	}
-    	else{
-    		options = {format: 'dd-mm-yyyy',autoClose:true,onOpen: datePickerSelectAddClass};
-    	}
+      	var options = {format: 'dd-mm-yyyy',autoClose:true,onOpen: datePickerSelectAddClass,maxDate: new Date()};
     	if(dt.length > 1){
     		options.setDefaultDate = true,
     		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])

@@ -779,11 +779,13 @@ public class IssueDaoImpl implements IssueDao {
 
 				String insertFileQry = "INSERT INTO issue_files (file_name,issue_id_fk,issue_file_type_fk,created_date)VALUES(:file_name,:issue_id,:issue_file_type_fk,CURRENT_TIMESTAMP)";
 				String updateFileQry = "UPDATE issue_files set file_name=:file_name,issue_id_fk=:issue_id,issue_file_type_fk=:issue_file_type_fk WHERE id=:issue_file_id";
-				
+				boolean newFileAdded = false;
 				for (int i = 0; i < arraySize; i++) {
 					MultipartFile multipartFile = obj.getIssueFiles()[i];
 					if ((null != multipartFile && !multipartFile.isEmpty())
 							|| !StringUtils.isEmpty(obj.getIssueFileNames()[i])) {
+						long fileLength = multipartFile.getSize();
+						if(fileLength > 0) {newFileAdded = true;}
 						String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH + obj.getIssue_id()
 								+ File.separator;
 						String fileName = obj.getIssueFileNames()[i];
@@ -818,12 +820,15 @@ public class IssueDaoImpl implements IssueDao {
 				formHistory.setContract(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
-				
+				int count_old = 0,count_new = 0;
 				if(!StringUtils.isEmpty(issue)){
 					issue.setDate(DateParser.parse(issue.getDate()));
 					issue.setResolved_date(DateParser.parse(issue.getResolved_date()));
 					issue.setEscalation_date(DateParser.parse(issue.getEscalation_date()));
 					issue.setAssigned_date(DateParser.parse(issue.getAssigned_date()));
+					count_old = issue.getIssueFilesList().size();
+					count_new = obj.getIssueFileNames().length;
+					
 					if(((!StringUtils.isEmpty(obj.getDescription())) && !obj.getDescription().equals(issue.getDescription())) 
 							|| ((!StringUtils.isEmpty(obj.getPriority_fk()) && !obj.getPriority_fk().equals(issue.getPriority_fk()))) 
 							|| ((!StringUtils.isEmpty(obj.getCorrective_measure()) && !obj.getCorrective_measure().equals(issue.getCorrective_measure())))
@@ -836,7 +841,8 @@ public class IssueDaoImpl implements IssueDao {
 							 || ((!StringUtils.isEmpty(obj.getAssigned_date()) && !obj.getAssigned_date().equals(issue.getAssigned_date())))
 							 || ((!StringUtils.isEmpty(obj.getEscalation_date()) && !obj.getEscalation_date().equals(issue.getEscalation_date())))
 							 || ((!StringUtils.isEmpty(obj.getEscalated_to()) && !obj.getEscalated_to().equals(issue.getEscalated_to())))
-							 || ((!StringUtils.isEmpty(obj.getResponsible_person()) && !obj.getResponsible_person().equals(issue.getResponsible_person())))) {
+							 || ((!StringUtils.isEmpty(obj.getResponsible_person()) && !obj.getResponsible_person().equals(issue.getResponsible_person())))
+							 ||  newFileAdded == true) {
 						history_flag = addIssueInHistory(obj,template);
 					}
 				}

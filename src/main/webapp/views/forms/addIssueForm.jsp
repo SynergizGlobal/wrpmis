@@ -777,7 +777,9 @@
     				 		required: true
     				 	  },"description": {
     			 		    required: false
-    			 	   	  },"date": {
+    			 	   	  },"corrective_measure":{
+      			 	  		required: true
+     			 	  	 },"date": {
     				 		required: true,
        				 	 	dateBeforeToday1:"#date"
     				 	  },"location": {
@@ -812,6 +814,8 @@
     			 			required: 'Required'
     			 	  	 },"description": {
     			 			required: 'Required'
+    			 	  	 },"corrective_measure":{
+    			 	  		required: 'Required'
     			 	  	 },"date": {
     			 			required: 'Required'
     			 	  	 },"location": {
@@ -855,7 +859,10 @@
     			 	    }else if (element.attr("name") == "description" ){
     			 		     document.getElementById("descriptionError").innerHTML="";
     			 			 error.appendTo('#descriptionError');
-    			 	    }else if (element.attr("id") == "date" ){
+    			 	    }else if (element.attr("id") == "corrective_measure" ){
+	   			 		     document.getElementById("corrective_measureError").innerHTML="";
+				 			 error.appendTo('#corrective_measureError');
+			 	    	}else if (element.attr("id") == "date" ){
     			 		     document.getElementById("dateError").innerHTML="";
     			 			 error.appendTo('#dateError');
     			 	    }else if (element.attr("id") == "location" ){

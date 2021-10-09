@@ -97,6 +97,8 @@
 		    color: #f44336;
 		}
      /*  textarea auto height code ends here */
+     	.brand-logo{width: 15%;}
+     	.brand-logo img{width: 33% !important;}
      
      @media only screen and (max-width:1400px) and (min-width:1024px) {
      	nav ul a{
@@ -112,8 +114,13 @@
      	.brand-logo img{
      		top: 0;
 		    left: -3%;
-		    width: 9%;
+		    width: 33%;
      	}
+     }
+     @media(max-width: 575px){
+     .brand-logo.fs {
+    		width: 50%;
+	}
      }
 </style>
 

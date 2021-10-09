@@ -226,7 +226,7 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getDepartmentList() throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select department as department_fk,department_name from department";
+			String qry = "select department as department_fk,department_name from department where department <> 'MGMT'";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());

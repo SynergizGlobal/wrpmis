@@ -821,6 +821,12 @@ public class IssueDaoImpl implements IssueDao {
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 				int count_old = 0,count_new = 0;
+				String issue_id = obj.getIssue_id();
+				String issue_status = obj.getStatus_fk();
+				String existing_status_fk = obj.getExisting_status_fk();
+				String reported_by_email_id = obj.getReported_by_email_id();
+				String existing_responsible_person = obj.getExisting_responsible_person();
+				String existing_escalated_to = obj.getExisting_escalated_to();
 				if(!StringUtils.isEmpty(issue)){
 					issue.setDate(DateParser.parse(issue.getDate()));
 					issue.setResolved_date(DateParser.parse(issue.getResolved_date()));
@@ -844,17 +850,10 @@ public class IssueDaoImpl implements IssueDao {
 							 || ((!StringUtils.isEmpty(obj.getResponsible_person()) && !obj.getResponsible_person().equals(issue.getResponsible_person())))
 							 ||  newFileAdded == true) {
 						history_flag = addIssueInHistory(obj,template);
+						sendEmailWithIssueStatusAlert(issue_id, issue_status, reported_by_email_id, existing_status_fk,
+								existing_responsible_person, existing_escalated_to);
 					}
 				}
-				String issue_id = obj.getIssue_id();
-				String issue_status = obj.getStatus_fk();
-				String existing_status_fk = obj.getExisting_status_fk();
-				String reported_by_email_id = obj.getReported_by_email_id();
-				String existing_responsible_person = obj.getExisting_responsible_person();
-				String existing_escalated_to = obj.getExisting_escalated_to();
-				sendEmailWithIssueStatusAlert(issue_id, issue_status, reported_by_email_id, existing_status_fk,
-						existing_responsible_person, existing_escalated_to);
-
 			}
 			transactionManager.commit(status);
 		} catch (Exception e) {

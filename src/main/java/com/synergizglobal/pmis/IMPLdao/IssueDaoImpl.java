@@ -238,7 +238,7 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getRailwayList() throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT railway_id,railway_name from railway";
+			String qry = "SELECT railway_id,railway_name from railway WHERE railway_id <> 'Con' ORDER BY FIELD(railway_id,'MRVC','CR','WR','Others')";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());

@@ -384,8 +384,8 @@
                         	 <div class="row p-sticky t-98 z-1">
 							    <div class="col s12 m12">
 							      <ul class="tabs tab-flex" id="menu-center">
-							        <li class="tab"><a class="active t-c" href="#basicDetails">Contract Managers</a></li>
-							        <li class="tab"><a class="t-c" href="#departmentDetails">Departments</a></li>
+							        <li class="tab"><a class="active t-c" href="#basicDetails">Contract Owners</a></li>
+							        <li class="tab"><a class="t-c" href="#departmentDetails">Executives</a></li>
 							        <li class="tab"><a class="t-c" href="#contractDetails">Contract Details</a></li>
 							        <li class="tab" id="closureTab"><a class="t-c" href="#contractClosureDetails">Contract Closure Details</a></li>
 							        <li class="tab"><a class="t-c" href="#bgDetails">Bank Guarantee Details</a></li>
@@ -399,7 +399,7 @@
 						   </div>
                         	
 							<div class="container container-no-margin  " id="basicDetails">
-							<h5 class="center-align"><span class="div-header">Contract Managers</span></h5>
+							<h5 class="center-align"><span class="div-header">Contract Owners</span></h5>
 								<%-- <div class="row" style="margin-bottom: 50px;">
 	                                <div class="col s12 m4 input-field no-box-shadow offset-m2">
 	                                   <label class="primary-text-bold ">Contract ID : <input id="contract_id" name="contract_id" type="text" value="${contractDeatils.contract_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
@@ -491,7 +491,7 @@
 	                            <div class="row"> 
 	                            	<div class="col m8 l12 offset-m2 s12">
 										<div class="row fixed-width">
-									       <h5 class="center-align"><span class="div-header">Departments</span></h5> 
+									       <h5 class="center-align"><span class="div-header">Executives</span></h5> 
 									        <div class="table-inside">
 									            <table id="departmentTable" class="mdl-data-table mobile_responsible_table" >
 									                <thead>

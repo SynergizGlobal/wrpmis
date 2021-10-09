@@ -401,7 +401,7 @@
 	                            <div class="row"> 
 	                            	<div class="col m8 l12 offset-m2 s12">
 										<div class="row fixed-width">
-									        <h5 class="center-align">Department Details</h5>
+									        <h5 class="center-align">Executives</h5>
 									        <div class="table-inside">
 									            <table id="departmentTable" class="mdl-data-table mobile_responsible_table" >
 									                <thead>

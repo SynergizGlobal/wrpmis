@@ -1582,7 +1582,8 @@
     		 }
         	 if(validator.form())
         	 { 
-		        $(".page-loader").show();	    		
+		        $(".page-loader").show();	   
+		        
 		   		document.getElementById("ActivitiesBulkUpdateForm").submit();
         	 }
   			 

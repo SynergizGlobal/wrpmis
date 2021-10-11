@@ -239,7 +239,7 @@
                         <form action="add-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                             <div class="container container-no-margin">
 	                            <div class="row">
-	                                <div class="col s6 m4 l3 offset-m2 input-field">
+	                                <div class="col s6 m4 l4 offset-m2 input-field">
 	                                <p class="searchable_label">Project <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
 	                                    onchange="getWorksList(this.value);">
@@ -250,7 +250,7 @@
 	                                    </select>                                    
 	                                     <span id="project_id_fkError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s6 m4 l3 input-field">
+	                                <div class="col s6 m4 l4 input-field">
 		                                <p class="searchable_label">Work <span class="required">*</span></p>
 		                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" 
 		                                    	onchange="resetProjectsDropdowns(this.value);">
@@ -317,7 +317,7 @@
 								         </c:otherwise>
 								      </c:choose> --%>
 								      
-								     <div class="col s6 m4 l3 input-field offset-m2">
+								     <div class="col s6 m4 l4 input-field offset-m2">
 	                                   <p class="searchable_label">Contract Status</p>
 	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getStatusLIst();hideContractDetails();">
 	                                        <option value="" >Select</option>
@@ -329,25 +329,12 @@
 	                                    </select>
 	                                     <span id="contract_statusError" class="error-msg" ></span>
 	                                </div>
-	                                 <div class="col s6 m4 l3 input-field">
-	                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
-	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="setContractStatus();">
-	                                        <option value="" selected>Select</option>
-	                                           <c:forEach var="obj" items="${contract_Statustype }">
-	                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
-			                                    		<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started'}">selected</c:if>>${obj.contract_status_fk }</option>
-			                                    	</c:if>
-			                                    </c:forEach>
-	                                    </select>
-	                                     <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div>
-	                                
 	                             </div>
 	                                 
 	                             <div class="row">	                                    
                                     <c:choose>
 								         <c:when test = "${sessionScope.USER_ROLE_NAME eq 'IT Admin'}">
-								         <div class="col s6 m6 l6 input-field ">
+								         <div class="col s6 m4 l4 input-field ">
 								            <p class="searchable_label">HOD<span class="required">*</span></p>
 	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
 	                                     		  <option value="">Select</option> 
@@ -357,7 +344,7 @@
 	                                     	     </select> 
 	                                     	<span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                     	</div>
-	                                     	 <div class="col s6 m6 l6 input-field">
+	                                     	 <div class="col s6 m4 l4 input-field">
 	                                        	<p class="searchable_label">Dy HOD<span class="required">*</span></p>
 	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" >
 	                                                <option value="">Select</option>
@@ -369,9 +356,22 @@
 	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
 	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
+	                                         <div class="col s6 m4 l4 input-field">
+			                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
+			                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="setContractStatus();">
+			                                        <option value="" selected>Select</option>
+			                                           <c:forEach var="obj" items="${contract_Statustype }">
+			                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
+					                                    		<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started'}">selected</c:if>>${obj.contract_status_fk }</option>
+					                                    	</c:if>
+					                                    </c:forEach>
+			                                    </select>
+			                                     <span id="contract_status_fkError" class="error-msg" ></span>
+			                                </div>
+	                                
 								         </c:when>
 								         <c:otherwise>
-								           	<div class="col s6 m6 input-field ">
+								           	<div class="col s6 m4 l4 input-field ">
 	  										 	<p class="searchable_label">HOD<span class="required">*</span></p>
 	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDyHodList();"  <c:if test="${sessionScope.USER_TYPE eq 'HOD'  || sessionScope.USER_TYPE eq 'DyHOD'}"> disabled  </c:if>> 
 	                                     		  <option value="">Select</option> 
@@ -383,7 +383,7 @@
 	                                        </div>
 	                                        <c:if test="${sessionScope.USER_TYPE eq 'HOD'  || sessionScope.USER_TYPE eq 'DyHOD'}">  <input type="hidden" id="hodVal" name="hod_user_id_fk" />  </c:if>
 	                                       
-	                                        <div class="col s6 m6 input-field">
+	                                        <div class="col s6 m4 l4 input-field">
 	                                        	<p class="searchable_label">Dy HOD<span class="required">*</span></p>
 	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable" onchange="getHodList();" <c:if test="${sessionScope.USER_TYPE eq 'DyHOD'}"> disabled  </c:if>>
 	                                                <option value="">Select</option>
@@ -394,6 +394,18 @@
 	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
 	                                         <c:if test="${ sessionScope.USER_TYPE eq 'DyHOD'}">  <input type="hidden" id="dyHodVal" name="dy_hod_user_id_fk" />  </c:if>
+	                                         <div class="col s6 m4 l4 input-field">
+			                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
+			                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="setContractStatus();">
+			                                        <option value="" selected>Select</option>
+			                                           <c:forEach var="obj" items="${contract_Statustype }">
+			                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
+					                                    		<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started'}">selected</c:if>>${obj.contract_status_fk }</option>
+					                                    	</c:if>
+					                                    </c:forEach>
+			                                    </select>
+			                                     <span id="contract_status_fkError" class="error-msg" ></span>
+			                                </div>
 								         </c:otherwise>
 								      </c:choose>
                                 </div>
@@ -466,7 +478,7 @@
 	                            </div>
 	
 	                            <div class="row">	
-	                                <div class="col s6 m4 l6 input-field offset-m2">
+	                                <div class="col s6 m4 l12 input-field offset-m2">
 	                                 <p class="searchable_label">Contract Type <span class="required">*</span></p>
 	                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
@@ -476,7 +488,7 @@
 	                                    </select>                                   
 	                                     <span id="contract_type_fkError" class="error-msg" ></span>	                                    
 	                                </div>	                                
-	                                <div class="col s6 m4 l6 input-field" id="contractor_id_fk_div">
+	                            <%--     <div class="col s6 m4 l6 input-field" id="contractor_id_fk_div">
 	                                 <p class="searchable_label">Contractor Name</p>
 	                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
@@ -485,7 +497,7 @@
 			                                    </c:forEach>
 	                                    </select>
 	                                    <span id="contractor_id_fkError" class="error-msg" ></span>
-	                                </div>                             
+	                                </div> --%>                             
 	                            </div>
 	                            <div class="row">
 	                                <div class="col s12 m8 l12 input-field offset-m2">
@@ -506,7 +518,7 @@
 	                                    <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                            </div>
-	                            <div class="row">
+	                          <!--   <div class="row">
 	                                <div class="col s6 m4 l6 input-field offset-m2" id="ca_no_div">
 	                                    <input id="ca_no" name="ca_no" type="text" class="validate">
 	                                    <label for="ca_no">CA No</label>
@@ -518,7 +530,7 @@
 	                                    <span id="ca_dateError" class="error-msg" ></span>
 	                                    <button type="button" id="ca_date_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
-	                            </div>
+	                            </div> -->
 	                            <div class="row">
 	                                <!-- <div class="col s12 m4 input-field">
 	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate datepicker">
@@ -541,7 +553,7 @@
 	                                	</select>
 	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
                                 	</div>                                	
-	                                <div class="col s9 m3 l4 input-field" id="awarded_cost_div">
+	                         <%--        <div class="col s9 m3 l4 input-field" id="awarded_cost_div">
 	                                	<i class="material-icons prefix cost">₹</i>
 	                                    <input id="awarded_cost" name="awarded_cost" type="number" min="0.01" step="0.01" class="validate">
 	                                    <label for="awarded_cost">Awarded cost</label>
@@ -555,10 +567,10 @@
                                    		    </c:forEach>
 	                                	</select>
 	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
-                                	</div>
+                                	</div> --%>
                                 	
 	                            </div>
-	                            <div class="row">
+	                           <%--  <div class="row">
 	                                <div class="col s12 m4 l6 input-field offset-m2" id="doc_div">
 	                                    <input name="doc" id="doc" type="text" class="validate datepicker">
 	                                    <label for="doc">Original DOC</label>
@@ -566,7 +578,7 @@
 	                                    <span id="docError" class="error-msg" ></span>
 	                                </div>	
 	                                
-	                                <%-- <div class="col s4 m2 l2 input-field">
+	                                <div class="col s4 m2 l2 input-field">
 	                                   <p class="searchable_label">Contract Status</p>
 	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getStatusLIst();">
 	                                        <option value="" >Select</option>
@@ -589,9 +601,9 @@
 			                                    </c:forEach>
 	                                    </select>
 	                                     <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div> --%>	                                
+	                                </div>	                                
 	                        	   	                                
-	                            </div>	   
+	                            </div>	    --%>
 	                         
 	                            <div class="row">
 	                                <div class="col s12 m8 l12 input-field offset-m2">

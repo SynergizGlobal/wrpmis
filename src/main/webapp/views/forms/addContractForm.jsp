@@ -360,7 +360,7 @@
 			                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
 			                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="setContractStatus();">
 			                                        <option value="" selected>Select</option>
-			                                           <c:forEach var="obj" items="${contract_Statustype }">
+			                                            <c:forEach var="obj" items="${contract_Statustype }">
 			                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">
 					                                    		<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${obj.contract_status_fk eq 'Not Started'}">selected</c:if>>${obj.contract_status_fk }</option>
 					                                    	</c:if>

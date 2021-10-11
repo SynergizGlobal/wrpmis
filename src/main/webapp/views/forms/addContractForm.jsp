@@ -368,7 +368,7 @@
 			                                    </select>
 			                                     <span id="contract_status_fkError" class="error-msg" ></span>
 			                                </div>
-	                                
+	                                 
 								         </c:when>
 								         <c:otherwise>
 								           	<div class="col s6 m4 l4 input-field ">

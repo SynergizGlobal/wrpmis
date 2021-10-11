@@ -649,8 +649,9 @@
 				}
 	    	});
             
+            var rowClickNo=Number(rNo)-1;
             $('#atr_dates' + rNo).datepicker({
-            	minDate:new Date(convert(dates_arr[1])),
+            	minDate:new Date(convert(dates_arr[rowClickNo])),
             	maxDate: new Date(),
 	        	format:'dd-mm-yyyy',
 	        	autoClose:true,

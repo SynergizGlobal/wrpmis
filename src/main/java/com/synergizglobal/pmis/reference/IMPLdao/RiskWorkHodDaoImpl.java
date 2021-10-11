@@ -114,7 +114,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 				flag = true;
 				
 				con = dataSource.getConnection();
-				String qry = "select * from risk R   "
+				String qry = "select * from risk r   "
 						+ "LEFT JOIN risk_revision rr on r.risk_id_pk=rr.risk_id_pk_fk where sub_work = ?";
 				stmt = con.prepareStatement(qry);
 				stmt.setString(1,obj.getSub_work_new());

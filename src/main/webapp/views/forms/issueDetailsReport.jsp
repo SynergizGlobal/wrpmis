@@ -71,8 +71,7 @@
 	                                        </select>
 	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    </div>
-	                                    <div class="row">
+	                                    
 	                                     <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Status</p>
 	                                        <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getLocationsListInIssuesReport();getCategoriesListInIssuesReport();getTitlesListInIssuesReport();getIssueDetailsReport();">
@@ -103,7 +102,7 @@
 	                                        </select>
 	                                        <span id="category_fkError" class="error-msg" ></span>
 	                                    </div> 
-	                                     <div class="col s6 m9 l9 input-field">
+	                                     <div class="col s12 m9 l6 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Description <span class="required">*</span></p>
 	                                        <select class="searchable validate-dropdown" id="issue_id" name="issue_id" onchange="addInQueTitles(this.value);getIssueDetailsReport();">
 	                                            <option value="">Select </option>

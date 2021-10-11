@@ -254,8 +254,8 @@ public class ContractDaoImpl implements ContractDao {
 							+"(contract_id,work_id_fk,department_fk,contract_name,contract_short_name,contractor_id_fk,contract_type_fk,scope_of_contract,hod_user_id_fk,"
 							+ "dy_hod_user_id_fk,doc,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,actual_completion_date,completed_cost,date_of_start,"
 							+ "estimated_cost,contract_closure_date,completion_certificate_release,final_takeover,final_bill_release,defect_liability_period,"
-							+ "retention_money_release,pbg_release,contract_status_fk,bg_required,insurance_required,remarks,estimated_cost_units,awarded_cost_units,status)"
-							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "retention_money_release,pbg_release,contract_status_fk,bg_required,insurance_required,remarks,estimated_cost_units,awarded_cost_units,status,milestone_requried,revision_requried,contractors_key_requried)"
+							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(ContractQry);
 			int q = 1;
 		    int r =0;
@@ -293,6 +293,9 @@ public class ContractDaoImpl implements ContractDao {
 			stmt.setString(q++,contract.getEstimated_cost_units());
 			stmt.setString(q++,contract.getAwarded_cost_units());
 			stmt.setString(q++,contract.getContract_status());
+			stmt.setString(q++,contract.getMilestone_requried());
+			stmt.setString(q++,contract.getRevision_requried());
+			stmt.setString(q++,contract.getContractors_key_requried());
 
 			count = stmt.executeUpdate();
 			
@@ -918,7 +921,8 @@ public class ContractDaoImpl implements ContractDao {
 									+ "DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,"
 									+ "DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 									+ "DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,"
-									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,DATE_FORMAT(target_doc,'%d-%m-%Y') AS target_doc,awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status " + 
+									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,DATE_FORMAT(target_doc,'%d-%m-%Y') AS target_doc,"
+									+ "awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -983,6 +987,9 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setCompleted_cost_units(resultSet.getString("completed_cost_units"));
 				contract.setUnit(resultSet.getString("unit"));
 				contract.setStatus(resultSet.getString("status"));
+				contract.setMilestone_requried(resultSet.getString("milestone_requried"));
+				contract.setRevision_requried(resultSet.getString("revision_requried"));
+				contract.setContractors_key_requried(resultSet.getString("contractors_key_requried"));
 
 				contract.setBankGauranree(getBankGauranree(contract.getContract_id(),con));	
 				contract.setInsurence(getInsurence(contract.getContract_id(),con));	
@@ -1333,7 +1340,8 @@ public class ContractDaoImpl implements ContractDao {
 								+"scope_of_contract = ?,hod_user_id_fk = ?,dy_hod_user_id_fk = ?,doc = ?,awarded_cost = ?,loa_letter_number = ?,loa_date = ?,ca_no = ?,ca_date = ?"
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 
 								"estimated_cost = ?,contract_closure_date = ?,completion_certificate_release = ?,final_takeover = ?,final_bill_release = ?,defect_liability_period = ?," + 
-								"retention_money_release = ?,pbg_release = ?,contract_status_fk = ?,bg_required = ?,insurance_required = ?,remarks = ?,target_doc = ?,estimated_cost_units = ?,awarded_cost_units = ?,completed_cost_units = ?,status = ? "
+								"retention_money_release = ?,pbg_release = ?,contract_status_fk = ?,bg_required = ?,insurance_required = ?,remarks = ?,target_doc = ?,estimated_cost_units = ?,"
+								+ "awarded_cost_units = ?,completed_cost_units = ?,status = ?,milestone_requried = ?,revision_requried = ?,contractors_key_requried = ? "
 								+ "where contract_id = ?";
 				stmt = con.prepareStatement(contractUpdate_Qry);
 				int p = 1;
@@ -1373,7 +1381,10 @@ public class ContractDaoImpl implements ContractDao {
 				stmt.setString(p++,contract.getAwarded_cost_units());
 				stmt.setString(p++,contract.getCompleted_cost_units());
 				stmt.setString(p++,contract.getContract_status());
-				stmt.setString(p++,contract.getContract_id()); 
+				stmt.setString(p++,contract.getMilestone_requried());
+				stmt.setString(p++,contract.getRevision_requried());
+				stmt.setString(p++,contract.getContractors_key_requried()); 
+				stmt.setString(p++,contract.getContract_id());
 				count = stmt.executeUpdate();
 				if(count > 0) {
 					flag = true;

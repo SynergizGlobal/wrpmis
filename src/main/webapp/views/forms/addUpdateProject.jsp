@@ -60,8 +60,9 @@
 		.select2-container--default .select2-selection--single{
 			background-color:transparent;
 		}
-		.select2-selection__rendered{width: 190px;}
+		
 		.w7em{width: 7em;}
+		
 		@media(max-width: 2200px){
 		.table-add{position: absolute;}
 		.add-align{position: absolute;
@@ -216,6 +217,9 @@
 				-webkit-transform: translateY(-20px) scale(0.95);
 			    transform: translateY(-20px) scale(0.95);
 			}	
+		@media(max-width: 575px){
+		.row .col{margin: 6px auto !important;}
+		}
 
 	</style>
 </head>
@@ -363,8 +367,7 @@
 							
 							<div class="row">
 								<div class="col l12 m8 s12 offset-m2">
-									<div class="row fixed-width"
-										style="margin-bottom: 10px; margin-top: 20px">
+									<div class="row fixed-width">
 										<!-- <div class="table-inside"> -->
 											<table class="mdl-data-table mobile_responsible_table">
 												<thead>
@@ -471,8 +474,7 @@
 							
 							<div class="row">
 								<div class="col l12 m8 s12 offset-m2">
-									<div class="row fixed-width"
-										style="margin-bottom: 10px; margin-top: 20px">
+									<div class="row fixed-width">
 										<div class="table-inside">
 											<table class="mdl-data-table update-table mobile_responsible_table">
 												<thead>
@@ -581,8 +583,7 @@
 							<c:if test="${action eq 'edit'}">
 							<div class="row">
 								<div class="col l12 m8 s12 offset-m2">
-									<div class="row fixed-width"
-										style="margin-bottom: 10px; margin-top: 20px">
+									<div class="row fixed-width">
 										<div class="table-inside">
 											<table id="project-table" class="mdl-data-table update-table mobile_responsible_table">
 												<thead>

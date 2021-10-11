@@ -372,6 +372,40 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		return objsList;
 	}
 	
+	
+	@Override
+	public List<StripChart> getFobDailyUpdateReport(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select contract_id_fk,structure as strip_chart_structure_id_fk,reporting_date as progress_date,remarks,created_by_user_id_fk  from fobdailyupdate "
+					+ "where remarks is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + "and contract_id_fk = ? ";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				qry = qry + "and structure = ? ";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				pValues[i++] = obj.getStrip_chart_structure_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}	
+	
 	@Override
 	public List<StripChart> getAcivitiesBulkUpdateSections(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
@@ -1269,6 +1303,11 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				formHistory.setContract(obj.getContract_id_fk());
 				
 				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRemarks())) 
+				{
+					boolean FOBDailyUpdate_flag = insertFOBDailyUpdate(obj);
+				}	
+			
 				/********************************************************************************/	
 			//}
 		}catch(Exception e){ 

@@ -545,13 +545,18 @@
 
 									<br>
                                     <div class="row">
-                                        <div class="col m4 s6 input-field offset-m2" style="margin-bottom: 30px;margin-top: 10px;">
+                                        <div class="col m4 s6 input-field left-align" style="margin-bottom: 30px;margin-top: 10px;">
                                              <input id="progress_date" name="progress_date" type="text" class="validate datepicker">
                                              <label for="progress_date">Reporting Date <span class="required">*</span></label>
                                              <button type="button" id="progress_date_icon" class="white"><i class="fa fa-calendar"></i></button>
                                               <span id="progress_dateError" class="error-msg" ></span>
                                         </div>
-                                         <div class="col m4 s6 input-field" style="margin-bottom: 30px;margin-top: 10px;">
+                                        <div class="col m7 s6 input-field left-align" style="margin-bottom: 30px;margin-top: 10px;">
+		                                    <input id="remarks" name="remarks" type="text" class="validate valid" aria-invalid="false">
+		                                    <label for="remarks" class="active">Remarks</label> 
+		                                    <span id="remarksError" class="error-msg"></span>
+                                        </div>                                        
+                                         <div class="col m1 s6 input-field" style="margin-bottom: 30px;margin-top: 10px;">
                                           <div class="center-align m-3">
                                                 <button type="button" onclick="updateProgress();" id="btn1" class="btn waves-effect waves-light bg-m" >Update</button>
                                        	  </div>

@@ -394,10 +394,8 @@
 		       	 aboveOrigin:true,
 		        });
 		        
-				jQuery.validator.addMethod("mypassword", function(value, element) {
-					  // allow any non-whitespace characters as the host part
-					  return this.optional( element ) || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/.test( value );
-				}, 'Password should contain minimum 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character');
+			   			
+				
 			 });
 			
 			
@@ -520,7 +518,18 @@
 			                			 {
 				                			 $("#accessMsg").html("Your password must be at least 8 characters long and at most 20 characters long");
 				                			 return false;
-			                			 }					                		 
+			                			 }
+				                	     var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/;
+				                	     if (!regex.test($("#newPassword").val()))
+			                			 {
+				                			 $("#accessMsg").html("newPassword should contain minimum 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character");
+				                			 return false;			                			 
+			                			 }
+				                	     if (!regex.test($("#confirmPassword").val()))
+			                			 {
+				                			 $("#accessMsg").html("confirmPassword should contain minimum 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character");
+				                			 return false;			                			 
+			                			 }				                		 
 				                		form.submit();
 			                		 }				                	 
 			                    	 

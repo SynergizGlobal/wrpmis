@@ -319,7 +319,7 @@
 								      
 								     <div class="col s6 m4 l4 input-field offset-m2">
 	                                   <p class="searchable_label">Contract Status</p>
-	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getStatusLIst();hideContractDetails();">
+	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getStatusLIst();hideContractDetails();">
 	                                        <option value="" >Select</option>
 	                                          <c:forEach var="obj" items="${contract_Status }">
 	                                          	 <c:if test="${obj.contract_status ne 'Closed'}">
@@ -358,7 +358,7 @@
 	                                        </div>
 	                                         <div class="col s6 m4 l4 input-field">
 			                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
-			                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="setContractStatus();">
+			                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select"  onchange="setContractStatus();">
 			                                        <option value="" selected>Select</option>
 			                                            <c:forEach var="obj" items="${contract_Statustype }">
 			                                           		<c:if test="${obj.contract_status_fk ne 'Completed'}">

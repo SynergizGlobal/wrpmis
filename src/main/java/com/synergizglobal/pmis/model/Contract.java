@@ -15,7 +15,7 @@ public class Contract {
 	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till,
 	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code,contract_file_type_fk,contract_file_type,contract_file_id,
 	responsible_people_id_fk,hod_name,contract_status,dy_hod_name,PhysicalProgress,revision_amounts_status, unit, value,ContractAlertRemarks,revised_amount_units,bg_value_units,completed_cost_units,insurance_value_units,
-	awarded_cost_units,estimated_cost_units,hod_department,message_id,update_type,tab_name,contract_details_types,created_by_user_id_fk;
+	awarded_cost_units,estimated_cost_units,hod_department,message_id,update_type,tab_name,contract_details_types,created_by_user_id_fk,milestone_requried,revision_requried,contractors_key_requried;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk;
 
@@ -45,6 +45,30 @@ public class Contract {
 	private List<Contract> executivesList;
 	private List<Contract> responsiblePersonsList;
 
+
+	public String getMilestone_requried() {
+		return milestone_requried;
+	}
+
+	public void setMilestone_requried(String milestone_requried) {
+		this.milestone_requried = milestone_requried;
+	}
+
+	public String getRevision_requried() {
+		return revision_requried;
+	}
+
+	public void setRevision_requried(String revision_requried) {
+		this.revision_requried = revision_requried;
+	}
+
+	public String getContractors_key_requried() {
+		return contractors_key_requried;
+	}
+
+	public void setContractors_key_requried(String contractors_key_requried) {
+		this.contractors_key_requried = contractors_key_requried;
+	}
 
 	public String getContract_status() {
 		return contract_status;

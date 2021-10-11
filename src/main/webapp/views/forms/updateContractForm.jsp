@@ -357,8 +357,21 @@
 	   .tab-flex .tab a {
 	   		padding:0 .5rem;
 	   }
-	    
-       
+	    .datepicker1 ~button{
+			    position: absolute;
+			    right: 15px;
+			    top: 15px;
+			    border: 0;
+			    opacity: 0.7;
+			    cursor: pointer;
+			    background-color: transparent;
+		}
+       @media only screen and (min-width: 770px){
+			.min-w-120 > .select2-container{
+				width:auto;
+				min-width:120px;			
+			}
+		}
     </style>
 </head>
 
@@ -421,8 +434,8 @@
 	                                </div>	
 	                                
 	                                <div class="col s4 m4 l4 input-field">
-	                                   <p class="searchable_label">Contract Status</p>
-	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
+	                                   <p class="searchable_label">Contract Status<span class="required">*</span></p>
+	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
 	                                        <option value="" >Select</option>
 	                                          <c:forEach var="obj" items="${contract_Status }">
 		                                    	 <option value="${obj.contract_status }"<c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
@@ -484,7 +497,7 @@
 	                              </div>
 	                              <div class="col s4 m4 l4 input-field">
 	                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
-	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);setContractStatus();">
+	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails(this.value);setContractStatus();">
 	                                        <option value="" selected>Select</option>
 	                                           <c:forEach var="obj" items="${contract_Statustype }">
 			                                    	<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
@@ -668,7 +681,7 @@
 		                                     <span id="contract_type_fkError" class="error-msg" ></span>
 		                                </div>
 		                                <div class="col s6 m4 l6 input-field" id="contractor_id_fk_div">
-		                                    <p class="searchable_label">Contractor Name </p>
+		                                    <p class="searchable_label">Contractor Name <span class="required" id="contractor_req">*</span></p>
 		                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable" >
 		                                        <option value="" selected>Select</option>
 		                                       	    <c:forEach var="obj" items="${contractor }">
@@ -689,7 +702,7 @@
 						         	 	<input name="contractor_id_fk" id="contractor_id_fk" type="hidden" value="${contractDeatils.contractor_id_fk }"/>
 		                                <input type="text" <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
 	                                     value="${contractDeatils.contractor_name }">
-	                                    <label for="contractor_id_fk">Contractor Name </label>                         
+	                                    <label for="contractor_id_fk">Contractor Name <span class="required" id="contractor_req">*</span></label>                         
 		                             </div>  
 						         </c:otherwise>
 						      </c:choose>
@@ -739,7 +752,7 @@
 	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate validate-dropdown datepicker" value="${contractDeatils.date_of_start }">
 	                                    <label for="date_of_start">Date of Start <span class="required" id="date_of_startStar">*</span></label>
 	                                     <span id="date_of_startError" class="error-msg" ></span>
-	                                    <button type="button" id="date_of_start_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="date_of_start_icon" class=""><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s9 m3 l4 input-field" id="estimated_cost_div">
 	                                    <i class="material-icons prefix cost left-align">₹</i>
@@ -760,7 +773,7 @@
 	                           	<div class="row">
 	                                <div class="col s12 m4 l6 input-field offset-m2" id="doc_div">
 	                                    <input name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }">
-	                                    <label for="doc">Original DOC</label>
+	                                    <label for="doc">Original DOC<span class="required" id="doc_req">*</span></label>
 	                                     <button type="button" id="doc_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                     <span id="docError" class="error-msg" ></span>
 	                                </div>
@@ -1408,7 +1421,23 @@
 							<div class="col m8 l12 offset-m2 s12" >
 	                            <div class="row fixed-width">
 	                                <h5 class="center-align"><span class="div-header">Milestone Details</span></h5> 
-	                                <div class="table-inside">
+	                                <div class="row">
+	                                <div class="col m8 input-field center-align no-float-small offset-m2">
+	                                    <p>Milestone Required ? 
+	                                        <label>
+	                                            <input class="with-gap" name="milestone_requried" type="radio"  value="Yes" <c:if test="${contractDeatils.milestone_requried eq 'Yes'}">checked
+	                                            </c:if> />
+	                                            <span>Yes</span>
+	                                        </label>
+	                                        <label>
+	                                            <input class="with-gap" name="milestone_requried" type="radio"  value="No" <c:if test="${empty contractDeatils.milestone_requried or contractDeatils.milestone_requried eq 'No'}">checked
+	                                            </c:if> />
+	                                            <span>No</span>
+	                                        </label>
+	                                    </p>
+	                                </div>
+	                            </div>
+	                              <div class="table-inside" id="milestone_div" style=" display: none; ">
 	                                    <table id="mileTable" class="mdl-data-table mobile_responsible_table">
 	                                        <thead>
 	                                            <tr>
@@ -1531,8 +1560,23 @@
 	                         <div class="container-no-margin  " id="revisionDetails"> 
 	                            <div class="row fixed-width">
                                 <h5 class="center-align"><span class="div-header">Revision Details</span></h5>
-                                <div class="table-inside">
-
+                                <div class="row">
+	                                <div class="col m8 input-field center-align no-float-small offset-m2">
+	                                    <p>Revision Required ? 
+	                                        <label>
+	                                            <input class="with-gap" name="revision_requried" type="radio"  value="Yes" <c:if test="${contractDeatils.revision_requried eq 'Yes'}">checked
+	                                            </c:if> />
+	                                            <span>Yes</span>
+	                                        </label>
+	                                        <label>
+	                                            <input class="with-gap" name="revision_requried" type="radio"  value="No" <c:if test="${empty contractDeatils.revision_requried or contractDeatils.revision_requried eq 'No'}">checked
+	                                            </c:if> />
+	                                            <span>No</span>
+	                                        </label>
+	                                    </p>
+	                                </div>
+	                            </div>
+	                             <div class="table-inside" id="revision_div" style=" display: none; ">
                                     <table id="ravTable" class="mdl-data-table mobile_responsible_table">
                                         <thead>
                                             <tr>
@@ -1785,7 +1829,23 @@
 		                            <div class="no-mar">
 		                                <div class="row fixed-width">
 		                                   <h5 class="center-align"><span class="div-header">Contractor's Key Personnel</span></h5> 
-		                                    <div class="table-inside">
+		                                     <div class="row">
+	                                <div class="col m8 input-field center-align no-float-small offset-m2">
+	                                    <p>Contractor's Key Required ? 
+	                                        <label>
+	                                            <input class="with-gap" name="contractors_key_requried" type="radio"  value="Yes" <c:if test="${contractDeatils.contractors_key_requried eq 'Yes'}">checked
+	                                            </c:if> />
+	                                            <span>Yes</span>
+	                                        </label>
+	                                        <label>
+	                                            <input class="with-gap" name="contractors_key_requried" type="radio"  value="No" <c:if test="${empty contractDeatils.contractors_key_requried or contractDeatils.contractors_key_requried eq 'No'}">checked
+	                                            </c:if> />
+	                                            <span>No</span>
+	                                        </label>
+	                                    </p>
+	                                </div>
+	                            </div>
+	                             <div class="table-inside" id="contractors_key_div" style=" display: none; ">
 		                                        <table class="mdl-data-table mobile_responsible_table">
 		                                            <thead>
 		                                                <tr>
@@ -2053,16 +2113,30 @@
 	    	}
 	    	M.Datepicker.init(this, options);
 	    }); */
-    
+	   /*  let date_pickers = document.querySelectorAll('#date_of_start');
+	    $.each(date_pickers, function(){
+	    	var dt = '${contractDeatils.date_of_start}'; 
+	    	this.value = ""; 
+	    	var options = {format: 'dd-mm-yyyy',autoClose:true, onOpen:datePickerSelectAddClass, minDate:new Date()};
+	    	if(dt.length > 1){
+	    		options.setDefaultDate = true,
+	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+	    	}
+	    	M.Datepicker.init(dt, options);
+	    });  */
+    	 $('#date_of_start_icon').click(function () {
+             event.stopPropagation();
+             $('#date_of_start').click();
+         });
         $(document).ready(function () {												
         	$('select:not(.searchable):not(.units)').formSelect();
             $('.searchable').select2();
             $('.units').select2({ dropdownCssClass : 'cost_dropdown' });
 
-			$(document).on("scroll", onScroll);
-            
+			$(document).on("scroll", onScroll); 
+	
             //smoothscroll
-                     
+                      
             $('#remarks').characterCounter();
             
             var tab_name = '${gotoTab}';            
@@ -2093,10 +2167,28 @@
 	       	}else{
 	       		$("#insurance_div").hide();
 	       	} 
+            var milestone_requried = '${contractDeatils.milestone_requried}';
+            if(milestone_requried == 'Yes'){
+	       		$("#milestone_div").show();
+	       	}else{
+	       		$("#milestone_div").hide();
+	       	} 
+	        var revision_requried = '${contractDeatils.revision_requried}';
+            if(revision_requried == 'Yes'){
+	       		$("#revision_div").show();
+	       	}else{
+	       		$("#revision_div").hide();
+	       	}
+            var contractors_key_requried = '${contractDeatils.contractors_key_requried}';
+            if(contractors_key_requried == 'Yes'){
+	       		$("#contractors_key_div").show();
+	       	}else{
+	       		$("#contractors_key_div").hide();
+	       	}
 	      /*  	$("#myForm").submit(function () {
 	            $("#tabs").tabs("select", $("#contractForm .my-error-class").closest(".ui-tabs-panel").get(0).id);
 	        }); */
-	        
+	    	
             getHodList();
             getDyHodList();
                        
@@ -2113,13 +2205,41 @@
             		$("#date_of_startDiv").show();
             	}
             });
+            $("#contract_status").change(function(){
+            	var contract_status = $(this).val();
+            	if($.trim(contract_status) == 'Open'){
+            		$('#contractor_id_fk').rules('add',  { required: true });
+                	$('#contractor_req').text('*');
+                	$('#doc').rules('add',  { required: true });
+            		$('#doc_req').text('*');
+            	}else{
+            		$('#contractor_id_fk').rules('remove',  'required');
+                	$('#contractor_req').text('');
+                	$('#contractor_id_fkError').text('');
+                	$('#doc').rules('remove',  'required');
+                	$('#doc_req').text('');
+                	$('#docError').text('');
+            	}
+            });
             
             var contract_status = $("#contract_status").val();
             if($.trim(contract_status) == 'Yet to be Awarded'){
         		$("#date_of_startDiv").val('');
         		$("#date_of_startDiv").hide();
         	}
-            
+            if($.trim(contract_status) == 'Open'){
+	    		$('#contractor_id_fk').rules('add',  { required: true });
+        		$('#contractor_req').text('*');
+        		$('#doc').rules('add',  { required: true });
+        		$('#doc_req').text('*');
+	    	}else{
+        		$('#contractor_id_fk').rules('remove',  'required');
+            	$('#contractor_req').text('');
+            	$('#contractor_id_fkError').text('');
+            	$('#doc').rules('remove',  'required');
+            	$('#doc_req').text(''); 
+            	$('#docError').text('');
+        	}
             if($.trim(contract_status) == 'Open' && $.trim(contract_status_fk) == 'Not Started'){
             	//$("#date_of_start").removeAttr('required');
             	$('#date_of_start').rules('remove',  'required');
@@ -2242,7 +2362,30 @@
 	       		$("#insurance_div").hide();
 	       	}
        	});
-       
+        $('input[name=milestone_requried]').change(function(){
+	       	var value = $( 'input[name=milestone_requried]:checked' ).val();
+	       	if(value == 'Yes'){
+	       		$("#milestone_div").show();
+	       	}else{
+	       		$("#milestone_div").hide();
+	       	}
+       	});
+        $('input[name=revision_requried]').change(function(){
+	       	var value = $( 'input[name=revision_requried]:checked' ).val();
+	       	if(value == 'Yes'){
+	       		$("#revision_div").show();
+	       	}else{
+	       		$("#revision_div").hide();
+	       	}
+       	});
+        $('input[name=contractors_key_requried]').change(function(){
+	       	var value = $( 'input[name=contractors_key_requried]:checked' ).val();
+	       	if(value == 'Yes'){
+	       		$("#contractors_key_div").show();
+	       	}else{
+	       		$("#contractors_key_div").hide();
+	       	}
+       	});
         function getExecutivesList(num) {
         	$(".page-loader").show();
         	var count = Number(num);
@@ -2570,6 +2713,7 @@
         		 	  },"ca_no": {
         	 		    required: false
         	 	   	  },"ca_date": {
+        	 	   		dateBeforeCA:"#loa_date",
         		 		required: false
         		 	  },"actual_completion_date": {
         	 		    required: true
@@ -2594,6 +2738,8 @@
         		 	  },"contract_closure":{
         		 		 required: false
         		 	  },"contract_status_fk":{
+        		 		 required: true
+        		 	  },"contract_status":{
         		 		 required: true
         		 	  },"remarks":{
         		 		 required: false
@@ -2673,6 +2819,8 @@
         		 	  },"contract_closure":{
         	 	  		required: 'Required'
         		 	  },"contract_status_fk":{
+        	 	  		required: 'Required'
+        		 	  },"contract_status":{
         	 	  		required: 'Required'
         		 	  },"remarks":{
         	 	  		required: 'Required'
@@ -2777,6 +2925,9 @@
         		 	    }else if (element.attr("id") == "contract_status_fk" ){
         	 		     document.getElementById("contract_status_fkError").innerHTML="";
         	 			 error.appendTo('#contract_status_fkError');
+	        	 	    }else if (element.attr("id") == "contract_status" ){
+        	 		     document.getElementById("contract_statusError").innerHTML="";
+        	 			 error.appendTo('#contract_statusError');
 	        	 	    }else if (element.attr("id") == "estimated_cost_units" ){
         	 		     document.getElementById("estimated_cost_unitsError").innerHTML="";
         	 			 error.appendTo('#estimated_cost_unitsError');
@@ -2821,6 +2972,24 @@
             	return true;
             }
         }, "Date of Start must be after LOA Date");
+        
+        $.validator.addMethod("dateBeforeCA", function(value, element) {
+            var fromDateString = $('#loa_date').val();
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return true;
+            }else{
+            	return true;
+            }
+        }, "CA Date must be after LOA Date");
        /*  
         $('#loa_date').change(function(){
                 var fromDateString = $('#loa_date').val();
@@ -2838,6 +3007,7 @@
                 }
         });
          */
+       
         $.validator.addMethod("dateBefore1", function(value, element) {
             var fromDateString = $('#date_of_start').val();
             var fromDateParts = fromDateString.split("-");

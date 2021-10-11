@@ -122,6 +122,10 @@
 		}
 					
 		@media only screen and (min-width: 769px){
+			.min-w-120 > .select2-container{
+				width:auto;
+				min-width:120px;			
+			}
 			#insurenceTableBody .select2-container{
 				max-width:134px
 			}
@@ -1002,7 +1006,7 @@
                                             <td data-head="Code " class="input-field fs-100"> <input id="codes${index.count }" type="text" class="validate" name="codes" value="${bankObj.code }"
                                                         placeholder="Code">
                                                 </td>
-                                                <td data-head="BG Type " class="input-field"> <select id="bg_type_fks${index.count }" name="bg_type_fks" class="searchable">
+                                                <td data-head="BG Type " class="input-field min-w-120"> <select id="bg_type_fks${index.count }" name="bg_type_fks" class="searchable">
                                                         <option value="">Select</option>
                                                          <c:forEach var="obj" items="${bankGuaranteeTYpe }">
 		                                    			   <option value="${obj.bg_type_fk }" <c:if test="${bankObj.bg_type_fk eq obj.bg_type_fk}">selected</c:if>>${obj.bg_type_fk }</option>
@@ -1077,7 +1081,7 @@
                                              <td data-head="Code " class="input-field fs-100"> <input id="codes0" type="text" class="validate" name="codes"
                                                         placeholder="Code">
                                                 </td>
-                                                <td data-head="BG Type " class="input-field"> <select id="bg_type_fks0" name="bg_type_fks" class="searchable">
+                                                <td data-head="BG Type " class="input-field min-w-120"> <select id="bg_type_fks0" name="bg_type_fks" class="searchable">
                                                         <option value="" selected>Select </option>
                                                          <c:forEach var="obj" items="${bankGuaranteeTYpe }">
 		                                    			   <option value="${obj.bg_type_fk }" >${obj.bg_type_fk }</option>
@@ -1224,7 +1228,7 @@
                                         <c:when test="${not empty contractDeatils.insurence && fn:length(contractDeatils.insurence) gt 0 }">
                                           <c:forEach var="insurenceObj" items="${contractDeatils.insurence }" varStatus="index">  
                                             <tr id="insurenceRow${index.count }">
-                                                <td data-head="Insurance Type " class="input-field">
+                                                <td data-head="Insurance Type " class="input-field min-w-120">
                                                     <select id="insurance_type_fks${index.count }" name="insurance_type_fks" class="searchable">
                                                         <option value="" selected>Select</option>
                                                           <c:forEach var="obj" items="${insurance_type }">
@@ -1312,7 +1316,7 @@
                                              <c:otherwise>
                                              
                                               <tr id="insurenceRow0">
-                                                <td data-head="Insurance Type " class="input-field">
+                                                <td data-head="Insurance Type " class="input-field min-w-120">
                                                     <select id="insurance_type_fks0" name="insurance_type_fks" class="searchable">
                                                         <option value="" selected>Select</option>
                                                           <c:forEach var="obj" items="${insurance_type }">
@@ -3125,7 +3129,7 @@
 		  		   +'</select></td>'
 				   +'<td data-head="Issuing Bank " class="input-field"> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
 				  // +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
-				   +'<td data-head="BG / FDR Number " class="input-field"><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
+				   +'<td data-head="BG / FDR Number " class="input-field min-w-120"><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
 				   //+'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="number" min="0.01" step="0.01" class="validate"  placeholder="Amount"></td>'
 				   +'<td data-head="Amount " class="input-field"> <i class="material-icons prefix cost left-align">₹</i> <input id="bg_values'+rNo+'" name="bg_values" min="0.01" step="0.01" type="number" class="validate" placeholder="Amount">'
 				   +'</td><td class="responsive_units">		<select class="units validate-dropdown" id="bg_values_units'+rNo+'" name="bg_value_unitss">'
@@ -3171,7 +3175,7 @@
 		    var rowNo = $("#insurenceRowNo").val();
 		    var rNo = Number(rowNo)+1;
 		    console.log(rNo)
-		    var html = '<tr id="insurenceRow'+rNo+'"><td data-head="Insurance Type " class="input-field">'
+		    var html = '<tr id="insurenceRow'+rNo+'"><td data-head="Insurance Type " class="input-field min-w-120">'
 			   +'<select  name="insurance_type_fks" id="insurance_type_fks'+rNo+'"  class="searchable">'	   			
 			   +'<option value="" >select</option>'
 			   <c:forEach var="obj" items="${insurance_type }">

@@ -407,12 +407,12 @@
 	                            </div> --%>
 							
 	                            <div class="row"> 
-	                                <div class="col s6 m4 l3 input-field offset-m2">
+	                                <div class="col s4 m4 l4 input-field offset-m2">
                                			 <input type="text" id="project_id_fk_temp"  value="${contractDeatils.project_id_fk} - ${contractDeatils.project_name}" readonly />
                                			 <label for="project_id_fk_temp">Project <span class="required">*</span></label>
                                       	 <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
 	                                </div>
-	                                <div class="col s6 m4 l3 input-field">
+	                                <div class="col s4 m4 l4 input-field">
                                     	<input type="text" id="work_id_fk_temp"  value="${contractDeatils.work_id_fk} - ${contractDeatils.work_name}" readonly />
                                     	<label for="work_id_fk_temp">Work <span class="required">*</span></label>
                                         <input type="hidden" name="work_id_fk" id="work_id_fk" value="${contractDeatils.work_id_fk}" readonly />
@@ -420,7 +420,7 @@
                                     	<input type="hidden" name="work_short_name" value="${contractDeatils.work_short_name}" />
 	                                </div>	
 	                                
-	                                <div class="col s6 m2 l3 input-field">
+	                                <div class="col s4 m4 l4 input-field">
 	                                   <p class="searchable_label">Contract Status</p>
 	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
 	                                        <option value="" >Select</option>
@@ -428,10 +428,10 @@
 		                                    	 <option value="${obj.contract_status }"<c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
 		                                     </c:forEach>     
 	                                    </select>
-	                                     <span id="contract_status_fkError" class="error-msg" ></span>
+	                                     <span id="contract_statusError" class="error-msg" ></span>
 	                                </div>
-	                                 <div class="col s6 m2 l3 input-field">
-	                                   <p class="searchable_label">Status of Work</p>
+	                                <%-- <div class="col s6 m2 l3 input-field">
+	                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
 	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);setContractStatus();">
 	                                        <option value="" selected>Select</option>
 	                                           <c:forEach var="obj" items="${contract_Statustype }">
@@ -439,12 +439,12 @@
 			                                    </c:forEach>
 	                                    </select>
 	                                     <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div>
+	                                </div> --%>
 	                                
 	                                
 	                            </div>
                                 <div class="row">	                                    
-                                    <div class="col s6 m4 l6 input-field offset-m2">
+                                    <div class="col s4 m4 l4 input-field offset-m2">
                               			 <p class="searchable_label">HOD <span class="required">*</span></p>
                             			 <c:choose>
 		                                   <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
@@ -463,7 +463,7 @@
 		                                	</c:otherwise>
 		                                </c:choose>
 	                              </div>
-	                              <div class="col s6 m4 l6 input-field offset-m2">
+	                              <div class="col s4 m4 l4 input-field offset-m2">
 	                                  <p class="searchable_label">Dy HOD <span class="required">*</span></p>
 	                                  <c:choose>
 	                                   <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
@@ -482,6 +482,17 @@
 	                                	</c:otherwise>
 	                                </c:choose>
 	                              </div>
+	                              <div class="col s4 m4 l4 input-field">
+	                                   <p class="searchable_label">Status of Work <span class="required">*</span></p>
+	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);setContractStatus();">
+	                                        <option value="" selected>Select</option>
+	                                           <c:forEach var="obj" items="${contract_Statustype }">
+			                                    	<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
+			                                    </c:forEach>
+	                                    </select>
+	                                     <span id="contract_status_fkError" class="error-msg" ></span>
+	                              </div>
+	                              
                                 </div>
 							
 								<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }"><br> </c:if>
@@ -724,10 +735,9 @@
 	                                </div>
 	                            </div>
 	                            <div class="row">	                                
-	                                <div class="col s12 m4 l6 input-field">
-	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate validate-dropdown datepicker" value="${contractDeatils.date_of_start }" 
-	                                    >
-	                                    <label for="date_of_start">Date of Start <span class="required">*</span></label>
+	                                <div class="col s12 m4 l6 input-field" id="date_of_startDiv">
+	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate validate-dropdown datepicker" value="${contractDeatils.date_of_start }">
+	                                    <label for="date_of_start">Date of Start <span class="required" id="date_of_startStar">*</span></label>
 	                                     <span id="date_of_startError" class="error-msg" ></span>
 	                                    <button type="button" id="date_of_start_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
@@ -2091,6 +2101,44 @@
             getDyHodList();
                        
             hideContractDetails();
+            
+            $("#contract_status").change(function(){
+            	var contract_status = $(this).val();
+            	if($.trim(contract_status) == 'Yet to be Awarded'){
+            		$("#date_of_startDiv").val('');
+            		$("#date_of_startDiv").hide();
+            	}else{
+            		var date_of_start = '${contractDeatils.date_of_start}';
+            		$("#date_of_startDiv").val(date_of_start).focus();
+            		$("#date_of_startDiv").show();
+            	}
+            });
+            
+            var contract_status = $("#contract_status").val();
+            if($.trim(contract_status) == 'Yet to be Awarded'){
+        		$("#date_of_startDiv").val('');
+        		$("#date_of_startDiv").hide();
+        	}
+            
+            if($.trim(contract_status) == 'Open' && $.trim(contract_status_fk) == 'Not Started'){
+            	//$("#date_of_start").removeAttr('required');
+            	$('#date_of_start').rules('remove',  'required');
+            	$('#date_of_startStar').text('');
+            	$('#date_of_startError').text('');
+            }      
+            
+            $("#contract_status_fk").change(function(){
+            	var contract_status_fk = $(this).val();
+            	if($.trim(contract_status) == 'Open' && $.trim(contract_status_fk) == 'Not Started'){
+                	$('#date_of_start').rules('remove',  'required');
+                	$('#date_of_startStar').text('');
+                	$('#date_of_startError').text('');
+                }else{
+                	$('#date_of_start').rules('add',  { required: true });
+                	$('#date_of_startStar').text('*');
+                } 
+            });
+            
         });
         
         $('#menu-center a.t-c').on('click', function (e) {
@@ -2546,7 +2594,7 @@
         		 	  },"contract_closure":{
         		 		 required: false
         		 	  },"contract_status_fk":{
-        		 		 required: false
+        		 		 required: true
         		 	  },"remarks":{
         		 		 required: false
         		 	  },"estimated_cost_units":{

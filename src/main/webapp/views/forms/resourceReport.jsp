@@ -75,8 +75,7 @@
                                     </select>
                                     <span id="hodError" class="error-msg" ></span>
                                 </div>
-                                </div>
-                           <div class="row">
+                                
                            		<div class="col s6 m4 l2 input-field offset-l3 pt-md-5">
                                     <p class="searchable_label" style="text-align:left">Contract</p>
                                     <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);resetWorksAndProjectsDropdowns();setHODList();getResourceReport();">

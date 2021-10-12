@@ -80,11 +80,11 @@
 		.table-add{position: absolute;}
 		.add-align{position: absolute;
    					 margin-top: -5.8em;
-   					 margin-left: 11%;}
+   					 margin-left: 26%;}
    		.bd-none{border: none;background: transparent}
    		 }
     	@media(max-Width: 2000px){
-    	.add-align{margin-left:19%;}
+    	.add-align{margin-left:36%;}
     	}
     	@media(max-width: 800px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}

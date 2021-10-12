@@ -1207,7 +1207,7 @@ public class DocxTableCreationForContractReport {
 
 			int temp = 1;
 			int tempVal=0;
-			String sArray[] = new String[] { "Open", "Closed"};
+			String sArray[] = new String[] { "Open","Yet to be Awarded","Closed"};
 			List<String> lList = Arrays.asList(sArray);
 			for (int i2 = 0; i2 < lList.size(); i2++) 
 			{		
@@ -1292,7 +1292,7 @@ public class DocxTableCreationForContractReport {
 						
 						Tr hodRow5 = factory.createTr();
 						
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "CLOSED CONTRACTS", calibriBoldRPr2, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "YET TO BE AWARDED", calibriBoldRPr2, JcEnumeration.CENTER, true,"ffffff");
 						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
@@ -1331,6 +1331,36 @@ public class DocxTableCreationForContractReport {
 						
 						tableHead.getContent().add(hodRow3);
 						mergeCellsHorizontal(tableHead, 1, 1, 13);*/
+						
+					}
+				}
+			
+				if(i2==2)
+				{
+					if(repeat==0)
+					{
+						addPageBreak(mp);
+
+						Tr hodRow5 = factory.createTr();
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "CLOSED CONTRACTS", calibriBoldRPr2, JcEnumeration.CENTER, true,"ffffff");
+						
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+						
+						tableHead.getContent().add(hodRow5);
+						mergeCellsHorizontal(tableHead, 0, 0, 13);
+			
 						
 					}
 				}
@@ -1379,6 +1409,21 @@ public class DocxTableCreationForContractReport {
 				}
 				
 				if(i2==1)
+				{
+						if(repeat==0)
+						{
+							mergeCellsHorizontal(tableHead, 1, 0, 13);
+							/*mergeCellsHorizontal(tableHead, 2, 0, 13);*/
+						    repeat++;
+						}
+						else
+						{
+							mergeCellsHorizontal(tableHead, 0, 0, 13);
+							
+						}
+										
+				}
+				if(i2==2)
 				{
 						if(repeat==0)
 						{

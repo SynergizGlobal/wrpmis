@@ -2198,6 +2198,73 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		}
 		return email_ids;
 	}
+
+	@Override
+	public List<Contract> getStatsuListInContractReport(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="select status from contract c "
+					+ "LEFT JOIN user u ON hod_user_id_fk = user_id "
+					+ "where status IS NOT NULL and status <> ''";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())){
+				qry = qry + " and u.designation in (?";
+				int length = obj.getHod_designations().length;
+				if(length > 1) {
+					for(int i =0; i< (length-1); i++) {
+						qry = qry + ",?";
+						arrSize++;
+					}
+				}
+				qry = qry + " ) ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + " and c.contract_id = ?";
+				arrSize++;
+			}
+			qry = qry + " group by status ORDER BY FIELD(status,'Open','Yet to be Awarded','Closed') ";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
+				int length = obj.getHod_designations().length;
+				if(length >= 1) {
+					for(int j =0; j<= (length-1); j++) {
+						pValues[i++] = obj.getHod_designations()[j];
+					}
+				}	
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 }
 
 

@@ -48,5 +48,7 @@ public interface ContractReportDao {
 
 	List<Contract> getStatusofWorkItems(Contract obj) throws Exception;
 
+	List<Contract> getStatsuListInContractReport(Contract obj) throws Exception;
+
 	
 }

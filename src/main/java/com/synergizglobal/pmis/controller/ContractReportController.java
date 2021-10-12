@@ -290,6 +290,19 @@ public class ContractReportController {
 		return contractorsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getStatsuListInContractReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getStatsuListInContractReport(@ModelAttribute Contract obj) {
+		List<Contract> statusList = null;
+		try {
+			statusList = service.getStatsuListInContractReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStatsuListInContractReport : " + e.getMessage());
+		}
+		return statusList;
+	}
+	
 	@RequestMapping(value = "/ajax/getStatusofWorkItems", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Contract> getStatusofWorkItems(@ModelAttribute Contract obj) {

@@ -119,4 +119,9 @@ public class ContractReportServiceImpl implements ContractReportService{
 		return dao.getEmailIdsOfDepartments(management);
 	}
 
+	@Override
+	public List<Contract> getStatsuListInContractReport(Contract obj) throws Exception {
+		return dao.getStatsuListInContractReport(obj);
+	}
+
 }

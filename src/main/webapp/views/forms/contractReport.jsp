@@ -78,9 +78,9 @@
 	                                    <div class="col s6 m2 input-field" id="CSdiv" style="display:none;">
 	                                        <p class="searchable_label" style="text-align:left">Contract Status</p>
 	                                        <select id="status" name="status" class="searchable validate-dropdown" onchange="addInQueContractStatus(this.value);getStatusofWorkItems();getResetFiltersList();">
-	                                            <option value="">All</option>
-	                                            <option value="Open">Open</option>
-	                                            <option value="Closed">Closed</option>
+	                                           <option value="">All</option>
+	                                           <!--   <option value="Open">Open</option>
+	                                            <option value="Closed">Closed</option> -->
 	                                        </select>
 	                                        <span id="contract_status_fkError" class="error-msg" ></span>
 	                                    </div>	                                    
@@ -274,7 +274,7 @@
 	     		        	  }else if($.trim(temp2[0]) == 'hod_designation'){
 	     		        		 getDesignationFilterList(temp2[1]);
 	     		        	  }else if($.trim(temp2[0]) == 'status'){
-	     		        		 getContractStatusFilterList(temp2[1]);
+	     		        		 getStatusFilter(temp2[1]);
 	     		        	  }else if($.trim(temp2[0]) == 'contract_status_fk'){
 	     		        		 //getContractStatusFilterList(temp2[1]);
 	     		        		 getStatusofWorkItems(temp2[1]);
@@ -338,7 +338,7 @@
         	$("#date").val('');
         	$('.searchable').select2();
         	 window.localStorage.setItem("contarctReportFilters"+idNo,'');
-        	getResetFiltersList();
+        	 window.location.href= "<%=request.getContextPath()%>/contract-report?id="+idNo;
         }
         function addInQueWork(work_id_fk){
           	Object.keys(filtersMap).forEach(function (key) {
@@ -367,20 +367,20 @@
           	}
         }
         
-        function addInQueStatusOfWork(status){
-          	Object.keys(filtersMap).forEach(function (key) {
-    	   		if(key.match('status')) delete filtersMap[key];
-       	   	});
-          	if($.trim(status) != ''){
-            	filtersMap["status"] = status;
-          	}
-        }
-        function addInQueContractStatus(contract_status_fk){
+        function addInQueStatusOfWork(contract_status_fk){
           	Object.keys(filtersMap).forEach(function (key) {
     	   		if(key.match('contract_status_fk')) delete filtersMap[key];
        	   	});
           	if($.trim(contract_status_fk) != ''){
             	filtersMap["contract_status_fk"] = contract_status_fk;
+          	}
+        }
+        function addInQueContractStatus(status){
+          	Object.keys(filtersMap).forEach(function (key) {
+    	   		if(key.match('status')) delete filtersMap[key];
+       	   	});
+          	if($.trim(status) != ''){
+            	filtersMap["status"] = status;
           	}
         }
         function addInQueHOD(){
@@ -399,6 +399,7 @@
         	getDesignationFilterList("");        	
         	getContractStatusFilterList("");        	  
         	getContractListFilter("");
+        	getStatusFilter("");
         	//getStatusofWorkItems("");
         	
         	var contractor_id_fk = $("#contractor_id_fk").val();
@@ -416,6 +417,43 @@
         	
         }
         
+        
+	  function getStatusFilter(statusVal){
+	   	$(".page-loader").show();
+       	var contractor_id_fk = $("#contractor_id_fk").val();
+       	var work_id_fk = $("#work_id_fk").val();
+       	var hod_designations = $("#hod_designation").val();
+       	var status = $("#status").val()
+       	var contract_status_fk = $("#contract_status_fk").val();
+       	var contract_id = $("#contract_id").val();
+           if ($.trim(status) == "") {
+           	$("#status option:not(:first)").remove();
+       	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
+               $.ajax({
+	                   url: "<%=request.getContextPath()%>/ajax/getStatsuListInContractReport",
+	                   type:"post",
+	          		   traditional: true, 
+	                   data: myParams, cache: false,async: false,
+	                   success: function (data) {
+	                       if (data.length > 0) {
+	                           $.each(data, function (i, val) {
+	                                var selectedFlag = (statusVal == val.status)?'selected':'';
+	   	                            $("#status").append('<option value="' + val.status + '"'+selectedFlag+'>' + $.trim(val.status) +'</option>');
+	                           });
+	                       }
+	                       $('.searchable').select2();
+	                       $(".page-loader").hide();
+	                   },error: function (jqXHR, exception) {
+	    	   			      $(".page-loader").hide();
+	   	   	          	  getErrorMessage(jqXHR, exception);
+	   	   	     	  }
+	               });
+	           }else{
+	           	  $(".page-loader").hide();
+	           }
+	       }
+  	 
+	   	 
         function getDesignationFilterList(designation){
         	$(".page-loader").show();
         	var contractor_id_fk = $("#contractor_id_fk").val();

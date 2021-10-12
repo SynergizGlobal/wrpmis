@@ -47,4 +47,6 @@ public interface ContractReportService {
 	String getEmailIdsOfDepartments(String management)throws Exception;
 
 	List<Contract> getStatusofWorkItems(Contract obj) throws Exception;
+
+	List<Contract> getStatsuListInContractReport(Contract obj) throws Exception;
 }

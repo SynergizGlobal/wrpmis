@@ -555,7 +555,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 	public List<ZonalRailway> getStatusListForZonalRailwayForm(ZonalRailway obj) throws Exception {
 		List<ZonalRailway> objsList = null;
 		try {
-			String qry = "select general_status as status_fk from `general_status` ";
+			String qry = "select distinct(general_status) as status_fk from `general_status` ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -592,7 +592,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 						+ " cast(cum_actual_expenditure_cr as CHAR) as cum_actual_expenditure_cr, (cum_actual_expenditure_per * 100) as cum_actual_expenditure_per, (cum_planned_physical_progress_per * 100) as cum_planned_physical_progress_per, "
 						+ "(cum_actual_physical_progress_per * 100) as cum_actual_physical_progress_per, progress, issue, assistance_required, status "
 						+ "from zonal_railway_progress " 
-						+" where contract_id_fk = ? and status = ? order by month desc";
+						+" where contract_id_fk = ? and status = ? order by month asc";
 				
 				objsList = jdbcTemplate.query(qryDetails, new Object[] {zonalRailway.getContract_id(),CommonConstants.ACTIVE}, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));	
 				for(ZonalRailway tObj : objsList  ) {
@@ -831,20 +831,11 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			}
 			if(flag) {
 				
-				String inactiveQry = "UPDATE zonal_railway_progress set status = ? where contract_id_fk = ?";		 
+				String inactiveQry = "delete from zonal_railway_progress where contract_id_fk = ?";		 
 				stmt = con.prepareStatement(inactiveQry);
-				stmt.setString(1,CommonConstants.INACTIVE);
-				stmt.setString(2,obj.getContract_id());
+				stmt.setString(1,obj.getContract_id());
 				stmt.executeUpdate();
 				if(stmt != null){stmt.close();}
-				
-				
-				String updateQry1 = "UPDATE zonal_railway_progress set "
-						+ "month = ?, cum_actual_expenditure_fy_cr = ?, cum_planned_expenditure_per = ?, cum_actual_expenditure_cr = ?, cum_actual_expenditure_per = ?,"
-						+ " cum_planned_physical_progress_per = ?, cum_actual_physical_progress_per = ?, progress = ?, issue = ?, assistance_required = ?, status = ? "
-						+ "where progress_id= ?";
-				
-				updateStmt = con.prepareStatement(updateQry1);
 				
 				String insertQry = "INSERT into  zonal_railway_progress "
 						+ " (contract_id_fk, month, cum_actual_expenditure_fy_cr, cum_planned_expenditure_per, cum_actual_expenditure_cr, "
@@ -938,53 +929,32 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 						 if(!StringUtils.isEmpty(actualPhysicalProgressPercentage)) {
 							 actualPhysicalProgressPercentages = Double.parseDouble(actualPhysicalProgressPercentage)/100;
 						 }
-						 if(!StringUtils.isEmpty(pId)) {
-							 int k =1;
-							
-							 String date = obj.getMonths()[i] + "-01";
-							 updateStmt.setString(k++,(date));
-							 updateStmt.setString(k++,(obj.getCum_actual_expenditure_fy_crs().length > 0)?obj.getCum_actual_expenditure_fy_crs()[i]:null);
-							 updateStmt.setString(k++,(String.valueOf(plannedExpenditurePercentages)));
-							 updateStmt.setString(k++,(obj.getCum_actual_expenditure_crs().length > 0)?obj.getCum_actual_expenditure_crs()[i]:null);
-							 updateStmt.setString(k++,(String.valueOf(actualExpenditurePercentages)));
-							 updateStmt.setString(k++,(String.valueOf(plannedPhysicalProgressPercentages)));
-							 updateStmt.setString(k++,(String.valueOf(actualPhysicalProgressPercentages)));
-							 updateStmt.setString(k++,(obj.getProgresss().length > 0)?obj.getProgresss()[i]:null);
-							 updateStmt.setString(k++,(obj.getIssues().length > 0)?obj.getIssues()[i]:null);
-							 updateStmt.setString(k++,(obj.getAssistance_requireds().length > 0)?obj.getAssistance_requireds()[i]:null);
-							 updateStmt.setString(k++,CommonConstants.ACTIVE);
-							 updateStmt.setString(k++,(obj.getProgress_ids()[i]));
-							 updateStmt.addBatch();
-		
-						 }else { 
-							
-							if(!StringUtils.isEmpty(obj.getMonths()) && obj.getMonths().length > 0) {
-							    int p = 1;
-							    if( obj.getMonths().length > 0 && !StringUtils.isEmpty(obj.getMonths()[i])) {
-							    	String date = obj.getMonths()[i] + "-01";
-								    insertStmt.setString(p++,(obj.getContract_id()));
-								    insertStmt.setString(p++,(date));
-								    insertStmt.setString(p++,(obj.getCum_actual_expenditure_fy_crs().length > 0)?obj.getCum_actual_expenditure_fy_crs()[i]:null);
-								    insertStmt.setString(p++,(String.valueOf(plannedExpenditurePercentages)));
-								    insertStmt.setString(p++,(obj.getCum_actual_expenditure_crs().length > 0)?obj.getCum_actual_expenditure_crs()[i]:null);
-								    insertStmt.setString(p++,(String.valueOf(actualExpenditurePercentages)));
-								    insertStmt.setString(p++,(String.valueOf(plannedPhysicalProgressPercentages)));
-								    insertStmt.setString(p++,(String.valueOf(actualPhysicalProgressPercentages)));
-								    insertStmt.setString(p++,(obj.getProgresss().length > 0)?obj.getProgresss()[i]:null);
-								    insertStmt.setString(p++,(obj.getIssues().length > 0)?obj.getIssues()[i]:null);
-								    insertStmt.setString(p++,(obj.getAssistance_requireds().length > 0)?obj.getAssistance_requireds()[i]:null);
-								    insertStmt.setString(p++,CommonConstants.ACTIVE);
-								  
-								    insertStmt.addBatch();
-							    }
-							
-						  }
-						}
+						 if(!StringUtils.isEmpty(obj.getMonths()) && obj.getMonths().length > 0) {
+						    int p = 1;
+						    if( obj.getMonths().length > 0 && !StringUtils.isEmpty(obj.getMonths()[i])) {
+						    	String date = obj.getMonths()[i] + "-01";
+							    insertStmt.setString(p++,(obj.getContract_id()));
+							    insertStmt.setString(p++,(date));
+							    insertStmt.setString(p++,(obj.getCum_actual_expenditure_fy_crs().length > 0)?obj.getCum_actual_expenditure_fy_crs()[i]:null);
+							    insertStmt.setString(p++,(String.valueOf(plannedExpenditurePercentages)));
+							    insertStmt.setString(p++,(obj.getCum_actual_expenditure_crs().length > 0)?obj.getCum_actual_expenditure_crs()[i]:null);
+							    insertStmt.setString(p++,(String.valueOf(actualExpenditurePercentages)));
+							    insertStmt.setString(p++,(String.valueOf(plannedPhysicalProgressPercentages)));
+							    insertStmt.setString(p++,(String.valueOf(actualPhysicalProgressPercentages)));
+							    insertStmt.setString(p++,(obj.getProgresss().length > 0)?obj.getProgresss()[i]:null);
+							    insertStmt.setString(p++,(obj.getIssues().length > 0)?obj.getIssues()[i]:null);
+							    insertStmt.setString(p++,(obj.getAssistance_requireds().length > 0)?obj.getAssistance_requireds()[i]:null);
+							    insertStmt.setString(p++,CommonConstants.ACTIVE);
+							  
+							    insertStmt.addBatch();
+						    }
+						
+					  }
+						
 					}
 				}
 				int[] insertCount = insertStmt.executeBatch();
-				int[] updateCount = updateStmt.executeBatch();
-				if(insertCount.length > 0 || updateCount.length > 0) {
+				if(insertCount.length > 0 ) {
 					flag = true;
 				}
 				DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
@@ -995,9 +965,6 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			e.printStackTrace();
 			throw new Exception(e);
 	   }
-	   finally {
-		DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
-	  }		
 	   return flag;	
 	}
 

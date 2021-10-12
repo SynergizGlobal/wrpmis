@@ -384,6 +384,14 @@
 				width:auto;
 				min-width:120px;			
 			}
+		    .normal-btn{
+		        display: block;
+		        text-align: center;
+		    }    
+		    td[data-head="Attachment"]{
+		    	max-width:30%;
+		    	width:30% !important;
+		    }
 		}
     </style>
 </head>
@@ -1950,7 +1958,7 @@
 	                                                <tr>
 	                                                	<th>File Type </th>
 	                                                    <th>Name </th>
-	                                                    <th style="text-align:center">Attachment</th>
+	                                                    <th style="text-align:center;">Attachment</th>
 	                                                     <th> </th>
 	                                                    <th style="width:8%">Action</th>
 	                                                </tr>

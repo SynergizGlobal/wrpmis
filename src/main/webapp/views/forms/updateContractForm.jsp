@@ -2061,7 +2061,7 @@
 		           		 	<div class="row">
 		                       <div class="col s12 m6 l6 mt-brdr center-align">
 		                           <div class=" m-1"> <!-- <button type="button" onclick="prevTab()" id="prevBtn"><i class="fa fa-angle-left"></i></button> -->
-		                               <button type="button" onclick="updateContract();" class="btn waves-effect waves-light bg-m w7em" id="updateBtn">Update</button>
+		                               <button type="button" onclick="updateContract();" class="btn waves-effect waves-light bg-m " id="updateBtn">Update</button>
 		                               <!-- <button type="button" onclick="nextTab()" id="nextBtn"><i class="fa fa-angle-right"></i></button> -->
 		                           </div>
 		                       </div>

@@ -50,6 +50,15 @@
 		.btn{
 			z-index:0;
 		}
+		#date_of_start~button {
+		    position: absolute;
+		    right: 15px;
+		    top: 15px;
+		    border: 0;
+		    opacity: 0.7;
+		    cursor: pointer;
+		    background-color: transparent;
+		}
 		
 		/* utility classes ends here  */
         .datepicker-table thead tr,
@@ -848,13 +857,13 @@
  								<h5 class="center-align"><span class="div-header">Contract Closure Details</span></h5>  								
  							    <div class="row">
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${contractDeatils.actual_completion_date }" readonly>
+	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${contractDeatils.actual_completion_date }">
 	                                    <label for="actual_completion_date">Actual Completion Date <span class="required">*</span></label>
 	                                    <span id="actual_completion_dateError" class="error-msg" ></span>
 	                                    <button type="button" id="actual_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker" value="${contractDeatils.final_takeover }" readonly>
+	                                    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker" value="${contractDeatils.final_takeover }">
 	                                    <label for="final_takeover">Final Taking over by Client</label>
 	                                    <span id="final_takeoverError" class="error-msg" ></span>
 	                                    <button type="button" id="final_takeover_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -885,19 +894,19 @@
 	
 	                            <div class="row">
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }" readonly>
+	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }">
 	                                    <label for="completion_certificate_release">Date of issue of Completion Certificate</label>
 	                                    <button type="button" id="completion_certificate_release_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="completion_certificate_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker" value="${contractDeatils.defect_liability_period }" readonly>
+	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker" value="${contractDeatils.defect_liability_period }">
 	                                    <label for="defect_liability_period">End date of Defect Liability Period</label>
 	                                    <button type="button" id="defect_liability_period_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker" value="${contractDeatils.final_bill_release }" readonly>
+	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker" value="${contractDeatils.final_bill_release }">
 	                                    <label for="final_bill_release">Date of Payment of Final bill</label>
 	                                    <button type="button" id="final_bill_release_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="final_bill_releaseError" class="error-msg" ></span>
@@ -906,19 +915,19 @@
 	                            </div>
 	                            <div class="row">
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker" value="${contractDeatils.pbg_release }" readonly>
+	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker" value="${contractDeatils.pbg_release }">
 	                                    <label for="pbg_release">Date of release of PBG</label>
 	                                    <button type="button" id="pbg_release_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="pbg_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="retention_money_release" name="retention_money_release" type="text" class="validate datepicker" value="${contractDeatils.retention_money_release }" readonly>
+	                                    <input id="retention_money_release" name="retention_money_release" type="text" class="validate datepicker" value="${contractDeatils.retention_money_release }">
 	                                    <label for="retention_money_release">Date of release of Final Retention</label>
 	                                    <button type="button" id="retention_money_release_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="retention_money_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker" value="${contractDeatils.contract_closure_date }" readonly>
+	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker" value="${contractDeatils.contract_closure_date }">
 	                                    <label for="contract_closure_date">Date of Contract Closure</label>
 	                                    <button type="button" id="contract_closure_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="contract_closure_dateError" class="error-msg" ></span>	                                    
@@ -2090,7 +2099,7 @@
 
 <!--     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>  -->
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
+    <!-- <script src="/pmis/resources/js/datepickerDepedency.js"></script> -->
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
@@ -2098,41 +2107,69 @@
 
 
     <script>
-	   /*  $(document).on('focus', '.datepicker',function(){
-	        $(this).datepicker({
-	        	format:'dd-mm-yyyy',
-	   	    	onSelect: function () {
-	   	    	   $('.confirmation-btns .datepicker-done').click();
-	   	    	}
-	        })
-	    }); */
-	 /*    let date_pickers = document.querySelectorAll('.datepicker');
-	    $.each(date_pickers, function(){
-	    	var dt = this.value.split(/[^0-9]/);
-	    	this.value = ""; 
-	    	var options = {format: 'dd-mm-yyyy',autoClose:true};
-	    	if(dt.length > 1){
-	    		options.setDefaultDate = true,
-	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
-	    	}
-	    	M.Datepicker.init(this, options);
-	    }); */
-	   /*  let date_pickers = document.querySelectorAll('#date_of_start');
+	  
+	   /* let date_pickers = document.querySelectorAll('#date_of_start');
 	    $.each(date_pickers, function(){
 	    	var dt = '${contractDeatils.date_of_start}'; 
 	    	this.value = ""; 
-	    	var options = {format: 'dd-mm-yyyy',autoClose:true, onOpen:datePickerSelectAddClass, minDate:new Date()};
+	    	var options = {format: 'dd-mm-yyyy',autoClose:true, onOpen:datePickerSelectAddClass, maxDate:new Date()};
 	    	if(dt.length > 1){
 	    		options.setDefaultDate = true,
-	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0]);
 	    	}
 	    	M.Datepicker.init(dt, options);
-	    });  */
+	    });
     	 $('#date_of_start_icon').click(function () {
              event.stopPropagation();
              $('#date_of_start').click();
-         });
-        $(document).ready(function () {												
+         }); */
+         
+        
+         var datePickerSelectAddClass = function () {
+ 		    var self = this;
+ 		    setTimeout(function () {
+ 		        var selector = self.el;
+ 		        if (!selector) {
+ 		            selector = ".datepicker"
+ 		        }
+ 		        $(selector).siblings(".datepicker-modal")
+ 		            .find(".select-dropdown.dropdown-trigger")
+ 		            .each((index, item) => {
+ 		                var dateDropdownID = $(item).attr("data-target");
+ 		                var dropdownUL = $('#' + dateDropdownID);
+ 		                dropdownUL.children("li").on("click", () => {
+ 		                    datePickerSelectAddClass();
+ 		                });
+ 		                dropdownUL.addClass("datepicker-dropdown-year-month")
+ 		            });
+ 		    }, 500);
+ 		};
+         
+        $(document).ready(function () {		
+        	
+        	$(".datepicker").each(function(){
+           		var id = $(this).attr('id');
+				$('#'+id).datepicker({
+					maxDate: new Date(),
+		        	format:'dd-mm-yyyy',
+		        	onOpen:datePickerSelectAddClass,
+		        	showClearBtn: true,
+		            onClose: function () {
+		            	if(!$(this.el).val()){
+			                $(this.el).siblings('label').removeClass('active');	            		
+		            	}
+		            },
+		   	    	onSelect: function () {
+		   	    	   $('.confirmation-btns .datepicker-done').click();
+		   	    	}
+		        }).datepicker("setDate", new Date());
+				
+		        $('#'+id+'_icon').click(function () {
+	                event.stopPropagation();
+	                $('#'+id).click();
+	            });
+           	});
+        	
         	$('select:not(.searchable):not(.units)').formSelect();
             $('.searchable').select2();
             $('.units').select2({ dropdownCssClass : 'cost_dropdown' });
@@ -2208,9 +2245,7 @@
             		$("#date_of_startDiv").val(date_of_start).focus();
             		$("#date_of_startDiv").show();
             	}
-            });
-            $("#contract_status").change(function(){
-            	var contract_status = $(this).val();
+            	
             	if($.trim(contract_status) == 'Open'){
             		$('#contractor_id_fk').rules('add',  { required: true });
                 	$('#contractor_req').text('*');
@@ -2224,6 +2259,7 @@
                 	$('#doc_req').text('');
                 	$('#docError').text('');
             	}
+            	
             });
             
             var contract_status = $("#contract_status").val();
@@ -3611,11 +3647,11 @@
             	$('#loa_letter_number').val(loa_letter_number);
             	if(loa_letter_number!=''){$('#loa_letter_number ~ label').addClass('active');}
             	$('#loa_date').val(loa_date);
-            	if(loa_date!=''){$('#loa_date ~ label').addClass('active');}
+            	if($.trim(loa_date) !=''){$('#loa_date ~ label').addClass('active');}else{$('#loa_date ~ label').removeClass('active');}
             	$('#ca_no').val(ca_no);
             	if(ca_no!=''){$('#ca_no ~ label').addClass('active');}
             	$('#ca_date').val(ca_date);
-            	if(ca_date!=''){$('#ca_date ~ label').addClass('active');}
+            	if($.trim(ca_date) != ''){$('#ca_date ~ label').addClass('active');}else{$('#ca_date ~ label').removeClass('active');}
             	$('#doc').val(doc);
             	if(doc!=''){$('#doc ~ label').addClass('active');}
             	$('#estimated_cost').val(estimated_cost);

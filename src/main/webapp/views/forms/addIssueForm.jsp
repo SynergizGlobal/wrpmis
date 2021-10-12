@@ -433,7 +433,25 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>	
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
-		
+		var datePickerSelectAddClass = function () {
+		    var self = this;
+		    setTimeout(function () {
+		        var selector = self.el;
+		        if (!selector) {
+		            selector = ".datepicker"
+		        }
+		        $(selector).siblings(".datepicker-modal")
+		            .find(".select-dropdown.dropdown-trigger")
+		            .each((index, item) => {
+		                var dateDropdownID = $(item).attr("data-target");
+		                var dropdownUL = $('#' + dateDropdownID);
+		                dropdownUL.children("li").on("click", () => {
+		                    datePickerSelectAddClass();
+		                });
+		                dropdownUL.addClass("datepicker-dropdown-year-month")
+		            });
+		    }, 500);
+		};
 		function selectFile(no){
 		    files = $("#issueFiles"+no)[0].files;
 		    var html = "";
@@ -516,6 +534,13 @@
 				$('#'+id).datepicker({
 					maxDate: new Date(),
 		        	format:'dd-mm-yyyy',
+		        	onOpen:datePickerSelectAddClass,
+		        	showClearBtn: true,
+		            onClose: function () {
+		            	if(!$(this.el).val()){
+			                $(this.el).siblings('label').removeClass('active');	            		
+		            	}
+		            },
 		   	    	onSelect: function () {
 		   	    	   $('.confirmation-btns .datepicker-done').click();
 		   	    	}

@@ -880,25 +880,25 @@ public class HomeDaoImpl implements HomeDao {
 	public List<Messages> getMessages(Messages mObj) throws Exception {
 		List<Messages> objsList = null;
 		try {
-			/*String qry ="select message_id,message,user_id_fk,redirect_url,DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p') as created_date,created_date as created_date_24hr_format, "
+			String qry ="select message_id,message,user_id_fk,redirect_url,DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p') as created_date,created_date as created_date_24hr_format, "
 					+ "read_time,message_type "
 					+ "from messages where user_id_fk = ? "
-					+ "and (read_time is null or read_time > (NOW() - INTERVAL 3 DAY)) ";*/
+					+ "and (read_time is null or read_time > (NOW() - INTERVAL 3 DAY)) ";
 			
-			String qry ="select distinct message,user_id_fk,redirect_url,left(DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p'),10) as created_date,"
+			/*String qry ="select distinct message,user_id_fk,redirect_url,left(DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p'),10) as created_date,"
 					+ "(SELECT MAX(created_date) FROM messages m where m.redirect_url=redirect_url and left(m.created_date,10)=left(m2.created_date,10) "
 					+ "and m.message_type=m2.message_type"
 					+ ") as created_date_24hr_format, "
 					+ "read_time,message_type "
 					+ "from messages m2 where user_id_fk = ? "
-					+ "and (read_time is null or read_time > (NOW() - INTERVAL 3 DAY)) ";
+					+ "and (read_time is null or read_time > (NOW() - INTERVAL 3 DAY)) ";*/
 			
 			int arrSize = 1;		
 			if(!StringUtils.isEmpty(mObj.getMessage_type())) {
 				qry = qry + "and message_type = ? ";
 				arrSize++;
 			}
-			qry = qry + "order by left(created_date_24hr_format,10) desc,left(DATE_FORMAT(created_date_24hr_format,'%H:%i:%s'),10) DESC";
+			qry = qry + "order by created_date_24hr_format desc,DATE_FORMAT(created_date_24hr_format,'%H:%i:%s') DESC";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = mObj.getUser_id_fk();

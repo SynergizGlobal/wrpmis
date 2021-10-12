@@ -133,6 +133,10 @@
     #fobDocumentTableBody .select2-container--default .select2-selection--single {
     	background-color:transparent;
     }
+    @media(max-width: 575px){
+    	.row .col{margin: 6px auto;}
+    	h5{margin: 1.0933333333rem 0 .656rem 0;}
+    }
     </style>
 </head>
 <body>
@@ -257,7 +261,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div> --%>
-                            <br>
+                            
                             
 	                         <div class="row " id="fobResponsiblePeopleDetails">
 	                            <div class="row"> 
@@ -494,7 +498,7 @@
 													</tbody> -->
 												</table>
 									            <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD'   || sessionScope.USER_TYPE eq 'DyHOD'}">
-									            <table  class="mdl-data-table table-add bd-none" style="margin-bottom: 30px">
+									            <table  class="mdl-data-table table-add bd-none">
 			                                        <tbody>                                          
 			                                            <tr class="bd-none">
 			                                   				<td colspan="3" class="bd-none"><a class="btn waves-effect waves-light bg-m t-c add-align"  onclick="addFobContractRow()"> <i class="fa fa-plus"></i></a></td>
@@ -637,7 +641,7 @@
 	                                </div>
 	                            </div>
                             </c:if>
-                            <br>
+                           
                             <div class="row">
                                 <div class="col s6 m4 l6 input-field offset-m2" id="commissioning_dateDiv" style="display: none;">
                                     <input id="commissioning_date" name="commissioning_date" type="text" class="validate datepicker" value="${fob.commissioning_date }" <c:if test="${not empty fob.commissioning_date}">disabled</c:if>>
@@ -699,8 +703,7 @@
 								
                              <div class="row">
 								<div class="col m10 l12 offset-m1 s12">
-									<div class="row fixed-width"
-										style="margin-bottom: 20px; margin-top: 20px">
+									<div class="row fixed-width">
 										<!-- <div class="table-inside"> -->
 											<table class="mdl-data-table update-table mobile_responsible_table" id="gallery_table">
 												<thead>

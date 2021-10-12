@@ -749,7 +749,7 @@
        		    $("#project_id_fk").valid();
        		}
        		
-        }
+        } 
         
         function addProgressRow() {
        	    var rowNo = $("#rowNo").val();

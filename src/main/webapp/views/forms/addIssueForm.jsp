@@ -535,7 +535,8 @@
 					maxDate: new Date(),
 		        	format:'dd-mm-yyyy',
 		        	onOpen:datePickerSelectAddClass,
-		        	showClearBtn: true,
+		        	autoClose: true,
+		        	/* showClearBtn: true,
 		            onClose: function () {
 		            	if(!$(this.el).val()){
 			                $(this.el).siblings('label').removeClass('active');	            		
@@ -543,7 +544,7 @@
 		            },
 		   	    	onSelect: function () {
 		   	    	   $('.confirmation-btns .datepicker-done').click();
-		   	    	}
+		   	    	} */
 		        }).datepicker("setDate", new Date());
 				
 		        $('#'+id+'_icon').click(function () {

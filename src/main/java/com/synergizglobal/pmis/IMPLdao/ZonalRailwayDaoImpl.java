@@ -126,7 +126,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -206,7 +206,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			}
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -260,7 +260,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -314,7 +314,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -369,7 +369,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -423,7 +423,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -477,7 +477,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -489,7 +489,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			String qry = "select project_id,project_name from `project` order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -534,7 +534,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			String qry = "select railway_id as execution_agency_railway_fk, railway_name from `railway` ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	} 
@@ -546,7 +546,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			String qry = "select zonal_railway_funds as source_of_funds  from `zonal_railway_funds` ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -558,7 +558,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			String qry = "select distinct(general_status) as status_fk from `general_status` ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -613,7 +613,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return zonalRailway;
 	}
@@ -782,7 +782,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			}catch(Exception e){ 
 				con.rollback();
 				e.printStackTrace();
-				throw new Exception(e.getMessage());
+				throw new Exception(e);
 			}finally {
 				DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
 			}
@@ -964,6 +964,8 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			con.rollback();
 			e.printStackTrace();
 			throw new Exception(e);
+	   }finally {
+		   DBConnectionHandler.closeJDBCResoucrs(con, null, null);
 	   }
 	   return flag;	
 	}
@@ -979,7 +981,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			pValues[i++] = CommonConstants.USER_TYPE;
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));		
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1012,7 +1014,9 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));	
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
+		}finally {
+			   DBConnectionHandler.closeJDBCResoucrs(con, null, null);
 		}
 		return objsList;
 	}
@@ -1055,7 +1059,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return progressList;
 	}
@@ -1119,7 +1123,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1132,7 +1136,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			String qry = "select id, unit, value from money_unit ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

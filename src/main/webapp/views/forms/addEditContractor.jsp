@@ -74,6 +74,9 @@
 			    margin-top: 0;
 			}
 		}
+		@media(max-width: 575px){
+			.row .col{margin: 6px auto}
+		}
 			
     </style>
 </head>
@@ -196,15 +199,7 @@
                                      <label for="email">Email Address</label>
                                      <span id="emailError" class="error-msg" ></span>
                                  </div> 
-                            </div>
-							<div class="row">
-                                
-                                                                 
-                            </div>
-                            <div class="row">
-                                <div class="col l12 m8 s12 offset-m2">
-                                    <div class="row">
-										<div class="col s6 m4 l4 input-field">
+                                 <div class="col s6 m4 l4 input-field">
 		                               		<input id="gst_number" name="gst_number" type="text" class="validate" value="${contractorDetails.gst_number }">
 		                               		<label for="gst_number">GST Number<span class="required">*</span></label>
 		                               		<span id="gst_numberError" class="error-msg" ></span>
@@ -224,9 +219,8 @@
                                             <label for="ac_no">Account No </label>
                                             <span id="ac_noError" class="error-msg" ></span>
                                         </div>
-                                    </div>
-                                </div>
                             </div>
+                            
                             <div class="row">
                                <div class="col m2 hide-on-small-only"></div>
                                <div class="col s12 m8 l12 input-field">

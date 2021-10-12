@@ -885,9 +885,12 @@ public class HomeDaoImpl implements HomeDao {
 					+ "from messages where user_id_fk = ? "
 					+ "and (read_time is null or read_time > (NOW() - INTERVAL 3 DAY)) ";*/
 			
-			String qry ="select distinct message,user_id_fk,redirect_url,left(DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p'),10) as created_date,concat(left(created_date,10),' 00:00:00') as created_date_24hr_format, "
+			String qry ="select distinct message,user_id_fk,redirect_url,left(DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p'),10) as created_date,"
+					+ "(SELECT MAX(created_date) FROM messages m where m.redirect_url=redirect_url and left(m.created_date,10)=left(m2.created_date,10) "
+					+ "and m.message_type=m2.message_type"
+					+ ") as created_date_24hr_format, "
 					+ "read_time,message_type "
-					+ "from messages where user_id_fk = ? "
+					+ "from messages m2 where user_id_fk = ? "
 					+ "and (read_time is null or read_time > (NOW() - INTERVAL 3 DAY)) ";
 			
 			int arrSize = 1;		

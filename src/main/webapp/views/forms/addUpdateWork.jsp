@@ -234,6 +234,10 @@
 			.mobile_responsible_table .select2-container--default {
 			    width: 93% !important;
 			}
+			
+		}
+		@media(max-width: 575px){
+			.row .col{margin: 8px auto;}
 		}
 		@media(max-width: 360px){
 			.fs7rem{font-size: .7rem !important;}
@@ -531,8 +535,7 @@
                             
                             <div class="row">
 								<div class="col l12 m8 s12 offset-m2">
-									<div class="row fixed-width"
-										style="margin-bottom: 20px; margin-top: 20px">
+									<div class="row fixed-width">
 										<div class="table-inside">
 											<table class="mdl-data-table update-table mobile_responsible_table">
 												<thead>

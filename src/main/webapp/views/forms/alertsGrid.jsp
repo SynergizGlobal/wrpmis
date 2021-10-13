@@ -360,10 +360,10 @@
                            <button  type="button" onclick="getContractForm('insuranceDetails');" style="width: auto;display:none;" id="btnInsurance"
                                class="btn waves-effect waves-light bg-m">UPDATE INSURANCE DETAILS</button>
                                
-                           <button  type="button" onclick="getContractForm('contractDetails');" style="width: auto;display:none;" id="btnCv"
+                           <button  type="button" onclick="getContractForm('revisionDetails');" style="width: auto;display:none;" id="btnCv"
                                class="btn waves-effect waves-light bg-m">UPDATE CV DETAILS</button>
                                
-                           <button  type="button" onclick="getContractForm('revisionDetails');" style="width: auto;display:none;" id="btnDoc"
+                           <button  type="button" onclick="getContractForm('contractDetails');" style="width: auto;display:none;" id="btnDoc"
                                class="btn waves-effect waves-light bg-m">UPDATE DOC DETAILS</button>
                </div> 
            </form>
@@ -905,15 +905,32 @@
         		$("#amendment_not_required_in_contract_Div").show();
         		$("#btnBG").hide(); 
         		$("#btnInsurance").hide(); 
+        		$("#btnCv").hide(); 
+        		$("#btnDoc").hide(); 
+        		$("#contract_id").val(contract_id);
         		if(alert_type_fk=="Contract Value"){
         			$("#btnCv").show(); 
-        		}else if(alert_type_fk=="Document"){
+        		}else if(alert_type_fk=="Contract Period"){
+        			$("#btnDoc").show(); 
+        		}
+        	}else if((alert_type_fk=="Contract Period" || alert_type_fk=="Contract Value" )){
+        		$("#amendment_not_required_in_contract_Div").hide(); 
+        		$("#btnBG").hide(); 
+        		$("#btnInsurance").hide(); 
+        		$("#btnCv").hide(); 
+        		$("#btnDoc").hide(); 
+        		$("#contract_id").val(contract_id);
+        		if(alert_type_fk=="Contract Value"){
+        			$("#btnCv").show(); 
+        		}else if(alert_type_fk=="Contract Period"){
         			$("#btnDoc").show(); 
         		}
         	}else{
         		$("#amendment_not_required_in_contract_Div").hide(); 
         		$("#btnBG").hide(); 
         		$("#btnInsurance").hide(); 
+        		$("#btnCv").hide(); 
+        		$("#btnDoc").hide(); 
         		$("#contract_id").val(contract_id);
         		if(alert_type_fk=="Bank Guarantee"){
         			$("#btnBG").show(); 

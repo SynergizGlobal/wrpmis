@@ -2171,8 +2171,9 @@
                  });            	           	 
                  $("a[href='#"+tab_name+"']").addClass('active');
                  var scrollPos=$('#'+tab_name).offset().top;
-                 if(tab_name=='insuranceDetails'){                 	
-                 	scrollPos =  $('#'+tab_name).offset().top-50;
+                 if(tab_name=='insuranceDetails'){  
+                	//var bgRows='${fn:length(contractDeatils.bankGauranree)}'
+                 	scrollPos =  $('#'+tab_name).offset().top-30;
                  }
                  if(tab_name=='bgDetails'){                 	
                  	scrollPos =  $('#'+tab_name).offset().top-150;

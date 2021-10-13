@@ -370,7 +370,7 @@
 	   .tab-flex .tab a {
 	   		padding:0 .5rem;
 	   }
-	    .datepicker1 ~button{
+	    .datepicker-max-today ~button{
 			    position: absolute;
 			    right: 15px;
 			    top: 15px;
@@ -748,10 +748,10 @@
 	                                   
 	                                </div>
 	                                <div class="col s6 m4 l6 input-field" id="loa_date_div">
-	                                    <input id="loa_date" name="loa_date" type="text" class="validate datepicker" value="${contractDeatils.loa_date }">
+	                                    <input id="loa_date" name="loa_date" type="text" class="validate datepicker-max-today" value="${contractDeatils.loa_date }">
 	                                    <label for="loa_date">LOA Date</label>
 	                                    <span id="loa_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="loa_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="loa_date_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                            </div>
 	                            <div class="row">
@@ -762,18 +762,18 @@
 	                                     <span id="ca_noError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s6 m4 l6 input-field" id="ca_date_div">
-	                                    <input id="ca_date" name="ca_date" type="text" class="validate datepicker" value="${contractDeatils.ca_date }">
+	                                    <input id="ca_date" name="ca_date" type="text" class="validate datepicker-max-today" value="${contractDeatils.ca_date }">
 	                                    <label for="ca_date">CA Date</label>
 	                                     <span id="ca_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="ca_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="ca_date_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                            </div>
 	                            <div class="row">	                                
 	                                <div class="col s12 m4 l6 input-field" id="date_of_startDiv">
-	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate validate-dropdown datepicker" value="${contractDeatils.date_of_start }">
+	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate validate-dropdown datepicker-max-today" value="${contractDeatils.date_of_start }">
 	                                    <label for="date_of_start">Date of Start <span class="required" id="date_of_startStar">*</span></label>
 	                                     <span id="date_of_startError" class="error-msg" ></span>
-	                                    <button type="button" id="date_of_start_icon" class=""><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="date_of_start_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s9 m3 l4 input-field" id="estimated_cost_div">
 	                                    <i class="material-icons prefix cost left-align">₹</i>
@@ -793,9 +793,9 @@
                                 </div>      
 	                           	<div class="row">
 	                                <div class="col s12 m4 l6 input-field offset-m2" id="doc_div">
-	                                    <input name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }">
+	                                    <input name="doc" id="doc" type="text" class="validate datepicker-max-today" value="${contractDeatils.doc }">
 	                                    <label for="doc">Original DOC<span class="required" id="doc_req">*</span></label>
-	                                     <button type="button" id="doc_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                     <button type="button" id="doc_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                     <span id="docError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s9 m3 l4 input-field " id="awarded_cost_div">
@@ -816,10 +816,9 @@
 	                                </div>
 	                                <div class="row">
 	                                <div class="col s6 m4 l6 input-field offset-m2">
-	                                    <input name="target_doc" id="target_doc" type="text" class="validate datepicker" value="${contractDeatils.target_doc }" 
-	                                    >
+	                                    <input name="target_doc" id="target_doc" type="text" class="validate datepicker-max-today" value="${contractDeatils.target_doc }"    >
 	                                    <label for="target_doc">Target DOC</label>
-	                                     <button type="button" id="target_doc_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                     <button type="button" id="target_doc_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                     <span id="target_docError" class="error-msg" ></span>
 	                                </div>
 	                                                             
@@ -865,42 +864,42 @@
  								<h5 class="center-align"><span class="div-header">Contract Closure Details</span></h5>  								
  							    <div class="row">
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${contractDeatils.actual_completion_date }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
+	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker-max-today" value="${contractDeatils.actual_completion_date }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
 	                                    <label for="actual_completion_date">Actual Completion Date <span class="required">*</span></label>
 	                                    <span id="actual_completion_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="actual_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="actual_completion_date_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker" value="${contractDeatils.final_takeover }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
+	                                    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker-max-today" value="${contractDeatils.final_takeover }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
 	                                    <label for="final_takeover">Final Taking over by Client</label>
 	                                    <span id="final_takeoverError" class="error-msg" ></span>
-	                                    <button type="button" id="final_takeover_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="final_takeover_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
+	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker-max-today" value="${contractDeatils.completion_certificate_release }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
 	                                    <label for="completion_certificate_release">Date of issue of Completion Certificate</label>
-	                                    <button type="button" id="completion_certificate_release_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="completion_certificate_release_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="completion_certificate_releaseError" class="error-msg" ></span>
 	                                </div>                        
 	                            </div> 
-	      						<div class="row">
+	      						<!-- <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>	                                
 	                                
 	                                
 	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
+	                            </div> -->
 	
 	                            <div class="row">
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker" value="${contractDeatils.final_bill_release }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
+	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker-max-today" value="${contractDeatils.final_bill_release }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
 	                                    <label for="final_bill_release">Date of Payment of Final bill</label>
-	                                    <button type="button" id="final_bill_release_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="final_bill_release_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="final_bill_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="retention_money_release" name="retention_money_release" type="text" class="validate datepicker" value="${contractDeatils.retention_money_release }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
+	                                    <input id="retention_money_release" name="retention_money_release" type="text" class="validate datepicker-max-today" value="${contractDeatils.retention_money_release }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
 	                                    <label for="retention_money_release">Date of release of Final Retention / BG</label>
-	                                    <button type="button" id="retention_money_release_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="retention_money_release_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="retention_money_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                
@@ -924,22 +923,22 @@
 	                            </div>
 	                            <div class="row">
 	                            	<div class="col s12 m4 l4 input-field">
-	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker" value="${contractDeatils.defect_liability_period }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
+	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker-max-today" value="${contractDeatils.defect_liability_period }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
 	                                    <label for="defect_liability_period">End date of Defect Liability Period</label>
-	                                    <button type="button" id="defect_liability_period_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="defect_liability_period_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker" value="${contractDeatils.pbg_release }">
+	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker-max-today" value="${contractDeatils.pbg_release }">
 	                                    <label for="pbg_release">Date of release of PBG</label>
-	                                    <button type="button" id="pbg_release_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="pbg_release_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="pbg_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker" value="${contractDeatils.contract_closure_date }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
+	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker-max-today" value="${contractDeatils.contract_closure_date }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
 	                                    <label for="contract_closure_date">Date of Contract Closure</label>
-	                                    <button type="button" id="contract_closure_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="contract_closure_date_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="contract_closure_dateError" class="error-msg" ></span>	                                    
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -2107,7 +2106,7 @@
 
 <!--     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>  -->
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-   <!--  <script src="/pmis/resources/js/datepickerDepedency.js"></script> -->
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
@@ -2132,30 +2131,9 @@
              $('#date_of_start').click();
          }); */
          
-        
-         var datePickerSelectAddClass = function () {
- 		    var self = this;
- 		    setTimeout(function () {
- 		        var selector = self.el;
- 		        if (!selector) {
- 		            selector = ".datepicker"
- 		        }
- 		        $(selector).siblings(".datepicker-modal")
- 		            .find(".select-dropdown.dropdown-trigger")
- 		            .each((index, item) => {
- 		                var dateDropdownID = $(item).attr("data-target");
- 		                var dropdownUL = $('#' + dateDropdownID);
- 		                dropdownUL.children("li").on("click", () => {
- 		                    datePickerSelectAddClass();
- 		                });
- 		                dropdownUL.addClass("datepicker-dropdown-year-month")
- 		            });
- 		    }, 500);
- 		};
-         
         $(document).ready(function () {		
         	
-        		$(".datepicker").each(function(){
+        		$(".datepicker-max-today").each(function(){
            		var id = $(this).attr('id');
 				$('#'+id).datepicker({
 					maxDate: new Date(),

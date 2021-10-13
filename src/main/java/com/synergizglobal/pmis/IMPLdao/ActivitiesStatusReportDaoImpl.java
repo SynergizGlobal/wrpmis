@@ -207,7 +207,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			
 			objsList = jdbcTemplate.query(qryDetails, new Object[] {obj.getContract_id()}, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -260,7 +260,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -294,7 +294,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -336,7 +336,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -373,7 +373,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -388,7 +388,7 @@ public class ActivitiesStatusReportDaoImpl implements ActivitiesStatusReportDao{
 			
 			objsList = jdbcTemplate.query(qryDetails, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

@@ -69,7 +69,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -98,7 +98,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -149,7 +149,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 				}
 			}	*/
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -175,7 +175,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -209,7 +209,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -251,7 +251,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -301,7 +301,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			}
 
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		} finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
 		}
@@ -365,7 +365,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			}
 
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		} finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
 		}
@@ -448,7 +448,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		} finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}
@@ -491,7 +491,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -516,7 +516,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -560,7 +560,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			sObj = (StripChart) jdbcTemplate.queryForObject(qry, pValues,
 					new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return sObj;
 	}
@@ -786,7 +786,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 		}catch( Exception e) {
 			e.printStackTrace();
 			transactionManager.rollback(status);
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -800,7 +800,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 					+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? group by dy_hod_user_id_fk";
 			dy_hods = jdbcTemplate.queryForList( qryUsers,new Object[]{structure}, String.class);
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return dy_hods;
 	}
@@ -811,7 +811,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			String qry = "select department_fk from contract where contract_id = ?";
 			department_id = (String) jdbcTemplate.queryForObject(qry, new Object[] { contract_id_fk }, String.class);
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return department_id;
 	}
@@ -823,7 +823,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			String qry = "select strip_chart_type from strip_chart_type";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -835,7 +835,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			String qry = "select structure_type from structure_type";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -856,7 +856,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 					new BeanPropertyRowMapper<StripChart>(StripChart.class));
 
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return sObj;
 	}
@@ -868,7 +868,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			String qry = "select category from issue_category";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -880,7 +880,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			String qry = "select priority from issue_priority";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -892,7 +892,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 			String qry = "select status from issue_status";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

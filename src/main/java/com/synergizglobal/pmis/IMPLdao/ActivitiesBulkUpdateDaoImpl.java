@@ -109,7 +109,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -170,7 +170,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -241,7 +241,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			}	*/		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -287,7 +287,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -333,7 +333,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}	
@@ -367,7 +367,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			
 			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -410,7 +410,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			
 			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -455,7 +455,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}	
@@ -477,7 +477,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			sObj =  (StripChart) jdbcTemplate.queryForObject( qry, new Object[] {obj.getActivity_id()}, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return sObj;
 	}
@@ -529,7 +529,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			}
 						
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
 		}
@@ -594,7 +594,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			}
 						
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
 		}
@@ -683,7 +683,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
@@ -728,7 +728,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -771,7 +771,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			
 			sObj =  (StripChart) jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return sObj;
 	}
@@ -835,7 +835,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			
 			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -847,7 +847,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			String qry = "select scope from activities where activity_id = ?";
 			Scope = (String) jdbcTemplate.queryForObject(qry, new Object[] { activity_id }, String.class);
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}		
 		return Scope;
 	}
@@ -902,7 +902,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				flag=true;	
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 		}
 		return flag;
 	}	
@@ -1278,7 +1280,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			//}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
@@ -1295,7 +1297,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					+ "where dy_hod_user_id_fk is not null and fob_id_fk = ? group by dy_hod_user_id_fk";
 			dy_hods = jdbcTemplate.queryForList( qryUsers,new Object[]{structure}, String.class);
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return dy_hods;
 	}

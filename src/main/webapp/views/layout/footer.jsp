@@ -65,14 +65,14 @@
 		    	 closeOnClick: false,
 		    	 aboveOrigin:true,
 		     });
-		   document.querySelectorAll('.pmis-textarea').forEach(function (item) {
+		   document.querySelectorAll('.pmis-textarea:not(.textarea-no-height)').forEach(function (item) {
 		   		item.style.height = (item.scrollHeight < 59) ? '59px' : item.scrollHeight + 'px';
 		   });
 		}); 
      
      document.getElementById("currentYear").innerHTML = new Date().getFullYear();
      
-     document.querySelectorAll('.pmis-textarea').forEach(function (item) {
+     document.querySelectorAll('.pmis-textarea:not(.textarea-no-height)').forEach(function (item) {
          item.addEventListener('keyup', function (event) {
              item.style.height = (item.scrollHeight < 59) ? '59px' : item.scrollHeight + 'px';
          });

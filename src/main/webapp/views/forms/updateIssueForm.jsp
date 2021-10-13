@@ -66,6 +66,7 @@
 		.add-align{position: absolute;
    					 margin-top: -5.7em;
    					 margin-left: 11%;}
+   		.pmis-textarea.textarea-no-height{padding: 1rem 0 0 !important;height:43px;}
    		.bd-none{border: none;}
    		 }
     	@media(max-Width: 2000px){
@@ -87,6 +88,9 @@
 			    visibility: visible;
 			    width: 200%;
 			    display: block !important;
+			}
+			.input-field p.searchable_label{
+				margin-top:-20px !important;
 			}
 	   }
 	   .filedownload{
@@ -187,7 +191,7 @@
                                     <span id="priority_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4	 l4 input-field offset-m2">
-                                     <textarea id="title" name="title" class="pmis-textarea" data-length="1000" readonly>${issue.title }</textarea>
+                                     <textarea id="title" name="title" class="pmis-textarea textarea-no-height" data-length="1000" readonly>${issue.title }</textarea>
                                      <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>
@@ -236,7 +240,7 @@
                                     <label for="location">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field">
+                                <div class="col s12 m4 l4 input-field offset-m2">
                                    <p class="searchable_label"> Responsible Organization (Pending with)<span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk" onchange="getResponsiblePersons('')">
                                         <option value="">Select</option>

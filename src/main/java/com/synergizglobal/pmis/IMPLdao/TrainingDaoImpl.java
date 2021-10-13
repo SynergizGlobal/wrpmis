@@ -117,7 +117,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -165,7 +165,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			}			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -215,7 +215,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			}			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -265,7 +265,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			}			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}	
@@ -313,7 +313,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -325,7 +325,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			String qry ="select status as status_fk from training_status ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -337,7 +337,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			String qry ="select training_category as training_category_fk from training_category ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -349,7 +349,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			String qry ="select training_type as training_type_fk from training_type ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -407,7 +407,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		  }
 		}catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage()); 
+			throw new Exception(e); 
 		}
 		return sObj;
 	}
@@ -518,7 +518,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			String qry ="select department as department_fk,department_name from department ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -547,7 +547,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		
 		}catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -559,7 +559,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			String qry ="select category from issue_category";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -820,14 +820,14 @@ public class TrainingDaoImpl implements TrainingDao{
 		
 		}
 		DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
-		DBConnectionHandler.closeJDBCResoucrs(null, updateStmt, null);
+		//DBConnectionHandler.closeJDBCResoucrs(null, updateStmt, null);
 		con.commit();
 		}catch(Exception e){ 
 			con.rollback();
 			e.printStackTrace();
 			throw new Exception(e);
 		}finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
+			DBConnectionHandler.closeJDBCResoucrs(con, null, null);
 		}
 		return flag;
 	}
@@ -865,7 +865,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		int r = 0;
 		int y = 0;
 		PreparedStatement insertStmt = null;
-		PreparedStatement insertStmt1 = null;
+		//PreparedStatement insertStmt1 = null;
 		try{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
@@ -1032,7 +1032,7 @@ public class TrainingDaoImpl implements TrainingDao{
 
 				}
 			}
-			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt1, null);
+			//DBConnectionHandler.closeJDBCResoucrs(null, insertStmt1, null);
 			con.commit();
 		}catch(Exception e){ 
 			con.rollback();
@@ -1067,7 +1067,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));		
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1264,7 +1264,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return sessionsList;
 	}
@@ -1287,7 +1287,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return attendeesList;
 	}
@@ -1328,7 +1328,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			    }
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1356,7 +1356,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			}
 			objsList1 = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList1;
 	}
@@ -1430,7 +1430,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -1516,7 +1516,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

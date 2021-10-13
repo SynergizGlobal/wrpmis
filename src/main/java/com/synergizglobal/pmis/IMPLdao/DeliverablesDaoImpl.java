@@ -92,7 +92,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -136,7 +136,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -182,7 +182,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -228,7 +228,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -274,7 +274,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -286,7 +286,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			String qry ="select status as status_fk from deliverables_status ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -298,7 +298,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			String qry ="select deliverable_type as deliverable_type_fk from deliverable_type ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -310,7 +310,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			String qry ="select project_priority as project_priority_fk from project_priority ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -322,7 +322,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			String qry ="select project_id as project_id_fk  ,project_name from project order by project_id asc";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -353,7 +353,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 				deliverables.setDeliverableFilesList(objList);
 			}
 		}catch(Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return deliverables;
 	}
@@ -403,7 +403,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			transactionManager.commit(status);
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -467,7 +467,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -536,7 +536,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -609,7 +609,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -694,7 +694,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

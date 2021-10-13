@@ -48,7 +48,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			String qry ="select railway_id,railway_name  from railway ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -140,7 +140,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -174,7 +174,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return funds;
 	}
@@ -240,7 +240,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -258,7 +258,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -296,7 +296,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -337,7 +337,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -355,7 +355,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			String qry ="select source_of_funds as source_of_funds_fk  from source_of_funds ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -367,7 +367,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			String qry = "select project_id,project_name from `project` order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -463,7 +463,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 	}catch(Exception e){ 
 		e.printStackTrace();
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 	}
 	return totalRecords;
 	}
@@ -541,7 +541,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			String qry = "select id, unit, value from money_unit ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

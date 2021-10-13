@@ -74,7 +74,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			qry = qry + " GROUP BY work_id_fk ORDER BY work_id_fk ";
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -124,7 +124,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -180,7 +180,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -231,7 +231,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -282,7 +282,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -340,7 +340,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -404,7 +404,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -568,7 +568,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				objsList.put(hod.getDesignation(), workIssuesList);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -581,7 +581,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			
 			email_ids = jdbcTemplate.queryForObject( qry, String.class);	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return email_ids;
 	}
@@ -636,7 +636,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

@@ -136,7 +136,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -217,7 +217,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -274,7 +274,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -330,7 +330,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -386,7 +386,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -442,7 +442,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -454,7 +454,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			String qry ="select status,status_of from la_status ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -520,7 +520,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			}
 			
 	}catch(Exception e) {
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 	}
 	return LADetails;
 	}
@@ -669,7 +669,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -738,7 +738,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			String qry = "select project_id,project_name from `project` order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -750,7 +750,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			String qry = "select la_category as type_of_land from `la_category`";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -762,7 +762,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			String qry = "select id,la_sub_category as sub_category_of_land,la_category_fk from `la_sub_category`";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -845,7 +845,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			String qry ="select category from issue_category";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -991,7 +991,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -1049,7 +1049,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1061,7 +1061,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			String qry = "select id, unit, value from money_unit";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

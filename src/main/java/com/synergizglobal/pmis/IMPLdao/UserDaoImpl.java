@@ -49,7 +49,7 @@ public class UserDaoImpl implements UserDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -62,7 +62,7 @@ public class UserDaoImpl implements UserDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -92,7 +92,7 @@ public class UserDaoImpl implements UserDao{
 			} 
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -105,7 +105,7 @@ public class UserDaoImpl implements UserDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -118,7 +118,7 @@ public class UserDaoImpl implements UserDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -131,7 +131,7 @@ public class UserDaoImpl implements UserDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -144,7 +144,7 @@ public class UserDaoImpl implements UserDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -157,7 +157,7 @@ public class UserDaoImpl implements UserDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}	
@@ -218,7 +218,7 @@ public class UserDaoImpl implements UserDao{
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));	
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -288,7 +288,7 @@ public class UserDaoImpl implements UserDao{
 			transactionManager.commit(status);
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return userId;
 	}
@@ -367,7 +367,7 @@ public class UserDaoImpl implements UserDao{
 			}
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return uobj;
 	}
@@ -440,7 +440,7 @@ public class UserDaoImpl implements UserDao{
 		}catch(Exception e){ 
 			e.printStackTrace();
 			transactionManager.rollback(status);
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -519,7 +519,7 @@ public class UserDaoImpl implements UserDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -541,7 +541,7 @@ public class UserDaoImpl implements UserDao{
 				}
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return pmis_key;
 	}
@@ -587,7 +587,7 @@ public class UserDaoImpl implements UserDao{
 			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -634,7 +634,7 @@ public class UserDaoImpl implements UserDao{
 			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -682,7 +682,7 @@ public class UserDaoImpl implements UserDao{
 			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -738,7 +738,7 @@ public class UserDaoImpl implements UserDao{
 			
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -751,7 +751,7 @@ public class UserDaoImpl implements UserDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -799,7 +799,7 @@ public class UserDaoImpl implements UserDao{
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

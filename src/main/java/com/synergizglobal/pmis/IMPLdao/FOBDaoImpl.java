@@ -120,7 +120,7 @@ public class FOBDaoImpl implements FOBDao {
 			}			
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -172,7 +172,7 @@ public class FOBDaoImpl implements FOBDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -211,7 +211,7 @@ public class FOBDaoImpl implements FOBDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	} 	
@@ -490,7 +490,7 @@ public class FOBDaoImpl implements FOBDao {
 			transactionManager.commit(status);
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -576,7 +576,7 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return fobj;
 	}
@@ -588,7 +588,7 @@ public class FOBDaoImpl implements FOBDao {
 		TransactionStatus status = transactionManager.getTransaction(def);
 		Connection con = null;
 		try {
-			con=dataSource.getConnection();
+			//con=dataSource.getConnection();
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE fob set "
 					+ "fob_name = :fob_name,work_id_fk=:work_id_fk,date_of_approval = :date_of_approval,target_date = :target_date,construction_start_date = :construction_start_date,actual_completion_date = :actual_completion_date,commissioning_date = :commissioning_date,"
@@ -971,7 +971,7 @@ public class FOBDaoImpl implements FOBDao {
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -1043,7 +1043,7 @@ public class FOBDaoImpl implements FOBDao {
 			}	*/	    
 		    
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1145,7 +1145,7 @@ public class FOBDaoImpl implements FOBDao {
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1157,7 +1157,7 @@ public class FOBDaoImpl implements FOBDao {
 			String qry = "select project_id,project_name from `project` order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1297,7 +1297,7 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<FOB>(FOB.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1353,7 +1353,7 @@ public class FOBDaoImpl implements FOBDao {
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);	
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -1365,7 +1365,7 @@ public class FOBDaoImpl implements FOBDao {
 			String qry = "select fob_detail_id, fob_id_fk, detail_name, value from `fob_detail` GROUP BY detail_name ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1402,7 +1402,7 @@ public class FOBDaoImpl implements FOBDao {
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<FOB>(FOB.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1414,7 +1414,7 @@ public class FOBDaoImpl implements FOBDao {
 			String qry = "select fob_file_type from fob_file_type ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1426,7 +1426,7 @@ public class FOBDaoImpl implements FOBDao {
 			String qry = "select fob_id from fob ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1438,7 +1438,7 @@ public class FOBDaoImpl implements FOBDao {
 			String qry = "select fob_details_location from fob_details_location ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1450,7 +1450,7 @@ public class FOBDaoImpl implements FOBDao {
 			String qry = "select fob_details_type from fob_details_type ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1462,7 +1462,7 @@ public class FOBDaoImpl implements FOBDao {
 			String qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1474,7 +1474,7 @@ public class FOBDaoImpl implements FOBDao {
 			String qry = "select id, unit, value from money_unit ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1486,7 +1486,7 @@ public class FOBDaoImpl implements FOBDao {
 			String qry = "select fob_file_type from `fob_file_type` ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

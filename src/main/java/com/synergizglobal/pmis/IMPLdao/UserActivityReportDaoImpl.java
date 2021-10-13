@@ -66,7 +66,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -112,7 +112,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -158,7 +158,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -204,7 +204,7 @@ public class UserActivityReportDaoImpl implements UserActivityReportDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UserActivityReport>(UserActivityReport.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

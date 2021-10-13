@@ -61,7 +61,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Activity>(Activity.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -94,7 +94,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -110,7 +110,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Activity>(Activity.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -325,7 +325,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 				progress_date = rs.getString("date");
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}
@@ -427,7 +427,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}
@@ -529,7 +529,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 				activity_id = rs.getString("activity_id");
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}
@@ -578,7 +578,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			transactionManager.commit(status);
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -627,7 +627,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -676,7 +676,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -725,7 +725,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -777,7 +777,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -810,7 +810,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			objsList = jdbcTemplate.query( qry,new Object[]{obj.getContract_id_fk()}, new BeanPropertyRowMapper<Activity>(Activity.class));
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

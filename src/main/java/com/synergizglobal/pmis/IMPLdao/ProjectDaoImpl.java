@@ -65,7 +65,7 @@ public class ProjectDaoImpl implements ProjectDao {
 					
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -693,7 +693,7 @@ public class ProjectDaoImpl implements ProjectDao {
 			pValues[i++] = projectId;
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -706,7 +706,7 @@ public class ProjectDaoImpl implements ProjectDao {
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Year>(Year.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -720,7 +720,7 @@ public class ProjectDaoImpl implements ProjectDao {
 					+ "LEFT JOIN project p on pb.project_id_fk = p.project_id order by project_id_fk ASC,financial_year_fk DESC,pb_item_no DESC";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -733,7 +733,7 @@ public class ProjectDaoImpl implements ProjectDao {
 			String qry ="SELECT project_file_type FROM project_file_type";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -763,7 +763,7 @@ public class ProjectDaoImpl implements ProjectDao {
 			}
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -805,7 +805,7 @@ public class ProjectDaoImpl implements ProjectDao {
 				
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

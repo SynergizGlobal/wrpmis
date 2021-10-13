@@ -52,7 +52,7 @@ public class ProfileDaoImpl implements ProfileDao {
 			}
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return userDetails;
 
@@ -73,7 +73,7 @@ public class ProfileDaoImpl implements ProfileDao {
 				flag = true;
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}

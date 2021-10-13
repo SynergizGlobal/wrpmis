@@ -77,7 +77,7 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -190,7 +190,7 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 				}
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -243,7 +243,7 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -335,7 +335,7 @@ public class ContractResourceDaoImpl implements ContractResourceDao{
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ContractResource>(ContractResource.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}

@@ -62,7 +62,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -93,7 +93,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Form>(Form.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -125,7 +125,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Form>(Form.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -137,7 +137,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			String qry = "select module_name as module_name_fk from module ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		
 		return objsList;
@@ -150,7 +150,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			String qry = "SELECT form_id,form_name FROM form ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		
 		return objsList;
@@ -163,7 +163,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			String qry = "select soft_delete_status as soft_delete_status_fk from soft_delete_status ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		
 		return objsList;
@@ -188,7 +188,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			}
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return dObj;
 	}
@@ -267,7 +267,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -366,7 +366,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -379,7 +379,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -392,7 +392,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -405,7 +405,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Form>(Form.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}	

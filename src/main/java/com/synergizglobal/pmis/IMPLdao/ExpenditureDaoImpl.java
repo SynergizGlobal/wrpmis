@@ -116,7 +116,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		  objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -193,7 +193,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			} 
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -205,7 +205,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			String qry =" SELECT financial_year from financial_year  ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -275,7 +275,9 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				
 		}catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, resultSet);
 		}
 		return expenditure;
 	
@@ -338,7 +340,9 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 		}
 		return flag;
 	}
@@ -397,7 +401,9 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 		}
 		return flag;
 	}
@@ -415,7 +421,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -469,7 +475,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -524,7 +530,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -578,7 +584,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -632,7 +638,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -686,7 +692,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -698,7 +704,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			String qry = "select project_id,project_name from `project` order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -762,7 +768,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -869,7 +875,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		  objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -881,7 +887,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			String qry =" SELECT id, unit, value from money_unit ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}

@@ -60,7 +60,7 @@ public class WorkDaoImpl implements WorkDao {
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));	
 		
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		
 		return objsList;
@@ -74,7 +74,7 @@ public class WorkDaoImpl implements WorkDao {
 			String qry = "SELECT general_status as work_status_fk from general_status where general_status in('Not Started','In Progress','Completed')";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -772,7 +772,7 @@ public class WorkDaoImpl implements WorkDao {
 			String qry = "select railway_id,railway_name from `railway`";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Railway>(Railway.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -784,7 +784,7 @@ public class WorkDaoImpl implements WorkDao {
 			String qry = "SELECT DISTINCT executed_by_id_fk FROM `work_railway` WHERE executed_by_id_fk IS NOT NULL";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Railway>(Railway.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -835,7 +835,7 @@ public class WorkDaoImpl implements WorkDao {
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Year>(Year.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -865,7 +865,7 @@ public class WorkDaoImpl implements WorkDao {
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Work>(Work.class));	
 		
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		
 		return objsList;
@@ -880,7 +880,7 @@ public class WorkDaoImpl implements WorkDao {
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -920,7 +920,7 @@ public class WorkDaoImpl implements WorkDao {
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Work>(Work.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -950,7 +950,7 @@ public class WorkDaoImpl implements WorkDao {
 			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Work>(Work.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -963,7 +963,7 @@ public class WorkDaoImpl implements WorkDao {
 			String qry = "select id, unit, value from money_unit ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1002,7 +1002,7 @@ public class WorkDaoImpl implements WorkDao {
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -1055,7 +1055,7 @@ public class WorkDaoImpl implements WorkDao {
 				
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

@@ -81,7 +81,7 @@ public class BudgetDaoImpl implements BudgetDao {
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Budget>(Budget.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -125,7 +125,7 @@ public class BudgetDaoImpl implements BudgetDao {
 				}
 			}
 		}catch(Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return budget;
 		
@@ -254,9 +254,9 @@ public class BudgetDaoImpl implements BudgetDao {
 		}catch(Exception e){ 
 			con.rollback();
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
 		}
 		return flag;
 	}
@@ -415,9 +415,9 @@ public class BudgetDaoImpl implements BudgetDao {
 		}catch(Exception e){
 			con.rollback();
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
 		}
 		return flag;
 	}
@@ -435,7 +435,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -447,7 +447,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			String qry ="select financial_year from financial_year ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -487,7 +487,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Budget>(Budget.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -527,7 +527,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Budget>(Budget.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -567,7 +567,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Budget>(Budget.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -607,7 +607,7 @@ public class BudgetDaoImpl implements BudgetDao {
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Budget>(Budget.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -619,7 +619,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			String qry = "select project_id,project_name from `project` order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -713,7 +713,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -785,7 +785,7 @@ public class BudgetDaoImpl implements BudgetDao {
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Budget>(Budget.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

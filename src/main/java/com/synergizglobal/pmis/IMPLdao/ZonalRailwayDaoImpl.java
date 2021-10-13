@@ -1015,8 +1015,6 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			}
 		}catch(Exception e){ 
 			throw new Exception(e);
-		}finally {
-			   DBConnectionHandler.closeJDBCResoucrs(con, null, null);
 		}
 		return objsList;
 	}
@@ -1040,7 +1038,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			throw new Exception(e);
 		}
 		finally { 
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, resultSet);
 		}
 		return objsList;
 	}

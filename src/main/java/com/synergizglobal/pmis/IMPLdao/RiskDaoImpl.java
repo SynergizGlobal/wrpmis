@@ -60,7 +60,7 @@ public class RiskDaoImpl implements RiskDao{
 					+ "group by work_id_fk";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Risk>(Risk.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -75,7 +75,7 @@ public class RiskDaoImpl implements RiskDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -92,7 +92,7 @@ public class RiskDaoImpl implements RiskDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -297,7 +297,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 			throw new Exception(e);
 		}
 		finally {
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 		}
 		return flag;
 }
@@ -439,7 +439,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -493,7 +493,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -531,7 +531,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -587,7 +587,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -606,7 +606,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -671,7 +671,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return sObj;
 	}
@@ -863,7 +863,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -878,7 +878,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 					+ "GROUP BY ru.sub_work ORDER BY rwh.priority asc";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Risk>(Risk.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -919,7 +919,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 			transactionManager.commit(status);
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}

@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.WorkContractModuleStatusDao;
 import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.model.WorkContractModuleStatus;
 
@@ -35,7 +36,7 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 			String qry = "select project_id,project_name from `project` order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -98,7 +99,7 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -141,7 +142,7 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 		 objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -167,7 +168,7 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return obj;
 	}
@@ -216,9 +217,11 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 			
 		}catch(Exception e){ 
 				e.printStackTrace();
-				throw new Exception(e.getMessage());
-			}
-			return flag;
+				throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
+		}
+		return flag;
 	}
 
 	@Override
@@ -261,7 +264,9 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
 		}
 		return flag;
 	 }
@@ -273,7 +278,7 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 			String qry ="select module_name as module_name_fk from module";
 				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objList;
 	}
@@ -313,7 +318,7 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -354,7 +359,7 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -395,7 +400,7 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

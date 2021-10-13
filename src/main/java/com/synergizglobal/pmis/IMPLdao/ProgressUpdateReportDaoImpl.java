@@ -97,7 +97,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -176,7 +176,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -257,7 +257,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -339,7 +339,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -419,7 +419,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -496,7 +496,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -577,7 +577,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -679,7 +679,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 			datāL̥īśt = jdbcTemplate.query(progressQry, pValues1, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));	
 		obj.setProgressUpdateList(datāL̥īśt);
 	}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 	}
 	return obj;
 	}

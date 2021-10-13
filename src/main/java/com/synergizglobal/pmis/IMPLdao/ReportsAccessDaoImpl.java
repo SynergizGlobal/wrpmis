@@ -60,7 +60,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -91,7 +91,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Report>(Report.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -123,7 +123,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Report>(Report.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -135,7 +135,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			String qry = "select module_name as module_name_fk from module ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Report>(Report.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		
 		return objsList;
@@ -148,7 +148,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			String qry = "SELECT form_id,form_name FROM report_form ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Report>(Report.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		
 		return objsList;
@@ -161,7 +161,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			String qry = "select soft_delete_status as soft_delete_status_fk from soft_delete_status ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Report>(Report.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		
 		return objsList;
@@ -187,7 +187,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			}
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return dObj;
 	}
@@ -269,7 +269,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -371,7 +371,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -384,7 +384,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Report>(Report.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -397,7 +397,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Report>(Report.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -410,7 +410,7 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Report>(Report.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}	

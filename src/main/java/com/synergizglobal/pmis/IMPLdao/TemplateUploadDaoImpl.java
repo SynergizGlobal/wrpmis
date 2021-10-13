@@ -54,7 +54,7 @@ public class TemplateUploadDaoImpl implements TemplateUploadDao{
 				session.setTableHistoryList(objsList1); 
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -86,7 +86,7 @@ public class TemplateUploadDaoImpl implements TemplateUploadDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, null, null);
 		}	
@@ -110,7 +110,9 @@ public class TemplateUploadDaoImpl implements TemplateUploadDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 		}
 		return flag;
 	}

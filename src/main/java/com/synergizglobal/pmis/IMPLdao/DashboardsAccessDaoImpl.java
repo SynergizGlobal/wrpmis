@@ -72,7 +72,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -110,7 +110,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -148,7 +148,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -186,7 +186,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -235,7 +235,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -247,7 +247,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			String qry = "select dashboard_type as dashboard_type_fk from dashboard_type ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		
 		return objsList;
@@ -260,7 +260,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			String qry = "select module_name as module_name_fk from module ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		
 		return objsList;
@@ -274,7 +274,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 					" left join dashboard d1 on  d.parent_dashboard_id_sr_fk = d1.dashboard_id where d.dashboard_url <> ''";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		
 		return objsList;
@@ -287,7 +287,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			String qry = "select soft_delete_status as soft_delete_status_fk from soft_delete_status ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		
 		return objsList;
@@ -316,7 +316,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			}
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return dObj;
 	}
@@ -398,7 +398,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -500,7 +500,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -513,7 +513,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -526,7 +526,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -539,7 +539,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}	

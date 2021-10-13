@@ -141,7 +141,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				}
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -220,7 +220,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -297,7 +297,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -373,7 +373,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -450,7 +450,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -527,7 +527,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -658,7 +658,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			transactionManager.rollback(status);
 			aObj.setMessage_flag(false);
 			aObj.setMessage("Please try again after sometime.");
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return aObj;
 	}
@@ -690,7 +690,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		}catch(Exception e){ 
 			aObj.setMessage_flag(false);
 			aObj.setMessage("Please try again after sometime.");
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return aObj;
 	}
@@ -835,7 +835,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		}catch(Exception e){ 
 			aObj.setMessage_flag(false);
 			aObj.setMessage("Please try after sometime.");
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return aObj;
 	}
@@ -847,7 +847,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			String qry = "select Max(progress_date) as  progress_date from activity_progress where activity_id_fk= ?";
 			progressdate = (String) jdbcTemplate.queryForObject(qry, new Object[] { activity_id }, String.class);
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}		
 		return progressdate;
 	}
@@ -905,7 +905,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		}catch(Exception e){ 
 			aObj.setMessage_flag(false);
 			aObj.setMessage("Please try after sometime.");
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return aObj;
 	}

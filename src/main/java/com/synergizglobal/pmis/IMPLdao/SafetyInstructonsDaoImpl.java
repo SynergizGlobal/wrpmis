@@ -48,7 +48,7 @@ public class SafetyInstructonsDaoImpl implements SafetyInstructonsDao{
 		
 	}catch(Exception e) {
 		e.printStackTrace();
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 	}
 	return objsList;
 	}
@@ -118,7 +118,7 @@ public class SafetyInstructonsDaoImpl implements SafetyInstructonsDao{
 		}
 		}catch(Exception e){ 
 				e.printStackTrace();
-				throw new Exception(e.getMessage());
+				throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 		}

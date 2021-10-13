@@ -120,7 +120,7 @@ public class DesignDaoImpl implements DesignDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -227,7 +227,7 @@ public class DesignDaoImpl implements DesignDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -317,7 +317,7 @@ public class DesignDaoImpl implements DesignDao{
 			}
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -329,7 +329,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select structure_type as structure_type_fk from structure_type";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -340,7 +340,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select drawing_type as drawing_type_fk from drawing_type";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -351,7 +351,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select department as department_id_fk,department_name from department";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -363,7 +363,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select contract_id as contract_id_fk,contract_name from contract";
 				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objList;
 	}
@@ -375,7 +375,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select prepared_by as prepared_by_id_fk from design_prepared_by";
 				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objList;
 	}
@@ -387,7 +387,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select revision_status from revision_status";
 				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objList;
 	}
@@ -399,7 +399,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select as_built_status from as_built_status";
 				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objList;
 	}
@@ -441,7 +441,7 @@ public class DesignDaoImpl implements DesignDao{
 			}
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return dObj;
 	}
@@ -963,7 +963,7 @@ public class DesignDaoImpl implements DesignDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1027,7 +1027,7 @@ public class DesignDaoImpl implements DesignDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1092,7 +1092,7 @@ public class DesignDaoImpl implements DesignDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1154,7 +1154,7 @@ public class DesignDaoImpl implements DesignDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1216,7 +1216,7 @@ public class DesignDaoImpl implements DesignDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1280,7 +1280,7 @@ public class DesignDaoImpl implements DesignDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1292,7 +1292,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry = "select project_id,project_name from `project` order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1355,7 +1355,7 @@ public class DesignDaoImpl implements DesignDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1395,7 +1395,7 @@ public class DesignDaoImpl implements DesignDao{
 			transactionManager.commit(status);
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -1412,7 +1412,7 @@ public class DesignDaoImpl implements DesignDao{
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

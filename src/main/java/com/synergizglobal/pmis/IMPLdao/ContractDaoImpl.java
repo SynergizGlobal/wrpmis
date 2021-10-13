@@ -148,7 +148,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -170,7 +170,7 @@ public class ContractDaoImpl implements ContractDao {
 			pValues[i++] = CommonConstants.USER_TYPE;
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -183,7 +183,7 @@ public class ContractDaoImpl implements ContractDao {
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 		
@@ -196,7 +196,7 @@ public class ContractDaoImpl implements ContractDao {
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -209,7 +209,7 @@ public class ContractDaoImpl implements ContractDao {
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<BankGuarantee>(BankGuarantee.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -221,7 +221,7 @@ public class ContractDaoImpl implements ContractDao {
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Insurence>(Insurence.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -232,7 +232,7 @@ public class ContractDaoImpl implements ContractDao {
 			String qry = "select department as department_fk,department_name,contract_id_code from department";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2089,7 +2089,7 @@ public class ContractDaoImpl implements ContractDao {
 			String qry = "select contractor_id as contractor_id_fk,contractor_name from contractor";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2172,7 +2172,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}	
@@ -2254,7 +2254,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2336,7 +2336,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2348,7 +2348,7 @@ public class ContractDaoImpl implements ContractDao {
 			String qry = "select project_id,project_name from `project` order by project_id asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2467,7 +2467,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2551,7 +2551,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2633,7 +2633,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2715,7 +2715,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2734,7 +2734,7 @@ public class ContractDaoImpl implements ContractDao {
 			pValues[i++] = CommonConstants.USER_TYPE2;
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2761,7 +2761,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2865,7 +2865,7 @@ public class ContractDaoImpl implements ContractDao {
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -3020,7 +3020,7 @@ public class ContractDaoImpl implements ContractDao {
 		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -3043,7 +3043,7 @@ public class ContractDaoImpl implements ContractDao {
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 		}	
@@ -3127,7 +3127,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}*/
@@ -3160,7 +3160,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -3189,7 +3189,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -3201,7 +3201,7 @@ public class ContractDaoImpl implements ContractDao {
 			String qry = "select contract_file_type from `contract_file_type` ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -3213,7 +3213,7 @@ public class ContractDaoImpl implements ContractDao {
 			String qry = "SELECT user_id,user_name,designation,department_fk FROM user where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and user_type_fk not in('Others') ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -3251,7 +3251,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -3263,7 +3263,7 @@ public class ContractDaoImpl implements ContractDao {
 			String qry = "select id, unit, value from money_unit";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -3276,7 +3276,7 @@ public class ContractDaoImpl implements ContractDao {
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -3301,7 +3301,7 @@ public class ContractDaoImpl implements ContractDao {
 				objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}

@@ -73,7 +73,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<DataGathering>(DataGathering.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -122,7 +122,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<DataGathering>(DataGathering.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -171,7 +171,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<DataGathering>(DataGathering.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -183,7 +183,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			String qry ="select status as status_fk from data_gathering_status ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<DataGathering>(DataGathering.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -195,7 +195,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			String qry ="select project_priority as project_priority_fk from project_priority ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<DataGathering>(DataGathering.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -208,7 +208,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			String qry ="select work_id as work_id_fk,work_name,work_short_name from work ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<DataGathering>(DataGathering.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -237,7 +237,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			dataGathering = (DataGathering)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<DataGathering>(DataGathering.class));	
 				
 		}catch(Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return dataGathering;
 	}
@@ -259,7 +259,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -279,7 +279,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -333,7 +333,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<DataGathering>(DataGathering.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -382,7 +382,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<DataGathering>(DataGathering.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -394,7 +394,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			String qry ="select project_id as project_id_fk  ,project_name from project order by project_id asc";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<DataGathering>(DataGathering.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -457,7 +457,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<DataGathering>(DataGathering.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -523,7 +523,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -598,7 +598,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<DataGathering>(DataGathering.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

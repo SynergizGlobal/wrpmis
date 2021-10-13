@@ -52,7 +52,7 @@ public class UserManualsDaoImpl implements UserManualsDao{
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -66,7 +66,7 @@ public class UserManualsDaoImpl implements UserManualsDao{
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

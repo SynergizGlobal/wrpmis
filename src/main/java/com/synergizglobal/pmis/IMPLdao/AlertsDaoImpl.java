@@ -1225,7 +1225,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -1379,7 +1379,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -1537,7 +1537,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -1580,7 +1580,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -1731,7 +1731,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				}
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -1833,7 +1833,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				
 			flag = true;
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -1919,7 +1919,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1982,7 +1982,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2045,7 +2045,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2109,7 +2109,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2172,7 +2172,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2235,7 +2235,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2424,7 +2424,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objs;
 	}
@@ -2550,7 +2550,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			flag = true;
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, resultSet);
@@ -2664,7 +2664,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -2787,7 +2787,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2868,7 +2868,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return alertTypes;
 	}
@@ -2880,7 +2880,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			String qry = "select alert_type as alert_type_fk from alert_type"; 
 			alertTypes = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return alertTypes;
 	}
@@ -2892,7 +2892,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			String qry = "select alert_level from alert_level"; 
 			alertLevels = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return alertLevels;
 	}
@@ -2905,7 +2905,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from user where email_id is not null and email_id <> ''"; 
 			sendToList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return sendToList;
 	}
@@ -3068,7 +3068,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -3228,7 +3228,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -3299,7 +3299,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -3368,7 +3368,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -3437,7 +3437,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -3506,7 +3506,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

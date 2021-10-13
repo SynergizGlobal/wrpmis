@@ -36,7 +36,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 					+ "GROUP BY ta.user_id ORDER BY ta.user_id ASC";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -64,7 +64,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 		    	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -90,7 +90,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
 		    	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -167,7 +167,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 			}
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -192,7 +192,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
     		objsList = jdbcTemplate.query(attendeesQry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -277,7 +277,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 			}
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -318,7 +318,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 			}
 		
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return obj;
 	}

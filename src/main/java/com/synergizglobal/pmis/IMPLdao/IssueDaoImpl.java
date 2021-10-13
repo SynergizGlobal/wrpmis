@@ -147,7 +147,7 @@ public class IssueDaoImpl implements IssueDao {
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -159,7 +159,7 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "select status from issue_status";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -171,7 +171,7 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "select priority from issue_priority";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -217,7 +217,7 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -229,7 +229,7 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "select department as department_fk,department_name from department where department <> 'MGMT'";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -241,7 +241,7 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "SELECT railway_id,railway_name from railway WHERE railway_id <> 'Con' ORDER BY FIELD(railway_id,'MRVC','CR','WR','Others')";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -296,7 +296,7 @@ public class IssueDaoImpl implements IssueDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -476,7 +476,7 @@ public class IssueDaoImpl implements IssueDao {
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -701,7 +701,7 @@ public class IssueDaoImpl implements IssueDao {
 
 			}
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return iObj;
 	}
@@ -1484,7 +1484,7 @@ public class IssueDaoImpl implements IssueDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1577,7 +1577,7 @@ public class IssueDaoImpl implements IssueDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1669,7 +1669,7 @@ public class IssueDaoImpl implements IssueDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1761,7 +1761,7 @@ public class IssueDaoImpl implements IssueDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1853,7 +1853,7 @@ public class IssueDaoImpl implements IssueDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1945,7 +1945,7 @@ public class IssueDaoImpl implements IssueDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2040,7 +2040,7 @@ public class IssueDaoImpl implements IssueDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2056,7 +2056,7 @@ public class IssueDaoImpl implements IssueDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2082,7 +2082,7 @@ public class IssueDaoImpl implements IssueDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2099,7 +2099,7 @@ public class IssueDaoImpl implements IssueDao {
 
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2123,7 +2123,7 @@ public class IssueDaoImpl implements IssueDao {
 			transactionManager.commit(status);
 		} catch (Exception e) {
 			transactionManager.rollback(status);
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -2135,7 +2135,7 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "SELECT issue_other_organization as other_organization from issue_other_organization";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -2147,7 +2147,7 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "SELECT issue_file_type from issue_file_type";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

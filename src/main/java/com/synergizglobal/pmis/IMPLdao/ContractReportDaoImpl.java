@@ -107,7 +107,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -180,7 +180,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -254,7 +254,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -337,7 +337,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}	
@@ -350,7 +350,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			String qry ="select general_status as contract_status_fk from general_status";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;*/
 		
@@ -421,7 +421,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -494,7 +494,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -723,7 +723,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				mapObjsList.put(hod, objsList);
 			}	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return mapObjsList;
 	}
@@ -898,7 +898,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				objsList.put(hodObj.getHod_designation(), bgList);
 			}	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1138,7 +1138,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				objsList.put(hodObj.getHod_designation(), insuranceList);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1407,7 +1407,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				objsList.put(hodObj.getHod_designation(), insuranceList);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1590,7 +1590,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				objsList.put(hodObj.getHod_designation(), insuranceList);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1763,7 +1763,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				objsList.put(hodObj.getHod_designation(), insuranceList);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -1845,7 +1845,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			throw new Exception(e);
 		}
 		finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, resultSet);
 		}		
 		return contract;
 	}
@@ -2124,7 +2124,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			throw new Exception(e);
 		}
 		finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, resultSet);
 		}		
 		return contract;
 	}
@@ -2143,7 +2143,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			cObj = jdbcTemplate.queryForObject( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return cObj;
 	}
@@ -2194,7 +2194,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				email_ids = jdbcTemplate.queryForObject( qry, String.class);	
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return email_ids;
 	}
@@ -2261,7 +2261,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

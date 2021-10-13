@@ -72,7 +72,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 			return objsList;
 	}
@@ -115,7 +115,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return sObj;
 	}
@@ -256,7 +256,9 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 		 
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
 		}
 		return flag;
 	}
@@ -415,7 +417,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			        }
 			        DBConnectionHandler.closeJDBCResoucrs(null, null, rs);
 			    } catch (Exception e) {
-			    	throw new Exception(e.getMessage());
+			    	throw new Exception(e);
 			    }
 				String updateAttachmentQry = "update safety_equipment set attachment =? where safety_equipment_id =?";
 				
@@ -452,7 +454,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 		}catch(Exception e){ 
 			con.rollback();
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
 		}
@@ -471,7 +473,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 				flag = true;
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -483,7 +485,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			String qry ="select work_id as work_id_fk,work_name from work ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -494,7 +496,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			String qry ="select project_id as project_id_fk,project_name from project order by project_id asc ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -508,7 +510,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 					+ "GROUP BY contract_id_fk ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -540,7 +542,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 			return objsList;
 	}
@@ -603,7 +605,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

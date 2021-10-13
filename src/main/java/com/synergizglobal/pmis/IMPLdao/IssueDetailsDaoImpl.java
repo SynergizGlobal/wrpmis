@@ -120,7 +120,7 @@ public class IssueDetailsDaoImpl implements IssueDetailsDao{
 				}
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return iObj;
 	}
@@ -139,7 +139,7 @@ public class IssueDetailsDaoImpl implements IssueDetailsDao{
 			objList = jdbcTemplate.query( qry, new Object[] {obj.getIssue_id()}, new BeanPropertyRowMapper<Issue>(Issue.class));
 	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objList;
 	}

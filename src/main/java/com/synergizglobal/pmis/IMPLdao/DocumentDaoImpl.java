@@ -92,7 +92,7 @@ public class DocumentDaoImpl implements DocumentDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Document>(Document.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -153,7 +153,7 @@ public class DocumentDaoImpl implements DocumentDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Document>(Document.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -213,7 +213,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Document>(Document.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -272,7 +272,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Document>(Document.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -331,7 +331,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Document>(Document.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -373,7 +373,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return sObj;
 	}
@@ -385,7 +385,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			String qry ="select status as status_fk from documents_revisions_status ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Document>(Document.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -397,7 +397,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			String qry ="select document_type as document_type_fk from document_type ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Document>(Document.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -409,7 +409,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			String qry ="select project_priority as project_priority_fk from project_priority ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Document>(Document.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -421,7 +421,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			String qry ="select user_id,user_name,designation  as responsible_for_approval from user where designation  is not null and designation <>'' ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Document>(Document.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -433,7 +433,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			String qry ="select project_id as project_id_fk  ,project_name from project order by project_id asc ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Document>(Document.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -558,9 +558,9 @@ public class DocumentDaoImpl implements DocumentDao{
 		}catch(Exception e){ 
 			con.rollback();
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
 		}
 		return flag;
 	}
@@ -714,13 +714,13 @@ public class DocumentDaoImpl implements DocumentDao{
 			}
 
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
-			DBConnectionHandler.closeJDBCResoucrs(null, updateStmt, null);
+			//DBConnectionHandler.closeJDBCResoucrs(null, updateStmt, null);
 			
 			con.commit();
 		}catch(Exception e){ 
 			con.rollback();
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
 		}
@@ -791,7 +791,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Document>(Document.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -851,7 +851,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Document>(Document.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -911,7 +911,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Document>(Document.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -929,7 +929,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return sessionsList;
 	}
@@ -1013,7 +1013,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			}
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -1109,7 +1109,7 @@ public class DocumentDaoImpl implements DocumentDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Document>(Document.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

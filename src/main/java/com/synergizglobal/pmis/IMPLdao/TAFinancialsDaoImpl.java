@@ -66,7 +66,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));
 
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -99,7 +99,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -131,7 +131,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -143,7 +143,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			String qry ="select work_id as work_id_fk,work_name,work_short_name from work ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -184,7 +184,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return sObj;
 	}
@@ -272,7 +272,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 	    }catch(Exception e){ 
 	    	con.rollback();
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 	    }finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
 	   }
@@ -411,7 +411,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -474,7 +474,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -528,7 +528,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			}
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 			}catch(Exception e){ 
-				throw new Exception(e.getMessage());
+				throw new Exception(e);
 			}
 			return totalRecords;
 	}
@@ -599,7 +599,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -611,7 +611,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			String qry = "select id, unit, value from money_unit";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

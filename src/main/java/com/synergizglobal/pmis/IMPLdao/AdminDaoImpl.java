@@ -34,7 +34,7 @@ public class AdminDaoImpl implements AdminDao{
 			String qry ="SELECT admin_form_id, form_name, url, priority, soft_delete_status_fk FROM admin_form";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Admin>(Admin.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -57,7 +57,7 @@ public class AdminDaoImpl implements AdminDao{
 			admin = (Admin)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Admin>(Admin.class));	
 				
 		}catch(Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return admin;
 	}
@@ -79,7 +79,7 @@ public class AdminDaoImpl implements AdminDao{
 			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -99,7 +99,7 @@ public class AdminDaoImpl implements AdminDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -111,7 +111,7 @@ public class AdminDaoImpl implements AdminDao{
 			String qry ="select soft_delete_status as soft_delete_status_fk from soft_delete_status ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Admin>(Admin.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}

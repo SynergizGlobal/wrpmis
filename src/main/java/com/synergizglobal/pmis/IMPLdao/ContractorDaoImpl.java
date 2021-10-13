@@ -37,7 +37,7 @@ public class ContractorDaoImpl implements ContractorDao {
 			String qry ="SELECT contractor_id, contractor_name, contractor_specilization_fk, address, primary_contact_name, phone_number, email_id, pan_number, gst_number, bank_name, account_number, ifsc_code, remarks FROM contractor";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contractor>(Contractor.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -49,7 +49,7 @@ public class ContractorDaoImpl implements ContractorDao {
 			String qry = "select contractor_specialization as contractor_specilization_fk from contractor_specialization";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contractor>(Contractor.class));			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -73,7 +73,7 @@ public class ContractorDaoImpl implements ContractorDao {
 			contractor = (Contractor)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Contractor>(Contractor.class));	
 				
 		}catch(Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return contractor;
 	}
@@ -83,7 +83,7 @@ public class ContractorDaoImpl implements ContractorDao {
 		boolean flag = false;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String contractor_id = getContractId();
+			String contractor_id = getContractorId();
 			obj.setContractor_id(contractor_id);
 			String insertQry = "INSERT INTO contractor"
 					+ "(contractor_id, contractor_name, contractor_specilization_fk, address, primary_contact_name, phone_number, "
@@ -99,12 +99,12 @@ public class ContractorDaoImpl implements ContractorDao {
 			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
 
-	private String getContractId() throws Exception {
+	private String getContractorId() throws Exception {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -147,7 +147,7 @@ public class ContractorDaoImpl implements ContractorDao {
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -164,7 +164,7 @@ public class ContractorDaoImpl implements ContractorDao {
 				flag = true;
 			}
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -232,7 +232,7 @@ public class ContractorDaoImpl implements ContractorDao {
 			}
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return totalRecords;
 	}
@@ -280,7 +280,7 @@ public class ContractorDaoImpl implements ContractorDao {
 				
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

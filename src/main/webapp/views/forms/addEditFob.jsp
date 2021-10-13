@@ -329,14 +329,17 @@
 				                                 			<c:otherwise>
 				                                 			 <tr id="departmentRow${index.count }">
 					                                 			 <td>
-					                                 				<input type="text"  id="contract_id_fk${index.count }" value="${contractObj.contract_id_fk}"  readonly/>
-					                                 				<input type="hidden" name="contracts_id_fk" id="contract_id_fk${index.count }"  value="${contractObj.contract_id_fk }"  /></td>
+					                                 				<input type="text"  id="contract_id_fk${index.count }" value="${contractObj.contract_short_name}"  readonly/>
+					                                 				<input type="hidden" name="contracts_id_fk" id="contract_id_fk${index.count }"  value="${contractObj.contract_short_name }"  /></td>
 					                                 			<td>
+					                                 			<c:set var="selVal1" value="${contractObj.contract_id_fk}" /> 
 					                                 				<div id="container${index.count }">
-															 		<c:forEach var="tempobj" items="${fob.responsiblePeopleList}" varStatus="indexx" >
-															 				<input type="hidden" name="responsible_people_id_fks"  value="${tempobj.responsible_people_id_fk }"  />
-															 				<p >${tempobj.designation} - ${tempobj.user_name}</p><br>
-						                                          	</c:forEach>
+                                    <c:forEach var="obj" items="${responsiblePeopleList}">
+           					  			 		<c:forEach var="tempobj" items="${fob.responsiblePeopleList}">
+										 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id and  tempobj.contract_id_fk eq selVal1}"><p> ${obj.designation} - ${obj.user_name}</p><br></c:if>
+	                                          	</c:forEach>           					  			 
+           					  			
+                                   </c:forEach>
 						                                          	</div>
 						                                          	<input type="hidden" id="filecounts${index.count }" name="filecounts">
 														 				 <script>

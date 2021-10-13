@@ -2170,9 +2170,21 @@
                      this.blur();
                  });            	           	 
                  $("a[href='#"+tab_name+"']").addClass('active');
-                 var scrollPos =  $('#'+tab_name).offset().top;
+                 var scrollPos=$('#'+tab_name).offset().top;
+                 if(tab_name=='insuranceDetails'){                 	
+                 	scrollPos =  $('#'+tab_name).offset().top-50;
+                 }
+                 if(tab_name=='bgDetails'){                 	
+                 	scrollPos =  $('#'+tab_name).offset().top-150;
+                 }
+                 if(tab_name=='contractDetails'){                 	
+                 	scrollPos =  $('#'+tab_name).offset().top-30;
+                 	$('#target_doc').focus();
+                 }
+                 if(tab_name=='revisionDetails'){                 	
+                 	scrollPos =  $('#'+tab_name).offset().top-150;
+                 }
                  $(window).scrollTop(scrollPos);
-                // $("a[href='#"+tab_name+"']").click();                     
             }
             
             var contract_status_fk = '${contractDeatils.contract_status_fk}';

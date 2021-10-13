@@ -431,7 +431,8 @@ public class DocxTableCreation {
 					//tableHeader.add("HOD");
 					//tableHeader.add("Name of\ncontractor");
 					tableHeader.add("Location");
-					tableHeader.add("Description"); 
+					/*tableHeader.add("Description"); */
+					tableHeader.add("Description / Action taken");
 					tableHeader.add("Pending Since");
 					//tableHeader.add("Reported\nBy");
 					tableHeader.add("Assigned To");
@@ -491,7 +492,7 @@ public class DocxTableCreation {
 									contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
 							addTableCell(factory, wordMLPackage, contentRow, pObj.getLocation(),
 									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-							addTableCell(factory, wordMLPackage, contentRow, pObj.getTitle(),
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getTitle()+"\n"+pObj.getCorrective_measure(),
 									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 							/*addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure(),
 									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/

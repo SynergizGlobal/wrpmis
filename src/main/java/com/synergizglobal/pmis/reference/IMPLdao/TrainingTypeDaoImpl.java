@@ -31,7 +31,7 @@ public class TrainingTypeDaoImpl implements TrainingTypeDao{
 			String qry ="select training_type from training_type ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -51,7 +51,7 @@ public class TrainingTypeDaoImpl implements TrainingTypeDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -108,7 +108,7 @@ public class TrainingTypeDaoImpl implements TrainingTypeDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return obj;
 	}
@@ -122,7 +122,7 @@ public class TrainingTypeDaoImpl implements TrainingTypeDao{
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return tablesList;
 	}
@@ -137,7 +137,7 @@ public class TrainingTypeDaoImpl implements TrainingTypeDao{
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return list;
 	}
@@ -177,7 +177,7 @@ public class TrainingTypeDaoImpl implements TrainingTypeDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -196,7 +196,7 @@ public class TrainingTypeDaoImpl implements TrainingTypeDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return flag;
 	}

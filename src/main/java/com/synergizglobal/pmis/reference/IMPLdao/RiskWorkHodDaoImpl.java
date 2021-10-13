@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.reference.Idao.RiskWorkHodDao;
 import com.synergizglobal.pmis.reference.model.TrainingType;
 
@@ -37,7 +38,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 					+ "ORDER BY priority ASC";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -49,7 +50,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 			String qry ="select work_id as work_id_fk,work_name,work_short_name from work ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -61,7 +62,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 			String qry ="select user_id as hod_user_id_fk,user_name,designation from user where user_type_fk = 'HOD'";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -86,7 +87,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -134,7 +135,9 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 		}
 		return flag;
 	}
@@ -146,7 +149,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 			String qry = "select designation from user where user_id = ?";
 			Designation = (String) jdbcTemplate.queryForObject(qry, new Object[] { hod_user_id }, String.class);
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}		
 		return Designation;
 	}	
@@ -167,7 +170,7 @@ public class RiskWorkHodDaoImpl implements RiskWorkHodDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return flag;
 	}

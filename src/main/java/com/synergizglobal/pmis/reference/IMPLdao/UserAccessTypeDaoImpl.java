@@ -29,7 +29,7 @@ public class UserAccessTypeDaoImpl implements UserAccessTypeDao{
 			String qry ="select user_access_type, user_access_table from user_access_type ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -49,7 +49,7 @@ public class UserAccessTypeDaoImpl implements UserAccessTypeDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -106,7 +106,7 @@ public class UserAccessTypeDaoImpl implements UserAccessTypeDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return obj;
 	}
@@ -120,7 +120,7 @@ public class UserAccessTypeDaoImpl implements UserAccessTypeDao{
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return tablesList;
 	}
@@ -135,7 +135,7 @@ public class UserAccessTypeDaoImpl implements UserAccessTypeDao{
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return list;
 	}
@@ -174,7 +174,7 @@ public class UserAccessTypeDaoImpl implements UserAccessTypeDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -193,7 +193,7 @@ public class UserAccessTypeDaoImpl implements UserAccessTypeDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return flag;
 	}

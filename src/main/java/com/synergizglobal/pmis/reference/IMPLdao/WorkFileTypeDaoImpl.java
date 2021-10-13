@@ -30,7 +30,7 @@ public class WorkFileTypeDaoImpl implements WorkFileTypeDao{
 			String qry ="select work_file_type from work_file_type ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -50,7 +50,7 @@ public class WorkFileTypeDaoImpl implements WorkFileTypeDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -70,7 +70,7 @@ public class WorkFileTypeDaoImpl implements WorkFileTypeDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -89,7 +89,7 @@ public class WorkFileTypeDaoImpl implements WorkFileTypeDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return flag;
 	}

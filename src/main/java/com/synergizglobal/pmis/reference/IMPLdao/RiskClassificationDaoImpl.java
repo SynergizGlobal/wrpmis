@@ -30,7 +30,7 @@ public class RiskClassificationDaoImpl implements RiskClassificationDao{
 			String qry ="select risk_classification_id, classification, minimum, maximum from risk_classification ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Risk>(Risk.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -50,7 +50,7 @@ public class RiskClassificationDaoImpl implements RiskClassificationDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -107,7 +107,7 @@ public class RiskClassificationDaoImpl implements RiskClassificationDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return obj;
 	}
@@ -121,7 +121,7 @@ public class RiskClassificationDaoImpl implements RiskClassificationDao{
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return tablesList;
 	}
@@ -136,7 +136,7 @@ public class RiskClassificationDaoImpl implements RiskClassificationDao{
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return list;
 	}
@@ -177,7 +177,7 @@ public class RiskClassificationDaoImpl implements RiskClassificationDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -196,7 +196,7 @@ public class RiskClassificationDaoImpl implements RiskClassificationDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return flag;
 	}

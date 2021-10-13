@@ -30,7 +30,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 			String qry ="select soft_delete_status from soft_delete_status ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -50,7 +50,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -107,7 +107,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return obj;
 	}
@@ -121,7 +121,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return tablesList;
 	}
@@ -136,7 +136,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return list;
 	}
@@ -174,7 +174,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -193,7 +193,7 @@ public class SoftDeleteStatusDaoImpl implements SoftDeleteStatusDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return flag;
 	}

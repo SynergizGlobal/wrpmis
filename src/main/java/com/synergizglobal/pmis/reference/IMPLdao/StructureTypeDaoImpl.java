@@ -32,7 +32,7 @@ public class StructureTypeDaoImpl implements StructureTypeDao{
 			String qry ="select structure_type from structure_type ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -52,7 +52,7 @@ public class StructureTypeDaoImpl implements StructureTypeDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -109,7 +109,7 @@ public class StructureTypeDaoImpl implements StructureTypeDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return obj;
 	}
@@ -123,7 +123,7 @@ public class StructureTypeDaoImpl implements StructureTypeDao{
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return tablesList;
 	}
@@ -138,7 +138,7 @@ public class StructureTypeDaoImpl implements StructureTypeDao{
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return list;
 	}
@@ -177,7 +177,7 @@ public class StructureTypeDaoImpl implements StructureTypeDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -196,7 +196,7 @@ public class StructureTypeDaoImpl implements StructureTypeDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return flag;
 	}

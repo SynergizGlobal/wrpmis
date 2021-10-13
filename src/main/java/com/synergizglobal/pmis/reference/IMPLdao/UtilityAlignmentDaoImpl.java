@@ -28,7 +28,7 @@ public class UtilityAlignmentDaoImpl implements UtilityAlignmentDao{
 			String qry ="select utility_alignment from utility_alignment ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -48,7 +48,7 @@ public class UtilityAlignmentDaoImpl implements UtilityAlignmentDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}

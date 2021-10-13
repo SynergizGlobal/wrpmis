@@ -30,7 +30,7 @@ public class DocumentRevisionStatusDaoImpl implements DocumentRevisionStatusDao{
 			String qry ="select status from documents_revisions_status ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -50,7 +50,7 @@ public class DocumentRevisionStatusDaoImpl implements DocumentRevisionStatusDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -108,7 +108,7 @@ public class DocumentRevisionStatusDaoImpl implements DocumentRevisionStatusDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return obj;
 	}
@@ -122,7 +122,7 @@ public class DocumentRevisionStatusDaoImpl implements DocumentRevisionStatusDao{
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return tablesList;
 	}
@@ -137,7 +137,7 @@ public class DocumentRevisionStatusDaoImpl implements DocumentRevisionStatusDao{
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return list;
 	}
@@ -177,7 +177,7 @@ public class DocumentRevisionStatusDaoImpl implements DocumentRevisionStatusDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -196,7 +196,7 @@ public class DocumentRevisionStatusDaoImpl implements DocumentRevisionStatusDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return flag;
 	}

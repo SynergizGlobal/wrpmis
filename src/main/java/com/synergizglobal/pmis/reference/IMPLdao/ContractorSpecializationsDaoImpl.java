@@ -29,7 +29,7 @@ public class ContractorSpecializationsDaoImpl implements ContractorSpecializatio
 			String qry ="select contractor_specialization from contractor_specialization ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -49,7 +49,7 @@ public class ContractorSpecializationsDaoImpl implements ContractorSpecializatio
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -106,7 +106,7 @@ public class ContractorSpecializationsDaoImpl implements ContractorSpecializatio
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return obj;
 	}
@@ -120,7 +120,7 @@ public class ContractorSpecializationsDaoImpl implements ContractorSpecializatio
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return tablesList;
 	}
@@ -135,7 +135,7 @@ public class ContractorSpecializationsDaoImpl implements ContractorSpecializatio
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return list;
 	}
@@ -173,7 +173,7 @@ public class ContractorSpecializationsDaoImpl implements ContractorSpecializatio
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -192,7 +192,7 @@ public class ContractorSpecializationsDaoImpl implements ContractorSpecializatio
 				flag = true;
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return flag;
 	}

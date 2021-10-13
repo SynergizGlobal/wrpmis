@@ -75,7 +75,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return obj;
 	}
@@ -89,7 +89,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return tablesList;
 	}
@@ -104,7 +104,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return list;
 	}
@@ -123,7 +123,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -161,7 +161,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -180,7 +180,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return flag;
 	}
@@ -192,7 +192,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 			String qry ="select type as type_fk from web_documents_type ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}

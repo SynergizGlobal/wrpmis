@@ -30,7 +30,7 @@ public class UtilityExecutionAgencyDaoImpl implements UtilityExecutionAgencyDao{
 			String qry ="select execution_agency from utility_execution_agency ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -50,7 +50,7 @@ public class UtilityExecutionAgencyDaoImpl implements UtilityExecutionAgencyDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}

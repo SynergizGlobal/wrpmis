@@ -31,7 +31,7 @@ public class SafetyRootCauseDaoImpl implements SafetyRootCauseDao{
 			String qry ="select root_cause from safety_root_cause ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -51,7 +51,7 @@ public class SafetyRootCauseDaoImpl implements SafetyRootCauseDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -109,7 +109,7 @@ public class SafetyRootCauseDaoImpl implements SafetyRootCauseDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return obj;
 	}
@@ -123,7 +123,7 @@ public class SafetyRootCauseDaoImpl implements SafetyRootCauseDao{
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return tablesList;
 	}
@@ -138,7 +138,7 @@ public class SafetyRootCauseDaoImpl implements SafetyRootCauseDao{
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return list;
 	}
@@ -176,7 +176,7 @@ public class SafetyRootCauseDaoImpl implements SafetyRootCauseDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -195,7 +195,7 @@ public class SafetyRootCauseDaoImpl implements SafetyRootCauseDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return flag;
 	}

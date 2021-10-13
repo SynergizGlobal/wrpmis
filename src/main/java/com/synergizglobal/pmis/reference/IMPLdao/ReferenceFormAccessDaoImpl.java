@@ -31,7 +31,7 @@ public class ReferenceFormAccessDaoImpl implements ReferenceFormAccessDao{
 			String qry ="select reference_forms_id, name, form_url, module_fk from reference_forms Group by module_fk";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ReferenceForms>(ReferenceForms.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -55,7 +55,7 @@ public class ReferenceFormAccessDaoImpl implements ReferenceFormAccessDao{
 			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ReferenceForms>(ReferenceForms.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -67,7 +67,7 @@ public class ReferenceFormAccessDaoImpl implements ReferenceFormAccessDao{
 			String qry ="SELECT module_name FROM module";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ReferenceForms>(ReferenceForms.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -90,7 +90,7 @@ public class ReferenceFormAccessDaoImpl implements ReferenceFormAccessDao{
 			referenceForm = (ReferenceForms)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<ReferenceForms>(ReferenceForms.class));	
 				
 		}catch(Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return referenceForm;
 	}
@@ -113,7 +113,7 @@ public class ReferenceFormAccessDaoImpl implements ReferenceFormAccessDao{
 			
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -133,7 +133,7 @@ public class ReferenceFormAccessDaoImpl implements ReferenceFormAccessDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}

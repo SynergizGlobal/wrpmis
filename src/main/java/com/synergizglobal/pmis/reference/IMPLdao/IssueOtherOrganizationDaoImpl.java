@@ -32,7 +32,7 @@ public class IssueOtherOrganizationDaoImpl implements IssueOtherOrganizationDao{
 			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objList;
 	}
@@ -52,7 +52,7 @@ public class IssueOtherOrganizationDaoImpl implements IssueOtherOrganizationDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -72,7 +72,7 @@ public class IssueOtherOrganizationDaoImpl implements IssueOtherOrganizationDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -91,7 +91,7 @@ public class IssueOtherOrganizationDaoImpl implements IssueOtherOrganizationDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return flag;
 	}

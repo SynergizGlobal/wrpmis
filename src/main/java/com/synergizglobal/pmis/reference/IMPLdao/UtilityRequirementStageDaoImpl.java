@@ -29,7 +29,7 @@ public class UtilityRequirementStageDaoImpl implements UtilityRequirementStageDa
 			String qry ="select requirement_stage from utility_requirement_stage ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -49,7 +49,7 @@ public class UtilityRequirementStageDaoImpl implements UtilityRequirementStageDa
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}

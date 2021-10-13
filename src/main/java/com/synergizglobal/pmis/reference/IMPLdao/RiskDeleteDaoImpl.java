@@ -55,7 +55,7 @@ public class RiskDeleteDaoImpl implements RiskDeleteDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
 				
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -100,7 +100,7 @@ public class RiskDeleteDaoImpl implements RiskDeleteDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -126,7 +126,7 @@ public class RiskDeleteDaoImpl implements RiskDeleteDao{
 			throw new Exception(e);
 		}
 		finally {
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, resultSet);
 		}
 		return count;
 	}
@@ -138,7 +138,7 @@ public class RiskDeleteDaoImpl implements RiskDeleteDao{
 			String qry = "SELECT sub_work from risk group by sub_work ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

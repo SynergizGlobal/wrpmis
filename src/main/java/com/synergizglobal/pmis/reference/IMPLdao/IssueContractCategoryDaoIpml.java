@@ -32,7 +32,7 @@ public class IssueContractCategoryDaoIpml implements  IssueContractCategoryDao{
 			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objList;
 	}
@@ -46,7 +46,7 @@ public class IssueContractCategoryDaoIpml implements  IssueContractCategoryDao{
 			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objList;
 	}
@@ -60,7 +60,7 @@ public class IssueContractCategoryDaoIpml implements  IssueContractCategoryDao{
 			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objList;
 	}
@@ -80,7 +80,7 @@ public class IssueContractCategoryDaoIpml implements  IssueContractCategoryDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -100,7 +100,7 @@ public class IssueContractCategoryDaoIpml implements  IssueContractCategoryDao{
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}
@@ -120,7 +120,7 @@ public class IssueContractCategoryDaoIpml implements  IssueContractCategoryDao{
 				flag = true;
 			}
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return flag;
 	}

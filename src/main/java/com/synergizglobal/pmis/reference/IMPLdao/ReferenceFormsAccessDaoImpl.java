@@ -29,7 +29,7 @@ public class ReferenceFormsAccessDaoImpl implements ReferenceFormsAccessDao{
 			String qry ="select reference_forms_id, name, form_url, module_fk from reference_forms Group by module_fk";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ReferenceForms>(ReferenceForms.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+		throw new Exception(e);
 		}
 		return objsList;
 	}
@@ -53,7 +53,7 @@ public class ReferenceFormsAccessDaoImpl implements ReferenceFormsAccessDao{
 			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ReferenceForms>(ReferenceForms.class));
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return objsList;
 	}

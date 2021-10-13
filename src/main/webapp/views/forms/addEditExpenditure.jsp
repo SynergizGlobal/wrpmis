@@ -116,6 +116,10 @@
 		.fs-85{
 			font-size:.85rem !important;
 		}
+		@media(max-width: 575px){
+		.row .col{margin: 10px auto}
+		.pmis-textarea{margin-bottom:0;}
+		}
     </style>
 </head>
 
@@ -406,7 +410,7 @@
                                 <div class="col s8 m3 l3 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="interest_on_mob_adv" min="0.01" step="0.01" type="number" class="validate" name="interest_on_mob_adv" value="${expenditureDetails.interest_on_mob_adv }">
-                                    <label for="interest_on_mob_adv" class="fs-85">Interest on Mobilization
+                                    <label for="interest_on_mob_adv" class="fs11px">Interest on Mobilization
                                         Advance</label>
                                     <span id="interest_on_mob_advError" class="error-msg" ></span>
                                 </div>

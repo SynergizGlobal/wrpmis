@@ -2107,7 +2107,7 @@
 
 <!--     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>  -->
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
+   <!--  <script src="/pmis/resources/js/datepickerDepedency.js"></script> -->
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
@@ -2155,22 +2155,19 @@
          
         $(document).ready(function () {		
         	
-        	/*	$(".datepicker").each(function(){
+        		$(".datepicker").each(function(){
            		var id = $(this).attr('id');
 				$('#'+id).datepicker({
 					maxDate: new Date(),
 		        	format:'dd-mm-yyyy',
 		        	onOpen:datePickerSelectAddClass,
 		        	autoClose: true,
-		        	 showClearBtn: true,
+		        	showClearBtn: true,
 		            onClose: function () {
 		            	if(!$(this.el).val()){
 			                $(this.el).siblings('label').removeClass('active');	            		
 		            	}
-		            }, 
-		   	    	onSelect: function () {
-		   	    	   $('.confirmation-btns .datepicker-done').click();
-		   	    	}
+		            }		   	    	
 		        }).datepicker("setDate", new Date());
 				
 		        $('#'+id+'_icon').click(function () {
@@ -2178,7 +2175,7 @@
 	                $('#'+id).click();
 	            });
            	});
-        	*/
+        	
         	$('select:not(.searchable):not(.units)').formSelect();
             $('.searchable').select2();
             $('.units').select2({ dropdownCssClass : 'cost_dropdown' });

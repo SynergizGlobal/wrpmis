@@ -462,10 +462,8 @@
 				 + '</div>'
 				 + '<div style="clear:both;"></div>';
 		    }
-		    $("#selectedFiles").append(html);
-		    
-		    $('#issueFilesDiv'+no).hide();
-		    
+		    $("#selectedFiles").append(html);		    
+		    $('#issueFilesDiv'+no).hide();		    
 			var fileIndex = Number(no)+1;
 			moreFiles(fileIndex);
 		}
@@ -536,15 +534,12 @@
 		        	format:'dd-mm-yyyy',
 		        	onOpen:datePickerSelectAddClass,
 		        	autoClose: true,
-		        	/* showClearBtn: true,
+		        	showClearBtn: true,
 		            onClose: function () {
 		            	if(!$(this.el).val()){
 			                $(this.el).siblings('label').removeClass('active');	            		
 		            	}
-		            },
-		   	    	onSelect: function () {
-		   	    	   $('.confirmation-btns .datepicker-done').click();
-		   	    	} */
+		            }
 		        }).datepicker("setDate", new Date());
 				
 		        $('#'+id+'_icon').click(function () {

@@ -557,7 +557,7 @@
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	
-	<script src="/pmis/resources/js/datepickerDepedency.js"></script>	
+	<!-- <script src="/pmis/resources/js/datepickerDepedency.js"></script>	 -->
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	
@@ -583,6 +583,26 @@
 	    	}
 	    	M.Datepicker.init(this, options);
 	    }); */
+	    var datePickerSelectAddClass = function () {
+	        var self = this;
+	        setTimeout(function () {
+	            var selector = self.el;
+	            if (!selector) {
+	                selector = ".datepicker"
+	            }
+	            $(selector).siblings(".datepicker-modal")
+	                .find(".select-dropdown.dropdown-trigger")
+	                .each((index, item) => {
+	                    var dateDropdownID = $(item).attr("data-target");
+	                    var dropdownUL = $('#' + dateDropdownID);
+	                    dropdownUL.children("li").on("click", () => {
+	                        datePickerSelectAddClass();
+	                    });
+	                    dropdownUL.addClass("datepicker-dropdown-year-month")
+	                });
+	        }, 500);
+	    };
+	    
 		var issueStatusFk = "";
         $(document).ready(function () {
        	  	$('select:not(.searchable)').formSelect();
@@ -594,6 +614,24 @@
             	this.style.height = (this.scrollHeight < 50) ? '50px' : this.scrollHeight + 'px';
             });
             
+            let date_pickers = document.querySelectorAll('#date,#resolved_date');
+    	    $.each(date_pickers, function(){
+    	    	var dt = this.value.split(/[^0-9]/);
+    	    	this.value = ""; 
+    	    	var options = {maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true ,
+    	    			onOpen:datePickerSelectAddClass,showClearBtn: true,
+    	    	        onClose: function () {
+    	    	            if (!$(this.el).val()) {
+    	    	                $(this.el).siblings('label').removeClass('active');
+    	    	            }
+    	    	        }
+    	    	};
+    	    	if(dt.length > 1){
+    	    		options.setDefaultDate = true,
+    	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+    	    	}
+    	    	M.Datepicker.init(this, options);
+    	    });
            	/* var txt = $("textarea#corrective_measure");
            	txt.val( txt.val() + "\n");*/
           
@@ -665,19 +703,19 @@
 			  }, 0);
 			});
             
-            /* $('#date_icon').click(function (event) {
+             $('#date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#date').click();
-            }); */
+            }); 
            	$('#assigned_date_icon').click(function () {
                 event.stopPropagation();
                 $('#assigned_date').click();
             });
                
-          /*   $('#resolved_date_icon').click(function (event) {
+            $('#resolved_date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#resolved_date').click();
-            }); */
+            }); 
             $('#escalation_date_icon').click(function () {
                 event.stopPropagation();
                 $('#escalation_date').click();
@@ -814,7 +852,14 @@
         	    $.each(date_pickers, function(){
         	    	var dt = this.value.split(/[^0-9]/);
         	    	this.value = ""; 
-        	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true , onOpen:datePickerSelectAddClass};
+        	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true ,
+        	    			onOpen:datePickerSelectAddClass,showClearBtn: true,
+        	    	        onClose: function () {
+        	    	            if (!$(this.el).val()) {
+        	    	                $(this.el).siblings('label').removeClass('active');
+        	    	            }
+        	    	        }
+        	    	};
         	    	if(dt.length > 1){
         	    		options.setDefaultDate = true,
         	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
@@ -855,7 +900,14 @@
         	    $.each(date_pickers, function(){
         	    	var dt = this.value.split(/[^0-9]/);
         	    	this.value = ""; 
-        	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true, onOpen:datePickerSelectAddClass};
+        	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true,
+        	    			onOpen:datePickerSelectAddClass,showClearBtn: true,
+        	    	        onClose: function () {
+        	    	            if (!$(this.el).val()) {
+        	    	                $(this.el).siblings('label').removeClass('active');
+        	    	            }
+        	    	        }
+        	    	};
         	    	if(dt.length > 1){
         	    		options.setDefaultDate = true,
         	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
@@ -930,7 +982,14 @@
         			$('#resolved_date').datepicker({
     					maxDate: new Date(),
     		        	format:'dd-mm-yyyy',
-    		        	autoClose:true
+    		        	autoClose:true,
+    		        	onOpen: datePickerSelectAddClass,
+    		            showClearBtn: true,
+    		            onClose: function () {
+    		                if (!$(this.el).val()) {
+    		                    $(this.el).siblings('label').removeClass('active');
+    		                }
+    		            }
     		        }).datepicker("setDate", new Date());
         		}
         		if($.trim('${issue.assigned_date}') != ''){
@@ -939,7 +998,14 @@
         			$('#assigned_date').datepicker({
     					maxDate: new Date(),
     		        	format:'dd-mm-yyyy',
-    		        	autoClose:true
+    		        	autoClose:true,
+    		        	onOpen: datePickerSelectAddClass,
+    		            showClearBtn: true,
+    		            onClose: function () {
+    		                if (!$(this.el).val()) {
+    		                    $(this.el).siblings('label').removeClass('active');
+    		                }
+    		            }
     		        }).datepicker("setDate", new Date());
         		}
         		
@@ -1012,7 +1078,14 @@
             	    $.each(date_pickers, function(){
             	    	var dt = this.value.split(/[^0-9]/);
             	    	this.value = ""; 
-            	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true};
+            	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true,
+            	    			onOpen: datePickerSelectAddClass, showClearBtn: true,
+            	    	        onClose: function () {
+            	    	            if (!$(this.el).val()) {
+            	    	                $(this.el).siblings('label').removeClass('active');
+            	    	            }
+            	    	        }
+            	    	};
             	    	if(dt.length > 1){
             	    		options.setDefaultDate = true,
             	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
@@ -1025,7 +1098,13 @@
         			$('#escalation_date').datepicker({
     					maxDate: new Date(),
     		        	format:'dd-mm-yyyy',
-    		        	autoClose:true
+    		        	autoClose:true,
+    		        	onOpen: datePickerSelectAddClass, showClearBtn: true,
+    	    	        onClose: function () {
+    	    	            if (!$(this.el).val()) {
+    	    	                $(this.el).siblings('label').removeClass('active');
+    	    	            }
+    	    	        }
     		        }).datepicker("setDate", new Date());
         		}
         		
@@ -1069,7 +1148,14 @@
             	    $.each(date_pickers, function(){
             	    	var dt = this.value.split(/[^0-9]/);
             	    	this.value = ""; 
-            	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true};
+            	    	var options = {minDate : minDate,maxDate: new Date(),format: 'dd-mm-yyyy',autoClose:true,
+            	    			onOpen: datePickerSelectAddClass, showClearBtn: true,
+            	    	        onClose: function () {
+            	    	            if (!$(this.el).val()) {
+            	    	                $(this.el).siblings('label').removeClass('active');
+            	    	            }
+            	    	        }
+            	    	};
             	    	if(dt.length > 1){
             	    		options.setDefaultDate = true,
             	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
@@ -1082,7 +1168,13 @@
         			$('#assigned_date').datepicker({
     					maxDate: new Date(),
     		        	format:'dd-mm-yyyy',
-    		        	autoClose:true
+    		        	autoClose:true,
+    		        	onOpen: datePickerSelectAddClass, showClearBtn: true,
+    	    	        onClose: function () {
+    	    	            if (!$(this.el).val()) {
+    	    	                $(this.el).siblings('label').removeClass('active');
+    	    	            }
+    	    	        }
     		        }).datepicker("setDate", new Date());
         		}
         		

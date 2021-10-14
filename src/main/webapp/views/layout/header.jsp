@@ -117,6 +117,10 @@
 		    width: 33%;
      	}
      }
+     @media(max-width: 768px){
+     	.brand-logo{width: 32%;}
+     	.brand-logo img{width: 25% !important}
+     }
      @media(max-width: 575px){
      .brand-logo.fs {
     		width: 50%;

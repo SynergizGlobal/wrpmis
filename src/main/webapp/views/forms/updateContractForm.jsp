@@ -441,7 +441,7 @@
 	                            </div> --%>
 							
 	                            <div class="row"> 
-	                                <div class="col s4 m4 l4 input-field offset-m2">
+	                                <div class="col s4 m4 l4 input-field ">
                                			 <input type="text" id="project_id_fk_temp"  value="${contractDeatils.project_id_fk} - ${contractDeatils.project_name}" readonly />
                                			 <label for="project_id_fk_temp">Project <span class="required">*</span></label>
                                       	 <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
@@ -478,7 +478,7 @@
 	                                
 	                            </div>
                                 <div class="row">	                                    
-                                    <div class="col s4 m4 l4 input-field offset-m2">
+                                    <div class="col s4 m4 l4 input-field ">
                               			 <p class="searchable_label">HOD <span class="required">*</span></p>
                             			 <c:choose>
 		                                   <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
@@ -497,7 +497,7 @@
 		                                	</c:otherwise>
 		                                </c:choose>
 	                              </div>
-	                              <div class="col s4 m4 l4 input-field offset-m2">
+	                              <div class="col s4 m4 l4 input-field ">
 	                                  <p class="searchable_label">Dy HOD <span class="required">*</span></p>
 	                                  <c:choose>
 	                                   <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
@@ -749,7 +749,7 @@
 	                                </div>
 	                            </div>
 	                            <div class="row">	                                
-	                                <div class="col s12 m4 l6 input-field" id="date_of_startDiv">
+	                                <div class="col s12 m4 l6 input-field offset-m2" id="date_of_startDiv">
 	                                    <input autocomplete="off" id="date_of_start" name="date_of_start" type="text" class="validate validate-dropdown datepicker" value="${contractDeatils.date_of_start }">
 	                                    <label for="date_of_start">Date of Start <span class="required" id="date_of_startStar">*</span></label>
 	                                     <span id="date_of_startError" class="error-msg" ></span>

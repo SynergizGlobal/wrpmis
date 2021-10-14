@@ -402,7 +402,7 @@
              <jsp:include page="../layout/header.jsp"></jsp:include>
     <!-- card  -->
     <div class="row">
-        <div class="col s12 m12">
+        <div class="col s12 m12" id="formDiv">
         	<form action="<%=request.getContextPath() %>/update-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
             <input id="contract_id" name="contract_id" type="hidden" value="${contractDeatils.contract_id }">
             <div class="card ">
@@ -2047,10 +2047,15 @@
 		                <div class="container container-no-margin">                 
 		           		 	<div class="row">
 		                       <div class="col s12 m6 l6 mt-brdr center-align">
-		                           <div class=" m-1"> <!-- <button type="button" onclick="prevTab()" id="prevBtn"><i class="fa fa-angle-left"></i></button> -->
-		                               <button type="button" onclick="updateContract();" class="btn waves-effect waves-light bg-m " id="updateBtn">Update</button>
-		                               <!-- <button type="button" onclick="nextTab()" id="nextBtn"><i class="fa fa-angle-right"></i></button> -->
-		                           </div>
+		                       	   <c:if test="${contractDeatils.contract_status_fk ne 'Completed' or sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
+			                           <div class=" m-1"> <!-- <button type="button" onclick="prevTab()" id="prevBtn"><i class="fa fa-angle-left"></i></button> -->
+			                               <button type="button" onclick="updateContract();" class="btn waves-effect waves-light bg-m " id="updateBtn">Update</button>
+			                               <!-- <button type="button" onclick="nextTab()" id="nextBtn"><i class="fa fa-angle-right"></i></button> -->
+			                           </div>
+		                           </c:if>
+		                           <c:if test="${contractDeatils.contract_status_fk eq 'Completed' and sessionScope.USER_ROLE_NAME ne 'IT Admin' }">
+		                           		<div style="color:red;line-height:51px;">Contract Completed</div>
+		                           </c:if>
 		                       </div>
 		                       <div class="col s12 m6 l6 mt-brdr center-align">
 		                           <div class=" m-1" >
@@ -2111,8 +2116,7 @@
              $('#date_of_start').click();
          }); */
          
-        $(document).ready(function () {		
-        	
+        $(document).ready(function () {	
         		$(".datepicker-max-today").each(function(){
            		var id = $(this).attr('id');
 				$('#'+id).datepicker({
@@ -2170,6 +2174,12 @@
             }
             
             var contract_status_fk = '${contractDeatils.contract_status_fk}';
+            
+            var USER_ROLE_NAME = "${sessionScope.USER_ROLE_NAME}";
+            if(contract_status_fk == 'Completed' && USER_ROLE_NAME != 'IT Admin'){
+            	 $("#formDiv :input").attr("disabled",true);
+            }
+            
             getContractClosureDetails(contract_status_fk);
             setContractStatus();
              var bg_required = '${contractDeatils.bg_required}';

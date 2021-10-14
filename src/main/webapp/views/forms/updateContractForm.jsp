@@ -105,9 +105,9 @@
             width: 100%;
             overflow: auto;
         }
-        .input-field p.searchable_label{
+        /* .input-field p.searchable_label{
         	color: #7BC2B9;
-        }
+        } */
        .pdb10{padding-bottom: 10px !important;}
        .pd5px{padding-bottom: 15px;}
        .div-header{width: 100% !important;}
@@ -254,6 +254,13 @@
 		@media only screen and (max-width: 769px){
 			.div-header{	    		   
 	    		width: 100%;			   
+		    }
+		    .fs-sm-67rem{
+		    	line-height:1.3;
+		    }
+		    .units + .select2-container--default .select2-selection.select2-selection--single,
+		    .units + .select2-container--default .select2-selection__rendered {
+		    	padding:0;
 		    }
 			.mobile_responsible_table>tbody> tr:not(.datepicker-row):not(.mobile_hide_row) {
 			    border-bottom: 3px solid #2A9D8F;
@@ -758,10 +765,10 @@
 	                                <div class="col s9 m3 l4 input-field" id="estimated_cost_div">
 	                                    <i class="material-icons prefix cost left-align">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.estimated_cost }" >
-	                                    <label for="estimated_cost"> Detailed Estimated cost</label>
+	                                    <label for="estimated_cost" class="fs-sm-67rem"> Detailed Estimated cost</label>
 	                                    <span id="estimated_costError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s3 m1 l2 input-field" id="estimated_cost_units_div">
+	                                <div class="col s3 m1 l2 input-field responsive_units" id="estimated_cost_units_div">
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown searchable" id="estimated_cost_units" name="estimated_cost_units">
 	                                		<c:forEach var="obj" items="${unitsList }">
@@ -857,7 +864,7 @@
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
 	                                    <input autocomplete="off" id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker-max-today" value="${contractDeatils.completion_certificate_release }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
-	                                    <label for="completion_certificate_release">Date of issue of Completion Certificate</label>
+	                                    <label for="completion_certificate_release" class="fs-sm-67rem">Date of issue of Completion Certificate</label>
 	                                    <button type="button" id="completion_certificate_release_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="completion_certificate_releaseError" class="error-msg" ></span>
 	                                </div>                        
@@ -872,13 +879,13 @@
 	                            <div class="row">
 	                                <div class="col s12 m4 l4 input-field">
 	                                    <input autocomplete="off" id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker-max-today" value="${contractDeatils.final_bill_release }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
-	                                    <label for="final_bill_release">Date of Payment of Final bill</label>
+	                                    <label for="final_bill_release" class="fs-sm-8rem">Date of Payment of Final bill</label>
 	                                    <button type="button" id="final_bill_release_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="final_bill_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div autocomplete="off" class="col s12 m4 l4 input-field">
 	                                    <input id="retention_money_release" name="retention_money_release" type="text" class="validate datepicker-max-today" value="${contractDeatils.retention_money_release }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
-	                                    <label for="retention_money_release">Date of release of Final Retention / BG</label>
+	                                    <label for="retention_money_release" class="fs-sm-67rem">Date of release of Final Retention / BG</label>
 	                                    <button type="button" id="retention_money_release_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="retention_money_releaseError" class="error-msg" ></span>
 	                                </div>
@@ -886,7 +893,7 @@
 	                                <div class="col s9 m3 l3 input-field">
 	                                	<i class="material-icons prefix cost left-align">₹</i>
 	                                    <input autocomplete="off" id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.completed_cost }" onkeypress="updateBtnValueChange();" onkeyup="updateBtnValueChange();">
-	                                    <label for="completed_cost">Completion Cost</label>
+	                                    <label for="completed_cost" class="fs-sm-8rem">Completion Cost</label>
 	                                     <span id="completed_costError" class="error-msg" ></span>
 	                                </div>    
 	                                <div class="col s3 m1 l1 input-field pt-5">
@@ -904,7 +911,7 @@
 	                            <div class="row">
 	                            	<div class="col s12 m4 l4 input-field">
 	                                    <input autocomplete="off" id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker-max-today" value="${contractDeatils.defect_liability_period }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
-	                                    <label for="defect_liability_period">End date of Defect Liability Period</label>
+	                                    <label for="defect_liability_period" class="fs-sm-8rem">End date of Defect Liability Period</label>
 	                                    <button type="button" id="defect_liability_period_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
 	                                </div>

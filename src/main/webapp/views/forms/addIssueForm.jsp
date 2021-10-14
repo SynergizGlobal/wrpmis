@@ -50,7 +50,7 @@
 		.add-align{position: absolute;
    					 margin-top: -5.75em;
    					 margin-left: 11%;}
-   		.bd-none{border: none;}
+   		.bd-none{border: none !important; background: transparent}
    		 }
     	@media(max-Width: 2000px){
     	.add-align{margin-left:18%;}
@@ -63,6 +63,9 @@
 			.mobile_responsible_table>tbody tr:not(.datepicker-row):not(.mobile_hide_row) {
 			    border-bottom: 3px solid #007A7A;
 			}
+	   }
+	   @media(max-width:575px){
+	   	.col .row{margin: 10px auto}
 	   }
     </style>
 </head>
@@ -332,7 +335,7 @@
 								 
 								<div class="col m8 s12 l12 offset-m2">
 									<div class="row fixed-width"
-										style="margin-bottom: 20px; margin-top: 20px">
+										style="margin-top: 10px">
 										<div class="table-inside">
 											<table class="mdl-data-table update-table mobile_responsible_table">
 												<thead>
@@ -368,10 +371,10 @@
 													</tr>
 												</tbody>
 											</table>
-											<table class="mdl-data-table  table-add">
+											<table class="mdl-data-table  table-add bd-none">
 												<tbody>
-													<tr>
-														<td colspan="6" ><a
+													<tr class="bd-none">
+														<td colspan="6" class="bd-none"><a
 															type="button"
 															class="btn waves-effect waves-light bg-m t-c add-align"
 															onclick="addIssueFileRow()"> <i

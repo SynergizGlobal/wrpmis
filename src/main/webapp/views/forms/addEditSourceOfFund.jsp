@@ -111,6 +111,9 @@
 				box-shadow:none !important;
 			}			
 		}
+		@media(max-width: 575px){
+			.row .col{margin: 10px auto;}
+		}
 				
     </style>
 </head>

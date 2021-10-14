@@ -103,6 +103,10 @@
 				width:100%;
 			}
 		}
+		@media(max-width: 575px){
+			.row .col{margin: 10px auto;}
+			.mn6tbpx{margin: -6px auto;}
+		}
 		
     </style>
 </head>
@@ -182,7 +186,7 @@
 	                                        <option value="2">Agency 2</option>
 	                                        <option value="3">Agency 3</option>
 	                                    </select> -->	                                    
-	                                    <label for="la_id"> Land Acquisition ID <span class="required">*</span>:</label>
+	                                    <label for="la_id" class="mn6tbpx"> Land Acquisition ID <span class="required">*</span>:</label>
 	                                </div>
 	                                 <div class="col s12 m6 l10 input-field">
 	                                  <input id="la_id" name="la_id" type="text" class="validate mt-10" value="${LADetails.la_id }" >
@@ -363,10 +367,10 @@
                                 <div class="col s12 m8 l12 center-align offset-m2">
                                     <div class="row">
                                         <div class="col s4 m4 l6 input-field ">
-                                            <p style="margin-top: 8px;">JM Approval</p>
+                                            <p>JM Approval</p>
                                         </div>
                                         <div class="col s8 m8 l6 input-field">
-                                            <p class="" style="padding-bottom: 10px;padding-top: 10px;">
+                                            <p class="">
                                                 <label>
                                                     <input class="with-gap" name="jm_approval" type="radio"
                                                         value="Done" <c:if test="${LADetails.jm_approval eq 'Done'}">checked</c:if> />

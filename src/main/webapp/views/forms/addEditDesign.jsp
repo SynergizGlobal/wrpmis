@@ -216,6 +216,10 @@
     			  width: 95% !important;
 		      }
 		}
+		@media(max-width: 575px){
+			.row .col{margin: 10px auto}
+			p.priokind{margin-top: 0 !important;}
+		}
 		
     </style>
 </head>

@@ -551,22 +551,23 @@
 				                                        <c:when test="${not empty contractDeatils.departmentList }" >
 				                                          
 				                                		  <c:forEach var="departmentObj" items="${contractDeatils.departmentList }" varStatus="index"> 
-				                                		    <c:choose>
-								         					<c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">  
+				                                		      
 											                  <tr id="departmentRow${index.count }">
 											                        <td data-head="Department" class="input-field">
 											                             <select class="searchable validate-dropdown" name="department_fks" id="department_fks${index.count }"
-											                                onchange="getExecutivesList('${index.count }');">
+											                                onchange="getExecutivesList('${index.count }');" 
+											                                <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>>
 											                                	<option value="" >Select</option>  
 																		          <c:forEach var="obj" items="${departmentList }">
 										                                      	    <option value= "${ obj.department_fk}" <c:if test="${departmentObj.department_id_fk eq obj.department_fk}">selected</c:if>>${ obj.department_name}</option>
 										                                          </c:forEach>
-											                              </select> 
+											                              </select> 											                              
 											                              <span id="deptError${index.count }" class="my-error"></span>
 											                        </td>
 											                        <td data-head="Select Executives" class="input-field h-auto">
 											                            <select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks${index.count }" onchange="fileCount('${index.count }');"
-											                             multiple="multiple">
+											                             multiple="multiple" 
+											                             <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>>
 											                             <option value="" >Select</option>
 											                             <c:forEach var="obj" items="${departmentObj.responsiblePersonsList}">
 											                             <option value="${obj.hod_user_id_fk }" 
@@ -583,34 +584,14 @@
 											                            	var s = $('#filecounts${index.count}').val(count);
 											                            </script>
 											                        </td>
-											                        <td class="mobile_btn_close">
-											                            <a onclick="removeDepartment('${index.count }');"
-											                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
-											                        </td>
+											                        <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
+												                        <td class="mobile_btn_close">
+												                            <a onclick="removeDepartment('${index.count }');"
+												                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+												                        </td>
+											                        </c:if>
 											                    </tr>
-											                    </c:when>
-				                                 			<c:otherwise>
-				                                 			 <tr id="departmentRow${index.count }">
-					                                 			 <td>
-					                                 				<input type="text"  id="department_fk${index.count }" value="${departmentObj.department_name }"  readonly/>
-					                                 				<input type="hidden" name="department_fks" id="department_fks${index.count }"  value="${departmentObj.department_fk }"  /></td>
-					                                 			<td>
-					                                 				<div id="container${index.count }">
-															 		<c:forEach var="tempobj" items="${departmentObj.executivesList}" varStatus="indexx" >
-															 				<input type="hidden" name="responsible_people_id_fks"  value="${tempobj.executive_user_id_fk }"  />
-															 				<p >${tempobj.designation} - ${tempobj.user_name}</p><br>
-						                                          	</c:forEach>
-						                                          	</div>
-						                                          	<input type="hidden" id="filecounts${index.count }" name="filecounts">
-														 				 <script>
-																 				var inputs = $("#container${index.count}").find($("input") );
-											                            		var len = inputs.length;
-											                            		$('#filecounts${index.count}').val(len/2);
-											                            </script>
-											                     </td>
-							                                 </tr>
-				                                 			</c:otherwise>
-				                                		 </c:choose>
+											                  
 									                	</c:forEach>
                                            			</c:when>
                                              		<c:otherwise>
@@ -2593,6 +2574,15 @@
         function updateContract(){
         	var update_type = $("#update_type").val();
         	$('#update_type').val(update_type);
+        	
+        	$('form select[name=department_fks]').each(function(){
+        		$("#"+this.id).attr("disabled",false);
+        	});	
+        	
+        	$('form select[name=responsible_people_id_fks]').each(function(){
+        		$("#"+this.id).attr("disabled",false);
+        	});	
+        	
         	var rowCount = $('#departmentTableBody tr').length;
         	var c = $('[name=responsible_people_id_fks]').length;
   			for(var i=1; i<= (rowCount); i++){ 

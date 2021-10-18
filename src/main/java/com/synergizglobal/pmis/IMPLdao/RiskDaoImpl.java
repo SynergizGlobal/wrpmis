@@ -414,6 +414,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 				arrSize++;
 			} 
 			
+			qry = qry + " order by CAST(SUBSTR(priority_fk FROM 2) AS UNSIGNED)";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 

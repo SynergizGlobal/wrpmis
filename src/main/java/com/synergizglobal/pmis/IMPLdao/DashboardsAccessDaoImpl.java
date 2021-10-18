@@ -41,7 +41,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 					" left join dashboard d1 on d.parent_dashboard_id_sr_fk = d1.dashboard_id " + 
 					" left join work w on d.work_id_fk = w.work_id " + 
 					" left join contract c on d.contract_id_fk = c.contract_id " + 
-					" where d.dashboard_url <> '' ";
+					" where d.dashboard_id is not null ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {

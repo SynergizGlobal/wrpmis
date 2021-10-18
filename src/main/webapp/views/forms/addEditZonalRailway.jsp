@@ -91,6 +91,9 @@
 			.input-field p.searchable_label {
 			    margin-bottom: 0;
 			}
+			#zonal_railway_table td input[type="month"] {
+			    width: 90% !important;
+			}
 			.mobile_responsible_table>tbody >tr:not(.datepicker-row) >td::before {
 			    vertical-align: middle;
 			}
@@ -117,7 +120,11 @@
     			margin-top: 10px !important;
 			}
        }
-	
+	 @media only screen and (max-width: 576px){  
+		#zonal_railway_table td input[type="month"] {
+		    width: 100% !important;
+		}
+	 }
 		#zonal_railway_table tbody td{
 			vertical-align:baseline;
 		}
@@ -360,6 +367,25 @@
                                	</div>
                             </div>
 
+							<div class="row">
+                                <div class="col s8 m3 input-field offset-m2">
+                                     <i class="material-icons prefix center-align">₹</i>	
+                                    <input id="cumilative_actual_expenditure" name="cumilative_actual_expenditure_upto_last_finacial_year" type="number" min="0.01" step="0.01" 	
+                                        class="validate">
+                                    <label for="cumilative_actual_expenditure" style="font-size:.9rem">Cumulative Actual Expenditure </label>
+                                    <span id="cumilative_actual_expenditure_upto_last_finacial_yearError" class="error-msg"></span>
+                                </div>
+                                <div class="col s4 m1 input-field pt-5">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="cumilative_actual_expenditure_units" name="cumilative_actual_expenditure_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }" <%-- <c:if test="${zonalRailwayDetails.cumilative_expenditure_units eq obj.value }">selected</c:if> --%>>${obj.unit }</option>
+	                                	</c:forEach>
+                                	</select>
+                                	<span id="cumilative_actual_expenditure_unitsError" class="error-msg" ></span>
+                               	</div> 
+                               	</div>
                             <div class="row">
                                 <div class="col s12 m8 input-field offset-m2">
                                     <div class="row">
@@ -396,7 +422,7 @@
                                     <thead>
                                         <tr>
                                             <th rowspan="2" class="fw-125">Month</th>
-                                            <th colspan="4">Expenditure </th>
+                                            <th colspan="2">Expenditure </th>
                                             <th colspan="2">Physical Progress</th>
                                             <th rowspan="2">Progress</th>
                                             <th rowspan="2">Issue</th>
@@ -404,9 +430,9 @@
                                             <th rowspan="2">Action</th>
                                         </tr>
                                         <tr>
-                                            <th>Cum Actual <br>Current FY (in Cr)</th>
+                                            <!-- <th>Cum Actual <br>Current FY (in Cr)</th> -->
                                             <th class="fw-110">Cum planned %</th>
-                                            <th>Cum Actual (in Cr)</th>
+                                           <!--  <th>Cum Actual Expenditure (in Cr)</th> -->
                                             <th class="fw-110">Cum Actual %</th>
                                             <th class="fw-110">Cum planned %</th>
                                             <th class="fw-110">Cum Actual %</th>
@@ -423,23 +449,24 @@
                                                     placeholder="Month">
                                             </td>
                                             <td class="hideCol" data-head="Expenditure"></td>
-                                            <td data-head="Cum Actual Current FY (in Cr)" class="input-field">
+                                          <!--   <td data-head="Cum Actual Current FY (in Cr)" class="input-field">
                                                 <input id="cum_actual_expenditure_fy_crs${index.count }" name="cum_actual_expenditure_fy_crs" value="${pObj.cum_actual_expenditure_fy_cr }"
                                                     type="number" class="validate" min="0" 
                                                     placeholder="Amount">
                                                     <span id="erroerArea" class="error-msg"></span>
-                                            </td>
+                                            </td> -->
                                             <td data-head="Cum planned %" class="input-field">
                                                 <input id="cum_planned_expenditure_pers${index.count }" name="cum_planned_expenditure_pers" value="${pObj.cum_planned_expenditure_per }"
                                                     type="number" class="validate" 
                                                     placeholder="Cum Planned %">
                                                     <span class="units">%</span>
                                             </td>
-                                            <td data-head="Cum Actual (in Cr)" class="input-field">
+                                           <!--  <td data-head="Cum Actual (in Cr)" class="input-field">
                                                 <input id="cum_actual_expenditure_crs${index.count }" name="cum_actual_expenditure_crs" type="number" class="validate" value="${pObj.cum_actual_expenditure_cr }"
                                                     min="0"  placeholder="cum Actual">
                                                     <span id="erroerArea" class="error-msg"></span>
-                                            </td>
+                                            </td> -->
+                                                                                       
                                             <td data-head="Cum Actual %" class="input-field">
                                                 <input id="cum_actual_expenditure_pers${index.count }" name="cum_actual_expenditure_pers" type="number" value="${pObj.cum_actual_expenditure_per }"
                                                     class="validate"  placeholder="cum Actual %">
@@ -485,23 +512,23 @@
                                                 <input id="months0" name="months" type="month" class="validate" class="month"
                                                     placeholder="Month">
                                             </td>
-                                            <td data-head="Cum Actual Current FY (in Cr)" class="input-field">
+                                            <!-- <td data-head="Cum Actual Current FY (in Cr)" class="input-field">
                                                 <input id="cum_actual_expenditure_fy_crs0" name="cum_actual_expenditure_fy_crs" value=" "
                                                     type="number" class="validate" min="0" 
                                                     placeholder="Amount">
                                                     <span id="erroerArea" class="error-msg"></span>
-                                            </td>
+                                            </td> -->
                                             <td data-head="Cum planned %" class="input-field">
                                                 <input id="cum_planned_expenditure_pers0" name="cum_planned_expenditure_pers"  value=" "
                                                     type="number" class="validate" min="0" step="0.01"
                                                     placeholder="Cum Planned %">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
-                                            <td data-head="Cum Actual (in Cr)" class="input-field">
+                                            <!-- <td data-head="Cum Actual (in Cr)" class="input-field">
                                                 <input id="cum_actual_expenditure_crs0" name="cum_actual_expenditure_crs" type="number" class="validate"  value=" "
                                                     min="0" placeholder="cum Actual">
                                                     <span id="erroerArea" class="error-msg"></span>
-                                            </td>
+                                            </td> -->
                                             <td data-head="Cum Actual %" class="input-field">
                                                 <input id="cum_actual_expenditure_pers0" name="cum_actual_expenditure_pers" type="number"   value=" "
                                                     class="validate" min="0.01" step="0.01" placeholder="cum Actual %">

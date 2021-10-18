@@ -108,6 +108,7 @@ public class PageConstants {
 	public static final String manuals = "forms/manuals";
 	
 	public static final String activitiesReport = "forms/activitiesReport";
+	public static final String dailyProgressReport = "forms/dailyProgressReport";
 	
 	public static final String activitiesStatusReport = "forms/activitiesStatusReport";
 	

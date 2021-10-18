@@ -512,6 +512,7 @@
         //geting contracts list    
         function getContractsList(contarct) 
         {
+        	
         	$("#contract_id").not(":first").empty();
         	$("#contract_id").val("");         	
         	

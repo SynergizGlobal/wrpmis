@@ -91,6 +91,9 @@
 			.input-field p.searchable_label {
 			    margin-bottom: 0;
 			}
+			.sm-width-redused label{
+				width: calc(100% - 1.5rem) !important;
+			}
 			#zonal_railway_table td input[type="month"] {
 			    width: 90% !important;
 			}
@@ -315,7 +318,7 @@
                                      <i class="material-icons prefix center-align">₹</i>
                                     <input id="latest_revised_cost" name="latest_revised_cost" type="number" min="0.01" step="0.01"  value="${zonalRailwayDetails.latest_revised_cost }"
                                         class="validate">
-                                    <label for="latest_revised_cost">Latest Revised Cost</label>
+                                    <label for="latest_revised_cost" class="fs-sm-8rem">Latest Revised Cost</label>
                                     <span id="latest_revised_costError" class="error-msg"></span>
                                 </div>
                                 <div class="col s4 m1 input-field pt-5">
@@ -331,14 +334,14 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s8 m3 input-field offset-m2">
+                                <div class="col s9 m7 input-field offset-m2 sm-width-redused">
                                      <i class="material-icons prefix center-align">₹</i>	
                                     <input id="cumilative_expenditure" name="cumulative_expenditure_upto_last_finacial_year" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.cumulative_expenditure_upto_last_finacial_year }"
                                         class="validate">
-                                    <label for="cumilative_expenditure" style="font-size:.9rem">Cumulative Expenditure upto Last Financial Year </label>
+                                    <label for="cumilative_expenditure" class="fs-sm-67rem">Cumulative Expenditure upto Last Financial Year </label>
                                     <span id="cumulative_expenditure_upto_last_finacial_yearError" class="error-msg"></span>
                                 </div>
-                                <div class="col s4 m1 input-field pt-5">
+                                <div class="col s3 m1 input-field pt-5">
                                 	<p class="searchable_label">Unit</p>
                                 	<select class="units searchable validate-dropdown" id="cumilative_expenditure_units" name="cumilative_expenditure_units">
                                 		<option value="">Select</option>
@@ -347,8 +350,11 @@
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="cumilative_expenditure_unitsError" class="error-msg" ></span>
-                               	</div> 
-                                <div class="col s8 m3 input-field">
+                               	</div>                                
+                            </div>
+
+							<div class="row">
+								 <div class="col s8 m3 input-field offset-m2">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="completion_cost" name="completion_cost" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.completion_cost }"
                                         class="validate">
@@ -365,14 +371,11 @@
                                 	</select>
                                 	<span id="completion_cost_unitsError" class="error-msg" ></span>
                                	</div>
-                            </div>
-
-							<div class="row">
-                                <div class="col s8 m3 input-field offset-m2">
+                                <div class="col s12 m4 input-field ">
                                      <i class="material-icons prefix center-align">₹</i>	
                                     <input id="cum_actual_expenditure_cr" name="cum_actual_expenditure_cr" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.cum_actual_expenditure_cr }" 	
                                         class="validate">
-                                    <label for="cum_actual_expenditure_cr" style="font-size:.9rem">Cumulative Actual Expenditure(Cr)</label>
+                                    <label for="cum_actual_expenditure_cr">Cumulative Actual Expenditure(Cr)</label>
                                     <span id="cum_actual_expenditure_crError" class="error-msg"></span>
                                 </div>
                               <%--    <div class="col s4 m1 input-field pt-5">
@@ -399,7 +402,7 @@
                                         <div class="col s6 m4 input-field">
                                             <input id="expected_finish" name="expected_finish" type="text"  value="${zonalRailwayDetails.expected_finish }"
                                                 class="validate datepicker">
-                                            <label for="expected_finish">Target For Completion</label>
+                                            <label for="expected_finish" class="fs-sm-67rem">Target For Completion</label>
                                             <button type="button" id="expected_finish_icon"
                                                 class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                         </div>

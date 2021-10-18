@@ -512,8 +512,8 @@
                         { targets: [10], className: 'btn-holder' },
                         { targets: 'no-sort', orderable: false, },
                         { targets: [1,4], className: 'fw-150'  },
-                        { targets: [2], className: 'fw-120'  },
-                        { targets: [5], className: 'fw-170'  }, 
+                        { targets: [2], className: 'fw-150'  },
+                        { targets: [5], className: 'fw-200'  }, 
                     ],
                     //'order': [1, 'asc'],
                     "ScrollX": true,
@@ -545,24 +545,31 @@
         		 if(approval_status_fk == 'Pending'){
         			$("#button_div").show();
         			table.column( 0 ).visible(true);
+        			table.column( 1 ).visible(false);
+        			table.column( 2 ).visible(false);
         			table.column( 9 ).visible(true);
         			table.column( 10 ).visible(false);
         			table.column( 11 ).visible(false);
-        			table.column( 12 ).visible(true);
+        			table.column( 12 ).visible(false);
+        			table.column( 13 ).visible(false);
+        			table.column( 14 ).visible(true);
         		}else if(approval_status_fk == 'Approved'){
         			$("#button_div").hide();
         			table.column( 0 ).visible(false);
         			table.column( 9 ).visible(false);
         			table.column( 10 ).visible(true);
-        			table.column( 11 ).visible(false);
+        			table.column( 11 ).visible(true);
         			table.column( 12 ).visible(false);
+        			table.column( 14 ).visible(false);
         		}else if(approval_status_fk == 'Rejected'){
         			$("#button_div").hide();
         			table.column( 0 ).visible(false);
         			table.column( 9 ).visible(false);
         			table.column( 10 ).visible(false);
-        			table.column( 11 ).visible(true);
+        			table.column( 11 ).visible(false);
         			table.column( 12 ).visible(false);
+        			table.column( 13 ).visible(true);
+        			table.column( 14 ).visible(false);
         		}
         	 
         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,

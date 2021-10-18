@@ -3237,7 +3237,7 @@ public class DocxTableCreationForContractReport {
 		try {
 			RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA, true, false, false,
 					false);
-			RPr contentRpr = getRPr(factory, "Calibri", "000000", "14", STHint.EAST_ASIA, false, false, false,
+			RPr contentRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA, false, false, false,
 					false);
 			RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, true, false,
 					false, false);
@@ -3306,7 +3306,7 @@ public class DocxTableCreationForContractReport {
 						"ecf2ff");
 			}
 			/************************/
-			Tr contractContentRow5 = factory.createTr();
+			/*Tr contractContentRow5 = factory.createTr();
 			addTableCell(factory, wordMLPackage, contractContentRow5, "Status", titleRpr, JcEnumeration.LEFT, true,
 					"ecf2ff");
 			addTableCell(factory, wordMLPackage, contractContentRow5, contractDetails.getContract_status_fk(), titleRpr,
@@ -3314,21 +3314,21 @@ public class DocxTableCreationForContractReport {
 			for (int i = 0; i < 4; i++) {
 				addTableCell(factory, wordMLPackage, contractContentRow5, "", contentRpr, JcEnumeration.LEFT, true,
 						"ecf2ff");
-			}
+			}*/
 			/************************/
 			contractDetailsTable.getContent().add(contractContentRow0);
 			contractDetailsTable.getContent().add(contractContentRow1);
 			contractDetailsTable.getContent().add(contractContentRow2);
 			contractDetailsTable.getContent().add(contractContentRow3);
 			contractDetailsTable.getContent().add(contractContentRow4);
-			contractDetailsTable.getContent().add(contractContentRow5);
+			//contractDetailsTable.getContent().add(contractContentRow5);
 
 			mergeCellsHorizontal(contractDetailsTable, 0, 1, 6);
 			mergeCellsHorizontal(contractDetailsTable, 1, 1, 6);
 			mergeCellsHorizontal(contractDetailsTable, 2, 1, 6);
 			mergeCellsHorizontal(contractDetailsTable, 3, 1, 6);
 			mergeCellsHorizontal(contractDetailsTable, 4, 1, 6);
-			mergeCellsHorizontal(contractDetailsTable, 5, 1, 6);
+			//mergeCellsHorizontal(contractDetailsTable, 5, 1, 6);
 
 			boolean contracthasBgColor = false;
 			String contractBackgroundColor = null;
@@ -3361,7 +3361,7 @@ public class DocxTableCreationForContractReport {
 			addTableCell(factory, wordMLPackage, contractContentRow7, contractDetails.getLoa_date(), contentRpr,
 					JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
 			contractDetailsTable.getContent().add(contractContentRow7);
-			mergeCellsHorizontal(contractDetailsTable, 7, 1, 3);
+			mergeCellsHorizontal(contractDetailsTable, 6, 1, 3);
 
 			Tr contractContentRow8 = factory.createTr();
 			addTableCell(factory, wordMLPackage, contractContentRow8, "CA No:", titleRpr, JcEnumeration.LEFT,
@@ -3377,7 +3377,7 @@ public class DocxTableCreationForContractReport {
 			addTableCell(factory, wordMLPackage, contractContentRow8, contractDetails.getCa_date(), contentRpr,
 					JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
 			contractDetailsTable.getContent().add(contractContentRow8);
-			mergeCellsHorizontal(contractDetailsTable, 8, 1, 3);
+			mergeCellsHorizontal(contractDetailsTable, 7, 1, 3);
 
 			Tr contractContentRow9 = factory.createTr();
 			addTableCell(factory, wordMLPackage, contractContentRow9, "Contract Type", titleRpr, JcEnumeration.LEFT,
@@ -3393,7 +3393,7 @@ public class DocxTableCreationForContractReport {
 			addTableCell(factory, wordMLPackage, contractContentRow9, "", contentRpr, JcEnumeration.LEFT,
 					contracthasBgColor, contractBackgroundColor);
 			contractDetailsTable.getContent().add(contractContentRow9);
-			mergeCellsHorizontal(contractDetailsTable, 9, 1, 5);
+			mergeCellsHorizontal(contractDetailsTable, 8, 1, 5);
 
 			Tr contractContentRow10 = factory.createTr();
 			addTableCell(factory, wordMLPackage, contractContentRow10, "Scope of Contract", titleRpr,
@@ -3409,7 +3409,7 @@ public class DocxTableCreationForContractReport {
 			addTableCell(factory, wordMLPackage, contractContentRow10, "", contentRpr, JcEnumeration.LEFT,
 					contracthasBgColor, contractBackgroundColor);
 			contractDetailsTable.getContent().add(contractContentRow10);
-			mergeCellsHorizontal(contractDetailsTable, 10, 1, 5);
+			mergeCellsHorizontal(contractDetailsTable, 9, 1, 5);
 
 			Tr contractContentRow11 = factory.createTr();
 			addTableCell(factory, wordMLPackage, contractContentRow11, "Awarded Cost", titleRpr, JcEnumeration.LEFT,
@@ -3425,28 +3425,49 @@ public class DocxTableCreationForContractReport {
 			addTableCell(factory, wordMLPackage, contractContentRow11, "", contentRpr, JcEnumeration.LEFT,
 					contracthasBgColor, contractBackgroundColor);
 			contractDetailsTable.getContent().add(contractContentRow11);
-			mergeCellsHorizontal(contractDetailsTable, 11, 2, 3);
-			mergeCellsHorizontal(contractDetailsTable, 11, 4, 5);
+			mergeCellsHorizontal(contractDetailsTable, 10, 2, 3);
+			mergeCellsHorizontal(contractDetailsTable, 10, 4, 5);
 
 			Tr contractContentRow12 = factory.createTr();
 			addTableCell(factory, wordMLPackage, contractContentRow12, "Date of Start", titleRpr, JcEnumeration.LEFT,
 					true, "ecf2ff");
 			addTableCell(factory, wordMLPackage, contractContentRow12, contractDetails.getDate_of_start(), contentRpr,
 					JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
-			addTableCell(factory, wordMLPackage, contractContentRow12, "", titleRpr, JcEnumeration.LEFT,
-					contracthasBgColor, contractBackgroundColor);
+			addTableCell(factory, wordMLPackage, contractContentRow12, "Target Date of Completion", titleRpr, JcEnumeration.LEFT,
+					true, "ecf2ff");
 			addTableCell(factory, wordMLPackage, contractContentRow12, "", contentRpr, JcEnumeration.LEFT,
 					contracthasBgColor, contractBackgroundColor);
-			addTableCell(factory, wordMLPackage, contractContentRow12, "", contentRpr, JcEnumeration.LEFT,
+			addTableCell(factory, wordMLPackage, contractContentRow12, contractDetails.getTarget_doc(), contentRpr, JcEnumeration.LEFT,
 					contracthasBgColor, contractBackgroundColor);
 			addTableCell(factory, wordMLPackage, contractContentRow12, "", contentRpr, JcEnumeration.LEFT,
 					contracthasBgColor, contractBackgroundColor);
 			contractDetailsTable.getContent().add(contractContentRow12);
+			mergeCellsHorizontal(contractDetailsTable, 11, 2, 3);
+			mergeCellsHorizontal(contractDetailsTable, 11, 4, 5);
+			
+			Tr contractContentRow13 = factory.createTr();
+			addTableCell(factory, wordMLPackage, contractContentRow13, "Contract Status", titleRpr, JcEnumeration.LEFT,
+					true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, contractContentRow13, contractDetails.getStatus(), contentRpr,
+					JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
+			addTableCell(factory, wordMLPackage, contractContentRow13, "Work Status", titleRpr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, contractContentRow13, "", contentRpr, JcEnumeration.LEFT,
+					contracthasBgColor, contractBackgroundColor);
+			addTableCell(factory, wordMLPackage, contractContentRow13, contractDetails.getContract_status_fk(), contentRpr,
+					JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
+			addTableCell(factory, wordMLPackage, contractContentRow13, "", contentRpr, JcEnumeration.LEFT,
+					contracthasBgColor, contractBackgroundColor);
+			contractDetailsTable.getContent().add(contractContentRow13);
 			mergeCellsHorizontal(contractDetailsTable, 12, 2, 3);
 			mergeCellsHorizontal(contractDetailsTable, 12, 4, 5);
 			
+			
+			
 			setTableAlign(factory, contractDetailsTable, JcEnumeration.CENTER);
 			mp.addObject(contractDetailsTable);
+			
+			
 			
 			/**************************************************************/
 			Tbl revisionDetailsTable = factory.createTbl();

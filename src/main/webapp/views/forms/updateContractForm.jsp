@@ -1479,7 +1479,7 @@
 	                                                    <button type="button" id="milestone_dates${index.count}_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td data-head="Actual Date " class="input-field">
-	                                                    <input id="actual_dates${index.count }" name="actual_dates" type="text" class="validate datepicker" value="${milestonesObj.actual_date }"
+	                                                    <input id="actual_dates${index.count }" name="actual_dates" type="text" class="validate datepicker-max-today" value="${milestonesObj.actual_date }"
 	                                                        placeholder="Actual Date">
 	                                                    <button type="button" id="actual_dates${index.count}_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
@@ -1514,7 +1514,7 @@
 	                                                    <button type="button" id="milestone_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td data-head="Actual Date " class="input-field">
-	                                                    <input id="actual_dates0" name="actual_dates" type="text" class="validate datepicker" 
+	                                                    <input id="actual_dates0" name="actual_dates" type="text" class="validate datepicker-max-today" 
 	                                                        placeholder="Actual Date">
 	                                                    <button type="button" id="actual_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
@@ -3305,7 +3305,7 @@
 		 	   +'<td data-head="Milestone ID " class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids'+rNo+'" /><input id="milestone_ids'+rNo+'" name="milestone_ids" type="text" class="validate" placeholder="Milestone ID" value="K-'+(mId)+'" readonly></td>'
 			   +'<td data-head="Milestone Name " class="input-field"><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
 			   +'<td data-head="Milestone Date " class="input-field"><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button" id="milestone_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
-			   +'<td data-head="Actual Date " class="input-field"><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button" id="actual_dates'+rNo+'_icon" class="datepicker-button"><i  class="fa fa-calendar"></i></button></td>'
+			   +'<td data-head="Actual Date " class="input-field"><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker-max-today"   placeholder="Actual Date">  <button type="button" id="actual_dates'+rNo+'_icon" class="datepicker-button"><i  class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Revision" class="input-field" ><input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td data-head="Remarks " class="input-field">  <input id="mile_remarks'+rNo+'" name="mile_remarks" type="text" class="validate" placeholder="Remarks"></td>'
 		 	 //  +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeMilestone('+rNo+');"> <i class="fa fa-close"></i></a></td>'
@@ -3751,11 +3751,11 @@
 			var completion_certificate_release = $('#completion_certificate_release').val();
 			var contract_closure_date = $('#contract_closure_date').val();
 			var final_bill_release = $('#final_bill_release').val();
-			var defect_liability_period = $('#defect_liability_period').val();
+			//var defect_liability_period = $('#defect_liability_period').val();
 			var retention_money_release = $('#retention_money_release').val();
 			//var pbg_release = $('#pbg_release').val();
 			if($.trim(actual_completion_date) != '' && $.trim(completed_cost) != '' && $.trim(final_takeover) != '' && $.trim(completion_certificate_release) != '' && 
-					$.trim(contract_closure_date) != '' && $.trim(final_bill_release) != '' && $.trim(defect_liability_period) != '' && $.trim(retention_money_release) != ''){
+					$.trim(contract_closure_date) != '' && $.trim(final_bill_release) != '' && $.trim(retention_money_release) != ''){
 				if(user_type=='HOD'){					
 					$('#updateBtn').html('Close Contract');
 					$('#update_type').val('Close Contract');

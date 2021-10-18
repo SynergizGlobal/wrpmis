@@ -363,7 +363,7 @@
                            <button  type="button" onclick="getContractForm('revisionDetails');" style="width: auto;display:none;" id="btnCv"
                                class="btn waves-effect waves-light bg-m">UPDATE CV DETAILS</button>
                                
-                           <button  type="button" onclick="getContractForm('contractDetails');" style="width: auto;display:none;" id="btnDoc"
+                           <button  type="button" onclick="getContractForm('revisionDetails');" style="width: auto;display:none;" id="btnDoc"
                                class="btn waves-effect waves-light bg-m">UPDATE DOC DETAILS</button>
                </div> 
            </form>

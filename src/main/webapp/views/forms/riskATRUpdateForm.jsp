@@ -506,6 +506,12 @@
 	    			maxDate: new Date(),
 	    			onDraw : function() {disableDates("ondraw")},
 	    			onOpen : function() {datePickerSelectAddClass();disableDates("onopen")},
+    			 	showClearBtn: true,
+    		        onClose: function () {
+    		            if (!$(this.el).val()) {
+    		                $(this.el).siblings('label').removeClass('active');
+    		            }
+    		        },
 	    			disableDayFn: function(date){
 		   	    		var string = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 		   	    		var ex_dates = [];
@@ -657,6 +663,12 @@
 	        	autoClose:true,
 	   	    	onDraw : function() {disableDates("ondraw")},
 	   	        onOpen : function() {datePickerSelectAddClass(); disableDates("onopen")},
+		   	    showClearBtn: true,
+		        onClose: function () {
+	             	if (!$(this.el).val()) {
+	                	$(this.el).siblings('label').removeClass('active');
+	             	}
+		        },
 	   	        onSelect:function(date){
 	   	        	var dates_arr = [];
 	   	        	$("input[name=atr_dates]").each(function(){

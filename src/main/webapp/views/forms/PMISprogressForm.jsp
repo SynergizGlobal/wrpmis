@@ -661,7 +661,19 @@
              "bScrollCollapse": true,
             initComplete: function () {
                 $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-            }
+                var input = $('.dataTables_filter input')
+				.unbind(), self = this.api(), 
+				$searchButton = $('<i class="fa fa-search" title="Go" id="save_post">')
+				.click(function() {
+					self.search(input.val()).draw();
+				}), $clearButton = $('<i class="fa fa-close" title="Reset">')
+				.click(function() {
+					input.val('');
+					$searchButton.click();
+				})
+				$('.dataTables_filter').append('<div class="right-btns"></div>');
+				$('.dataTables_filter div').append($searchButton, $clearButton);
+        	}
         }).rows().remove().draw();
 		
 		table.state.clear();		

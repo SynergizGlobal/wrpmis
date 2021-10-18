@@ -821,7 +821,13 @@
               //  max: new Date(),
                 format: 'dd-mmm-yy',
                 autoClose:true,
-                onOpen: datePickerSelectAddClass              
+                onOpen: datePickerSelectAddClass,
+                showClearBtn: true,
+                onClose: function () {
+                    if (!$(this.el).val()) {
+                        $(this.el).siblings('label').removeClass('active');
+                    }
+                }
             });
             $('#progress_date_icon').click(function () {
                 event.stopPropagation();
@@ -1357,10 +1363,7 @@
 				 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start_icon'+num+'" ><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
 				 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish_icon'+num+'"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
 				 	            	 			//+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>';
-		 	            	 				
-
-		 	            	            
-		 	            	 			
+		 	            	 						 	            	 			
  	            	 				}
  	            	 			else
  	            	 				{
@@ -1386,7 +1389,13 @@
 	 	            	                maxDate: new Date(),
 	 	            	                format: 'dd-mmm-yy',
 	 	            	                autoClose:true,
-	 	            	                onOpen: datePickerSelectAddClass  
+	 	            	                onOpen: datePickerSelectAddClass,
+	 	            	              	showClearBtn: true,
+	 	            	              	onClose: function () {
+	 	            	                  if (!$(this.el).val()) {
+	 	            	                      $(this.el).siblings('label').removeClass('active');
+	 	            	                  }
+	 	            	                }
 	 	            	            });
 	 	            	            $('#planned_start_icon'+num).click(function () {
 	 	            	                event.stopPropagation();
@@ -1398,7 +1407,13 @@
 	 	            	                maxDate: new Date(),
 	 	            	                format: 'dd-mmm-yy',
 	 	            	                autoClose:true,
-	 	            	                onOpen: datePickerSelectAddClass  
+	 	            	                onOpen: datePickerSelectAddClass,
+	 	            	                showClearBtn: true,
+	 	            	              	onClose: function () {
+	 	            	                  if (!$(this.el).val()) {
+	 	            	                      $(this.el).siblings('label').removeClass('active');
+	 	            	                  }
+	 	            	                }
 	 	            	            });
 	 	            	            
 	 	            	            

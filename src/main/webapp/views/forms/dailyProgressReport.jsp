@@ -39,12 +39,12 @@
 					<div class="center-align">
 						<span class="card-title headbg">
 							<div class="center-align p-2 bg-m m-b-2">
-								<h6 id="rptName">Daily Report For the Period</h6>
+								<h6 id="rptName">Daily Progress Report</h6>
 							</div>
 						</span>
 					</div>
 					<!-- form start-->
-					<form action="<%=request.getContextPath() %>/generate-activities-dpr-report" id="activitiesReportForm" name="activitiesReportForm" method="post" target="_blank">
+					<form action="<%=request.getContextPath() %>/generate-daily-progress-report" id="activitiesReportForm" name="activitiesReportForm" method="post" target="_blank">
 						<div class="row">
 						<div class="col s12 m12 l7 offset-l2 offset-m1">
 							<div class="row no-mar" style="margin-bottom:0;">
@@ -117,15 +117,10 @@
 									<span id="fob_id_fkError" class="error-msg"></span>
 								</div>			
 								<div class="col s6 m3 l4 input-field" id="fmRow">
-									<input id="from_date" name="from_date" type="text" class="validate datepicker"> <label for="from_date"> From Date <span class="required">*</span></label>
+									<input id="from_date" name="from_date" type="text" class="validate datepicker"> <label for="from_date"> Progress Date <span class="required">*</span></label>
 									<button type="button" id="from_date_icon"><i class="fa fa-calendar"></i></button>
 									<span id="from_dateError" class="error-msg"></span>
 								</div>
-								<div class="col s6 m3 l4 input-field" id="to_date_holder" style="display:none;">
-									<input id="to_date" name="to_date" type="text" class="validate datepicker"> <label for="to_date"> To Date</label>
-									<button type="button" id="to_date_icon" ><i class="fa fa-calendar"></i></button>
-									<span id="to_dateError" class="error-msg"></span>
-								</div>	
 							</div>									
 							
 							<div class="row">	
@@ -228,10 +223,6 @@
                 event.stopPropagation();
                 $('#from_date').click();
             });
-            $('#to_date_icon').click(function () {
-                event.stopPropagation();
-                $('#to_date').click();
-            });
 			filters = window.localStorage.getItem("activitiesReportFilters");
             
             if($.trim(filters) != '' && $.trim(filters) != null){
@@ -263,13 +254,7 @@
               }
             resetFilterDropDowns();           
         });
-        $('#from_date').change(function(){
-        	if($('#from_date').val()==''){        		
-        	} else{
-        		$('#to_date_holder').css("display", "block");
-        	}
-        });
- 
+
         function clearFilters(){
       
         	$("#project_id").val('');
@@ -281,10 +266,9 @@
         	$("#dyhod").val('');        	
 
             $("#from_date").val('').focus();
-            $("#to_date").val('').focus();
             
             window.localStorage.setItem("activitiesReportFilters",'');
-        	window.location.href= "<%=request.getContextPath()%>/activities-progress-report";
+        	window.location.href= "<%=request.getContextPath()%>/daily-progress-report";
         }
         
         
@@ -308,7 +292,6 @@
         		window.localStorage.setItem("activitiesReportFilters", filters);
     			});
             
-            $('#to_date_holder').hide();
         }
         function addInQueWork(work_id){
           	Object.keys(filtersMap).forEach(function (key) {
@@ -771,10 +754,7 @@
 				 		required: false
 				 	  },"from_date": {
 				 		required: true
-			 	  	  },"to_date":{
-	               		required:false,
-	               		greaterFrom: "#from_date"
-	               	  }
+			 	  	  }
 				 				
 			 	},
 			   messages: {
@@ -784,9 +764,7 @@
 			 			required: 'Required'
 			 	  	 },"from_date": {
   			 			required: 'Required'
-  			 	  	 },"to_date":{
-  		             	required:'Required'
-  		              }
+  			 	  	 }
 			 				      
 		    },
 			  errorPlacement:
@@ -797,10 +775,7 @@
 			 	    }else if (element.attr("id") == "work_id" ){
 			 		     document.getElementById("work_idError").innerHTML="";
 			 			 error.appendTo('#work_idError');
-			 	    }else if (element.attr("id") == "to_date" ){
-						 document.getElementById("to_dateError").innerHTML="";
-						 error.appendTo('#to_dateError');
-			        }else if (element.attr("id") == "contract_id" ){
+			 	    }else if (element.attr("id") == "contract_id" ){
 			 	    	 document.getElementById("contract_idError").innerHTML="";
 			 			 error.appendTo('#contract_idError');
 			 	    }
@@ -819,21 +794,7 @@
 			  }
 		});
         
-        $.validator.addMethod("greaterFrom", function(value, element) {
-            var fromDateString = $('#from_date').val(); //
-            var fromDateParts = fromDateString.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-			if($.trim(value) != ''){
-	            var toDateParts = value.split("-");
-	            // month is 0-based, that's why we need dataParts[1] - 1
-	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-	            
-	            return Date.parse(fromDate) <= Date.parse(toDate);
-			}else if($.trim(value) == ''){
-				return true;
-			}
-        }, "To date must be after From date");
+
         
         $('select').change(function(){
     	    if ($(this).val() != ""){

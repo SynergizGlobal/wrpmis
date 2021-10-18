@@ -56,5 +56,24 @@ public class ActivitiesProgressReportServiceImpl implements ActivitiesProgressRe
 			throws Exception {
 		return dao.getActivitiesReportData(obj);
 	}
+	
+	@Override
+	public String getActivitiesRemarks(String structure,String from_date) throws Exception {
+		return dao.getActivitiesRemarks(structure,from_date);
+	}
+	
+	@Override
+	public String getContractorName(String contract_id) throws Exception {
+		return dao.getContractorName(contract_id);
+	}	
+	
+	@Override
+	public String getWorkName(String work_id) throws Exception {
+		return dao.getWorkName(work_id);
+	}
+	@Override
+	public String getContractName(String contract_id) throws Exception {
+		return dao.getContractName(contract_id);
+	}	
 
 }

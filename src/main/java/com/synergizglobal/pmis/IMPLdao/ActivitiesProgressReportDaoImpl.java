@@ -1,5 +1,8 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -17,7 +20,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ActivitiesProgressReportDao;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.ActivitiesProgressReport;
+import com.synergizglobal.pmis.model.Admin;
 @Repository
 public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReportDao{
 	@Autowired
@@ -843,4 +849,113 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		return mapObjsList;
 	}
 
+	@Override
+	public String getActivitiesRemarks(String structure, String from_date) throws Exception {
+		
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+	    String remarks = null;
+			try {
+				con = dataSource.getConnection();
+				String qry = "select remarks from fobdailyupdate where structure =? and reporting_date = ?";
+				stmt = con.prepareStatement(qry);
+				stmt.setString(1,structure);
+				stmt.setString(2,from_date);
+				rs = stmt.executeQuery(); 
+				while(rs.next()) 
+				{
+					remarks=rs.getString("remarks");
+				}
+			
+				
+			}catch(Exception e){ 
+				throw new Exception(e.getMessage());
+			}
+			finally {
+				DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+			}
+			return remarks;
+		}
+
+	@Override
+	public String getContractorName(String contract_id) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+	    String contractorname = null;
+			try {
+				con = dataSource.getConnection();
+				String qry = "select contractor_name from contractor where contractor_id =?";
+				stmt = con.prepareStatement(qry);
+				stmt.setString(1,contract_id);
+				rs = stmt.executeQuery(); 
+				while(rs.next()) 
+				{
+					contractorname=rs.getString("contractor_name");
+				}
+			
+				
+			}catch(Exception e){ 
+				throw new Exception(e.getMessage());
+			}
+			finally {
+				DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+			}
+			return contractorname;
+	}
+	
+	@Override
+	public String getWorkName(String work_id) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+	    String workname = null;
+			try {
+				con = dataSource.getConnection();
+				String qry = "select work_short_name from work where work_id =?";
+				stmt = con.prepareStatement(qry);
+				stmt.setString(1,work_id);
+				rs = stmt.executeQuery(); 
+				while(rs.next()) 
+				{
+					workname=rs.getString("work_short_name");
+				}
+			
+				
+			}catch(Exception e){ 
+				throw new Exception(e.getMessage());
+			}
+			finally {
+				DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+			}
+			return workname;
+	}
+	
+	@Override
+	public String getContractName(String contract_id) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+	    String contractname = null;
+			try {
+				con = dataSource.getConnection();
+				String qry = "select contract_short_name from contract where contract_id =?";
+				stmt = con.prepareStatement(qry);
+				stmt.setString(1,contract_id);
+				rs = stmt.executeQuery(); 
+				while(rs.next()) 
+				{
+					contractname=rs.getString("contract_short_name");
+				}
+			
+				
+			}catch(Exception e){ 
+				throw new Exception(e.getMessage());
+			}
+			finally {
+				DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+			}
+			return contractname;
+	}	
 }

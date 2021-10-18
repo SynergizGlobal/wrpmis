@@ -269,7 +269,9 @@ public class ActivitiesProgressReportController {
 			        
 			        cell = mainHeadingRow.createCell(2);
 			        cell.setCellStyle(greenStyle);
-					cell.setCellValue("Activities Progress Report ");
+					//cell.setCellValue("Activities Progress Report ");
+			        cell.setCellValue("Daily Report For the Period");
+			        
 			        for (int i = 3; i < 9; i++) {		        	
 				        cell = mainHeadingRow.createCell(i);
 				        cell.setCellStyle(greenStyle);
@@ -447,7 +449,7 @@ public class ActivitiesProgressReportController {
 		            
 		        }
 	        }else {
-	        	XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("No Data"));
+	        	XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("No progress for the Period"));
 		        workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
 	        }
             /*******************************************************************************/

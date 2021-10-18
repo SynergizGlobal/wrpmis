@@ -44,52 +44,20 @@
         #riskReview {
             border: 1px solid #ddd;
         }
-
-       /*  #riskReview td .select2-container {
-            width: 120px;
-            max-width: 120px;
-        } */
-/*  datepicker table resetting css starts */ 
-        .datepicker-table thead tr,
-        .datepicker-table thead tr:hover,
-        .datepicker-table tbody tr,
-        .datepicker-table tbody tr:hover {
-            background-color: transparent;
-            border-radius: 0;
-            border-bottom-width: 0;
+        .b-none-imp,
+        .b-none-imp td{
+        	border:none !important;
         }
-
-        .datepicker-table td:first-of-type,
-        .datepicker-table td:last-of-type {
-            padding: 0 !important;
+        .b-none-imp:hover{
+        	background-color:transparent !important;
         }
-
-        .datepicker-table th, 
-        .datepicker-table td,
-        .mdl-data-table tbody td .datepicker-table th,
-        .mdl-data-table tbody td .datepicker-table .datepicker-row td{
-        	padding:0 !important;
-        	height:44px !important;
-        }
-          .mdl-data-table tbody td .datepicker-table .datepicker-row{
-        	bottom-border:none;
-        }
-/*  datepicker table resetting css ends */
-
         .input-field .searchable_label {
             font-size: 0.9rem;
-        }
-       
+        }       
         .fw-60 {
             max-width: 60px;
             width: 60px !important;
-        }
-        /*  .modal:not(.datepicker-modal){
-        	max-height:90%;
-        	width:62%;
-        	min-height:75%;
-        } */               
-      
+        }           
         .input-field textarea{
         	border:none;
         	border-bottom:1px solid #9e9e9e;
@@ -355,9 +323,9 @@
 													</c:choose>
 												</tbody>
 											</table>
-											<table class="mdl-data-table table-add">
+											<table class="mdl-data-table table-add bd-none">
 												<tbody>
-													<tr>
+													<tr class="b-none-imp">
 														<td colspan="6" ><a
 															type="button"
 															class="btn waves-effect waves-light bg-m t-c add-align"

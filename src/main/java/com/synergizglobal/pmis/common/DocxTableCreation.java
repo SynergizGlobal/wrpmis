@@ -492,7 +492,18 @@ public class DocxTableCreation {
 									contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
 							addTableCell(factory, wordMLPackage, contentRow, pObj.getLocation(),
 									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-							addTableCell(factory, wordMLPackage, contentRow, pObj.getTitle()+"\n"+pObj.getCorrective_measure(),
+							
+							String desrciption = "";
+							if(!StringUtils.isEmpty(pObj.getDescription())) {
+								desrciption = desrciption + pObj.getDescription();
+							}
+							if(!StringUtils.isEmpty(pObj.getDescription()) && !StringUtils.isEmpty(pObj.getCorrective_measure())) {
+								desrciption = desrciption + "\n";
+							}
+							if(!StringUtils.isEmpty(pObj.getCorrective_measure())) {
+								desrciption = desrciption + pObj.getCorrective_measure();
+							}
+							addTableCell(factory, wordMLPackage, contentRow, desrciption,
 									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 							/*addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure(),
 									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/

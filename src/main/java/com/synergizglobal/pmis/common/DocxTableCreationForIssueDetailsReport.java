@@ -196,7 +196,25 @@ public class DocxTableCreationForIssueDetailsReport {
 		  	titleTable.getContent().add(titleTableRow);	
 		  	mergeCellsHorizontal(titleTable, count, 1, 5);
 		  	count++;
+		  	
 		  	/*===========================================================*/
+		  	
+		    titleTableRow = factory.createTr();		
+			addTableCell(factory, wordMLPackage, titleTableRow, "Description of Issue", garamondBoldRPr,
+					JcEnumeration.LEFT, true, "ecf2ff");
+			addTableCell(factory, wordMLPackage, titleTableRow, issueDeailsReport.getDescription(), garamondRPr,
+					JcEnumeration.LEFT, false, null);
+			
+			for(int i=0; i<4;i++) {
+				addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
+						JcEnumeration.LEFT, false, null);
+			}
+			
+		  	titleTable.getContent().add(titleTableRow);	
+		  	mergeCellsHorizontal(titleTable, count, 1, 5);
+		  	count++;
+		  	/*===========================================================*/
+		  	
 		  	
 		  	titleTableRow = factory.createTr();		
 			addTableCell(factory, wordMLPackage, titleTableRow, "Reported By", garamondBoldRPr,

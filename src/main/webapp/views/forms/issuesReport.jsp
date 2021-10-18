@@ -41,6 +41,16 @@
                             <div class="col m8 s12 offset-m2 l7 offset-l3">
                             	<form id="reportForm" name="reportForm" method="post">
 	                                <div class="row no-mar">
+	                                	<div class="col s6 m4 l3 input-field">
+	                                        <p class="searchable_label" style="text-align:left">HOD</p>
+	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="addInQueHOD(this.value);getWorksListInIssuesReport(this.value);getIssueReport();">
+	                                            <option value="">Select </option>
+	                                              <c:forEach var="obj" items="${hodsList }">
+                                                    <option value="${obj.hod_user_id_fk }"> ${obj.designation }</option>
+                                                </c:forEach>
+	                                        </select>
+	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
+	                                    </div>
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
 	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getContractsListInIssuesReport(this.value);getIssueReport();">
@@ -53,7 +63,7 @@
 	                                    </div>
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract</p>
-	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getHODListInIssuesReport(this.value);getIssueReport();">
+	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getIssueReport();">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${contractsList }">
                                                     <option workId="${obj.work_id_fk }" value="${obj.contract_id_fk }"><c:if test="${ empty obj.contract_short_name}"> ${obj.contract_id_fk } </c:if> ${obj.contract_short_name }</option>
@@ -61,17 +71,6 @@
 	                                        </select>
 	                                        <span id="contract_id_fkError" class="error-msg" ></span>
 	                                    </div>
-										<div class="col s6 m4 l3 input-field">
-	                                        <p class="searchable_label" style="text-align:left">HOD</p>
-	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="addInQueHOD(this.value);(this.value);getIssueReport();">
-	                                            <option value="">Select </option>
-	                                              <c:forEach var="obj" items="${hodsList }">
-                                                    <option value="${obj.hod_user_id_fk }"> ${obj.designation }</option>
-                                                </c:forEach>
-	                                        </select>
-	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
-	                                    </div>
-	                                   
 	                                    
 	                                </div>    
 	                                <div class="row">	                                	
@@ -217,7 +216,9 @@
         function getWorksListInIssuesReport(work) {
         	$(".page-loader").show();
            	$("#work_id_fk option:not(:first)").remove();
-           	var myParams = {status_fk : 'Closed'}
+           	$("#contract_id_fk option:not(:first)").remove();
+           	var hod_user_id_fk = $("#hod_user_id_fk").val();           	
+           	var myParams = {hod_user_id_fk : hod_user_id_fk, status_fk : 'Closed'}
            	$.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getWorksListInIssuesReport",
                    data: myParams, cache: false,

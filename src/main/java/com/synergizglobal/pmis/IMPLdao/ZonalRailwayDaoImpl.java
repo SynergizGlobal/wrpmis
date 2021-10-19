@@ -87,7 +87,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " ORDER BY contract_id ASC limit ?,?";
+				qry = qry + " ORDER BY status_fk IS NULL,FIELD(status_fk,'In Progress','Not Started','Completed',status_fk) limit ?,?";
 				arrSize++;
 				arrSize++;
 			}	
@@ -457,7 +457,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
-			qry = qry +" group by status_fk ";
+			qry = qry +" group by status_fk  ORDER BY FIELD(status_fk,'In Progress','Not Started','Completed',status_fk) ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {

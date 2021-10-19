@@ -100,7 +100,9 @@
                                 </div>
                                 <div class="col s6 m4 l2 input-field">                                    
                                     <input id="to_date" type="text" name="to_date" class="validate datepicker">
-                                    <label for="to_date" class="fs-sm-8rem">Activity To Date <span class="required">*</span></label>
+                                    <label for="to_date" class="fs-sm-8rem">Activity To Date 
+                                    <!-- <span class="required">*</span> -->
+                                    </label>
                                     <button type="button" id="to_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="to_dateError" class="error-msg" ></span>
                                 </div>
@@ -265,7 +267,9 @@
         }
         
         function testingData() {
-        	if(validator.form()){ // validation perform
+        	if(validator.form())
+        	{
+        		// validation perform
 	        	$(".page-loader").show();
 	            var module_name = $("#module_name").val();
 	            var work = $("#work").val();
@@ -273,14 +277,24 @@
 	            var user = $("#user").val();
 	            var from_date = $("#from_date").val();
 	            var to_date = $("#to_date").val();
+	            	if($("#to_date").val()=="")
+	            	{
+	            		to_date=$("#from_date").val();
+	            	}
 	                var myParams = { module_name: module_name, user : user,contract : contract, work: work,from_date : from_date,to_date : to_date };
 	                $.ajax({
 	                    url: "<%=request.getContextPath()%>/ajax/getUserActivityReportFormData",
 	                    data: myParams, cache: false,
 	                    success: function (data) {
 	                        if(data.length > 0) {
-	                	        	$(".page-loader").show();	
-	                	        	document.getElementById("userActivityReportForm").submit();	
+	                	        	$(".page-loader").show();
+	                	        	
+	            	            	if($("#to_date").val()=="")
+	            	            	{
+	            	            		$("#to_date").val($("#from_date").val());
+	            	            	}	                	        	
+	                	        	document.getElementById("userActivityReportForm").submit();
+	                	        	$("#to_date").val("");
 	                        }else{
 	                        	showNoDataMessage()
 	                        }
@@ -463,16 +477,17 @@
 	  		 		  "from_date": {
 	  			 		required: true
 	  			 	  }	,"to_date": {
-	  			 		required: true,
+	  			 		//required: true,
 	  			 		greaterThan: "#from_date",	  			 		
 	  			 	  }	
 	  		 	},
 	  		    messages: {
 	  		 		 "from_date": {
 	  			 		required: ' This field is required'
-	  			 	  },"to_date": {
-	  			 		required: ' This field is required',	  			 		
 	  			 	  }
+/* 	  		 			,"to_date": {
+	  			 		required: ' This field is required',	  			 		
+	  			 	  } */
 		   		},
 		   		errorPlacement:function(error, element){
 		   		 	if(element.attr("id") == "project" ){

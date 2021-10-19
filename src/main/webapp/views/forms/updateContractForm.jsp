@@ -466,7 +466,7 @@
 	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" data-placeholder="Select"  onchange="getContractClosureDetails('');getStatusLIst();hideContractDetails();">
 	                                        <option value="" >Select</option>
 	                                          <c:forEach var="obj" items="${contract_Status }">
-		                                    	 <option value="${obj.contract_status }"<c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
+		                                    	 <option value="${obj.contract_status }" <c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
 		                                     </c:forEach>     
 	                                    </select>
 	                                     <span id="contract_statusError" class="error-msg" ></span>
@@ -2395,6 +2395,15 @@
 			}else{
 				$("#contractClosureRadioBtn").hide();
 			}
+			
+			if($.trim(contract_status_fk) == 'Completed'){                	
+            	$('#actual_completion_date').rules('add',  { required: true });
+            	$('#actual_completion_date_req').text('*');
+            }else{
+            	$('#actual_completion_date').rules('remove',  'required');
+            	$('#actual_completion_date_req').text('');
+            	$('#actual_completion_dateError').text('');
+            } 
 		} 
         $('input[name="contractClosureRadio"]').click(function(){
            if ($(this).is(':checked')){
@@ -3766,6 +3775,7 @@
 		function updateBtnValueChange(){
 			var contract_closure_date = $('#contract_closure_date').val();			
 			var user_type = '${sessionScope.USER_TYPE}';
+			var contract_status_fk = $('#contract_status_fk').val();	
 			
 			/* var actual_completion_date = $('#actual_completion_date').val();
 			var completed_cost = $('#completed_cost').val();
@@ -3838,6 +3848,15 @@
         		$('#defect_liability_period_req').text('');
         		$('#contract_closure_date').rules('remove','required');
         		$('#contract_closure_date_req').text('');
+        		
+        		if($.trim(contract_status_fk) == 'Completed'){                	
+                	$('#actual_completion_date').rules('add',  { required: true });
+                	$('#actual_completion_date_req').text('*');
+                }else{
+                	$('#actual_completion_date').rules('remove',  'required');
+                	$('#actual_completion_date_req').text('');
+                	$('#actual_completion_dateError').text('');
+                } 
 			}
 		}
 		

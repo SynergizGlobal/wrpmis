@@ -554,7 +554,7 @@
                                               <span id="progress_dateError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m7 s6 input-field left-align">
-		                                    <input id="remarks" name="remarks" type="text" class="validate valid" aria-invalid="false">
+		                                    <input id="remarks" name="remarks" type="text" class="validate valid" aria-invalid="false" disabled>
 		                                    <label for="remarks" class="active">Remarks</label> 
 		                                    <span id="remarksError" class="error-msg"></span>
                                         </div>                                        
@@ -772,8 +772,7 @@
         $(document).ready(function () {
             $('.searchable').select2();
             
-
-            
+           
     		/*if("${sessionScope.USER_ROLE_NAME}"!='IT Admin')
     		{
                 $('#btn').prop('disabled',true);
@@ -1214,6 +1213,18 @@
 	 function getComponentIdsList(component) {
 
      	$(".page-loader-3").show();
+     	
+     	
+       	 var strip_chart_component = $("#strip_chart_component").val();
+    	 
+    	 if ($.trim(strip_chart_structure_id_fk) != "") 
+    	 {
+    		 $('#remarks').prop('disabled',false);
+    	 }
+    	 else
+    	 {
+    		 $('#remarks').prop('disabled',true); 
+         }     	
      	
      	clearComponentCircle();
      	

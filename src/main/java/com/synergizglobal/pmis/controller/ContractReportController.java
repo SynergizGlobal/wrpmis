@@ -659,6 +659,7 @@ public class ContractReportController {
 				String Diff=obj.getStatus();
 				String ComVal="Open";
 				String ComValCl="Closed";
+				String ComValYet="Yet to be Awarded";
 				
 				if(Diff.compareTo(ComVal)==0)
 				{
@@ -671,6 +672,12 @@ public class ContractReportController {
 					
 					headerTextRight="CLOSED CONTRACTS";
 					appendHeader="Closed";
+				}
+				else if(Diff.compareTo(ComValYet)==0)
+				{
+					
+					headerTextRight="YET TO BE AWARDED CONTRACTS";
+					appendHeader="Yet to be Awarded";
 				}
 			}
 			

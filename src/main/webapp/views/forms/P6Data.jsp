@@ -469,8 +469,8 @@
             
             $('#data_dateUpload').datepicker({
   	    	    format:'dd-mm-yyyy',
-  	    	    endDate: "today",
-	            maxDate: today,
+  	    	    //endDate: "today",
+	           // maxDate: today,
 	            autoClose:true,
   	    	  	onOpen: datePickerSelectAddClass
   	        });

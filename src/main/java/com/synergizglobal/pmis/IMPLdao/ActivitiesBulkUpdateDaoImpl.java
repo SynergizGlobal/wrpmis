@@ -1250,7 +1250,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 						if(StringUtils.isEmpty(fob_name)) {
 							fob_name = obj.getStrip_chart_structure_id_fk();
 						}
-						String message = "Progress updated for FOB "+fob_name+". Pending approval.";
+						String message = "Scope Update for FOB "+fob_name+". Pending approval.";
 						 
 						Messages msgObj = new Messages();
 						msgObj.setUser_ids(userIds);

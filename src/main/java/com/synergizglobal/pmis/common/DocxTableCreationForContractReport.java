@@ -1264,35 +1264,9 @@ public class DocxTableCreationForContractReport {
 					{
 						addPageBreak(mp);
 						
-						/*String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
-						P p = factory.createP();
-						R r = factory.createR();
-						
-						BufferedImage bImage = ImageIO.read(new File(imagePath));
-					      ByteArrayOutputStream bos = new ByteArrayOutputStream();
-					      ImageIO.write(bImage, "jpg", bos );
-					      byte [] data = bos.toByteArray();						
-
-						if(!StringUtils.isEmpty(imagePath)) {
-							
-							String filenameHint = null;
-					        String altText = null;
-
-					        int id1 = 0;
-					        int id2 = 1;
-						
-							
-
-							p=newImage(wordMLPackage,factory,  data,
-									 altText,
-									filenameHint, id1, id2);
-						}	
-						mp.addObject(p);*/
-						
-						
 						Tr hodRow5 = factory.createTr();
 						
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "YET TO BE AWARDED", calibriBoldRPr2, JcEnumeration.CENTER, true,"ffffff");
+						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "YET TO BE AWARDED CONTRACTS", calibriBoldRPr2, JcEnumeration.CENTER, true,"ffffff");
 						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow5, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
@@ -1309,28 +1283,6 @@ public class DocxTableCreationForContractReport {
 						
 						tableHead.getContent().add(hodRow5);
 						mergeCellsHorizontal(tableHead, 0, 0, 13);
-						
-						/*Tr hodRow3 = factory.createTr();
-	
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "CLOSED CONTRACTS", calibriBoldRPr1, JcEnumeration.CENTER, true,"ffffff");
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-						addTableCellWithTopBottomSpace(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-						
-		
-						
-						tableHead.getContent().add(hodRow3);
-						mergeCellsHorizontal(tableHead, 1, 1, 13);*/
 						
 					}
 				}

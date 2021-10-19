@@ -736,7 +736,7 @@
 	                                   
 	                                </div>
 	                                <div class="col s6 m4 l6 input-field" id="loa_date_div">
-	                                    <input autocomplete="off" id="loa_date" name="loa_date" type="text" class="validate datepicker" value="${contractDeatils.loa_date }">
+	                                    <input autocomplete="off" id="loa_date" name="loa_date" type="text" class="validate datepicker-max-today" value="${contractDeatils.loa_date }">
 	                                    <label for="loa_date">LOA Date</label>
 	                                    <span id="loa_dateError" class="error-msg" ></span>
 	                                    <button type="button" id="loa_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -757,7 +757,7 @@
 	                            </div>
 	                            <div class="row">	                                
 	                                <div class="col s12 m4 l6 input-field offset-m2" id="date_of_startDiv">
-	                                    <input autocomplete="off" id="date_of_start" name="date_of_start" type="text" class="validate validate-dropdown datepicker" value="${contractDeatils.date_of_start }">
+	                                    <input autocomplete="off" id="date_of_start" name="date_of_start" type="text" class="validate validate-dropdown datepicker-max-today" value="${contractDeatils.date_of_start }">
 	                                    <label for="date_of_start">Date of Start <span class="required" id="date_of_startStar">*</span></label>
 	                                     <span id="date_of_startError" class="error-msg" ></span>
 	                                    <button type="button" id="date_of_start_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -2054,13 +2054,13 @@
 		                <div class="container container-no-margin">                 
 		           		 	<div class="row">
 		                       <div class="col s12 m6 l6 mt-brdr center-align">
-		                       	   <c:if test="${contractDeatils.contract_status_fk ne 'Completed' or sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
+		                       	   <c:if test="${contractDeatils.status ne 'Closed' or sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
 			                           <div class=" m-1"> <!-- <button type="button" onclick="prevTab()" id="prevBtn"><i class="fa fa-angle-left"></i></button> -->
 			                               <button type="button" onclick="updateContract();" class="btn waves-effect waves-light bg-m " id="updateBtn">Update</button>
 			                               <!-- <button type="button" onclick="nextTab()" id="nextBtn"><i class="fa fa-angle-right"></i></button> -->
 			                           </div>
 		                           </c:if>
-		                           <c:if test="${contractDeatils.contract_status_fk eq 'Completed' and sessionScope.USER_ROLE_NAME ne 'IT Admin' }">
+		                           <c:if test="${contractDeatils.status eq 'Closed' and sessionScope.USER_ROLE_NAME ne 'IT Admin' }">
 		                           		<div style="color:red;line-height:51px;">Contract Completed</div>
 		                           </c:if>
 		                       </div>
@@ -2181,9 +2181,10 @@
             }
             
             var contract_status_fk = '${contractDeatils.contract_status_fk}';
+            var contract_status = $("#contract_status").val();
             
             var USER_ROLE_NAME = "${sessionScope.USER_ROLE_NAME}";
-            if(contract_status_fk == 'Completed' && USER_ROLE_NAME != 'IT Admin'){
+            if(contract_status == 'Closed' && USER_ROLE_NAME != 'IT Admin'){
             	 $("#formDiv :input").attr("disabled",true);
             }
             
@@ -2220,7 +2221,7 @@
 	       	}else{
 	       		$("#contractors_key_div").hide();
 	       	}
-	      /*  	$("#myForm").submit(function () {
+	        /*$("#myForm").submit(function () {
 	            $("#tabs").tabs("select", $("#contractForm .my-error-class").closest(".ui-tabs-panel").get(0).id);
 	        }); */
 	    	
@@ -2256,7 +2257,7 @@
             	
             });
             
-            var contract_status = $("#contract_status").val();
+            
             if($.trim(contract_status) == 'Yet to be Awarded'){
         		$("#date_of_startDiv").val('');
         		$("#date_of_startDiv").hide();

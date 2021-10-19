@@ -90,18 +90,18 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getApproval_status_fk())) 
 			{
-				if(obj.getApproval_status_fk()=="Approved")
+				if(obj.getApproval_status_fk().equals("Approved"))
 				{
 					qry = qry + " order by approved_on desc";
 				}
-				else if(obj.getApproval_status_fk()=="Rejected")
+				else if(obj.getApproval_status_fk().equals("Rejected"))
 				{
 					qry = qry + " order by rejected_on desc";
 				}	
-				else if(obj.getApproval_status_fk()=="Pending")
+				else if(obj.getApproval_status_fk().equals("Pending"))
 				{
-					qry = qry + " order by created_date desc";
-				}				
+					qry = qry + " order by ap.created_date desc";
+				}					
 			}			
 			
 			

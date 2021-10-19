@@ -2090,45 +2090,38 @@
 
 
     <script>
-	  
-	   /* let date_pickers = document.querySelectorAll('#date_of_start');
-	    $.each(date_pickers, function(){
-	    	var dt = '${contractDeatils.date_of_start}'; 
-	    	this.value = ""; 
-	    	var options = {format: 'dd-mm-yyyy',autoClose:true, onOpen:datePickerSelectAddClass, maxDate:new Date()};
-	    	if(dt.length > 1){
-	    		options.setDefaultDate = true,
-	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0]);
-	    	}
-	    	M.Datepicker.init(dt, options);
-	    });
-    	 $('#date_of_start_icon').click(function () {
-             event.stopPropagation();
-             $('#date_of_start').click();
-         }); */
-         
+	    $(document).on('focus', '.datepicker-max-today', function () {        	 
+			var id = $(this).attr('id');
+				var dt = this.value.split(/[^0-9]/);
+			    this.value = "";
+			    var options = {
+			    	maxDate: new Date(),
+			        format: 'dd-mm-yyyy',
+			        autoClose: true,
+			        onOpen: datePickerSelectAddClass,
+			        showClearBtn: true,
+			        onClose: function () {
+			            if (!$(this.el).val()) {
+			                $(this.el).siblings('label').removeClass('active');
+			            }
+			        }
+			    };
+			    if (dt.length > 1) {
+			        options.setDefaultDate = true,
+			        options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+			    }
+			    M.Datepicker.init(this, options);		       
+		 });
+		 $(document).on('focus', '.datepicker-max-today-button', function () { 
+			 var id = $(this).attr('id').split('_i')[0];
+		     $('#'+id+'_icon').click(function () {
+		         event.stopPropagation();
+		         $('#'+id).focus().click();
+		     });
+		 });         
+		 
         $(document).ready(function () {	
-        		$(".datepicker-max-today").each(function(){
-           		var id = $(this).attr('id');
-				$('#'+id).datepicker({
-					maxDate: new Date(),
-		        	format:'dd-mm-yyyy',
-		        	onOpen:datePickerSelectAddClass,
-		        	autoClose: true,
-		        	showClearBtn: true,
-		            onClose: function () {
-		            	if(!$(this.el).val()){
-			                $(this.el).siblings('label').removeClass('active');	            		
-		            	}
-		            }		   	    	
-		        }).datepicker("setDate", new Date());
-				
-		        $('#'+id+'_icon').click(function () {
-	                event.stopPropagation();
-	                $('#'+id).click();
-	            });
-           	});
-        	
+        	        	
         	$('select:not(.searchable):not(.units)').formSelect();
             $('.searchable').select2();
             $('.units').select2({ dropdownCssClass : 'cost_dropdown' });

@@ -58,13 +58,14 @@ public class FOBDaoImpl implements FOBDao {
 		List<FOB> objsList = null;
 		List<FOB> objsList1 = null;
 		try {
-			String qry = "select fob_id,fob_name,f.work_id_fk,w.work_short_name,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,revised_completion,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
+			String qry = "select distinct fob_id,fob_name,f.work_id_fk,w.work_short_name,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,revised_completion,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
 					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
 					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.last_sanctioned_cost as CHAR) as last_sanctioned_cost,cast(f.completion_cost as CHAR) as completion_cost,f.work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,"
 					+ "work_name,w.project_id_fk,p.project_name "
 					+ "from fob f "
 					+ "LEFT OUTER JOIN work w ON f.work_id_fk = w.work_id "
-					+ "LEFT OUTER JOIN contract c ON c.contract_id = f.contract_id_fk "
+					+ "left join fob_contract_responsible_people ce on f.fob_id = ce.fob_id_fk "
+					+ "LEFT JOIN contract c ON c.contract_id = ce.contract_id_fk "
 					+"left join user u on c.hod_user_id_fk = u.user_id "
 					+"left join user us on c.dy_hod_user_id_fk = us.user_id "				
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "	
@@ -80,9 +81,10 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				//qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?)";
+				qry = qry + " and  responsible_people_id_fk = ? ";
 				arrSize++;
-				arrSize++;
+				//arrSize++;
 			}			
 			
 			Object[] pValues = new Object[arrSize];
@@ -96,13 +98,13 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
-				objsList1 = getExecutivesList(obj);	
+				//pValues[i++] = obj.getUser_id();
+				//objsList1 = getExecutivesList(obj);	
 
 			}			
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				if(objsList1.size() > 0) {
 					for (FOB con : objsList1) {
 				        boolean found=false;
@@ -117,7 +119,7 @@ public class FOBDaoImpl implements FOBDao {
 				        }
 				    }
 				}
-			}			
+			}*/			
 			
 		}catch(Exception e){ 
 			throw new Exception(e);

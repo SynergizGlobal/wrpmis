@@ -367,12 +367,13 @@
         <script type="text/javascript">
         	var filtersMap = new Object();
         	var pageNo = window.localStorage.getItem("approvePageNo");
+        	var id = 1;
             $(document).ready(function () {
                 $(".errMsg").hide();
                 $(".errMsgCheck").hide();
                 $('.searchable').select2();
                 $('.tabs').tabs();
-                var filters = window.localStorage.getItem("activitiesApprovalFilters");
+                var filters = window.localStorage.getItem("activitiesApprovalFilters"+id);
   	          
                 if($.trim(filters) != '' && $.trim(filters) != null){
             	  var temp = filters.split('^'); 
@@ -406,6 +407,76 @@
             	$("#structure").val("");
             	$("#updated_by_user_id_fk").val("");  
             	$(".searchable").select2();
+            	if(approval_status_fk == 'Pending'){
+        			id = 1;
+        			 var filters = window.localStorage.getItem("activitiesApprovalFilters"+id);
+         	          
+                     if($.trim(filters) != '' && $.trim(filters) != null){
+                 	  var temp = filters.split('^'); 
+                 	  for(var i=0;i< temp.length;i++){
+         	        	  if($.trim(temp[i]) != '' ){
+         	        		  var temp2 = temp[i].split('=');
+         		        	  if($.trim(temp2[0]) == 'structure' ){
+         		        		  getStructuresListFilter(temp2[1]);
+         		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+         		        		  getWorksListFilter(temp2[1]);
+         		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+         		        		  getContractsListFilter(temp2[1]);
+         		        	  }else if($.trim(temp2[0]) == 'department_fk'){
+         		        		  getDepartmentsListFilter(temp2[1]);
+         		        	  }else if($.trim(temp2[0]) == 'updated_by_user_id_fk'){
+         		        		  getUpdatedByListFilter(temp2[1]);
+         		        	  }
+         	        	  }
+         	          }
+                     }
+        		}else if(approval_status_fk == 'Approved'){
+        			id = 2;
+        			 var filters = window.localStorage.getItem("activitiesApprovalFilters"+id);
+         	          
+                     if($.trim(filters) != '' && $.trim(filters) != null){
+                 	  var temp = filters.split('^'); 
+                 	  for(var i=0;i< temp.length;i++){
+         	        	  if($.trim(temp[i]) != '' ){
+         	        		  var temp2 = temp[i].split('=');
+         		        	  if($.trim(temp2[0]) == 'structure' ){
+         		        		  getStructuresListFilter(temp2[1]);
+         		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+         		        		  getWorksListFilter(temp2[1]);
+         		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+         		        		  getContractsListFilter(temp2[1]);
+         		        	  }else if($.trim(temp2[0]) == 'department_fk'){
+         		        		  getDepartmentsListFilter(temp2[1]);
+         		        	  }else if($.trim(temp2[0]) == 'updated_by_user_id_fk'){
+         		        		  getUpdatedByListFilter(temp2[1]);
+         		        	  }
+         	        	  }
+         	          }
+                     }
+        		}else if(approval_status_fk == 'Rejected'){
+        			id = 3;
+        			 var filters = window.localStorage.getItem("activitiesApprovalFilters"+id);
+         	          
+                     if($.trim(filters) != '' && $.trim(filters) != null){
+                 	  var temp = filters.split('^'); 
+                 	  for(var i=0;i< temp.length;i++){
+         	        	  if($.trim(temp[i]) != '' ){
+         	        		  var temp2 = temp[i].split('=');
+         		        	  if($.trim(temp2[0]) == 'structure' ){
+         		        		  getStructuresListFilter(temp2[1]);
+         		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+         		        		  getWorksListFilter(temp2[1]);
+         		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+         		        		  getContractsListFilter(temp2[1]);
+         		        	  }else if($.trim(temp2[0]) == 'department_fk'){
+         		        		  getDepartmentsListFilter(temp2[1]);
+         		        	  }else if($.trim(temp2[0]) == 'updated_by_user_id_fk'){
+         		        		  getUpdatedByListFilter(temp2[1]);
+         		        	  }
+         	        	  }
+         	          }
+                     }
+        		}
             	getActivities();
             }
 
@@ -419,7 +490,7 @@
             	$(".searchable").select2();
             	
             	//window.localStorage.clear();
-            	window.localStorage.setItem("activitiesApprovalFilters",'');  
+            	window.localStorage.setItem("activitiesApprovalFilters"+id,'');  
             	window.location.href="<%=request.getContextPath()%>/progress-approval-page"
             	//getActivities();
             	var table = $('#datatable-table-pending').DataTable(); 
@@ -491,7 +562,14 @@
             	Object.keys(filtersMap).forEach(function (key) {
     	    		//alert(filtersMap[key]);
             		filters = filters + key +"="+filtersMap[key] + "^";
-            		window.localStorage.setItem("activitiesApprovalFilters", filters);
+            		if(approval_status_fk == 'Pending'){
+            			window.localStorage.setItem("activitiesApprovalFilters1", filters);
+            		}else if(approval_status_fk == 'Approved'){
+            			window.localStorage.setItem("activitiesApprovalFilters2", filters);
+            		}else if(approval_status_fk == 'Rejected'){
+            			window.localStorage.setItem("activitiesApprovalFilters3", filters);
+            		}
+            	 
        			});
             	table = $('#datatable-table-pending').DataTable();
 
@@ -816,7 +894,7 @@
             	var updated_by_user_id_fk = $("#updated_by_user_id_fk").val();
              	
                 if ($.trim(work_id_fk) == "") {
-                    $("#work_id_fk option:not(:first)").remove();
+                    $("#work_id_fk"+" option:not(:first)").remove();
                     var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
             	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
                     $.ajax({

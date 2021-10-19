@@ -87,6 +87,9 @@
        .pt-5{
 			padding-top:5px !important;
 		}
+		.fs11px{font-size: 11px !important;}
+		.lh14{line-height: 1.4;}
+		.d-none{display: none;}
        @media only screen and (max-width: 768px){       
 			.input-field p.searchable_label {
 			    margin-bottom: 0;
@@ -151,7 +154,7 @@
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m m-b-2">
                                 <h6>
-						 		 <c:if test="${action eq 'edit'}">Update Zonal Railway</c:if>
+						 		 <c:if test="${action eq 'edit'}">Update Zonal Railway (${zonalRailwayDetails.contract_id })</c:if>
 								 <c:if test="${action eq 'add'}">Add Zonal Railway</c:if>                                
                                 </h6>
                             </div>
@@ -168,7 +171,7 @@
                         <div class="container container-no-margin">
                             <div class="row">
                              <c:if test="${action eq 'add'}">	
-	                                <div class="col s6 m4 input-field offset-m2">
+	                                <div class="col s6 m4 l6 input-field offset-m2">
 	                                    <p class="searchable_label"> Project <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getWorksList(this.value);">
 	                                        <option value="">Select</option>
@@ -178,7 +181,7 @@
 	                                    </select>
 	                                    <span id="project_id_fkError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s6 m4 input-field">
+	                                <div class="col s6 m4 l6 input-field">
 	                                    <p class="searchable_label"> Work <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns(this.value);" > 
 	                                        <option value="" >Select</option>
@@ -191,11 +194,11 @@
                                  </c:if>
                                  <c:if test="${action eq 'edit'}">	
 		                              <!-- <div class="row" id="center" style="text-align:left;"> -->			                            
-			                       		  <div class="col s6 m4 input-field offset-m2">
+			                       		  <div class="col s6 m4 l6 input-field offset-m2">
 			                                    <input type="text" value="${zonalRailwayDetails.project_id_fk} - ${zonalRailwayDetails.project_name}" readonly id="project_value" />
 												<label for="project_value"> Project <span class="required">*</span></label>
 										  </div> 
-										  <div class="col s6 m4 input-field"> 
+										  <div class="col s6 m4 l6 input-field"> 
 			                                    <input type="text"  value="${zonalRailwayDetails.work_id_fk} - ${zonalRailwayDetails.work_short_name}" readonly id="work_value"/>
 											    <label for="work_value"> Work <span class="required">*</span></label>
 			                                    <input type="hidden" name="work_id_fk" id="work_id_fk" value="${zonalRailwayDetails.work_id_fk}" readonly />
@@ -205,7 +208,7 @@
                             </div>
                             <c:if test="${action eq 'add'}">	
      						<div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m8 l12 input-field offset-m2">
                                 	<textarea  name="sub_work" id="sub_work" class='pmis-textarea'></textarea>
                                 	<label for="sub_work">Sub Work</label>
                                 </div>	
@@ -213,7 +216,7 @@
 							</c:if>
 							<c:if test="${action eq 'edit'}">	
      						<div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m8 l12 input-field offset-m2">
                                 	<textarea placeholder="Sub Work" name="sub_work" id="sub_work" class='pmis-textarea'>${zonalRailwayDetails.sub_work}</textarea>
 	                                <label for="sub_work">Sub Work</label>
                                 </div>	
@@ -221,7 +224,7 @@
 							</c:if>
                             <div class="row">
                              <c:if test="${action eq 'add'}">
-                                <div class="col s6 m8 input-field offset-m2">
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label fs-sm-8rem">Executing Agency <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="execution_agency_railway_fk" name="execution_agency_railway_fk">
                                         <option value="" >Select</option>
@@ -237,24 +240,18 @@
                                      <label for="contract_id">Sub Work ID <span class="required">*</span>:</label>
                                      <span id="contract_idError" class="error-msg"></span>
                                 </div> -->
-                                <div class="col m2 hide-on-small-only"></div>
                                 </c:if>	
                                  <c:if test="${action eq 'edit'}">
-                                 <div class="col s6 m4 input-field offset-m2"> 
+                                 <div class="col s6 m4 l4 input-field offset-m2"> 
                                     <input type="text"  value="${zonalRailwayDetails.execution_agency_railway_fk} - ${zonalRailwayDetails.railway_name}" readonly id="execution_agency"/>
 								     <label for="execution_agency" class="fs-sm-8rem">Executing Agency <span class="required">*</span>:</label>
 			                     </div>
-			                     <div class="col s6 m4 input-field">
-                                    <input type="text" id="contract_id" name="contract_id"   value="${zonalRailwayDetails.contract_id }" readonly />
-                                     <label for="contract_id">Sub Work ID <span class="required">*</span>:</label>
-                                </div>
+			                     
                                 </c:if>	                                
-                            </div>
-
-                            <div class="row">
+                            
                                <!--  <div class="col s12 m8 input-field"> 
                                     <div class="row">-->
-                                        <div class="col s6 m4 input-field offset-m2">
+                                        <div class="col s6 m4 l4 input-field offset-m2">
                                             <p class="searchable_label">Source of Funds </p>
                                             <select class="searchable" id="source_of_funds" name="source_of_funds">
                                                 <option value="" >Select</option>
@@ -263,7 +260,7 @@
 		                                        </c:forEach>
                                             </select>
                                         </div>
-                                         <div class="col s6 m4 input-field">
+                                         <div class="col s12 m4 l4 input-field">
                                             <p class="searchable_label fs-sm-8rem">Nodal Officer in MRVC </p>
                                             <select class="searchable" id="responsible_person_user_fk" name="responsible_person_user_fk">
                                                 <option value="" >Select</option>
@@ -277,7 +274,7 @@
                                 </div> -->
                             </div>
 						<div class="row">
-							<div class="col s6 m4 input-field offset-m2">
+							<div class="col s12 m4 l4 input-field offset-m2">
 								<p class="searchable_label mb-lg-5px">Status</p>
 								<select class="searchable" id="status_fk" name="status_fk">
 									<option value="">Select</option>
@@ -287,24 +284,13 @@
 									</c:forEach>
 								</select>
 							</div>
-							<div class="col s6 m4 input-field">
-								<input id="asOnDate" type="text" class="validate datepicker"
-									value="${zonalRailwayDetails.as_on_date }" name="as_on_date">
-								<label for="asOnDate">As on Date</label>
-								<button type="button" id="asOnDate_icon" class="datepicker-button">
-									<i class="fa fa-calendar"></i>
-								</button>
-							</div>
-						</div>
-
-						<div class="row">
-                                <div class="col s8 m3 input-field offset-m2">
+							<div class="col s8 m3 l3 input-field offset-m2">
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="sanction_cost" name="sanction_cost" type="number" class="validate" min="0.01" step="0.01" value="${zonalRailwayDetails.sanction_cost }">
                                     <label for="sanction_cost">Sanction Cost</label>
                                     <span id="sanction_costError" class="error-msg"></span>
                                 </div>
-                                <div class="col s4 m1 input-field pt-5">
+                                <div class="col s4 m1 l1 input-field pt-5">
                                 	<p class="searchable_label">Unit</p>
                                 	<select class="units searchable validate-dropdown" id="sanction_cost_units" name="sanction_cost_units">
                                 		<option value="">Select</option>
@@ -313,15 +299,15 @@
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="sanction_cost_unitsError" class="error-msg" ></span>
-                               	</div>  
-                                <div class="col s8 m3 input-field">
+                               	</div>
+                               	<div class="col s8 m3 l3 input-field">
                                      <i class="material-icons prefix center-align">₹</i>
                                     <input id="latest_revised_cost" name="latest_revised_cost" type="number" min="0.01" step="0.01"  value="${zonalRailwayDetails.latest_revised_cost }"
                                         class="validate">
                                     <label for="latest_revised_cost" class="fs-sm-8rem">Latest Revised Cost</label>
                                     <span id="latest_revised_costError" class="error-msg"></span>
                                 </div>
-                                <div class="col s4 m1 input-field pt-5">
+                                <div class="col s4 m1 l1 input-field pt-5">
                                 	<p class="searchable_label">Unit</p>
                                 	<select class="units searchable validate-dropdown" id="latest_revised_cost_units" name="latest_revised_cost_units">
                                 		<option value="">Select</option>
@@ -331,17 +317,20 @@
                                 	</select>
                                 	<span id="latest_revised_cost_unitsError" class="error-msg" ></span>
                                	</div>
-                            </div>
+							
+						</div>
+
+						
 
                             <div class="row">
-                                <div class="col s9 m7 input-field offset-m2 sm-width-redused">
+                                <div class="col s9 m3 l3 input-field sm-width-redused">
                                      <i class="material-icons prefix center-align">₹</i>	
                                     <input id="cumilative_expenditure" name="cumulative_expenditure_upto_last_finacial_year" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.cumulative_expenditure_upto_last_finacial_year }"
                                         class="validate">
-                                    <label for="cumilative_expenditure" class="fs-sm-67rem">Cumulative Expenditure upto Last Financial Year </label>
+                                    <label for="cumilative_expenditure" class="fs11px lh14">Cumulative Expenditure upto Last Financial Year </label>
                                     <span id="cumulative_expenditure_upto_last_finacial_yearError" class="error-msg"></span>
                                 </div>
-                                <div class="col s3 m1 input-field pt-5">
+                                <div class="col s3 m1 l1 input-field pt-5">
                                 	<p class="searchable_label">Unit</p>
                                 	<select class="units searchable validate-dropdown" id="cumilative_expenditure_units" name="cumilative_expenditure_units">
                                 		<option value="">Select</option>
@@ -350,35 +339,15 @@
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="cumilative_expenditure_unitsError" class="error-msg" ></span>
-                               	</div>                                
-                            </div>
-
-							<div class="row">
-								 <div class="col s8 m3 input-field offset-m2">
-                                    <i class="material-icons prefix center-align">₹</i>
-                                    <input id="completion_cost" name="completion_cost" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.completion_cost }"
-                                        class="validate">
-                                    <label for="completion_cost">Completion Cost</label>
-                                    <span id="completion_costError" class="error-msg"></span>
-                                </div>
-                                 <div class="col s4 m1 input-field pt-5">
-                                	<p class="searchable_label">Unit</p>
-                                	<select class="units searchable validate-dropdown" id="completion_cost_units" name="completion_cost_units">
-                                		<option value="">Select</option>
-                                		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.completion_cost_units eq obj.value }">selected</c:if>>${obj.unit }</option>
-	                                	</c:forEach>
-                                	</select>
-                                	<span id="completion_cost_unitsError" class="error-msg" ></span>
                                	</div>
-                                <div class="col s12 m4 input-field ">
+                               	 <div class="col s12 m3 l3 input-field ">
                                      <i class="material-icons prefix center-align">₹</i>	
                                     <input id="cum_actual_expenditure_cr" name="cum_actual_expenditure_cr" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.cum_actual_expenditure_cr }" 	
                                         class="validate">
-                                    <label for="cum_actual_expenditure_cr">Cumulative Actual Expenditure(Cr)</label>
+                                    <label for="cum_actual_expenditure_cr" class="fs11px lh14">Cumulative Actual Expenditure</label>
                                     <span id="cum_actual_expenditure_crError" class="error-msg"></span>
                                 </div>
-                              <%--    <div class="col s4 m1 input-field pt-5">
+                                <div class="col s4 m1 input-field pt-5">
                                 	<p class="searchable_label">Unit</p>
                                 	<select class="units searchable validate-dropdown" id="cumilative_actual_expenditure_units" name="cumilative_actual_expenditure_units">
                                 		<option value="">Select</option>
@@ -387,35 +356,71 @@
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="cumilative_actual_expenditure_unitsError" class="error-msg" ></span>
-                               	</div> --%>  
+                               	</div>
+                                <div class="col s8 m3 l3 input-field offset-m2">
+                                    <i class="material-icons prefix center-align">₹</i>
+                                    <input id="completion_cost" name="completion_cost" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.completion_cost }"
+                                        class="validate">
+                                    <label for="completion_cost">Completion Cost</label>
+                                    <span id="completion_costError" class="error-msg"></span>
+                                </div>
+                                 <div class="col s4 m1 l1 input-field pt-5">
+                                	<p class="searchable_label">Unit</p>
+                                	<select class="units searchable validate-dropdown" id="completion_cost_units" name="completion_cost_units">
+                                		<option value="">Select</option>
+                                		<c:forEach var="obj" items="${unitsList }">
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.completion_cost_units eq obj.value }">selected</c:if>>${obj.unit }</option>
+	                                	</c:forEach>
+                                	</select>
+                                	<span id="completion_cost_unitsError" class="error-msg" ></span>
+                               	</div>                                
+                            </div>
+
+							<div class="row">
+								 
+                               
+                              <%--     --%>  
                                	</div>
                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m8 l12 input-field offset-m2">
                                     <div class="row">
-                                        <div class="col s6 m4 input-field">
+                                        <div class="col s6 m4 l4 input-field">
                                             <input id="actual_start" name="actual_start" type="text" value="${zonalRailwayDetails.actual_start }"
                                                 class="validate datepicker">
                                             <label for="actual_start">Actual Start</label>
                                             <button type="button" id="actual_start_icon"
                                                 class="datepicker-button"><i class="fa fa-calendar"></i></button>
-                                        </div>
-                                        <div class="col s6 m4 input-field">
+                                        </div> 
+                                        <div class="col s6 m4 l4 input-field">
                                             <input id="expected_finish" name="expected_finish" type="text"  value="${zonalRailwayDetails.expected_finish }"
                                                 class="validate datepicker">
                                             <label for="expected_finish" class="fs-sm-67rem">Target For Completion</label>
                                             <button type="button" id="expected_finish_icon"
                                                 class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                         </div>
-                                        <div class="col s6 m4 input-field">
+                                        <div class="col s6 m4 l4 input-field">
                                             <input id="actual_finish" name="actual_finish" type="text"  value="${zonalRailwayDetails.actual_finish }"
                                                 class="validate datepicker">
                                             <label for="actual_finish">Actual Finish</label>
                                             <button type="button" id="actual_finish_icon"
                                                 class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                         </div>
+                                        <div class="col s6 m4 l4 input-field">
+								<input id="asOnDate" type="text" class="validate datepicker"
+									value="${zonalRailwayDetails.as_on_date }" name="as_on_date">
+								<label for="asOnDate">As on Date</label>
+								<button type="button" id="asOnDate_icon" class="datepicker-button">
+									<i class="fa fa-calendar"></i>
+								</button>
+							</div>  
+                            <div class="col s6 m4 l4 input-field d-none">
+                                    <input type="hidden" id="contract_id" name="contract_id"   value="${zonalRailwayDetails.contract_id }" readonly />
+                                     <!-- <label for="contract_id">Sub Work ID <span class="required">*</span>:</label> -->
+                                </div>
                                     </div>
                                 </div>
                             </div>
+                           
                         </div>
 
                         <div class="row fixed-width" style="margin-bottom: 10px;">
@@ -627,19 +632,19 @@
 
                         <div class="container container-no-margin">
                             <div class="row">
-                                <div class="col s6 m4 mt-brdr offset-m2 center-align">
+                                <div class="col s6 m4 l6 mt-brdr offset-m2 center-align">
                                      <div class=" m-1">
                                          <c:if test="${action eq 'edit'}">
-                                           <button type="button" onclick="updateZonalRailway();" class="btn waves-effect waves-light bg-m ">Update</button>
+                                           <button type="button" onclick="updateZonalRailway();" class="btn waves-effect waves-light bg-m w7em">Update</button>
                                          </c:if>
 										 <c:if test="${action eq 'add'}"> 
-					                       <button type="button" onclick="addZonalRailway();" class="btn waves-effect waves-light bg-m ">Add</button>
+					                       <button type="button" onclick="addZonalRailway();" class="btn waves-effect waves-light bg-m w7em">Add</button>
 										 </c:if>
                                     </div>
                                 </div>                              
-                                <div class="col s6 m4 mt-brdr center-align">
+                                <div class="col s6 m4 l6 mt-brdr center-align">
                                     <div class=" m-1">
-                                            <a href="<%=request.getContextPath()%>/zonal-railway" class="btn waves-effect waves-light bg-s ">Cancel</a>
+                                            <a href="<%=request.getContextPath()%>/zonal-railway" class="btn waves-effect waves-light bg-s w7em">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

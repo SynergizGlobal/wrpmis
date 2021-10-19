@@ -34,8 +34,9 @@
         }
 
         .fw-370 {
-            width: 270px;
-            max-width: 270px;
+            width: 470px;
+            max-width: 470px;
+            text-align: left !important;
         }
 
         .fw-80 {

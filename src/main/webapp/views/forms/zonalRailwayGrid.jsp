@@ -217,19 +217,19 @@
 									<thead>
 										<tr>
 											<th class="fw-370 ">Sub Work</th>
-											<th>Execution <br>Agency
+											<th>Execution Agency
 											</th>
-											<th>Source <br>of Fund
+											<th>Source of Fund
 											</th>
 											<th>Status &nbsp;</th>
-											<th>As on &nbsp;<br> Date
+											<!-- <th>As on &nbsp;<br> Date
 											</th>
 											<th>Expected <br>Finish
 											</th>
 											<th>Actual &nbsp;<br>Finish
 											</th>
 											<th>Cumilative <br>Expenditure
-											</th>
+											</th> -->
 											<th class="no-sort fw-80">Action</th>
 										</tr>
 									</thead>
@@ -497,7 +497,7 @@
    								columnDefs : [ {
    									"targets" : 'no-sort',
    									"orderable" : false,
-   								},{targets: [2,3,4,5,6,7], className: 'hideCOl'},{targets: [0], className: 'no-sort fw-111'} ],
+   								},{targets: [2,3,4], className: 'hideCOl'},{targets: [0], className: 'no-sort fw-111'} ],
    								"sScrollX" : "100%",
    								"sScrollXInner" : "100%",
    								"ordering":false,
@@ -526,7 +526,7 @@
    			            { "mData": function(data,type,row){
    			            	if($.trim(data.status_fk) == ''){ return '-'; }else{ return data.status_fk; }
    			            } },
-   			         	{ "mData": function(data,type,row){
+   			         	/*{ "mData": function(data,type,row){
    			            	if($.trim(data.as_on_date) == ''){ return '-'; }else{ return data.as_on_date; }
    			            } },
    			            { "mData": function(data,type,row){
@@ -537,7 +537,7 @@
    			            } },
    			            { "mData": function(data,type,row){
    			            	if($.trim(data.cumulative_expenditure_upto_last_finacial_year) == ''){ return '-'; }else{ return data.cumulative_expenditure_upto_last_finacial_year; }
-   			            } },
+   			            } },*/
    			         	{ "mData": function(data,type,row){
    			         		var contract_id = "'"+data.contract_id+"'";
    		                    var actions = '<a href="javascript:void(0);"  onclick="getContractId('+contract_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';

@@ -43,7 +43,7 @@
         #zonal_railway_table td input[type="month"] {
             border: 0;
             border-bottom: 1px solid #999;
-            width: 145px !important;
+            width: 135px !important;
             background-color: transparent;
         }
         .month::-webkit-calendar-picker-indicator{        	
@@ -90,6 +90,8 @@
 		.fs11px{font-size: 11px !important;}
 		.lh14{line-height: 1.4;}
 		.d-none{display: none;}
+		.w7em{width: 7em;}
+		.mdl-data-table th:first-of-type{padding-left: 15px;}
        @media only screen and (max-width: 768px){       
 			.input-field p.searchable_label {
 			    margin-bottom: 0;

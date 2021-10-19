@@ -729,15 +729,14 @@
 	                             </div>
 	                             <div class="row">
 	                                <div class="col s6 m4 l6 input-field offset-m2" id="loa_letter_number_div">
-	                                    <input id="loa_letter_number" name="loa_letter_number" type="text" class="validate" value="${contractDeatils.loa_letter_number }" 
-	                                     >
-	                                    <label for="loa_letter_number">LOA Letter No</label>
+	                                    <input id="loa_letter_number" name="loa_letter_number" type="text" class="validate" value="${contractDeatils.loa_letter_number }">
+	                                    <label for="loa_letter_number">LOA Letter No <span class="required" id="loa_letter_number_req">*</span></label>
 	                                    <span id="loa_letter_numberError" class="error-msg" ></span>
 	                                   
 	                                </div>
 	                                <div class="col s6 m4 l6 input-field" id="loa_date_div">
 	                                    <input autocomplete="off" id="loa_date" name="loa_date" type="text" class="validate datepicker-max-today" value="${contractDeatils.loa_date }">
-	                                    <label for="loa_date">LOA Date</label>
+	                                    <label for="loa_date">LOA Date <span class="required" id="loa_date_req">*</span></label>
 	                                    <span id="loa_dateError" class="error-msg" ></span>
 	                                    <button type="button" id="loa_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
@@ -768,7 +767,7 @@
 	                                    <label for="estimated_cost" class="fs-sm-67rem"> Detailed Estimated cost</label>
 	                                    <span id="estimated_costError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s3 m1 l2 input-field responsive_units" id="estimated_cost_units_div">
+	                                <div class="col s3 m2 l2 input-field responsive_units" id="estimated_cost_units_div">
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown searchable" id="estimated_cost_units" name="estimated_cost_units">
 	                                		<c:forEach var="obj" items="${unitsList }">
@@ -788,7 +787,7 @@
 	                                <div class="col s9 m3 l4 input-field " id="awarded_cost_div">
 	                                	<i class="material-icons prefix cost left-align">₹</i>
 	                                    <input autocomplete="off" id="awarded_cost" name="awarded_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.awarded_cost }">
-	                                    <label for="awarded_cost">Awarded cost</label>
+	                                    <label for="awarded_cost">Awarded cost <span class="required" id="awarded_cost_req">*</span></label>
 	                                    <span id="awarded_costError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s3 m1 l2 input-field pt-5" id="awarded_cost_units_div">
@@ -800,35 +799,20 @@
 	                                	</select>
 	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
                                 	</div>
-	                                </div>
-	                                <div class="row">
+                                </div>
+                                <div class="row">
 	                                <div class="col s6 m4 l6 input-field offset-m2">
 	                                    <input autocomplete="off" name="target_doc" id="target_doc" type="text" class="validate datepicker" value="${contractDeatils.target_doc }"    >
 	                                    <label for="target_doc">Target DOC</label>
 	                                     <button type="button" id="target_doc_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                     <span id="target_docError" class="error-msg" ></span>
 	                                </div>
-	                                                             
-	                                <%-- <div class="col s6 m2 l3 input-field">
-	                                   <p class="searchable_label">Contract Status</p>
-	                                    <select name = "contract_status" id="contract_status" class="validate-dropdown searchable" onchange="getContractClosureDetails('');getStatusLIst();">
-	                                        <option value="" >Select</option>
-	                                          <c:forEach var="obj" items="${contract_Status }">
-		                                    	 <option value="${obj.contract_status }"<c:if test="${contractDeatils.status eq obj.contract_status}">selected</c:if>>${obj.contract_status }</option>
-		                                     </c:forEach>     
-	                                    </select>
-	                                     <span id="contract_status_fkError" class="error-msg" ></span>
+	                                <div class="col s6 m4 l6 input-field offset-m2">
+	                                    <input autocomplete="off" name="actual_date_of_commissioning" id="actual_date_of_commissioning" type="text" class="validate datepicker" value="${contractDeatils.actual_date_of_commissioning }">
+	                                    <label for="actual_date_of_commissioning">Actual Date of Commissioning <span class="required" id="actual_date_of_commissioning_req">*</span></label>
+	                                     <button type="button" id="actual_date_of_commissioning_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+	                                     <span id="actual_date_of_commissioningError" class="error-msg" ></span>
 	                                </div>
-	                                 <div class="col s6 m2 l3 input-field">
-	                                   <p class="searchable_label">Status of Work</p>
-	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable" onchange="getContractClosureDetails(this.value);setContractStatus();">
-	                                        <option value="" selected>Select</option>
-	                                           <c:forEach var="obj" items="${contract_Statustype }">
-			                                    	<option status="${obj.contract_status }" value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
-			                                    </c:forEach>
-	                                    </select>
-	                                     <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div> --%>
 	                            </div>
 	                            <div class="row" id="contractClosureRadioBtn" style="display: none;">
 	                            	<div class="col s12 m6 input-field offset-m3">
@@ -851,20 +835,20 @@
  								<h5 class="center-align"><span class="div-header">Contract Closure Details</span></h5>  								
  							    <div class="row">
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input autocomplete="off" id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker-max-today" value="${contractDeatils.actual_completion_date }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
-	                                    <label for="actual_completion_date">Actual Completion Date <span class="required" id="actual_completion_dateStar">*</span></label>
+	                                    <input autocomplete="off" id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker-max-today" value="${contractDeatils.actual_completion_date }">
+	                                    <label for="actual_completion_date">Actual Completion Date <span class="required" id="actual_completion_date_req">*</span></label>
 	                                    <span id="actual_completion_dateError" class="error-msg" ></span>
 	                                    <button type="button" id="actual_completion_date_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input autocomplete="off" id="final_takeover" name="final_takeover" type="text" class="validate datepicker-max-today" value="${contractDeatils.final_takeover }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
-	                                    <label for="final_takeover">Final Taking over by Client</label>
+	                                    <input autocomplete="off" id="final_takeover" name="final_takeover" type="text" class="validate datepicker-max-today" value="${contractDeatils.final_takeover }">
+	                                    <label for="final_takeover">Final Taking over by Client <span class="required" id="final_takeover_req">*</span></label>
 	                                    <span id="final_takeoverError" class="error-msg" ></span>
 	                                    <button type="button" id="final_takeover_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input autocomplete="off" id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker-max-today" value="${contractDeatils.completion_certificate_release }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
-	                                    <label for="completion_certificate_release" class="fs-sm-67rem">Date of issue of Completion Certificate</label>
+	                                    <input autocomplete="off" id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker-max-today" value="${contractDeatils.completion_certificate_release }">
+	                                    <label for="completion_certificate_release" class="fs-sm-67rem">Date of issue of Completion Certificate <span class="required" id="completion_certificate_release_req">*</span></label>
 	                                    <button type="button" id="completion_certificate_release_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="completion_certificate_releaseError" class="error-msg" ></span>
 	                                </div>                        
@@ -878,13 +862,13 @@
 	
 	                            <div class="row">
 	                                <div class="col s12 m4 l4 input-field">
-	                                    <input autocomplete="off" id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker-max-today" value="${contractDeatils.final_bill_release }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
-	                                    <label for="final_bill_release" class="fs-sm-8rem">Date of Payment of Final bill</label>
+	                                    <input autocomplete="off" id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker-max-today" value="${contractDeatils.final_bill_release }">
+	                                    <label for="final_bill_release" class="fs-sm-8rem">Date of Payment of Final bill <span class="required" id="final_bill_release_req">*</span></label>
 	                                    <button type="button" id="final_bill_release_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="final_bill_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div autocomplete="off" class="col s12 m4 l4 input-field">
-	                                    <input id="retention_money_release" name="retention_money_release" type="text" class="validate datepicker-max-today" value="${contractDeatils.retention_money_release }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
+	                                    <input id="retention_money_release" name="retention_money_release" type="text" class="validate datepicker-max-today" value="${contractDeatils.retention_money_release }">
 	                                    <label for="retention_money_release" class="fs-sm-67rem">Date of release of Final Retention / BG</label>
 	                                    <button type="button" id="retention_money_release_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="retention_money_releaseError" class="error-msg" ></span>
@@ -892,8 +876,8 @@
 	                                
 	                                <div class="col s9 m3 l3 input-field">
 	                                	<i class="material-icons prefix cost left-align">₹</i>
-	                                    <input autocomplete="off" id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.completed_cost }" onkeypress="updateBtnValueChange();" onkeyup="updateBtnValueChange();">
-	                                    <label for="completed_cost" class="fs-sm-8rem">Completion Cost</label>
+	                                    <input autocomplete="off" id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.completed_cost }">
+	                                    <label for="completed_cost" class="fs-sm-8rem">Completion Cost <span class="required" id="completed_cost_req">*</span></label>
 	                                     <span id="completed_costError" class="error-msg" ></span>
 	                                </div>    
 	                                <div class="col s3 m1 l1 input-field pt-5">
@@ -910,8 +894,8 @@
 	                            </div>
 	                            <div class="row">
 	                            	<div class="col s12 m4 l4 input-field">
-	                                    <input autocomplete="off" id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker-max-today" value="${contractDeatils.defect_liability_period }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
-	                                    <label for="defect_liability_period" class="fs-sm-8rem">End date of Defect Liability Period</label>
+	                                    <input autocomplete="off" id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker-max-today" value="${contractDeatils.defect_liability_period }">
+	                                    <label for="defect_liability_period" class="fs-sm-8rem">End date of Defect Liability Period <span class="required" id="defect_liability_period_req">*</span></label>
 	                                    <button type="button" id="defect_liability_period_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
 	                                </div>
@@ -924,7 +908,7 @@
 	                                
 	                                <div class="col s12 m4 l4 input-field">
 	                                    <input autocomplete="off" id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker-max-today" value="${contractDeatils.contract_closure_date }" onkeyup="updateBtnValueChange();" onchange="updateBtnValueChange();">
-	                                    <label for="contract_closure_date">Date of Contract Closure</label>
+	                                    <label for="contract_closure_date">Date of Contract Closure <span class="required" id="contract_closure_date_req">*</span></label>
 	                                    <button type="button" id="contract_closure_date_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="contract_closure_dateError" class="error-msg" ></span>	                                    
 	                                </div>
@@ -2190,7 +2174,7 @@
             
             getContractClosureDetails(contract_status_fk);
             setContractStatus();
-             var bg_required = '${contractDeatils.bg_required}';
+            var bg_required = '${contractDeatils.bg_required}';
             if(bg_required == 'Yes'){
 	       		$("#bank_guarantee_div").show();
 	       	}else{
@@ -2246,6 +2230,13 @@
                 	$('#contractor_req').text('*');
                 	$('#doc').rules('add',  { required: true });
             		$('#doc_req').text('*');
+            		
+            		$('#loa_letter_number').rules('add',  { required: true });
+                	$('#loa_letter_number_req').text('*');
+                	$('#loa_date').rules('add',  { required: true });
+            		$('#loa_date_req').text('*');
+            		$('#awarded_cost').rules('add',  { required: true });
+            		$('#awarded_cost_req').text('*');
             	}else{
             		$('#contractor_id_fk').rules('remove',  'required');
                 	$('#contractor_req').text('');
@@ -2253,6 +2244,13 @@
                 	$('#doc').rules('remove',  'required');
                 	$('#doc_req').text('');
                 	$('#docError').text('');
+                	
+                	$('#loa_letter_number').rules('remove','required');
+                	$('#loa_letter_number_req').text('');
+                	$('#loa_date').rules('remove','required');
+            		$('#loa_date_req').text('');
+            		$('#awarded_cost').rules('remove','required');
+            		$('#awarded_cost_req').text('');
             	}
             	
             });
@@ -2267,6 +2265,14 @@
         		$('#contractor_req').text('*');
         		$('#doc').rules('add',  { required: true });
         		$('#doc_req').text('*');
+        		
+        		$('#loa_letter_number').rules('add',  { required: true });
+            	$('#loa_letter_number_req').text('*');
+            	$('#loa_date').rules('add',  { required: true });
+        		$('#loa_date_req').text('*');
+        		$('#awarded_cost').rules('add',  { required: true });
+        		$('#awarded_cost_req').text('*');
+        		
 	    	}else{
         		$('#contractor_id_fk').rules('remove',  'required');
             	$('#contractor_req').text('');
@@ -2274,6 +2280,13 @@
             	$('#doc').rules('remove',  'required');
             	$('#doc_req').text(''); 
             	$('#docError').text('');
+            	
+            	$('#loa_letter_number').rules('remove','required');
+            	$('#loa_letter_number_req').text('');
+            	$('#loa_date').rules('remove','required');
+        		$('#loa_date_req').text('');
+        		$('#awarded_cost').rules('remove','required');
+        		$('#awarded_cost_req').text('');
         	}
             if($.trim(contract_status) == 'Open' && $.trim(contract_status_fk) == 'Not Started'){
             	//$("#date_of_start").removeAttr('required');
@@ -2284,11 +2297,22 @@
             
             if($.trim(contract_status_fk) == 'Completed'){                	
             	$('#actual_completion_date').rules('add',  { required: true });
-            	$('#actual_completion_dateStar').text('*');
+            	$('#actual_completion_date_req').text('*');
+            	
+            	$('#actual_date_of_commissioning').rules('remove','required');
+            	$('#actual_date_of_commissioning_req').text('');
             }else{
             	$('#actual_completion_date').rules('remove',  'required');
-            	$('#actual_completion_dateStar').text('');
+            	$('#actual_completion_date_req').text('');
             	$('#actual_completion_dateError').text('');
+            	
+            	$('#actual_date_of_commissioning').rules('remove','required');
+            	$('#actual_date_of_commissioning_req').text('');
+        		
+        		if($.trim(contract_status_fk) == 'Commissioned'){
+        			$('#actual_date_of_commissioning').rules('add',  { required: true });
+                	$('#actual_date_of_commissioning_req').text('*');
+            	}
             }
             
             $("#contract_status_fk").change(function(){
@@ -2304,15 +2328,27 @@
             	
             	if($.trim(contract_status_fk) == 'Completed'){                	
                 	$('#actual_completion_date').rules('add',  { required: true });
-                	$('#actual_completion_dateStar').text('*');
+                	$('#actual_completion_date_req').text('*');
+                	
+                	$('#actual_date_of_commissioning').rules('remove','required');
+                	$('#actual_date_of_commissioning_req').text('');
                 }else{
                 	$('#actual_completion_date').rules('remove',  'required');
-                	$('#actual_completion_dateStar').text('');
+                	$('#actual_completion_date_req').text('');
                 	$('#actual_completion_dateError').text('');
+                	
+                	$('#actual_date_of_commissioning').rules('remove','required');
+                	$('#actual_date_of_commissioning_req').text('');
+            		
+            		if($.trim(contract_status_fk) == 'Commissioned'){
+            			$('#actual_date_of_commissioning').rules('add',  { required: true });
+                    	$('#actual_date_of_commissioning_req').text('*');
+                	}
                 } 
             	
             });
             
+            updateBtnValueChange();
         });
         
         $('#menu-center a.t-c').on('click', function (e) {
@@ -2348,39 +2384,14 @@
             });
         }
         
-        function getContractClosureDetails(contract_status_fk) {
-			/* if(contract_status_fk == 'Completed' || contract_status_fk == 'Closed'){
-				$("#contractClosureDetails").show();
-				$('#closureTab').show();
-			}else{
-				$("#contractClosureDetails").hide();
-				$('#closureTab').hide();
-			} */
-			var user_type = '${sessionScope.USER_TYPE}';
-			var actual_completion_date = '${contractDeatils.actual_completion_date}';
-			var completed_cost = '${contractDeatils.completed_cost}';
-			var final_takeover = '${contractDeatils.final_takeover}';
-			var completion_certificate_release = '${contractDeatils.completion_certificate_release}';
-			var contract_closure_date = '${contractDeatils.contract_closure_date}';
-			var final_bill_release = '${contractDeatils.final_bill_release}';
-			var defect_liability_period = '${contractDeatils.defect_liability_period}';
-			var retention_money_release = '${contractDeatils.retention_money_release}';
-			var pbg_release = '${contractDeatils.pbg_release}';
-			
+        function getContractClosureDetails(contract_status_fk) {			
 			$("#contractClosureDetails").hide();
 			$('#closureTab').hide();
 			if(contract_status_fk == 'Completed' || contract_status_fk == 'Commissioned' || contract_status_fk == 'Closed'){
 				$("#contractClosureRadioBtn").show();				
-				if($.trim(actual_completion_date) != '' || $.trim(completed_cost) != '' ||$.trim(final_takeover) != '' ||$.trim(completion_certificate_release) != '' || 
-						$.trim(contract_closure_date) != '' || $.trim(final_bill_release) != '' || $.trim(defect_liability_period) != '' || $.trim(retention_money_release) != '' || 
-						$.trim(pbg_release) != ''){
-					$("#contractClosureRadioYes").prop("checked", true);
-					$("#contractClosureDetails").show();
-					
-	 				$('#closureTab').show();
-				}else{
-					$("#contractClosureRadioNo").prop("checked", true);
-				}
+				$("#contractClosureRadioYes").prop("checked", true);
+				$("#contractClosureDetails").show();				
+ 				$('#closureTab').show();
 			}else{
 				$("#contractClosureRadioBtn").hide();
 			}
@@ -2815,6 +2826,8 @@
         		 		 required: function(element){
         		             return $("#completed_cost").val()!="";
         		         }
+        		 	  },"actual_date_of_commissioning":{
+        		 		 required: false
         		 	  }
         		 				
         	 	},
@@ -2890,6 +2903,8 @@
         	 	  		required: 'Required'
         		 	  },"completed_cost_units":{
         	 	  		required: 'Required'
+        		 	  },"actual_date_of_commissioning":{
+        		 		 required: 'Required'
         		 	  }
         	 				      
             },
@@ -2999,7 +3014,11 @@
         	 			 error.appendTo('#completed_cost_unitsError');
 	        	 	    }else if (element.attr("id") == "remarks" ){
 	       	 		     document.getElementById("remarksError").innerHTML="";
-	    	 			 error.appendTo('#remarksError');}
+	    	 			 error.appendTo('#remarksError');
+	    	 			}else if (element.attr("id") == "actual_date_of_commissioning" ){
+	       	 		     document.getElementById("actual_date_of_commissioningError").innerHTML="";
+	    	 			 error.appendTo('#actual_date_of_commissioningError');
+	    	 			}
       
         	 },invalidHandler: function (form, validator) {
                  var errors = validator.numberOfInvalids();                 
@@ -3745,18 +3764,37 @@
 		/* tabs previous and next btn code ends here  */
 	
 		function updateBtnValueChange(){
+			var contract_closure_date = $('#contract_closure_date').val();			
 			var user_type = '${sessionScope.USER_TYPE}';
-			var actual_completion_date = $('#actual_completion_date').val();
+			
+			/* var actual_completion_date = $('#actual_completion_date').val();
 			var completed_cost = $('#completed_cost').val();
 			var final_takeover = $('#final_takeover').val();
 			var completion_certificate_release = $('#completion_certificate_release').val();
-			var contract_closure_date = $('#contract_closure_date').val();
 			var final_bill_release = $('#final_bill_release').val();
-			//var defect_liability_period = $('#defect_liability_period').val();
+			var defect_liability_period = $('#defect_liability_period').val();
 			var retention_money_release = $('#retention_money_release').val();
-			//var pbg_release = $('#pbg_release').val();
+			var pbg_release = $('#pbg_release').val();
 			if($.trim(actual_completion_date) != '' && $.trim(completed_cost) != '' && $.trim(final_takeover) != '' && $.trim(completion_certificate_release) != '' && 
-					$.trim(contract_closure_date) != '' && $.trim(final_bill_release) != '' && $.trim(retention_money_release) != ''){
+			$.trim(contract_closure_date) != '' && $.trim(final_bill_release) != '' && $.trim(retention_money_release) != ''){ */			
+			
+			if($.trim(contract_closure_date) != ''){
+				
+				$('#actual_completion_date').rules('add',  { required: true });
+        		$('#actual_completion_date_req').text('*');
+        		$('#final_takeover').rules('add',  { required: true });
+        		$('#final_takeover_req').text('*');
+        		$('#completion_certificate_release').rules('add',  { required: true });
+            	$('#completion_certificate_release_req').text('*');
+            	$('#final_bill_release').rules('add',  { required: true });
+        		$('#final_bill_release_req').text('*');
+        		$('#completed_cost').rules('add',  { required: true });
+        		$('#completed_cost_req').text('*');
+        		/* $('#defect_liability_period').rules('add',  { required: true });
+        		$('#defect_liability_period_req').text('*'); */
+        		$('#contract_closure_date').rules('add',  { required: true });
+        		$('#contract_closure_date_req').text('*');
+			
 				if(user_type=='HOD'){					
 					$('#updateBtn').html('Close Contract');
 					$('#update_type').val('Close Contract');
@@ -3766,13 +3804,42 @@
 				}else{
 					$('#updateBtn').html('Update');
 					$('#update_type').val('Update');
+					
+					$('#actual_completion_date').rules('remove','required');
+	        		$('#actual_completion_date_req').text('');
+	        		$('#final_takeover').rules('remove','required');
+	        		$('#final_takeover_req').text('');
+	        		$('#completion_certificate_release').rules('remove','required');
+	            	$('#completion_certificate_release_req').text('');
+	            	$('#final_bill_release').rules('remove','required');
+	        		$('#final_bill_release_req').text('');
+	        		$('#completed_cost').rules('remove','required');
+	        		$('#completed_cost_req').text('');
+	        		$('#defect_liability_period').rules('remove','required');
+	        		$('#defect_liability_period_req').text('');
+	        		$('#contract_closure_date').rules('remove','required');
+	        		$('#contract_closure_date_req').text('');
 				}
 			}else{
 				$('#updateBtn').html('Update');
 				$('#update_type').val('Update');
+				
+				$('#actual_completion_date').rules('remove','required');
+        		$('#actual_completion_date_req').text('');
+        		$('#final_takeover').rules('remove','required');
+        		$('#final_takeover_req').text('');
+        		$('#completion_certificate_release').rules('remove','required');
+            	$('#completion_certificate_release_req').text('');
+            	$('#final_bill_release').rules('remove','required');
+        		$('#final_bill_release_req').text('');
+        		$('#completed_cost').rules('remove','required');
+        		$('#completed_cost_req').text('');
+        		$('#defect_liability_period').rules('remove','required');
+        		$('#defect_liability_period_req').text('');
+        		$('#contract_closure_date').rules('remove','required');
+        		$('#contract_closure_date_req').text('');
 			}
 		}
-		
 		
 	  </script>
 

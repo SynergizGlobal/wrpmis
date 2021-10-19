@@ -922,7 +922,7 @@ public class ContractDaoImpl implements ContractDao {
 									+ "DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 									+ "DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,"
 									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,DATE_FORMAT(target_doc,'%d-%m-%Y') AS target_doc,"
-									+ "awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried " + 
+									+ "awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried,DATE_FORMAT(actual_date_of_commissioning,'%d-%m-%Y') AS actual_date_of_commissioning " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -990,6 +990,7 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setMilestone_requried(resultSet.getString("milestone_requried"));
 				contract.setRevision_requried(resultSet.getString("revision_requried"));
 				contract.setContractors_key_requried(resultSet.getString("contractors_key_requried"));
+				contract.setActual_date_of_commissioning(resultSet.getString("actual_date_of_commissioning"));
 
 				contract.setBankGauranree(getBankGauranree(contract.getContract_id(),con));	
 				contract.setInsurence(getInsurence(contract.getContract_id(),con));	
@@ -1341,7 +1342,7 @@ public class ContractDaoImpl implements ContractDao {
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 
 								"estimated_cost = ?,contract_closure_date = ?,completion_certificate_release = ?,final_takeover = ?,final_bill_release = ?,defect_liability_period = ?," + 
 								"retention_money_release = ?,pbg_release = ?,contract_status_fk = ?,bg_required = ?,insurance_required = ?,remarks = ?,target_doc = ?,estimated_cost_units = ?,"
-								+ "awarded_cost_units = ?,completed_cost_units = ?,status = ?,milestone_requried = ?,revision_requried = ?,contractors_key_requried = ? "
+								+ "awarded_cost_units = ?,completed_cost_units = ?,status = ?,milestone_requried = ?,revision_requried = ?,contractors_key_requried = ?,actual_date_of_commissioning = ? "
 								+ "where contract_id = ?";
 				stmt = con.prepareStatement(contractUpdate_Qry);
 				int p = 1;
@@ -1384,6 +1385,7 @@ public class ContractDaoImpl implements ContractDao {
 				stmt.setString(p++,contract.getMilestone_requried());
 				stmt.setString(p++,contract.getRevision_requried());
 				stmt.setString(p++,contract.getContractors_key_requried()); 
+				stmt.setString(p++,contract.getActual_date_of_commissioning()); 
 				stmt.setString(p++,contract.getContract_id());
 				count = stmt.executeUpdate();
 				if(count > 0) {

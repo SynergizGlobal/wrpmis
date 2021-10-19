@@ -773,6 +773,7 @@ public class ContractController {
 			contract.setBg_date(DateParser.parse(contract.getBg_date()));
 			contract.setRelease_date(DateParser.parse(contract.getRelease_date()));
 			contract.setTarget_doc(DateParser.parse(contract.getTarget_doc()));
+			contract.setActual_date_of_commissioning(DateParser.parse(contract.getActual_date_of_commissioning()));
 			
 			boolean flag =  contractService.updateContract(contract);
 			if(flag) {

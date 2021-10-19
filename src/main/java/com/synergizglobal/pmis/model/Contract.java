@@ -15,7 +15,7 @@ public class Contract {
 	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till,
 	payment_made,actual_physical_progress,actual_financial_progress,hod_user_id,dy_hod_user_id,user_type_fk,user_id,reporting_to_id_srfk,user_role_code,contract_file_type_fk,contract_file_type,contract_file_id,
 	responsible_people_id_fk,hod_name,contract_status,dy_hod_name,PhysicalProgress,revision_amounts_status, unit, value,ContractAlertRemarks,revised_amount_units,bg_value_units,completed_cost_units,insurance_value_units,
-	awarded_cost_units,estimated_cost_units,hod_department,message_id,update_type,tab_name,contract_details_types,created_by_user_id_fk,milestone_requried,revision_requried,contractors_key_requried;
+	awarded_cost_units,estimated_cost_units,hod_department,message_id,update_type,tab_name,contract_details_types,created_by_user_id_fk,milestone_requried,revision_requried,contractors_key_requried,actual_date_of_commissioning;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk;
 
@@ -1768,6 +1768,14 @@ public class Contract {
 
 	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
 		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getActual_date_of_commissioning() {
+		return actual_date_of_commissioning;
+	}
+
+	public void setActual_date_of_commissioning(String actual_date_of_commissioning) {
+		this.actual_date_of_commissioning = actual_date_of_commissioning;
 	}
 	
 }

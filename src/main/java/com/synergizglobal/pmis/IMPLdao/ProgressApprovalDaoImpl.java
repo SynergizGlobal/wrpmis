@@ -90,18 +90,18 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getApproval_status_fk())) 
 			{
-				if(obj.getApproval_status_fk()=="Approved")
+				if(obj.getApproval_status_fk().equals("Approved"))
 				{
 					qry = qry + " order by approved_on desc";
 				}
-				else if(obj.getApproval_status_fk()=="Rejected")
+				else if(obj.getApproval_status_fk().equals("Rejected"))
 				{
 					qry = qry + " order by rejected_on desc";
 				}	
-				else if(obj.getApproval_status_fk()=="Pending")
+				else if(obj.getApproval_status_fk().equals("Pending"))
 				{
-					qry = qry + " order by created_date desc";
-				}				
+					qry = qry + " order by ap.created_date desc";
+				}					
 			}			
 			
 			
@@ -748,8 +748,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					float scope = Float.parseFloat(activity.getScope());
 					float completed = Float.parseFloat(activity.getCompleted());
 					float remaining = Float.parseFloat(activity.getRemaining_scope());
-					float actual_for_the_day =Float.parseFloat(activity.getActual_for_the_day()==null?"0":activity.getActual_for_the_day());
-					
+					float actual_for_the_day = Float.parseFloat(activity.getActual_for_the_day());
 					if((completed+actual_for_the_day) <= scope) {
 						String updateQry = "UPDATE activities SET completed = ? + ?";	
 						int arrSize = 3;

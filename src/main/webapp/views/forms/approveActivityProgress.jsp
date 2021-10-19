@@ -565,6 +565,7 @@
         			table.column( 10 ).visible(true);
         			table.column( 11 ).visible(true);
         			table.column( 12 ).visible(true);
+        			table.column( 13 ).visible(false);
         			table.column( 14 ).visible(false);
         		}else if(approval_status_fk == 'Rejected'){
         			$("#button_div").hide();

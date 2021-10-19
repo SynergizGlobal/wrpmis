@@ -736,7 +736,7 @@
 	                                   
 	                                </div>
 	                                <div class="col s6 m4 l6 input-field" id="loa_date_div">
-	                                    <input autocomplete="off" id="loa_date" name="loa_date" type="text" class="validate datepicker" value="${contractDeatils.loa_date }">
+	                                    <input autocomplete="off" id="loa_date" name="loa_date" type="text" class="validate datepicker-max-today" value="${contractDeatils.loa_date }">
 	                                    <label for="loa_date">LOA Date</label>
 	                                    <span id="loa_dateError" class="error-msg" ></span>
 	                                    <button type="button" id="loa_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -757,7 +757,7 @@
 	                            </div>
 	                            <div class="row">	                                
 	                                <div class="col s12 m4 l6 input-field offset-m2" id="date_of_startDiv">
-	                                    <input autocomplete="off" id="date_of_start" name="date_of_start" type="text" class="validate validate-dropdown datepicker" value="${contractDeatils.date_of_start }">
+	                                    <input autocomplete="off" id="date_of_start" name="date_of_start" type="text" class="validate validate-dropdown datepicker-max-today" value="${contractDeatils.date_of_start }">
 	                                    <label for="date_of_start">Date of Start <span class="required" id="date_of_startStar">*</span></label>
 	                                     <span id="date_of_startError" class="error-msg" ></span>
 	                                    <button type="button" id="date_of_start_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>

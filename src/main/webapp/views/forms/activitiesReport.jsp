@@ -121,7 +121,7 @@
 									<button type="button" id="from_date_icon"><i class="fa fa-calendar"></i></button>
 									<span id="from_dateError" class="error-msg"></span>
 								</div>
-								<div class="col s6 m3 l4 input-field" id="to_date_holder" style="display:none;">
+								<div class="col s6 m3 l4 input-field" id="to_date_holder">
 									<input id="to_date" name="to_date" type="text" class="validate datepicker"> <label for="to_date"> To Date</label>
 									<button type="button" id="to_date_icon" ><i class="fa fa-calendar"></i></button>
 									<span id="to_dateError" class="error-msg"></span>
@@ -263,12 +263,6 @@
               }
             resetFilterDropDowns();           
         });
-        $('#from_date').change(function(){
-        	if($('#from_date').val()==''){        		
-        	} else{
-        		$('#to_date_holder').css("display", "block");
-        	}
-        });
  
         function clearFilters(){
       
@@ -308,7 +302,6 @@
         		window.localStorage.setItem("activitiesReportFilters", filters);
     			});
             
-            $('#to_date_holder').hide();
         }
         function addInQueWork(work_id){
           	Object.keys(filtersMap).forEach(function (key) {

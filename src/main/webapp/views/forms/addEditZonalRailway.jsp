@@ -314,7 +314,7 @@
                                 	<select class="units searchable validate-dropdown" id="latest_revised_cost_units" name="latest_revised_cost_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.latest_revised_cost_units eq obj.value }">selected</c:if>>${obj.unit }</option>
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.latest_revised_cost_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.latest_revised_cost_units}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="latest_revised_cost_unitsError" class="error-msg" ></span>
@@ -337,24 +337,24 @@
                                 	<select class="units searchable validate-dropdown" id="cumilative_expenditure_units" name="cumilative_expenditure_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.cumilative_expenditure_units eq obj.value }">selected</c:if>>${obj.unit }</option>
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.cumilative_expenditure_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.cumilative_expenditure_units}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="cumilative_expenditure_unitsError" class="error-msg" ></span>
                                	</div>
                                	 <div class="col s12 m3 l3 input-field ">
                                      <i class="material-icons prefix center-align">₹</i>	
-                                    <input id="cum_actual_expenditure_cr" name="cum_actual_expenditure_cr" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.cum_actual_expenditure_cr }" 	
+                                    <input id="cum_actual_expenditure" name="cum_actual_expenditure" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.cum_actual_expenditure }" 	
                                         class="validate">
-                                    <label for="cum_actual_expenditure_cr" class="fs11px lh14">Cumulative Actual Expenditure</label>
+                                    <label for="cum_actual_expenditure" class="fs11px lh14">Cumulative Actual Expenditure</label>
                                     <span id="cum_actual_expenditure_crError" class="error-msg"></span>
                                 </div>
                                 <div class="col s4 m1 input-field pt-5">
                                 	<p class="searchable_label">Unit</p>
-                                	<select class="units searchable validate-dropdown" id="cumilative_actual_expenditure_units" name="cumilative_actual_expenditure_units">
+                                	<select class="units searchable validate-dropdown" id="cum_actual_expenditure_units" name="cum_actual_expenditure_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.cumilative_expenditure_units eq obj.value }">selected</c:if>>${obj.unit }</option>
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.cum_actual_expenditure_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.cum_actual_expenditure_units}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="cumilative_actual_expenditure_unitsError" class="error-msg" ></span>
@@ -371,7 +371,7 @@
                                 	<select class="units searchable validate-dropdown" id="completion_cost_units" name="completion_cost_units">
                                 		<option value="">Select</option>
                                 		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.completion_cost_units eq obj.value }">selected</c:if>>${obj.unit }</option>
+	                                      <option value="${obj.value }" <c:if test="${zonalRailwayDetails.completion_cost_units eq obj.value }">selected</c:if><c:if test="${empty zonalRailwayDetails.completion_cost_units}">selected</c:if>>${obj.unit }</option>
 	                                	</c:forEach>
                                 	</select>
                                 	<span id="completion_cost_unitsError" class="error-msg" ></span>
@@ -472,7 +472,7 @@
                                                     <span class="units">%</span>
                                             </td>
                                            <!--  <td data-head="Cum Actual (in Cr)" class="input-field">
-                                                <input id="cum_actual_expenditure_crs${index.count }" name="cum_actual_expenditure_crs" type="number" class="validate" value="${pObj.cum_actual_expenditure_cr }"
+                                                <input id="cum_actual_expenditure_crs${index.count }" name="cum_actual_expenditure_crs" type="number" class="validate" value="${pObj.cum_actual_expenditure }"
                                                     min="0"  placeholder="cum Actual">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td> -->

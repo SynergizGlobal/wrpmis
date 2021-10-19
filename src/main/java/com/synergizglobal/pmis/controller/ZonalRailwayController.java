@@ -455,7 +455,7 @@ public class ZonalRailwayController {
 		        headingRow1.createCell((short)1).setCellValue("Month");
 	            headingRow1.createCell((short)2).setCellValue("Cum Actual Expenditure(cr)");
 	         	headingRow1.createCell((short)3).setCellValue("Cum Planned Expenditure(%)");
-	            headingRow1.createCell((short)4).setCellValue("Cum Actual Expenditure(cr)");
+	            headingRow1.createCell((short)4).setCellValue("Cum Actual Expenditure");
 	            headingRow1.createCell((short)5).setCellValue("Cum Actual Expenditure(%)");
 	            headingRow1.createCell((short)6).setCellValue("Cum Planned Physical Progress(%)");
 	            headingRow1.createCell((short)7).setCellValue("Cum Actual Physical Progress(%)");
@@ -473,7 +473,7 @@ public class ZonalRailwayController {
 		                row2.createCell((short)1).setCellValue(sObj.getMonth());
 		                row2.createCell((short)2).setCellValue(sObj.getCum_actual_expenditure_fy_cr());
 		                row2.createCell((short)3).setCellValue(sObj.getCum_planned_expenditure_per());
-		                row2.createCell((short)4).setCellValue(sObj.getCum_actual_expenditure_cr());
+		                row2.createCell((short)4).setCellValue(sObj.getCum_actual_expenditure());
 		                row2.createCell((short)5).setCellValue(sObj.getCum_actual_expenditure_per());
 		                row2.createCell((short)6).setCellValue(sObj.getCum_planned_physical_progress_per());
 		                row2.createCell((short)7).setCellValue(sObj.getCum_actual_physical_progress_per());

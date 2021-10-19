@@ -7,14 +7,22 @@ public class ZonalRailway {
 	private String contract_id, project_id,work_id_fk,work_name,railway_name, work_short_name,project_id_fk,project_name, execution_agency_railway_fk, source_of_funds, sanction_cost, latest_revised_cost, 
 	cumulative_expenditure_upto_last_finacial_year, work_id,actual_start, expected_finish, actual_finish, completion_cost,sub_work, 
 	status_fk, as_on_date, progress_id, contract_id_fk, month, cum_actual_expenditure_fy_cr, cum_planned_expenditure_per, 
-	cum_actual_expenditure_cr, cum_actual_expenditure_per, cum_planned_physical_progress_per, cum_actual_physical_progress_per, 
+	cum_actual_expenditure, cum_actual_expenditure_per, cum_planned_physical_progress_per, cum_actual_physical_progress_per, 
 	progress, issue, assistance_required,user_id, user_name, designation, department_fk, reporting_to_id_srfk,responsible_person_user_fk,id, unit, value,
-	sanction_cost_units,latest_revised_cost_units,cumilative_expenditure_units,completion_cost_units,sanction_unit,revised_cost_unit,cumilative_unit,completion_unit;
+	sanction_cost_units,latest_revised_cost_units,cumilative_expenditure_units,completion_cost_units,sanction_unit,revised_cost_unit,cumilative_unit,completion_unit,cum_actual_expenditure_units;
 	
 	private String[] progress_ids, contract_id_fks, months, cum_actual_expenditure_fy_crs, cum_planned_expenditure_pers, 
 	cum_actual_expenditure_crs, cum_actual_expenditure_pers, cum_planned_physical_progress_pers, cum_actual_physical_progress_pers, 
 	progresss, issues, assistance_requireds;
 	
+	public String getCum_actual_expenditure_units() {
+		return cum_actual_expenditure_units;
+	}
+
+	public void setCum_actual_expenditure_units(String cum_actual_expenditure_units) {
+		this.cum_actual_expenditure_units = cum_actual_expenditure_units;
+	}
+
 	public String getSanction_unit() {
 		return sanction_unit;
 	}
@@ -465,12 +473,14 @@ public class ZonalRailway {
 		this.cum_planned_expenditure_per = cum_planned_expenditure_per;
 	}
 
-	public String getCum_actual_expenditure_cr() {
-		return cum_actual_expenditure_cr;
+
+
+	public String getCum_actual_expenditure() {
+		return cum_actual_expenditure;
 	}
 
-	public void setCum_actual_expenditure_cr(String cum_actual_expenditure_cr) {
-		this.cum_actual_expenditure_cr = cum_actual_expenditure_cr;
+	public void setCum_actual_expenditure(String cum_actual_expenditure) {
+		this.cum_actual_expenditure = cum_actual_expenditure;
 	}
 
 	public String getCum_actual_expenditure_per() {

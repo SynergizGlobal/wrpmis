@@ -23,6 +23,9 @@
 	        background-color: #2E58AD;
 	        background-color: #007a7a;
 	     }
+	     .profile_info table tbody tr td:first-of-type{
+	     	width:30%;
+	     }
 	     td{
 	        word-break: break-word;
 	    	word-wrap: break-word;

@@ -137,6 +137,9 @@
 			opacity:0 !important;
 			content:'' !important;
 		}
+		td:first-of-type{
+			word-break:inherit !important;
+		}
 	 	@media only screen and (max-width: 769px){ 		
 			.mob-btn{
 				padding:0 12px; 
@@ -260,7 +263,7 @@
                                                 <th>Actual for<br> the day</th>
                                                 <th>Updated by</th>
                                                 <th>Updated on</th>
-                                                <th>Approved <br>on</th>
+                                                <th>Approved on</th>
                                                 <th>Rejected <br>on</th>
                                                 <th class="nosort">Action</th>
                                             </tr>
@@ -548,24 +551,28 @@
         			table.column( 1 ).visible(false);
         			table.column( 2 ).visible(false);
         			table.column( 9 ).visible(true);
-        			table.column( 10 ).visible(false);
-        			table.column( 11 ).visible(false);
+        			table.column( 10 ).visible(true);
+        			table.column( 11 ).visible(true);
         			table.column( 12 ).visible(false);
         			table.column( 13 ).visible(false);
         			table.column( 14 ).visible(true);
         		}else if(approval_status_fk == 'Approved'){
         			$("#button_div").hide();
         			table.column( 0 ).visible(false);
-        			table.column( 9 ).visible(false);
+        			table.column( 1 ).visible(false);
+        			table.column( 2 ).visible(false);
+        			table.column( 9 ).visible(true);
         			table.column( 10 ).visible(true);
         			table.column( 11 ).visible(true);
-        			table.column( 12 ).visible(false);
+        			table.column( 12 ).visible(true);
         			table.column( 14 ).visible(false);
         		}else if(approval_status_fk == 'Rejected'){
         			$("#button_div").hide();
         			table.column( 0 ).visible(false);
-        			table.column( 9 ).visible(false);
-        			table.column( 10 ).visible(false);
+        			table.column( 1 ).visible(false);
+        			table.column( 2 ).visible(false);
+        			table.column( 9 ).visible(true);
+        			table.column( 10 ).visible(true);
         			table.column( 11 ).visible(false);
         			table.column( 12 ).visible(false);
         			table.column( 13 ).visible(true);

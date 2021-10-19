@@ -1752,7 +1752,7 @@
 	
     function updateFOB(){
   		if(validator.form()){ 
-  			$(".page-loader").show();
+  			
   			var completion_cost = $("#completion_cost").val();
 			var estimated_cost = $("#estimated_cost").val();
 			if(completion_cost == ""){
@@ -1778,6 +1778,17 @@
   				    		
   			$('form input[name=fob_detail_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
   			$('form input[name=fob_detail_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			
+  			if($("#work_status_fk").val() == 'Commissioned' && $("#commissioning_date").val()=="")
+ 				{
+ 				   $("#commissioning_dateError").html("Commissioning Date is mandatory");
+ 				   return false;
+ 				}
+  			else
+  				{
+  					$("#commissioning_dateError").html("");
+  				}
+  			$(".page-loader").show();
   			document.getElementById("fobForm").submit();			
 	 	}
 	}

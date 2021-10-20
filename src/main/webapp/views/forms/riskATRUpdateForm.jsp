@@ -231,7 +231,7 @@
 																				class="validate datepicker" placeholder="ATR  Date"
 																				value="${aObj.atr_date}"/>
 																			<button type="button"
-																				id="atr_date_icon${index.count }">
+																				id="atr_dates${index.count }_icon" class="datepicker-button">
 																				<i class="fa fa-calendar"></i>
 																			</button>
 																		
@@ -285,7 +285,7 @@
 																			name="atr_dates" type="text"
 																			class="validate datepicker" placeholder="ATR  Date">
 																		<button type="button"
-																			id="atr_date_icon0">
+																			id="atr_dates0_icon" class="datepicker-button">
 																			<i class="fa fa-calendar"></i>
 																		</button>
 																		
@@ -423,6 +423,7 @@
     	    	}
            })
         });  */
+        
         function datePickerSelectAddClass() {
             var self = this;
             setTimeout(function () {
@@ -442,6 +443,10 @@
                     });
             }, 500);
         };
+        $(document).on('focus', '.datepicker-button', function () {
+            var dateId = $(this).attr('id').split("_i")[0];
+            $('#' + dateId).focus().click();
+        });
         
         var year = '';
        	var month = '';
@@ -517,7 +522,7 @@
 	    	M.Datepicker.init(this, options);
 	    	//cnt++;
 	    });
-	    $('#atr_date_icon1').click(function () {
+	    $('#atr_dates1_icon').click(function () {
             event.stopPropagation();
             $('#atr_dates1').click();
         });
@@ -596,7 +601,7 @@
 			  </c:forEach>
 			+'</select></div></td>' */
 			+'<td data-head="ATR Date" class="input-field"> <input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'
-			+'<button type="button" id="atr_date_icon' + rNo + '" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
+			+'<button type="button" id="atr_dates' + rNo + '_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
 			+'<p id="atr_dates' + rNo + 'Error" class="error-msg" ></p><input type="hidden" id="atr_dates_old' + rNo +'" name="atr_dates_old" value="" /></td>'
 			+'<td data-head="Action Taken" class="input-field"><textarea id="action_takens' + rNo +'"  name="action_takens" '
 			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea><p id="action_takens' + rNo + 'Error" class="error-msg" ></p><textarea style="display:none;" id="action_takens_old' + rNo + '" name="action_takens_old"></textarea></td>'
@@ -699,9 +704,9 @@
 		   	    }
 	        }); 
             
-            $('#atr_date_icon' + rNo).click(function () {
+            $('#atr_dates'+rNo+'_icon').click(function () {
                 event.stopPropagation();
-                $('#atr_dates' + rNo).click();
+                console.log($('#atr_dates' + rNo).click());
             });
             
             $('select:not(.searchable)').formSelect();

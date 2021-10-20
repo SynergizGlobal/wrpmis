@@ -166,7 +166,7 @@
                             <div class="row">
                             	<div class="col s6 m4 l4 input-field">
                                     <input id="user_name" name="user_name" type="text" class="validate" value="${usrObj.user_name }">
-                                    <label for="name">Name <span class="required">*</span></label>
+                                    <label for="user_name">Name <span class="required">*</span></label>
                                     <span id="user_nameError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field ">
@@ -249,7 +249,7 @@
                                     <span id="mobile_numberError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 l4 input-field offset-m2">
-                                    <input id="personal_contact_number " name="personal_contact_number" type="number" class="validate" value="${usrObj.personal_contact_number }">
+                                    <input id="personal_contact_number" name="personal_contact_number" type="number" class="validate" value="${usrObj.personal_contact_number }">
                                     <label for="personal_contact_number"> Personal Contact Number </label>
                                     <span id="personal_contact_numberError" class="error-msg" ></span>
                                 </div>

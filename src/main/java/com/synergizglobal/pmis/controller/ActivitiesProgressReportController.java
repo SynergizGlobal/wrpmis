@@ -970,7 +970,7 @@ public class ActivitiesProgressReportController {
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);
-								cell.setCellValue(Double.parseDouble(dObj.getCompleted_scope()));
+								cell.setCellValue(Double.parseDouble(dObj.getCompleted_scope()==null?"0":dObj.getCompleted_scope()));
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);

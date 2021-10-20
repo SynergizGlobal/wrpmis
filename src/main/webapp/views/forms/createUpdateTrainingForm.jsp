@@ -341,7 +341,7 @@
 						<span class="card-title headbg">
 							<div class="center-align p-2 bg-m m-b-2">
 								<h6>
-									<c:if test="${action eq 'edit'}">Update Training</c:if>
+									<c:if test="${action eq 'edit'}">Update Training (${trainingDetails.training_id })</c:if>
 									<c:if test="${action eq 'add'}"> Add Training</c:if>
 								</h6>
 							</div>
@@ -357,11 +357,11 @@
 					<div class="container container-no-margin">
 						<div class="row">	
 							<c:if test="${action eq 'edit'}">						 
-								<div class="col s6 offset-m2 m4 input-field">								
+								<%-- <div class="col s6 offset-m2 m4 input-field">								
 									<p class="primary-text-bold">Training ID : <span>${trainingDetails.training_id }</span></p>								
-								</div>
+								</div> --%>
 							</c:if>
-							<div class="col s6 m4 input-field <c:if test="${action eq 'add'}">offset-m2 </c:if>">
+							<div class="col s6 m4 l4 input-field <c:if test="${action eq 'add'}">offset-m2 </c:if>">
 								<p class="searchable_label">Training Type <span class="required">*</span></p>
 								<select class="searchable validate-dropdown"
 									name="training_type_fk" id="training_type_fk">
@@ -373,12 +373,7 @@
 								</select> 
 								<span id="training_typeError" class="error-msg"></span>
 							</div>
-							 
-						</div>
-
-						<div class="row">
-							 
-							<div class="col s6 offset-m2 m4 input-field">
+							<div class="col s6 m4 l4 input-field">
 								<p class="searchable_label">Category <span class="required">*</span></p>
 								<select class="searchable validate-dropdown"
 									name="training_category_fk" id="training_category_fk">
@@ -390,7 +385,7 @@
 								</select> 
 								<span id="training_category_fkError" class="error-msg"></span>
 							</div>
-							<div class="col s6 m4 input-field">
+							<div class="col s6 m4 l4 input-field">
 								<p class="searchable_label">Status <span class="required">*</span></p>
 								<select class="searchable validate-dropdown" name="status_fk"
 									id="status_fk">
@@ -405,24 +400,16 @@
 							 
 						</div>
 
+
 						<div class="row">
 							 
-							<div class="col s6 offset-m2 m4 input-field ">
-								<input id="faculty_name" name="faculty_name" type="text" class="validate" value="${trainingDetails.faculty_name }">
-								<label for="faculty_name">Faculty <span class="required">*</span></label>
-								<span id="faculty_nameError" class="error-msg"></span>
-							</div>
-							<div class="col s6 m4 input-field ">
-								<input id="designation" type="text" name="designation" class="validate" value="${trainingDetails.designation }"> 
-								<label for="designation">Designation</label>
-								<span id="designationError" class="error-msg"></span>
-							</div>
+							
 							 
 						</div>
 						<input type="hidden" name="training_id" value="${trainingDetails.training_id }"  id="training_id"/>
 						<div class="row">
 							 
-							<div class="col s12 m8 input-field offset-m2">
+							<div class="col s12 m12 l12 input-field">
 								<textarea id="title" name="title" class="pmis-textarea">${trainingDetails.title }</textarea>
 								<label for="title">Title <span class="required">*</span></label>
 								<span id="titleError" class="error-msg"></span>
@@ -431,7 +418,7 @@
 						</div>
 						<div class="row">
 							 
-							<div class="col s12 m8 input-field offset-m2">
+							<div class="col s12 m12 l12 input-field">
 								<textarea id="description" name="description" class="pmis-textarea">${trainingDetails.description }</textarea>
 								<label for="description">Description <span class="required">*</span></label>
 								<span id="descriptionError" class="error-msg"></span>
@@ -440,12 +427,21 @@
 						</div>
 
 						<div class="row">
-							 
-							<div class="col s12 m8 input-field offset-m2">
+							<div class="col s6 m4 l4 input-field ">
+								<input id="faculty_name" name="faculty_name" type="text" class="validate" value="${trainingDetails.faculty_name }">
+								<label for="faculty_name">Faculty <span class="required">*</span></label>
+								<span id="faculty_nameError" class="error-msg"></span>
+							</div>
+							<div class="col s6 m4 l4 input-field ">
+								<input id="designation" type="text" name="designation" class="validate" value="${trainingDetails.designation }"> 
+								<label for="designation">Designation</label>
+								<span id="designationError" class="error-msg"></span>
+							</div>
+							<div class="col s6 m4 l4 input-field">
 								<!-- <input id="training_center" type="text" class="validate" style="margin-top: 10px;">
                                     <label for="training_center"> Training Center </label> -->
-								<textarea id="training_center" name="training_center"
-									class="pmis-textarea">${trainingDetails.training_center }</textarea>
+								<textarea id="training_center" name="training_center" rows="2"
+									class="pmis-textarea-h pmis-textarea">${trainingDetails.training_center }</textarea>
 								<label for="training_center">Training Center</label>
 							</div>
 							 
@@ -456,8 +452,7 @@
     				<div class="col m12 s12">        
 						<div class="row fixed-width">
 							<h5 class="center-align">Sessions</h5>
-							<div class="col s12 m2 table-inside"></div>
-							<div class="col s12 m8 table-inside">
+							<div class="col s12 m12 l12 table-inside">
 								<table id="session-table" class="mdl-data-table mobile_responsible_table" style="text-align:center;">
 									<thead>
 										<tr>
@@ -1114,7 +1109,7 @@
 
 						<div class="row">
 						 
-							<div class="col s12 m8 input-field offset-m2">
+							<div class="col s12 m12 l12 input-field">
 								<textarea id="remarks" class="pmis-textarea" name="remarks" id="remarks" data-length="1000">${trainingDetails.remarks }</textarea>
 								<label for="remarks">Remarks</label>
 							</div>
@@ -1122,7 +1117,7 @@
 
 						<div class="row">
 							 
-							<div class="col s6 m4 mt-brdr offset-m2 center-align">
+							<div class="col s6 m6 l6 mt-brdr center-align">
 								<div class=" m-1">
 									<c:if test="${action eq 'edit'}">
 										<button type="button" onclick="updateTraining();" class="btn waves-effect waves-light bg-m">Update</button>
@@ -1132,7 +1127,7 @@
 									</c:if>
 								</div>
 							</div>
-							<div class="col s6 m4 mt-brdr center-align">
+							<div class="col s6 m6 l6 mt-brdr center-align">
 								<div class=" m-1">
 									<a href="<%=request.getContextPath()%>/training"
 										class="btn waves-effect waves-light bg-s" >Cancel</a>

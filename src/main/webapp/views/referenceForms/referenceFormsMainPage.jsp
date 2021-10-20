@@ -16,8 +16,29 @@
         .hidden {
             display: none;
         }
+        .row.no-mar{
+        	margin-bottom:0;
+        	box-shadow:1px 1px 10px 1px #777;
+        }
+        .position-sticky{
+        	position:sticky;
+        }
+        .top-2rem{
+        	top:2rem;
+        }
+       .theme-change {
+		    position: fixed;
+		    z-index: 2;
+		    right: -20px;
+		    top: 60px;
+		    border: 0;
+		    cursor: pointer;
+		    font-size: 1.5rem;
+		    transition: all 1s ease-in-out;
+		}
         .module-holder {
             margin-top: .5rem;
+            background-color:#f2f2f2;
         }
         iframe {
             box-sizing: border-box;
@@ -34,7 +55,7 @@
 <body>
 <jsp:include page="../layout/header.jsp"></jsp:include>
 
-    <div class="row no-mar" style="margin-bottom:0">
+    <div class="row no-mar position-sticky top-2rem">
         <div class="col s12">
             <div class="module-holder" id="module-holder">
               <c:forEach var="obj" items="${referenceForms}" varStatus="index">

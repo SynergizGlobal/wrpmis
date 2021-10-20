@@ -83,7 +83,7 @@
 
 
 	<div class="row">
-		<div class="col s12 m12 hide-on-med-and-down">
+		<%-- <div class="col s12 m12 hide-on-med-and-down">
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title headbg">
@@ -130,15 +130,15 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> --%>
 		<div class="row">
 			<div class="col s12 m12">
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6 class="hide-on-med-and-down">Update User</h6>
-								<h6 class="hide-on-large-only">Users</h6>
+								<!-- <h6 class="hide-on-med-and-down">Update User</h6> -->
+								<h6 class="hide-on-large-only1">Users</h6>
 							</div>
 						</span>
 						<div class="row no-mar" >

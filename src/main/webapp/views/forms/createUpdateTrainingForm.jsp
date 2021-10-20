@@ -385,7 +385,7 @@
 								</select> 
 								<span id="training_category_fkError" class="error-msg"></span>
 							</div>
-							<div class="col s6 m4 l4 input-field">
+							<div class="col s12 m4 l4 input-field">
 								<p class="searchable_label">Status <span class="required">*</span></p>
 								<select class="searchable validate-dropdown" name="status_fk"
 									id="status_fk">
@@ -437,7 +437,7 @@
 								<label for="designation">Designation</label>
 								<span id="designationError" class="error-msg"></span>
 							</div>
-							<div class="col s6 m4 l4 input-field">
+							<div class="col s12 m4 l4 input-field">
 								<!-- <input id="training_center" type="text" class="validate" style="margin-top: 10px;">
                                     <label for="training_center"> Training Center </label> -->
 								<textarea id="training_center" name="training_center" rows="2"

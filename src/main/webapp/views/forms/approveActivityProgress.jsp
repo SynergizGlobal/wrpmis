@@ -641,7 +641,7 @@
         			table.column( 2 ).visible(false);
         			table.column( 9 ).visible(true);
         			table.column( 10 ).visible(true);
-        			table.column( 11 ).visible(true);
+        			table.column( 11 ).visible(false);
         			table.column( 12 ).visible(true);
         			table.column( 13 ).visible(false);
         			table.column( 14 ).visible(false);

@@ -164,16 +164,38 @@
 			                	<form action="<%=request.getContextPath() %>/add-user" id="userForm" name="userForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
                             <div class="row">
-                                <input id="user_id" name="user_id" type="hidden" value="${usrObj.user_id }">
+                            	<div class="col s6 m4 l4 input-field">
+                                    <input id="user_name" name="user_name" type="text" class="validate" value="${usrObj.user_name }">
+                                    <label for="name">Name <span class="required">*</span></label>
+                                    <span id="user_nameError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m4 l4 input-field ">
+                                    <input id="designation" name="designation" type="text" class="validate" value="${usrObj.designation }">
+                                    <label for="designation">Designation <span class="required">*</span></label>
+                                    <span id="designationError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 l4 input-field offset-m2">
+                                   <p class="searchable_label">Department <span class="required">*</span></p>
+                                    <select id="department_fk" name="department_fk" class="searchable validate-dropdown" onchange="getReportingToPersonsList();">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${departments }">
+                                        	<option value="${obj.department }" <c:if test="${obj.department eq usrObj.department_fk}">selected</c:if>>${obj.department_name }</option>
+                                        </c:forEach>
+                                    </select>     
+                                    <span id="department_fkError" class="error-msg" ></span>
+                                </div>
+                                
+                                </div>
+                                <div class="row">
                                 <div class="col s6 m4 l4 input-field">
-                                     <p class="searchable_label">User Role <span class="required">*</span></p>
-                                      <select id="user_role_name_fk" name="user_role_name_fk" class="searchable validate-dropdown" onchange="setUserRoleCode();">
-                                          <option value="">Select</option>
-                                          <c:forEach var="obj" items="${roles }">
-                                          	<option name="${obj.user_role_code }" value="${obj.user_role_name }" <c:if test="${obj.user_role_name eq usrObj.user_role_name_fk}">selected</c:if>>${obj.user_role_name }</option>
-                                          </c:forEach>
-                                      </select> 
-                                      <span id="user_role_name_fkError" class="error-msg" ></span>
+                                   <p class="searchable_label">Reporting To <span class="required">*</span></p>
+                                   <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable validate-dropdown">
+                                       <option value="">Select</option>
+                                       <c:forEach var="obj" items="${reportingToList }">
+                                       	<option value="${obj.user_id }" <c:if test="${obj.user_id eq usrObj.reporting_to_id_srfk}">selected</c:if>><c:if test="${not empty obj.designation}">${obj.designation } - </c:if>${obj.user_name }</option>
+                                       </c:forEach>
+                                   </select>   
+                                   <span id="reporting_to_id_srfkError" class="error-msg" ></span>
                                 </div>
                                 <input id="user_role_code" name="user_role_code" type="hidden">
                                 <%-- <c:if test="${empty usrObj.user_id }">
@@ -200,39 +222,22 @@
                                       </select> 
                                       <span id="user_type_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field offset-m2">
-                                   <p class="searchable_label">Department <span class="required">*</span></p>
-                                    <select id="department_fk" name="department_fk" class="searchable validate-dropdown" onchange="getReportingToPersonsList();">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${departments }">
-                                        	<option value="${obj.department }" <c:if test="${obj.department eq usrObj.department_fk}">selected</c:if>>${obj.department_name }</option>
-                                        </c:forEach>
-                                    </select>     
-                                    <span id="department_fkError" class="error-msg" ></span>
+                                <input id="user_id" name="user_id" type="hidden" value="${usrObj.user_id }">
+                                <div class="col s12 m4 l4 input-field">
+                                     <p class="searchable_label">User Role <span class="required">*</span></p>
+                                      <select id="user_role_name_fk" name="user_role_name_fk" class="searchable validate-dropdown" onchange="setUserRoleCode();">
+                                          <option value="">Select</option>
+                                          <c:forEach var="obj" items="${roles }">
+                                          	<option name="${obj.user_role_code }" value="${obj.user_role_name }" <c:if test="${obj.user_role_name eq usrObj.user_role_name_fk}">selected</c:if>>${obj.user_role_name }</option>
+                                          </c:forEach>
+                                      </select> 
+                                      <span id="user_role_name_fkError" class="error-msg" ></span>
                                 </div>
                             
-                            	<div class="col s6 m4 l4 input-field">
-                                   <p class="searchable_label">Reporting To <span class="required">*</span></p>
-                                   <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable validate-dropdown">
-                                       <option value="">Select</option>
-                                       <c:forEach var="obj" items="${reportingToList }">
-                                       	<option value="${obj.user_id }" <c:if test="${obj.user_id eq usrObj.reporting_to_id_srfk}">selected</c:if>><c:if test="${not empty obj.designation}">${obj.designation } - </c:if>${obj.user_name }</option>
-                                       </c:forEach>
-                                   </select>   
-                                   <span id="reporting_to_id_srfkError" class="error-msg" ></span>
-                                </div>
+                            	
                             
-                                <div class="col s6 m4 l4 input-field">
-                                    <input id="user_name" name="user_name" type="text" class="validate" value="${usrObj.user_name }">
-                                    <label for="name">Name <span class="required">*</span></label>
-                                    <span id="user_nameError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field ">
-                                    <input id="designation" name="designation" type="text" class="validate" value="${usrObj.designation }">
-                                    <label for="designation">Designation <span class="required">*</span></label>
-                                    <span id="designationError" class="error-msg" ></span>
-                                </div>
-                            
+                            <div class="row">
                                 <div class="col s6 m4 l4 input-field offset-m2 ">
                                     <input id="email_id" name="email_id" type="email" class="validate" value="${usrObj.email_id }">
                                     <label for="email_id">Email ID <span class="required">*</span></label>
@@ -250,9 +255,9 @@
                                 </div>
                             </div>        
                             
-                            <div class="row">                               
+                                                           
                                 
-                            </div>
+                          
                                               
                             <div class="row">
                                 <div class="col s6 m4 l4 input-field offset-m2">

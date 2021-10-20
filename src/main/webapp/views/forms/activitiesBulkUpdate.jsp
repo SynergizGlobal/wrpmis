@@ -240,28 +240,11 @@
         .mobile_responsible_table>tbody > tr:not(.datepicker-row) >td{
         	height:auto;
         }
-        
-  .datepicker-table thead tr,
-        .datepicker-table thead tr:hover,
-        .datepicker-table tbody tr,
-        .datepicker-table tbody tr:hover {
-            background-color: transparent !important ;
-            border-radius: 0;
-            border-bottom-width: 0;
-        }
-
-        .datepicker-table td:first-of-type,
-        .datepicker-table td:last-of-type {
-            padding: 0 !important;
-        }
-
-        .datepicker-table th,
-        .datepicker-table td {
-            padding: 0 !important;
-        }      
- .datepicker~button {
-    bottom: 1rem;
-}        
+            
+		 .datepicker~button ,
+		 .datepicker-max-today~button{
+		    bottom: 1.5rem;
+		}        
         
     </style>
      <style>
@@ -548,9 +531,9 @@
 
                                     <div class="row">
                                         <div class="col m4 s6 input-field left-align">
-                                             <input id="progress_date" name="progress_date" type="text" class="validate datepicker">
+                                             <input id="progress_date" name="progress_date" type="text" class="validate datepicker-max-today">
                                              <label for="progress_date">Reporting Date <span class="required">*</span></label>
-                                             <button type="button" id="progress_date_icon" class="white"><i class="fa fa-calendar"></i></button>
+                                             <button type="button" id="progress_date_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
                                               <span id="progress_dateError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m7 s6 input-field left-align">
@@ -745,6 +728,7 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
+    	var monthShortCode=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 	    var datePickerSelectAddClass = function () {
 	        var self = this;
 	        setTimeout(function () {
@@ -764,7 +748,38 @@
 	                });
 	        }, 500);
 	    };
-	   
+	    $(document).on('focus', '.datepicker-max-today', function () {        	 
+			var id = $(this).attr('id');
+				var dt = this.value.split('-');
+			    this.value = "";
+			    var options = {
+			    	maxDate: new Date(),
+			    	format: 'dd-mmm-yy',
+			        autoClose: true,
+			        onOpen: datePickerSelectAddClass,
+			        showClearBtn: true,
+			        onClose: function () {
+			            if (!$(this.el).val()) {
+			                $(this.el).siblings('label').removeClass('active');
+			            }
+			        }
+			    };
+			    if (dt.length > 1) {			    	
+			        var year=(dt[2] < 80)?Number(dt[2])+2000:Number(dt[2])+1900;
+			        var month=monthShortCode.indexOf(dt[1]);
+			        options.setDefaultDate = true,
+			        options.defaultDate = new Date(year, month, dt[0])
+			    }
+			    M.Datepicker.init(this, options);		       
+		 });
+		 $(document).on('focus', '.datepicker-max-today-button', function () { 
+			 var id = $(this).attr('id').split('_i')[0];
+		     $('#'+id+'_icon').click(function () {
+		         event.stopPropagation();
+		         $('#'+id).focus().click();
+		     });
+		 }); 
+		 
 	    var filtersMap = new Object();
 	    var structureVal = "";
 	    var glb="";
@@ -815,9 +830,8 @@
               }
             
            // $('#progress_date').datepicker();
-            $('#progress_date').datepicker({
+           /*  $('#progress_date').datepicker({
                 maxDate: new Date(),
-              //  max: new Date(),
                 format: 'dd-mmm-yy',
                 autoClose:true,
                 onOpen: datePickerSelectAddClass,
@@ -831,7 +845,7 @@
             $('#progress_date_icon').click(function () {
                 event.stopPropagation();
                 $('#progress_date').click();
-            });
+            }); */
             $('#remarks').characterCounter();
         
         });
@@ -1371,8 +1385,8 @@
  	            	 						{
  	            	 							disDisabled="readonly";
  	            	 						}
-				 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start_icon'+num+'" ><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
-				 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish_icon'+num+'"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
+				 	            	 			html +='<td data-head="Planned Start" class="input-field"><input id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max-today" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button><span id="planned_startError" class="error-msg" ></span></td>'
+				 	            	 			+'<td data-head="Planned Finish" class="input-field"><input id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max-today" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button><span id="planned_finishError" class="error-msg" ></span></td>'
 				 	            	 			//+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>';
 		 	            	 						 	            	 			
  	            	 				}
@@ -1396,7 +1410,7 @@
  	            	 			if("${sessionScope.USER_ROLE_NAME}"=='IT Admin')
 	            	 				{
 	            	 				
-	 	            	            $('#planned_start'+num).datepicker({
+	 	            	           /*  $('#planned_start'+num).datepicker({
 	 	            	                maxDate: new Date(),
 	 	            	                format: 'dd-mmm-yy',
 	 	            	                autoClose:true,
@@ -1431,7 +1445,7 @@
 	 	            	            $('#planned_finish_icon'+num).click(function () {
 	 	            	                event.stopPropagation();
 	 	            	                $('#planned_finish'+num).click();
-	 	            	            });   
+	 	            	            });    */
 	 	            	            
 	 	            	        	  $('#scope'+num).keypress(function(evt) {
 	 	            	        		  evt = (evt) ? evt : window.event;

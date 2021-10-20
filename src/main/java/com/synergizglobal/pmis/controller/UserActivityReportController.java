@@ -243,10 +243,19 @@ public class UserActivityReportController {
 	        		 XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(dateFields));
 				     workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
 				        
-				     XSSFRow dateRow = dprSheet.createRow(2);
-		
-			        
-			        Cell cell = dateRow.createCell(1);
+				        XSSFRow dateRow = dprSheet.createRow(0);
+				        
+				        Cell cell = dateRow.createCell(0);
+				        
+				        
+						cell.setCellStyle(whiteStyle);
+						cell.setCellValue("");
+						for (int i = 0; i < 8; i++) {		        	
+					        cell = dateRow.createCell(i);
+					        cell.setCellStyle(whiteStyle);
+							cell.setCellValue("User Activity Report On :" + report_created_date);
+						}
+					   dprSheet.addMergedRegion(new CellRangeAddress(0,0, 0,7));				        
 		
 					/*************************************************************************/		
 

@@ -767,7 +767,7 @@
 	                                    <label for="estimated_cost" class="fs-sm-67rem"> Detailed Estimated cost</label>
 	                                    <span id="estimated_costError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s3 m2 l2 input-field responsive_units" id="estimated_cost_units_div">
+	                                <div class="col s3 m1 l2 input-field pt-5" id="estimated_cost_units_div">
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown searchable" id="estimated_cost_units" name="estimated_cost_units">
 	                                		<c:forEach var="obj" items="${unitsList }">
@@ -808,7 +808,7 @@
 	                                     <span id="target_docError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s6 m4 l6 input-field offset-m2">
-	                                    <input autocomplete="off" name="actual_date_of_commissioning" id="actual_date_of_commissioning" type="text" class="validate datepicker" value="${contractDeatils.actual_date_of_commissioning }">
+	                                    <input autocomplete="off" name="actual_date_of_commissioning" id="actual_date_of_commissioning" type="text" class="validate datepicker-max-today" value="${contractDeatils.actual_date_of_commissioning }">
 	                                    <label for="actual_date_of_commissioning">Actual Date of Commissioning <span class="required" id="actual_date_of_commissioning_req">*</span></label>
 	                                     <button type="button" id="actual_date_of_commissioning_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                     <span id="actual_date_of_commissioningError" class="error-msg" ></span>
@@ -895,7 +895,7 @@
 	                            <div class="row">
 	                            	<div class="col s12 m4 l4 input-field">
 	                                    <input autocomplete="off" id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker-max-today" value="${contractDeatils.defect_liability_period }">
-	                                    <label for="defect_liability_period" class="fs-sm-8rem">End date of Defect Liability Period <span class="required" id="defect_liability_period_req">*</span></label>
+	                                    <label for="defect_liability_period" class="fs-sm-8rem">End date of Defect Liability Period <span class="required" id="defect_liability_period_req"></span></label>
 	                                    <button type="button" id="defect_liability_period_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
 	                                </div>
@@ -3818,8 +3818,8 @@
 	        		$('#final_bill_release_req').text('');
 	        		$('#completed_cost').rules('remove','required');
 	        		$('#completed_cost_req').text('');
-	        		$('#defect_liability_period').rules('remove','required');
-	        		$('#defect_liability_period_req').text('');
+	        		/* $('#defect_liability_period').rules('remove','required');
+	        		$('#defect_liability_period_req').text(''); */
 	        		$('#contract_closure_date').rules('remove','required');
 	        		$('#contract_closure_date_req').text('');
 				}
@@ -3837,8 +3837,8 @@
         		$('#final_bill_release_req').text('');
         		$('#completed_cost').rules('remove','required');
         		$('#completed_cost_req').text('');
-        		$('#defect_liability_period').rules('remove','required');
-        		$('#defect_liability_period_req').text('');
+        		/* $('#defect_liability_period').rules('remove','required');
+        		$('#defect_liability_period_req').text(''); */
         		$('#contract_closure_date').rules('remove','required');
         		$('#contract_closure_date_req').text('');
         		

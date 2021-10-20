@@ -894,8 +894,8 @@
 	                            </div>
 	                            <div class="row">
 	                            	<div class="col s12 m4 l4 input-field">
-	                                    <input autocomplete="off" id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker-max-today" value="${contractDeatils.defect_liability_period }">
-	                                    <label for="defect_liability_period" class="fs-sm-8rem">End date of Defect Liability Period <span class="required" id="defect_liability_period_req"></span></label>
+	                                    <input autocomplete="off" id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker" value="${contractDeatils.defect_liability_period }">
+	                                    <label for="defect_liability_period" class="fs-sm-8rem">End date of Defect Liability Period <span class="required" id="defect_liability_period_req">*</span></label>
 	                                    <button type="button" id="defect_liability_period_icon" class="datepicker-max-today-button"><i class="fa fa-calendar"></i></button>
 	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
 	                                </div>
@@ -3793,8 +3793,8 @@
         		$('#final_bill_release_req').text('*');
         		$('#completed_cost').rules('add',  { required: true });
         		$('#completed_cost_req').text('*');
-        		/* $('#defect_liability_period').rules('add',  { required: true });
-        		$('#defect_liability_period_req').text('*'); */
+        		$('#defect_liability_period').rules('add',  { required: true });
+        		$('#defect_liability_period_req').text('*');
         		$('#contract_closure_date').rules('add',  { required: true });
         		$('#contract_closure_date_req').text('*');
 			
@@ -3818,8 +3818,8 @@
 	        		$('#final_bill_release_req').text('');
 	        		$('#completed_cost').rules('remove','required');
 	        		$('#completed_cost_req').text('');
-	        		/* $('#defect_liability_period').rules('remove','required');
-	        		$('#defect_liability_period_req').text(''); */
+	        		$('#defect_liability_period').rules('remove','required');
+	        		$('#defect_liability_period_req').text('');
 	        		$('#contract_closure_date').rules('remove','required');
 	        		$('#contract_closure_date_req').text('');
 				}
@@ -3837,8 +3837,8 @@
         		$('#final_bill_release_req').text('');
         		$('#completed_cost').rules('remove','required');
         		$('#completed_cost_req').text('');
-        		/* $('#defect_liability_period').rules('remove','required');
-        		$('#defect_liability_period_req').text(''); */
+        		$('#defect_liability_period').rules('remove','required');
+        		$('#defect_liability_period_req').text('');
         		$('#contract_closure_date').rules('remove','required');
         		$('#contract_closure_date_req').text('');
         		

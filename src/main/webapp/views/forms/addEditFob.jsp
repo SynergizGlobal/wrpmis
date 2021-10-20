@@ -600,7 +600,7 @@
 	                            <div class="row">
 	                                <h5 class="center-align">FOB Details</h5>
 	                                <div class="col s12 m8 l12 offset-m2">
-	                                    <table id="fobDetailsTable" class="mdl-data-table">
+	                                    <table id="fobDetailsTable" class="mdl-data-table" style="margin-bottom:20px;">
 	                                        <thead>
 	                                            <tr>
 	                                                <th>FOB Detail </th>
@@ -707,13 +707,14 @@
                              <div class="row">
 								<div class="col m10 l12 offset-m1 s12">
 									<div class="row fixed-width">
+                             			<h5 class="center-align"><span class="div-header">Documents</span></h5> 
 										<!-- <div class="table-inside"> -->
 											<table class="mdl-data-table update-table mobile_responsible_table" id="gallery_table">
 												<thead>
 													<tr>
 														<th class="min-180">File Type</th>
 														<th>Name</th>
-														<th>Upload Date</th>
+														<!-- <th>Upload Date</th> -->
 														<th>Attachment</th>
 														<th style="display:none;"></th>
 														<th>Action</th>
@@ -735,9 +736,9 @@
 																	<td data-head="Name" class="input-field"> 
 																		<input id="fobDocumentNames${index.count }" name="fobDocumentNames" type="text" class="validate" placeholder="Name"  value="${fObj.name }">
 				                                                    </td>
-			                                                      	<td data-head="Photo Date" class="input-field">
+			                                                      	<!-- <td data-head="Photo Date" class="input-field">
 		                                                      			<span style='display:inline-block;'><input type="text" id="created_dates${index.count }" name="created_dates" placeholder="Uploaded date" value="${fObj.created_date}" class="validate datepicker" /><button type="button" id="created_dates${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></span>
-			                                                      	</td>
+			                                                      	</td> -->
 																	<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
 								                                        <div class="t-c">
 								                                            <input type="file" id="fobFiles${index.count }" name="fobFiles" accept="image/*">
@@ -780,9 +781,9 @@
 																<td data-head="Name" class="input-field"> 
 																	<input id="fobDocumentNames0" name="fobDocumentNames" type="text" class="validate" placeholder="Name">
 				                                                </td>
-				                                                <td data-head="Upload Date" class="input-field">
+				                                                <!-- <td data-head="Upload Date" class="input-field">
 		                                                      		<span style='display:inline-block;'><input type="text" id="created_dates0" name="created_dates" placeholder="Upload date" class="validate datepicker" /><button type="button" id="created_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></span>
-																</td>
+																</td> -->
 																<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">
 							                                        <div class="t-c">
 							                                            <input type="file" id="fobFiles0" name="fobFiles" accept="image/*">
@@ -800,7 +801,7 @@
 																</td>
 																
 															</tr>
-															<script>
+															<!-- <script>
 																$(document).ready(function () {
 																		 $("#created_dates0").datepicker({
 																        	 format:'dd-mm-yyyy',
@@ -810,7 +811,7 @@
 																   	    	 }
 																        });  
 																 });  
-															</script>	
+															</script> -->	
 														</c:otherwise>
 													</c:choose>
 													
@@ -819,7 +820,7 @@
 											<table class="mdl-data-table table-add bd-none">
 												<tbody>
 													<tr class="bd-none">
-														<td colspan="6" class="bd-none"><a
+														<td colspan="5" class="bd-none"><a
 															type="button"
 															class="btn waves-effect waves-light bg-m t-c add-align"
 															onclick="addFOBFileRow()"> <i
@@ -841,7 +842,7 @@
 									</div>
 								</div>
 							</div>        
-							<div class="row  " id="documentDetails">
+						<%-- 	<div class="row  " id="documentDetails">
 	                            <div class="col m8 l12 s12 offset-m2"  >
 	                                <div class="row fixed-width">
 	                                     <h5 class="center-align"><span class="div-header">Documents</span></h5> 
@@ -948,7 +949,7 @@
 	                                    </div>
 	                                </div>
 	                            </div>
-							</div>            
+							</div>   --%>          
 								<%-- <c:if test="${action eq 'edit'}">
 										<c:set var="existingFOBFilesLength" value="${fn:length(fob.fobImages )}"></c:set>
 										<c:if test="${fn:length(fob.fobImages ) gt 0}">
@@ -1456,9 +1457,9 @@
 		   +'<td data-head="Name" class="input-field">'
 		   +'<input id="fobDocumentNames'+rNo+'" name="fobDocumentNames" type="text" class="validate" placeholder="Name">'
 		   +'</td>'
-		   +'<td data-head="Photo Date" class="input-field">'
-		   +'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" placeholder="Upload date" class="validate datepicker" /><button type="button" id="created_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></span>'
-		   +'</td>'
+		   //+'<td data-head="Photo Date" class="input-field">'
+		   //+'<span style="display:inline-block;"><input type="text" id="created_dates'+rNo+'" name="created_dates" placeholder="Upload date" class="validate datepicker" /><button type="button" id="created_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></span>'
+		   //+'</td>' 
    		   +'<td data-head="Attach Photo" class="input-field cell-disp-inb file-field h-auto">'	
 		   +'<div class="t-c">'	
 		   +'<label for="fobFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'	
@@ -2206,7 +2207,9 @@
 	            }
 	     }
 		 
-			function addFobDocumentRow(){		
+		 /* below code commented due to images upload table commented */
+		 
+		/* 	function addFobDocumentRow(){		
 				 var rowNo = $("#documentRowNo").val();
 				 var rNo = Number(rowNo)+1;
 				 var total = 0;
@@ -2240,14 +2243,14 @@
 			} 
 			function removeFobDocument(rowNo){
 				$("#fobDocumentRow"+rowNo).remove();
-			}
+			} */
 			
 			
-			function getFileName(rowNo){
+		/* 	function getFileName(rowNo){
 				var filename = $('#fobDocumentFiles'+rowNo)[0].files[0].name;
 			    $('#documentNamesFobsp'+rowNo).html(filename); 
 			    $('#fileNamesFob'+rowNo).val(filename);
-			}
+			} */
 
 		/*  function removeMedia(link,id){
 		   	  $('#'+id).val('');

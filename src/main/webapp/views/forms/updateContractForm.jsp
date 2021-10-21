@@ -970,14 +970,14 @@
                                         <thead>
                                             <tr>
                                                <th class="fs-100">Code </th>
-                                                <th>BG Type </th>
+                                                <th>BG Type <span class="required">*</span></th>
                                                 <th>Issuing Bank </th>
                                                <!--  <th>Bank Address </th> -->
                                                 <th>BG / FDR <br>Number </th>
                                                 <th >Amount </th>
                                                 <th>Unit</th>
                                                 <th>BG / FDR <br> Date </th>
-                                                <th>Expiry Date </th>
+                                                <th>Expiry Date <span class="required">*</span></th>
                                               <!--   <th>Remarks </th> -->
                                                 <th>Release Date</th>
                                                 <th>Action</th>
@@ -1201,14 +1201,14 @@
                                     <table id="insurenceTable" class="mdl-data-table mobile_responsible_table another">
                                         <thead>
                                             <tr>
-                                                <th>Insurance Type </th>
+                                                <th>Insurance Type <span class="required">*</span></th>
                                                 <th>Issuing Agency </th>
                                                 <th>Agency Address </th>
                                                 <th>Insurance Number </th>
                                                 <th >Insurance Value </th>
                                                 <th>Unit</th>
                                                 <!-- <th>Revision </th> -->
-                                                <th>Valid Upto </th>
+                                                <th>Valid Upto <span class="required">*</span></th>
                                               <!--   <th>Remarks </th> -->
                                                 <th>Release</th>
                                                 <th>Action</th>

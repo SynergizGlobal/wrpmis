@@ -76,7 +76,14 @@
             margin: -24px;
             text-align: center;
         }
-
+		.m-1 {
+		    margin: .5rem auto;
+		}
+		.mt-20px{
+			margin-top:20px;
+		}
+		.row.no-mar{margin-bottom:0;}
+		div.center-align.m-1 button.bg-m, div.center-align.m-1 button.bg-s{width:auto;}
         /* left side code  */
         .profile_photo img {
             width: 250px;
@@ -341,7 +348,7 @@
                             </div>
                         </div> --%>
                         
-                       <!--  <div class="col m12 l4 s12">
+                         <div class="col m12 l4 s12" style="display:none;">
                             <div class="card" style="min-height: 445px;">
                                 <div class="card-content">
                                     <span class="card-title headbg">Leave Responsibility</span>
@@ -364,7 +371,7 @@
 										                <button type="button" id="to_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 										            </div>
 									            </div>
-									            <div class="row fixed-width" id="responsibleDiv" style="display:none;">
+									            <div class="row fixed-width no-mar" id="responsibleDiv" style="display:none;">
 												    <h6 class="center-align">Assign Responsibility</h6>
 												    <div class="table-inside">   
 													    <table class="mdl-data-table mobile_responsible_table" id="responsibility_table">
@@ -404,13 +411,25 @@
 													    </div>
 													  </div>
 												</div>
+												<div class="row no-mar" id="btnDiv" style="display:none;">
+					                                <div class="col s6 mt-brdr mt-20px">
+					                                    <div class="center-align m-1">
+						                                       <button type="button" class="btn waves-effect waves-light bg-m">Update</button>
+					                                    </div>
+					                                </div>
+					                                <div class="col s6 mt-brdr mt-20px">
+					                                    <div class="center-align m-1">
+					                                        <a href="#!" class="btn waves-effect waves-light bg-s" >Cancel</a>
+					                                    </div>
+					                                </div>
+					                            </div>
 									        </form>
 									    </div>
 									</div>
                                   
                                 </div>
                             </div>
-                        </div> -->
+                        </div> 
                         
                     </div>
                   </form>
@@ -473,10 +492,10 @@
     	});
         function datesShowHide(){
         	 if($('input[name="leaveYes"]:checked').val()){
-        		 $('#datesDiv').show();
+        		 $('#datesDiv,#btnDiv').show();
         		 $('#responsibleDiv').show();        		 
         	 }else{
-        		 $('#datesDiv').hide();
+        		 $('#datesDiv,#btnDiv').hide();
         		 $('#responsibleDiv').hide();
         	 }
         }

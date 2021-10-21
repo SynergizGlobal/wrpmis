@@ -32,6 +32,7 @@ import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Alerts;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FormHistory;
 @Repository
 public class AlertsDaoImpl implements AlertsDao{
@@ -432,6 +433,33 @@ public class AlertsDaoImpl implements AlertsDao{
 		                stmt.addBatch();
     				}
     				
+    				/******************************************************************/
+    				
+    				int arrSize = 0;					
+					List<Contract> departments = getDepartmentList(contract_id, connection);
+					for (Contract dept : departments) {
+						int size = dept.getExecutivesList().size();
+						arrSize = arrSize + size;
+					}
+					
+					String contractExecutivesIds[]  = new String[arrSize];
+					
+					int i = 0;
+					for (Contract dept : departments) {
+						for (Contract exec : dept.getExecutivesList()) {
+							contractExecutivesIds[i++] = exec.getExecutive_user_id_fk();
+						}
+					}
+					
+					for(int k=0; k<contractExecutivesIds.length; k++) {
+						p = 1;
+	    				stmt.setString(p++, alert_id);
+		                stmt.setString(p++, contractExecutivesIds[k]);
+		                stmt.addBatch();
+				    }
+					
+					/******************************************************************/
+    				
 					/*if(!StringUtils.isEmpty(obj.getReporting_to_user_id()) && "3rd Alert".equals(alert_level) 
 							&& ("Contract Period".equals(alert_type) || "Contract Value".equals(alert_type))) {
 					    p = 1;
@@ -501,6 +529,64 @@ public class AlertsDaoImpl implements AlertsDao{
 		return flag;
 	}
 
+	private List<Contract> getDepartmentList(String contract_id, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Contract> objsList = new ArrayList<Contract>();
+		Contract obj = null;
+		try {
+			String qry ="SELECT id, contract_id_fk, department_id_fk,department_name, executive_user_id_fk from contract_executive ce  "
+					+ "Left JOIN department dt on ce.department_id_fk = dt.department  "
+					+ " where contract_id_fk = ? group by department_id_fk";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, contract_id);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Contract();
+				obj.setDepartment_id_fk(resultSet.getString("department_id_fk"));
+				
+				obj.setExecutivesList(getExecutivesList(contract_id,obj.getDepartment_id_fk(),con));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return objsList;
+	}
+	
+	private List<Contract> getExecutivesList(String contract_id,String departmentID, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Contract> objsList = new ArrayList<Contract>();
+		Contract obj = null;
+		try {
+			String qry ="SELECT executive_user_id_fk,u.user_name,u.designation from contract_executive c "
+					+ "left join user u on c.executive_user_id_fk = u.user_id where contract_id_fk = ? and  department_id_fk = ?";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, contract_id);
+			stmt.setString(2, departmentID);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Contract();
+				obj.setExecutive_user_id_fk(resultSet.getString("executive_user_id_fk"));
+				obj.setUser_name(resultSet.getString("u.user_name"));
+				obj.setDesignation(resultSet.getString("u.designation"));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return objsList;
+	}
+	
 	private String getAmendmentNotRequiredInContract(String contract_id, String alert_type, String alert_value, Connection connection) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;

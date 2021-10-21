@@ -278,39 +278,36 @@
 									                    </tr>
 									                </thead>
 									                
-									                
-<tbody id="departmentTableBody">
+												    <tbody id="departmentTableBody">
 									                <c:choose>
 				                                        <c:when test="${not empty fob.contractsList }" >
-				                                          
 				                                		  <c:forEach var="contractObj" items="${fob.contractsList }" varStatus="index"> 
 				                                		  <c:set var="selVal" value="" />
-				                                		    <c:choose>
-								         					<c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">  
 											                  <tr id="departmentRow${index.count }">
 											                        <td data-head="Department" class="input-field">
-											                             <select class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk${index.count }" onChange="getResponsibleExecutives(${index.count });">
+											                             <select class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk${index.count }" onChange="getResponsibleExecutives(${index.count });"
+											                              <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>>
 											                                	<option value="" >Select</option>  
 																		          <c:forEach var="obj" items="${contractsList }">
-
-									 													<c:set var="selVal" value="${contractObj.contract_id_fk}" /> 
-									 												
-										                                      	    <option value= "${obj.contract_id}" <c:if test="${contractObj.contract_id_fk eq obj.contract_id}">selected</c:if>>${ obj.contract_short_name}</option>
+									 											  <c:set var="selVal" value="${contractObj.contract_id_fk}" />
+									 											<option value= "${obj.contract_id}" <c:if test="${contractObj.contract_id_fk eq obj.contract_id}">selected</c:if>>${ obj.contract_short_name}</option>
 									 											                                          </c:forEach>
 											                              </select> 
 											                              <span id="deptError${index.count }" class="my-error"></span>
 											                        </td>
 											                        <td data-head="Select Executives" class="input-field h-auto">
 											                            <select class="searchable validate-dropdown dept" name="responsible_people_id_fks" id="responsible_people_id_fks${index.count }" onchange="fileCount('${index.count }');"
-											                             multiple="multiple">
+											                             multiple="multiple"
+											                             
+											                           <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>>
 											                             <option value="" disabled="disabled">Select</option>
-                                    <c:forEach var="obj" items="${responsiblePeopleList}">
-           					  			 <option value="${obj.user_id }"            					  			 
-           					  			 		<c:forEach var="tempobj" items="${fob.responsiblePeopleList}">
-										 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id and  tempobj.contract_id_fk eq selVal}">selected</c:if>
-	                                          	</c:forEach>           					  			 
-           					  			 > ${obj.designation} - ${obj.user_name}</option>
-                                   </c:forEach>
+										                                    <c:forEach var="obj" items="${responsiblePeopleList}">
+										           					  			 <option value="${obj.user_id }"            					  			 
+										           					  			 		<c:forEach var="tempobj" items="${fob.responsiblePeopleList}">
+																				 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id and  tempobj.contract_id_fk eq selVal}">selected</c:if>
+											                                          	</c:forEach>           					  			 
+										           					  			 > ${obj.designation} - ${obj.user_name}</option>
+										                                   </c:forEach>
                                    
 											                            </select>
 											                             <span id="personError${index.count }" class="my-error" ></span>
@@ -325,33 +322,6 @@
 											                                class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
 											                        </td>
 											                    </tr>
-											                    </c:when>
-				                                 			<c:otherwise>
-				                                 			 <tr id="departmentRow${index.count }">
-					                                 			 <td>
-					                                 				<input type="text"  id="contract_id_fk${index.count }" value="${contractObj.contract_short_name}"  readonly/>
-					                                 				<input type="hidden" name="contracts_id_fk" id="contract_id_fk${index.count }"  value="${contractObj.contract_short_name }"  /></td>
-					                                 			<td>
-					                                 			<c:set var="selVal1" value="${contractObj.contract_id_fk}" /> 
-					                                 				<div id="container${index.count }">
-                                    <c:forEach var="obj" items="${responsiblePeopleList}">
-           					  			 		<c:forEach var="tempobj" items="${fob.responsiblePeopleList}">
-										 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id and  tempobj.contract_id_fk eq selVal1}"><p> ${obj.designation} - ${obj.user_name}</p><br></c:if>
-	                                          	</c:forEach>           					  			 
-           					  			
-                                   </c:forEach>
-						                                          	</div>
-						                                          	<input type="hidden" id="filecounts${index.count }" name="filecounts">
-														 				 <script>
-																 				var inputs = $("#container${index.count}").find($("input") );
-											                            		var len = inputs.length;
-											                            		$('#filecounts${index.count}').val(len/2);
-											                            </script>
-											                     </td>
-							                                 </tr>
-				                                 			</c:otherwise>													                    
-											                    
-				                                		 </c:choose>
 									                	</c:forEach>
                                            			</c:when>
                                              		<c:otherwise>
@@ -361,11 +331,12 @@
 									                             	<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD'  && sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>> 
 									                                	<option value="" >Select</option>  
 																          <c:forEach var="obj" items="${contractsList }">
-<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 
-										 		<c:forEach var="tempobj" items="${fob.contractsList}">
-										 			<c:if test="${tempobj.contract_id_fk eq obj.contract_id}">selected</c:if>
-	                                          	</c:forEach>
-									 		>${obj.contract_short_name }</option>								                                          </c:forEach>
+																			<option workId="${obj.work_id_fk }" value="${obj.contract_id }" 
+																		 		<c:forEach var="tempobj" items="${fob.contractsList}">
+																		 			<c:if test="${tempobj.contract_id_fk eq obj.contract_id}">selected</c:if>
+									                                          	</c:forEach>
+																	 		>${obj.contract_short_name }</option>								                                         
+																	 	 </c:forEach>
 									                              </select>
 									                              <span id="deptError0" class="my-error"></span>
 									                              <input type="hidden" id="filecounts0" name="filecounts" value="0">
@@ -375,13 +346,13 @@
 									                               <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD'   && sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>
 									                                id="responsible_people_id_fks0" multiple="multiple" onchange="fileCount(0);">
 									                                <option value="" >Select</option>
- 			<c:forEach var="obj" items="${responsiblePeopleList}">
-           					  			 <option value="${obj.user_id }"            					  			 
-           					  			 		<c:forEach var="tempobj" items="${fob.responsiblePeopleList}">
-										 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id}">selected</c:if>
-	                                          	</c:forEach>           					  			 
-           					  			 > ${obj.designation} - ${obj.user_name}</option>
-                                   </c:forEach>				                             	
+														 			<c:forEach var="obj" items="${responsiblePeopleList}">
+								           					  			 <option value="${obj.user_id }"            					  			 
+								           					  			 		<c:forEach var="tempobj" items="${fob.responsiblePeopleList}">
+																		 			<c:if test="${tempobj.responsible_people_id_fk eq obj.user_id}">selected</c:if>
+									                                          	</c:forEach>           					  			 
+								           					  			 > ${obj.designation} - ${obj.user_name}</option>
+														            </c:forEach>				                             	
 									                            </select>
 									                            <span id="personError0" class="my-error"></span>
 									                        </td>
@@ -1752,6 +1723,16 @@
 	}
 	
     function updateFOB(){
+    	
+    	
+    	$('form select[name=contracts_id_fk]').each(function(){
+    		$("#"+this.id).attr("disabled",false);
+    	});	
+    	
+    	$('form select[name=responsible_people_id_fks]').each(function(){
+    		$("#"+this.id).attr("disabled",false);
+    	});	   	
+    	
   		if(validator.form()){ 
   			
   			var completion_cost = $("#completion_cost").val();

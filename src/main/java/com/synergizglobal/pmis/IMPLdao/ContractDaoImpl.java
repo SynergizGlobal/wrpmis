@@ -412,7 +412,7 @@ public class ContractDaoImpl implements ContractDao {
 					}
 				}	
 				
-				if(!StringUtils.isEmpty(contract.getBg_type_fks()) && contract.getBg_type_fks().length > 0) {
+				if(!StringUtils.isEmpty(contract.getBg_type_fks()) && contract.getBg_type_fks().length > 0 && !StringUtils.isEmpty(contract.getBg_valid_uptos())) {
 				    for (int i = 0; i < arraySize; i++) {
 						int k = 1;
 						if( contract.getBg_type_fks().length > 0 && !StringUtils.isEmpty(contract.getBg_type_fks()[i])) {
@@ -500,7 +500,7 @@ public class ContractDaoImpl implements ContractDao {
 						arraySize = contract.getInsurance_value_unitss().length;
 					}
 				}
-				if(!StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0) {
+				if(!StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0 && !StringUtils.isEmpty(contract.getInsurence_valid_uptos())) {
 					for (int i = 0; i < arraySize; i++) {
 					    int k = 1;
 					    if( contract.getInsurance_type_fks().length > 0 && !StringUtils.isEmpty(contract.getInsurance_type_fks()[i])) {
@@ -1512,7 +1512,7 @@ public class ContractDaoImpl implements ContractDao {
 					}
 					
 					
-					if(!StringUtils.isEmpty(contract.getBg_type_fks()) && contract.getBg_type_fks().length > 0) {
+					if(!StringUtils.isEmpty(contract.getBg_type_fks()) && contract.getBg_type_fks().length > 0 && !StringUtils.isEmpty(contract.getBg_valid_uptos())  && contract.getBg_valid_uptos().length > 0) {
 					    for (int i = 0; i < arraySize; i++) {
 							int k = 1;
 							if( contract.getBg_type_fks().length > 0 && !StringUtils.isEmpty(contract.getBg_type_fks()[i])) {
@@ -1540,8 +1540,8 @@ public class ContractDaoImpl implements ContractDao {
 					if(stmt != null){stmt.close();}
 					
 					String Insurence_qry = "INSERT into  insurance (insurance_type_fk,issuing_agency,agency_address,"
-										+"insurance_number,insurance_value,valid_upto,remarks,contract_id_fk,revision,released_fk,insurance_value_units) "
-										+"VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+										+"insurance_number,insurance_value,valid_upto,contract_id_fk,released_fk,insurance_value_units) "
+										+"VALUES (?,?,?,?,?,?,?,?,?)";
 					stmt = con.prepareStatement(Insurence_qry); 
 					arraySize = 0;
 					if(!StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0) {
@@ -1604,7 +1604,7 @@ public class ContractDaoImpl implements ContractDao {
 							arraySize = contract.getInsurance_value_unitss().length;
 						}
 					}
-					if(!StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0) {
+					if(!StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0  && !StringUtils.isEmpty(contract.getInsurence_valid_uptos())  && contract.getInsurence_valid_uptos().length > 0) {
 						for (int i = 0; i < arraySize; i++) {
 						    int k = 1;
 						    if( contract.getInsurance_type_fks().length > 0 && !StringUtils.isEmpty(contract.getInsurance_type_fks()[i])) {
@@ -1614,9 +1614,9 @@ public class ContractDaoImpl implements ContractDao {
 								stmt.setString(k++,(contract.getInsurance_numbers().length > 0)?contract.getInsurance_numbers()[i]:null);
 								stmt.setString(k++,(contract.getInsurance_values().length > 0)?contract.getInsurance_values()[i]:null);
 								stmt.setString(k++,DateParser.parse((contract.getInsurence_valid_uptos().length > 0)?contract.getInsurence_valid_uptos()[i]:null));
-								stmt.setString(k++,(contract.getInsurence_remarks().length > 0)?contract.getInsurence_remarks()[i]:null);
+								//stmt.setString(k++,(contract.getInsurence_remarks().length > 0)?contract.getInsurence_remarks()[i]:null);
 								stmt.setString(k++,contract.getContract_id());
-								stmt.setString(k++,(contract.getInsurance_revisions().length > 0)?contract.getInsurance_revisions()[i]:null);
+								//stmt.setString(k++,(contract.getInsurance_revisions().length > 0)?contract.getInsurance_revisions()[i]:null);
 								stmt.setString(k++,(contract.getInsuranceStatus().length > 0)?contract.getInsuranceStatus()[i]:null);
 								stmt.setString(k++,(contract.getInsurance_value_unitss().length > 0)?contract.getInsurance_value_unitss()[i]:null);
 								stmt.addBatch();

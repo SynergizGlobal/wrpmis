@@ -999,6 +999,7 @@
 		                                    			   <option value="${obj.bg_type_fk }" <c:if test="${bankObj.bg_type_fk eq obj.bg_type_fk}">selected</c:if>>${obj.bg_type_fk }</option>
 		                                     			  </c:forEach>
                                                     </select>
+                                                    <span id="bg_type_fks${index.count }Error" class="my-error"></span>
                                                 </td> 
                                                 <!-- <td> <input id="bg_type" type="text" class="validate"
                                                         placeholder="BG Type">
@@ -1038,6 +1039,7 @@
                                                      <input id="bg_valid_uptos${index.count }" name="bg_valid_uptos" type="text" class="validate datepicker" value="${bankObj.bg_valid_upto }"
                                                         placeholder="Expiry Date">
                                                     <button type="button" id="bg_valid_uptos${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                                	<span id="bg_valid_uptos${index.count }Error" class="my-error"></span>
                                                 </td>
                                                 <!-- <td>
                                                     <input id="remarkss${index.count }" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }"
@@ -1074,6 +1076,7 @@
 		                                    			   <option value="${obj.bg_type_fk }" >${obj.bg_type_fk }</option>
 		                                     			  </c:forEach>
                                                     </select>
+                                                    <span id="bg_type_fks0Error" class="my-error"></span>
                                                 </td> 
                                                 <!-- <td> <input id="bg_type" type="text" class="validate"
                                                         placeholder="BG Type">
@@ -1114,6 +1117,7 @@
                                                     <input id="bg_valid_uptos0" name="bg_valid_uptos" type="text" class="validate datepicker"
                                                         placeholder="Expiry Date">
                                                     <button type="button" id="bg_valid_uptos0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                               		<span id="bg_valid_uptos0Error" class="my-error"></span>
                                                 </td>
                                                <!--  <td>
                                                     <input id="remarkss0" name ="remarkss" type="text" class="validate"
@@ -1203,9 +1207,9 @@
                                                 <th>Insurance Number </th>
                                                 <th >Insurance Value </th>
                                                 <th>Unit</th>
-                                                <th>Revision </th>
+                                                <!-- <th>Revision </th> -->
                                                 <th>Valid Upto </th>
-                                                <th>Remarks </th>
+                                              <!--   <th>Remarks </th> -->
                                                 <th>Release</th>
                                                 <th>Action</th>
                                             </tr>
@@ -1222,6 +1226,7 @@
                                       					   <option value= "${ obj.insurance_type}" <c:if test="${insurenceObj.insurance_type_fk eq obj.insurance_type}">selected</c:if>>${ obj.insurance_type}</option>
                                         				  </c:forEach>
                                                     </select>
+                                                    <span id="insurance_type_fks${index.count }Error" class="my-error"></span>
                                                 </td>
                                                 <td data-head="Issuing Agency " class="input-field">
                                                     <input id="issuing_agencys${index.count }" name="issuing_agencys" type="text" class="validate"  value="${insurenceObj.issuing_agency }"
@@ -1250,19 +1255,20 @@
 					                                	</select>
 					                                	<span id="insurence_units${index.count }Error" class="my-error"></span>
                                                  </td>
-                                                 <td data-head="Revision " class="input-field">
+                                                <%--  <td data-head="Revision " class="input-field">
                                                     <input id="insurance_revisions${index.count }" name="insurance_revisions" type="text" class="validate" value="${insurenceObj.revision }"  
                                                         placeholder="Revision">
-                                                </td>
+                                                </td> --%>
                                                 <td data-head="Valid Upto " class="input-field">
                                                     <input id="insurence_valid_uptos${index.count }" name="insurence_valid_uptos" type="text" value="${insurenceObj.insurence_valid_upto }"
                                                         class="validate datepicker" placeholder="Valid Upto">
                                                     <button type="button" id="insurence_valid_uptos${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                               		<span id="insurence_valid_uptos${index.count }Error" class="my-error"></span>
                                                 </td>
-                                                <td data-head="Remarks " class="input-field">
+                                               <%--  <td data-head="Remarks " class="input-field">
                                                     <input id="insurence_remarks${index.count }" name="insurence_remarks"  type="text" class="validate" value="${insurenceObj.remarks }"
                                                         placeholder="Remarks">
-                                                </td>
+                                                </td> --%>
                                                 <td data-head="Release" class="input-field"> <p><label> <input type="hidden" id="insuranceStatuss${index.count }" name="insuranceStatus" value="${insurenceObj.insurance_status}" />
                                                 <input type="checkbox" id="insuranceStatus${index.count }" <c:if test="${insurenceObj.insurance_status == 'Yes'}">checked
                                             </c:if>/> <span></span> </label>	</p></td>       
@@ -1310,6 +1316,7 @@
                                       					   <option value= "${ obj.insurance_type}" >${ obj.insurance_type}</option>
                                         				  </c:forEach>
                                                     </select>
+                                                     <span id="insurance_type_fks0Error" class="my-error"></span>
                                                 </td>
                                                 <td data-head="Issuing Agency " class="input-field">
                                                     <input id="issuing_agencys0" name="issuing_agencys" type="text" class="validate" 
@@ -1338,19 +1345,20 @@
 					                                	</select>
 					                                	<span id="insurence_units0Error" class="my-error"></span>
                                                  </td>
-                                                 <td data-head="Revision " class="input-field">
+                                                 <!-- <td data-head="Revision " class="input-field">
                                                     <input id="insurance_revisions0" name="insurance_revisions" type="text" class="validate" 
                                                         placeholder="Revision">
-                                                </td>
+                                                </td> -->
                                                 <td data-head="Valid Upto " class="input-field">
                                                     <input id="insurence_valid_uptos0" name="insurence_valid_uptos" type="text" 
                                                         class="validate datepicker" placeholder="Valid Upto">
                                                     <button type="button" id="insurence_valid_uptos0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                                	<span id="insurence_valid_uptos0Error" class="my-error">
                                                 </td>
-                                                <td data-head="Remarks " class="input-field">
+                                               <!--  <td data-head="Remarks " class="input-field">
                                                     <input id="insurence_remarks0" name="insurence_remarks"  type="text" class="validate" 
                                                         placeholder="Remarks">
-                                                </td>
+                                                </td> -->
                                                 <td data-head="Release" class="input-field"><p><label><input type="hidden" id="insuranceStatuss0" name="insuranceStatus" value="No" />
                                                  <input type="checkbox" id="insuranceStatus0" /> <span></span> </label>	</p></td>       
                                                 <td class="mobile_btn_close">
@@ -2704,9 +2712,9 @@
 	  			$('form input[name=agency_addresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=insurance_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=insurance_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=insurance_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
+	  			//$('form input[name=insurance_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=insurence_valid_uptos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=insurence_remarks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
+	  			//$('form input[name=insurence_remarks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=contract_milestones_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=milestone_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=milestone_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
@@ -3203,7 +3211,7 @@
 		  		 	<c:forEach var="obj" items="${bankGuaranteeTYpe }">
 				  +'<option value="${obj.bg_type_fk }">${obj.bg_type_fk }</option>'
 					</c:forEach>
-		  		   +'</select></td>'
+		  		   +'</select><span id="bg_type_fks'+rNo+'Error" class="my-error"></span></td>'
 				   +'<td data-head="Issuing Bank " class="input-field"> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
 				  // +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
 				   +'<td data-head="BG / FDR Number " class="input-field min-w-120"><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
@@ -3217,7 +3225,7 @@
 				   +'</select><span id="bg_units'+rNo+'Error" class="my-error"></span></div> </td>'
 				   +'<td data-head="BG / FDR Date " class="input-field"><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button" id="bg_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
 				   //+'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
-				   +'<td data-head="Expiry Date " class="input-field"><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Expiry Date"><button type="button"  id="bg_valid_uptos'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
+				   +'<td data-head="Expiry Date " class="input-field"><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Expiry Date"><button type="button"  id="bg_valid_uptos'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button><span id="bg_valid_uptos'+rNo+'Error" class="my-error"></span></td>'
 				   //+'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
 				   //+'<td><label> <input type="checkbox" name="bankStatus" id="bankStatus'+rNo+'" value="Inactive"/> <span></span> </label></td>'
 				   +'<td data-head="Release Date" class="input-field"><input id="release_dates'+rNo+'" name="release_dates" type="text" class="validate datepicker" placeholder="Release Date"> <button type="button" id="release_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
@@ -3239,6 +3247,22 @@
 		            		 $('#bg_units'+rNo+'Error').text('');
 		            	 }
 		             });
+		             $('#bg_valid_uptos'+rNo+',#bg_type_fks'+rNo).on('change', function(e){
+		            	 if(($.trim($('#bg_type_fks'+rNo).val()) != "") && ($.trim($('#bg_valid_uptos'+rNo).val()) == "")){
+		            		 $('#bg_valid_uptos'+rNo+'Error').text('Requried');
+		            	 }else{
+		            		 $('#bg_valid_uptos'+rNo+'Error').text('');
+		            	 }
+		            	 if(($.trim($('#bg_type_fks'+rNo).val()) == "") && ($.trim($('#bg_valid_uptos'+rNo).val()) != "")){
+		            		 $('#bg_type_fks'+rNo+'Error').text('Requried');
+		            	 }else{
+		            		 $('#bg_type_fks'+rNo+'Error').text('');
+		            	 }
+		            	 if(($.trim($('#bg_valid_uptos'+rNo).val()) == "") && ($.trim($('#bg_type_fks'+rNo).val()) == "")){
+		            		 $('#bg_valid_uptos'+rNo+'Error').text('');
+		            		 $('#bg_type_fks'+rNo+'Error').text('');
+		            	 }
+		             });
 				
 		} 
 		
@@ -3258,7 +3282,7 @@
 			   <c:forEach var="obj" items="${insurance_type }">
 				  +' <option value= "${ obj.insurance_type}">${ obj.insurance_type}</option>'
 			  </c:forEach>
-			   +'</select></td>'
+			   +'</select> <span id="insurance_type_fks'+rNo+'Error" class="my-error"></span></td>'
 			   +'<td data-head="Issuing Agency " class="input-field"> <input id="issuing_agencys'+rNo+'" name="issuing_agencys" type="text" class="validate"  placeholder="Issuing Agency"></td>'
 			   +'<td data-head="Agency Address " class="input-field"><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
 			   +'<td data-head="Insurance Number " class="input-field"><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
@@ -3270,9 +3294,9 @@
 		     	 +'<option value="${obj.value }">${obj.unit }</option>'
 			    </c:forEach>
 			   +'</select> <span id="insurence_units'+rNo+'Error" class="my-error"></span></div> </td>' 
-			   +'<td data-head="Revision " class="input-field"><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
-			   +'<td data-head="Valid Upto " class="input-field"><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" id="insurence_valid_uptos'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
-			   +'<td data-head="Remarks " class="input-field"><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
+			  // +'<td data-head="Revision " class="input-field"><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
+			   +'<td data-head="Valid Upto " class="input-field"><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" id="insurence_valid_uptos'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button><span id="insurence_valid_uptos'+rNo+'Error" class="my-error"></span></td>'
+			  // +'<td data-head="Remarks " class="input-field"><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
 			   +'<td data-head="Release" class="input-field"><p><label> <input type="hidden" id="insuranceStatus'+rNo+'" name="insuranceStatus" value="No" /><input type="checkbox" id="insuranceStatuss'+rNo+'" /> <span></span> </label></p></td>'
 			   +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 		 		  
@@ -3301,6 +3325,22 @@
 	             $('#insurance_values_units'+rNo).on('change', function(e){
 	            	 if($.trim($('#insurance_values_units'+rNo).val()) != ""){
 	            		 $('#insurence_units'+rNo+'Error').text('');
+	            	 }
+	             });
+	             $('#insurence_valid_uptos'+rNo+',#insurance_type_fks'+rNo).on('change', function(e){
+	            	 if(($.trim($('#insurance_type_fks'+rNo).val()) != "") && ($.trim($('#insurence_valid_uptos'+rNo).val()) == "")){
+	            		 $('#insurence_valid_uptos'+rNo+'Error').text('Requried');
+	            	 }else{
+	            		 $('#insurence_valid_uptos'+rNo+'Error').text('');
+	            	 }
+	            	 if(($.trim($('#insurance_type_fks'+rNo).val()) == "") && ($.trim($('#insurence_valid_uptos'+rNo).val()) != "")){
+	            		 $('#insurance_type_fks'+rNo+'Error').text('Requried');
+	            	 }else{
+	            		 $('#insurance_type_fks'+rNo+'Error').text('');
+	            	 }
+	            	 if(($.trim($('#insurence_valid_uptos'+rNo).val()) == "") && ($.trim($('#insurance_type_fks'+rNo).val()) == "")){
+	            		 $('#insurence_valid_uptos'+rNo+'Error').text('');
+	            		 $('#insurance_type_fks'+rNo+'Error').text('');
 	            	 }
 	             });
 		} 
@@ -3550,6 +3590,50 @@
 					flag = false;
 				}
 			});
+			$("select[name=bg_type_fks]").each(function(){
+				var idNo = (this.id).replace('bg_type_fks','');
+				var bg_valid_uptos = $("#bg_valid_uptos"+idNo).val();
+				var bg_type_fks = $("#bg_type_fks"+idNo).val();
+				if($.trim(bg_type_fks) == "" && $.trim(bg_valid_uptos) != ""){
+					$('#bg_type_fks'+idNo+'Error').text('Requried');
+					$('#bg_type_fks'+idNo).slideDown(100,function(){
+						$(this).focus();
+					});
+					flag = false;
+					}
+				if(idNo === ""){
+	       				idNo = 0;
+	       		}
+	       		if($.trim(bg_valid_uptos) == "" && bg_type_fks != ""){
+					$('#bg_valid_uptos'+idNo+'Error').text('Requried');
+					$('#bg_valid_uptos'+idNo).slideDown(100,function(){
+						$(this).focus();
+					});
+					flag = false;
+				}
+			});
+			$("select[name=insurance_type_fks]").each(function(){
+				var idNo = (this.id).replace('insurance_type_fks','');
+				var insurence_valid_uptos = $("#insurence_valid_uptos"+idNo).val();
+				var insurance_type_fks = $("#insurance_type_fks"+idNo).val();
+				if($.trim(insurance_type_fks) == "" && $.trim(insurence_valid_uptos) != ""){
+					$('#insurance_type_fks'+idNo+'Error').text('Requried');
+					$('#insurance_type_fks'+idNo).slideDown(100,function(){
+						$(this).focus();
+					});
+					flag = false;
+				}
+				if(idNo === ""){
+	       				idNo = 0;
+	       		}
+	       		if($.trim(insurence_valid_uptos) == "" && insurance_type_fks != ""){
+					$('#insurence_valid_uptos'+idNo+'Error').text('Requried');
+					$('#insurence_valid_uptos'+idNo).slideDown(100,function(){
+						$(this).focus();
+					});
+					flag = false;
+				}
+			});
 			$("input[name=insurance_values]").each(function(){
 	       		var idNo = (this.id).replace('insurance_values','');
 	       		var insurance_value_units = $("#insurance_values_units"+idNo).val();
@@ -3593,6 +3677,47 @@
 				}else{
 					$('#bg_units'+idNo+'Error').text('');
 				}
+            });
+			
+		});
+		$('[name="insurence_valid_uptos"],[name="insurance_type_fks"]').on('change', function() {
+			$("select[name=insurance_type_fks]").each(function(){
+				var idNo = (this.id).replace('insurance_type_fks',''); 
+				if($.trim(this.value) == "" && $('#insurence_valid_uptos'+idNo).val() != ""){ 
+        			$('#insurance_type_fks'+idNo+'Error').text('Requried');
+				}else{
+					$('#insurance_type_fks'+idNo+'Error').text('');
+				}
+        		if($.trim(this.value) != "" && $('#insurence_valid_uptos'+idNo).val() == ""){ 
+        			$('#insurence_valid_uptos'+idNo+'Error').text('Requried');
+				}else{
+					$('#insurence_valid_uptos'+idNo+'Error').text('');
+				}
+        		if($.trim(this.value) == "" && $('#insurence_valid_uptos'+idNo).val() == ""){
+        			$('#insurance_type_fks'+idNo+'Error').text('');
+        			$('#insurence_valid_uptos'+idNo+'Error').text('');
+        		}
+            }); 
+			
+		});
+	
+		$('[name="bg_valid_uptos"],[name="bg_type_fks"]').on('change', function() {
+			$("select[name=bg_type_fks]").each(function(){
+				var idNo = (this.id).replace('bg_type_fks',''); 
+				if($.trim(this.value) == "" && $('#bg_valid_uptos'+idNo).val() != ""){ 
+        			$('#bg_type_fks'+idNo+'Error').text('Requried');
+				}else{
+					$('#bg_type_fks'+idNo+'Error').text('');
+				}
+        		if($.trim(this.value) != "" && $('#bg_valid_uptos'+idNo).val() == ""){ 
+        			$('#bg_valid_uptos'+idNo+'Error').text('Requried');
+				}else{
+					$('#bg_valid_uptos'+idNo+'Error').text('');
+				}
+        		if($.trim(this.value) == "" && $('#bg_valid_uptos'+idNo).val() == ""){ 
+        			$('#bg_valid_uptos'+idNo+'Error').text('');
+        			$('#bg_type_fks'+idNo+'Error').text('');
+        		}
             });
 			
 		});

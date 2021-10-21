@@ -181,52 +181,167 @@
                             </ul>
                             <input type="hidden" id="approval_status_fk" name="approval_status_fk" value="Pending"/>
                         </div>
-                        <div id="pending_div" class="col s12">
-                            <div class="row no-mar">
-                                <div class="col m10 s12 offset-m1">
-                                    <div class="row">
-                                        <div class="col s6 m4 l2 input-field offset-l1">
-                                            <p class="searchable_label">Work</p>
-                                            <select id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getActivities();" class="searchable">
-			                                   <option value="">Select</option>                                      
-			                                </select>
-                                        </div>
-                                        <div class="col s6 m4 l2 input-field">
-                                            <p class="searchable_label">Contract</p>
-                                            <select id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getActivities();" class="searchable">
-                                     			<option value="" >Select</option>
-                                 			</select>     
-                                        </div>                                        
-                                        <div class="col s6 m4 l2 input-field ">
-                                            <p class="searchable_label">Structure</p>
-                                            <select id="structure" name="structure" onchange="addInQueStructure(this.value);getActivities();" class="searchable">
-                                     			<option value="" >Select</option>
-                                 			</select>
-                                        </div>
-                                        <!-- <div class="col s6 m4 l2 input-field">
+                        <div  class="col s12">
+                                            <div id="pending_div" class="row no-mar" style="display: none;">
+                                                <div class="col m10 s12 offset-m1">
+                                                    <div class="row">
+                                                        <div class="col s6 m4 l2 input-field offset-l1">
+                                                            <p class="searchable_label">Work</p>
+                                                            <select id="pending_work_id_fk" name="work_id_fk"
+                                                                onchange="addInQueWork(this.value);getActivities();"
+                                                                class="searchable">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col s6 m4 l2 input-field">
+                                                            <p class="searchable_label">Contract</p>
+                                                            <select id="pending_contract_id_fk" name="contract_id_fk"
+                                                                onchange="addInQueContract(this.value);getActivities();"
+                                                                class="searchable">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col s6 m4 l2 input-field ">
+                                                            <p class="searchable_label">Structure</p>
+                                                            <select id="pending_structure" name="structure"
+                                                                onchange="addInQueStructure(this.value);getActivities();"
+                                                                class="searchable">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <!-- <div class="col s6 m4 l2 input-field">
                                             <p class="searchable_label">Department</p>
                                             <select name="department_fk" id="department_fk" onchange="getActivities();" class="searchable">
                                                 <option value="">Select</option>
                                             </select>
                                         </div> -->
-                                        <div class="col s6 m4 l2 input-field">
-                                            <p class="searchable_label">Updated By</p>
-                                            <select name="updated_by_user_id_fk" id="updated_by_user_id_fk" onchange="addInQueUpdatedBy(this.value);getActivities();" class="searchable">
+                                                        <div class="col s6 m4 l2 input-field">
+                                                            <p class="searchable_label">Updated By</p>
+                                                            <select name="updated_by_user_id_fk"
+                                                                id="pending_updated_by_user_id_fk"
+                                                                onchange="addInQueUpdatedBy(this.value);getActivities();"
+                                                                class="searchable">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col s12 m4 l2 input-field center-align">
+                                                            <button
+                                                                class="btn bg-m waves-effect waves-light t-c clear-filters "
+                                                                onclick="clearFilter('');">Clear Filters</button>
+                                                        </div>
+                                                    </div>
+                                                    <span id="pending_checkBoxError" class="error-msg"
+                                                        style="text-align:center"></span>
+
+                                                    <span class="errMsg" id="pending_checkErrMsg">select at least one
+                                                        check box
+                                                    </span>
+                                                </div>
+                                                <span id="actualScopesError" class="error-msg" style="color:red"></span>
+                                            </div>
+
+                                            <div id="approved_div" class="row no-mar" style="display: none;">
+                                                <div class="col m10 s12 offset-m1">
+                                                    <div class="row">
+                                                        <div class="col s6 m4 l2 input-field offset-l1">
+                                                            <p class="searchable_label">Work</p>
+                                                            <select id="approved_work_id_fk" name="work_id_fk"
+                                                                onchange="addInQueWork(this.value);getActivities();"
+                                                                class="searchable">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col s6 m4 l2 input-field">
+                                                            <p class="searchable_label">Contract</p>
+                                                            <select id="approved_contract_id_fk" name="contract_id_fk"
+                                                                onchange="addInQueContract(this.value);getActivities();"
+                                                                class="searchable">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col s6 m4 l2 input-field ">
+                                                            <p class="searchable_label">Structure</p>
+                                                            <select id="approved_structure" name="structure"
+                                                                onchange="addInQueStructure(this.value);getActivities();"
+                                                                class="searchable">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <!-- <div class="col s6 m4 l2 input-field">
+                                            <p class="searchable_label">Department</p>
+                                            <select name="department_fk" id="department_fk" onchange="getActivities();" class="searchable">
                                                 <option value="">Select</option>
                                             </select>
-                                        </div>
-                                        <div class="col s12 m4 l2 input-field center-align">
-                                            <button class="btn bg-m waves-effect waves-light t-c clear-filters "
-                                                onclick="clearFilter();">Clear Filters</button>
-                                        </div>
-                                    </div>
-                                    <span id="pending_checkBoxError" class="error-msg" style="text-align:center"></span>
-
-                                    <span class="errMsg" id="pending_checkErrMsg">select at least one check box
-                                    </span>
-                                </div>
-                                <span id="actualScopesError" class="error-msg" style="color:red"></span>
-                            </div>
+                                        </div> -->
+                                                        <div class="col s6 m4 l2 input-field">
+                                                            <p class="searchable_label">Updated By</p>
+                                                            <select name="updated_by_user_id_fk"
+                                                                id="approved_updated_by_user_id_fk"
+                                                                onchange="addInQueUpdatedBy(this.value);getActivities();"
+                                                                class="searchable">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col s12 m4 l2 input-field center-align">
+                                                            <button
+                                                                class="btn bg-m waves-effect waves-light t-c clear-filters "
+                                                                onclick="clearFilter('approved_');">Clear
+                                                                Filters</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="rejected_div" class="row no-mar" style="display: none;">
+                                                <div class="col m10 s12 offset-m1">
+                                                    <div class="row">
+                                                        <div class="col s6 m4 l2 input-field offset-l1">
+                                                            <p class="searchable_label">Work</p>
+                                                            <select id="rejected_work_id_fk" name="work_id_fk"
+                                                                onchange="addInQueWork(this.value);getActivities();"
+                                                                class="searchable">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col s6 m4 l2 input-field">
+                                                            <p class="searchable_label">Contract</p>
+                                                            <select id="rejected_contract_id_fk" name="contract_id_fk"
+                                                                onchange="addInQueContract(this.value);getActivities();"
+                                                                class="searchable">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col s6 m4 l2 input-field ">
+                                                            <p class="searchable_label">Structure</p>
+                                                            <select id="rejected_structure" name="structure"
+                                                                onchange="addInQueStructure(this.value);getActivities();"
+                                                                class="searchable">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <!-- <div class="col s6 m4 l2 input-field">
+                                            <p class="searchable_label">Department</p>
+                                            <select name="department_fk" id="department_fk" onchange="getActivities();" class="searchable">
+                                                <option value="">Select</option>
+                                            </select>
+                                        </div> -->
+                                                        <div class="col s6 m4 l2 input-field">
+                                                            <p class="searchable_label">Updated By</p>
+                                                            <select name="updated_by_user_id_fk"
+                                                                id="rejected_updated_by_user_id_fk"
+                                                                onchange="addInQueUpdatedBy(this.value);getActivities();"
+                                                                class="searchable">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col s12 m4 l2 input-field center-align">
+                                                            <button
+                                                                class="btn bg-m waves-effect waves-light t-c clear-filters "
+                                                                onclick="clearFilter('rejected_');">Clear
+                                                                Filters</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                             <div class="row no-mar" id="button_div" style="margin-bottom: 0;display: none;">
                                 <div class="col m8 s12 center-align offset-m2 btn-holder">
@@ -368,11 +483,20 @@
         	var filtersMap = new Object();
         	var pageNo = window.localStorage.getItem("approvePageNo");
         	var id = 1;
+        	var tab = "";
             $(document).ready(function () {
                 $(".errMsg").hide();
                 $(".errMsgCheck").hide();
                 $('.searchable').select2();
                 $('.tabs').tabs();
+                approval_status_fk = 'Pending';
+                if(approval_status_fk == 'Pending'){
+        			tab = "pending_";
+        		}else if(approval_status_fk == 'Approved'){
+        			tab = "approved_";
+        		}else if(approval_status_fk == 'Rejected'){
+        			tab = "rejected_";
+        		}
                 var filters = window.localStorage.getItem("activitiesApprovalFilters"+id);
   	          
                 if($.trim(filters) != '' && $.trim(filters) != null){
@@ -380,15 +504,15 @@
             	  for(var i=0;i< temp.length;i++){
     	        	  if($.trim(temp[i]) != '' ){
     	        		  var temp2 = temp[i].split('=');
-    		        	  if($.trim(temp2[0]) == 'structure' ){
+    		        	  if($.trim(temp2[0]) == tab+'structure' ){
     		        		  getStructuresListFilter(temp2[1]);
-    		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+    		        	  }else if($.trim(temp2[0]) == tab+'work_id_fk'){
     		        		  getWorksListFilter(temp2[1]);
-    		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+    		        	  }else if($.trim(temp2[0]) == tab+'contract_id_fk'){
     		        		  getContractsListFilter(temp2[1]);
-    		        	  }else if($.trim(temp2[0]) == 'department_fk'){
+    		        	  }else if($.trim(temp2[0]) == tab+'department_fk'){
     		        		  getDepartmentsListFilter(temp2[1]);
-    		        	  }else if($.trim(temp2[0]) == 'updated_by_user_id_fk'){
+    		        	  }else if($.trim(temp2[0]) == tab+'updated_by_user_id_fk'){
     		        		  getUpdatedByListFilter(temp2[1]);
     		        	  }
     	        	  }
@@ -400,12 +524,19 @@
             });
             
             function setActivityProgressStatus(approval_status_fk){
+            	 if(approval_status_fk == 'Pending'){
+         			tab = "pending_";
+         		}else if(approval_status_fk == 'Approved'){
+         			tab = "approved_";
+         		}else if(approval_status_fk == 'Rejected'){
+         			tab = "rejected_";
+         		}
             	$("#approval_status_fk").val(approval_status_fk);
-            	$("#work_id_fk").val("");
-            	$("#contract_id_fk").val("");
+            	$("#"+tab+"work_id_fk").val("");
+            	$("#"+tab+"contract_id_fk").val("");
             	//$("#department_fk").val("");
-            	$("#structure").val("");
-            	$("#updated_by_user_id_fk").val("");  
+            	$("#"+tab+"structure").val("");
+            	$("#"+tab+"updated_by_user_id_fk").val("");  
             	$(".searchable").select2();
             	if(approval_status_fk == 'Pending'){
         			id = 1;
@@ -416,15 +547,15 @@
                  	  for(var i=0;i< temp.length;i++){
          	        	  if($.trim(temp[i]) != '' ){
          	        		  var temp2 = temp[i].split('=');
-         		        	  if($.trim(temp2[0]) == 'structure' ){
+         		        	  if($.trim(temp2[0]) == tab+'structure' ){
          		        		  getStructuresListFilter(temp2[1]);
-         		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+         		        	  }else if($.trim(temp2[0]) == tab+'work_id_fk'){
          		        		  getWorksListFilter(temp2[1]);
-         		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+         		        	  }else if($.trim(temp2[0]) == tab+'contract_id_fk'){
          		        		  getContractsListFilter(temp2[1]);
-         		        	  }else if($.trim(temp2[0]) == 'department_fk'){
+         		        	  }else if($.trim(temp2[0]) == tab+'department_fk'){
          		        		  getDepartmentsListFilter(temp2[1]);
-         		        	  }else if($.trim(temp2[0]) == 'updated_by_user_id_fk'){
+         		        	  }else if($.trim(temp2[0]) == tab+'updated_by_user_id_fk'){
          		        		  getUpdatedByListFilter(temp2[1]);
          		        	  }
          	        	  }
@@ -439,15 +570,15 @@
                  	  for(var i=0;i< temp.length;i++){
          	        	  if($.trim(temp[i]) != '' ){
          	        		  var temp2 = temp[i].split('=');
-         		        	  if($.trim(temp2[0]) == 'structure' ){
+         		        	  if($.trim(temp2[0]) == tab+'structure' ){
          		        		  getStructuresListFilter(temp2[1]);
-         		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+         		        	  }else if($.trim(temp2[0]) == tab+'work_id_fk'){
          		        		  getWorksListFilter(temp2[1]);
-         		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+         		        	  }else if($.trim(temp2[0]) == tab+'contract_id_fk'){
          		        		  getContractsListFilter(temp2[1]);
-         		        	  }else if($.trim(temp2[0]) == 'department_fk'){
+         		        	  }else if($.trim(temp2[0]) == tab+'department_fk'){
          		        		  getDepartmentsListFilter(temp2[1]);
-         		        	  }else if($.trim(temp2[0]) == 'updated_by_user_id_fk'){
+         		        	  }else if($.trim(temp2[0]) == tab+'updated_by_user_id_fk'){
          		        		  getUpdatedByListFilter(temp2[1]);
          		        	  }
          	        	  }
@@ -462,15 +593,15 @@
                  	  for(var i=0;i< temp.length;i++){
          	        	  if($.trim(temp[i]) != '' ){
          	        		  var temp2 = temp[i].split('=');
-         		        	  if($.trim(temp2[0]) == 'structure' ){
+         		        	  if($.trim(temp2[0]) == tab+'structure' ){
          		        		  getStructuresListFilter(temp2[1]);
-         		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+         		        	  }else if($.trim(temp2[0]) == tab+'work_id_fk'){
          		        		  getWorksListFilter(temp2[1]);
-         		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+         		        	  }else if($.trim(temp2[0]) == tab+'contract_id_fk'){
          		        		  getContractsListFilter(temp2[1]);
-         		        	  }else if($.trim(temp2[0]) == 'department_fk'){
+         		        	  }else if($.trim(temp2[0]) == tab+'department_fk'){
          		        		  getDepartmentsListFilter(temp2[1]);
-         		        	  }else if($.trim(temp2[0]) == 'updated_by_user_id_fk'){
+         		        	  }else if($.trim(temp2[0]) == tab+'updated_by_user_id_fk'){
          		        		  getUpdatedByListFilter(temp2[1]);
          		        	  }
          	        	  }
@@ -482,11 +613,11 @@
 
             // clear filter functionality for all divs
             function clearFilter() {
-            	$("#work_id_fk").val("");
-            	$("#contract_id_fk").val("");
+            	$("#"+tab+"work_id_fk").val("");
+            	$("#"+tab+"contract_id_fk").val("");
             	//$("#department_fk").val("");
-            	$("#structure").val("");
-            	$("#updated_by_user_id_fk").val("");  
+            	$("#"+tab+"structure").val("");
+            	$("#"+tab+"updated_by_user_id_fk").val("");  
             	$(".searchable").select2();
             	
             	//window.localStorage.clear();
@@ -499,46 +630,46 @@
             
             function addInQueStructure(structure){
             	Object.keys(filtersMap).forEach(function (key) {
-    	   			if(key.match('structure')) delete filtersMap[key];
+    	   			if(key.match(tab+'structure')) delete filtersMap[key];
     	   		});
             	if($.trim(structure) != ''){
-           	    	filtersMap["structure"] = structure;
+           	    	filtersMap[tab+"structure"] = structure;
             	}
             }
             
             function addInQueWork(work_id_fk){
     	      	Object.keys(filtersMap).forEach(function (key) {
-    		   		if(key.match('work_id_fk')) delete filtersMap[key];
+    		   		if(key.match(tab+'work_id_fk')) delete filtersMap[key];
     	   	   	});
     	      	if($.trim(work_id_fk) != ''){
-                	filtersMap["work_id_fk"] = work_id_fk;
+                	filtersMap[tab+"work_id_fk"] = work_id_fk;
     	      	}
             }
             
             function addInQueContract(contract_id_fk){
             	Object.keys(filtersMap).forEach(function (key) {
-    	   			if(key.match('contract_id_fk')) delete filtersMap[key];
+    	   			if(key.match(tab+'contract_id_fk')) delete filtersMap[key];
     	   		});
             	if($.trim(contract_id_fk) != ''){
-           	    	filtersMap["contract_id_fk"] = contract_id_fk;
+           	    	filtersMap[tab+"contract_id_fk"] = contract_id_fk;
             	}
             }
             
             function addInQueDepartment(department_fk){
     	      	Object.keys(filtersMap).forEach(function (key) {
-    		   		if(key.match('department_fk')) delete filtersMap[key];
+    		   		if(key.match(tab+'department_fk')) delete filtersMap[key];
     	   	   	});
     	      	if($.trim(department_fk) != ''){
-                	filtersMap["department_fk"] = department_fk;
+                	filtersMap[tab+"department_fk"] = department_fk;
     	      	}
             }
             
             function addInQueUpdatedBy(updated_by_user_id_fk){
             	Object.keys(filtersMap).forEach(function (key) {
-    	   			if(key.match('updated_by_user_id_fk')) delete filtersMap[key];
+    	   			if(key.match(tab+'updated_by_user_id_fk')) delete filtersMap[key];
     	   		});
             	if($.trim(updated_by_user_id_fk) != ''){
-           	    	filtersMap["updated_by_user_id_fk"] = updated_by_user_id_fk;
+           	    	filtersMap[tab+"updated_by_user_id_fk"] = updated_by_user_id_fk;
             	}
             }
                 
@@ -552,21 +683,24 @@
             	getUpdatedByListFilter('');
             	
             	var approval_status_fk = $("#approval_status_fk").val();
-            	var work_id_fk = $("#work_id_fk").val();
-            	var contract_id_fk = $("#contract_id_fk").val();
-            	var structure = $("#structure").val();
-            	var department_fk = $("#department_fk").val();
-            	var updated_by_user_id_fk = $("#updated_by_user_id_fk").val();
+            	var work_id_fk = $("#"+tab+"work_id_fk").val();
+            	var contract_id_fk = $("#"+tab+"contract_id_fk").val();
+            	var structure = $("#"+tab+"structure").val();
+            	var department_fk = $("#"+tab+"department_fk").val();
+            	var updated_by_user_id_fk = $("#"+tab+"updated_by_user_id_fk").val();
             	
             	var filters = '';
             	Object.keys(filtersMap).forEach(function (key) {
     	    		//alert(filtersMap[key]);
-            		filters = filters + key +"="+filtersMap[key] + "^";
+            		
             		if(approval_status_fk == 'Pending'){
+            			filters = filters + key +"="+filtersMap[key] + "^";
             			window.localStorage.setItem("activitiesApprovalFilters1", filters);
             		}else if(approval_status_fk == 'Approved'){
+            			filters = filters + key +"="+filtersMap[key] + "^";
             			window.localStorage.setItem("activitiesApprovalFilters2", filters);
             		}else if(approval_status_fk == 'Rejected'){
+            			filters = filters + key +"="+filtersMap[key] + "^";
             			window.localStorage.setItem("activitiesApprovalFilters3", filters);
             		}
             	 
@@ -625,6 +759,9 @@
         		
         		 if(approval_status_fk == 'Pending'){
         			$("#button_div").show();
+        			 $("#approved_div").hide();
+                     $("#rejected_div").hide();
+                     $("#pending_div").show();
         			table.column( 0 ).visible(true);
         			table.column( 1 ).visible(false);
         			table.column( 2 ).visible(false);
@@ -636,6 +773,9 @@
         			table.column( 14 ).visible(true);
         		}else if(approval_status_fk == 'Approved'){
         			$("#button_div").hide();
+        			 $("#approved_div").show();
+                     $("#rejected_div").hide();
+                     $("#pending_div").hide();
         			table.column( 0 ).visible(false);
         			table.column( 1 ).visible(false);
         			table.column( 2 ).visible(false);
@@ -647,6 +787,9 @@
         			table.column( 14 ).visible(false);
         		}else if(approval_status_fk == 'Rejected'){
         			$("#button_div").hide();
+        			 $("#approved_div").hide();
+                     $("#rejected_div").show();
+                     $("#pending_div").hide();
         			table.column( 0 ).visible(false);
         			table.column( 1 ).visible(false);
         			table.column( 2 ).visible(false);
@@ -887,14 +1030,14 @@
             	$(".page-loader").show();
             	
             	var approval_status_fk = $("#approval_status_fk").val();
-            	var work_id_fk = $("#work_id_fk").val();
-            	var contract_id_fk = $("#contract_id_fk").val();
-            	var structure = $("#structure").val();
-            	var department_fk = $("#department_fk").val();
-            	var updated_by_user_id_fk = $("#updated_by_user_id_fk").val();
+            	var work_id_fk = $("#"+tab+"work_id_fk").val();
+            	var contract_id_fk = $("#"+tab+"contract_id_fk").val();
+            	var structure = $("#"+tab+"structure").val();
+            	var department_fk = $("#"+tab+"department_fk").val();
+            	var updated_by_user_id_fk = $("#"+tab+"updated_by_user_id_fk").val();
              	
                 if ($.trim(work_id_fk) == "") {
-                    $("#work_id_fk"+" option:not(:first)").remove();
+                    $("#"+tab+"work_id_fk"+" option:not(:first)").remove();
                     var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
             	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
                     $.ajax({
@@ -904,7 +1047,7 @@
                             if (data.length > 0) {
                                 $.each(data, function (i, val) {
                                 	var selectedFlag = (work == val.work_id_fk)?'selected':'';
-     	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '" '+selectedFlag+'>' + val.work_short_name +'</option>');
+     	                            $("#"+tab+"work_id_fk").append('<option value="' + val.work_id_fk + '" '+selectedFlag+'>' + val.work_short_name +'</option>');
                                 });
                             }
                             $('.searchable').select2();
@@ -922,14 +1065,14 @@
             function getStructuresListFilter(structure_name) {
             	$(".page-loader").show();
             	var approval_status_fk = $("#approval_status_fk").val();
-            	var work_id_fk = $("#work_id_fk").val();
-            	var contract_id_fk = $("#contract_id_fk").val();
-            	var structure = $("#structure").val();
-            	var department_fk = $("#department_fk").val();
-            	var updated_by_user_id_fk = $("#updated_by_user_id_fk").val();
+            	var work_id_fk = $("#"+tab+"work_id_fk").val();
+            	var contract_id_fk = $("#"+tab+"contract_id_fk").val();
+            	var structure = $("#"+tab+"structure").val();
+            	var department_fk = $("#"+tab+"department_fk").val();
+            	var updated_by_user_id_fk = $("#"+tab+"updated_by_user_id_fk").val();
 
                 if ($.trim(structure) == "") {
-                     $("#structure option:not(:first)").remove();
+                     $("#"+tab+"structure option:not(:first)").remove();
                      var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
              	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
                      $.ajax({
@@ -939,7 +1082,7 @@
                              if (data.length > 0) {
                                  $.each(data, function (i, val) {                             	
                                  	var selectedFlag = (structure_name == val.structure)?'selected':'';
-                                	$("#structure").append('<option value="' + val.structure + '" '+selectedFlag+'>' + $.trim(val.structure) +'</option>');
+                                	$("#"+tab+"structure").append('<option value="' + val.structure + '" '+selectedFlag+'>' + $.trim(val.structure) +'</option>');
                                  });
                              }
                              $('.searchable').select2();
@@ -957,14 +1100,14 @@
             function getContractsListFilter(contract) {
             	$(".page-loader").show();
             	var approval_status_fk = $("#approval_status_fk").val();
-            	var work_id_fk = $("#work_id_fk").val();
-            	var contract_id_fk = $("#contract_id_fk").val();
-            	var structure = $("#structure").val();
-            	var department_fk = $("#department_fk").val();
-            	var updated_by_user_id_fk = $("#updated_by_user_id_fk").val();
+            	var work_id_fk = $("#"+tab+"work_id_fk").val();
+            	var contract_id_fk = $("#"+tab+"contract_id_fk").val();
+            	var structure = $("#"+tab+"structure").val();
+            	var department_fk = $("#"+tab+"department_fk").val();
+            	var updated_by_user_id_fk = $("#"+tab+"updated_by_user_id_fk").val();
 
                 if ($.trim(contract_id_fk) == "") {
-                    $("#contract_id_fk option:not(:first)").remove();
+                    $("#"+tab+"contract_id_fk option:not(:first)").remove();
                     var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
             	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
                     $.ajax({
@@ -974,7 +1117,7 @@
                             if (data.length > 0) {
                                 $.each(data, function (i, val) {
                                 	var selectedFlag = (contract == val.contract_id_fk)?'selected':'';
-     	                            $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '" '+selectedFlag+'>' + val.contract_short_name +'</option>');
+     	                            $("#"+tab+"contract_id_fk").append('<option value="' + val.contract_id_fk + '" '+selectedFlag+'>' + val.contract_short_name +'</option>');
                                 });
                             }
                             $('.searchable').select2();
@@ -992,14 +1135,14 @@
             function getDepartmentsListFilter(department) {
              	$(".page-loader").show();
              	var approval_status_fk = $("#approval_status_fk").val();
-             	var work_id_fk = $("#work_id_fk").val();
-            	var contract_id_fk = $("#contract_id_fk").val();
-            	var structure = $("#structure").val();
-            	var department_fk = $("#department_fk").val();
-            	var updated_by_user_id_fk = $("#updated_by_user_id_fk").val();
+             	var work_id_fk = $("#"+tab+"work_id_fk").val();
+            	var contract_id_fk = $("#"+tab+"contract_id_fk").val();
+            	var structure = $("#"+tab+"structure").val();
+            	var department_fk = $("#"+tab+"department_fk").val();
+            	var updated_by_user_id_fk = $("#"+tab+"updated_by_user_id_fk").val();
 
                 if ($.trim(department_fk) == "") {
-                    $("#department_fk option:not(:first)").remove();
+                    $("#"+tab+"department_fk option:not(:first)").remove();
                     var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
             	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
                     $.ajax({
@@ -1009,7 +1152,7 @@
                             if (data.length > 0) {
                                 $.each(data, function (i, val) {
                                 	var selectedFlag = (department == val.department_fk)?'selected':'';
-                                	$("#department_fk").append('<option value="' + val.department_fk + '" '+selectedFlag+'>' + $.trim(val.department_name) +'</option>');
+                                	$("#"+tab+"department_fk").append('<option value="' + val.department_fk + '" '+selectedFlag+'>' + $.trim(val.department_name) +'</option>');
                                 });
                             }
                             $('.searchable').select2();
@@ -1027,14 +1170,14 @@
             function getUpdatedByListFilter(user_id) {
              	$(".page-loader").show();
              	var approval_status_fk = $("#approval_status_fk").val();
-             	var work_id_fk = $("#work_id_fk").val();
-            	var contract_id_fk = $("#contract_id_fk").val();
-            	var structure = $("#structure").val();
-            	var department_fk = $("#department_fk").val();
-            	var updated_by_user_id_fk = $("#updated_by_user_id_fk").val();
+             	var work_id_fk = $("#"+tab+"work_id_fk").val();
+            	var contract_id_fk = $("#"+tab+"contract_id_fk").val();
+            	var structure = $("#"+tab+"structure").val();
+            	var department_fk = $("#"+tab+"department_fk").val();
+            	var updated_by_user_id_fk = $("#"+tab+"updated_by_user_id_fk").val();
             	
                 if ($.trim(updated_by_user_id_fk) == "") {
-                     $("#updated_by_user_id_fk option:not(:first)").remove();
+                     $("#"+tab+"updated_by_user_id_fk option:not(:first)").remove();
                      var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
              	 			structure : structure, updated_by_user_id_fk : updated_by_user_id_fk, approval_status_fk : approval_status_fk };
                      $.ajax({
@@ -1044,7 +1187,7 @@
                              if (data.length > 0) {
                                  $.each(data, function (i, val) {
                                 	 var selectedFlag = (user_id == val.user_id)?'selected':'';
-                               	 	 $("#updated_by_user_id_fk").append('<option value="' + val.user_id + '" '+selectedFlag+'>' + $.trim(val.user_name) +'</option>');
+                               	 	 $("#"+tab+"updated_by_user_id_fk").append('<option value="' + val.user_id + '" '+selectedFlag+'>' + $.trim(val.user_name) +'</option>');
                                  });
                              }
                              $('.searchable').select2();

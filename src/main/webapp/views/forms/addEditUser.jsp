@@ -299,9 +299,8 @@
 
 
                             <!-- insurance show hide div  -->
-                            <div class="row fixed-width">
+                           <%--  <div class="row fixed-width">
                                 <h5 class="center-align">User Permissions</h5>
-                                <!-- <div class="table-inside"> -->
                                 <div class="col l12 m8 s12 max-h offset-m2 " style="margin-bottom:20px;">
                                     <table id="userPermissionsTable" class="mdl-data-table mobile_responsible_table" >
                                         <thead>
@@ -398,8 +397,8 @@
                                     </c:choose> 
 
                                 </div>
-                                <!-- </div> -->
                             </div>
+                             --%>
                             <div class="row">
 
                                 <!-- <div class="col l12 m8 s12">

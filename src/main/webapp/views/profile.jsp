@@ -12,21 +12,53 @@
   <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
   <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">   
   <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">    
+  <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
   <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
   <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
        
      <style>
+     .theme-change {
+		  position: fixed;
+		  z-index: 2;
+		  right: -20px;
+		  top: 60px;
+		  border: 0;
+		  cursor: pointer;
+		  font-size: 1.5rem;
+		  transition: all 1s ease-in-out;
+		}
+		.theme-change .fa-moon-o {
+		    color: white;
+		}
+		@media (hover: hover) and (pointer: fine){
+			.theme-change:hover {
+			    transform: translateX(-20px);
+			}		
+		}
       .card-title {
             background-color: #DFE6F6;
         }
-	     thead tr {
+       .text-capitalize{
+       		text-transform:capitalize;
+       }
+       .table-inside{
+       	    overflow-x: auto;
+       }
+       .table-plus-btn{
+       	    text-align: center;
+    		margin-top: .5rem;
+       }
+        .custom-margin{
+        	margin: 1.35rem 0 2.5rem 0;
+        }
+	    table:not(.datepicker-table) thead tr {
 	        background-color: #2E58AD;
 	        background-color: #007a7a;
 	     }
 	     .profile_info table tbody tr td:first-of-type{
 	     	width:30%;
 	     }
-	     td{
+	     table:not(.datepicker-table) td{
 	        word-break: break-word;
 	    	word-wrap: break-word;
 	   		white-space: initial;
@@ -100,20 +132,18 @@
 		    font-weight: 400;
 		}
 		
-        .main .fa{
-        	float:right;
-        	color:#aaa;
+        .main .left i{
         	margin:0 5px;
         	transition:color .3s linear;
         }
-        .main .fa:hover{
-        	color:#555;
+        .main i:hover{
+        	color:#007A7A;
         }
         .main .hidden{
         	display:none;
         }
         .bg-m{
-	    	background-color:#2E58AD;
+	    	background-color:#007a7a;
 	    	text-transform:Capitalize;    
 	    }
 		input::-webkit-outer-spin-button,
@@ -125,11 +155,14 @@
 		  -moz-appearance: textfield;
 		}
 		.no-sort.sorting_asc:before,
-	.no-sort.sorting_asc:after{
-		opacity:0 !important;
-		content:'' !important;
-	}
-    </style>
+		.no-sort.sorting_asc:after{
+			opacity:0 !important;
+			content:'' !important;
+		}
+		.select2-container--default .select2-selection--single{
+			background-color:transparent;
+		}
+	</style>
 </head>
 
 <body>
@@ -138,14 +171,17 @@
 
     <div class="row">
         <div class="col s12 m12">
-            <div class="card">
+            <div class="card custom-margin">
                 <div class="card-content"> 
                 <form action="<%=request.getContextPath() %>/update-profile" method="POST" id="profileForm" name="profileForm" class="form-horizontal" role="form" enctype="multipart/form-data">
                 	<span class="card-title headbg main">
                 		User Details 
-                		<i class="fa fa-pencil editing" onclick="toggleEditing()"></i> 
+                		<span class="left">
+                		<a class="btn bg-m editing" onclick="toggleEditing()">Edit</a> 
                 		<i class="fa fa-save saving hidden" onclick='profileFormSubmit()'></i>
                 		<i class="fa fa-close closing hidden" onclick="toggleEditing()"></i>
+                		</span>
+                		
                 	</span>
                 	 <c:if test="${not empty success }">
 					        <div class="center-align m-1 close-message">	
@@ -279,11 +315,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col m12 l4 s12">
+                      <%--   asked to remove so this was commented
+                      	<div class="col m12 l4 s12">
                             <div class="card" style="min-height: 445px;">
                                 <div class="card-content">
                                     <span class="card-title headbg">User Access</span>
-                                    <!-- <div style="padding-top: 100px;"></div> -->
                                     <table id="example2" class="mdl-data-table">
                                         <thead>
                                             <tr>
@@ -303,7 +339,79 @@
                                     </table>
                                 </div>
                             </div>
-                        </div>
+                        </div> --%>
+                        
+                       <!--  <div class="col m12 l4 s12">
+                            <div class="card" style="min-height: 445px;">
+                                <div class="card-content">
+                                    <span class="card-title headbg">Leave Responsibility</span>
+                                    <div class="row">
+									    <div class="col s12">
+									        <form action="">
+									            <p class="center-align text-capitalize">are you going on leave 
+									                <label style="margin-left:2rem;">
+									                    <input type="checkbox" name="leaveYes" onchange="datesShowHide()"/>
+									                    <span>Yes</span>
+									                </label>
+									            </p>
+									            <div id="datesDiv" style="display:none;">
+									            	<div class="input-field col s6">
+										                <input type="text" class="datepicker" id="from_date" placeholder="From Date">
+										                <button type="button" id="from_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+										            </div>
+										            <div class="input-field col s6">
+										                <input type="text" class="datepicker" id="to_date" placeholder="To Date">
+										                <button type="button" id="to_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+										            </div>
+									            </div>
+									            <div class="row fixed-width" id="responsibleDiv" style="display:none;">
+												    <h6 class="center-align">Assign Responsibility</h6>
+												    <div class="table-inside">   
+													    <table class="mdl-data-table mobile_responsible_table" id="responsibility_table">
+													        <thead>
+													            <tr>
+													                <th>Module</th>
+													                <th>Responsible Person</th> 
+													                <th>Action</th>
+													            </tr>
+													        </thead>
+													        <tbody id="responsibilityBody">
+													            <tr id="tableRow0">
+													                <td data-head="Module" class="input-field">
+													                    <select name="modules" id="module0" onChange="removeRest()" class="validate-dropdown searchable">
+													                        <option value="all">All</option>
+													                        <option value="contract" selected>Contract</option>
+													                    </select>
+													                </td>
+													                <td data-head="Responsible Person" class="input-field">
+													                    <select name="responsible_person" id="responsible_person0" class="validate-dropdown searchable">
+													                        <option value="">User</option>
+													                    </select>
+													                </td>
+													                <td class="mobile_btn_close">
+													                    <a onclick="removeRow('0');" class="btn red">
+													                        <i class="fa fa-close"></i></a>
+													                </td>
+													            </tr>
+													        </tbody>
+													    </table>
+													    
+													    <div class="table-plus-btn">
+													    	<input type="hidden" id="rowNo" name="rowNo" value="0" />
+													        <a type="button" class="btn waves-effect waves-light bg-m t-c add-align" onclick="addNewRow()"> <i
+													                class="fa fa-plus"></i>
+													        </a>
+													    </div>
+													  </div>
+												</div>
+									        </form>
+									    </div>
+									</div>
+                                  
+                                </div>
+                            </div>
+                        </div> -->
+                        
                     </div>
                   </form>
                 </div>
@@ -331,12 +439,13 @@
     		
   <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
   <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
+  <script src="/pmis/resources/js/datepickerDepedency.js"></script>
   <script src="/pmis/resources/js/select2.min.js"></script>
   <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
   <script src="/pmis/resources/js/dataTables.material.min.js"></script>
   <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	  <script>
-        $(document).ready(function () {
+       /*  $(document).ready(function () {
             $('#example2').DataTable({
                 "searching": false,
                 columnDefs: [
@@ -358,13 +467,52 @@
                 "ordering":false,
                 "sScrollY": 400,
             });
-        });
-        
+        }); */
+    	$(document).ready(function () {
+        	$('.searchable').select2();
+    	});
+        function datesShowHide(){
+        	 if($('input[name="leaveYes"]:checked').val()){
+        		 $('#datesDiv').show();
+        		 $('#responsibleDiv').show();        		 
+        	 }else{
+        		 $('#datesDiv').hide();
+        		 $('#responsibleDiv').hide();
+        	 }
+        }
         function toggleEditing(){
-        	$('.main .fa').toggleClass('hidden');
+        	$('.main .fa,.main .editing').toggleClass('hidden');
         	$('.hideOrShow').toggleClass('hidden');      	       	
         }
         
+        function addNewRow(){
+            var rowNo = $("#rowNo").val();
+            var rNo = Number(rowNo)+1;
+            var html='<tr id="tableRow' + rNo + '"> <td data-head="Module" class="input-field">'
+                     +'<select name="modules" id="module' + rNo + '" class="validate-dropdown searchable"> <option value="all">All</option><option value="1">one</option>'
+                     +'</select></td> <td data-head="Responsible Person" class="input-field">'
+                     +'<select name="responsible_person" id="responsible_person' + rNo + '" class="validate-dropdown searchable"> <option value="">User</option>'
+                     +'</select> </td> <td class="mobile_btn_close"> <a onclick="removeRow(' + rNo + ');" class="btn red"> <i class="fa fa-close"></i></a>'
+                     +'</td></tr>';	
+    		$('#responsibilityBody').append(html);
+            $("#rowNo").val(rNo);          	
+            
+            $('.searchable').select2();
+        }
+        
+        function removeRow(rowNo){
+         	$("#tableRow"+rowNo).remove();
+        } 
+        
+        function removeRest(){
+        	if($('#module0').val()=='all'){
+        		$('#responsibilityBody > tr:not("#tableRow0")').hide();
+        		$('.table-plus-btn > .btn').attr('disabled',true);
+           	}else{
+           		$('#responsibilityBody > tr:not("#tableRow0")').show();
+        		$('.table-plus-btn > .btn').attr('disabled',false);
+        	}
+        }
         function profileFormSubmit(){
         	if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	

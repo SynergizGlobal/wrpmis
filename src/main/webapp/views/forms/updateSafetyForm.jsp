@@ -82,7 +82,7 @@
                         	<input id="dy_hod_user_id_fk" name="dy_hod_user_id_fk" type="hidden" value="${safety.dy_hod_user_id_fk }" />                       
                         
                         	<div class="row">
-                                <div class="col s6 offset-m2 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                    <%--  <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -95,7 +95,7 @@
                                     <input type="hidden" name="project_id_fk" id="project_id_fk" value ="${safety.project_id_fk }" />
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                   <!--   <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="" selected>Select</option>
@@ -104,6 +104,15 @@
                                     <input type="text"  value ="${safety.work_id_fk } - ${safety.work_short_name}" readonly id="work-text"/>
                                     <label for="work-text">Work <span class="required">*</span></label>
                                     <input type="hidden" name="work_id_fk" id="work_id_fk" value ="${safety.work_id_fk }" />
+                                </div>
+                                <div class="col s6 m4 l4 input-field">
+                                    <!-- <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
+                                        <option value="">Select</option>
+                                    </select>
+                                    <span id="contract_id_fkError" class="error-msg" ></span> -->
+                                    <input type="text"  value ="${safety.contract_id_fk } - ${safety.contract_short_name}" readonly id="contract-text"/>
+                                    <label for="contract-text">Contract <span class="required">*</span></label>
+                                    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value ="${safety.contract_id_fk }" />
                                 </div>
                             </div>
 
@@ -114,26 +123,9 @@
                                     <label for="user_id" >Safety ID : <input id="safety_id" name="safety_id" type="text" value="${safety.safety_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                     <br><br>
                                 </div> --%>
-                                <div class="col s6 offset-m2 m4 input-field">
-                                    <!-- <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
-                                        <option value="">Select</option>
-                                    </select>
-                                    <span id="contract_id_fkError" class="error-msg" ></span> -->
-                                    <input type="text"  value ="${safety.contract_id_fk } - ${safety.contract_short_name}" readonly id="contract-text"/>
-                                    <label for="contract-text">Contract <span class="required">*</span></label>
-                                    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value ="${safety.contract_id_fk }" />
-                                </div>
                                 
-                                <div class="col s6 m4 input-field">
-                                   <p class="searchable_label"> Category <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="setTitle(this.value);">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${safetyCategoryList }">
-                                            <option value="${obj.category }" <c:if test="${safety.category_fk eq obj.category}">selected</c:if>>${obj.category}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="category_fkError" class="error-msg" ></span>
-                                </div>
+                                
+                                
                             </div>
                             
                        <%--      <div class="row">
@@ -164,7 +156,17 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div> --%>
                             <div class="row">
-                                <div class="col s6 offset-m2 m4 input-field">
+                            <div class="col s6 m4 l4 input-field">
+                                   <p class="searchable_label"> Category <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="setTitle(this.value);">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${safetyCategoryList }">
+                                            <option value="${obj.category }" <c:if test="${safety.category_fk eq obj.category}">selected</c:if>>${obj.category}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span id="category_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m4 l4 input-field">
                                 <p class="searchable_label"> Impact <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="impact_fk" name="impact_fk">
                                         <option value="">Select</option>
@@ -174,7 +176,7 @@
                                     </select>
                                     <span id="impact_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">    
+                                <div class="col s6 m4 l4 input-field">    
                                 <p class="searchable_label"> Root Cause <span class="required">*</span></p>                            
                                     <select class="searchable validate-dropdown" id="root_cause_fk" name="root_cause_fk">
                                         <option value="">Select</option>
@@ -187,14 +189,14 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">                                   
+                                <div class="col s12 m12 l12 input-field">                                   
                                       <textarea id="title" name="title" class="pmis-textarea validate" data-length="100">${safety.title }</textarea>
 	                                  <label for="title">Short Description <span class="required">*</span></label>
 	                                  <span id="titleError" class="error-msg" ></span>
                                  </div>
                             </div>
                             <div class="row">
-                                  <div class="col s12 m8 input-field offset-m2">
+                                  <div class="col s12 m12 l12 input-field">
 									  <textarea id="description" name="description" class="validate pmis-textarea" data-length="1000">${safety.description }</textarea>                                            
 	                                  <label for="description">Full Description<span class="required">*</span></label>
 	                                  <span id="descriptionError" class="error-msg" ></span>
@@ -202,39 +204,18 @@
                             </div>
 
                             <div class="row ">
-                                <div class="col s6 offset-m2 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="date" name="date" type="text" class="validate datepicker" value="${safety.date }">
                                     <label for="date"> Date <span class="required">*</span></label>
                                     <button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <input id="location" name="location" type="text" class="validate" value="${safety.location }">
                                     <label for="location">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
-                            </div>
-
-                            <div class="row">                                
-                                <div class="col s6 offset-m2 m4 input-field">
-                                    <input id="latitude" name="latitude" type="text" class="validate" value="${safety.latitude }">
-                                    <label for="latitude">Latitude </label>
-                                    <span id="latitudeError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 input-field">
-                                    <input id="longitude" name="longitude" type="text" class="validate" value="${safety.longitude }">
-                                    <label for="longitude">Longitude </label>
-                                    <span id="longitudeError" class="error-msg" ></span>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col s6 offset-m2 m4 input-field">
-                                    <input id="reported_by" name="reported_by" type="text" class="validate" value="${safety.reported_by }">
-                                    <label for="reported_by">Reported By</label>
-                                    <span id="reported_byError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m4 l4 input-field">
                                     <%-- <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${safety.responsible_person }">
                                     <label for="responsible_person" class="fs-sm-67rem serchable_label">Person Responsible in MRVC</label> --%>
                                     <p style="color: #aaa;font-size:0.85rem;" >Person Responsible in MRVC</p>
@@ -244,8 +225,28 @@
                                     <span id="responsible_personError" class="error-msg" ></span>
                                 </div>
                             </div>
+
+                            <div class="row">                                
+                                <div class="col s6 m4 l4 input-field">
+                                    <input id="latitude" name="latitude" type="text" class="validate" value="${safety.latitude }">
+                                    <label for="latitude">Latitude </label>
+                                    <span id="latitudeError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m4 l4 input-field">
+                                    <input id="longitude" name="longitude" type="text" class="validate" value="${safety.longitude }">
+                                    <label for="longitude">Longitude </label>
+                                    <span id="longitudeError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m4 l4 input-field">
+                                    <input id="reported_by" name="reported_by" type="text" class="validate" value="${safety.reported_by }">
+                                    <label for="reported_by">Reported By</label>
+                                    <span id="reported_byError" class="error-msg" ></span>
+                                </div>
+                            </div>
+
+                            
                             <div class="row" style="margin-bottom:10px;">                               
-                                <div class="col s6 m2 input-field mti-5 offset-m2">
+                                <div class="col s6 m4 l4 input-field mti-5">
 	                                 <p>
 									      <label>
 									        <input type="checkbox" id="committee_required" name="committee_required" <c:if test="${safety.committee_required_fk eq 'Yes'}">checked</c:if>/>
@@ -254,7 +255,7 @@
 									      <input type="hidden" id="committee_required_fk" name="committee_required_fk" value="No"/>
 								    </p>
 							    </div>
-							    <div class="col s6 m2 hidden input-field mti-5" id="committee_formed_div" >
+							    <div class="col s6 m4 l4 hidden input-field mti-5" id="committee_formed_div" >
 	                                 <p>
 									      <label>
 									        <input type="checkbox" id="committee_formed" name="committee_formed" <c:if test="${safety.committee_formed_fk eq 'Yes'}">checked</c:if>/>
@@ -264,7 +265,7 @@
 								    </p>
 								    <input type="hidden" id="committee_formed_fk" name="committee_formed_fk" value="No"/>
 							    </div>
-                                <div class="col s12 m4 input-field hidden" id="committee_member_div">                                 	
+                                <div class="col s12 m4 l4 input-field hidden" id="committee_member_div">                                 	
                                    <%--  <input id="committee_member_name" name="committee_member_name" type="text" class="validate" value="${safety.committee_member_name }">
                                     <label for="committee_member_name">Name of Committee member</label> --%>
                                      <p style="color: #aaa;font-size:0.85rem;" >Name of Committee members</p>
@@ -282,25 +283,25 @@
                                 </div>  
                             </div>
                             <div class="row">                             
-                                 <div class="col s12 m4 input-field offset-m2">
+                                 <div class="col s12 m6 l6 input-field">
                                     <input id="investigation_completed" name="investigation_completed" type="text" class="validate datepicker" value="${safety.investigation_completed }">
                                     <label for="investigation_completed">Investigation Completion Date</label>
                                     <button type="button" id="investigation_completed_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="investigation_completedError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m6 l6 input-field">
                                     <input id="lti_hours" name="lti_hours" type="text" class="validate" value="${safety.lti_hours }">
                                     <label for="lti_hours">Loss Time Injury (LTI) Hours</label>
                                     <span id="lti_hoursError" class="error-msg" ></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m6 l6 input-field">
                                     <input id="equipment_impact" name="equipment_impact" type="text" class="validate" value="${safety.equipment_impact }">
                                     <label for="equipment_impact"> Equipment Impact </label>
                                     <span id="equipment_impactError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m6 l6 input-field">
                                     <input id="people_impact" name="people_impact" type="text" class="validate" value="${safety.people_impact }">
                                     <label for="people_impact">People Impact</label>
                                     <span id="people_impactError" class="error-msg" ></span>
@@ -308,7 +309,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m12 l12 input-field">
                                     <input id="work_impact" name="work_impact" type="text" class="validate" value="${safety.work_impact }">
                                     <label for="work_impact"> Work Impact </label>
                                     <span id="work_impactError" class="error-msg" ></span>
@@ -316,14 +317,14 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m12 l12 input-field">
                                     <textarea id="corrective_measure_short_term" name="corrective_measure_short_term" class="pmis-textarea validate" data-length="1000">${safety.corrective_measure_short_term }</textarea>  
                                     <label for="corrective_measure_short_term">Corrective Measure (Short Term) </label>
                                     <span id="corrective_measure_short_termError" class="error-msg" ></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m12 l12 input-field">
                                		<textarea id="corrective_measure_long_term" name="corrective_measure_long_term" class="pmis-textarea validate" data-length="1000">${safety.corrective_measure_long_term }</textarea>  
                                     <label for="corrective_measure_long_term">Corrective Measure (Long Term) </label>
                                     <span id="corrective_measure_long_termError" class="error-msg" ></span>
@@ -331,7 +332,7 @@
                             </div>                          
 
                             <div class="row">
-                            <div class="col s12 m8 input-field offset-m2">
+                            <div class="col s12 m12 l12 input-field">
 									<c:set var="existingsafetyFilesLength" value="${fn:length(safety.safetyFilesList )}"></c:set>
 									<c:if test="${fn:length(safety.safetyFilesList ) gt 0}">
 										<c:set var="existingSafetyFilesLength" value="${fn:length(safety.safetyFilesList )+1}"></c:set>
@@ -363,7 +364,7 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col s12 m8 input-field offset-m2">
+                                <div class="col s12 m12 l12 input-field">
                                     <textarea id="remarks" name="remarks" class="pmis-textarea validate" data-length="1000">${safety.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
@@ -371,19 +372,19 @@
                             </div>
                             
                             <div class="row">                               
-                                <div class="col s6 m4 input-field offset-m2">
+                                <div class="col s6 m6 l6 input-field">
                                     <input id="payment_date" name="payment_date" type="text" class="validate datepicker" value="${safety.payment_date }">
                                     <label for="payment_date">Payment Date</label>
                                     <button type="button" id="payment_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="payment_dateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s8 m3 input-field">
+                                <div class="col s8 m4 l4 input-field">
                                 <i class="material-icons prefix center-align">₹</i>
                                     <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" class="validate" value="${safety.compensation }">
                                     <label for="compensation"> Compensation </label>
                                     <span id="compensationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s4 m1 input-field pt-10">
+                                <div class="col s4 m2 l2 input-field pt-10">
                                 	<p class="searchable_label">Unit</p>
                                 	<select class="units searchable validate-dropdown" id="compensation_units" name="compensation_units">
                                 		<option value="">Select</option>
@@ -396,7 +397,7 @@
                             </div>                            
 
 							 <div class="row">
-								 <div class="col s6 m4 input-field offset-m2">
+								 <div class="col s6 m6 l6 input-field">
                                   <p class="searchable_label"> Status <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="status_fk" name="status_fk" >
                                         <option value="">Select</option>
@@ -406,7 +407,7 @@
                                     </select>                                    
                                     <span id="status_fkError" class="error-msg" ></span>
                                 </div>
-                                  <div class="col s6 m4 input-field hidden" id="hidden_date">
+                                  <div class="col s6 m4 l6 input-field hidden" id="hidden_date">
                                     <input id="closure_date" name="closure_date" type="text" class="validate datepicker" value="${safety.closure_date }">
                                     <label for="closure_date">Closure Date</label>
                                     <button type="button" id="closure_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -415,13 +416,13 @@
                                  
 							</div> 
                             <div class="row">
-                                <div class="col s6 m4 mt-brdr offset-m2">
+                                <div class="col s6 m6 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <button type="button" onclick="updateSafety()"
                                             class="btn waves-effect waves-light bg-m">Update </button>
                                     </div>
                                 </div>
-                                <div class="col s6 m4 mt-brdr">
+                                <div class="col s6 m6 l6 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath() %>/safety" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>

@@ -807,7 +807,7 @@
 	                                     <button type="button" id="target_doc_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                     <span id="target_docError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s6 m4 l6 input-field offset-m2">
+	                                <div class="col s6 m4 l6 input-field offset-m2" id="actual_date_of_commissioning_div">
 	                                    <input autocomplete="off" name="actual_date_of_commissioning" id="actual_date_of_commissioning" type="text" class="validate datepicker-max-today" value="${contractDeatils.actual_date_of_commissioning }">
 	                                    <label for="actual_date_of_commissioning">Actual Date of Commissioning <span class="required" id="actual_date_of_commissioning_req">*</span></label>
 	                                     <button type="button" id="actual_date_of_commissioning_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -2302,6 +2302,8 @@
             	
             	$('#actual_date_of_commissioning').rules('remove','required');
             	$('#actual_date_of_commissioning_req').text('');
+            	
+            	$('#actual_date_of_commissioning_div').hide();
             }else{
             	$('#actual_completion_date').rules('remove',  'required');
             	$('#actual_completion_date_req').text('');
@@ -2311,12 +2313,16 @@
             	$('#actual_date_of_commissioning_req').text('');
         		
         		if($.trim(contract_status_fk) == 'Commissioned'){
+        			$('#actual_date_of_commissioning_div').show();
         			$('#actual_date_of_commissioning').rules('add',  { required: true });
                 	$('#actual_date_of_commissioning_req').text('*');
+            	}else{
+            		$('#actual_date_of_commissioning_div').hide();
             	}
             }
             
             $("#contract_status_fk").change(function(){
+            	$('#actual_date_of_commissioning_div').hide();
             	var contract_status_fk = $(this).val();
             	if($.trim(contract_status) == 'Open' && $.trim(contract_status_fk) == 'Not Started'){
                 	$('#date_of_start').rules('remove',  'required');
@@ -2342,8 +2348,11 @@
                 	$('#actual_date_of_commissioning_req').text('');
             		
             		if($.trim(contract_status_fk) == 'Commissioned'){
+            			$('#actual_date_of_commissioning_div').show();
             			$('#actual_date_of_commissioning').rules('add',  { required: true });
                     	$('#actual_date_of_commissioning_req').text('*');
+                	}else{
+                		$('#actual_date_of_commissioning_div').hide();
                 	}
                 } 
             	

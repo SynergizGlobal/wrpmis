@@ -791,7 +791,7 @@ public class SafetyDaoImpl implements SafetyDao {
 							template.update(fileQry, paramSource);
 						}
 					}
-				}
+				} 
 				String safety_id = obj.getSafety_id();
 				String safety_status = obj.getStatus_fk();
 				String existing_status_fk = obj.getExisting_status_fk();

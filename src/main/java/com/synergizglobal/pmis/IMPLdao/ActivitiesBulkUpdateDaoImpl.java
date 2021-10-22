@@ -786,7 +786,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			
 				if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))
 				{
-					qry = qry + " and scope <> completed ";
+					//qry = qry + " and scope <> completed ";
 				}			
 			
 			int arrSize = 0;

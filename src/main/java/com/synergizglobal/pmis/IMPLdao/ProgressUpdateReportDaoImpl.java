@@ -591,8 +591,8 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 					+ "u2.designation as hod_designation,c.work_id_fk,w.work_short_name,p.project_name, c.contract_short_name,structure as structure_type_fk,u.designation,u.user_name,c.department_fk," + 
 					"(select  count(distinct progress_date)) as progress_dates," + 
 					"COALESCE( (select COUNT(created_by_user_id_fk) FROM approvable_activity_progress where created_by_user_id_fk = acp.created_by_user_id_fk), 0)  as updated," + 
-					"COALESCE((select count(approval_status_fk) FROM approvable_activity_progress where approval_status_fk = 'approved' and approved_or_rejected_by = acp.created_by_user_id_fk ), 0) as approved," + 
-					"COALESCE((select count(approval_status_fk) FROM approvable_activity_progress where  approval_status_fk = 'rejected' and approved_or_rejected_by = acp.created_by_user_id_fk ), 0) as rejected " + 
+					"COALESCE((select count(approval_status_fk) FROM approvable_activity_progress where approval_status_fk = 'approved' and activity_id_fk = acp.activity_id_fk ), 0) as approved," + 
+					"COALESCE((select count(approval_status_fk) FROM approvable_activity_progress where  approval_status_fk = 'rejected' and activity_id_fk = acp.activity_id_fk ), 0) as rejected " + 
 					" FROM approvable_activity_progress acp " + 
 					" left join activities a on  a.activity_id = acp.activity_id_fk  " + 
 					" left join contract c on a.contract_id_fk = c.contract_id " + 

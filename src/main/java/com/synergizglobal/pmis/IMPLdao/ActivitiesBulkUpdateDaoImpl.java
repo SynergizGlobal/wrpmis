@@ -1030,8 +1030,8 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		        DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 			}
 			
-			if(CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))
-			{			
+			/*if(CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))
+			{*/			
 			/*if(flag) {*/
 				int arrSize =0;
 				if( !StringUtils.isEmpty(obj.getCompletedScopes()) && obj.getCompletedScopes().length > 0) {
@@ -1077,6 +1077,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 						actual=0;
 					}
 					/*Date planstartDate =null;*/
+					
+					if(obj.getPlanned_start()!=null && obj.getPlanned_finish()!=null)
+					{
 
 					String SplitStr=obj.getPlanned_start();
 					String[] StrVar=SplitStr.split(",");
@@ -1128,6 +1131,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		            
 		            String date1=sdf.format(c1.getTime());
 		            String date2=sdf.format(c2.getTime());
+		            
 					
 					if(Float.parseFloat(StrVar2[i])>=completed && date2.compareTo(date1)>=0)
 					{
@@ -1228,7 +1232,77 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 						flag=true;
 					}
 				}
-			}
+					else
+					{
+						String SplitStr2=obj.getScope();
+						String[] StrVar2=SplitStr2.split(",");	
+						
+					
+						if(Float.parseFloat(StrVar2[i])>=completed)
+						{
+						
+							String updateQry = "UPDATE  activities set completed = IFNULL(NULLIF(completed, '' ), 0) ";
+							
+							
+							if(!StringUtils.isEmpty(obj.getProgress_date())) 
+							{
+								if(completed == 0) {
+									updateQry = updateQry + ", actual_start = ?";
+								}
+								
+								
+								if((completed+actual) > 0 && scope == (completed+actual)) 
+								{
+									updateQry = updateQry + ", actual_finish = ? ";						
+								}
+							}
+				
+							
+							updateQry = updateQry + " WHERE activity_id = ? ";
+							updateStmt = con.prepareStatement(updateQry);
+								
+							int k = 1;
+							
+							if(!StringUtils.isEmpty(obj.getProgress_date())) 
+							{	
+
+								
+						    	Calendar c4 = Calendar.getInstance();
+						    	String[] SplitWith4=obj.getProgress_date().split("-");
+								
+					            SimpleDateFormat PrFormat = new SimpleDateFormat("MMMM");
+					            c4.setTime(PrFormat.parse(SplitWith4[1]));
+					            c4.set(Calendar.DATE, Integer.parseInt(SplitWith4[0]));
+					            
+								DateFormat dfm = new SimpleDateFormat("dd-MM-yy");
+								DateFormat rdfm = new SimpleDateFormat("YYYY");
+								Date Cdfm=dfm.parse(SplitWith4[0]+'-'+c4.get(Calendar.MONTH)+'-'+SplitWith4[2]);	
+								
+					            String gdate=rdfm.format(Cdfm);
+					            
+					            c4.set(Calendar.YEAR, Integer.parseInt(gdate));		            
+					            
+					            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					            
+					            String Prdate=df.format(c4.getTime());						
+								
+							
+							
+								if(completed == 0) {
+									updateStmt.setString(k++, Prdate );	
+								}
+								if((completed+actual) > 0 && scope == (completed+actual)) 
+								{
+									updateStmt.setString(k++, Prdate);						
+								}
+							}
+							updateStmt.setString(k++,(obj.getActivity_ids()[i]));
+							updateStmt.executeUpdate();
+							flag=true;
+						}
+					}
+				}
+			//}
 				/*}*/
 				
 				/********************************************************************************/

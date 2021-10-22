@@ -272,7 +272,7 @@
                                 </div>
                                 <div class="col s12 m4 l4 input-field offset-m4">                                
                                     <input id="pmis_key_fk" name="pmis_key_fk" type="text" class="validate" value="${usrObj.pmis_key_fk }">
-                                    <label for="pmis_key_fk">PMIS KEY</label>
+                                    <label for="pmis_key_fk">PMIS KEY <span id="pmis_key_req" class="required"> *</span></label>
                                     <span id="pmis_key_fkError" class="error-msg" ></span>
                                 </div>
                             </div>
@@ -487,16 +487,25 @@
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 	
 	
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+	 <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
+    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
     <script>
     	
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('#remarks').characterCounter();
+            if('${action}' == 'edit'){
+           	 $('#pmis_key_fk').rules('remove',  'required');
+           	 $('#pmis_key_req').text('');
+            }else{
+           	 $('#pmis_key_fk').rules('add',  { required: true });
+           	 $('#pmis_key_req').text('*');
+            }
         });
         
         function getReportingToPersonsList(){
@@ -586,6 +595,9 @@
         });
         
         var flag = false;
+        if('${action}' == 'edit'){
+        	flag = true;
+         }
         
         var pmis_key_fk = $('#pmis_key_fk').val();
         if ($.trim(pmis_key_fk) != '' && pmis_key_fk == '${usrObj.pmis_key_fk }') { 
@@ -613,16 +625,17 @@
 	                 }
 	               }
 	             });
-            }else if (pmis_key_fk == '${usrObj.pmis_key_fk }') {     
+	             
+            }else if (pmis_key_fk == '${usrObj.pmis_key_fk }') {    
             	flag = true;
-            }
+            } 
         });
         
         function addUser(){
     		if(validator.form()){ // validation perform
     			if(flag){
         			$(".page-loader").show();
-        			document.getElementById("userForm").submit();	
+        			document.getElementById("userForm").submit();		
             	}		
     	 	}
     	}

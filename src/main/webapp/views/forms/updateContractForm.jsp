@@ -425,15 +425,15 @@
                         	 <div class="row p-sticky t-98 z-1">
 							    <div class="col s12 m12">
 							      <ul class="tabs tab-flex" id="menu-center">
-							        <li class="tab"><a class="active t-c" href="#basicDetails">Contract Owners</a></li>
-							        <li class="tab"><a class="t-c" href="#departmentDetails">Executives</a></li>
-							        <li class="tab"><a class="t-c" href="#contractDetails">Contract Details</a></li>
+							        <li class="tab" ><a class="active t-c" href="#basicDetails">Contract Owners</a></li>
+							        <li class="tab" ><a class="t-c" href="#departmentDetails">Executives</a></li>
+							        <li class="tab" ><a class="t-c" href="#contractDetails">Contract Details</a></li>
 							        <li class="tab" id="closureTab"><a class="t-c" href="#contractClosureDetails">Contract Closure Details</a></li>
-							        <li class="tab"><a class="t-c" href="#bgDetails">Bank Guarantee Details</a></li>
-							        <li class="tab"><a class="t-c" href="#insuranceDetails">Insurance Details</a></li>
-							        <li class="tab"><a class="t-c" href="#milestoneDetails">Milestone Details</a></li>
-							        <li class="tab"><a class="t-c" href="#revisionDetails">Revision Details</a></li>
-							        <li class="tab"><a class="t-c" href="#keyPersonDetails">Contractor's Key Personnel</a></li>
+							        <li class="tab" id="bgDetailsTab"><a class="t-c" href="#bgDetails">Bank Guarantee Details</a></li>
+							        <li class="tab" id="insuranceDetailsTab"><a class="t-c" href="#insuranceDetails">Insurance Details</a></li>
+							        <li class="tab" id="milestoneDetailsTab"><a class="t-c" href="#milestoneDetails">Milestone Details</a></li>
+							        <li class="tab" id="revisionDetailsTab"><a class="t-c" href="#revisionDetails">Revision Details</a></li>
+							        <li class="tab" id="keyPersonDetailsTab"><a class="t-c" href="#keyPersonDetails">Contractor's Key Personnel</a></li>
 							        <li class="tab"><a class="t-c" href="#documentDetails">Documents</a></li>
 							      </ul>
 							    </div>							    
@@ -947,7 +947,7 @@
 	                          
 	                          
 	                       <div class=" " id="bgDetails" tabindex='0'>
-                            <div class="row fixed-width " >
+                            <div class="row fixed-width " id="bgHideDiv">
                                <h5 class="center-align"><span class="div-header">Bank Guarantee Details</span></h5> 
                                  <div class="row">
                                 <div class="col m8 input-field center-align no-float-small offset-m2">
@@ -1179,7 +1179,7 @@
 						<div class=" " id="insuranceDetails" tabindex='0'>
 	                           
                             <!-- insurance show hide div  -->
-                            <div class="row fixed-width " >
+                            <div class="row fixed-width " id="insuranceHideDiv">
                                <h5 class="center-align"><span class="div-header">Insurance Details</span></h5> 
                               <div class="row">
 	                                <div class="col m8 input-field center-align no-float-small offset-m2">
@@ -1417,7 +1417,7 @@
                             </div>
 						</div>
 						<div class="row  " id="milestoneDetails">
-							<div class="col m8 l12 offset-m2 s12" >
+							<div class="col m8 l12 offset-m2 s12" id="milestoneHideDiv">
 	                            <div class="row fixed-width">
 	                                <h5 class="center-align"><span class="div-header">Milestone Details</span></h5> 
 	                                <div class="row">
@@ -1557,7 +1557,7 @@
 	                         </div>
 	                         
 	                         <div class="container-no-margin  " id="revisionDetails"> 
-	                            <div class="row fixed-width">
+	                            <div class="row fixed-width" id="revisionHideDiv">
                                 <h5 class="center-align"><span class="div-header">Revision Details</span></h5>
                                 <div class="row">
 	                                <div class="col m8 input-field center-align no-float-small offset-m2">
@@ -1822,7 +1822,7 @@
                           </div>
                             
 	                      <div class=" " id="keyPersonDetails">
-	                         	<div class="row no-mar">
+	                         	<div class="row no-mar" id="keyPersonHideDiv">
 	                             <!-- new code  starts-->
 	                            <div class="col l12 m8 offset-m2 s12">
 		                            <div class="no-mar">
@@ -2220,10 +2220,34 @@
             	if($.trim(contract_status) == 'Yet to be Awarded'){
             		$("#date_of_startDiv").val('');
             		$("#date_of_startDiv").hide();
+            		
+            		$("#bgHideDiv").hide();
+            		$("#insuranceHideDiv").hide();
+            		$("#milestoneHideDiv").hide();
+            		$("#revisionHideDiv").hide();
+            		$("#keyPersonHideDiv").hide();
+            		
+            		$("#bgDetailsTab").hide();
+            		$("#insuranceDetailsTab").hide();
+            		$("#milestoneDetailsTab").hide();
+            		$("#revisionDetailsTab").hide();
+            		$("#keyPersonDetailsTab").hide();
             	}else{
             		var date_of_start = '${contractDeatils.date_of_start}';
             		$("#date_of_startDiv").val(date_of_start).focus();
             		$("#date_of_startDiv").show();
+            		
+            		$("#bgHideDiv").show();
+            		$("#insuranceHideDiv").show();
+            		$("#milestoneHideDiv").show();
+            		$("#revisionHideDiv").show();
+            		$("#keyPersonHideDiv").show();
+            		
+            		$("#bgDetailsTab").show();
+            		$("#insuranceDetailsTab").show();
+            		$("#milestoneDetailsTab").show();
+            		$("#revisionDetailsTab").show();
+            		$("#keyPersonDetailsTab").show();
             	}
             	
             	if($.trim(contract_status) == 'Open'){
@@ -2253,13 +2277,23 @@
             		$('#awarded_cost').rules('remove','required');
             		$('#awarded_cost_req').text('');
             	}
-            	
             });
             
             
             if($.trim(contract_status) == 'Yet to be Awarded'){
         		$("#date_of_startDiv").val('');
         		$("#date_of_startDiv").hide();
+        		$("#bgHideDiv").hide();
+        		$("#insuranceHideDiv").hide();
+        		$("#milestoneHideDiv").hide();
+        		$("#revisionHideDiv").hide();
+        		$("#keyPersonHideDiv").hide();
+        		
+        		$("#bgDetailsTab").hide();
+        		$("#insuranceDetailsTab").hide();
+        		$("#milestoneDetailsTab").hide();
+        		$("#revisionDetailsTab").hide();
+        		$("#keyPersonDetailsTab").hide();
         	}
             if($.trim(contract_status) == 'Open'){
 	    		$('#contractor_id_fk').rules('add',  { required: true });
@@ -2273,7 +2307,8 @@
         		$('#loa_date_req').text('*');
         		$('#awarded_cost').rules('add',  { required: true });
         		$('#awarded_cost_req').text('*');
-        		
+        		$('#date_of_start').rules('add',  { required: true });
+            	$('#date_of_startStar').text('*');
 	    	}else{
         		$('#contractor_id_fk').rules('remove',  'required');
             	$('#contractor_req').text('');
@@ -2289,12 +2324,18 @@
         		$('#awarded_cost').rules('remove','required');
         		$('#awarded_cost_req').text('');
         	}
-            if($.trim(contract_status) == 'Open' && $.trim(contract_status_fk) == 'Not Started'){
+            // Validation code for Date of Start Hide 
+            if($.trim(contract_status) == 'Open' && $.trim(contract_status_fk) == 'Not Started' || $.trim(contract_status) == 'Yet to be Awarded'){
             	//$("#date_of_start").removeAttr('required');
             	$('#date_of_start').rules('remove',  'required');
+            	$("#date_of_startDiv").hide();
             	$('#date_of_startStar').text('');
             	$('#date_of_startError').text('');
-            }      
+            }else{ 
+            	$("#date_of_startDiv").show();
+            	$('#date_of_start').rules('add',  { required: true });
+            	$('#date_of_startStar').text('*');
+            }
             
             if($.trim(contract_status_fk) == 'Completed'){                	
             	$('#actual_completion_date').rules('add',  { required: true });
@@ -2324,11 +2365,14 @@
             $("#contract_status_fk").change(function(){
             	$('#actual_date_of_commissioning_div').hide();
             	var contract_status_fk = $(this).val();
+            	var contract_status = $("#contract_status").val();
             	if($.trim(contract_status) == 'Open' && $.trim(contract_status_fk) == 'Not Started'){
+            		$("#date_of_startDiv").hide();
                 	$('#date_of_start').rules('remove',  'required');
                 	$('#date_of_startStar').text('');
                 	$('#date_of_startError').text('');
                 }else{
+                	$("#date_of_startDiv").show();
                 	$('#date_of_start').rules('add',  { required: true });
                 	$('#date_of_startStar').text('*');
                 } 

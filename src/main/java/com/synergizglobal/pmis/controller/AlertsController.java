@@ -479,7 +479,7 @@ public class AlertsController {
 				
 	    	 boolean flag = service.addAlertRemarks(obj);
 	    	 if(flag) {
-	    		 attributes.addFlashAttribute("success", "Remarks addedd successfully.");
+	    		 attributes.addFlashAttribute("success", "Remarks added successfully.");
 	    	 }else {
 	    		 attributes.addFlashAttribute("error", "Adding remarks failed.");
 	    	 }

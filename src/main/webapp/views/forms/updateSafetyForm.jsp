@@ -795,7 +795,9 @@
     				 	  },"work_impact":{
     				 		 required: false
     				 	  },"compensation": {
-    			 		    required: false,
+    				 		 required: function(element){
+   	        		             return $("#compensation_units").val()!="";
+   	        		         }
     			 	   	  },"investigation_completed": {
     				 		required: false,
      			 		    dateBefore3 : "#date",

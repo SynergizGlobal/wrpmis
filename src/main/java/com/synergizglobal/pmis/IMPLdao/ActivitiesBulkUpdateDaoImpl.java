@@ -1222,6 +1222,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 						}	
 						
 						
+						
 						/*if(!StringUtils.isEmpty(scope)) 
 						{
 							updateStmt.setString(k++, StrVar2[i] );

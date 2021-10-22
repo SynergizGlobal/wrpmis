@@ -798,7 +798,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				String reported_by_email_id = obj.getReported_by_email_id();
 				String existing_responsible_person = obj.getExisting_responsible_person();
 				String existing_escalated_to = obj.getExisting_escalated_to();
-				if(obj.getExisting_responsible_person().compareTo(obj.getResponsible_person())!=0)
+				if(!StringUtils.isEmpty(obj.getExisting_responsible_person()) && !StringUtils.isEmpty(obj.getResponsible_person()) && obj.getExisting_responsible_person().compareTo(obj.getResponsible_person())!=0)
 				{
 					sendEmailWithSafetyStatusAlert(safety_id, "Update", reported_by_email_id, existing_status_fk,existing_responsible_person, existing_escalated_to);
 				}
@@ -806,6 +806,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 
+			e.printStackTrace();
 			transactionManager.rollback(status);
 			throw new Exception(e);
 		}

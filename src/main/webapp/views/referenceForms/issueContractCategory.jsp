@@ -20,32 +20,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/reference-item.css"><!-- 
-    <style>
-        .input-field .searchable_label {
-            font-size: 0.85rem;            
-    		margin-bottom: 0;
-        }
-        p a {
-            color: blue;
-        }
-		
-		.error-msg label{color:red!important;}
-		
-		 .searchable_label {
-            margin-bottom: 0;
-        }
-
-        .select2-container {
-            z-index: 1073;
-        }
-		@media only screen and (max-width: 600px) {
-            .dataTables_filter input[type="search"],
-            div.dataTables_wrapper div.dataTables_filter input[type="search"] {
-                width: 85% !important;
-            }
-        }
-		
-    </style> -->
+   
 </head>
 
 <body>

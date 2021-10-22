@@ -21,41 +21,10 @@
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
     <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">
-    <!-- <style>
-        .input-field .searchable_label {
-            font-size: 0.85rem;
-        }
-
-        p a {
-            color: blue;
-        }
-
-		.error-msg label{color:red!important;}
-
-        .searchable_label {
-            margin-bottom: 0;
-        }
-
-        .select2-container {
-            z-index: 1073;
-        }
-
-        @media only screen and (max-width: 600px) {
-
-            .dataTables_filter input[type="search"],
-            div.dataTables_wrapper div.dataTables_filter input[type="search"] {
-                width: 85% !important;
-            }
-        }
-    </style> -->
+   
 </head>
 
 <body>
-
-    <!-- header  starts-->
-
-    <!-- header ends  -->
-
 
     <div class="row">
         <div class="col s12 m12">
@@ -77,13 +46,11 @@
 							   ${error}
 							</div>
 					</c:if>
-                        <div class="row">
-                            <div class="col m4 hide-on-small"></div>
-                            <div class="col m4 s12 center-align">
+                        <div class="row no-mar">
+                            <div class="col s12 center-align">
                                 <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
                                     <i class="fa fa-plus-circle"></i> &nbsp; Add Issue Category Title</a>
                             </div>
-                            <div class="col m4 hide-on-small"></div>
                         </div>
                         <div class="row no-mar">
                           

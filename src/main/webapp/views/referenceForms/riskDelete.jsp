@@ -272,7 +272,7 @@
                paging:false,
                "bScrollCollapse": true,
               initComplete: function () {
-                  $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                  $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '300px', 'display': 'inline-block' });
                   var input = $('.dataTables_filter input');
                   self = this.api();
                   $clearButton = $(	'<i class="fa fa-close" title="Reset">')

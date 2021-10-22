@@ -12,6 +12,16 @@
     <title>Reference Forms - Admin - PMIS</title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/reference-form.css">
+    <style>
+    	@media (hover: hover) and (pointer: fine){
+			.theme-change:hover {
+			    transform: translateX(-20px);
+			}		
+		}
+		.theme-change .fa-moon-o {
+		    color: white;
+		}
+    </style>
 </head>
 
 <body>
@@ -34,7 +44,7 @@
 
     </div>
 
-    <div class="row" id="frame-holder" style="margin-bottom:50px">
+    <div class="row" id="frame-holder" style="padding-bottom:.5rem">
     
 	   <%--  <c:forEach var="obj" items="${referenceForms}" > --%>
 	    	<%-- <div class="col s12 m6">

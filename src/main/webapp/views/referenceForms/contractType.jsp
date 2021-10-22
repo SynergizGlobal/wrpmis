@@ -20,47 +20,10 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/reference-item.css">
-    <!-- <style>
-        .input-field .searchable_label {
-            font-size: 0.85rem;
-        }
-
-        p a {
-            color: blue;
-        }
     
-		input[type=number]:not(.browser-default):focus:not([readonly]),
-		input[type=text]:not(.browser-default):focus:not([readonly]),
-		input[type=search]:not(.browser-default):focus:not([readonly]),
-		textarea.materialize-textarea:focus:not([readonly])   {
-		    border-bottom: 1px solid #2A9D8F !important;
-		    box-shadow: 0 1px 0 0 #2A9D8F !important;
-		}
-		.input-field input[type=text]:not(.browser-default).validate+label::after,
-		.input-field input[type=text]:not(.browser-default):focus:not([readonly])+label ,
-		.input-field input[type=number]:not(.browser-default).validate+label::after,
-		.input-field input[type=number]:not(.browser-default):focus:not([readonly])+label ,
-		.input-field textarea.materialize-textarea:focus:not([readonly])+label       {
-		    color: #2A9D8F  !important;
-		}
-
-        @media only screen and (max-width: 600px) {
-
-            .dataTables_filter input[type="search"],
-            div.dataTables_wrapper div.dataTables_filter input {
-                width: 85%;
-            }
-        }
-      
-		.error-msg label{color:red!important;}
-    </style> -->
 </head>
 
 <body>
-
-    <!-- header  starts-->
-<%-- <jsp:include page="../layout/header.jsp"></jsp:include> --%>
-    <!-- header ends  -->
 
     <div class="row">
         <div class="col s12 m12">
@@ -82,10 +45,10 @@
 							</div>
 					</c:if>
                     <div class="">
-                        <div class="row">
+                        <div class="row no-mar">
                             <div class="col m4 hide-on-small"></div>
                             <div class="col m4 s12 center-align">
-                                <a class="waves-effect waves-light btn bg-m modal-trigger t-c" href="#addUpdateModal">
+                                <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
                                     <i class="fa fa-plus-circle"></i> &nbsp; Add Contract Type</a>
                             </div>
                             <div class="col m4 hide-on-small"></div>

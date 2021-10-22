@@ -60,9 +60,6 @@
 
 <body>
 
-    <!-- header  starts-->
-<%-- <jsp:include page="../layout/header.jsp"></jsp:include> --%>
-    <!-- header ends  -->
     <div class="row">
         <div class="col s12 m12">
             <div class="card">
@@ -83,9 +80,9 @@
 							</div>
 					</c:if>
                     <div class="">
-                        <div class="row">
+                        <div class="row no-mar">
                             <div class="col m12 s12 center-align">
-                                <a class="waves-effect waves-light btn bg-m modal-trigger t-c" href="#addUpdateModal">
+                                <a class="waves-effect waves-light btn bg-s modal-trigger t-c" href="#addUpdateModal">
                                     <i class="fa fa-plus-circle"></i> &nbsp; Add Risk Area</a>
                             </div>
                         </div>

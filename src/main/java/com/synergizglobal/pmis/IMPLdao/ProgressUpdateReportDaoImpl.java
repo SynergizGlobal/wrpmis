@@ -588,17 +588,17 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 		
 		try {
 			String progressQry = "SELECT max(date_format(progress_date,'%d-%b-%y')) as progress_date,activity_id_fk,d.department_name,a.contract_id_fk,c.hod_user_id_fk,"
-					+ "u2.designation as hod_designation,c.work_id_fk,w.work_short_name,p.project_name, c.contract_short_name,structure as structure_type_fk,u.designation,u.user_name,c.department_fk," + 
-					"(select  count(distinct progress_date)) as progress_dates," + 
-					"COALESCE( (select COUNT(created_by_user_id_fk) FROM approvable_activity_progress where created_by_user_id_fk = acp.created_by_user_id_fk), 0)  as updated," + 
-					"COALESCE((select count(approval_status_fk) FROM approvable_activity_progress where approval_status_fk = 'approved' and created_by_user_id_fk = acp.created_by_user_id_fk ), 0) as approved," + 
-					"COALESCE((select count(approval_status_fk) FROM approvable_activity_progress where  approval_status_fk = 'rejected' and created_by_user_id_fk = acp.created_by_user_id_fk ), 0) as rejected " + 
-					" FROM approvable_activity_progress acp " + 
-					" left join activities a on  a.activity_id = acp.activity_id_fk  " + 
-					" left join contract c on a.contract_id_fk = c.contract_id " + 
-					" left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
-					" left join work w on c.work_id_fk = w.work_id " + 
-					" left join project p on w.project_id_fk = p.project_id "
+					+ "u2.designation as hod_designation,c.work_id_fk,w.work_short_name,p.project_name, c.contract_short_name,structure as structure_type_fk,u.designation,u.user_name,c.department_fk," 
+					+ "(select  count(distinct progress_date)) as progress_dates,"
+					+ " COALESCE( (select COUNT(a1.created_by_user_id_fk) FROM approvable_activity_progress a1 left join activities a2 on  a2.activity_id = a1.activity_id_fk where a1.created_by_user_id_fk = acp.created_by_user_id_fk and a2.structure=a.structure), 0)  as updated,"
+					+ " COALESCE((select count(a11.approval_status_fk) FROM approvable_activity_progress a11  left join activities a12 on  a12.activity_id = a11.activity_id_fk where approval_status_fk = 'approved' and a11.created_by_user_id_fk = acp.created_by_user_id_fk ), 0) as approved, "
+					+ " COALESCE((select count(a13.approval_status_fk) FROM approvable_activity_progress a13   left join activities a14 on  a14.activity_id = a13.activity_id_fk where approval_status_fk = 'rejected' and a13.created_by_user_id_fk = acp.created_by_user_id_fk ), 0) as rejected "
+					+ " FROM approvable_activity_progress acp  "
+					+ "left join activities a on  a.activity_id = acp.activity_id_fk   "
+					+ "left join contract c on a.contract_id_fk = c.contract_id "  
+					+ " left join contractor cr on c.contractor_id_fk = cr.contractor_id  "
+					+ "left join work w on c.work_id_fk = w.work_id  "
+					+ "left join project p on w.project_id_fk = p.project_id "
 					+ "left join department d on c.department_fk = d.department "
 					+ "left join user u2 on c.hod_user_id_fk = u2.user_id " 
 					+ "left join user u3 on c.dy_hod_user_id_fk = u3.user_id " + 
@@ -643,7 +643,7 @@ public class ProgressUpdateReportDaoImpl implements ProgressUpdateReportDao{
 				arrSize++;
 			}
 			
-			progressQry = progressQry + " GROUP BY acp.created_by_user_id_fk ";
+			progressQry = progressQry + " GROUP BY acp.created_by_user_id_fk,structure ";
 			
 			Object[] pValues1 = new Object[arrSize];
 			

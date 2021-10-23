@@ -3163,15 +3163,16 @@
         $.validator.addMethod("dateBefore1", function(value, element) {
             var fromDateString = $('#date_of_start').val();
             var fromDateParts = fromDateString.split("-");
+            var statusNotStarted = $('#contract_status_fk').val();
             // month is 0-based, that's why we need dataParts[1] - 1
             var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
 
             var toDateParts = value.split("-");
             // month is 0-based, that's why we need dataParts[1] - 1
             var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            if($.trim(fromDateString) != '' && $.trim(value) != '' && statusNotStarted !='Not Started'){
             	return Date.parse(fromDate) <= Date.parse(toDate);
-            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            }else if($.trim(fromDateString) == '' && $.trim(value) != '' && statusNotStarted !='Not Started'){
             	return false;
             }else{
             	return true;

@@ -549,7 +549,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
 					+ "where contract_status_fk in ('In Progress') and bg_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 30 and DATEDIFF(loa_date ,NOW()) > 21)" 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 30 and DATEDIFF(loa_date ,NOW()) > 20)" 
 					+ "and (select count(valid_upto) from bank_guarantee where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 				
 			List<Alerts> bgQryAlert1List = jdbcTemplate.query( bgQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -563,7 +563,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
 					+ "where contract_status_fk in ('In Progress') and bg_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 21 and DATEDIFF(loa_date ,NOW()) > 15)" 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 20 and DATEDIFF(loa_date ,NOW()) > 10)" 
 					+ "and (select count(valid_upto) from bank_guarantee where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 			
 			List<Alerts> bgQryAlert2List = jdbcTemplate.query( bgQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -577,7 +577,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
 					+ "where contract_status_fk in ('In Progress') and bg_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 15 and DATEDIFF(loa_date ,NOW()) > 0)" 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 10 and DATEDIFF(loa_date ,NOW()) > 0)" 
 					+ "and (select count(valid_upto) from bank_guarantee where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 			
 			List<Alerts> bgQryAlert3List = jdbcTemplate.query( bgQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -614,7 +614,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
 					+ "where contract_status_fk in ('In Progress') and insurance_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 30 and DATEDIFF(loa_date ,NOW()) > 21)" 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 30 and DATEDIFF(loa_date ,NOW()) > 20)" 
 					+ "and (select count(valid_upto) from insurance where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 				
 			List<Alerts> bgQryAlert1List = jdbcTemplate.query( bgQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -628,7 +628,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
 					+ "where contract_status_fk in ('In Progress') and insurance_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 21 and DATEDIFF(loa_date ,NOW()) > 15)" 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 20 and DATEDIFF(loa_date ,NOW()) > 10)" 
 					+ "and (select count(valid_upto) from insurance where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 			
 			List<Alerts> bgQryAlert2List = jdbcTemplate.query( bgQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -642,7 +642,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "from contract c " 
 					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
 					+ "where contract_status_fk in ('In Progress') and insurance_required = 'Yes' and loa_date is not null " 
-					+ "and (DATEDIFF(loa_date ,NOW()) <= 15 and DATEDIFF(loa_date ,NOW()) > 0)" 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 10 and DATEDIFF(loa_date ,NOW()) > 0)" 
 					+ "and (select count(valid_upto) from insurance where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
 			
 			List<Alerts> bgQryAlert3List = jdbcTemplate.query( bgQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));

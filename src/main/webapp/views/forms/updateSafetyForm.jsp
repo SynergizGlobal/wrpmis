@@ -58,7 +58,17 @@
 	    #compensation_unitsError{
 	   		float:right;	
 	    }
-	    
+	    @media(max-width: 575px){
+	     .row .col{margin: 10px auto;}
+	     .amount-dropdown input:not(.select-dropdown) {
+			  padding-left: 2rem;
+			  box-sizing: border-box;
+			}
+			
+			.amount-dropdown input:not(.select-dropdown)+label:not(.active) {
+			  padding-left: 2rem;
+			}
+	    }
     </style>
 </head>
 <body>
@@ -109,7 +119,7 @@
                                     <label for="work-text">Work <span class="required">*</span></label>
                                     <input type="hidden" name="work_id_fk" id="work_id_fk" value ="${safety.work_id_fk }" />
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                     <!-- <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                     </select>
@@ -180,7 +190,7 @@
                                     </select>
                                     <span id="impact_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">    
+                                <div class="col s12 m4 l4 input-field">    
                                 <p class="searchable_label"> Root Cause <span class="required">*</span></p>                            
                                     <select class="searchable validate-dropdown" id="root_cause_fk" name="root_cause_fk">
                                         <option value="">Select</option>
@@ -219,7 +229,7 @@
                                     <label for="location">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                     <%-- <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${safety.responsible_person }">
                                     <label for="responsible_person" class="fs-sm-67rem serchable_label">Person Responsible in MRVC</label> --%>
                                     <p style="color: #aaa;font-size:0.85rem;" >Person Responsible in MRVC</p>
@@ -241,7 +251,7 @@
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                     <input id="reported_by" name="reported_by" type="text" class="validate" value="${safety.reported_by }">
                                     <label for="reported_by">Reported By</label>
                                     <span id="reported_byError" class="error-msg" ></span>
@@ -376,7 +386,7 @@
                             </div>
                             
                             <div class="row">                               
-                                <div class="col s6 m6 l6 input-field">
+                                <div class="col s12 m6 l6 input-field">
                                     <input id="payment_date" name="payment_date" type="text" class="validate datepicker" value="${safety.payment_date }">
                                     <label for="payment_date">Payment Date</label>
                                     <button type="button" id="payment_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -384,8 +394,8 @@
                                 </div>
                                 <div class="col s12 m6 l6 input-field amount-dropdown">
                                 	<i class="material-icons amount-symbol center-align">₹</i>
-                                    <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" class="validate" value="${safety.compensation }">
-                                    <label for="compensation"> Compensation </label>
+                                    <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" class="validate pdl-2em" value="${safety.compensation }">
+                                    <label for="compensation" class="pdl-2em"> Compensation </label>
                                     <span id="compensationError" class="error-msg" ></span>
                                 	<span id="compensation_unitsError" class="error-msg right" ></span>
                                     <!-- <div class="col s4 m2 l2 input-field pt-10"> -->

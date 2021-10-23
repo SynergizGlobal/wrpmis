@@ -3364,7 +3364,7 @@ public class DocxTableCreationForContractReport {
 			mergeCellsHorizontal(contractDetailsTable, 9, 1, 5);
 
 			Tr contractContentRow11 = factory.createTr();
-			addTableCell(factory, wordMLPackage, contractContentRow11, "Awarded Cost", titleRpr, JcEnumeration.LEFT,
+			addTableCell(factory, wordMLPackage, contractContentRow11, "Awarded Cost (Rs)", titleRpr, JcEnumeration.LEFT,
 					true, "ecf2ff");
 			addTableCell(factory, wordMLPackage, contractContentRow11, contractDetails.getAwarded_cost(), contentRpr,
 					JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
@@ -3431,7 +3431,7 @@ public class DocxTableCreationForContractReport {
 			Tr revisionContentRow0 = factory.createTr();
 			addTableCell(factory, wordMLPackage, revisionContentRow0, "Revision Number", titleRpr, JcEnumeration.LEFT,
 					true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, revisionContentRow0, "Revised Amount", titleRpr, JcEnumeration.LEFT,
+			addTableCell(factory, wordMLPackage, revisionContentRow0, "Revised Amount (Rs)", titleRpr, JcEnumeration.LEFT,
 					true, "ecf2ff");
 			addTableCell(factory, wordMLPackage, revisionContentRow0, "Revised DOC", titleRpr, JcEnumeration.LEFT,
 					true, "ecf2ff");
@@ -3511,7 +3511,7 @@ public class DocxTableCreationForContractReport {
 			progressDetailsTableHeader.add("");
 			progressDetailsTableHeader.add("Actual Financial Progress ");
 			progressDetailsTableHeader.add("");
-			progressDetailsTableHeader.add("Payment made");
+			progressDetailsTableHeader.add("Payment made (Rs)");
 			progressDetailsTableHeader.add("");
 
 			for (String headerValue : progressDetailsTableHeader) {
@@ -3655,7 +3655,7 @@ public class DocxTableCreationForContractReport {
 			bgTableHeader.add("BG Type");
 			bgTableHeader.add("Issuing Bank");
 			bgTableHeader.add("BG/FDR Number");
-			bgTableHeader.add("Amount");
+			bgTableHeader.add("Amount (Rs)");
 			bgTableHeader.add("BG/FDR Date");
 			bgTableHeader.add("Expiry Date");
 			bgTableHeader.add("Release Date");
@@ -3724,7 +3724,7 @@ public class DocxTableCreationForContractReport {
 			tableHeader.add("Insurance Type");
 			tableHeader.add("Issuing Agency");
 			tableHeader.add("Insurance Number");
-			tableHeader.add("Insurance Value");
+			tableHeader.add("Insurance Value (Rs)");
 			tableHeader.add("Valid Upto");
 			tableHeader.add("Release");
 
@@ -3798,7 +3798,7 @@ public class DocxTableCreationForContractReport {
 			addTableCell(factory, wordMLPackage, cloureContentRow0, contractClosureDetails.getActual_completion_date(),
 					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 
-			addTableCell(factory, wordMLPackage, cloureContentRow0, "Actual Completion Cost", titleRpr,
+			addTableCell(factory, wordMLPackage, cloureContentRow0, "Actual Completion Cost (Rs)", titleRpr,
 					JcEnumeration.LEFT, true, "ecf2ff");
 			addTableCell(factory, wordMLPackage, cloureContentRow0, contractClosureDetails.getCompleted_cost(),
 					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);

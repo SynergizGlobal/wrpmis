@@ -134,6 +134,11 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(bgQryAlert4List);
 			}
 			
+			List<Alerts> bgAlertsWithoutBGDetailsList = getBGAlertsWithoutBGDetails();
+			if(!StringUtils.isEmpty(bgAlertsWithoutBGDetailsList) && bgAlertsWithoutBGDetailsList.size() > 0) {
+				list.addAll(bgAlertsWithoutBGDetailsList);
+			}
+			
 			/***************************** Insurance alerts*******************************************************/
 			String insuranceQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Insurance' as alert_type,"
 					+ "(case when (bg.insurance_type_fk is not null and bg.insurance_number is not null) then CONCAT(bg.insurance_type_fk,' ',bg.insurance_number, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) "
@@ -203,6 +208,11 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(insuranceQryAlert4List);
 			}
 			
+
+			List<Alerts> insuranceAlertsWithoutBGDetailsList = getInsuranceAlertsWithoutInsuranceDetails();
+			if(!StringUtils.isEmpty(insuranceAlertsWithoutBGDetailsList) && insuranceAlertsWithoutBGDetailsList.size() > 0) {
+				list.addAll(insuranceAlertsWithoutBGDetailsList);
+			}
 			
 			/***************************** Contract Period alerts*******************************************************/
 			
@@ -527,6 +537,136 @@ public class AlertsDaoImpl implements AlertsDao{
 			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, resultSet);
 		}
 		return flag;
+	}
+
+	private List<Alerts> getBGAlertsWithoutBGDetails() throws Exception {
+		List<Alerts> list = new ArrayList<Alerts>();
+		try {
+			/***************************** BG alerts*******************************************************/
+			String bgQryAlert1 = "select c.contract_id, '1st Alert' as alert_level,'Bank Guarantee' as alert_type,"  
+					+ "CONCAT('PBG for new contract to be submitted') as alert_value," 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+					+ "from contract c " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in ('In Progress') and bg_required = 'Yes' and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 30 and DATEDIFF(loa_date ,NOW()) > 21)" 
+					+ "and (select count(valid_upto) from bank_guarantee where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
+				
+			List<Alerts> bgQryAlert1List = jdbcTemplate.query( bgQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(bgQryAlert1List) && bgQryAlert1List.size() > 0) {
+				list.addAll(bgQryAlert1List);
+			}
+			
+			String bgQryAlert2 = "select c.contract_id, '2nd Alert' as alert_level,'Bank Guarantee' as alert_type,"  
+					+ "CONCAT('PBG for new contract to be submitted') as alert_value," 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+					+ "from contract c " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in ('In Progress') and bg_required = 'Yes' and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 21 and DATEDIFF(loa_date ,NOW()) > 15)" 
+					+ "and (select count(valid_upto) from bank_guarantee where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
+			
+			List<Alerts> bgQryAlert2List = jdbcTemplate.query( bgQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(bgQryAlert2List) && bgQryAlert2List.size() > 0) {
+				list.addAll(bgQryAlert2List);
+			}
+			
+			String bgQryAlert3 = "select c.contract_id, '3rd Alert' as alert_level,'Bank Guarantee' as alert_type,"  
+					+ "CONCAT('PBG for new contract to be submitted') as alert_value," 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+					+ "from contract c " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in ('In Progress') and bg_required = 'Yes' and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 15 and DATEDIFF(loa_date ,NOW()) > 0)" 
+					+ "and (select count(valid_upto) from bank_guarantee where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
+			
+			List<Alerts> bgQryAlert3List = jdbcTemplate.query( bgQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(bgQryAlert3List) && bgQryAlert3List.size() > 0) {
+				list.addAll(bgQryAlert3List);
+			}
+
+			String bgQryAlert4 = "select c.contract_id, 'Overdue' as alert_level,'Bank Guarantee' as alert_type,"  
+					+ "CONCAT('PBG for new contract to be submitted') as alert_value," 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "
+					+ "from contract c " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in ('In Progress') and bg_required = 'Yes' and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 0)" 
+					+ "and (select count(valid_upto) from bank_guarantee where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
+			
+			List<Alerts> bgQryAlert4List = jdbcTemplate.query( bgQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(bgQryAlert4List) && bgQryAlert4List.size() > 0) {
+				list.addAll(bgQryAlert4List);
+			}
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return list;
+	}
+	
+	private List<Alerts> getInsuranceAlertsWithoutInsuranceDetails() throws Exception {
+		List<Alerts> list = new ArrayList<Alerts>();
+		try {
+			/***************************** BG alerts*******************************************************/
+			String bgQryAlert1 = "select c.contract_id, '1st Alert' as alert_level,'Insurance' as alert_type,"  
+					+ "CONCAT('Insurance for new contract to be submitted') as alert_value," 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+					+ "from contract c " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in ('In Progress') and insurance_required = 'Yes' and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 30 and DATEDIFF(loa_date ,NOW()) > 21)" 
+					+ "and (select count(valid_upto) from insurance where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
+				
+			List<Alerts> bgQryAlert1List = jdbcTemplate.query( bgQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(bgQryAlert1List) && bgQryAlert1List.size() > 0) {
+				list.addAll(bgQryAlert1List);
+			}
+			
+			String bgQryAlert2 = "select c.contract_id, '2nd Alert' as alert_level,'Insurance' as alert_type,"  
+					+ "CONCAT('Insurance for new contract to be submitted') as alert_value," 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+					+ "from contract c " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in ('In Progress') and insurance_required = 'Yes' and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 21 and DATEDIFF(loa_date ,NOW()) > 15)" 
+					+ "and (select count(valid_upto) from insurance where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
+			
+			List<Alerts> bgQryAlert2List = jdbcTemplate.query( bgQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(bgQryAlert2List) && bgQryAlert2List.size() > 0) {
+				list.addAll(bgQryAlert2List);
+			}
+			
+			String bgQryAlert3 = "select c.contract_id, '3rd Alert' as alert_level,'Insurance' as alert_type,"  
+					+ "CONCAT('Insurance for new contract to be submitted') as alert_value," 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id " 
+					+ "from contract c " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in ('In Progress') and insurance_required = 'Yes' and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 15 and DATEDIFF(loa_date ,NOW()) > 0)" 
+					+ "and (select count(valid_upto) from insurance where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
+			
+			List<Alerts> bgQryAlert3List = jdbcTemplate.query( bgQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(bgQryAlert3List) && bgQryAlert3List.size() > 0) {
+				list.addAll(bgQryAlert3List);
+			}
+
+			String bgQryAlert4 = "select c.contract_id, 'Overdue' as alert_level,'Insurance' as alert_type,"  
+					+ "CONCAT('Insurance for new contract to be submitted') as alert_value," 
+					+ "concat('/get-alerts/') as redirect_url,hod_user_id_fk,dy_hod_user_id_fk,u.reporting_to_id_srfk as reporting_to_user_id "
+					+ "from contract c " 
+					+ "LEFT JOIN `user` u on c.hod_user_id_fk = u.user_id " 
+					+ "where contract_status_fk in ('In Progress') and insurance_required = 'Yes' and loa_date is not null " 
+					+ "and (DATEDIFF(loa_date ,NOW()) <= 0)" 
+					+ "and (select count(valid_upto) from insurance where contract_id_fk = c.contract_id and valid_upto is not null) = 0";
+			
+			List<Alerts> bgQryAlert4List = jdbcTemplate.query( bgQryAlert4, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(bgQryAlert4List) && bgQryAlert4List.size() > 0) {
+				list.addAll(bgQryAlert4List);
+			}
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return list;
 	}
 
 	private List<Contract> getDepartmentList(String contract_id, Connection con) throws Exception {

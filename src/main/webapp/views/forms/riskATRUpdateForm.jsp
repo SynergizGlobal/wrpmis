@@ -415,34 +415,6 @@
  	
  	   var USER_DESIGNATION = '${sessionScope.USER_DESIGNATION}';
  	   
- 	   /* $(document).on('focus', '.datepicker',function(){
-           $(this).datepicker({
-         	format:'dd-mm-yyyy',
-    	    	onSelect: function () {
-    	    	   $('.confirmation-btns .datepicker-done').click();
-    	    	}
-           })
-        });  */
-        
-        function datePickerSelectAddClass() {
-            var self = this;
-            setTimeout(function () {
-                var selector = self.el;
-                if (!selector) {
-                    selector = ".datepicker"
-                }
-                $(selector).siblings(".datepicker-modal")
-                    .find(".select-dropdown.dropdown-trigger")
-                    .each((index, item) => {
-                        var dateDropdownID = $(item).attr("data-target");
-                        var dropdownUL = $('#' + dateDropdownID);
-                        dropdownUL.children("li").on("click", () => {
-                            datePickerSelectAddClass();
-                        });
-                        dropdownUL.addClass("datepicker-dropdown-year-month")
-                    });
-            }, 500);
-        };
         $(document).on('focus', '.datepicker-button', function () {
             var dateId = $(this).attr('id').split("_i")[0];
             $('#' + dateId).focus().click();
@@ -478,7 +450,7 @@
 	    			minDate:minDate,//new Date(convert(dates_arr[cnt])),
 	    			maxDate: new Date(),
 	    			onDraw : function() {disableDates("ondraw")},
-	    			onOpen : function() {datePickerSelectAddClass();disableDates("onopen")},
+	    			onOpen : function() {disableDates("onopen")},
     			 	showClearBtn: true,
     		        onClose: function () {
     		            if (!$(this.el).val()) {
@@ -510,8 +482,7 @@
 			   	    		if(ex_dates[i] == string){
 			   	    			return true;
 			   	    		}
-		   	    		}
-		   	    		
+		   	    		}		   	    		
 			   	        //return [ ex_dates.indexOf(string) == 1 ]
 			   	    }
 	    		};
@@ -635,7 +606,7 @@
 	        	format:'dd-mm-yyyy',
 	        	autoClose:true,
 	   	    	onDraw : function() {disableDates("ondraw")},
-	   	        onOpen : function() {datePickerSelectAddClass(); disableDates("onopen")},
+	   	        onOpen : function() { disableDates("onopen")},
 		   	    showClearBtn: true,
 		        onClose: function () {
 	             	if (!$(this.el).val()) {
@@ -661,6 +632,7 @@
 	   	                    getDisabledMonth    = fullDisabledDate.getMonth(),
 	   	                    getDisabledDay      = fullDisabledDate.getDate(),
 	   	                    getDisabledYear     = fullDisabledDate.getFullYear();
+	   	                 		   	              		
 	   	                 	//console.log(date.getDate() +" - "+date.getMonth()+" - "+date.getFullYear());
 	 	   	        		//console.log(fullDisabledDate.getDate() +" - "+fullDisabledDate.getMonth()+" - "+fullDisabledDate.getFullYear());
 	 	   	        	

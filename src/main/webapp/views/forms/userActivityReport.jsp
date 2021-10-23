@@ -110,7 +110,7 @@
                             <div class="row">	                                	
                                 <div class="col s12 m4 l3 input-field center-align offset-l3 offset-m2">
                                     <button type="button" class="btn bg-m waves-effe ct waves-light t-c clear-filters"
-                                        style="margin-top: 6px;min-width:160px%; font-weight: 600;" onclick="testingData();">Generate Report</button>
+                                        style="margin-top: 6px;min-width:160px%; font-weight: 600;" onclick="testingExistingData();">Generate Report</button>
                                 </div>
                                 <div class="col s12 m4 l3 input-field left-align ">
                                     <button class="btn bg-s waves-effect waves-light t-c" type="button"
@@ -266,7 +266,7 @@
           	}
         }
         
-        function testingData() {
+        function testingExistingData() {
         	if(validator.form())
         	{
         		// validation perform
@@ -294,7 +294,7 @@
 	            	            		$("#to_date").val($("#from_date").val());
 	            	            	}	                	        	
 	                	        	document.getElementById("userActivityReportForm").submit();
-	                	        	$("#to_date").val("");
+	                	        	//$("#to_date").val("");
 	                        }else{
 	                        	showNoDataMessage()
 	                        }

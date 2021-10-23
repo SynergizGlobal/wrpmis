@@ -59,52 +59,6 @@
 	   		float:right;	
 	    }
 	    
-	   /*  amount dropdown styling starts here  */
-	   .amount-dropdown .select-wrapper {
-            position: absolute;
-            right: 1.9rem;
-            top:.15rem;
-            width: auto;
-            margin-right: -.5rem;
-            min-width: 50px;
-            max-width: 70px;
-        }        
-        .amount-dropdown .amount-symbol {
-		    position: absolute;
-		    width: 2rem;
-		    font-size: 2rem;
-		    top: .5rem;
-		    color:#9e9e9e;
-		}
-		.amount-dropdown input:not(.select-dropdown){
-			padding-left:2rem;
-			box-sizing: border-box;
-		}
-		.amount-dropdown input:not(.select-dropdown)+label:not(.active){
-			padding-left:2rem;
-		}
-        .amount-dropdown .select-wrapper .select-dropdown,
-        .amount-dropdown .select-wrapper .select-dropdown.valid,
-        .amount-dropdown .select-wrapper .select-dropdown:hover,
-        .amount-dropdown .select-wrapper .select-dropdown:focus {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        .amount-dropdown .select-wrapper .select-dropdown {
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-bottom: none;
-            border-radius: 5px 5px 0 0;
-        }
-        .amount-dropdown .select-wrapper input.select-dropdown {
-            padding-left: .5rem;
-            height: 2.65rem;
-            background-color: rgba(0, 0, 0, .0275);
-        }
-        .amount-dropdown .select-wrapper>.caret {
-            right: -.5rem;
-        }
-      /*  amount dropdown styling ends here  */
     </style>
 </head>
 <body>
@@ -433,7 +387,7 @@
                                     <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" class="validate" value="${safety.compensation }">
                                     <label for="compensation"> Compensation </label>
                                     <span id="compensationError" class="error-msg" ></span>
-                                	<span id="compensation_unitsError" class="error-msg" ></span>
+                                	<span id="compensation_unitsError" class="error-msg right" ></span>
                                     <!-- <div class="col s4 m2 l2 input-field pt-10"> -->
                                 	<!-- <p class="searchable_label">Unit</p> -->
                                 	<select class="units validate-dropdown" id="compensation_units" name="compensation_units">

@@ -541,13 +541,19 @@
 	                                     <span id="date_of_startError" class="error-msg" ></span>
 	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
 	                                </div> -->
-	                                <div class="col s9 m3 l4 input-field offset-m2" id="estimated_cost_div">
-	                                    <i class="material-icons prefix cost">₹</i>
+	                                <div class="col s12 m4 l6 input-field offset-m2 amount-dropdown" id="estimated_cost_div">
+	                                    <i class="material-icons amount-symbol cost">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" type="number" min="0.01" step="0.01" class="validate">
 	                                    <label for="estimated_cost">Detailed Estimated cost</label>
 	                                    <span id="estimated_costError" class="error-msg" ></span>
+	                                	<span id="estimated_cost_unitsError" class="error-msg right" ></span>
+	                                    <select class=" validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
+	                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }">${obj.unit }</option>
+                                   		    </c:forEach>
+	                                	</select>
 	                                </div>
-	                                <div class="col s3 m1 l2 input-field pt-5" id="estimated_cost_units_div">
+	                                <%-- <div class="col s3 m1 l2 input-field pt-5" id="estimated_cost_units_div">
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown searchable" id="estimated_cost_units" name="estimated_cost_units">
 	                                		<c:forEach var="obj" items="${unitsList }">
@@ -555,7 +561,7 @@
                                    		    </c:forEach>
 	                                	</select>
 	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
-                                	</div>                                	
+                                	</div>   --%>                              	
 	                         <%--        <div class="col s9 m3 l4 input-field" id="awarded_cost_div">
 	                                	<i class="material-icons prefix cost">₹</i>
 	                                    <input id="awarded_cost" name="awarded_cost" type="number" min="0.01" step="0.01" class="validate">
@@ -1147,7 +1153,10 @@
 		   		 	  },"date_of_start": {
 		   		 		required: false
 		   		 	  },"estimated_cost": {
-		   		 		required: false
+		   		 		//required: false,
+			   		 	required: function(element){
+	   		             	return $("#estimated_cost").val()!="";
+	   		         	}
 		   		 	  },"loa_letter_number": {
 		   		 		required: false
 		   		 	  },"loa_date":{

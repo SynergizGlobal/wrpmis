@@ -99,7 +99,7 @@
 											<span id="dateError" class="error-msg"></span>
 	                                    </div>
 	                                    <div class="col s6 m3 input-field" id="contractDiv">
-	                                        <p class="searchable_label" style="text-align:left">Contract</p>
+	                                        <p class="searchable_label" style="text-align:left">Contract <span class="required">*</span></p>
 	                                        <select id="contract_id" name="contract_id" onchange="addInQueContract(this.value);getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">Select </option>
 	                                        </select>

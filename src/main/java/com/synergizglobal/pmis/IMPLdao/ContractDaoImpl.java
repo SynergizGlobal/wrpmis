@@ -1680,12 +1680,12 @@ public class ContractDaoImpl implements ContractDao {
 							arraySize = contract.getMilestone_ids().length;
 						}
 					}
-					if(!StringUtils.isEmpty(contract.getMilestone_ids()) && contract.getMilestone_ids().length > 0) {
+					if(!StringUtils.isEmpty(contract.getMilestone_ids()) && contract.getMilestone_ids().length > 0 && !StringUtils.isEmpty(contract.getMilestone_dates()) && contract.getMilestone_dates().length > 0) { 
 						for (int i = 0; i < arraySize; i++) {
 							String mId = contract.getContract_milestones_ids()[i];
 								if(!StringUtils.isEmpty(mId)) {
 									int t = 1;
-									if( contract.getMilestone_ids().length > 0 && !StringUtils.isEmpty(contract.getMilestone_ids()[i])) {
+									if( contract.getMilestone_ids().length > 0 && !StringUtils.isEmpty(contract.getMilestone_ids()[i]) && contract.getMilestone_dates().length > 0 && !StringUtils.isEmpty(contract.getMilestone_dates()[i])) {
 										updateStmt.setString(t++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);
 										updateStmt.setString(t++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
 										updateStmt.setString(t++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));
@@ -1698,7 +1698,7 @@ public class ContractDaoImpl implements ContractDao {
 									}
 							}else {
 							 int k = 1;
-							 if( contract.getMilestone_ids().length > 0 && !StringUtils.isEmpty(contract.getMilestone_ids()[i])) {
+							 if( contract.getMilestone_ids().length > 0 && !StringUtils.isEmpty(contract.getMilestone_ids()[i]) && contract.getMilestone_dates().length > 0 && !StringUtils.isEmpty(contract.getMilestone_dates()[i])) {
 								 	stmt.setString(k++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);
 								    stmt.setString(k++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
 									stmt.setString(k++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));
@@ -1769,10 +1769,12 @@ public class ContractDaoImpl implements ContractDao {
 							arraySize = contract.getRevision_amounts_statuss().length;
 						}
 					}
-					if(!StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
+					if(!StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0 && !StringUtils.isEmpty(contract.getRevised_docs()) && contract.getRevised_docs().length > 0) {
 						for (int i = 0; i < arraySize; i++) {
 							int k = 1;
-							if( contract.getRevision_numbers().length > 0 && !StringUtils.isEmpty(contract.getRevision_numbers()[i])) {
+							if( contract.getRevision_numbers().length > 0 && !StringUtils.isEmpty(contract.getRevision_numbers()[i]) 
+									&& (contract.getRevised_amounts().length > 0 && !StringUtils.isEmpty(contract.getRevised_amounts()[i])
+									|| contract.getRevised_docs().length > 0 && !StringUtils.isEmpty(contract.getRevised_docs()[i]))) {
 								stmt.setString(k++,(contract.getRevision_numbers().length > 0)?contract.getRevision_numbers()[i]:null);
 								stmt.setString(k++,(contract.getRevised_amounts().length > 0)?contract.getRevised_amounts()[i]:null);
 								stmt.setString(k++,DateParser.parse((contract.getRevised_docs().length > 0)?contract.getRevised_docs()[i]:null));								

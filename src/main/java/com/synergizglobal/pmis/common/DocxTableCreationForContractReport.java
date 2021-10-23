@@ -3422,57 +3422,58 @@ public class DocxTableCreationForContractReport {
 			
 			
 			/**************************************************************/
-			Tbl revisionDetailsTable = factory.createTbl();
-			addBorders(revisionDetailsTable, "2");
-
-			addParagraph(mp, factory);
-			addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, fontRPr, "Revision Details");
-			
-			Tr revisionContentRow0 = factory.createTr();
-			addTableCell(factory, wordMLPackage, revisionContentRow0, "Revision Number", titleRpr, JcEnumeration.LEFT,
-					true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, revisionContentRow0, "Revised Amount (Rs)", titleRpr, JcEnumeration.LEFT,
-					true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, revisionContentRow0, "Revised DOC", titleRpr, JcEnumeration.LEFT,
-					true, "ecf2ff");
-			addTableCell(factory, wordMLPackage, revisionContentRow0, "Remark", titleRpr, JcEnumeration.LEFT,
-					true, "ecf2ff");
-			revisionDetailsTable.getContent().add(revisionContentRow0);
-			for (Contract revision : contractDetails.getContract_revision()) {
-				Tr contractRevisionContentRow = factory.createTr();
-				addTableCell(factory, wordMLPackage, contractRevisionContentRow, revision.getRevision_number(),
-						titleRpr, JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
-				addTableCell(factory, wordMLPackage, contractRevisionContentRow, revision.getRevised_amount(),
-						contentRpr, JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
-				addTableCell(factory, wordMLPackage, contractRevisionContentRow, revision.getRevised_doc(), titleRpr,
-						JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
-				addTableCell(factory, wordMLPackage, contractRevisionContentRow, revision.getRemarks(), contentRpr,
-						JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
-				revisionDetailsTable.getContent().add(contractRevisionContentRow);
-			}
-			
-			if (StringUtils.isEmpty(contractDetails.getContract_revision()) || contractDetails.getContract_revision().isEmpty()) {
-				boolean hasBgColor = false;
-				String backgroundColor = null;
-				Tr contentRow = factory.createTr();
-
-				List<String> noDataRow = new ArrayList<String>();
-				noDataRow.add("NO REVISION DATA");
-				for (int i = 0; i < 3; i++) {
-					noDataRow.add("");
+			if(!StringUtils.isEmpty(contractDetails.getRevision_requried()) && contractDetails.getRevision_requried().equals("Yes")) {
+				Tbl revisionDetailsTable = factory.createTbl();
+				addBorders(revisionDetailsTable, "2");
+	
+				addParagraph(mp, factory);
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, fontRPr, "Revision Details");
+				
+				Tr revisionContentRow0 = factory.createTr();
+				addTableCell(factory, wordMLPackage, revisionContentRow0, "Revision Number", titleRpr, JcEnumeration.LEFT,
+						true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, revisionContentRow0, "Revised Amount (Rs)", titleRpr, JcEnumeration.LEFT,
+						true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, revisionContentRow0, "Revised DOC", titleRpr, JcEnumeration.LEFT,
+						true, "ecf2ff");
+				addTableCell(factory, wordMLPackage, revisionContentRow0, "Remark", titleRpr, JcEnumeration.LEFT,
+						true, "ecf2ff");
+				revisionDetailsTable.getContent().add(revisionContentRow0);
+				for (Contract revision : contractDetails.getContract_revision()) {
+					Tr contractRevisionContentRow = factory.createTr();
+					addTableCell(factory, wordMLPackage, contractRevisionContentRow, revision.getRevision_number(),
+							titleRpr, JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
+					addTableCell(factory, wordMLPackage, contractRevisionContentRow, revision.getRevised_amount(),
+							contentRpr, JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
+					addTableCell(factory, wordMLPackage, contractRevisionContentRow, revision.getRevised_doc(), titleRpr,
+							JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
+					addTableCell(factory, wordMLPackage, contractRevisionContentRow, revision.getRemarks(), contentRpr,
+							JcEnumeration.LEFT, contracthasBgColor, contractBackgroundColor);
+					revisionDetailsTable.getContent().add(contractRevisionContentRow);
 				}
-
-				for (String headerValue : noDataRow) {
-					addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr, JcEnumeration.CENTER,
-							hasBgColor, backgroundColor);
+				
+				if (StringUtils.isEmpty(contractDetails.getContract_revision()) || contractDetails.getContract_revision().isEmpty()) {
+					boolean hasBgColor = false;
+					String backgroundColor = null;
+					Tr contentRow = factory.createTr();
+	
+					List<String> noDataRow = new ArrayList<String>();
+					noDataRow.add("NO REVISION DATA");
+					for (int i = 0; i < 3; i++) {
+						noDataRow.add("");
+					}
+	
+					for (String headerValue : noDataRow) {
+						addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr, JcEnumeration.CENTER,
+								hasBgColor, backgroundColor);
+					}
+					revisionDetailsTable.getContent().add(contentRow);
+					mergeCellsHorizontal(revisionDetailsTable, 1, 0, 3);
 				}
-				revisionDetailsTable.getContent().add(contentRow);
-				mergeCellsHorizontal(revisionDetailsTable, 1, 0, 3);
+	
+				setTableAlign(factory, revisionDetailsTable, JcEnumeration.CENTER);
+				mp.addObject(revisionDetailsTable);
 			}
-
-			setTableAlign(factory, revisionDetailsTable, JcEnumeration.CENTER);
-			mp.addObject(revisionDetailsTable);
-
 			/********************* Contract Details ends *******************************************************/
 
 			/********************* Progress Details as on date Details Starts *******************************************************/
@@ -3577,68 +3578,69 @@ public class DocxTableCreationForContractReport {
 			
 
 			/********************* Milestone Details Starts *******************************************************/
-			Tbl milestoneTable = factory.createTbl();
-			addBorders(milestoneTable, "2");
-
-			addParagraph(mp, factory);
-			//addPageBreak(mp);
-			//addHeading(wordMLPackage, mp, factory, JcEnumeration.RIGHT, titleRpr, "Annexure-II");
-			addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, fontRPr, "Milestone Details");
-
-			Tr milestoneTitleRow = factory.createTr();
-			List<String> milestoneTableHeader = new ArrayList<String>();
-			milestoneTableHeader.add("Mile stone ID");
-			milestoneTableHeader.add("Milestone Name");
-			milestoneTableHeader.add("Milestone Date");
-			milestoneTableHeader.add("Actual Date");
-			milestoneTableHeader.add("Remarks");
-
-			for (String headerValue : milestoneTableHeader) {
-				addTableCell(factory, wordMLPackage, milestoneTitleRow, headerValue, titleRpr, JcEnumeration.LEFT, true,
-						"ecf2ff");
-			}
-			milestoneTable.getContent().add(milestoneTitleRow);
-
-			for (Contract cObj : milestoneDetails) {
-				boolean hasBgColor = false;
-				String backgroundColor = null;
-				Tr contentRow = factory.createTr();
-
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getMilestone_id(), contentRpr, JcEnumeration.LEFT,
-						hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getMilestone_name(), contentRpr,
-						JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getMilestone_date(), contentRpr,
-						JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getActual_date(), contentRpr, JcEnumeration.LEFT,
-						hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getRemarks(), contentRpr, JcEnumeration.LEFT,
-						hasBgColor, backgroundColor);
-
-				milestoneTable.getContent().add(contentRow);
-			}
-			if (StringUtils.isEmpty(milestoneDetails) || milestoneDetails.isEmpty()) {
-				boolean hasBgColor = false;
-				String backgroundColor = null;
-				Tr contentRow = factory.createTr();
-
-				List<String> noDataRow = new ArrayList<String>();
-				noDataRow.add("NO MILESTONE DATA");
-				for (int i = 0; i < 4; i++) {
-					noDataRow.add("");
+			if(!StringUtils.isEmpty(contractDetails.getMilestone_requried()) && contractDetails.getMilestone_requried().equals("Yes")) {
+				Tbl milestoneTable = factory.createTbl();
+				addBorders(milestoneTable, "2");
+	
+				addParagraph(mp, factory);
+				//addPageBreak(mp);
+				//addHeading(wordMLPackage, mp, factory, JcEnumeration.RIGHT, titleRpr, "Annexure-II");
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, fontRPr, "Milestone Details");
+	
+				Tr milestoneTitleRow = factory.createTr();
+				List<String> milestoneTableHeader = new ArrayList<String>();
+				milestoneTableHeader.add("Mile stone ID");
+				milestoneTableHeader.add("Milestone Name");
+				milestoneTableHeader.add("Milestone Date");
+				milestoneTableHeader.add("Actual Date");
+				milestoneTableHeader.add("Remarks");
+	
+				for (String headerValue : milestoneTableHeader) {
+					addTableCell(factory, wordMLPackage, milestoneTitleRow, headerValue, titleRpr, JcEnumeration.LEFT, true,
+							"ecf2ff");
 				}
-
-				for (String headerValue : noDataRow) {
-					addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr, JcEnumeration.CENTER,
+				milestoneTable.getContent().add(milestoneTitleRow);
+	
+				for (Contract cObj : milestoneDetails) {
+					boolean hasBgColor = false;
+					String backgroundColor = null;
+					Tr contentRow = factory.createTr();
+	
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getMilestone_id(), contentRpr, JcEnumeration.LEFT,
 							hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getMilestone_name(), contentRpr,
+							JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getMilestone_date(), contentRpr,
+							JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getActual_date(), contentRpr, JcEnumeration.LEFT,
+							hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getRemarks(), contentRpr, JcEnumeration.LEFT,
+							hasBgColor, backgroundColor);
+	
+					milestoneTable.getContent().add(contentRow);
 				}
-				milestoneTable.getContent().add(contentRow);
-				mergeCellsHorizontal(milestoneTable, 1, 0, 4);
+				if (StringUtils.isEmpty(milestoneDetails) || milestoneDetails.isEmpty()) {
+					boolean hasBgColor = false;
+					String backgroundColor = null;
+					Tr contentRow = factory.createTr();
+	
+					List<String> noDataRow = new ArrayList<String>();
+					noDataRow.add("NO MILESTONE DATA");
+					for (int i = 0; i < 4; i++) {
+						noDataRow.add("");
+					}
+	
+					for (String headerValue : noDataRow) {
+						addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr, JcEnumeration.CENTER,
+								hasBgColor, backgroundColor);
+					}
+					milestoneTable.getContent().add(contentRow);
+					mergeCellsHorizontal(milestoneTable, 1, 0, 4);
+				}
+	
+				setTableAlign(factory, milestoneTable, JcEnumeration.CENTER);
+				mp.addObject(milestoneTable);
 			}
-
-			setTableAlign(factory, milestoneTable, JcEnumeration.CENTER);
-			mp.addObject(milestoneTable);
-
 			/********************* Milestone Details ends *******************************************************/
 
 			/********************* BG Details Starts *******************************************************/

@@ -1781,7 +1781,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 									",scope_of_contract,cast((estimated_cost * estimated_cost_units) as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,DATE_FORMAT(target_doc,'%d-%m-%Y') AS target_doc,cast((awarded_cost * awarded_cost_units) as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
 									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast((completed_cost * completed_cost_units) as CHAR) as completed_cost,"
 									+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,c.status,bg_required,insurance_required,department_name,"
-									+ "u.designation as hod_designation,us.designation as dy_hod_designation " + 
+									+ "u.designation as hod_designation,us.designation as dy_hod_designation,revision_requried,milestone_requried " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -1837,6 +1837,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				contract.setHod_designation(resultSet.getString("hod_designation"));
 				contract.setDy_hod_designation(resultSet.getString("dy_hod_designation"));
 				contract.setStatus(resultSet.getString("status"));
+				contract.setRevision_requried(resultSet.getString("revision_requried"));
+				contract.setMilestone_requried(resultSet.getString("milestone_requried"));
 				
 				contract.setContract_revision(getContract_revision(contract.getContract_id(),con));	
 			}

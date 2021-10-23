@@ -1839,6 +1839,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				contract.setStatus(resultSet.getString("status"));
 				contract.setRevision_requried(resultSet.getString("revision_requried"));
 				contract.setMilestone_requried(resultSet.getString("milestone_requried"));
+				contract.setTarget_doc(resultSet.getString("target_doc"));
 				
 				contract.setContract_revision(getContract_revision(contract.getContract_id(),con));	
 			}

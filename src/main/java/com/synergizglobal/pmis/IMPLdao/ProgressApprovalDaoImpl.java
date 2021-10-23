@@ -707,7 +707,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						+ "attachment_url,ap.remarks,DATE_FORMAT(ap.created_date,'%d-%m-%Y') as updated_on,"
 						+ "ap.created_by_user_id_fk,approved_or_rejected_by,u.user_name as updated_by,"
 						+ "DATE_FORMAT(approved_on,'%d-%m-%Y') as approved_on,DATE_FORMAT(rejected_on,'%d-%m-%Y') as rejected_on,approval_status_fk,"
-						+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name "
+						+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,activity_name,updated_scope "
 						+ "from approvable_activity_progress ap "
 						+ "LEFT JOIN user u ON ap.created_by_user_id_fk = u.user_id "
 						+ "LEFT JOIN activities a ON ap.activity_id_fk = a.activity_id "
@@ -767,6 +767,12 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 							arrSize++;
 						}
 						
+						if(activity.getUpdated_scope()!=null && Float.parseFloat(activity.getUpdated_scope())>0)
+						{
+							updateQry = updateQry + ", Scope = ?";
+							arrSize++;						
+						}						
+						
 						updateQry = updateQry + " WHERE activity_id = ?";
 						
 						Object[] pValues = new Object[arrSize];
@@ -783,6 +789,11 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 						{
 							pValues[i++] = getActivityMaxProgressDate(activity.getActivity_id());
 						}
+						if(activity.getUpdated_scope()!=null && Float.parseFloat(activity.getUpdated_scope())>0)
+						{
+							pValues[i++] = activity.getUpdated_scope();
+						}						
+						
 						
 						pValues[i++] = activity.getActivity_id();
 						

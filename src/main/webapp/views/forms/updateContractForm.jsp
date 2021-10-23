@@ -821,11 +821,13 @@
 			                   			</div>
 			                   			<div class="col l4 m12 right-align mob-center">                   				
 									      <label>
-									        <input id="contractClosureRadioYes" name="contractClosureRadio" class="with-gap" type="radio" value="yes"/>
+									        <input id="contractClosureRadioYes" name="is_contract_closure_initiated" class="with-gap" type="radio" value="Yes" <c:if test="${contractDeatils.is_contract_closure_initiated eq 'Yes'}">checked
+	                                            </c:if> />
 									        <span>Yes</span>
 									      </label>					    
 									      <label>
-									        <input id="contractClosureRadioNo" name="contractClosureRadio" class="with-gap" type="radio" value="no"/>
+									        <input id="contractClosureRadioNo" name="is_contract_closure_initiated" class="with-gap" type="radio" value="No" <c:if test="${empty contractDeatils.is_contract_closure_initiated}">checked </c:if> <c:if test="${contractDeatils.is_contract_closure_initiated eq 'No'}">checked
+	                                            </c:if>/>
 									        <span>No</span>
 									      </label>							    
 			                   			</div>
@@ -2209,7 +2211,14 @@
 	        /*$("#myForm").submit(function () {
 	            $("#tabs").tabs("select", $("#contractForm .my-error-class").closest(".ui-tabs-panel").get(0).id);
 	        }); */
-	    	
+            var closureRadioVal =  '${contractDeatils.is_contract_closure_initiated}';
+            if(closureRadioVal == 'Yes'){
+         	   $("#contractClosureDetails").show();
+     		   $('#closureTab').show();
+            }else{
+               $("#contractClosureDetails").hide();
+       		   $('#closureTab').hide();
+            }
             getHodList();
             getDyHodList();
                        
@@ -2441,13 +2450,13 @@
         function getContractClosureDetails(contract_status_fk) {			
 			$("#contractClosureDetails").hide();
 			$('#closureTab').hide();
-			if(contract_status_fk == 'Completed' || contract_status_fk == 'Commissioned' || contract_status_fk == 'Closed'){
+			if(contract_status_fk == 'Completed' || contract_status_fk == 'Commissioned'){
 				$("#contractClosureRadioBtn").show();				
-				$("#contractClosureRadioYes").prop("checked", true);
-				$("#contractClosureDetails").show();				
- 				$('#closureTab').show();
+				///$("#contractClosureRadioNo").prop("checked", true);
+				//$("#contractClosureDetails").hide();				
+ 				//$('#closureTab').hide();
 			}else{
-				$("#contractClosureRadioBtn").hide();
+				$("#contractClosureRadioBtn").hide(); 
 			}
 			
 			if($.trim(contract_status_fk) == 'Completed'){                	
@@ -2459,11 +2468,12 @@
             	$('#actual_completion_dateError').text('');
             } 
 		} 
-        $('input[name="contractClosureRadio"]').click(function(){
+     
+        $('input[name="is_contract_closure_initiated"]').click(function(){
            if ($(this).is(':checked')){
              //alert($(this).val());
              var selectedVal = $(this).val();
-             if(selectedVal == 'yes'){
+             if(selectedVal == 'Yes'){
             	 $("#contractClosureDetails").show();
  				 $('#closureTab').show();
              }else{
@@ -2723,7 +2733,7 @@
 	  			if(insurance_required != 'Yes'){
 	        		$("#insurance_div").remove();
 	        	} */
-	        	if(contract_status_fk != 'Completed' && contract_status_fk != 'Commissioned' && contract_status_fk != 'Closed'){
+	        	if(contract_status_fk != 'Completed' && contract_status_fk != 'Commissioned'){
 	        		$("#contractClosureDetails").remove(); 
 	        	} 
 	        	

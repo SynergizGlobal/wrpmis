@@ -2061,7 +2061,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
 		Contract contract = null;
-		try{
+		try{ 
 			con = dataSource.getConnection();
 			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
 									",scope_of_contract,cast((estimated_cost * estimated_cost_units) as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast((awarded_cost * awarded_cost_units) as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"

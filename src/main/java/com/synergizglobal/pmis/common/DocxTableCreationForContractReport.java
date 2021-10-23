@@ -3789,7 +3789,7 @@ public class DocxTableCreationForContractReport {
 
 			boolean hasBgColor = false;
 			String backgroundColor = null;
-
+ 
 			/************************************************/
 			Tr cloureContentRow0 = factory.createTr();
 

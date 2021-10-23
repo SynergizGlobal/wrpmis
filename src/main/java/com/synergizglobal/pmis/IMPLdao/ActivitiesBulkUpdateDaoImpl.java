@@ -189,7 +189,8 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			
 			String qry = "select distinct a.contract_id_fk as contract_id,c.work_id_fk,c.contract_name,c.contract_short_name "
 					+ "from activities a "
-					+ "left outer join contract c on a.contract_id_fk = c.contract_id "					
+					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
+					+ "left outer join contract_executive c1 on c1.contract_id_fk = c.contract_id "	
 					+ "where a.contract_id_fk is not null and a.scope <> IFNULL('Completed',0) " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -197,8 +198,9 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
+				qry = qry + " and c1.department_id_fk=? and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
 						+" or contract_id in (select contract_id from contract where contract_id in(select contract_id_fk from fob_contract_responsible_people where fob_id_fk in(select fob_id_fk from pmis.fob_contract_responsible_people where responsible_people_id_fk = ?))) )";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -216,6 +218,8 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  (!CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) && !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				
+				pValues[i++] = obj.getDepartment_fk();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -606,16 +610,16 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		ResultSet rs = null;
 		String color = "";
 		try {	
-			String qry = " select (case "  
+			String qry = " select top 1 color mys* from (select (case "  
 					+" when ((select count(*) from activities s1 where (s1.scope - IFNULL(s1.completed,0)) <> 0 "
-					+ " and s1.contract_id_fk = ? and s1.structure = ? and s1.component_id = ? and s1.component = ? ";
+					+ " and s1.contract_id_fk = ? and s1.structure = ? and s1.component_id = ? and s1.component = ? AND activity_id=a.activity_id ";
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 						qry = qry + " and s1.line = ?";
 					}			
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_section_name())) {
 						qry = qry + " and s1.section = ?";
 					}	
-					qry = qry + ") = 0) then 'completed' "  
+					qry = qry + ") = 0) then 'over' "  
 					//+" when ((select count(*) from activities where (select DATE_FORMAT(max(planned_finish),'%Y-%m-%d') from activities s2 where "
 					//+ " s2.completed <> 0 and s2.contract_id_fk = ? and s2.structure = ? and s2.component_id = ? ";
 				//	if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
@@ -626,7 +630,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					//}	
 					//qry = qry + ") < CURDATE() ) > 0) then 'delayed' "  
 					+" when ((select count(*) from activities s3 where IFNULL(s3.completed,0) = 0 and scope <> 0 "
-					+ "and s3.contract_id_fk = ? and s3.structure = ? and s3.component_id = ? and s3.component = ? ";
+					+ "and s3.contract_id_fk = ? and s3.structure = ? and s3.component_id = ? and s3.component = ? AND activity_id=a.activity_id ";
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 						qry = qry + " and s3.line = ?";
 					}			
@@ -636,7 +640,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 					qry = qry + ") > 0) then 'not-started'  "  
 					+" else 'in-progress' "  
 					+" end ) as color " 
-					+" from activities where scope <> 0";				
+					+" from activities a where scope <> 0 and contract_id_fk = ? and structure = ? and component_id = ? and component = ?) as a order by color ";				
 			
 			stmt = connection.prepareStatement(qry);
 			int p = 1;
@@ -670,6 +674,12 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			stmt.setString(p++,sobj.getStrip_chart_component_id());
 			stmt.setString(p++,sobj.getStrip_chart_component());
 			
+			stmt.setString(p++,sobj.getContract_id_fk());
+			stmt.setString(p++,sobj.getStrip_chart_structure_id_fk());
+			stmt.setString(p++,sobj.getStrip_chart_component_id());
+			stmt.setString(p++,sobj.getStrip_chart_component());			
+			
+			
 			if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 				stmt.setString(p++,sobj.getStrip_chart_line_id_fk());
 			}			
@@ -679,7 +689,11 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			
 			rs = stmt.executeQuery();
 			if (rs.next()) {
-				color = rs.getString("color");			
+				color = rs.getString("color");	
+				if(color=="over")
+				{
+					color="completed";
+				}
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

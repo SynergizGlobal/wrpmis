@@ -425,7 +425,7 @@
                         	 <div class="row p-sticky t-98 z-1">
 							    <div class="col s12 m12">
 							      <ul class="tabs tab-flex" id="menu-center">
-							        <li class="tab" ><a class="active t-c" href="#basicDetails">Contract Owners</a></li>
+							        <li class="tab" ><a class="active t-c" href="#basicDetails">Contract Managers</a></li>
 							        <li class="tab" ><a class="t-c" href="#departmentDetails">Executives</a></li>
 							        <li class="tab" ><a class="t-c" href="#contractDetails">Contract Details</a></li>
 							        <li class="tab" id="closureTab"><a class="t-c" href="#contractClosureDetails">Contract Closure Details</a></li>
@@ -440,7 +440,7 @@
 						   </div>
                         	
 							<div class="container container-no-margin  " id="basicDetails">
-							<h5 class="center-align"><span class="div-header">Contract Owners</span></h5>
+							<h5 class="center-align"><span class="div-header">Contract Managers</span></h5>
 								<%-- <div class="row" style="margin-bottom: 50px;">
 	                                <div class="col s12 m4 input-field no-box-shadow offset-m2">
 	                                   <label class="primary-text-bold ">Contract ID : <input id="contract_id" name="contract_id" type="text" value="${contractDeatils.contract_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
@@ -535,6 +535,16 @@
 	                              </div>
 	                              
                                 </div>
+                                
+                                <div class="row">
+	                                <div class="col s12 m8 l12 input-field offset-m2">
+	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate validate-dropdown" 
+	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
+	                                     value="${contractDeatils.contract_short_name }" >
+	                                    <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
+	                                      <span id="contract_short_nameError" class="error-msg" ></span>
+	                                </div>
+	                            </div>
 							
 								<c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' }"><br> </c:if>
 								
@@ -667,7 +677,7 @@
 	                                    <span id="contract_nameError" class="error-msg" ></span>
 	                                </div>
 	                            </div>
-	                            <div class="row">
+	                           <%-- <div class="row">
 	                                <div class="col s12 m8 l12 input-field offset-m2">
 	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate validate-dropdown" 
 	                                    <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}"> readonly </c:if>
@@ -675,7 +685,7 @@
 	                                    <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
 	                                </div>
-	                            </div>
+	                            </div> --%> 
 							<div class="row">
 								  <c:choose>
 						         	<c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
@@ -757,11 +767,11 @@
 	                            <div class="row">	                                
 	                                <div class="col s12 m4 l6 input-field offset-m2" id="date_of_startDiv">
 	                                    <input autocomplete="off" id="date_of_start" name="date_of_start" type="text" class="validate validate-dropdown datepicker-max-today" value="${contractDeatils.date_of_start }">
-	                                    <label for="date_of_start">Date of Start <span class="required" id="date_of_startStar">*</span></label>
+	                                    <label for="date_of_start">Date of Start <span class="required" id="date_of_start_req">*</span></label>
 	                                     <span id="date_of_startError" class="error-msg" ></span>
 	                                    <button type="button" id="date_of_start_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                </div>
-	                                <div class="col s9 m3 l4 input-field" id="estimated_cost_div">
+	                                <%-- <div class="col s9 m3 l4 input-field" id="estimated_cost_div">
 	                                    <i class="material-icons prefix cost left-align">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.estimated_cost }" >
 	                                    <label for="estimated_cost" class="fs-sm-67rem"> Detailed Estimated cost</label>
@@ -775,7 +785,21 @@
                                    		    </c:forEach>
 	                                	</select>
 	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
-                                	</div>	                         
+                                	</div>	 --%> 
+                                	
+                                	<div class="col s12 m4 l6 input-field offset-m2 amount-dropdown" id="estimated_cost_div">
+	                                    <i class="material-icons amount-symbol cost">₹</i>
+	                                    <input id="estimated_cost" name="estimated_cost" type="number" min="0.01" step="0.01" class="validate" value="${contractDeatils.estimated_cost }">
+	                                    <label for="estimated_cost">Detailed Estimated cost</label>
+	                                    <span id="estimated_costError" class="error-msg" ></span>
+	                                	<span id="estimated_cost_unitsError" class="error-msg right" ></span>
+	                                    <select class=" validate-dropdown" id="estimated_cost_units" name="estimated_cost_units">
+	                                    	<option value="">Units</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${contractDeatils.estimated_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		    </c:forEach>
+	                                	</select>
+	                                </div>                        
                                 </div>      
 	                           	<div class="row">
 	                                <div class="col s12 m4 l6 input-field offset-m2" id="doc_div">
@@ -784,7 +808,7 @@
 	                                     <button type="button" id="doc_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                     <span id="docError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s9 m3 l4 input-field " id="awarded_cost_div">
+	                                <%-- <div class="col s9 m3 l4 input-field " id="awarded_cost_div">
 	                                	<i class="material-icons prefix cost left-align">₹</i>
 	                                    <input autocomplete="off" id="awarded_cost" name="awarded_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.awarded_cost }">
 	                                    <label for="awarded_cost">Awarded cost <span class="required" id="awarded_cost_req">*</span></label>
@@ -798,7 +822,21 @@
                                    		    </c:forEach>
 	                                	</select>
 	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
-                                	</div>
+                                	</div> --%>
+                                	
+                                	<div class="col s12 m4 l6 input-field offset-m2 amount-dropdown" id="awarded_cost_div">
+	                                    <i class="material-icons amount-symbol cost">₹</i>
+	                                    <input id="awarded_cost" name="awarded_cost" type="number" min="0.01" step="0.01" class="validate" value="${contractDeatils.awarded_cost }">
+	                                    <label for="awarded_cost">Awarded cost <span class="required" id="awarded_cost_req">*</span></label>
+	                                    <span id="awarded_costError" class="error-msg" ></span>
+	                                	<span id="awarded_cost_unitsError" class="error-msg right" ></span>
+	                                    <select class=" validate-dropdown" id="awarded_cost_units" name="awarded_cost_units">
+	                                    	<option value="">Units</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${contractDeatils.awarded_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		    </c:forEach>
+	                                	</select>
+	                                </div> 
                                 </div>
                                 <div class="row">
 	                                <div class="col s6 m4 l6 input-field offset-m2">
@@ -892,6 +930,21 @@
 	                                	</select>
 	                                	<span id="completed_cost_unitsError" class="error-msg" ></span>
                                 	</div>
+                                	
+                                	<%-- <div class="col s9 m3 l3 input-field">
+	                                    <i class="material-icons amount-symbol cost">₹</i>
+	                                    <input id="completed_cost" name="completed_cost" type="number" min="0.01" step="0.01" class="validate" value="${contractDeatils.completed_cost }">
+	                                    <label for="completed_cost">Completion Cost <span class="required" id="completed_cost_req">*</span></label>
+	                                    <span id="completed_costError" class="error-msg" ></span>
+	                                	<span id="completed_cost_unitsError" class="error-msg right" ></span>
+	                                    <select class="validate-dropdown" id="completed_cost_units" name="completed_cost_units">
+	                                    	<option value="">Units</option>
+	                                		<c:forEach var="obj" items="${unitsList }">
+                                  			   <option value="${obj.value }" <c:if test="${contractDeatils.completed_cost_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                   		    </c:forEach>
+	                                	</select>
+	                                </div> --%>
+	                                
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	                            <div class="row">
@@ -2227,9 +2280,8 @@
             $("#contract_status").change(function(){
             	var contract_status = $(this).val();
             	if($.trim(contract_status) == 'Yet to be Awarded'){
-            		$("#date_of_startDiv").val('');
-            		$("#date_of_startDiv").hide();
-            		
+            		$("#date_of_start").val('');
+            		$("#date_of_startDiv").hide();            		
             		$("#bgHideDiv").hide();
             		$("#insuranceHideDiv").hide();
             		$("#milestoneHideDiv").hide();
@@ -2242,9 +2294,9 @@
             		$("#revisionDetailsTab").hide();
             		$("#keyPersonDetailsTab").hide();
             	}else{
-            		var date_of_start = '${contractDeatils.date_of_start}';
+            		/* var date_of_start = '${contractDeatils.date_of_start}';
             		$("#date_of_startDiv").val(date_of_start).focus();
-            		$("#date_of_startDiv").show();
+            		$("#date_of_startDiv").show(); */
             		
             		$("#bgHideDiv").show();
             		$("#insuranceHideDiv").show();
@@ -2290,7 +2342,7 @@
             
             
             if($.trim(contract_status) == 'Yet to be Awarded'){
-        		$("#date_of_startDiv").val('');
+        		$("#date_of_start").val('');
         		$("#date_of_startDiv").hide();
         		$("#bgHideDiv").hide();
         		$("#insuranceHideDiv").hide();
@@ -2316,8 +2368,11 @@
         		$('#loa_date_req').text('*');
         		$('#awarded_cost').rules('add',  { required: true });
         		$('#awarded_cost_req').text('*');
-        		$('#date_of_start').rules('add',  { required: true });
-            	$('#date_of_startStar').text('*');
+        		/* $('#date_of_start').rules('add',  { required: true });
+            	$('#date_of_start_req').text('*'); */
+        		$("#date_of_startDiv").show();
+        		$('#date_of_start').rules('remove','required');
+        		$('#date_of_start_req').text('');
 	    	}else{
         		$('#contractor_id_fk').rules('remove',  'required');
             	$('#contractor_req').text('');
@@ -2334,17 +2389,22 @@
         		$('#awarded_cost_req').text('');
         	}
             // Validation code for Date of Start Hide 
-            if($.trim(contract_status) == 'Open' && $.trim(contract_status_fk) == 'Not Started' || $.trim(contract_status) == 'Yet to be Awarded'){
+            if($.trim(contract_status) == 'Yet to be Awarded' && $.trim(contract_status_fk) == 'Not Started'){
             	//$("#date_of_start").removeAttr('required');
             	$('#date_of_start').rules('remove',  'required');
-            	$("#date_of_startDiv").hide();
-            	$('#date_of_startStar').text('');
+            	$("#date_of_startDiv").show();
+            	$('#date_of_start_req').text('');
             	$('#date_of_startError').text('');
-            }else{ 
+            }else if($.trim(contract_status) != 'Yet to be Awarded' && $.trim(contract_status_fk) != 'Not Started'){
             	$("#date_of_startDiv").show();
             	$('#date_of_start').rules('add',  { required: true });
-            	$('#date_of_startStar').text('*');
-            }
+            	$('#date_of_start_req').text('*');
+            }else{
+            	$("#date_of_startDiv").hide();
+            	$('#date_of_start').rules('remove',  'required');
+            	$('#date_of_start_req').text('');
+            	$('#date_of_startError').text('');
+            } 
             
             if($.trim(contract_status_fk) == 'Completed'){                	
             	$('#actual_completion_date').rules('add',  { required: true });
@@ -2369,6 +2429,7 @@
             	}else{
             		$('#actual_date_of_commissioning_div').hide();
             	}
+        		
             }
             
             $("#contract_status_fk").change(function(){
@@ -2376,14 +2437,19 @@
             	var contract_status_fk = $(this).val();
             	var contract_status = $("#contract_status").val();
             	if($.trim(contract_status) == 'Open' && $.trim(contract_status_fk) == 'Not Started'){
-            		$("#date_of_startDiv").hide();
+            		$("#date_of_startDiv").show();
                 	$('#date_of_start').rules('remove',  'required');
-                	$('#date_of_startStar').text('');
+                	$('#date_of_start_req').text('');
                 	$('#date_of_startError').text('');
-                }else{
+                }else if($.trim(contract_status) == 'Open' && $.trim(contract_status_fk) != 'Not Started'){
                 	$("#date_of_startDiv").show();
                 	$('#date_of_start').rules('add',  { required: true });
-                	$('#date_of_startStar').text('*');
+                	$('#date_of_start_req').text('*');
+                }else{
+                	$("#date_of_startDiv").hide();
+                	$('#date_of_start').rules('remove',  'required');
+                	$('#date_of_start_req').text('');
+                	$('#date_of_startError').text('');
                 } 
             	
             	if($.trim(contract_status_fk) == 'Completed'){                	
@@ -3997,7 +4063,7 @@
 					$('#updateBtn').html('Update');
 					$('#update_type').val('Update');
 					
-					$('#actual_completion_date').rules('remove','required');
+					/* $('#actual_completion_date').rules('remove','required');
 	        		$('#actual_completion_date_req').text('');
 	        		$('#final_takeover').rules('remove','required');
 	        		$('#final_takeover_req').text('');
@@ -4010,7 +4076,7 @@
 	        		$('#defect_liability_period').rules('remove','required');
 	        		$('#defect_liability_period_req').text('');
 	        		$('#contract_closure_date').rules('remove','required');
-	        		$('#contract_closure_date_req').text('');
+	        		$('#contract_closure_date_req').text(''); */
 				}
 			}else{
 				$('#updateBtn').html('Update');

@@ -412,6 +412,19 @@
 								         </c:otherwise>
 								      </c:choose>
                                 </div>
+                                
+                                <div class="row">
+	                                <!-- <div class="col s12 m8 l12 input-field offset-m2">
+	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate pmis-textarea" ></textarea>
+	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
+	                                    <span id="contract_nameError" class="error-msg" ></span>
+	                                </div> -->	                              
+	                                <div class="col s12 m8 l12 input-field offset-m2">
+	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" >
+	                                    <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
+	                                      <span id="contract_short_nameError" class="error-msg" ></span>
+	                                </div>
+	                            </div>
 	              
 	                            <div class="row"> 
 	                            	<div class="col m8 l12 offset-m2 s12">
@@ -473,11 +486,11 @@
 	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
 	                                </div>	                              
-	                                <div class="col s12 m8 l12 input-field offset-m2">
+	                                <!-- <div class="col s12 m8 l12 input-field offset-m2">
 	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" >
 	                                    <label for="contract_short_name">Contract Short Name <span class="required">*</span></label>
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
-	                                </div>
+	                                </div> -->
 	                            </div>
 	
 	                            <div class="row">	
@@ -562,7 +575,7 @@
 	                                	</select>
 	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
                                 	</div>   --%>                              	
-	                         <%--        <div class="col s9 m3 l4 input-field" id="awarded_cost_div">
+	                         		<%--<div class="col s9 m3 l4 input-field" id="awarded_cost_div">
 	                                	<i class="material-icons prefix cost">₹</i>
 	                                    <input id="awarded_cost" name="awarded_cost" type="number" min="0.01" step="0.01" class="validate">
 	                                    <label for="awarded_cost">Awarded cost</label>

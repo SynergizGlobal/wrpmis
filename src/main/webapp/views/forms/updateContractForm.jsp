@@ -39,7 +39,7 @@
 			position:sticky;
 		}
 		.z-1{
-			z-index:1;
+			z-index:2;
 		}
 		.t-46{
 			top:46px;
@@ -787,7 +787,7 @@
 	                                	<span id="estimated_cost_unitsError" class="error-msg" ></span>
                                 	</div>	 --%> 
                                 	
-                                	<div class="col s12 m4 l6 input-field offset-m2 amount-dropdown" id="estimated_cost_div">
+                                	<div class="col s12 m4 l6 input-field amount-dropdown" id="estimated_cost_div">
 	                                    <i class="material-icons amount-symbol cost">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" type="number" min="0.01" step="0.01" class="validate" value="${contractDeatils.estimated_cost }">
 	                                    <label for="estimated_cost">Detailed Estimated cost</label>
@@ -824,7 +824,7 @@
 	                                	<span id="awarded_cost_unitsError" class="error-msg" ></span>
                                 	</div> --%>
                                 	
-                                	<div class="col s12 m4 l6 input-field offset-m2 amount-dropdown" id="awarded_cost_div">
+                                	<div class="col s12 m4 l6 input-field amount-dropdown" id="awarded_cost_div">
 	                                    <i class="material-icons amount-symbol cost">₹</i>
 	                                    <input id="awarded_cost" name="awarded_cost" type="number" min="0.01" step="0.01" class="validate" value="${contractDeatils.awarded_cost }">
 	                                    <label for="awarded_cost">Awarded cost <span class="required" id="awarded_cost_req">*</span></label>
@@ -914,13 +914,19 @@
 	                                    <span id="retention_money_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                
-	                                <div class="col s9 m3 l3 input-field">
-	                                	<i class="material-icons prefix cost left-align">₹</i>
+	                                <div class="col s12 m4 l4 input-field amount-dropdown">
+	                                	<i class="material-icons amount-symbol cost left-align">₹</i>
 	                                    <input autocomplete="off" id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.completed_cost }">
 	                                    <label for="completed_cost" class="fs-sm-8rem">Completion Cost <span class="required" id="completed_cost_req">*</span></label>
 	                                     <span id="completed_costError" class="error-msg" ></span>
+  	                                	 <span id="completed_cost_unitsError" class="error-msg right" ></span>
+	                                     <select class="validate-dropdown" id="completed_cost_units" name="completed_cost_units">
+	                                		<c:forEach var="obj" items="${unitsList }">
+		                                      <option value="${obj.value }" <c:if test="${contractDeatils.completed_cost_units eq obj.value }">selected</c:if>>${obj.unit }</option>
+		                                	</c:forEach>
+	                                	</select>
 	                                </div>    
-	                                <div class="col s3 m1 l1 input-field pt-5">
+	                               <%--  <div class="col s3 m1 l1 input-field pt-5">
 	                                	<p class="searchable_label">Unit</p>
 	                                	<select class="units validate-dropdown" id="completed_cost_units" name="completed_cost_units">
 	                                		<!-- <option value="">Select</option> -->
@@ -929,7 +935,7 @@
 		                                	</c:forEach>
 	                                	</select>
 	                                	<span id="completed_cost_unitsError" class="error-msg" ></span>
-                                	</div>
+                                	</div> --%>
                                 	
                                 	<%-- <div class="col s9 m3 l3 input-field">
 	                                    <i class="material-icons amount-symbol cost">₹</i>
@@ -1030,7 +1036,7 @@
                                                <!--  <th>Bank Address </th> -->
                                                 <th>BG / FDR <br>Number </th>
                                                 <th >Amount </th>
-                                                <th>Unit</th>
+                                               <!--  <th>Unit</th> -->
                                                 <th>BG / FDR <br> Date </th>
                                                 <th>Expiry Date <span class="required">*</span></th>
                                               <!--   <th>Remarks </th> -->
@@ -1071,12 +1077,19 @@
                                                     <input id="bg_numbers${index.count }" name="bg_numbers" type="text" class="validate" value="${bankObj.bg_number}"
                                                         placeholder="BG / FDR Number">
                                                 </td>
-                                                <td data-head="Amount" class="input-field">
-                                                		<i class="material-icons prefix cost left-align">₹</i>
+                                                <td data-head="Amount" class="input-field amount-dropdown">
+                                                		<i class="material-icons amount-symbol cost left-align">₹</i>
                                                     	<input id="bg_values${index.count }" name="bg_values" min="0.01" step="0.01" type="number" class="validate" value="${bankObj.bg_value }"
                                                         placeholder="Amount">
+                                                        <select class=" validate-dropdown" id="bg_values_units${index.count }" name="bg_value_unitss">
+					                                		<option value="">Select</option>
+					                                      <c:forEach var="obj" items="${unitsList }">
+		                                    			    <option value="${obj.value }" <c:if test="${bankObj.bg_value_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+		                                     			  </c:forEach>
+					                                	</select>
+					                                	<span id="bg_units${index.count }Error" class="my-error right"></span>
                                                  </td>
-                                                 <td class="responsive_units">
+                                                <%--  <td class="responsive_units">
 					                                	<select class="units validate-dropdown" id="bg_values_units${index.count }" name="bg_value_unitss">
 					                                		<option value="">Select</option>
 					                                      <c:forEach var="obj" items="${unitsList }">
@@ -1084,7 +1097,7 @@
 		                                     			  </c:forEach>
 					                                	</select>
 					                                	<span id="bg_units${index.count }Error" class="my-error"></span>
-                                                </td>
+                                                </td> --%>
                                                <td data-head="BG / FDR Date " class="input-field">
                                                     <input id="bg_dates${index.count }" name="bg_dates" type="text" class="validate datepicker" value="${bankObj.bg_date }"
                                                         placeholder="BG /FDR Date">
@@ -1148,12 +1161,20 @@
                                                     <input id="bg_numbers0" name="bg_numbers" type="text" class="validate"
                                                         placeholder="BG / FDR Number">
                                                 </td>
-                                                <td data-head="Amount " class="input-field">
-                                                	
-                                                		<i class="material-icons prefix cost left-align">₹</i>
+                                                <td data-head="Amount " class="input-field">      
+                                               		<span class="amount-dropdown">
+                                               			<i class="material-icons amount-symbol cost left-align">₹</i>
                                                     	<input id="bg_values0" name="bg_values" min="0.01" step="0.01" type="number" class="validate"     placeholder="Amount">
+                                                    	<select class="validate-dropdown" id="bg_values_units0" name="bg_value_unitss">
+					                                		<option value="">Select</option>
+					                                		<c:forEach var="obj" items="${unitsList }">
+		                                    			     <option value="${obj.value }">${obj.unit }</option>
+		                                     			    </c:forEach>
+					                                	</select>
+					                                	<span id="bg_units0Error" class="my-error right"></span>
+                                               		</span>  
                                                   </td>
-                                                  <td class="responsive_units">
+                                                  <%-- <td class="responsive_units">
 					                                	<select class="units validate-dropdown" id="bg_values_units0" name="bg_value_unitss">
 					                                		<option value="">Select</option>
 					                                		<c:forEach var="obj" items="${unitsList }">
@@ -1162,7 +1183,7 @@
 					                                	</select>
 					                                	<span id="bg_units0Error" class="my-error"></span>
                                                     </div>
-                                                </td>
+                                                </td> --%>
                                                 <td data-head="BG / FDR Date " class="input-field">
                                                     <input id="bg_dates0" name="bg_dates" type="text" class="validate datepicker"
                                                         placeholder="BG /FDR Date">
@@ -1261,7 +1282,7 @@
                                                 <th>Agency Address </th>
                                                 <th>Insurance Number </th>
                                                 <th >Insurance Value </th>
-                                                <th>Unit</th>
+                                                <!-- <th>Unit</th> -->
                                                 <!-- <th>Revision </th> -->
                                                 <th>Valid Upto <span class="required">*</span></th>
                                               <!--   <th>Remarks </th> -->
@@ -1296,12 +1317,19 @@
                                                     <input id="insurance_numbers${index.count }" name="insurance_numbers" type="text" class="validate" value="${insurenceObj.insurance_number }"
                                                         placeholder="Insurance Number">
                                                 </td>                                                
-                                                <td data-head="Insurance Value " class="input-field">
-                                                		<i class="material-icons prefix cost left-align">₹</i>
+                                                <td data-head="Insurance Value" class="input-field amount-dropdown">
+                                                		<i class="material-icons amount-symbol cost left-align">₹</i>
                                                     	<input id="insurance_values${index.count }" name="insurance_values" min="0.01" step="0.01" type="number" class="validate" value="${insurenceObj.insurance_value }"
                                                         placeholder="Insurance Value">
+                                                        <select class="validate-dropdown" id="insurance_values_units${index.count }" name="insurance_value_unitss">
+					                                		<option value="">Select</option>
+					                                		<c:forEach var="obj" items="${unitsList }">
+		                                    			    <option value="${obj.value }" <c:if test="${insurenceObj.insurance_value_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+		                                     			  </c:forEach>
+					                                	</select>
+					                                	<span id="insurence_units${index.count }Error" class="my-error my-error"></span>
                                                     </td> 
-                                                    <td class="responsive_units">
+                                                    <%-- <td class="responsive_units">
 					                                	<select class="units validate-dropdown" id="insurance_values_units${index.count }" name="insurance_value_unitss">
 					                                		<option value="">Select</option>
 					                                		<c:forEach var="obj" items="${unitsList }">
@@ -1309,7 +1337,7 @@
 		                                     			  </c:forEach>
 					                                	</select>
 					                                	<span id="insurence_units${index.count }Error" class="my-error"></span>
-                                                 </td>
+                                                 </td> --%>
                                                 <%--  <td data-head="Revision " class="input-field">
                                                     <input id="insurance_revisions${index.count }" name="insurance_revisions" type="text" class="validate" value="${insurenceObj.revision }"  
                                                         placeholder="Revision">
@@ -1386,12 +1414,19 @@
                                                     <input id="insurance_numbers0" name="insurance_numbers" type="text" class="validate" 
                                                         placeholder="Insurance Number">
                                                 </td>
-                                                <td data-head="Insurance Value " class="input-field ">
-                                                		<i class="material-icons prefix cost left-align">₹</i>
+                                                <td data-head="Insurance Value " class="input-field amount-dropdown">
+                                                		<i class="material-icons amount-symbol cost left-align">₹</i>
                                                     	<input id="insurance_values0" name="insurance_values" min="0.01" step="0.01" type="number" class="validate" value="${insurenceObj.insurance_value }"
                                                         placeholder="Insurance Value">
+                                                        <select class="validate-dropdown" id="insurance_values_units0" name="insurance_value_unitss">
+					                                		<option value="">Select</option>
+					                                		<c:forEach var="obj" items="${unitsList }">
+		                                    			    <option value="${obj.value }">${obj.unit }</option>
+		                                     			  </c:forEach>
+					                                	</select>
+					                                	<span id="insurence_units0Error" class="my-error right"></span>
                                                     </td> 
-                                                    <td class="responsive_units">
+                                                   <%--  <td class="responsive_units">
 					                                	<select class="units validate-dropdown" id="insurance_values_units0" name="insurance_value_unitss">
 					                                		<option value="">Select</option>
 					                                		<c:forEach var="obj" items="${unitsList }">
@@ -1399,7 +1434,7 @@
 		                                     			  </c:forEach>
 					                                	</select>
 					                                	<span id="insurence_units0Error" class="my-error"></span>
-                                                 </td>
+                                                 </td> --%>
                                                  <!-- <td data-head="Revision " class="input-field">
                                                     <input id="insurance_revisions0" name="insurance_revisions" type="text" class="validate" 
                                                         placeholder="Revision">
@@ -1636,7 +1671,7 @@
                                             <tr>
                                                 <th>Revision Number <span class="required">*</span></th>
                                                 <th class="light-blue_column">Revised Contract Value </th>
-                                                <th class="light-blue_column">Unit</th>
+                                                <!-- <th class="light-blue_column">Unit</th> -->
                                                 <th class="light-blue_column p-h-0">Current</th>
                                                 <th class="light-green_column">Revised DOC </th>
                                                 <th class="light-green_column  p-h-0">Current</th>
@@ -1653,13 +1688,19 @@
                                                 <td data-head="Revision Number " class="input-field"> <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" value="${revObj.revision_number }"
                                                         placeholder="Revision Number" readonly>
                                                 </td>
-                                                <td data-head="Revised Amount " class="input-field ">
-                                                		<i class="material-icons prefix cost left-align">₹</i>
+                                                <td data-head="Revised Amount" class="input-field amount-dropdown">
+                                                		<i class="material-icons amount-symbol cost left-align">₹</i>
                                                     	<input id="revised_amounts${index.count }" name="revised_amounts" min="0.01" step="0.01" type="number" onkeyup="toggleRevision('amounts', ${index.count })" class="validate" value="${revObj.revised_amount }"
                                                         placeholder="Revised Amount">
+                                                        <select class=" validate-dropdown" id="revised_amounts_units${index.count }" name="revised_amount_unitss">
+					                                		<option value="">Select</option>
+					                                		<c:forEach var="obj" items="${unitsList }">
+		                                    			      <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+		                                     			    </c:forEach>
+					                                	</select>
+					                                	<span id="units${index.count }Error" class="my-error right"></span>
                                                  </td>
-                                                 <td class="responsive_units  ">
-                                                   <!--  <div class="col s3 pt-14"> -->
+                                               <%--   <td class="responsive_units  ">
 					                                	<select class="units validate-dropdown" id="revised_amounts_units${index.count }" name="revised_amount_unitss">
 					                                		<option value="">Select</option>
 					                                		<c:forEach var="obj" items="${unitsList }">
@@ -1667,8 +1708,7 @@
 		                                     			    </c:forEach>
 					                                	</select>
 					                                	<span id="units${index.count }Error" class="my-error"></span>
-                                                   <!--  </div> -->
-                                                </td>
+                                                </td> --%>
                                                  <td data-head="Current" class="input-field  p-h-0">	
                                                  	<p>
                                                  	<label> 
@@ -1773,12 +1813,18 @@
                                                 <td data-head="Revision Number " class="input-field"> <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
                                                         placeholder="Revision Number" value="R1" readonly>
                                                 </td>
-                                                <td data-head="Revised Amount " class="input-field  ">
-                                                		<i class="material-icons prefix cost left-align">₹</i>
+                                                <td data-head="Revised Amount " class="input-field amount-dropdown">
+                                                		<i class="material-icons amount-symbol cost left-align">₹</i>
                                                     	<input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" onkeyup="toggleRevision('amounts', '0')"  placeholder="Revised Amount">
+                                                    	<select class=" validate-dropdown" id="revised_amounts_units0" name="revised_amount_unitss">
+					                                		<option value="">Select</option>
+					                                		<c:forEach var="obj" items="${unitsList }">
+		                                    			      <option value="${obj.value }">${obj.unit }</option>
+		                                     			    </c:forEach>
+					                                	</select>
+					                                	<span id="units0Error" class="my-error right"></span>
                                                 </td>
-                                                <td class="responsive_units  "> 
-                                                    <!-- div class="col s3 pt-14"> -->
+                                             <%--    <td class="responsive_units  "> 
 					                                	<select class="units validate-dropdown" id="revised_amounts_units0" name="revised_amount_unitss">
 					                                		<option value="">Select</option>
 					                                		<c:forEach var="obj" items="${unitsList }">
@@ -1786,8 +1832,7 @@
 		                                     			    </c:forEach>
 					                                	</select>
 					                                	<span id="units0Error" class="my-error"></span>
-                                                    <!-- </div> -->
-                                                </td>
+                                                </td> --%>
                                                 <td data-head="Current" class="input-field   p-h-0">	
                                                  	<p>
                                                  	<label> 
@@ -3346,13 +3391,19 @@
 				  // +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
 				   +'<td data-head="BG / FDR Number " class="input-field min-w-120"><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
 				   //+'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="number" min="0.01" step="0.01" class="validate"  placeholder="Amount"></td>'
-				   +'<td data-head="Amount " class="input-field"> <i class="material-icons prefix cost left-align">₹</i> <input id="bg_values'+rNo+'" name="bg_values" min="0.01" step="0.01" type="number" class="validate" placeholder="Amount">'
-				   +'</td><td class="responsive_units">		<select class="units validate-dropdown" id="bg_values_units'+rNo+'" name="bg_value_unitss">'
+				   +'<td data-head="Amount " class="input-field amount-dropdown"> <i class="material-icons amount-symbol cost left-align">₹</i> <input id="bg_values'+rNo+'" name="bg_values" min="0.01" step="0.01" type="number" class="validate" placeholder="Amount">'
+				   +'<select class=" validate-dropdown" id="bg_values_units'+rNo+'" name="bg_value_unitss">'
 				   +'<option value="">Select</option>'
 				    <c:forEach var="obj" items="${unitsList }">
   			     	 +'<option value="${obj.value }">${obj.unit }</option>'
    			    	</c:forEach>	
-				   +'</select><span id="bg_units'+rNo+'Error" class="my-error"></span></div> </td>'
+				   +'</select><span id="bg_units'+rNo+'Error" class="my-error right"></span> </td>'
+				  /*  +'</td><td class="responsive_units">		<select class="units validate-dropdown" id="bg_values_units'+rNo+'" name="bg_value_unitss">'
+				   +'<option value="">Select</option>'
+				    <c:forEach var="obj" items="${unitsList }">
+  			     	 +'<option value="${obj.value }">${obj.unit }</option>'
+   			    	</c:forEach>	
+				   +'</select><span id="bg_units'+rNo+'Error" class="my-error"></span></div> </td>' */
 				   +'<td data-head="BG / FDR Date " class="input-field"><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button" id="bg_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
 				   //+'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
 				   +'<td data-head="Expiry Date " class="input-field"><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Expiry Date"><button type="button"  id="bg_valid_uptos'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button><span id="bg_valid_uptos'+rNo+'Error" class="my-error"></span></td>'
@@ -3364,6 +3415,7 @@
 				 $('#bankTableBody').append(html);
 				 $("#bankRowNo").val(rNo);
 				 $('.searchable').select2();
+				 $('select:not(.searchable):not(.units)').formSelect();
 				 $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
 			/* 	 $("#bg_valid_uptos"+rNo).datepicker({
 		         	 format:'dd-mm-yyyy',
@@ -3417,13 +3469,13 @@
 			   +'<td data-head="Agency Address " class="input-field"><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
 			   +'<td data-head="Insurance Number " class="input-field"><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
 			  // +'<td class="input-field"><i class="material-icons prefix cost left-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" placeholder="Insurance Value"></td>'
-			   +'<td data-head="Insurance Value " class="input-field responsive_units"> <i class="material-icons prefix cost left-align">₹</i> <input id="insurance_values'+rNo+'" name="insurance_values" '
-			   +'min="0.01" step="0.01" type="number" class="validate" placeholder="Insurance Value"> </td><td class="responsive_units"> <select class="units validate-dropdown" id="insurance_values_units'+rNo+'" name="insurance_value_unitss">'
+			   +'<td data-head="Insurance Value " class="input-field responsive_units amount-dropdown"> <i class="material-icons amount-symbol cost left-align">₹</i> <input id="insurance_values'+rNo+'" name="insurance_values" '
+			   +'min="0.01" step="0.01" type="number" class="validate" placeholder="Insurance Value"> <select class=" validate-dropdown" id="insurance_values_units'+rNo+'" name="insurance_value_unitss">'
 			   +'<option value="">Select</option>'
 			   <c:forEach var="obj" items="${unitsList }">
 		     	 +'<option value="${obj.value }">${obj.unit }</option>'
 			    </c:forEach>
-			   +'</select> <span id="insurence_units'+rNo+'Error" class="my-error"></span></div> </td>' 
+			   +'</select> <span id="insurence_units'+rNo+'Error" class="my-error right"></span></td>' 
 			  // +'<td data-head="Revision " class="input-field"><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td data-head="Valid Upto " class="input-field"><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" id="insurence_valid_uptos'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button><span id="insurence_valid_uptos'+rNo+'Error" class="my-error"></span></td>'
 			  // +'<td data-head="Remarks " class="input-field"><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
@@ -3433,6 +3485,7 @@
 			 $('#insurenceTableBody').append(html);
 			 $("#insurenceRowNo").val(rNo);
 			 $('.searchable').select2();
+			 $('select:not(.searchable):not(.units)').formSelect();
 			 $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
 	/* 		 $("#insurence_valid_uptos"+rNo).datepicker({
 			      	 format:'dd-mm-yyyy',
@@ -3541,13 +3594,13 @@
 		    
 		    var html = '<tr id="revRow'+rNo+'">'
 			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"  value="R'+(rId)+'" readonly/></td>'
-			   +'<td data-head="Revised Amount " class="input-field  "> <i class="material-icons prefix cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
-			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" onkeyup="toggleRevision(' + '\'amounts\'' + ',' + rNo + ')"  placeholder="Revised Amount"> </td><td class="responsive_units  "> <select class="units validate-dropdown " id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
+			   +'<td data-head="Revised Amount " class="input-field amount-dropdown"> <i class="material-icons amount-symbol  cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
+			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" onkeyup="toggleRevision(' + '\'amounts\'' + ',' + rNo + ')"  placeholder="Revised Amount"> <select class=" validate-dropdown " id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
 			   +'<option value="">Select</option>'
 			   <c:forEach var="obj" items="${unitsList }">
 		     	 +'<option value="${obj.value }">${obj.unit }</option>'
 			   </c:forEach>			  
-		       +'</select> <span id="units'+rNo+'Error" class="my-error"></span></div> </td>'
+		       +'</select> <span id="units'+rNo+'Error" class="my-error right"></span></td>'
 		       +'<td data-head="Current" class="input-field   p-h-0"> <p> <label><input type="hidden" id="revision_amounts_statuss'+rNo+'"  name="revision_amounts_statuss" class="hidden_check hidden_amount" value="No" /> '
 		       +'<input type="checkbox"  id="revision_amounts_status'+rNo+'" disabled onchange="revisionChecks(' + '\'amounts\'' + ',' + rNo + ')" class="revision_amount_status"/> <span></span> </label> </p> </td> '
 			   +'<td data-head="Revised DOC" class="input-field  "><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker" onchange="toggleRevision(' + '\'docs\'' + ',' + rNo + ')"  placeholder="Revised DOC">'
@@ -3560,6 +3613,7 @@
 			 $('#revTableBody').append(html);
 			 $("#revRowNo").val(rNo);
 			 $('searchable').select2();
+			 $('select:not(.searchable):not(.units)').formSelect();
 			 $('.units').select2({        	dropdownCssClass : 'cost_dropdown'        });
 			 $("#revised_docs"+rNo).datepicker({
 			      	 format:'dd-mm-yyyy',

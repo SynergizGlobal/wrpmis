@@ -172,24 +172,6 @@ public class ActivitiesBulkUpdateController {
 		return structures;
 	}
 	
-	@RequestMapping(value = "/ajax/getFobDailyUpdateReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<StripChart> getFobDailyUpdateReport(@ModelAttribute StripChart obj,HttpSession session){
-		List<StripChart> structures = null;
-		try{
-			User uObj = (User) session.getAttribute("user");
-			obj.setUser_type_fk(uObj.getUser_type_fk());
-			obj.setUser_role_code(uObj.getUser_role_code());
-			obj.setUser_id(uObj.getUser_id());				
-			structures = activitiesBulkUpdateService.getFobDailyUpdateReport(obj);			
-		}catch(Exception e){
-			logger.error("getAcivitiesBulkUpdateStructures() : "+e.getMessage());
-		}
-		return structures;
-	}	
-	
-	
-	
 	@RequestMapping(value = "/ajax/getAcivitiesBulkUpdateLines", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<StripChart> getAcivitiesBulkUpdateLines(@ModelAttribute StripChart obj){

@@ -229,6 +229,13 @@
     	
     </form>
     <script>
+	$(document).keypress(function(e){
+    if (e.which == 13){
+        $("#save_post").click();
+    }
+	});
+	</script>
+    <script>
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -251,7 +258,7 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                     var input = $('.dataTables_filter input')
 					.unbind(), self = this.api(), $searchButton = $(
-					'<i class="fa fa-search" title="Go">')
+					'<i class="fa fa-search" title="Go" id="save_post">')
 					.click(function() {
 						self.search(input.val()).draw();
 					}), $clearButton = $(

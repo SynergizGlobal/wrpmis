@@ -215,7 +215,14 @@
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-
+	
+	<script>
+	$(document).keypress(function(e){
+    if (e.which == 13){
+        $("#save_post").click();
+    }
+	});
+	</script>
     <script>
     	var filtersMap = new Object();
         $(document).ready(function () {
@@ -312,7 +319,7 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                     var input = $('.dataTables_filter input')
 					.unbind(), self = this.api(), $searchButton = $(
-					'<i class="fa fa-search" title="Go">')
+					'<i class="fa fa-search" title="Go" id="save_post">')
 					.click(function() {
 						self.search(input.val()).draw();
 					}), $clearButton = $(
